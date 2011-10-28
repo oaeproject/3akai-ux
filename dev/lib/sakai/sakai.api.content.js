@@ -448,6 +448,53 @@ define(
         },
 
         /**
+         * Removes multiple users from the specified role for multiple content items
+         *
+         * @param role  content profile data as defined in loadContentProfile()
+         * @param {String} role The role to remove user(s) from
+         * @param {String/Array} contentId The content to remove the user from
+         * @param {String/Array} userId The user to remove
+         * @param {Function} callback Callback function
+         */
+        removeUser: function(role, contentId, userId, callback){
+            var batchRequests = [];
+            var userIds = [];
+            var contentIds = [];
+
+            if (_.isString(userId)){
+                userIds.push(userId);
+            } else if (_.isArray(userId)){
+                userIds = userId;
+            }
+
+            if (_.isString(contentId)){
+                contentIds.push(contentId);
+            } else if (_.isArray(contentId)){
+                contentIds = contentId;
+            }
+
+            for (var c = 0; c < contentIds.length; c++) {
+                for (var i = 0; i < userIds.length; i++) {
+                    var parameter = {":viewer@Delete": userIds[i]};
+                    if (role === "manager"){
+                        parameter = {":manager@Delete": userIds[i]};
+                    }
+                    batchRequests.push({
+                        url: "/p/" + contentIds[c] + ".members.json",
+                        parameters: parameter,
+                        method: "POST"
+                    });
+                }
+            }
+
+            sakai_serv.batch(batchRequests, function(success, data){
+                if ($.isFunction(callback)) {
+                   callback(success);
+                }
+            });
+        },
+
+        /**
          * Returns a preview URL for known services, empty string otherwise
          *
          * @param url The url of the content in an external service that you'd like a preview of

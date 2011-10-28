@@ -57,49 +57,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var $deletecontent_dialog = $("#deletecontent_dialog", $rootel);
 
-        ////////////////////////////////////////
-        // Removing content from library only //
-        ////////////////////////////////////////
+        ////////////////////////////
+        // Batch request handling //
+        ////////////////////////////
 
-        var removeHybrid = function(){
-            var batchRequests = [];
-            // Remove for content I'm viewer of
-            for (var v = 0; v < contentIView.length; v++){
-                batchRequests.push({
-                    "url": "/p/" + contentIView[v]["_path"] + ".members.json",
-                    "method": "POST",
-                    "parameters": {
-                        ":viewer@Delete": context
-                    }
-                });
-            }
-            var manageOption = $("input[name='deletecontent_hybrid_options']:checked").val();
-            if (manageOption === "libraryonly"){
-                // Remove for content I'm a manager of
-                for (var m = 0; m < contentIManage.length; m++){
-                    batchRequests.push({
-                        "url": "/p/" + contentIManage[m]["_path"] + ".members.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":manager@Delete": context
-                        }
-                    });
-                }
-            } else if (manageOption === "system"){
-                // Remove for content I'm manager of
-                for (var m = 0; m < contentIManage.length; m++){
-                    batchRequests.push({
-                        "url": "/p/" + contentIManage[m]["_path"],
-                        "method": "POST",
-                        "parameters": {
-                            ":operation": "delete"
-                        }
-                    });
-                }
-            }
+        var sendDeletes = function(batchRequests, successMessage){
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 if (success) {
-                    sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $("#deletecontent_message_from_library").html());
+                    sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $(successMessage).html());
                 } else {
                     sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
                 }
@@ -111,34 +76,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        /**
-         * Remove the selected items from the system and thus from all libraries where this is being
-         * used
-         */
-        var removeFromSystem = function(){
-            var batchRequests = [];
-            // Remove for content I'm manager of
-            for (var m = 0; m < contentIManage.length; m++){
+        //////////////////////////////
+        // Remove from library only //
+        //////////////////////////////
+
+        var processRemoveFromLibrary = function(batchRequests, items, role){
+            batchRequests = batchRequests || [];
+            for (var i = 0; i < items.length; i++){
+                var parameters = {};
+                parameters[":" + role + "@Delete"] = context;
                 batchRequests.push({
-                    "url": "/p/" + contentIManage[m]["_path"],
+                    "url": "/p/" + items[i]["_path"] + ".members.json",
                     "method": "POST",
-                    "parameters": {
-                        ":operation": "delete"
-                    }
+                    "parameters": parameters
                 });
             }
-            sakai.api.Server.batch(batchRequests, function (success, data) {
-                if (success) {
-                    sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $("#deletecontent_message_from_system").html());
-                } else {
-                    sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
-                }
-                $(window).trigger("done.deletecontent.sakai");
-                if (callback && typeof(callback) === "function") {
-                    callback(success);
-                }
-                $deletecontent_dialog.jqmHide();
-            });
+            return batchRequests;
         };
 
         /**
@@ -146,39 +99,94 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * system.
          */
         var removeFromLibrary = function(){
-            var batchRequests = [];
-            // Remove for content I'm viewer of
-            for (var v = 0; v < contentIView.length; v++){
+            var batchRequests = processRemoveFromLibrary([], contentIView, "viewer");
+            batchRequests = processRemoveFromLibrary([], contentIManage, "manager");
+            sendDeletes(batchRequests, "#deletecontent_message_from_library");
+        };
+
+        ////////////////////////////
+        // Remove from the system //
+        ////////////////////////////
+
+        var processRemoveFromSystem = function(batchRequests, items){
+            batchRequests = batchRequests || [];
+            for (var i = 0; i < items.length; i++){
                 batchRequests.push({
-                    "url": "/p/" + contentIView[v]["_path"] + ".members.json",
+                    "url": "/p/" + items[i]["_path"],
                     "method": "POST",
                     "parameters": {
-                        ":viewer@Delete": context
+                        ":operation": "delete"
                     }
                 });
             }
-            // Remove for content I'm a manager of
+            return batchRequests;
+        };
+
+        /**
+         * Remove the selected items from the system and thus from all libraries where this is being
+         * used
+         */
+        var removeFromSystem = function(){
+            // Remove content I manage from the system
+            var batchRequests = processRemoveFromLibrary([], contentIView, "viewer");
+            var batchRequests = processRemoveFromSystem([], contentIManage);
+            sendDeletes(batchRequests, "#deletecontent_message_from_system");
+        };
+
+        var checkUsedByOthers = function(){
+            var userGroupIds = [];
+            // Check whether any of the content I manage is managed by or
+            // shared with other people
             for (var m = 0; m < contentIManage.length; m++){
-                batchRequests.push({
-                    "url": "/p/" + contentIManage[m]["_path"] + ".members.json",
-                    "method": "POST",
-                    "parameters": {
-                        ":manager@Delete": context
+                var managers = contentIManage[m]["sakai:pooled-content-manager"];
+                if (managers){
+                    debug.log(managers);
+                    for (var i = 0; i < managers.length; i++){
+                        if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid){
+                            userGroupIds.push(managers[i]);
+                        }
                     }
-                });
+                }
+                var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
+                if (viewers){
+                    debug.log(viewers);
+                    for (var i = 0; i < viewers.length; i++){
+                        if ($.inArray(viewers[i], userGroupIds) === -1 && viewers[i] !== sakai.data.me.user.userid &&
+                            viewers[i] !== "everyone" && viewers[i] !== "anonymous"){
+                            userGroupIds.push(viewers[i]);
+                        }
+                    }
+                }
             }
-            sakai.api.Server.batch(batchRequests, function (success, data) {
-                if (success) {
-                    sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $("#deletecontent_message_from_library").html());
-                } else {
-                    sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
-                }
-                $(window).trigger("done.deletecontent.sakai");
-                if (callback && typeof(callback) === "function") {
-                    callback(success);
-                }
-                $deletecontent_dialog.jqmHide();
-            });
+            debug.log(userGroupIds);
+            return false;
+            if (userGroupIds.length > 0){
+                // Show the overview screen of who else is using this
+                $("#deletecontent_used_by_others_container").hide();
+                $("#deletecontent_container").hide();
+                $("#deletecontent_used_by_others").show();
+                // Set up the buttons correctly
+                hideButtons();
+                $("#deletecontent_action_removefromsystem_confirm").show();
+                $("#deletecontent_action_removefromlibrary_only").show();
+                // Get the profile information of who else is using it
+                
+            } else {
+                removeFromSystem();
+            }
+        };
+
+        ////////////////////////////
+        // Remove hybrid strategy //
+        ////////////////////////////
+
+        var selectHybrid = function(){
+            var manageOption = $("input[name='deletecontent_hybrid_options']:checked").val();
+            if (manageOption === "libraryonly") {
+                removeFromLibrary();
+            } else if (manageOption === "system") {
+                checkUsedByOthers();
+            }
         };
 
         ///////////////////
@@ -189,6 +197,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#deletecontent_action_removefromsystem").hide();
             $("#deletecontent_action_removefromlibrary").hide();
             $("#deletecontent_action_apply").hide();
+            $("#deletecontent_action_removefromsystem_confirm").hide();
+            $("#deletecontent_action_removefromlibrary_only").hide();
         };
 
         /**
@@ -293,7 +303,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             context = data.context || sakai.data.me.user.userid;
             callback = _callback;
             getContentInfo(data.path);
-            $("#deletecontent_form").html("");
+            $("#deletecontent_container").html("");
+            $("#deletecontent_container").show();
+            $("#deletecontent_used_by_others").hide();
             $deletecontent_dialog.css("top", (50 + $(window).scrollTop()) + "px");
             $deletecontent_dialog.jqmShow();
         };
@@ -315,8 +327,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////////
 
         $("#deletecontent_action_removefromlibrary").bind("click", removeFromLibrary);
-        $("#deletecontent_action_removefromsystem").bind("click", removeFromSystem);
-        $("#deletecontent_action_apply").bind("click", removeHybrid);
+        $("#deletecontent_action_removefromsystem").bind("click", checkUsedByOthers);
+        $("#deletecontent_action_apply").bind("click", selectHybrid);
 
         ////////////////////////////
         // External event binding //

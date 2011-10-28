@@ -746,13 +746,17 @@ define(
             }
         },
 
-        canEditContainer: function(widgetData) {
+        canEditContainer: function(widgetData, tuid) {
             if (widgetData &&
                 widgetData.data &&
                 widgetData.data.currentPageShown &&
                 widgetData.data.currentPageShown.canEdit &&
                 !widgetData.data.currentPageShown.nonEditable) {
                 return true;
+            } else if (!widgetData && tuid) {
+                var ref = $("#" + tuid).parents("#s3d-page-container").children("div").attr("id");
+                var canEdit = $("li[data-sakai-ref='"+ ref +"']").data("sakai-manage");
+                return canEdit;
             } else {
                 return false;
             }

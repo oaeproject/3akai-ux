@@ -103,7 +103,7 @@ require(
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
         "jquery-plugins/jquery.ba-bbq",
-        "jquery-plugins/jquery.pager",
+        "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
         "jquery-plugins/jquery.MultiFile",

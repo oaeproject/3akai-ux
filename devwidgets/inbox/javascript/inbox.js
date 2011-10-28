@@ -61,6 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $inbox_item = $(".inbox_item", $rootel),
             $inbox_search_messages = $("#inbox_search_messages", $rootel),
             $inbox_search_term = $("#inbox_search_term", $rootel);
+            $inbox_search_button = $(".inbox-message-list-view .s3d-search-button");
 
 
         /** Message header button handling **/
@@ -422,11 +423,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $inbox_search_messages.live("keydown", handleSearch);
+        $inbox_search_button.live("click", function(){
+            $.bbq.pushState({
+                "iq": $inbox_search_messages.val()
+            });
+        });
 
         /** History management **/
 
         $inbox_item.live("click", function(e) {
-            if (!($(e.target).hasClass("personinfo_trigger_click") || $(e.target).hasClass("inbox_action_button") || $(e.target).is("input"))) {
+            if (!($(e.target).hasClass("personinfo_trigger_click") || $(e.target).hasClass("inbox_action_button") || $(e.target).hasClass("inbox_delete_icon") || $(e.target).is("input"))) {
                 $.bbq.pushState({"message": $(this).attr("id")});
             }
         });

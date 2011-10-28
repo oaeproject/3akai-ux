@@ -61,6 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_admin_actions = $("#mylibrary_admin_actions", $rootel);
         var $mylibrary_addcontent = $("#mylibrary_addcontent", $rootel);
         var $mylibrary_remove_icon = $(".mylibrary_remove_icon", $rootel);
+        var $mylibrary_search_button = $("#mylibrary_search_button", $rootel);
 
         var currentGroup = false;
 
@@ -199,6 +200,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         ////////////////////
+        // Search library //
+        ////////////////////
+
+        /**
+         * Search the current library. This function will extract the query
+         * from the search box directly.
+         */
+        var doSearch = function(){
+            var q = $.trim($mylibrary_search_button.val());
+            if (q) {
+                $.bbq.pushState({ "lq": q });
+            } else {
+                $.bbq.removeState("lq");
+            }
+        };
+
+        ////////////////////
         // Event Handlers //
         ////////////////////
 
@@ -291,15 +309,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $mylibrary_livefilter.keyup(function (ev) {
             if (ev.keyCode === 13) {
-                var q = $.trim(this.value);
-                if (q) {
-                    $.bbq.pushState({ "lq": q });
-                } else {
-                    $.bbq.removeState("lq");
-                }
+                doSearch();
             }
             return false;
         });
+
+        /**
+         * Initiate a search when the search button next to the search
+         * field is pressed
+         */
+        $mylibrary_search_button.click(doSearch);
 
         /**
          * Initiate the add content widget
@@ -474,7 +493,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var finishInit = function(contextName, isGroup){
             if (mylibrary.contextId) {
                 mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
-                $mylibrary_livefilter.attr("placeholder", mylibrary.default_search_text);
                 mylibrary.currentPagenum = 1;
                 var all = state && state.all ? state.all : {};
                 handleHashChange(null, true);

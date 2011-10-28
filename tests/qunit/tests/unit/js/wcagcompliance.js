@@ -48,10 +48,18 @@ require(
         });
 
         $.each($elt.find("textarea"), function(i, elt) {
-            // ignore the tinymce editor textarea
-            if ($(elt).attr("id") !== "elm1") {
-                ok($(elt).attr("title") || $(elt).attr("placeholder"), "TEXTAREA tag has TITLE or PLACEHOLDER attribute: " + $("<div/>").html(elt).html());
+            // check if textarea has an attached label element, otherwise it needs a title attribute
+            var hasLabel = false;
+            if ($(elt).attr("id")) {
+                var textareaId = $(elt).attr("id");
+                $.each($elt.find("label"), function(j, label) {
+                    if ($(label).attr("for") ===  textareaId){
+                        hasLabel = true;
+                    }
+                });
             }
+
+            ok($(elt).attr("title") || hasLabel, "TEXTAREA tag has TITLE attribute or LABEL element: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("div"), function(i, elt) {

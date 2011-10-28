@@ -123,6 +123,7 @@
             if (doAnotherOne) {
                 loadNextList();
             } else {
+                isDoingExtraSearch = true;
                 if ($('div:visible', container).size() === 0) {
                     if ($.isFunction(emptylistprocessor)) {
                         emptylistprocessor();
