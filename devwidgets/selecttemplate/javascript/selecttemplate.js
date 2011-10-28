@@ -20,7 +20,6 @@
  * Dependencies
  *
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
