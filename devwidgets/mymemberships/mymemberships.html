@@ -40,7 +40,7 @@
         <div title="__MSG__SELECT_ALL_GROUPS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button" id="mymemberships_select" type="button">
             <input type="checkbox" id="mymemberships_select_checkbox"/>
         </div>
-        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button">
+        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" data-target-select-group="mymemberships_select_group_checkbox">
             __MSG__ADD_TO__...
             <span class="mymemberships_add_to_icon"></span>
         </button>
@@ -80,7 +80,8 @@
             {var count = count + 1}
             <li id="mymemberships_item_${group.id}" class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result mymemberships_item {if count == 1} mymemberships_item_first s3d-search-resultfirst{/if}">
                 <span class="mymemberships_item_user_functions s3d-search-result-user-functions" style="display:none;">
-                    <div class="mymemberships_item_left_filler mymemberships_item_left_filler s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.id}"></div>
+                    <div class="mymemberships_item_left_filler s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.id}"></div>
+                    <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}"/>
                     <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group"></button>
                 </span>
                 <span class="mymemberships_item_anonuser"></span>

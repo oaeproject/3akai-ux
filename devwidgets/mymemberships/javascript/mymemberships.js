@@ -285,6 +285,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 return false;
             });
+
+            $("#mymemberships_select_checkbox").change(function(){
+                if($(this).is(":checked")){
+                    $(".mymemberships_select_group_checkbox").attr("checked", true);
+                } else{
+                    $(".mymemberships_select_group_checkbox").removeAttr("checked");
+                }
+            });
         };
 
         /**
