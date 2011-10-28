@@ -259,12 +259,6 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.5.2</version>
           </dependency>
-          <!-- rhino is used by the optimizer in build.xml, if you change this dep be sure to update it -->
-          <dependency>
-            <groupId>rhino</groupId>
-            <artifactId>js</artifactId>
-            <version>1.7R2</version>
-          </dependency>
         </dependencies>
         <executions>
           <execution>
@@ -333,6 +327,14 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <!-- rhino is used by the optimizer in build.xml, if you change this dep be sure to update it -->
+          <dependency>
+            <groupId>rhino</groupId>
+            <artifactId>js</artifactId>
+            <version>1.7R2</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
