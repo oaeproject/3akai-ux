@@ -9,7 +9,7 @@ require(
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
          module("Untranslated Keys");
 
          var regex = new RegExp("__MSG__(.*?)__", "gm");

@@ -9,7 +9,7 @@ require(
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
 
     module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
 
