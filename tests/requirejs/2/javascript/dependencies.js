@@ -56,7 +56,7 @@ require(
         "order!/dev/lib/jquery/plugins/gritter/jquery.gritter.js"
     ],
     function($, a, b, c, d, e, f, g, h, i, j, k, l, m, sakai) {
-        require.ready(function(){
+        require(["misc/domReady!"], function(doc){
             debug.log("dependencies.js ready");
                         
             //require(["/dev/requirejs/javascript/page.js"]);
