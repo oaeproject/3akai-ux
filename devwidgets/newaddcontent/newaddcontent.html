@@ -214,10 +214,10 @@
         <ul>
         {for item in items}
             <li id="newaddcontent_selecteditems_${item_index}">
-                <a href="#" class="newaddcontent_selecteditems_remove" title="__MSG__REMOVE__ ${item.title}"></a>
+                <a href="#" class="newaddcontent_selecteditems_remove" title="__MSG__REMOVE__ ${item["sakai:pooled-content-file-name"]}"></a>
                 <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
                 {if item.type !== "existing"}
-                    <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
+                    <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
                     <span class="newaddcontent_selecteditems_actions">
                         <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
                         <span class="newaddcontent_selecteditems_split">|</span>
@@ -225,9 +225,9 @@
                     </span>
                 {else}
                     {if $.inArray(currentSelectedLibrary, item.viewers) !== -1 || $.inArray(currentSelectedLibrary, item.managers) !== -1}
-                        <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item.title, 100)} (got it)</span>
+                        <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (got it)</span>
                     {else}
-                        <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
+                        <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
                     {/if}
                 {/if}
             </li>
