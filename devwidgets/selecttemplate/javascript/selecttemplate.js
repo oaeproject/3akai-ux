@@ -57,7 +57,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
         };
-        
+
         $(".selecttemplate_use_button", $rootel).live("click", function(){
             var clicked = $(this);
             if (clicked.data("templateid")){
@@ -139,7 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         doInit();
-        
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("selecttemplate");
