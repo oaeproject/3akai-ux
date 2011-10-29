@@ -7,6 +7,7 @@
  *
  * http://docs.jquery.com/UI
  */
+define('jqueryui/core', ['jquery'], function (jQuery) {
 (function( $, undefined ) {
 
 // prevent duplicate loading
@@ -3706,3 +3707,5 @@ $.effects.pulsate = function(o) {
 };
 
 })(jQuery);
+
+});
