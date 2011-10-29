@@ -643,9 +643,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
                     // Set post data
                     post.find(discussionPostMessage).text(body);
-                    post.find(discussionPostMessage).data("source-text", body);
+                    post.find(discussionPostMessage).attr("data-source-text", body);
                     post.find(discussionReplyContentsText).text(quote);
-                    post.find(discussionReplyContentsText).data("source-text", quote);
+                    post.find(discussionReplyContentsText).attr("data-source-text", quote);
                     sakai.api.Util.renderMath(tuid);
 
                     // Set entity data
@@ -766,7 +766,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 var replyParent = $(this).parents(discussionTopicContainer);
                 replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent[0].id.split("discussion_post_")[1];
-                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text(), "quotedMessage":$(this).parent().prev().children(discussionPostMessage).data("source-text"), "postId": postId}, replyParent.children(discussionTopicReplyContainer));
+                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text(), "quotedMessage":$(this).parent().prev().children(discussionPostMessage).attr("data-source-text"), "postId": postId}, replyParent.children(discussionTopicReplyContainer));
                 replyParent.children(discussionTopicReplyContainer).show();
                 replyParent.find(discussionTopicReplyText).focus();
             });
@@ -816,15 +816,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         "edit": true,
                         "quoted": true,
                         "quotedUser": $(this).parents(s3dHighlightBackgroundClass).find(discussionReplyContentsTextQuoted).text(),
-                        "quotedMessage": $.trim($(this).parent().prevAll(discussionQuotedTextContainer).children(discussionReplyContentsText).data("source-text")),
-                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).data("source-text"))
+                        "quotedMessage": $.trim($(this).parent().prevAll(discussionQuotedTextContainer).children(discussionReplyContentsText).attr("data-source-text")),
+                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
                     };
                 } else {
                     renderData = {
                         "edit": true,
                         "quoted": false,
                         "quotedUser": false,
-                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).data("source-text"))
+                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
                     };
                 }
                 $(this).parents(s3dHighlightBackgroundClass).children( discussionEntityContainer + "," + discussionReplyContents).hide();
