@@ -275,7 +275,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var toggleDropdownList = function(){
             $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
             $(entityChangeImage).toggleClass("clicked");
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 60);
+            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
