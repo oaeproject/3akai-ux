@@ -217,7 +217,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 var username = $.trim($(usernameField).val());
                 if (usernameEntered != username) {
                     usernameEntered = username;
-                    if (username && username.length > 2) {
+                    if (username && username.length > 2 && username.indexOf(" ") === -1) {
                         $(usernameField).removeClass("signup_form_error");
                         checkUserName(true, function(success){
                             $("#create_account_username_error").hide();
