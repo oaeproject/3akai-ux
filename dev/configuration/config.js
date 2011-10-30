@@ -917,11 +917,11 @@ define(function(){
         Footer: {
             leftLinks: [{
                 "title": "__MSG__COPYRIGHT__",
-                "href": "http://sakaiproject.org",
+                "href": "http://sakaiproject.org/foundation-licenses",
                 "newWindow": true
             }, {
                 "title": "__MSG__HELP__",
-                "href": "http://sakaiproject.org",
+                "href": "http://sakaiproject.org/node/2307",
                 "newWindow": true
             }, {
                 "title": "__MSG__ACKNOWLEDGEMENTS__",
