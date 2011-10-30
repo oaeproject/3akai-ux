@@ -649,9 +649,10 @@ define(
 
         getThumbnail : function(content){
             var thumbnail = "";
+            var mimeType = sakai_content.getMimeType(content);
             if (content['sakai:pagecount'] && content['sakai:pagecount'] !== "0") {
                 thumbnail = "/p/" + content['_path'] + "/page1.small.jpg";
-            } else if (sakai_content.getMimeType(content).indexOf("image") !== -1) {
+            } else if (mimeType.indexOf("image") !== -1 && mimeType !== "image/tiff" && mimeType !== "image/jp2") {
                 thumbnail = "/p/" + content['_path'];
             } else if (content["sakai:preview-url"]) {
                 if (content["sakai:preview-avatar"]) {
@@ -702,7 +703,7 @@ define(
             var mimeType = sakai_content.getMimeType(content);
             if (content["sakai:preview-url"] ||
                     sakai_content.getThumbnail(content) ||
-                    mimeType.substring(0,6) === "image/" ||
+                    (mimeType.substring(0,6) === "image/" && mimeType !== "image/tiff" && mimeType !== "image/jp2") ||
                     mimeType.substring(0,5) === "text/" ||
                     mimeType === "application/x-shockwave-flash" ||
                     sakai_content.isJwPlayerSupportedVideo(mimeType)  ||
