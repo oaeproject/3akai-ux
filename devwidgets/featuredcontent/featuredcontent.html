@@ -61,12 +61,16 @@
             {if item_index === "0"}
                 <div class="featuredcontent_content featuredcontent_content_large">
                     ${actionbuttons(item, sakai)}
-                    <div id="featuredcontent_large_preview">
-                        <a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" title="${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
-                            <img src="${item.thumbnail}"
-                        </a>
-                    </div>
-                    <div class="featuredcontent_content_right_description">
+                    {if item.thumbnail}
+                        <div id="featuredcontent_large_preview">
+                            <a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" title="${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
+                                <img src="${item.thumbnail}"/>
+                            </a>
+                         </div>
+                    {else}
+                        ${embedSmallThumbnail(item, sakai)}
+                    {/if}                   
+                    <div class="featuredcontent_content_right_description {if !item.thumbnail} featuredcontent_content_right_description_no_thumbnail {/if}">
                         ${displayTitle(item, params, 125)}
                         ${showMetadata(item, sakai)}
                         ${displayTags(item, sakai)}
