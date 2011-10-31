@@ -148,7 +148,6 @@ define(
                     "sakai:group-id": group.groupid
                 };
                 if (!group.isSubgroup){
-                    data["sakai:template-title"] = group.templatetitle;
                     data["sakai:category"] = group.category;
                     data["sakai:templateid"] = group.template.id;
                     data["sakai:joinRole"] = group.template.joinRole;
@@ -277,7 +276,6 @@ define(
                     groupdescription: groupdescription,
                     category: category,
                     template: template,
-                    templatetitle: template.title,
                     isSubgroup: false
                 };
                 toProcess.push(gr2);
