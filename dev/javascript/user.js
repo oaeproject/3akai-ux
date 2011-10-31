@@ -363,6 +363,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var showWelcomeNotification = function(){
+            var querystring = new Querystring();
+            if (querystring.contains("welcome") && querystring.get("welcome") === "true"){
+                //checkEditProfileProgress = true;
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("WELCOME") + " " + sakai.data.me.profile.basic.elements.firstName.value,sakai.api.i18n.getValueForKey("YOU_HAVE_CREATED_AN_ACCOUNT"));
+            }
+        };
+
         $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if (entityID && entityID !== sakai.data.me.user.userid){
@@ -428,6 +436,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         determineContext();
         renderEntity();
         generateNav();
+        showWelcomeNotification();
 
     };
 
