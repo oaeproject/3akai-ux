@@ -13,10 +13,10 @@
 <div class="s3d-dialog s3d-dialog-container" id="deletecontent_dialog">
     <div class="s3d-dialog-close jqmClose"></div>
     <h1 class="s3d-dialog-header" id="deletecontent_main_content">__MSG__REMOVE_CONTENT__</h1>
-    <h1 class="s3d-dialog-header" id="deletecontent_main_confirm">Are you sure you want to delete this content?</h1>
+    <h1 class="s3d-dialog-header" id="deletecontent_main_confirm">__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT__</h1>
     <div id="deletecontent_container"><!-- --></div>
     <div id="deletecontent_used_by_others">
-        <div id="deletecontent_main_confirm_message">This content is used by other people, groups or courses or embedded into pages:</div>
+        <div id="deletecontent_main_confirm_message">__MSG__USED_BY_OTHER_USERS_GROUPS_PAGES__:</div>
         <div id="deletecontent_used_by_others_container" class="deletecontent_hybrid_container"><!-- --></div>
         <div id="deletecontent_used_by_others_template"><!--
             <div id="deletecontent_used_by_others_list_container">
@@ -24,11 +24,13 @@
                     {for profile in profiles}
                         <li class="s3d-outer-shadow-container">
                             {if profile.userid}
-                                <img alt="User picture" class="s3d-icon-32 fl-force-left" src="${sakai.api.User.getProfilePicture(profile)}">
-                                <a title="View ${sakai.api.User.getDisplayName(profile)}'s Profile" href="/~${profile.userid}" class="s3d-bold" target="_blank">${sakai.api.User.getDisplayName(profile)}</a>
+                                {var displayName = sakai.api.i18n.General.process(sakai.api.User.getDisplayName(profile))}
+                                <img alt="__MSG__USER_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.User.getProfilePicture(profile)}">
+                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.userid}" class="s3d-bold" target="_blank">${displayName}</a>
                             {else}
-                                <img alt="Group picture" class="s3d-icon-32 fl-force-left" src="${sakai.api.Groups.getProfilePicture(profile)}">
-                                <a title="View ${profile["sakai:group-title"]}'s Profile" href="/~${profile.groupid}" class="s3d-bold" target="_blank">${profile["sakai:group-title"]}</a>
+                                {var displayName = sakai.api.i18n.General.process(profile["sakai:group-title"])}
+                                <img alt="__MSG__GROUP_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.Groups.getProfilePicture(profile)}">
+                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid}" class="s3d-bold" target="_blank">${displayName}</a>
                             {/if}
                         </li>
                     {/for} 
@@ -60,21 +62,21 @@
                 {/if}
             {/for}
             {if count > 8}
-                <li>and ${contentIView.length + contentIManage.length - 8} more ...</li>
+                <li>__MSG__AND__ ${contentIView.length + contentIManage.length - 8} __MSG__MORE_LC__</li>
             {/if}
         </ul>
     --></div>
     <div id="deletecontent_template_hybrid" style="display:none"><!--
         <div class="deletecontent_hybrid_container deletecontent_hybrid_dontmanage">
-            <div class="s3d-bold deletecontent_hybrid_container_padding">You don't manage ${contentIView.length} __MSG__ITEMS__</div>
-            <div class="deletecontent_hybrid_container_padding">Content you don't manage will be removed from this Library but remain in the system</div>
+            <div class="s3d-bold deletecontent_hybrid_container_padding">__MSG__YOU_DONT_MANAGE__ ${contentIView.length} __MSG__ITEMS__</div>
+            <div class="deletecontent_hybrid_container_padding">__MSG__CONTENT_DONT_MANAGE_REMOVED_FROM_LIBRARY__</div>
         </div>
         <div class="deletecontent_hybrid_container deletecontent_hybrid_manage">
             <div class="s3d-bold deletecontent_hybrid_container_padding">
                 You manage ${contentIManage.length} __MSG__ITEMS__
                 <div class="deletecontent_hybrid_right">
-                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="libraryonly" checked> Remove from this library only</div>
-                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="system"> Delete from the system</div>
+                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="libraryonly" checked> __MSG__REMOVE_FROM_LIBRARY_ONLY__</div>
+                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="system"> __MSG__REMOVE_FROM_SYSTEM__</div>
                 </div>
                 <div class="deletecontent_hybrid_left">
                     <ul class="deletecontent_content_list">
@@ -86,7 +88,7 @@
                             {/if}
                         {/for}
                         {if count > 8}
-                            <li>and ${contentIManage.length - 8} more ...
+                            <li>__MSG__AND__ ${contentIManage.length - 8} __MSG__MORE_LC__
                         {/if}
                     </ul>
                 </div>

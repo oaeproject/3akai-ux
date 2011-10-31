@@ -12,7 +12,6 @@
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
 
@@ -50,12 +49,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // DOM jQuery Objects
         var $rootel = $("#" + tuid);  // unique container for each widget instance
+        var mylibrary_check_class = ".mylibrary_check";
+        var $mylibrary_check = $(mylibrary_check_class, $rootel);
         var $mylibrary_items = $("#mylibrary_items", $rootel);
-        var $mylibrary_check = $(".mylibrary_check", $rootel);
         var $mylibrary_check_all = $("#mylibrary_check_all", $rootel);
         var $mylibrary_remove = $("#mylibrary_remove", $rootel);
         var $mylibrary_sortby = $("#mylibrary_sortby", $rootel);
         var $mylibrary_livefilter = $("#mylibrary_livefilter", $rootel);
+        var $mylibrary_livefilter_container = $("#mylibrary_livefilter_container", $rootel);
         var $mylibrary_sortarea = $("#mylibrary_sortarea", $rootel);
         var $mylibrary_empty = $("#mylibrary_empty", $rootel);
         var $mylibrary_admin_actions = $("#mylibrary_admin_actions", $rootel);
@@ -110,11 +111,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (mylibrary.isOwnerViewing) {
                     $mylibrary_admin_actions.show();
                 }
-                $mylibrary_livefilter.show();
+                $mylibrary_livefilter_container.show();
                 $mylibrary_sortarea.show();
             } else {
                 $mylibrary_admin_actions.hide();
-                $mylibrary_livefilter.hide();
+                $mylibrary_livefilter_container.hide();
                 $mylibrary_sortarea.hide();
             }
         };
@@ -208,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * from the search box directly.
          */
         var doSearch = function(){
-            var q = $.trim($mylibrary_search_button.val());
+            var q = $.trim($mylibrary_livefilter.val());
             if (q) {
                 $.bbq.pushState({ "lq": q });
             } else {
@@ -285,6 +286,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         resetView();
                         $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
                         mylibrary.infinityScroll.removeItems(paths);
+                        sakai.api.Content.removeFromNewList(mylibrary.contextId, paths)
                     }
                 }]);
             }

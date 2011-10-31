@@ -46,7 +46,7 @@
          */
         var loadNextList = function(){
             var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
-            if (pixelsRemainingUntilBottom < 500){
+            if (pixelsRemainingUntilBottom < 500 && container.is(":visible")){
                 currentPage++;
                 loadResultList();
             }
