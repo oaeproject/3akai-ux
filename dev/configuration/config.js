@@ -982,7 +982,7 @@ define(function(){
          *  divider1: {
          *      "divider": true,
          *      "title": "Divider title" [optional],
-         *      "class": "CSS class to add to items inside of elements beneath the divider [optional]
+         *      "cssClass": "CSS class to add to items inside of elements beneath the divider [optional]
          *  }
          */
         Directory: {
