@@ -11,30 +11,36 @@
               <span id="inbox_box_title" class="inbox-message-list-view inbox-message-detail-view inbox-new-message-view"></span>
             </div>
             <div id="inbox_message_header">
-            <button type="button" id="inbox_select" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5 inbox-message-list-view" title="__MSG__SELECT_MESSAGES__">
-                <span><input type="checkbox" id="inbox_select_checkbox"/> __MSG__DOWN_ARROW__</span>
-            </button>
-              <div id="inbox_select_options" style="display:none">
-                <ul>
-                  <li>
-                    <button type="button" id="inbox_select_all" class="s3d-link-button s3d-action">__MSG__ALL__</button>
-                  </li>
-                  <li>
-                    <button type="button" id="inbox_select_unread" class="s3d-link-button  s3d-action">__MSG__UNREAD__</button>
-                  </li>
-                </ul>
-              </div>
+                <button type="button" id="inbox_select" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5 inbox-message-list-view" title="__MSG__SELECT_MESSAGES__">
+                    <span><input type="checkbox" id="inbox_select_checkbox"/> __MSG__DOWN_ARROW__</span>
+                </button>
+                <div id="inbox_select_options" style="display:none">
+                    <ul>
+                        <li>
+                            <button type="button" id="inbox_select_all" class="s3d-link-button s3d-action">__MSG__ALL__</button>
+                        </li>
+                        <li>
+                            <button type="button" id="inbox_select_unread" class="s3d-link-button s3d-action">__MSG__UNREAD__</button>
+                        </li>
+                    </ul>
+                </div>
 
-              <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__DELETE_SELECTED__</button>
-              <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__MARK_AS_READ__</button>
+                <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__DELETE_SELECTED__</button>
+                <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__MARK_AS_READ__</button>
 
-              <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-smaller-button s3d-margin-top-5 s3d-header-button" style="display:none">
-                  __MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__
-              </a>
-              <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-margin-top-3 s3d-overlay-button grey fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
-                  __MSG__CREATE_NEW_MESSAGE__
-              </a>
-              <input type="text" id="inbox_search_messages" disabled="disabled" placeholder="__MSG__SEARCH_MESSAGES__" class="inbox-message-list-view s3d-margin-top-5" style="display:none"/>
+                <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-smaller-button s3d-margin-top-5 s3d-header-button" style="display:none">
+                    __MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__
+                </a>
+                <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-margin-top-3 s3d-overlay-button grey fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
+                    __MSG__CREATE_NEW_MESSAGE__
+                </a>
+
+                <div class="s3d-search-container inbox-message-list-view">
+                    <input type="text" maxlength="255" title="__MSG__SEARCH_MESSAGES__" disabled="disabled" id="inbox_search_messages" class="s3d-search-inputfield newaddcontent_existingitems_search" placeholder="__MSG__SEARCH_MESSAGES__"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_MESSAGES__"/>
+                    </button>
+                </div>
             </div>
 
             <!-- Inbox Items -->
@@ -175,7 +181,7 @@
 
             <!-- New Message -->
             <div id="inbox_new_message" class="inbox-new-message-view" style="display:none">
-              <div id="inbox_new_message_sendmessage"></div>
+                <div id="inbox_new_message_sendmessage"></div>
             </div>
         </div>
     </div>

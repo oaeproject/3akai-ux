@@ -25,7 +25,7 @@
             require(["/dev/requirejs/javascript/dependencies.js"], function() {
             //This function is called when scripts/helper/util.js is loaded.
 
-                require.ready(function() {
+                require(["misc/domReady!"], function(doc) {
                     //This function is called when the page is loaded
                     //(the DOMContentLoaded event) and when all required
                     //scripts are loaded.
