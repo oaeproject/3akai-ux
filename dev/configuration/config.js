@@ -917,11 +917,11 @@ define(function(){
         Footer: {
             leftLinks: [{
                 "title": "__MSG__COPYRIGHT__",
-                "href": "http://sakaiproject.org",
+                "href": "http://sakaiproject.org/foundation-licenses",
                 "newWindow": true
             }, {
                 "title": "__MSG__HELP__",
-                "href": "http://sakaiproject.org",
+                "href": "http://sakaiproject.org/node/2307",
                 "newWindow": true
             }, {
                 "title": "__MSG__ACKNOWLEDGEMENTS__",
@@ -3167,9 +3167,9 @@ define(function(){
             },
             {
                 id: "research",
-                title : "RESEARCH",
-                menuLabel : "CREATE_RESEARCH",
-                titleSing: "RESEARCH",
+                title : "RESEARCH_PROJECTS",
+                menuLabel : "CREATE_A_RESEARCH_PROJECT",
+                titleSing: "RESEARCH_PROJECT",
                 templates: [
                     {
                         id: "researchproject",
