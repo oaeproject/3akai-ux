@@ -153,7 +153,7 @@
 
                 <div class="discussion_reply_contents">
                     <div class="discussion_ellipsis_container">
-                        <span class="discussion_post_message discussion_ellipsis_text">${topic.post["sakai:body"]|safeOutput}</span>
+                        <span class="discussion_post_message discussion_ellipsis_text" data-source-text="${topic.post["sakai:body"]|saneHTMLAttribute}">${topic.post["sakai:body"]|safeOutput}</span>
                     </div>
                     {if settings.anon != true && settings.canreply == true}
                         <span class="discussion_message_options">
@@ -200,7 +200,7 @@
                                         </div>
                                     </div>
                                     <p><span class="discussion_reply_contents_text_quoted">${reply.post["sakai:quoted"].by}</span> __MSG__WROTE__:</p>
-                                    <p class="discussion_reply_contents_text">${reply.post["sakai:quoted"].quote|safeOutput}</p>
+                                    <p class="discussion_reply_contents_text" data-source-text="${reply.post["sakai:quoted"].quote|saneHTMLAttribute}">${reply.post["sakai:quoted"].quote|safeOutput}</p>
                                     <div class="s3d-highlight_area_background_white_content_bl">
                                         <div class="s3d-highlight_area_background_white_content_binner">
                                         </div>
@@ -208,7 +208,7 @@
                                 </div>
                             {/if}
 
-                            <div><span class="discussion_post_message">${reply.post["sakai:body"]|safeOutput}</span></div>
+                            <div><span class="discussion_post_message" data-source-text="${reply.post["sakai:body"]|saneHTMLAttribute}">${reply.post["sakai:body"]|safeOutput}</span></div>
 
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <span class="discussion_deleted_message">

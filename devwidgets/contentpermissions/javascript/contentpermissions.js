@@ -255,10 +255,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          *
          */
         var saveMemberPermissions = function(){
-            sakai_global.content_profile.content_data.data["sakai:permissions"] = $(contentpermissionsGlobalPermissions).val();
             var permissionsBatch = [];
             var atLeastOneManager = false;
             var savePermissions = false;
+            var originalPermissions = sakai_global.content_profile.content_data.data["sakai:permissions"];
+            if ($(contentpermissionsGlobalPermissions).val() !== originalPermissions){
+                sakai_global.content_profile.content_data.data["sakai:permissions"] = $(contentpermissionsGlobalPermissions).val();
+                savePermissions = true;
+            }
             $(contentpermissionsMembersList + " li").each(function(index, item){
                 var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
                 var userId = item.id.split("_")[1];
@@ -304,7 +308,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             } else {
                 if(!savePermissions){
                     closeOverlay();
-                    sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
                     $(window).trigger("load.content_profile.sakai");
                 }else {
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_SAVE_SETTINGS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
