@@ -190,21 +190,27 @@
     </span>
     <div id="entity_owns" class="s3d-regular-links">
         {var peopleCount = data.members.counts.people}
-        <div class="entity_number">
-            <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
-            __MSG__USED_BY__
-            <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
-                ${peopleCount}
-                {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
-            </a>
-        </div>
         {var groupCount = data.members.counts.groups}
-        {if groupCount}
-            and
-            <a href="#" class="entity_content_group">
-                ${groupCount}
-                {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
-            </a>
+        {if peopleCount || groupCount}
+            <div class="entity_number">
+                <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
+                 __MSG__USED_BY__
+                 {if peopleCount}
+                     <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
+                         ${peopleCount}
+                         {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
+                     </a>
+                     {if groupCount}
+                         __MSG__AND__
+                     {/if}
+                 {/if}
+                 {if groupCount}
+                     <a href="#" class="entity_content_group">
+                         ${groupCount}
+                         {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
+                     </a>
+                 {/if}
+            </div>
         {/if}
         <span class="entity_comments">
             <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
