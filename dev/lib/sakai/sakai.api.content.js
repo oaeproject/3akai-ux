@@ -537,7 +537,7 @@ define(
                 if (uri.queryKey.v){
                     result.url = url;
                     result.type = "video";
-                    result.avatar = "http://img.youtube.com/vi/" + uri.queryKey.v + "/0.jpg";
+                    result.avatar = "//img.youtube.com/vi/" + uri.queryKey.v + "/0.jpg";
                 }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
