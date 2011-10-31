@@ -174,7 +174,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.picture = sakai.api.User.getProfilePicture(person);
                     user.counts = item.counts;
                     user.name = sakai.api.User.getDisplayName(item);
-                    user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    user.name = sakai.api.Util.applyThreeDots(user.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 
