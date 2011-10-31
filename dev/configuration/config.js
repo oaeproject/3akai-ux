@@ -3167,9 +3167,9 @@ define(function(){
             },
             {
                 id: "research",
-                title : "RESEARCH",
-                menuLabel : "CREATE_RESEARCH",
-                titleSing: "RESEARCH",
+                title : "RESEARCH_PROJECTS",
+                menuLabel : "CREATE_A_RESEARCH_PROJECT",
+                titleSing: "RESEARCH_PROJECT",
                 templates: [
                     {
                         id: "researchproject",
