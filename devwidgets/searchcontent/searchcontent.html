@@ -69,8 +69,6 @@
                                 <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']|safeURL}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']|safeURL}" title="${i['_path']|safeURL}"{/if}>
                                     {if i.thumbnail}
                                         <img src="${i.thumbnail}" alt="${i.mimeTypeDescription}" />
-                                    {elseif i.mimeType.substring(0,6)==="image/"}
-                                        <img src="/p/${i['_path']|safeURL}" alt="${i.mimeTypeDescription}" />
                                     {elseif sakai.config.MimeTypes[i.mimeType]}
                                         <img src="${sakai.config.MimeTypes[i.mimeType].URL}" alt="${i.mimeTypeDescription}" />
                                     {else}
