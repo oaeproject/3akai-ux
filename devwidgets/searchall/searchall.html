@@ -2,9 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
 <div class="searchall_widget" id="searchall_widget">
     <div class="searchall_content_main">
-        <div class="s3d-search-refineby">__MSG__REFINE_YOUR_SEARCH_BY__
-            <div class="search_tags_container"></div>
-        </div>
+        <div class="s3d-search-refineby search_tags_container"></div>
         <div class="fl-left fl-container s3d-search-header" id="results_header">
             __MSG__ALL_TYPES__ (<span id="searchall_numberFound">0</span>)
             <div class="s3d-search-selects">
@@ -14,10 +12,10 @@
                         <option value="asc">__MSG__OLDEST__</option>
                     </select>
                 </div>
-                <button type="button" id="search_view_list" title="__MSG__LIST_VIEW__">
+                <button type="button" class="s3d-search-button-list" id="search_view_list" title="__MSG__LIST_VIEW__">
                     __MSG__LIST__
                 </button>
-                <button type="button" id="search_view_grid" title="__MSG__GRID_VIEW__">
+                <button type="button" class="s3d-search-button-grid" id="search_view_grid" title="__MSG__GRID_VIEW__">
                     __MSG__GRID__
                 </button>
             </div>

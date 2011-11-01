@@ -248,6 +248,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Renders the tag lists
+         */
+        renderRefineTags = function() {
+            $("#search_tags_active_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags}));
+            $(".search_tags_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags}));
+        };
+        /**
          * Generates the tag list to refine the search by
          * @param {Object} result Search result containing the tags available
          * @param {Object} params Parameters used in the search
@@ -259,7 +266,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             if (params && params.refine){
                 activeTags = params.refine.split(',');
-                $("#search_tags_active_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags}));
             }
 
             if (results.facet_fields && results.facet_fields[0] && results.facet_fields[0].tag && results.facet_fields[0].tag.length > 0) {
@@ -270,10 +276,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                 });
-                $(".search_tags_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags}));
-            } else {
-                $(".search_tags_container").html("");
             }
+            renderRefineTags();
         };
 
         //////////////////////
@@ -302,22 +306,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 return value != tag;
             });
             activeTags.push(tag);
-            $("#search_tags_active_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags}));
-            $(this).remove();
+            renderRefineTags()
 
             $.bbq.pushState({
                 "refine": activeTags.toString()
             }, 0);
         });
 
-        $(".search_tag_active_item").die("click").live("click", function(ev){
+        $(".search_tag_active_item button").die("click").live("click", function(ev){
             var tag = $(this).attr("sakai-entityid");
             activeTags = $.grep(activeTags, function(value) {
                 return value != tag;
             });
             refineTags.push(tag);
-            $(".search_tags_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags}));
-            $(this).remove();
+            renderRefineTags()
 
             $.bbq.pushState({
                 "refine": activeTags.toString()

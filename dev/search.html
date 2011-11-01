@@ -32,7 +32,7 @@
                                 <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
                             </button
                         </span>
-                        <div id="search_tags_active_container"></div>
+                        <div class="s3d-search-activetags" id="search_tags_active_container"></div>
                     </div>
                 </div>
             </div>
@@ -41,14 +41,22 @@
         <!-- TEMPLATE FOR ACTIVE REFINE BY TAGS -->
         <div id="search_tags_active_template"><!--
             {for t in tags}
-                <button class="search_tag_active_item" sakai-entityid="${t}">${t}</button>
+                <img src=/dev/images/search_tag_active.png" />
+                <span class="search_tag_active_item">${t}
+                    <button class="s3d-link-button" sakai-entityid="${t}" title="__MSG__REMOVE__ ${t} __MSG__FROM_SEARCH__">
+                        <img src=/dev/images/search_tag_remove.png" />
+                    </button>
+                </span>
             {/for}
         --></div>
 
         <!-- TEMPLATE FOR REFINE BY TAGS LIST -->
         <div id="search_tags_template"><!--
             {for t in tags}
-                <button class="search_tag_item" sakai-entityid="${t}">${t}</button>
+                {if t_index === "0"}
+                    <span class="search_tags_title">__MSG__REFINE_YOUR_SEARCH_BY__</span>
+                {/if}
+                <button class="search_tag_item" sakai-entityid="${t}" title="__MSG__REFINE_SEARCH_TO__ ${t}"><img src=/dev/images/search_tag_add.png" /> ${t}</button>
             {/for}
         --></div>
 
