@@ -126,7 +126,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "password": values.password
                         }, function(){
                             // Relocate to the user home space
-                            document.location = "/me";
+                            document.location = "/me?welcome=true";
                         });
                     }, 2000);
                 }
