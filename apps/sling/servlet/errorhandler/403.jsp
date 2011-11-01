@@ -7,7 +7,7 @@ response.setStatus(403);
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8;" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <!-- Sakai 3 R&amp;D - Access denied -->
         <title></title>
 
