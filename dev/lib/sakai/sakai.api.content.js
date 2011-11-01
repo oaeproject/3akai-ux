@@ -768,18 +768,6 @@ define(
                 $.merge(newData, newlySavedData);
             }
             return newData;
-        },
-
-        removeFromNewList : function(library, toDelete){
-            var newList = sakai_content.getNewList(library);
-            for (var i = 0; i < newList.length; i++){
-                for (var d = 0; d < toDelete.length; d++){
-                    if (newList[i]["_path"] === toDelete[d]){
-                        
-                    }
-                }
-            }
-            debug.log(newList);
         }
 
     };

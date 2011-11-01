@@ -177,7 +177,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sortOn: mylibrary.sortBy,
                 sortOrder: mylibrary.sortOrder,
                 q: query
-            }, "mylibrary_items_template", sakai, handleEmptyLibrary, handleLibraryItems, sakai.api.Content.getNewList(mylibrary.contextId));
+            }, "mylibrary_items_template", function(items, template){
+                return sakai.api.Util.TemplateRenderer(template, {
+                    "items": items,
+                    "sakai": sakai
+                });
+            }, handleEmptyLibrary, handleLibraryItems, sakai.api.Content.getNewList(mylibrary.contextId));
         };
 
         ////////////////////
@@ -275,9 +280,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * item
          */
         $mylibrary_remove_icon.live("click", function(ev) {
-            if ($(this).data("entityid")){
+            if ($(this).attr("data-entityid")){
                 var paths = [];
-                paths.push($(this).data("entityid"));
+                paths.push($(this).attr("data-entityid"));
                 $(window).trigger('init.deletecontent.sakai', [{
                     path: paths,
                     context: mylibrary.contextId
@@ -286,7 +291,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         resetView();
                         $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
                         mylibrary.infinityScroll.removeItems(paths);
-                        sakai.api.Content.removeFromNewList(mylibrary.contextId, paths)
                     }
                 }]);
             }

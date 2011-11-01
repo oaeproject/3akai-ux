@@ -5,20 +5,21 @@
     /**
      * Function that will provide infinite scrolling for lists of items being
      * displayed
-     * @param {Object} url                 Search URL to use
-     * @param {Object} parameters          Parameters to send along for search requests
-     * @param {Object} template            Id of the template that needs to be used for rendering the list
-     * @param {Object} template            Global sakai object with all api functions
-     * @param {Object} emptylistprocessor  Function used to deal with an empty result list [optional]
-     * @param {Object} postprocessor       Function used to transform the search results before rendering
-     *                                     the template [optional]
-     * @param {Object} initialcontent      Initial content to be added to the list
+     * @param {String} url                   Search URL to use
+     * @param {Object} parameters            Parameters to send along for search requests
+     * @param {String} template              Id of the template that needs to be used for rendering the list
+     * @param {Function} render              Render callback function called when the plugin is ready to render the list
+     *                                       using a specific template
+     * @param {Function} emptylistprocessor  Function used to deal with an empty result list [optional]
+     * @param {Function} postprocessor       Function used to transform the search results before rendering
+     *                                       the template [optional]
+     * @param {Object} initialcontent        Initial content to be added to the list
      */
-    $.fn.infinitescroll = function(url, parameters, template, sakai, emptylistprocessor, postprocessor, initialcontent){
+    $.fn.infinitescroll = function(url, parameters, template, render, emptylistprocessor, postprocessor, initialcontent){
 
         var currentPage = 0;
         var itemsPerPage = 18;
-        var container = $(this);
+        var $container = $(this);
 
         ////////////////////////
         // Infinite scrolling //
@@ -46,7 +47,7 @@
          */
         var loadNextList = function(){
             var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
-            if (pixelsRemainingUntilBottom < 500 && container.is(":visible")){
+            if (pixelsRemainingUntilBottom < 500 && $container.is(":visible")){
                 currentPage++;
                 loadResultList();
             }
@@ -59,13 +60,20 @@
         /**
          * Function called when items are removed from the list. This will fade the items out and
          * hide them.
-         * @param {Object} items    Array of strings that need to be removed. Each of these string should
-         *                          correspond with a Dom element that has this string as an id.
+         * @param {Object} items    Array of jQuery elements or array of strings of ids that need to be removed. 
+         *                          For the latter case, each of these string should correspond with a Dom element 
+         *                          that has this string as an id.
          */
         var removeItems = function(items){
             var toFadeOut = 0;
             $.each(items, function(i, item){
-                $("#" + item, container).fadeOut(false, function(){
+                // Check whether the item is a string
+                // If so, we use the string as the selector
+                // If not, we assume a jQuery element was passed in
+                if (typeof item === "string"){
+                    item = "#" + item;
+                }
+                $(item, $container).fadeOut(false, function(){
                     isDoingExtraSearch = false;
                     toFadeOut++;
                     if (toFadeOut === items.length) {
@@ -105,21 +113,18 @@
                 if (result.id){
                     // Determine whether this item is already in the list
                     // by looking for an element with the same id
-                    if ($("#" + result.id, container).size() === 0){
+                    if ($("#" + result.id, $container).length === 0){
                         filteredresults.push(result);
                     }
                 }
             });
             data.results = filteredresults;
             // Render the template and put it in the container
-            var templateOutput = sakai.api.Util.TemplateRenderer(template, {
-                "items": data.results,
-                "sakai": sakai
-            });
+            var templateOutput = render(data.results, template);
             if (prepend){
-                container.prepend(templateOutput);
+                $container.prepend(templateOutput);
             } else {
-                container.append(templateOutput);
+                $container.append(templateOutput);
             }
             isDoingExtraSearch = false;
             // If there are more results and we're still close to the bottom of the page,
@@ -128,7 +133,7 @@
                 loadNextList();
             } else {
                 isDoingExtraSearch = true;
-                if ($('div:visible', container).size() === 0) {
+                if ($('div:visible', $container).length === 0) {
                     if ($.isFunction(emptylistprocessor)) {
                         emptylistprocessor();
                     };
@@ -138,7 +143,9 @@
 
         /**
          * Run the list of items to be added to a processor before pushing them through
-         * a template
+         * a template. The postprocessor will be given an array of items to be added to
+         * the infinite scroll. The plugin expects an array of items to come back from
+         * the postprocessor as well.
          * @param {Object} data       List of items to add to the infinite scroll list
          * @param {Object} prepend    True when we want to prepend the new items to the list
          *                            False when we want to append the new items to the list
@@ -183,9 +190,9 @@
          * will no longer respond to any events or functions
          */
         var kill = function(){
-            container.html("");
+            $container.html("");
             isDoingExtraSearch = true;
-            container = null;
+            $container = null;
         };
 
         ////////////////////

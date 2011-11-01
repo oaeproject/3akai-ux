@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
                 }
                 $(window).trigger("done.deletecontent.sakai", [pathsToDelete]);
-                if (callback && typeof(callback) === "function") {
+                if ($.isFunction(callback)) {
                     callback(success);
                 }
                 $deletecontent_dialog.jqmHide();
