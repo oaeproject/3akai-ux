@@ -27,6 +27,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.data.search = sakai_global.data.search || {};
 
     var view = "list";
+    var refineTags = [];
+    var activeTags = [];
 
     $(window).bind("sakai.search.util.init", function(ev, config){
 
@@ -245,6 +247,35 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return finaljson;
         };
 
+        /**
+         * Generates the tag list to refine the search by
+         * @param {Object} result Search result containing the tags available
+         * @param {Object} params Parameters used in the search
+         */
+        sakai_global.data.search.generateTagsRefineBy = function(results, params) {
+            $("#search_tags_active_container").html("");
+            activeTags = [];
+            refineTags = [];
+
+            if (params && params.refine){
+                activeTags = params.refine.split(',');
+                $("#search_tags_active_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags}));
+            }
+
+            if (results.facet_fields && results.facet_fields[0] && results.facet_fields[0].tag && results.facet_fields[0].tag.length > 0) {
+                $.each(results.facet_fields[0].tag, function(key, tagOjb) {
+                    $.each(tagOjb, function(tag, count) {
+                        if ($.inArray(tag, activeTags) === -1) {
+                            refineTags.push(tag);
+                        }
+                    });
+                });
+                $(".search_tags_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags}));
+            } else {
+                $(".search_tags_container").html("");
+            }
+        };
+
         //////////////////////
         // Query parameters //
         //////////////////////
@@ -255,7 +286,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
-                "sortby": $.bbq.getState('sortby')
+                "sortby": $.bbq.getState('sortby'),
+                "refine": $.bbq.getState('refine')
             };
             return params;
         };
@@ -263,6 +295,34 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ////////////
         // Events //
         ////////////
+
+        $(".search_tag_item").die("click").live("click", function(ev){
+            var tag = $(this).attr("sakai-entityid");
+            refineTags = $.grep(refineTags, function(value) {
+                return value != tag;
+            });
+            activeTags.push(tag);
+            $("#search_tags_active_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags}));
+            $(this).remove();
+
+            $.bbq.pushState({
+                "refine": activeTags.toString()
+            }, 0);
+        });
+
+        $(".search_tag_active_item").die("click").live("click", function(ev){
+            var tag = $(this).attr("sakai-entityid");
+            activeTags = $.grep(activeTags, function(value) {
+                return value != tag;
+            });
+            refineTags.push(tag);
+            $(".search_tags_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags}));
+            $(this).remove();
+
+            $.bbq.pushState({
+                "refine": activeTags.toString()
+            }, 0);
+        });
 
         $(".link_accept_invitation").live("click", function(ev){
             var userid = $(this).attr("sakai-entityid");

@@ -78,7 +78,8 @@
 #entity_container #entity_everyone_privacy_icon {background: url("/devwidgets/entity/images/entity_anyone_lock_icon.png") no-repeat scroll left top transparent;}
 #entity_container #entity_private_privacy_icon {background: url("/devwidgets/entity/images/entity_private_lock_icon.png") no-repeat scroll left top transparent;}
 
-
+/* Search title */
+.entity_search {float:left;}
 
 /* Dialogs */
 .entity_content_users_dialog_list{margin:12px 0 0;padding:0;height:310px;overflow:auto;border:1px solid #d4dade;}

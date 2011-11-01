@@ -176,6 +176,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 } else {
                     $(searchConfig.global.pagerClass, rootel).hide();
                 }
+
+                // Generate refine by tags
+                sakai_global.data.search.generateTagsRefineBy(results, params);
             }
 
             // Render the results.
@@ -205,7 +208,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.global.pagerClass).hide();
 
             var params = sakai_global.data.search.getQueryParams();
-            var urlsearchterm = sakai.api.Server.createSearchString(params.cat || params.q);
+            var searchString = params.q;
+            if (params.refine){
+                searchString = searchString + " " + params.refine.replace(",", " ");
+            }
+            var urlsearchterm = sakai.api.Server.createSearchString(params.cat || searchString);
 
             var facetedurl = "";
             var facetedurlall = "";
@@ -273,7 +280,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $.bbq.pushState({
                     "q": $(searchConfig.global.text).val(),
                     "cat": "",
-                    "page": 0
+                    "page": 0,
+                    "refine": ""
                 }, 0);
             }
         });
@@ -281,7 +289,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         $(searchConfig.global.searchButton).live("click", function(ev){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
-                "page": 0
+                "page": 0,
+                "refine": ""
             }, 0);
         });
 
@@ -289,7 +298,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
                 "cat": "",
-                "page": 0
+                "page": 0,
+                "refine": ""
             }, 0);
         });
 

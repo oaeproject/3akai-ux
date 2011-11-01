@@ -21,8 +21,8 @@
  */
 
 /* SEARCH BAR */
-.s3d-search-bar{border-bottom: 5px solid #e9e9e9;padding:0 10px 10px 0px;width:auto;}
-.s3d-search-bar input{color:#6d6d6d !important;width:350px;font-size:1.2em !important;display:block;}
+.s3d-search-bar{/*border-bottom: 5px solid #e9e9e9;*//*padding:0 10px 10px 0px;width:auto;*/margin-left:175px;}
+.s3d-search-bar input{color:#6d6d6d !important;width:700px;font-size:1.2em !important;display:block;}
 
 /* SEARCH HEADER */
 .s3d-search-header{text-align:left;font-weight:normal;font-size:1em;color:#828e9c;margin:20px 10px 0 10px;padding-bottom:10px;width:712px;}

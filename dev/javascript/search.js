@@ -63,7 +63,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "page": "<div id='widget_searchpeople' class='widget_inline'></div>"
             }
         };
-        
+
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             var category = sakai.config.worldTemplates[c];
             var refId = sakai.api.Util.generateWidgetId();
@@ -86,7 +86,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "category": category.id
             }
         }
-        
+
         var generateNav = function(){
             $(window).trigger("lhnav.init", [pubdata, {}, {}]);
         };

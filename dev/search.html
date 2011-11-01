@@ -24,9 +24,33 @@
                 <div class="s3d-container-shadow-right"><!----></div>
                 <div class="s3d-page-header">
                     <div id="widget_entity" class="widget_inline"></div>
+                    <!-- SEARCH BAR -->
+                    <div class="s3d-search-bar">
+                        <span id="form" class="s3d-search-container">
+                            <input type="text" maxlength="255" id="searchall_text" title="__MSG__ENTER_FOR__" class="s3d-search-inputfield"/>
+                            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                            </button
+                        </span>
+                        <div id="search_tags_active_container"></div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- TEMPLATE FOR ACTIVE REFINE BY TAGS -->
+        <div id="search_tags_active_template"><!--
+            {for t in tags}
+                <button class="search_tag_active_item" sakai-entityid="${t}">${t}</button>
+            {/for}
+        --></div>
+
+        <!-- TEMPLATE FOR REFINE BY TAGS LIST -->
+        <div id="search_tags_template"><!--
+            {for t in tags}
+                <button class="search_tag_item" sakai-entityid="${t}">${t}</button>
+            {/for}
+        --></div>
 
         <!-- HEADER -->
         <div class="fl-container-flex">
