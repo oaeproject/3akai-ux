@@ -7,15 +7,14 @@
      * displayed
      * @param {String} url                   Search URL to use
      * @param {Object} parameters            Parameters to send along for search requests
-     * @param {String} template              Id of the template that needs to be used for rendering the list
      * @param {Function} render              Render callback function called when the plugin is ready to render the list
      *                                       using a specific template
      * @param {Function} emptylistprocessor  Function used to deal with an empty result list [optional]
      * @param {Function} postprocessor       Function used to transform the search results before rendering
      *                                       the template [optional]
-     * @param {Object} initialcontent        Initial content to be added to the list
+     * @param {Object} initialcontent        Initial content to be added to the list [optional]
      */
-    $.fn.infinitescroll = function(url, parameters, template, render, emptylistprocessor, postprocessor, initialcontent){
+    $.fn.infinitescroll = function(url, parameters, render, emptylistprocessor, postprocessor, initialcontent){
 
         var currentPage = 0;
         var itemsPerPage = 18;
@@ -120,7 +119,7 @@
             });
             data.results = filteredresults;
             // Render the template and put it in the container
-            var templateOutput = render(data.results, template);
+            var templateOutput = render(data.results, data.total);
             if (prepend){
                 $container.prepend(templateOutput);
             } else {
@@ -133,7 +132,7 @@
                 loadNextList();
             } else {
                 isDoingExtraSearch = true;
-                if ($('div:visible', $container).length === 0) {
+                if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
                     if ($.isFunction(emptylistprocessor)) {
                         emptylistprocessor();
                     };
