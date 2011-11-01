@@ -80,7 +80,7 @@
         {for item in items}
             {if item.filename}
                 {var count = count + 1}
-                <div id="${item.id}" class="fl-container fl-fix mylibrary_item">
+                <div id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item">
                     <div class="mylibrary_item_left_filler">
                         {if item.canDelete}
                             <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" />

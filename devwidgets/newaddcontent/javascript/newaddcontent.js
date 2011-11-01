@@ -397,7 +397,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         * @param {Object} file    File that has been dropped in from the desktop
         */
        var fileDropped = function(file){
-            var css_class = sakai.api.Content.getMimeTypeData(file.type).cssClass;
             var contentObj = {
                 "sakai:originaltitle": file.name,
                 "sakai:pooled-content-file-name": file.name,
@@ -405,7 +404,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:tags": "",
                 "sakai:permissions": sakai.config.Permissions.Content.defaultaccess,
                 "sakai:copyright": sakai.config.Permissions.Copyright.defaults["content"],
-                "css_class": css_class,
+                "css_class": sakai.api.Content.getMimeTypeData(file.type).cssClass,
                 "type": "dropped",
                 "fileReader": file
             };
