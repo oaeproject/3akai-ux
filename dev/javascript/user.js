@@ -282,7 +282,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.User.getUser(entityID, getProfileData);
             } else if (!sakai.data.me.user.anon){
                 if (entityID){
-                    document.location = "/me";
+                    document.location = "/me" + window.location.hash;
                     return;
                 }
                 sakai.api.Security.showPage();

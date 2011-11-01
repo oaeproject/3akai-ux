@@ -22,8 +22,6 @@
                         <a href="/content#p=${item.link|safeURL}/${item.filename|safeURL}" title="${item.name|safeOutput}">
                             {if item.thumbnail}
                                 <img class="s3d-icon-50" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
-                            {elseif (item.mimeType.substring(0,6)=="image/")}
-                                <img class="s3d-icon-50" src="${item.path}" alt="${item.mimeTypeDescription}" />
                             {elseif sakai.config.MimeTypes[item.mimeType]}
                                 <img class="s3d-icon-50" src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${item.mimeTypeDescription}" />
                             {else}
@@ -70,8 +68,6 @@
                             <span>
                                 {if item.relatedContent.thumbnail}
                                     <img class="s3d-icon-32" src="${item.relatedContent.thumbnail}" alt="${item.relatedContent.mimeTypeDescription}" />
-                                {elseif (item.relatedContent.mimeType.substring(0,6)=="image/")}
-                                    <img class="s3d-icon-32" src="${item.relatedContent.path}" alt="${item.relatedContent.mimeTypeDescription}" />
                                 {elseif sakai.config.MimeTypes[item.relatedContent.mimeType]}
                                     <img class="s3d-icon-32" src="${sakai.config.MimeTypes[item.relatedContent.mimeType].URL}" alt="${item.relatedContent.mimeTypeDescription}" />
                                 {else}

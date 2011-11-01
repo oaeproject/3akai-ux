@@ -610,10 +610,13 @@ define(function(){
             "pptx":"application/vnd.ms-powerpoint",
             "odg":"image/jpeg",
             "png":"image/png",
+            "jp2":"images/jp2",
             "jpg":"image/jpeg",
             "jpeg":"image/jpeg",
             "bmp":"image/bmp",
             "gif":"image/gif",
+            "tif":"image/tiff",
+            "tiff":"images/tiff",
             "pdf":"application/x-pdf",
             "swf":"application/x-shockwave-flash",
             "flv":"video/x-msvideo",
@@ -736,6 +739,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/images.png",
                 description: "GIF_IMAGE"
             },
+            "image/jp2": {
+                cssClass: "icon-image-sprite",
+                URL: "/dev/images/mimetypes/images.png",
+                description: "JPG2000_IMAGE"
+            },
             "image/jpeg": {
                 cssClass: "icon-image-sprite",
                 URL: "/dev/images/mimetypes/images.png",
@@ -745,6 +753,11 @@ define(function(){
                 cssClass: "icon-image-sprite",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "JPG_IMAGE"
+            },
+            "image/tiff": {
+                cssClass: "icon-image-sprite",
+                URL: "/dev/images/mimetypes/images.png",
+                description: "TIFF_IMAGE"
             },
             "text/html": {
                 cssClass: "icon-html-sprite",
@@ -982,7 +995,7 @@ define(function(){
          *  divider1: {
          *      "divider": true,
          *      "title": "Divider title" [optional],
-         *      "class": "CSS class to add to items inside of elements beneath the divider [optional]
+         *      "cssClass": "CSS class to add to items inside of elements beneath the divider [optional]
          *  }
          */
         Directory: {
