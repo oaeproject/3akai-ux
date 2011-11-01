@@ -156,82 +156,51 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.preparePeopleForRender = function(results) {
             for (var i = 0, j = results.length; i<j; i++) {
                 var item = results[i];
-                var details = false;
-                if (item.target){
-                    item = results[i].profile;
-                    details = results[i].details;
-                }
                 if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
-                    var user = {};
-                    user.id = item["rep:userId"];
-                    user.userid = item["rep:userId"];
-                    // Parse the user his info.
-                    user.path = item.homePath + "/public/";
-                    var person = item;
-                    user.picture = sakai.api.User.getProfilePicture(person);
-                    user.counts = item.counts;
-                    user.name = sakai.api.User.getDisplayName(item);
-                    user.name = sakai.api.Util.applyThreeDots(user.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                    user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
-                    user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
-
+                    //var user = {};
+                    item.id = item["rep:userId"];
+                    item.userid = item["rep:userId"];
+                    item.picture = sakai.api.User.getProfilePicture(item);
+                    item.name = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(item), 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    
                     // use large default user icon on search page
-                    if (user.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
-                        user.pictureLarge = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
+                    if (item.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
+                        item.pictureLarge = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
                     }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
-                        user["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
+                        item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                     }
-                    if (item.basic && item.basic.elements && item.basic.elements.description){
-                        user.extra = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 580, {max_rows: 2,whole_word: false}, "");
-                        user.extraGrid = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 200, {max_rows: 2,whole_word: false}, "");
+                    item.description = sakai.api.User.getProfileBasicElementValue(item, "description");
+                    if (item.description) {
+                        item.extra = sakai.api.Util.applyThreeDots(item.description, 580, { max_rows: 2, whole_word: false }, "");
+                        user.extraGrid = sakai.api.Util.applyThreeDots(item.description, 200, {max_rows: 2,whole_word: false}, "");
                     }
 
-                    user.connected = false;
-                    user.accepted = false;
-                    user.invited = item.invited !== undefined ? item.invited : false;
+                    item.connected = false;
+                    item.accepted = false;
+                    item.invited = item.invited !== undefined ? item.invited : false;
                     // Check if this user is a friend of us already.
                     var connectionState = false;
                     if (item["sakai:state"]) {
                         connectionState = item["sakai:state"];
-                    } else if (details && details["sakai:state"]) {
-                        connectionState = details["sakai:state"];
-                    } else if (sakai_global.data.search.contacts && sakai_global.data.search.contacts.results) {
-                        for (var ii = 0, jj = sakai_global.data.search.contacts.results.length; ii<jj; ii++) {
-                            var friend = sakai_global.data.search.contacts.results[ii];
-                            if (friend.target === user.userid) {
-                                connectionState = friend.details["sakai:state"];
-                            }
-                        }
-                    }
-                    if (connectionState) {
-                        user.connected = true;
+                        item.connected = true;
                         // if invited state set invited to true
                         if(connectionState === "INVITED"){
-                            user.invited = true;
+                            item.invited = true;
                         } else if(connectionState === "PENDING"){
-                            user.pending = true;
+                            item.pending = true;
                         } else if(connectionState === "ACCEPTED"){
-                            user.accepted = true;
+                            item.accepted = true;
                         } else if(connectionState === "NONE"){
-                            user.none = true;
-                            user.connected = false;
+                            //user.none = true;
+                            item.connected = false;
                         }
-                    }
+                    } 
+
                     // Check if the user you found in the list isn't the current
                     // logged in user
-                    if (user.userid === sakai.data.me.user.userid) {
-                        user.isMe = true;
-                    }
-
-                    if (user["sakai:tags"]) {
-                        var filteredTags = [];
-                        for (var t = 0; t < user["sakai:tags"].length; t++) {
-                            if (user["sakai:tags"][t].split("/")[0] !== "directory") {
-                                filteredTags.push(user["sakai:tags"][t]);
-                            }
-                        }
-                        user["sakai:tags"] = filteredTags;
+                    if (item.userid === sakai.data.me.user.userid) {
+                        item.isMe = true;
                     }
                 }
             }
