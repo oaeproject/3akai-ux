@@ -559,7 +559,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var createDocument = function(documentObj){
             var refID = sakai.api.Util.generateWidgetId();
-            var title = proofTitle(documentObj["sakai:pooled-content-file-name"]);
+            var title = documentObj["sakai:pooled-content-file-name"];
             var doc = {
                 "structure0": $.toJSON({
                     "page1": {
@@ -656,7 +656,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "url": "/p/" + contentObj["_path"],
                 "method": "POST",
                 "parameters": {
-                    "sakai:pooled-content-file-name": proofTitle(contentObj["sakai:pooled-content-file-name"]),
+                    "sakai:pooled-content-file-name": contentObj["sakai:pooled-content-file-name"],
                     "sakai:description": contentObj["sakai:description"],
                     "sakai:permissions": contentObj["sakai:permissions"],
                     "sakai:copyright": contentObj["sakai:copyright"],
@@ -1037,19 +1037,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var navigateSubItem = function(){
             $(newaddcontentContainerLHChoiceSelectedSubitem).removeClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
             $(this).addClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
-        };
-
-        ///////////////////////
-        // UTILITY FUNCTIONS //
-        ///////////////////////
-
-        /**
-         * Make sure that a string is querystring friendly, which is done by
-         * making sure that there are no equal signs in the string
-         * @param {Object} input    String to make querystring friendly
-         */
-        var proofTitle = function(input){
-            return input.replace(/=/g,"_");
         };
 
         /////////////

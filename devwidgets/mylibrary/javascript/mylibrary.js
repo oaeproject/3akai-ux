@@ -177,8 +177,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sortOn: mylibrary.sortBy,
                 sortOrder: mylibrary.sortOrder,
                 q: query
-            }, "mylibrary_items_template", function(items, template){
-                return sakai.api.Util.TemplateRenderer(template, {
+            }, function(items, total){
+                return sakai.api.Util.TemplateRenderer("mylibrary_items_template", {
                     "items": items,
                     "sakai": sakai
                 });
