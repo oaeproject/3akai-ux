@@ -8,6 +8,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  */
+require(['jquery'], function (jQuery) {
 ;(function($) {
 
 /*
@@ -822,3 +823,4 @@ function log() {
 };
 
 })(jQuery);
+});

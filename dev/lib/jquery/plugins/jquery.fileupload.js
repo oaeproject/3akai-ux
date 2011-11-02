@@ -12,6 +12,7 @@
 /*jslint nomen: true, unparam: true, regexp: true */
 /*global document, XMLHttpRequestUpload, Blob, File, FormData, location, jQuery */
 
+require(['jquery', 'jquery-ui'], function (jQuery) {
 (function ($) {
     'use strict';
 
@@ -718,3 +719,4 @@
     });
     
 }(jQuery));
+});
