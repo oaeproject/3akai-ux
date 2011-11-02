@@ -519,7 +519,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.notification.show("", $(rssPasteValidRssAddress).html());
                 return false;
             }
-            rssURL = rssURL.replace("http://","").replace("feed://","");
+            rssURL = rssURL.replace("http://","").replace("https://","").replace("feed://","");
             if(!checkIfRssAlreadyAdded(rssURL)){
                 getFeed(rssURL, getFeedResponse);
             }
