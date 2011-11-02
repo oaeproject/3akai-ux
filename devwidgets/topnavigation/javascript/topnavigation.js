@@ -194,7 +194,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
         var checkForRedirect = function() {
             var qs = new Querystring();
             // Check for url param and if user is logged in
-            if (qs.get("url") && !sakai.api.User.isAnonymous(sakai.data.me)) {
+            if (qs.get("url") && document.location.pathname === "/" && !sakai.api.User.isAnonymous(sakai.data.me)) {
                 window.location = qs.get("url");
             }
         };
