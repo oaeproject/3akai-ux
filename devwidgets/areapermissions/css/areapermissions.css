@@ -43,10 +43,11 @@
 #areapermissions_container .s3d-inset-shadow-container {background-color:none;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
 #areapermissions_container .areapermissions_you {font-weight:normal;}
 #areapermissions_container #areapermissions_see_private_specific, #areapermissions_container .areapermissions_role_label {text-transform: capitalize;}
-#areapermissions_container #areapermissions_see_private_specific > hr:first-child {margin:10px 0 20px;}
+#areapermissions_container #areapermissions_see_private_specific > hr:first-child {margin:10px 0 10px;}
 #areapermissions_container .areapermissions_grouppermissions_notificationlabel {font-size:10px;font-weight:normal;margin-left:47px;display:block;}
 #areapermissions_container .areapermissions_grouppermissions_notificationlabel.inline {margin-left:0;display:inline;}
 #areapermissions_container .areapermissions_edit_role_container {width:169px;}
+#areapermissions_container .areapermissions_edit_role_container img, #areapermissions_container .areapermissions_edit_role_container input {width: 13px;height: 13px;padding:0;margin:0;}
 #areapermissions_container .areapermissions_edit_role_container.multiple {float:left;}
 
 #areapermissions_warning_container {top:150px;}
