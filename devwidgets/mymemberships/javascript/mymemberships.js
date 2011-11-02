@@ -39,9 +39,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var mymemberships = {  // global widget data
             isOwnerViewing: false,
-            sortOrder: "asc",
-            cache: [],
-            hovering: false
+            sortOrder: "asc"
         };
 
         // DOM jQuery Objects
@@ -56,45 +54,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////
         // Utility Functions //
         ///////////////////////
-
-        /**
-         * Reset the current my memberships view
-         *
-         * @param {String} query  optional query string to limit search results
-         */
-        var reset = function (query) {
-            // placeholder...
-        };
-
-        /**
-         * Show the given page of membership items.
-         *
-         * @param {int} pagenum The page number you want to display (not 0-indexed)
-         */
-        var showPage = function (pagenum) {
-            // placeholder...
-        };
-
-        /**
-         * Show the pager at the bottom of the page.
-         *
-         * @param {int} pagenum The number of the current page (not 0-indexed)
-         */
-        var showPager = function (pagenum) {
-            // placeholder...
-        };
-
-        /**
-         * Get personalized text for the given message bundle key based on
-         * whether this list is owned by the viewer, or belongs to someone else.
-         * The message should contain a '${firstname}' variable to replace with
-         * and be located in this widget's properties files.
-         *
-         * @param {String} bundleKey The message bundle key
-         */
-        var getPersonalizedText = function (bundleKey) {
-            // placeholder...
-        };
 
         /**
          * Compare the names of 2 group objects
@@ -238,8 +197,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * and shows the correct view.
          */
         var doInit = function () {
-            if (sakai_global.profile.main.data.userid ===
-                sakai.data.me.user.userid) {
+            if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
                 mymemberships.isOwnerViewing = true;
                 render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
             } else {
