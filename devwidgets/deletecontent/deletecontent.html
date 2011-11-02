@@ -24,13 +24,13 @@
                     {for profile in profiles}
                         <li class="s3d-outer-shadow-container">
                             {if profile.userid}
-                                {var displayName = sakai.api.i18n.General.process(sakai.api.User.getDisplayName(profile))}
+                                {var displayName = sakai.api.User.getDisplayName(profile)}
                                 <img alt="__MSG__USER_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.User.getProfilePicture(profile)}">
-                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.userid|safeURL}" class="s3d-bold" target="_blank">${displayName|safeOutput}</a>
+                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.userid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
                             {else}
                                 {var displayName = sakai.api.i18n.General.process(profile["sakai:group-title"])}
                                 <img alt="__MSG__GROUP_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.Groups.getProfilePicture(profile)}">
-                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">${displayName|safeOutput}</a>
+                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
                             {/if}
                         </li>
                     {/for} 
@@ -84,7 +84,7 @@
                         {for content in contentIManage}
                             ${count++|eat}
                             {if count <= 8}
-                                <li>"${sakai.api.Util.applyThreeDots(content["sakai:pooled-content-file-name"], 115)|safeOutput}"</li>
+                                <li>"${sakai.api.Util.applyThreeDots(content["sakai:pooled-content-file-name"], 115)}"</li>
                             {/if}
                         {/for}
                         {if count > 8}

@@ -104,7 +104,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "parameters": parameters
                 });
             }
-            return batchRequests;
         };
 
         /**
@@ -112,8 +111,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * system.
          */
         var removeFromLibrary = function(){
-            var batchRequests = processRemoveFromLibrary([], contentIView);
-            batchRequests = processRemoveFromLibrary(batchRequests, contentIManage);
+            var batchRequests = [];
+            processRemoveFromLibrary(batchRequests, contentIView);
+            processRemoveFromLibrary(batchRequests, contentIManage);
             sendDeletes(batchRequests, "#deletecontent_message_from_library");
         };
 
@@ -137,7 +137,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             }
-            return batchRequests;
         };
 
         /**
@@ -146,8 +145,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var removeFromSystem = function(){
             // Remove content I manage from the system
-            var batchRequests = processRemoveFromLibrary([], contentIView);
-            batchRequests = processRemoveFromSystem(batchRequests, contentIManage);
+            var batchRequests = [];
+            processRemoveFromLibrary(batchRequests, contentIView);
+            processRemoveFromSystem(batchRequests, contentIManage);
             sendDeletes(batchRequests, "#deletecontent_message_from_system");
         };
 
