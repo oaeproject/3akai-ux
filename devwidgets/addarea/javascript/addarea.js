@@ -160,19 +160,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             );
         };
 
-        $("#addarea_sakaidoc_search_clear").live("click", function(){
-            var searchquery = $.trim($("#addarea_sakaidoc_searchfield").val());
-            if (searchquery){
-                $("#addarea_sakaidoc_searchfield").val("");
-                showSearchResults();
-            }
-        });
-
         $("#addarea_sakaidoc_searchfield").live("keyup", function(ev){
             if (ev.keyCode === 13){
                 var searchquery = $.trim($("#addarea_sakaidoc_searchfield").val());
                 showSearchResults(searchquery);
             }
+        });
+
+        $("#addarea_sakaidoc_searchbutton").live("click", function(ev){
+            var searchquery = $.trim($("#addarea_sakaidoc_searchfield").val());
+            showSearchResults(searchquery);
         });
 
         $("#addarea_sakaidoc_existingdocs_sort").live("change", function(ev){

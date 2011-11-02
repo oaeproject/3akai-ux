@@ -77,10 +77,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
+                        contentItem["sakai:description-shorter"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 150, {
+                            max_rows: 2,
+                            whole_word: false
+                        }, "");
                         contentItem["sakai:description"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 580, {
                             max_rows: 2,
                             whole_word: false
-                        }, "search_result_course_site_excerpt");
+                        }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
                         contentItem["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 600, {
@@ -118,6 +122,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if (results[group]["sakai:group-description"]) {
                         results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 580, {max_rows: 2,whole_word: false}, "");
+                        results[group]["sakai:group-description-shorter"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 150, {max_rows: 2,whole_word: false}, "");
                     }
 
                     var groupType = sakai.api.i18n.getValueForKey("OTHER");
@@ -169,7 +174,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.picture = sakai.api.User.getProfilePicture(person);
                     user.counts = item.counts;
                     user.name = sakai.api.User.getDisplayName(item);
-                    user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    user.name = sakai.api.Util.applyThreeDots(user.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 
@@ -247,6 +252,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.getQueryParams = function(){
             var params = {
                 "page": parseInt($.bbq.getState('page'), 10) || 1,
+                "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
                 "sortby": $.bbq.getState('sortby')

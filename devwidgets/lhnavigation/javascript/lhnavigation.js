@@ -1119,8 +1119,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         return false;
                     }
                     // check if next menu structure
-                    else if ($el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").length){
-                        $el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").focus();
+                    else if ($el.parents(".lhnavigation_menu_list").nextAll("div:first").children("li:first").children("div").children("a").length){
+                        $el.parents(".lhnavigation_menu_list").nextAll("div:first").children("li:first").children("div").children("a").focus();
                         return false;
                     }
                 }
@@ -1137,8 +1137,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         return false;
                     }
                     // find next menu structure
-                    else if ($el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").length){
-                        $el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").focus();
+                    else if ($el.parents(".lhnavigation_menu_list").nextAll("div:first").children("li:first").children("div").children("a").length){
+                        $el.parents(".lhnavigation_menu_list").nextAll("div:first").children("li:first").children("div").children("a").focus();
                         return false;
                     }
                 }
@@ -1157,13 +1157,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         return false;
                     }
                     // check if next menu structure
-                    else if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").length){
+                    else if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").length){
                         // check if sub menu open
-                        if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("ul:visible").length){
-                            $el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("ul:visible").children("li:last").find("a").focus()
+                        if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").length){
+                            $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").children("li:last").find("a").focus()
                             return false;
-                        } else if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("div").children("a").length){
-                            $el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("div").children("a").focus();
+                        } else if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("div").children("a").length){
+                            $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("div").children("a").focus();
                             return false;
                         }
                     }

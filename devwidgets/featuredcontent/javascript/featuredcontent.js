@@ -36,161 +36,117 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredcontentCategoryContentContainer = "#featuredcontent_category_content_container";
 
         // Templates
-        var featuredcontentContentTemplate = "featuredcontent_content_template";
-        var featuredcontentCategoryContentTemplate= "featuredcontent_category_content_template";
+        var featuredcontentMainTemplate = $("#featuredcontent_main_template");
+        var featuredcontentCategoryOtherTemplate = $("#featuredcontent_category_other_template");
 
         var $featuredcontentWidget = $(".featuredcontent_widget", $rootel);
 
-        var largeEnough = false;
-
-        var featuredContentArr = [];
-        var featuredCategoryContentArr = [];
-
-        var renderFeaturedContent = function(total){
-            if (!sakai_global.category) {
-                $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
-                    "data": featuredContentArr,
-                    "sakai": sakai,
-                    "category": pageData.category
-                }));
-            } else {
-                $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
-                    "data": featuredContentArr,
-                    "sakai": sakai,
-                    "category": pageData.category
-                }));
-                if (featuredCategoryContentArr && !featuredCategoryContentArr.hasPreview) {
-                    featuredCategoryContentArr.splice(0, 1);
+        /**
+         * Render the list of featured content items. Different templates are used based on whether or
+         * not we are rendering from the landing page (random content) or a category page (content tagged
+         * with that category
+         * @param {Object} results    Sorted array of featured content items to render
+         * @param {Object} total      Total number of items in the current category [optional]
+         */
+        var renderFeaturedContent = function(results, total){
+            // Category page
+            if (sakai_global.category) {
+                var showSeeAll = (total > results.length);
+                var renderedLargeFeatured = false;
+                // Only render the main featured item when it has a thumbnail image
+                if (results.length && results[0].thumbnail){
+                    $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
+                        "item": results[0],
+                        "sakai": sakai,
+                        "results": false,
+                        "params": {"max_rows": 2}
+                    }));
+                    // Remove the first item to avoid double rendering
+                    results.splice(0, 1);
+                    renderedLargeFeatured = true;
                 }
-                if (featuredCategoryContentArr.length) {
-                    $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
-                        "data": featuredCategoryContentArr,
+                if (results.length || !renderedLargeFeatured){
+                    $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryOtherTemplate, {
+                        "results": results,
                         "sakai": sakai,
                         "total": total,
-                        "category": pageData.category
+                        "category": pageData.category,
+                        "title": pageData.title,
+                        "showSeeAll": showSeeAll
                     }));
                 }
+            // Landing/explore page
+            } else {
+                // Render the template
+                $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
+                    "results": reshuffleOrderedList(results),
+                    "sakai": sakai,
+                    "params": {"max_rows": 2}
+                }));
             }
         };
 
-        var parseFeaturedContent = function(success, data){
-            if (success) {
-                var mode = "medium";
-                var numSmall = 0;
-                featuredContentArr = [];
-                var tempArr = [];
+        /**
+         * For the landing page, we show 1 large - 1 middle - 2 small - 1 large - 2 small - 1 large - 2 small
+         * Therefore, we slightly re-arrange the ordered array to reflect this priority list, so 
+         * [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] is transformed into [1, 2, 5, 6, 3, 7, 8, 4, 9, 10]
+         * @param {Object} results    List of content items to reshuffle
+         */
+        var reshuffleOrderedList = function(results){
+            if (results.length >= 5){
+                results.splice(2, 0, results.splice(4,1)[0]);
+            }
+            if (results.length >= 6){
+                results.splice(3, 0, results.splice(5,1)[0]);
+            }
+            if (results.length >= 7){
+                results.splice(5, 0, results.splice(6,1)[0]);
+            }
+            if (results.length >= 8){
+                results.splice(6, 0, results.splice(7,1)[0]);
+            }
+            return results;
+        };
 
-                // First check for a piece of content with preview
-                var candidate = false;
-                var i = 0;
+        /**
+         * Sort the array of content items based on whether or not they have a thumbnail image and how 
+         * much metata they have (comments, description, tags)
+         * @param {Object} a    First content item
+         * @param {Object} b    Second content item
+         */
+        var sortBasedOnThumbnailAndMetadata = function(a, b){
+            if (a.thumbnail && b.thumbnail){
+                var scoreA = (a["sakai:description"] ? 1 : 0) + ((a["sakai:tags"] && a["sakai:tags"].length) ? 1 : 0) + (a.commentcount ? 1 : 0);
+                var scoreB = (b["sakai:description"] ? 1 : 0) + ((b["sakai:tags"] && b["sakai:tags"].length) ? 1 : 0) + (b.commentcount ? 1 : 0);
+                return scoreA < scoreB;
+            } else if (a.thumbnail) {
+                return -1;
+            } else {
+                return 1;
+            }
+        };
+
+        /**
+         * Add some additional metadata to the retrieved content items and sort them based on whether or
+         * not they have a thumbnail image and how much metata they have (comments, description, tags)
+         * @param {Object} success    True if the request to retrieve the featured items was successful,
+         *                            false if an error occured
+         * @param {Object} data       List of retrieved featured content items
+         */
+        var parseFeaturedContent = function(success, data){
+            if (success){
                 $.each(data.results, function(index, item){
                     item.thumbnail = sakai.api.Content.getThumbnail(item);
-                    if (!candidate) {
-                        if (item.thumbnail && !largeEnough) {
-                            item.mode = "large";
-                            if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
-                                item.image = true;
-                            }
-                            if (item["sakai:tags"]) {
-                                item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
-                            }
-                            item.usedin = sakai.api.Content.getPlaceCount(item);
-                            item.commentcount = sakai.api.Content.getCommentCount(item);
-                            candidate = item;
-                            i = index;
-                        }
-                    }
-                    if (item.thumbnail && item["sakai:description"] && !largeEnough) {
-                        largeEnough = true;
-                        item.mode = "large";
-                        if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
-                            item.image = true;
-                        }
-                        if (item["sakai:tags"]) {
-                            item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
-                        }
-                        item.usedin = sakai.api.Content.getPlaceCount(item);
-                        item.commentcount = sakai.api.Content.getCommentCount(item);
-                        featuredContentArr.push(item);
-                        data.results.splice(index, 1);
-                        return false;
+                    item.usedin = sakai.api.Content.getPlaceCount(item);
+                    item.commentcount = sakai.api.Content.getCommentCount(item);
+                    if (item["sakai:tags"]) {
+                        item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
                     }
                 });
-
-                if (!largeEnough) {
-                    if(!candidate && data.results.length){
-                        data.results[0].mode = "large";
-                        data.results[0].thumbnail = sakai.api.Content.getThumbnail(data.results[0]);
-                        if (data.results[0]["_mimeType"] && data.results[0]["_mimeType"].split("/")[0] == "image") {
-                            data.results[0].image = true;
-                        }
-                        if (data.results[0]["sakai:tags"]) {
-                            data.results[0]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[0]["sakai:tags"].toString());
-                        }
-                        data.results[0].usedin = sakai.api.Content.getPlaceCount(data.results[0]);
-                        data.results[0].commentcount = sakai.api.Content.getCommentCount(data.results[0]);
-                        candidate = data.results[0];
-                    }
-                    if(candidate){
-                        featuredContentArr.push(candidate);
-                        featuredCategoryContentArr.push(candidate);
-                        data.results.splice(i, 1);
-                    }
-                }
-
-                $.each(data.results, function(index, item){
-                    if (sakai_global.category) {
-                        if (featuredCategoryContentArr.length != 6) {
-                            item.mode = "small";
-                            if (item["sakai:tags"]) {
-                                item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
-                            }
-                            if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
-                                item.image = true;
-                            }
-                            item.usedin = sakai.api.Content.getPlaceCount(item);
-                            item.commentcount = sakai.api.Content.getCommentCount(item);
-                            featuredCategoryContentArr.push(item);
-                        }
-                    } else {
-                        if (featuredContentArr.length != 7) {
-                            if (mode == "medium") {
-                                item.mode = "medium";
-                                mode = "small";
-                                item.thumbnail = sakai.api.Content.getThumbnail(item);
-                                item.usedin = sakai.api.Content.getPlaceCount(item);
-                                if (item["sakai:tags"]) {
-                                    item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
-                                }
-                                if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
-                                    item.image = true;
-                                }
-                                featuredContentArr.push(item);
-                            }
-                            else {
-                                item.mode = "small";
-                                if (item["sakai:tags"]) {
-                                    item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
-                                }
-                                tempArr.push(item);
-                                numSmall++;
-                                if (numSmall == 2) {
-                                    numSmall = 0;
-                                    mode = "medium";
-                                    featuredContentArr.push(tempArr);
-                                    tempArr = [];
-                                }
-                            }
-                        }
-                    }
-                });
-                if(sakai_global.category && featuredCategoryContentArr && featuredCategoryContentArr[0] && !featuredCategoryContentArr[0].thumbnail){
-                    featuredCategoryContentArr[0].mode = "small";
-                    featuredCategoryContentArr[0] = featuredCategoryContentArr[0];
-                }
-                renderFeaturedContent(data.total);
+                data.results.sort(sortBasedOnThumbnailAndMetadata);
+                renderFeaturedContent(data.results, data.total);
             } else {
-                renderFeaturedContent(0);
+                renderFeaturedContent([], 0);
             }
         };
 
