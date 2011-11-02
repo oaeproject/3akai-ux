@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var rootel = $("#" + tuid);
+        var $rootel = $("#" + tuid);
 
         // Search URL mapping
         var searchURLmap = {
@@ -140,7 +140,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * be called by the infinite scroll plugin
          */
         var handleEmptyResultList = function(){
-            $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
+            $(searchConfig.results.container, $rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
         };
 
         /**
@@ -197,7 +197,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 "sortOrder": sortBy
             }, function(items, total){
                 // Adjust display global total
-                $(searchConfig.global.numberFound, rootel).text("" + total);
+                $(searchConfig.global.numberFound, $rootel).text("" + total);
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
                     "items": items,
                     "sakai": sakai

@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var rootel = $("#" + tuid);
+        var $rootel = $("#" + tuid);
 
         // CSS IDs
         var search = "#searchall";
@@ -183,7 +183,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 "sortOrder": sortBy
             }, function(items, total){
                 // Adjust display global total
-                $(searchConfig.global.numberFound, rootel).text("" + total);
+                $(searchConfig.global.numberFound, $rootel).text("" + total);
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
                     "items": items,
                     "sakai": sakai
