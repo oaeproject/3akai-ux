@@ -803,6 +803,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 if ($menu.children(topnavigationExternalLogin).length){
                     // adjust margin of external login menu to position correctly according to padding and width of menu
                     var $externalAuth = $menu.children(topnavigationExternalLogin);
+                    $externalAuth.find("ul").attr("aria-hidden", "false");
                     var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""), 10) +
                          $menu.width() -
                          parseInt($externalAuth.css("paddingRight").replace("px", ""), 10) -
@@ -815,6 +816,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             },
             function(){
                 $(topnavUserOptionsLoginFields).hide();
+                if ($(this).children(topnavigationExternalLogin).length) {
+                    $(this).children(topnavigationExternalLogin).find("ul").attr("aria-hidden", "true");
+                }
             });
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
