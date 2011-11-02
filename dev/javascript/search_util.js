@@ -156,8 +156,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.preparePeopleForRender = function(results) {
             for (var i = 0, j = results.length; i<j; i++) {
                 var item = results[i];
+                // The My Contacts feed comes back with everything wrapped inside of
+                // a target object
+                if (item.target){
+                    item = item.profile;
+                }
                 if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
-                    //var user = {};
                     item.id = item["rep:userId"];
                     item.userid = item["rep:userId"];
                     item.picture = sakai.api.User.getProfilePicture(item);
@@ -181,8 +185,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     item.invited = item.invited !== undefined ? item.invited : false;
                     // Check if this user is a friend of us already.
                     var connectionState = false;
-                    if (item["sakai:state"]) {
-                        connectionState = item["sakai:state"];
+                    if (item["sakai:state"] || results[i]["details"]) {
+                        connectionState = item["sakai:state"] || results[i]["details"]["sakai:state"];
                         item.connected = true;
                         // if invited state set invited to true
                         if(connectionState === "INVITED"){
@@ -202,6 +206,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (item.userid === sakai.data.me.user.userid) {
                         item.isMe = true;
                     }
+                    results[i] = item;
                 }
             }
             return results;

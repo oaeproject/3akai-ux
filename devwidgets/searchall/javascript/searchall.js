@@ -48,41 +48,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 button: search + "_button",
                 text: search + '_text',
                 numberFound: search + '_numberFound',
-                searchTerm: search + "_mysearchterm",
-                tagTerm: search + "_mytagterm",
-                searchBarSelectedClass: "searchall_bar_selected",
-                matchingLabel: "#searchall_result_extended_matching",
                 searchButton: "#form .s3d-search-button"
-            },
-            filters: {
-                filter: search + "_filter",
-                sites: {
-                    filterSites: search + "_filter_my_sites",
-                    filterSitesTemplate: "searchall_filter_my_sites_template",
-                    ids: {
-                        entireCommunity: '#searchall_filter_community',
-                        allMySites: '#searchall_filter_all_my_sites',
-                        specificSite: '#searchall_filter_my_sites_'
-                    },
-                    values: {
-                        entireCommunity: 'entire_community',
-                        allMySites: "all_my_sites"
-                    }
-                }
-            },
-            tabs: {
-                all: "#tab_search_all",
-                content: "#tab_search_content",
-                people: "#tab_search_people",
-                sites: "#tab_search_sites",
-                sakai2: "#tab_search_sakai2"
             },
             results: {
                 container: search + '_results_container',
                 resultsContainer: search + '_results',
                 resultsContainerAnonClass: 's3d-search-results-anon',
-                header: search + '_results_header',
-                tagHeader: search + '_results_tag_header',
                 template: 'search_general_results_template',
                 noResultsTemplate: 'searchall_noresults_template'
             }
@@ -94,7 +65,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Functions //
         ///////////////
 
-        // TODO: Write documentation
+        /**
+         * Take a list of search results retrieved by the server and process them so they are
+         * ready to be run through the template
+         * @param {Object} results     List of results coming back from the infinite scroll plugin
+         * @param {Object} callback    Callback function from the infinite scroll plugin to call
+         */
         var renderResults = function(results, callback){
             var userArray = [];
             var fetchUsers = false;
@@ -116,6 +92,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
+            // Call the infinite scroll plugin callback
             callback(results);
 
             // Update dom with user display names
@@ -130,7 +107,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }
         };
 
-        // TODO: Write documentation
+        /**
+         * As the search service only returns the userid for who was created a piece of
+         * content, we need to seperately retrieve those user's profile information before
+         * we can display their displayName on the screen. This function takes a users
+         * profile information and fills out his displayname for all items created by him
+         * @param {Object} u        Userid of the user we're putting a displayname in for
+         * @param {Object} users    Profile objects of the retrieved users
+         */
         var setUsername = function(u, users) {
             $(".searchcontent_result_username").each(function(index, val){
                var userId = $(val).text();
@@ -148,24 +132,25 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // Set search box values
             if (!params.q || (params.q === "*" || params.q === "**")) {
                 $(searchConfig.global.text).val("");
-                $(searchConfig.global.matchingLabel).hide();
-            }
-            else {
+            } else {
                 $(searchConfig.global.text).val(params.q);
-                $(searchConfig.global.matchingLabel).show();
             }
             $(searchConfig.global.numberFound).text("0");
-            $(searchConfig.results.header).hide();
-            $(searchConfig.results.tagHeader).hide();
             $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
         };
 
-        // TODO: Write documentation
+        /**
+         * Render the default template when no results are found. This function will
+         * be called by the infinite scroll plugin
+         */
         var handleEmptyResultList = function(){
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
         };
 
-        // TODO: Write documentation
+        /**
+         * Kick off a search with a specific query and sort option. This function will
+         * initiate an infinite scroll for each search
+         */
         var doSearch = function(){
             var params = sakai_global.data.search.getQueryParams();
             var urlsearchterm = sakai.api.Server.createSearchString(params.cat || params.q);
@@ -203,7 +188,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     "items": items,
                     "sakai": sakai
                 });
-            }, handleEmptyResultList, renderResults, false, "items");
+            }, handleEmptyResultList, renderResults);
         };
 
         ///////////////////
