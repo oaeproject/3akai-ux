@@ -49,8 +49,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // DOM jQuery Objects
         var $rootel = $("#" + tuid);  // unique container for each widget instance
-        var mylibrary_check_class = ".mylibrary_check";
-        var $mylibrary_check = $(mylibrary_check_class, $rootel);
+        var $mylibrary_check = $(".mylibrary_check", $rootel);
         var $mylibrary_items = $("#mylibrary_items", $rootel);
         var $mylibrary_check_all = $("#mylibrary_check_all", $rootel);
         var $mylibrary_remove = $("#mylibrary_remove", $rootel);
@@ -301,13 +300,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * sort option
          */
         $mylibrary_sortby.change(function (ev) {
+            var query = $.trim($mylibrary_livefilter.val());
             var sortSelection = $(this).val();
             var sortBy = "_lastModified",
                 sortOrder = "desc";
             if (sortSelection === "lastModified_asc") {
                 sortOrder = "asc";
             }
-            $.bbq.pushState({"lsb": sortBy, "lso": sortOrder});
+            $.bbq.pushState({"lsb": sortBy, "lso": sortOrder, "lq": query});
         });
 
         /**

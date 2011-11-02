@@ -6,7 +6,8 @@
      * Function that will provide infinite scrolling for lists of items being
      * displayed
      * @param {String} url                   Search URL to use
-     * @param {Object} parameters            Parameters to send along for search requests
+     * @param {Object} parameters            Parameters to send along for search requests.
+     *                                       The "items" property will be used to determine how many results are loaded per call [optional]
      * @param {Function} render              Render callback function called when the plugin is ready to render the list
      *                                       using a specific template
      * @param {Function} emptylistprocessor  Function used to deal with an empty result list [optional]
@@ -16,8 +17,12 @@
      */
     $.fn.infinitescroll = function(url, parameters, render, emptylistprocessor, postprocessor, initialcontent){
 
-        var currentPage = 0;
-        var itemsPerPage = 18;
+        parameters = parameters || {};
+        // Page number to start listing results from. As this is an infinite scroll,
+        // this will always be 0
+        parameters.page = 0;
+        // Number of items to load per call to the server
+        parameters.items = parameters.items || 18;
         var $container = $(this);
 
         ////////////////////////
@@ -47,7 +52,7 @@
         var loadNextList = function(){
             var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
             if (pixelsRemainingUntilBottom < 500 && $container.is(":visible")){
-                currentPage++;
+                parameters.page++;
                 loadResultList();
             }
         };
@@ -76,7 +81,7 @@
                     isDoingExtraSearch = false;
                     toFadeOut++;
                     if (toFadeOut === items.length) {
-                        currentPage = 0;
+                        parameters.page = 0;
                         loadResultList();
                     }
                 });
@@ -166,8 +171,6 @@
          */
         var loadResultList = function(initial){
             isDoingExtraSearch = true;
-            parameters.page = currentPage;
-            parameters.items = itemsPerPage;
             $.ajax({
                 "url": url,
                 "data": parameters,
