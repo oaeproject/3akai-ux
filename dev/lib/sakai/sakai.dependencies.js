@@ -122,13 +122,11 @@ require(
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
         "jquery-plugins/jquery.ba-bbq",
-        "jquery-plugins/jquery.fieldselection",
         "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
         "jquery-plugins/jquery.fileupload",
         "jquery-plugins/jquery.MultiFile",
-        "jquery-plugins/jquery.hoverIntent.sakai-edit",
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit"
