@@ -453,6 +453,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     next = up ? (currentIndex - 1 >= 0 ? currentIndex-1 : -1) : (currentIndex + 1 >= $(topnavSearchResultsContainer).find("li").length ? $(topnavSearchResultsContainer).find("li").length-1 : currentIndex +1);
                     $(topnavSearchResultsContainer).find("li.selected").removeClass("selected");
                 }
+                if (next !== 0 && next === currentIndex){
+                    next = 0;
+                } else if (next === -1){
+                    next = $(topnavSearchResultsContainer).find("li").length - 1;
+                }
                 if (next !== -1) {
                     $(topnavSearchResultsContainer).find("li:eq(" + next + ")").addClass("selected");
                 }
@@ -477,6 +482,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 if ($openMenu.length){
                     $openMenu.children("a").removeClass(topnavigationForceSubmenuDisplayTitle);
                     $openMenu.children(subnavtl).hide();
+                    $openMenu.children(navLinkDropdown).children("ul").attr("aria-hidden", "true");
                     $openMenu.children(navLinkDropdown).hide();
                     $openMenu = false;
                 }
@@ -490,13 +496,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 // close another sub menu if ones open
                 closeMenu();
 
-                var $li = $(this);
-                $openMenu = $li;
-                $li.removeClass("topnavigation_close_override");
-                $li.children(subnavtl).show();
-                var $subnav = $li.children(navLinkDropdown);
+                $openMenu = $(this);
+                $openMenu.removeClass("topnavigation_close_override");
+                $openMenu.children(subnavtl).show();
+                $openMenu.children(navLinkDropdown).children("ul").attr("aria-hidden", "false");
+                var $subnav = $openMenu.children(navLinkDropdown);
 
-                var pos = $li.position();
+                var pos = $openMenu.position();
                 $subnav.css("left", pos.left - 2);
                 $subnav.show();
             };
