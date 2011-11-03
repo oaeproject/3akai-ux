@@ -19,22 +19,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.inbox = function(tuid, showSettings, widgetData, state) {
 
-        var POLLING_INTERVAL = 15000, // in ms
-            MESSAGES_PER_PAGE = 10;
+        //var POLLING_INTERVAL = 15000, // in ms
+        //    MESSAGES_PER_PAGE = 10;
 
         var totalMessages = 0,
             messages = {},
             currentMessage = {},
-            checkInterval = null,
+            //checkInterval = null,
             sortBy = "_created",
             sortOrder = "desc",
             currentPage = 0,
-            numJustDeleted = 0,
+            //numJustDeleted = 0,
             searchTerm = null,
             selectWhat = "all",
             listViewClass = ".inbox-message-list-view",
             detailViewClass = ".inbox-message-detail-view",
-            newMessageViewClass = ".inbox-new-message-view";
+            newMessageViewClass = ".inbox-new-message-view",
+            infinityScroll = false;
 
         var $rootel = $("#"+tuid),
             $inbox_items = $('#inbox_message_list .inbox_items_inner', $rootel),
@@ -49,7 +50,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $inbox_box_title = $("#inbox_box_title", $rootel),
             $inbox_delete_button = $(".inbox_delete_button", $rootel),
             $inbox_show_message_reply_fields = $(".inbox_show_message_reply_fields", $rootel),
-            $inbox_pager = $("#inbox_pager", $rootel),
+            //$inbox_pager = $("#inbox_pager", $rootel),
             $inbox_invitation = $(".inbox_invitation", $rootel),
             $inbox_select = $("#inbox_select", $rootel),
             $inbox_select_checkbox = $("#inbox_select_checkbox", $rootel),
@@ -181,7 +182,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             var hardDelete = widgetData.box === "trash" ? true : false;
             sakai.api.Communication.deleteMessages(messageList, hardDelete, function(success, data) {
-                numJustDeleted = messageList.length;
+                //numJustDeleted = messageList.length;
                 var done = false;
                 messagesToDelete.fadeOut(function() {
                     if (!done) {
@@ -316,50 +317,72 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getMessages = function(callback) {
             var doFlip = widgetData.box === "outbox";
-            if (numJustDeleted) {
-                var currentPaging = totalMessages & MESSAGES_PER_PAGE,
-                    newPaging = (totalMessages - numJustDeleted) % MESSAGES_PER_PAGE;
+            //if (numJustDeleted) {
+            //    var currentPaging = totalMessages & MESSAGES_PER_PAGE,
+            //        newPaging = (totalMessages - numJustDeleted) % MESSAGES_PER_PAGE;
                 // newPaging === 0 means we need a new page, as nothing will show on this one
                 // newPaging > currentPaging means that there are more on the new page than before, so
                 //    we should show the previous page (should rarely, if ever, happen)
-                if ((newPaging === 0 || newPaging > currentPaging) && currentPage !== 0) {
-                    currentPage--;
-                }
+            //    if ((newPaging === 0 || newPaging > currentPaging) && currentPage !== 0) {
+            //        currentPage--;
+            //    }
                 // if we can destroy the pager now, lets do it
-                if (currentPage === 0 && totalMessages - numJustDeleted <= MESSAGES_PER_PAGE) {
-                    $inbox_pager.empty();
-                }
-                numJustDeleted = 0;
-            }
-            sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, MESSAGES_PER_PAGE, currentPage, sortBy, sortOrder, function(success, data){
-                var update = true;
+            //    if (currentPage === 0 && totalMessages - numJustDeleted <= MESSAGES_PER_PAGE) {
+            //        $inbox_pager.empty();
+            //    }
+            //    numJustDeleted = 0;
+            //}
+            //sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, MESSAGES_PER_PAGE, currentPage, sortBy, sortOrder, function(success, data){
+            //    var update = true;
                 if (!searchTerm) {
                     $inbox_search_term = $($inbox_search_term.selector);
                     $inbox_search_term.remove();
                 }
-                if (_.isEqual(messages, data) && !searchTerm) {
-                    update = false;
-                }
+            //    if (_.isEqual(messages, data) && !searchTerm) {
+            //        update = false;
+            //    }
                 messages = data;
-                if (data && _.isNumber(data.total) && data.total !== 0) {
-                    $inbox_search_messages.removeAttr("disabled");
-                    totalMessages = data.total;
-                    // only show pager if needed
-                    if (totalMessages > MESSAGES_PER_PAGE) {
+            //    if (data && _.isNumber(data.total) && data.total !== 0) {
+            //        $inbox_search_messages.removeAttr("disabled");
+            //        totalMessages = data.total;
+            //        // only show pager if needed
+            //        if (totalMessages > MESSAGES_PER_PAGE) {
                         // pagenumber is 1-indexed, currentPage is 0-indexed
-                        $inbox_pager.pager({ pagenumber: currentPage+1, pagecount: Math.ceil(totalMessages/MESSAGES_PER_PAGE), buttonClickCallback: handlePageClick });
-                    }
-                } else {
+            //            $inbox_pager.pager({ pagenumber: currentPage+1, pagecount: Math.ceil(totalMessages/MESSAGES_PER_PAGE), buttonClickCallback: handlePageClick });
+            //        }
+            //    } else {
                     if (!searchTerm) {
                         $inbox_search_messages.attr("disabled", "disabled");
                     }
-                }
-                if ($.isFunction(callback)) {
-                    callback(update);
-                } else {
-                    updateMessageList(update);
-                }
-            }, true);
+            
+            // Disable the previous infinite scroll
+            if (infinityScroll){
+                infinityScroll.kill();
+            }
+            // Set up the infinite scroll for the list of items in the library
+            infinityScroll = $inbox_message_list.infinitescroll(function(parameters, callback){
+                sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, parameters.items, parameters.page, sortBy, sortOrder, callback);
+            }, {}, function(items, total){
+                return sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
+                    sakai: sakai,
+                     _: _,
+                    results: items,
+                    search: searchTerm,
+                    widgetData: widgetData
+                });//, $inbox_message_list);
+                return sakai.api.Util.TemplateRenderer("mylibrary_items_template", {
+                    "items": items,
+                    "sakai": sakai
+                });
+            }, function(){debug.log("Empty");});
+            
+            //    }
+            //    if ($.isFunction(callback)) {
+            //        callback(update);
+            //    } else {
+            //        updateMessageList(update);
+            //    }
+            //}, true);
         };
 
         /** Replies **/
@@ -469,24 +492,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Updates the list of messages in the default view of this box/category
          */
-        var updateMessageList = function(update) {
-            if (update !== false) {
+        //var updateMessageList = function(update) {
+        //    if (update !== false) {
                 // make the results an array so we can know if we've hit the last
                 // one when we're iterating in the template
-                var data = $.extend(true, {}, messages);
-                data.results = _.toArray(data.results);
+        //        var data = $.extend(true, {}, messages);
+        //        data.results = _.toArray(data.results);
 
-                sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
-                    sakai: sakai,
-                    _: _,
-                    data: data,
-                    search: searchTerm,
-                    widgetData: widgetData
-                }, $inbox_message_list);
+        //        sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
+        //            sakai: sakai,
+        //            _: _,
+        //            data: data,
+        //            search: searchTerm,
+        //            widgetData: widgetData
+        //        }, $inbox_message_list);
 
-                formatMessageList();
-            }
-        };
+        //        formatMessageList();
+        //    }
+        //};
 
         /**
          * Event handler function for hiding/showing this widget
@@ -495,10 +518,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var handleShown = function(e, showing) {
             if (showing) {
                 getMessages();
-                checkInterval = setInterval(getMessages, POLLING_INTERVAL);
-            } else {
-                clearInterval(checkInterval);
-            }
+                //checkInterval = setInterval(getMessages, POLLING_INTERVAL);
+            }// else {
+            //    clearInterval(checkInterval);
+            //}
         };
 
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
@@ -548,18 +571,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Handle click on paging controls, the pager callback function
          */
-        var handlePageClick = function(pageNum) {
-            if (pageNum-1 !== currentPage) {
-                currentPage = pageNum-1;
-            }
-            getMessages();
-        };
+        //var handlePageClick = function(pageNum) {
+        //    if (pageNum-1 !== currentPage) {
+        //        currentPage = pageNum-1;
+        //    }
+        //    getMessages();
+        //};
 
         var postInit = function() {
             var all = state && state.all ? state.all : {};
             handleHashChange(null, {}, {}, all, {}, true);
             $(window).bind("hashchanged.inbox.sakai", handleHashChange);
-            checkInterval = setInterval(getMessages, POLLING_INTERVAL);
+            //checkInterval = setInterval(getMessages, POLLING_INTERVAL);
             $(window).bind(tuid + ".shown.sakai", handleShown);
         };
 

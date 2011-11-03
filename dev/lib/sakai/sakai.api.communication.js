@@ -346,7 +346,7 @@ define(
          * Processes the messages from the server, stripping out everything we don't need
          */
         processMessages : function(data) {
-            var messages = {},
+            var messages = [],
                 ret = $.extend(true, {}, data);
             $.each(ret, function(i, msg) {
                 if (!$.isEmptyObject(msg)) {
@@ -404,7 +404,7 @@ define(
                             newMsg.previousMessage = val;
                         });
                     }
-                    messages[newMsg.id] = newMsg;
+                    messages.push(newMsg);
                 }
             });
             ret = messages;

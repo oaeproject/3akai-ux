@@ -5,7 +5,8 @@
     /**
      * Function that will provide infinite scrolling for lists of items being
      * displayed
-     * @param {String} url                   Search URL to use
+     * @param {String} source                If this is a String, it'll be treated as the URL to use for the search action
+     *                                       If this is a Function, this will be called to get the lists of results
      * @param {Object} parameters            Parameters to send along for search requests.
      *                                       The "items" property will be used to determine how many results are loaded per call [optional]
      * @param {Function} render              Render callback function called when the plugin is ready to render the list
@@ -15,7 +16,7 @@
      *                                       the template [optional]
      * @param {Object} initialcontent        Initial content to be added to the list [optional]
      */
-    $.fn.infinitescroll = function(url, parameters, render, emptylistprocessor, postprocessor, initialcontent){
+    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, postprocessor, initialcontent){
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -110,11 +111,14 @@
          *                            False when we want to append the new items to the list
          */
         var renderList = function(data, prepend){
+            //alert("Results before render: " + data.results);
+            debug.log(data.results);
             // Filter out items that are already in the list
             var filteredresults = [];
             var doAnotherOne = data.results.length > 0;
             $.each(data.results, function(i, result){
                 if (result.id){
+                    //alert(result.id);
                     // Determine whether this item is already in the list
                     // by looking for an element with the same id
                     if ($("#" + result.id, $container).length === 0){
@@ -123,8 +127,10 @@
                 }
             });
             data.results = filteredresults;
+            //alert(data.results.length);
             // Render the template and put it in the container
             var templateOutput = render(data.results, data.total);
+            //alert(templateOutput);
             if (prepend){
                 $container.prepend(templateOutput);
             } else {
@@ -161,6 +167,7 @@
                     renderList(data, prepend);
                 });
             } else {
+                //alert(data);
                 renderList(data, prepend);
             }
         };
@@ -171,16 +178,28 @@
          */
         var loadResultList = function(initial){
             isDoingExtraSearch = true;
-            $.ajax({
-                "url": url,
-                "data": parameters,
-                "success": function(data){
-                    processList(data);
-                },
-                "error": function(){
-                    debug.log("An error has occured while retrieving the list of results");
-                }
-            });
+            // If the source is a function that will load the results for us
+            if ($.isFunction(source)) {
+                source(parameters, function(success, data){
+                    if (success){
+                        processList(data);
+                    } else {
+                        debug.log("An error has occured while retrieving the list of results");
+                    }
+                });
+            // Load the results ourselves
+            } else {
+                $.ajax({
+                    "url": source,
+                    "data": parameters,
+                    "success": function(data){
+                        processList(data);
+                    },
+                    "error": function(){
+                        debug.log("An error has occured while retrieving the list of results");
+                    }
+                });
+            }
         };
 
         ////////////////////////////
