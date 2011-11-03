@@ -56,6 +56,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
 
+        /**
+         * Shorten tags to be displayed in the search results
+         * @param {Array} tags The array containing tags.
+         * @return {Object} The object containing the tag and shortened lengths
+         */
+        var shortenTags = function(tags){
+            var tagsObj = {};
+            for (var i in tags) {
+                if (tags.hasOwnProperty(i)) {
+                    tagsObj[i] = {
+                        "tag": tags[i],
+                        "tagShort": sakai.api.Util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
+                        "tagShorter": sakai.api.Util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, "")
+                    };
+                }
+            }
+            return tagsObj;
+        };
 
         ////////////////////////////////
         // Finish util initialisation //
@@ -69,7 +87,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Prepare for rendering //
         ///////////////////////////
 
-        sakai_global.data.search.prepareCMforRender = function(results, finaljson) {
+        sakai_global.data.search.prepareCMforRender = function(results, finaljson, callback) {
+            var userArray = [];
+            var fetchUsers = false;
             for (var i = 0, j = results.length; i < j; i++) {
                 if (results[i]['sakai:pooled-content-file-name']) {
                     // Set the item object in finaljson equal to the object in results
@@ -87,7 +107,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
-                        contentItem["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 600, {
+                        contentItem["sakai:pooled-content-file-name-short"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 560, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                        contentItem["sakai:pooled-content-file-name-shorter"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 150, {
                             max_rows: 1,
                             whole_word: false
                         }, "s3d-bold");
@@ -97,7 +121,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (typeof(contentItem["sakai:tags"]) === 'string') {
                             contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
                         }
-                        contentItem["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(contentItem["sakai:tags"]);
+                        contentItem["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(contentItem["sakai:tags"]));
                     }
                     // set mimetype
                     var mimeType = sakai.api.Content.getMimeType(contentItem);
@@ -107,18 +131,44 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         contentItem.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
                     contentItem.thumbnail = sakai.api.Content.getThumbnail(results[i]);
+                    // if the content has an owner we need to add their ID to an array,
+                    // so we can lookup the users display name in a batch req
+                    if (contentItem["sakai:pool-content-created-for"]) {
+                        userArray.push(contentItem["sakai:pool-content-created-for"]);
+                        fetchUsers = true;
+                    }
                     finaljson.items.push(contentItem);
                 }
             }
             finaljson.sakai = sakai;
-            return finaljson;
+
+            // Get displaynames for the users that created content
+            if (fetchUsers) {
+                sakai.api.User.getMultipleUsers(userArray, function(success, users){
+                    $.each(finaljson.items, function(index, item){
+                        if (success && item) {
+                            var userid = item["sakai:pool-content-created-for"];
+                            var displayName = sakai.api.User.getDisplayName(users[userid]);
+                            item.displayName = displayName;
+                            item.displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.displayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                        }
+                    });
+                    if ($.isFunction(callback)) {
+                        callback(finaljson);
+                    }
+                });
+            } else if ($.isFunction(callback)) {
+                callback(finaljson);
+            }
         };
-        
+
         sakai_global.data.search.prepareGroupsForRender = function(results, finaljson){
             for (var group in results){
                 if (results.hasOwnProperty(group) && results[group]["sakai:group-id"]) {
                     if (results[group]["sakai:group-title"]) {
                         results[group]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        results[group]["sakai:group-title-shorter"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-title"], 150, {max_rows: 1,whole_word: false}, "s3d-bold");
                     }
                     if (results[group]["sakai:group-description"]) {
                         results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 580, {max_rows: 2,whole_word: false}, "");
@@ -135,7 +185,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     // Modify the tags if there are any
                     if (results[group]["sakai:tags"]) {
-                        results[group]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(results[group]["sakai:tags"]);
+                        results[group]["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(results[group]["sakai:tags"]));
                     }
                     results[group].groupType = groupType;
                     results[group].lastModified = results[group].lastModified;
@@ -174,7 +224,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.picture = sakai.api.User.getProfilePicture(person);
                     user.counts = item.counts;
                     user.name = sakai.api.User.getDisplayName(item);
-                    user.name = sakai.api.Util.applyThreeDots(user.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    user.nameShort = sakai.api.Util.applyThreeDots(user.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    user.nameShorter = sakai.api.Util.applyThreeDots(user.name, 150, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 
@@ -228,13 +279,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
 
                     if (user["sakai:tags"]) {
-                        var filteredTags = [];
-                        for (var t = 0; t < user["sakai:tags"].length; t++) {
-                            if (user["sakai:tags"][t].split("/")[0] !== "directory") {
-                                filteredTags.push(user["sakai:tags"][t]);
-                            }
-                        }
-                        user["sakai:tags"] = filteredTags;
+                        user["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"]));
                     }
 
                     finaljson.items.push(user);
