@@ -81,7 +81,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $worldsettingsForm.submit();
             });
 
-            $worldsettingsForm.validate({submitHandler: function(form) {
+            var validateOps = {submitHandler: function(form) {
                 $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
                 $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
                 var worldTitle = $.trim($(worldsettingsTitle).val());
@@ -144,7 +144,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $worldsettingsDialog.jqmHide();
                     $("#worldsettings_warning_container").jqmHide();
                 }
-            }});
+            }};
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($worldsettingsForm, validateOps);
         };
 
         /////////////////////////////

@@ -33,7 +33,8 @@ define(
         "config/config_custom",
         "misc/trimpath.template",
         "misc/underscore",
-        "jquery-plugins/jquery.ba-bbq"
+        "jquery-plugins/jquery.ba-bbq",
+        "jquery-plugins/jquery.validate"
     ],
     function($, sakai_serv, sakai_l10n, sakai_conf) {
 
@@ -1925,6 +1926,41 @@ define(
                 var ascontainer = $("#as-selections-" + element.attr("id")).replaceWith(element.data(namespace));
                 $("#as-results-" + element.attr("id")).remove();
                 return $(ascontainer);
+            }
+        },
+
+        Forms : {
+            /**
+             * A wrapper for jquery.validate, so we can perform the same
+             * errorPlacement on each form, without any duplicated code
+             *
+             * @param $form {jQuery} the jQuery element of the form in question
+             * @param opts {Object} options to pass through to jquery.validate
+             * @param insertAfter {Boolean} option to insert the error after the label/input instead of before
+             * @param submitHandler {Function} The function to handle form submission
+             * @param invalidCallback {Function} The function to call when an error is detected
+             */
+            validate: function($form, opts, invalidCallback) {
+                var options = $.extend(true, {}, opts);
+                options.errorClass = "s3d-error";
+                options.errorElement = "span";
+                options.errorPlacement = function($error, $element) {
+                    $error.insertBefore($element.prev()).attr("id", $element.attr("name") + "-error");
+                    $element.attr("aria-describedby", $element.attr("name") + "-error");
+                };
+                options.invalidHandler = function($form1, validator) {
+                    $form.find(".s3d-error").attr("aria-invalid", "false");
+                    if ($.isFunction(invalidCallback)){
+                        invalidCallback($form1, validator);
+                    }
+                };
+                options.showErrors = function(errorMap, errorList) {
+                    $.each(errorList, function(i,error) {
+                        $(error.element).attr("aria-invalid", "true");
+                    });
+                    this.defaultShowErrors();
+                };
+                $form.validate(options);
             }
         }
 

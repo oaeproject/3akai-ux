@@ -17,10 +17,14 @@
 
     <div id="newcreategroup_group_data_container">
         <form id="newcreategroup_group_form">
-            <label for="newcreategroup_title">__MSG__TITLE__:</label>
-            <input type="text" id="newcreategroup_title" name="newcreategroup_title" class="required"/>
-            <label for="newcreategroup_suggested_url">__MSG__SUGGESTED_URL__:</label>
-            <span id="newcreategroup_suggested_url_base"></span><input type="text" id="newcreategroup_suggested_url" name="newcreategroup_suggested_url" class="required"/>
+            <div id="newcreategroup_title_form" class="s3d-form-field-wrapper">
+                <label id="newcreategroup_title_label" for="newcreategroup_title">__MSG__TITLE__:</label>
+                <input type="text" id="newcreategroup_title" name="newcreategroup_title" class="required"/>
+            </div>
+            <div id="newcreategroup_suggested_url_form" class="s3d-form-field-wrapper">
+                <label id="newcreategroup_suggested_url_label" for="newcreategroup_suggested_url">__MSG__SUGGESTED_URL__:</label>
+                <span id="newcreategroup_suggested_url_base"></span><input type="text" id="newcreategroup_suggested_url" name="newcreategroup_suggested_url" class="required"/>
+            </div>
             <label for="newcreategroup_description">__MSG__DESCRIPTION__:</label>
             <textarea id="newcreategroup_description" name="newcreategroup_description" placeholder="__MSG__ENTER_A_DESCRIPTION__"></textarea>
             <label for="newcreategroup_tags">__MSG__TAGS__:</label>

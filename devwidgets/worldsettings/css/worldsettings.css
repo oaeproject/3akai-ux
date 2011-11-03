@@ -56,6 +56,11 @@
 #worldsettings_warning_container #worldsettings_warning_container_text {font-size:16px;line-height:20px;}
 #worldsettings_warning_container {margin-top: 140px;}
 
+#worldsettings_container label#worldsettings_title_label {display:inline;}
+#worldsettings_container input#worldsettings_title {margin-top:0;width:300px;float:none;}
+#worldsettings_container input.s3d-error {border:3px solid #FF2833;}
+#worldsettings_container .s3d-form-field-wrapper span.s3d-error{margin-left:29px;width:300px;}
+
 /* Actions */
 #worldsettings_container #worldsettings_group_actions {float: right;margin-top: 20px;}
 #worldsettings_container #worldsettings_group_actions .s3d-link-button {margin-right: 20px;}

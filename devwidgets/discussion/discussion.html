@@ -12,14 +12,18 @@
             <!-- Show the create new topic screen -->
             <div id="discussion_create_new_topic" style="display:none;">
                 <form>
-                    <label for="discussion_create_new_topic_title" class="s3d-bold">
-                        __MSG__TOPIC_TITLE__
-                    </label>
-                    <input type="text" id="discussion_create_new_topic_title" class="required"/>
-                    <label for="discussion_create_new_topic_message_text" class="s3d-bold">
-                        __MSG__MESSAGE_TEXT__
-                    </label>
-                    <textarea id="discussion_create_new_topic_message_text" class="required" rows="6" name="Message Text" placeholder="__MSG__ENTER_YOUR_MESSAGE__"></textarea>
+                    <div class="s3d-form-field-wrapper">
+                        <label for="discussion_create_new_topic_title" class="s3d-bold s3d-input-label">
+                            __MSG__TOPIC_TITLE__
+                        </label>
+                        <input type="text" id="discussion_create_new_topic_title" class="required"/>
+                    </div>
+                        <div class="s3d-form-field-wrapper">
+                        <label for="discussion_create_new_topic_message_text" class="s3d-bold s3d-input-label">
+                            __MSG__MESSAGE_TEXT__
+                        </label>
+                        <textarea id="discussion_create_new_topic_message_text" class="required" rows="6" name="Message Text" placeholder="__MSG__ENTER_YOUR_MESSAGE__"></textarea>
+                    </div>
                     <div class="fl-force-right">
                         <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_add_topic">__MSG__DONT_ADD_TOPIC__</button>
                         <button type="submit" class="s3d-button s3d-overlay-button" id="discussion_add_topic">__MSG__ADD_TOPIC__</button>

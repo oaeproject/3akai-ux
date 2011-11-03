@@ -26,3 +26,4 @@
 .accountpreferences .preferences-form{margin-top:25px;}
 .accountpreferences .preferences-form select{height:21px;width:330px;}
 div.accountpreferences_error{color:#9F3333;font-weight:bold;left:180px;position:relative;top:5px;width:300px;}
+.accountpreferences .s3d-form-field-wrapper span.s3d-error{margin-left:175px;width:330px;}

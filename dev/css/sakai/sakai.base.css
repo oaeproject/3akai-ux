@@ -398,13 +398,9 @@ input[type=text], textarea{border:1px inset #999999;}
 
 /*
  * AUTOSUGGEST
- */ul.as-selections.loading{background:#fff url(../../../dev/images/ajax_load.gif) center center no-repeat;}
+ */
+ul.as-selections.loading{background:#fff url(../../../dev/images/ajax_load.gif) center center no-repeat;}
 ul.as-selections li.as-original input {border: 0;}
-
-/*
- * VALIDATION
- */input.error,textarea.error{border-color:#9f3333;background-color:#ffdede;}
-label.error{color:#9f3333;font-weight:bold;}
 
 /* http://blogs.sitepoint.com/2005/02/26/simple-clearing-of-floats/ */
 .clearfix{overflow:auto;}
@@ -550,3 +546,14 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .icon-url-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -304px 0 transparent;}
 .icon-sakaidoc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1185px 0 transparent;}
 .icon-unknown-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -143px 0 transparent;}
+
+/*
+ * Forms and Validation
+ */
+.s3d-form-field-wrapper input, .s3d-form-field-wrapper textarea{float:left;clear:right;width:55%;border:1px solid #E0E1E2;padding:0 5px;margin-bottom:15px;}
+.s3d-form-field-wrapper input{height:21px;}
+.s3d-form-field-wrapper label.s3d-input-label{float:left;width:35%;clear:left;text-align:right;padding:5px 2%;color:#666;}
+.s3d-form-field-wrapper input.s3d-error, .s3d-form-field-wrapper textarea.s3d-error{border:3px solid #FF2833;}
+.s3d-form-field-wrapper span.s3d-error{clear:both;background-color:#FF2833;color:#000;padding:0 5px;width:55%;float:left;margin-left:39%;border:3px solid #FF2833;font-size:11px;}
+.s3d-form-field-wrapper input::-webkit-input-placeholder {color:#aaa;font-size:12px;}
+.s3d-form-field-wrapper input:-moz-placeholder {color:#aaa;font-size:12px;}
