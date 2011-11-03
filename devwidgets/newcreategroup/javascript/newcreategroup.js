@@ -289,7 +289,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var toCreate = currentTemplate.docs[definition._docref];
             delete toCreate.structure0;
             batchRequests.push({
-                url: "/p/" + definition._pid + ".resource",
+                url: "/p/" + definition._pid,
                 method: "POST",
                 parameters: {
                     ":operation": "import",

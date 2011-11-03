@@ -495,7 +495,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "page": sakai.config.defaultSakaiDocContent
                     };
                     $.ajax({
-                        url: "/p/" + data._contentItem.poolId + ".resource",
+                        url: "/p/" + data._contentItem.poolId,
                         type: "POST",
                         dataType: "json",
                         data: {
