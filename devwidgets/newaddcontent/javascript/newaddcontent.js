@@ -587,7 +587,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     content[refID] = {
                         "page": sakai.config.defaultSakaiDocContent
                     };
-                    sakai.api.Server.saveJSON("/p/" + data._contentItem.poolId + ".resource", content, function(){
+                    sakai.api.Server.saveJSON("/p/" + data._contentItem.poolId, content, function(){
                         // add pageContent in non-replace mode to support versioning
                         $.ajax({
                             url: "/p/" + data._contentItem.poolId + "/" + refID + ".save.json",

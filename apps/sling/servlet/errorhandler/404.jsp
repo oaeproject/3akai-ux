@@ -7,6 +7,7 @@ response.setStatus(404);
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <!-- Sakai 3 R&amp;D - Page not found -->
         <title></title>
 
