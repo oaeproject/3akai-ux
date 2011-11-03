@@ -79,7 +79,12 @@
                                     <div>
                                         <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']|safeURL}" title="${i['_path']}"{/if}>
                                             {if i['sakai:pooled-content-file-name']}
-                                                ${i['sakai:pooled-content-file-name']}{elseif i['_path']}${i['_path']}{/if}</a>
+                                                <span class="searchcontent_result_name">${i['sakai:pooled-content-file-name-short']}</span>
+                                                <span class="searchcontent_result_name_grid">${i['sakai:pooled-content-file-name-shorter']}</span>
+                                            {elseif i['_path']}
+                                                ${i['_path']}
+                                            {/if}
+                                        </a>
                                         {if i.mimeTypeDescription}
                                             <span class="searchcontent_result_mimetype">${i.mimeTypeDescription}</span>
                                         {/if}
@@ -155,7 +160,10 @@
                                     </a>
                                 {/if}
                                 <div class="s3d-search-result-right">
-                                    <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
+                                    <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${i.name}">
+                                        <span class="searchpeople_result_name">${i.nameShort}</span>
+                                        <span class="searchpeople_result_name_grid">${i.nameShorter}</span>
+                                    </a>
                                     <div class="searchpeople_result_counts">
                                         <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
                                             ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
@@ -207,7 +215,8 @@
                                 <div class="s3d-search-result-right">
                                     <div>
                                         <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                            ${i["sakai:group-title-short"]}
+                                            <span class="searchgroups_result_name">${i["sakai:group-title-short"]}</span>
+                                            <span class="searchgroups_result_name_grid">${i["sakai:group-title-shorter"]}</span>
                                         </a>
                                         {if i.groupType}
                                             <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>

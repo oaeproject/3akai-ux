@@ -86,7 +86,8 @@
                                 <div class="searchgroups_result_right s3d-search-result-right">
                                     <div>
                                         <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                            ${i["sakai:group-title-short"]}
+                                            <span class="searchgroups_result_name">${i["sakai:group-title-short"]}</span>
+                                            <span class="searchgroups_result_name_grid">${i["sakai:group-title-shorter"]}</span>
                                         </a>
                                         {if i.groupType}
                                             <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>

@@ -87,7 +87,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
-                        contentItem["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 600, {
+                        contentItem["sakai:pooled-content-file-name-short"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 560, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                        contentItem["sakai:pooled-content-file-name-shorter"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 150, {
                             max_rows: 1,
                             whole_word: false
                         }, "s3d-bold");
@@ -113,12 +117,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             finaljson.sakai = sakai;
             return finaljson;
         };
-        
+
         sakai_global.data.search.prepareGroupsForRender = function(results, finaljson){
             for (var group in results){
                 if (results.hasOwnProperty(group) && results[group]["sakai:group-id"]) {
                     if (results[group]["sakai:group-title"]) {
                         results[group]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        results[group]["sakai:group-title-shorter"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-title"], 150, {max_rows: 1,whole_word: false}, "s3d-bold");
                     }
                     if (results[group]["sakai:group-description"]) {
                         results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 580, {max_rows: 2,whole_word: false}, "");
@@ -174,7 +179,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.picture = sakai.api.User.getProfilePicture(person);
                     user.counts = item.counts;
                     user.name = sakai.api.User.getDisplayName(item);
-                    user.name = sakai.api.Util.applyThreeDots(user.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    user.nameShort = sakai.api.Util.applyThreeDots(user.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    user.nameShorter = sakai.api.Util.applyThreeDots(user.name, 150, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 

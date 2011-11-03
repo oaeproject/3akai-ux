@@ -107,7 +107,10 @@
                                     </a>
                                 {/if}
                                 <div class="searchpeople_result_right s3d-search-result-right">
-                                    <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
+                                    <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${i.name}">
+                                        <span class="searchpeople_result_name">${i.nameShort}</span>
+                                        <span class="searchpeople_result_name_grid">${i.nameShorter}</span>
+                                    </a>
                                     <div class="searchpeople_result_counts">
                                         <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
                                             ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
