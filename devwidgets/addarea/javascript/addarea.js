@@ -635,7 +635,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         itemURLName = sakai.api.Util.makeSafeURL(title);
                     }
                     for (var b = 0; b < batchRequests.length; b++){
-                        batchRequests[b].url = "/p/" + poolId + ".resource";
+                        batchRequests[b].url = "/p/" + poolId;
                     }
                     sakai.api.Server.batch(batchRequests, function(success2, data2) {
                         if (success2) {
