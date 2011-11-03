@@ -259,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // put the url to a module variable
             // later on this will also be added to the json-object
             // See if we have http:// in url
-            if (url.search("http://") === -1) {
+            if (url.search("http://") === -1 && url.search("https://") === -1) {
                 url = "http://" + url;
             }
 
@@ -491,7 +491,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var checkIfRssAlreadyAdded = function(rssFeedUrl){
             resultJSON.feeds = resultJSON.feeds || [];
             for(var i = 0; i < resultJSON.feeds.length; i++){
-                if($.trim(resultJSON.feeds[i].id).replace("http://", "") === $.trim(rssFeedUrl)){
+                if($.trim(resultJSON.feeds[i].id) === $.trim(rssFeedUrl)){
                     return true;
                 }
             }
@@ -519,7 +519,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.notification.show("", $(rssPasteValidRssAddress).html());
                 return false;
             }
-            rssURL = rssURL.replace("http://","").replace("https://","").replace("feed://","");
+            rssURL = rssURL.replace("feed://","http://");
             if(!checkIfRssAlreadyAdded(rssURL)){
                 getFeed(rssURL, getFeedResponse);
             }
