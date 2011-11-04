@@ -26,21 +26,7 @@ define(["config/config"], function(config) {
     config.kaltura = {
         serverURL:  "http://www.kaltura.com", //INSERT_KALTURA_INSTALLATION_URL_HERE
         partnerId:  656132, //INSERT_YOUR_PARTNER_ID_HERE
-        playerId: 5825862 //INSERT_YOUR_PLAYER_ID_HERE
-    };
-
-    /**
-     * Add Kaltura mime-types
-     */
-    config.MimeTypes['kaltura/video'] = {
-        cssClass: "icon-video-sprite",
-        URL: "/dev/images/mimetypes/video.png",
-        description: "KALTURA_VIDEO_FILE"
-    };
-    config.MimeTypes['kaltura/audio'] = {
-        cssClass: "icon-sound-sprite",
-        URL: "/dev/images/mimetypes/sound.png",
-        description: "KALTURA_AUDIO_FILE"
+        playerId: 5182932 //INSERT_YOUR_PLAYER_ID_HERE
     };
 
     return config;
