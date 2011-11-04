@@ -356,12 +356,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     var addBinding = function(){
         $newcreategroupCreateSimpleGroupButton.bind("click", function(){
-            $newcreategroupGroupForm.validate({
+            var validateOps = {
                 submitHandler: function(form){
-                    $newcreategroupContainer.find("select, input, textarea, button").attr("disabled","disabled");
+                    $newcreategroupContainer.find("select, input, textarea, button").attr("disabled", "disabled");
                     doCreateSimpleGroup();
                 }
-            });
+            };
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOps);
+
             $newcreategroupGroupForm.submit();
         });
 

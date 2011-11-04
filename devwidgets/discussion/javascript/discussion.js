@@ -728,11 +728,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 getWidgetSettings();
             });
 
-            $(discussionCreateNewTopicForm, $rootel).validate({
+            var validateOps = {
                 submitHandler: function(form){
                     createTopic();
                 }
-            });
+            };
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($(discussionCreateNewTopicForm, $rootel), validateOps);
 
             $(".discussion_show_all_ellipsis_text", $rootel).live("click", function(){
                 $(this).parent().prev().text($(this).parent().prev()[0].title);

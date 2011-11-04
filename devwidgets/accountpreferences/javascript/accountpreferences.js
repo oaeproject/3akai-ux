@@ -302,9 +302,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Initialise form validation
          */
         var initValidation = function(){
-            $(accountPreferencesPasswordChange).validate({
-                errorClass: "accountpreferences_error",
-                errorElement:"div",
+            var validateOps = {
                 rules:{
                     curr_pass:{
                         required: true,
@@ -322,12 +320,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 messages: {
                     retype_pass:{
-                        "equalTo": "Please enter the same password twice."
+                        "equalTo": sakai.api.i18n.getValueForKey("PLEASE_ENTER_PASSWORD_TWICE", "accountpreferences")
                     }
                 },
                 debug:true
 
-            });
+            };
+
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($(accountPreferencesPasswordChange), validateOps);
         };
 
         /**

@@ -28,8 +28,10 @@
 </div>
 
 <div id="worldsettings_form_template"><!--
-    <label for="worldsettings_title">__MSG__TITLE__:</label>
-    <input type="text" id="worldsettings_title" class="required" value="${title|safeOutput}" data-original-value="${title|safeOutput}"/><br/>
+    <span class="s3d-form-field-wrapper">
+        <label id="worldsettings_title_label" for="worldsettings_title">__MSG__TITLE__:</label>
+        <input type="text" id="worldsettings_title" class="required" value="${title|safeOutput}" data-original-value="${title|safeOutput}"/>
+    </span><br/>
     <label for="worldsettings_description">__MSG__DESCRIPTION__:</label>
     <textarea id="worldsettings_description" data-original-value="${description|safeOutput}">${description|safeOutput}</textarea>
     <label for="worldsettings_tags">__MSG__TAGS__:</label>

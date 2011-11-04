@@ -19,9 +19,6 @@
 #newcreategroup_container #newcreategroup_group_data_container, #newcreategroup_container #newcreategroup_group_members_container {width:47%;float:left;color:#424242;}
 #newcreategroup_container .newcreategroup_small_text {font-size:11px;display:block;margin:6px 0;}
 
-/* Error */
-#newcreategroup_container label.error {color:#9F3333 !important;}
-
 /* Group members */
 #newcreategroup_container #newcreategroup_group_members_container {background-color: #F1F1F1;float: right;height: 389px;margin-top: 32px;-moz-border-radius:5px;border-radius:5px;-webkit-border-radius:5px;padding:12px;}
 #newcreategroup_container #newcreategroup_group_members_container .newcreategroup_add_people {display: block;margin: 6px 0 12px;}
@@ -33,10 +30,19 @@
 #newcreategroup_container h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}
 #newcreategroup_container h1 + hr {border:none;border-top:1px solid #A9A9A9;background:none;}
 #newcreategroup_container label {display:block; color:#424242;font-size:12px;margin: 12px 0 2px;}
-#newcreategroup_container input, #newcreategroup_container textarea {border: 1px solid #A9A9A9;height: 20px;margin-top: 3px;width:100%;}
+#newcreategroup_container input, #newcreategroup_container textarea {border: 1px solid #A9A9A9;height: 20px;margin-top: 3px;width:100%;float:none;}
 #newcreategroup_container textarea {height:50px;resize:none;}
 #newcreategroup_container textarea#newcreategroup_description{height:100px;}
-#newcreategroup_container input#newcreategroup_suggested_url {width:auto;}
+
+#newcreategroup_group_form{margin-top:10px;}
+#newcreategroup_container input#newcreategroup_title {width:296px;margin-top:0;}
+#newcreategroup_container #newcreategroup_title_label {display:inline!important;}
+#newcreategroup_container #newcreategroup_title_form.s3d-form-field-wrapper span.s3d-error{margin-left:30px;width:296px;}
+
+#newcreategroup_container input#newcreategroup_suggested_url {width:auto;margin-top:0;}
+#newcreategroup_suggested_url_base {float:left;margin-top: 5px;}
+#newcreategroup_container #newcreategroup_suggested_url_form.s3d-form-field-wrapper span.s3d-error{width:auto;}
+#newcreategroup_container input.s3d-error{border:3px solid #FF2833;}
 
 #newcreategroup_container .newcreategroup_section select {border:1px solid #A9A9A9;float:right; min-width: 160px;}
 #newcreategroup_container .newcreategroup_section label {display:inline;}

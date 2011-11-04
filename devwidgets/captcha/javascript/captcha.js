@@ -55,6 +55,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         sakai_global.captcha.showError = function(messageErrorClass) {
             if (messageErrorClass && !captchaError.hasClass(messageErrorClass)){
                 captchaError.addClass(messageErrorClass);
+                $("#recaptcha_response_field").attr("aria-invalid", "true");
+                $("#recaptcha_response_field").attr("aria-describedby", "captcha_error");
             }
             captchaError.show();
         };
@@ -63,6 +65,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Hides the captcha validation error message
          */
         sakai_global.captcha.hideError = function() {
+            $("#recaptcha_response_field").attr("aria-invalid", "false");
             captchaError.hide();
         };
 
