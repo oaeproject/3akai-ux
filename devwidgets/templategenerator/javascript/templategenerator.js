@@ -97,7 +97,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Hide the widget
             $templategeneratorDialog.jqmHide();
         };
-        
         /**
          * Bind the event handlers
          */
@@ -165,10 +164,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var page = {};
                     page[pid] = {};
                     page[pid].structure0 = $.extend(true, {}, templategeneratorData.pages[pageId].structure);
-                    
+
                     // Delete the _pid and the _poolpath key, because we dont want this in the docStructure
-                    delete page[pid].structure0._pid; 
-                    delete page[pid].structure0._poolpath;
+                    delete page[pid].structure0._pid; delete page[pid].structure0._poolpath;
 
                     // Create the individual pages and add all the content
                     $.each(page[pid].structure0, function(pageIndex, pageElement) {
@@ -180,14 +178,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var newRef = '${refid}' + refId;
                         pageElement._ref = newRef;
                         pageElement.main._ref = newRef;
-                        
+
                         // Delete unwanted keys
-                        delete pageElement._poolpath;
-                        delete pageElement._id;
-                        delete pageElement._elements;
-                        delete pageElement.main._id;
-                        delete pageElement.main._poolpath;
-                        delete pageElement.main._elements;
+                        delete pageElement._poolpath; delete pageElement._id; delete pageElement._elements; delete pageElement.main._id; delete pageElement.main._poolpath; delete pageElement.main._elements;
 
                         // Create a new unique reference for each page
                         page[pid][newRef] = {};
@@ -221,8 +214,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             // Create our new widget object
                             page[pid][widgetRef][oldWidgetReference[1]] = {};
 
-                            if(templategeneratorData.pages[pageId].pageData[oldWidgetReference[(oldWidgetReference.length) - 1]]){
-                           
+                            if(templategeneratorData.pages[pageId].pageData[oldWidgetReference[(oldWidgetReference.length) - 1]]) {
+
                                 // Store the old and new widgetdata (just to make things more clear)
                                 var oldWidgetData = templategeneratorData.pages[pageId].pageData[oldWidgetReference[(oldWidgetReference.length) - 1]][oldWidgetReference[1]];
                                 var newWidgetData = page[pid][widgetRef][oldWidgetReference[1]];
@@ -230,9 +223,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 // Check all properties within the widget and copy the right ones
                                 if(oldWidgetData) {
                                     $.each(oldWidgetData, function(widgetPropertyKey, widgetPropertyElement) {
-    
+
                                         var firstCharacter = widgetPropertyKey.charAt(0);
-    
+
                                         if(firstCharacter !== '_') {
                                             // The actual data keys
                                             newWidgetData[widgetPropertyKey] = widgetPropertyElement;
@@ -265,9 +258,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     pageIndex++;
 
                     // Remove unwanted keys
-                    delete structureElement._poolpath; 
-                    delete structureElement._elements; 
-                    delete structureElement._id;
+                    delete structureElement._poolpath; delete structureElement._elements; delete structureElement._id;
                 });
                 // Add our updated structure
                 templategeneratorData.exportData.structure = structure;
@@ -275,7 +266,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Stringify the created javascript object (this creates the actual string and manipulates the escaping)
                 templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, "\t");
                 templategeneratorData.output = templategeneratorData.output.replace(/\\/g, '');
-                
+
                 // Create a file from the generated string
                 createTemplateFile();
             }
@@ -384,9 +375,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Show the current title in the input field
             $templategeneratorTitle.val(templategeneratorData.templateName);
 
-            // A local variable to store the creatorRole
-            var creatorRole;
-
             // Create our requests
             var batchRequests = [];
             batchRequests.push({
@@ -419,8 +407,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "method" : "GET"
                         });
 
-                        // This will be improved once the new areapermission work is online!
-                        creatorRole = docstructureElement._edit[0].replace('-', '');
                     });
                     // Grab the data for each page
                     templategeneratorData.pages.structures = [];
@@ -449,11 +435,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var roleData = $.parseJSON(data.results[1].body);
                     templategeneratorData.roles.roleData = $.parseJSON(roleData.properties["sakai:roles"]);
                     templategeneratorData.roles.joinRole = roleData.properties["sakai:joinRole"];
-                    templategeneratorData.roles.creatorRole = creatorRole;
+                    templategeneratorData.roles.creatorRole = roleData.properties["sakai:creatorRole"];
 
                 } else {
                     templategeneratorData.templatesLoaded = false;
-                    
+
                     // Show error notification
                     sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_LOAD_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
                 }

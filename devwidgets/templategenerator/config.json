@@ -14,7 +14,7 @@
     "url":                "/devwidgets/templategenerator/templategenerator.html",
     "defaultConfiguration": {
         "templategenerator": {
-            "targetUser": "exporttemplate"
+            "targetUser": "admin"
         }
     }
 }
