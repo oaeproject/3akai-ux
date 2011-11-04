@@ -11,5 +11,10 @@
     "id":                 "templategenerator",
     "name":               "Templategenerator Widget",
     "type":               "core",
-    "url":                "/devwidgets/templategenerator/templategenerator.html"
+    "url":                "/devwidgets/templategenerator/templategenerator.html",
+    "defaultConfiguration": {
+        "templategenerator": {
+            "targetUser": "exporttemplate"
+        }
+    }
 }
