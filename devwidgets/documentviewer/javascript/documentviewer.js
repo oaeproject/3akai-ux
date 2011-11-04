@@ -257,8 +257,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
 
             if (sakai.api.Content.isKalturaPlayerSupported(mimeType)) {
                 renderKalturaPlayer(data);
-            } else if (sakai.api.Content.isJwPlayerSupportedVideo(mimeType)){
-            if (sakai.api.Content.isJwPlayerSupportedVideo(mimeType)){
+            } else if (sakai.api.Content.isJwPlayerSupportedVideo(mimeType)){            
                 renderVideoPlayer(getPath(data));
             } else if (sakai.api.Content.isJwPlayerSupportedAudio(mimeType)) {
                 renderAudioPlayer(data);
