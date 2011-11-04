@@ -306,7 +306,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 return value != tag;
             });
             activeTags.push(tag);
-            renderRefineTags()
 
             $.bbq.pushState({
                 "refine": activeTags.toString()
@@ -319,7 +318,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 return value != tag;
             });
             refineTags.push(tag);
-            renderRefineTags()
 
             $.bbq.pushState({
                 "refine": activeTags.toString()

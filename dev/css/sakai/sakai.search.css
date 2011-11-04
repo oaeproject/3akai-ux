@@ -25,7 +25,7 @@
 .s3d-search-bar input{color:#6d6d6d !important;width:700px;font-size:1.2em !important;display:block;}
 
 /* SEARCH HEADER */
-.s3d-search-header{text-align:left;font-weight:normal;font-size:1em;color:#828e9c;margin:20px 10px 0 10px;padding-bottom:10px;width:712px;}
+.s3d-search-header{text-align:left;font-weight:normal;font-size:1em;color:#64707E;margin:20px 10px 0 10px;padding-bottom:10px;width:712px;}
 .s3d-search-header .s3d-search-selects{float:right;}
 .s3d-search-header .s3d-search-selects div{display:inline !important;}
 .s3d-search-header .s3d-search-selects .s3d-search-sortby{margin-left:10px;}
