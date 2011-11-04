@@ -26,7 +26,7 @@
     //Set paths for modules. If relative paths, set relative to baseUrl above.
     paths: {
         "jquery-plugins": "jquery/plugins",
-        "jquery": "jquery/jquery-1.6.4",
+        "jquery": "jquery/jquery-1.7.0",
         "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
         "config": "../configuration"
     },
