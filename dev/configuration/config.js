@@ -3435,7 +3435,8 @@ define(function(){
                         },
                         joinRole: "contributor",
                         creatorRole: "leadresearcher"
-                    },{
+                    },
+                    {
                         id: "researchsupport",
                         title: "__MSG__RESEARCH_SUPPORT_GROUP__",
                         img: "/dev/images/worldtemplates/researchsupport.png",
