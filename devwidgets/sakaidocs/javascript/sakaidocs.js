@@ -111,7 +111,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "time": sakai.api.Util.Datetime.getCurrentGMTTime()
                     }
                 };
-                sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", editingContent);
+                sakai.api.Server.saveJSON(currentPageShown.pageSavePath, editingContent);
             } else {
                 clearInterval(editInterval);
             }
@@ -136,7 +136,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             page: autosaveContent
                         }
                     };
-                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent, function(success, data){
+                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath, autosavePostContent, function(success, data){
                         if (!success){
                             // the content is probably too large, display an error
                             sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AUTOSAVED_FAILED", "sakaidocs"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
@@ -693,7 +693,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 page: pageContent
             };
             $.ajax({
-                url: currentPageShown.pageSavePath + ".resource",
+                url: currentPageShown.pageSavePath,
                 type: "POST",
                 dataType: "json",
                 data: {
