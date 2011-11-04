@@ -7,7 +7,7 @@ require(
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
     module("Shorten String");
 
     var dummyString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In orci nibh, venenatis id aliquam vitae, porttitor quis lacus.";

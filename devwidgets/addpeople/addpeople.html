@@ -4,7 +4,10 @@
 <!-- CONTAINER -->
 <div id="addpeople_container" class="s3d-dialog s3d-dialog-container">
     <div class="s3d-dialog-close jqmClose"></div>
-    <h1 class="s3d-dialog-header">__MSG__ADD_PEOPLE__</h1>
+    <h1 class="s3d-dialog-header">
+        <span class="addpeople_newgroup">__MSG__ADD_PEOPLE__</span>
+        <span class="addpeople_existinggroup" style="display:none;">__MSG__MANAGE_PARTICIPANTS__</span>
+    </h1>
     <div id="addpeople_members_container">
         <div id="addpeople_members_autosuggest" style="display:none;">
             <div id="addpeople_members_autosuggest_search_icon"><!----></div>
@@ -35,8 +38,14 @@
     </div>
 
     <div id="addpeople_actions">
-        <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-action-button addpeople_finish_adding">__MSG__DONE_APPLY_SETTINGS__</button>
+        <button type="button" class="s3d-link-button jqmClose s3d-bold">
+            <span class="addpeople_newgroup">__MSG__CANCEL__</span>
+            <span class="addpeople_existinggroup" style="display:none;">__MSG__DONT_APPLY__</span>
+        </button>
+        <button type="button" class="s3d-button s3d-overlay-action-button addpeople_finish_adding">
+            <span class="addpeople_newgroup">__MSG__DONE_APPLY_SETTINGS__</span>
+            <span class="addpeople_existinggroup" style="display:none;">__MSG__APPLY_AND_SAVE__</span>
+        </button>
     </div>
 </div>
 

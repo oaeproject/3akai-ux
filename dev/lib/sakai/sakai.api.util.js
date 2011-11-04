@@ -572,7 +572,7 @@ define(
          * @return{Boolean} True indicates that content is present, False indicates that there is no content
          */
         determineEmptyContent: function(content){
-            var textPresent = $.trim($(content).text());
+            var textPresent = $.trim($("<div>").html(content).text());
             var elementArr = ["div", "img", "ol", "ul", "li", "hr", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "em", "strong", "code", "dl", "dt", "dd", "table", "tr", "th", "td", "iframe", "frame", "form", "input", "select", "option", "blockquote", "address"];
             var containsElement = false;
             $.each(elementArr, function(i, el){
@@ -1302,6 +1302,20 @@ define(
         },
 
         /**
+         * Convert a string into something that is safe to put into an HTML attribute.
+         * This is made available as a modifier to TrimPath templates, as we can't call
+         * the .data() function of jQuery whilst rendering a template
+         * @param {Object} str    String to be transformed into a string safe for use in an attribute
+         */
+        saneHTMLAttribute: function(str) {
+            if (str) {
+                return sakai_util.Security.safeOutput(str.replace(/"/g, "\\\"").replace(/'/g, "\\\'"));
+            } else {
+                return "";
+            }
+        },
+
+        /**
          * A cache that will keep a copy of every template we have parsed so far. Like this,
          * we avoid having to parse the same template over and over again.
          */
@@ -1385,6 +1399,9 @@ define(
                 },
                 safeOutput: function(str) {
                     return sakai_util.Security.safeOutput(str);
+                },
+                saneHTMLAttribute: function(str) {
+                    return sakai_util.saneHTMLAttribute(str);
                 }
             };
 
@@ -1664,7 +1681,7 @@ define(
                 // Put the title inside the page
                 var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
                 if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    pageTitle += require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                    pageTitle += " " + require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content

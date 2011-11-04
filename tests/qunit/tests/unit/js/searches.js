@@ -7,7 +7,7 @@ require(
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
         module("Searches");
         var simpleSearch = "Abe Lincoln",
             simpleSearchTransformed = "Abe AND Lincoln",

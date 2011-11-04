@@ -100,6 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentUploadContentFields = "#newaddcontent_upload_content_fields";
         var newaddcontentSaveTo = "#newaddcontent_saveto";
         var $newaddcontentUploading = $("#newaddcontent_uploading");
+        var newaddcontentAddExistingSearchButton = "#newaddcontent_add_existing_template .s3d-search-button";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
@@ -133,7 +134,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var $newaddcontentAddLinkForm = $("#newaddcontent_add_link_form");
         var newaddcontentExistingContentForm = "#newaddcontent_existing_content_form";
         var newaddcontentAddDocumentForm = "#newaddcontent_add_document_form";
-        var newaddcontentExistingClear = "#newaddcontent_existingitems_search_clear";
         var newaddcontentExistingCheckAll = "#newaddcontent_existingitems_list_container_actions_checkall";
 
         var multifileQueueAddAllowed = true;
@@ -424,8 +424,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var checkUploadCompleted = function(files){
             if (files) {
                 $.each(itemsToUpload, function(index, item){
-                    if (item.type == "content") {
+                    if (item.type == "content" || item.type == "dropped") {
                         itemsUploaded++;
+                        return false;
                     }
                 });
             } else {
@@ -494,7 +495,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "page": sakai.config.defaultSakaiDocContent
                     };
                     $.ajax({
-                        url: "/p/" + data._contentItem.poolId + ".resource",
+                        url: "/p/" + data._contentItem.poolId,
                         type: "POST",
                         dataType: "json",
                         data: {
@@ -583,12 +584,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var setDataOnContent = function(data){
             var objArr = [];
             $.each(itemsToUpload, function(i,arrayItem){
-                if(arrayItem.type == "content"){
+                if(arrayItem.type == "content" || arrayItem.type == "dropped"){
                     $.each(data, function(ii, savedItem){
                         if (savedItem.filename == arrayItem.originaltitle) {
                             arrayItem.hashpath = savedItem.hashpath;
                             savedItem.permissions = arrayItem.permissions;
-                            savedItem.hashpath = savedItem.hashpath.poolId;
+                            if (arrayItem.type !== "dropped") {
+                                savedItem.hashpath = savedItem.hashpath.poolId;
+                            }
 
                             objArr.push({
                                 "url": "/p/" + savedItem.hashpath,
@@ -638,12 +641,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (success) {
                     // save tags
                     $.each(itemsToUpload, function(i, arrayItem){
-                        if (arrayItem.hashpath && arrayItem.hashpath.poolId) {
-                            sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath.poolId, arrayItem.tags.split(","));
+                        if (arrayItem.hashpath && (arrayItem.hashpath.poolId || arrayItem.type === "dropped")) {
+                            sakai.api.Util.tagEntity("/p/" + (arrayItem.hashpath.poolId || arrayItem.hashpath), arrayItem.tags.split(","));
                         }
+                        checkUploadCompleted(true);
                     });
-
-                    checkUploadCompleted(true);
                 }
                 else {
                     checkUploadCompleted(true);
@@ -658,6 +660,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newaddcontentUploadContentForm.attr("action", uploadPath);
             $newaddcontentUploadContentForm.ajaxForm({
                 dataType: "json",
+                data: {"_charset_": "utf8"},
                 success: function(data){
                     var extractedData = [];
                     for (var i in data) {
@@ -676,6 +679,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             });
             $newaddcontentUploadContentForm.submit();
+        };
+
+        var uploadDropped = function(documentObj){
+
+            var xhReq = new XMLHttpRequest();
+            xhReq.open("POST", "/system/pool/createfile", false);
+
+            var formData = new FormData();
+            formData.append("enctype", "multipart/form-data");
+            formData.append("filename", documentObj.title);
+            formData.append("file", documentObj.fileReader);
+            xhReq.send(formData);
+            if (xhReq.status == 201){
+                var extractedData = [];
+                var data = $.parseJSON(xhReq.responseText);
+                lastUpload.push(data[documentObj.title].item);
+                var obj = {};
+                obj.filename = data[documentObj.title].item["sakai:pooled-content-file-name"];
+                obj.hashpath = data[documentObj.title].item["_path"];
+                extractedData.push(obj);
+                setDataOnContent(extractedData);
+            } else {
+                checkUploadCompleted();
+            }
+            return false;
         };
 
         /**
@@ -720,6 +748,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             uploadContent();
                             contentUploaded = true;
                         }
+                        break;
+                    case "dropped":
+                        uploadDropped(item);
                         break;
                     case "document":
                         createDocument(item);
@@ -925,16 +956,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////////
 
         /**
-         * Clear the input of the search field and list all items
-         */
-        var clearSearchQuery = function(){
-            if ($(".newaddcontent_existingitems_search").val()) {
-                $(".newaddcontent_existingitems_search").val("");
-                prepareContentSearch();
-            }
-        };
-
-        /**
          * Check/uncheck all of the displayed results
          */
         var checkUncheckAll = function(){
@@ -950,8 +971,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Prepare and call the function to render existing content in a list
          */
         var prepareContentSearch = function(pagenum){
-            var query = $.trim($newaddcontentExistingItemsSearch.val());
-            renderExistingContent(query, pagenum);
+            if (pagenum.keyCode === 13 || pagenum == parseInt(pagenum, 10) || pagenum.currentTarget.id === "newaddcontent_existing_search"){
+                var query = $.trim($newaddcontentExistingItemsSearch.val());
+                renderExistingContent(query, pagenum);
+            }
         };
 
 
@@ -1051,6 +1074,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(window).unbind("init.deletecontent.sakai", deleteContent);
         };
 
+        var fileDropped = function(file){
+            var css_class = "";
+            if(file.type && sakai.config.MimeTypes[file.type]){
+                css_class = sakai.config.MimeTypes[file.type].cssClass;
+            } else {
+                css_class = sakai.config.MimeTypes["other"].cssClass;
+            }
+            var contentObj = {
+                "originaltitle": file.name,
+                "title": file.name,
+                "description": "",
+                "tags": "",
+                "permissions": sakai.config.Permissions.Content.defaultaccess,
+                "copyright": sakai.config.Permissions.Copyright.defaults["content"],
+                "css_class": css_class,
+                "type": "dropped",
+                "fileReader": file
+            };
+
+            addContentToQueue(contentObj);
+        };
+
         /**
          * Add binding to all elements
          */
@@ -1065,10 +1110,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
+            $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
             $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
-            $(newaddcontentExistingClear).live("click", clearSearchQuery);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);
@@ -1088,6 +1133,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     disableAddToQueue();
                 }
             });
+
+            var dropbox = document.getElementById("newaddcontent_container_selecteditems");
+
+            $("#newaddcontent_container_selecteditems").fileupload({
+                url: uploadPath,
+                drop: function (ev, data) {
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                    $.each(data.files, function (index, file) {
+                        fileDropped(file);
+                    });
+                }
+            });
+
             $(window).bind("done.deletecontent.sakai", deleteContent);
         };
 
