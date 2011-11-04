@@ -20,5 +20,28 @@ define(["config/config"], function(config) {
     // Custom CSS Files to load in
     config.skinCSS = ["/dev/skins/default/skin.css"];
 
+    /**
+     * Kaltura Settings
+     */
+    config.kaltura = {
+        serverURL:  "http://www.kaltura.com",
+        partnerId:  "INSERT_YOUR_PARTNER_ID_HERE",
+        playerId: "INSERT_YOUR_PLAYER_ID_HERE"
+    };
+
+    /**
+     * Add Kaltura mime-types
+     */
+    config.MimeTypes['kaltura/video'] = {
+        cssClass: "icon-video-sprite",
+        URL: "/dev/images/mimetypes/video.png",
+        description: "KALTURA_VIDEO_FILE"
+    };
+    config.MimeTypes['kaltura/audio'] = {
+        cssClass: "icon-sound-sprite",
+        URL: "/dev/images/mimetypes/sound.png",
+        description: "KALTURA_AUDIO_FILE"
+    };
+
     return config;
 });
