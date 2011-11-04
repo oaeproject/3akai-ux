@@ -263,20 +263,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#search_tags_active_container").html("");
             activeTags = [];
             refineTags = [];
+            var tagArray = [];
+            var tempActiveTags = [];
 
-            if (params && params.refine){
-                activeTags = params.refine.split(',');
-            }
-
+            // filter tags
             if (results.facet_fields && results.facet_fields[0] && results.facet_fields[0].tag && results.facet_fields[0].tag.length > 0) {
+                // put the tags from the tag cloud service into an array
                 $.each(results.facet_fields[0].tag, function(key, tagOjb) {
                     $.each(tagOjb, function(tag, count) {
-                        if ($.inArray(tag, activeTags) === -1) {
-                            refineTags.push(tag);
-                        }
+                        tagArray.push(sakai.api.Security.safeOutput(tag));
                     });
                 });
+                // get any tags already in location hash
+                if (params && params.refine){
+                    tempActiveTags = sakai.api.Security.safeOutput(params.refine).split(',');
+                }
+                // store tags in either already active tags, or tags available to refine the search by
+                $.each(tagArray, function(key, tag) {
+                    if ($.inArray(tag, tempActiveTags) > -1) {
+                        activeTags.push(tag);
+                    } else {
+                        refineTags.push(tag);
+                    }
+                });
             }
+
             renderRefineTags();
         };
 
@@ -312,7 +323,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }, 0);
         });
 
-        $(".search_tag_active_item button").die("click").live("click", function(ev){
+        $(".search_tag_active_item").die("click").live("click", function(ev){
             var tag = $(this).attr("sakai-entityid");
             activeTags = $.grep(activeTags, function(value) {
                 return value != tag;

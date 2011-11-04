@@ -41,10 +41,10 @@
         <!-- TEMPLATE FOR ACTIVE REFINE BY TAGS -->
         <div id="search_tags_active_template"><!--
             {for t in tags}
-                <img src=/dev/images/search_tag_active.png" />
-                <span class="search_tag_active_item">${t}
-                    <button class="s3d-link-button" sakai-entityid="${t}" title="__MSG__REMOVE__ ${t} __MSG__FROM_SEARCH__">
-                        <img src=/dev/images/search_tag_remove.png" />
+                <span>
+                    <img src=/dev/images/search_tag_active.png" />
+                    <button class="search_tag_active_item" sakai-entityid="${t}" title="__MSG__REMOVE__ ${t} __MSG__FROM_SEARCH__">
+                        ${t}<img src=/dev/images/search_tag_remove.png" />
                     </button>
                 </span>
             {/for}
