@@ -9,6 +9,7 @@
  * 
  * $Version: 03/01/2009 +r14
  */
+require(['jquery'], function (jQuery) {
 (function($) {
 $.fn.jqm=function(o){
 var p={
@@ -68,3 +69,4 @@ m=function(e){var h=H[A[A.length-1]],r=(!$(e.target).parents('.jqmID'+h.s)[0]);i
 hs=function(w,t,c){return w.each(function(){var s=this._jqm;$(t).each(function() {
  if(!this[c]){this[c]=[];$(this).click(function(){for(var i in {jqmShow:1,jqmHide:1})for(var s in this[i])if(H[this[i][s]])H[this[i][s]].w[i](this);return F;});}this[c].push(s);});});};
 })(jQuery);
+});
