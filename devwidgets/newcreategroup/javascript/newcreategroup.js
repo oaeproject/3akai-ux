@@ -16,13 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*
- * Dependencies
- *
- * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
- */
-
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
@@ -51,7 +44,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var $newcreategroupMembersAddedContainer = $("#newcreategroup_group_members_added_container", $rootel);
 
     // Elements
-    var $newcreategroupCreateSimpleGroupButton = $(".newcreategroup_create_simple_group", $rootel);
     var $newcreategroupCancelCreateButton = $("#newcreategroup_cancel_create", $rootel);
     var $newcreategroupGroupTitle = $("#newcreategroup_title", $rootel);
     var $newcreategroupSuggestedURL = $("#newcreategroup_suggested_url", $rootel);
@@ -355,18 +347,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Add binding to the elements and validate the forms on submit
      */
     var addBinding = function(){
-        $newcreategroupCreateSimpleGroupButton.bind("click", function(){
-            var validateOps = {
-                submitHandler: function(form){
-                    $newcreategroupContainer.find("select, input, textarea, button").attr("disabled", "disabled");
-                    doCreateSimpleGroup();
-                }
-            };
-            // Initialize the validate plug-in
-            sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOps);
-
-            $newcreategroupGroupForm.submit();
-        });
+        var validateOps = {
+            submitHandler: function(form){
+                $newcreategroupContainer.find("select, input, textarea, button").attr("disabled", "disabled");
+                doCreateSimpleGroup();
+            }
+        };
+        // Initialize the validate plug-in
+        sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOps, false, true);
 
         $newcreategroupGroupTitle.bind("keyup", function(){
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");

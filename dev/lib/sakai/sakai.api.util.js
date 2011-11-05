@@ -1934,19 +1934,39 @@ define(
              * A wrapper for jquery.validate, so we can perform the same
              * errorPlacement on each form, without any duplicated code
              *
-             * @param $form {jQuery} the jQuery element of the form in question
-             * @param opts {Object} options to pass through to jquery.validate
-             * @param insertAfter {Boolean} option to insert the error after the label/input instead of before
-             * @param submitHandler {Function} The function to handle form submission
-             * @param invalidCallback {Function} The function to call when an error is detected
+             * @param {jQuery} $form the jQuery element of the form in question
+             * @param {Object} opts options to pass through to jquery.validate
+             * @param {Function} [invalidCallback] The function to call when an error is detected
+             * @param {Boolean} [insertAfterLabel] Insert the error span after the label, not before
              */
-            validate: function($form, opts, invalidCallback) {
-                var options = $.extend(true, {}, opts);
-                options.errorClass = "s3d-error";
-                options.errorElement = "span";
+            validate: function($form, opts, invalidCallback, insertAfterLabel) {
+                var options = {
+                    onclick: false,
+                    onkeyup: false,
+                    onfocusout: false,
+                    errorElement: "span"
+                };
+                options.errorClass = insertAfterLabel ? "s3d-error-after" : "s3d-error";
+                // include the passed in options
+                $.extend(true, options, opts);
                 options.errorPlacement = function($error, $element) {
-                    $error.insertBefore($element.prev()).attr("id", $element.attr("name") + "-error");
-                    $element.attr("aria-describedby", $element.attr("name") + "-error");
+                    if ($element.hasClass("s3d-error-calculate")) {
+                        // special element with variable left margin
+                        // calculate left margin and width, set it directly on the error element
+                        $error.css({
+                            "margin-left": $element.position().left,
+                            "width": $element.width()
+                        });
+                    }
+                    // Get the closest-previous label in the DOM
+                    var $prevLabel = $($element.prevAll("label")[0]);
+                    $error.attr("id", $element.attr("name") + "_error");
+                    $element.attr("aria-describedby", $element.attr("name") + "_error");
+                    if (insertAfterLabel) {
+                        $error.insertAfter($prevLabel);
+                    } else {
+                        $error.insertBefore($prevLabel);
+                    }
                 };
                 options.invalidHandler = function($form1, validator) {
                     $form.find(".s3d-error").attr("aria-invalid", "false");

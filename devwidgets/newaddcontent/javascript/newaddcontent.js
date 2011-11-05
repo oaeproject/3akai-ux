@@ -1121,6 +1121,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             // Initialize the validate plug-in
             sakai.api.Util.Forms.validate($newaddcontentAddLinkForm, {
+                onclick: true,
+                onkeyup: true,
+                onfocusout: true,
                 success: function(){
                     enableAddToQueue();
                 }

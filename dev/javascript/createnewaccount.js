@@ -252,9 +252,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }, "* The passwords do not match.");
 
             var validateOpts = {
-                onclick: false,
-                onkeyup: false,
-                onfocusout: false,
                 rules: {
                     password: {
                         minlength: 4
