@@ -529,17 +529,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
 
             // bind down/left/right keys for top menu
             $("#topnavigation_container .s3d-dropdown-menu").keydown(function(e) {
-                if (e.which == $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
+                if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
                     $(this).find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
-                } else if (e.which == $.ui.keyCode.LEFT) {
+                } else if (e.which === $.ui.keyCode.LEFT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     if ($(this).prevAll("li:first").length > 0){
                         $(this).prevAll("li:first").children("a").focus();
                     } else {
                         $(this).nextAll("li:last").children("a").focus();
                     }
-                    return false;
-                } else if (e.which == $.ui.keyCode.RIGHT) {
+                } else if (e.which === $.ui.keyCode.RIGHT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     if ($(this).nextAll("li:first").length > 0){
                         $(this).nextAll("li:first").children("a").focus();
                     } else {
@@ -575,21 +574,21 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
 
             // bind up/down/escape keys in sub menu
             $(hasSubnav + " div a").keydown(function(e) {
-                if (e.which == $.ui.keyCode.DOWN) {
+                if (e.which === $.ui.keyCode.DOWN) {
                     if ($(this).parent().nextAll("li:first").length > 0){
                         $(this).parent().nextAll("li:first").children("a").focus();
                     } else {
                         $(this).parent().prevAll("li:last").children("a").focus();
                     }
                     return false; // prevent browser page from scrolling down
-                } else if (e.which == $.ui.keyCode.UP) {
+                } else if (e.which === $.ui.keyCode.UP) {
                     if ($(this).parent().prevAll("li:first").length > 0) {
                         $(this).parent().prevAll("li:first").children("a").focus();
                     } else {
                         $(this).parent().nextAll("li:last").children("a").focus();
                     }
                     return false;
-                } else if (e.which == $.ui.keyCode.ESCAPE) {
+                } else if (e.which === $.ui.keyCode.ESCAPE) {
                     $(this).parent().parents("li:first").find("a:first").focus();
                 } else {
                     // if a letter was pressed, search for the next menu item that starts with the letter
