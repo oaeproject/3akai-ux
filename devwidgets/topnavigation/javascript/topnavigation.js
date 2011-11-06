@@ -538,6 +538,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     } else {
                         $(this).nextAll("li:last").children("a").focus();
                     }
+                    return false;
                 } else if (e.which === $.ui.keyCode.RIGHT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     if ($(this).nextAll("li:first").length > 0){
                         $(this).nextAll("li:first").children("a").focus();
