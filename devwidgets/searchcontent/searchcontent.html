@@ -63,13 +63,10 @@
                 <!-- TEMPLATE CONTAINING THE RESULTS -->
                 <div id="searchcontent_results_template"><!--
                     {var count = 0}
+                    <div class="s3d-search-results-grid-row">
                     {for i in items}
-                        {if count % 4 === 0}
-                            {if count > 0}
-                                </div>
-                            {/if}
-                            <div class="s3d-search-results-grid-row">
-                        {elseif count === 0}
+                        {if count % 4 === 0 && count > 0}
+                            </div>
                             <div class="s3d-search-results-grid-row">
                         {/if}
                         {var count = count + 1}
@@ -136,9 +133,7 @@
                             </li>
                         {/if}
                     {/for}
-                    {if count > 0}
-                        </div>
-                    {/if}
+                    </div>
                     {if !contentFound}
                         <li class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
