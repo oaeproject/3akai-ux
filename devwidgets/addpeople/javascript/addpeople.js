@@ -167,39 +167,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Also hide the overlay
          */
         var finishAdding = function(){
-            if (sakai_global.group) {
-                var managerSelected = false;
-                var permissionsToDelete = [];
-                var newUsers = [];
-                $.each(selectedUsers, function(index, user){
-                    if (user.originalPermission && user.permission !== user.originalPermission) {
-                        permissionsToDelete.push(user);
-                    }
+            var managerSelected = false;
+            var permissionsToChange = [];
+            var newUsers = [];
+            $.each(selectedUsers, function(index, user){
+                if (user.originalPermission && user.permission !== user.originalPermission) {
+                    permissionsToChange.push(user);
+                }
 
-                    if (!user.originalPermission){
-                        newUsers.push(user);
-                    }
+                if (!user.originalPermission){
+                    newUsers.push(user);
+                }
 
-                    $.each(currentTemplate.roles, function(i, role){
-                        if (user.permission == role.title || user.permission == role.id) {
-                            user.permission = role.id;
-                            user.permissionTitle = role.title;
-                            if (role.allowManage) {
-                                managerSelected = true;
-                            }
+                $.each(currentTemplate.roles, function(i, role){
+                    if (user.permission == role.title || user.permission == role.id) {
+                        user.permission = role.id;
+                        user.permissionTitle = role.title;
+                        if (role.allowManage) {
+                            managerSelected = true;
                         }
-                    });
+                    }
                 });
-            }
+            });
             if (managerSelected || !sakai_global.group) {
-                // This is called after sakai.addpeople.usersselected completes
-                $(window).unbind("usersselected.addpeople.sakai").bind("usersselected.addpeople.sakai", function() {
-                    $(window).trigger("sakai.addpeople.usersswitchedpermission", [tuid.replace("addpeople", ""), permissionsToDelete]);
+                // This is called after toadd.addpeople.sakai completes
+                $(window).unbind("usersselected.addpeople.sakai").bind("usersselected.addpeople.sakai", function(e) {
+                    if (permissionsToChange.length) {
+                        $(window).trigger("usersswitchedpermission.addpeople.sakai", [tuid.replace("addpeople", ""), permissionsToChange]);
+                    }
                 });
-                $(window).trigger("sakai.addpeople.usersselected", [tuid.replace("addpeople", ""), selectedUsers]);
+                $(window).trigger("toadd.addpeople.sakai", [tuid.replace("addpeople", ""), newUsers]);
                 if (sakai_global.group) {
-                    $.merge(permissionsToDelete, newUsers);
-                    $.each(permissionsToDelete, function(index, user){
+                    // merge a copy of the two
+                    var allChanges = $.merge($.merge([], permissionsToChange), newUsers);
+                    $.each(allChanges, function(index, user){
                         var groupTitle = sakai.api.Security.safeOutput(sakai_global.group.groupData["sakai:group-title"]);
                         var groupID = sakai_global.group.groupData["sakai:group-id"];
                         var displayName = sakai.api.User.getDisplayName(sakai.data.me.profile);
@@ -209,6 +210,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
                 $addpeopleContainer.jqmHide();
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MANAGE_PARTICIPANTS", "addpeople"), sakai.api.i18n.getValueForKey("NEW_SETTINGS_HAVE_BEEN_APPLIED", "addpeople"));
             } else {
                 var errorMsg = sakai.api.i18n.getValueForKey("SELECT_AT_LEAST_ONE_MANAGER", "addpeople");
                 if (existingGroup && sakai_global.group){
