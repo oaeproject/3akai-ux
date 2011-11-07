@@ -11,7 +11,7 @@ Effect "Pulsate"
 
 Also, after doing a custom build, you need to wrap it in:
 
-define('jqueryui/core', ['jquery'], function (jQuery) {
+require(['jquery'], function (jQuery) {
 });
 
 to ensure it loads without issue as an RequireJS module.
