@@ -32,8 +32,13 @@
                 <label for="areapermissions_see_private" class="s3d-bold"><span class="label_icon lock"></span>__MSG__SPECIFIC_ROLES_ONLY__</label>
                 <div id="areapermissions_see_private_specific" {if visibility !== "selected"} style="display:none;"{/if}>
                     <hr class="s3d-split-line"/>
+                    <div class="areapermissions_subchoice_row">
                     {for role in roles}
-                        <div class="areapermissions_edit_role_container {if roles.length > 3} multiple{/if}">
+                        {if role_index % 2 === 0 && role_index > 0}
+                            </div>
+                            <div class="areapermissions_subchoice_row">
+                        {/if}
+                        <div class="areapermissions_edit_role_container">
                             <div class="s3d-bold">
                                 {if !manager && meRole === role.id}
                                     <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_see_${role.id}_checked">
@@ -47,6 +52,7 @@
                             <hr class="s3d-split-line small_line"/>
                         </div>
                     {/for}
+                    </div>
                 </div>
                 <hr class="fl-push fl-hidden"/>
             </div>
@@ -58,14 +64,20 @@
         <div class="s3d-inset-shadow-container">
             <p>__MSG__WHICH_ROLES_CAN_EDIT_THIS__ {if !manager} <span class="areapermissions_grouppermissions_notificationlabel inline">(__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</span>{/if}</p>
             <div class="s3d-outer-shadow-container areapermissions_subchoice">
+                <div class="areapermissions_subchoice_row">
                 {for role in roles}
-                    <div class="areapermissions_edit_role_container {if roles.length > 3} multiple{/if}">
+                    {if role_index % 2 === 0 && role_index > 0}
+                        </div>
+                        <div class="areapermissions_subchoice_row">
+                    {/if}
+                    <div class="areapermissions_edit_role_container">
                         <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_edit_${role.id}_checked" {if role.value === "view" || !role.creatorRole} style="display:none;"{/if}>
                         <input type="checkbox" class="areapermissions_role_edit_check" id="areapermissions_edit_${role.id}" {if role.value === "edit"} checked="checked" {if role.creatorRole}style="display:none;"{/if}{/if} {if !manager}disabled="true"{/if}>
                         <label class="areapermissions_role_label s3d-bold" for="areapermissions_edit_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id && manager} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if}</label>
                         <hr class="s3d-split-line small_line"/>
                     </div>
                 {/for}
+                </div>
                 <hr class="fl-push fl-hidden"/>
             </div>
         </div>
