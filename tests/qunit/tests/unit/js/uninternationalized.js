@@ -9,7 +9,7 @@ require(
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
          module("Uninternationalized English Strings");
 
          // attributes to test for

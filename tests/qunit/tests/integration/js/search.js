@@ -7,7 +7,7 @@ require(
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
 
         var createdGroups = [];
         var createdUsers = [];

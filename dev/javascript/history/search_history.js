@@ -62,7 +62,7 @@ require(["jquery", "/dev/javascript/search_main.js"], function() {
         }
     };
 
-    require.ready(function() {
+    require(['misc/domReady!'], function(doc) {
       var cache = {
         '': $(".search-container")
       };

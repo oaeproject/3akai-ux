@@ -7,6 +7,7 @@ response.setStatus(403);
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <!-- Sakai 3 R&amp;D - Access denied -->
         <title></title>
 
@@ -95,8 +96,11 @@ response.setStatus(403);
                         <h3 class="first">__MSG__YOU_TRIED_TO_ACCESS_PAGE_WITHOUT_PERMISSIONS__</h3>
 
                         <h3>__MSG__WHAT_TO_DO_NOW_HERE_ARE_SOME_SUGGESTIONS__</h3>
-                        <div>
-                            <input type="text" title="__MSG__SEARCH__" value="" class="input" id="errorsearch_text" placeholder="__MSG__SEARCH__" maxlength="255">
+                        <div class="s3d-search-container">
+                            <input type="text" tabindex_none="40" id="errorsearch_text" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield" maxlength="255"/>
+                            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                            </button>
                         </div>
 
                         <div id="error_page_links_container"></div>

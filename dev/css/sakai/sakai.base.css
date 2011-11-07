@@ -39,6 +39,7 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 .s3d-header .fixed-container .decor { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -10px transparent; height: 5px; margin-right: -20px; }
 .grep {color:#666 !important;font-weight:bold;}
 .s3d-gray {color:#666;}
+.s3d-lowercase {text-transform: lowercase;}
 
 .block_image_left {float: left;}
 .block_image_right {float: right;}
@@ -267,6 +268,16 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-outer-shadow-container {background-color:#FFF;border-radius:4px;box-shadow:0 1px 1px 0 #BBB;-moz-box-shadow:0 1px 1px 0 #BBB;-webkit-box-shadow:0 1px 1px 0 #BBB;margin:0 3px 3px 0;padding:15px 13px 11px;}
 
 /*
+ * SEARCH BOXES
+ */
+.s3d-search-container .s3d-search-inputfield {height: 22px;padding: 0 4px;color: #333;font-size: 12px;border:1px solid #ccc !important;float:left;}
+.s3d-search-container input::-webkit-input-placeholder {color:#7c7b7b;font-style:italic;font-size:11px !important;}
+.s3d-search-container input:-moz-placeholder{color:#7c7b7b;font-style:italic;font-size:11px !important;}
+.s3d-search-container .s3d-search-button {height:25px !important;width:24px;padding:3px 0 0 0 !important;margin-left:2px;background:none !important;border: none !important;box-shadow:none !important;-moz-box-shadow:none !important;-webkit-box-shadow:none !important;}
+.s3d-search-container .s3d-search-button:hover {background: url("/dev/images/searchbutton_hover_bg.png") repeat-x top left transparent !important;border:1px solid #ccc !important;}
+.s3d-search-container .s3d-search-button img {margin:0 auto;}
+
+/*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
  */
 .s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 0px 0px;list-style:none}
@@ -448,6 +459,11 @@ label.error{color:#9f3333;font-weight:bold;}
 .s3d-dialog-container .s3d-dialog-close {background:url("/dev/images/dialog_close.png") no-repeat top left transparent;width:19px;height:17px;float:right;cursor:pointer;margin:-2px -15px 0 0;}
 .s3d-dialog-container .s3d-dialog-close:hover {background:url("/dev/images/dialog_close.png") no-repeat left -19px transparent;}
 .s3d-dialog-container h1.s3d-dialog-header {border-bottom:1px dotted #d4d4d4;color:#666;font-size:19px;font-weight:normal;padding-bottom:11px;margin-bottom:15px;}
+
+/* Widget bar item counts */
+.s3d-counts-outer{padding:3px 2px;background:#fff;border:1px solid #D6D9DB;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:0 0 4px -2px #A8A8A8 inset;-webkit-box-shadow:0 0 4px -2px #A8A8A8 inset;-moz-box-shadow:0 0 4px -2px #A8A8A8 inset; font-size: 11px; position: relative; top: -1px; margin-left: 5px;}
+.s3d-counts-outer a{padding-right:6px;color:#707070;}
+.s3d-counts-inner{color:#fff;padding:0px 4px;background:#D4D4D4;border:1px solid #CACACA;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:0 0 4px -2px #A2A2A2 inset;-webkit-box-shadow:0 0 4px -2px #A2A2A2 inset;-moz-box-shadow:0 0 4px -2px #A2A2A2 inset;}
 
 /*
  * CHAT
