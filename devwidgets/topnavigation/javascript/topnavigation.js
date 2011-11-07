@@ -188,6 +188,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             return redirectURL;
         }
 
+       /**
+         * Check if a redirect should be performed
+         */
+        var checkForRedirect = function() {
+            var qs = new Querystring();
+            // Check for url param, path and if user is logged in
+            if (qs.get("url") && !sakai.api.User.isAnonymous(sakai.data.me) &&
+                (window.location.pathname === "/" || window.location.pathname === "/dev/explore.html" ||
+                  window.location.pathname === "/index" || window.location.pathname === "/dev")) {
+                    window.location = qs.get("url");
+            }
+        };
+
         ////////////////////////
         /////// MESSAGES ///////
         ////////////////////////
@@ -258,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             if (data) {
                 for (var i in data.results) {
                     if (data.results.hasOwnProperty(i)) {
-                        var mimeType = sakai.api.Content.getMimeTypeData(data.results[i]).cssClass;
+                        var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.results[i])).cssClass;
                         var tempFile = {
                             "dottedname": sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                             "name": data.results[i]["sakai:pooled-content-file-name"],
@@ -667,6 +680,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
+            $(".topnavigation_search .s3d-search-button").bind("click", handleEnterKeyInSearch);
+
             $("#topnavigation_search_input").keydown(function(evt){
                 var val = $.trim($(this).val());
                 // 40 is down, 38 is up, 13 is enter
@@ -888,6 +903,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
          * Initialise the topnavigation widget
          */
         var doInit = function(){
+            checkForRedirect();
             renderMenu();
             renderUser();
             setCountUnreadMessages();

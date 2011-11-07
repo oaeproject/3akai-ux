@@ -8,3 +8,4 @@ nginx.*
 *.swp
 /tests/speed/yslow/yslow_results.txt
 Thumbs.db
+tools/hashfiles

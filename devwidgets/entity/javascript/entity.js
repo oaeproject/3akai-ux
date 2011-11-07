@@ -44,8 +44,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Buttons
         var entityUserCreateAndAdd = "#entity_user_create_and_add";
-        var entityUserImage = "#entity_user_image";
-        var entityGroupImage = "#entity_group_image";
+        var entityChangeImage = ".entity_change_avatar";
         var entityUserMessage = "#entity_user_message";
         var entityUserAddToContacts = "#entity_user_add_to_contacts";
         var entityUserDropdown = "#entity_user_image.s3d-dropdown-menu";
@@ -275,8 +274,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var toggleDropdownList = function(){
             $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
-            $(".entity_profile_picture_down_arrow").toggleClass("clicked");
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 60);
+            $(entityChangeImage).toggleClass("clicked");
+            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
@@ -389,15 +388,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(".addpeople_init").click(function(){
-                $(window).trigger("init.addpeople.sakai", [tuid]);
+                $(window).trigger("init.addpeople.sakai", [tuid, true]);
                 $("#entity_groupsettings_dropdown").jqmHide();
             });
 
-            $(entityUserImage).click(toggleDropdownList);
-            $(entityGroupImage).click(toggleDropdownList);
+            $(entityChangeImage).click(toggleDropdownList);
 
-            sakai.api.Util.hideOnClickOut(entityGroupImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
-            sakai.api.Util.hideOnClickOut(entityUserImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
+            sakai.api.Util.hideOnClickOut(entityChangeImage + " .s3d-dropdown-list", entityChangeImage, toggleDropdownList);
 
         });
 

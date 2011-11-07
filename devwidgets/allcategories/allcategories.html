@@ -15,11 +15,11 @@
                 {if item.divider}
                     </ul>
                      {if item.title} 
-                         <h1 class="fl-push s3d-contentpage-title {if item.class} ${item.class} {/if}">${item.title}</h1> 
+                         <h1 class="fl-push s3d-contentpage-title {if item.cssClass} ${item.cssClass} {/if}">${item.title}</h1> 
                      {else} 
-                         <div class="s3d-contentpage-title fl-push {if item.class} ${item.class} {/if}"></div> 
+                         <div class="s3d-contentpage-title fl-push {if item.cssClass} ${item.cssClass} {/if}"></div> 
                     {/if} 
-                    <ul {if item.class} class="${item.class}" {/if}>
+                    <ul {if item.cssClass} class="${item.cssClass}" {/if}>
                 {else}
                     <li>
                         <div class="allcategories_item">

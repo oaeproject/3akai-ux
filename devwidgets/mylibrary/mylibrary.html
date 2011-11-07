@@ -23,10 +23,15 @@
                 <option value="lastModified_asc">__MSG__OLDEST__</option> 
             </select>
         </div>
-        <input id="mylibrary_livefilter" style="display:none;" type="text" />
         <div id="mylibrary_admin_actions" style="display:none;">
             <div class="mylibrary_placeholder"><input id="mylibrary_check_all" type="checkbox" /></div>
             <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">__MSG__REMOVE__</button>
+            <div class="s3d-search-container">
+                <input id="mylibrary_livefilter" style="display:none;" type="text" title="__MSG__SEARCH_THROUGH_THE_CONTENT_LIBRARY__" class="s3d-search-inputfield"/>
+                <button type="button" id="mylibrary_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
+                    <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_THE_CONTENT_LIBRARY__"/>
+                </button
+            </div>
         </div>
         <div id="mylibrary_groupfilter_wrapper" style="display:none;">
             <div id="mylibrary_groupfilter">
@@ -96,9 +101,7 @@
                     <button class="s3d-link-button s3d-action-icon s3d-actions-author mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}" title="__MSG__VIEW_OWNER_INFO__"></button>
                     <a href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
-                            <img src="${item.thumbnail}" alt="${item.type}" />
-                        {elseif (item.mimeType && item.mimeType.substring(0,6)=="image/")}
-                            <img class="s3d-icon-40" src="/p/${item.id}" alt="${item.type}" />
+                            <img class="s3d-icon-40" src="${item.thumbnail}" alt="${item.type}" />
                         {else}
                             <img alt="${item.type}" src="${item.type_src}" />
                         {/if}

@@ -137,10 +137,8 @@ define(
                     case "shared_content":
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
                         toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|name=" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] +
-                        "|description=" + (sakai_global.content_profile.content_data.data["sakai:description"] || "") +
-                        "|body=" + body +
-                        "|link=" + sakai_global.content_profile.content_data.url;
+                        "|system=" + sakai_i18n.getValueForKey("SAKAI") +
+                        "|body=" + body;
                         break;
                     case "contact_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";

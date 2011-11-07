@@ -111,7 +111,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "time": sakai.api.Util.Datetime.getCurrentGMTTime()
                     }
                 };
-                sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", editingContent);
+                sakai.api.Server.saveJSON(currentPageShown.pageSavePath, editingContent);
             } else {
                 clearInterval(editInterval);
             }
@@ -136,7 +136,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             page: autosaveContent
                         }
                     };
-                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent, function(success, data){
+                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath, autosavePostContent, function(success, data){
                         if (!success){
                             // the content is probably too large, display an error
                             sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AUTOSAVED_FAILED", "sakaidocs"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
@@ -335,19 +335,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "widgetname": widgetid,
                     "uid": id
                 };
-                $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
-                $("#dialog_title", $overlayContainer).html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widgetid].id));
-                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
+                if (sakai.widgets[widgetid].hasSettings) {
+                    $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
+                    $("#dialog_title", $overlayContainer).html(sakai.widgets[widgetid].name);
+                    sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
 
-                if (sakai.widgets[widgetid].settingsWidth) {
-                    widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
+                    if (sakai.widgets[widgetid].settingsWidth) {
+                        widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
+                    }
+                    $dialog_content.show();
+                    window.scrollTo(0,0);
+                    $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
+                } else {
+                    tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets[currentlySelectedWidget.widgetname].img + '" id="' + currentlySelectedWidget.uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
                 }
-                $dialog_content.show();
-                window.scrollTo(0,0);
-            } else if (!widgetid){
-                window.scrollTo(0,0);
             }
-            $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
         };
 
         ////////////////////////////////////////////////////////////////////
@@ -414,7 +416,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var selected = ed.selection.getNode();
             if (selected && selected.nodeName.toLowerCase() === "img") {
                 if ($(selected).hasClass("widget_inline")){
-                    $context_settings.show();
+                    var widget_name = $(selected).attr("id").split("_")[1];
+                    if (sakai.widgets[widget_name] && sakai.widgets[widget_name].hasSettings) {
+                        $context_settings.show();
+                    } else {
+                        $context_settings.hide();
+                    }
                 } else {
                     $context_settings.hide();
                 }
@@ -686,7 +693,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 page: pageContent
             };
             $.ajax({
-                url: currentPageShown.pageSavePath + ".resource",
+                url: currentPageShown.pageSavePath,
                 type: "POST",
                 dataType: "json",
                 data: {

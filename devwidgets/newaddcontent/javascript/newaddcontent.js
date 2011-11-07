@@ -100,6 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentUploadContentFields = "#newaddcontent_upload_content_fields";
         var newaddcontentSaveTo = "#newaddcontent_saveto";
         var $newaddcontentUploading = $("#newaddcontent_uploading");
+        var newaddcontentAddExistingSearchButton = "#newaddcontent_add_existing_template .s3d-search-button";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
@@ -133,7 +134,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var $newaddcontentAddLinkForm = $("#newaddcontent_add_link_form");
         var newaddcontentExistingContentForm = "#newaddcontent_existing_content_form";
         var newaddcontentAddDocumentForm = "#newaddcontent_add_document_form";
-        var newaddcontentExistingClear = "#newaddcontent_existingitems_search_clear";
         var newaddcontentExistingCheckAll = "#newaddcontent_existingitems_list_container_actions_checkall";
 
         var multifileQueueAddAllowed = true;
@@ -495,7 +495,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "page": sakai.config.defaultSakaiDocContent
                     };
                     $.ajax({
-                        url: "/p/" + data._contentItem.poolId + ".resource",
+                        url: "/p/" + data._contentItem.poolId,
                         type: "POST",
                         dataType: "json",
                         data: {
@@ -644,8 +644,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (arrayItem.hashpath && (arrayItem.hashpath.poolId || arrayItem.type === "dropped")) {
                             sakai.api.Util.tagEntity("/p/" + (arrayItem.hashpath.poolId || arrayItem.hashpath), arrayItem.tags.split(","));
                         }
+                        checkUploadCompleted(true);
                     });
-                    checkUploadCompleted(true);
                 }
                 else {
                     checkUploadCompleted(true);
@@ -660,6 +660,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newaddcontentUploadContentForm.attr("action", uploadPath);
             $newaddcontentUploadContentForm.ajaxForm({
                 dataType: "json",
+                data: {"_charset_": "utf8"},
                 success: function(data){
                     var extractedData = [];
                     for (var i in data) {
@@ -703,7 +704,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 checkUploadCompleted();
             }
             return false;
-        }
+        };
 
         /**
          * Add an already existing item to your own library
@@ -955,16 +956,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////////
 
         /**
-         * Clear the input of the search field and list all items
-         */
-        var clearSearchQuery = function(){
-            if ($(".newaddcontent_existingitems_search").val()) {
-                $(".newaddcontent_existingitems_search").val("");
-                prepareContentSearch();
-            }
-        };
-
-        /**
          * Check/uncheck all of the displayed results
          */
         var checkUncheckAll = function(){
@@ -980,8 +971,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Prepare and call the function to render existing content in a list
          */
         var prepareContentSearch = function(pagenum){
-            var query = $.trim($newaddcontentExistingItemsSearch.val());
-            renderExistingContent(query, pagenum);
+            if (pagenum.keyCode === 13 || pagenum == parseInt(pagenum, 10) || pagenum.currentTarget.id === "newaddcontent_existing_search"){
+                var query = $.trim($newaddcontentExistingItemsSearch.val());
+                renderExistingContent(query, pagenum);
+            }
         };
 
 
@@ -1117,10 +1110,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
+            $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
             $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
-            $(newaddcontentExistingClear).live("click", clearSearchQuery);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);

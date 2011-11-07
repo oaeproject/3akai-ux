@@ -1302,6 +1302,20 @@ define(
         },
 
         /**
+         * Convert a string into something that is safe to put into an HTML attribute.
+         * This is made available as a modifier to TrimPath templates, as we can't call
+         * the .data() function of jQuery whilst rendering a template
+         * @param {Object} str    String to be transformed into a string safe for use in an attribute
+         */
+        saneHTMLAttribute: function(str) {
+            if (str) {
+                return sakai_util.Security.safeOutput(str.replace(/"/g, "\\\"").replace(/'/g, "\\\'"));
+            } else {
+                return "";
+            }
+        },
+
+        /**
          * A cache that will keep a copy of every template we have parsed so far. Like this,
          * we avoid having to parse the same template over and over again.
          */
@@ -1385,6 +1399,9 @@ define(
                 },
                 safeOutput: function(str) {
                     return sakai_util.Security.safeOutput(str);
+                },
+                saneHTMLAttribute: function(str) {
+                    return sakai_util.saneHTMLAttribute(str);
                 }
             };
 
@@ -1664,7 +1681,7 @@ define(
                 // Put the title inside the page
                 var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
                 if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    pageTitle += require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                    pageTitle += " " + require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content
