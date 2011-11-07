@@ -34,7 +34,7 @@ require(["order!jquery",
     "order!/dev/requirejs/lib/core.js"
     
     ], function(){
-        require.ready(function(){
+        require(["misc/domReady!"], function(doc){
             debug.log("dependencies.js ready");
                         
             //require(["/dev/requirejs/javascript/page.js"]);

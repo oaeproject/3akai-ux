@@ -44,6 +44,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "title": pageData.title,
                 "sakai": sakai
             }));
+            if (data.total > data.results.length){
+                $("#featuredpeople_showall", $rootel).show();
+            }
         };
 
         var parsePeople = function(success, data){
