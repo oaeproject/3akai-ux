@@ -133,13 +133,16 @@
                                         <span class="searchpeople_result_description">${i.extra}</span>
                                         <span class="searchpeople_result_description_grid">${i.extraGrid}</span>
                                     {/if}
-                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                                    {if !$.isEmptyObject(i["sakai:tags"])}
                                         <div class="searchpeople_result_tags">
                                             <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
                                             <p class="searchpeople_result_tags_list">
                                                 {for t in i["sakai:tags"]}
                                                     {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} 
-                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                                        <span class="searchpeople_result_tag">${t.tagShort|safeOutput}</span>
+                                                        <span class="searchpeople_result_tag_grid">${t.tagShorter|safeOutput}</span>
+                                                    </a>
                                                 {/for}
                                             </p>
                                         </div>

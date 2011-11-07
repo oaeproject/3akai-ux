@@ -56,6 +56,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
 
+        /**
+         * Shorten tags to be displayed in the search results
+         * @param {Array} tags The array containing tags.
+         * @return {Object} The object containing the tag and shortened lengths
+         */
+        var shortenTags = function(tags){
+            tagsObj = {};
+            for (var i in tags) {
+                tagsObj[i] = {
+                    "tag": tags[i],
+                    "tagShort": sakai.api.Util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
+                    "tagShorter": sakai.api.Util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, "")
+                };
+            }
+            return tagsObj;
+        };
 
         ////////////////////////////////
         // Finish util initialisation //
@@ -101,7 +117,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (typeof(contentItem["sakai:tags"]) === 'string') {
                             contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
                         }
-                        contentItem["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(contentItem["sakai:tags"]);
+                        contentItem["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(contentItem["sakai:tags"]));
                     }
                     // set mimetype
                     var mimeType = sakai.api.Content.getMimeType(contentItem);
@@ -140,7 +156,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     // Modify the tags if there are any
                     if (results[group]["sakai:tags"]) {
-                        results[group]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(results[group]["sakai:tags"]);
+                        results[group]["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(results[group]["sakai:tags"]));
                     }
                     results[group].groupType = groupType;
                     results[group].lastModified = results[group].lastModified;
@@ -234,13 +250,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
 
                     if (user["sakai:tags"]) {
-                        var filteredTags = [];
-                        for (var t = 0; t < user["sakai:tags"].length; t++) {
-                            if (user["sakai:tags"][t].split("/")[0] !== "directory") {
-                                filteredTags.push(user["sakai:tags"][t]);
-                            }
-                        }
-                        user["sakai:tags"] = filteredTags;
+                        user["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"]));
                     }
 
                     finaljson.items.push(user);

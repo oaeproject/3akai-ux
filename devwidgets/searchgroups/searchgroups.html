@@ -117,13 +117,16 @@
                                         <div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>
                                         <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                                     {/if}
-                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                                    {if !$.isEmptyObject(i["sakai:tags"])}
                                         <div class="searchgroups_result_tags">
                                             <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
                                             <p class="searchgroups_result_tags_list">
                                                 {for t in i["sakai:tags"]}
                                                     {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} 
-                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                                        <span class="searchgroups_result_tag">${t.tagShort|safeOutput}</span>
+                                                        <span class="searchgroups_result_tag_grid">${t.tagShorter|safeOutput}</span>
+                                                    </a>
                                                 {/for}
                                             </p>
                                         </div>
