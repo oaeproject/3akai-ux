@@ -48,7 +48,7 @@
 .s3d-search-result-content .searchcontent_result_tags_dot, .s3d-search-result-person .searchpeople_result_tags_dot, .s3d-search-result-group .searchgroups_result_tags_dot{color: #999999;}
 .s3d-search-result-content .searchcontent_result_left_filler, .s3d-search-result-person .searchpeople_result_left_filler, .s3d-search-result-group .searchgroups_result_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
 .s3d-search-result-content .searchcontent_result_plus, .s3d-search-result-person .searchpeople_result_plus, .s3d-search-result-group .searchgroups_result_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:-5px 10px 10px -2px;}
-.s3d-search-result-content .searchcontent_result_icon, .s3d-search-result-person .searchpeople_result_icon{display: inline-block;height:10px;width:15px;}
+.s3d-search-result-content .searchcontent_result_icon, .s3d-search-result-person .searchpeople_result_icon, .s3d-search-result-group .searchgroups_result_icon{display:inline-block;height:10px;width:15px;}
 .s3d-search-result-content .searchcontent_result_tags_icon, .s3d-search-result-person .searchpeople_result_tags_icon, .s3d-search-result-group .searchgroups_result_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
 .s3d-search-result-content .searchcontent_result_description, .s3d-search-result-person .searchperson_result_description, .s3d-search-result-group .searchgroup_result_description{word-wrap:break-word;}
 .s3d-search-result-content .searchcontent_result_description_grid, .s3d-search-result-person .searchpeople_result_description_grid, .s3d-search-result-group .searchgroups_result_description_grid{display:none;}
@@ -78,7 +78,6 @@
 
 /* search results groups */
 .s3d-search-result-group .searchgroups_result_grouptype {font-size:smaller;white-space:pre;}
-.s3d-search-result-group .searchgroups_result_icon{display:inline-block;height:10px;width:15px;}
 .s3d-search-result-group .searchgroups_result_message_icon{display:inline-block;float:right;}
 .s3d-search-result-group .searchgroups_result_usedin{font-size: 11px;padding:3px 0;}
 .s3d-search-result-group .searchgroups_result_comments_icon{margin-left:8px;}
