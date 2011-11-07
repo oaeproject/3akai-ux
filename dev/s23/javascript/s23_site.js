@@ -230,17 +230,22 @@ sakai_global.s23_site = function(){
                         }
                     });
                     if (sakai.config.hybridCasHost){
-                    $.ajax({
-                        url: "/system/sling/cas/proxy?t=https://" + sakai.config.hybridCasHost + "/sakai-login-tool/container",
-                        success: function(data){
+                        // check for CLE session cookie
+                        if ($.cookie('JSESSIONID')){
+                            firstFrame.attr("src", firstFrameSrcUrl);
+                        } else {
                             $.ajax({
-                                url: "/sakai-login-tool/container?ticket=" + data["proxyticket"],
-                                success: function(){
-                                    firstFrame.attr("src", firstFrameSrcUrl);
+                                url: "/system/sling/cas/proxy?t=https://" + sakai.config.hybridCasHost + "/sakai-login-tool/container",
+                                success: function(data){
+                                    $.ajax({
+                                        url: "/sakai-login-tool/container?ticket=" + data["proxyticket"],
+                                        success: function(){
+                                            firstFrame.attr("src", firstFrameSrcUrl);
+                                        }
+                                    });
                                 }
                             });
                         }
-                    });
                     } else {
                         firstFrame.attr("src", firstFrameSrcUrl);
                     }
