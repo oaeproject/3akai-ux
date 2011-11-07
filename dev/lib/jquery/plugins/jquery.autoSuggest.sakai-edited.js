@@ -19,6 +19,7 @@
  *   http://www.gnu.org/licenses/gpl.html
  */
 
+require(['jquery'], function (jQuery) {
 (function($){
     $.fn.autoSuggest = function(data, options) {
         var opts = $.extend($.fn.autoSuggest.defaults, options);     
@@ -418,3 +419,4 @@
     };
     
 })(jQuery);
+});
