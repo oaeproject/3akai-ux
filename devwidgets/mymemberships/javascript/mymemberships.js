@@ -245,6 +245,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var checkAddingEnabled = function(){
+            if($(".mymemberships_select_group_checkbox:checked")[0]){
+                $("#mymemberships_addpeople_button").removeAttr("disabled");
+            } else {
+                $("#mymemberships_addpeople_button").attr("disabled", true);
+                $("#mymemberships_select_checkbox").removeAttr("checked");
+            }
+        };
 
         /////////////////////////////
         // Initialization function //
@@ -288,10 +296,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#mymemberships_select_checkbox").change(function(){
                 if($(this).is(":checked")){
+                    $("#mymemberships_addpeople_button").removeAttr("disabled");
                     $(".mymemberships_select_group_checkbox").attr("checked", true);
                 } else{
+                    $("#mymemberships_addpeople_button").attr("disabled", true);
                     $(".mymemberships_select_group_checkbox").removeAttr("checked");
                 }
+            });
+
+            $(".mymemberships_select_group_checkbox").live("change", function(){
+                checkAddingEnabled();
             });
         };
 
