@@ -109,7 +109,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 recaptcha: {
                     challenge: values["recaptcha-challenge"],
                     response: values["recaptcha-response"]
-                }
+                },
+                isAutoTagging: sakai.config.Profile.defaultAutoTagging,
+                sendTagMsg: sakai.config.Profile.defaultSendTagMsg
             }, function(success, data){
                 if (success) {
                     // This will hide the Create and Cancel button and offer a link back to the login page

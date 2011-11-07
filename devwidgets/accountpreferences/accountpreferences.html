@@ -4,7 +4,12 @@
 <!-- CONTAINER -->
 <div style="display:none" id="accountpreferences_container" class="s3d-dialog s3d-dialog-container">
     <div class="s3d-dialog-close jqmClose"></div>
-    <h1 class="s3d-dialog-header">__MSG__WIDGET_TITLE__</h1>
+    <h1>__MSG__WIDGET_TITLE__</h1>
+    <ul>
+      <li><a href="#" id="accountpreferences_tab">__MSG__ACCOUNT_PREFERENCES__</a></li>
+      <li><a href="#" id="accountpassword_tab">__MSG__PASSWORD__</a></li>
+    </ul>
+    <h1 class="s3d-dialog-header"></h1>
 
     <!-- ERRORS AND MESSAGES -->
     <span id="accountpreferences_error_passNotEqual" style="display:none;">__MSG__NEW_PASSWORDS_ARENT_EQUAL__.</span>
@@ -23,7 +28,7 @@
         <div class="fl-fix fl-centered accountpreferences">
             <div>
                 <!-- CONTENT -->
-                <div class="fl-push password" id="accountpreferences_changePassContainer">
+                <div class="fl-push password" id="accountpreferences_changePassContainer" style="display:none;">
                     <h4 class="section_header">
                         __MSG__PASSWORD__:
                     </h4>
@@ -46,9 +51,9 @@
                         </div>
                     </form>
                 </div>
-                <div class="fl-push regional">
+                <div class="fl-push regional" id="accountpreferences_preferContainer">
                     <h4 class="section_header">
-                        __MSG__REGIONAL_SETTINGS__:
+                        __MSG__ACCOUNT_PREFERENCES__:
                     </h4>
                     <form class="preferences-form" method="POST" action="#">
                         <div class="form-item">
@@ -130,6 +135,14 @@
                             <label for="pass_language">__MSG__LANGUAGE__:</label>
                             <select id="pass_language" name="language">
                             </select>
+                        </div>
+                        <div>
+                            <label>__MSG__AUTOTAGGING_INFO__</label>
+                            <br />
+                                <input type="radio" name="autotagging" id="autotagging_on" value = "true" />__MSG__AUTOTAGGING_ON__ 
+                                <input type="radio" name="autotagging" id="autotagging_off" value = "false" />__MSG__AUTOTAGGING_OFF__
+                            <br />
+                            <input type="checkbox" id="tag_msg_info" /><label>__MSG__NOTIFY_INFO__</label>
                         </div>
                         <div class="save-preferences">
                             <button type="button" id="accountpreferences_submitRegional" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_CHANGES__</button>
