@@ -214,7 +214,6 @@ define(
                 if($i18nable.length > 0){
                     $i18nable[0].innerHTML = newstring;
                 }
-                document.title = sakaii18nAPI.General.process(document.title);
                 finishI18N();
             };
 

@@ -82,6 +82,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // ID of Input element that's focused, defines what to update
         var edittingElement = "";
         var directoryJSON = {};
+        var contentType = "";
 
         ////////////////////////
         ////// RENDERING ///////
@@ -126,14 +127,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var renderUrl = function(mode){
             sakai_global.content_profile.content_data.mode = mode;
-            var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
-            if(mimeType === "x-sakai/link") {
+            contentType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
+            if(contentType === "x-sakai/link") {
                 var json = {
                     data: sakai_global.content_profile.content_data,
                     sakai: sakai
                 };
                 sakai.api.Util.TemplateRenderer(contentmetadataUrlTemplate, json, $contentmetadataUrlContainer);
                 $contentmetadataUrlContainer.show();
+                $contentmetadataTagsContainer.removeClass("last");
             } else {
                 $contentmetadataUrlContainer.hide();
             }
@@ -452,7 +454,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 'padding-bottom': 'toggle'
             }, 400);
             $("#contentmetadata_show_more > div").toggle();
-            $contentmetadataTagsContainer.toggleClass("last");
+            if (contentType === "x-sakai/link") {
+                $contentmetadataUrlContainer.toggleClass("last");
+            } else {
+                $contentmetadataTagsContainer.toggleClass("last");
+            }
         };
 
         /**

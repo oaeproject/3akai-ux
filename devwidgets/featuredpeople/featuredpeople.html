@@ -8,7 +8,12 @@
 </div>
 
 <div id="featuredpeople_template"><!--
-    <div class="s3d-contentpage-title">__MSG__PEOPLE__ (<a href="/search#l=people&q=${category}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">${data.total}</a>)</div>
+    <div class="s3d-contentpage-title">__MSG__PEOPLE__
+        <span class="s3d-counts-outer">
+            <span class="s3d-counts-inner">${data.total}</span>
+            <a id="featuredpeople_showall" style="display:none;" href="/search#l=people&q=${title|safeURL}&cat=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>
+        </span>
+    </div>
     {for item in data.results}
         <div class="featuredpeople_content">
             <img src="${item.picture}" alt="${item.name}" class="featuredpeople_image"/>

@@ -126,6 +126,7 @@ require(
         "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
+        "jquery-plugins/jquery.fileupload",
         "jquery-plugins/jquery.MultiFile",
         "jquery-plugins/jquery.hoverIntent.sakai-edit",
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
@@ -133,7 +134,7 @@ require(
         "jquery-plugins/jquery.jcarousel.sakai-edit"
     ],
     function($, sakai) {
-        require.ready(function() {
+        require(['misc/domReady!'], function(doc) {
             sakai.api.User.loadMeData(function(success, data) {
                 sakai.api.Util.startup(data);
                 // Start i18n

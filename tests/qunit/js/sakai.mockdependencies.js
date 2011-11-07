@@ -103,7 +103,7 @@ require(
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
         "jquery-plugins/jquery.ba-bbq",
-        "jquery-plugins/jquery.pager",
+        "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
         "jquery-plugins/jquery.MultiFile",
@@ -115,7 +115,7 @@ require(
         "qunitjs/qunit"
     ],
     function($, sakai) {
-        require.ready(function() {
+        require(["misc/domReady!"], function(doc) {
             if (document.location.pathname !== "/tests/qunit/" && document.location.pathname !== "/tests/qunit/index.html") {
                 sakai.api.User.loadMeData(function(success, data) {
                     // Start i18n
