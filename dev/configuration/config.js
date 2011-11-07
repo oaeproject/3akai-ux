@@ -580,6 +580,10 @@ define(function(){
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
 
+        // Set this to the hostname of your CLE instance if you're using CAS
+        // proxy tickets
+        hybridCasHost: false,
+
         Messages: {
             Types: {
                 inbox: "inbox",
