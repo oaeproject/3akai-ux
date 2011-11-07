@@ -165,13 +165,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             if (paths && paths.length) {
                 $.each(paths, function(i, path) {
                     $.each(allNewContent, function(j, newContent) {
-                        if (newContent._path === path) {
+                        if (newContent && newContent._path === path) {
                             allNewContent.splice(j,1);
                         }
                     });
                     $.each(brandNewContent, function(lib, items) {
                         $.each(items, function(k, item) {
-                            if (item._path === path) {
+                            if (item && item._path === path) {
                                 items.splice(k,1);
                             }
                         });
@@ -675,6 +675,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                     },
                     method: "POST"
                 });
+                // Add the selected library as a viewer to the cached results
+                contentObj["sakai:pooled-content-viewer"] = contentObj["sakai:pooled-content-viewer"] || [];
+                contentObj["sakai:pooled-content-viewer"].push(libraryToUploadTo);
             }
 
             // Set initial version
