@@ -353,7 +353,6 @@ define(
                     }
                 }
             };
-            
 
             var tagsToAdd = [];
             var tagsToDelete = [];
