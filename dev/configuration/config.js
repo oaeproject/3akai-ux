@@ -802,12 +802,12 @@ define(function(){
             "kaltura/video": {
                 cssClass: "icon-video-sprite",
                 URL: "/dev/images/mimetypes/video.png",
-                description: "KALTURA_VIDEO_FILE"
+                description: "VIDEO_FILE"
             },
             "kaltura/audio": {
                 cssClass: "icon-sound-sprite",
                 URL: "/dev/images/mimetypes/sound.png",
-                description: "KALTURA_AUDIO_FILE"
+                description: "SOUND_FILE"
             },
             "other": {
                 cssClass: "icon-unknown-sprite",
