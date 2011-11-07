@@ -10,6 +10,42 @@
 
 <!-- WIDGET BODY -->
 <div class="fl-widget-content s3d-widget-content">
+    <div id="contacts_title_container"></div>
+
+    <div class="s3d-page-header-top-row">
+        <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
+            <div class="s3d-listview-grid">
+                <div class="s3d-action-icon s3d-search-results-gridview"></div>
+            </div>
+            <div class="s3d-listview-list selected">
+                <div class="s3d-action-icon s3d-search-results-listview selected"></div>
+            </div>
+        </div>
+        <div id="contacts_sortarea" class="s3d-margin-top-5 s3d-page-header-sort-area">
+            <label for="contacts_sortby">__MSG__SORT_BY__:</label>
+            <select id="contacts_sortby" name="contacts_sortby">
+                <option value="desc">__MSG__LAST_NAME__ __MSG__A_Z__</option>
+                <option value="asc">__MSG__LAST_NAME__ __MSG__Z_A__</option>
+            </select>
+        </div>
+        <div class="s3d-search-container">
+            <input id="contacts_livefilter" type="text" title="__MSG__SEARCH_THROUGH_MY_CONTACTS__" class="s3d-search-inputfield"/>
+            <button type="button" id="contacts_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
+                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_MY_CONTACTS__"/>
+            </button
+        </div>
+    </div>
+    <div class="s3d-page-header-bottom-row">
+        <a class="s3d-button s3d-large-button fl-force-right" href="/search#l=people">__MSG__FIND_MORE_PEOPLE__</a>
+        <div title="__MSG__SELECT_ALL_GROUPS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-page-header-selectall" id="contacts_select" type="button">
+            <input type="checkbox" id="contacts_select_checkbox"/>
+        </div>
+        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="contacts_addpeople_button" data-target-select-group="contacts_select_group_checkbox" disabled="true">
+            __MSG__ADD_TO__...
+            <span class="s3d-page-header-add-to-icon"></span>
+        </button>
+    </div>
+
     <div id="contacts_container"><!----></div>
 </div>
 
@@ -17,8 +53,11 @@
     <div class="s3d-widget-no-options-inner"><!----></div>
 </div>
 
-<div id="contacts_template"><!--
+<div id="contacts_title_template"><!--
     <div class="s3d-contentpage-title">__MSG__CONTACTS__ {if accepted.total} (${accepted.total}){/if}</div>
+--></div>
+
+<div id="contacts_template"><!--
     {if pending && pending.results.length}
         <div class="contacts_main" id="contacts_pending" style="display:none;">
             <h2>__MSG__PENDING_CONTACT_REQUEST_TO_OTHER_PEOPLE__</h2>

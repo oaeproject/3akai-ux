@@ -40,6 +40,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var contactsContainer = "#contacts_container";
         var contactsTemplate = "contacts_template";
+        var contactsTitleContainer = "#contacts_title_container";
+        var contactsTitleTemplate = "#contacts_title_template";
         var contacts = {  // global data for contacts widget
             totalItems: 0,
             itemsPerPage: 10,
@@ -95,6 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var renderContacts = function(dataObj){
+            $(contactsTitleContainer).html(sakai.api.Util.TemplateRenderer(contactsTitleTemplate, dataObj));
             $(contactsContainer).html(sakai.api.Util.TemplateRenderer(contactsTemplate, dataObj));
             showPager(contacts.currentPagenum);
         };

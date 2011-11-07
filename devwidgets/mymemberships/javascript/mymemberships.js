@@ -52,8 +52,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mymemberships_actionbar = $("#mymemberships_actionbar", $rootel);
         var $mymemberships_sortby = $("#mymemberships_sortby", $rootel);
         var $mymemberships_item = $(".mymemberships_item", $rootel);
-        var $mymemberships_show_grid = $("#mymemberships_show_grid");
-        var $mymemberships_show_list = $("#mymemberships_show_list");
+        var $mymemberships_show_grid = $(".s3d-listview-grid", $rootel);
+        var $mymemberships_show_list = $(".s3d-listview-list", $rootel);
 
         var currentQuery = "";
 
@@ -273,14 +273,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $mymemberships_show_list.click(function(){
                 $("#mymemberships_items").removeClass("s3d-search-results-grid");
-                $("#mymemberships_listview_options").find("div").removeClass("selected");
+                $(".s3d-listview-options").find("div").removeClass("selected");
                 $(this).addClass("selected");
                 $(this).children().addClass("selected");
             });
 
             $mymemberships_show_grid.click(function(){
                 $("#mymemberships_items").addClass("s3d-search-results-grid");
-                $("#mymemberships_listview_options").find("div").removeClass("selected");
+                $(".s3d-listview-options").find("div").removeClass("selected");
                 $(this).addClass("selected");
                 $(this).children().addClass("selected");
             });

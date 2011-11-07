@@ -12,16 +12,16 @@
         {/if}
     --></div>
 
-    <div class="mymemberships_top_row">
-        <div id="mymemberships_listview_options" class="s3d-button s3d-header-button s3d-header-smaller-button">
-            <div id="mymemberships_show_grid">
+    <div class="s3d-page-header-top-row">
+        <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
+            <div class="s3d-listview-grid">
                 <div class="s3d-action-icon s3d-search-results-gridview"></div>
             </div>
-            <div id="mymemberships_show_list" class="selected">
+            <div class="s3d-listview-list selected">
                 <div class="s3d-action-icon s3d-search-results-listview selected"></div>
             </div>
         </div>
-        <div id="mymemberships_sortarea" class="s3d-margin-top-5" style="display:none;">
+        <div id="mymemberships_sortarea" class="s3d-margin-top-5 s3d-page-header-sort-area" style="display:none;">
             <label for="mymemberships_sortby">__MSG__SORT_BY__:</label>
             <select id="mymemberships_sortby" name="mymemberships_sortby">
                 <option value="desc">__MSG__MOST_RECENTLY_CHANGED__ __MSG__A_Z__</option>
@@ -35,14 +35,14 @@
             </button
         </div>
     </div>
-    <div class="mymemberships_top_row" id="mymemberships_top_second_row">
+    <div class="s3d-page-header-bottom-row">
         <a class="s3d-button s3d-large-button fl-force-right" href="/create">__MSG__CREATE_A_NEW_GROUP__</a>
-        <div title="__MSG__SELECT_ALL_GROUPS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button" id="mymemberships_select" type="button">
+        <div title="__MSG__SELECT_ALL_GROUPS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-page-header-selectall" id="mymemberships_select" type="button">
             <input type="checkbox" id="mymemberships_select_checkbox"/>
         </div>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="mymemberships_addpeople_button" data-target-select-group="mymemberships_select_group_checkbox" disabled="true">
             __MSG__ADD_TO__...
-            <span class="mymemberships_add_to_icon"></span>
+            <span class="s3d-page-header-add-to-icon"></span>
         </button>
     </div>
 
