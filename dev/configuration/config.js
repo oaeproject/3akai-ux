@@ -580,6 +580,10 @@ define(function(){
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
 
+        // Set this to the hostname of your CLE instance if you're using CAS
+        // proxy tickets
+        hybridCasHost: false,
+
         Messages: {
             Types: {
                 inbox: "inbox",
@@ -798,6 +802,16 @@ define(function(){
                 cssClass: "icon-sakaidoc-sprite",
                 URL: "/dev/images/mimetypes/sakaidoc.png",
                 description: "DOCUMENT"
+            },
+            "kaltura/video": {
+                cssClass: "icon-video-sprite",
+                URL: "/dev/images/mimetypes/video.png",
+                description: "VIDEO_FILE"
+            },
+            "kaltura/audio": {
+                cssClass: "icon-sound-sprite",
+                URL: "/dev/images/mimetypes/sound.png",
+                description: "SOUND_FILE"
             },
             "other": {
                 cssClass: "icon-unknown-sprite",

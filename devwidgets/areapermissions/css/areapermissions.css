@@ -46,7 +46,7 @@
 #areapermissions_container #areapermissions_see_private_specific > hr:first-child {margin:10px 0 20px;}
 #areapermissions_container .areapermissions_grouppermissions_notificationlabel {font-size:10px;font-weight:normal;margin-left:47px;display:block;}
 #areapermissions_container .areapermissions_grouppermissions_notificationlabel.inline {margin-left:0;display:inline;}
-#areapermissions_container .areapermissions_edit_role_container {width:169px;}
+#areapermissions_container .areapermissions_edit_role_container {width:169px;height:34px;}
 #areapermissions_container .areapermissions_edit_role_container.multiple {float:left;}
 
 #areapermissions_warning_container {top:150px;}
