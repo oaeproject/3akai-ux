@@ -24,8 +24,8 @@
         <div id="mymemberships_sortarea" class="s3d-margin-top-5" style="display:none;">
             <label for="mymemberships_sortby">__MSG__SORT_BY__:</label>
             <select id="mymemberships_sortby" name="mymemberships_sortby">
-                <option value="desc">__MSG__MOST_RECENTLY_CHANGED__ __MSG__A_Z__</option>
-                <option value="asc">__MSG__MOST_RECENTLY_CHANGED__ __MSG__Z_A__</option>
+                <option value="desc">__MSG__RECENTLY_CHANGED__ __MSG__A_Z__</option>
+                <option value="asc">__MSG__RECENTLY_CHANGED__ __MSG__Z_A__</option>
             </select>
         </div>
         <div class="s3d-search-container">
@@ -40,10 +40,11 @@
         <div title="__MSG__SELECT_ALL_GROUPS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button" id="mymemberships_select" type="button">
             <input type="checkbox" id="mymemberships_select_checkbox"/>
         </div>
-        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="mymemberships_addpeople_button" data-target-select-group="mymemberships_select_group_checkbox" disabled="true">
+        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="mymemberships_addpeople_button" data-target-select-group="mymemberships_select_group_checkbox" data-context="mymemberships" disabled="true">
             __MSG__ADD_TO__...
             <span class="mymemberships_add_to_icon"></span>
         </button>
+        <button class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" type="button" sakai-entityid="" sakai-entityname="" sakai-entitytype="group" id="mymemberships_message_button" disabled="true">__MSG__MESSAGE__<div class="s3d-action-icon s3d-actions-message"></div></button>
     </div>
 
     <!-- Empty/Error messages -->

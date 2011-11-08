@@ -248,10 +248,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var checkAddingEnabled = function(){
             if($(".mymemberships_select_group_checkbox:checked")[0]){
                 $("#mymemberships_addpeople_button").removeAttr("disabled");
+                $("#mymemberships_message_button").removeAttr("disabled");
             } else {
                 $("#mymemberships_addpeople_button").attr("disabled", true);
+                $("#mymemberships_message_button").attr("disabled", true);
                 $("#mymemberships_select_checkbox").removeAttr("checked");
             }
+        };
+
+        var updateMessageData = function(){
+            var idArr = [];
+            var titleArr = [];
+            $.each($(".mymemberships_select_group_checkbox:checked"), function(i, group){
+                idArr.push($(group).data("groupid"));
+                titleArr.push($(group).data("grouptitle"));
+            });
+            $("#mymemberships_message_button").attr("sakai-entityid", idArr);
+            $("#mymemberships_message_button").attr("sakai-entityname", titleArr);
         };
 
         /////////////////////////////
@@ -302,10 +315,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#mymemberships_addpeople_button").attr("disabled", true);
                     $(".mymemberships_select_group_checkbox").removeAttr("checked");
                 }
+                checkAddingEnabled();
+                updateMessageData();
             });
 
             $(".mymemberships_select_group_checkbox").live("change", function(){
                 checkAddingEnabled();
+                updateMessageData();
             });
         };
 

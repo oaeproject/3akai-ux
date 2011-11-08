@@ -36,20 +36,39 @@
         {/if}
     {/for}
     {if groups.length > 4}
-        __MSG__MORE__ 
+        __MSG__MORE__
     {/if}
     __MSG__TO__:
     <select name="addpeoplegroups_select" id="addpeoplegroups_select">
         {for world in worlds}
-            <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${api.i18n.getValueForKey(world.titleSing)}</option>
+            <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${api.i18n.getValueForKey(world.titleSing).toLowerCase()}</option>
         {/for}
 
-        <option id="addpeoplegroups_mylibrary_option" {if libraryHasIt} disabled="true"{/if}>__MSG__MY_LIBRARY__ {if libraryHasIt} (__MSG__ALREADY_A_MEMBER__){/if}</option>
+        {if context === "library"}
+            <option id="addpeoplegroups_mylibrary_option" {if libraryHasIt} disabled="true"{/if}>__MSG__MY_LIBRARY__ {if libraryHasIt} (__MSG__ALREADY_A_MEMBER__){/if}</option>
+        {/if}
 
         {for memberOfGroup in memberOfGroups.entry}
             <option value="${memberOfGroup["sakai:group-id"]}" {if !memberOfGroup.overrideAllSelectedAMember && memberOfGroup.allSelectedAMember} disabled="true"{/if}>${memberOfGroup["sakai:group-title"]} {if !memberOfGroup.overrideAllSelectedAMember && memberOfGroup.allSelectedAMember}(__MSG__ALREADY_A_MEMBER__){/if}</option>
         {/for}
     </select>
+--></div>
+
+<div id="addpeoplegroups_added_template"><!--
+    __MSG__YOU_SUCCESSFULLY_ADDED__
+    {var done = false}
+    {for group in groupsToAdd}
+        {if group_index < 4}
+            "${group.title}" {if group_index != 3 && groupsToAdd.length > 1 && groupsToAdd.length -1 != group_index}, {/if}
+        {elseif !done}
+            __MSG__AND__ ${groupsToAdd.length - 4}
+            {var done = true}
+        {/if}
+    {/for}
+    {if groupsToAdd.length > 4}
+        __MSG__MORE__
+    {/if}
+    __MSG__TO__ ${groupToAddTo}
 --></div>
 
 <!-- JAVASCRIPT -->
