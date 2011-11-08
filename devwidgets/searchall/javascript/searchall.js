@@ -172,10 +172,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         var setUsername = function(u, users) {
             $(".searchcontent_result_username").each(function(index, val){
-               var userId = $(val).text();
+               var userId = $(val).data("userid");
                if (userId === u){
-                   $(val).html(sakai.api.User.getDisplayName(users[u]));
-                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
+                   var displayName = sakai.api.User.getDisplayName(users[u]);
+                   var displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                   var displayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                   $(val).children(".searchcontent_result_by_name").html(displayNameShort);
+                   $(val).children(".searchcontent_result_by_name_grid").html(displayNameShorter);
+                   $(val).attr("title", displayName);
                }
             });
         };

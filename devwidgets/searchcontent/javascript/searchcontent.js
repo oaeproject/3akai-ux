@@ -202,7 +202,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     $.each(finaljson.items, function(index, item){
                         if (item) {
                             var userid = item["sakai:pool-content-created-for"];
-                            item.displayName = sakai.api.User.getDisplayName(users[userid]);
+                            var displayName = sakai.api.User.getDisplayName(users[userid]);
+                            item.displayName = displayName;
+                            item.displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.displayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                         }
                     });
 
