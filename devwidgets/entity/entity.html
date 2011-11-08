@@ -191,81 +191,164 @@
             {/if}
         </div>
 
-        <div class="entity_owns_actions_container">
-            __MSG__VISIBILITY__
-            <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
-                <div class="entity_owns_actions_private {if permissions === "private"} selected {/if}">
-                    <div class="s3d-dropdown-list" id="">
-                        <div class="s3d-dropdown-list-arrow-up"></div>
-                        {if permissions === "private"}
-                        	<span>__MSG__PRIVATE_SELECTED__</span>
-                        {else}
-                            <span>__MSG__PRIVATE_DESCRIPTION__</span>
-                        {/if}
-                    	<button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+        {if data.isManager}
+            <div class="entity_owns_actions_container">
+                <span class="entity_owns_actions_header">__MSG__VISIBILITY__</span>
+                <div class="s3d-button s3d-header-button ew_permissions s3d-header-smaller-button entity_owns_actions">
+                    <div class="entity_owns_actions_private {if permissions === "private"} selected {/if}">
+                        <div class="s3d-dropdown-list" id="">
+                            <div class="s3d-dropdown-list-arrow-up"></div>
+                            {if permissions === "private"}
+                            	<span>__MSG__PRIVATE_SELECTED__</span>
+                            {else}
+                                <span>__MSG__PRIVATE_DESCRIPTION__</span>
+                            {/if}
+                        	<button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                        </div>
                     </div>
-                </div>
-                <div class="entity_owns_actions_institution {if permissions === "everyone"} selected {/if}">
-                    <div class="s3d-dropdown-list" id="">
-                        <div class="s3d-dropdown-list-arrow-up"></div>
-                        {if permissions === "everyone"}
-                        	<span>__MSG__EVERYONE_SELECTED__</span>
-                        {else}
-                        	<span>__MSG__EVERYONE_DESCRIPTION__</span>
-                        {/if}
-                        <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                    <div class="entity_owns_actions_institution ew_permissions {if permissions === "everyone"} selected {/if}">
+                        <div class="s3d-dropdown-list" id="">
+                            <div class="s3d-dropdown-list-arrow-up"></div>
+                            {if permissions === "everyone"}
+                            	<span>__MSG__EVERYONE_SELECTED__</span>
+                            {else}
+                            	<span>__MSG__EVERYONE_DESCRIPTION__</span>
+                            {/if}
+                            <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                        </div>
                     </div>
-                </div>
-                <div class="entity_owns_actions_public {if permissions === "public"} selected {/if}">
-                    <div class="s3d-dropdown-list" id="">
-                        <div class="s3d-dropdown-list-arrow-up"></div>
-                        {if permissions === "public"}
-                            <span>__MSG__PUBLIC_SELECTED__</span>
-                        {else}
-                            <span>__MSG__PUBLIC_DESCRIPTION__</span>
-                        {/if}
-                        <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                    <div class="entity_owns_actions_public ew_permissions {if permissions === "public"} selected {/if}">
+                        <div class="s3d-dropdown-list" id="">
+                            <div class="s3d-dropdown-list-arrow-up"></div>
+                            {if permissions === "public"}
+                                <span>__MSG__PUBLIC_SELECTED__</span>
+                            {else}
+                                <span>__MSG__PUBLIC_DESCRIPTION__</span>
+                            {/if}
+                            <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="entity_owns_actions_container">
-            <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right">
-                <div class="s3d-dropdown-list" id="">
-                    <div class="s3d-dropdown-list-arrow-up"></div>
-                    <span>Create a new collection using the same collaborators</span>
-                    <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
-                </div>
-            </div>
-            __MSG__COLLABORATION__
-            <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
-                <div class="entity_owns_actions_collaborator has_counts">
+            <div class="entity_owns_actions_container">
+                <span class="entity_owns_actions_header">__MSG__COLLABORATION__</span>
+                <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right">
                     <div class="s3d-dropdown-list" id="">
                         <div class="s3d-dropdown-list-arrow-up"></div>
-                        	<span><button type="button" class="s3d-link-button entity_content_people">${data.members.counts.people} {if data.members.counts.people == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}</button> and <button class="s3d-link-button entity_content_group">${data.members.counts.groups} {if data.members.counts.groups == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}</button> are collaborating managers of this list</span>
-                        <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                        <span>__MSG__CREATE_COLLECTION_FROM_PEOPLE_WORKING_ON_THIS__</span>
                     </div>
-                    <span id="entity_participants_count">0</span>
                 </div>
-                <span>|</span>
-                <div class="entity_owns_actions_share has_counts">
-                    <div class="s3d-dropdown-list" id="">
-                        <div class="s3d-dropdown-list-arrow-up"></div>
-                        	<span>Shared with <button type="button" class="s3d-link-button entity_content_people">${data.members.counts.people} {if data.members.counts.people == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}</button> and <button class="s3d-link-button entity_content_group">${data.members.counts.groups} {if data.members.counts.groups == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}</button></span>
-                        <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
+                    <div class="entity_owns_actions_collaborator has_counts ew_permissions">
+                        <div class="s3d-dropdown-list" id="">
+                            <div class="s3d-dropdown-list-arrow-up"></div>
+                            	<span>
+                            	{if data.members.counts.managerusers !== 0}
+                                	<button type="button" class="s3d-link-button entity_content_people">${data.members.counts.managerusers}
+                                    	{if data.members.counts.managerusers === 1}
+                                    	    __MSG__PERSON_LC__
+                                    	{else}
+                                    	    __MSG__PEOPLE_LC__
+                                    	{/if}
+                                	</button>
+                                	{if data.members.counts.managergroups !== 0 && data.members.counts.managerusers !== 0}and{/if}
+                            	{/if}
+                            	{if data.members.counts.managergroups !== 0}
+                                	<button class="s3d-link-button entity_content_group">${data.members.counts.managergroups}
+                                    	{if data.members.counts.managergroups === 1}
+                                    	    __MSG__GROUP_LC__
+                                    	{else}
+                                    	    __MSG__GROUPS_LC__
+                                    	{/if}
+                                	</button>
+                            	{/if}
+                            	{if (data.members.counts.managerusers === 1 && data.members.counts.managergroups === 0) || (data.members.counts.managerusers === 0 && data.members.counts.managergroups === 1)}is{else}are{/if} collaborating manager{if (data.members.counts.managerusers >= 1 && data.members.counts.managergroups >= 1) || (data.members.counts.managerusers > 1 && data.members.counts.managergroups === 0)}s{/if} of this list</span>
+                            <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                        </div>
+                        <span id="entity_participants_count">${data.members.managers.length}</span>
                     </div>
-                    <span>${data.members.counts.groups + data.members.counts.people}</span>
+                    <span>|</span>
+                    <div class="entity_owns_actions_share has_counts ew_permissions">
+                        <div class="s3d-dropdown-list" id="">
+                            <div class="s3d-dropdown-list-arrow-up"></div>
+                            	<span>Shared with
+                            	    {if data.members.counts.people !== 0}
+                                    	<button type="button" class="s3d-link-button entity_content_people">${data.members.counts.people}
+                                        	{if data.members.counts.people == 1}
+                                        	    __MSG__PERSON_LC__
+                                        	{else}
+                                                __MSG__PEOPLE_LC__
+                                            {/if}
+                                        </button>
+                                    {/if}
+                                    {if data.members.counts.groups !== 0 && data.members.counts.people !== 0}and{/if}
+                                    {if data.members.counts.groups !== 0}
+                                    	<button class="s3d-link-button entity_content_group">${data.members.counts.groups}
+                                    	    {if data.members.counts.groups == 1}
+                                                __MSG__GROUP_LC__
+                                            {else}
+                                        	    __MSG__GROUPS_LC__
+                                    	{/if}
+                                    	</button>
+                                	{/if}
+                            	</span>
+                            <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                        </div>
+                        <span>${data.members.counts.groups + data.members.counts.people}</span>
+                    </div>
+                    <span>|</span>
+                    <button type="button" class="s3d-link-button s3d-bold ew_permissions" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
                 </div>
-                <span>|</span>
-                <button type="button" class="s3d-link-button s3d-bold ew_permissions" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
             </div>
-        </div>
-        <span class="entity_comments">
-            <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
-            {var commentCount = sakai.api.Content.getCommentCount(data.data)}
-            <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
-        </span>
+            <span class="entity_comments">
+                <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
+                {var commentCount = sakai.api.Content.getCommentCount(data.data)}
+                <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
+            </span>
+        {else}
+            <span class="entity_comments">
+                {var peopleCount = data.members.counts.people}
+                <div class="entity_number">
+                    <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
+                    __MSG__USED_BY__
+                    <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people s3d-regular-links">
+                        ${peopleCount}
+                        {if peopleCount == 1}
+                            __MSG__PERSON_LC__
+                        {else}
+                            __MSG__PEOPLE_LC__
+                        {/if}
+                    </a>
+                    {var groupCount = data.members.counts.groups}
+                    {if groupCount}
+                        and
+                        <a href="#" class="entity_content_group s3d-regular-links">
+                            ${groupCount}
+                            {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
+                        </a>
+                    {/if}
+                </div>
+                <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
+                {var commentCount = sakai.api.Content.getCommentCount(data.data)}
+                <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
+                <div class="entity_number entity_permissions_label">
+                    {var permissions = data.data["sakai:permissions"]}
+                    <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
+                        {if permissions == "public"}
+                            __MSG__VISIBLE_TO_ANYONE__
+                        {elseif permissions == "everyone"}
+                            __MSG__VISIBLE_TO_LOGGED__
+                        {else}
+                            __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
+                            {if (peopleCount + groupCount) > 1}
+                            + ${groupCount + peopleCount - 1} __MSG__OTHERS__
+                        {/if}
+                    {/if}
+                </div>
+            </span>
+        {/if}
     </div>
+    <hr class="fl-push fl-hidden"/>
 --></div>
 
 <div id="entity_group_template" style="display:none"><!--
