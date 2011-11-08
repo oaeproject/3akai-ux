@@ -347,14 +347,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Add binding to the elements and validate the forms on submit
      */
     var addBinding = function(){
-        var validateOps = {
+        var validateOpts = {
             submitHandler: function(form){
                 $newcreategroupContainer.find("select, input, textarea, button").attr("disabled", "disabled");
                 doCreateSimpleGroup();
             }
         };
         // Initialize the validate plug-in
-        sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOps, false, true);
+        sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOpts, true);
 
         $newcreategroupGroupTitle.bind("keyup", function(){
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");

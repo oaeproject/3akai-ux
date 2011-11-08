@@ -1936,19 +1936,58 @@ define(
              *
              * @param {jQuery} $form the jQuery element of the form in question
              * @param {Object} opts options to pass through to jquery.validate
+             *    NOTE: There is one additional option you can pass in -- an error callback function
+             *    When there is an error in validation detected, it will be called
              * @param {Function} [invalidCallback] The function to call when an error is detected
              * @param {Boolean} [insertAfterLabel] Insert the error span after the label, not before
              */
-            validate: function($form, opts, invalidCallback, insertAfterLabel) {
+            validate: function($form, opts, insertAfterLabel) {
                 var options = {
                     onclick: false,
                     onkeyup: false,
-                    onfocusout: false,
-                    errorElement: "span"
+                    onfocusout: false
                 };
+                // when you set onclick to true, you actually just don't set it
+                // to false, because onclick is a handler function, not a boolean
+                if (opts) {
+                    $.each(options, function(key,val) {
+                        if (opts.hasOwnProperty(key) && opts[key] === true) {
+                            delete opts[key];
+                            delete options[key];
+                        }
+                    });
+                }
+                options.errorElement = "span";
                 options.errorClass = insertAfterLabel ? "s3d-error-after" : "s3d-error";
+
+                // we need to handle success and invalid in the framework first
+                // then we can pass it to the caller
+                var successCallback = false,
+                    invalidCallback = false;
+
+                if (opts) {
+                    if (opts.hasOwnProperty("success") && $.isFunction(opts.success)) {
+                        successCallback = opts.success;
+                        delete opts.succss;
+                    }
+
+                    if (opts && opts.hasOwnProperty("invalidCallback") && $.isFunction(opts.invalidCallback)) {
+                        invalidCallback = opts.invalidCallback;
+                        delete opts.invalidCallback;
+                    }
+                }
+
                 // include the passed in options
                 $.extend(true, options, opts);
+
+                // Success is a callback on each individual field being successfully validated
+                options.success = function($label) {
+                    $label.remove();
+                    if ($.isFunction(successCallback)) {
+                        successCallback($label);
+                    }
+                };
+
                 options.errorPlacement = function($error, $element) {
                     if ($element.hasClass("s3d-error-calculate")) {
                         // special element with variable left margin
@@ -1968,18 +2007,25 @@ define(
                         $error.insertBefore($prevLabel);
                     }
                 };
-                options.invalidHandler = function($form1, validator) {
+
+                options.invalidHandler = function($thisForm, validator) {
                     $form.find(".s3d-error").attr("aria-invalid", "false");
                     if ($.isFunction(invalidCallback)){
-                        invalidCallback($form1, validator);
+                        invalidCallback($thisForm, validator);
                     }
                 };
+
                 options.showErrors = function(errorMap, errorList) {
+                    if (errorList.length !== 0 && $.isFunction(options.error)) {
+                        options.error();
+                    }
                     $.each(errorList, function(i,error) {
                         $(error.element).attr("aria-invalid", "true");
                     });
                     this.defaultShowErrors();
                 };
+
+                // Set up the form with these options in jquery.validate
                 $form.validate(options);
             }
         }

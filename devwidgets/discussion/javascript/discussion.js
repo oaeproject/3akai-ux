@@ -728,11 +728,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 getWidgetSettings();
             });
 
-            var validateOps = {
+            var validateOpts = {
                 submitHandler: createTopic
             };
             // Initialize the validate plug-in
-            sakai.api.Util.Forms.validate($(discussionCreateNewTopicForm, $rootel), validateOps, null, true);
+            sakai.api.Util.Forms.validate($(discussionCreateNewTopicForm, $rootel), validateOpts, true);
 
             $(".discussion_show_all_ellipsis_text", $rootel).live("click", function(){
                 $(this).parent().prev().text($(this).parent().prev()[0].title);

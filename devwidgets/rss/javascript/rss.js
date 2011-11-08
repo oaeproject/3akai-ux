@@ -106,19 +106,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var rssPagesShouldBeBiggerThan = "#rss_pages_should_be_bigger_than";
         var rssAddedNoFeeds = "#rss_added_no_feeds";
 
+        var $rss_settings_form = $("#rss_settings_form", rootel);
 
         ////////////////////
         // Event Handlers //
         ////////////////////
         var addBinding = function(){
-            $(rssAddUrl,rootel).bind("click", function(e, ui){
-                addRssFeed();
-            });
-            $(rssTxtUrl, rootel).bind("keydown", function(e, ui) {
-                if (e.keyCode === 13) {
-                    addRssFeed();
-                }
-            });
+            var validateOpts = {
+                submitHandler: addRssFeed
+            };
+            sakai.api.Util.Forms.validate($rss_settings_form, validateOpts, true);
             $(rssCancel, rootel).bind("click",function(e,ui){
                 sakai.api.Widgets.Container.informCancel(tuid, "rss");
             });
@@ -515,10 +512,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addRssFeed = function(){
             var rssURL = $(rssTxtUrl,rootel).val();
-            if (!rssURL || $.trim(rssURL) === "") {
-                sakai.api.Util.notification.show("", $(rssPasteValidRssAddress).html());
-                return false;
-            }
             rssURL = rssURL.replace("feed://","http://");
             if(!checkIfRssAlreadyAdded(rssURL)){
                 getFeed(rssURL, getFeedResponse);

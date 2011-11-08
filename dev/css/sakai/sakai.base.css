@@ -552,7 +552,8 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
  * Forms and Validation
  */
 .s3d-form-field-wrapper{position:relative;}
-.s3d-form-field-wrapper input, .s3d-form-field-wrapper textarea{float:left;clear:right;width:55%;padding:0 5px;margin-bottom:15px;}
+.s3d-form-field-wrapper input, .s3d-form-field-wrapper textarea, .s3d-form-field-wrapper select{float:left;clear:right;margin-bottom:15px;}
+.s3d-form-field-wrapper input, .s3d-form-field-wrapper textarea{width:55%;padding:0 5px;}
 .s3d-form-field-wrapper textarea{padding:5px;}
 .s3d-form-field-wrapper input.s3d-input-full-width, .s3d-form-field-wrapper textarea.s3d-input-full-width{width:98%;clear:both;}
 .s3d-form-field-wrapper input{height:21px;}

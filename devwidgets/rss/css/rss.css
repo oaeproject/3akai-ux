@@ -22,8 +22,7 @@
 .rss_feeds_line{margin:0 0 10px 10px;display:block;}
 #rss_settings_numEntries{width:30px;}
 #rss_settings{padding:2px 10px 0;}
-.rss_settings_form input[type=text]{width:100%;border-style:solid;border-width:1.5px;padding-top:5px;padding-bottom:5px;border-color:#DEDEDE;background-color:#f4f4f4;font-size:14px;display:block;}
-.rss_settings_form input[type=checkbox]{margin:10px 10px 0 0;}
+#rss_settings_form input[type=checkbox]{margin:10px 10px 0 0;}
 #rss_settings_rssFeedList .rss_settings_rssFeedListItem{width:100%;border-color:#f4f4f4;border-style:solid;border-width:1px;overflow:auto;background-color:#fff;}
 .rss_settings_rssFeedListItem .rss_feed_title {margin:10px 0 0 10px;font-weight:bold;}
 .rss_settings_rssFeedListItem span {display:block;margin-left:10px;}

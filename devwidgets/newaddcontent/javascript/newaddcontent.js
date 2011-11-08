@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "jquery-plugins/jquery.MultiFile"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "jquery-plugins/jquery.MultiFile.sakai-edited"], function($, sakai){
 
     /**
      * @name sakai_global.newaddcontent
@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var newaddcontentAddLinkForm = "#newaddcontent_add_link_form";
         var $newaddcontentAddLinkForm = $("#newaddcontent_add_link_form");
         var newaddcontentExistingContentForm = "#newaddcontent_existing_content_form";
-        var newaddcontentAddDocumentForm = "#newaddcontent_add_document_form";
+        var $newaddcontentAddDocumentForm = $("#newaddcontent_add_document_form");
         var newaddcontentExistingCheckAll = "#newaddcontent_existingitems_list_container_actions_checkall";
 
         var multifileQueueAddAllowed = true;
@@ -844,7 +844,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          */
         var renderUploadNewContent = function(){
             showSelectedItem($(newaddcontentUploadContentTemplate));
-            $("#newaddcontent_upload_content_form input").MultiFile({
+            $("form#newaddcontent_upload_content_form input[type='file']").MultiFile({
                 afterFileSelect: function(element, fileName, master_element){
                     var trashPrev = decideTrashPrev();
                     if (trashPrev){
@@ -868,6 +868,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Show the interface to add a new document
          */
         var renderNewDocument = function(){
+            if ($.trim($(newaddcontentAddDocumentTitle).val()) !== "") {
+                enableAddToQueue();
+            }
             showSelectedItem($(newaddcontentAddDocumentTemplate));
         };
 
@@ -947,6 +950,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Show the interface to add a link
          */
         var renderAddLink = function(){
+            if ($.trim($(newaddcontentAddLinkURL).val()) !== "") {
+                enableAddToQueue();
+            }
             showSelectedItem($(newaddcontentAddLinkTemplate));
         };
 
@@ -1111,8 +1117,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
             $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
-            $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
-            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
@@ -1120,25 +1124,29 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
 
             // Initialize the validate plug-in
-            sakai.api.Util.Forms.validate($newaddcontentAddLinkForm, {
+            var linkValidateOpts = {
                 onclick: true,
                 onkeyup: true,
                 onfocusout: true,
-                success: function(){
-                    enableAddToQueue();
-                }
-            });
+                success: enableAddToQueue,
+                error: disableAddToQueue
+            };
 
-            $(newaddcontentAddLinkForm + " " + newaddcontentAddLinkURL).blur(function(){
-                $newaddcontentAddLinkForm.submit(function(){
-                    return false;
-                });
-                if($newaddcontentAddLinkForm.validate().errorList.length){
-                    disableAddToQueue();
-                }
-            });
+            sakai.api.Util.Forms.validate($newaddcontentAddLinkForm, linkValidateOpts, true);
 
-            var dropbox = document.getElementById("newaddcontent_container_selecteditems");
+            // Need to create one validation opts object per validation
+            // I tried $.extend()'ing the previous one, but the callbacks won't fire
+            var documentValidateOpts = {
+                onclick: true,
+                onkeyup: true,
+                onfocusout: true,
+                success: enableAddToQueue,
+                error: disableAddToQueue
+            };
+
+            sakai.api.Util.Forms.validate($newaddcontentAddDocumentForm, documentValidateOpts, true);
+
+            var dropbox = $("#newaddcontent_container_selecteditems");
 
             $("#newaddcontent_container_selecteditems").fileupload({
                 url: uploadPath,

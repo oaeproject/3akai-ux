@@ -247,17 +247,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 return this.optional(element) || (checkUserName());
             }, "* This username is already taken.");
 
-            $.validator.addMethod("passwordmatch", function(value, element){
-                return this.optional(element) || (value === $(passwordField).val());
-            }, "* The passwords do not match.");
-
             var validateOpts = {
                 rules: {
                     password: {
                         minlength: 4
                     },
                     password_repeat: {
-                        passwordmatch: true
+                        equalTo: "#password_repeat"
                     },
                     username: {
                         minlength: 3,
