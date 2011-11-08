@@ -22,7 +22,7 @@
             </div>
             <div class="{if contentData.data["sakai:permissions"] === "everyone"} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
                 <input type="radio" name="contentpermissions_see" id="contentpermissions_see_everyone" {if contentData.data["sakai:permissions"] === "everyone"} checked="checked" {/if} value="everyone">
-                <label for="contentpermissions_see_everyone" class="s3d-bold"><span class="label_icon small_institution"></span>__MSG__INSTITUTION_WIDE__</label>
+                <label for="contentpermissions_see_everyone" class="s3d-bold"><span class="label_icon small_institution"></span>__MSG__LOGGED_IN_PEOPLE_ONLY__</label>
             </div>
             <div class="{if contentData.data["sakai:permissions"] === "private"} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
                 <input type="radio" name="contentpermissions_see" id="contentpermissions_see_private" {if contentData.data["sakai:permissions"] === "private"} checked="checked" {/if} value="private">

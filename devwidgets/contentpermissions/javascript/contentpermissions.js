@@ -157,6 +157,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var doDelete = function(){
             var userid = $(this).data("sakai-entityid");
             var manager = $(this).parent().data("originalpermission") === "managers";
+            var $itemToDelete = $(this).parent();
             var userToDelete = {};
             if (manager) {
                 userToDelete = {
@@ -176,6 +177,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     data: userToDelete,
                     success: function(){
                         $(window).trigger("load.content_profile.sakai");
+                        $itemToDelete.remove();
                     }
                 });
             } else {
