@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "jquery-plugins/jquery.MultiFile"], function($, sakai){
 
     /**
      * @name sakai_global.newaddcontent
@@ -165,13 +165,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (paths && paths.length) {
                 $.each(paths, function(i, path) {
                     $.each(allNewContent, function(j, newContent) {
-                        if (newContent._path === path) {
+                        if (newContent && newContent._path === path) {
                             allNewContent.splice(j,1);
                         }
                     });
                     $.each(brandNewContent, function(lib, items) {
                         $.each(items, function(k, item) {
-                            if (item._path === path) {
+                            if (item && item._path === path) {
                                 items.splice(k,1);
                             }
                         });
@@ -587,7 +587,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     content[refID] = {
                         "page": sakai.config.defaultSakaiDocContent
                     };
-                    sakai.api.Server.saveJSON("/p/" + data._contentItem.poolId + ".resource", content, function(){
+                    sakai.api.Server.saveJSON("/p/" + data._contentItem.poolId, content, function(){
                         // add pageContent in non-replace mode to support versioning
                         $.ajax({
                             url: "/p/" + data._contentItem.poolId + "/" + refID + ".save.json",
@@ -675,6 +675,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     },
                     method: "POST"
                 });
+                // Add the selected library as a viewer to the cached results
+                contentObj["sakai:pooled-content-viewer"] = contentObj["sakai:pooled-content-viewer"] || [];
+                contentObj["sakai:pooled-content-viewer"].push(libraryToUploadTo);
             }
 
             // Set initial version

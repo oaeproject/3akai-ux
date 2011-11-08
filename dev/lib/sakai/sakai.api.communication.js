@@ -137,10 +137,8 @@ define(
                     case "shared_content":
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
                         toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|name=" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] +
-                        "|description=" + (sakai_global.content_profile.content_data.data["sakai:description"] || "") +
-                        "|body=" + body +
-                        "|link=" + sakai_global.content_profile.content_data.url;
+                        "|system=" + sakai_i18n.getValueForKey("SAKAI") +
+                        "|body=" + body;
                         break;
                     case "contact_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
@@ -345,10 +343,10 @@ define(
         /**
          * Processes the messages from the server, stripping out everything we don't need
          */
-        processMessages : function(data) {
-            var messages = [],
-                ret = $.extend(true, {}, data);
-            $.each(ret, function(i, msg) {
+        processMessages : function(results) {
+            var messages = [];//,
+                //ret = $.extend(true, {}, data);
+            $.each(results, function(i, msg) {
                 if (!$.isEmptyObject(msg)) {
                     var newMsg = {};
                     newMsg.replyAll = [];
@@ -407,8 +405,7 @@ define(
                     messages.push(newMsg);
                 }
             });
-            ret = messages;
-            return ret;
+            return messages;
         },
 
         /**

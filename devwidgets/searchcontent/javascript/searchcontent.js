@@ -233,7 +233,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     "items": items,
                     "sakai": sakai
                 });
-            }, handleEmptyResultList, renderResults);
+            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults);
         };
 
         ///////////////////

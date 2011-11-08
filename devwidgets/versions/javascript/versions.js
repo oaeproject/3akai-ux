@@ -165,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 page: versions[$(this).parent().attr("data-versionId")].page
             }
             $.ajax({
-                url: currentPageShown.pageSavePath + ".resource",
+                url: currentPageShown.pageSavePath,
                 type: "POST",
                 dataType: "json",
                 data: {

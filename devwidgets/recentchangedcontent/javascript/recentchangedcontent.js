@@ -78,7 +78,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 size: "",
                 mimeType: mimeType,
                 mimeTypeDescription: mimeTypeDescription,
+                usedin: sakai.api.Content.getPlaceCount(result),
                 thumbnail: sakai.api.Content.getThumbnail(result),
+                totalcomment: sakai.api.Content.getCommentCount(result),
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "_path": result["_path"]
             };
@@ -91,34 +93,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(result.hasOwnProperty("_length") && result["_length"]) {
                 item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(result["_length"]) + ")";
             }
-            var usedin = 0;
-            usedin = result["sakai:pooled-content-manager"].length;
-            if (result["sakai:pooled-content-viewer"]) {
-                for (var i = 0; i < result["sakai:pooled-content-viewer"].length; i++) {
-                    if (result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone") {
-                        usedin++;
-                    }
-                }
-            }
-            if (result["sakai:pooled-content-viewer"]) {
-                for (var j =0;j<result["sakai:pooled-content-viewer"].length;j++) {
-                    if(result["sakai:pooled-content-viewer"][j] !== "anonymous" && result["sakai:pooled-content-viewer"][j] !== "everyone") {
-                        usedin++;
-                    }
-                }
-            }
 
-            item.usedin = usedin;
             var path = result["_path"];
             if (result["comments"]) {
-                var totalcomment = 0; // store total number of comments realted to content
                 var commentpath = ""; // store the path of the comment to display
                 var latestDate = 0; // store the latest date of the comment
                 for (var obj in result["comments"]) {
                     // if the object is comment
                     if (obj.substring(0,1) !== "-1") {
-                        // add the comment count
-                        totalcomment++;
                         // check if the comment is latest comment
                         if (result["comments"][obj]["_created"] > latestDate) {
                             commentpath = obj;
@@ -127,7 +109,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 item.comment = result["comments"][commentpath];
-                item.totalcomment = totalcomment;
 
                 if (item.comment.comment) {
                     item.comment.comment = sakai.api.Util.applyThreeDots(item.comment.comment, $(".recentchangedcontent_widget").width() / 2, {
