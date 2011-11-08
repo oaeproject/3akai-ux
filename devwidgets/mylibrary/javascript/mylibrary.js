@@ -181,7 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "items": items,
                     "sakai": sakai
                 });
-            }, handleEmptyLibrary, handleLibraryItems, sakai.api.Content.getNewList(mylibrary.contextId));
+            }, handleEmptyLibrary, sakai.config.URL.INFINITE_LOADING_ICON , handleLibraryItems, sakai.api.Content.getNewList(mylibrary.contextId));
         };
 
         ////////////////////

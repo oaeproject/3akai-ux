@@ -11,11 +11,12 @@
      * @param {Function} render              Render callback function called when the plugin is ready to render the list
      *                                       using a specific template
      * @param {Function} emptylistprocessor  Function used to deal with an empty result list [optional]
+     * @param {String} loadingImage          Path to the loading image that should be shown when 
      * @param {Function} postprocessor       Function used to transform the search results before rendering
      *                                       the template [optional]
      * @param {Object} initialcontent        Initial content to be added to the list [optional]
      */
-    $.fn.infinitescroll = function(url, parameters, render, emptylistprocessor, postprocessor, initialcontent){
+    $.fn.infinitescroll = function(url, parameters, render, emptylistprocessor, loadingImage, postprocessor, initialcontent){
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -24,6 +25,7 @@
         // Number of items to load per call to the server
         parameters.items = parameters.items || 18;
         var $container = $(this);
+        var $loadingContainer = $("<div />");
 
         ////////////////////////
         // Infinite scrolling //
@@ -131,6 +133,7 @@
                 $container.append(templateOutput);
             }
             isDoingExtraSearch = false;
+            showHideLoadingContainer(false);
             // If there are more results and we're still close to the bottom of the page,
             // do another one
             if (doAnotherOne) {
@@ -171,6 +174,7 @@
          */
         var loadResultList = function(initial){
             isDoingExtraSearch = true;
+            showHideLoadingContainer(true);
             $.ajax({
                 "url": url,
                 "data": parameters,
@@ -197,6 +201,36 @@
             $container = null;
         };
 
+        ///////////////////
+        // Loading image //
+        ///////////////////
+
+        /**
+         * Show or hide the loading image
+         * @param {Object} show    True when the loading image should be shown
+         *                         False when the loading image should be hidden
+         */
+        var showHideLoadingContainer = function(show){
+            if (show){
+                $loadingContainer.show();
+            } else {
+                $loadingContainer.hide();
+            }
+        };
+
+        /**
+         * Create a div underneath the infinite scroll list that shows a loading
+         * image provided by the container when a new set of results is being loaded
+         */
+        var setUpLoadingIcon = function(){
+            if (loadingImage){
+                $loadingContainer.append($("<img />", {"src": loadingImage}));
+                $loadingContainer.css({"margin-top": "15px", "text-align": "center"});
+                showHideLoadingContainer(false);
+                $loadingContainer.insertAfter($container);
+            }
+        };
+
         ////////////////////
         // Initialisation //
         ////////////////////
@@ -206,6 +240,7 @@
          */
         var loadInitialList = function(){
             var initial = true;
+            setUpLoadingIcon();
             if (initialcontent && initialcontent.length > 0){
                 initial = false;
                 processList({
