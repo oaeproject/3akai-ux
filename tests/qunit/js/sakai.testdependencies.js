@@ -75,8 +75,8 @@ require({
     baseUrl:"../../../../dev/lib/",
     paths: {
         "jquery-plugins": "jquery/plugins",
-        "jquery": "jquery/jquery-1.5.2",
-        "jquery-ui": "jquery/jquery-ui-1.8.13.custom",
+        "jquery": "jquery/jquery-1.7.0",
+        "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
         "config": "../configuration",
         "mockjax": "../../tests/qunit/js/jquery.mockjax",
         "qunitjs": "../../tests/qunit/js"
@@ -94,11 +94,12 @@ require(
         "jquery-ui",
         "jquery-plugins/jquery.validate",
         "jquery-plugins/jquery.autoSuggest.sakai-edited",
-        "fluid/3akai_Infusion",
         "misc/l10n/globalize",
+        "misc/underscore",
         "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
         "misc/querystring",
+        "fluid/3akai_Infusion",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
@@ -106,13 +107,15 @@ require(
         "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
+        "jquery-plugins/jquery.fileupload",
         "jquery-plugins/jquery.MultiFile",
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
-        "jquery-plugins/gritter/jquery.gritter",
+        "jquery-plugins/gritter/jquery.gritter.sakai-edit",
+        "jquery-plugins/jquery.jcarousel.sakai-edit",
         "qunitjs/qunit"
     ],
     function($, sakai) {
-        require.ready(function() {
+        require(["misc/domReady!"], function(doc) {
             if (document.location.pathname !== "/tests/qunit/" && document.location.pathname.indexOf("/tests/qunit/index.html") === -1) {
                 sakai.api.User.loadMeData(function(success, data) {
                     // Start i18n

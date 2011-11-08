@@ -101,9 +101,7 @@
                     <button class="s3d-link-button s3d-action-icon s3d-actions-author mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}" title="__MSG__VIEW_OWNER_INFO__"></button>
                     <a href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
-                            <img src="${item.thumbnail}" alt="${item.type}" />
-                        {elseif (item.mimeType && item.mimeType.substring(0,6)=="image/")}
-                            <img class="s3d-icon-40" src="/p/${item.id}" alt="${item.type}" />
+                            <img class="s3d-icon-40" src="${item.thumbnail}" alt="${item.type}" />
                         {else}
                             <img alt="${item.type}" src="${item.type_src}" />
                         {/if}

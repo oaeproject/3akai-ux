@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "jquery-plugins/jquery.MultiFile"], function($, sakai){
 
     /**
      * @name sakai_global.newaddcontent
@@ -495,7 +495,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "page": sakai.config.defaultSakaiDocContent
                     };
                     $.ajax({
-                        url: "/p/" + data._contentItem.poolId + ".resource",
+                        url: "/p/" + data._contentItem.poolId,
                         type: "POST",
                         dataType: "json",
                         data: {
@@ -660,6 +660,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newaddcontentUploadContentForm.attr("action", uploadPath);
             $newaddcontentUploadContentForm.ajaxForm({
                 dataType: "json",
+                data: {"_charset_": "utf8"},
                 success: function(data){
                     var extractedData = [];
                     for (var i in data) {
@@ -703,7 +704,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 checkUploadCompleted();
             }
             return false;
-        }
+        };
 
         /**
          * Add an already existing item to your own library

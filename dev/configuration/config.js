@@ -580,6 +580,10 @@ define(function(){
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
 
+        // Set this to the hostname of your CLE instance if you're using CAS
+        // proxy tickets
+        hybridCasHost: false,
+
         Messages: {
             Types: {
                 inbox: "inbox",
@@ -610,10 +614,13 @@ define(function(){
             "pptx":"application/vnd.ms-powerpoint",
             "odg":"image/jpeg",
             "png":"image/png",
+            "jp2":"images/jp2",
             "jpg":"image/jpeg",
             "jpeg":"image/jpeg",
             "bmp":"image/bmp",
             "gif":"image/gif",
+            "tif":"image/tiff",
+            "tiff":"images/tiff",
             "pdf":"application/x-pdf",
             "swf":"application/x-shockwave-flash",
             "flv":"video/x-msvideo",
@@ -736,6 +743,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/images.png",
                 description: "GIF_IMAGE"
             },
+            "image/jp2": {
+                cssClass: "icon-image-sprite",
+                URL: "/dev/images/mimetypes/images.png",
+                description: "JPG2000_IMAGE"
+            },
             "image/jpeg": {
                 cssClass: "icon-image-sprite",
                 URL: "/dev/images/mimetypes/images.png",
@@ -745,6 +757,11 @@ define(function(){
                 cssClass: "icon-image-sprite",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "JPG_IMAGE"
+            },
+            "image/tiff": {
+                cssClass: "icon-image-sprite",
+                URL: "/dev/images/mimetypes/images.png",
+                description: "TIFF_IMAGE"
             },
             "text/html": {
                 cssClass: "icon-html-sprite",
@@ -785,6 +802,16 @@ define(function(){
                 cssClass: "icon-sakaidoc-sprite",
                 URL: "/dev/images/mimetypes/sakaidoc.png",
                 description: "DOCUMENT"
+            },
+            "kaltura/video": {
+                cssClass: "icon-video-sprite",
+                URL: "/dev/images/mimetypes/video.png",
+                description: "VIDEO_FILE"
+            },
+            "kaltura/audio": {
+                cssClass: "icon-sound-sprite",
+                URL: "/dev/images/mimetypes/sound.png",
+                description: "SOUND_FILE"
             },
             "other": {
                 cssClass: "icon-unknown-sprite",
@@ -917,11 +944,11 @@ define(function(){
         Footer: {
             leftLinks: [{
                 "title": "__MSG__COPYRIGHT__",
-                "href": "http://sakaiproject.org",
+                "href": "http://sakaiproject.org/foundation-licenses",
                 "newWindow": true
             }, {
                 "title": "__MSG__HELP__",
-                "href": "http://sakaiproject.org",
+                "href": "http://sakaiproject.org/node/2307",
                 "newWindow": true
             }, {
                 "title": "__MSG__ACKNOWLEDGEMENTS__",
@@ -982,7 +1009,7 @@ define(function(){
          *  divider1: {
          *      "divider": true,
          *      "title": "Divider title" [optional],
-         *      "class": "CSS class to add to items inside of elements beneath the divider [optional]
+         *      "cssClass": "CSS class to add to items inside of elements beneath the divider [optional]
          *  }
          */
         Directory: {
@@ -3167,9 +3194,9 @@ define(function(){
             },
             {
                 id: "research",
-                title : "RESEARCH",
-                menuLabel : "CREATE_RESEARCH",
-                titleSing: "RESEARCH",
+                title : "RESEARCH_PROJECTS",
+                menuLabel : "CREATE_A_RESEARCH_PROJECT",
+                titleSing: "RESEARCH_PROJECT",
                 templates: [
                     {
                         id: "researchproject",

@@ -446,6 +446,53 @@ define(
         },
 
         /**
+         * Removes multiple users from the specified role for multiple content items
+         *
+         * @param role  content profile data as defined in loadContentProfile()
+         * @param {String} role The role to remove user(s) from
+         * @param {String/Array} contentId The content to remove the user from
+         * @param {String/Array} userId The user to remove
+         * @param {Function} callback Callback function
+         */
+        removeUser: function(role, contentId, userId, callback){
+            var batchRequests = [];
+            var userIds = [];
+            var contentIds = [];
+
+            if (_.isString(userId)){
+                userIds.push(userId);
+            } else if (_.isArray(userId)){
+                userIds = userId;
+            }
+
+            if (_.isString(contentId)){
+                contentIds.push(contentId);
+            } else if (_.isArray(contentId)){
+                contentIds = contentId;
+            }
+
+            for (var c = 0; c < contentIds.length; c++) {
+                for (var i = 0; i < userIds.length; i++) {
+                    var parameter = {":viewer@Delete": userIds[i]};
+                    if (role === "manager"){
+                        parameter = {":manager@Delete": userIds[i]};
+                    }
+                    batchRequests.push({
+                        url: "/p/" + contentIds[c] + ".members.json",
+                        parameters: parameter,
+                        method: "POST"
+                    });
+                }
+            }
+
+            sakai_serv.batch(batchRequests, function(success, data){
+                if ($.isFunction(callback)) {
+                   callback(success);
+                }
+            });
+        },
+
+        /**
          * Returns a preview URL for known services, empty string otherwise
          *
          * @param url The url of the content in an external service that you'd like a preview of
@@ -490,7 +537,7 @@ define(
                 if (uri.queryKey.v){
                     result.url = url;
                     result.type = "video";
-                    result.avatar = "http://img.youtube.com/vi/" + uri.queryKey.v + "/0.jpg";
+                    result.avatar = "//img.youtube.com/vi/" + uri.queryKey.v + "/0.jpg";
                 }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
@@ -602,9 +649,10 @@ define(
 
         getThumbnail : function(content){
             var thumbnail = "";
+            var mimeType = sakai_content.getMimeType(content);
             if (content['sakai:pagecount'] && content['sakai:pagecount'] !== "0") {
                 thumbnail = "/p/" + content['_path'] + "/page1.small.jpg";
-            } else if (sakai_content.getMimeType(content).indexOf("image") !== -1) {
+            } else if (mimeType.indexOf("image") !== -1 && mimeType !== "image/tiff" && mimeType !== "image/jp2") {
                 thumbnail = "/p/" + content['_path'];
             } else if (content["sakai:preview-url"]) {
                 if (content["sakai:preview-avatar"]) {
@@ -633,6 +681,10 @@ define(
             return supported;
         },
 
+        isKalturaPlayerSupported : function(mimeType) {
+            return sakai_conf.kaltura.enabled && (mimeType === "kaltura/video" || mimeType === "kaltura/audio");
+        },
+
         getCreatorProfile : function(content, callback) {
             $.ajax({
                 url: "/~" + content["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
@@ -655,9 +707,10 @@ define(
             var mimeType = sakai_content.getMimeType(content);
             if (content["sakai:preview-url"] ||
                     sakai_content.getThumbnail(content) ||
-                    mimeType.substring(0,6) === "image/" ||
+                    (mimeType.substring(0,6) === "image/" && mimeType !== "image/tiff" && mimeType !== "image/jp2") ||
                     mimeType.substring(0,5) === "text/" ||
                     mimeType === "application/x-shockwave-flash" ||
+                    sakai_content.isKalturaPlayerSupported(mimeType) ||
                     sakai_content.isJwPlayerSupportedVideo(mimeType)  ||
                     sakai_content.isJwPlayerSupportedAudio(mimeType)) {
                 result = true;

@@ -64,7 +64,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "featuredcontent",
         "featuredpeople",
         "featuredworlds",
-        "filerevisions",
         "fileupload",
         "footer",
         "ggadget",

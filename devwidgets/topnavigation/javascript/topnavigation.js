@@ -23,7 +23,7 @@
  */
 /*global Config, $, jQuery, get_cookie, delete_cookie, set_cookie, window, alert */
 
-require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
     /**
@@ -188,6 +188,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             return redirectURL;
         }
 
+       /**
+         * Check if a redirect should be performed
+         */
+        var checkForRedirect = function() {
+            var qs = new Querystring();
+            // Check for url param, path and if user is logged in
+            if (qs.get("url") && !sakai.api.User.isAnonymous(sakai.data.me) &&
+                (window.location.pathname === "/" || window.location.pathname === "/dev/explore.html" ||
+                  window.location.pathname === "/index" || window.location.pathname === "/dev")) {
+                    window.location = qs.get("url");
+            }
+        };
+
         ////////////////////////
         /////// MESSAGES ///////
         ////////////////////////
@@ -258,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             if (data) {
                 for (var i in data.results) {
                     if (data.results.hasOwnProperty(i)) {
-                        var mimeType = sakai.api.Content.getMimeTypeData(data.results[i]).cssClass;
+                        var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.results[i])).cssClass;
                         var tempFile = {
                             "dottedname": sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                             "name": data.results[i]["sakai:pooled-content-file-name"],
@@ -890,6 +903,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
          * Initialise the topnavigation widget
          */
         var doInit = function(){
+            checkForRedirect();
             renderMenu();
             renderUser();
             setCountUnreadMessages();
