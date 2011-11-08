@@ -121,12 +121,13 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="carousel_bottom_buttons">
-                                            {if !user.connected}
-                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS__"></button>
-                                            {/if}
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE__"></button>
-                                        </div>
+                                        <span class="carousel_bottom_buttons">
+                                            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS_ON__ ${user.displayName|safeOutput}</legend>
+                                                {if !user.connected}
+                                                    <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS__"></button>
+                                                {/if}
+                                                <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE__"></button>
+                                        </span>
                                     </div>
                                 {/for}
                             </div>
@@ -163,8 +164,10 @@
                                         </div>
                                         ${tags(group.tags)}
                                         <span class="carousel_bottom_buttons">
-                                            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__"></button>
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group" title="__MSG__SEND_A_MESSAGE__"></button>
+                                            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS_ON__ ${group.title|safeOutput}</legend>
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__"></button>
+                                                <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group" title="__MSG__SEND_A_MESSAGE__"></button>
+                                            </fieldset>    
                                         </span>
 
                                     </div>
