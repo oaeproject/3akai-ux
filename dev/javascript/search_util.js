@@ -62,13 +62,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @return {Object} The object containing the tag and shortened lengths
          */
         var shortenTags = function(tags){
-            tagsObj = {};
+            var tagsObj = {};
             for (var i in tags) {
-                tagsObj[i] = {
-                    "tag": tags[i],
-                    "tagShort": sakai.api.Util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
-                    "tagShorter": sakai.api.Util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, "")
-                };
+                if (tags.hasOwnProperty(i)) {
+                    tagsObj[i] = {
+                        "tag": tags[i],
+                        "tagShort": sakai.api.Util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
+                        "tagShorter": sakai.api.Util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, "")
+                    };
+                }
             }
             return tagsObj;
         };

@@ -172,7 +172,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         var setUsername = function(u, users) {
             $(".searchcontent_result_username").each(function(index, val){
-               var userId = $(val).data("userid");
+               var userId = $(val).attr("data-userid");
                if (userId === u){
                    var displayName = sakai.api.User.getDisplayName(users[u]);
                    var displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
