@@ -13,6 +13,7 @@
  *   http://billwscott.com/carousel/
  */
 
+require(['jquery'], function (jQuery) {
 /*global window, jQuery */
 (function($) {
     // Default configuration properties.
@@ -1054,3 +1055,4 @@
     };
 
 })(jQuery);
+});
