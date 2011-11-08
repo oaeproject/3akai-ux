@@ -57,6 +57,7 @@
   *             
   */
 
+require(['jquery'], function (jQuery) {
 (function($) {
 
     $.fn.editable = function(target, options) {
@@ -541,3 +542,4 @@
     };
 
 })(jQuery);
+});
