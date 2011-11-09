@@ -38,6 +38,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      */
     sakai_global.contacts = function(tuid, showSettings){
 
+        var $rootel = $("#" + tuid);
         var contactsContainer = "#contacts_container";
         var contactsTemplate = "contacts_template";
         var contactsTitleContainer = "#contacts_title_container";
@@ -51,6 +52,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             accepted: false,
             pending: false,
             invited: false
+        };
+
+        /**
+         * Compare the names of 2 contact objects
+         *
+         * @param {Object} a
+         * @param {Object} b
+         * @return 1, 0 or -1
+         */
+        var contactSort = function (a, b) {
+            if (a.details.lastName > b.details.lastName) {
+                return 1;
+            } else {
+                if (a.details.lastName === b.details.lastName) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
         };
 
         var acceptRequest = function(user){
@@ -72,31 +92,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var bindEvents = function(){
-            $(".contacts_add_to_contacts").live("click", function(){
-                acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
-            });
-
-            $("#contacts_delete_contacts_dialog").jqm({
-                modal: true,
-                overlay: 20,
-                toTop: true,
-            });
-
-            $(".s3d-actions-delete").live("click", function(){
-                $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
-                $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
-                $("#contacts_delete_contacts_dialog").jqmShow();
-            });
-
-            $("#contacts_delete_contact_confirm").live("click", function(){
-                removeRequest($(this).data("sakai-entityid"));
-            });
-
-            $(window).bind("contacts.accepted.sakai", getContacts);
+        var checkAddingEnabled = function(){
+            if($(".contacts_select_contact_checkbox:checked")[0]){
+                $("#contacts_addpeople_button").removeAttr("disabled");
+            } else {
+                $("#contacts_addpeople_button").attr("disabled", true);
+                $("#contacts_select_checkbox").removeAttr("checked");
+            }
         };
 
         var renderContacts = function(dataObj){
+            dataObj.accepted.results = dataObj.accepted.results.sort(contactSort);
+            dataObj.pending.results = dataObj.pending.results.sort(contactSort);
+            dataObj.invited.results = dataObj.invited.results.sort(contactSort);
+            if (contacts.sortOrder === "desc") {
+                dataObj.accepted.results.reverse();
+                dataObj.pending.results.reverse();
+                dataObj.invited.results.reverse();
+            }
             $(contactsTitleContainer).html(sakai.api.Util.TemplateRenderer(contactsTitleTemplate, dataObj));
             $(contactsContainer).html(sakai.api.Util.TemplateRenderer(contactsTemplate, dataObj));
             showPager(contacts.currentPagenum);
@@ -238,6 +251,70 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     buttonClickCallback: showAccepted
                 });
             }
+        };
+
+        var bindEvents = function(){
+            $(".contacts_add_to_contacts").live("click", function(){
+                acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
+            });
+
+            $("#contacts_delete_contacts_dialog").jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+            });
+
+            $(".s3d-actions-delete").live("click", function(){
+                $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
+                $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
+                $("#contacts_delete_contacts_dialog").jqmShow();
+            });
+
+            $("#contacts_delete_contact_confirm").live("click", function(){
+                removeRequest($(this).data("sakai-entityid"));
+            });
+
+            $(window).bind("contacts.accepted.sakai", getContacts);
+
+            $("#contacts_select_checkbox").change(function(){
+                if($(this).is(":checked")){
+                    $("#contacts_addpeople_button").removeAttr("disabled");
+                    $(".contacts_select_contact_checkbox").attr("checked", true);
+                } else{
+                    $("#contacts_addpeople_button").attr("disabled", true);
+                    $(".contacts_select_contact_checkbox").removeAttr("checked");
+                }
+            });
+
+            $(".contacts_select_contact_checkbox").live("change", function(){
+                checkAddingEnabled();
+            });
+
+            $("#contacts_sortby").change(function () {
+                var sortSelection = this.options[this.selectedIndex].value;
+                if (sortSelection === "desc") {
+                    contacts.sortOrder = "desc";
+                    $.bbq.pushState({"cso": "desc"});
+                } else {
+                    contacts.sortOrder = "asc";
+                    $.bbq.pushState({"cso": "asc"});
+                }
+                getContacts();
+            });
+
+            $(".s3d-search-results-listview", $rootel).click(function(){
+                $(".contacts_list_items").removeClass("s3d-search-results-grid");
+                $(".s3d-listview-options").find("div").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).children().addClass("selected");
+            });
+
+            $(".s3d-search-results-gridview", $rootel).click(function(){
+                $(".contacts_list_items").addClass("s3d-search-results-grid");
+                $(".s3d-listview-options").find("div").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).children().addClass("selected");
+            });
         };
 
         var doInit = function(){
