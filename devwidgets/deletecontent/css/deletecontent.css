@@ -16,5 +16,24 @@
  * specific language governing permissions and limitations under the License.
  */
 #deletecontent_error_container{margin-bottom:20px;}
-#deletecontent_form h4{margin-bottom:10px;}
-.deletecontent_buttons{padding-top:20px;text-align:right;}
+#deletecontent_dialog{width:620px !important; margin-left: -310px !important;}
+#deletecontent_main_confirm_message {color: #999999;}
+
+.deletecontent_content_list {margin-left: 0px; padding-bottom: 20px;}
+.deletecontent_content_list li{color: #333; font-style:italic; list-style-type: none; margin-top: 3px; font-weight: normal;}
+.deletecontent_content_list_large li {font-size: 15px;}
+
+.deletecontent_hybrid_container {background: url(/devwidgets/deletecontent/images/gradient.png) repeat-x; background-color: #e7e7e7; border-radius: 5px;}
+.deletecontent_hybrid_container_padding {padding: 18px 18px 0px;}
+
+.deletecontent_hybrid_dontmanage {width: 200px; height: 125px; float: left;}
+.deletecontent_hybrid_manage {width: 411px; min-height: 125px; margin-left: 210px; margin-bottom: 20px;}
+.deletecontent_hybrid_left {width: 180px;}
+.deletecontent_hybrid_right {float:right; width: 190px; margin-top: 30px}
+.deletecontent_hybrid_options {margin-bottom: 10px;}
+
+#deletecontent_used_by_others_container {margin: 10px 0px 20px 0px; padding: 10px 0px 10px 10px;}
+#deletecontent_used_by_others_list_container {min-height: 20px; max-height: 210px; overflow: auto;}
+#deletecontent_used_by_others_list {margin: 0px 0px 0px 0px;}
+#deletecontent_used_by_others_list li {width: 560px; height: 30px; padding: 3px 13px 6px; list-style: none outside none;}
+#deletecontent_used_by_others_list li a {line-height: 30px; padding: 1px 0 0 6px;}

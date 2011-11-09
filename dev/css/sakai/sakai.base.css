@@ -320,7 +320,7 @@ a.s3d-button.s3d-large-button {line-height:31px;}
 .s3d-actions-author {background:url("/dev/images/author_icon_default.png") no-repeat scroll left top transparent;width:32px !important;}
 .s3d-actions-author:hover {background:url("/dev/images/author_icon_hover.png") no-repeat scroll left top transparent;}
 
-.s3d-actions-share {background:url("/dev/images/share_icon_default.png") no-repeat scroll left top transparent;}
+.s3d-actions-share {background:url("/dev/images/share_icon_default.png") no-repeat scroll left top transparent; width: 23px !important;}
 .s3d-actions-share:hover {background:url("/dev/images/share_icon_hover.png") no-repeat scroll left top transparent;}
 
 .s3d-actions-message {background:url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;}
@@ -553,7 +553,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-result:hover{background-color:#f2f9fc;}
 
 /* search results common elements in content people and group results */
-.s3d-search-result-content .searchcontent_result_tags_icon, .s3d-search-result-person .searchpeople_result_tags_icon, .s3d-search-result-group .searchgroups_result_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
+.s3d-search-result-content .searchcontent_result_tags_icon, .s3d-search-result-person .searchpeople_result_tags_icon, .s3d-search-result-group .searchgroups_result_tags_icon{float:left;height:15px !important;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
 .s3d-search-result-content .searchcontent_result_usedin_icon, .s3d-search-result-group .searchgroups_result_usedin_icon{background: url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
 .s3d-search-result-content .searchcontent_result_comments_icon, .s3d-search-result-group .searchgroups_result_comments_icon{background: url("/devwidgets/entity/images/entity_comment_icon.png") no-repeat scroll left top transparent;}
 .s3d-search-result-content .searchcontent_result_tags_list, .s3d-search-result-person .searchpeople_result_tags_list, .s3d-search-result-group .searchgroups_result_tags_list{margin-left:20px;margin-top:6px;font-size:11px;}
@@ -570,7 +570,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-result-content .searchcontent_result_by{padding:3px 0;font-size:11px;}
 .s3d-search-result-content .searchcontent_result_detail_separator{color:#cccccc;}
 .s3d-search-result-content .searchcontent_result_usedin{margin-top:2px;font-size:11px;}
-.s3d-search-result-content .searchcontent_result_share_icon{display:inline-block;float:right;}
+.s3d-search-result-content .searchcontent_result_share_icon{display:inline-block;float:right;margin-left:10px;}
 .s3d-search-result-content .searchcontent_result_author_icon{margin-left:8px;display:inline-block;float:right;}
 
 /* search results people */
