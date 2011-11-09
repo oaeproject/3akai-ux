@@ -10,6 +10,7 @@
 */
 
 /*# AVOID COLLISIONS #*/
+require(['jquery', 'jquery-ui', 'jquery-plugins/jquery.fileupload'], function (jQuery) {
 ;if(window.jQuery) (function($){
 /*# AVOID COLLISIONS #*/
  
@@ -534,3 +535,4 @@
 /*# AVOID COLLISIONS #*/
 })(jQuery);
 /*# AVOID COLLISIONS #*/
+});

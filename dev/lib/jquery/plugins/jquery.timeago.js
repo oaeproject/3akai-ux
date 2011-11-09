@@ -13,6 +13,7 @@
  *
  * Copyright (c) 2008-2010, Ryan McGeary (ryanonjavascript -[at]- mcgeary [*dot*] org)
  */
+require(['jquery'], function (jQuery) {
 (function($) {
   $.timeago = function(timestamp) {
     if (timestamp instanceof Date) return inWords(timestamp);
@@ -139,3 +140,4 @@
   document.createElement("abbr");
   document.createElement("time");
 })(jQuery);
+});
