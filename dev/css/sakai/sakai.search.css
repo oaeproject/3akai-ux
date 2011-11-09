@@ -62,7 +62,7 @@
 .s3d-search-result-content .searchcontent_result_by{padding:3px 0;font-size:11px;}
 .s3d-search-result-content .searchcontent_result_detail_separator{color:#cccccc;}
 .s3d-search-result-content .searchcontent_result_usedin{margin-top:2px;font-size:11px;}
-.s3d-search-result-content .searchcontent_result_share_icon{display:inline-block;float:right;}
+.s3d-search-result-content .searchcontent_result_share_icon{display:inline-block;float:right;margin-left: 10px;}
 .s3d-search-result-content .searchcontent_result_author_icon{margin-left:8px;display:inline-block;float:right;}
 .s3d-search-result-content .searchcontent_result_by_name_grid{display:none;}
 

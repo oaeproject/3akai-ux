@@ -129,7 +129,8 @@ require(
         "jquery-plugins/jquery.MultiFile",
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
-        "jquery-plugins/jquery.jcarousel.sakai-edit"
+        "jquery-plugins/jquery.jcarousel.sakai-edit",
+        "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {
         require(['misc/domReady!'], function(doc) {

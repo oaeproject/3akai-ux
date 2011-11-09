@@ -38,6 +38,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      */
     sakai_global.contacts = function(tuid, showSettings){
 
+        var $rootel = $("#" + tuid);
+
         var contactsContainer = "#contacts_container";
         var contactsTemplate = "contacts_template";
         var contacts = {  // global data for contacts widget
@@ -71,17 +73,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var bindEvents = function(){
-            $(".contacts_add_to_contacts").live("click", function(){
+            $(".contacts_add_to_contacts", $rootel).live("click", function(){
                 acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
             });
 
             $("#contacts_delete_contacts_dialog").jqm({
                 modal: true,
                 overlay: 20,
-                toTop: true,
+                toTop: true
             });
 
-            $(".s3d-actions-delete").live("click", function(){
+            $(".contacts_delete_contact", $rootel).live("click", function(){
                 $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
                 $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
                 $("#contacts_delete_contacts_dialog").jqmShow();
