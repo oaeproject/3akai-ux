@@ -21,7 +21,7 @@
 .mylibrary_information {margin-top:15px;}
 .mylibrary_information_detail {width:70%;}
 .mylibrary_information_fliter {float:right;}
-#mylibrary_items {margin-top:10px; border-top: 1px solid #DDDDDD; border-bottom: 2px solid #DDDDDD;}
+#mylibrary_items {margin: 10px 0 0; border-top: 1px solid #DDDDDD;}
 .mylibrary_title_bar {padding:5px 0 10px;min-height:21px;}
 .mylibrary_check, #mylibrary_check_all {margin-top:4px;}
 .mylibrary_widget{overflow:hidden;}
@@ -41,8 +41,7 @@
 .mylibrary_center {text-align:center;}
 #mylibrary_sortby{border:1px solid #ccc;}
 
-.mylibrary_item{color:#333;padding: 10px 0 10px 5px;border-top: 1px dotted #cccccc; overflow:hidden;}
-.mylibrary_item:first-child {clear:both; border-top: none;}
+.mylibrary_item{color:#333;padding: 10px 0 10px 5px;border-bottom: 1px dotted #cccccc; overflow:hidden; clear:both;}
 .mylibrary_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
 .mylibrary_item_right{margin-left:78px;}
 .mylibrary_item_mimetype {font-size:smaller;white-space:pre;text-transform:uppercase;}

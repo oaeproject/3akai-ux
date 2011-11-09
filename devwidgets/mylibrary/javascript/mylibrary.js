@@ -262,7 +262,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     paths.push(this.id.split("mylibrary_check_")[1]);
                 });
                 $(window).trigger('init.deletecontent.sakai', [{
-                    path: paths,
+                    paths: paths,
                     context: mylibrary.contextId
                 }, function (success) {
                     if (success) {
@@ -283,7 +283,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var paths = [];
                 paths.push($(this).attr("data-entityid"));
                 $(window).trigger('init.deletecontent.sakai', [{
-                    path: paths,
+                    paths: paths,
                     context: mylibrary.contextId
                 }, function (success) {
                     if (success) {

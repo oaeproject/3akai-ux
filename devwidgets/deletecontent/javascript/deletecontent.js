@@ -263,6 +263,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var hideButtons = function(){
             $("#deletecontent_action_removefromsystem").hide();
+            $("#deletecontent_action_removefromsystem_nocontext").hide();
             $("#deletecontent_action_removefromlibrary").hide();
             $("#deletecontent_action_apply").hide();
             $("#deletecontent_action_removefromsystem_confirm").hide();
@@ -291,8 +292,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else if (contentIManage.length > 0){
                 // Set up overlay for full management permissions
                 template = "deletecontent_template_list";
-                $("#deletecontent_action_removefromsystem").show();
-                $("#deletecontent_action_removefromlibrary").show();
+                if (context){
+                    $("#deletecontent_action_removefromsystem").show();
+                    $("#deletecontent_action_removefromlibrary").show();
+                // When no context/library is specified, we assume that the content is being deleted outside
+                // of a library (e.g. content profile). We thus don't offer the remove from library option
+                } else {
+                    $("#deletecontent_action_removefromsystem_nocontext").show();
+                }
             } else if (contentIView.length > 0){
                 // Set up overlay for full viewer permissions
                 template = "deletecontent_template_list";
@@ -368,10 +375,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *     }, callbackFn]);  // callbackFn is sent one param: success (true if delete succeeded, false otherwise)
          */
         var load = function(ev, data, _callback){
-            context = data.context || sakai.data.me.user.userid;
+            context = data.context;
             callback = _callback;
-            pathsToDelete = data.path;
-            getContentInfo(data.path);
+            pathsToDelete = data.paths;
+            getContentInfo(data.paths);
             hideButtons();
             // Show the appropriate overlay title
             $("#deletecontent_main_confirm").hide();
@@ -405,6 +412,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $("#deletecontent_action_apply").bind("click", selectHybrid);
         $("#deletecontent_action_removefromlibrary_only").bind("click", removeFromLibrary);
         $("#deletecontent_action_removefromsystem_confirm").bind("click", removeFromSystem);
+        $("#deletecontent_action_removefromsystem_nocontext").bind("click", removeFromSystem);
 
         ////////////////////////////
         // External event binding //

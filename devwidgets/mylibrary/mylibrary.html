@@ -73,14 +73,14 @@
     --></div>
 
     <!-- Library Items -->
-    <div id="mylibrary_items" style="display:none;"><!-- TEMPLATE HERE --></div>
+    <ul id="mylibrary_items" style="display:none;"><!-- TEMPLATE HERE --></ul>
     <div id="mylibrary_items_template"><!--
     {if items}
         {var count = 0}
         {for item in items}
             {if item.filename}
                 {var count = count + 1}
-                <div id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item">
+                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item">
                     <div class="mylibrary_item_left_filler">
                         {if item.canDelete}
                             <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" />
@@ -129,7 +129,7 @@
                             {/if}
                         </div>
                     </div>
-                </div>
+                </li>
             {/if}
         {/for}
     {/if}
