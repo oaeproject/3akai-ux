@@ -229,12 +229,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var removeMembership = function(groupid){
+        var removeMembership = function(groupid,groupname){
             sakai.api.Groups.getRole(sakai.data.me.user.userid,groupid,function(success,role) {
                 sakai.api.Groups.leave(groupid,role,sakai.data.me,function(success) {
-                    $(window).trigger("lhnav.updateCount", ["memberships", -1]);
-                    $("#mymemberships_delete_membership_dialog").jqmHide();
-                    $("#mymemberships_item_"+groupid).remove();
+                    if (success) {
+                        $(window).trigger("lhnav.updateCount", ["memberships", -1]);
+                        $("#mymemberships_delete_membership_dialog").jqmHide();
+                        $("#mymemberships_item_"+groupid).remove();
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
+                                sakai.api.i18n.getValueForKey("YOU_HAVE_LEFT_GROUP","mymemberships").replace("{groupname}",groupname),
+                                sakai.api.Util.notification.type.INFORMATION);
+                    }
+                    else {
+                        $("#mymemberships_delete_membership_dialog").jqmHide();
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
+                                sakai.api.i18n.getValueForKey("ERROR_LEAVING_GROUP","mymemberships").replace("{groupname}",groupname),
+                                sakai.api.Util.notification.type.ERROR);
+                    }
                 });
             });
         };
@@ -246,14 +257,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true,
             });
 
-            $(".s3d-actions-delete").live("click", function(){
-                $("#mymemberships_membership_to_delete").text($(this).data("sakai-entityname"));
+            $(".s3d-actions-delete", $rootel).live("click", function() {
+                var msg = sakai.api.i18n.getValueForKey("ARE_YOU_SURE_YOU_WANT_TO_LEAVE","mymemberships").replace("{groupname}",'<span class="s3d-bold">'+$(this).data("sakai-entityname")+'</span>');
+                $("#mymemberships_are_you_sure").html(msg);
                 $("#mymemberships_delete_membership_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
+                $("#mymemberships_delete_membership_confirm").data("sakai-entityname", $(this).data("sakai-entityname"));
                 $("#mymemberships_delete_membership_dialog").jqmShow();
             });
 
             $("#mymemberships_delete_membership_confirm").live("click", function(){
-                removeMembership($(this).data("sakai-entityid"));
+                removeMembership($(this).data("sakai-entityid"),$(this).data("sakai-entityname"));
             });
 
             if (sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
