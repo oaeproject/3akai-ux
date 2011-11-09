@@ -37,7 +37,7 @@
 
 .mymemberships_top_row {clear:both;margin-bottom:10px;}
 .mymemberships_top_row .s3d-search-inputfield {width:220px;}
-.mymemberships_top_row#mymemberships_top_second_row {line-height:30px;margin-bottom:15px;}
+.mymemberships_top_row#mymemberships_top_second_row {line-height:30px;margin:10px 0 15px;}
 .mymemberships_top_row#mymemberships_top_second_row button, .mymemberships_top_row#mymemberships_top_second_row #mymemberships_select {margin-top:5px;}
 .mymemberships_top_row#mymemberships_top_second_row #mymemberships_select {height:21px;line-height:23px;padding:0 6px 0 5px;}
 .mymemberships_top_row .s3d-button .mymemberships_add_to_icon {background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left top transparent;display:block;float:right;height:16px;margin-left:5px;width:16px;}

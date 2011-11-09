@@ -101,17 +101,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Compare the modification date of 2 group objects
+         *
+         * @param {Object} a
+         * @param {Object} b
+         * @return 1, 0 or -1
+         */
+        var groupSortModified = function (a, b) {
+            if (a["lastModified"] > b["lastModified"]) {
+                return 1;
+            } else {
+                if (a["lastModified"] === b["lastModified"]) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+        };
+
+        /**
          * Compare the names of 2 group objects
          *
          * @param {Object} a
          * @param {Object} b
          * @return 1, 0 or -1
          */
-        var groupSort = function (a, b) {
-            if (a["lastModified"] > b["lastModified"]) {
+        var groupSortName = function (a, b) {
+            if (a["sakai:group-title"] > b["sakai:group-title"]) {
                 return 1;
             } else {
-                if (a["lastModified"] === b["lastModified"]) {
+                if (a["sakai:group-title"] === b["sakai:group-title"]) {
                     return 0;
                 } else {
                     return -1;
@@ -128,9 +147,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sortSelection === "desc") {
                 mymemberships.sortOrder = "desc";
                 $.bbq.pushState({"mso": "desc"});
-            } else {
+            } else if (sortSelection === "asc") {
                 mymemberships.sortOrder = "asc";
                 $.bbq.pushState({"mso": "asc"});
+            } else {
+                mymemberships.sortOrder = "modified";
+                $.bbq.pushState({"mso": "modified"});
             }
             doInit();
         });
@@ -152,9 +174,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return;
             }
             if (groups.entry && groups.entry.length) {
-                groups.entry = groups.entry.sort(groupSort);
-                if (mymemberships.sortOrder === "desc") {
+                if(mymemberships.sortOrder === "modified"){
+                    groups.entry = groups.entry.sort(groupSortModified);
                     groups.entry.reverse();
+                } else {
+                    groups.entry = groups.entry.sort(groupSortName);
+                    if(mymemberships.sortOrder === "desc"){
+                        groups.entry.reverse();
+                    }
                 }
                 var groupData = [];
                 $.each(groups.entry, function (i, group) {
