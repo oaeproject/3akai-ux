@@ -1,0 +1,14 @@
+{
+    "id":"addpeoplegroups",
+    "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/addpeoplegroups/bundles/default.properties",
+            "name":"addpeoplegroups",
+            "description":"Adds people or groups as a member on groups"
+        }
+    },
+    "url":"/devwidgets/addpeoplegroups/addpeoplegroups.html"
+}
