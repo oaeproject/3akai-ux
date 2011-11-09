@@ -231,9 +231,10 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-button.s3d-overlay-button:hover {background:url("/dev/images/button_overlay_hover.png") repeat-x scroll left top transparent;}
 .s3d-button.s3d-overlay-button[disabled] {color:#ccc;}
 .s3d-button.s3d-overlay-button[disabled]:hover {background:url("/dev/images/button_overlay_default.png") repeat-x scroll left top transparent;cursor:auto;}
+a.s3d-button.s3d-overlay-button {display:inline-block;height:21px;line-height:21px;}
 
 /* Overlay Action buttons */
-.s3d-button.s3d-overlay-action-button {background:url("/dev/images/button_overlay_action_default.png") repeat-x scroll left top transparent;font-size:11px;font-weight:bold;height:25px;margin-left:15px;box-shadow:0 1px 2px 0 #999;color:#fff;padding:0 12px;}
+.s3d-button.s3d-overlay-action-button {background:url("/dev/images/button_overlay_action_default.png") repeat-x scroll left top transparent;font-size:11px;font-weight:bold;height:25px;margin-left:15px;box-shadow:0 1px 2px 0 #222;color:#fff;padding:0 5px;}
 .s3d-button.s3d-overlay-action-button:hover {background:url("/dev/images/button_overlay_action_hover.png") repeat-x scroll left top transparent;color:#22AAE7;}
 .s3d-button.s3d-overlay-action-button[disabled] {color:#ccc;}
 .s3d-button.s3d-overlay-action-button[disabled]:hover {background:url("/dev/images/button_overlay_action_default.png") repeat-x scroll left top transparent;cursor:auto;}
@@ -243,6 +244,10 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 /* No text buttons */
 .s3d-button.s3d-button-no-text {padding:0;}
 
+/* Button in another button */
+.s3d-button .s3d-button-in-button {background:url("/dev/images/button_in_button_default.png") repeat-x top left #5d6267;color:#fff;display:inline;height:15px;line-height:15px;margin:0 0 0 5px;padding:2px 4px;border:1px solid #4f4f4f;}
+
+.s3d-button.s3d-overlay-action-button .s3d-button-in-button {display:inline-block;margin-top:-3px;}
 
 /*
  * WIDGET LAYOUT
@@ -280,7 +285,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 /*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
  */
-.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 0px 0px;list-style:none}
+.s3d-no-results-container {background: url("/dev/images/noresults_bg.png") repeat scroll left top transparent;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 0px 0px;list-style:none}
 .s3d-no-results-container .s3d-no-results-arrow-up {background:url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;position:absolute;margin-top:-44px;width:36px;height:24px;}
 .s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;margin:5px 0 10px 0 !important;}
 .s3d-no-results-container h1 button{font-size:18px;}
