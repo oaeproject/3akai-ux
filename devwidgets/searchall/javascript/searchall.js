@@ -119,7 +119,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
                 // If we have results we add them to the object.
                 if (results && results.results) {
-                    //finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
                     finaljson = sakai_global.data.search.prepareGroupsForRender(results.results, finaljson);
                     finaljson = sakai_global.data.search.preparePeopleForRender(results.results, finaljson);
                 }
