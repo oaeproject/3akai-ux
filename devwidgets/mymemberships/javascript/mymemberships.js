@@ -360,7 +360,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function () {
             addBinding();
             currentQuery = $.bbq.getState("mq") || "";
-            $("#mymemberships_sortby").val($.bbq.getState("mso") || "asc");
+            $("#mymemberships_sortby").val($.bbq.getState("mso") || "modified");
             mymemberships.sortOrder = $.bbq.getState("mso") || "asc";
             $("#mymemberships_livefilter").val(currentQuery);
             if (sakai_global.profile.main.data.userid ===
