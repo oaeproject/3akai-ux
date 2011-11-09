@@ -117,24 +117,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     buttonClickCallback: pager_click_handler
                 });
 
-                var userArray = [];
-                var fetchUsers = false;
-
                 // If we have results we add them to the object.
                 if (results && results.results) {
-                    finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
+                    //finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
                     finaljson = sakai_global.data.search.prepareGroupsForRender(results.results, finaljson);
                     finaljson = sakai_global.data.search.preparePeopleForRender(results.results, finaljson);
-                    for (var item in finaljson.items) {
-                        if (finaljson.items.hasOwnProperty(item)) {
-                            // if the content has an owner we need to add their ID to an array,
-                            // so we can lookup the users display name in a batch req
-                            if (finaljson.items[item]["sakai:pool-content-created-for"]) {
-                                userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
-                                fetchUsers = true;
-                            }
-                        }
-                    }
                 }
 
                 // if we're searching tags we need to hide the pager since it doesnt work too well
@@ -152,36 +139,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
-            // Make the content items available to other widgets
-            sakai_global.searchall.content_items = finaljson.items;
-
-            // Render the results.
-            $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-
-            // Update dom with user display names
-            if (fetchUsers) {
-                sakai.api.User.getMultipleUsers(userArray, function(users){
-                    for (u in users) {
-                        if (users.hasOwnProperty(u)) {
-                            setUsername(u, users);
-                        }
-                    }
+            sakai_global.searchall.content_items = [];
+            finaljson.sakai = sakai;
+            if (success && results && results.results) {
+                sakai_global.data.search.prepareCMforRender(results.results, finaljson, function(prcessedResults){
+                    // Make the content items available to other widgets
+                    sakai_global.searchall.content_items = prcessedResults.items;
+                    // Render the results.
+                    $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, prcessedResults));
                 });
+            } else {
+                // Render the results.
+                $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             }
-        };
-
-        var setUsername = function(u, users) {
-            $(".searchcontent_result_username").each(function(index, val){
-               var userId = $(val).attr("data-userid");
-               if (userId === u){
-                   var displayName = sakai.api.User.getDisplayName(users[u]);
-                   var displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                   var displayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                   $(val).children(".searchcontent_result_by_name").html(displayNameShort);
-                   $(val).children(".searchcontent_result_by_name_grid").html(displayNameShorter);
-                   $(val).attr("title", displayName);
-               }
-            });
         };
 
         /**

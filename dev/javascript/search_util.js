@@ -87,7 +87,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Prepare for rendering //
         ///////////////////////////
 
-        sakai_global.data.search.prepareCMforRender = function(results, finaljson) {
+        sakai_global.data.search.prepareCMforRender = function(results, finaljson, callback) {
+            var userArray = [];
+            var fetchUsers = false;
             for (var i = 0, j = results.length; i < j; i++) {
                 if (results[i]['sakai:pooled-content-file-name']) {
                     // Set the item object in finaljson equal to the object in results
@@ -129,11 +131,36 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         contentItem.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
                     contentItem.thumbnail = sakai.api.Content.getThumbnail(results[i]);
+                    // if the content has an owner we need to add their ID to an array,
+                    // so we can lookup the users display name in a batch req
+                    if (contentItem["sakai:pool-content-created-for"]) {
+                        userArray.push(contentItem["sakai:pool-content-created-for"]);
+                        fetchUsers = true;
+                    }
                     finaljson.items.push(contentItem);
                 }
             }
             finaljson.sakai = sakai;
-            return finaljson;
+
+            // Get displaynames for the users that created content
+            if (fetchUsers) {
+                sakai.api.User.getMultipleUsers(userArray, function(success, users){
+                    $.each(finaljson.items, function(index, item){
+                        if (success && item) {
+                            var userid = item["sakai:pool-content-created-for"];
+                            var displayName = sakai.api.User.getDisplayName(users[userid]);
+                            item.displayName = displayName;
+                            item.displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.displayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                        }
+                    });
+                    if ($.isFunction(callback)) {
+                        callback(finaljson);
+                    }
+                });
+            } else if ($.isFunction(callback)) {
+                callback(finaljson);
+            }
         };
 
         sakai_global.data.search.prepareGroupsForRender = function(results, finaljson){

@@ -374,7 +374,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     userIds.push(content["sakai:pool-content-created-for"] || content["_lastModifiedBy"]);
                 });
                 if (userIds.length) {
-                    sakai.api.User.getMultipleUsers(userIds, function(users){
+                    sakai.api.User.getMultipleUsers(userIds, function(getMultipleUsersSuccess, users){
                         if (data && data.results && _.isEqual(mylibrary.oldResults, data.results)) {
                             callback(true, currentItems);
                             return;
@@ -383,7 +383,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         } else {
                             mylibrary.oldResults = data.results;
                         }
-                        if (success && data && data.results) {
+                        if (success && getMultipleUsersSuccess && data && data.results) {
                             mylibrary.totalItems = data.total;
                             currentItems = [];
                             if (mylibrary.totalItems === 0) {

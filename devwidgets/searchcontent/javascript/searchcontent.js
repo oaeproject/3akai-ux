@@ -144,8 +144,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var params = sakai_global.data.search.getQueryParams();
             var finaljson = {};
             finaljson.items = [];
-            var fetchUsers = false;
-            var userArray = [];
             if (success) {
 
                 // Adjust display global total
@@ -157,21 +155,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
                     buttonClickCallback: pager_click_handler
                 });
-
-                // If we have results we add them to the object.
-                if (results && results.results) {
-                    finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
-                    for (var item in finaljson.items) {
-                        if (finaljson.items.hasOwnProperty(item)) {
-                            // if the content has an owner we need to add their ID to an array,
-                            // so we can lookup the users display name in a batch req
-                            if (finaljson.items[item]["sakai:pool-content-created-for"]) {
-                                userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
-                                fetchUsers = true;
-                            }
-                        }
-                    }
-                }
 
                 // if we're searching tags we need to hide the pager since it doesnt work too well
                 if (!results.total) {
@@ -188,32 +171,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
-            var updateItemsAndRenderTemplate = function() {
-                // Make the content items available to other widgets
-                sakai_global.searchcontent.content_items = finaljson.items;
-                finaljson.sakai = sakai;
+            sakai_global.searchcontent.content_items = [];
+            finaljson.sakai = sakai;
+            if (success && results && results.results) {
+                sakai_global.data.search.prepareCMforRender(results.results, finaljson, function(prcessedResults){
+                    // Make the content items available to other widgets
+                    sakai_global.searchcontent.content_items = prcessedResults.items;
+                    // Render the results.
+                    $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, prcessedResults));
+                });
+            } else {
                 // Render the results.
                 $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-            };
-
-            // Get displaynames for the users that created content
-            if (fetchUsers) {
-                sakai.api.User.getMultipleUsers(userArray, function(users){
-                    $.each(finaljson.items, function(index, item){
-                        if (item) {
-                            var userid = item["sakai:pool-content-created-for"];
-                            var displayName = sakai.api.User.getDisplayName(users[userid]);
-                            item.displayName = displayName;
-                            item.displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                            item.displayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                        }
-                    });
-
-                    updateItemsAndRenderTemplate();
-                });
-            }
-            else {
-                updateItemsAndRenderTemplate();
             }
         };
 
