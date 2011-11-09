@@ -220,15 +220,20 @@
         <div class="entity_number entity_permissions_label">
             {var permissions = data.data["sakai:permissions"]}
             <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
-            {if permissions == "public"}
-                __MSG__VISIBLE_TO_ANYONE__
+            {if permissions == "private"}
+                __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
+                {if (peopleCount + groupCount) > 1}
+                    + ${groupCount + peopleCount - 1}
+                    {if (peopleCount + groupCount - 1) === 1}
+                        __MSG__OTHER__
+                    {else}
+                        __MSG__OTHERS__
+                    {/if}
+                {/if}
             {elseif permissions == "everyone"}
                 __MSG__VISIBLE_TO_LOGGED__
             {else}
-                __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
-                {if (peopleCount + groupCount) > 1}
-                    + ${groupCount + peopleCount - 1} __MSG__OTHERS__
-                {/if}
+                __MSG__VISIBLE_TO_ANYONE__
             {/if}
         </div>
     </div>
