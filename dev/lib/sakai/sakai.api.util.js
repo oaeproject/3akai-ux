@@ -305,8 +305,7 @@ define(
                 };
 
                 if (tags.length) {
-                    doSetTags(tags, function(_success)
-                    {
+                    doSetTags(tags, function(_success) {
                         setTagsCallback(_success);
                     });
                 } else {
