@@ -1982,6 +1982,12 @@ define(
 
                 // Success is a callback on each individual field being successfully validated
                 options.success = function($label) {
+                    // For autosuggest clearing, since we have to put the error on the ul instead of the element
+                    if (insertAfterLabel && $label.next("ul.as-selections").length) {
+                        $label.next("ul.as-selections").removeClass("s3d-error");
+                    } else if ($label.prev("ul.as-selections").length) {
+                        $label.prev("ul.as-selections").removeClass("s3d-error");
+                    }
                     $label.remove();
                     if ($.isFunction(successCallback)) {
                         successCallback($label);
@@ -1998,7 +2004,7 @@ define(
                         });
                     }
                     // Get the closest-previous label in the DOM
-                    var $prevLabel = $($element.prevAll("label")[0]);
+                    var $prevLabel = $("label[for='" + $element.attr("id") + "']");
                     $error.attr("id", $element.attr("name") + "_error");
                     $element.attr("aria-describedby", $element.attr("name") + "_error");
                     if (insertAfterLabel) {
@@ -2021,6 +2027,10 @@ define(
                     }
                     $.each(errorList, function(i,error) {
                         $(error.element).attr("aria-invalid", "true");
+                        // Handle errors on autosuggest
+                        if ($(error.element).hasClass("s3d-error-autosuggest")) {
+                            $(error.element).parents("ul.as-selections").addClass("s3d-error");
+                        }
                     });
                     this.defaultShowErrors();
                 };

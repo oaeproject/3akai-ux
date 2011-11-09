@@ -552,15 +552,17 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
  * Forms and Validation
  */
 .s3d-form-field-wrapper{position:relative;}
-.s3d-form-field-wrapper input, .s3d-form-field-wrapper textarea, .s3d-form-field-wrapper select{float:left;clear:right;margin-bottom:15px;}
+.s3d-form-field-wrapper input, .s3d-form-field-wrapper textarea, .s3d-form-field-wrapper select,.s3d-form-field-wrapper ul.as-selections{float:left;clear:right;margin-bottom:15px;}
 .s3d-form-field-wrapper input, .s3d-form-field-wrapper textarea{width:55%;padding:0 5px;}
+.s3d-form-field-wrapper ul.as-selections input{padding:0px;}
 .s3d-form-field-wrapper textarea{padding:5px;}
 .s3d-form-field-wrapper input.s3d-input-full-width, .s3d-form-field-wrapper textarea.s3d-input-full-width{width:98%;clear:both;}
+.s3d-form-field-wrapper ul.as-selections{padding: 0px 5px;width:98%;}
 .s3d-form-field-wrapper input{height:21px;}
 .s3d-form-field-wrapper label.s3d-input-label{float:left;width:35%;clear:left;text-align:right;padding:5px 2%;color:#666;}
 .s3d-form-field-wrapper label.s3d-input-label-above{width:100%;clear:both;text-align:left;padding:0;}
-.s3d-form-field-wrapper input.s3d-error, .s3d-form-field-wrapper textarea.s3d-error,.s3d-form-field-wrapper input.s3d-error-after, .s3d-form-field-wrapper textarea.s3d-error-after{border:3px solid #cc0000;}
+.s3d-form-field-wrapper input.s3d-error, .s3d-form-field-wrapper textarea.s3d-error,.s3d-form-field-wrapper input.s3d-error-after, .s3d-form-field-wrapper textarea.s3d-error-after, .s3d-form-field-wrapper ul.as-selections.s3d-error{border:3px solid #cc0000;}
 .s3d-form-field-wrapper span.s3d-error{clear:both;background-color:#cc0000;color:#fff;padding:0 5px;width:55%;float:left;margin-left:39%;border:3px solid #cc0000;font-size:11px;}
 .s3d-form-field-wrapper span.s3d-error-after{clear:both;background-color:#cc0000;color:#fff;padding:0 5px;width:98%;float:left;margin-left:0;border:3px solid #cc0000;font-size:11px;}
-.s3d-form-field-wrapper input::-webkit-input-placeholder {color:#aaa;font-size:12px;}
-.s3d-form-field-wrapper input:-moz-placeholder {color:#aaa;font-size:12px;}
+.s3d-form-field-wrapper input::-webkit-input-placeholder, .s3d-form-field-wrapper textarea::-webkit-input-placeholder {color:#aaa;font-size:12px;}
+.s3d-form-field-wrapper input:-moz-placeholder, .s3d-form-field-wrapper textarea:-moz-placeholder {color:#aaa;font-size:12px;}
