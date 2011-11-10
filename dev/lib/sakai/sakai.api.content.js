@@ -414,25 +414,36 @@ define(
         },
 
         /**
-         * Add a piece of content to your personal library or a group library
+         * Add a piece of content to your personal library or a group library as a viewer
+         * This function can handle single user/content or multiple user/content items in an array
          * @param {Object} contentId   Unique pool id of the content being added to the library
          * @param {Object} userId      Authorizable id of the library to add this content in
          * @param {Object} callBack    Function to call once the content has been added to the library
          */
         addToLibrary: function(contentId, userId, callBack){
+            // content array
             var toAdd = [];
-            if (typeof userId === "string"){
-                toAdd.push(userId);
+            if (typeof contentId === "string"){
+                toAdd.push(contentId);
             } else {
-                toAdd = userId;
+                toAdd = contentId;
+            }
+            // user array
+            var addTo = [];
+            if (typeof userId === "string"){
+                addTo.push(userId);
+            } else {
+                addTo = userId;
             }
             var batchRequests = [];
-            for (var i = 0; i < toAdd.length; i++){
-                batchRequests.push({
-                    url: "/p/" + contentId + ".members.json",
-                    parameters: {":viewer": toAdd[i]},
-                    method: "POST"
-                });
+            for (var i = 0; i < addTo.length; i++){
+                for (var j = 0; j < toAdd.length; j++){
+                    batchRequests.push({
+                        url: "/p/" + toAdd[j] + ".members.json",
+                        parameters: {":viewer": addTo[i]},
+                        method: "POST"
+                    });
+                }
             }
             sakai_serv.batch(batchRequests, function(success, data) {
                 if (success){
