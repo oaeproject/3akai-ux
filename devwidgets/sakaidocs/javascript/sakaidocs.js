@@ -639,7 +639,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }));
                     }
                     // Insert widgets
-                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
+                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData, {currentPageShown:currentPageShown});
                     // Render Math formulas in the text
                     sakai.api.Util.renderMath(currentPageShown.ref);
                     $contentEl.show();
