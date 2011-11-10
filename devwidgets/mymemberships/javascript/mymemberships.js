@@ -39,7 +39,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var mymemberships = {  // global widget data
             isOwnerViewing: false,
-            sortOrder: "asc",
+            sortOrder: "modified",
             cache: [],
             hovering: false
         };
@@ -440,7 +440,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function () {
             currentQuery = $.bbq.getState("mq") || "";
             $("#mymemberships_sortby").val($.bbq.getState("mso") || "modified");
-            mymemberships.sortOrder = $.bbq.getState("mso") || "asc";
+            mymemberships.sortOrder = $.bbq.getState("mso") || "modified";
             $("#mymemberships_livefilter").val(currentQuery);
             if (sakai_global.profile.main.data.userid ===
                 sakai.data.me.user.userid) {
