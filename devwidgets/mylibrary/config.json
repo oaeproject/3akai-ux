@@ -16,6 +16,5 @@
     "type":               "sakai",
     "url":                "/devwidgets/mylibrary/mylibrary.html",
     "userdashboard":      false,
-    "userpages":          false,
-    "hashParams":         ["l", "lq", "lso", "lsb", "lp"]
+    "userpages":          false
 }
