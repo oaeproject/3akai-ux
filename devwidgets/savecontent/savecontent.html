@@ -30,14 +30,14 @@
    {var contentTitle = content["sakai:pooled-content-file-name"]}
     __MSG__YOU_ARE_SAVING_CONTENT_TO__:
     <select name="savecontent_select" id="savecontent_select">
-        {if !sakai.api.Content.isUserAViewer(content, me.user.userid) && !sakai.api.Content.isUserAManager(content, me.user.userid)}
+        {if !sakai.api.Content.isContentInLibrary(content, me.user.userid)}
             <option value="${sakai.data.me.user.userid}">__MSG__MY_LIBRARY__</option>
         {else}
             <option value="${sakai.data.me.user.userid}" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
         {/if}
         {for g in groups.entry}
             {if g["sakai:group-title"]}
-                {if !sakai.api.Content.isUserAViewer(content, g.groupid) && !sakai.api.Content.isUserAManager(content, g.groupid)}
+                {if !sakai.api.Content.isContentInLibrary(content, g.groupid)}
                     <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]|safeOutput}'s Library</option>
                 {else}
                     <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]|safeOutput}'s Library (got it)</option>
