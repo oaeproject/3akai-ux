@@ -186,7 +186,7 @@
             {macro listGroup(i, sakai)}
                 <li id="${i.id}" class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}">
                     <span class="s3d-search-result-user-functions">
-                        <div class="{if !i.userMember && i["sakai:group-joinable"] !== "no"} s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus {/if} searchgroups_result_left_filler" data-group-joinable="${i["sakai:group-joinable"]}" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
+                        <div class="{if !i.userMember && i["sakai:group-joinable"] !== "no"} s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus {/if} searchgroups_result_left_filler" data-group-joinable="${i["sakai:group-joinable"]}" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" class="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
                         <button title="__MSG__SEND_MESSAGE_TO__ ${i['sakai:group-title']|safeOutput}" class="s3d-link-button searchgroups_result_message_icon s3d-action-icon s3d-actions-message sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']|safeOutput}" sakai-entityname="${i['sakai:group-title']|safeOutput}" sakai-entitytype="group"></button>
                     </span>
                     <span class="s3d-search-result-anonuser"></span>
