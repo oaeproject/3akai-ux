@@ -62,12 +62,17 @@
         <div id="addarea_existing_currentlyviewing_container" data-doc-type="existing_currentlyviewing" class="addarea_existing_container" style="display:none;">
             <h3>__MSG__CURRENTLY_VIEWING__ <span class="addarea_group_name"></span></h3>
             <div class="addarea_existing_top">
-                <select id="addarea_existing_currentlyviewing_sort" name="addarea_existing_currentlyviewing_sort">
+                <select id="addarea_existing_currentlyviewing_sort" class="addarea_existing_sort" name="addarea_existing_currentlyviewing_sort">
                     <option value="desc">__MSG__NEWEST__</option>
                     <option value="asc">__MSG__OLDEST__</option>
                 </select>
                 <label for="addarea_existing_currentlyviewing_sort">__MSG__SORT_BY__</label>
-                <input type="text" id="addarea_existing_currentlyviewing_search" class="addarea_existing_search"/>
+                <div class="s3d-search-container">
+                    <input type="text" tabindex_none="40" id="addarea_existing_currentlyviewing_search" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield addarea_existing_search"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                    </button>
+                </div>
             </div>
             <div class="addarea_existing_bottom" id="addarea_existing_currentlyviewing_bottom">
                 
@@ -80,20 +85,26 @@
                 <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select name="addarea_existing_permissions" class="addarea_existing_permissions">
                     <option value="public">__MSG__PUBLIC__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private">__MSG__ONLY_ME__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USER_ONLY__</option>
+                    <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+                    <option value="advanced">__MSG__ADVANCED__</option>
                 </select>
             </div>
         </div>
         <div id="addarea_existing_mylibrary_container" class="addarea_existing_container" data-doc-type="existing_mylibrary" style="display:none;">
             <h3>__MSG__FROM_MY_LIBRARY__...</h3>
             <div class="addarea_existing_top">
-                <select id="addarea_existing_mylibrary_sort" name="addarea_existing_mylibrary_sort">
+                <select id="addarea_existing_mylibrary_sort" class="addarea_existing_sort" name="addarea_existing_mylibrary_sort">
                     <option value="desc">__MSG__NEWEST__</option>
                     <option value="asc">__MSG__OLDEST__</option>
                 </select>
                 <label for="addarea_existing_mylibrary_sort">__MSG__SORT_BY__</label>
-                <input type="text" id="addarea_existing_mylibrary_search" class="addarea_existing_search"/>
+                <div class="s3d-search-container">
+                    <input type="text" tabindex_none="40" id="addarea_existing_mylibrary_search" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield addarea_existing_search"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                    </button>
+                </div>
             </div>
             <div class="addarea_existing_bottom" id="addarea_existing_mylibrary_bottom">
                 
@@ -106,20 +117,26 @@
                 <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select name="addarea_existing_permissions" class="addarea_existing_permissions">
                     <option value="public">__MSG__PUBLIC__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private">__MSG__ONLY_ME__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USER_ONLY__</option>
+                    <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+                    <option value="advanced">__MSG__ADVANCED__</option>
                 </select>
             </div>
         </div>
         <div id="addarea_existing_everywhere_container" class="addarea_existing_container" data-doc-type="existing_everywhere" style="display:none;">
             <h3>__MSG__FROM_EXISTING__...</h3>
             <div class="addarea_existing_top">
-                <select id="addarea_existing_everywhere_sort" name="addarea_existing_everywhere_sort">
+                <select id="addarea_existing_everywhere_sort" class="addarea_existing_sort" name="addarea_existing_everywhere_sort">
                     <option value="desc">__MSG__NEWEST__</option>
                     <option value="asc">__MSG__OLDEST__</option>
                 </select>
                 <label for="addarea_existing_everywhere_sort">__MSG__SORT_BY__</label>
-                <input type="text" id="addarea_existing_everywhere_search" class="addarea_existing_search"/>
+                <div class="s3d-search-container">
+                    <input type="text" tabindex_none="40" id="addarea_existing_everywhere_search" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield addarea_existing_search"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                    </button>
+                </div>
             </div>
             <div class="addarea_existing_bottom" id="addarea_existing_everywhere_bottom">
                 
@@ -132,8 +149,9 @@
                 <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select name="addarea_existing_permissions" class="addarea_existing_permissions">
                     <option value="public">__MSG__PUBLIC__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private">__MSG__ONLY_ME__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USER_ONLY__</option>
+                    <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+                    <option value="advanced">__MSG__ADVANCED__</option>
                 </select>
             </div>
         </div>
@@ -205,7 +223,7 @@
     {if data.length}
         <ul>
             {for doc in data}
-                <li class="addarea_existing_item" data-can-manage="${doc.canManage}" data-doc-title="${doc["sakai:pooled-content-file-name"]}" data-doc-id="${doc["_path"]}"><a href="/p/${doc["_path"]}/${doc["sakai:pooled-content-file-name"]}" title="${doc["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${doc["sakai:pooled-content-file-name"]}</a></li>
+                <li class="addarea_existing_item" data-can-manage="${doc.canManage}" data-doc-title="${doc["sakai:pooled-content-file-name"]}" data-doc-id="${doc["_path"]}"><a href="javascript:;" title="${doc["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${doc["sakai:pooled-content-file-name"]}</a></li>
             {/for}
         </ul>
     {else}
@@ -226,12 +244,13 @@
 <div id="addarea_permissions_template"><!--
     {if !newDoc}
         <option value="public" {if !canManage || groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
-        <option value="everyone" {if !canManage || groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USERS__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
-        <option value="private">__MSG__ONLY_ME__</option>
+        <option value="everyone" {if !canManage || groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USER_ONLY__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
+        <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
     {else}
         <option value="public" {if groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){/if}</option>
-        <option value="everyone" {if groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USERS__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){/if}</option>
-        <option value="private">__MSG__ONLY_ME__</option>
+        <option value="everyone" {if groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USER_ONLY__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){/if}</option>
+        <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+        <option value="advanced">__MSG__ADVANCED__</option>
     {/if}
 --></div>
 

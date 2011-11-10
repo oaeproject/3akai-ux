@@ -48,8 +48,9 @@
 #addarea_container #addarea_content_container label {margin-bottom:5px;display:block;}
 #addarea_container #addarea_content_container select, #addarea_container #addarea_content_container input, #addarea_container #addarea_content_container textarea {border:1px solid #A9A9A9;margin-bottom:15px;display:block;padding:0 5px;}
 #addarea_container #addarea_content_container input {height:20px;width:240px;}
+#addarea_container #addarea_content_container .s3d-search-inputfield {height:22px;}
 #addarea_container #addarea_content_container textarea {width:340px;resize:none;padding:5px;}
-#addarea_container #addarea_content_container select {height:20px;padding:0;}
+#addarea_container #addarea_content_container select {height:20px;padding:0;margin-top:3px;}
 #addarea_container #addarea_content_container .addarea_list_categories {float:right;}
 #addarea_container #addarea_content_container .addarea_preview_container {float:left;width:100px;}
 #addarea_container #addarea_content_container .addarea_data_container {float:left;margin-left:15px;overflow:visible;}
@@ -73,7 +74,7 @@
 .addarea_existing_bottom ul li.selected .s3d-regular-links {color:#fff;}
 .addarea_existing_top input {margin-bottom:0 !important;width:210px !important;}
 .addarea_existing_top select {float:right;margin-bottom:0 !important;}
-.addarea_existing_top label {float:right;margin:3px 7px 0 0;}
+.addarea_existing_top label {float:right;margin:6px 7px 0 0;}
 
 
 /** 

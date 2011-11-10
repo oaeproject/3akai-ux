@@ -67,7 +67,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var type = "group";
             if (canManage){
                 type = "group_managed";
-                $("#group_create_new_area").show();
+                $("#group_create_new_area_container").show();
             }
             $(window).trigger("sakai.entity.init", [context, type, groupData]);
         };

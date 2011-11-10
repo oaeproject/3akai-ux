@@ -34,6 +34,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // WIDGET VARIABLES //
         //////////////////////
 
+        var $rootel = $("#" + tuid);
+
         var $addAreaContainer = $("#addarea_container");
         var $groupCreateNewAreaButton = $("#group_create_new_area");
 
@@ -49,6 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addareaCreateDocButton = "#addarea_create_doc_button";
         var addAreaExistingEverywhereSearchInput = "#addarea_existing_everywhere_search";
         var addAreaExistingMyLibrarySearchInput = "#addarea_existing_mylibrary_search";
+        var addAreaExistingCurrentlyViewingInput = "#addarea_existing_currentlyviewing_search"
         var addareaExistingItem = ".addarea_existing_item";
         var addAreaGroupName = ".addarea_group_name";
 
@@ -66,6 +69,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var dateSort = function(a, b){
             return a["_created"] > b["_created"];
+        };
+
+        /**
+         * Sort from A - Z or Z - A on a title
+         */
+        var titleSort = function(a, b){
+            return a["sakai:pooled-content-file-name"] > b["sakai:pooled-content-file-name"];
         };
 
         /*
@@ -345,7 +355,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         itemURLName = sakai.api.Util.makeSafeURL(title);
                     }
                     for (var b = 0; b < batchRequests.length; b++){
-                        batchRequests[b].url = "/p/" + poolId + ".resource";
+                        batchRequests[b].url = "/p/" + poolId;
                     }
                     sakai.api.Server.batch(batchRequests, function(success2, data2) {
                         if (success2) {
@@ -645,22 +655,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var getCurrentlyViewingDocs = function(){
+        var docMatches = function (query, docTitle){
+            if(docTitle.toLowerCase().indexOf(query.toLowerCase())  != -1){
+                return true;
+            }
+            return false;
+        };
+
+        var getCurrentlyViewingDocs = function(query){
             var currentDocs = [];
+            query = query || "";
             $.each(sakai_global.group.pubdata.structure0, function(i, index){
                 if($.isPlainObject(sakai_global.group.pubdata.structure0[i])){
-                    currentDocs.push({
+                    var docObj = {
                         "sakai:pooled-content-file-name": sakai_global.group.pubdata.structure0[i]["_title"],
                         "_path": sakai_global.group.pubdata.structure0[i]["_pid"],
                         "canManage": sakai_global.group.pubdata.structure0[i]["_canSubedit"],
                         "groupVisibility": sakai_global.group.groupData["sakai:group-visible"]
-                    });
+                    };
+                    if(query && docMatches(query, docObj["sakai:pooled-content-file-name"])){
+                        currentDocs.push(docObj);
+                    } else if (query === ""){
+                        currentDocs.push(docObj);
+                    }
                 }
             });
+            var sortOrder = $(".addarea_existing_container:visible").find(".addarea_existing_sort").val();
+            currentDocs.sort(dateSort);
+            if (sortOrder === "desc"){
+                currentDocs.reverse();
+            }
             // Render the results
             $("#addarea_existing_currentlyviewing_bottom").html(sakai.api.Util.TemplateRenderer("addarea_existing_bottom_template", {
                 data: currentDocs,
-                "context": "currently_viewing"
+                context: "currently_viewing"
             }));
         };
 
@@ -700,7 +728,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
             sakai.api.Server.loadJSON(url,
                 function(success, data){
-                    var sortOrder = $("#addarea_existing_everywhere_sort").val();
+                    var sortOrder = $(".addarea_existing_container:visible").find(".addarea_existing_sort").val();
                     data.results.sort(dateSort);
                     if (sortOrder === "desc"){
                         data.results.reverse();
@@ -734,9 +762,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var handleSearch = function(ev){
-            if(ev.keyCode === 13){
-                $(".addarea_existing_bottom").html("");
-                getAllExistingSakaiDocs($(this).val(), $(ev.currentTarget).parents(".addarea_existing_container").data("doc-type") === "existing_mylibrary");
+            if(ev.keyCode === 13 || $(ev.currentTarget).hasClass("s3d-search-button")){
+                if($(".addarea_existing_container:visible").data("doc-type") !== "existing_currentlyviewing"){
+                    $(".addarea_existing_bottom").html("");
+                    getAllExistingSakaiDocs($(".addarea_existing_container:visible").find(".s3d-search-inputfield").val(), $(".addarea_existing_container:visible").data("doc-type") === "existing_mylibrary");
+                } else {
+                    $(".addarea_existing_bottom").html("");
+                    getCurrentlyViewingDocs($(".addarea_existing_container:visible").find(".s3d-search-inputfield").val());
+                }
             }
         };
 
@@ -781,8 +814,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addBinding = function(){
             $(addAreaNavigationButton).click(switchNavigation);
             $(addareaCreateDocButton).click(determineDocContext);
+            $(addAreaExistingCurrentlyViewingInput).live("keyup", handleSearch);
             $(addAreaExistingEverywhereSearchInput).live("keyup", handleSearch);
             $(addAreaExistingMyLibrarySearchInput).live("keyup", handleSearch);
+            $(".s3d-search-button", $rootel).click(handleSearch);
             $("#addarea_widgets_widget").change(function(){
                 $("#addarea_widgets_name").val(sakai.api.Widgets.getWidgetTitle($(this).val()));
             });
