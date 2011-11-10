@@ -18,13 +18,12 @@
                             {var mimeType = sakai.api.Content.getMimeType(i)}
                             {var thumbnail = sakai.api.Content.getThumbnail(i)}
                             <a href="/content#p=${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']|safeOutput}" title="${i['sakai:pooled-content-file-name']|safeOutput}">
-                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                 {if thumbnail}
-                                    <img class="s3d-icon-32" src="${thumbnail}" alt="${sakai.api.i18n.getValueForKey(mimeTypeDescription)}" />
+                                    <img class="s3d-icon-32" src="${thumbnail}" alt="${i.mimeTypeDescription}" />
                                 {elseif sakai.config.MimeTypes[mimeType]}
-                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.api.i18n.getValueForKey(mimeTypeDescription)}" />
+                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${i.mimeTypeDescription}" />
                                 {else}
-                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.api.i18n.getValueForKey(mimeTypeDescription)}" />
+                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${i.mimeTypeDescription}" />
                                 {/if}
                             </a>
                             <div class="relatedcontent_content_right">
@@ -38,7 +37,7 @@
                                     </span>
                                 </a>
                                 {if sakai.config.MimeTypes[mimeType]}
-                                    <span class="relatedcontent_mimetypedescription">${sakai.api.i18n.getValueForKey(mimeTypeDescription)}</span>
+                                    <span class="relatedcontent_mimetypedescription">${i.mimeTypeDescription}</span>
                                 {/if}
                                 {if i.commentcount}
                                     <span class="relatedcontent_comments">
