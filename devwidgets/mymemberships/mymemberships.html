@@ -92,7 +92,7 @@
                     {elseif}
                         <div class="mymemberships_item_left_filler {if !group.userMember && group.joinable !== "no"} s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus {/if}" data-group-joinable="${group.joinable}" data-groupid="${group.id}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${group.id}" {if !group.userMember}style="display:none;" {/if}></div>
                     {/if}
-                    <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}" {if !isOwnerViewing}style="display:none;"{/if}/>
+                    <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}" {if sakai.data.me.user.anon}style="display:none;"{/if}/>
                     <span class="mymemberships_item_right_buttons">
                         <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group"></button>
                     </span>
