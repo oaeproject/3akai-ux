@@ -42,7 +42,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var contextType = false;
         var contextData = false;
-        var newContent = 0;
 
         var setupProfile = function(structure) {
             var firstWidgetRef = "";
@@ -262,9 +261,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata.structure0[pageid]._count = count;
                 }
             }
-            if (pageid === "library") {
-                pubdata.structure0[pageid]._count += newContent;
-            }
         };
 
         var getUserPicture = function(profile, userid){
@@ -413,13 +409,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
             if (isMe && data && data.length && library === sakai.data.me.user.userid) {
-                newContent += data.length;
-                generateNav();
+                $(window).trigger("lhnav.updateCount", ["library", data.length]);
             }
-        });
-
-        $(window).bind("done.deletecontent.sakai", function(e, data) {
-            generateNav();
         });
 
         $(window).bind("updated.messageCount.sakai", function(){

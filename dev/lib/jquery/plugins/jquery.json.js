@@ -23,6 +23,7 @@
  * it gets passed back as-is.
  */
 
+require(['jquery'], function (jQuery) {
 (function($) {
     /**
      * jQuery.toJSON( json-serializble )
@@ -120,3 +121,4 @@
     };
 
 })(jQuery);
+});

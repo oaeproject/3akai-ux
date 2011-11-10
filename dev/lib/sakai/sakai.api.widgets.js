@@ -848,42 +848,46 @@ define(
              * construct the changedParams object which contains a map like this:
              * widgetHashes = { "widgetid" : { "changed": {"property": "value"}, "deleted": {}}};
              */
-            $.each(sakai_widgets_config, function(id, obj) {
-                if (obj.hasOwnProperty('hashParams')) {
-                    // iterate over each of the params that the widet watches
-                    $.each(obj.hashParams, function(i, val) {
-                        // If the current history state has this value
-                        if (currentState.hasOwnProperty(val)) {
-                            widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
-                            // and the oldState value exists and isn't the same as the new value
-                            // or the oldState didn't have the value
-                            if ((oldState.hasOwnProperty(val) && oldState[val] !== currentState[val]) ||
-                                !oldState.hasOwnProperty(val)) {
+            if (!$.isEmptyObject(sakai_widgets_config)) {
+                $.each(sakai_widgets_config, function(id, obj) {
+                    if (obj.hasOwnProperty('hashParams')) {
+                        // iterate over each of the params that the widet watches
+                        $.each(obj.hashParams, function(i, val) {
+                            // If the current history state has this value
+                            if (currentState.hasOwnProperty(val)) {
+                                widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
+                                // and the oldState value exists and isn't the same as the new value
+                                // or the oldState didn't have the value
+                                if ((oldState.hasOwnProperty(val) && oldState[val] !== currentState[val]) ||
+                                    !oldState.hasOwnProperty(val)) {
 
-                                widgetHashes[id].changed[val] = currentState[val];
+                                    widgetHashes[id].changed[val] = currentState[val];
+                                }
+                                widgetHashes[id].all[val] = currentState[val];
+
+                            // Check if the property was in the history state previously,
+                            // indicating that it was deleted from the currentState
+                            } else if (oldState.hasOwnProperty(val)) {
+                                widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
+                                widgetHashes[id].deleted[val] = oldState[val];
                             }
-                            widgetHashes[id].all[val] = currentState[val];
-
-                        // Check if the property was in the history state previously,
-                        // indicating that it was deleted from the currentState
-                        } else if (oldState.hasOwnProperty(val)) {
-                            widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
-                            widgetHashes[id].deleted[val] = oldState[val];
-                        }
-                    });
-                }
-            });
-            if (e.currentTarget) {
-                // Fire an event to each widget that has the hash params in it
-                $.each(widgetHashes, function(widgetID, hashObj) {
-                    $(window).trigger("hashchanged." + widgetID + ".sakai", [hashObj.changed || {}, hashObj.deleted || {}, hashObj.all || {}, currentState || {}]);
+                        });
+                    }
                 });
+                if (e.currentTarget) {
+                    // Fire an event to each widget that has the hash params in it
+                    $.each(widgetHashes, function(widgetID, hashObj) {
+                        $(window).trigger("hashchanged." + widgetID + ".sakai", [hashObj.changed || {}, hashObj.deleted || {}, hashObj.all || {}, currentState || {}]);
+                    });
 
-                // Reset the oldState to the currentState
-                oldState = currentState;
-                return true;
+                    // Reset the oldState to the currentState
+                    oldState = currentState;
+                    return true;
+                } else {
+                    return widgetHashes[e];
+                }
             } else {
-                return widgetHashes[e];
+                return null;
             }
         },
 
