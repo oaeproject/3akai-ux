@@ -101,7 +101,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
             versions.reverse();
             if (userIds.length) {
-                sakai.api.User.getMultipleUsers(userIds, function(users){
+                sakai.api.User.getMultipleUsers(userIds, function(getMultipleUsersSuccess, users){
                     for (var u in users) {
                         if (users.hasOwnProperty(u)) {
                             setUsername(u, users);
