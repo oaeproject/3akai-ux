@@ -510,7 +510,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                                 if (itemsToUpload[itemToUpload]["sakai:originaltitle"] === i){
                                     itemsToUpload[itemToUpload] = $.extend({}, data[i].item, itemsToUpload[itemToUpload]);
                                     if (data[i].type === "imscp") {
-                                        setIMSCPContent(itemsToUpload[itemToUpload])
+                                        setIMSCPContent(itemsToUpload[itemToUpload], data[i].item)
                                     } else {
                                         setDataOnContent(itemsToUpload[itemToUpload]);
                                     }
@@ -534,8 +534,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Run through the content of the IMS-CP package returned by the server
          * and store the page contents in proper Sakai Doc structure
          * @param {Object} documentObj    Content object that represents the original zip file upload
+         * @param {Object} fileUploadObj  Content object that was returned when uploading the zip file
          */
-        var setIMSCPContent = function(documentObj){
+        var setIMSCPContent = function(documentObj, fileUploadObj){
+            // Use the filename and description provided by the package
+            documentObj["sakai:pooled-content-file-name"] = fileUploadObj["sakai:pooled-content-file-name"];
+            documentObj["sakai:description"] = fileUploadObj["sakai:description"];
+            // Set page content for all pages in the package
             var resources = $.parseJSON(documentObj.resources);
             var content = {};
             var resourceIds = {};
