@@ -380,7 +380,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     data.push(embeddedItems[embeddedItem].value);
                 }
             }
-            sakai.api.Content.addToLibrary(data, sakai_global.group.groupId);
+            if (data.length > 0){
+                sakai.api.Content.addToLibrary(data, sakai_global.group.groupId);
+            }
         };
 
         /**

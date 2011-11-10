@@ -445,17 +445,21 @@ define(
                     });
                 }
             }
-            sakai_serv.batch(batchRequests, function(success, data) {
-                if (success){
-                    if (callBack) {
-                        callBack(contentId, userId);
+            if (batchRequests.length > 0) {
+                sakai_serv.batch(batchRequests, function(success, data){
+                    if (success) {
+                        if (callBack) {
+                            callBack(contentId, userId);
+                        }
                     }
-                } else {
-                    debug.error("sharecontent failed to change content " +
-                        "permission to 'viewer' for member: " + userId);
-                    debug.error("xhr data returned: " + data);
-                }
-            }, null, true);
+                    else {
+                        debug.error("sharecontent failed to change content " +
+                        "permission to 'viewer' for member: " +
+                        userId);
+                        debug.error("xhr data returned: " + data);
+                    }
+                }, null, true);
+            }
         },
 
         /**
