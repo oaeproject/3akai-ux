@@ -60,3 +60,5 @@
 .mymemberships_item .sakai_joingroup_overlay {float: left; margin-right: 10px;}
 
 .mymemberships_widget .s3d-no-results-container {font-style:normal;}
+
+.mymemberships_item .s3d-actions-delete {float: left;margin-top: 11px;margin-right: 10px;margin-bottom: 0pt;margin-left: 0pt;}
