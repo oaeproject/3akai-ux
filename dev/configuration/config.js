@@ -636,6 +636,8 @@ define(function(){
             "html":"text/html",
             "wav": "audio/x-wav",
             "mp3": "audio/mpeg",
+            "tar": "application/zip",
+            "zip": "application/zip",
             "other":"other"
         },
         MimeTypes: {

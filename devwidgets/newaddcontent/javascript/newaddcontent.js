@@ -509,7 +509,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                             for (var itemToUpload = 0; itemToUpload < itemsToUpload.length; itemToUpload++){
                                 if (itemsToUpload[itemToUpload]["sakai:originaltitle"] === i){
                                     itemsToUpload[itemToUpload] = $.extend({}, data[i].item, itemsToUpload[itemToUpload]);
-                                    setDataOnContent(itemsToUpload[itemToUpload]);
+                                    if (data[i].type === "imscp") {
+                                        setIMSCPContent(itemsToUpload[itemToUpload], data[i].item)
+                                    } else {
+                                        setDataOnContent(itemsToUpload[itemToUpload]);
+                                    }
                                 }
                             }
                         }
@@ -520,6 +524,31 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 }
             });
             $newaddcontentUploadContentForm.submit();
+        };
+
+        /////////////////////
+        // IMS-CP Packages //
+        /////////////////////
+
+        /**
+         * Run through the content of the IMS-CP package returned by the server
+         * and store the page contents in proper Sakai Doc structure
+         * @param {Object} documentObj    Content object that represents the original zip file upload
+         * @param {Object} fileUploadObj  Content object that was returned when uploading the zip file
+         */
+        var setIMSCPContent = function(documentObj, fileUploadObj){
+            // Use the filename and description provided by the package
+            documentObj["sakai:pooled-content-file-name"] = fileUploadObj["sakai:pooled-content-file-name"];
+            documentObj["sakai:description"] = fileUploadObj["sakai:description"];
+            // Set page content for all pages in the package
+            var resources = $.parseJSON(documentObj.resources);
+            var content = {};
+            var resourceIds = {};
+            for (var i = 0; i < resources.length; i++) {
+                resourceIds[i] = resources[i]._id;
+                content[resourceIds[i]] = {"page" : resources[i].page};
+            }
+            finishSakaiDoc(documentObj, content);
         };
 
         /////////////////////////////////////////////
@@ -587,25 +616,36 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                     content[refID] = {
                         "page": sakai.config.defaultSakaiDocContent
                     };
-                    sakai.api.Server.saveJSON("/p/" + data._contentItem.poolId, content, function(){
-                        // add pageContent in non-replace mode to support versioning
-                        $.ajax({
-                            url: "/p/" + data._contentItem.poolId + "/" + refID + ".save.json",
-                            type: "POST",
-                            data: {
-                                "sling:resourceType": "sakai/pagecontent",
-                                "sakai:pagecontent": content,
-                                "_charset_": "utf-8"
-                            },
-                            "success": function(){
-                                setDataOnContent(documentObj);
-                            }
-                        });
-                    });
+                    finishSakaiDoc(documentObj, content);
                 },
                 error: function(err){
                     checkUploadCompleted();
                 }
+            });
+        };
+
+        /**
+         * Add the page content for each of the pages in the Sakai Doc
+         * @param {Object} documentObj    Content object of the ZIP file that contained the package
+         * @param {Object} content        Initial page content for the IMS-CP package
+         */
+        var finishSakaiDoc = function(documentObj, content){
+            sakai.api.Server.saveJSON("/p/" + documentObj._path, content, function(){
+                var batchRequests = [];
+                for (var i in content){
+                    batchRequests.push({
+                        url: "/p/" + documentObj["_path"] + "/" + i + ".save.json",
+                        parameters: {
+                            "sling:resourceType": "sakai/pagecontent",
+                            "sakai:pagecontent": content[i],
+                            "_charset_": "utf-8"
+                        },
+                        method: "POST"
+                    });
+                }
+                sakai.api.Server.batch(batchRequests, function(success, response){
+                     setDataOnContent(documentObj);
+                });
             });
         };
 

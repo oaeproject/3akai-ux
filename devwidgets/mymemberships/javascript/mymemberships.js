@@ -54,6 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mymemberships_item = $(".mymemberships_item", $rootel);
         var $mymemberships_show_grid = $("#mymemberships_show_grid");
         var $mymemberships_show_list = $("#mymemberships_show_list");
+        var $mymemberships_nosearchresults = $("#mymemberships_nosearchresults");
 
         var currentQuery = "";
 
@@ -167,13 +168,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} groups  JSON containing group data
          */
         var render = function (groups) {
-            if (!groups) {
-                $mymemberships_actionbar.hide();
-                $mymemberships_nogroups.hide();
-                $mymemberships_nodata.show();
+            if (!groups.entry.length) {
+                $mymemberships_items.hide();
+                sakai.api.Util.TemplateRenderer("mymemberships_nogroups_template", {isMe: mymemberships.isOwnerViewing}, $mymemberships_nogroups);
+                $mymemberships_nogroups.show();
+                $(".mymemberships_top_row").hide();
                 return;
-            }
-            if (groups.entry && groups.entry.length) {
+            } else {
+                if(!mymemberships.isOwnerViewing){
+                    $("#mymemberships_top_second_row").hide();
+                }
                 if(mymemberships.sortOrder === "modified"){
                     groups.entry = groups.entry.sort(groupSortModified);
                     groups.entry.reverse();
@@ -238,7 +242,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             lastModified: group.lastModified,
                             contentCount: group.counts.contentCount,
                             membersCount: group.counts.membersCount,
-                            tags: tags
+                            tags: tags,
+                            userMember: sakai.api.Groups.isCurrentUserAMember(group.groupid,sakai.data.me),
+                            joinable: group["sakai:group-joinable"]
                         });
                     }
                 });
@@ -253,24 +259,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
                 $mymemberships_nodata.hide();
                 $mymemberships_nogroups.hide();
-                $("#mymemberships_sortarea", $rootel).show();
-                $mymemberships_items.show();
-                $("#mymemberships_items", $rootel).html(sakai.api.Util.TemplateRenderer(
-                    $("#mymemberships_items_template", $rootel), json));
+                // Show message that no search results where returned.
+                if(!json.groups.length){
+                    $mymemberships_nosearchresults.show();
+                    $mymemberships_items.hide();
+                } else {
+                    $mymemberships_nosearchresults.hide();
+                    $mymemberships_items.show();
+                    $("#mymemberships_sortarea", $rootel).show();
+                    $("#mymemberships_items", $rootel).html(sakai.api.Util.TemplateRenderer(
+                        $("#mymemberships_items_template", $rootel), json));
+                }
 
                 // display functions available to logged in users
                 if (!sakai.data.me.user.anon) {
                     $(".mymemberships_item_anonuser").hide();
                     $(".mymemberships_item_user_functions").show();
                 }
-            } else {
-                $mymemberships_nodata.hide();
-                $mymemberships_actionbar.hide();
-                $mymemberships_items.hide();
-                sakai.api.Util.TemplateRenderer("mymemberships_nogroups_template", {isMe: mymemberships.isOwnerViewing}, $mymemberships_nogroups);
-                $mymemberships_nogroups.show();
             }
         };
+
 
         var checkAddingEnabled = function(){
             if($(".mymemberships_select_group_checkbox:checked")[0]){
@@ -292,6 +300,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             $("#mymemberships_message_button").attr("sakai-entityid", idArr);
             $("#mymemberships_message_button").attr("sakai-entityname", titleArr);
+        };
+
+        var removeMembership = function(groupid,groupname){
+            sakai.api.Groups.getRole(sakai.data.me.user.userid,groupid,function(success,role) {
+                sakai.api.Groups.leave(groupid,role,sakai.data.me,function(success) {
+                    if (success) {
+                        $(window).trigger("lhnav.updateCount", ["memberships", -1]);
+                        $("#mymemberships_delete_membership_dialog").jqmHide();
+                        $("#mymemberships_item_"+groupid).remove();
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
+                                sakai.api.i18n.getValueForKey("YOU_HAVE_LEFT_GROUP","mymemberships").replace("{groupname}",groupname),
+                                sakai.api.Util.notification.type.INFORMATION);
+                    }
+                    else {
+                        $("#mymemberships_delete_membership_dialog").jqmHide();
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
+                                sakai.api.i18n.getValueForKey("ERROR_LEAVING_GROUP","mymemberships").replace("{groupname}",groupname),
+                                sakai.api.Util.notification.type.ERROR);
+                    }
+                });
+            });
         };
 
         /////////////////////////////
@@ -350,6 +379,51 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 checkAddingEnabled();
                 updateMessageData();
             });
+
+            $("#mymemberships_delete_membership_dialog").jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+            });
+
+            $(".s3d-actions-delete", $rootel).live("click", function() {
+                var msg = sakai.api.i18n.getValueForKey("ARE_YOU_SURE_YOU_WANT_TO_LEAVE","mymemberships").replace("{groupname}",'<span class="s3d-bold">'+$(this).data("sakai-entityname")+'</span>');
+                $("#mymemberships_are_you_sure").html(msg);
+                $("#mymemberships_delete_membership_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
+                $("#mymemberships_delete_membership_confirm").data("sakai-entityname", $(this).data("sakai-entityname"));
+                $("#mymemberships_delete_membership_dialog").jqmShow();
+            });
+
+            $("#mymemberships_delete_membership_confirm").live("click", function(){
+                removeMembership($(this).data("sakai-entityid"),$(this).data("sakai-entityname"));
+            });
+
+            if (sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
+                    $('.searchgroups_result_plus',$rootel).live("click", function(ev) {
+                    var joinable = $(this).data("group-joinable");
+                    var groupid = $(this).data("groupid");
+                    var itemdiv = $(this);
+                    sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, false, true, function (success) {
+                        if (success) {
+                            if (joinable === "withauth") {
+                                // Don't add green tick yet because they need to be approved.
+                                var notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
+                            } 
+                            else  { // Everything else should be regular success
+                                $("#searchgroups_memberimage_"+groupid).show();
+                                var notimsg = sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED_TO_GROUP");
+                            }
+                            sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
+                                notimsg, sakai.api.Util.notification.type.INFORMATION);
+                            itemdiv.removeClass("s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus");
+                        } else {
+                            sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
+                                sakai.api.i18n.getValueForKey("PROBLEM_ADDING_TO_GROUP"),
+                                sakai.api.Util.notification.type.ERROR);
+                        }
+                    });
+                });
+            }
         };
 
         /**
@@ -358,7 +432,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * and shows the correct view.
          */
         var doInit = function () {
-            addBinding();
             currentQuery = $.bbq.getState("mq") || "";
             $("#mymemberships_sortby").val($.bbq.getState("mso") || "asc");
             mymemberships.sortOrder = $.bbq.getState("mso") || "asc";
@@ -377,6 +450,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 isMe: mymemberships.isOwnerViewing,
                 user: sakai_global.profile.main.data.basic.elements.firstName.value
             }, $("#mymemberships_title_container", $rootel));
+            addBinding();
         };
 
         // run the initialization function when the widget object loads

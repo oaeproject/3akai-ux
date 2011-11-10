@@ -33,7 +33,7 @@
             <input id="mymemberships_livefilter" type="text" title="__MSG__SEARCH_THROUGH_MY_MEMBERSHIP__" class="s3d-search-inputfield"/>
             <button type="button" id="mymemberships_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
                 <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_MY_MEMBERSHIP__"/>
-            </button
+            </button>
         </div>
     </div>
     <div class="mymemberships_top_row" id="mymemberships_top_second_row">
@@ -51,6 +51,11 @@
     <!-- Empty/Error messages -->
     <p id="mymemberships_nodata" style="display:none;">__MSG__SORRY_WIP__</p>
     <p id="mymemberships_nogroups" style="display:none;" class="fl-fix"><!-- No groups message renders here --></p>
+    <div class="s3d-no-results-container" id="mymemberships_nosearchresults" style="display:none;">
+        <div class="s3d-no-results-arrow-up"></div>
+        <div class="s3d-no-results-icon s3d-no-results-search-world less-margin"></div>
+        <h1>__MSG__YOUR_SEARCH_DID_NOT_RETURN_ANY_RESULTS__</h1>
+    </div>
 
     <div id="mymemberships_nogroups_template" style="display:none"><!--
         {if isMe}
@@ -82,9 +87,15 @@
             {var count = count + 1}
             <li id="mymemberships_item_${group.id}" class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result mymemberships_item {if count == 1} mymemberships_item_first s3d-search-resultfirst{/if}">
                 <span class="mymemberships_item_user_functions s3d-search-result-user-functions" style="display:none;">
-                    <div class="mymemberships_item_left_filler s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.id}"></div>
-                    <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}"/>
-                    <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group"></button>
+                    {if isOwnerViewing}
+                        <div class="mymemberships_item_left_filler"><button title="__MSG__REMOVE_MEMBERSHIP__ ${group.title|safeOutput}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${group.id}" data-sakai-entityname="${group.title|safeOutput}"></button></div>
+                    {elseif}
+                        <div class="mymemberships_item_left_filler {if !group.userMember && group.joinable !== "no"} s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus {/if}" data-group-joinable="${group.joinable}" data-groupid="${group.id}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${group.id}" {if !group.userMember}style="display:none;" {/if}></div>
+                    {/if}
+                    <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}" {if !isOwnerViewing}style="display:none;"{/if}/>
+                    <span class="mymemberships_item_right_buttons">
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group"></button>
+                    </span>
                 </span>
                 <span class="mymemberships_item_anonuser"></span>
                 <a href="${group.url|safeOutput}" title="__MSG__VIEW_GROUP__">
@@ -134,6 +145,16 @@
         {/for}
     {/if}
     --></div>
+</div>
+
+<div class="s3d-dialog s3d-dialog-container" id="mymemberships_delete_membership_dialog" style="display:none;">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__REMOVE_MEMBERSHIP_TITLE__</h1>
+    <p id="mymemberships_are_you_sure"></p>
+    <div class="dialog_buttons fl-force-right">
+        <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="mymemberships_delete_membership_confirm" data-sakai-entityid="placeholder" data-sakai-entityname="placeholder">__MSG__REMOVE_MEMBERSHIP__</button>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->
