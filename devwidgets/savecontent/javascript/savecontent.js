@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveContent = function(id){
             if (id) {
                 $savecontent_save.attr("disabled", "disabled");
-                sakai.api.Content.addToLibrary(currentSelected, id, function(contentId, entityId) {
+                sakai.api.Content.addToLibrary(currentSelected, id, false, function(contentId, entityId) {
                     // cache the content locally
                     var thisContent = dataCache[contentId];
                     $(window).trigger("done.newaddcontent.sakai", [[thisContent], entityId]);
