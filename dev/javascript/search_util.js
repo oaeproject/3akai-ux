@@ -174,11 +174,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
                         item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                     }
-                    item.description = sakai.api.User.getProfileBasicElementValue(item, "description");
-                    if (item.description) {
-                        item.extra = sakai.api.Util.applyThreeDots(item.description, 580, { max_rows: 2, whole_word: false }, "");
-                        user.extraGrid = sakai.api.Util.applyThreeDots(item.description, 200, {max_rows: 2,whole_word: false}, "");
-                    }
 
                     item.connected = false;
                     item.accepted = false;

@@ -86,7 +86,7 @@
                         </div>
                         {if i["sakai:description"]}
                             <span class="searchcontent_result_description">${i["sakai:description"]}</span>
-                            <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
+                            <span class="searchcontent_result_description_grid s3d-search_result-description">${i["sakai:description-shorter"]}</span>
                         {/if}
                         {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                             <div class="searchcontent_result_tags">
@@ -164,10 +164,6 @@
                                 ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                             </a>
                         </div>
-                        {if i.extra}
-                            <span class="searchpeople_result_description">${i.extra}</span>
-                            <span class="searchpeople_result_description_grid">${i.extraGrid}</span>
-                        {/if}
                         {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                             <div class="searchpeople_result_tags">
                                 <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
@@ -222,7 +218,7 @@
                         </div>
                         {if i["sakai:group-description-short"]}
                             <div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>
-                            <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
+                            <div class="searchgroups_result_description_grid s3d-search_result-description">${i["sakai:group-description-shorter"]}</div>
                         {/if}
                         {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                             <div class="searchgroups_result_tags">
