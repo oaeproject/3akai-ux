@@ -29,7 +29,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             listViewClass = ".inbox-message-list-view",
             detailViewClass = ".inbox-message-detail-view",
             newMessageViewClass = ".inbox-new-message-view",
-            infinityScroll = false;
+            infinityScroll = false,
+            previousPosition = false;
 
         var $rootel = $("#"+tuid),
             $inbox_items = $('#inbox_message_list .inbox_items_inner', $rootel),
@@ -174,32 +175,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        ///////////////////////
-        // Deleting messages //
-        ///////////////////////
-
-        /**
-         * Delete messages selected in the current view
-         */
-        $inbox_delete_selected.live("click", function() {
-            var messagesToDelete = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container");
-            var messageList = [];
-            $.each(messagesToDelete, function(i,elt) {
-                var msg = messages[$(elt).attr("id")];
-                messageList.push(msg);
-            });
-            var hardDelete = widgetData.box === "trash" ? true : false;
-            sakai.api.Communication.deleteMessages(messageList, hardDelete, function(success, data) {
-                var done = false;
-                messagesToDelete.fadeOut(function() {
-                    if (!done) {
-                        getMessages();
-                        done = true;
-                    }
-                });
-            });
-        });
-
         /**
          * Show the sendmessage widget all by itself in a div
          */
@@ -211,28 +186,64 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(newMessageViewClass).show();
         };
 
-        var deleteMessage = function(e) {
-            var mid = $(e.currentTarget).parents(".inbox_items_container").attr("id");
-            var msg = messages[mid];
+        ///////////////////////
+        // Deleting messages //
+        ///////////////////////
+
+        /**
+         * Delete a list of messages from the current selected box
+         * @param {Object} messages    Array that contains message objects
+         */
+        var deleteMessages = function(messages){
             var hardDelete = widgetData.box === "trash" ? true : false;
-            sakai.api.Communication.deleteMessages(msg, hardDelete, function(success, data) {
-                if (!success) {
-                    debug.error("deleting failed");
-                    // show a gritter message indicating deleting it failed
+            sakai.api.Communication.deleteMessages(messages, hardDelete, function(success, data) {
+                if ($inbox_show_message.is(":visible")) {
+                    $.bbq.removeState("message", "reply");
+                }
+                if (infinityScroll){
+                    var ids = [];
+                    $.each(messages, function(i, message){
+                        ids.push(message.id);
+                    });
+                    infinityScroll.removeItems(ids);
                 }
             });
-            if ($inbox_show_message.is(":visible")) {
-                $.bbq.removeState("message", "reply");
-            }
-            if (infinityScroll){
-                infinityScroll.removeItems([mid]);
-            }
         };
 
-        $inbox_delete_button.live("click", deleteMessage);
+        /**
+         * Delete messages selected in the current view
+         */
+        var deleteMultipleMessages = function(e){
+            var messagesToDelete = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container");
+            var messageList = [];
+            $.each(messagesToDelete, function(i,elt) {
+                var msg = messages[$(elt).attr("id")];
+                messageList.push(msg);
+            });
+            deleteMessages(messageList);
+        };
 
-// TODO: Documentation
-        var getMessages = function(callback) {
+        /**
+         * Delete a message when the X icon in the message list
+         * is clicked
+         */
+        var deleteSingleMessage = function(e) {
+            var mid = $(e.currentTarget).parents(".inbox_items_container").attr("id");
+            deleteMessages([messages[mid]]);
+        };
+
+        $inbox_delete_button.live("click", deleteSingleMessage);
+        $inbox_delete_selected.live("click", deleteMultipleMessages);
+
+        ///////////////////
+        // List messages //
+        ///////////////////
+
+        /**
+         * Show the list of messages in the currently selected message box, using 
+         * the infinite scrolling plug-in
+         */
+        var getMessages = function() {
             var doFlip = widgetData.box === "outbox";
             if (!searchTerm) {
                 $inbox_search_term = $($inbox_search_term.selector);
@@ -343,6 +354,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         });
 
+        ////////////////////////////////
+        // SCROLL POSITION MANAGEMENT //
+        ////////////////////////////////
+
+        /**
+         * Store the scroll position when looking at a inbox
+         * message, so we can return to the same position when
+         * the user has finished reading the message
+         */
+        var storeCurrentScrollPosition = function(){
+            previousPosition = $("html").scrollTop();
+            window.scrollTo(0, 0);
+        };
+
+        /**
+         * After a user stops reading a message or has
+         * replied, we return the user to the previous position
+         * he had in the message list
+         */
+        var restorePreviousPosition = function(){
+            $(detailViewClass).hide();
+            $(newMessageViewClass).hide();
+            $(listViewClass).show();
+            window.scrollTo(0, previousPosition);
+        };
+
         ////////////////////////
         // HISTORY MANAGEMENT //
         ////////////////////////
@@ -397,6 +434,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($rootel.is(":visible") || (currentState && currentState.l && currentState.l.substr(0, 8) === "messages")) {
                 if (!$.isEmptyObject(changed) || (first && !$.isEmptyObject(all))) {
                     if (changed.hasOwnProperty("message") || all.hasOwnProperty("message")) {
+                        storeCurrentScrollPosition();
                         if ((messages && !messages[changed.message || all.message]) || !messages) {
                             getMessages(function() {
                                 updateMessageList(true);
@@ -423,8 +461,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 } else if (!$.isEmptyObject(deleted)) {
                     if (deleted.hasOwnProperty("message") || deleted.hasOwnProperty("newmessage")) {
-                        setInitialState(formatMessageList);
-                        getMessages();
+                        if (previousPosition) {
+                            restorePreviousPosition();
+                        } else {
+                            setInitialState(formatMessageList);
+                            getMessages();
+                        }
                     } else if (deleted.hasOwnProperty("iq")) {
                         searchTerm = null;
                         getMessages();
