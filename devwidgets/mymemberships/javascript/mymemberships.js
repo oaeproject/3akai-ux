@@ -175,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(".mymemberships_top_row").hide();
                 return;
             } else {
-                if(!mymemberships.isOwnerViewing){
+                if(sakai.data.me.user.anon){
                     $("#mymemberships_top_second_row").hide();
                 }
                 if(mymemberships.sortOrder === "modified"){
@@ -329,7 +329,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var addBinding = function(){
             $(window).bind("hashchanged.mymemberships.sakai", function(){
-                render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
+                if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
+                    render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
+                } else {
+                    sakai.api.Server.loadJSON("/system/me", function(success, data){
+                        render(sakai.api.Groups.getMemberships(data.groups));
+                    }, { uid: sakai_global.profile.main.data.userid });
+                }
             });
 
             $("#mymemberships_search_button").click(function(){
