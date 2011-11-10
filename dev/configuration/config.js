@@ -33,6 +33,7 @@ define(function(){
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
+            INFINITE_LOADING_ICON: "/dev/images/Infinite_Scrolling_Loader_v01.gif",
 
             // Services
             BATCH: "/system/batch",
@@ -635,6 +636,8 @@ define(function(){
             "html":"text/html",
             "wav": "audio/x-wav",
             "mp3": "audio/mpeg",
+            "tar": "application/zip",
+            "zip": "application/zip",
             "other":"other"
         },
         MimeTypes: {
@@ -1000,6 +1003,17 @@ define(function(){
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
+        /*
+         * List of custom CLE Tool names. This can be used to override the translated
+         * tool name in the Sakai 2 Tools Widget drop down, or name a custom CLE tool
+         * that has been added to your CLE installation. You can see the list of
+         * enabled CLE tools at /var/basiclti/cletools.json, and configure them in
+         * Nakamura under the org.sakaiproject.nakamura.basiclti.CLEVirtualToolDataProvider
+         * configuration.
+         */
+        sakai2ToolNames: {
+            /* "sakai.mytoolId" : "My Custom Tool Title" */
+        },
 
         displayDebugInfo: true,
 
