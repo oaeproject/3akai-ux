@@ -42,7 +42,7 @@
             </div>
             <div class="addarea_data_container">
                 <label for="addarea_new_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
-                <input type="text" name="addarea_new_name" id="addarea_new_name"></input>
+                <input type="text" name="addarea_new_name" id="addarea_new_name" class="addarea_name_field"></input>
                 <label for="addarea_new_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_new_permissions" name="addarea_new_permissions"></select>
                 <label for="addarea_new_numberofpages">__MSG__NUMBER_OF_PAGES__:</label>
@@ -79,7 +79,7 @@
             </div>
             <div class="addarea_column">
                 <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
-                <input type="text" name="addarea_existing_name" class="addarea_existing_name"></input>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
             </div>
             <div class="addarea_column">
                 <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
@@ -111,7 +111,7 @@
             </div>
             <div class="addarea_column">
                 <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
-                <input type="text" name="addarea_existing_name" class="addarea_existing_name"></input>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
             </div>
             <div class="addarea_column">
                 <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
@@ -143,7 +143,7 @@
             </div>
             <div class="addarea_column">
                 <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
-                <input type="text" name="addarea_existing_name" class="addarea_existing_name"></input>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
             </div>
             <div class="addarea_column">
                 <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
@@ -163,7 +163,7 @@
             </div>
             <div class="addarea_data_container">
                 <label for="addarea_contentlist_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
-                <input type="text" id="addarea_contentlist_name" name="addarea_contentlist_name"/>
+                <input type="text" id="addarea_contentlist_name" name="addarea_contentlist_name" class="addarea_name_field"/>
                 <label for="addarea_contentlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_contentlist_permissions" name="addarea_contentlist_permissions"></select>
                 <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
@@ -179,7 +179,7 @@
             </div>
             <div class="addarea_data_container">
                 <label for="addarea_participants_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
-                <input type="text" id="addarea_participants_name" name="addarea_participants_name"/>
+                <input type="text" id="addarea_participants_name" name="addarea_participants_name" class="addarea_name_field"/>
                 <label for="addarea_participants_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_participants_permissions" name="addarea_participants_permissions"></select>
                 <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
@@ -194,12 +194,12 @@
                 <span>__MSG__CREATE_A_PAGE_USING_WIDGETS__</span>
             </div>
             <div class="addarea_data_container">
-                <label for="addarea_widgets_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
-                <input type="text" name="addarea_widgets_name" id="addarea_widgets_name"></input>
-                <label for="addarea_widgets_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-                <select id="addarea_widgets_permissions" name="addarea_widgets_permissions"></select>
                 <label for="addarea_widgets_widget">__MSG__SELECT_WIDGET__:</label>
                 <select id="addarea_widgets_widget" name="addarea_widgets_widget"></select>
+                <label for="addarea_widgets_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_widgets_name" id="addarea_widgets_name" class="addarea_name_field"></input>
+                <label for="addarea_widgets_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_widgets_permissions" name="addarea_widgets_permissions"></select>
                 <hr class="fl-push fl-hidden"/>
                 <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
                 <label for="addarea_widgets_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
@@ -209,7 +209,7 @@
     </div>
     <div id="addarea_actions">
         <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
-        <button class="s3d-button s3d-overlay-action-button" id="addarea_create_doc_button" type="button">__MSG__DONE_ADD__</button>
+        <button class="s3d-button s3d-overlay-action-button" id="addarea_create_doc_button" type="button" disabled="true">__MSG__DONE_ADD__</button>
     </div>
 </div>
 
@@ -246,6 +246,7 @@
         <option value="public" {if !canManage || groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
         <option value="everyone" {if !canManage || groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USER_ONLY__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
         <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+        <option value="advanced">__MSG__ADVANCED__</option>
     {else}
         <option value="public" {if groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){/if}</option>
         <option value="everyone" {if groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USER_ONLY__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){/if}</option>

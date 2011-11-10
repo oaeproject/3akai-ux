@@ -168,6 +168,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(addareaCreateDocButton).removeAttr("disabled");
         };
 
+        var checkTitleProvided = function(){
+            if($.trim($(".addarea_name_field:visible").val())){
+                $(addareaCreateDocButton).removeAttr("disabled");
+            } else {
+                $(addareaCreateDocButton).attr("disabled", true);
+            }
+        };
+
         /*
          * Handles a click in the navigation and loads the new content if necessary
          */
@@ -196,6 +204,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             } else if ($addAreaVisibleContainer.data("doc-type") === "existing_currentlyviewing"){
                 getCurrentlyViewingDocs();
             }
+            checkTitleProvided();
         };
 
         /*
@@ -762,7 +771,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var handleSearch = function(ev){
-            if(ev.keyCode === 13 || $(ev.currentTarget).hasClass("s3d-search-button")){
+            if(ev.keyCode === 13 || $(ev.currentTarget).hasClass("s3d-search-button") || $(ev.currentTarget).hasClass("addarea_existing_sort")){
                 if($(".addarea_existing_container:visible").data("doc-type") !== "existing_currentlyviewing"){
                     $(".addarea_existing_bottom").html("");
                     getAllExistingSakaiDocs($(".addarea_existing_container:visible").find(".s3d-search-inputfield").val(), $(".addarea_existing_container:visible").data("doc-type") === "existing_mylibrary");
@@ -817,6 +826,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(addAreaExistingCurrentlyViewingInput).live("keyup", handleSearch);
             $(addAreaExistingEverywhereSearchInput).live("keyup", handleSearch);
             $(addAreaExistingMyLibrarySearchInput).live("keyup", handleSearch);
+            $(".addarea_existing_sort").live("change", handleSearch);
             $(".s3d-search-button", $rootel).click(handleSearch);
             $("#addarea_widgets_widget").change(function(){
                 $("#addarea_widgets_name").val(sakai.api.Widgets.getWidgetTitle($(this).val()));
@@ -833,6 +843,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 );
                 $(".addarea_existing_container:visible").find(".addarea_existing_name").val($(this).data("doc-title"));
             });
+            $(".addarea_name_field").live("keyup", checkTitleProvided);
         };
 
         /*
