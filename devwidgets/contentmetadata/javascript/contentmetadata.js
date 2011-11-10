@@ -154,7 +154,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 $("#entity_name_edit").hide();
                 var newTitle = $("#entity_name_text").val();
                 if ($.trim(newTitle)) {
-                    sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = newTitle;
                     $("#entity_name").text(newTitle);
                     $("#entity_name").show();
                     $.ajax({
@@ -165,6 +164,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             "sakai:pooled-content-file-name": newTitle
                         },
                         success: function(){
+                            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML(newTitle);
                             // Export as IMS Package
                             if (sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data) === "x-sakai/document"){
                                 $("#contentpreview_download_button").attr("href", "/imscp/" + sakai_global.content_profile.content_data.data["_path"] + "/" + encodeURIComponent(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]) + ".zip");
@@ -172,7 +172,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             } else {
                                 $("#contentpreview_download_button").attr("href", sakai_global.content_profile.content_data.smallPath + "/" + encodeURIComponent(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]));
                             }
-                            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#entity_name_text").val());
                         }
                     });
                 }
