@@ -11,6 +11,7 @@
  *
  */
 
+require(['jquery'], function (jQuery) {
 (function($) {
 
 var abs = Math.abs,
@@ -711,3 +712,4 @@ $.fn.imgAreaSelect = function (options) {
 };
 
 })(jQuery);
+});

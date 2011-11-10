@@ -23,7 +23,7 @@
  */
 /*global Config, $, jQuery, get_cookie, delete_cookie, set_cookie, window, alert */
 
-require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
     /**
