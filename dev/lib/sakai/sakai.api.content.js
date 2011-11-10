@@ -414,12 +414,13 @@ define(
         },
 
         /**
-         * Add a piece of content to your personal library or a group library
-         * @param {Object} contentId   Unique pool id of the content being added to the library
-         * @param {Object} userId      Authorizable id of the library to add this content in
-         * @param {Object} callBack    Function to call once the content has been added to the library
+         * Shares content with a user and sets permissions for the user.
+         * @param {String} contentId ID of the content that is shared with the users
+         * @param {String} userId ID of the users to share the content with
+         * @param {Boolean} canManage set to true if the user that's being shared with should have managing permissions
+         * @param {Function} callBack function to be executed when finishing sharing the content
          */
-        addToLibrary: function(contentId, userId, callBack){
+        addToLibrary: function(contentId, userId, canManage, callBack){
             var toAdd = [];
             if (typeof userId === "string"){
                 toAdd.push(userId);
@@ -428,9 +429,19 @@ define(
             }
             var batchRequests = [];
             for (var i = 0; i < toAdd.length; i++){
+                var params = {};
+                if (canManage){
+                    params = {
+                        ":manager": toAdd[i]
+                    }
+                } else {
+                    params = {
+                        ":viewer": toAdd[i]
+                    }
+                }
                 batchRequests.push({
                     url: "/p/" + contentId + ".members.json",
-                    parameters: {":viewer": toAdd[i]},
+                    parameters: params,
                     method: "POST"
                 });
             }
