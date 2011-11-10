@@ -59,7 +59,11 @@
                                     <option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
                                 </select>
                                 <label for="select_${id|safeOutput}">
-                                    <img src="${sakai.api.User.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
+                                    {if member["sakai:category"] && member["sakai:category"] === "group"}
+                                        <img src="${sakai.api.Groups.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__GROUP_PICTURE__"/>
+                                    {else}
+                                        <img src="${sakai.api.User.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
+                                    {/if}
                                     <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
                                 </label>
                             </li>
