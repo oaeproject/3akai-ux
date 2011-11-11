@@ -166,7 +166,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     page[pid].structure0 = $.extend(true, {}, templategeneratorData.pages[pageId].structure);
 
                     // Delete the _pid and the _poolpath key, because we dont want this in the docStructure
-                    delete page[pid].structure0._pid; delete page[pid].structure0._poolpath;
+                    delete page[pid].structure0._pid; 
+                    delete page[pid].structure0._poolpath;
 
                     // Create the individual pages and add all the content
                     $.each(page[pid].structure0, function(pageIndex, pageElement) {
@@ -180,7 +181,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         pageElement.main._ref = newRef;
 
                         // Delete unwanted keys
-                        delete pageElement._poolpath; delete pageElement._id; delete pageElement._elements; delete pageElement.main._id; delete pageElement.main._poolpath; delete pageElement.main._elements;
+                        delete pageElement._poolpath; 
+                        delete pageElement._id; 
+                        delete pageElement._elements; 
+                        delete pageElement.main._id; 
+                        delete pageElement.main._poolpath; 
+                        delete pageElement.main._elements;
 
                         // Create a new unique reference for each page
                         page[pid][newRef] = {};
@@ -246,7 +252,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     pageId++;
 
                     // Add our generated page to the docStructure
-                    $.extend(templategeneratorData.exportData.docs, page);
+                    $.extend(true, templategeneratorData.exportData.docs, page);
                 });
                 // 4. Generate the structure
                 var pageIndex = 0;
@@ -258,15 +264,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     pageIndex++;
 
                     // Remove unwanted keys
-                    delete structureElement._poolpath; delete structureElement._elements; delete structureElement._id;
+                    delete structureElement._poolpath; 
+                    delete structureElement._elements; 
+                    delete structureElement._id;
                 });
                 // Add our updated structure
                 templategeneratorData.exportData.structure = structure;
 
                 // Stringify the created javascript object (this creates the actual string and manipulates the escaping)
-                templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, "\t");
+                templategeneratorData.output = $.toJSON(templategeneratorData.exportData, null, "\t");
                 templategeneratorData.output = templategeneratorData.output.replace(/\\/g, '');
-
+                
                 // Create a file from the generated string
                 createTemplateFile();
             }
@@ -296,7 +304,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success : function(data) {
 
                     // After uploading the file, permissions must be set
-                    var fileData = JSON.parse(data);
+                    var fileData = $.parseJSON(data);
                     fileData = fileData[templategeneratorData.exportData.id + '.txt'];
 
                     // Set the permissions of the file to private
@@ -389,7 +397,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Process the requests to collect both the docstructure and roles
             sakai.api.Server.batch(batchRequests, function(success, data) {
 
-                if(success && data.results && data.results[0] && data.results[0].body && data.results[1].body) {
+                if(success && data.results && data.results[0] && data.results[0].body && data.results[1] && data.results[1].body) {
 
                     // Parse the docstructure data
                     templategeneratorData.docstructure.docstructureData = $.parseJSON(data.results[0].body);
