@@ -37,16 +37,20 @@
         </div>
         {/for}
     --></div>
-    <p>
-        <br />
-        <span>__MSG__NUMBER_OF_ITEMS_TO_DISPLAY__ </span><input type="text" id="rss_settings_numEntries" value="25"/><span></span><br />
-        <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">__MSG__DISPLAY_SOURCE__</label><br />
-        <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">__MSG__DISPLAY_HEADLINES_ONLY__</label><br />
-    </p>
-    <div class="fl-force-right">
-        <button type="button" id="rss_setting_cancel" class="s3d-bold s3d-link-button">__MSG__CANCEL__</button>
-        <button type="button" id="rss_setting_finish" class="s3d-button s3d-overlay-action-button">__MSG__SAVE__</button>
-    </div>
+    <form id="rss_display_form">
+        <div class="s3d-form-field-wrapper">
+            <label for="rss_settings_numEntries" class="s3d-input-label s3d-input-label-above">__MSG__NUMBER_OF_ITEMS_TO_DISPLAY__ </label>
+            <input type="text" id="rss_settings_numEntries" value="25" class="required s3d-error-calculate" name="rss_settings_numEntries"/>
+        </div>
+        <p>
+            <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">__MSG__DISPLAY_SOURCE__</label><br/>
+            <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">__MSG__DISPLAY_HEADLINES_ONLY__</label>
+        </p>
+        <div class="fl-force-right">
+            <button type="button" id="rss_setting_cancel" class="s3d-bold s3d-link-button">__MSG__CANCEL__</button>
+            <button type="submit" id="rss_setting_finish" class="s3d-button s3d-overlay-action-button">__MSG__SAVE__</button>
+        </div>
+    </form>
     <hr class='fl-hidden fl-push'>
 </div>
 <!-- MAIN VIEW -->
