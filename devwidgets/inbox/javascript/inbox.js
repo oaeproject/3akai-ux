@@ -436,15 +436,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (changed.hasOwnProperty("message") || all.hasOwnProperty("message")) {
                         storeCurrentScrollPosition();
                         if ((messages && !messages[changed.message || all.message]) || !messages) {
-                            getMessages(function() {
-                                updateMessageList(true);
-                                var message = messages[changed.message || all.message];
-                                currentMessage = message;
-                                // this handles multiple instances of the widget
-                                if (currentMessage) {
-                                    showMessage(message, changed.hasOwnProperty("reply") || all.hasOwnProperty("reply"));
-                                }
-                            });
+                            getMessages();
+                            //function() {
+                            //    updateMessageList(true);
+                            //    var message = messages[changed.message || all.message];
+                            //    currentMessage = message;
+                            //    // this handles multiple instances of the widget
+                            //    if (currentMessage) {
+                            //        showMessage(message, changed.hasOwnProperty("reply") || all.hasOwnProperty("reply"));
+                            //    }
+                            //});
                         } else {
                             var messageCached = messages[changed.message || all.message];
                             if (messageCached) {
