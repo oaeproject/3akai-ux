@@ -344,6 +344,7 @@ a.s3d-button.s3d-large-button {line-height:31px;}
 .s3d-actions-share:hover {background:url("/dev/images/share_icon_hover.png") no-repeat scroll left top transparent;}
 
 .s3d-actions-message {background:url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;}
+.s3d-button[disabled] .s3d-actions-message {background:url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;}
 .s3d-actions-message:hover {background:url("/dev/images/message_icon_hover.png") no-repeat scroll left top transparent;}
 .s3d-button:hover .s3d-actions-message {background:url("/dev/images/message_icon_hover.png") no-repeat scroll left top transparent;}
 
