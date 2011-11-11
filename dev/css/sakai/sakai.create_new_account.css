@@ -34,7 +34,7 @@ h2 {color:#666;font-size:15px;}
 #signup_form_container .username_available_icon[disabled] {background:url("/dev/images/green_tick.png") no-repeat scroll 194px 4px transparent !important;}
 #signup_form_container .username_unavailable_icon {background:url("/dev/images/red_cross.png") no-repeat scroll 194px 4px #fff;}
 
-.create_account_input_error {background:#FF2833;color:#000;font-size:11px;padding:4px 0 2px 10px;width:206px;clear:both;}
+.create_account_input_error {background:#cc0000;color:#fff;font-size:11px;padding:4px 0 2px 10px;width:206px;clear:both;}
 
 .captcha_container #save_account {float:right;margin-top:74px;}
 .captcha_container {clear:both;margin-left:148px;width:580px;}
