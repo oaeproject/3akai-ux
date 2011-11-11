@@ -38,6 +38,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         var resultsToDisplay = 12;
         var rootel = $("#" + tuid);
+        var refineBy = "";
 
         // CSS IDs
         var search = "#searchall";
@@ -97,7 +98,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var pager_click_handler = function(pageclickednumber){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
-                "page": pageclickednumber
+                "page": pageclickednumber,
+                "refine": refineBy
             }, 0);
         };
 
@@ -209,7 +211,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             var params = sakai_global.data.search.getQueryParams();
             var searchString = params.q;
+            refineBy = "";
             if (params.refine){
+                refineBy = params.refine;
                 searchString = searchString + " " + params.refine.replace(",", " ");
             }
             var urlsearchterm = sakai.api.Server.createSearchString(params.cat || searchString);
@@ -228,7 +232,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $(window).trigger("lhnav.addHashParam", [{"q": "", "cat": ""}]);
                 url = sakai.config.URL.SEARCH_ALL_ENTITIES_ALL;
             } else {
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat/*, "refine": params.refine*/}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat}]);
             }
             var requestParams = {
                 "page": (params["page"] - 1),

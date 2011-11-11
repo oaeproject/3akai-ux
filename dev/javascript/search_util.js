@@ -57,7 +57,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             && $(".s3d-search-results-container").length){
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
-
+        $(".search_view_" + view).addClass("selected");
+        $(".search_view_" + view).children("div").addClass("selected");
 
         ////////////////////////////////
         // Finish util initialisation //
@@ -251,8 +252,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Renders the tag lists
          */
         renderRefineTags = function() {
-            $("#search_tags_active_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags}));
-            $(".search_tags_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags}));
+            $("#search_tags_active_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags, "sakai": sakai}));
+            $(".search_tags_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags, "sakai": sakai}));
         };
         /**
          * Generates the tag list to refine the search by
@@ -317,8 +318,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 return value != tag;
             });
             activeTags.push(tag);
-
             $.bbq.pushState({
+                "page": "1",
                 "refine": activeTags.toString()
             }, 0);
         });
@@ -329,13 +330,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 return value != tag;
             });
             refineTags.push(tag);
-
             $.bbq.pushState({
+                "page": "1",
                 "refine": activeTags.toString()
             }, 0);
         });
 
-        $(".link_accept_invitation").live("click", function(ev){
+        $(".link_accept_invitation").die("click").live("click", function(ev){
             var userid = $(this).attr("sakai-entityid");
             $.ajax({
                 url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.accept.html",
@@ -357,7 +358,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind sortby select box
-        $("#search_select_sortby").live("change", function(ev) {
+        $("#search_select_sortby").die("change").live("change", function(ev) {
             var sortby = $(this).find(":selected").val();
             $.bbq.pushState({
                 "page": 1,
@@ -365,19 +366,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }, 0);
         });
 
-        // bind search view type
-        $("#search_view_list").live("click", function(ev){
+        // bind search view change
+        $(".search_view_list, .search_view_grid").die("click").live("click", function(ev){
             if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
                 view = "list";
                 $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
-            }
-        });
-
-        $("#search_view_grid").live("click", function(ev){
-            if (!$(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
+            } else {
                 view = "grid";
                 $(".s3d-search-results-container").addClass("s3d-search-results-grid");
             }
+            $(".s3d-search-listview-options").find("div").removeClass("selected");
+            $(".search_view_" + view).addClass("selected");
+            $(".search_view_" + view).children("div").addClass("selected");
         });
 
         /////////////////////////

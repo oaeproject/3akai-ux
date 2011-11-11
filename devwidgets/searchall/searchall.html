@@ -3,7 +3,7 @@
     <div class="searchall_content_main">
         <div class="s3d-search-refineby search_tags_container"></div>
         <div class="fl-left fl-container s3d-search-header" id="results_header">
-            __MSG__ALL_TYPES__ (<span id="searchall_numberFound">0</span>)
+            <span class="s3d-search-header-type">__MSG__ALL_TYPES__ (<strong id="searchall_numberFound">0</strong>)</span>
             <div class="s3d-search-selects">
                 <div class="s3d-search-sortby">
                     __MSG__SORT_BY__: <select id="search_select_sortby">
@@ -11,12 +11,14 @@
                         <option value="asc">__MSG__OLDEST__</option>
                     </select>
                 </div>
-                <button type="button" class="s3d-search-button-list" id="search_view_list" title="__MSG__LIST_VIEW__">
-                    __MSG__LIST__
-                </button>
-                <button type="button" class="s3d-search-button-grid" id="search_view_grid" title="__MSG__GRID_VIEW__">
-                    __MSG__GRID__
-                </button>
+                <div class="s3d-search-listview-options s3d-button s3d-header-button s3d-header-smaller-button">
+                    <div class="search_view_grid" title="__MSG__GRID_VIEW__">
+                        <div class="s3d-action-icon s3d-search-results-gridview"></div>
+                    </div>
+                    <div class="search_view_list" title="__MSG__LIST_VIEW__">
+                        <div class="s3d-action-icon s3d-search-results-listview"></div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- TEMPORARY SEARCH TEXT -->
