@@ -474,26 +474,38 @@ define(
             });
         },
 
-        getMessage : function(id, callback){
-            var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message/inbox/" + id + ".json";
+        /**
+         * Retrieve a message based on its box and its id. This function will also
+         * include the user that has sent the message
+         * @param {String} id            Unique id of the message
+         * @param {String} box           Message box the message lives in. The possible options are inbox, outbox and trash
+         * @param {Object} meData        Me object
+         * @param {Function} callback    Function to call once the message has been retrieved
+         */
+        getMessage : function(id, box, meData, callback){
+            var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message/" + box + "/" + id + ".json";
             $.ajax({
                 url: url,
                 cache: false,
-                async: false,
                 dataType: "json",
                 success: function(data){
-                    if ($.isFunction(callback)) {
-                        sakai_user.getUser(data["sakai:from"], function(success,profiledata){
-                            data.userFrom = [];
-                            data.userFrom[0] = profiledata;
-                            callback(data);
-                        });
+                    var useridToLookup = data["sakai:from"];
+                    if (data["sakai:from"] === meData.user.userid){
+                        useridToLookup = data["sakai:to"].split(":")[1];
                     }
+                    sakai_user.getUser(useridToLookup, function(success,profiledata){
+                        if (data["sakai:from"] === meData.user.userid){
+                            data.userFrom = [meData.profile];
+                            data.userTo = [profiledata];
+                        } else {
+                            data.userFrom = [profiledata];
+                            data.userTo = [meData.profile];
+                        }
+                        callback(sakaiCommunicationsAPI.processMessages([data])[0]);
+                    });
                 },
                 error: function(xhr, textStatus, thrownError){
-                    if ($.isFunction(callback)) {
-                        callback({});
-                    }
+                    callback(false);
                 }
             });
         },

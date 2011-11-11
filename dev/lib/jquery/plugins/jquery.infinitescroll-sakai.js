@@ -128,10 +128,12 @@
             data.results = filteredresults;
             // Render the template and put it in the container
             var templateOutput = render(data.results, data.total);
-            if (prepend){
-                $container.prepend(templateOutput);
-            } else {
-                $container.append(templateOutput);
+            if ($container) {
+                if (prepend) {
+                    $container.prepend(templateOutput);
+                } else {
+                    $container.append(templateOutput);
+                }
             }
             isDoingExtraSearch = false;
             showHideLoadingContainer(false);

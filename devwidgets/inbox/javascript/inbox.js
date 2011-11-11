@@ -431,32 +431,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
             // check if the inbox is open, or if the hashchange will open an inbox message
-            if ($rootel.is(":visible") || (currentState && currentState.l && currentState.l.substr(0, 8) === "messages")) {
+            if ($rootel.is(":visible")) {
                 if (!$.isEmptyObject(changed) || (first && !$.isEmptyObject(all))) {
-                    if (changed.hasOwnProperty("message") || all.hasOwnProperty("message")) {
+                    if (all.hasOwnProperty("message")) {
                         storeCurrentScrollPosition();
-                        if ((messages && !messages[changed.message || all.message]) || !messages) {
-                            getMessages();
-                            //function() {
-                            //    updateMessageList(true);
-                            //    var message = messages[changed.message || all.message];
-                            //    currentMessage = message;
-                            //    // this handles multiple instances of the widget
-                            //    if (currentMessage) {
-                            //        showMessage(message, changed.hasOwnProperty("reply") || all.hasOwnProperty("reply"));
-                            //    }
-                            //});
+                        if ((messages && !messages[all.message]) || !messages) {
+                            sakai.api.Communication.getMessage(all.message, widgetData.box, sakai.data.me, function(message){
+                                if (message){
+                                    currentMessage = message;
+                                    showMessage(message, all.hasOwnProperty("reply"));
+                                } else {
+                                    setInitialState();
+                                    getMessages();
+                                }
+                            });
                         } else {
-                            var messageCached = messages[changed.message || all.message];
+                            var messageCached = messages[all.message];
                             if (messageCached) {
-                                showMessage(messageCached, changed.hasOwnProperty("reply") || all.hasOwnProperty("reply"));
+                                showMessage(messageCached, all.hasOwnProperty("reply"));
                             }
                         }
-                    } else if (changed.hasOwnProperty("newmessage") || all.hasOwnProperty("newmessage")) {
+                    } else if (all.hasOwnProperty("newmessage")) {
                         showNewMessage();
-                    } else if (changed.hasOwnProperty("iq") || all.hasOwnProperty("iq")) {
-                        searchTerm = changed.iq || all.iq;
-                        $inbox_search_messages.removeAttr("disabled").val(searchTerm);
+                    } else if (all.hasOwnProperty("iq")) {
+                        searchTerm = all.iq;
                         setInitialState();
                         getMessages();
                     }
