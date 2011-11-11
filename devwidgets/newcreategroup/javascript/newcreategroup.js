@@ -160,10 +160,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
 
             } else {
-                if(nameTaken){
-                    $newcreategroupCreating.jqmHide();
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_TAKEN", "newcreategroup"), sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
-                }
                 $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
             }
         });
@@ -347,6 +343,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Add binding to the elements and validate the forms on submit
      */
     var addBinding = function(){
+        $.validator.addMethod("uniquegroupname", function(value, element){
+            return !sakai.api.Groups.checkIfGroupExists(value);
+        }, sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
+
         var validateOpts = {
             submitHandler: function(form){
                 $newcreategroupContainer.find("select, input, textarea, button").attr("disabled", "disabled");
