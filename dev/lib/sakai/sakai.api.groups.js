@@ -110,6 +110,20 @@ define(
             }
         },
 
+        checkIfGroupExists : function(groupid) {
+            // Check if the group exists.
+            var groupExists = false;
+            $.ajax({
+                url: "/~" + groupid + ".json",
+                type: "GET",
+                async: false,
+                success: function(data, textStatus) {
+                    groupExists = true;
+                }
+            });
+            return groupExists;
+        },
+
         /**
          * Create a group
          * @param {String} id the id of the group that's being created
@@ -124,19 +138,7 @@ define(
              * @param {String} groupid
              */
             var groupExists = function(groupid){
-                // Check if the group exists.
-                var groupExists = false,
-                created = false;
-                $.ajax({
-                    url: "/~" + groupid + ".json",
-                    type: "GET",
-                    async: false,
-                    success: function(data, textStatus) {
-                        groupExists = true;
-                        created = true;
-                    }
-                });
-                return groupExists;
+
             };
 
             var createGroup = function(group, callback){
@@ -324,7 +326,7 @@ define(
             };
 
             // check if the group exists
-            if (!groupExists(id)) {
+            if (!sakaiGroupsAPI.checkIfGroupExists(id)) {
                 fillToProcess(id, title, description, meData, template, category, callback);
             } else {
                 if ($.isFunction(callback)) {
