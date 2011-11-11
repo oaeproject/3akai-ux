@@ -25,7 +25,7 @@
 
     {macro contentButtons(id, uploader,title,type)}
         <span class="carousel_bottom_buttons">
-            <fieldset><legend class="s3d-aural-text">${type}: ${title}</legend>
+            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE_CONTENT__"></button>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE_CONTENT__"></button>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__"></button>
@@ -122,7 +122,7 @@
                                             </ul>
                                         </div>
                                         <span class="carousel_bottom_buttons">
-                                            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS_ON_USER__</legend>
+                                            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                                                 {if !user.connected}
                                                     <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS__"></button>
                                                 {/if}
@@ -165,7 +165,7 @@
                                         </div>
                                         ${tags(group.tags)}
                                         <span class="carousel_bottom_buttons">
-                                            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS_ON_GROUP__</legend>
+                                            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                                                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__"></button>
                                                 <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group" title="__MSG__SEND_A_MESSAGE__"></button>
                                             </fieldset>    
