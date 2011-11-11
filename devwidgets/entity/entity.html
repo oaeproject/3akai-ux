@@ -178,6 +178,11 @@
             <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
                 __MSG__DOWNLOAD__<span class="entity_download_content"></span>
             </a>
+        {elseif data.data.mimeType === "x-sakai/document"}
+            {var imspath = "/imscp/" + data.data._path +"/" + data.data["sakai:pooled-content-file-name"] +".zip"}
+            <a id="contentpreview_download_button" href="${imspath}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
+                __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+            </a>
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
@@ -222,15 +227,20 @@
         <div class="entity_number entity_permissions_label">
             {var permissions = data.data["sakai:permissions"]}
             <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
-            {if permissions == "public"}
-                __MSG__VISIBLE_TO_ANYONE__
+            {if permissions == "private"}
+                __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
+                {if (peopleCount + groupCount) > 1}
+                    + ${groupCount + peopleCount - 1}
+                    {if (peopleCount + groupCount - 1) === 1}
+                        __MSG__OTHER__
+                    {else}
+                        __MSG__OTHERS__
+                    {/if}
+                {/if}
             {elseif permissions == "everyone"}
                 __MSG__VISIBLE_TO_LOGGED__
             {else}
-                __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
-                {if (peopleCount + groupCount) > 1}
-                    + ${groupCount + peopleCount - 1} __MSG__OTHERS__
-                {/if}
+                __MSG__VISIBLE_TO_ANYONE__
             {/if}
         </div>
     </div>

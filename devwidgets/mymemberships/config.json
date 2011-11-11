@@ -10,5 +10,6 @@
     "personalportal":false,
     "type": "sakai",
     "enabled": true,
-    "url":"/devwidgets/mymemberships/mymemberships.html"
+    "url":"/devwidgets/mymemberships/mymemberships.html",
+    "hashParams": ["mq", "mp", "mso"]
 }
