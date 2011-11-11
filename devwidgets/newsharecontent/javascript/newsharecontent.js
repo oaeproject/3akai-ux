@@ -62,6 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var $newsharecontentHeading = $('#newsharecontent_heading');
         var $newsharecontentAnon = $('.newsharecontent_anon_function');
         var $newsharecontentUser = $('.newsharecontent_user_function');
+        var $newsharecontent_form = $("#newsharecontent_form");
 
         // Classes
         var newsharecontentRequiredClass = "newsharecontent_required";
@@ -190,6 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $('.share_trigger_click').live('click',function(){
+                sakai.api.Util.Forms.clearValidation($newsharecontent_form);
                 var contentId = $(this).data("entityid");
                 var $this = $(this);
                 $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
@@ -206,8 +208,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 });
             });
 
-            $newsharecontentSendButton.unbind("click", doShare);
-            $newsharecontentSendButton.bind("click", doShare);
+            $.validator.addMethod("requiredsuggest", function(value, element){
+                return $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
+            }, sakai.api.i18n.getValueForKey("AUTOSUGGEST_REQUIRED_ERROR", "newsharecontent"));
+
+            var validateOpts = {
+                submitHandler: doShare
+            };
+            sakai.api.Util.Forms.validate($newsharecontent_form, validateOpts, true);
         };
 
         $newsharecontentMessageToggle.add($newsharecontentMessageArrow).bind('click',function(){
@@ -233,10 +241,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             addBinding();
             var ajaxcache = $.ajaxSettings.cache;
             $.ajaxSettings.cache = true;
-            // the peculiar form of the addthis url is not a typo! see http://paulirish.com/2010/the-protocol-relative-url/
             $.getScript('//s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
             $.ajaxSettings.cache = ajaxcache;
             sakai.api.Util.AutoSuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
+            $("label#newsharecontent_autosuggest_for").attr("for", tuid);
         };
 
         init();
