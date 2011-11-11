@@ -267,16 +267,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         $(window).trigger("lhnav.updateCount", ["memberships", -1]);
                         $("#mymemberships_delete_membership_dialog").jqmHide();
-                        $("#mymemberships_item_"+groupid).remove();
+                        $("#mymemberships_item_"+groupid).fadeOut(false, function(){
+                            // Show the default message if I have no remaining memberships
+                            if ($("#mymemberships_items li:visible").length === 0){
+                                render({
+                                    entry: []
+                                });
+                            }
+                        });
                         sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
-                                sakai.api.i18n.getValueForKey("YOU_HAVE_LEFT_GROUP","mymemberships").replace("{groupname}",groupname),
-                                sakai.api.Util.notification.type.INFORMATION);
-                    }
-                    else {
+                            sakai.api.i18n.getValueForKey("YOU_HAVE_LEFT_GROUP","mymemberships").replace("{groupname}",groupname),
+                            sakai.api.Util.notification.type.INFORMATION);
+                    } else {
                         $("#mymemberships_delete_membership_dialog").jqmHide();
                         sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
-                                sakai.api.i18n.getValueForKey("ERROR_LEAVING_GROUP","mymemberships").replace("{groupname}",groupname),
-                                sakai.api.Util.notification.type.ERROR);
+                            sakai.api.i18n.getValueForKey("ERROR_LEAVING_GROUP","mymemberships").replace("{groupname}",groupname),
+                            sakai.api.Util.notification.type.ERROR);
                     }
                 });
             });
