@@ -368,7 +368,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var bindEvents = function() {
                 $.validator.addMethod("requiredsuggest", function(value, element){
                     return value.indexOf("Enter contact or group names") === -1 && $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
-                }, "This field is required");
+                }, sakai.api.i18n.getValueForKey("AUTOSUGGEST_REQUIRED_ERROR", "sendmessage"));
 
                 var validateOpts = {
                     submitHandler: sendMessage
