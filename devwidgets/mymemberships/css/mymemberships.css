@@ -30,7 +30,9 @@
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
     -webkit-border-radius: 5px; /* Safari */
 }
+.mymemberships_item_first {border-top:none;}
 .mymemberships_no_memberships {text-decoration:none;}
+#mymemberships_message_button .s3d-action-icon{float:right;margin-left:7px;}
 
 /* groups list */
 .mymemberships_item_grouptype {font-size:smaller;white-space:pre;}
