@@ -1352,7 +1352,7 @@ define(
                 templateElement = $("#" + templateName);
             }
             else {
-                debug.log(templateElement);
+                debug.error(templateElement);
                 throw "TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
             }
 
@@ -2037,6 +2037,14 @@ define(
 
                 // Set up the form with these options in jquery.validate
                 $form.validate(options);
+            },
+
+            clearValidation: function($form) {
+                $form.find("span.s3d-error, span.s3d-error-after").remove();
+                $form.find(".s3d-error").removeClass("s3d-error");
+                $form.find(".s3d-error-after").removeClass("s3d-error-after");
+                $form.find("*[aria-invalid]").removeAttr("aria-invalid");
+                $form.find("*[aria-describedby]").removeAttr("aria-describedby");
             }
         }
 
