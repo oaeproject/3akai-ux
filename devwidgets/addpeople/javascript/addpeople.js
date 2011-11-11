@@ -456,7 +456,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var loadRoles = function(){
-            alert("In loadRoles");
             currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
             $("#addpeople_selected_all_permissions", $rootel).html(sakai.api.Util.TemplateRenderer("addpeople_selected_permissions_template", {"roles": currentTemplate.roles,"sakai": sakai}));
         };
@@ -502,7 +501,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////
 
         $(window).bind("init.addpeople.sakai", function(e, initTuid, editingGroup){
-            alert("Here");
             if (initTuid + "addpeople" === tuid || sakai_global.group) {
                 existingGroup = editingGroup;
                 if (!hasbeenInit) {
