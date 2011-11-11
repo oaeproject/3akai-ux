@@ -253,7 +253,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         minlength: 4
                     },
                     password_repeat: {
-                        equalTo: "#password_repeat"
+                        equalTo: "#password"
                     },
                     username: {
                         minlength: 3,
