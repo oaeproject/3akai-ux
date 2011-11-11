@@ -243,13 +243,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 source: function(query, add) {
                     var q = sakai.api.Server.createSearchString(query);
-                    var options = {"page": 0, "items": 15};
-                    searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
-                    if (q === '*' || q === '**') {
-                        searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
-                    } else {
-                        options['q'] = q;
-                    }
+                    var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
+                    searchUrl = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
+                    //if (q === '*' || q === '**') {
+                    //    searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
+                    //} else {
+                    //    options['q'] = q;
+                    //}
                     sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
                         if (success) {
                             var suggestions = [];
