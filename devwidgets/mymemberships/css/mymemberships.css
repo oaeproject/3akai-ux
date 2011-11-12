@@ -17,7 +17,7 @@
  */
 #mymemberships_actionbar {height:13px;padding:5px 0 10px;}
 #mymemberships_actionbar {border-bottom:1px solid #ddd;}
-#mymemberships_items {margin:0;border-bottom:1px solid #ddd;border-top:1px solid #ddd;}
+#mymemberships_items {margin:0;border-top:1px solid #ddd;}
 .mymemberships_imagearea {float:left;height:45px;width:50px;}
 .mymemberships_edit_link {position:relative;top:-13px;left:0;}
 .mymemberships_info {float:left;width:650px;}
