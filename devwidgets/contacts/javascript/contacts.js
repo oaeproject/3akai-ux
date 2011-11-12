@@ -39,18 +39,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
     sakai_global.contacts = function(tuid, showSettings){
 
         var $rootel = $("#" + tuid);
-
         var contactsContainer = "#contacts_container";
-        var contactsTemplate = "contacts_template";
+        var contactsAcceptedTemplate = "contacts_accepted_template";
+        var contactsInvitedTemplate = "contacts_invited_template";
+        var contactsInvitedContainer = "#contacts_invited_container";
+        var contactsShowGrid = ".s3d-listview-grid"
+        var contactsShowList = ".s3d-listview-list"
         var contacts = {  // global data for contacts widget
             totalItems: 0,
             itemsPerPage: 10,
             currentPagenum: 1,
-            sortBy: "_lastModified",
+            sortBy: "lastName",
             sortOrder: "desc",
             accepted: false,
-            pending: false,
-            invited: false
+            invited: false,
+            listStyle: "list",
+            query: ""
+        };
+
+        /**
+         * Compare the names of 2 contact objects
+         *
+         * @param {Object} a
+         * @param {Object} b
+         * @return 1, 0 or -1
+         */
+        var contactSort = function (a, b) {
+            if (a.details.lastName.toLowerCase() > b.details.lastName.toLowerCase()) {
+                return 1;
+            } else {
+                if (a.details.lastName.toLowerCase() === b.details.lastName.toLowerCase()) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
         };
 
         var acceptRequest = function(user){
@@ -72,41 +95,67 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var bindEvents = function(){
-            $(".contacts_add_to_contacts", $rootel).live("click", function(){
-                acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
-            });
-
-            $("#contacts_delete_contacts_dialog").jqm({
-                modal: true,
-                overlay: 20,
-                toTop: true
-            });
-
-            $(".contacts_delete_contact", $rootel).live("click", function(){
-                $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
-                $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
-                $("#contacts_delete_contacts_dialog").jqmShow();
-            });
-
-            $("#contacts_delete_contact_confirm").live("click", function(){
-                removeRequest($(this).data("sakai-entityid"));
-            });
-
-            $(window).bind("contacts.accepted.sakai", getContacts);
+        var checkAddingEnabled = function(){
+            if($(".contacts_select_contact_checkbox:checked")[0]){
+                $("#contacts_addpeople_button").removeAttr("disabled");
+                $("#contacts_message_button").removeAttr("disabled");
+            } else {
+                $("#contacts_addpeople_button").attr("disabled", true);
+                $("#contacts_message_button").attr("disabled", true);
+                $("#contacts_select_checkbox").removeAttr("checked");
+            }
         };
 
         var renderContacts = function(dataObj){
-            $(contactsContainer).html(sakai.api.Util.TemplateRenderer(contactsTemplate, dataObj));
+            // Sort
+            if(dataObj.invited && dataObj.invited.results){
+                dataObj.invited.results = dataObj.invited.results.sort(contactSort);
+            }
+            dataObj.accepted.results = dataObj.accepted.results.sort(contactSort);
+            if (contacts.sortOrder === "desc") {
+                dataObj.accepted.results.reverse();
+            }
+
+            // Render
+            $(contactsContainer).html(sakai.api.Util.TemplateRenderer(contactsAcceptedTemplate, dataObj));
+            $(contactsInvitedContainer).html(sakai.api.Util.TemplateRenderer(contactsInvitedTemplate, dataObj));
+
+            // Decide to show the pager
             showPager(contacts.currentPagenum);
+
+            // Set list style
+            contacts.listStyle = $.bbq.getState("cls") || "list";
+            if(contacts.listStyle === "grid"){
+                $(contactsShowGrid, $rootel).click();
+            }
+
+            // Anonymous users only get to see the search and sort options
+            // Header is hidden for everybody when no connections are made with contacts for a user
+            if(sakai.data.me.user.anon){
+                $(".s3d-page-header-bottom-row", $rootel).hide();
+                if (!dataObj.accepted.results.length && !contacts.query) {
+                    $(".s3d-page-header-top-row", $rootel).hide();
+                } else {
+                    $(".s3d-page-header-top-row", $rootel).show();
+                }
+            // If there are no results the bottom header bar should not be shown
+            } else if (!dataObj.accepted.results.length) {
+                if(!contacts.query){
+                    $(".s3d-page-header-top-row", $rootel).hide();
+                }
+                $(".s3d-page-header-bottom-row", $rootel).hide();
+            // The user is not anonymous and there are results.
+            } else {
+                $(".s3d-page-header-top-row", $rootel).show();
+                $(".s3d-page-header-bottom-row", $rootel).show();
+            }
         };
 
         var determineRenderContacts = function(){
             if (sakai_global.profile.main.mode.value !== "view") {
-                if (contacts.accepted && contacts.pending && contacts.invited) {
+                if (contacts.accepted && contacts.invited) {
                     var json = {
                         "accepted": contacts.accepted,
-                        "pending": contacts.pending,
                         "invited": contacts.invited,
                         "sakai": sakai
                     };
@@ -116,7 +165,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if(contacts.accepted){
                     var json = {
                         "accepted": contacts.accepted,
-                        "pending": false,
                         "invited": false,
                         "sakai": sakai
                     };
@@ -128,12 +176,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getAccepted = function(){
             var url = "";
             var data = {
+                "q": contacts.query,
                 "page": contacts.currentPagenum - 1,
                 "items": contacts.itemsPerPage,
                 "sortOn": contacts.sortBy,
                 "sortOrder": contacts.sortOrder
             };
-            if(sakai_global.profile.main.mode.value !== "view"){
+            if(contacts.query){
+                url = "/var/contacts/find.infinity.json?state=ACCEPTED"
+            } else if (sakai_global.profile.main.mode.value !== "view"){
                 url = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED";
             }else{
                 url = "/var/contacts/findbyuser.json";
@@ -147,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 data: data,
                 success: function(data){
                     $.each(data.results, function(index, user){
-                        if (sakai.api.User.checkIfConnected(user.details.targetUserId)){
+                        if (sakai.api.User.checkIfConnected(user.target)){
                             user.connected = true;
                         } else {
                             user.connected = false;
@@ -172,22 +223,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         });
 
-        var getPending = function(){
-            $.ajax({
-                url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=PENDING&page=0&items=1000",
-                cache: false,
-                async: true,
-                success: function(data){
-                    contacts.pending = data;
-                    for (var i in contacts.pending.results) {
-                        contacts.pending.results[i].linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.User.getDisplayName(contacts.pending.results[i].profile)); 
-                    }
-                    determineRenderContacts();
-                }
-            });
-        };
-
-        var getPendingToOther= function(){
+        var getPendingFromOther= function(){
             $.ajax({
                 url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=INVITED&page=0&items=1000",
                 cache: false,
@@ -205,8 +241,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getContacts = function(){
             if (sakai_global.profile.main.mode.value !== "view") {
                 getAccepted();
-                getPending();
-                getPendingToOther();
+                getPendingFromOther();
             }
             else {
                 getAccepted();
@@ -239,7 +274,127 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
+        var updateMessageAndAddToData = function(){
+            var idArr = [];
+            var nameArr = [];
+            $.each($(".contacts_select_contact_checkbox:checked"), function(i, user){
+                idArr.push($(user).data("userid"));
+                nameArr.push($(user).data("username"));
+            });
+            $("#contacts_message_button").attr("sakai-entityid", idArr);
+            $("#contacts_message_button").attr("sakai-entityname", nameArr);
+            $("#contacts_addpeople_button").data("entityid", idArr);
+            $("#contacts_addpeople_button").data("entityname", nameArr);
+        };
+
+        var uncheckAll = function(){
+            $("#contacts_select_checkbox").removeAttr("checked");
+        };
+
+        var bindEvents = function(){
+            $(".contacts_add_to_contacts").live("click", function(){
+                acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
+                $(this).parents("li").remove();
+                uncheckAll();
+            });
+
+            $("#contacts_delete_contacts_dialog").jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+            });
+
+            $(".s3d-actions-delete").live("click", function(){
+                $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
+                $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
+                $("#contacts_delete_contacts_dialog").jqmShow();
+            });
+
+            $("#contacts_delete_contact_confirm").live("click", function(){
+                removeRequest($(this).data("sakai-entityid"));
+                updateMessageAndAddToData();
+            });
+
+            $(window).bind("contacts.accepted.sakai", function(){
+                uncheckAll();
+                getContacts();
+                var t = setTimeout(getContacts,500);
+            });
+
+            $("#contacts_select_checkbox").change(function(){
+                if($(this).is(":checked")){
+                    $("#contacts_addpeople_button").removeAttr("disabled");
+                    $("#contacts_message_button").removeAttr("disabled");
+                    $(".contacts_select_contact_checkbox").attr("checked", true);
+                } else{
+                    $("#contacts_addpeople_button").attr("disabled", true);
+                    $("#contacts_message_button").attr("disabled", true);
+                    $(".contacts_select_contact_checkbox").removeAttr("checked");
+                }
+                updateMessageAndAddToData();
+            });
+
+            $(".contacts_select_contact_checkbox").live("change", function(){
+                checkAddingEnabled();
+                updateMessageAndAddToData();
+            });
+
+            $("#contacts_sortby").change(function () {
+                uncheckAll();
+                var sortSelection = this.options[this.selectedIndex].value;
+                if (sortSelection === "desc") {
+                    contacts.sortOrder = "desc";
+                    $.bbq.pushState({"cso": "desc"});
+                } else {
+                    contacts.sortOrder = "asc";
+                    $.bbq.pushState({"cso": "asc"});
+                }
+            });
+
+            $(contactsShowList, $rootel).click(function(){
+                uncheckAll();
+                $("#contacts_container div .contacts_list_items", $rootel).removeClass("s3d-search-results-grid");
+                $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).children().addClass("selected");
+                $.bbq.pushState({"cls": "list"});
+            });
+
+            $(contactsShowGrid, $rootel).click(function(){
+                uncheckAll();
+                $("#contacts_container div .contacts_list_items", $rootel).addClass("s3d-search-results-grid");
+                $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).children().addClass("selected");
+                $.bbq.pushState({"cls": "grid"});
+            });
+
+            $(window).bind("hashchanged.contacts.sakai", function(){
+                getContacts();
+            });
+
+            $("#contacts_search_input").live("keyup", function(ev){
+                var q = $.trim($(this).val());
+                if (q !== contacts.query && ev.keyCode === 13) {
+                    contacts.query = q;
+                    $.bbq.pushState({"cq": q});
+                }
+            });
+
+            $("#contacts_search_button").live("click", function(ev){
+                var q = $.trim($("#contacts_search_input").val());
+                if (q !== contacts.query) {
+                    contacts.query = q;
+                    $.bbq.pushState({"cq": q});
+                }
+            })
+        };
+
         var doInit = function(){
+            contacts.sortOrder = $.bbq.getState("cso") || "asc";
+            $("#contacts_sortby").val(contacts.sortOrder);
+            contacts.query = $.bbq.getState("cq") || "";
+            $("#contacts_search_input").val(contacts.query);
             getContacts();
             bindEvents();
         };
