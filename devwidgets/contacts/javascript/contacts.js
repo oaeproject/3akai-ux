@@ -259,7 +259,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $(window).bind("contacts.accepted.sakai", function(){
                 uncheckAll();
-                //getContacts();
                 var t = setTimeout(getContacts,500);
             });
 
