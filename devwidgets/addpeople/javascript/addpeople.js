@@ -542,16 +542,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.User.getContacts(renderContacts);
             }
         });
-
-        if(!hasbeenInit){
-            loadRoles();
-            var defaultMembers = $.bbq.getState("members") || [];
-            if(defaultMembers.length){
-                defaultMembers = defaultMembers.split(",");
-                fetchGroupsAndUsersData(defaultMembers);
-            }
-        }
     };
+
+    if(!hasbeenInit){
+        loadRoles();
+        var defaultMembers = $.bbq.getState("members") || [];
+        if(defaultMembers.length){
+            defaultMembers = defaultMembers.split(",");
+            fetchGroupsAndUsersData(defaultMembers);
+        }
+    }
 
     sakai.api.Widgets.widgetLoader.informOnLoad("addpeople");
 

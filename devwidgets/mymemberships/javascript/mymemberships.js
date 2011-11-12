@@ -40,8 +40,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var mymemberships = {  // global widget data
             isOwnerViewing: false,
             sortOrder: "modified",
-            cache: [],
-            hovering: false,
             listStyle: "list"
         };
 
@@ -59,6 +57,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var currentQuery = "";
 
+        ///////////////////////
+        // Utility Functions //
+        ///////////////////////
+
+        /**
+         * Compare the titles of 2 group objects
+         *
+         * @param {Object} a
+         * @param {Object} b
+         * @return 1, 0 or -1
+         */
+        var groupSortName = function (a, b) {
+            if (a["sakai:group-title"].toLowerCase() > b["sakai:group-title"].toLowerCase()) {
+                return 1;
+            } else {
+                if (a["sakai:group-title"].toLowerCase() === b["sakai:group-title"].toLowerCase()) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+        };
+
         /**
          * Compare the modification date of 2 group objects
          *
@@ -71,25 +92,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return 1;
             } else {
                 if (a["lastModified"] === b["lastModified"]) {
-                    return 0;
-                } else {
-                    return -1;
-                }
-            }
-        };
-
-        /**
-         * Compare the names of 2 group objects
-         *
-         * @param {Object} a
-         * @param {Object} b
-         * @return 1, 0 or -1
-         */
-        var groupSortName = function (a, b) {
-            if (a["sakai:group-title"].toLowerCase() > b["sakai:group-title"].toLowerCase()) {
-                return 1;
-            } else {
-                if (a["sakai:group-title"].toLowerCase() === b["sakai:group-title"].toLowerCase()) {
                     return 0;
                 } else {
                     return -1;
@@ -271,16 +273,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         $(window).trigger("lhnav.updateCount", ["memberships", -1]);
                         $("#mymemberships_delete_membership_dialog").jqmHide();
-                        $("#mymemberships_item_"+groupid).remove();
+                        $("#mymemberships_item_"+groupid).fadeOut(false, function(){
+                            // Show the default message if I have no remaining memberships
+                            if ($("#mymemberships_items li:visible").length === 0){
+                                render({
+                                    entry: []
+                                });
+                            }
+                        });
                         sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
-                                sakai.api.i18n.getValueForKey("YOU_HAVE_LEFT_GROUP","mymemberships").replace("{groupname}",groupname),
-                                sakai.api.Util.notification.type.INFORMATION);
-                    }
-                    else {
+                            sakai.api.i18n.getValueForKey("YOU_HAVE_LEFT_GROUP","mymemberships").replace("{groupname}",groupname),
+                            sakai.api.Util.notification.type.INFORMATION);
+                    } else {
                         $("#mymemberships_delete_membership_dialog").jqmHide();
                         sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
-                                sakai.api.i18n.getValueForKey("ERROR_LEAVING_GROUP","mymemberships").replace("{groupname}",groupname),
-                                sakai.api.Util.notification.type.ERROR);
+                            sakai.api.i18n.getValueForKey("ERROR_LEAVING_GROUP","mymemberships").replace("{groupname}",groupname),
+                            sakai.api.Util.notification.type.ERROR);
                     }
                 });
             });
@@ -365,7 +373,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#mymemberships_delete_membership_dialog").jqm({
                 modal: true,
                 overlay: 20,
-                toTop: true,
+                toTop: true
             });
 
             $(".s3d-actions-delete", $rootel).live("click", function() {
@@ -419,10 +427,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             currentQuery = $.bbq.getState("mq") || "";
             $("#mymemberships_sortby").val($.bbq.getState("mso") || "modified");
             mymemberships.sortOrder = $.bbq.getState("mso") || "modified";
-            $("#mymemberships_livefilter").val(currentQuery);
             mymemberships.listStyle = $.bbq.getState("mls") || "list";
-            if (sakai_global.profile.main.data.userid ===
-                sakai.data.me.user.userid) {
+            $("#mymemberships_livefilter").val(currentQuery);
+            if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
                 mymemberships.isOwnerViewing = true;
                 render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
             } else {

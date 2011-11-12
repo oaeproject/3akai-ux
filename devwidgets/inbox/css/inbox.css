@@ -29,9 +29,7 @@
 #inbox_search_messages{width:290px;}
 .s3d-search-container.inbox-message-list-view {float:right;margin-top:5px;}
 #inbox_search_messages[disabled]{background-color:#fff;opacity:0.4;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";filter: alpha(opacity=40);}
-#inbox_select_options{position:absolute;top:-10000px;left:-10000px;width:60px;background-color:#F4F4F4;z-index:999;box-shadow:0px 0px 5px 0px #aaa;-moz-box-shadow:0px 0px 5px 0px #aaa;-webkit-box-shadow:0px 0px 5px 0px #aaa;}
-#inbox_select_options ul{margin:0;padding:2px;}
-#inbox_select_options ul li{list-style:none;}
+#inbox_select {padding: 3px;}
 /* Inbox Columns */
 .inbox_col{float:left;}
 .inbox_left_col{width:10%;}
