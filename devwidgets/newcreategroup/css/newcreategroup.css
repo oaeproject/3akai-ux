@@ -39,7 +39,7 @@
 #newcreategroup_group_form{margin-top:10px;}
 #newcreategroup_container #newcreategroup_title_form.s3d-form-field-wrapper span.s3d-error{margin-left:29px;width:296px;}
 
-#newcreategroup_container input#newcreategroup_suggested_url {margin-top:0;width:35%;}
+#newcreategroup_container input#newcreategroup_suggested_url {margin-top:0;width:125px;}
 #newcreategroup_suggested_url_base {float:left;margin-top: 5px;}
 #newcreategroup_container #newcreategroup_suggested_url_form.s3d-form-field-wrapper span.s3d-error{width:auto;}
 #newcreategroup_container .newcreategroup_section select {border:1px solid #A9A9A9;float:right; min-width: 160px;}

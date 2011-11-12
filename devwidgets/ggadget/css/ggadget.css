@@ -19,7 +19,8 @@
 #ggadget_remotecontent_container .fl-widget-content{padding:10px;}
 
 /* Settings */
-#ggadget_remotecontent_settings input[type="text"]{margin-top:3px;padding:3px;}
+#ggadget_remotecontent_settings input[type="text"]{padding:3px;}
+#ggadget_remotecontent_settings_url_label {margin-bottom: 3px;}
 #ggadget_remotecontent_settings_url_error{color:#9f3333;font-weight:bold;padding:0 0 10px 15px;}
 #ggadget_remotecontent_settings_help{color:#666;display:block;font-size:11.5px;margin:0 0 0 120px;padding:3px;}
 .ggadget_remotecontent_settings_error{color:red;}

@@ -327,9 +327,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // When you push the save button..
-            $(remotecontentSettingsInsert).click(function(){
-                saveRemoteContent();
-            });
+            $(remotecontentSettingsInsert).click(saveRemoteContent);
 
             // Cancel it
             $(remotecontentSettingsCancel).click(function(){
