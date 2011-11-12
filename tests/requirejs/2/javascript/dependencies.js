@@ -51,7 +51,7 @@ require(
         "order!/dev/lib/jquery/plugins/jquery.pager.sakai-edited.js",
         "order!/dev/lib/jquery/plugins/jquery.threedots.js",
         "order!/dev/lib/jquery/plugins/jquery.form.js",
-        "order!/dev/lib/jquery/plugins/jquery.MultiFile.js",
+        "order!/dev/lib/jquery/plugins/jquery.MultiFile.sakai-edited.js",
         "order!/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
         "order!/dev/lib/jquery/plugins/gritter/jquery.gritter.js"
     ],
@@ -86,7 +86,7 @@ require(["order!jquery",
     "order!/dev/lib/jquery/plugins/jquery.pager.js",
     "order!/dev/lib/jquery/plugins/jquery.threedots.js",
     "order!/dev/lib/jquery/plugins/jquery.form.js",
-    "order!/dev/lib/jquery/plugins/jquery.MultiFile.js",
+    "order!/dev/lib/jquery/plugins/jquery.MultiFile.sakai-edited.js",
     "order!/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
     "order!/dev/lib/jquery/plugins/gritter/jquery.gritter.js"
  ]);
