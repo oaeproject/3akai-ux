@@ -5,7 +5,8 @@
     /**
      * Function that will provide infinite scrolling for lists of items being
      * displayed
-     * @param {String} url                   Search URL to use
+     * @param {String} source                If this is a String, it'll be treated as the URL to use for the search action
+     *                                       If this is a Function, this will be called to get the lists of results
      * @param {Object} parameters            Parameters to send along for search requests.
      *                                       The "items" property will be used to determine how many results are loaded per call [optional]
      * @param {Function} render              Render callback function called when the plugin is ready to render the list
@@ -16,7 +17,7 @@
      *                                       the template [optional]
      * @param {Object} initialcontent        Initial content to be added to the list [optional]
      */
-    $.fn.infinitescroll = function(url, parameters, render, emptylistprocessor, loadingImage, postprocessor, initialcontent){
+    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, initialcontent){
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -52,7 +53,7 @@
          * of the end of the page. If it is, we load the next set of results
          */
         var loadNextList = function(){
-            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
+            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $("html").scrollTop();
             if (pixelsRemainingUntilBottom < 500 && $container.is(":visible")){
                 parameters.page++;
                 loadResultList();
@@ -127,10 +128,12 @@
             data.results = filteredresults;
             // Render the template and put it in the container
             var templateOutput = render(data.results, data.total);
-            if (prepend){
-                $container.prepend(templateOutput);
-            } else {
-                $container.append(templateOutput);
+            if ($container) {
+                if (prepend) {
+                    $container.prepend(templateOutput);
+                } else {
+                    $container.append(templateOutput);
+                }
             }
             isDoingExtraSearch = false;
             showHideLoadingContainer(false);
@@ -175,16 +178,29 @@
         var loadResultList = function(initial){
             isDoingExtraSearch = true;
             showHideLoadingContainer(true);
-            $.ajax({
-                "url": url,
-                "data": parameters,
-                "success": function(data){
-                    processList(data);
-                },
-                "error": function(){
-                    debug.log("An error has occured while retrieving the list of results");
-                }
-            });
+            // If the source is a function that will load the results for us
+            if ($.isFunction(source)) {
+                source(parameters, function(success, data){
+                    if (success){
+                        processList(data);
+                    } else {
+                        debug.log("An error has occured while retrieving the list of results");
+                    }
+                });
+            // Load the results ourselves
+            } else {
+                $.ajax({
+                    "url": source,
+                    "data": parameters,
+                    "cache": false,
+                    "success": function(data){
+                        processList(data);
+                    },
+                    "error": function(){
+                        debug.log("An error has occured while retrieving the list of results");
+                    }
+                });
+            }
         };
 
         ////////////////////////////
