@@ -212,6 +212,14 @@ a.s3d-button {text-decoration:none;}
 .s3d-button.s3d-header-button[disabled]:hover {background:#fff;box-shadow:0 0 6px -2px #a8a8a8 inset;border:1px solid #e0e3e5;}
 a.s3d-button.s3d-header-button {height:24px;line-height:24px;}
 
+/* Left pop out buttons */
+.s3d-popout-button-shadow {background:url("/dev/images/button_popout_border_shadow.png") no-repeat scroll left top transparent;float:left;height:56px;margin-left:-10px;margin-top:-12px;position:absolute;width:20px;}
+.s3d-button.s3d-header-button.s3d-popout-button {color:#666;padding:0 5px 0 10px;font-size:13px;height:30px;}
+.s3d-button.s3d-header-button.s3d-popout-button:hover {background:url("/dev/images/button_popout_hover.png") repeat-x scroll left -1px transparent;border:1px solid #31b2eb;color:#fff;}
+.s3d-button.s3d-header-button.s3d-popout-button[disabled] {background:#fff;cursor:auto;color:#ccc}
+.s3d-button.s3d-header-button.s3d-popout-button[disabled]:hover {background:#fff;;border:1px solid #E0E3E5;box-shadow:0 0 4px -2px #A8A8A8 inset;}
+.s3d-button.s3d-header-button.s3d-popout-button > span {display:inline-block;float:right;font-size:18px;margin-left:4px;}
+
 /* Header buttons, smaller */
 .s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:10px;height:23px;padding:0 5px;}
 a.s3d-button.s3d-header-button.s3d-header-smaller-button {display:inline-block;}
