@@ -43,7 +43,8 @@ require(['jquery', 'jquery-ui', 'jquery-plugins/jquery.fileupload'], function (j
 		// Empty Element Fix!!!
 		// this code will automatically intercept native form submissions
 		// and disable empty file elements
-		$('form')
+		this
+		.closest("form")
 		.not('MultiFile-intercepted')
 		.addClass('MultiFile-intercepted')
 		.submit($.fn.MultiFile.disableEmpty);
