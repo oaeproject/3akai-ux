@@ -418,7 +418,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 userIds.push(content["sakai:pool-content-created-for"] || content["_lastModifiedBy"]);
             });
             if (userIds.length) {
-                sakai.api.User.getMultipleUsers(userIds, function(users){
+                sakai.api.User.getMultipleUsers(userIds, function(getMultipleUsersSuccess, users){
                     var currentItems = [];
                     $.each(results, function(i, result){
                         var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"]);

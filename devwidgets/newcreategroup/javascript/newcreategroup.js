@@ -366,7 +366,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $newcreategroupGroupTitle.bind("keyup", function(){
-            var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");
+            var suggestedURL = sakai.api.Util.makeSafeURL($(this).val().toLowerCase(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);
             $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~" + suggestedURL);
             renderShareMessage();
@@ -423,7 +423,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $.bbq.pushState({"_r": Math.random()});
     });
 
-    $(window).bind("sakai.addpeople.usersselected", function(ev, initTuid, users){
+    $(window).bind("toadd.addpeople.sakai", function(ev, initTuid, users){
         if (initTuid === tuid) {
             selectedUsers = $.extend(true, {}, users);
             $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {

@@ -1,5 +1,4 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
 <div class="searchgroups_widget" id="searchgroups_widget">
     <div class="searchgroups_content_main">
         <!-- SEARCH BAR -->
@@ -63,7 +62,12 @@
                 <!-- TEMPLATE CONTAINING THE RESULTS -->
                 <div id="searchgroups_results_template"><!--
                     {var count = 0}
+                    <div class="s3d-search-results-grid-row">
                     {for i in items}
+                        {if count > 0 && count % 4 === 0}
+                            </div>
+                            <div class="s3d-search-results-grid-row">
+                        {/if}
                         {var count = count + 1}
                         {if i['sakai:group-id']}
                             {var groupsFound = true}
@@ -86,7 +90,8 @@
                                 <div class="searchgroups_result_right s3d-search-result-right">
                                     <div>
                                         <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                            ${i["sakai:group-title-short"]}
+                                            <span class="searchgroups_result_name">${i["sakai:group-title-short"]}</span>
+                                            <span class="searchgroups_result_name_grid">${i["sakai:group-title-shorter"]}</span>
                                         </a>
                                         {if i.groupType}
                                             <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>
@@ -111,13 +116,16 @@
                                         <div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>
                                         <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                                     {/if}
-                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                                    {if !$.isEmptyObject(i["sakai:tags"])}
                                         <div class="searchgroups_result_tags">
                                             <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
                                             <p class="searchgroups_result_tags_list">
                                                 {for t in i["sakai:tags"]}
                                                     {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} 
-                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                                        <span class="searchgroups_result_tag">${t.tagShort|safeOutput}</span>
+                                                        <span class="searchgroups_result_tag_grid">${t.tagShorter|safeOutput}</span>
+                                                    </a>
                                                 {/for}
                                             </p>
                                         </div>
@@ -126,6 +134,7 @@
                             </li>
                         {/if}
                     {/for}
+                    </div>
                     {if !groupsFound}
                         <li class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>

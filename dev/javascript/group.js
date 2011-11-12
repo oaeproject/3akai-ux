@@ -168,18 +168,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("addarea.initiate.sakai");
         });
 
-        $(window).bind("sakai.addpeople.usersselected", function(e, widgetid, data){
+        $(window).bind("toadd.addpeople.sakai", function(e, widgetid, data){
             var members = [];
-            for(var user in data){
+            $.each(data, function(i, user) {
                 var member = {
-                    "user": data[user].userid,
-                    "permission": data[user].permission
+                    "user": user.userid,
+                    "permission": user.permission
                 };
                 members.push(member);
-            }
-            if(members){
+            });
+            if (members.length) {
                 sakai.api.Groups.addUsersToGroup(groupId, members, sakai.api.User.data.me, false, function(){
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MANAGE_PARTICIPANTS", "addpeople"), sakai.api.i18n.getValueForKey("NEW_SETTINGS_HAVE_BEEN_APPLIED", "addpeople"));
                     $(window).trigger("usersselected.addpeople.sakai");
                 });
             } else {
@@ -187,17 +186,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        $(window).bind("sakai.addpeople.usersswitchedpermission", function(e, widgetid, data){
-            var members = [];
-            for(var user in data){
+        $(window).bind("usersswitchedpermission.addpeople.sakai", function(e, widgetid, data){
+            var rolesToDelete = [],
+                rolesToAdd = [];
+            $.each(data, function(i, user) {
                 var member = {
-                    "userid": data[user].userid,
-                    "permission": data[user].originalPermission
+                    "userid": user.userid,
+                    "permission": user.originalPermission
                 };
-                members.push(member);
-            }
-            if(members){
-                sakai.api.Groups.removeUsersFromGroup(groupId, members, sakai.api.User.data.me, false);
+                rolesToDelete.push(member);
+                var member2 = {
+                    "user": user.userid,
+                    "permission": user.permission
+                };
+                rolesToAdd.push(member2);
+            });
+            if (rolesToDelete.length) {
+                sakai.api.Groups.addUsersToGroup(groupId, rolesToAdd, sakai.api.User.data.me, false, function() {
+                    sakai.api.Groups.removeUsersFromGroup(groupId, rolesToDelete, sakai.api.User.data.me);
+                });
             }
         });
 
