@@ -165,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#addarea_contentlist_permissions").html(permissionsSelect);
             $("#addarea_participants_permissions").html(permissionsSelect);
             $("#addarea_widgets_permissions").html(permissionsSelect);
-            $(addareaCreateDocButton).removeAttr("disabled");
+            $(addareaCreateDocButton).attr("disabled", true);
         };
 
         var checkTitleProvided = function(){
@@ -794,6 +794,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 modal: true,
                 overlay: 20,
                 toTop: true,
+                onClose: resetWidget
             });
             centerOverlay();
             $addAreaContainer.jqmShow();
@@ -842,6 +843,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     })
                 );
                 $(".addarea_existing_container:visible").find(".addarea_existing_name").val($(this).data("doc-title"));
+                checkTitleProvided();
             });
             $(".addarea_name_field").live("keyup", checkTitleProvided);
         };
