@@ -53,7 +53,8 @@
          * of the end of the page. If it is, we load the next set of results
          */
         var loadNextList = function(){
-            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $("html").scrollTop();
+            var scrollTop = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
+            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
             if (pixelsRemainingUntilBottom < 500 && $container.is(":visible")){
                 parameters.page++;
                 loadResultList();
