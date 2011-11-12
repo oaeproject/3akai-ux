@@ -530,7 +530,7 @@ define(
                 var managementRoles = [];
                 var roles = $.parseJSON(groupinfo["sakai:roles"]);
                 for (var r = 0; r < roles.length; r++) {
-                    if (roles[r].allowManage) {
+                    if (roles[r].isManagerRole) {
                         managementRoles.push(roles[r].id);
                     }
                 }
