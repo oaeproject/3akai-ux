@@ -167,7 +167,7 @@
         {/if}
         <img src="${data.data['iconURL']}" alt="${data.data["sakai:pooled-content-file-name"]|safeOutput}"/>
     </div>
-    <span id="entity_name" {if data.isManager}class="s3d-bold contentmetadata_editable"{/if}>${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
+    <span id="entity_name" class="s3d-bold {if data.isManager} contentmetadata_editable{/if}">${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
     <span id="entity_name_edit" style="display:none">
         <input id="entity_name_text" type="text" />
     </span>
@@ -194,8 +194,8 @@
         {if data.isManager}
             <div class="entity_owns_actions_container">
                 <span class="entity_owns_actions_header">__MSG__VISIBILITY__</span>
-                <div class="s3d-button s3d-header-button ew_permissions s3d-header-smaller-button entity_owns_actions">
-                    <div class="entity_owns_actions_private {if permissions === "private"} selected {/if}">
+                <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
+                    <div class="entity_owns_actions_private ew_permissions {if permissions === "private"} selected {/if}" data-permissionvalue="private">
                         <div class="s3d-dropdown-list" id="">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             {if permissions === "private"}
@@ -206,7 +206,7 @@
                         	<button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                         </div>
                     </div>
-                    <div class="entity_owns_actions_institution ew_permissions {if permissions === "everyone"} selected {/if}">
+                    <div class="entity_owns_actions_institution ew_permissions {if permissions === "everyone"} selected {/if}" data-permissionvalue="selected">
                         <div class="s3d-dropdown-list" id="">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             {if permissions === "everyone"}
@@ -217,7 +217,7 @@
                             <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                         </div>
                     </div>
-                    <div class="entity_owns_actions_public ew_permissions {if permissions === "public"} selected {/if}">
+                    <div class="entity_owns_actions_public ew_permissions {if permissions === "public"} selected {/if}" data-permissionvalue="public">
                         <div class="s3d-dropdown-list" id="">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             {if permissions === "public"}
@@ -272,19 +272,19 @@
                         <div class="s3d-dropdown-list" id="">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             	<span>Shared with
-                            	    {if data.members.counts.people !== 0}
-                                    	<button type="button" class="s3d-link-button entity_content_people">${data.members.counts.people}
-                                        	{if data.members.counts.people == 1}
+                            	    {if data.members.counts.viewerusers !== 0}
+                                    	<button type="button" class="s3d-link-button entity_content_people">${data.members.counts.viewerusers}
+                                        	{if data.members.counts.viewerusers == 1}
                                         	    __MSG__PERSON_LC__
                                         	{else}
                                                 __MSG__PEOPLE_LC__
                                             {/if}
                                         </button>
                                     {/if}
-                                    {if data.members.counts.groups !== 0 && data.members.counts.people !== 0}and{/if}
-                                    {if data.members.counts.groups !== 0}
-                                    	<button class="s3d-link-button entity_content_group">${data.members.counts.groups}
-                                    	    {if data.members.counts.groups == 1}
+                                    {if data.members.counts.viewergroups !== 0 && data.members.counts.viewerusers !== 0}and{/if}
+                                    {if data.members.counts.viewergroups !== 0}
+                                    	<button class="s3d-link-button entity_content_group">${data.members.counts.viewergroups}
+                                    	    {if data.members.counts.viewergroups == 1}
                                                 __MSG__GROUP_LC__
                                             {else}
                                         	    __MSG__GROUPS_LC__
@@ -294,7 +294,7 @@
                             	</span>
                             <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                         </div>
-                        <span>${data.members.counts.groups + data.members.counts.people}</span>
+                        <span>${data.members.counts.viewergroups + data.members.counts.viewerusers}</span>
                     </div>
                     <span>|</span>
                     <button type="button" class="s3d-link-button s3d-bold ew_permissions" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>

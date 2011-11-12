@@ -55,6 +55,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentpermissionsShareMessageTemplate = "contentpermissions_share_message_template";
 
         var globalPermissionsChanged = false;
+        var defaultPermissionPassed = false;
 
 
         ////////////////////
@@ -286,7 +287,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai.api.Util.TemplateRenderer("contentpermissions_content_template", {
                     title: sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                     contentData: removeDuplicateUsersGroups(contentData),
-                    sakai: sakai
+                    sakai: sakai,
+                    defaultPermission: defaultPermissionPassed
                 })
             );
         };
@@ -373,7 +375,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             initializeOverlay();
         };
 
-        $(window).bind("init.contentpermissions.sakai", function(){
+        $(window).bind("init.contentpermissions.sakai", function(ev, data){
+            defaultPermissionPassed = data.newPermission;
             doInit();
         });
 

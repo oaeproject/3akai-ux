@@ -275,7 +275,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         sakai_global.content_profile.content_data.members.counts.managerusers++;
                     }
-                })
+                });
+                sakai_global.content_profile.content_data.members.counts.viewergroups = 0;
+                sakai_global.content_profile.content_data.members.counts.viewerusers = 0;
+                $.each(sakai_global.content_profile.content_data.members.viewers, function(i, viewer){
+                    if(viewer["sakai:group-id"]){
+                        sakai_global.content_profile.content_data.members.counts.viewergroups++;
+                    } else {
+                        sakai_global.content_profile.content_data.members.counts.viewerusers++;
+                    }
+                });
             }
             context.sakai = sakai;
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
@@ -361,7 +370,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $('.ew_permissions').click(function(e){
                 e.preventDefault();
                 if(e.target == this || $(this).parents(".s3d-dropdown-list").length || e.target.className === "s3d-dropdown-list-arrow-up"){
-                    $(window).trigger("init.contentpermissions.sakai");
+                    $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).data("permissionvalue") || false});
                     $('#entity_contentsettings_dropdown').jqmHide();
                 }
             });
