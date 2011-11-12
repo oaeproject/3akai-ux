@@ -87,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             callback(false);
                             return;
                         }
-                    } else if (data.autosave && data.page && data.autosave._lastModified > data._lastModified) {
+                    } else if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
                         $('#autosave_dialog').jqmShow();
                         autosaveDialogShown = true;
                         if ($.isFunction(callback)) {
