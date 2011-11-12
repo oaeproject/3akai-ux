@@ -177,16 +177,12 @@ define(
             // callback function for response from batch request
             var bundleReqFunction = function(success, reqData){
                 var users = {};
-                if (success && reqData) {
-                    for (var j in reqData.responseId) {
-                        if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
-                            users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
-                        }
+                for (var j in reqData.responseId) {
+                    if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
+                        users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
                     }
                 }
-                if ($.isFunction(callback)) {
-                    callback(success, users);
-                }
+                callback(users);
             };
 
             for (var i in userArray) {

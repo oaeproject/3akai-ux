@@ -65,12 +65,7 @@
                 <!-- TEMPLATE CONTAINING THE RESULTS -->
                 <div id="searchpeople_results_template"><!--
                     {var count = 0}
-                    <div class="s3d-search-results-grid-row">
                     {for i in items}
-                        {if count > 0 && count % 4 === 0}
-                            </div>
-                            <div class="s3d-search-results-grid-row">
-                        {/if}
                         {var count = count + 1}
                         {if i.userid}
                             {var peopleFound = true}
@@ -111,10 +106,7 @@
                                     </a>
                                 {/if}
                                 <div class="searchpeople_result_right s3d-search-result-right">
-                                    <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${i.name}">
-                                        <span class="searchpeople_result_name">${i.nameShort}</span>
-                                        <span class="searchpeople_result_name_grid">${i.nameShorter}</span>
-                                    </a>
+                                    <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
                                     <div class="searchpeople_result_counts">
                                         <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
                                             ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
@@ -132,16 +124,13 @@
                                         <span class="searchpeople_result_description">${i.extra}</span>
                                         <span class="searchpeople_result_description_grid">${i.extraGrid}</span>
                                     {/if}
-                                    {if !$.isEmptyObject(i["sakai:tags"])}
+                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                         <div class="searchpeople_result_tags">
                                             <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
                                             <p class="searchpeople_result_tags_list">
                                                 {for t in i["sakai:tags"]}
                                                     {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} 
-                                                    <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                                        <span class="searchpeople_result_tag">${t.tagShort|safeOutput}</span>
-                                                        <span class="searchpeople_result_tag_grid">${t.tagShorter|safeOutput}</span>
-                                                    </a>
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
                                                 {/for}
                                             </p>
                                         </div>
@@ -150,7 +139,6 @@
                             </li>
                         {/if}
                     {/for}
-                    </div>
                     {if !peopleFound}
                         <li class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
