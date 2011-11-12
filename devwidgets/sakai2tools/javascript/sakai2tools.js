@@ -181,6 +181,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
                 json.launchDataUrl = sakai.api.Widgets.widgetLoader.widgets[tuid].placement + ".launch.html";
+                if (sakai_global.group) {
+                    json.launchDataUrl += "?groupid=" + sakai_global.group.groupData["sakai:group-id"];
+                }
                 $("#" + json.tuidFrame, rootel).attr("src", json.launchDataUrl); 
 
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
