@@ -75,15 +75,11 @@
 /* Message detail - reply */
 #inbox_show_message_reply{float:left;width:79%;margin-left:25px;border-top:1px dotted #d4d4d4;padding-top:10px;}
 #inbox_show_message_reply .sendmessage_send_form{padding:0;}
-#inbox_show_message_reply .send_message ul.as-selections{width:100%;margin:5px 0px 10px 0px;}
 #inbox_show_message_reply .message_dialog{width:92%;float:left;}
-#inbox_show_message_reply textarea{width:100%;height:100px;}
+#inbox_show_message_reply textarea{height:100px;}
 #inbox_show_message_reply #send_message_cancel{display:none;}
 /* New Message */
 #inbox_new_message{width:90%;padding:10px;background-color:#f4f4f4;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;box-shadow:0px 0px 5px 0px #ccc;-moz-box-shadow:0px 0px 5px 0px #ccc;-webkit-box-shadow:0px 0px 5px 0px #ccc;}
-#inbox_new_message .send_message .compose-form .compose-subject,
-#inbox_new_message .send_message .compose-form .compose-body,
-#inbox_new_message .send_message .compose-form ul.as-selections{width:100%}
 #inbox_new_message .send_message .compose-form .compose-body{height:100px;}
 /* Replies */
 #inbox_show_message_replies{float:left;width:79%;margin-left:25px;}
