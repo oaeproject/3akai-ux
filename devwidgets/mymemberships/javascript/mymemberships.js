@@ -286,6 +286,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        var uncheckAll = function(){
+            $("#mymemberships_select_checkbox").removeAttr("checked");
+        };
+
 
         /////////////////////////////
         // Initialization function //
@@ -305,12 +309,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#mymemberships_search_button").click(function(){
                 var q = $.trim($("#mymemberships_livefilter").val());
                 if (q !== currentQuery) {
+                    uncheckAll();
                     $.bbq.pushState({"mq": q, "mp": 1});
                     currentQuery = q;
                 }
             });
 
             $mymemberships_show_list.click(function(){
+                uncheckAll();
                 $("#mymemberships_items", $rootel).removeClass("s3d-search-results-grid");
                 $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
                 $(this).addClass("selected");
@@ -320,6 +326,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $mymemberships_show_grid.click(function(){
+                uncheckAll();
                 $("#mymemberships_items", $rootel).addClass("s3d-search-results-grid");
                 $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
                 $(this).addClass("selected");
@@ -331,6 +338,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#mymemberships_livefilter").keyup(function(ev){
                 var q = $.trim($("#mymemberships_livefilter").val());
                 if (q !== currentQuery && ev.keyCode === 13) {
+                    uncheckAll();
                     $.bbq.pushState({"mq": q, "mp": 1});
                     currentQuery = q;
                 }
@@ -370,6 +378,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#mymemberships_delete_membership_confirm").live("click", function(){
                 removeMembership($(this).data("sakai-entityid"),$(this).data("sakai-entityname"));
+                updateMessageAndAddToData();
             });
 
             if (sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {

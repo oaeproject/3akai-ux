@@ -57,9 +57,11 @@
 
 .mymemberships_item .sakai_joingroup_overlay {float: left; margin-right: 10px;}
 .s3d-search-results-grid .mymemberships_item .sakai_joingroup_overlay {margin-top:1px;}
-.mymemberships_item .mymemberships_member_icon {margin-left:3px;margin-top:5px;}
+.mymemberships_item .mymemberships_member_icon {margin-left:3px;margin-top:8px;}
+.s3d-search-results-grid .mymemberships_item .mymemberships_member_icon {margin-top:5px;}
 .s3d-search-results-grid .mymemberships_item .mymemberships_member_icon {margin-right:10px;margin-top:3px;}
 
 .mymemberships_widget .s3d-no-results-container {font-style:normal;}
 
-.mymemberships_item .s3d-actions-delete {float: left;margin:3px 7px 0 2px}
+.mymemberships_item .s3d-actions-delete {float: left;margin:8px 7px 0 2px}
+.s3d-search-results-grid .s3d-actions-delete {margin:3px 7px 0 2px}

@@ -4,7 +4,7 @@
 <!-- WIDGET BODY -->
 <div class="fl-widget-content s3d-widget-content">
     <div id="contacts_invited_container"></div>
-    <div class="s3d-contentpage-title">__MSG__ALL_MY_CONTACTS__</div>
+    <div class="s3d-contentpage-title">__MSG__MY_CONTACTS__</div>
 
     <div class="s3d-page-header-top-row" style="display:none;">
         <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
@@ -138,16 +138,21 @@
                                     {/if}
                                     <div class="left_filler" id="left_filler_${a.profile.userid}" style="display:none;"></div>
                                 {else}
+                                ${debug.log(a.connected)}
                                     <div class="left_filler"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
                                 {/if}
-                                <span class="contacts_gridview_items">
-                                    <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
-                                </span>
+                                {if !sakai.data.me.user.anon }
+                                    <span class="contacts_gridview_items">
+                                        <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
+                                    </span>
+                                {/if}
                             {/if}
                         </div>
-                        <span class="contacts_listview_items">
-                            <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
-                        </span>
+                        {if !sakai.data.me.user.anon }
+                            <span class="contacts_listview_items">
+                                <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
+                            </span>
+                        {/if}
                         <a href="/~${a.profile.userid|safeURL}" title="${a.linkTitle}">
                             {if a.profile.basic.elements.picture}
                                 <img alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(a.profile)}" src="${sakai.api.Util.constructProfilePicture(a.profile)}">

@@ -49,7 +49,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             totalItems: 0,
             itemsPerPage: 10,
             currentPagenum: 1,
-            sortBy: "_lastModified",
+            sortBy: "lastName",
             sortOrder: "desc",
             accepted: false,
             invited: false,
@@ -198,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 data: data,
                 success: function(data){
                     $.each(data.results, function(index, user){
-                        if (sakai.api.User.checkIfConnected(user.details.targetUserId)){
+                        if (sakai.api.User.checkIfConnected(user.target)){
                             user.connected = true;
                         } else {
                             user.connected = false;
@@ -287,9 +287,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#contacts_addpeople_button").data("entityname", nameArr);
         };
 
+        var uncheckAll = function(){
+            $("#contacts_select_checkbox").removeAttr("checked");
+        };
+
         var bindEvents = function(){
             $(".contacts_add_to_contacts").live("click", function(){
                 acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
+                $(this).parents("li").remove();
+                uncheckAll();
             });
 
             $("#contacts_delete_contacts_dialog").jqm({
@@ -306,9 +312,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $("#contacts_delete_contact_confirm").live("click", function(){
                 removeRequest($(this).data("sakai-entityid"));
+                updateMessageAndAddToData();
             });
 
-            $(window).bind("contacts.accepted.sakai", getContacts);
+            $(window).bind("contacts.accepted.sakai", function(){
+                uncheckAll();
+                getContacts();
+                var t = setTimeout(getContacts,500);
+            });
 
             $("#contacts_select_checkbox").change(function(){
                 if($(this).is(":checked")){
@@ -329,6 +340,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $("#contacts_sortby").change(function () {
+                uncheckAll();
                 var sortSelection = this.options[this.selectedIndex].value;
                 if (sortSelection === "desc") {
                     contacts.sortOrder = "desc";
@@ -340,6 +352,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $(contactsShowList, $rootel).click(function(){
+                uncheckAll();
                 $("#contacts_container div .contacts_list_items", $rootel).removeClass("s3d-search-results-grid");
                 $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
                 $(this).addClass("selected");
@@ -348,6 +361,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $(contactsShowGrid, $rootel).click(function(){
+                uncheckAll();
                 $("#contacts_container div .contacts_list_items", $rootel).addClass("s3d-search-results-grid");
                 $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
                 $(this).addClass("selected");
