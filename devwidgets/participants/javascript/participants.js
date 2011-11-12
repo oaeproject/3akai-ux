@@ -105,51 +105,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var participantsArr = [];
             if (results && results.length){
                 sakai.api.User.getContacts(function() {
-                    for (var i = 0; i < results.length; i++) {
+                    $.each(results, function(i, result){
                         var contentCount = 0;
                         var contactsCount = 0;
                         var membershipsCount = 0;
-                        if (results[i].counts){
-                            contentCount = results[i].counts.contentCount;
-                            contactsCount = results[i].counts.contactsCount;
-                            membershipsCount = results[i].counts.membershipsCount;
+                        if (result.counts){
+                            contentCount = result.counts.contentCount;
+                            contactsCount = result.counts.contactsCount;
+                            membershipsCount = result.counts.membershipsCount;
                         }
-                        if (results[i]["sakai:group-id"]) {
+                        if (result["sakai:group-id"]) {
                             participantsArr.push({
-                                "name": results[i]["sakai:group-title"],
-                                "id": results[i]["sakai:group-id"],
-                                "title": results[i].role.title,
+                                "name": result["sakai:group-title"],
+                                "id": result["sakai:group-id"],
+                                "title": result.role.title,
                                 "type": "group",
                                 "connected": false,
                                 "content": contentCount,
                                 "contacts": contactsCount,
                                 "memberships": membershipsCount,
-                                "profilePicture": sakai.api.Groups.getProfilePicture(results[i]),
-                                "membersCount": results[i].counts.membersCount
+                                "profilePicture": sakai.api.Groups.getProfilePicture(result),
+                                "membersCount": result.counts.membersCount
                             });
                         } else {
                             // Check if this user is a friend of us already.
                             var connected = false, invited = false, pending = false, none = false;
                             if (sakai.data.me.mycontacts) {
-                                for (var ii = 0, jj = sakai.data.me.mycontacts.length; ii<jj; ii++) {
-                                    var friend = sakai.data.me.mycontacts[ii];
-                                    if (friend.target === results[i]["rep:userId"]) {
+                                $.each(sakai.data.me.mycontacts, function(ii, contact){
+                                    if (contact.target === result["rep:userId"]) {
                                         connected = true;
                                         // if invited state set invited to true
-                                        if(friend.details["sakai:state"] === "INVITED"){
+                                        if(contact.details["sakai:state"] === "INVITED"){
                                             invited = true;
-                                        } else if(friend.details["sakai:state"] === "PENDING"){
+                                        } else if(contact.details["sakai:state"] === "PENDING"){
                                             pending = true;
-                                        } else if(friend.details["sakai:state"] === "NONE"){
+                                        } else if(contact.details["sakai:state"] === "NONE"){
                                             none = true;
                                         }
                                     }
-                                }
+                                });
                             }
                             participantsArr.push({
-                                "name": sakai.api.User.getDisplayName(results[i]),
-                                "id": results[i]["rep:userId"],
-                                "title": results[i].role.title,
+                                "name": sakai.api.User.getDisplayName(result),
+                                "id": result["rep:userId"],
+                                "title": result.role.title,
                                 "type": "user",
                                 "content": contentCount,
                                 "contacts": contactsCount,
@@ -158,10 +157,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "invited": invited,
                                 "pending": pending,
                                 "none": none,
-                                "profilePicture": sakai.api.User.getProfilePicture(results[i])
+                                "profilePicture": sakai.api.User.getProfilePicture(result)
                             });
                         }
-                    }
+                    });
                 });
             }
             callback(participantsArr);                        

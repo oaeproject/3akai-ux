@@ -69,11 +69,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Prepare for rendering //
         ///////////////////////////
 
-        sakai_global.data.search.prepareCMforRender = function(results) {
-            for (var i = 0, j = results.length; i < j; i++) {
-                if (results[i]['sakai:pooled-content-file-name']) {
-                    // Set the item object in finaljson equal to the object in results
-                    var contentItem = results[i];
+        sakai_global.data.search.prepareCMforRender = function(results, callback) {
+            var userArray = [];
+            $.each(results, function(i, contentItem){
+                if (contentItem['sakai:pooled-content-file-name']) {
                     contentItem.id = contentItem["_path"];
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
@@ -107,15 +106,37 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         contentItem.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
                     contentItem.thumbnail = sakai.api.Content.getThumbnail(results[i]);
+                    // if the content has an owner we need to add their ID to an array,
+                    // so we can lookup the users display name in a batch req
+                    if (contentItem["sakai:pool-content-created-for"]) {
+                        userArray.push(contentItem["sakai:pool-content-created-for"]);
+                    }
                 }
+            });
+            // Get displaynames for the users that created content
+            if (userArray.length) {
+                sakai.api.User.getMultipleUsers(userArray, function(users){
+                    $.each(results, function(index, item){
+                        if (item && item['sakai:pooled-content-file-name']) {
+                            var userid = item["sakai:pool-content-created-for"];
+                            var displayName = sakai.api.User.getDisplayName(users[userid]);
+                            item.displayName = displayName;
+                            item.displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.displayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                        }
+                    });
+                    if ($.isFunction(callback)) {
+                        callback(results);
+                    }
+                });
+            } else if ($.isFunction(callback)) {
+                callback(results);
             }
-            return results;
         };
         
         sakai_global.data.search.prepareGroupsForRender = function(results) {
-            for (var i = 0, j = results.length; i < j; i++){
-                if (results[i]["sakai:group-id"]) {
-                    var group = results[i];
+            $.each(results, function(i, group){
+                if (group["sakai:group-id"]) {
                     group.id = group["sakai:group-id"];
                     if (group["sakai:group-title"]) {
                         group["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(group["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
@@ -149,13 +170,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         group.picPathLarge = sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE;
                     }
                 }
-            }
+            });
             return results;
         };
 
         sakai_global.data.search.preparePeopleForRender = function(results) {
-            for (var i = 0, j = results.length; i<j; i++) {
-                var item = results[i];
+            $.each(results, function(i, item){
                 // The My Contacts feed comes back with everything wrapped inside of
                 // a target object
                 if (item.target){
@@ -203,7 +223,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     results[i] = item;
                 }
-            }
+            });
             return results;
         };
 

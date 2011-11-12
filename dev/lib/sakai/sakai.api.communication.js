@@ -345,7 +345,6 @@ define(
          */
         processMessages : function(results) {
             var messages = [];//,
-                //ret = $.extend(true, {}, data);
             $.each(results, function(i, msg) {
                 if (!$.isEmptyObject(msg)) {
                     var newMsg = {};

@@ -72,57 +72,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * @param {Object} callback    Callback function from the infinite scroll plugin to call
          */
         var renderResults = function(results, callback){
-            var userArray = [];
-            var fetchUsers = false;
-
             // If we have results we add them to the object.
             if (results && results.length) {
-                results = sakai_global.data.search.prepareCMforRender(results);
-                results = sakai_global.data.search.prepareGroupsForRender(results);
-                results = sakai_global.data.search.preparePeopleForRender(results);
-                for (var item in results) {
-                    if (results.hasOwnProperty(item)) {
-                        // if the content has an owner we need to add their ID to an array,
-                        // so we can lookup the users display name in a batch req
-                        if (results[item]["sakai:pool-content-created-for"]) {
-                            userArray.push(results[item]["sakai:pool-content-created-for"]);
-                            fetchUsers = true;
-                        }
-                    }
-                }
-            }
-
-            // Call the infinite scroll plugin callback
-            callback(results);
-
-            // Update dom with user display names
-            if (fetchUsers) {
-                sakai.api.User.getMultipleUsers(userArray, function(users){
-                    for (u in users) {
-                        if (users.hasOwnProperty(u)) {
-                            setUsername(u, users);
-                        }
-                    }
+                sakai_global.data.search.prepareCMforRender(results, function(_results){
+                    results = _results;
+                    results = sakai_global.data.search.prepareGroupsForRender(results);
+                    results = sakai_global.data.search.preparePeopleForRender(results);
+                    callback(results);
                 });
+            } else {
+                callback(results);
             }
-        };
-
-        /**
-         * As the search service only returns the userid for who was created a piece of
-         * content, we need to seperately retrieve those user's profile information before
-         * we can display their displayName on the screen. This function takes a users
-         * profile information and fills out his displayname for all items created by him
-         * @param {Object} u        Userid of the user we're putting a displayname in for
-         * @param {Object} users    Profile objects of the retrieved users
-         */
-        var setUsername = function(u, users) {
-            $(".searchcontent_result_username").each(function(index, val){
-               var userId = $(val).text();
-               if (userId === u){
-                   $(val).html(sakai.api.User.getDisplayName(users[u]));
-                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
-               }
-            });
         };
 
         /**

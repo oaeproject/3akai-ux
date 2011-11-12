@@ -531,6 +531,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
     };
 
+    if(!hasbeenInit){
+        loadRoles();
+        var defaultMembers = $.bbq.getState("members") || [];
+        if(defaultMembers.length){
+            defaultMembers = defaultMembers.split(",");
+            fetchGroupsData(defaultMembers);
+        }
+    }
+
     sakai.api.Widgets.widgetLoader.informOnLoad("addpeople");
 
 });
