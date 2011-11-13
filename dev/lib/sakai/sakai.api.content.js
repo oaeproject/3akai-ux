@@ -21,9 +21,12 @@ define(
         "config/config_custom",
         "sakai/sakai.api.server",
         "sakai/sakai.api.groups",
+        "sakai/sakai.api.util",
+        "sakai/sakai.api.i18n",
+        "sakai/sakai.api.user",
         "misc/parseuri"
     ],
-    function($, sakai_conf, sakai_serv, sakai_groups) {
+    function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_user) {
 
     var sakai_content = {
         /**
@@ -799,6 +802,94 @@ define(
                 $.merge(newData, newlySavedData);
             }
             return newData;
+        },
+
+        /**
+         * Function to process search results for content
+         *
+         * @param {Object} results Search results to process
+         * @param {Object} meData User object for the user
+         * @param callback {Function} Callback function executed at the end of the operation
+         * @returns void
+         */
+        prepareContentForRender : function(results, meData, callback) {
+            var userArray = [];
+            $.each(results, function(i, contentItem){
+                if (contentItem['sakai:pooled-content-file-name']) {
+                    contentItem.id = contentItem["_path"];
+                    contentItem.link = "/content#p=" + sakai_util.safeURL(contentItem["_path"]);
+                    contentItem.canDelete = sakai_content.isContentInLibrary(contentItem, meData.user.userid);
+                    contentItem.numPlaces = sakai_content.getPlaceCount(contentItem);
+                    contentItem.numComments = sakai_content.getCommentCount(contentItem);
+                    // Only modify the description if there is one
+                    if (contentItem["sakai:description"]) {
+                        contentItem["sakai:description-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 150, {
+                            max_rows: 2,
+                            whole_word: false
+                        }, "");
+                        contentItem["sakai:description-long"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 1300, {
+                            max_rows: 2,
+                            whole_word: false
+                        }, "");
+                        contentItem["sakai:description"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 580, {
+                            max_rows: 2,
+                            whole_word: false
+                        }, "");
+                    }
+                    if (contentItem["sakai:pooled-content-file-name"]) {
+                        contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 560, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                        contentItem["sakai:pooled-content-file-name-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 150, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                    }
+                    // Modify the tags if there are any
+                    if (contentItem["sakai:tags"]) {
+                        if (typeof(contentItem["sakai:tags"]) === 'string') {
+                            contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
+                        }
+                        contentItem.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(contentItem["sakai:tags"]));
+                    }
+                    // set mimetype
+                    var mimeType = sakai_content.getMimeType(contentItem);
+                    contentItem.mimeType = mimeType;
+                    contentItem.mimeTypeURL = sakai_conf.MimeTypes["other"].URL;
+                    contentItem.mimeTypeDescription = sakai_i18n.getValueForKey(sakai_conf.MimeTypes["other"].description);
+                    if (sakai_conf.MimeTypes[mimeType]){
+                        contentItem.mimeTypeDescription = sakai_i18n.getValueForKey(sakai_conf.MimeTypes[mimeType].description);
+                        contentItem.mimeTypeURL = sakai_conf.MimeTypes[mimeType].URL;
+                    }
+                    contentItem.thumbnail = sakai_content.getThumbnail(results[i]);
+                    // if the content has an owner we need to add their ID to an array,
+                    // so we can lookup the users display name in a batch req
+                    if (contentItem["sakai:pool-content-created-for"]) {
+                        userArray.push(contentItem["sakai:pool-content-created-for"]);
+                    }
+                }
+            });
+            // Get displaynames for the users that created content
+            if (userArray.length) {
+                sakai_user.getMultipleUsers(userArray, function(users){
+                    $.each(results, function(index, item){
+                        if (item && item['sakai:pooled-content-file-name']) {
+                            var userid = item["sakai:pool-content-created-for"];
+                            var displayName = sakai_user.getDisplayName(users[userid]);
+                            item.ownerId = userid;
+                            item.ownerDisplayName = displayName;
+                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.ownerDisplayNameShorter = sakai_util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                        }
+                    });
+                    if ($.isFunction(callback)) {
+                        callback(results);
+                    }
+                });
+            } else if ($.isFunction(callback)) {
+                callback(results);
+            }
         }
 
     };
