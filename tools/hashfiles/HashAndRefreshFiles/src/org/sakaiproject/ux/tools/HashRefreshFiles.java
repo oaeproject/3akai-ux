@@ -1,10 +1,9 @@
 package org.sakaiproject.ux.tools;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
@@ -37,6 +36,8 @@ public class HashRefreshFiles {
   public Map<String, String> hashedResults = new HashMap<String, String>();
   public String requireDependencyFile = "";
   public Set<String> manageFolders = new HashSet<String>();
+  
+  public final String charSet = "UTF-8";
   
   public void readProperties (String fileName) throws Exception{
     FileInputStream fis = new FileInputStream(new File(fileName));
@@ -157,8 +158,8 @@ public class HashRefreshFiles {
             String oldPath = file.getAbsolutePath();
             String newPath = oldPath + "-" + hashFolders(file);
             file.renameTo(new File(newPath));
-            oldPath = oldPath.substring(rootDir.getAbsolutePath().length());
-            newPath = newPath.substring(rootDir.getAbsolutePath().length());
+            oldPath = oldPath.substring(rootDir.getAbsolutePath().length()) + "/";
+            newPath = newPath.substring(rootDir.getAbsolutePath().length()) + "/";
             this.hashedResults.put(oldPath, newPath);
             System.out.println("hashed file: {" + oldPath + ", " + newPath + "}");
             return;
@@ -204,6 +205,29 @@ public class HashRefreshFiles {
     System.out.println("hashed file: {" + relativePath + ", " + newPath + "}");
   }
   
+  public String readFile (File file) throws Exception{
+    if (file == null || !file.exists() || file.isDirectory())
+      return null;
+    StringBuffer sb = new StringBuffer("");
+    BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), charSet));
+    char[] buffer = new char[1024];
+
+    int readNum = 0;
+    while ((readNum = br.read(buffer)) >= 0) {
+      sb.append(buffer, 0, readNum);
+    }
+    br.close();
+    return sb.toString();
+  }
+  
+  public void writeToFile (File file, String text) throws Exception {
+    if (file == null || !file.exists() || file.isDirectory())
+      return;
+    FileOutputStream fos = new FileOutputStream(file);
+    fos.write(text.getBytes(charSet));
+    fos.close();
+  }
+  
   public void replaceWithNewPaths(File file) throws Exception{
     if (file == null || !file.exists())
       return;
@@ -229,20 +253,16 @@ public class HashRefreshFiles {
       if (!flag)
         return;
     }
-    FileInputStream input = new FileInputStream(file);
-    StringBuffer sb = new StringBuffer("");
-    int ch;
-    while ((ch = input.read()) >= 0){
-      sb.append((char)ch);
-    }
-    input.close();
-    String all = sb.toString();
+
+    String all = readFile(file);
+    boolean modifiedFlag = false;
     String filePath = file.getAbsolutePath().substring(rootDir.getAbsolutePath().length());
     for (String s : hashedResults.keySet()) {
       if (all.contains(s)) {
         System.out.println("processing file: " + filePath);
         System.out.println("replace path: {" + s + ", " + hashedResults.get(s) + "}");
         all = all.replaceAll(s, hashedResults.get(s));
+        modifiedFlag = true;
         continue;
       }
       String relativePath = this.getRelativePath(filePath, s);
@@ -254,11 +274,11 @@ public class HashRefreshFiles {
         System.out.println("processing file: " + filePath);
         System.out.println("replace relative path: {" + relativePath + ", " + newPath + "}");
         all = all.replaceAll(relativePath, newPath);
+        modifiedFlag = true;
       }
     }
-    BufferedWriter bw = new BufferedWriter (new FileWriter (file));
-    bw.write(all);
-    bw.close();
+    if (modifiedFlag)
+      writeToFile (file, all);
   }
   
   public void handleRequireJS () throws Exception{
@@ -273,61 +293,71 @@ public class HashRefreshFiles {
     File dFile = new File (requireDependencyFile);
     if (!dFile.exists())
       return;
-    
-    if (hashedResults != null && hashedResults.size() > 0) {
-      Set<String> keys = hashedResults.keySet();
-      if (keys != null && keys.size() > 0) {
-        for (String key : keys) {
-          if (key.startsWith(this.requireBaseUrl)) {
-            String newKey = key.substring(this.requireBaseUrl.length());
-            String newValue = hashedResults.get(key).substring(this.requireBaseUrl.length());
-            if (newKey.lastIndexOf('.') > 0)
-              newKey = newKey.substring(0, newKey.lastIndexOf('.'));
-            if (newValue.lastIndexOf('.') > 0)
-              newValue = newValue.substring(0, newValue.lastIndexOf('.'));
-            if (this.requirePaths.containsKey(newKey)) {
-              String v = this.requirePaths.get(newKey);
-              this.requirePaths.remove(newKey);
-              this.requirePaths.put(newValue, v);
-            } else {
-              this.requirePaths.put(newValue, newKey);
-            }
-          }
+    if (hashedResults == null || hashedResults.size() == 0)
+      return;
+   
+    String all = readFile(dFile);
+    int loc = 0, endloc = 0;
+    String newline = "";
+    boolean isLibHashed = false;
+    if (this.manageFolders != null && this.requireBaseUrl != null) {
+      for (String s : manageFolders) {
+        if (s.equals(requireBaseUrl)) {
+          String newLibPath = this.hashedResults.get(s);
+          isLibHashed = true;
+          loc = all.indexOf("{baseUrl:");
+          endloc = all.indexOf(",", loc) - 1;
+          newline = "{baseUrl:";
+          newline += "\"" + newLibPath + "\"";
+        } else if (requireBaseUrl.startsWith(s)) {
+          return;
         }
       }
     }
-    if (this.requirePaths == null || this.requirePaths.size() == 0)
-      return;
-    String newline = "paths:{";
-    int index = 0;
-    for (String key : this.requirePaths.keySet()) {
-      newline = newline + "\"" + this.requirePaths.get(key) + "\":\"" + key + "\"";
-      index ++;
-      if (index < this.requirePaths.size())
-        newline += ",";
+    if (!isLibHashed) {
+      Set<String> keys = hashedResults.keySet();
+      for (String key : keys) {
+        if (key.startsWith(this.requireBaseUrl)) {
+          String newKey = key.substring(this.requireBaseUrl.length() + 1);
+          String newValue = hashedResults.get(key).substring(
+              this.requireBaseUrl.length() + 1);
+          if (newKey.lastIndexOf('.') > 0)
+            newKey = newKey.substring(0, newKey.lastIndexOf('.'));
+          if (newValue.lastIndexOf('.') > 0)
+            newValue = newValue.substring(0, newValue.lastIndexOf('.'));
+          if (this.requirePaths.containsKey(newKey)) {
+            String v = this.requirePaths.get(newKey);
+            this.requirePaths.remove(newKey);
+            this.requirePaths.put(newValue, v);
+          } else {
+            this.requirePaths.put(newValue, newKey);
+          }
+        }
+      }
+      if (this.requirePaths == null || this.requirePaths.size() == 0)
+        return;
+      newline = "paths:{";
+      int index = 0;
+      for (String key : this.requirePaths.keySet()) {
+        newline = newline + "\"" + this.requirePaths.get(key) + "\":\"" + key + "\"";
+        index ++;
+        if (index < this.requirePaths.size())
+          newline += ",";
+      }
+      newline += "}";
+      loc = all.indexOf("require({baseUrl:");
+      loc = all.indexOf("paths", loc);
+      if (loc < 0)
+        return; 
+      endloc = all.indexOf("}", loc);
+      if (endloc < 0)
+        return ;
     }
-    newline += "}";
+    
     System.out.println("proceeded require js dependency file: " + requireDependencyFile);
-    FileInputStream input = new FileInputStream(dFile);
-    StringBuffer sb = new StringBuffer("");
-    int ch;
-    while ((ch = input.read()) >= 0){
-      sb.append((char)ch);
-    }
-    input.close();
-    String all = sb.toString();
-    int loc = all.indexOf("require({baseUrl:");
-    loc = all.indexOf("paths", loc);
-    if (loc < 0)
-      return; 
-    int endloc = all.indexOf("}", loc);
-    if (endloc < 0)
-      return ;
     String oldline = all.substring(loc, endloc + 1);
     all = all.replace(oldline, newline);
-    BufferedWriter bw = new BufferedWriter (new FileWriter (dFile));
-    bw.write(all);
-    bw.close();
+    writeToFile (dFile, all);
   }
   
   public void processData () throws Exception{
