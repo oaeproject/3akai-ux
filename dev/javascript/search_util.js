@@ -56,6 +56,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
 
+        /**
+         * Shorten tags to be displayed in the search results
+         * @param {Array} tags The array containing tags.
+         * @return {Object} The object containing the tag and shortened lengths
+         */
+        var shortenTags = function(tags){
+            var tagsObj = {};
+            for (var i in tags) {
+                if (tags.hasOwnProperty(i)) {
+                    tagsObj[i] = {
+                        "tag": tags[i],
+                        "tagShort": sakai.api.Util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
+                        "tagShorter": sakai.api.Util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, "")
+                    };
+                }
+            }
+            return tagsObj;
+        };
 
         ////////////////////////////////
         // Finish util initialisation //
@@ -86,7 +104,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
-                        contentItem["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 600, {
+                        contentItem["sakai:pooled-content-file-name-short"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 560, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                        contentItem["sakai:pooled-content-file-name-shorter"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 150, {
                             max_rows: 1,
                             whole_word: false
                         }, "s3d-bold");
@@ -96,7 +118,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (typeof(contentItem["sakai:tags"]) === 'string') {
                             contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
                         }
-                        contentItem["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(contentItem["sakai:tags"]);
+                        contentItem["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(contentItem["sakai:tags"]));
                     }
                     // set mimetype
                     var mimeType = sakai.api.Content.getMimeType(contentItem);
@@ -133,13 +155,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 callback(results);
             }
         };
-        
+
         sakai_global.data.search.prepareGroupsForRender = function(results) {
             $.each(results, function(i, group){
                 if (group["sakai:group-id"]) {
                     group.id = group["sakai:group-id"];
                     if (group["sakai:group-title"]) {
                         group["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(group["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        group["sakai:group-title-shorter"] = sakai.api.Util.applyThreeDots(group["sakai:group-title"], 150, {max_rows: 1,whole_word: false}, "s3d-bold");
+
                     }
                     if (group["sakai:group-description"]) {
                         group["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(group["sakai:group-description"], 580, {max_rows: 2,whole_word: false});//, "");
@@ -156,7 +180,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     // Modify the tags if there are any
                     if (group["sakai:tags"]) {
-                        group["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
+                        group["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]));
                     }
                     group.groupType = groupType;
                     group.lastModified = group.lastModified;
@@ -185,14 +209,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     item.id = item["rep:userId"];
                     item.userid = item["rep:userId"];
                     item.picture = sakai.api.User.getProfilePicture(item);
-                    item.name = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(item), 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                    
+                    item.name = sakai.api.User.getDisplayName(item);
+                    item.nameShort = sakai.api.Util.applyThreeDots(item.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    item.nameShorter = sakai.api.Util.applyThreeDots(item.name, 150, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+
                     // use large default user icon on search page
                     if (item.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
                         item.pictureLarge = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
                     }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
-                        item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
+                        item["sakai:tags"] = shortenTags(sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]));
                     }
 
                     item.connected = false;
