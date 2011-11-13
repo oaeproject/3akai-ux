@@ -44,15 +44,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             userArray: [],
             contextId: false,
             infinityScroll: false,
-            widgetShown: true
+            widgetShown: true,
+            listStyle: "list"
         };
 
         // DOM jQuery Objects
         var $rootel = $("#" + tuid);  // unique container for each widget instance
         var $mylibrary_check = $(".mylibrary_check", $rootel);
         var $mylibrary_items = $("#mylibrary_items", $rootel);
-        var $mylibrary_check_all = $("#mylibrary_check_all", $rootel);
+        var $mylibrary_check_all = $("#mylibrary_select_checkbox", $rootel);
         var $mylibrary_remove = $("#mylibrary_remove", $rootel);
+        var $mylibrary_addto = $("#mylibrary_addpeople_button", $rootel);
+        var $mylibrary_share = $("#mylibrary_content_share", $rootel);
         var $mylibrary_sortby = $("#mylibrary_sortby", $rootel);
         var $mylibrary_livefilter = $("#mylibrary_livefilter", $rootel);
         var $mylibrary_livefilter_container = $("#mylibrary_livefilter_container", $rootel);
@@ -62,6 +65,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_addcontent = $("#mylibrary_addcontent", $rootel);
         var $mylibrary_remove_icon = $(".mylibrary_remove_icon", $rootel);
         var $mylibrary_search_button = $("#mylibrary_search_button", $rootel);
+        var $mylibrary_show_grid = $(".s3d-listview-grid", $rootel);
+        var $mylibrary_show_list = $(".s3d-listview-list", $rootel);
 
         var currentGroup = false;
 
@@ -97,6 +102,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var resetView = function(){
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
+            $mylibrary_addto.attr("disabled", "disabled");
+            $mylibrary_share.attr("disabled", "disabled");
             $("#mylibrary_title_bar").show();
         };
 
@@ -171,10 +178,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 mylibrary.infinityScroll.kill();
             }
             // Set up the infinite scroll for the list of items in the library
+            var sortOrder = mylibrary.sortOrder;
+            if (mylibrary.sortOrder === "modified"){
+                sortOrder = "desc";
+            }
             mylibrary.infinityScroll = $mylibrary_items.infinitescroll("/var/search/pool/manager-viewer.json", {
                 userid: mylibrary.contextId,
                 sortOn: mylibrary.sortBy,
-                sortOrder: mylibrary.sortOrder,
+                sortOrder: sortOrder,
                 q: query
             }, function(items, total){
                 return sakai.api.Util.TemplateRenderer("mylibrary_items_template", {
@@ -199,8 +210,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 mylibrary.sortOrder = parameters["lso"] || "desc";
                 mylibrary.sortBy = parameters["lsb"] || "_lastModified";
                 $mylibrary_livefilter.val(parameters["lq"] || "");
-                $mylibrary_sortby.val("lastModified_" + mylibrary.sortOrder);
+                $mylibrary_sortby.val(mylibrary.sortOrder);
                 showLibraryContent();
+                if(mylibrary.listStyle === "grid"){
+                    $mylibrary_show_grid.click();
+                }
             }
         };
 
@@ -232,8 +246,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $mylibrary_check.live("change", function (ev) {
             if ($(this).is(":checked")) {
                 $mylibrary_remove.removeAttr("disabled");
+                $mylibrary_addto.removeAttr("disabled");
+                $mylibrary_share.removeAttr("disabled");
             } else if (!$(".mylibrary_check:checked", $rootel).length) {
                 $mylibrary_remove.attr("disabled", "disabled");
+                $mylibrary_addto.attr("disabled", "disabled");
+                $mylibrary_share.attr("disabled", "disabled");
             }
         });
 
@@ -244,9 +262,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($(this).is(":checked")) {
                 $(".mylibrary_check").attr("checked", "checked");
                 $mylibrary_remove.removeAttr("disabled");
+                $mylibrary_addto.removeAttr("disabled");
+                $mylibrary_share.removeAttr("disabled");
             } else {
                 $(".mylibrary_check").removeAttr("checked");
                 $mylibrary_remove.attr("disabled", "disabled");
+                $mylibrary_addto.attr("disabled", "disabled");
+                $mylibrary_share.attr("disabled", "disabled");
             }
         });
 
@@ -302,12 +324,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $mylibrary_sortby.change(function (ev) {
             var query = $.trim($mylibrary_livefilter.val());
             var sortSelection = $(this).val();
-            var sortBy = "_lastModified",
-                sortOrder = "desc";
-            if (sortSelection === "lastModified_asc") {
-                sortOrder = "asc";
+            if (sortSelection === "desc") {
+                mylibrary.sortOrder = "desc";
+                mylibrary.sortBy = "sakai:pooled-content-file-name";
+                $.bbq.pushState({"lso": "desc"});
+            } else if (sortSelection === "asc") {
+                mylibrary.sortOrder = "asc";
+                mylibrary.sortBy = "sakai:pooled-content-file-name";
+                $.bbq.pushState({"lso": "asc"});
+            } else {
+                mylibrary.sortOrder = "modified";
+                mylibrary.sortBy = "_lastModified";
+                $.bbq.pushState({"lso": "modified"});
             }
-            $.bbq.pushState({"lsb": sortBy, "lso": sortOrder, "lq": query});
+            $.bbq.pushState({"lsb": mylibrary.sortBy, "lso": mylibrary.sortOrder, "lq": query});
         });
 
         /**
@@ -356,6 +386,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Bind to hash changes in the URL
          */
         $(window).bind("hashchange", handleHashChange);
+
+        $mylibrary_show_list.click(function(){
+            $("#mylibrary_items", $rootel).removeClass("s3d-search-results-grid");
+            $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
+            $(this).addClass("selected");
+            $(this).children().addClass("selected");
+            $.bbq.pushState({"ls": "list"});
+            mylibrary.listStyle = "list";
+        });
+
+        $mylibrary_show_grid.click(function(){
+            $("#mylibrary_items", $rootel).addClass("s3d-search-results-grid");
+            $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
+            $(this).addClass("selected");
+            $(this).children().addClass("selected");
+            $.bbq.pushState({"ls": "grid"});
+            mylibrary.listStyle = "grid";
+        });
 
         ////////////////////////////////////////////
         // Data retrieval and rendering functions //
@@ -501,6 +549,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
                 mylibrary.currentPagenum = 1;
                 var all = state && state.all ? state.all : {};
+                mylibrary.listStyle = $.bbq.getState("ls") || "list"
                 handleHashChange(null, true);
                 sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
                     isMe: mylibrary.isOwnerViewing,

@@ -14,27 +14,55 @@
             <div class='s3d-contentpage-title'>__MSG__MY_LIBRARY_OTHER__</div>
         {/if}
     --></div>
-    <!-- Action bar -->
-    <div id="mylibrary_actionbar">
-        <div id="mylibrary_sortarea" class="mylibrary_description mylibrary_noborder" style="display:none; width: auto;">
-            __MSG__SORT_BY__: 
-            <select id="mylibrary_sortby">
-                <option value="lastModified_desc">__MSG__MOST_RECENT__</option>
-                <option value="lastModified_asc">__MSG__OLDEST__</option> 
+
+    <div class="s3d-page-header-top-row">
+        <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
+            <div class="s3d-listview-grid">
+                <div class="s3d-action-icon s3d-search-results-gridview"></div>
+            </div>
+            <div class="s3d-listview-list selected">
+                <div class="s3d-action-icon s3d-search-results-listview selected"></div>
+            </div>
+        </div>
+        <div id="mylibrary_sortarea" class="s3d-margin-top-5 s3d-page-header-sort-area" style="display:none;">
+            <label for="mylibrary_sortby">__MSG__SORT_BY__:</label>
+            <select id="mylibrary_sortby" name="mylibrary_sortby">
+                <option value="modified">__MSG__RECENTLY_CHANGED__</option>
+                <option value="asc"> __MSG__A_Z__</option>
+                <option value="desc">__MSG__Z_A__</option>
             </select>
         </div>
-        <div class="s3d-search-container" id="mylibrary_livefilter_container" style="display:none;">
+        <div class="s3d-search-container">
             <input id="mylibrary_livefilter" type="text" title="__MSG__SEARCH_THROUGH_THE_CONTENT_LIBRARY__" class="s3d-search-inputfield"/>
             <button type="button" id="mylibrary_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
                 <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_THE_CONTENT_LIBRARY__"/>
             </button>
         </div>
-        <div id="mylibrary_admin_actions" style="display:none;">
-            <div class="mylibrary_placeholder"><input id="mylibrary_check_all" type="checkbox" /></div>
-            <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">__MSG__REMOVE_SELECTED__</button>
-        </div>
-        <div class="fl-push"><!-- --></div>
     </div>
+    <div class="s3d-page-header-bottom-row">
+        <button type="button" class="s3d-button s3d-large-button fl-force-right sakai_add_content_overlay">
+            __MSG__ADD_CONTENT__
+        </button>
+
+        <div type="button" id="mylibrary_select" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-page-header-selectall fl-force-left" title="__MSG__SELECT_ALL_LIBRARY_ITEMS__">
+            <input type="checkbox" id="mylibrary_select_checkbox"/>
+        </div>
+
+        <button type="button" id="mylibrary_addpeople_button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger fl-force-left" disabled="true" data-entityname="" data-entityid="">
+            <span class="s3d-page-header-add-to-icon"></span>
+            __MSG__ADD_TO__...
+        </button>
+
+        <button type="button" id="mylibrary_content_share" data-entityid="" class="s3d-button s3d-header-button s3d-header-smaller-button share_trigger_click fl-force-left" disabled="true">
+            __MSG__SHARE__
+            <span class="entity_share_content"></span>
+        </button>
+
+        <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">
+            __MSG__REMOVE_SELECTED__
+        </button>
+    </div>
+
     <div id="mylibrary_empty" class="fl-container fl-fix" style="display:none;"><!----></div>
     <div id="mylibrary_empty_template"><!--
         {if query}
@@ -80,15 +108,17 @@
         {for item in items}
             {if item.filename}
                 {var count = count + 1}
-                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item">
-                    <div class="mylibrary_item_left_filler">
-                        {if item.canDelete}
-                            <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" />
-                            <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}"></button>
-                        {/if}
+                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item s3d-search-result">
+                    <div class="s3d-search-result-user-functions">
+                        <div class="mylibrary_item_left_filler">
+                            {if item.canDelete}
+                                <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" />
+                                <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}"></button>
+                            {/if}
+                        </div>
+                        <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger"></button>
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                     </div>
-                    <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger"></button>
-                    <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                     <a href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img class="s3d-icon-40" src="${item.thumbnail}" alt="${item.type}" />
@@ -96,7 +126,7 @@
                             <img alt="${item.type}" src="${item.type_src}" />
                         {/if}
                     </a>
-                    <div class="mylibrary_item_right s3d-regular-links">
+                    <div class="mylibrary_item_right s3d-regular-links s3d-search-result-right">
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                                 ${item.filename|safeOutput}
@@ -106,11 +136,15 @@
                             {/if}
                         </div>
                         <div class="mylibrary_item_by">
-                            __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid|safeURL}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${item.last_updated}
+                            __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid|safeURL}">${item.ownername}</a>
+                            <span class="s3d-search-result-detail-separator">
+                                <span> | </span>
+                            </span>
+                            __MSG__CHANGED__ ${item.last_updated}
                         </div>
-                        {if item.description && item.description !== "undefined"}<div class="mylibrary_item_description">${item.description}</div>{/if}
+                        {if item.description && item.description !== "undefined"}<div class="mylibrary_item_description searchcontent_result_description">${item.description}</div>{/if}
                         {if item.tags && item.tags.length > 0}
-                            <div class="mylibrary_item_tags">
+                            <div class="mylibrary_item_tags searchcontent_result_tags">
                                 <span class="mylibrary_item_icon mylibrary_item_tags_icon"></span>
                                 <p class="mylibrary_item_tags_list">
                                     {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name|safeOutput}">${t.name|safeOutput}</a>{/for}
