@@ -112,7 +112,7 @@
                     <div class="s3d-search-result-user-functions">
                         <div class="mylibrary_item_left_filler">
                             {if item.canDelete}
-                                <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" />
+                                <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item.filename|safeOutput}"/>
                                 <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}"></button>
                             {/if}
                         </div>

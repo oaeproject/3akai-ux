@@ -235,6 +235,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var updateButtonData = function(){
+            var idArr = [];
+            var titleArr = [];
+            $.each($(".mylibrary_check:checked:visible", $rootel), function(i, checked){
+                idArr.push($(checked).data("entityid"));
+                titleArr.push($(checked).data("entityname"));
+            });
+            $("#mylibrary_content_share", $rootel).data("entityid", idArr);
+            $("#mylibrary_addpeople_button", $rootel).data("entityid", idArr);
+            $("#mylibrary_addpeople_button", $rootel).data("entityname", titleArr);
+        };
+
         ////////////////////
         // Event Handlers //
         ////////////////////
@@ -253,6 +265,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_addto.attr("disabled", "disabled");
                 $mylibrary_share.attr("disabled", "disabled");
             }
+            updateButtonData();
         });
 
         /**
@@ -270,6 +283,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_addto.attr("disabled", "disabled");
                 $mylibrary_share.attr("disabled", "disabled");
             }
+            updateButtonData();
         });
 
         /**
