@@ -69,7 +69,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////
 
         sakai_global.data.search.prepareCMforRender = function(results, callback) {
-            sakai.api.Content.prepareContentForRender(results, callback);
+            sakai.api.Content.prepareContentForRender(results, sakai.data.me, callback);
         };
 
         sakai_global.data.search.prepareGroupsForRender = function(results) {

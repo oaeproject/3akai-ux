@@ -72,8 +72,8 @@
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']|safeURL}" title="${i['_path']}"{/if}>
                                 {if i['sakai:pooled-content-file-name']}
-                                    <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']}</span>
-                                    <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']}</span>
+                                    <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']|safeOutput}</span>
+                                    <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']|safeOutput}</span>
                                 {elseif i['_path']}
                                     ${i['_path']}
                                 {/if}
@@ -85,8 +85,8 @@
                         <div class="searchcontent_result_by">
                             __MSG__BY__
                             <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeURL}">
-                                <span class="searchcontent_result_by_name">${i.displayNameShort}</span>
-                                <span class="searchcontent_result_by_name_grid">${i.displayNameShorter}</span>
+                                <span class="searchcontent_result_by_name">${i.ownerDisplayNameShort}</span>
+                                <span class="searchcontent_result_by_name_grid">${i.ownerDisplayNameShorter}</span>
                             </a>
                             <span class="s3d-search-result-detail-separator"><span> | </span></span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                         </div>
@@ -94,11 +94,11 @@
                             <span class="searchcontent_result_description">${i["sakai:description"]}</span>
                             <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
                         {/if}
-                        {if !$.isEmptyObject(i["sakai:tags"])}
+                        {if !$.isEmptyObject(i.tagsProcessed)}
                             <div class="searchcontent_result_tags">
                                 <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
                                 <p class="searchcontent_result_tags_list">
-                                    {for t in i["sakai:tags"]}
+                                    {for t in i.tagsProcessed}
                                         {if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if}
                                         <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
                                             <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>

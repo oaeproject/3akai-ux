@@ -792,18 +792,27 @@ define(
         /**
          * Function to process search results for content
          *
-         * @param results {Object} Search results to process
+         * @param {Object} results Search results to process
+         * @param {Object} meData User object for the user
          * @param callback {Function} Callback function executed at the end of the operation
          * @returns void
          */
-        prepareContentForRender : function(results, callback) {
+        prepareContentForRender : function(results, meData, callback) {
             var userArray = [];
             $.each(results, function(i, contentItem){
                 if (contentItem['sakai:pooled-content-file-name']) {
                     contentItem.id = contentItem["_path"];
+                    contentItem.link = "/content#p=" + sakai_util.safeURL(contentItem["_path"]);
+                    contentItem.canDelete = sakai_content.isContentInLibrary(contentItem, meData.user.userid);
+                    contentItem.numPlaces = sakai_content.getPlaceCount(contentItem);
+                    contentItem.numComments = sakai_content.getCommentCount(contentItem);
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
                         contentItem["sakai:description-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 150, {
+                            max_rows: 2,
+                            whole_word: false
+                        }, "");
+                        contentItem["sakai:description-long"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 1300, {
                             max_rows: 2,
                             whole_word: false
                         }, "");
@@ -827,14 +836,16 @@ define(
                         if (typeof(contentItem["sakai:tags"]) === 'string') {
                             contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
                         }
-                        contentItem["sakai:tags"] = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(contentItem["sakai:tags"]));
+                        contentItem.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(contentItem["sakai:tags"]));
                     }
                     // set mimetype
                     var mimeType = sakai_content.getMimeType(contentItem);
                     contentItem.mimeType = mimeType;
+                    contentItem.mimeTypeURL = sakai_conf.MimeTypes["other"].URL;
                     contentItem.mimeTypeDescription = sakai_i18n.getValueForKey(sakai_conf.MimeTypes["other"].description);
                     if (sakai_conf.MimeTypes[mimeType]){
                         contentItem.mimeTypeDescription = sakai_i18n.getValueForKey(sakai_conf.MimeTypes[mimeType].description);
+                        contentItem.mimeTypeURL = sakai_conf.MimeTypes[mimeType].URL;
                     }
                     contentItem.thumbnail = sakai_content.getThumbnail(results[i]);
                     // if the content has an owner we need to add their ID to an array,
@@ -851,9 +862,10 @@ define(
                         if (item && item['sakai:pooled-content-file-name']) {
                             var userid = item["sakai:pool-content-created-for"];
                             var displayName = sakai_user.getDisplayName(users[userid]);
-                            item.displayName = displayName;
-                            item.displayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                            item.displayNameShorter = sakai_util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.ownerId = userid;
+                            item.ownerDisplayName = displayName;
+                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.ownerDisplayNameShorter = sakai_util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                         }
                     });
                     if ($.isFunction(callback)) {

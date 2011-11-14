@@ -248,7 +248,8 @@ define(
                     tagsObj[i] = {
                         "tag": tags[i],
                         "tagShort": sakai_util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
-                        "tagShorter": sakai_util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, "")
+                        "tagShorter": sakai_util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, ""),
+                        "link": "search#q=" + sakai_util.safeURL(tags[i])
                     };
                 }
             }

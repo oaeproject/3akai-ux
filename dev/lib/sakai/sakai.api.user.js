@@ -792,7 +792,8 @@ define(
         /**
          * Function to process search results for users
          *
-         * @param results {Object} Search results to process
+         * @param {Object} results Search results to process
+         * @param {Object} meData User object for the user
          * @returns {Object} results Processed results
          */
         preparePeopleForRender: function(results, meData) {
