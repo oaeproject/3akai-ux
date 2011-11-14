@@ -66,6 +66,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var deleteContent = function(e, paths) {
+            if (paths && paths.length) {
+                $.each(paths, function(i, path) {
+                    dataCache[path] = null;
+                    $.each(allNewlyShared, function(j, newlyShared) {
+                        if (newlyShared && newlyShared._path === path) {
+                            allNewlyShared.splice(j,1);
+                        }
+                    });
+                    $.each(newlyShared, function(lib, items) {
+                        $.each(items, function(k, item) {
+                            if (item && item._path === path) {
+                                items.splice(k,1);
+                            }
+                        });
+                    });
+                });
+            }
+        };
+        $(window).bind("done.deletecontent.sakai", deleteContent);
+
         /**
          * hideSavecontent
          * Hides the widget
@@ -112,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveContent = function(id){
             if (id) {
                 $savecontent_save.attr("disabled", "disabled");
-                sakai.api.Content.addToLibrary(currentSelected, id, function(contentId, entityId) {
+                sakai.api.Content.addToLibrary(currentSelected, id, false, function(contentId, entityId) {
                     // cache the content locally
                     var thisContent = dataCache[contentId];
                     $(window).trigger("done.newaddcontent.sakai", [[thisContent], entityId]);

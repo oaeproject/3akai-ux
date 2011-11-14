@@ -94,8 +94,8 @@ require(
         baseUrl:"/dev/lib/",
         paths: {
             "jquery-plugins": "jquery/plugins",
-            "jquery": "jquery/jquery-1.5.2",
-            "jquery-ui": "jquery/jquery-ui-1.8.13.custom",
+            "jquery": "jquery/jquery-1.7.0",
+            "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
             "config": "../configuration"
         },
         priority: ["jquery"]
@@ -122,16 +122,15 @@ require(
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
         "jquery-plugins/jquery.ba-bbq",
-        "jquery-plugins/jquery.fieldselection",
         "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
         "jquery-plugins/jquery.fileupload",
-        "jquery-plugins/jquery.MultiFile",
-        "jquery-plugins/jquery.hoverIntent.sakai-edit",
+        "jquery-plugins/jquery.MultiFile.sakai-edited",
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
-        "jquery-plugins/jquery.jcarousel.sakai-edit"
+        "jquery-plugins/jquery.jcarousel.sakai-edit",
+        "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {
         require(['misc/domReady!'], function(doc) {

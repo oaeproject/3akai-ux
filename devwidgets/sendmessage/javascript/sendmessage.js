@@ -86,7 +86,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sendmessage_subject = "#sendmessage_subject",
                 sendmessage_body = "#sendmessage_body",
                 send_message_cancel = "#send_message_cancel",
-                $sendmessage_container = $("#sendmessage_container");
+                $sendmessage_container = $("#sendmessage_container"),
+                $sendmessage_form = $("#sendmessage_form");
 
             ///////////////////////
             // UTILITY FUNCTIONS //
@@ -348,40 +349,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(buttonSendMessage).removeAttr("disabled");
             };
 
-            var bindEvents = function() {
-
-                /**
-                 * Event handler to respond when the Send Message button is clicked.
-                 * Checks that user input is valid and initiates a 'sendMessage' AJAX
-                 * call to the server for the selected recipients.
-                 */
-                $(buttonSendMessage).die("click");
-                $(buttonSendMessage).live("click", function(ev) {
-                    // disable the button to prevent clicking button repeatedly
-                    $(buttonSendMessage).attr("disabled", "disabled");
-                    var recipients = [];
-                    // fetch list of selected recipients
-                    var recipientsString = $(autoSuggestValues).val();
-                    // autoSuggest adds unnecessary commas to the beginning and end
-                    // of the values string; remove them
-                    if(recipientsString[0] === ",") {
-                        recipientsString = recipientsString.slice(1);
-                    }
-                    if(recipientsString[recipientsString.length - 1] === ",") {
+            var sendMessage = function() {
+                var recipients = [];
+                // fetch list of selected recipients
+                var recipientsString = $(autoSuggestValues).val();
+                // autoSuggest adds unnecessary commas to the beginning and end
+                // of the values string; remove them
+                if(recipientsString[0] === ",") {
+                    recipientsString = recipientsString.slice(1);
+                }
+                if(recipientsString[recipientsString.length - 1] === ",") {
                     recipientsString = recipientsString.slice(0, -1);
-                    }
-                    recipients = recipientsString.split(",");
+                }
+                recipients = recipientsString.split(",");
+                sakai.api.Communication.sendMessage(recipients, sakai.data.me, $(messageFieldSubject).val(), $(messageFieldBody).val(), "message", replyMessageID, handleSentMessage, true, "new_message");
+            };
 
-                    // Check the fields if there are any required fields that are not filled in.
-                    if(checkFieldsForErrors(recipients)) {
-                        sakai.api.Communication.sendMessage(recipients, sakai.data.me,
-                            $(messageFieldSubject).val(), $(messageFieldBody).val(),
-                            "message", replyMessageID, handleSentMessage, true, "new_message");
-                    } else {
-                        $(buttonSendMessage).removeAttr("disabled");
-                        sakai.api.Util.notification.show($("#sendmessage_message_all_fields_required").html(),$("#sendmessage_message_all_fields_required").html(),sakai.api.Util.notification.type.ERROR);
-                    }
-                });
+            var bindEvents = function() {
+                $.validator.addMethod("requiredsuggest", function(value, element){
+                    return value.indexOf("Enter contact or group names") === -1 && $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
+                }, sakai.api.i18n.getValueForKey("AUTOSUGGEST_REQUIRED_ERROR", "sendmessage"));
+
+                var validateOpts = {
+                    submitHandler: sendMessage
+                };
+                sakai.api.Util.Forms.validate($sendmessage_form, validateOpts, true);
+
                 ////////////////////////
                 // jqModal functions  //
                 ////////////////////////

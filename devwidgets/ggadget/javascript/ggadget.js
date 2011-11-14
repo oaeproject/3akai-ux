@@ -134,8 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 jsonDefaultSize.width_unit = defaultWidthUnit;
                 jsonDefaultSize.height = defaultHeight;
                 $(remotecontentSettingsPreview).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
-            }
-            else {
+            } else {
                 $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
             }
         };
@@ -185,8 +184,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("iframe").ready(function() {
                 $("iframe iframe").attr("style", "overflow:auto");
             });
-
-
         };
 
         /**
@@ -195,8 +192,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveRemoteContent = function(){
             if (json.url !== "") {
                 sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
-            }
-            else {
+            } else {
                 sakai.api.Util.notification.show($(remotecontentSettingsUrlErrorTitle).html(), $(remotecontentSettingsUrlError).html());
             }
         };
@@ -208,8 +204,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (isAdvancedSettingsVisible) {
                 $(remotecontentSettingsAdvancedDown, rootel).hide();
                 $(remotecontentSettingsAdvancedUp, rootel).show();
-            }
-            else {
+            } else {
                 $(remotecontentSettingsAdvancedUp, rootel).hide();
                 $(remotecontentSettingsAdvancedDown, rootel).show();
             }
@@ -256,18 +251,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (isDecimal(json.width)) {
                     $(remotecontentSettingsWidth).val(json.width);
                 }
-
                 if (isDecimal(json.height)) {
                     $(remotecontentSettingsHeight).val(json.height);
                 }
-
                 if (urlValue !== "") {
                     // Check if someone already wrote http inside the url
                     if (!isUrl(urlValue)) {
                         urlValue = 'http://' + urlValue;
                     }
                     json.url = urlValue;
-
                     renderIframeSettings(true);
                 }
         };
@@ -277,28 +269,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to all the elements
          */
         var addBinding = function(){
-
             // Change the url for the iFrame
             $(remotecontentSettingsUrl).change(function(){
-
                 previewGadget();
-
             });
 
-            // Preview gadget
-            $(".ggadget_preview_button", rootel).bind("click", function() {
-                if ($(remotecontentSettingsUrl).val() !== "") {
-                    previewGadget();
-                }
-               
-                return false;
-
-            });
+            var validateOpts = {
+                submitHandler: previewGadget
+            };
+            sakai.api.Util.Forms.validate($("#ggadget_form", rootel), validateOpts, true);
 
             // Change the iframe width
             $(remotecontentSettingsWidth).change(function(){
                 var widthValue = $(remotecontentSettingsWidth).val();
-
                 if (isDecimal(widthValue)) {
                     json.width = widthValue;
                 }
@@ -308,7 +291,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Change the iframe height
             $(remotecontentSettingsHeight).change(function(){
                 var heightValue = $(remotecontentSettingsHeight).val();
-
                 if (isDecimal(heightValue)) {
                     json.height = heightValue;
                 }
@@ -336,8 +318,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
                 if (widthUnitValue === "px") {
                     json.width_unit = widthUnitValue;
-                }
-                else {
+                } else {
                     json.width_unit = "%";
                 }
                 $(remotecontentSettingsWidthUnitClass).removeClass(remotecontentSettingsWidthUnitSelectedClass);
@@ -346,9 +327,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // When you push the save button..
-            $(remotecontentSettingsInsert).click(function(){
-                saveRemoteContent();
-            });
+            $(remotecontentSettingsInsert).click(saveRemoteContent);
 
             // Cancel it
             $(remotecontentSettingsCancel).click(function(){
@@ -357,7 +336,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             addColorBinding();
         };
-
 
         ///////////////////////
         // Initial functions //
@@ -371,8 +349,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var displaySettings = function(parameters, exists){
             if (exists && parameters.url) {
                 json = parameters;
-            }
-            else {
+            } else {
                 json = {
                     border_size: 0,
                     border_color: "cccccc",
@@ -419,7 +396,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (success) {
                 // Get a JSON string that contains the necessary information.
                 var parameters = data;
-
                 if (showSettings) {
                     displaySettings(parameters, true); // Fill in the settings page.
                 } else {

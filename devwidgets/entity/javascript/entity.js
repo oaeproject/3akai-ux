@@ -379,7 +379,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#ew_content_preview_delete").bind("click", function(e){
                 e.preventDefault();
                 window.scrollTo(0,0);
-                $(window).trigger('init.deletecontent.sakai', [{"path": sakai_global.content_profile.content_data.content_path},
+                $(window).trigger('init.deletecontent.sakai', [{
+                        "paths": [sakai_global.content_profile.content_data.data._path]
+                    },
                     function (success) {
                         if (success) {
                             // Wait for 2 seconds
