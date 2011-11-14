@@ -16,13 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*
- * Dependencies
- *
- * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
- */
-
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
@@ -51,7 +44,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var $newcreategroupMembersAddedContainer = $("#newcreategroup_group_members_added_container", $rootel);
 
     // Elements
-    var $newcreategroupCreateSimpleGroupButton = $(".newcreategroup_create_simple_group", $rootel);
     var $newcreategroupCancelCreateButton = $("#newcreategroup_cancel_create", $rootel);
     var $newcreategroupGroupTitle = $("#newcreategroup_title", $rootel);
     var $newcreategroupSuggestedURL = $("#newcreategroup_suggested_url", $rootel);
@@ -168,10 +160,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
 
             } else {
-                if(nameTaken){
-                    $newcreategroupCreating.jqmHide();
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_TAKEN", "newcreategroup"), sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
-                }
                 $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
             }
         });
@@ -355,18 +343,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Add binding to the elements and validate the forms on submit
      */
     var addBinding = function(){
-        $newcreategroupCreateSimpleGroupButton.bind("click", function(){
-            $newcreategroupGroupForm.validate({
-                submitHandler: function(form){
-                    $newcreategroupContainer.find("select, input, textarea, button").attr("disabled","disabled");
-                    doCreateSimpleGroup();
-                }
-            });
-            $newcreategroupGroupForm.submit();
-        });
+        $.validator.addMethod("uniquegroupname", function(value, element){
+            return !sakai.api.Groups.checkIfGroupExists(value);
+        }, sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
+
+        var validateOpts = {
+            submitHandler: function(form){
+                $newcreategroupContainer.find("select, input, textarea, button").attr("disabled", "disabled");
+                doCreateSimpleGroup();
+            }
+        };
+        // Initialize the validate plug-in
+        sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOpts, true);
 
         $newcreategroupGroupTitle.bind("keyup", function(){
-            var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");
+            var suggestedURL = sakai.api.Util.makeSafeURL($(this).val().toLowerCase(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);
             $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~" + suggestedURL);
             renderShareMessage();
@@ -423,7 +414,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $.bbq.pushState({"_r": Math.random()});
     });
 
-    $(window).bind("sakai.addpeople.usersselected", function(ev, initTuid, users){
+    $(window).bind("toadd.addpeople.sakai", function(ev, initTuid, users){
         if (initTuid === tuid) {
             selectedUsers = $.extend(true, {}, users);
             $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {

@@ -414,33 +414,44 @@ define(
         },
 
         /**
-         * Add a piece of content to your personal library or a group library as a viewer
+         * Shares content with a user and sets permissions for the user.
          * This function can handle single user/content or multiple user/content items in an array
          * @param {Object} contentId   Unique pool id of the content being added to the library
          * @param {Object} userId      Authorizable id of the library to add this content in
+         * @param {Boolean} canManage    Set to true if the user that's being shared with should have managing permissions
          * @param {Object} callBack    Function to call once the content has been added to the library
          */
-        addToLibrary: function(contentId, userId, callBack){
+        addToLibrary: function(contentId, userId, canManage, callBack){
             // content array
             var toAdd = [];
-            if (typeof contentId === "string"){
+            if (_.isString(contentId)){
                 toAdd.push(contentId);
             } else {
                 toAdd = contentId;
             }
             // user array
             var addTo = [];
-            if (typeof userId === "string"){
+            if (_.isString(userId)){
                 addTo.push(userId);
             } else {
                 addTo = userId;
             }
             var batchRequests = [];
             for (var i = 0; i < addTo.length; i++){
+                var params = {};
+                if (canManage){
+                    params = {
+                        ":manager": addTo[i]
+                    }
+                } else {
+                    params = {
+                        ":viewer": addTo[i]
+                    }
+                }
                 for (var j = 0; j < toAdd.length; j++){
                     batchRequests.push({
                         url: "/p/" + toAdd[j] + ".members.json",
-                        parameters: {":viewer": addTo[i]},
+                        parameters: params,
                         method: "POST"
                     });
                 }
