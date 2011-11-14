@@ -101,7 +101,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Bind the event handlers
          */
         var bindEvents = function() {
-
             // Bind jqmodal
             $templategeneratorDialog.jqm({
                 modal : true,
@@ -226,17 +225,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 var oldWidgetData = templategeneratorData.pages[pageId].pageData[oldWidgetReference[(oldWidgetReference.length) - 1]][oldWidgetReference[1]];
                                 var newWidgetData = page[pid][widgetRef][oldWidgetReference[1]];
 
-                                // Check all properties within the widget and copy the right ones
-                                if(oldWidgetData) {
+                                // Do we need to copy the data widget's or should the system create new data?
+                                var uniqueDataWidget = $.inArray(oldWidgetReference[1], sakai.widgets.templategenerator.defaultConfiguration.templategenerator.uniqueDataWidgets);
+                                
+                                // If the uniqueDataWidget property is '-1' copy all the properties from
+                                if(oldWidgetData && uniqueDataWidget === -1) {
+                                   
                                     $.each(oldWidgetData, function(widgetPropertyKey, widgetPropertyElement) {
-
                                         var firstCharacter = widgetPropertyKey.charAt(0);
-
                                         if(firstCharacter !== '_') {
                                             // The actual data keys
                                             newWidgetData[widgetPropertyKey] = widgetPropertyElement;
                                         }
                                     });
+                                // Unique widget
+                                }else{
+                                    // In order to make the widget unique we need to add a reference to the current groupID
+                                    newWidgetData.groupid = "${groupid}";
                                 }
                             }
                         });
@@ -267,14 +272,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     delete structureElement._poolpath; 
                     delete structureElement._elements; 
                     delete structureElement._id;
+                    delete structureElement._pid;
                 });
                 // Add our updated structure
                 templategeneratorData.exportData.structure = structure;
 
                 // Stringify the created javascript object (this creates the actual string and manipulates the escaping)
-                templategeneratorData.output = $.toJSON(templategeneratorData.exportData, null, "\t");
+                templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, "\t");
                 templategeneratorData.output = templategeneratorData.output.replace(/\\/g, '');
                 
+                console.log(templategeneratorData.output);
+                                
                 // Create a file from the generated string
                 createTemplateFile();
             }

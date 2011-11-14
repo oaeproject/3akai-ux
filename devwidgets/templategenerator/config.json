@@ -14,7 +14,13 @@
     "url":                "/devwidgets/templategenerator/templategenerator.html",
     "defaultConfiguration": {
         "templategenerator": {
-            "targetUser": "admin"
+            "targetUser": "admin",
+            "uniqueDataWidgets": [
+                "participants",
+                "mylibrary",
+                "discussion",
+                "comments"
+            ]
         }
     }
 }
