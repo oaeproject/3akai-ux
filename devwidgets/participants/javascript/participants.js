@@ -190,6 +190,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "sortBy": "firstName",
                 "sortOrder": $participants_sort_by.val()
             }, function(items, total){
+                // Anonymous users
+                if (sakai.data.me.user.anon){
+                    $(".s3d-page-header-top-row", rootel).show();
+                // Logged in users
+                } else {
+                    $(".s3d-page-header-top-row", rootel).show();
+                    $(".s3d-page-header-bottom-row", rootel).show();
+                }
                 return sakai.api.Util.TemplateRenderer(participantsListTemplate, {
                     "participants": items,
                     "sakai": sakai
