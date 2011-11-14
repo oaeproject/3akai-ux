@@ -1014,13 +1014,13 @@ define(
                 if (group["sakai:group-id"]) {
                     group.id = group["sakai:group-id"];
                     if (group["sakai:group-title"]) {
-                        group["sakai:group-title-short"] = sakai_util.applyThreeDots(group["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
-                        group["sakai:group-title-shorter"] = sakai_util.applyThreeDots(group["sakai:group-title"], 150, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        group["sakai:group-title-short"] = sakai_util.applyThreeDots(group["sakai:group-title"], 550, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        group["sakai:group-title-shorter"] = sakai_util.applyThreeDots(group["sakai:group-title"], 130, {max_rows: 1,whole_word: false}, "s3d-bold");
                     }
 
                     if (group["sakai:group-description"]) {
-                        group["sakai:group-description-short"] = sakai_util.applyThreeDots(group["sakai:group-description"], 580, {max_rows: 2,whole_word: false});//, "");
-                        group["sakai:group-description-shorter"] = sakai_util.applyThreeDots(group["sakai:group-description"], 150, {max_rows: 2,whole_word: false}); //, "");
+                        group["sakai:group-description-short"] = sakai_util.applyThreeDots(group["sakai:group-description"], 580, {max_rows: 2,whole_word: false});
+                        group["sakai:group-description-shorter"] = sakai_util.applyThreeDots(group["sakai:group-description"], 150, {max_rows: 2,whole_word: false});
                     }
 
                     var groupType = sakai_i18n.getValueForKey("OTHER");
@@ -1033,7 +1033,9 @@ define(
                     }
                     // Modify the tags if there are any
                     if (group["sakai:tags"]) {
-                    group["sakai:tags"] = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group["sakai:tags"]));
+                        group["sakai:tags-processed"] = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group["sakai:tags"]));
+                    } else if (group.basic && group.basic.elements && group.basic.elements["sakai:tags"]) {
+                        group["sakai:tags-processed"] = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group.basic.elements["sakai:tags"].value));
                     }
                     group.groupType = groupType;
                     group.lastModified = group.lastModified;

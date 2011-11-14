@@ -72,8 +72,8 @@
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']|safeURL}" title="${i['_path']}"{/if}>
                                 {if i['sakai:pooled-content-file-name']}
-                                    <span class="searchcontent_result_name">${i['sakai:pooled-content-file-name-short']}</span>
-                                    <span class="searchcontent_result_name_grid">${i['sakai:pooled-content-file-name-shorter']}</span>
+                                    <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']}</span>
+                                    <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']}</span>
                                 {elseif i['_path']}
                                     ${i['_path']}
                                 {/if}
@@ -101,8 +101,8 @@
                                     {for t in i["sakai:tags"]}
                                         {if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if}
                                         <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                            <span class="searchcontent_result_tag">${t.tagShort|safeOutput}</span>
-                                            <span class="searchcontent_result_tag_grid">${t.tagShorter|safeOutput}</span>
+                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
                                         </a>
                                     {/for}
                                 </p>
@@ -154,14 +154,14 @@
                         <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                             <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/>
                             {if i.pictureLarge}
-                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" width="48px" height="48px" class="searchpeople_avatar_large"/>
+                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" width="48px" height="48px" class="s3d-search-result-avatar-large"/>
                             {/if}
                         </a>
                     {/if}
                     <div class="s3d-search-result-right">
                         <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${i.name}">
-                            <span class="searchpeople_result_name">${i.nameShort}</span>
-                            <span class="searchpeople_result_name_grid">${i.nameShorter}</span>
+                            <span class="s3d-search-result-name">${i.nameShort}</span>
+                            <span class="s3d-search-result-name-grid">${i.nameShorter}</span>
                         </a>
                         <div class="searchpeople_result_counts">
                             <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
@@ -183,8 +183,8 @@
                                     {for t in i["sakai:tags"]}
                                         {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if}
                                         <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                            <span class="searchpeople_result_tag">${t.tagShort|safeOutput}</span>
-                                            <span class="searchpeople_result_tag_grid">${t.tagShorter|safeOutput}</span>
+                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
                                         </a>
                                     {/for}
                                 </p>
@@ -204,14 +204,14 @@
                     <a href="${i.homePath}" title="${i['sakai:group-title']|safeOutput}">
                         <img src="${sakai.api.Groups.getProfilePicture(i)}" alt="${i['sakai:group-title']|safeOutput}">
                         {if i.picPathLarge}
-                            <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="searchgroups_avatar_large">
+                            <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="s3d-search-result-avatar-large">
                         {/if}
                     </a>
                     <div class="s3d-search-result-right">
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                <span class="searchgroups_result_name">${i["sakai:group-title-short"]}</span>
-                                <span class="searchgroups_result_name_grid">${i["sakai:group-title-shorter"]}</span>
+                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]|safeOutput}</span>
+                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]|safeOutput}</span>
                             </a>
                             {if i.groupType}
                                 <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>
@@ -236,15 +236,15 @@
                             <div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>
                             <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                         {/if}
-                        {if !$.isEmptyObject(i["sakai:tags"])}
+                        {if !$.isEmptyObject(i["sakai:tags-processed"])}
                             <div class="searchgroups_result_tags">
                                 <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
                                 <p class="searchgroups_result_tags_list">
-                                {for t in i["sakai:tags"]}
+                                {for t in i["sakai:tags-processed"]}
                                     {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if}
                                     <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                        <span class="searchgroups_result_tag">${t.tagShort|safeOutput}</span>
-                                        <span class="searchgroups_result_tag_grid">${t.tagShorter|safeOutput}</span>
+                                        <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                        <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
                                     </a>
                                 {/for}
                                 </p>

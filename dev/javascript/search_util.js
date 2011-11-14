@@ -56,25 +56,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
 
-        /**
-         * Shorten tags to be displayed in the search results
-         * @param {Array} tags The array containing tags.
-         * @return {Object} The object containing the tag and shortened lengths
-         */
-        var shortenTags = function(tags){
-            var tagsObj = {};
-            for (var i in tags) {
-                if (tags.hasOwnProperty(i)) {
-                    tagsObj[i] = {
-                        "tag": tags[i],
-                        "tagShort": sakai.api.Util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
-                        "tagShorter": sakai.api.Util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, "")
-                    };
-                }
-            }
-            return tagsObj;
-        };
-
         ////////////////////////////////
         // Finish util initialisation //
         ////////////////////////////////
