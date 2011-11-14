@@ -815,7 +815,9 @@ define(
                         item.pictureLarge = sakai_conf.URL.USER_DEFAULT_ICON_URL_LARGE;
                     }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
-                        item["sakai:tags"] = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(item["sakai:tags"]));
+                        item.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(item["sakai:tags"]));
+                    } else if (item.basic && item.basic.elements && item.basic.elements["sakai:tags"]) {
+                        item.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(item.basic.elements["sakai:tags"].value));
                     }
 
                     item.connected = false;

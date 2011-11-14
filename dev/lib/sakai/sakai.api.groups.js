@@ -1033,9 +1033,9 @@ define(
                     }
                     // Modify the tags if there are any
                     if (group["sakai:tags"]) {
-                        group["sakai:tags-processed"] = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group["sakai:tags"]));
+                        group.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group["sakai:tags"]));
                     } else if (group.basic && group.basic.elements && group.basic.elements["sakai:tags"]) {
-                        group["sakai:tags-processed"] = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group.basic.elements["sakai:tags"].value));
+                        group.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group.basic.elements["sakai:tags"].value));
                     }
                     group.groupType = groupType;
                     group.lastModified = group.lastModified;

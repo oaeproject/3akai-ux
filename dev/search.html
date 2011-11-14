@@ -176,11 +176,11 @@
                                 ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                             </a>
                         </div>
-                        {if !$.isEmptyObject(i["sakai:tags"])}
+                        {if !$.isEmptyObject(i.tagsProcessed)}
                             <div class="searchpeople_result_tags">
                                 <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
                                 <p class="searchpeople_result_tags_list">
-                                    {for t in i["sakai:tags"]}
+                                    {for t in i.tagsProcessed}
                                         {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if}
                                         <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
                                             <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
@@ -236,11 +236,11 @@
                             <div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>
                             <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                         {/if}
-                        {if !$.isEmptyObject(i["sakai:tags-processed"])}
+                        {if !$.isEmptyObject(i.tagsProcessed)}
                             <div class="searchgroups_result_tags">
                                 <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
                                 <p class="searchgroups_result_tags_list">
-                                {for t in i["sakai:tags-processed"]}
+                                {for t in i.tagsProcessed}
                                     {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if}
                                     <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
                                         <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
