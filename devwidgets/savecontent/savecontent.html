@@ -25,20 +25,39 @@
 <span style="display:none;" id="savecontent_group_add_library_body">__MSG__LIBRARY_ADDED__</span>
 
 <div id="savecontent_template" style="display:none"><!--
-   {var contentTitle = content["sakai:pooled-content-file-name"]}
-    __MSG__YOU_ARE_SAVING_CONTENT_TO__:
-    <select name="savecontent_select" id="savecontent_select">
-        {if !sakai.api.Content.isContentInLibrary(content, me.user.userid)}
-            <option value="${sakai.data.me.user.userid}">__MSG__MY_LIBRARY__</option>
-        {else}
-            <option value="${sakai.data.me.user.userid}" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
+    __MSG__YOU_ARE_SAVING__
+    {var done = false}
+    {for file in files}
+        {if file_index < 4}
+            "${file.body["sakai:pooled-content-file-name"]}" {if file_index != 3 && files.length > 1 && files.length -1 != file_index}, {/if}
+        {elseif !done}
+            __MSG__AND__ ${files.length - 4}
+            {var done = true}
         {/if}
+    {/for}
+    {if files.length > 4}
+        __MSG__MORE__
+    {/if}
+    __MSG__TO__:
+    <select name="savecontent_select" id="savecontent_select">
+        {for world in sakai.config.worldTemplates}
+            <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${sakai.api.i18n.getValueForKey(world.titleSing).toLowerCase()}</option>
+        {/for}
+
+        {if context !== "mylibrary" || (sakai_global.group && sakai_global.group.groupId)}
+            {if libraryHasIt}
+                <option value="${sakai.data.me.user.userid}" id="mylibrary_option" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
+            {else}
+                <option value="${sakai.data.me.user.userid}" id="mylibrary_option">__MSG__MY_LIBRARY__</option>
+            {/if}
+        {/if}
+
         {for g in groups.entry}
             {if g["sakai:group-title"]}
-                {if !sakai.api.Content.isContentInLibrary(content, g.groupid)}
-                    <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]|safeOutput}'s Library</option>
+                {if !g.overrideAllSelectedAMember && g.allSelectedAMember}
+                    <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled">${g["sakai:group-title"]|safeOutput}'s Library (got it)</option>
                 {else}
-                    <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]|safeOutput}'s Library (got it)</option>
+                    <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
                 {/if}>
             {/if}
         {/for}

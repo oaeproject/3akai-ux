@@ -48,7 +48,7 @@
             <input type="checkbox" id="mylibrary_select_checkbox"/>
         </div>
 
-        <button type="button" id="mylibrary_addpeople_button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger fl-force-left" disabled="true" data-entityname="" data-entityid="">
+        <button type="button" id="mylibrary_addpeople_button" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger fl-force-left" disabled="true" data-entitycontext="mylibrary" data-entityname="" data-entityid="">
             <span class="s3d-page-header-add-to-icon"></span>
             __MSG__ADD_TO__...
         </button>
@@ -116,7 +116,7 @@
                                 <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}"></button>
                             {/if}
                         </div>
-                        <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger"></button>
+                        <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger" data-entitycontext="mylibrary"></button>
                         <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                     </div>
                     <a href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">

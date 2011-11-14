@@ -165,6 +165,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
     };
 
+    var checkDefaultContentAdded = function(contentToAdd, count){
+        // If the content to add object is not a Array that means only one ID was given
+        if(!$.isArray(contentToAdd)){
+            return true;
+        } else if (contentToAdd.length - 1 === count){
+            return true;
+        } else {
+            return false;
+        }
+        return true;
+    };
+
+    var setDefaultContent = function(groupid){
+        var contentToAdd = $.bbq.getState("contentToAdd");
+        if(contentToAdd.length > 1 && !$.isArray(contentToAdd)){
+            contentToAdd = contentToAdd.split(",");
+        }
+        var count = 0;
+        $.each(contentToAdd, function(i, contentId){
+            sakai.api.Content.addToLibrary(contentId, groupid, false, function(contentId, entityId) {
+                if(checkDefaultContentAdded(contentToAdd, count)){
+                    $newcreategroupCreating.jqmHide();
+                    window.location = "/~" + groupid;
+                } else {
+                    count ++;
+                }
+            });
+        });
+    };
+
     var createGroupDocs = function(groupid, currentTemplate){
         var templateParameters = {
             "groupid": groupid,
@@ -184,8 +214,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }
                             sakai.api.Content.removeUser("manager", contentIds, sakai.data.me.user.userid, function() {
-                                $newcreategroupCreating.jqmHide();
-                                window.location = "/~" + groupid;
+                                if($.bbq.getState("contentToAdd")){
+                                    setDefaultContent(groupid);
+                                } else {
+                                    $newcreategroupCreating.jqmHide();
+                                    window.location = "/~" + groupid;
+                                }
                             });
                         });
                     });

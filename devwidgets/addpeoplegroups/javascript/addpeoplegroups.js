@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(getSelected(), function(i, selectedGroup){
                 $.each(renderObj.memberOfGroups.entry, function(j, memberOfGroup){
                     if($.inArray(selectedGroup.id, memberOfGroup.members) > -1 || $.inArray(selectedGroup.id, memberOfGroup.managers) > -1 || selectedGroup.id === memberOfGroup["sakai:group-id"]){
-                       renderObj.memberOfGroups.entry[j].allSelectedAMember = true;
+                        renderObj.memberOfGroups.entry[j].allSelectedAMember = true;
                     } else {
                         renderObj.memberOfGroups.entry[j].overrideAllSelectedAMember = true;
                     }
