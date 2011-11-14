@@ -3,26 +3,46 @@
 
 <div class="participants_widget">
     <div class="s3d-contentpage-title">__MSG__PARTICIPANTS__</div>
-    <div id="participants_general_actions">
-        <div class="participants_selectall"><input type="checkbox" id="participants_select_all"></div>
-        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" id="participants_send_selected_message" disabled="disabled">__MSG__MESSAGE_SELECTED__</button>
+
+    <div class="s3d-page-header-top-row">
+        <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
+            <div class="s3d-listview-grid">
+                <div class="s3d-action-icon s3d-search-results-gridview"></div>
+            </div>
+            <div class="s3d-listview-list selected">
+                <div class="s3d-action-icon s3d-search-results-listview selected"></div>
+            </div>
+        </div>
+        <div class="s3d-margin-top-5 s3d-page-header-sort-area">
+            <label for="participants_sort_by">__MSG__SORT_BY__:</label>
+            <select id="participants_sort_by" name="participants_sort_by">
+                <option value="asc">__MSG__LAST_NAME__ __MSG__A_Z__</option>
+                <option value="desc">__MSG__LAST_NAME__ __MSG__Z_A__</option>
+            </select>
+        </div>
         <div class="s3d-search-container">
-            <input type="text" tabindex_none="40" id="participants_search_field" title="__MSG__SEARCH_PARTICIPANTS__" class="s3d-search-inputfield"/>
+            <input id="participants_search_field" type="text" title="__MSG__SEARCH_PARTICIPANTS__" class="s3d-search-inputfield"/>
             <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
                 <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_PARTICIPANTS__"/>
             </button>
         </div>
-        <div id="participants_sort">
-            <label for="participants_sort_by">__MSG__SORT_BY__</label>
-            <select id="participants_sort_by">
-                <option value="asc">__MSG__A_Z__</option>
-                <option value="desc">__MSG__Z_A__</option>
-            </select>
+    </div>
+    <div class="s3d-page-header-bottom-row">
+        <a class="s3d-button s3d-large-button fl-force-right" href="/search#l=people">__MSG__FIND_MORE_PEOPLE__</a>
+        <div title="__MSG__SELECT_ALL_PARTICIPANTS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-page-header-selectall" id="contacts_select" type="button">
+            <input type="checkbox" id="participants_select_all"/>
         </div>
-        <hr class="fl-hidden fl-push"/>
-        <div id="participants_list_container">
-            <ul id="participants_list_container_list"><!-- --></ul>
-        </div>
+        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="participants_addpeople_button" disabled="true" data-entityname="" data-entityid="">
+            __MSG__ADD_TO__...
+            <span class="s3d-page-header-add-to-icon"></span>
+        </button>
+        <button id="participants_send_selected_message" sakai-entitytype="user" sakai-entityname="" sakai-entityid="" type="button" class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" disabled="true">__MSG__MESSAGE__
+            <div class="s3d-action-icon s3d-actions-message"></div>
+        </button>
+    </div>
+
+    <div id="participants_list_container">
+        <ul id="participants_list_container_list"><!-- --></ul>
     </div>
 </div>
 

@@ -50,6 +50,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $participantsSelectAll = $("#participants_select_all", rootel);
         var participantsListParticipantCheckbox = ".participants_list_participant_checkbox input:checkbox";
         var $participantsSendSelectedMessage = $("#participants_send_selected_message", rootel);
+        var $participantsAddPeopleButton = $("#participants_addpeople_button", rootel);
         var participantsListParticipantName = ".participants_list_participant_name";
         var $participants_sort_by = $("#participants_sort_by", rootel);
 
@@ -61,9 +62,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var enableDisableButtons = function(){
             if($(participantsListParticipantCheckbox + ":checked", rootel).length){
                 $participantsSendSelectedMessage.removeAttr("disabled");
+                $participantsAddPeopleButton.removeAttr("disabled");
             } else {
                 $participantsSendSelectedMessage.attr("disabled", "disabled");
                 $participantsSelectAll.removeAttr("checked");
+                $participantsAddPeopleButton.attr("disabled", "disabled");
             }
         };
 
@@ -80,6 +83,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $participantsSendSelectedMessage.attr("sakai-entitytype", "user");
             $participantsSendSelectedMessage.attr("sakai-entityname", userArr);
             $participantsSendSelectedMessage.attr("sakai-entityid", userIDArr);
+            $participantsAddPeopleButton.data("entityname", userArr);
+            $participantsAddPeopleButton.data("entityid", userIDArr);
             enableDisableButtons();
         };
 
