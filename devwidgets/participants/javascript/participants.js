@@ -53,6 +53,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $participantsAddPeopleButton = $("#participants_addpeople_button", rootel);
         var participantsListParticipantName = ".participants_list_participant_name";
         var $participants_sort_by = $("#participants_sort_by", rootel);
+        var participantsShowGrid = $(".s3d-listview-grid", rootel);
+        var participantsShowList = $(".s3d-listview-list", rootel);
 
 
         ///////////////////////
@@ -77,8 +79,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var userArr = [];
             var userIDArr = [];
             $.each($(participantsListParticipantCheckbox + ":checked", rootel), function(index, item){
-                userIDArr.push($(item)[0].id.split("_")[0]);
-                userArr.push($(item).parent().nextAll(participantsListParticipantName).text());
+                userIDArr.push($(item).data("entityid"));
+                userArr.push($(item).data("entityname"));
             });
             $participantsSendSelectedMessage.attr("sakai-entitytype", "user");
             $participantsSendSelectedMessage.attr("sakai-entityname", userArr);
@@ -120,6 +122,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             membershipsCount = result.counts.membershipsCount;
                         }
                         if (result["sakai:group-id"]) {
+                            var picture = false;
+                            if(result.basic.elements.picture && result.basic.elements.picture.value){
+                                picture = sakai.api.Groups.getProfilePicture(result);
+                            }
                             participantsArr.push({
                                 "name": result["sakai:group-title"],
                                 "id": result["sakai:group-id"],
@@ -129,7 +135,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "content": contentCount,
                                 "contacts": contactsCount,
                                 "memberships": membershipsCount,
-                                "profilePicture": sakai.api.Groups.getProfilePicture(result),
+                                "profilePicture": picture,
                                 "membersCount": result.counts.membersCount
                             });
                         } else {
@@ -150,6 +156,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     }
                                 });
                             }
+                            var picture = false;
+                            if(result.basic.elements.picture && result.basic.elements.picture.value){
+                                picture = sakai.api.User.getProfilePicture(result);
+                            }
                             participantsArr.push({
                                 "name": sakai.api.User.getDisplayName(result),
                                 "id": result["rep:userId"],
@@ -162,7 +172,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "invited": invited,
                                 "pending": pending,
                                 "none": none,
-                                "profilePicture": sakai.api.User.getProfilePicture(result)
+                                "profilePicture": picture
                             });
                         }
                     });
@@ -238,6 +248,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(this).hide();
                     }
                 });
+            });
+
+            $(participantsShowList, rootel).click(function(){
+                $("#participants_list_container_list", rootel).removeClass("s3d-search-results-grid");
+                $(".s3d-listview-options", rootel).find("div").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).children().addClass("selected");
+                $.bbq.pushState({"ls": "list"});
+            });
+
+            $(participantsShowGrid, rootel).click(function(){
+                $("#participants_list_container_list", rootel).addClass("s3d-search-results-grid");
+                $(".s3d-listview-options", rootel).find("div").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).children().addClass("selected");
+                $.bbq.pushState({"ls": "grid"});
             });
         };
 
