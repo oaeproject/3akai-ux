@@ -43,7 +43,12 @@
         </button>
     </div>
 
-    <div id="contacts_container"><!----></div>
+    <div id="contacts_container">
+        <div class="contacts_main" id="contacts_accepted">
+            <ul id="contacts_container_list" class="contacts_list_items"><!----></ul>
+            <div id="contacts_container_list_empty"><!-- --></div>
+        </div>
+    </div>
 </div>
 
 <div class="s3d-widget-no-options">
@@ -55,7 +60,7 @@
 --></div>
 
 <div id="contacts_invited_template" style="display:none;"><!--
-     {if invited && invited.results.length}
+     {if invited.results && invited.results.length}
         <div class="contacts_main" id="contacts_invited">
             <div class="s3d-contentpage-title">__MSG__PENDING_CONTACTS__</div>
             {var count = 0}
@@ -116,13 +121,9 @@
 --></div>
 
 <div id="contacts_accepted_template" style="display:none;"><!--
-    <div class="contacts_main" id="contacts_accepted">
-        {if accepted.results.length}
-            {var count = 0}
-            <ul class="contacts_list_items">
-                {for a in accepted.results}
-                    {var count = count + 1}
-                    <li data-userid="${a.profile.userid}" class="fl-container fl-fix contacts_item contacts_accepted_items{if count == 1} contacts_item_first s3d-search-resultfirst{/if} s3d-search-result">
+        {if results && results.length}
+            {for a in results}
+                    <li id="${a.id}" data-userid="${a.profile.userid}" class="fl-container fl-fix contacts_item contacts_accepted_items s3d-search-result">
                         <div class="contacts_item_left_filler s3d-search-result-user-functions">
                             {if !sakai.data.me.user.anon && sakai_global.profile.main.mode.value !== "view"}
                                 <input type="checkbox" name="checkbox_${a.profile.userid}" class="contacts_select_contact_checkbox" data-userid="${a.profile.userid|safeOutput}" data-username="${sakai.api.User.getDisplayName(a.profile)|safeOutput}"/>
@@ -190,28 +191,22 @@
                         </div>
                     </li>
                 {/for}
-            </ul>
-            {if count > 0}
-                <hr class="fl-push fl-hidden"/>
-                <div class="contacts_item_end"></div>
-                <div id="contacts_pager" class="jq_pager"></div>
-            {/if}
-         {else}
-            {if sakai_global.profile.main.mode.value !== "view"}
-                <div class="s3d-no-results-container">
-                    <div class="s3d-no-results-arrow-up"></div>
-                    <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_AND_ADD_PEOPLE__</a></h1>
-                </div>
-            {else}
-                <div class="s3d-no-results-container">
-                    <div class="s3d-no-results-arrow-up"></div>
-                    <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
-                </div>
-            {/if}
-         {/if}
-    </div>
+               {/if}
+--></div>
+<div id="contacts_accepted_empty_template"><!--
+    {if sakai_global.profile.main.mode.value !== "view"}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+            <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
+            <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_AND_ADD_PEOPLE__</a></h1>
+        </div>
+    {else}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+            <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
+            <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
+        </div>
+    {/if}
 --></div>
 
 <div class="s3d-dialog s3d-dialog-container" id="contacts_delete_contacts_dialog" style="display:none;">
