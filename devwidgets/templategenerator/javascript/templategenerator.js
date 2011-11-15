@@ -280,9 +280,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Stringify the created javascript object (this creates the actual string and manipulates the escaping)
                 templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, "\t");
                 templategeneratorData.output = templategeneratorData.output.replace(/\\/g, '');
-                
-                console.log(templategeneratorData.output);
-                                
+
                 // Create a file from the generated string
                 createTemplateFile();
             }
@@ -341,7 +339,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                         var filePath = 'http://' + window.location.host + '/p/' + fileData.poolId + '/' + fileData.item['sakai:pooled-content-file-name'];
 
                                         // Sends a link with the template file to the admin user
-                                        sakai.api.Communication.sendMessage(sakai.widgets.templategenerator.defaultConfiguration.templategenerator.targetUser, sakai.data.me, sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_ADMIN_MESSAGE_SUBJECT", "templategenerator"), sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_ADMIN_MESSAGE", "templategenerator") + "\n\n" + filePath, "message", false, handleSentMessage, true, "new_message");
+                                        sakai.api.Communication.sendMessage(sakai.widgets.templategenerator.defaultConfiguration.templategenerator.targetUser, sakai.data.me, sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_ADMIN_MESSAGE_SUBJECT", "templategenerator"), sakai.api.Util.TemplateRenderer("templategenerator_admin_message_template", {"system": sakai.api.i18n.getValueForKey("SAKAI")}) + "\n\n" + filePath, "message", false, handleSentMessage, true, "new_message");
 
                                         // Sends a message to the user that created the template
                                         sakai.api.Communication.sendMessage(sakai.data.me.user.userid, sakai.data.me, sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_USER_MESSAGE_SUBJECT", "templategenerator"), sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_USER_MESSAGE", "templategenerator"), "message", false, null, true, "new_message");
