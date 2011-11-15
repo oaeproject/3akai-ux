@@ -110,6 +110,20 @@ define(
             }
         },
 
+        checkIfGroupExists : function(groupid) {
+            // Check if the group exists.
+            var groupExists = false;
+            $.ajax({
+                url: "/~" + groupid + ".json",
+                type: "GET",
+                async: false,
+                success: function(data, textStatus) {
+                    groupExists = true;
+                }
+            });
+            return groupExists;
+        },
+
         /**
          * Create a group
          * @param {String} id the id of the group that's being created
@@ -124,19 +138,7 @@ define(
              * @param {String} groupid
              */
             var groupExists = function(groupid){
-                // Check if the group exists.
-                var groupExists = false,
-                created = false;
-                $.ajax({
-                    url: "/~" + groupid + ".json",
-                    type: "GET",
-                    async: false,
-                    success: function(data, textStatus) {
-                        groupExists = true;
-                        created = true;
-                    }
-                });
-                return groupExists;
+
             };
 
             var createGroup = function(group, callback){
@@ -324,7 +326,7 @@ define(
             };
 
             // check if the group exists
-            if (!groupExists(id)) {
+            if (!sakaiGroupsAPI.checkIfGroupExists(id)) {
                 fillToProcess(id, title, description, meData, template, category, callback);
             } else {
                 if ($.isFunction(callback)) {
@@ -1000,15 +1002,39 @@ define(
             return sakai_util.constructProfilePicture(profile, "group");
         },
 
+
+        /**
+         * Change the permission of some users on a group
+         *
+         * @param {String} groupID the ID of the group to add members to
+         * @param {Array} rolesToAdd Array of user/group IDs to add to the group
+         * @param {Array} rolesToDelete Array of user/group IDs to remove from the group
+         * @param {Object} meData the data from sakai.api.User.data.me
+         * @param {Boolean} managerShip if the user should be added as a manager of the group (almost never is the case)
+         * @param {Function} callback Callback function
+         */
+        changeUsersPermission : function(groupID, rolesToAdd, rolesToDelete, medata, managerShip, callback) {
+            var addUserReqs = sakaiGroupsAPI.addUsersToGroup(groupID, rolesToAdd, medata, managerShip, false, true);
+            var removeUserReqs = sakaiGroupsAPI.removeUsersFromGroup(groupID, rolesToDelete, medata, false, true);
+            $.merge(addUserReqs, removeUserReqs);
+            sakai_serv.batch(addUserReqs, function(success, data) {
+                if ($.isFunction(callback)) {
+                    callback(success, data);
+                }
+            });
+        },
+
         /**
          * Add users to the specified group
          *
          * @param {String} groupID the ID of the group to add members to
          * @param {Array} users Array of user/group IDs to add to the group
          * @param {Object} meData the data from sakai.api.User.data.me
+         * @param {Boolean} managerShip if the user should be added as a manager
          * @param {Function} callback Callback function
+         * @param {Boolean} onlyReturnRequests only return the requests, don't make them
          */
-        addUsersToGroup : function(groupID, users, medata, managerShip, callback) {
+        addUsersToGroup : function(groupID, users, medata, managerShip, callback, onlyReturnRequests) {
             var reqData = [];
             var currentUserIncluded = false;
 
@@ -1038,21 +1064,26 @@ define(
             });
             if (reqData.length > 0) {
                 // batch request to add users to group
-                sakai_serv.batch(reqData, function(success, data) {
-                    if (!success) {
-                        debug.error("Could not add users to group");
-                    } else if (currentUserIncluded) {
-                        medata.user.subjects.push(groupID);
-                    }
-                    if ($.isFunction(callback)) {
-                        callback(success);
-                    }
-                });
+                if (onlyReturnRequests) {
+                    return reqData;
+                } else {
+                    sakai_serv.batch(reqData, function(success, data) {
+                        if (!success) {
+                            debug.error("Could not add users to group");
+                        } else if (currentUserIncluded) {
+                            medata.user.subjects.push(groupID);
+                        }
+                        if ($.isFunction(callback)) {
+                            callback(success);
+                        }
+                    });
+                }
             } else {
                 if ($.isFunction(callback)) {
                     callback(true);
                 }
             }
+            return true;
         },
 
         /**
@@ -1095,8 +1126,9 @@ define(
          * @param {Array} users Array of user/group IDs to remove from the group
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
+         * @param {Boolean} onlyReturnRequests only return the requests, don't make them
          */
-        removeUsersFromGroup : function(groupID, users, medata, callback) {
+        removeUsersFromGroup : function(groupID, users, medata, callback, onlyReturnRequests) {
             var reqData = [];
             var currentUserIncluded = false;
 
@@ -1128,20 +1160,25 @@ define(
             });
 
             if (reqData.length > 0) {
-                // batch request to remove users from group
-                sakai_serv.batch(reqData, function(success, data) {
-                    if (!success) {
-                        debug.error("Error removing users from the group");
-                    } else if (currentUserIncluded){
-                        // remove the group from medata.subjects
-                        var index = medata.user.subjects.indexOf(groupID);
-                        medata.user.subjects.splice(index, 1);
-                    }
-                    if ($.isFunction(callback)) {
-                        callback(success);
-                    }
-                });
+                if (onlyReturnRequests) {
+                    return reqData;
+                } else {
+                    // batch request to remove users from group
+                    sakai_serv.batch(reqData, function(success, data) {
+                        if (!success) {
+                            debug.error("Error removing users from the group");
+                        } else if (currentUserIncluded){
+                            // remove the group from medata.subjects
+                            var index = medata.user.subjects.indexOf(groupID);
+                            medata.user.subjects.splice(index, 1);
+                        }
+                        if ($.isFunction(callback)) {
+                            callback(success);
+                        }
+                    });
+                }
             }
+            return true;
         },
 
         /**

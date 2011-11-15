@@ -529,8 +529,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var messages = {};
             if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.config && sakai_global.profile.main.config[profilesection]){
                 for (var i in sakai_global.profile.main.config[profilesection].elements){
-                    if (sakai_global.profile.main.config[profilesection].elements.hasOwnProperty(i)
-                        && sakai_global.profile.main.config[profilesection].elements[i].errorMessage) {
+                    if (sakai_global.profile.main.config[profilesection].elements.hasOwnProperty(i) &&
+                        sakai_global.profile.main.config[profilesection].elements[i].errorMessage) {
                         var formKey = profilesection + "_elements_" + i;
                         var errorKey = sakai_global.profile.main.config[profilesection].elements[i].errorMessage;
                         messages[formKey] = sakai.api.i18n.getValueForKey(errorKey.substr(7, errorKey.length - 9));
@@ -540,8 +540,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // Reinitialize the jQuery form selector
             var $profile_form = $("#profile_form_" + sectionid);
-            // Initialize the validate plug-in
-            $profile_form.validate({
+            var validateOpts = {
                 messages: messages,
                 submitHandler: function(form) {
                     $(".profile-section-save-button").attr("disabled", "disabled");
@@ -552,18 +551,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 onclick:false,
                 onkeyup:false,
                 onfocusout:false,
-                invalidHandler: function(form, validator){
-                    // Remove all the current notifications
-                    sakai.api.Util.notification.removeAll();
-
-                    // Show a notification which states that you have errors
-                    sakai.api.Util.notification.show("", $profile_error_form_errors.text(), sakai.api.Util.notification.type.ERROR);
-                },
                 ignore: ".profile_validation_ignore", // Class
                 validClass: "profilesection_validation_valid",
                 ignoreTitle: true // Ignore the title attribute, this can be removed as soon as we use the data-path attribute
-            });
+            };
 
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($profile_form, validateOpts);
         };
 
 

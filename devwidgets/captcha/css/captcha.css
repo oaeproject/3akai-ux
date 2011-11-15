@@ -15,4 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#captcha_error{width: 432px !important; display: inline-block;}
+#captcha_error{width: 438px !important; display: inline-block;}
+#captcha_container{float:left;}
+#captcha_container.s3d-error{border:3px solid #cc0000;}

@@ -36,7 +36,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.captcha = function(tuid, showSettings) {
 
         var $rootel = $("#" + tuid);
-        var captchaError = $("#captcha_error", $rootel);
+        var $captchaError = $("#captcha_error", $rootel);
+        var $captcha_container = $("#captcha_container", $rootel);
 
         /**
          * @returns {Object} Data that should be used in a request to send to a captcha validator.
@@ -53,17 +54,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} messageErrorClass Class to apply to the error message html element
          */
         sakai_global.captcha.showError = function(messageErrorClass) {
-            if (messageErrorClass && !captchaError.hasClass(messageErrorClass)){
-                captchaError.addClass(messageErrorClass);
+            if (messageErrorClass && !$captchaError.hasClass(messageErrorClass)){
+                $captchaError.addClass(messageErrorClass);
+                $captcha_container.addClass("s3d-error");
+                $("#recaptcha_response_field").attr("aria-invalid", "true");
+                $("#recaptcha_response_field").attr("aria-describedby", "captcha_error");
             }
-            captchaError.show();
+            $captchaError.show();
         };
 
         /**
          * Hides the captcha validation error message
          */
         sakai_global.captcha.hideError = function() {
-            captchaError.hide();
+            $("#recaptcha_response_field").attr("aria-invalid", "false");
+            $captchaError.hide();
+            $captcha_container.removeClass("s3d-error");
         };
 
         /**

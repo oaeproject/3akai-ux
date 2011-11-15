@@ -20,15 +20,15 @@
             </select>
         </div>
         <hr class="fl-hidden fl-push"/>
-        <div id="participants_list_container"><!-- --></div>
-        <div id="participants_pager" class="jq_pager" style="display:none"></div>
+        <div id="participants_list_container">
+            <ul id="participants_list_container_list"><!-- --></ul>
+        </div>
     </div>
 </div>
 
 <div id="participants_list_template"><!--
-<ul>
     {for participant in participants}
-        <li class="s3d-list-item{if participant_index == 0} participants_list_first{elseif participant_index == participants.length - 1} participants_list_last{/if}">
+        <li id="${participant.id}" class="s3d-list-item">
             <div class="participants_list_participant_actions">
                 {if participant.id !== sakai.data.me.user.userid}
                     <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button participants_message_icon sakai_sendmessage_overlay" sakai-entityid=${participant.id}" sakai-entityname="${participant.name|safeOutput}" sakai-entitytype="${participant.type}"></button>
@@ -72,14 +72,14 @@
                 </a>
             {/if}
         </li>
-    {forelse}
-        <div class="s3d-no-results-container">
-            <div class="s3d-no-results-arrow-up"></div>
-            <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
-            <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
-        </div>
     {/for}
-</ul>
+--></div>
+<div id="participants_list_empty_template"><!--
+    <div class="s3d-no-results-container">
+        <div class="s3d-no-results-arrow-up"></div>
+        <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
+        <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
+    </div>
 --></div>
 
 <!-- JAVASCRIPT -->

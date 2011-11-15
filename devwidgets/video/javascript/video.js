@@ -224,7 +224,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
         ////////////////////
 
         /** Add validation to the form */
-        $(videoForm, rootel).validate();
+        sakai.api.Util.Forms.validate($(videoForm, rootel));
         $(videoUrl, rootel).rules( "add", {
             required: true,
             url: true,
