@@ -83,6 +83,12 @@ define(
                         case "template":
                             user["template"] = "/var/templates/site/" + extraOptions[i];
                             break;
+                        case "isAutoTagging":
+                            user["isAutoTagging"] = extraOptions[i];
+                            break;
+                        case "sendTagMsg":
+                            user["sendTagMsg"] = extraOptions[i];
+                            break;
                         default:
                             break;
                     }

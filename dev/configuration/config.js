@@ -497,7 +497,10 @@ define(function(){
              * in search results
              */
             userShortDescription: "${role} in ${department} at ${college}",
-            groupShortDescription: "asdf"
+            groupShortDescription: "asdf",
+
+            defaultAutoTagging: "true",
+            defaultSendTagMsg: "false"
         },
 
         Groups: {
