@@ -415,47 +415,62 @@ define(
 
         /**
          * Shares content with a user and sets permissions for the user.
-         * @param {String} contentId     Unique pool id of the content being added to the library
-         * @param {String} userId 	     Authorizable id of the library to add this content in
+         * This function can handle single user/content or multiple user/content items in an array
+         * @param {Object} contentId   Unique pool id of the content being added to the library
+         * @param {Object} userId      Authorizable id of the library to add this content in
          * @param {Boolean} canManage    Set to true if the user that's being shared with should have managing permissions
-         * @param {Function} callBack 	 Function to call once the content has been added to the library
+         * @param {Object} callBack    Function to call once the content has been added to the library
          */
         addToLibrary: function(contentId, userId, canManage, callBack){
+            // content array
             var toAdd = [];
-            if (typeof userId === "string"){
-                toAdd.push(userId);
+            if (_.isString(contentId)){
+                toAdd.push(contentId);
             } else {
-                toAdd = userId;
+                toAdd = contentId;
+            }
+            // user array
+            var addTo = [];
+            if (_.isString(userId)){
+                addTo.push(userId);
+            } else {
+                addTo = userId;
             }
             var batchRequests = [];
-            for (var i = 0; i < toAdd.length; i++){
+            for (var i = 0; i < addTo.length; i++){
                 var params = {};
                 if (canManage){
                     params = {
-                        ":manager": toAdd[i]
+                        ":manager": addTo[i]
                     }
                 } else {
                     params = {
-                        ":viewer": toAdd[i]
+                        ":viewer": addTo[i]
                     }
                 }
-                batchRequests.push({
-                    url: "/p/" + contentId + ".members.json",
-                    parameters: params,
-                    method: "POST"
-                });
+                for (var j = 0; j < toAdd.length; j++){
+                    batchRequests.push({
+                        url: "/p/" + toAdd[j] + ".members.json",
+                        parameters: params,
+                        method: "POST"
+                    });
+                }
             }
-            sakai_serv.batch(batchRequests, function(success, data) {
-                if (success){
-                    if (callBack) {
-                        callBack(contentId, userId);
+            if (batchRequests.length > 0) {
+                sakai_serv.batch(batchRequests, function(success, data){
+                    if (success) {
+                        if (callBack) {
+                            callBack(contentId, userId);
+                        }
                     }
-                } else {
-                    debug.error("sharecontent failed to change content " +
-                        "permission to 'viewer' for member: " + userId);
-                    debug.error("xhr data returned: " + data);
-                }
-            }, null, true);
+                    else {
+                        debug.error("sharecontent failed to change content " +
+                        "permission to 'viewer' for member: " +
+                        userId);
+                        debug.error("xhr data returned: " + data);
+                    }
+                }, null, true);
+            }
         },
 
         /**
