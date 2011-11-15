@@ -543,7 +543,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        if(!hasbeenInit){
+        if(!hasbeenInit && !sakai_global.group){
             loadRoles();
             var defaultMembers = $.bbq.getState("members") || [];
             if(defaultMembers.length){
