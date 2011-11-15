@@ -43,7 +43,9 @@
                                     {var content0 = item.suggestions[0]}
                                     {if content0}
                                         {if content0.preview}
-                                            <img src="${content0.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                            <a href="${content0.url}">
+                                               <img class="s3d-icon-50 carousel_item_preview_img" src="${content0.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                            </a>
                                         {/if}
                                         <h2>
                                             <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.url}">
@@ -59,7 +61,9 @@
                                     {var content1 = item.suggestions[1]}
                                     {if content1}
                                         {if content1.preview}
-                                            <img src="${content1.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                            <a href="${content1.url}">
+                                                <img class="s3d-icon-50 carousel_item_preview_img" src="${content1.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                            </a>
                                         {/if}
                                         <h2>
                                             <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.url}">
