@@ -17,14 +17,11 @@
  */
 /* Main Container */
 #discussion_main_container .fl-widget-content{padding:10px;}
-#discussion_main_container input[type=text]{margin:5px 0;width:100%;border:#D9D9D9 solid 1px;padding-left:0;padding-right:0;height:18px;padding-top:2px;}
-#discussion_main_container textarea{margin:5px 0;width:100%;border:#D9D9D9 solid 1px;resize:none;}
-#discussion_main_container input[type=text].error,#discussion_main_container textarea.error{border-color:#9f3333;background-color:#ffdede;}
 .discussion_horizontal_rule {border:1px solid #DDD; margin:10px 0;}
 .discussion_pipe_divider {margin:0 5px;}
 
 /* Create new topic */
-#discussion_create_new_topic label {display:block; margin-top:10px;}
+#discussion_create_new_topic label {display:block; margin:5px 0px;}
 
 /* Topic list */
 .discussion_topic_subject{font-size:16px; color:#444; margin-bottom:2px; font-weight:normal;}

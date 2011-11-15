@@ -43,38 +43,42 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addpeoplegroupsClose = ".addpeoplegroups_close";
         var addpeoplegroupsTrigger = ".addpeoplegroups_trigger";
         var addpeoplegroupsSave = "#addpeoplegroups_save";
-        var targetSelectGroup = "";
+        var targetSelectGroup = "addpeoplegroups_checkbox";
         var renderObj = {};
         var membershipFetched = 0;
-        var context = "";
+        var selectedTitles = [];
+        var selectedIDs = [];
 
-        var getSelectedGroups = function(){
-            var selectedGroups = [];
-            $.each($("." + targetSelectGroup + ":checked"), function(i, select){
-                selectedGroups.push({
-                    id: $(select).data("groupid"),
-                    title: $(select).data("grouptitle")
-                })
+        var getSelected = function(){
+            var selected = [];
+            if(selectedTitles.length > 1 && !$.isArray(selectedTitles)){
+                selectedTitles = selectedTitles.split(",");
+                selectedIDs = selectedIDs.split(",");
+            }
+            $.each(selectedTitles, function(i, title){
+                selected.push({
+                    id: selectedIDs[i],
+                    title: title
+                });
             });
-            return selectedGroups;
+            return selected;
         };
 
-        var getSelectedGroupsIDs = function(){
-            var selectedGroups = [];
-            $.each($("." + targetSelectGroup + ":checked"), function(i, select){
-                selectedGroups.push($(select).data("groupid"));
+        var getSelectedIDs = function(){
+            var selected = [];
+            $.each(selectedTitles, function(i, select){
+                selected.push(selectedIDs[i]);
             });
-            return selectedGroups;
+            return selected;
         };
 
         var renderTemplate = function(){
-            renderObj.context = context;
             $("#addpeoplegroups_container").html(sakai.api.Util.TemplateRenderer("addpeoplegroups_template", renderObj));
             $addpeoplegroupsWidget.toggle();
         };
 
         var selectedAlreadyLibraryMember = function(){
-            $.each(getSelectedGroups(), function(i, group){
+            $.each(getSelected(), function(i, group){
                 if(sakai.api.Groups.isCurrentUserAMember(group.id, sakai.data.me)){
                     renderObj.libraryHasIt = true;
                 }
@@ -86,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Determines if the selected groups are a part of any groups
          */
         var selectAlreadyGroupMember = function(){
-            $.each(getSelectedGroups(), function(i, selectedGroup){
+            $.each(getSelected(), function(i, selectedGroup){
                 $.each(renderObj.memberOfGroups.entry, function(j, memberOfGroup){
                     if($.inArray(selectedGroup.id, memberOfGroup.members) > -1 || $.inArray(selectedGroup.id, memberOfGroup.managers) > -1 || selectedGroup.id === memberOfGroup["sakai:group-id"]){
                        renderObj.memberOfGroups.entry[j].allSelectedAMember = true;
@@ -127,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Fill up initial values in object to send to renderer
             renderObj = {
                 api: sakai.api,
-                groups: getSelectedGroups(),
+                groups: getSelected(),
                 libraryHasIt: false,
                 memberOfGroups: sakai.api.Groups.getMemberships(filterManagedGroups()),
                 worlds: sakai.config.worldTemplates
@@ -145,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var $addPeopleGroupsSelect = $("#addpeoplegroups_select");
             if(!$addPeopleGroupsSelect.children("option:selected").data("redirect") === true){
                 var groupsToAdd = [];
-                $.each(getSelectedGroups(), function(i, selectedGroup){
+                $.each(getSelected(), function(i, selectedGroup){
                     sakai.api.Groups.getGroupAuthorizableData($addPeopleGroupsSelect.val(), function(success, data){
                         groupsToAdd.push({
                             user: selectedGroup.id,
@@ -157,11 +161,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(addpeoplegroupsSave, $rootel).removeAttr("disabled");
                 toggleVisibility();
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED", "addpeoplegroups"), sakai.api.Util.TemplateRenderer("addpeoplegroups_added_template", {
-                    groupsToAdd: getSelectedGroups(),
+                    groupsToAdd: getSelected(),
                     groupToAddTo: $("#addpeoplegroups_select option[value='" + $addPeopleGroupsSelect.val() + "']").text()
                 }));
             } else {
-                document.location = "/create#l=" + $addPeopleGroupsSelect.val() + "&members=" + getSelectedGroupsIDs().toString();
+                document.location = "/create#l=" + $addPeopleGroupsSelect.val() + "&members=" + getSelectedIDs().toString();
             }
         };
 
@@ -185,14 +189,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var doInit = function(el){
-            targetSelectGroup = $(el).data("target-select-group");
-            context = $(el).data("context");
             toggleVisibility();
             $addpeoplegroupsWidget.css("top", $(el).position().top + 30);
             $addpeoplegroupsWidget.css("left", $(el).position().left - ($addpeoplegroupsWidget.width() / 2) + ($(el).width() / 2 + 10) );
         };
 
         $(".addpeoplegroups_trigger").live("click", function(){
+            selectedTitles = $(".addpeoplegroups_trigger:visible").data("entityname");
+            selectedIDs = $(".addpeoplegroups_trigger:visible").data("entityid");
             if(!$addpeoplegroupsWidget.is(":visible")){
                 addBinding();
                 doInit(this);
