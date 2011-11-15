@@ -329,7 +329,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
                 $(this).addClass("selected");
                 $(this).children().addClass("selected");
-                $.bbq.pushState({"mls": "list"});
+                $.bbq.pushState({"view": "list"});
                 mymemberships.listStyle = "list";
             });
 
@@ -339,7 +339,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
                 $(this).addClass("selected");
                 $(this).children().addClass("selected");
-                $.bbq.pushState({"mls": "grid"});
+                $.bbq.pushState({"view": "grid"});
                 mymemberships.listStyle = "grid";
             });
 
@@ -427,7 +427,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             currentQuery = $.bbq.getState("mq") || "";
             $("#mymemberships_sortby").val($.bbq.getState("mso") || "modified");
             mymemberships.sortOrder = $.bbq.getState("mso") || "modified";
-            mymemberships.listStyle = $.bbq.getState("mls") || "list";
+            mymemberships.listStyle = $.bbq.getState("view") || "list";
             $("#mymemberships_livefilter").val(currentQuery);
             if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
                 mymemberships.isOwnerViewing = true;

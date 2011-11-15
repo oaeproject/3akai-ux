@@ -298,7 +298,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
                 $(this).addClass("selected");
                 $(this).children().addClass("selected");
-                $.bbq.pushState({"cls": "list"});
+                $.bbq.pushState({"view": "list"});
             });
 
             $(contactsShowGrid, $rootel).click(function(){
@@ -307,7 +307,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
                 $(this).addClass("selected");
                 $(this).children().addClass("selected");
-                $.bbq.pushState({"cls": "grid"});
+                $.bbq.pushState({"view": "grid"});
             });
 
             $(window).bind("hashchanged.contacts.sakai", function(){
