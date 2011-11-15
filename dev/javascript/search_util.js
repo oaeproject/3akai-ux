@@ -53,9 +53,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         if (config && config.tuid && view === "grid"
             && $(".s3d-search-results-container").length){
-            $(".s3d-search-results-container").addClass("s3d-search-results-grid");
+            updateViewLayout(view);
         }
 
+        var updateViewLayout = function(viewtype) {
+            if (viewtype === 'grid') {
+                if (!$(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
+                    view = "grid";
+                    $(".s3d-search-results-container").addClass("s3d-search-results-grid");
+                }
+            } else { // 'list' is the default
+                if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
+                    view = "list";
+                    $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
+                }
+            }
+        };
 
         ////////////////////////////////
         // Finish util initialisation //
@@ -63,6 +76,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var finishUtilInit = function(){
             $(window).trigger("sakai.search.util.finish", [config]);
+            updateViewLayout(sakai_global.data.search.getQueryParams().view);
         };
 
         ///////////////////////////
@@ -237,7 +251,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
-                "sortby": $.bbq.getState('sortby')
+                "sortby": $.bbq.getState('sortby'),
+                "view": $.bbq.getState('view') || "list"
             };
             return params;
         };
@@ -278,17 +293,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         // bind search view type
         $("#search_view_list").live("click", function(ev){
-            if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
-                view = "list";
-                $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
-            }
+            $.bbq.pushState({
+                "view": "list"
+            }, 0);
         });
 
         $("#search_view_grid").live("click", function(ev){
-            if (!$(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
-                view = "grid";
-                $(".s3d-search-results-container").addClass("s3d-search-results-grid");
-            }
+            $.bbq.pushState({
+                "view": "grid"
+            }, 0);
         });
 
         $('.searchgroups_result_plus').die("click");
@@ -319,6 +332,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////
         // Util initialisation //
         /////////////////////////
+
+        var handleHashChange = function(e,changed,deleted,all,currentState) {
+            if (changed.view) {
+                updateViewLayout(changed.view);
+            }
+        };
+
+        $(window).bind("hashchanged.searchall.sakai",handleHashChange);
+        $(window).bind("hashchanged.searchcontent.sakai",handleHashChange);
+        $(window).bind("hashchanged.searchgroups.sakai",handleHashChange);
+        $(window).bind("hashchanged.searchpeople.sakai",handleHashChange);
 
         finishUtilInit();
 
