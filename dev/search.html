@@ -154,7 +154,7 @@
                         <div class="searchpeople_result_counts">
                             {if i.counts.contentCount > 0}
                                 <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
-                                    ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM_LC__{else} __MSG__CONTENT_ITEMS_LC__{/if}
+                                    ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                                 </a>
                                 {if i.counts.contactsCount > 0 || i.counts.membershipsCount > 0}
                                     <span class="s3d-search-result-detail-separator"><span> | </span></span>
