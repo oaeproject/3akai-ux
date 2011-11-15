@@ -72,12 +72,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Prepare for rendering //
         ///////////////////////////
 
-        sakai_global.data.search.prepareCMforRender = function(results, finaljson) {
-            for (var i = 0, j = results.length; i < j; i++) {
-                if (results[i]['sakai:pooled-content-file-name']) {
-                    // Set the item object in finaljson equal to the object in results
-                    var contentItem = results[i];
-
+        sakai_global.data.search.prepareCMforRender = function(results, callback) {
+            var userArray = [];
+            $.each(results, function(i, contentItem){
+                if (contentItem['sakai:pooled-content-file-name']) {
+                    contentItem.id = contentItem["_path"];
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
                         contentItem["sakai:description-shorter"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 150, {
@@ -110,142 +109,125 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         contentItem.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
                     contentItem.thumbnail = sakai.api.Content.getThumbnail(results[i]);
-                    finaljson.items.push(contentItem);
+                    // if the content has an owner we need to add their ID to an array,
+                    // so we can lookup the users display name in a batch req
+                    if (contentItem["sakai:pool-content-created-for"]) {
+                        userArray.push(contentItem["sakai:pool-content-created-for"]);
+                    }
                 }
+            });
+            // Get displaynames for the users that created content
+            if (userArray.length) {
+                sakai.api.User.getMultipleUsers(userArray, function(users){
+                    $.each(results, function(index, item){
+                        if (item && item['sakai:pooled-content-file-name']) {
+                            var userid = item["sakai:pool-content-created-for"];
+                            var displayName = sakai.api.User.getDisplayName(users[userid]);
+                            item.displayName = displayName;
+                            item.displayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.displayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                        }
+                    });
+                    if ($.isFunction(callback)) {
+                        callback(results);
+                    }
+                });
+            } else if ($.isFunction(callback)) {
+                callback(results);
             }
-            finaljson.sakai = sakai;
-            return finaljson;
         };
         
-        sakai_global.data.search.prepareGroupsForRender = function(results, finaljson){
-            for (var group in results){
-                if (results.hasOwnProperty(group) && results[group]["sakai:group-id"]) {
-                    if (results[group]["sakai:group-title"]) {
-                        results[group]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
+        sakai_global.data.search.prepareGroupsForRender = function(results) {
+            $.each(results, function(i, group){
+                if (group["sakai:group-id"]) {
+                    group.id = group["sakai:group-id"];
+                    if (group["sakai:group-title"]) {
+                        group["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(group["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
                     }
-                    if (results[group]["sakai:group-description"]) {
-                        results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 580, {max_rows: 2,whole_word: false}, "");
-                        results[group]["sakai:group-description-shorter"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 150, {max_rows: 2,whole_word: false}, "");
+                    if (group["sakai:group-description"]) {
+                        group["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(group["sakai:group-description"], 580, {max_rows: 2,whole_word: false});//, "");
+                        group["sakai:group-description-shorter"] = sakai.api.Util.applyThreeDots(group["sakai:group-description"], 150, {max_rows: 2,whole_word: false}); //, "");
                     }
 
                     var groupType = sakai.api.i18n.getValueForKey("OTHER");
-                    if (results[group]["sakai:category"]){
+                    if (group["sakai:category"]){
                         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
-                            if (sakai.config.worldTemplates[c].id === results[group]["sakai:category"]){
+                            if (sakai.config.worldTemplates[c].id === group["sakai:category"]){
                                 groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titleSing);
                             }
                         }
                     }
                     // Modify the tags if there are any
-                    if (results[group]["sakai:tags"]) {
-                        results[group]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(results[group]["sakai:tags"]);
+                    if (group["sakai:tags"]) {
+                        group["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
                     }
-                    results[group].groupType = groupType;
-                    results[group].lastModified = results[group].lastModified;
-                    results[group].picPath = sakai.api.Groups.getProfilePicture(results[group]);
-                    results[group].userMember = false;
-                    if (sakai.api.Groups.isCurrentUserAManager(results[group]["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(results[group]["sakai:group-id"], sakai.data.me)){
-                        results[group].userMember = true;
+                    group.groupType = groupType;
+                    group.lastModified = group.lastModified;
+                    group.picPath = sakai.api.Groups.getProfilePicture(group);
+                    group.userMember = false;
+                    if (sakai.api.Groups.isCurrentUserAManager(group["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(group["sakai:group-id"], sakai.data.me)){
+                        group.userMember = true;
                     }
                     // use large default group icon on search page
-                    if (results[group].picPath === sakai.config.URL.GROUP_DEFAULT_ICON_URL){
-                        results[group].picPathLarge = sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE;
+                    if (group.picPath === sakai.config.URL.GROUP_DEFAULT_ICON_URL){
+                        group.picPathLarge = sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE;
                     }
-
-                    finaljson.items.push(results[group]);
                 }
-            }
-
-            finaljson.sakai = sakai;
-            return finaljson;
+            });
+            return results;
         };
 
-        sakai_global.data.search.preparePeopleForRender = function(results, finaljson) {
-            for (var i = 0, j = results.length; i<j; i++) {
-                var item = results[i];
-                var details = false;
+        sakai_global.data.search.preparePeopleForRender = function(results) {
+            $.each(results, function(i, item){
+                // The My Contacts feed comes back with everything wrapped inside of
+                // a target object
                 if (item.target){
-                    item = results[i].profile;
-                    details = results[i].details;
+                    item = item.profile;
                 }
                 if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
-                    var user = {};
-                    user.userid = item["rep:userId"];
-                    // Parse the user his info.
-                    user.path = item.homePath + "/public/";
-                    var person = item;
-                    user.picture = sakai.api.User.getProfilePicture(person);
-                    user.counts = item.counts;
-                    user.name = sakai.api.User.getDisplayName(item);
-                    user.name = sakai.api.Util.applyThreeDots(user.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                    user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
-                    user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
-
+                    item.id = item["rep:userId"];
+                    item.userid = item["rep:userId"];
+                    item.picture = sakai.api.User.getProfilePicture(item);
+                    item.name = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(item), 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    
                     // use large default user icon on search page
-                    if (user.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
-                        user.pictureLarge = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
+                    if (item.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
+                        item.pictureLarge = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
                     }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
-                        user["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
-                    }
-                    if (item.basic && item.basic.elements && item.basic.elements.description){
-                        user.extra = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 580, {max_rows: 2,whole_word: false}, "");
-                        user.extraGrid = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 200, {max_rows: 2,whole_word: false}, "");
+                        item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                     }
 
-                    user.connected = false;
-                    user.accepted = false;
-                    user.invited = item.invited !== undefined ? item.invited : false;
+                    item.connected = false;
+                    item.accepted = false;
+                    item.invited = item.invited !== undefined ? item.invited : false;
                     // Check if this user is a friend of us already.
                     var connectionState = false;
-                    if (item["sakai:state"]) {
-                        connectionState = item["sakai:state"];
-                    } else if (details && details["sakai:state"]) {
-                        connectionState = details["sakai:state"];
-                    } else if (sakai_global.data.search.contacts && sakai_global.data.search.contacts.results) {
-                        for (var ii = 0, jj = sakai_global.data.search.contacts.results.length; ii<jj; ii++) {
-                            var friend = sakai_global.data.search.contacts.results[ii];
-                            if (friend.target === user.userid) {
-                                connectionState = friend.details["sakai:state"];
-                            }
-                        }
-                    }
-                    if (connectionState) {
-                        user.connected = true;
+                    if (item["sakai:state"] || results[i]["details"]) {
+                        connectionState = item["sakai:state"] || results[i]["details"]["sakai:state"];
+                        item.connected = true;
                         // if invited state set invited to true
                         if(connectionState === "INVITED"){
-                            user.invited = true;
+                            item.invited = true;
                         } else if(connectionState === "PENDING"){
-                            user.pending = true;
+                            item.pending = true;
                         } else if(connectionState === "ACCEPTED"){
-                            user.accepted = true;
+                            item.accepted = true;
                         } else if(connectionState === "NONE"){
-                            user.none = true;
-                            user.connected = false;
+                            //user.none = true;
+                            item.connected = false;
                         }
-                    }
+                    } 
+
                     // Check if the user you found in the list isn't the current
                     // logged in user
-                    if (user.userid === sakai.data.me.user.userid) {
-                        user.isMe = true;
+                    if (item.userid === sakai.data.me.user.userid) {
+                        item.isMe = true;
                     }
-
-                    if (user["sakai:tags"]) {
-                        var filteredTags = [];
-                        for (var t = 0; t < user["sakai:tags"].length; t++) {
-                            if (user["sakai:tags"][t].split("/")[0] !== "directory") {
-                                filteredTags.push(user["sakai:tags"][t]);
-                            }
-                        }
-                        user["sakai:tags"] = filteredTags;
-                    }
-
-                    finaljson.items.push(user);
-
+                    results[i] = item;
                 }
-            }
-            finaljson.sakai = sakai;
-            return finaljson;
+            });
+            return results;
         };
 
         /**
@@ -260,7 +242,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} result Search result containing the tags available
          * @param {Object} params Parameters used in the search
          */
-        sakai_global.data.search.generateTagsRefineBy = function(results, params) {
+        sakai_global.data.search.generateTagsRefineBy = function(data, params) {
+debug.log("sakai_global.data.search.generateTagsRefineBy");
+debug.log(data);
             $("#search_tags_active_container").html("");
             activeTags = [];
             refineTags = [];
@@ -268,9 +252,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var tempActiveTags = [];
 
             // filter tags
-            if (results.facet_fields && results.facet_fields[0] && results.facet_fields[0].tag && results.facet_fields[0].tag.length > 0) {
+            if (data.facet_fields && data.facet_fields[0] && data.facet_fields[0].tag && data.facet_fields[0].tag.length > 0) {
                 // put the tags from the tag cloud service into an array
-                $.each(results.facet_fields[0].tag, function(key, tagOjb) {
+                $.each(data.facet_fields[0].tag, function(key, tagOjb) {
                     $.each(tagOjb, function(tag, count) {
                         tagArray.push(sakai.api.Security.safeOutput(tag));
                     });
@@ -378,6 +362,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(".s3d-search-listview-options").find("div").removeClass("selected");
             $(".search_view_" + view).addClass("selected");
             $(".search_view_" + view).children("div").addClass("selected");
+        });
+
+        $('.searchgroups_result_plus').die("click");
+        $('.searchgroups_result_plus').live("click", function(ev) {
+            var joinable = $(this).data("group-joinable");
+            var groupid = $(this).data("groupid");
+            var itemdiv = $(this);
+            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, false, true, function (success) {
+                if (success) {
+                    if (joinable === "withauth") {
+                        // Don't add green tick yet because they need to be approved.
+                        var notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
+                    } else  { // Everything else should be regular success
+                        $(".searchgroups_memberimage_"+groupid).show();
+                        var notimsg = sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED_TO_GROUP");
+                    }
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
+                        notimsg, sakai.api.Util.notification.type.INFORMATION);
+                    itemdiv.removeClass("s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus");
+                } else {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
+                        sakai.api.i18n.getValueForKey("PROBLEM_ADDING_TO_GROUP"),
+                        sakai.api.Util.notification.type.ERROR);
+                }
+            });
         });
 
         /////////////////////////

@@ -9,8 +9,6 @@
                 <div id="searchgroups_results_faceted" class=""><!--
                     <div id="widget_faceted_${widgetId}" class="widget_inline"></div>
                 --></div>
-                <!-- FACETED WIDGET
-                <div id="widget_faceted_9493020598" class="searchgroups_facted widget_inline"></div>  -->
                 <div class="s3d-search-sortby">
                     __MSG__SORT_BY__: <select id="search_select_sortby">
                         <option value="desc">__MSG__CHANGED_RECENTLY__</option>
@@ -38,94 +36,15 @@
             <div id="results_page1" class="results_container results_container_sub">
                 <!-- CONTENT -->
                 <div class="fl-container results_part">
-                    <div id="result_results_tagged_under" style="display:none;">
-                        <span style="font-weight:normal">__MSG__RESULTS_TAGGED_UNDER__</span>
-                    </div>
-                    <div id="result_results_located_in" style="display:none;">
-                        <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
-                    </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <ul id="searchgroups_results_container" class="s3d-search-results-container">
-                    </ul>
-                    <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
-                    <!-- CONTAINER FOR THE PAGER -->
-                    <div class="jq_pager">
-                        <!-- -->
-                    </div>
+                    <ul id="searchgroups_results_container" class="s3d-search-results-container"></ul>
                 </div>
-                <!-- TEMPLATE CONTAINING THE RESULTS -->
-                <div id="searchgroups_results_template"><!--
-                    {var count = 0}
-                    {for i in items}
-                        {var count = count + 1}
-                        {if i['sakai:group-id']}
-                            {var groupsFound = true}
-                            <li class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result{if count === 1} s3d-search-result-first{/if}">
-                                <span class="s3d-search-result-user-functions">
-                                    <div class="{if !i.userMember && i["sakai:group-joinable"] !== "no"} s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus {/if} searchgroups_result_left_filler" data-group-joinable="${i["sakai:group-joinable"]}" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
-                                    <button title="__MSG__SEND_MESSAGE_TO__ ${i['sakai:group-title']|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']|safeOutput}" sakai-entitytype="group"></button>
-                                </span>
-                                <span class="s3d-search-result-anonuser"></span>
-                                <a href="${i.homePath}" title="${i['sakai:group-title']|safeOutput}">
-                                    {if i.picPath}
-                                        <img src="${i.picPath}" alt="${i['sakai:group-title']|safeOutput}">
-                                    {else}
-                                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="${i['sakai:group-title']|safeOutput}">
-                                    {/if}
-                                    {if i.picPathLarge}
-                                        <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="searchgroups_avatar_large">
-                                    {/if}
-                                </a>
-                                <div class="searchgroups_result_right s3d-search-result-right">
-                                    <div>
-                                        <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                            ${i["sakai:group-title-short"]}
-                                        </a>
-                                        {if i.groupType}
-                                            <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>
-                                        {/if}
-                                    </div>
-                                    <div class="searchgroups_result_usedin">
-                                        __MSG__CHANGED__ ${jQuery.timeago(new Date(i.lastModified))}
-                                        {var contentItemCount = i.counts.contentCount}
-                                        {if contentItemCount > 0}
-                                            <span class="s3d-search-result-detail-separator"><span> | </span></span>
-                                            <a class="s3d-regular-light-links" href="${i.homePath}#l=library">${contentItemCount} {if contentItemCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
-                                        {/if}
-                                        {var participantCount = i.counts.membersCount}
-                                        {if participantCount > 0}
-                                            <span class="s3d-search-result-detail-separator"><span> | </span></span>
-                                            <a id="searchgroups_result_participant_link_${i['sakai:group-id']}" class="s3d-regular-light-links" href="${i.homePath}#l=participants">
-                                                <span id="searchgroups_result_participant_count_${i['sakai:group-id']}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']}">{if participantCount === 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
-                                            </a>
-                                        {/if}
-                                    </div>
-                                    {if i["sakai:group-description-short"]}
-                                        <div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>
-                                        <div class="searchgroups_result_description_grid s3d-search_result-description">${i["sakai:group-description-shorter"]}</div>
-                                    {/if}
-                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
-                                        <div class="searchgroups_result_tags">
-                                            <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
-                                            <p class="searchgroups_result_tags_list">
-                                                {for t in i["sakai:tags"]}
-                                                    {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} 
-                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
-                                                {/for}
-                                            </p>
-                                        </div>
-                                    {/if}
-                                </div>
-                            </li>
-                        {/if}
-                    {/for}
-                    {if !groupsFound}
-                        <li class="s3d-no-results-container">
-                            <div class="s3d-no-results-arrow-up"></div>
-                            <div class="s3d-no-results-icon s3d-no-results-search-world less-margin"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__. {if !sakai.data.me.user.anon} <a href="/create#l=${categoryid}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</h1>
-                        </li>
-                    {/if}
+                <div id="searchgroups_noresults_template"><!--
+                    <li class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        <div class="s3d-no-results-icon s3d-no-results-search-world less-margin"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION__. {if !sakai.data.me.user.anon} <a href="/create#l=${categoryid}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</h1>
+                    </li>
                 --></div>
             </div>
         </div>

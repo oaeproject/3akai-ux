@@ -36,73 +36,39 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var resultsToDisplay = 12;
         var refineBy = "";
 
         // Search URL mapping
         var searchURLmap = {
             allfiles: sakai.config.URL.SEARCH_ALL_FILES,
             allfilesall: sakai.config.URL.SEARCH_ALL_FILES_ALL,
-            mybookmarks: sakai.config.URL.SEARCH_MY_BOOKMARKS,
-            mybookmarksall: sakai.config.URL.SEARCH_MY_BOOKMARKS_ALL,
-            mycontacts: sakai.config.URL.SEARCH_MY_CONTACTS,
-            myfiles: sakai.config.URL.SEARCH_MY_FILES,
-            myfilesall: sakai.config.URL.SEARCH_MY_FILES_ALL,
             pooledcontentmanager: sakai.config.URL.POOLED_CONTENT_MANAGER,
             pooledcontentmanagerall: sakai.config.URL.POOLED_CONTENT_MANAGER_ALL,
             pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER,
             pooledcontentviewerall: sakai.config.URL.POOLED_CONTENT_VIEWER_ALL
         };
 
+        var infinityScroll = false;
+
         // CSS IDs
         var search = "#searchcontent";
-        var rootel = $("#" + tuid);
+        var $rootel = $("#" + tuid);
 
         var searchConfig = {
             search: "#searchcontent",
             global: {
                 resultTemp: search + "_result_temp",
-                resultExceed: search + "_result_exceed",
                 button: search + "_button",
                 text: search + '_text',
                 numberFound: search + '_numberFound',
-                searchTerm: search + "_mysearchterm",
-                tagTerm: search + "_mytagterm",
-                searchBarSelectedClass: "searchcontent_bar_selected",
-                pagerClass: ".jq_pager",
-                matchingLabel: "#searchcontent_result_extended_matching",
                 searchButton: "#form .s3d-search-button"
-            },
-            filters: {
-                filter: search + "_filter",
-                sites: {
-                    filterSites: search + "_filter_my_sites",
-                    filterSitesTemplate: "searchcontent_filter_my_sites_template",
-                    ids: {
-                        entireCommunity: '#searchcontent_filter_community',
-                        allMySites: '#searchcontent_filter_all_my_sites',
-                        specificSite: '#searchcontent_filter_my_sites_'
-                    },
-                    values: {
-                        entireCommunity: 'entire_community',
-                        allMySites: "all_my_sites"
-                    }
-                }
-            },
-            tabs: {
-                all: "#tab_search_all",
-                content: "#tab_search_content",
-                people: "#tab_search_people",
-                sites: "#tab_search_sites",
-                sakai2: "#tab_search_sakai2"
             },
             results: {
                 container: search + '_results_container',
                 resultsContainer: search + '_results',
                 resultsContainerAnonClass: 's3d-search-results-anon',
-                header: search + '_results_header',
-                tagHeader: search + '_results_tag_header',
-                template: 'searchcontent_results_template'
+                template: 'search_general_results_template',
+                noResultsTemplate: 'searchcontent_noresults_template'
             },
             facetedConfig: {
                 title: $("#searchcontent_result_title").html(),
@@ -134,88 +100,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Functions //
         ///////////////
 
-        var pager_click_handler = function(pageclickednumber){
-            $.bbq.pushState({
-                "q": $(searchConfig.global.text).val(),
-                "page": pageclickednumber,
-                "refine": refineBy
-            }, 0);
-        };
-
-        var renderResults = function(results, success){
-            var params = sakai_global.data.search.getQueryParams();
-            var finaljson = {};
-            finaljson.items = [];
-            var fetchUsers = false;
-            var userArray = [];
-            if (success) {
-
-                // Adjust display global total
-                $(searchConfig.global.numberFound, rootel).text("" + results.total);
-
-                // Reset the pager.
-                $(searchConfig.global.pagerClass, rootel).pager({
-                    pagenumber: params["page"],
-                    pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
-                    buttonClickCallback: pager_click_handler
+        /**
+         * Take a list of search results retrieved by the server and process them so they are
+         * ready to be run through the template
+         * @param {Object} results     List of results coming back from the infinite scroll plugin
+         * @param {Object} callback    Callback function from the infinite scroll plugin to call
+         */
+        var renderResults = function(results, callback){
+            // If we have results we add them to the object.
+            if (results && results.length) {
+                sakai_global.data.search.prepareCMforRender(results, function(_results){
+                    callback(_results);
                 });
-
-                // If we have results we add them to the object.
-                if (results && results.results) {
-                    finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
-                    for (var item in finaljson.items) {
-                        if (finaljson.items.hasOwnProperty(item)) {
-                            // if the content has an owner we need to add their ID to an array,
-                            // so we can lookup the users display name in a batch req
-                            if (finaljson.items[item]["sakai:pool-content-created-for"]) {
-                                userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
-                                fetchUsers = true;
-                            }
-                        }
-                    }
-                }
-
-                // if we're searching tags we need to hide the pager since it doesnt work too well
-                if (!results.total) {
-                    results.total = resultsToDisplay;
-                }
-
-                // We hide the pager if we don't have any results or
-                // they are less then the number we should display
-                results.total = Math.abs(results.total);
-                if (results.total > resultsToDisplay) {
-                    $(searchConfig.global.pagerClass, rootel).show();
-                } else {
-                    $(searchConfig.global.pagerClass, rootel).hide();
-                }
-
-                // Generate refine by tags
-                sakai_global.data.search.generateTagsRefineBy(results, params);
-            }
-
-            var updateItemsAndRenderTemplate = function() {
-                // Make the content items available to other widgets
-                sakai_global.searchcontent.content_items = finaljson.items;
-                finaljson.sakai = sakai;
-                // Render the results.
-                $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-            };
-
-            // Get displaynames for the users that created content
-            if (fetchUsers) {
-                sakai.api.User.getMultipleUsers(userArray, function(users){
-                    $.each(finaljson.items, function(index, item){
-                        if (item) {
-                            var userid = item["sakai:pool-content-created-for"];
-                            item.displayName = sakai.api.User.getDisplayName(users[userid]);
-                        }
-                    });
-
-                    updateItemsAndRenderTemplate();
-                });
-            }
-            else {
-                updateItemsAndRenderTemplate();
+            } else {
+                callback(results);
             }
         };
 
@@ -226,21 +124,26 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // Set search box values
             if (!params.q || (params.q === "*" || params.q === "**")) {
                 $(searchConfig.global.text).val("");
-                $(searchConfig.global.matchingLabel).hide();
-            }
-            else {
+            } else {
                 $(searchConfig.global.text).val(params.q);
-                $(searchConfig.global.matchingLabel).show();
             }
             $(searchConfig.global.numberFound).text("0");
-            $(searchConfig.results.header).hide();
-            $(searchConfig.results.tagHeader).hide();
             $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
         };
 
-        var doSearch = function(){
-            $(searchConfig.global.pagerClass).hide();
+        /**
+         * Render the default template when no results are found. This function will
+         * be called by the infinite scroll plugin
+         */
+        var handleEmptyResultList = function(){
+            $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
+        };
 
+        /**
+         * Kick off a search with a specific query and sort option. This function will
+         * initiate an infinite scroll for each search
+         */
+        var doSearch = function(){
             var params = sakai_global.data.search.getQueryParams();
             var searchString = params.q;
             refineBy = "";
@@ -273,14 +176,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             showSearchContent(params);
 
             var url = "";
-            var requestParams = {
-                "page": (params["page"] - 1),
-                "items": resultsToDisplay,
-                "q": urlsearchterm,
-                "sortOn": "_lastModified",
-                "sortOrder": sortBy
-            };
-
             if (urlsearchterm === '**' || urlsearchterm === '*') {
                 url = facetedurlall;
                 $(window).trigger("lhnav.addHashParam", [{"q": "", "cat": ""}]);
@@ -289,18 +184,25 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat}]);
             }
 
-            searchAjaxCall = $.ajax({
-                url: url,
-                data: requestParams,
-                success: function(data){
-                    renderResults(data, true);
-                    $(searchConfig.results.header).show();
-                },
-                error: function(xhr, textStatus, thrownError){
-                    var json = {};
-                    renderResults(json, false);
-                    $(searchConfig.results.header).show();
-                }
+            // Disable the previous infinite scroll
+            if (infinityScroll){
+                infinityScroll.kill();
+            }
+            // Set up the infinite scroll for the list of search results
+            infinityScroll = $(searchConfig.results.container).infinitescroll(url, {
+                "q": urlsearchterm,
+                "sortOn": "_lastModified",
+                "sortOrder": sortBy
+            }, function(items, total){
+                // Adjust display global total
+                $(searchConfig.global.numberFound, $rootel).text("" + total);
+                return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
+                    "items": items,
+                    "sakai": sakai
+                });
+            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, false, function(data){
+                // Generate refine by tags
+                sakai_global.data.search.generateTagsRefineBy(data, params);
             });
         };
 
@@ -313,7 +215,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $.bbq.pushState({
                     "q": $(searchConfig.global.text).val(),
                     "cat": "",
-                    "page": 0,
                     "refine": ""
                 }, 0);
             }
@@ -322,7 +223,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         $(searchConfig.global.searchButton).live("click", function(ev){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
-                "page": 0,
+                "cat": "",
                 "refine": ""
             }, 0);
         });
@@ -331,7 +232,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
                 "cat": "",
-                "page": 0,
                 "refine": ""
             }, 0);
         });
