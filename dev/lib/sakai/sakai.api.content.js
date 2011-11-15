@@ -20,9 +20,10 @@ define(
         "jquery",
         "config/config_custom",
         "sakai/sakai.api.server",
+        "sakai/sakai.api.groups",
         "misc/parseuri"
     ],
-    function($, sakai_conf, sakai_serv) {
+    function($, sakai_conf, sakai_serv, sakai_groups) {
 
     var sakai_content = {
         /**
@@ -352,57 +353,44 @@ define(
         },
 
         /**
-         * Returns true if the user is a viewer for the given content item,
-         * false otherwise.
-         *
-         * @param content  content profile data as defined in loadContentProfile()
-         *   of /dev/javascript/content_profile.js
-         * @param userid   the id of the user to search for
+         * Check whether a user can manage a piece of content, either by being a direct or
+         * indirect (through group membership) manager
+         * @param {Object} content      content profile data as defined in loadContentProfile()
+         * @param {Object} meObj        me object of the user you are checking manager permissions for
+         * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
-        isUserAViewer: function (content, userid) {
-            if (content && userid && content.hasOwnProperty("members") &&
-                content.members.hasOwnProperty("viewers")) {
-                for (var i in content.members.viewers) {
-                    if (content.members.viewers.hasOwnProperty(i)) {
-                        if (userid === content.members.viewers[i].userid || userid === content.members.viewers[i].groupid) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            if (content && userid && content.hasOwnProperty("sakai:pooled-content-viewer")) {
-                for (var ii = 0; ii < content["sakai:pooled-content-viewer"].length; ii++) {
-                    if (userid === content["sakai:pooled-content-viewer"][ii]) {
+        isUserAManager: function(content, meObj, directOnly) {
+            if (content && content["sakai:pooled-content-manager"]) {
+                for (var i = 0; i < content["sakai:pooled-content-manager"].length; i++) {
+                    var authorizable = content["sakai:pooled-content-manager"][i];
+                    // Direct association
+                    if (authorizable === meObj.user.userid) {
+                        return true;
+                    // Indirect association
+                    } else if (!directOnly && sakai_groups.isCurrentUserAMember(authorizable, meObj)) {
                         return true;
                     }
                 }
             }
             return false;
         },
-
 
         /**
-         * Returns true if the user is a manager for the given content item,
-         * false otherwise.
-         *
-         * @param content  content profile data as defined in loadContentProfile()
-         *   of /dev/javascript/content_profile.js
-         * @param userid  the id of the user to search for
+         * Check whether a user is a viewer of a piece of content, either by being a direct or
+         * indirect (through group membership) viewer
+         * @param {Object} content      content profile data as defined in loadContentProfile()
+         * @param {Object} meObj        me object of the user you are checking manager permissions for
+         * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
-        isUserAManager: function (content, userid) {
-            if (content && userid && content.hasOwnProperty("members") &&
-                content.members.hasOwnProperty("managers")) {
-                for (var i in content.members.managers) {
-                    if (content.members.managers.hasOwnProperty(i)) {
-                        if (userid === content.members.managers[i].userid || userid === content.members.managers[i].groupid) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            if (content && userid && content.hasOwnProperty("sakai:pooled-content-manager")) {
-                for (var ii = 0; ii < content["sakai:pooled-content-manager"].length; ii++) {
-                    if (userid === content["sakai:pooled-content-manager"][ii]) {
+        isUserAViewer: function(content, meObj, directOnly) {
+            if (content && content["sakai:pooled-content-viewer"]) {
+                for (var i = 0; i < content["sakai:pooled-content-viewer"].length; i++) {
+                    var authorizable = content["sakai:pooled-content-viewer"][i];
+                    // Direct association
+                    if (authorizable === meObj.user.userid) {
+                        return true;
+                    // Indirect association
+                    } else if (!directOnly && sakai_groups.isCurrentUserAMember(authorizable, meObj)) {
                         return true;
                     }
                 }
@@ -410,14 +398,29 @@ define(
             return false;
         },
 
+        /**
+         * Check whether a given content item lives in a specific content library (either a
+         * personal library or a group library
+         * @param {Object} content    content profile data as defined in loadContentProfile()
+         * @param {Object} userid     authorizable id for which we're checking presence in the library
+         */
         isContentInLibrary: function(content, userid){
-            if (sakai_content.isUserAViewer(content, userid) || sakai_content.isUserAManager(content, userid)) {
-                return true;
-            }
-            return false;
+            var fakeMeObj = {
+                "user": {
+                    "userid": userid
+                }
+            };
+            return sakai_content.isUserAViewer(content, fakeMeObj, true) || sakai_content.isUserAManager(content, fakeMeObj, true);
         },
 
-        addToLibrary: function(contentId, userId, callBack){
+        /**
+         * Shares content with a user and sets permissions for the user.
+         * @param {String} contentId     Unique pool id of the content being added to the library
+         * @param {String} userId 	     Authorizable id of the library to add this content in
+         * @param {Boolean} canManage    Set to true if the user that's being shared with should have managing permissions
+         * @param {Function} callBack 	 Function to call once the content has been added to the library
+         */
+        addToLibrary: function(contentId, userId, canManage, callBack){
             var toAdd = [];
             if (typeof userId === "string"){
                 toAdd.push(userId);
@@ -426,9 +429,19 @@ define(
             }
             var batchRequests = [];
             for (var i = 0; i < toAdd.length; i++){
+                var params = {};
+                if (canManage){
+                    params = {
+                        ":manager": toAdd[i]
+                    }
+                } else {
+                    params = {
+                        ":viewer": toAdd[i]
+                    }
+                }
                 batchRequests.push({
                     url: "/p/" + contentId + ".members.json",
-                    parameters: {":viewer": toAdd[i]},
+                    parameters: params,
                     method: "POST"
                 });
             }
@@ -756,18 +769,12 @@ define(
         /**
          * getNewList: get a new list of content based on newly uploaded or saved content
          *
-         * @param {Array} _data The data that the caller already has
          * @param {String} library The library to get the data for
-         * @param {Number} page The current page desired
-         * @param {Number} perPage The number of results per page
          *
          * @return {Object} the passed-in data combined with the newly shared/uploaded content
          */
-        getNewList : function(_data, library, page, perPage) {
-            var data = $.extend({}, _data),
-                newData = [],
-                newlyAdded = 0;
-
+        getNewList : function(library) {
+            var newData = [];
             if (sakai_global.newaddcontent && sakai_global.newaddcontent.getNewContent) {
                 var newlyUploadedData = sakai_global.newaddcontent.getNewContent(library);
                 $.merge(newData, newlyUploadedData);
@@ -776,26 +783,9 @@ define(
                 var newlySavedData = sakai_global.savecontent.getNewContent(library);
                 $.merge(newData, newlySavedData);
             }
-            // because newData is newer than _data, start after the paging offset
-            // for the newData
-            newData = _.rest(newData, page * perPage);
-            $.each(newData, function(i, elt) {
-                var exists = false;
-                $.each(data.results, function(j, result) {
-                    if (result._path === elt._path) {
-                        exists = true;
-                    }
-                });
-                if (!exists) {
-                    // put the element as the first result
-                    data.results = $.merge([elt], data.results);
-                    newlyAdded++;
-                }
-            });
-            data.results = _.first(data.results, perPage);
-            data.total += newlyAdded;
-            return data;
+            return newData;
         }
+
     };
     return sakai_content;
 });

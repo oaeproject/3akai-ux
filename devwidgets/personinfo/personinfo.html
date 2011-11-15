@@ -61,7 +61,7 @@
                         <span class="personinfo_content_mimetype">${mimeTypeDescription.toUpperCase()}</span>
                     {/if}
                     {var placeCount = sakai.api.Content.getPlaceCount(i)}
-                    <p class="personinfo_content_text">__MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE_LC__{else} __MSG__PLACES_LC__{/if}</p>
+                    <p class="personinfo_content_text">__MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
                     {var commentCount = sakai.api.Content.getCommentCount(i)}
                     <p class="personinfo_content_text">${commentCount}{if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
                     <span class="personinfo_content_plus">

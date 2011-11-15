@@ -9,11 +9,14 @@
         <div id="contentcomments_userProfileAvatar">
             <img id="contentcomments_userProfileAvatarPicture" alt="__MSG__AVATAR__" class="contentcomments_avatar" src="/dev/images/default_profile_picture_64.png" />
         </div>
-        <div class="contentcomments_fillInCommentTopContainer">
-            <textarea id="contentcomments_txtMessage" class="contentcomments_inputFields" cols="10" placeholder="__MSG__ENTER_A_COMMENT__" title="__MSG__ENTER_A_COMMENT__"></textarea>
-            <div class="dialog_buttons contentcomments_dialog_buttons right">
-                <button id="contentcomments_postComment" class="s3d-button s3d-overlay-button comment_postCommentTopBottom">__MSG__COMMENT__</button>
-            </div>
+        <div class="contentcomments_fillInCommentTopContainer s3d-form-field-wrapper">
+            <form>
+                <label style="display:none" for="contentcomments_txtMessage">__MSG__ENTER_A_COMMENT__</label>
+                <textarea id="contentcomments_txtMessage" name="contentcomments_txtMessage" class="required s3d-error-calculate contentcomments_inputFields" cols="10" placeholder="__MSG__ENTER_A_COMMENT__" title="__MSG__ENTER_A_COMMENT__"></textarea>
+                <div class="dialog_buttons contentcomments_dialog_buttons right">
+                    <button id="contentcomments_postComment" type="submit" class="s3d-button s3d-overlay-button comment_postCommentTopBottom">__MSG__COMMENT__</button>
+                </div>
+            </form>
         </div>
     </div>
 

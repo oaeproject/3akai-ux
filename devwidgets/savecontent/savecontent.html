@@ -13,10 +13,8 @@
             <div class="savecontent_inner">
                 <div id="savecontent_container"></div>
             </div>
-            <button class="savecontent_close s3d-link-button s3d-bold" type="button">
-                __MSG__CANCEL__
-            </button>
-            <button type="button" id="savecontent_save" class="s3d-button s3d-overlay-button fl-force-right">__MSG__ADD__</button>
+            <button type="button" id="savecontent_save" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right">__MSG__ADD__</button>
+            <button class="savecontent_close s3d-link-button s3d-bold fl-force-right" type="button">__MSG__CANCEL__</button>
         </div>
     </div>
 </div>
@@ -30,14 +28,14 @@
    {var contentTitle = content["sakai:pooled-content-file-name"]}
     __MSG__YOU_ARE_SAVING_CONTENT_TO__:
     <select name="savecontent_select" id="savecontent_select">
-        {if !sakai.api.Content.isUserAViewer(content, me.user.userid) && !sakai.api.Content.isUserAManager(content, me.user.userid)}
+        {if !sakai.api.Content.isContentInLibrary(content, me.user.userid)}
             <option value="${sakai.data.me.user.userid}">__MSG__MY_LIBRARY__</option>
         {else}
             <option value="${sakai.data.me.user.userid}" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
         {/if}
         {for g in groups.entry}
             {if g["sakai:group-title"]}
-                {if !sakai.api.Content.isUserAViewer(content, g.groupid) && !sakai.api.Content.isUserAManager(content, g.groupid)}
+                {if !sakai.api.Content.isContentInLibrary(content, g.groupid)}
                     <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]|safeOutput}'s Library</option>
                 {else}
                     <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]|safeOutput}'s Library (got it)</option>
