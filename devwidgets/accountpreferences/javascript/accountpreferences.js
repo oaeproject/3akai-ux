@@ -242,12 +242,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          */
         var selectAutoTagging = function(autoTag){
             if (autoTag === "true") {
-                $("#autotagging_on").attr("checked", true);
-                $("#autotagging_off").attr("checked", false);
+                $("input:radio[name=autotagging][value=true]").attr("checked", true);
             }
             if (autoTag === "false") {
-                $("#autotagging_on").attr("checked", false);
-                $("#autotagging_off").attr("checked", true);
+                $("input:radio[name=autotagging][value=false]").attr("checked", false);
             }
         };
 
