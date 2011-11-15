@@ -243,8 +243,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} params Parameters used in the search
          */
         sakai_global.data.search.generateTagsRefineBy = function(data, params) {
-debug.log("sakai_global.data.search.generateTagsRefineBy");
-debug.log(data);
             $("#search_tags_active_container").html("");
             activeTags = [];
             refineTags = [];
