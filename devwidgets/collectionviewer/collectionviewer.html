@@ -1,0 +1,56 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/collectionviewer/css/collectionviewer.css" />
+
+<div class="collectionviewer_widget">
+    <div id="collectionviewer_carousel_container" style="display:none;"></div>
+</div>
+
+<div id="collectionviewer_carousel_template"><!--
+    {macro fillUpList(itemsShort)}
+        ${debug.log(itemsShort)}
+        <li>
+	        <div class="collectionviewer_carousel_no_thumbnail_container"></div>
+	    </li>
+	    {var itemsShort = itemsShort - 1}
+	    {if itemsShort}
+	        ${fillUpList(itemsShort)}
+	    {/if}
+    {/macro}
+
+    {if data.results.length}
+        <div class="collectionviewer_prev_next_container fl-force-right">
+            <div id="collectionviewer_older" class="collectionviewer_controls"></div>
+            <div id="collectionviewer_oldest" class="collectionviewer_controls"></div>
+        </div>
+        <div class="collectionviewer_prev_next_container fl-force-left">
+            <div id="collectionviewer_newer" class="collectionviewer_controls"></div>
+            <div id="collectionviewer_newest" class="collectionviewer_controls"></div>
+        </div>
+    {/if}
+    <div id="collectionviewer_carousel" class="jcarousel-skin-tango s3d-bold">
+        <ul>
+            {for result in data.results}
+                <li>
+                    {var thumbnail = sakai.api.Content.getThumbnail(result)}
+                    <div class="collectionviewer_carousel_thumbnail_container">
+                        {if thumbnail}
+                            <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result["_mimeType"]}" />
+                        {elseif sakai.config.MimeTypes[result["_mimeType"]]}
+                            <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes[result["_mimeType"]].URL}" alt="${result["_mimeType"]}" />
+                        {else}
+                            <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes["other"].URL}" alt="${result["_mimeType"]}" />
+                        {/if}
+                    </div>
+                    <div class="arrow-down" style="display:none;"></div>
+                </li>
+            {/for}
+            {if data.results.length < 12}
+                {var itemsShort = 12 - data.results.length}
+                ${fillUpList(itemsShort)}
+            {/if}
+        </ul>
+    </div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/collectionviewer/javascript/collectionviewer.js"></script>

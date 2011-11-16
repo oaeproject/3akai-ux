@@ -1,0 +1,40 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+.collectionviewer_widget {clear:both;font-size:11px;}
+.collectionviewer_widget #collectionviewer_carousel_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin:10px 0 15px;border-top: 5px solid #E2E2E2;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_controls {width:32px;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_prev_next_bg.png") no-repeat scroll center center transparent;width:32px;height:75px;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container > div {cursor:pointer;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_newer {background:url("/devwidgets/collectionviewer/images/collectionviewer_newer_icon.png") no-repeat scroll center center transparent;height:50px;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_newest {background:url("/devwidgets/collectionviewer/images/collectionviewer_newest_icon.png") no-repeat scroll center center transparent;height:24px;border-top:1px solid #C2C2C2;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_older {background:url("/devwidgets/collectionviewer/images/collectionviewer_older_icon.png") no-repeat scroll center center transparent;height:50px;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_oldest {background:url("/devwidgets/collectionviewer/images/collectionviewer_oldest_icon.png") no-repeat scroll center center transparent;height:24px;border-top:1px solid #C2C2C2;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_newer:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_newer_icon_hover.png") no-repeat scroll center center transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_newest:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_newest_icon_hover.png") no-repeat scroll center center transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_older:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_older_icon_hover.png") no-repeat scroll center center transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_oldest:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_oldest_icon_hover.png") no-repeat scroll center center transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container ul {margin:0;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li {cursor:pointer;display:inline;float:left;height:55px;list-style:none outside none;padding:10px;width:51px;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li div.arrow-down {width:0px;height:0px; border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #9D9C9C;font-size:0px;line-height:0px;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li.selected div.arrow-down {display:inline !important;margin-left:23px;position:absolute;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li.selected .collectionviewer_carousel_thumbnail_container {border:3px solid #9D9C9C;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;margin:-3px 0 0 -3px;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_thumbnail_container,
+.collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_no_thumbnail_container {width:50px;height:50px;background-color:#fff;padding:3px;box-shadow:0 0 4px 0 #999;-moz-box-shadow:0 0 4px 0 #999;-webkit-box-shadow:0 0 4px 0 #999;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_thumbnail_container .collectionviewer_carousel_thumbnail {width:50px;height:50px;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_no_thumbnail_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_carousel_item_bg.png") repeat-x top left transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container .jcarousel-skin-tango{margin:0 31px}
