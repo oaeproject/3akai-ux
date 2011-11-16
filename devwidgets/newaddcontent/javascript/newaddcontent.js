@@ -132,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var newaddcontentAddLinkForm = "#newaddcontent_add_link_form";
         var $newaddcontentAddLinkForm = $("#newaddcontent_add_link_form");
         var newaddcontentExistingContentForm = "#newaddcontent_existing_content_form";
-        var $newaddcontentAddDocumentForm = $("#newaddcontent_add_document_form");
+        var newaddcontentAddDocumentForm = "#newaddcontent_add_document_form";
         var newaddcontentExistingCheckAll = "#newaddcontent_existingitems_list_container_actions_checkall";
 
         var multifileQueueAddAllowed = true;
@@ -1124,6 +1124,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
             $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
+            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).live("keyup",function(){
+                if ($.trim($(this).val()).length > 0){
+                    enableAddToQueue();
+                } else {
+                    disableAddToQueue();
+                }
+            });
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);
@@ -1150,7 +1157,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 error: disableAddToQueue
             };
 
-            sakai.api.Util.Forms.validate($newaddcontentAddDocumentForm, documentValidateOpts, true);
+            sakai.api.Util.Forms.validate($(newaddcontentAddDocumentForm), documentValidateOpts, true);
 
             var dropbox = $("#newaddcontent_container_selecteditems");
 
