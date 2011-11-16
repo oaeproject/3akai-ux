@@ -234,8 +234,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Renders the tag lists
          */
         renderRefineTags = function() {
-            $("#search_tags_active_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags, "sakai": sakai}));
-            $(".search_tags_container").html(sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags, "sakai": sakai}));
+            sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags, "sakai": sakai}, $("#search_tags_active_container"));
+            sakai.api.Util.TemplateRenderer($("#search_tags_template"), {"tags": refineTags, "sakai": sakai}, $(".search_tags_container"));
         };
         /**
          * Generates the tag list to refine the search by
@@ -243,7 +243,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} params Parameters used in the search
          */
         sakai_global.data.search.generateTagsRefineBy = function(data, params) {
-            $("#search_tags_active_container").html("");
+            $("#search_tags_active_container").empty();
             activeTags = [];
             refineTags = [];
             var tagArray = [];
@@ -295,25 +295,23 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ////////////
 
         $(".search_tag_item").die("click").live("click", function(ev){
-            var tag = $(this).attr("sakai-entityid");
+            var tag = $(this).attr("data-sakai-entityid");
             refineTags = $.grep(refineTags, function(value) {
                 return value != tag;
             });
             activeTags.push(tag);
             $.bbq.pushState({
-                "page": "1",
                 "refine": activeTags.toString()
             }, 0);
         });
 
         $(".search_tag_active_item").die("click").live("click", function(ev){
-            var tag = $(this).attr("sakai-entityid");
+            var tag = $(this).attr("data-sakai-entityid");
             activeTags = $.grep(activeTags, function(value) {
                 return value != tag;
             });
             refineTags.push(tag);
             $.bbq.pushState({
-                "page": "1",
                 "refine": activeTags.toString()
             }, 0);
         });
