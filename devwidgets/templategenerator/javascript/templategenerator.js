@@ -278,7 +278,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 templategeneratorData.exportData.structure = structure;
 
                 // Stringify the created javascript object (this creates the actual string and manipulates the escaping)
-                templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, "\t");
+                templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, "    ");
                 templategeneratorData.output = templategeneratorData.output.replace(/\\/g, '');
 
                 // Create a file from the generated string
