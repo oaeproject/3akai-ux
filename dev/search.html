@@ -152,17 +152,27 @@
                     <div class="s3d-search-result-right">
                         <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
                         <div class="searchpeople_result_counts">
-                            <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
-                                ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
-                            </a>
-                            <span class="s3d-search-result-detail-separator"><span> | </span></span>
-                            <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=contacts">
-                                ${i.counts.contactsCount || 0} {if i.counts.contactsCount === 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
-                            </a>
-                            <span class="s3d-search-result-detail-separator"><span> | </span></span>
-                            <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=memberships">
-                                ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
-                            </a>
+                            {if i.counts.contentCount > 0}
+                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
+                                    ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+                                </a>
+                                {if i.counts.contactsCount > 0 || i.counts.membershipsCount > 0}
+                                    <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                {/if}
+                            {/if}
+                            {if i.counts.contactsCount > 0}
+                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=contacts">
+                                    ${i.counts.contactsCount || 0} {if i.counts.contactsCount === 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
+                                </a>
+                                {if i.counts.membershipsCount > 0}
+                                    <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                {/if}
+                            {/if}
+                            {if i.counts.membershipsCount > 0}
+                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=memberships">
+                                    ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount === 1} __MSG__MEMBERSHIP_LC__{else} __MSG__MEMBERSHIPS_LC__{/if}
+                                </a>
+                            {/if}
                         </div>
                         {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                             <div class="searchpeople_result_tags">
