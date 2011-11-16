@@ -247,14 +247,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          *
          */
         var selectAutoTagging = function(autoTag){
-            $("#accountpreferences_section_autotagging_buttons a").removeClass(taggingSelected)
+            $("#accountpreferences_section_autotagging_buttons a").removeClass(taggingSelected);
             if (autoTag === "true") {
-                $("input:radio[name=autotagging][value=true]").attr("checked", true);
-                $("#accountpreferences_section_autotagging_buttons #button_autotagging_true").addClass(taggingSelected)
+                $("input:radio[name='autotagging'][value=true]").attr("checked", "checked");
+                $("#accountpreferences_section_autotagging_buttons #button_autotagging_true").addClass(taggingSelected);
             }
             if (autoTag === "false") {
-                $("input:radio[name=autotagging][value=false]").attr("checked", true);
-                $("#accountpreferences_section_autotagging_buttons #button_autotagging_false").addClass(taggingSelected)
+                $("input:radio[name='autotagging'][value=false]").attr("checked", "checked");
+                $("#accountpreferences_section_autotagging_buttons #button_autotagging_false").addClass(taggingSelected);
             }
         };
 
@@ -264,9 +264,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          */
         var selectSendTagMsg = function(sendTagMsg){
             if (sendTagMsg === "true")
-                $("#tag_msg_info").attr("checked", true);
+                $("#tag_msg_info").attr("checked", "checked");
             else if (sendTagMsg === "false")
-                $("#tag_msg_info").attr("checked", false);
+                $("#tag_msg_info").removeAttr("checked");
         };
 
         /**
@@ -409,7 +409,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         /** Binds all the password boxes (keyup) **/
-        $("input[type=password]", passChangeContainer).keyup(function(e){
+        $("input[type='password']", passChangeContainer).keyup(function(e){
 
             // If we'd use keypress for this then the input fields wouldn't be updated yet
             // check if the user didn't just fill in some spaces
@@ -424,7 +424,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $("#accountpreferences_section_autotagging_buttons a").click(function(e){
-            selectAutoTagging($(this).attr("id").substr(19));
+            selectAutoTagging($(this).attr("data-sakai-autotagging"));
             enableElements($(saveRegional));
             return false;
         })
@@ -438,15 +438,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $(accountPreferencesPreferencesTab).click(function(){
             $(accountPreferencesTabsButtons).removeClass(tabSelected);
             $(accountPreferencesPreferencesTab).addClass(tabSelected);
-            $(passChangeContainer).attr("style", "display:none");
-            $(preferContainer).removeAttr("style");
+            $(passChangeContainer).hide();
+            $(preferContainer).show();
         });
 
         $(accountPasswordTab).click(function(){
             $(accountPreferencesTabsButtons).removeClass(tabSelected);
             $(accountPasswordTab).addClass(tabSelected);
-            $(preferContainer).attr("style", "display:none");
-            $(passChangeContainer).removeAttr("style");
+            $(preferContainer).hide();
+            $(passChangeContainer).show();
         });
 
         $(accountPreferencesCancel).die("click").live("click", function() {
