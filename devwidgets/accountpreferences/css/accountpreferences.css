@@ -21,11 +21,11 @@
 
 /* widget header and tabs */
 .accountpreferences_header{height:39px;border-bottom:1px dotted #d4d4d4;}
-#accountpreferences_title {padding-top:10px;display:inline;vertical-align:top;}
-#accountpreferences_tabs {display:inline;margin-left:50px;}
+#accountpreferences_title{padding-top:10px;display:inline;vertical-align:top;}
+#accountpreferences_tabs{display:inline;margin-left:50px;}
 #accountpreferences_tabs li{list-style:none;display:inline;}
 #accountpreferences_tabs li button{margin-top:10px;padding:0 20px;height:30px;line-height:30px;font-size:12px;cursor:pointer;border:1px solid #e5e5e5;border-bottom:none;background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_bg.png") repeat-x scroll left top transparent;}
-#accountpreferences_tabs button.selected {background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_selected_bg.png") repeat-x scroll left top transparent;}
+#accountpreferences_tabs button.selected{background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_selected_bg.png") repeat-x scroll left top transparent;}
 
 .accountpreferences form h2{margin: 0 0 5px 0;}
 .accountpreferences_section_wrap{float:left;}
@@ -49,5 +49,10 @@
 div.accountpreferences_error{color:#9F3333;font-weight:bold;left:180px;position:relative;top:5px;width:300px;}
 .accountpreferences .s3d-form-field-wrapper span.s3d-error{margin-left:195px;width:330px;margin-right:180px;}
 
-#accountpreferences_section_autotagging_checkbox {display:none;}
-.accountpreferences_autotagging_selected {font-weight:bold;}
+/* preferences autotagging options */
+#accountpreferences_section_autotagging_radio{display:none;}
+#accountpreferences_section_autotagging_buttons{float:left;padding:0;height:25px !important;margin:6px 0 0 5px;}
+#accountpreferences_section_autotagging_buttons:hover{background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;}
+#accountpreferences_section_autotagging_buttons a{text-decoration:none;font-weight:bold;color:#800000;float:left;width:25px;padding:5px 10px;margin:0;}
+#accountpreferences_section_autotagging_buttons a.accountpreferences_autotagging_selected{color:#000000;background:url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;box-shadow:0 0 4px -2px #A8A8A8 inset;}
+#accountpreferences_section_autotagging_notify{margin-top:50px;}
