@@ -52,8 +52,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var accountPreferencesClass = ".accountpreferences";
 
         // Containers
-        var accountPreferencesTab = "#accountpreferences_tab";
-        var accountPasswordTab = "#accountpassword_tab";
+        var accountPreferencesTabsButtons = "#accountpreferences_tabs button";
+        var accountPreferencesPreferencesTab = "#accountpreferences_preferences_tab";
+        var accountPasswordTab = "#accountpreferences_password_tab";
         var accountPreferencesContainer =  "#accountpreferences_container";
         var preferContainer = accountPreferencesID + "_preferContainer";
         var passChangeContainer =  accountPreferencesID + "_changePassContainer";
@@ -72,6 +73,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         // classes
         var buttonDisabled = "s3d-disabled";
+        var tabSelected = "selected";
+        var taggingSelected = "accountpreferences_autotagging_selected";
 
         // messages
         var generalMessageShowTime = 3000;
@@ -119,6 +122,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          * It initializes the accountPreferencesContainer widget and shows the jqmodal (ligthbox)
          */
         var initialize = function(){
+            doInit();
             $(accountPreferencesContainer).jqmShow();
         };
 
@@ -242,11 +246,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          *
          */
         var selectAutoTagging = function(autoTag){
+            $("#accountpreferences_section_autotagging_buttons a").removeClass(taggingSelected)
             if (autoTag === "true") {
                 $("input:radio[name=autotagging][value=true]").attr("checked", true);
+                $("#accountpreferences_section_autotagging_buttons #button_autotagging_true").addClass(taggingSelected)
             }
             if (autoTag === "false") {
-                $("input:radio[name=autotagging][value=false]").attr("checked", false);
+                $("input:radio[name=autotagging][value=false]").attr("checked", true);
+                $("#accountpreferences_section_autotagging_buttons #button_autotagging_false").addClass(taggingSelected)
             }
         };
 
@@ -415,22 +422,32 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         });
 
+        $("#accountpreferences_section_autotagging_buttons a").click(function(e){
+            selectAutoTagging($(this).attr("id").substr(19));
+            enableElements($(saveRegional));
+            return false;
+        })
+
         /** Binds the save regional button **/
         $(saveRegional).click(function(){
             saveRegionalToMe();
             return false;
         });
 
-        $(accountPreferencesTab).click(function(){
+        $(accountPreferencesPreferencesTab).click(function(){
+            $(accountPreferencesTabsButtons).removeClass(tabSelected);
+            $(accountPreferencesPreferencesTab).addClass(tabSelected);
             $(passChangeContainer).attr("style", "display:none");
             $(preferContainer).removeAttr("style");
         });
 
         $(accountPasswordTab).click(function(){
+            $(accountPreferencesTabsButtons).removeClass(tabSelected);
+            $(accountPasswordTab).addClass(tabSelected);
             $(preferContainer).attr("style", "display:none");
             $(passChangeContainer).removeAttr("style");
         });
-        
+
         var updateFooter = function(){
             $("#footer_location").text(me.user.locale.timezone.name);
             for(var i = 0, len = sakai.config.Languages.length; i < len; i++){
@@ -448,6 +465,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var doInit = function(){
             if (!sakai.data.me.user.anon) {
                 // An anonymous user shouldn't have access to this page
+                clearPassFields();
                 disableElements($(saveRegional));
                 selectTimezone(me.user.locale.timezone);
                 selectAutoTagging(me.user.properties.isAutoTagging);
@@ -462,8 +480,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 updateFooter();
             }
         };
-
-        doInit();
 
     };
 
