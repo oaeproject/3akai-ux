@@ -29,6 +29,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     var view = "list";
     var refineTags = [];
     var activeTags = [];
+    var maxTagsDisplayed = 10;
 
     $(window).bind("sakai.search.util.init", function(ev, config){
 
@@ -251,8 +252,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // filter tags
             if (data.facet_fields && data.facet_fields[0] && data.facet_fields[0].tag && data.facet_fields[0].tag.length > 0) {
+                var tempTagArray = data.facet_fields[0].tag;
+                // limit the number of tags to display
+                if (maxTagsDisplayed >= 0){
+                    tempTagArray = data.facet_fields[0].tag.splice(0, maxTagsDisplayed);
+                }
                 // put the tags from the tag cloud service into an array
-                $.each(data.facet_fields[0].tag, function(key, tagOjb) {
+                $.each(tempTagArray, function(key, tagOjb) {
                     $.each(tagOjb, function(tag, count) {
                         tagArray.push(sakai.api.Security.safeOutput(tag));
                     });
