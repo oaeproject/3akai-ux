@@ -332,6 +332,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                     };
                     addContentToQueue(linkObj);
                     $(this).parent().find(newaddcontentAddLinkForm).reset();
+                    $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).val("title");
+                    $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).valid();
+                    $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).val("");
                     break;
 
                 /////////////////////////////
@@ -339,18 +342,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 /////////////////////////////
 
                 case "newaddcontent_add_document_form":
-                    var $documentForm = $(this).prev().children(":visible").find(newAddContentForm);
-                    var documentObj = {
-                        "sakai:pooled-content-file-name": $documentForm.find(newaddcontentAddDocumentTitle).val(),
-                        "sakai:permissions": $documentForm.find(newaddcontentAddDocumentPermissions).val(),
-                        "sakai:description": $documentForm.find(newaddcontentAddDocumentDescription).val(),
-                        "sakai:tags": $documentForm.find(newaddcontentAddDocumentTags).val(),
-                        "sakai:copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
-                        "css_class": "icon-sakaidoc-sprite",
-                        "type": "document"
-                    };
-                    addContentToQueue(documentObj);
-                    $documentForm.reset();
+                    if ($(newaddcontentAddDocumentForm).valid()) {
+                        var $documentForm = $(this).prev().children(":visible").find(newAddContentForm);
+                        var documentObj = {
+                            "sakai:pooled-content-file-name": $documentForm.find(newaddcontentAddDocumentTitle).val(),
+                            "sakai:permissions": $documentForm.find(newaddcontentAddDocumentPermissions).val(),
+                            "sakai:description": $documentForm.find(newaddcontentAddDocumentDescription).val(),
+                            "sakai:tags": $documentForm.find(newaddcontentAddDocumentTags).val(),
+                            "sakai:copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
+                            "css_class": "icon-sakaidoc-sprite",
+                            "type": "document"
+                        };
+                        addContentToQueue(documentObj);
+                        $documentForm.reset();
+                    }
                     break;
 
                 ///////////////////////////////
@@ -1124,13 +1129,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
             $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
-            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).live("keyup",function(){
-                if ($.trim($(this).val()).length > 0){
-                    enableAddToQueue();
-                } else {
-                    disableAddToQueue();
-                }
-            });
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);
@@ -1158,6 +1156,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             };
 
             sakai.api.Util.Forms.validate($(newaddcontentAddDocumentForm), documentValidateOpts, true);
+            // give the validate plugin a kick start
+            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).val("title");
+            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).valid();
+            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).val("");
 
             var dropbox = $("#newaddcontent_container_selecteditems");
 
