@@ -332,9 +332,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                     };
                     addContentToQueue(linkObj);
                     $(this).parent().find(newaddcontentAddLinkForm).reset();
-                    $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).val("title");
-                    $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).valid();
-                    $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).val("");
                     break;
 
                 /////////////////////////////
@@ -1149,17 +1146,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             // I tried $.extend()'ing the previous one, but the callbacks won't fire
             var documentValidateOpts = {
                 onclick: true,
-                onkeyup: true,
+                onkeyup: function(element) { $(element).valid(); },
                 onfocusout: true,
                 success: enableAddToQueue,
                 error: disableAddToQueue
             };
 
             sakai.api.Util.Forms.validate($(newaddcontentAddDocumentForm), documentValidateOpts, true);
-            // give the validate plugin a kick start
-            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).val("title");
-            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).valid();
-            $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).val("");
 
             var dropbox = $("#newaddcontent_container_selecteditems");
 
