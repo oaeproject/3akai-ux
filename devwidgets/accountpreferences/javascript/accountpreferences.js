@@ -70,6 +70,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Buttons
         var saveNewPass = accountPreferencesID + "_saveNewPass";
         var saveRegional = accountPreferencesID + "_submitRegional";
+        var accountPreferencesCancel = ".accountpreferences_cancel";
 
         // classes
         var buttonDisabled = "s3d-disabled";
@@ -446,6 +447,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(accountPasswordTab).addClass(tabSelected);
             $(preferContainer).attr("style", "display:none");
             $(passChangeContainer).removeAttr("style");
+        });
+
+        $(accountPreferencesCancel).die("click").live("click", function() {
+            $(accountPreferencesContainer).jqmHide();
         });
 
         var updateFooter = function(){
