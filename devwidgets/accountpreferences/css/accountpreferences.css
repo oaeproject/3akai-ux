@@ -24,8 +24,8 @@
 #accountpreferences_title{padding-top:10px;display:inline;vertical-align:top;}
 #accountpreferences_tabs{display:inline;margin-left:50px;}
 #accountpreferences_tabs li{list-style:none;display:inline;}
-#accountpreferences_tabs li button{margin-top:10px;padding:0 20px;height:30px;line-height:30px;font-size:12px;cursor:pointer;border:1px solid #e5e5e5;border-bottom:none;background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_bg.png") repeat-x scroll left top transparent;}
-#accountpreferences_tabs button.selected{background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_selected_bg.png") repeat-x scroll left top transparent;}
+#accountpreferences_tabs li button{color:#2683bc;margin-top:10px;padding:0 20px;height:30px;line-height:30px;font-size:12px;cursor:pointer;border:1px solid #dbdbdb;border-bottom:none;border-radius:3px 3px 0 0;-moz-border-radius:3px 3px 0 0;-webkit-border-radius:3px 3px 0 0;background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_bg.png") repeat-x scroll left top transparent;}
+#accountpreferences_tabs button.selected{background:none;background-color:#ffffff;color:#000000;}
 
 .accountpreferences form h2{margin: 0 0 5px 0;}
 .accountpreferences_section_wrap{float:left;}
@@ -51,8 +51,8 @@ div.accountpreferences_error{color:#9F3333;font-weight:bold;left:180px;position:
 
 /* preferences autotagging options */
 #accountpreferences_section_autotagging_radio{display:none;}
-#accountpreferences_section_autotagging_buttons{float:left;padding:0;height:25px !important;margin:6px 0 0 5px;}
-#accountpreferences_section_autotagging_buttons:hover{background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;}
-#accountpreferences_section_autotagging_buttons a{text-decoration:none;font-weight:bold;color:#800000;float:left;width:25px;padding:5px 10px;margin:0;}
-#accountpreferences_section_autotagging_buttons a.accountpreferences_autotagging_selected{color:#000000;background:url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;box-shadow:0 0 4px -2px #A8A8A8 inset;}
+#accountpreferences_section_autotagging_buttons{float:left;padding:0;height:22px;margin:6px 0 0 5px;border-color:#828282;background-color:#828282;}
+#accountpreferences_section_autotagging_buttons:hover{background:none;background-color:#828282;}
+#accountpreferences_section_autotagging_buttons a{text-decoration:none;font-weight:bold;float:left;width:25px;padding:3px 10px;margin:0;background-color:#a3a3a3;box-shadow:0 0 8px -2px #505050 inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
+#accountpreferences_section_autotagging_buttons a.accountpreferences_autotagging_selected{background-color:#FAFAFA;box-shadow:0 0 8px -2px #AAAAAA inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;color:#800000;}
 #accountpreferences_section_autotagging_notify{margin-top:50px;}
