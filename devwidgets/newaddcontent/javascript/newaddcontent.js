@@ -101,6 +101,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var newaddcontentSaveTo = "#newaddcontent_saveto";
         var $newaddcontentUploading = $("#newaddcontent_uploading");
         var newaddcontentAddExistingSearchButton = "#newaddcontent_add_existing_template .s3d-search-button";
+        var newaddcontentSelectedItemsEditDataForm = "#newaddcontent_selecteditems_edit_data_form";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
@@ -439,6 +440,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $newaddcontentSelecteditemsEditDataContainer.show();
             $newaddcontentSelecteditemsEditDataContainer.css("left", $(this).parents("li").position().left + "px");
             $newaddcontentSelecteditemsEditDataContainer.css("top", $(this).parents("li").position().top + 40 + "px");
+
+            var editValidateOpts = {
+                onclick: true,
+                onkeyup: function(element) { $(element).valid(); },
+                onfocusout: true,
+                success: function(){
+                    $(newaddcontentContainerNewItemSaveChanges).removeAttr("disabled");
+                },
+                error: function(){
+                    $(newaddcontentContainerNewItemSaveChanges).attr("disabled","disabled");
+                }
+            };
+
+            sakai.api.Util.Forms.validate($(newaddcontentSelectedItemsEditDataForm), editValidateOpts, true);
         };
 
         /**
