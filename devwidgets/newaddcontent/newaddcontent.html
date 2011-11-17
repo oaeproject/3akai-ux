@@ -160,9 +160,9 @@
     <span style="display:none" id="${i}" class="newaddcontent_selecteditems_edit_index"></span>
     <div id="newaddcontent_selecteditems_edit_data_fields">
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
-        <form class="newaddcontent_form">
+        <form class="newaddcontent_form s3d-form-field-wrapper" id="newaddcontent_selecteditems_edit_data_form">
             <label for="newaddcontent_selecteditems_edit_data_title">__MSG__TITLE__:</label>
-            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item["sakai:pooled-content-file-name"]|safeOutput}"/>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item["sakai:pooled-content-file-name"]|safeOutput}" class="required"/>
             <label for="newaddcontent_selecteditems_edit_data_description">__MSG__DESCRIPTION__:</label>
             <textarea id="newaddcontent_selecteditems_edit_data_description" placeholder="__MSG__EDIT_DESCRIPTION__">${item["sakai:description"]|safeOutput}</textarea>
             <label for="newaddcontent_selecteditems_edit_data_tags">__MSG__TAGS__:</label>

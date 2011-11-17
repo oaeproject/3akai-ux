@@ -123,76 +123,83 @@
 <div id="contacts_accepted_template" style="display:none;"><!--
         {if results && results.length}
             {for a in results}
-                    <li id="${a.id}" data-userid="${a.profile.userid}" class="fl-container fl-fix contacts_item contacts_accepted_items s3d-search-result">
+                    <li id="${a.id}" data-userid="${a.userid}" class="fl-container fl-fix contacts_item contacts_accepted_items s3d-search-result">
                         <div class="contacts_item_left_filler s3d-search-result-user-functions">
                             {if !sakai.data.me.user.anon && sakai_global.profile.main.mode.value !== "view"}
-                                <input type="checkbox" name="checkbox_${a.profile.userid}" class="contacts_select_contact_checkbox" data-userid="${a.profile.userid|safeOutput}" id="contacts_check_${a.profile.userid|safeOutput}" data-username="${sakai.api.User.getDisplayName(a.profile)|safeOutput}"/>
-                                <label for="contacts_check_${a.profile.userid|safeOutput}"  class="s3d-aural-text">__MSG__SELECT__ ${sakai.api.User.getDisplayName(a.profile)|safeOutput}</label>                                
-                                <button title="__MSG__REMOVE_CONTACT__ ${sakai.api.User.getDisplayName(a.profile)}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}"></button>
+                                <input type="checkbox" name="checkbox_${a.userid}" class="contacts_select_contact_checkbox" data-userid="${a.userid|safeOutput}" data-username="${a.name|safeOutput}"/>
+                                <label for="contacts_check_${a.profile.userid|safeOutput}"  class="s3d-aural-text">__MSG__SELECT__ ${sakai.api.User.getDisplayName(a.profile)|safeOutput}</label>
+                                <button title="__MSG__REMOVE_CONTACT__ ${a.name}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.userid}" data-sakai-entityname="${a.name}"></button>
                                 <span class="contacts_gridview_items">
-                                    <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
+                                    <button sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
                                 </span>
                             {elseif !sakai.data.me.user.anon && sakai_global.profile.main.mode.value == "view"}
-                                <input type="checkbox" name="checkbox_${a.profile.userid}" class="contacts_select_contact_checkbox" data-userid="${a.profile.userid|safeOutput}" data-username="${sakai.api.User.getDisplayName(a.profile)|safeOutput}"/>
+                                <input type="checkbox" name="checkbox_${a.userid}" class="contacts_select_contact_checkbox" data-userid="${a.userid|safeOutput}" data-username="${a.name|safeOutput}"/>
                                 {if !a.connected}
-                                    {if sakai.data.me.user.userid !== a.profile.userid}
-                                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" {if a.profile.picture}sakai-entitypicture="${a.profile.picture}"{/if}></button>
+                                    {if sakai.data.me.user.userid !== a.userid}
+                                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${a.userid}" sakai-entityname="${a.name|safeOutput}" {if a.picture}sakai-entitypicture="${a.picture}"{/if}></button>
                                     {/if}
-                                    <div class="left_filler" id="left_filler_${a.profile.userid}" style="display:none;"></div>
+                                    <div class="left_filler" id="left_filler_${a.userid}" style="display:none;"></div>
                                 {else}
                                 ${debug.log(a.connected)}
                                     <div class="left_filler"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
                                 {/if}
                                 {if !sakai.data.me.user.anon }
                                     <span class="contacts_gridview_items">
-                                        <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
+                                        <button sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
                                     </span>
                                 {/if}
                             {/if}
                         </div>
                         {if !sakai.data.me.user.anon }
                             <span class="contacts_listview_items">
-                                <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
+                                <button sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
                             </span>
                         {/if}
-                        <a href="/~${a.profile.userid|safeURL}" title="${a.linkTitle}">
-                            {if a.profile.basic.elements.picture}
-                                <img alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(a.profile)}" src="${sakai.api.Util.constructProfilePicture(a.profile)}">
-                            {elseif}
-                                <img alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(a.profile)}" class="contacts_list_picture" src="${sakai.api.Util.constructProfilePicture(a.profile)}">
-                                <img alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(a.profile)}" class="contacts_grid_picture" style="display:none;" src="/dev/images/default_User_icon_100x100.png">
+                        <a href="/~${a.userid|safeURL}" title="${a.linkTitle}">
+                            <img alt="__MSG__PROFILE_PICTURE_FOR__ ${a.name}" src="${a.picture}">
+                            {if a.pictureLarge}
+                                <img alt="__MSG__PROFILE_PICTURE_FOR__ ${a.name}" src="${a.pictureLarge}" class="s3d-search-result-avatar-large">
                             {/if}
                         </a>
                         <div class="contacts_list s3d-search-result-right">
-                            <a href="/~${a.profile.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${a.linkTitle}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(a.profile), 170, null, "s3d-bold", true)}</a>
+                            <a href="/~${a.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${a.linkTitle}">
+                                <span class="s3d-search-result-name">${a.nameShort|safeOutput}</span>
+                                <span class="s3d-search-result-name-grid">${a.nameShorter|safeOutput}</span>
+                            </a>
                             <div class="contacts_item_counts">
-                                <a class="s3d-regular-light-links" href="/~${a.profile.userid|safeURL}#l=library">
-                                    ${a.profile.counts.contentCount} {if a.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+                                <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=library">
+                                    ${a.counts.contentCount} {if a.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                                 </a>
                                 <span class="contacts_item_detail_separator s3d-search-result-detail-separator"><span>|</span></span>
-                                <a class="s3d-regular-light-links" href="/~${a.profile.userid|safeURL}#l=contacts">
-                                    ${a.profile.counts.contactsCount} {if a.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
+                                <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=contacts">
+                                    ${a.counts.contactsCount} {if a.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
                                 </a>
                                 <span class="contacts_item_detail_separator s3d-search-result-detail-separator"><span>|</span></span>
-                                <a class="s3d-regular-light-links" href="/~${a.profile.userid|safeURL}#l=memberships">
-                                    ${a.profile.counts.membershipsCount} {if a.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
+                                <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=memberships">
+                                    ${a.counts.membershipsCount} {if a.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                                 </a>
                             </div>
-                            {if a.profile.basic.elements && a.profile.basic.elements.description && a.profile.basic.elements.description.value}
-                                <div class="contacts_item_description"><span>${a.profile.basic.elements.description.value}</span></div>
+                            {if a.basic.elements && a.basic.elements.description && a.basic.elements.description.value}
+                                <div class="contacts_item_description"><span>${a.basic.elements.description.value}</span></div>
                             {/if}
-                            {if a.profile["sakai:tags"] && a.profile["sakai:tags"].length > 0}
+                            {if !$.isEmptyObject(a.tagsProcessed)}
                                 <div class="contacts_item_tags">
                                     <span class="contacts_item_icon contacts_item_tags_icon"></span>
                                     <p class="contacts_item_tags_list">
-                                        {for t in a.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}">${t}</a>{/if}{/for}
+                                        {for t in a.tagsProcessed}
+                                            {if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if}
+                                            <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                                <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                                <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                            </a>
+                                        {/for}
                                     </p>
                                 </div>
                             {/if}
                         </div>
                     </li>
-                {/for}
-               {/if}
+            {/for}
+        {/if}
 --></div>
 <div id="contacts_accepted_empty_template"><!--
     {if sakai_global.profile.main.mode.value !== "view"}

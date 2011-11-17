@@ -101,6 +101,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var newaddcontentSaveTo = "#newaddcontent_saveto";
         var $newaddcontentUploading = $("#newaddcontent_uploading");
         var newaddcontentAddExistingSearchButton = "#newaddcontent_add_existing_template .s3d-search-button";
+        var newaddcontentSelectedItemsEditDataForm = "#newaddcontent_selecteditems_edit_data_form";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
@@ -132,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var newaddcontentAddLinkForm = "#newaddcontent_add_link_form";
         var $newaddcontentAddLinkForm = $("#newaddcontent_add_link_form");
         var newaddcontentExistingContentForm = "#newaddcontent_existing_content_form";
-        var $newaddcontentAddDocumentForm = $("#newaddcontent_add_document_form");
+        var newaddcontentAddDocumentForm = "#newaddcontent_add_document_form";
         var newaddcontentExistingCheckAll = "#newaddcontent_existingitems_list_container_actions_checkall";
 
         var multifileQueueAddAllowed = true;
@@ -339,18 +340,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 /////////////////////////////
 
                 case "newaddcontent_add_document_form":
-                    var $documentForm = $(this).prev().children(":visible").find(newAddContentForm);
-                    var documentObj = {
-                        "sakai:pooled-content-file-name": $documentForm.find(newaddcontentAddDocumentTitle).val(),
-                        "sakai:permissions": $documentForm.find(newaddcontentAddDocumentPermissions).val(),
-                        "sakai:description": $documentForm.find(newaddcontentAddDocumentDescription).val(),
-                        "sakai:tags": $documentForm.find(newaddcontentAddDocumentTags).val(),
-                        "sakai:copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
-                        "css_class": "icon-sakaidoc-sprite",
-                        "type": "document"
-                    };
-                    addContentToQueue(documentObj);
-                    $documentForm.reset();
+                    if ($(newaddcontentAddDocumentForm).valid()) {
+                        var $documentForm = $(this).prev().children(":visible").find(newAddContentForm);
+                        var documentObj = {
+                            "sakai:pooled-content-file-name": $documentForm.find(newaddcontentAddDocumentTitle).val(),
+                            "sakai:permissions": $documentForm.find(newaddcontentAddDocumentPermissions).val(),
+                            "sakai:description": $documentForm.find(newaddcontentAddDocumentDescription).val(),
+                            "sakai:tags": $documentForm.find(newaddcontentAddDocumentTags).val(),
+                            "sakai:copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
+                            "css_class": "icon-sakaidoc-sprite",
+                            "type": "document"
+                        };
+                        addContentToQueue(documentObj);
+                        $documentForm.reset();
+                    }
                     break;
 
                 ///////////////////////////////
@@ -437,6 +440,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $newaddcontentSelecteditemsEditDataContainer.show();
             $newaddcontentSelecteditemsEditDataContainer.css("left", $(this).parents("li").position().left + "px");
             $newaddcontentSelecteditemsEditDataContainer.css("top", $(this).parents("li").position().top + 40 + "px");
+
+            var editValidateOpts = {
+                onclick: true,
+                onkeyup: function(element) { $(element).valid(); },
+                onfocusout: true,
+                success: function(){
+                    $(newaddcontentContainerNewItemSaveChanges).removeAttr("disabled");
+                },
+                error: function(){
+                    $(newaddcontentContainerNewItemSaveChanges).attr("disabled","disabled");
+                }
+            };
+
+            sakai.api.Util.Forms.validate($(newaddcontentSelectedItemsEditDataForm), editValidateOpts, true);
         };
 
         /**
@@ -1144,13 +1161,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             // I tried $.extend()'ing the previous one, but the callbacks won't fire
             var documentValidateOpts = {
                 onclick: true,
-                onkeyup: true,
+                onkeyup: function(element) { $(element).valid(); },
                 onfocusout: true,
                 success: enableAddToQueue,
                 error: disableAddToQueue
             };
 
-            sakai.api.Util.Forms.validate($newaddcontentAddDocumentForm, documentValidateOpts, true);
+            sakai.api.Util.Forms.validate($(newaddcontentAddDocumentForm), documentValidateOpts, true);
 
             var dropbox = $("#newaddcontent_container_selecteditems");
 
