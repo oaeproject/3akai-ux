@@ -216,8 +216,10 @@
                      </a>
                  {/if}
             </div>
+            <span class="entity_comments">
+        {else}
+            <span>
         {/if}
-        <span class="entity_comments">
             <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
             {var commentCount = sakai.api.Content.getCommentCount(data.data)}
             <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
