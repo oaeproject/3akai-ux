@@ -424,97 +424,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////////////////////////
 
         /**
-         * Formats a tag list from the server for display in the UI
-         *
-         * @param {Array} tags  an array of tags from the server
-         * @return {Array} an array of tags formatted for the UI
-         */
-        var formatTags = function (tags) {
-            if (!tags) {
-                return null;
-            }
-            var formatted_tags = [];
-            $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
-                formatted_tags.push({
-                    name: name,
-                    link: "search#q=" + sakai.api.Util.safeURL(name)
-                });
-            });
-            return formatted_tags;
-        };
-
-        /**
-         * Determines whether the current user can delete a content object from the
-         * library. This can happen if the user/group that owns the library is either
-         * a direct manager or direct viewer of the item
-         * @param {Object} item    Content item object
-         */
-        var canDeleteContent = function(item){
-            var canDelete = false;
-            if (!mylibrary.isOwnerViewing){
-                return false;
-            }
-            if (item["sakai:pooled-content-viewer"]){
-                for (var v = 0; v < item["sakai:pooled-content-viewer"].length; v++){
-                    if (item["sakai:pooled-content-viewer"][v] === mylibrary.contextId){
-                        canDelete = true;
-                    }
-                }
-            }
-            if (item["sakai:pooled-content-manager"]){
-                for (var m = 0; m < item["sakai:pooled-content-manager"].length; m++){
-                    if (item["sakai:pooled-content-manager"][m] === mylibrary.contextId){
-                        canDelete = true;
-                    }
-                }
-            }
-            return canDelete;
-        };
-
-        /**
          * Process library item results from the server
          */
         var handleLibraryItems = function (results, callback) {
-            var userIds = [];
-            $.each(results, function(index, content){
-                userIds.push(content["sakai:pool-content-created-for"] || content["_lastModifiedBy"]);
+            sakai.api.Content.prepareContentForRender(results, sakai.data.me, function(contentResults){
+                if (contentResults.length > 0){
+                    callback(contentResults);
+                    showHideTopControls(true);
+                    $mylibrary_empty.hide();
+                    $mylibrary_items.show();
+                } else {
+                    callback([]);
+                }
             });
-            if (userIds.length) {
-                sakai.api.User.getMultipleUsers(userIds, function(users){
-                    var currentItems = [];
-                    $.each(results, function(i, result){
-                        var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"]);
-                        currentItems.push({
-                            id: result["_path"],
-                            filename: result["sakai:pooled-content-file-name"],
-                            link: "/content#p=" + sakai.api.Util.safeURL(result["_path"]),
-                            last_updated: $.timeago(new Date(result["_lastModified"])),
-                            type: sakai.api.i18n.getValueForKey(mimetypeObj.description),
-                            type_src: mimetypeObj.URL,
-                            ownerid: result["sakai:pool-content-created-for"],
-                            ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]),
-                            tags: formatTags(result["sakai:tags"]),
-                            numPlaces: sakai.api.Content.getPlaceCount(result),
-                            numComments: sakai.api.Content.getCommentCount(result),
-                            mimeType: result["_mimeType"],
-                            thumbnail: sakai.api.Content.getThumbnail(result),
-                            description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
-                                max_rows: 1,
-                                whole_word: false
-                            }, "searchcontent_result_course_site_excerpt"),
-                            fullResult: result,
-                            canDelete: canDeleteContent(result)
-                        });
-                        mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
-                    });
-                    callback(currentItems);
-                });
-                showHideTopControls(true);
-                $mylibrary_empty.hide();
-                $mylibrary_items.show();
-            } else {
-                callback([]);
-            }
         };
 
         /////////////////////////////
