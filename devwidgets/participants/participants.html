@@ -69,7 +69,7 @@
                 </span>
             </div>
             <label for="${participant.id|safeOutput}_chk">
-                <a href="/~${participant.id|safeOutput}">
+                <a href="/~${participant.id|safeURL}">
                     {if !participant.profilePicture}
                         {if participant.type === "group"}
                             <img class="s3d-list-entity-picture participants_group_pic" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
@@ -85,24 +85,24 @@
                 </a>
             </label>
             <div class="s3d-search-result-right">
-                <a href="/~${participant.id|safeOutput}" title="{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}</a>
+                <a href="/~${participant.id|safeURL}" title="{if participant.type != "group"}${participant.name|safeOutput}{else}${participant.name|safeOutput}{/if}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">{if participant.type != "group"}${participant.name|safeOutput}{else}${participant.name|safeOutput}{/if}</a>
                 <br/>
                 <span class="participants_list_participant_details">${sakai.api.i18n.General.process(participant.title)}</span>
                 <br/>
-                <a href="/~${participant.id|safeOutput}#l=library" class="s3d-regular-light-links participants_list_participant_details">
+                <a href="/~${participant.id|safeURL}#l=library" class="s3d-regular-light-links participants_list_participant_details">
                     ${participant.content} {if participant.content === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                 </a>
                 <span class="participants_list_participant_divider s3d-search-result-detail-separator"><span>|</span></span>
                 {if participant.type === "user"}
-                    <a href="/~${participant.id|safeOutput}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
+                    <a href="/~${participant.id|safeURL}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
                         ${participant.contacts} {if participant.contacts === 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                     </a>
                     <span class="participants_list_participant_divider s3d-search-result-detail-separator"><span>|</span></span>
-                    <a href="/~${participant.id|safeOutput}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
+                    <a href="/~${participant.id|safeURL}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
                         ${participant.memberships} {if participant.memberships === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                     </a>
                 {else}
-                    <a href="/~${participant.id|safeOutput}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
+                    <a href="/~${participant.id|safeURL}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
                         ${participant.membersCount} {if participant.membersCount === 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
                     </a>
                 {/if}

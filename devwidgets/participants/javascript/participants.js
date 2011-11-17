@@ -79,14 +79,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var userArr = [];
             var userIDArr = [];
             $.each($(participantsListParticipantCheckbox + ":checked", rootel), function(index, item){
-                userIDArr.push($(item).data("entityid"));
-                userArr.push($(item).data("entityname"));
+                userIDArr.push($(item).attr("data-entityid"));
+                userArr.push($(item).attr("data-entityname"));
             });
             $participantsSendSelectedMessage.attr("sakai-entitytype", "user");
             $participantsSendSelectedMessage.attr("sakai-entityname", userArr);
             $participantsSendSelectedMessage.attr("sakai-entityid", userIDArr);
-            $participantsAddPeopleButton.data("entityname", userArr);
-            $participantsAddPeopleButton.data("entityid", userIDArr);
+            $participantsAddPeopleButton.attr("data-entityname", userArr);
+            $participantsAddPeopleButton.attr("data-entityid", userIDArr);
             enableDisableButtons();
         };
 
