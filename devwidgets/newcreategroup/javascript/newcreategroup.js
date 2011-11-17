@@ -166,15 +166,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     var checkDefaultContentAdded = function(contentToAdd, count){
-        // If the content to add object is not a Array that means only one ID was given
-        if(!$.isArray(contentToAdd)){
-            return true;
-        } else if (contentToAdd.length - 1 === count){
-            return true;
-        } else {
-            return false;
-        }
-        return true;
+        return !$.isArray(contentToAdd) || contentToAdd.length - 1 === count;
     };
 
     var setDefaultContent = function(groupid){
@@ -189,7 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $newcreategroupCreating.jqmHide();
                     window.location = "/~" + groupid;
                 } else {
-                    count ++;
+                    count++;
                 }
             });
         });

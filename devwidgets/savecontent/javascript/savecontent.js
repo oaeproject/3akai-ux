@@ -98,31 +98,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Gets memberships for all groups you're a member of to be able to match them to the selected groups
-         */
-        var getMemberships = function(){
-            sakai.api.Groups.getMembers(contentObj.memberOfGroups.entry[membershipFetched].groupid, "query", function(success, data){
-                if(success){
-                    contentObj.memberOfGroups.entry[membershipFetched].managers = [];
-                    contentObj.memberOfGroups.entry[membershipFetched].members = [];
-                    $.each(data["__MSG__MANAGER__"].results, function(i, manager){
-                        contentObj.memberOfGroups.entry[membershipFetched].managers.push(manager["rep:userId"] || manager.groupid);
-                    });
-                    $.each(data["__MSG__MEMBER__"].results, function(i, member){
-                        contentObj.memberOfGroups.entry[membershipFetched].members.push(member["rep:userId"] || member.groupid);
-                    });
-                    membershipFetched++;
-                    if(!(membershipFetched >= contentObj.memberOfGroups.entry.length)){
-                        getMemberships();
-                    } else {
-                        selectAlreadyGroupMember();
-                        membershipFetched = 0;
-                    }
-                }
-            });
-        };
-
-        /**
          * toggleSavecontent
          * Displays the widget
          */
@@ -206,7 +181,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $savecontent_save.attr("disabled", "disabled");
                 $.each(contentObj.data, function(i, content){
                     sakai.api.Content.addToLibrary(content.body["_path"], id, false, function(contentId, entityId) {
-                        $(window).trigger("done.newaddcontent.sakai");
                         if (sakai_global.content_profile) {
                             sakai_global.content_profile.content_data.members.viewers.push({
                                 "userid": entityId
@@ -214,6 +188,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                 });
+                $(window).trigger("done.newaddcontent.sakai");
                 var notificationBody = decodeURIComponent($("#savecontent_group_add_library_body").html());
                 notificationBody = notificationBody.replace("${groupid}", sakai.api.Security.safeOutput(id));
                 notificationBody = notificationBody.replace("${grouplibrary}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
@@ -255,8 +230,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(".savecontent_trigger").live("click", function(el){
             clickedEl = $(this);
             contentObj.memberOfGroups = sakai.api.Groups.getMemberships(filterManagedGroups());
-            contentObj.context = $(el.currentTarget).data("entitycontext") || false;
-            var idArr = $(".savecontent_trigger:visible").data("entityid");
+            contentObj.context = $(el.currentTarget).attr("data-entitycontext") || false;
+            var idArr = $(".savecontent_trigger:visible").attr("data-entityid");
             if(idArr.length > 1 && !$.isArray(idArr)){
                 idArr = idArr.split(",");
             }

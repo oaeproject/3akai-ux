@@ -239,12 +239,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var idArr = [];
             var titleArr = [];
             $.each($(".mylibrary_check:checked:visible", $rootel), function(i, checked){
-                idArr.push($(checked).data("entityid"));
-                titleArr.push($(checked).data("entityname"));
+                idArr.push($(checked).attr("data-entityid"));
+                titleArr.push($(checked).attr("data-entityname"));
             });
-            $("#mylibrary_content_share", $rootel).data("entityid", idArr);
-            $("#mylibrary_addpeople_button", $rootel).data("entityid", idArr);
-            $("#mylibrary_addpeople_button", $rootel).data("entityname", titleArr);
+            $("#mylibrary_content_share", $rootel).attr("data-entityid", idArr);
+            $("#mylibrary_addpeople_button", $rootel).attr("data-entityid", idArr);
+            $("#mylibrary_addpeople_button", $rootel).attr("data-entityname", titleArr);
         };
 
         ////////////////////
