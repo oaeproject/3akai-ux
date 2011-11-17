@@ -729,7 +729,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
-            $(topnavUserOptionsLoginForm).submit(function(){
+            var doLogin = function(){
                 $(topnavUserOptionsLoginButtonSigningIn).show();
                 $(topnavUserOptionsLoginButtonCancel).hide();
                 $(topnavuserOptionsLoginButtonLogin).hide();
@@ -748,22 +748,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(topnavUserOptionsLoginButtonSigningIn).hide();
                         $(topnavUserOptionsLoginButtonCancel).show();
                         $(topnavuserOptionsLoginButtonLogin).show();
-                        $(topnavUserOptionsLoginForm).addClass("topnavigation_user_options_login_sign_in_error_margin");
-                        $(topnavUserOptionsLoginError).show();
+                        $(topnavUseroptionsLoginFieldsPassword).val("");
                         $(topnavUseroptionsLoginFieldsUsername).focus();
+                        $(topnavUseroptionsLoginFieldsUsername).addClass("failedloginusername");
+                        $(topnavUseroptionsLoginFieldsPassword).addClass("failedloginpassword");
+                        $(topnavUserOptionsLoginForm).valid();
+                        $(topnavUseroptionsLoginFieldsUsername).removeClass("failedloginusername");
+                        $(topnavUseroptionsLoginFieldsPassword).removeClass("failedloginpassword");
                     }
                 });
+            };
+
+            $.validator.addMethod("failedloginusername", function(value, element){
                 return false;
-            });
-            
-            // Make up for IE8 to submit login on Enter
-            // http://www.thefutureoftheweb.com/blog/submit-a-form-in-ie-with-enter
-            $(topnavUserOptionsLoginForm + " input").keydown(function(e){
-                if (e.keyCode === 13) {
-                    $(this).parents('form').submit();
-                    e.preventDefault();
+            }, sakai.api.i18n.getValueForKey("INVALID_USERNAME_OR_PASSWORD"));
+            $.validator.addMethod("failedloginpassword", function(value, element){
+                return false;
+            }, "");
+            var validateOpts = {
+                submitHandler: function(form){
+                    doLogin();
                 }
-            });
+            };
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($(topnavUserOptionsLoginForm), validateOpts, true);
 
             // Make sure that the sign in dropdown does not disappear after it has
             // been clicked
