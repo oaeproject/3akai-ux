@@ -60,6 +60,11 @@ require(
             }
 
             ok($(elt).attr("title") || hasLabel, "TEXTAREA tag has TITLE attribute or LABEL element: " + $("<div/>").html(elt).html());
+            ok(!$(elt).attr("alt"), "TEXTAREA tag does not have ALT attribute: " + $("<div/>").html(elt).html());
+        });
+
+        $.each($elt.find("input, select"), function(i, elt) {
+            ok(!$(elt).attr("alt"), "INPUT/SELECT tag does not have ALT attribute: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("div"), function(i, elt) {
