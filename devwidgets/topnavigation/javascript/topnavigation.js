@@ -516,6 +516,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 var pos = $openMenu.position();
                 $subnav.css("left", pos.left - 2);
                 $subnav.show();
+
+                if ($openMenu.children(topnavigationExternalLogin).length){
+                    // adjust margin of external login menu to position correctly according to padding and width of menu
+                    var menuPadding = parseInt($openMenu.css("paddingRight").replace("px", ""), 10) +
+                         $openMenu.width() -
+                         parseInt($subnav.css("paddingRight").replace("px", ""), 10) -
+                         parseInt($subnav.css("paddingLeft").replace("px", ""), 10);
+                    var margin = ($subnav.width() - menuPadding) * -1;
+                    $subnav.css("margin-left", margin + "px");
+                }
             };
 
             $(hasSubnav).hover(openMenu, closeMenu);
@@ -679,12 +689,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            $("#subnavigation_logout_link").keydown(function(e) {
-                // if user is signed in and tabs out of user menu, close the sub menu
+            $(".topnavigation_user_dropdown a, .topnavigation_external_login a").keydown(function(e) {
+                // if user is signed in and tabs out of user menu, or the external auth menu, close the sub menu
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     closeMenu();
                 }
             });
+
+            $("#topnavigation_user_options_login_external").click(function(){return false;});
 
             $("#topnavigation_user_options_login_button_login").keydown(function(e) {
                 // if user is not signed in we need to check when they tab out of the login form and close the login menu
@@ -695,17 +707,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            $("#subnavigation_login_list li a").keydown(function(e) {
-                // hide signin or user options menu when tabbing out of the last menu option
-                if (!e.shiftKey && e.which == $.ui.keyCode.TAB && $(this).parents("li").next().length == 0) {
-                    // if user is not signed in we need to check when they tab out of the external auth menu, and close the sub menu
-                    mouseOverSignIn = false;
-                    $(topnavUserLoginButton).trigger("mouseout");
-                    $("html").trigger("click");
-                }
-            });
-
-            $("#topnavigation_user_options_name").keydown(function(e) {
+            $("#topnavigation_user_options_name, #topnavigation_user_options_login_external").keydown(function(e) {
                 // hide signin or user options menu when tabbing out of the last menu option
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     closeMenu();
@@ -799,19 +801,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     $("#navigation_anon_signup_link:focus").blur();
                 }
                 closeMenu();
-                var $menu = $(this);
-                if ($menu.children(topnavigationExternalLogin).length){
-                    // adjust margin of external login menu to position correctly according to padding and width of menu
-                    var $externalAuth = $menu.children(topnavigationExternalLogin);
-                    $externalAuth.find("ul").attr("aria-hidden", "false");
-                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""), 10) +
-                         $menu.width() -
-                         parseInt($externalAuth.css("paddingRight").replace("px", ""), 10) -
-                         parseInt($externalAuth.css("paddingLeft").replace("px", ""), 10);
-
-                    var margin = ($externalAuth.width() - menuPadding) * -1;
-                    $externalAuth.css("margin-left", margin + "px");
-                }
                 $(topnavUserOptionsLoginFields).show();
             },
             function(){
