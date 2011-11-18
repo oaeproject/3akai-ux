@@ -217,7 +217,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }, sakai.config.URL.INFINITE_LOADING_ICON, processParticipants);
         };
 
+        var handleHashChange = function(){
+            $(".s3d-listview-options", rootel).find("div").removeClass("selected");
+            var ls = $.bbq.getState("ls");
+            if (ls === "list"){
+                $("#participants_list_container_list", rootel).removeClass("s3d-search-results-grid");
+                $(participantsShowList, rootel).addClass("selected");
+                $(participantsShowList, rootel).children().addClass("selected");
+            } else if (ls === "grid"){
+                $(participantsShowGrid, rootel).addClass("selected");
+                $(participantsShowGrid, rootel).children().addClass("selected");
+                $("#participants_list_container_list", rootel).addClass("s3d-search-results-grid");
+            }
+        };
+
         var addBinding = function(){
+            $(window).bind("hashchange", function(){
+                handleHashChange();
+            });
+
             $(".participants_widget .s3d-search-button").unbind("click").bind("click", function(){
                 currentPage = 1;
                 loadParticipants();
@@ -251,18 +269,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(participantsShowList, rootel).click(function(){
-                $("#participants_list_container_list", rootel).removeClass("s3d-search-results-grid");
-                $(".s3d-listview-options", rootel).find("div").removeClass("selected");
-                $(this).addClass("selected");
-                $(this).children().addClass("selected");
                 $.bbq.pushState({"ls": "list"});
             });
 
             $(participantsShowGrid, rootel).click(function(){
-                $("#participants_list_container_list", rootel).addClass("s3d-search-results-grid");
-                $(".s3d-listview-options", rootel).find("div").removeClass("selected");
-                $(this).addClass("selected");
-                $(this).children().addClass("selected");
                 $.bbq.pushState({"ls": "grid"});
             });
         };
@@ -270,6 +280,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var init = function(){
             addBinding();
             loadParticipants();
+            handleHashChange();
         };
 
         $(window).bind("usersselected.addpeople.sakai", function(){
