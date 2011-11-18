@@ -129,7 +129,7 @@
                                 <input type="checkbox" name="checkbox_${a.profile.userid}" class="contacts_select_contact_checkbox" data-userid="${a.profile.userid|safeOutput}" data-username="${sakai.api.User.getDisplayName(a.profile)|safeOutput}"/>
                                 <button title="__MSG__REMOVE_CONTACT__ ${sakai.api.User.getDisplayName(a.profile)}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}"></button>
                                 <span class="contacts_gridview_items">
-                                    <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
+                                    <button title="__MSG__SEND_MESSAGE_TO__ ${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
                                 </span>
                             {elseif !sakai.data.me.user.anon && sakai_global.profile.main.mode.value == "view"}
                                 <input type="checkbox" name="checkbox_${a.profile.userid}" class="contacts_select_contact_checkbox" data-userid="${a.profile.userid|safeOutput}" data-username="${sakai.api.User.getDisplayName(a.profile)|safeOutput}"/>
@@ -144,14 +144,14 @@
                                 {/if}
                                 {if !sakai.data.me.user.anon }
                                     <span class="contacts_gridview_items">
-                                        <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
+                                        <button title="__MSG__SEND_MESSAGE_TO__ ${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
                                     </span>
                                 {/if}
                             {/if}
                         </div>
                         {if !sakai.data.me.user.anon }
                             <span class="contacts_listview_items">
-                                <button sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
+                                <button title="__MSG__SEND_MESSAGE_TO__ ${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entitytype="group" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)|safeOutput}" sakai-entityid="${a.profile.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
                             </span>
                         {/if}
                         <a href="/~${a.profile.userid|safeURL}" title="${a.linkTitle}">
