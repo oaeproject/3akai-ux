@@ -16,7 +16,20 @@
  * specific language governing permissions and limitations under the License.
  */
 .collectionviewer_widget {clear:both;font-size:11px;}
-.collectionviewer_widget #collectionviewer_carousel_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin:10px 0 15px;border-top: 5px solid #E2E2E2;}
+.collectionviewer_widget #collectionviewer_expanded_content_container {background-color:#E2E2E2;width:100%;padding:10px 0;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul {margin:0 10px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result {border-bottom:none;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result:hover {border:2px solid #c4d9e1;padding:8px;border-radius:6px;background-color:#e1ecef;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right {margin-left:60px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_item_title {font-size:16px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_result_mimetype {font-size:11px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_result_by {line-height:20px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_download_button {height:21px;line-height:22px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_item_actions {display:none;}
+.collectionviewer_widget #collectionviewer_expanded_content_container:hover .collectionviewer_item_actions {display:inline;}
+
+/* Carousel Specific */
+.collectionviewer_widget #collectionviewer_carousel_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin-top:10px;border-top: 5px solid #E2E2E2;}
 .collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_controls {width:32px;}
 .collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_prev_next_bg.png") no-repeat scroll center center transparent;width:32px;height:75px;}
 .collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container > div {cursor:pointer;}
@@ -37,4 +50,9 @@
 .collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_no_thumbnail_container {width:50px;height:50px;background-color:#fff;padding:3px;box-shadow:0 0 4px 0 #999;-moz-box-shadow:0 0 4px 0 #999;-webkit-box-shadow:0 0 4px 0 #999;}
 .collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_thumbnail_container .collectionviewer_carousel_thumbnail {width:50px;height:50px;}
 .collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_no_thumbnail_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_carousel_item_bg.png") repeat-x top left transparent;}
-.collectionviewer_widget #collectionviewer_carousel_container .jcarousel-skin-tango{margin:0 31px}
+.collectionviewer_widget #collectionviewer_carousel_container .jcarousel-skin-tango{margin:0 31px;}
+/* List Specific */
+
+/* Grid Specific */
+
+/* Blog Specific */

@@ -33,40 +33,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.collectionviewer = function (tuid, showSettings) {
 
+
         /////////////////////////////
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
         var $rootel = $("#" + tuid);
         var listStyle = "carousel";
+        var collectionData = [];
 
         // containers
         var $collectionviewerCarouselContainer = $("#collectionviewer_carousel_container", $rootel);
 
 
+        /////////////////////////
+        // RENDERING FUNCTIONS //
+        /////////////////////////
+
         var carouselBinding = function(carousel){
             $("#collectionviewer_newer", $rootel).live("click",function(){
                 carousel.prev();
             });
-
             $("#collectionviewer_older", $rootel).live("click",function(){
                 if (carousel.last !== carousel.size()){
                     carousel.next();
                 }
             });
-
             $("#collectionviewer_oldest", $rootel).live("click",function(){
                 carousel.scroll(carousel.size() || 0);
             });
-
             $("#collectionviewer_newest", $rootel).live("click",function(){
                 carousel.scroll(0);
             });
+            if(carousel.size()){
+                $(".collectionviewer_carousel_item:first").click();
+            }
         };
 
-        var renderCarousel = function(data){
+        var renderCarousel = function(){
             $collectionviewerCarouselContainer.html(sakai.api.Util.TemplateRenderer("collectionviewer_carousel_template", {
-                "data": data,
+                "data": collectionData,
                 "sakai": sakai
             }));
             $collectionviewerCarouselContainer.show();
@@ -80,6 +86,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        var renderItemsForSelected = function(selectedIndex){
+            var selectedData = collectionData.results[selectedIndex];
+            $("#collectionviewer_expanded_content_container").html(sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
+                data: selectedData,
+                sakai: sakai
+            }));
+        };
+
 
         ///////////////////////
         // UTILITY FUNCTIONS //
@@ -91,8 +105,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var showData = function(data){
             hideContainers();
+            collectionData = data;
             if(listStyle === "carousel"){
-                renderCarousel(data);
+                renderCarousel();
             }
         };
 
@@ -112,7 +127,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         var addBinding = function(){
-            
+            $(".collectionviewer_carousel_item").live("click", function(){
+                $(".collectionviewer_carousel_item").removeClass("selected");
+                $(this).addClass("selected");
+                renderItemsForSelected($(this).data("arr-index"));
+            });
         };
 
         var doInit = function(){
