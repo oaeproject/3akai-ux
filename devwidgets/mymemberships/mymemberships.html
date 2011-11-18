@@ -93,7 +93,7 @@
                     {if isOwnerViewing}
                         <div class="mymemberships_item_left_filler">
                                 <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}"/>
-                                <button title="__MSG__REMOVE_MEMBERSHIP__ ${group.title|safeOutput}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${group.id}" data-sakai-entityname="${group.title|safeOutput}">
+                                <button title="__MSG__REMOVE_MEMBERSHIP__ ${group.title|safeOutput}" type="button" class="mymemberships_leave s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${group.id}" data-sakai-entityname="${group.title|safeOutput}">
                                 </button>
                         </div>
                     {/if}

@@ -569,6 +569,41 @@ define(
             return $.inArray(groupid, meData.user.subjects) !== -1;
         },
 
+
+        /**
+         * Determines whether the current user is allowed to leave the group
+         *
+         * @param groupid {String} id of the group to check
+         * @param {Object} meData the data from sakai.api.User.data.me
+         * @param {Function} callback Function to be called on complete - callback
+         */
+        isAllowedToLeave : function(groupid, meData, callback) {
+            sakaiGroupsAPI.getMembers(groupid,"",function(membersSuccess, memberData){
+                sakaiGroupsAPI.getGroupAuthorizableData(groupid, function(membershipSuccess, membershipData){
+                    var leaveAllowed = false;
+                    if (!sakaiGroupsAPI.isCurrentUserAManager(groupid, meData, membershipData.properties)) {
+                        // Members are always allowed to leave the group, managers should always be present and cannot leave when they are the last one in the group
+                        leaveAllowed = true;
+                    } else {
+                        var roles = $.parseJSON(membershipData.properties["sakai:roles"]);
+                        var numManagers = 0;
+                        $.each(roles, function(index, role){
+                            if (role.allowManage) {
+                                numManagers = numManagers + memberData[role.title].results.length;
+                            }
+                        });
+                        var leaveAllowed = false;
+                        if (numManagers > 1) {
+                            leaveAllowed = true;
+                        }
+                    }
+                    if ($.isFunction(callback)) {
+                        callback(leaveAllowed);
+                    }
+                });
+            }, "everyone");
+        },
+
         /**
          * Creates a join request for the given user for the specified group
          *
