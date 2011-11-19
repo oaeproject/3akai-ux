@@ -70,12 +70,13 @@
 
 /* Right selected items edit popup */
 #newaddcontent_selecteditems_edit_data_container, #newaddcontent_selecteditems_edit_permissions_container {border: 1px solid #999999; position:absolute;z-index:999;background-color:#fff;-moz-box-shadow:0 1px 5px 0;-webkit-box-shadow:0 1px 5px 0 #000;-moz-border-radius:5px;border-radius:5px;min-width:263px}
-#newaddcontent_selecteditems_edit_data_fields, #newaddcontent_selecteditems_edit_permissions_fields{padding:10px;}
+#newaddcontent_selecteditems_edit_data_fields, #newaddcontent_selecteditems_edit_permissions_fields{width:240px;padding:10px;}
 #newaddcontent_selecteditems_edit_data_actions, #newaddcontent_selecteditems_edit_permissions_actions{height:32px;background-color:#E5EAED;border-top:1px solid #A9A9A9;-moz-border-radius: 0 0 5px 5px;border-radius:0 0 5px 5px;padding-bottom:5px;}
 #newaddcontent_selecteditems_edit_data_actions button, #newaddcontent_selecteditems_edit_permissions_actions button {float: right;margin-top: 5px;}
 #newaddcontent_selecteditems_edit_data_fields textarea, #newaddcontent_selecteditems_edit_data_fields input{width:237px;margin:0 0 2px;padding:2px;}
 #newaddcontent_selecteditems_edit_data_fields label, #newaddcontent_selecteditems_edit_permissions_fields label {margin:2px 0 0;}
 #newaddcontent_selecteditems_edit_permissions_container select, #newaddcontent_container_newitem_fields select {border: 1px solid #A9A9A9;height: 20px;}
+#newaddcontent_selecteditems_edit_data_actions {margin-top:26px;}
 
 /* Actions */
 #newaddcontent_container #newaddcontent_container_actions {bottom:-6px;margin:0 19px 20px 0;position:absolute;right:0;}
@@ -120,5 +121,7 @@
 #newaddcontent_uploading .s3d-inset-shadow-container {height:50px;padding-top:30px;}
 #newaddcontent_uploading .s3d-inset-shadow-container img {display:block;height:20px;margin-left:auto;margin-right:auto;width:188px;}
 
-/* Hide errors */
+/* Errors */
+#newaddcontent_selecteditems_edit_data_fields span.s3d-error-after{width:231px;}
+#newaddcontent_selecteditems_edit_data_fields .s3d-form-field-wrapper{position:static!important}
 #newaddcontent_container span.s3d-error{display:none!important;}
