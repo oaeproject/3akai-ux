@@ -212,9 +212,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_livefilter.val(parameters["lq"] || "");
                 $mylibrary_sortby.val(mylibrary.sortOrder);
                 showLibraryContent();
-                if(mylibrary.listStyle === "grid"){
-                    $mylibrary_show_grid.click();
-                }
+            }
+            var ls = $.bbq.getState("ls") || mylibrary.listStyle;
+            $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
+            if (ls === "list"){
+                $("#mylibrary_items", $rootel).removeClass("s3d-search-results-grid");
+                $mylibrary_show_list.addClass("selected");
+                $mylibrary_show_list.children().addClass("selected");
+                mylibrary.listStyle = "list";
+            } else if (ls === "grid"){
+                $("#mylibrary_items", $rootel).addClass("s3d-search-results-grid");
+                $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
+                $mylibrary_show_grid.addClass("selected");
+                $mylibrary_show_grid.children().addClass("selected");
+                mylibrary.listStyle = "grid";
             }
         };
 
@@ -402,21 +413,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("hashchange", handleHashChange);
 
         $mylibrary_show_list.click(function(){
-            $("#mylibrary_items", $rootel).removeClass("s3d-search-results-grid");
-            $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
-            $(this).addClass("selected");
-            $(this).children().addClass("selected");
             $.bbq.pushState({"ls": "list"});
-            mylibrary.listStyle = "list";
         });
 
         $mylibrary_show_grid.click(function(){
-            $("#mylibrary_items", $rootel).addClass("s3d-search-results-grid");
-            $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
-            $(this).addClass("selected");
-            $(this).children().addClass("selected");
             $.bbq.pushState({"ls": "grid"});
-            mylibrary.listStyle = "grid";
         });
 
         ////////////////////////////////////////////
@@ -475,6 +476,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 finishInit(contextName, isGroup);
             }
+
+            handleHashChange();
         };
 
         /**
