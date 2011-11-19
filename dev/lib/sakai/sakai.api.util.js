@@ -1427,6 +1427,9 @@ define(
             // If so, put the rendered template in there
             if (outputElement) {
                 outputElement.html(render);
+                sakai_util.Draggable.setupDraggable();
+                sakai_util.Droppable.setupDroppable();
+
                 // tell MathJax about the updated element
                 //MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElement]);
             }
@@ -2048,8 +2051,80 @@ define(
                 $form.find("*[aria-invalid]").removeAttr("aria-invalid");
                 $form.find("*[aria-describedby]").removeAttr("aria-describedby");
             }
+        },
+        Draggable: {
+            /**
+             * Sets and overrides default parameters for the jQuery Droppable plugin
+             * @param {Object} params Optional parameters that override defaults
+             */
+            setDraggableParameters: function(params){
+                params.revert = params.revert || true;
+                params.revertDuration = params.revertDuration || 500;
+                params.scrollSensitivity = params.scrolSensitivity || 100;
+                params.opacity = params.opacity || 0.5;
+                params.helper = params.helper || "clone";
+                params.cursor = params.cursor || "pointer";
+                params.zindex = params.zindex || 10000;
+                params.stop = params.stop || function(event, ui) {
+                    if($(this).data("stopdragevent")){
+                        $(window).trigger($(this).data("stopdragevent"), ui);
+                    }
+                };
+                params.start = params.start || function(event, ui){
+                    if($(this).data("startdragevent")){
+                        $(window).trigger($(this).data("startdragevent"), ui);
+                    }
+                };
+                return params;
+            },
+            /**
+             * Sets up draggables accross the page
+             * @param {Object} params Optional parameters that override defaults
+             */
+            setupDraggable: function(params){
+                $.each($(".s3d-draggable-container"), function(index, draggable){
+                    if(!$(draggable).hasClass("ui-draggable")){
+                        params = $.extend({}, $(draggable).data());
+                        params = sakai_util.Draggable.setDraggableParameters(params);
+                        $(".s3d-draggable-container").draggable(params);
+                    }
+                });
+            }
+        },
+        Droppable: {
+            /**
+             * Sets and overrides default parameters for the jQuery Draggable plugin
+             * @param {Object} params Optional parameters that override defaults
+             */
+            setDroppableParameters: function(params){
+                params.tolerance = params.tolerance || "touch";
+                params.hoverClass = params.hoverClass || 's3d-droppable-hover';
+                params.drop = params.drop || function(event, ui) {
+                    if($(this).data("dropevent")){
+                        $(window).trigger($(this).data("dropevent"), ui);
+                    }
+                };
+                params.over = params.over || function(event, ui) {
+                    if($(this).data("overdropevent")){
+                        $(window).trigger($(this).data("overdropevent"), ui);
+                    }
+                }
+                return params;
+            },
+            /**
+             * Sets up droppables accross the page
+             * @param {Object} params Optional parameters that override defaults
+             */
+            setupDroppable: function(params){
+                $.each($(".s3d-droppable-container"), function(index, droppable){
+                    if(!$(droppable).hasClass("ui-droppable")){
+                        params = $.extend({}, $(droppable).data());
+                        params = sakai_util.Droppable.setDroppableParameters(params);
+                        $(".s3d-droppable-container").droppable(params);
+                    }
+                });
+            }
         }
-
     };
     
     return sakai_util;
