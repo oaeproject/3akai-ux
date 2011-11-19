@@ -1565,6 +1565,11 @@ define(
                 html4.ATTRIBS["button::entitypicture"] = 0;
                 html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
+                html4.ATTRIBS["a::aria-haspopup"] = 0;
+                html4.ATTRIBS["a::role"] = 0;
+                html4.ATTRIBS["ul::aria-hidden"] = 0;
+                html4.ATTRIBS["ul::role"] = 0;
+
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];

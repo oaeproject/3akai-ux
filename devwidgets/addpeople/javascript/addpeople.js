@@ -489,10 +489,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var dottedname = "";
                         if(result["sakai:group-title"]){
                             name = result["sakai:group-title"];
-                            dottedname = sakai.api.Util.applyThreeDots(name, 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true)
+                            dottedname = sakai.api.Util.applyThreeDots(name, 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true);
                         } else {
                             name = sakai.api.User.getDisplayName(result);
-                            dottedname = sakai.api.Util.applyThreeDots(name, 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true)
+                            dottedname = sakai.api.Util.applyThreeDots(name, 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true);
                         }
                         var userObj = {
                             userid: result.userid || result["sakai:group-id"],
@@ -552,7 +552,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         }
     };
-
     sakai.api.Widgets.widgetLoader.informOnLoad("addpeople");
 
 });
