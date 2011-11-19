@@ -55,6 +55,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $participants_sort_by = $("#participants_sort_by", rootel);
         var participantsShowGrid = $(".s3d-listview-grid", rootel);
         var participantsShowList = $(".s3d-listview-list", rootel);
+        widgetData.listStyle = "list";
+        widgetData.query = "";
+        widgetData.sortby = "asc";
 
 
         ///////////////////////
@@ -192,22 +195,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             // Set up the infinite scroll for the list of items in the library
             infinityScroll = $participantsListContainer.infinitescroll(function(parameters, callback){
-                sakai.api.Groups.searchMembers(widgetData.participants.groupid, parameters.query, parameters.items, parameters.page, parameters.sortBy, parameters.sortOrder, function(success, data){
+                sakai.api.Groups.searchMembers(widgetData.participants.groupid, widgetData.query, parameters.items, parameters.page, parameters.sortBy, parameters.sortOrder, function(success, data){
                     callback(true, data);
                 });
             }, {
-                "query": $.trim($participantsSearchField.val()),
-                "sortBy": "firstName",
-                "sortOrder": $participants_sort_by.val()
+                "query": widgetData.query,
+                "sortBy": "lastName",
+                "sortOrder": widgetData.sortby
             }, function(items, total){
-                // Anonymous users
                 if (sakai.data.me.user.anon){
                     $(".s3d-page-header-top-row", rootel).show();
-                // Logged in users
                 } else {
                     $(".s3d-page-header-top-row", rootel).show();
                     $(".s3d-page-header-bottom-row", rootel).show();
                 }
+                $participantsSelectAll.removeAttr("checked");
+                setSendSelectedMessageAttributes();
                 return sakai.api.Util.TemplateRenderer(participantsListTemplate, {
                     "participants": items,
                     "sakai": sakai
@@ -219,7 +222,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleHashChange = function(){
             $(".s3d-listview-options", rootel).find("div").removeClass("selected");
-            var ls = $.bbq.getState("ls");
+            var ls = $.bbq.getState("ls") || widgetData.listStyle;
             if (ls === "list"){
                 $("#participants_list_container_list", rootel).removeClass("s3d-search-results-grid");
                 $(participantsShowList, rootel).addClass("selected");
@@ -229,6 +232,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(participantsShowGrid, rootel).children().addClass("selected");
                 $("#participants_list_container_list", rootel).addClass("s3d-search-results-grid");
             }
+            widgetData.query = $.bbq.getState("pq") || "";
+            $participantsSearchField.val(widgetData.query);
+            widgetData.sortby = $.bbq.getState("psb") || "asc";
+            $participants_sort_by.val(widgetData.sortby);
+            loadParticipants();
         };
 
         var addBinding = function(){
@@ -238,14 +246,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(".participants_widget .s3d-search-button").unbind("click").bind("click", function(){
                 currentPage = 1;
-                loadParticipants();
+                $.bbq.pushState({"pq": $.trim($participantsSearchField.val())});
             });
             $participantsSearchField.unbind("keyup").bind("keyup", function(ev) {
                 if (ev.keyCode === 13) {
+                    $.bbq.pushState({"pq": $.trim($participantsSearchField.val())});
                     loadParticipants();
                 }
             });
-            $participants_sort_by.unbind("change").bind("change", loadParticipants);
+            $participants_sort_by.unbind("change").bind("change", function(){
+                $.bbq.pushState({"psb": $participants_sort_by.val()});
+            });
             $participantsSelectAll.unbind("click").bind("click", checkAll);
             $(participantsListParticipantCheckbox, rootel).live("click", setSendSelectedMessageAttributes);
 
@@ -279,7 +290,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var init = function(){
             addBinding();
-            loadParticipants();
             handleHashChange();
         };
 
