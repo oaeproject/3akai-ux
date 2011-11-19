@@ -199,7 +199,7 @@
                 <span class="entity_owns_actions_header">__MSG__VISIBILITY__</span>
                 <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
                     <div class="entity_owns_actions_private ew_permissions {if permissions === "private"} selected {/if}" data-permissionvalue="private">
-                        <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             {if permissions === "private"}
                             	<span>__MSG__PRIVATE_SELECTED__</span>
@@ -210,7 +210,7 @@
                         </div>
                     </div>
                     <div class="entity_owns_actions_institution ew_permissions {if permissions === "everyone"} selected {/if}" data-permissionvalue="selected">
-                        <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             {if permissions === "everyone"}
                             	<span>__MSG__EVERYONE_SELECTED__</span>
@@ -221,7 +221,7 @@
                         </div>
                     </div>
                     <div class="entity_owns_actions_public ew_permissions {if permissions === "public"} selected {/if}" data-permissionvalue="public">
-                        <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             {if permissions === "public"}
                                 <span>__MSG__PUBLIC_SELECTED__</span>
@@ -236,14 +236,14 @@
             <div class="entity_owns_actions_container">
                 <span class="entity_owns_actions_header">__MSG__COLLABORATION__</span>
                 <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right">
-                    <div class="s3d-dropdown-list" id="">
+                    <div class="s3d-dropdown-list">
                         <div class="s3d-dropdown-list-arrow-up"></div>
                         <span>__MSG__CREATE_COLLECTION_FROM_PEOPLE_WORKING_ON_THIS__</span>
                     </div>
                 </div>
                 <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
                     <div class="entity_owns_actions_collaborator has_counts ew_permissions">
-                        <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             	<span>
                             	{if data.members.counts.managerusers !== 0}
@@ -272,7 +272,7 @@
                     </div>
                     <span>|</span>
                     <div class="entity_owns_actions_share has_counts ew_permissions">
-                        <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             	<span>Shared with
                             	    {if data.members.counts.viewerusers !== 0}
