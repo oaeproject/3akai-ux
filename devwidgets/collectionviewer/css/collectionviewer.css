@@ -27,6 +27,10 @@
 .collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_download_button {height:21px;line-height:22px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_item_actions {display:none;}
 .collectionviewer_widget #collectionviewer_expanded_content_container:hover .collectionviewer_item_actions {display:inline;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button {float:right;margin-left:10px;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon.png") no-repeat top left transparent;width:21px;height:21px;float:right;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button:hover .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon_hover.png") no-repeat top left transparent;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_count {display:block;float:left;font-size:13px;margin-right:4px;margin-top:4px;}
 
 /* Carousel Specific */
 .collectionviewer_widget #collectionviewer_carousel_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin-top:10px;border-top: 5px solid #E2E2E2;}

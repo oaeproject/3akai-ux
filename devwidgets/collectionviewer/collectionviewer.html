@@ -63,6 +63,10 @@
                 {var path = data["_path"]}
             {/if}
 
+            <button class="s3d-link-button s3d-button collectionviewer_comments_button">
+                <span class="collectionviewer_comments_count">${sakai.api.Content.getCommentCount(data)}</span>
+                <div class="collectionviewer_comments_icon"></div>
+            </button>
             <div class="collectionviewer_item_actions">
                 <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right savecontent_trigger" data-entityid="${data["_path"]}">
                     __MSG__ADD_TO__...
@@ -120,7 +124,6 @@
                    {/if}
                </div>
             </div>
-            
             <hr class="fl-push fl-hidden"/>
         </li>
     </ul>

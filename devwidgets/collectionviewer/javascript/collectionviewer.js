@@ -132,6 +132,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(this).addClass("selected");
                 renderItemsForSelected($(this).data("arr-index"));
             });
+
+            $(".collectionviewer_comments_button").live("click", function(){
+                
+            });
         };
 
         var doInit = function(){
