@@ -127,7 +127,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             } else {
                 $(searchConfig.global.text).val(params.q);
             }
-            $(searchConfig.global.numberFound).text("0");
             $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
         };
 
@@ -136,6 +135,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * be called by the infinite scroll plugin
          */
         var handleEmptyResultList = function(){
+            $(searchConfig.global.numberFound).text("0");
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
         };
 
@@ -178,10 +178,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var url = "";
             if (urlsearchterm === '**' || urlsearchterm === '*') {
                 url = facetedurlall;
-                $(window).trigger("lhnav.addHashParam", [{"q": "", "cat": ""}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": "", "cat": "", "refine": ""}]);
             } else {
                 url = facetedurl.replace(".json", ".infinity.json");
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat, "refine": params.refine}]);
             }
 
             // Disable the previous infinite scroll

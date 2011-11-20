@@ -118,6 +118,7 @@
             // Filter out items that are already in the list
             var filteredresults = [];
             var doAnotherOne = data.results.length > 0;
+            showHideLoadingContainer(false);
             $.each(data.results, function(i, result){
                 if (result.id){
                     // Determine whether this item is already in the list
@@ -138,7 +139,6 @@
                 }
             }
             isDoingExtraSearch = false;
-            showHideLoadingContainer(false);
             // If there are more results and we're still close to the bottom of the page,
             // do another one
             if (doAnotherOne) {

@@ -45,7 +45,7 @@
         <!-- TEMPLATE FOR ACTIVE REFINE BY TAGS -->
         <div id="search_tags_active_template"><!--
             {for t in tags}
-                <span>
+                <span class="s3d-search-tag">
                     <img src=/dev/images/search_tag_active.png" />
                     <button class="search_tag_active_item" data-sakai-entityid="${t}" title="__MSG__REMOVE__ ${t} __MSG__FROM_SEARCH__">
                         ${sakai.api.Util.applyThreeDots(t, 345, null, "")}<img src=/dev/images/search_tag_remove.png" />
@@ -55,16 +55,24 @@
         --></div>
 
         <!-- TEMPLATE FOR REFINE BY TAGS LIST -->
-        <div id="search_tags_template"><!--
+        <div id="search_tags_refine_template"><!--
+            {var tagsListed = false}
             {for t in tags}
                 {if t_index === "0"}
                     <span class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</span>
+                    <div class="s3d-search-refineby-list">
+                    {var tagsListed = true}
                 {/if}
-                <button class="search_tag_item" data-sakai-entityid="${t}" title="__MSG__REFINE_SEARCH_TO__ ${t}">
-                    <img src=/dev/images/search_tag_add.png" />
-                    ${sakai.api.Util.applyThreeDots(t, 345, null, "")}
-                </button>
+                <span class="s3d-search-tag">
+                    <button class="search_tag_refine_item" data-sakai-entityid="${t}" title="__MSG__REFINE_SEARCH_TO__ ${t}">
+                        <img src=/dev/images/search_tag_add.png" />
+                        ${sakai.api.Util.applyThreeDots(t, 345, null, "")}
+                    </button>
+                </span>
             {/for}
+            {if tagsListed === true}
+                </div>
+            {/if}
         --></div>
 
         <!-- HEADER -->
