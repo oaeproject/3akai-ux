@@ -162,7 +162,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         showButton("request");
                     }
                 } else {
-                    sakai.api.Groups.getJoinRequests(joinrequestbuttons.groupid,
+                    var joinGroup = joinrequestbuttons.groupid+"-"+joinrequestbuttons.groupData.groupProfile["sakai:joinRole"];
+                    sakai.api.Groups.getJoinRequests(joinGroup,
                     function (success, data) {
                         if (success) {
                             if (data.results && data.results.length) {
