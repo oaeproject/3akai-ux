@@ -56,7 +56,7 @@
 #contentcomments_mainContainer .contentcomments_message p{padding-bottom:0;margin-bottom:0;}
 .contentcomments_noComments{color:#666;font-style:italic;padding-top:25px;}
 .contentcomments_delete,.contentcomments_undelete{float:right;}
-.contentcomments_comment{padding:0 12px 15px 7px;border-bottom:1px solid #DFDFDF;}
+.contentcomments_comment{padding:0 12px 15px 7px;border-bottom:1px solid #DFDFDF;clear:both;}
 .contentcomments_comment.first{border-bottom:none;}
 .contentcomments_comment.last{border-top:1px solid #DFDFDF;}
 .contentcomments_comment.last .contentcomments_avatar {margin-top: 15px;}
@@ -69,5 +69,6 @@
 .contentcomments_dialog_buttons {float:none;}
 
 #contentcomments_mainContainer .s3d-contentpage-title {text-transform:capitalize;}
-.fl-container-450 #contentcomments_txtMessage {width:83%;}
+.fl-container-450 #contentcomments_txtMessage {width:94%;}
+.fl-container-450 .contentcomments_fillInCommentTopContainer {width:85%}
 .contentcomments_no_results {margin: 30px 10px 10px 10px;}
