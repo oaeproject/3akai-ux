@@ -277,7 +277,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ret = role.roleTitle;
                 }
             });
-            return ret;
+            return sakai.api.i18n.getValueForKey(ret.substr(7, ret.length - 9));
         };
 
         /**
