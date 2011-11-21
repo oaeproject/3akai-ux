@@ -787,6 +787,70 @@ define(
             } else {
                 return true;
             }
+        },
+
+        /**
+         * Function to process search results for users
+         *
+         * @param {Object} results Search results to process
+         * @param {Object} meData User object for the user
+         * @returns {Object} results Processed results
+         */
+        preparePeopleForRender: function(results, meData) {
+            $.each(results, function(i, item){
+                // The My Contacts feed comes back with everything wrapped inside of
+                // a target object
+                if (item.target){
+                    item = item.profile;
+                }
+                if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
+                    item.id = item["rep:userId"];
+                    item.userid = item["rep:userId"];
+                    item.picture = sakaiUserAPI.getProfilePicture(item);
+                    item.name = sakaiUserAPI.getDisplayName(item);
+                    item.nameShort = sakai_util.applyThreeDots(item.name, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    item.nameShorter = sakai_util.applyThreeDots(item.name, 150, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+
+                    // use large default user icon on search page
+                    if (item.picture === sakai_conf.URL.USER_DEFAULT_ICON_URL){
+                        item.pictureLarge = sakai_conf.URL.USER_DEFAULT_ICON_URL_LARGE;
+                    }
+                    if (item["sakai:tags"] && item["sakai:tags"].length > 0){
+                        item.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(item["sakai:tags"]));
+                    } else if (item.basic && item.basic.elements && item.basic.elements["sakai:tags"]) {
+                        item.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(item.basic.elements["sakai:tags"].value));
+                    }
+
+                    item.connected = false;
+                    item.accepted = false;
+                    item.invited = item.invited !== undefined ? item.invited : false;
+                    // Check if this user is a friend of us already.
+                    var connectionState = false;
+                    if (item["sakai:state"] || results[i]["details"]) {
+                        connectionState = item["sakai:state"] || results[i]["details"]["sakai:state"];
+                        item.connected = true;
+                        // if invited state set invited to true
+                        if(connectionState === "INVITED"){
+                            item.invited = true;
+                        } else if(connectionState === "PENDING"){
+                            item.pending = true;
+                        } else if(connectionState === "ACCEPTED"){
+                            item.accepted = true;
+                        } else if(connectionState === "NONE"){
+                            //user.none = true;
+                            item.connected = false;
+                        }
+                    }
+
+                    // Check if the user you found in the list isn't the current
+                    // logged in user
+                    if (item.userid === meData.user.userid) {
+                        item.isMe = true;
+                    }
+                    results[i] = item;
+                }
+            });
+            return results;
         }
 
     };
