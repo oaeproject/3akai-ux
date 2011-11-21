@@ -48,3 +48,4 @@
 .participants_widget .s3d-search-results-grid .s3d-search-result .participants_avatar_large {display:inline !important;}
 .participants_widget .s3d-search-result .participants_group_pic {display:inline;}
 .participants_widget .s3d-search-result .participants_avatar_large {display:none;}
+.participants_widget #participants_select_all {margin:0 6px;}

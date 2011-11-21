@@ -240,9 +240,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var addBinding = function(){
-            $(window).bind("hashchange", function(){
-                handleHashChange();
-            });
+            $(window).bind("hashchanged.participants.sakai", handleHashChange);
 
             $(".participants_widget .s3d-search-button").unbind("click").bind("click", function(){
                 currentPage = 1;
