@@ -2053,29 +2053,71 @@ define(
             }
         },
         Draggable: {
+            getDraggableMessage: function(items){
+                var message = "";
+                if(items > 1){
+                    message = require("sakai/sakai.api.i18n").getValueForKey("MOVING") + " " + items + " " + require("sakai/sakai.api.i18n").getValueForKey("ITEMS_PL");
+                } else {
+                    message = require("sakai/sakai.api.i18n").getValueForKey("MOVING") + " " + items + " " + require("sakai/sakai.api.i18n").getValueForKey("ITEM");
+                }
+                return message;
+            },
+            /*
+             * Gets data from a helper and returns an array
+             */
+            getDraggableData: function(helper){
+                var draggableData = [];
+                if($(helper.children()).length > 1){
+                    $.each(helper.children(), function(i, draggable){
+                        draggableData.push($(draggable).data());
+                    });
+                } else {
+                    draggableData.push(helper.children().data());
+                }
+                return [draggableData];
+            },
             /**
              * Sets and overrides default parameters for the jQuery Droppable plugin
              * @param {Object} params Optional parameters that override defaults
              */
-            setDraggableParameters: function(params){
-                params.revert = params.revert || true;
-                params.revertDuration = params.revertDuration || 500;
-                params.scrollSensitivity = params.scrolSensitivity || 100;
-                params.opacity = params.opacity || 0.5;
-                params.helper = params.helper || "clone";
-                params.cursor = params.cursor || "pointer";
-                params.zindex = params.zindex || 10000;
-                params.stop = params.stop || function(event, ui) {
-                    if($(this).data("stopdragevent")){
-                        $(window).trigger($(this).data("stopdragevent"), ui);
+            setDraggableParameters: function(){
+                return {
+                    revert: true,
+                    revertDuration: 0,
+                    scrollSensitivity: 100,
+                    opacity: 0.5,
+                    helper: "clone",
+                    cursor: "move",
+                    zindex: 10000,
+                    cursorAt: {
+                        top: 10,
+                        left: 5
+                    },
+                    stop: function(event, ui) {
+                        $(".s3d-draggable-draggingitems").remove();
+                        if($(this).data("stopdragevent")){
+                            $(window).trigger($(this).data("stopdragevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        }
+                    },
+                    start: function(event, ui){
+                        $("body").append("<div class='s3d-draggable-draggingitems'>" + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + "</div>");
+                        if($(this).data("startdragevent")){
+                            $(window).trigger($(this).data("startdragevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        }
+                    },
+                    helper: function(){
+                        var selected = $('.s3d-draggable-select:checked').parents('li');
+                        if (selected.length === 0) {
+                          selected = $(this);
+                        }
+                        var container = $('<div/>').attr('id', 's3d-draggeditems-container');
+                        container.append(selected.clone());
+                        return container;
+                    },
+                    drag: function(ev, data){
+                        $(".s3d-draggable-draggingitems").offset({left:data.offset.left - 10,top:data.offset.top - 12});
                     }
                 };
-                params.start = params.start || function(event, ui){
-                    if($(this).data("startdragevent")){
-                        $(window).trigger($(this).data("startdragevent"), ui);
-                    }
-                };
-                return params;
             },
             /**
              * Sets up draggables accross the page
@@ -2084,8 +2126,11 @@ define(
             setupDraggable: function(params){
                 $.each($(".s3d-draggable-container"), function(index, draggable){
                     if(!$(draggable).hasClass("ui-draggable")){
-                        params = $.extend({}, $(draggable).data());
-                        params = sakai_util.Draggable.setDraggableParameters(params);
+                        // HTML overrides default, JS overrides HTML
+                        // Override default parameters with attribute defined parameters
+                        var htmlParams =  $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
+                        // Override attribute defined parameters with JS defined ones
+                        params = $.extend(true, htmlParams, params);
                         $(".s3d-draggable-container").draggable(params);
                     }
                 });
@@ -2096,20 +2141,22 @@ define(
              * Sets and overrides default parameters for the jQuery Draggable plugin
              * @param {Object} params Optional parameters that override defaults
              */
-            setDroppableParameters: function(params){
-                params.tolerance = params.tolerance || "touch";
-                params.hoverClass = params.hoverClass || 's3d-droppable-hover';
-                params.drop = params.drop || function(event, ui) {
-                    if($(this).data("dropevent")){
-                        $(window).trigger($(this).data("dropevent"), ui);
-                    }
-                };
-                params.over = params.over || function(event, ui) {
-                    if($(this).data("overdropevent")){
-                        $(window).trigger($(this).data("overdropevent"), ui);
+            setDroppableParameters: function(){
+                return {
+                    tolerance: "touch",
+                    hoverClass: "s3d-droppable-hover",
+                    drop: function(event, ui) {
+                        $(".s3d-draggable-draggingitems").remove();
+                        if($(this).data("dropevent")){
+                            $(window).trigger($(this).data("dropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        }
+                    },
+                    over: function(event, ui) {
+                        if($(this).data("overdropevent")){
+                            $(window).trigger($(this).data("overdropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        }
                     }
                 }
-                return params;
             },
             /**
              * Sets up droppables accross the page
@@ -2118,8 +2165,11 @@ define(
             setupDroppable: function(params){
                 $.each($(".s3d-droppable-container"), function(index, droppable){
                     if(!$(droppable).hasClass("ui-droppable")){
-                        params = $.extend({}, $(droppable).data());
-                        params = sakai_util.Droppable.setDroppableParameters(params);
+                        // HTML overrides default, JS overrides HTML
+                        // Override default parameters with attribute defined parameters
+                        var htmlParams =  $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
+                        // Override attribute defined parameters with JS defined ones
+                        params = $.extend(true, htmlParams, params);
                         $(".s3d-droppable-container").droppable(params);
                     }
                 });
