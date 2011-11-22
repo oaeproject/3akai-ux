@@ -26,9 +26,179 @@ define(
         "sakai/sakai.api.user",
         "misc/parseuri"
     ],
-    function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_user) {
+    function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_l10n, sakai_user) {
 
     var sakai_content = {
+        parseFullProfile: function(data, callback){
+            var parsedData = [];
+            var tempItem = {};
+
+            $.each(data, function(i, dataItem){
+                // results for poolid.infinity.json
+                if(dataItem.url.indexOf(".infinity.json") > -1){
+                    tempItem = {};
+                    tempItem.data = $.parseJSON(dataItem.body);
+                } else if(dataItem.url.indexOf(".members.json") > -1){
+                    // results for members.json
+                    var contentMembers = $.parseJSON(dataItem.body);
+                    contentMembers.viewers = contentMembers.viewers || {};
+                    $.each(contentMembers.viewers, function(index, resultObject) {
+                        if (contentMembers.viewers[index].hasOwnProperty("basic") &&
+                            contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
+                            contentMembers.viewers[index].basic.elements.hasOwnProperty("picture") &&
+                            contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
+                                contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
+                        }
+                        if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
+                            contentMembers.viewers[index].pseudoGroup = true;
+                            contentMembers.viewers[index].parent = {};
+                            var groupid = contentMembers.viewers[index].groupid;
+                            contentMembers.viewers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
+                            var grouptitle = contentMembers.viewers[index]["sakai:group-title"];
+                            contentMembers.viewers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
+                            contentMembers.viewers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
+                        }
+                    });
+                    contentMembers.managers = contentMembers.managers || {};
+                    $.each(contentMembers.managers, function(index, resultObject) {
+                        if (contentMembers.managers[index].hasOwnProperty("basic") &&
+                            contentMembers.managers[index].basic.hasOwnProperty("elements") &&
+                            contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
+                            contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
+                                contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
+                        }
+                        if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
+                            contentMembers.managers[index].pseudoGroup = true;
+                            contentMembers.managers[index].parent = {};
+                            var groupid = contentMembers.managers[index].groupid;
+                            contentMembers.managers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
+                            var grouptitle = contentMembers.managers[index]["sakai:group-title"];
+                            contentMembers.managers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
+                            contentMembers.managers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
+                        }
+                    });
+
+                    // filter out the the everyone group and the anonymous user
+                    contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
+                        if (resultObject['sakai:group-id'] !== 'everyone' &&
+                            resultObject['rep:userId'] !== 'anonymous') {
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    contentMembers.counts = { people: 0, groups: 0};
+                    $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
+                        if (member.hasOwnProperty("userid")) {
+                            contentMembers.counts.people++;
+                        } else {
+                            contentMembers.counts.groups++;
+                        }
+                    });
+
+                    tempItem.members = contentMembers;
+                } else if(dataItem.url.indexOf(".versions.json") > -1){
+                    // results for versions.json
+                    var versionInfo =$.parseJSON(dataItem.body);
+                    var versions = [];
+                    for (var i in versionInfo.versions) {
+                        if(versionInfo.versions.hasOwnProperty(i)){
+                            var splitDate = versionInfo.versions[i]["_created"];
+                            versionInfo.versions[i]["_created"] = require("sakai/sakai.api.l10n").transformDate(new Date(splitDate));
+                            versions.push(versionInfo.versions[i]);
+                        }
+                    }
+                    versionInfo.versions = versions.reverse();
+                    tempItem.versions = versionInfo;
+                }else if (dataItem.url.indexOf("activityfeed.json") > -1){
+                    // results for activity.json
+                    tempItem.activity = $.parseJSON(dataItem.body);
+
+                    // Add in some extra data
+                    // Is current user manager/viewer
+                    tempItem.isManager = sakai_content.isUserAManager(tempItem.data, require("sakai/sakai.api.user").data.me);
+                    tempItem.isViewer = sakai_content.isUserAViewer(tempItem.data, require("sakai/sakai.api.user").data.me);
+
+                    // Directory location
+                    tempItem.saveddirectory = [];
+                    if (tempItem.data && tempItem.data['sakai:tags']) {
+                        tempItem.saveddirectory = sakai_util.getDirectoryTags(tempItem.data["sakai:tags"].toString());
+                    }
+
+                    var mimeType = sakai_content.getMimeType(tempItem.data);
+                    tempItem.data.mimeType = mimeType;
+                    if (sakai_conf.MimeTypes[mimeType]) {
+                        tempItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
+                    } else {
+                        tempItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
+                    }
+
+                    tempItem.content_path = "/p/" + tempItem.data._path;
+                    tempItem.smallPath = "/p/" + tempItem.data._path;
+                    tempItem.url = sakai_conf.SakaiDomain + "/p/" + tempItem.data._path + "/" + sakai_util.safeURL(tempItem.data["sakai:pooled-content-file-name"]);
+                    tempItem.path = "/p/" + tempItem.data._path + "/" + sakai_util.safeURL(tempItem.data["sakai:pooled-content-file-name"]);
+
+                    // All data gathered
+                    parsedData.push(tempItem);
+                }
+            });
+
+            if($.isFunction(callback)){
+                callback(parsedData);
+            } else {
+                return parsedData;
+            }
+        },
+        loadFullProfile: function(idArray, callback){
+            var batchRequests = [];
+            $.each(idArray, function(i, poolid){
+                batchRequests.push({
+                        "url": poolid + ".infinity.json",
+                        "method":"GET",
+                        "cache":false,
+                        "dataType":"json"
+                    },
+                    {
+                        "url": poolid + ".members.json",
+                        "method":"GET",
+                        "cache":false,
+                        "dataType":"json"
+                    },
+                    {
+                        "url": poolid + ".versions.json",
+                        "method":"GET",
+                        "cache":false,
+                        "dataType":"json"
+                    },
+                    {
+                        "url": sakai_conf.URL.POOLED_CONTENT_ACTIVITY_FEED,
+                        "method":"GET",
+                        "cache":false,
+                        "dataType":"json",
+                        "parameters":{
+                            "p":poolid,
+                            "items":"1000"
+                        }
+                    }
+                );
+            });
+
+            sakai_serv.batch(batchRequests, function(success, data) {
+                if (success) {
+                    if($.isFunction(callback)){
+                        callback(success, data);
+                    } else {
+                        return data;
+                    }
+                } else {
+                    if($.isFunction(callback)){
+                        callback(success);
+                    } else {
+                        return success;
+                    }
+                }
+            });
+        },
         /**
          * Set the permissions for an array of uploaded files or links
          * @param {String} permissionValue either 'public', 'everyone', 'group' or 'private'
