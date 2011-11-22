@@ -30,13 +30,14 @@ define(
         "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
+        "sakai/sakai.api.i18n",
         "config/config_custom",
         "misc/trimpath.template",
         "misc/underscore",
         "jquery-plugins/jquery.ba-bbq",
         "jquery-plugins/jquery.validate"
     ],
-    function($, sakai_serv, sakai_l10n, sakai_conf) {
+    function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_conf) {
 
     var sakai_util = {
 
@@ -1324,6 +1325,85 @@ define(
          */
         templateCache : [],
 
+        macroCache : { macros: {}},
+        
+        trimpathModifiers : {
+            safeURL: function(str) {
+                return sakai_util.safeURL(str);
+            },
+            escapeHTML: function(str) {
+                return sakai_util.Security.escapeHTML(str);
+            },
+            saneHTML: function(str) {
+                return sakai_util.Security.saneHTML(str);
+            },
+            safeOutput: function(str) {
+                return sakai_util.Security.safeOutput(str);
+            }
+        },
+
+        /**
+          * Process trimpath macros in html file at url, which will then be available 
+          * with the macro function inside regular rendering. The optional asyncreq option allows
+          * the request to be syncronous, which would mostly be for on-demand loading (because
+          * that is happening during rendering and it needs the template to continue. )
+          * @function
+          * @param {String} url with macros to load
+          * @param {Boolean} Optional parameter to distinguish whether the loading should happen
+          * syncronously. Default is true (async)
+          */
+        processMacros : function (url, asyncreq) {
+            var asyncsetting = true;
+            if (asyncreq === false) {
+                asyncsetting = asyncreq;
+            }
+            var mc = this.macroCache;
+            $.ajax({url: url, 
+                async: asyncsetting, // Sometimes we need to immediately return this value for on-demand loading.
+                success: function(data) { 
+                  mc._MODIFIERS = sakai_util.trimpathModifiers; 
+                  sakai_i18n.General.process(data).process(mc);
+                }
+            });
+        },
+
+        /**
+          * While the processMacros function allows a way to make macros that can
+          * be shared and discovered between widgets automatically, this function
+          * allows for a simpler use case where a widget developer may just want some
+          * macros for their specific widget. In this case they can put all their
+          * macros in a template element ( similar to regular template elements),
+          * and then get a macro set back that can be used in between the rest of
+          * the templates they have defined in their page. 
+          *
+          * @param {String|jQuery} Raw String or jQuery element containing the 
+          * text of the macro definitions.
+          * @return An object containing the macro functions. This can be added to the
+          * context of subsequent TemplateRenderers and called like regular trimpath
+          * macros.
+          */
+        processLocalMacros : function(templateElement) {
+            var templateStr = "";
+            if (templateElement instanceof jQuery){
+                if (templateElement.get(0)) {   
+                    var firstNode = templateElement.get(0).firstChild;
+                    if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
+                        templateStr = firstNode.data.toString();
+                    }
+                    else {
+                        templateStr = templateElement.get(0).innerHTML.toString();
+                    }
+                }
+            }
+            else if (typeof templateElement === "string") {
+                templateStr = templateElement;
+            }
+            var contextdata = { macros: {} };
+            contextdata._MODIFIERS = sakai_util.trimpathModifiers;
+            sakai_i18n.General.process(templateStr).process(contextdata);
+            return contextdata.macros;
+        },
+
         /**
         * Trimpath Template Renderer: Renders the template with the given JSON object, inserts it into a certain HTML
         * element if required, and returns the rendered HTML string
@@ -1390,21 +1470,27 @@ define(
             if (templateData._MODIFIERS) {
                 debug.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
             }
-            templateData._MODIFIERS = {
-                safeURL: function(str) {
-                    return sakai_util.safeURL(str);
-                },
-                escapeHTML: function(str) {
-                    return sakai_util.Security.escapeHTML(str);
-                },
-                saneHTML: function(str) {
-                    return sakai_util.Security.saneHTML(str);
-                },
-                safeOutput: function(str) {
-                    return sakai_util.Security.safeOutput(str);
-                },
-                saneHTMLAttribute: function(str) {
-                    return sakai_util.saneHTMLAttribute(str);
+            templateData._MODIFIERS = sakai_util.trimpathModifiers;
+            if (templateData.macro) {
+                debug.error("Someone has passed data to sakai.api.util.TemplateRenderer with macro()");
+            }
+            templateData.macro = function() {
+                var macroname = arguments[0];
+                var args = []; 
+                for (var i = 1; i < arguments.length; i++) {
+                    args.push(arguments[i]);
+                }
+                if (!sakai_util.macroCache.macros[macroname]) {
+                    var dot = macroname.lastIndexOf('.');
+                    if (dot > -1) { 
+                        sakai_util.processMacros('/dev/macros/'+macroname.slice(0,dot)+'.html',false);
+                        if (sakai_util.macroCache.macros[macroname]) {
+                            return sakai_util.macroCache.macros[macroname].apply(this, args);
+                        }
+                    }
+                }
+                else {
+                    return sakai_util.macroCache.macros[macroname].apply(this, args);
                 }
             };
 
@@ -1417,6 +1503,7 @@ define(
             }
 
             delete templateData._MODIFIERS;
+            delete templateData.macro;
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
@@ -2007,6 +2094,7 @@ define(
                         // calculate left margin and width, set it directly on the error element
                         $error.css({
                             "margin-left": $element.position().left,
+
                             "width": $element.width()
                         });
                     }

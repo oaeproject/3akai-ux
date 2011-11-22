@@ -36,6 +36,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var $rootel = $("#" + tuid);
+        var renderObj = {};
 
         // Containers
         var entityContainer = "#entity_container";
@@ -264,11 +265,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
        };
 
-        var renderEntity = function(context){
+        var prepareRenderContext = function(context) {
             if (context.context === "content") {
                 getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
             }
             context.sakai = sakai;
+            context.entitymacros = sakai.api.Util.processLocalMacros($("#entity_macros_template"));
+        };
+
+        var renderEntity = function(context){
+            prepareRenderContext(context);
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
         };
 
@@ -279,14 +285,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
-            var obj = {
+            renderObj = {
                 "context": context,
                 "type": type,
                 "anon": sakai.data.me.user.anon || false,
                 "data": data || {}
             };
-            renderEntity(obj);
-            addBinding(obj);
+            renderEntity(renderObj);
+            addBinding(renderObj);
             $('#entity_contentsettings_dropdown').jqm({
                 modal: false,
                 overlay: 0,
@@ -404,6 +410,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // refresh the title if it's been saved.
         $(window).bind("sakai.entity.updateTitle", function(e, title) {
             $('#entity_name').html(sakai.api.Security.safeOutput(title));
+        });
+
+        $(window).bind("sakai.entity.updateOwnCounts", function(e) {
+            $(window).trigger("load.content_profile.sakai", function() {
+                prepareRenderContext(renderObj);
+                $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
+            }, false);
         });
 
         $(window).trigger("sakai.entity.ready");

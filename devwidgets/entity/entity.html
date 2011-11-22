@@ -194,57 +194,68 @@
         <input id="entity_name_text" type="text" />
     </span>
     <div id="entity_owns" class="s3d-regular-links">
-        {var peopleCount = data.members.counts.people}
-        {var groupCount = data.members.counts.groups}
-        {if peopleCount || groupCount}
-            <div class="entity_number">
-                <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
-                 __MSG__USED_BY__
-                 {if peopleCount}
-                     <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
-                         ${peopleCount}
-                         {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
-                     </a>
-                     {if groupCount}
-                         __MSG__AND__
-                     {/if}
-                 {/if}
-                 {if groupCount}
-                     <a href="#" class="entity_content_group">
-                         ${groupCount}
-                         {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
-                     </a>
-                 {/if}
-            </div>
-            <span class="entity_comments">
-        {else}
-            <span>
-        {/if}
-            <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
-            {var commentCount = sakai.api.Content.getCommentCount(data.data)}
-            <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
-        </span>
-        <div class="entity_number entity_permissions_label">
-            {var permissions = data.data["sakai:permissions"]}
-            <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
-            {if permissions == "private"}
-                __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
-                {if (peopleCount + groupCount) > 1}
-                    + ${groupCount + peopleCount - 1}
-                    {if (peopleCount + groupCount - 1) === 1}
-                        __MSG__OTHER__
-                    {else}
-                        __MSG__OTHERS__
-                    {/if}
-                {/if}
-            {elseif permissions == "everyone"}
-                __MSG__VISIBLE_TO_LOGGED__
-            {else}
-                __MSG__VISIBLE_TO_ANYONE__
-            {/if}
-        </div>
+        ${entitymacros.entityContentOwnsMacro(data,sakai)}
     </div>
 --></div>
+
+<div id="entity_counts_template" class="s3d-regular-links"><!--
+    ${entitymacros.entityContentOwnsMacro(data,sakai)}
+--></div>
+
+<div id="entity_macros_template" style="display:none"><!--
+{macro entityContentOwnsMacro(data,sakai)}
+    {var peopleCount = data.members.counts.people}
+    {var groupCount = data.members.counts.groups}
+    {if peopleCount || groupCount}
+        <div class="entity_number">
+            <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
+             __MSG__USED_BY__
+             {if peopleCount}
+                 <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
+                     ${peopleCount}
+                     {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
+                 </a>
+                 {if groupCount}
+                     __MSG__AND__
+                 {/if}
+             {/if}
+             {if groupCount}
+                 <a href="#" class="entity_content_group">
+                     ${groupCount}
+                     {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
+                 </a>
+             {/if}
+        </div>
+        <span class="entity_comments">
+    {else}
+        <span>
+    {/if}
+        <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
+        {var commentCount = sakai.api.Content.getCommentCount(data.data)}
+        <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
+    </span>
+    <div class="entity_number entity_permissions_label">
+        {var permissions = data.data["sakai:permissions"]}
+        <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
+        {if permissions == "private"}
+            __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
+            {if (peopleCount + groupCount) > 1}
+                + ${groupCount + peopleCount - 1}
+                {if (peopleCount + groupCount - 1) === 1}
+                    __MSG__OTHER__
+                {else}                        __MSG__OTHERS__
+                {/if}
+            {/if}
+        {elseif permissions == "everyone"}
+            __MSG__VISIBLE_TO_LOGGED__
+        {else}
+            __MSG__VISIBLE_TO_ANYONE__
+        {/if}
+    </div>
+{/macro}
+${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
+--></div>
+
 
 <div id="entity_group_template" style="display:none"><!--
     <div id="entity_actions">

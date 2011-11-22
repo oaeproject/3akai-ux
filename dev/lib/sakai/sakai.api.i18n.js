@@ -31,10 +31,9 @@ define(
     [
         "jquery",
         "config/config_custom",
-        "sakai/sakai.api.util",
         "sakai/sakai.api.server"
     ],
-    function($, sakai_config, sakai_util, sakai_serv) {
+    function($, sakai_config, sakai_serv) {
 
     var sakaii18nAPI = {
         data : {
@@ -121,7 +120,8 @@ define(
                 }
                 if (meData && meData.user && meData.user.anon) {
                     if ($.inArray(currentPage, sakai_config.requireUser) > -1){
-                        sakai_util.Security.sendToLogin();
+                        // This is not great, but our util.Templating code needs to call i18n at the moment. TODO
+                        require("sakai/sakai.api.util").Security.sendToLogin();
                         return false;
                     }
                 } else {
@@ -132,7 +132,8 @@ define(
                 }
 
                 if ($.inArray(currentPage, sakai_config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== "/~"){
-                    sakai_util.Security.showPage();
+                    // This is not great, but our util.Templating code needs to call i18n at the moment. TODO
+                    require("sakai/sakai.api.util").Security.showPage();
                 }
                 translateJqueryPlugins();
                 translateDirectory(sakai_config.Directory);
