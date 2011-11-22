@@ -92,9 +92,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags, "sakai": sakai}, $("#search_tags_active_container"));
             sakai.api.Util.TemplateRenderer($("#search_tags_refine_template"), {"tags": refineTags, "sakai": sakai}, $(".search_tags_refine_container"));
         };
+
         /**
          * Generates the tag list to refine the search by
-         * @param {Object} result Search result containing the tags available
+         * @param {Object} data Search result containing the tags available
          * @param {Object} params Parameters used in the search
          */
         sakai_global.data.search.generateTagsRefineBy = function(data, params) {
@@ -103,25 +104,26 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             refineTags = [];
             var tagArray = [];
 
+            // get any tags already in location hash
+            if (params && params.refine){
+                activeTags = params.refine.split(',');
+            }
+
             // filter tags
-            if (data.facet_fields && data.facet_fields[0] && data.facet_fields[0].tag && data.facet_fields[0].tag.length > 0) {
-                var tempTagArray = data.facet_fields[0].tag;
+            if (data.facet_fields && data.facet_fields[0] && data.facet_fields[0].tagname && data.facet_fields[0].tagname.length > 0) {
+                var tempTagArray = data.facet_fields[0].tagname;
                 // limit the number of tags to display
                 if (maxTagsDisplayed >= 0){
-                    tempTagArray = data.facet_fields[0].tag.splice(0, maxTagsDisplayed);
+                    tempTagArray = data.facet_fields[0].tagname.splice(0, maxTagsDisplayed);
                 }
                 // put the tags from the tag cloud service into an array
                 $.each(tempTagArray, function(key, tagOjb) {
                     $.each(tagOjb, function(tag, count) {
                         if (count > 0) {
-                            tagArray.push(sakai.api.Security.safeOutput(tag));
+                            tagArray.push(tag);
                         }
                     });
                 });
-                // get any tags already in location hash
-                if (params && params.refine){
-                    activeTags = sakai.api.Security.safeOutput(params.refine).split(',');
-                }
                 // store tags in either already active tags, or tags available to refine the search by
                 $.each(tagArray, function(key, tag) {
                     if ($.inArray(tag, activeTags) === -1) {
@@ -157,9 +159,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(".search_tag_refine_item").die("click").live("click", function(ev){
             var tag = $(this).attr("data-sakai-entityid");
-            refineTags = $.grep(refineTags, function(value) {
-                return value != tag;
-            });
             activeTags.push(tag);
             $.bbq.pushState({
                 "refine": activeTags.toString()
@@ -169,9 +168,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(".search_tag_active_item").die("click").live("click", function(ev){
             var tag = $(this).attr("data-sakai-entityid");
             activeTags = $.grep(activeTags, function(value) {
-                return value != tag;
+                return value !== tag;
             });
-            refineTags.push(tag);
             $.bbq.pushState({
                 "refine": activeTags.toString()
             }, 0);

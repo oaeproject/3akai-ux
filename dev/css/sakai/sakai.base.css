@@ -305,6 +305,7 @@ a.s3d-button.s3d-large-button {line-height:31px;}
 .s3d-search-container .s3d-search-button {height:25px !important;width:24px;padding:3px 0 0 0 !important;margin-left:2px;background:none !important;border: none !important;box-shadow:none !important;-moz-box-shadow:none !important;-webkit-box-shadow:none !important;}
 .s3d-search-container .s3d-search-button:hover {background: url("/dev/images/searchbutton_hover_bg.png") repeat-x top left transparent !important;border:1px solid #ccc !important;}
 .s3d-search-container .s3d-search-button img {margin:0 auto;}
+.s3d-search-container .s3d-search-button .s3d-search-button-icon{margin:0 auto;display:block;width:16px;height:16px;background: url("/dev/images/search_icon.png") no-repeat top left transparent;}
 
 /*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
@@ -573,7 +574,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-tag{padding:0;margin:5px 2px 0 2px;}
 .s3d-search-activetags span{display:inline-block;}
 .s3d-search-activetags button{color:#6C6C6C;cursor:pointer;border:1px solid #b4b5b5;border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;background-color:#FEFEFE;}
-.s3d-search-activetags button img{margin:0 5px 0 8px;}
+.s3d-search-activetags button img{margin-left:8px;}
 .s3d-search-refineby-list{margin-bottom:15px;}
 .s3d-search-refineby .s3d-search-refineby-title{margin-bottom:10px;display:block;color:#64707E;}
 .s3d-search-refineby button{cursor:pointer;color:#585858;border:1px solid #A5BECF;border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;background:url("/dev/images/search_tag_button.png") repeat-x scroll left top #cde6f7;}

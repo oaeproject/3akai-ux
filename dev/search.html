@@ -32,8 +32,8 @@
                     <div class="s3d-search-bar">
                         <span id="form" class="s3d-search-container">
                             <input type="text" maxlength="255" id="searchall_text" title="__MSG__ENTER_FOR__" class="s3d-search-inputfield"/>
-                            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
-                                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SEARCH_FOR__">
+                                <span class="s3d-search-button-icon"></span>
                             </button
                         </span>
                         <div class="s3d-search-activetags" id="search_tags_active_container"></div>
@@ -48,7 +48,7 @@
                 <span class="s3d-search-tag">
                     <img src=/dev/images/search_tag_active.png" />
                     <button class="search_tag_active_item" data-sakai-entityid="${t}" title="__MSG__REMOVE__ ${t} __MSG__FROM_SEARCH__">
-                        ${sakai.api.Util.applyThreeDots(t, 345, null, "")}<img src=/dev/images/search_tag_remove.png" />
+                        ${sakai.api.Util.applyThreeDots(t, 345)}<img src=/dev/images/search_tag_remove.png" />
                     </button>
                 </span>
             {/for}
@@ -66,7 +66,7 @@
                 <span class="s3d-search-tag">
                     <button class="search_tag_refine_item" data-sakai-entityid="${t}" title="__MSG__REFINE_SEARCH_TO__ ${t}">
                         <img src=/dev/images/search_tag_add.png" />
-                        ${sakai.api.Util.applyThreeDots(t, 345, null, "")}
+                        ${sakai.api.Util.applyThreeDots(t, 345)}
                     </button>
                 </span>
             {/for}
