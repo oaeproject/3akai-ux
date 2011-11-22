@@ -33,7 +33,8 @@ define(
         "config/config_custom",
         "misc/trimpath.template",
         "misc/underscore",
-        "jquery-plugins/jquery.ba-bbq"
+        "jquery-plugins/jquery.ba-bbq",
+        "jquery-plugins/jquery.validate"
     ],
     function($, sakai_serv, sakai_l10n, sakai_conf) {
 
@@ -233,6 +234,26 @@ define(
             } else {
                 return [];
             }
+        },
+
+        /**
+         * Shorten tags to be displayed in search results
+         * @param {Array} tags The array containing tags.
+         * @return {Object} Object containing the tag and shortened lengths
+         */
+        shortenTags : function(tags) {
+            var tagsObj = {};
+            for (var i in tags) {
+                if (tags.hasOwnProperty(i)) {
+                    tagsObj[i] = {
+                        "tag": tags[i],
+                        "tagShort": sakai_util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
+                        "tagShorter": sakai_util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, ""),
+                        "link": "search#q=" + sakai_util.safeURL(tags[i])
+                    };
+                }
+            }
+            return tagsObj;
         },
 
         /**
@@ -1333,7 +1354,7 @@ define(
                 templateElement = $("#" + templateName);
             }
             else {
-                debug.log(templateElement);
+                debug.error(templateElement);
                 throw "TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
             }
 
@@ -1544,6 +1565,11 @@ define(
                 html4.ATTRIBS["button::entitypicture"] = 0;
                 html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
+                html4.ATTRIBS["a::aria-haspopup"] = 0;
+                html4.ATTRIBS["a::role"] = 0;
+                html4.ATTRIBS["ul::aria-hidden"] = 0;
+                html4.ATTRIBS["ul::role"] = 0;
+
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
@@ -1907,6 +1933,125 @@ define(
                 var ascontainer = $("#as-selections-" + element.attr("id")).replaceWith(element.data(namespace));
                 $("#as-results-" + element.attr("id")).remove();
                 return $(ascontainer);
+            }
+        },
+
+        Forms : {
+            /**
+             * A wrapper for jquery.validate, so we can perform the same
+             * errorPlacement on each form, without any duplicated code
+             *
+             * @param {jQuery} $form the jQuery element of the form in question
+             * @param {Object} opts options to pass through to jquery.validate
+             *    NOTE: There is one additional option you can pass in -- an error callback function
+             *    When there is an error in validation detected, it will be called
+             * @param {Function} [invalidCallback] The function to call when an error is detected
+             * @param {Boolean} [insertAfterLabel] Insert the error span after the label, not before
+             */
+            validate: function($form, opts, insertAfterLabel) {
+                var options = {
+                    onclick: false,
+                    onkeyup: false,
+                    onfocusout: false
+                };
+                // when you set onclick to true, you actually just don't set it
+                // to false, because onclick is a handler function, not a boolean
+                if (opts) {
+                    $.each(options, function(key,val) {
+                        if (opts.hasOwnProperty(key) && opts[key] === true) {
+                            delete opts[key];
+                            delete options[key];
+                        }
+                    });
+                }
+                options.errorElement = "span";
+                options.errorClass = insertAfterLabel ? "s3d-error-after" : "s3d-error";
+
+                // we need to handle success and invalid in the framework first
+                // then we can pass it to the caller
+                var successCallback = false,
+                    invalidCallback = false;
+
+                if (opts) {
+                    if (opts.hasOwnProperty("success") && $.isFunction(opts.success)) {
+                        successCallback = opts.success;
+                        delete opts.succss;
+                    }
+
+                    if (opts && opts.hasOwnProperty("invalidCallback") && $.isFunction(opts.invalidCallback)) {
+                        invalidCallback = opts.invalidCallback;
+                        delete opts.invalidCallback;
+                    }
+                }
+
+                // include the passed in options
+                $.extend(true, options, opts);
+
+                // Success is a callback on each individual field being successfully validated
+                options.success = function($label) {
+                    // For autosuggest clearing, since we have to put the error on the ul instead of the element
+                    if (insertAfterLabel && $label.next("ul.as-selections").length) {
+                        $label.next("ul.as-selections").removeClass("s3d-error");
+                    } else if ($label.prev("ul.as-selections").length) {
+                        $label.prev("ul.as-selections").removeClass("s3d-error");
+                    }
+                    $label.remove();
+                    if ($.isFunction(successCallback)) {
+                        successCallback($label);
+                    }
+                };
+
+                options.errorPlacement = function($error, $element) {
+                    if ($element.hasClass("s3d-error-calculate")) {
+                        // special element with variable left margin
+                        // calculate left margin and width, set it directly on the error element
+                        $error.css({
+                            "margin-left": $element.position().left,
+                            "width": $element.width()
+                        });
+                    }
+                    // Get the closest-previous label in the DOM
+                    var $prevLabel = $("label[for='" + $element.attr("id") + "']");
+                    $error.attr("id", $element.attr("name") + "_error");
+                    $element.attr("aria-describedby", $element.attr("name") + "_error");
+                    if (insertAfterLabel) {
+                        $error.insertAfter($prevLabel);
+                    } else {
+                        $error.insertBefore($prevLabel);
+                    }
+                };
+
+                options.invalidHandler = function($thisForm, validator) {
+                    $form.find(".s3d-error").attr("aria-invalid", "false");
+                    if ($.isFunction(invalidCallback)){
+                        invalidCallback($thisForm, validator);
+                    }
+                };
+
+                options.showErrors = function(errorMap, errorList) {
+                    if (errorList.length !== 0 && $.isFunction(options.error)) {
+                        options.error();
+                    }
+                    $.each(errorList, function(i,error) {
+                        $(error.element).attr("aria-invalid", "true");
+                        // Handle errors on autosuggest
+                        if ($(error.element).hasClass("s3d-error-autosuggest")) {
+                            $(error.element).parents("ul.as-selections").addClass("s3d-error");
+                        }
+                    });
+                    this.defaultShowErrors();
+                };
+
+                // Set up the form with these options in jquery.validate
+                $form.validate(options);
+            },
+
+            clearValidation: function($form) {
+                $form.find("span.s3d-error, span.s3d-error-after").remove();
+                $form.find(".s3d-error").removeClass("s3d-error");
+                $form.find(".s3d-error-after").removeClass("s3d-error-after");
+                $form.find("*[aria-invalid]").removeAttr("aria-invalid");
+                $form.find("*[aria-describedby]").removeAttr("aria-describedby");
             }
         }
 

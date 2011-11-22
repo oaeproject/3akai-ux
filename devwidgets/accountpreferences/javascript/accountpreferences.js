@@ -105,7 +105,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var myShow = function(hash){
             window.scrollTo(0, 0);
             hash.w.show();
-        }
+        };
 
         ///////////////////////
         // Utility functions //
@@ -199,6 +199,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Util.notification.show($(messagePassChanged).html(), $(messagePassChangedBody).html());
                         // clear all the fields
                         clearPassFields();
+                        $(accountPreferencesContainer).jqmHide();
                     },
                     error: function(xhr, textStatus, thrownError) {
 
@@ -302,32 +303,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Initialise form validation
          */
         var initValidation = function(){
-            $(accountPreferencesPasswordChange).validate({
-                errorClass: "accountpreferences_error",
-                errorElement:"div",
-                rules:{
-                    curr_pass:{
-                        required: true,
+            $.validator.addMethod("newpw", function(value, element){
+                return this.optional(element) || (value !== $("#curr_pass").val());
+            }, $(errorPassSame).html());
+
+            var validateOpts = {
+                rules: {
+                    curr_pass: {
                         minlength: 4
                     },
-                    new_pass:{
-                        required: true,
-                        minlength: 4
+                    new_pass: {
+                        minlength: 4,
+                        newpw: true
                     },
-                    retype_pass:{
-                        required: true,
+                    retype_pass: {
                         minlength: 4,
                         equalTo: "#new_pass"
                     }
                 },
                 messages: {
-                    retype_pass:{
-                        "equalTo": "Please enter the same password twice."
+                    retype_pass: {
+                        "equalTo": sakai.api.i18n.getValueForKey("PLEASE_ENTER_PASSWORD_TWICE", "accountpreferences")
                     }
                 },
-                debug:true
+                submitHandler: changePass
+            };
 
-            });
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($(accountPreferencesPasswordChange), validateOpts);
         };
 
         /**
@@ -362,47 +365,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             onHide: myClose
         });
 
-        /** Binds the submit function on the password change form **/
-        $(accountPreferencesPasswordChange).submit(function(){
-
-            var pass = $(currentPassTxt).val();
-            var newPass1 = $(newPassTxt).val();
-            var newPass2 = $(newRetypePassTxt).val();
-
-            if (pass === newPass1) {
-                // Notify the user that he/she is trying to use the same pasword
-                sakai.api.Util.notification.show("", $(errorPassSame).html());
-                return false;
-            }
-
-            // check if the user enter valid data for old and new passwords
-            if ($(accountPreferencesPasswordChange).valid()) {
-
-                // change the password
-                changePass();
-            }
-            return true;
-        });
-
         /** Binds all the regional settings select box change **/
         $("#time_zone, #pass_language").change(function(e){
             // enable the change regional setting button
             enableElements($(saveRegional));
-        });
-
-        /** Binds all the password boxes (keyup) **/
-        $("input[type=password]", passChangeContainer).keyup(function(e){
-
-            // If we'd use keypress for this then the input fields wouldn't be updated yet
-            // check if the user didn't just fill in some spaces
-            if(checkIfInputValid()){
-                // enable the change pass button
-                enableElements($(saveNewPass));
-            }
-            else{
-                // disable the change pass button
-                disableElements($(saveNewPass));
-            }
         });
 
         /** Binds the save regional button **/
@@ -428,7 +394,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             if (!sakai.data.me.user.anon) {
                 // An anonymous user shouldn't have access to this page
-                disableElements($(saveNewPass));
                 disableElements($(saveRegional));
                 selectTimezone(me.user.locale.timezone);
                 getLanguages();

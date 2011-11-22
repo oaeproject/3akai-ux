@@ -686,6 +686,17 @@ define(function(){
                 URL: "/dev/images/mimetypes/doc.png",
                 description: "OPEN_OFFICE_DOCUMENT"
             },
+            "application/vnd.oasis.opendocument.presentation": {
+                cssClass: "icon-pps-sprite",
+                URL: "/dev/images/mimetypes/pps.png",
+                description: "OPEN_OFFICE_PRESENTATION"
+            },
+            "application/vnd.oasis.opendocument.spreadsheet": {
+                cssClass: "icon-pps-sprite",
+                URL: "/dev/images/mimetypes/spreadsheet.png",
+                description: "OPEN_OFFICE_SPREADSHEET"
+            },
+
             "application/x-shockwave-flash": {
                 cssClass: "icon-swf-sprite",
                 URL: "/dev/images/mimetypes/swf.png",

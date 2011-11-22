@@ -87,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             callback(false);
                             return;
                         }
-                    } else if (data.autosave && data.page && data.autosave._lastModified > data._lastModified) {
+                    } else if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
                         $('#autosave_dialog').jqmShow();
                         autosaveDialogShown = true;
                         if ($.isFunction(callback)) {
@@ -337,7 +337,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
                 if (sakai.widgets[widgetid].hasSettings) {
                     $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
-                    $("#dialog_title", $overlayContainer).html(sakai.widgets[widgetid].name);
+                    $("#dialog_title").html(sakai.api.Widgets.getWidgetTitle(widgetid));
                     sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
 
                     if (sakai.widgets[widgetid].settingsWidth) {

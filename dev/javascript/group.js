@@ -67,7 +67,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var type = "group";
             if (canManage){
                 type = "group_managed";
-                $("#group_create_new_area").show();
+                $("#group_create_new_area_container").show();
             }
             $(window).trigger("sakai.entity.init", [context, type, groupData]);
         };
@@ -202,9 +202,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 rolesToAdd.push(member2);
             });
             if (rolesToDelete.length) {
-                sakai.api.Groups.addUsersToGroup(groupId, rolesToAdd, sakai.api.User.data.me, false, function() {
-                    sakai.api.Groups.removeUsersFromGroup(groupId, rolesToDelete, sakai.api.User.data.me);
-                });
+                sakai.api.Groups.changeUsersPermission(groupId, rolesToAdd, rolesToDelete, sakai.api.User.data.me);
             }
         });
 

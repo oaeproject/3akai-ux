@@ -243,13 +243,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 source: function(query, add) {
                     var q = sakai.api.Server.createSearchString(query);
-                    var options = {"page": 0, "items": 15};
-                    searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
-                    if (q === '*' || q === '**') {
-                        searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
-                    } else {
-                        options['q'] = q;
-                    }
+                    var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
+                    searchUrl = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
                     sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
                         if (success) {
                             var suggestions = [];
@@ -376,18 +371,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var associatedEmbeddedItemsWithGroup = function(embeddedItems){
             var data = [];
             for (var embeddedItem in embeddedItems) {
-                if (embeddedItems.hasOwnProperty(embeddedItem)) {
-                    var item = {
-                        "url": embeddedItems[embeddedItem].path + ".members.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":viewer": sakai_global.currentgroup.id
-                        }
-                    };
-                    data[data.length] = item;
+                if (embeddedItems.hasOwnProperty(embeddedItem) && !sakai.api.Content.isContentInLibrary(embeddedItems[embeddedItem].fullresult, sakai_global.group.groupId)) {
+                    data.push(embeddedItems[embeddedItem].value);
                 }
             }
-            sakai.api.Server.batch(data, null, false, null, false);
+            if (data.length > 0){
+                sakai.api.Content.addToLibrary(data, sakai_global.group.groupId);
+            }
         };
 
         /**
@@ -416,7 +406,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "name": formVals.name ? true : false
             };
 
-            if (sakai_global.currentgroup) {
+            if (sakai_global.group && sakai_global.group.groupId) {
                 // Associate embedded items with the group
                 associatedEmbeddedItemsWithGroup(selectedItems);
             }

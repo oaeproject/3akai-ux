@@ -73,21 +73,23 @@
                 </div>
 
                 <form id="newaddcontent_add_document_form" class="newaddcontent_form">
-                    <label for="newaddcontent_add_document_title">__MSG__NAME_DOCUMENT__:</label>
-                    <input type="text" id="newaddcontent_add_document_title"/>
+                    <div class="s3d-form-field-wrapper">
+                        <label for="newaddcontent_add_document_title" class="s3d-input-label s3d-input-label-above">__MSG__NAME_DOCUMENT__:</label>
+                        <input type="text" id="newaddcontent_add_document_title" name="newaddcontent_add_document_title" class="required s3d-error-calculate"/>
 
-                    <label for="newaddcontent_add_document_description">__MSG__DESCRIPTION__:</label>
-                    <textarea id="newaddcontent_add_document_description" placeholder="__MSG__ENTER_A_DESCRIPTION__"></textarea>
+                        <label for="newaddcontent_add_document_description" class="s3d-input-label s3d-input-label-above">__MSG__DESCRIPTION__:</label>
+                        <textarea id="newaddcontent_add_document_description" placeholder="__MSG__ENTER_A_DESCRIPTION__"></textarea>
 
-                    <label for="newaddcontent_add_document_tags">__MSG__TAGS__:</label>
-                    <input type="text" id="newaddcontent_add_document_tags"/>
+                        <label for="newaddcontent_add_document_tags" class="s3d-input-label s3d-input-label-above">__MSG__TAGS__:</label>
+                        <input type="text" id="newaddcontent_add_document_tags"/>
 
-                    <label for="newaddcontent_add_document_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-                    <select id="newaddcontent_add_document_permissions">
-                        <option value="public">__MSG__PUBLIC__</option>
-                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="private">__MSG__PRIVATE__</option>
-                    </select>
+                        <label for="newaddcontent_add_document_permissions" class="s3d-input-label s3d-input-label-above">__MSG__WHO_CAN_SEE_IT__:</label>
+                        <select id="newaddcontent_add_document_permissions">
+                            <option value="public">__MSG__PUBLIC__</option>
+                            <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                            <option value="private">__MSG__PRIVATE__</option>
+                        </select>
+                    </div>
                 </form>
             </div>
 
@@ -113,17 +115,17 @@
             </div>
 
             <div id="newaddcontent_add_link_template" class="newaddcontent_newitem_container" style="display:none;">
-                <form id="newaddcontent_add_link_form" class="newaddcontent_form">
-                    <label for="newaddcontent_add_link_url">__MSG__PASTE_LINK_URL_ADDRESS__:</label>
-                    <input type="text" id="newaddcontent_add_link_url" class="appendhttp url required"/>
+                <form id="newaddcontent_add_link_form" class="newaddcontent_form s3d-form-field-wrapper">
+                    <label for="newaddcontent_add_link_url" class="s3d-input-label s3d-input-label-above">__MSG__PASTE_LINK_URL_ADDRESS__:</label>
+                    <input type="text" id="newaddcontent_add_link_url" name="newaddcontent_add_link_url" class="appendhttp url required s3d-error-calculate"/>
 
-                    <label for="newaddcontent_add_link_title">__MSG__TITLE__:</label>
+                    <label for="newaddcontent_add_link_title" class="s3d-input-label s3d-input-label-above">__MSG__TITLE__:</label>
                     <input type="text" id="newaddcontent_add_link_title"/>
 
-                    <label for="newaddcontent_add_link_description">__MSG__DESCRIPTION__:</label>
+                    <label for="newaddcontent_add_link_description" class="s3d-input-label s3d-input-label-above">__MSG__DESCRIPTION__:</label>
                     <textarea id="newaddcontent_add_link_description" placeholder="__MSG__ENTER_A_DESCRIPTION__"></textarea>
 
-                    <label for="newaddcontent_add_link_tags">__MSG__TAGS__:</label>
+                    <label for="newaddcontent_add_link_tags" class="s3d-input-label s3d-input-label-above">__MSG__TAGS__:</label>
                     <input type="text" id="newaddcontent_add_link_tags"/>
                 </form>
             </div>
@@ -158,9 +160,9 @@
     <span style="display:none" id="${i}" class="newaddcontent_selecteditems_edit_index"></span>
     <div id="newaddcontent_selecteditems_edit_data_fields">
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
-        <form class="newaddcontent_form">
+        <form class="newaddcontent_form s3d-form-field-wrapper" id="newaddcontent_selecteditems_edit_data_form">
             <label for="newaddcontent_selecteditems_edit_data_title">__MSG__TITLE__:</label>
-            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item["sakai:pooled-content-file-name"]|safeOutput}"/>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item["sakai:pooled-content-file-name"]|safeOutput}" class="required"/>
             <label for="newaddcontent_selecteditems_edit_data_description">__MSG__DESCRIPTION__:</label>
             <textarea id="newaddcontent_selecteditems_edit_data_description" placeholder="__MSG__EDIT_DESCRIPTION__">${item["sakai:description"]|safeOutput}</textarea>
             <label for="newaddcontent_selecteditems_edit_data_tags">__MSG__TAGS__:</label>
