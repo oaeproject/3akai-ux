@@ -117,6 +117,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        var updateLocationLanguage = function(){
+            $("#footer_location").text(sakai.data.me.user.locale.timezone.name);
+            for(var i = 0, len = sakai.config.Languages.length; i < len; i++){
+                if(sakai.data.me.user.locale.country === sakai.config.Languages[i].country){
+                    $("#footer_language").text(sakai.config.Languages[i].displayName);
+                    break;
+                }
+            }
+        };
+
         /**
          * This event handler will make sure that the Top link
          * that's available in every page footer will scroll back
@@ -181,6 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("init.accountpreferences.sakai");
             });
 
+            updateLocationLanguage();
         };
 
         doInit();

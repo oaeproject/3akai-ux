@@ -23,7 +23,7 @@
  * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
 
-require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
      * @name sakai_global.accountpreferences
@@ -456,16 +456,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(accountPreferencesContainer).jqmHide();
         });
 
-        var updateFooter = function(){
-            $("#footer_location").text(me.user.locale.timezone.name);
-            for(var i = 0, len = sakai.config.Languages.length; i < len; i++){
-                if(me.user.locale.country === sakai.config.Languages[i].country){
-                    $("#footer_language").text(sakai.config.Languages[i].displayName);
-                    break;
-                }
-            }
-        };
-
         /////////////////////////////
         // INITIALISATION FUNCTION //
         /////////////////////////////
@@ -476,8 +466,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 clearPassFields();
                 disableElements($(saveRegional));
                 selectTimezone(me.user.locale.timezone);
-                selectAutoTagging(me.user.properties.isAutoTagging);
-                selectSendTagMsg(me.user.properties.sendTagMsg);
+                if (me.user.properties.isAutoTagging){
+                    selectAutoTagging(me.user.properties.isAutoTagging);
+                } else {
+                    selectAutoTagging(sakai.config.Profile.defaultAutoTagging);
+                }
+                if (me.user.properties.isAutoTagging){
+                    selectSendTagMsg(me.user.properties.sendTagMsg);
+                } else {
+                    selectSendTagMsg(sakai.config.Profile.defaultSendTagMsg);
+                }
                 getLanguages();
                 initValidation();
                 
@@ -485,7 +483,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 if (!sakai.config.allowPasswordChange) {
                     $(passChangeContainer).hide();
                 }               
-                updateFooter();
             }
         };
 
