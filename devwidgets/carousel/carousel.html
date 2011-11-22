@@ -129,10 +129,7 @@
                                             {if !user.connected}
                                                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS__"></button>
                                             {/if}
-                                            <fieldset>
-                                                <legend>Actions on ${user.displayName|safeOutput}</legend>
-                                                <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE__"></button>
-                                            </fieldset>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE__"></button>
                                         </div>
                                     </div>
                                 {/for}
