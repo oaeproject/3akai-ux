@@ -61,6 +61,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         // Forms
         var accountPreferencesPasswordChange = accountPreferencesID + "_password_change";
+        var accountPreferencesPreferencesForm = accountPreferencesID + "_preferences_form";
 
         // Textboxes
         var currentPassTxt = "#curr_pass";
@@ -247,13 +248,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          *
          */
         var selectAutoTagging = function(autoTag){
-            $("#accountpreferences_section_autotagging_buttons a").removeClass(taggingSelected);
+            $("#accountpreferences_section_autotagging_buttons button").removeClass(taggingSelected);
             if (autoTag === "true") {
-                $("input:radio[name='autotagging'][value=true]").attr("checked", "checked");
+                $("input:radio[name='autotagging'][value='true']").attr("checked", "checked");
                 $("#accountpreferences_section_autotagging_buttons #button_autotagging_true").addClass(taggingSelected);
             }
             if (autoTag === "false") {
-                $("input:radio[name='autotagging'][value=false]").attr("checked", "checked");
+                $("input:radio[name='autotagging'][value='false']").attr("checked", "checked");
                 $("#accountpreferences_section_autotagging_buttons #button_autotagging_false").addClass(taggingSelected);
             }
         };
@@ -263,10 +264,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          *
          */
         var selectSendTagMsg = function(sendTagMsg){
-            if (sendTagMsg === "true")
+            if (sendTagMsg === "true"){
                 $("#tag_msg_info").attr("checked", "checked");
-            else if (sendTagMsg === "false")
+            } else if (sendTagMsg === "false"){
                 $("#tag_msg_info").removeAttr("checked");
+            }
         };
 
         /**
@@ -368,6 +370,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             // Initialize the validate plug-in
             sakai.api.Util.Forms.validate($(accountPreferencesPasswordChange), validateOpts);
+
+            var validatePreferencesOpts = {
+                submitHandler: saveRegionalToMe
+            };
+
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($(accountPreferencesPreferencesForm), validatePreferencesOpts);
         };
 
         /**
@@ -423,17 +432,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         });
 
-        $("#accountpreferences_section_autotagging_buttons a").click(function(e){
+        $("#accountpreferences_section_autotagging_buttons button").click(function(e){
             selectAutoTagging($(this).attr("data-sakai-autotagging"));
             enableElements($(saveRegional));
-            return false;
+            e.preventDefault();
         })
-
-        /** Binds the save regional button **/
-        $(saveRegional).click(function(){
-            saveRegionalToMe();
-            return false;
-        });
 
         $(accountPreferencesPreferencesTab).click(function(){
             $(accountPreferencesTabsButtons).removeClass(tabSelected);

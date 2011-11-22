@@ -55,7 +55,7 @@
                 </form>
             </div>
             <div class="regional" id="accountpreferences_preferContainer">
-                <form class="preferences-form" method="POST" action="#">
+                <form id="accountpreferences_preferences_form" class="preferences-form" method="POST" action="#">
                     <div class="accountpreferences_section_wrap">
                         <h2>__MSG__ACCOUNT_PREFERENCES__:</h2>
                         <div class="accountpreferences_section accountpreferences_section_border" id="accountpreferences_section_regional">
@@ -147,8 +147,8 @@
                             <div>
                                 <label>__MSG__AUTOTAGGING_INFO__</label>
                                 <div id="accountpreferences_section_autotagging_buttons" class="s3d-button s3d-header-button">
-                                    <a href="#" id="button_autotagging_true" data-sakai-autotagging="true">__MSG__AUTOTAGGING_ON__</a>
-                                    <a href="#" id="button_autotagging_false" data-sakai-autotagging="false">__MSG__AUTOTAGGING_OFF__</a>
+                                    <button href="#" id="button_autotagging_true" data-sakai-autotagging="true"><span>__MSG__AUTOTAGGING_ON__</span></button>
+                                    <button href="#" id="button_autotagging_false" data-sakai-autotagging="false"><span>__MSG__AUTOTAGGING_OFF__</span></button>
                                 </div>
                                 <div id="accountpreferences_section_autotagging_radio">
                                     <input type="radio" name="autotagging" id="autotagging_on" value="true" /><label for="autotagging_on">__MSG__AUTOTAGGING_ON__</label> 
@@ -163,7 +163,7 @@
                     </div>
                     <div class="save-preferences">
                         <button type="button" class="s3d-link-button s3d-bold accountpreferences_cancel">__MSG__CANCEL__</button>
-                        <button type="button" id="accountpreferences_submitRegional" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_CHANGES__</button>
+                        <button type="submit" id="accountpreferences_submitRegional" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_CHANGES__</button>
                         <div class="accountpreferences_general_message" id="accountpreferences_general_message_regional"></div>
                     </div>
                 </form>
