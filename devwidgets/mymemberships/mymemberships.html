@@ -112,16 +112,17 @@
                 <a href="${group.url|safeOutput}" title="__MSG__VIEW_GROUP__">
                     {if !group.picsrc}
                         <img class="mymemberships_group_pic" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL}" />
-                        <img class="searchgroups_avatar_large" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE}"/>
+                        <img class="s3d-search-result-avatar-large" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE}"/>
                     {else}
                         <img class="mymemberships_group_pic" src="${group.picsrc}"/>
-                        <img class="searchgroups_avatar_large" src="${group.picsrc}"/>
+                        <img class="s3d-search-result-avatar-large" src="${group.picsrc}"/>
                     {/if}
                 </a>
                 <div class="mymemberships_item_right s3d-search-result-right">
                     <div>
                         <a class="s3d-bold s3d-regular-light-links" href="${group.url|safeOutput}" title="${group.title|safeOutput}">
-                            ${group.titleShort}
+                            <span class="s3d-search-result-name">${group.titleShort|safeOutput}</span>
+                            <span class="s3d-search-result-name-grid">${group.titleShorter|safeOutput}</span>
                         </a>
                         {if group.type}
                             <span class="mymemberships_item_grouptype">${group.type.toUpperCase()}</span>
@@ -139,13 +140,16 @@
                         {/if}
                     </div>
                     {if group.desc}<div class="mymemberships_item_description s3d-search_result-description">${group.desc}</div>{/if}
-                    {if group.tags && group.tags.length > 0}
+                    {if !$.isEmptyObject(group.tagsProcessed)}
                         <div class="mymemberships_item_tags">
                             <span class="mymemberships_item_icon mymemberships_item_tags_icon"></span>
                             <p class="mymemberships_item_tags_list">
-                                {for t in group.tags}
+                                {for t in group.tagsProcessed}
                                     {if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} 
-                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeOutput}" title="${t|safeOutput}">${t|safeOutput}</a>
+                                    <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                        <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                        <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                    </a>
                                 {/for}
                             </p>
                         </div>
@@ -164,7 +168,7 @@
     <p id="mymemberships_are_you_sure"></p>
     <div class="dialog_buttons fl-force-right">
         <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-action-button" id="mymemberships_delete_membership_confirm" data-sakai-entityid="placeholder" data-sakai-entityname="placeholder">__MSG__REMOVE_MEMBERSHIP__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="mymemberships_delete_membership_confirm" data-sakai-entityid="placeholder" data-sakai-entityname="placeholder">__MSG__YES_APPLY__</button>
     </div>
 </div>
 

@@ -118,9 +118,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var resultsPostProcessor = function(results, callback){
-            $.each(results, function(i, result){
-                result.id = result.target;
-            });
+            results = sakai.api.User.preparePeopleForRender(results, sakai.data.me);
             callback(results);
         };
 
@@ -140,7 +138,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "state": "ACCEPTED",
                 "userid": sakai_global.profile.main.data.userid
             };
-            
+
             // Disable the previous infinite scroll
             if (infinityScroll){
                 infinityScroll.kill();
