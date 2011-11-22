@@ -2094,7 +2094,6 @@ define(
                         // calculate left margin and width, set it directly on the error element
                         $error.css({
                             "margin-left": $element.position().left,
-
                             "width": $element.width()
                         });
                     }
