@@ -1179,14 +1179,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $newaddcontentContainer.jqm({
                 modal: true,
                 overlay: 20,
+                zIndex: 4001,
                 toTop: true
             });
             $newaddcontentUploading.jqm({
                 modal: true,
                 overlay: 20,
+                zIndex: 4002,
                 toTop: true
             });
-            $newaddcontentUploading.css("z-index", "4002");
             $newaddcontentContainer.jqmShow();
         };
 
