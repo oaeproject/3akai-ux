@@ -212,16 +212,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(".mymemberships_item_user_functions").show();
                 }
 
-                // disable remove membership button if not allowed to leave
-                $.each(groups.entry, function (i, group) {
-                    sakai.api.Groups.isAllowedToLeave(group.groupid, sakai.data.me, function(leaveAllowed){
-                        if (!leaveAllowed){
-                            $(".mymemberships_leave[data-sakai-entityid='" + group.groupid + "']").attr("disabled", "disabled");
-                            $(".mymemberships_leave[data-sakai-entityid='" + group.groupid + "']").attr("title", sakai.api.i18n.getValueForKey("UNABLE_TO_LEAVE", "mymemberships"));
-                            $(".mymemberships_leave[data-sakai-entityid='" + group.groupid + "']").addClass("mymemberhips_disabled_leave");
-                        }
+                if (mymemberships.isOwnerViewing) {
+                    // disable remove membership button if not allowed to leave
+                    $.each(groups.entry, function(i, group){
+                        sakai.api.Groups.isAllowedToLeave(group.groupid, sakai.data.me, function(leaveAllowed){
+                            if (!leaveAllowed) {
+                                $(".mymemberships_leave[data-sakai-entityid='" + group.groupid + "']").attr("disabled", "disabled");
+                                $(".mymemberships_leave[data-sakai-entityid='" + group.groupid + "']").attr("title", sakai.api.i18n.getValueForKey("UNABLE_TO_LEAVE", "mymemberships"));
+                                $(".mymemberships_leave[data-sakai-entityid='" + group.groupid + "']").addClass("mymemberhips_disabled_leave");
+                            }
+                        });
                     });
-                });
+                }
 
                 if(mymemberships.listStyle === "grid"){
                     $mymemberships_show_grid.click();
