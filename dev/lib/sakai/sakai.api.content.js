@@ -1089,11 +1089,11 @@ define(
             });
             // Get displaynames for the users that created content
             if (userArray.length) {
-                sakai_user.getMultipleUsers(userArray, function(users){
+                require("sakai/sakai.api.user").getMultipleUsers(userArray, function(users){
                     $.each(results, function(index, item){
                         if (item && item['sakai:pooled-content-file-name']) {
                             var userid = item["sakai:pool-content-created-for"];
-                            var displayName = sakai_user.getDisplayName(users[userid]);
+                            var displayName = require("sakai/sakai.api.user").getDisplayName(users[userid]);
                             item.ownerId = userid;
                             item.ownerDisplayName = displayName;
                             item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
