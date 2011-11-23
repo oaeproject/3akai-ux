@@ -18,7 +18,7 @@
             <div id="recentmemberships_item_template"><!--
                 <div class="recentmemberships_item_img fl-force-left">
                     <a href="/~${entry[0].groupid}" title="${entry[0].displayLinkTitle}">
-                        <img class="s3d-icon-50" src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__PROFILE_PICTURE_FOR__ ${entry[0]["sakai:group-title"]|safeOutput}"/>
+                        <img class="s3d-icon-50" src="${sakai.api.Groups.getProfilePicture(entry[0])}" alt="__MSG__PROFILE_PICTURE_FOR__ ${entry[0]["sakai:group-title"]|safeOutput}"/>
                     </a>
                 </div>
                 <div class="recentmemberships_item_info">
