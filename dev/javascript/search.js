@@ -99,7 +99,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $.bbq.pushState({
                         "q": $(searchInput).val(),
                         "cat": "",
-                        "refine": ""
+                        "refine": $.bbq.getState("refine")
                     }, 0);
                 }
             });
@@ -108,7 +108,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $.bbq.pushState({
                     "q": $(searchInput).val(),
                     "cat": "",
-                    "refine": ""
+                    "refine": $.bbq.getState("refine")
                 }, 0);
             });
         };
