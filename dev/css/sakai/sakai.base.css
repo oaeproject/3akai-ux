@@ -572,7 +572,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 
 /* SEARCH REFINE BY TAGS */
 .s3d-search-tag{padding:0;margin:5px 2px 0 2px;}
-.s3d-search-activetags span{display:inline-block;}
+.s3d-search-activetags span, .s3d-search-refineby span{display:inline-block;}
 .s3d-search-activetags button{color:#6C6C6C;cursor:pointer;border:1px solid #b4b5b5;border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;background-color:#FEFEFE;}
 .s3d-search-activetags button img{margin-left:8px;}
 .s3d-search-refineby-list{margin-bottom:15px;}

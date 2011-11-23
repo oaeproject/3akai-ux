@@ -46,7 +46,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         //////////////////////
 
         var $rootel = $("#" + tuid);
-        var refineBy = "";
 
         // Search URL mapping
         var searchURLmap = {
@@ -65,9 +64,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             search: "#searchgroups",
             global: {
                 resultTemp: search + "_result_temp",
-                button: search + "_button",
-                text: search + '_text',
                 numberFound: search + '_numberFound',
+                text: "#form .s3d-search-inputfield",
                 searchButton: "#form .s3d-search-button"
             },
             results: {
@@ -157,10 +155,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var doSearch = function(){
             var params = sakai_global.data.search.getQueryParams();
             var searchString = params.q;
-            refineBy = "";
             if (params.refine){
-                refineBy = params.refine;
-                searchString = searchString + " " + params.refine.replace(",", " ");
+                if (searchString === "*"){
+                    searchString = params.refine.replace(/,/g, " ");
+                } else {
+                    searchString = searchString + " " + params.refine.replace(/,/g, " ");
+                }
             }
             var urlsearchterm = sakai.api.Server.createSearchString(params.cat || searchString);
 
@@ -218,36 +218,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 sakai_global.data.search.generateTagsRefineBy(data, params);
             });
         };
-
-        ///////////////////
-        // Event binding //
-        ///////////////////
-
-        $(searchConfig.global.text, $rootel).live("keydown", function(ev){
-            if (ev.keyCode === 13) {
-                $.bbq.pushState({
-                    "q": $(searchConfig.global.text, rootel).val(),
-                    "cat": "",
-                    "refine": ""
-                }, 0);
-            }
-        });
-
-        $(searchConfig.global.searchButton, $rootel).live("click", function(ev){
-            $.bbq.pushState({
-                "q": $(searchConfig.global.text, rootel).val(),
-                "cat": "",
-                "refine": ""
-            }, 0);
-        });
-
-        $(searchConfig.global.button, $rootel).live("click", function(ev){
-            $.bbq.pushState({
-                "q": $(searchConfig.global.text, rootel).val(),
-                "cat": "",
-                "refine": ""
-            }, 0);
-        });
 
         /////////////////////////
         // Initialise Function //

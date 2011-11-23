@@ -20,6 +20,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.search = function() {
         var worldsOrderIncrement = 3;
+        var searchButton = "#form .s3d-search-button";
+        var searchInput = "#form .s3d-search-inputfield";
         var pubdata = {
             "structure0": {
                 "all": {
@@ -87,6 +89,30 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         }
 
+        ///////////////////
+        // Event binding //
+        ///////////////////
+
+        var eventBinding = function(){
+            $(searchInput).live("keydown", function(ev){
+                if (ev.keyCode === 13) {
+                    $.bbq.pushState({
+                        "q": $(searchInput).val(),
+                        "cat": "",
+                        "refine": ""
+                    }, 0);
+                }
+            });
+
+            $(searchButton).live("click", function(ev){
+                $.bbq.pushState({
+                    "q": $(searchInput).val(),
+                    "cat": "",
+                    "refine": ""
+                }, 0);
+            });
+        };
+
         var generateNav = function(){
             $(window).trigger("lhnav.init", [pubdata, {}, {}]);
         };
@@ -105,6 +131,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         renderEntity();
         generateNav();
+        eventBinding();
 
     };
 
