@@ -94,7 +94,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
 
-                        if (data.results.hasOwnProperty(1)) {
+                        if (data.results.length > 1) {
                             contentMembers = $.parseJSON(data.results[1].body);
                             contentMembers.viewers = contentMembers.viewers || {};
                             $.each(contentMembers.viewers, function(index, resultObject) {
@@ -104,14 +104,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
                                         contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
                                 }
-                                if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
+                                if (contentMembers.viewers[index]["sakai:pseudoGroup"]) {
                                     contentMembers.viewers[index].pseudoGroup = true;
+                                    contentMembers.viewers[index]["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"] + " (" + sakai.api.i18n.getValueForKey(contentMembers.viewers[index]["sakai:role-title-plural"]) + ")";
                                     contentMembers.viewers[index].parent = {};
-                                    var groupid = contentMembers.viewers[index].groupid;
-                                    contentMembers.viewers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
-                                    var grouptitle = contentMembers.viewers[index]["sakai:group-title"];
-                                    contentMembers.viewers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
-                                    contentMembers.viewers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
+                                    contentMembers.viewers[index].parent["sakai:group-id"] = contentMembers.viewers[index]["sakai:parent-group-id"];
+                                    contentMembers.viewers[index].parent["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"];
+                                    contentMembers.viewers[index].parent["sakai:role-title"] = contentMembers.viewers[index]["sakai:group-title"];
                                 }
                             });
                             contentMembers.managers = contentMembers.managers || {};
@@ -122,14 +121,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
                                         contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
                                 }
-                                if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
+                                if (contentMembers.managers[index]["sakai:pseudoGroup"]){
                                     contentMembers.managers[index].pseudoGroup = true;
+                                    contentMembers.managers[index]["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"] + " (" + sakai.api.i18n.getValueForKey(contentMembers.managers[index]["sakai:role-title-plural"]) + ")";
                                     contentMembers.managers[index].parent = {};
-                                    var groupid = contentMembers.managers[index].groupid;
-                                    contentMembers.managers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
-                                    var grouptitle = contentMembers.managers[index]["sakai:group-title"];
-                                    contentMembers.managers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
-                                    contentMembers.managers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
+                                    contentMembers.managers[index].parent["sakai:group-id"] = contentMembers.managers[index]["sakai:parent-group-id"];
+                                    contentMembers.managers[index].parent["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"];
+                                    contentMembers.managers[index].parent["sakai:role-title"] = contentMembers.managers[index]["sakai:group-title"];
                                 }
                             });
                         }

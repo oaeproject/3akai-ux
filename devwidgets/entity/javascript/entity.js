@@ -175,15 +175,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
                         sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], false, function(success, members) {
-                            var managerCount = false;
-                            var leaveAllowed = false;
-                            if (members.Manager && members.Manager.results){
-                                managerCount = members.Manager.results.length;
-                                if (managerCount > 1 || !sakai.api.Groups.isCurrentUserAManager(context.data.authprofile["sakai:group-id"], sakai.data.me)) {
-                                    // user is allowed to leave group
-                                    leaveAllowed = true;
-                                }
-                            }
+                            var managerCount = sakai.api.Groups.getManagerCount(context.data.authprofile, members);
+                            var leaveAllowed = managerCount > 1 || !sakai.api.Groups.isCurrentUserAManager(context.data.authprofile["sakai:group-id"], sakai.data.me);
                             $(window).trigger("init.joinrequestbuttons.sakai", [
                                 {
                                     "groupProfile": context.data.authprofile,

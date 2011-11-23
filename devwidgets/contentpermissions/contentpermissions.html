@@ -64,7 +64,12 @@
                                     {else}
                                         <img src="${sakai.api.User.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
                                     {/if}
-                                    <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
+                                    {if member["sakai:pseudoGroup"]}
+                                        <span class="s3d-bold" title="${name|safeOutput}">${nameshort|safeOutput}</span>
+                                    {else}
+                                        <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
+                                    {/if}
+
                                 </label>
                             </li>
                         {/for}

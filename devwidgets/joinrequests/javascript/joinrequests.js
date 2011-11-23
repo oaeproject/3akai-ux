@@ -274,10 +274,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 ret = "";
             $.each(roles, function(i, role) {
                 if (role.id === groupData["sakai:joinRole"]) {
-                    ret = role.roleTitle;
+                    ret = role.titlePlural;
                 }
             });
-            return sakai.api.i18n.getValueForKey(ret.substr(7, ret.length - 9));
+            return sakai.api.i18n.getValueForKey(ret);
         };
 
         /**
