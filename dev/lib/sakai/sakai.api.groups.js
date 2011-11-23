@@ -217,11 +217,29 @@ define(
          *
          * @param {String} id The id of the group to update
          * @param {Object} profile The group's profile
+         * @param {Object} groupData The group's authprofile data - need this for role extraction
          * @param {Function} callback Callback function, passes (success)
          */
-        updateGroupProfile : function(id, profile, callback) {
+        updateGroupProfile : function(id, profile, groupData, callback) {
             var groupProfileURL = "/~" + id + "/public/authprofile.profile.json";
-            sakai_serv.saveJSON(groupProfileURL, profile, function(success, data) {
+            var batch = [];
+            batch.push({
+                "url": groupProfileURL,
+                "method": "POST",
+                "parameters": profile
+            });
+            // Also update the pseudo-groups sakai:parent-group-title property
+            var roles = $.parseJSON(groupData["sakai:roles"]);
+            $.each(roles, function(i, role) {
+                batch.push({
+                    "url": "/system/userManager/group/" + id + "-" + role.id + ".update.json",
+                    "method": "POST",
+                    "parameters": {
+                        "sakai:parent-group-title": profile["sakai:group-title"]
+                    }
+                });
+            });
+            sakai_serv.batch(batch, function(success, data) {
                 if ($.isFunction(callback)) {
                     callback(success);
                 }
