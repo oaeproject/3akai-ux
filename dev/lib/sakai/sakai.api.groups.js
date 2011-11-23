@@ -593,7 +593,7 @@ define(
                 var groupString = groupProfile["sakai:group-title"];
                 var systemString = sakai_i18n.getValueForKey("SAKAI");
                 var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid);
-                var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"];
+                var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"] + "#e=joinrequests";
                 var subject = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
                      .replace(/\$\{sender\}/g, userString)
                      .replace(/\$\{group\}/g, groupString);
