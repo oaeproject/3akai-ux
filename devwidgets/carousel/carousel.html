@@ -25,9 +25,9 @@
 
     {macro contentButtons(id, uploader,title,type)}
         <span class="carousel_bottom_buttons">
-            <fieldset><legend class="s3d-aural-text">${type}: ${title}</legend>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE_CONTENT__"></button>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE_CONTENT__"></button>
+            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__ ${title}</legend>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE__ ${title}"></button>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE__ ${title}"></button>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__"></button>
             </fieldset>    
         </span>
@@ -125,12 +125,14 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="carousel_bottom_buttons">
-                                            {if !user.connected}
-                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS__"></button>
-                                            {/if}
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE__"></button>
-                                        </div>
+                                        <span class="carousel_bottom_buttons">
+                                            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
+                                                {if !user.connected}
+                                                    <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS1__ ${user.displayName|safeOutput} __MSG__ADD_TO_CONTACTS2__"></button>
+                                                {/if}
+                                                <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE_TO__ ${user.displayName|safeOutput}"></button>
+                                            </fieldset>    
+                                        </span>
                                     </div>
                                 {/for}
                             </div>
@@ -167,8 +169,10 @@
                                         </div>
                                         ${tags(group.tags)}
                                         <span class="carousel_bottom_buttons">
-                                            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__"></button>
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group" title="__MSG__SEND_A_MESSAGE__"></button>
+                                            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__ ${group.title|safeOutput}"></button>
+                                                <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group" title="__MSG__SEND_A_MESSAGE_TO__ ${group.title|safeOutput}"></button>
+                                            </fieldset>    
                                         </span>
 
                                     </div>
