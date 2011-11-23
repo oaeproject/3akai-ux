@@ -485,17 +485,29 @@ define(
                 var groupString = groupProfile["sakai:group-title"];
                 var systemString = sakai_i18n.getValueForKey("SAKAI");
                 var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid);
-                var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"];
-                var subject = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
-                     .replace(/\$\{sender\}/g, userString)
-                     .replace(/\$\{group\}/g, groupString);
-                var body = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_BODY")
-                     .replace(/\$\{sender\}/g, userString)
-                     .replace(/\$\{group\}/g, groupString)
-                     .replace(/\$\{system\}/g, systemString)
-                     .replace(/\$\{profilelink\}/g, profileLink)
-                     .replace(/\$\{acceptlink\}/g, acceptLink)
-                    .replace(/\$\{br\}/g,"\n");
+                var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"] + "#e=joinrequests";
+                if (groupProfile["sakai:group-joinable"] === "withauth") {
+                    var subject = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
+                         .replace(/\$\{sender\}/g, userString)
+                         .replace(/\$\{group\}/g, groupString);
+                    var body = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_BODY")
+                         .replace(/\$\{sender\}/g, userString)
+                         .replace(/\$\{group\}/g, groupString)
+                         .replace(/\$\{system\}/g, systemString)
+                         .replace(/\$\{profilelink\}/g, profileLink)
+                         .replace(/\$\{acceptlink\}/g, acceptLink)
+                         .replace(/\$\{br\}/g,"\n");
+                } else { // groupProfile["sakai:group-joinable"] === "yes")
+                    var subject = sakai_i18n.getValueForKey("GROUP_JOINED_TITLE")
+                         .replace(/\$\{sender\}/g, userString)
+                         .replace(/\$\{group\}/g, groupString);
+                    var body = sakai_i18n.getValueForKey("GROUP_JOINED_BODY")
+                         .replace(/\$\{sender\}/g, userString)
+                         .replace(/\$\{group\}/g, groupString)
+                         .replace(/\$\{system\}/g, systemString)
+                         .replace(/\$\{profilelink\}/g, profileLink)
+                         .replace(/\$\{br\}/g,"\n");
+                }
                 sakai_comm.sendMessage(managerArray, meData, subject, body, false,false,false,true,"join_request");
             };
 
