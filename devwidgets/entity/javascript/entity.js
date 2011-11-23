@@ -134,6 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                     break;
                 case "group_managed":
+                    checkHash(context);
                     var json = {
                         "joinable": context.data.authprofile["sakai:group-joinable"] === "withauth",
                         "context": context,
@@ -276,6 +277,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
             $(entityChangeImage).toggleClass("clicked");
             $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
+        };
+
+        var checkHash = function(context){
+            if ($.bbq.getState("e") === "joinrequests" && context.context === "group" && context.data.authprofile["sakai:group-joinable"] === "withauth"){
+                $(window).bind("ready.joinrequests.sakai", function(){
+                    $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
+                });
+            }
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){

@@ -301,6 +301,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     debug.warn("The group's authprofile node wasn't passed in to init.joinrequests.sakai");
                 }
             });
+            $(window).trigger("ready.joinrequests.sakai");
         };
 
         init();
