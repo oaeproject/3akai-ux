@@ -55,7 +55,7 @@
     {/macro}
 
     {if results && results.length}
-        <div class="s3d-contentpage-title">{if sakai.config.enableCategories}__MSG__ALL_CATEGORIES__{else}__MSG__SUGGESTED__{/if}</div>
+        <div class="s3d-contentpage-title">{if sakai.config.enableCategories}__MSG__FEATURED_CONTENT__{else}__MSG__SUGGESTED__{/if}</div>
         <div id="featuredcontent_content_offset_container">
         {for item in results}
             {if item_index === "0"}
