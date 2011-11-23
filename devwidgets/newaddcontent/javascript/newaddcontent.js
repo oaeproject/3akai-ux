@@ -400,8 +400,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         * @param {Object} file    File that has been dropped in from the desktop
         */
        var fileDropped = function(file){
+            var extension = file.name.split('.');
+            extension = extension[extension.length - 1];
             var contentObj = {
                 "sakai:originaltitle": file.name,
+                "sakai:fileextension": extension,
                 "sakai:pooled-content-file-name": file.name,
                 "sakai:description": "",
                 "sakai:tags": "",
@@ -1176,9 +1179,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 drop: function (ev, data) {
                     ev.stopPropagation();
                     ev.preventDefault();
+                    var error = false;
                     $.each(data.files, function (index, file) {
-                        fileDropped(file);
+                        if (file.size > 0){
+                            fileDropped(file);
+                        } else {
+                            error = true;
+                        }
                     });
+                    if (error) {
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "newaddcontent"),
+                            sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "newaddcontent"));
+                    }
                 }
             });
 
@@ -1196,14 +1209,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $newaddcontentContainer.jqm({
                 modal: true,
                 overlay: 20,
+                zIndex: 4001,
                 toTop: true
             });
             $newaddcontentUploading.jqm({
                 modal: true,
                 overlay: 20,
+                zIndex: 4003,
                 toTop: true
             });
-            $newaddcontentUploading.css("z-index", "4002");
             $newaddcontentContainer.jqmShow();
         };
 
