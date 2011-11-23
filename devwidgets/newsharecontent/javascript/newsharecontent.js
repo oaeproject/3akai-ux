@@ -203,7 +203,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     idArr = idArr.split(",");
                 }
                 var $this = $(this);
-                $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
+                $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 119});
                 // Fetch data for content items
                 var batchRequests = [];
                 $.each(idArr, function(i, id){

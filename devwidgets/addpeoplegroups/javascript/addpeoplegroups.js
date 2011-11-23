@@ -190,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var doInit = function(el){
             toggleVisibility();
-            $addpeoplegroupsWidget.css("top", $(el).position().top + 30);
+            $addpeoplegroupsWidget.css("top", $(el).position().top + 24);
             $addpeoplegroupsWidget.css("left", $(el).position().left - ($addpeoplegroupsWidget.width() / 2) + ($(el).width() / 2 + 10) );
         };
 

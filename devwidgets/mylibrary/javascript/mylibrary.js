@@ -67,6 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_search_button = $("#mylibrary_search_button", $rootel);
         var $mylibrary_show_grid = $(".s3d-listview-grid", $rootel);
         var $mylibrary_show_list = $(".s3d-listview-list", $rootel);
+        var $mylibraryAddContentOverlay = $(".sakai_add_content_overlay", $rootel);
 
         var currentGroup = false;
 
@@ -115,7 +116,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showHideTopControls = function(show){
             if (show){
                 if (mylibrary.isOwnerViewing) {
+                    $mylibrary_remove.show();
                     $mylibrary_admin_actions.show();
+                    $mylibraryAddContentOverlay.show();
                 }
                 $mylibrary_livefilter_container.show();
                 $mylibrary_sortarea.show();
@@ -159,6 +162,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 mode: mode,
                 query: query
             }));
+
+            $(".s3d-page-header-top-row").hide();
+            $(".s3d-page-header-bottom-row").hide();
+
             $mylibrary_empty.show();
         }
 
@@ -188,9 +195,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sortOrder: sortOrder,
                 q: query
             }, function(items, total){
+                if(!sakai.data.me.user.anon){
+                    if(items.length !== 0){
+                        $(".s3d-page-header-top-row").show();
+                        $(".s3d-page-header-bottom-row").show();
+                    }
+                } else {
+                    if(items.length !== 0){
+                        $(".s3d-page-header-top-row").show();
+                    }
+                }
                 return sakai.api.Util.TemplateRenderer("mylibrary_items_template", {
                     "items": items,
-                    "sakai": sakai
+                    "sakai": sakai,
+                    "isMe": mylibrary.isOwnerViewing
                 });
             }, handleEmptyLibrary, sakai.config.URL.INFINITE_LOADING_ICON, handleLibraryItems, sakai.api.Content.getNewList(mylibrary.contextId));
         };
@@ -207,13 +225,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (mylibrary.widgetShown){
                 // Set the sort states
                 var parameters = $.bbq.getState();
-                mylibrary.sortOrder = parameters["lso"] || "desc";
+                mylibrary.sortOrder = parameters["lso"] || "modified";
                 mylibrary.sortBy = parameters["lsb"] || "_lastModified";
                 $mylibrary_livefilter.val(parameters["lq"] || "");
                 $mylibrary_sortby.val(mylibrary.sortOrder);
                 showLibraryContent();
             }
-            var ls = $.bbq.getState("ls") || mylibrary.listStyle;
+            var ls = $.bbq.getState("ls") || "list";
             $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
             if (ls === "list"){
                 $("#mylibrary_items", $rootel).removeClass("s3d-search-results-grid");

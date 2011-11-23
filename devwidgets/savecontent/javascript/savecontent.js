@@ -105,8 +105,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $savecontent_save.removeAttr("disabled");
             
-            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 5;
-            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 125;
+            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 3;
+            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 115;
                 
             $savecontent_widget.css({
                 top: savecontentTop,

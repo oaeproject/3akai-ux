@@ -29,7 +29,7 @@
     {var done = false}
     {for group in groups}
         {if group_index < 4}
-            "${group.title}" {if group_index != 3 && groups.length > 1 && groups.length -1 != group_index}, {/if}
+            "${group.title}" {if group_index != 3 && groups.length > 1 && groups.length -1 != group_index}{if group_index == groups.length - 2} __MSG__AND__{else}, {/if}{/if}
         {elseif !done}
             __MSG__AND__ ${groups.length - 4}
             {var done = true}
