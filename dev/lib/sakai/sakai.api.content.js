@@ -23,6 +23,7 @@ define(
         "sakai/sakai.api.groups",
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
+        "sakai/sakai.api.l10n",
         "sakai/sakai.api.user",
         "misc/parseuri"
     ],
@@ -130,7 +131,7 @@ define(
                     for (var i in versionInfo.versions) {
                         if(versionInfo.versions.hasOwnProperty(i)){
                             var splitDate = versionInfo.versions[i]["_created"];
-                            versionInfo.versions[i]["_created"] = require("sakai/sakai.api.l10n").transformDate(new Date(splitDate));
+                            versionInfo.versions[i]["_created"] = sakai_l10n.transformDate(new Date(splitDate));
                             versions.push(versionInfo.versions[i]);
                         }
                     }
@@ -145,8 +146,8 @@ define(
 
                     // Add in some extra data on the object about the content
                     // Is current user manager/viewer
-                    tempItem.isManager = sakai_content.isUserAManager(tempItem.data, require("sakai/sakai.api.user").data.me);
-                    tempItem.isViewer = sakai_content.isUserAViewer(tempItem.data, require("sakai/sakai.api.user").data.me);
+                    tempItem.isManager = sakai_content.isUserAManager(tempItem.data, sakai_user.data.me);
+                    tempItem.isViewer = sakai_content.isUserAViewer(tempItem.data, sakai_user.data.me);
 
                     // Directory location
                     tempItem.saveddirectory = [];
@@ -1089,11 +1090,11 @@ define(
             });
             // Get displaynames for the users that created content
             if (userArray.length) {
-                require("sakai/sakai.api.user").getMultipleUsers(userArray, function(users){
+                sakai_user.getMultipleUsers(userArray, function(users){
                     $.each(results, function(index, item){
                         if (item && item['sakai:pooled-content-file-name']) {
                             var userid = item["sakai:pool-content-created-for"];
-                            var displayName = require("sakai/sakai.api.user").getDisplayName(users[userid]);
+                            var displayName = sakai_user.getDisplayName(users[userid]);
                             item.ownerId = userid;
                             item.ownerDisplayName = displayName;
                             item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
