@@ -593,17 +593,29 @@ define(
                 var groupString = groupProfile["sakai:group-title"];
                 var systemString = sakai_i18n.getValueForKey("SAKAI");
                 var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid);
-                var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"];
-                var subject = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
-                     .replace(/\$\{sender\}/g, userString)
-                     .replace(/\$\{group\}/g, groupString);
-                var body = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_BODY")
-                     .replace(/\$\{sender\}/g, userString)
-                     .replace(/\$\{group\}/g, groupString)
-                     .replace(/\$\{system\}/g, systemString)
-                     .replace(/\$\{profilelink\}/g, profileLink)
-                     .replace(/\$\{acceptlink\}/g, acceptLink)
-                    .replace(/\$\{br\}/g,"\n");
+                var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"] + "#e=joinrequests";
+                if (groupProfile["sakai:group-joinable"] === "withauth") {
+                    var subject = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
+                         .replace(/\$\{sender\}/g, userString)
+                         .replace(/\$\{group\}/g, groupString);
+                    var body = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_BODY")
+                         .replace(/\$\{sender\}/g, userString)
+                         .replace(/\$\{group\}/g, groupString)
+                         .replace(/\$\{system\}/g, systemString)
+                         .replace(/\$\{profilelink\}/g, profileLink)
+                         .replace(/\$\{acceptlink\}/g, acceptLink)
+                         .replace(/\$\{br\}/g,"\n");
+                } else { // groupProfile["sakai:group-joinable"] === "yes")
+                    var subject = sakai_i18n.getValueForKey("GROUP_JOINED_TITLE")
+                         .replace(/\$\{sender\}/g, userString)
+                         .replace(/\$\{group\}/g, groupString);
+                    var body = sakai_i18n.getValueForKey("GROUP_JOINED_BODY")
+                         .replace(/\$\{sender\}/g, userString)
+                         .replace(/\$\{group\}/g, groupString)
+                         .replace(/\$\{system\}/g, systemString)
+                         .replace(/\$\{profilelink\}/g, profileLink)
+                         .replace(/\$\{br\}/g,"\n");
+                }
                 sakai_comm.sendMessage(managerArray, meData, subject, body, false,false,false,true,"join_request");
             };
 
@@ -1002,6 +1014,56 @@ define(
             return sakai_util.constructProfilePicture(profile, "group");
         },
 
+        /**
+         * Function to process search results for groups
+         *
+         * @param {Object} results Search results to process
+         * @param {Object} meData User object for the user
+         * @returns {Object} results Processed results
+         */
+        prepareGroupsForRender: function(results, meData) {
+            $.each(results, function(i, group){
+                if (group["sakai:group-id"]) {
+                    group.id = group["sakai:group-id"];
+                    if (group["sakai:group-title"]) {
+                        group["sakai:group-title-short"] = sakai_util.applyThreeDots(group["sakai:group-title"], 550, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        group["sakai:group-title-shorter"] = sakai_util.applyThreeDots(group["sakai:group-title"], 130, {max_rows: 1,whole_word: false}, "s3d-bold");
+                    }
+
+                    if (group["sakai:group-description"]) {
+                        group["sakai:group-description-short"] = sakai_util.applyThreeDots(group["sakai:group-description"], 580, {max_rows: 2,whole_word: false});
+                        group["sakai:group-description-shorter"] = sakai_util.applyThreeDots(group["sakai:group-description"], 150, {max_rows: 2,whole_word: false});
+                    }
+
+                    var groupType = sakai_i18n.getValueForKey("OTHER");
+                    if (group["sakai:category"]){
+                        for (var c = 0; c < sakai_conf.worldTemplates.length; c++) {
+                            if (sakai_conf.worldTemplates[c].id === group["sakai:category"]){
+                                groupType = sakai_i18n.getValueForKey(sakai_conf.worldTemplates[c].titleSing);
+                            }
+                        }
+                    }
+                    // Modify the tags if there are any
+                    if (group["sakai:tags"]) {
+                        group.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group["sakai:tags"]));
+                    } else if (group.basic && group.basic.elements && group.basic.elements["sakai:tags"]) {
+                        group.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group.basic.elements["sakai:tags"].value));
+                    }
+                    group.groupType = groupType;
+                    group.lastModified = group.lastModified;
+                    group.picPath = sakaiGroupsAPI.getProfilePicture(group);
+                    group.userMember = false;
+                    if (sakaiGroupsAPI.isCurrentUserAManager(group["sakai:group-id"], meData) || sakaiGroupsAPI.isCurrentUserAMember(group["sakai:group-id"], meData)){
+                        group.userMember = true;
+                    }
+                    // use large default group icon on search page
+                    if (group.picPath === sakai_conf.URL.GROUP_DEFAULT_ICON_URL){
+                        group.picPathLarge = sakai_conf.URL.GROUP_DEFAULT_ICON_URL_LARGE;
+                    }
+                }
+            });
+            return results;
+        },
 
         /**
          * Change the permission of some users on a group

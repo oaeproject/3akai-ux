@@ -796,6 +796,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent.attr("id").split("discussion_post_")[1];
                 sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":false, "postId": postId}, replyParent.children(discussionTopicReplyContainer));
+                var replyValidateOpts = {
+                    submitHandler: doAddReply
+                };
+                sakai.api.Util.Forms.validate($(".discussion_reply_form", $rootel), replyValidateOpts, true);
                 replyParent.children(discussionTopicReplyContainer).show();
                 replyParent.find(discussionTopicReplyText).focus();
             });
