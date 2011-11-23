@@ -60,6 +60,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }
                         }
+
                         sakai.api.Content.parseFullProfile(data.results, function(parsedData){
                             parsedData[0].mode = "content";
                             sakai_global.content_profile.content_data = parsedData[0];
