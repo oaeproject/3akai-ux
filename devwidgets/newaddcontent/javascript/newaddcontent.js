@@ -1190,8 +1190,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                     if (error) {
                         sakai.api.Util.notification.show(
                             sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "newaddcontent"),
-                            sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "newaddcontent"),
-                            sakai.api.Util.notification.type.ERROR);
+                            sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "newaddcontent"));
                     }
                 }
             });
