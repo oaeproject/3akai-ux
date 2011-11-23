@@ -11,15 +11,13 @@
     <h1>__MSG__SUGGESTED__:</h1>
     {macro tags(t)}
         {if t && t.length}
-            <div class="carousel_content_tags">
-                <img src="/devwidgets/entity/images/entity_tags_icon.png" class="carousel_tag_icon" alt="__MSG__TAGS__:">
+            <ul class="carousel_content_tags s3d-taglist">
                 {for tag in t}
                     {if tag_index < 2}
-                        <a href="/search#q=${tag}" class="s3d-regular-links s3d-bold">${tag|safeOutput}</a>
-                        {if tag_index < 1}<div class="carousel_middot_divider">&#183;</div>{/if}
+                        <li><a href="/search#q=${tag}" class="s3d-regular-links s3d-bold">${tag|safeOutput}</a></li>
                     {/if}
                 {/for}
-            </div>
+            </ul>
         {/if}
     {/macro}
 
@@ -84,7 +82,6 @@
                                                     ${content2.title|safeOutput}
                                                 </a>
                                             </h2>
-                                            ${tags(content2.tags)}
                                             ${contentButtons(content2.id, content2.createdBy,content2.title,content2.mimeType)}
                                         {/if}
                                     </div>
@@ -96,7 +93,6 @@
                                                     ${content3.title|safeOutput}
                                                 </a>
                                             </h2>
-                                            ${tags(content3.tags)}
                                             ${contentButtons(content3.id, content3.createdBy,content3.title,content0.mimeType)}
                                         {/if}
                                     </div>

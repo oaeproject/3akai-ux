@@ -142,16 +142,16 @@
                     {if group.desc}<div class="mymemberships_item_description s3d-search_result-description">${group.desc}</div>{/if}
                     {if !$.isEmptyObject(group.tagsProcessed)}
                         <div class="mymemberships_item_tags">
-                            <span class="mymemberships_item_icon mymemberships_item_tags_icon"></span>
-                            <p class="mymemberships_item_tags_list">
+                            <ul class="mymemberships_item_tags_list s3d-taglist">
                                 {for t in group.tagsProcessed}
-                                    {if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} 
-                                    <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                        <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                        <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
-                                    </a>
+                                    <li>
+                                        <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                        </a>
+                                    </li>
                                 {/for}
-                            </p>
+                            </ul>
                         </div>
                     {/if}
                 </div>

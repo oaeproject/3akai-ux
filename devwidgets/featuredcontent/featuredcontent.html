@@ -27,13 +27,13 @@
     {/macro}
     {macro displayTags(item, sakai)}
         {if item["sakai:tags"]}
-            <span class="featuredcontent_content_tags">
+            <ul class="featuredcontent_content_tags s3d-taglist">
                 {for tag in item["sakai:tags"]}
                     {if tag_index < 2}
-                        <a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                        <li><a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a></li>
                     {/if}
                 {/for}
-            </span>
+            </ul>
         {/if}
     {/macro}
     {macro embedSmallThumbnail(item, sakai)}
