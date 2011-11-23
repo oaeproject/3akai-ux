@@ -33,6 +33,7 @@
         <a class="s3d-button s3d-large-button fl-force-right" href="/search#l=people">__MSG__FIND_MORE_PEOPLE__</a>
         <div title="__MSG__SELECT_ALL_CONTACTS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-page-header-selectall" id="contacts_select" type="button">
             <input type="checkbox" id="contacts_select_checkbox"/>
+            <label class="s3d-aural-text" for="contacts_select_checkbox">__MSG__SELECT_ALL__</label>
         </div>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="contacts_addpeople_button" disabled="true" data-entityname="" data-entityid="">
             <span class="s3d-page-header-add-to-icon"></span>
@@ -127,7 +128,8 @@
                     <li id="${a.id}" data-userid="${a.userid}" class="fl-container fl-fix contacts_item contacts_accepted_items s3d-search-result">
                         <div class="contacts_item_left_filler s3d-search-result-user-functions">
                             {if !sakai.data.me.user.anon && sakai_global.profile.main.mode.value !== "view"}
-                                <input type="checkbox" name="checkbox_${a.userid}" class="contacts_select_contact_checkbox" data-userid="${a.userid|safeOutput}" data-username="${a.name|safeOutput}"/>
+                                <input type="checkbox" name="checkbox_${a.userid}" class="contacts_select_contact_checkbox" data-userid="${a.userid|safeOutput}" data-username="${a.name|safeOutput}" id="checkbox_${a.userid}"/>
+                                <label class="s3d-aural-text" for="checkbox_${a.userid}">__MSG__SELECT__ ${a.name}</label>
                                 <button title="__MSG__REMOVE_CONTACT__ ${a.name}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.userid}" data-sakai-entityname="${a.name}"></button>
                                 <span class="contacts_gridview_items">
                                     <button sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"></button>
