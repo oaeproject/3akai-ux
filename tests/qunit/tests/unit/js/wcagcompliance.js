@@ -29,6 +29,12 @@ require(
             ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
         });
 
+        $.each($elt.find("input"), function(i, elt) {
+            if ($(elt).attr("type") === "image") {
+                ok($(elt).attr("alt"), "INPUT img type tag has ALT attribute:" + $("<div/>").html(elt).html());
+            }
+        });
+
         $.each($elt.find("applet"), function(i, elt) {
             ok($(elt).attr("alt"), "APPLET tag has ALT attribute: " + $("<div/>").html(elt).html());
         });
