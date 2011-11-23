@@ -187,9 +187,9 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 .s3d-page-header-bottom-row {line-height:30px;margin-bottom:15px;}
 .s3d-page-header-bottom-row button, .s3d-page-header-bottom-row .s3d-page-header-selectall {margin-top:6px;}
 .s3d-page-header-bottom-row .s3d-page-header-selectall {height:21px !important;line-height:23px;padding:0 6px 0 5px;width:13px;float:left;}
-.s3d-page-header-bottom-row .s3d-button .s3d-page-header-add-to-icon {background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left top transparent;display:block;float:right;height:16px;margin-left:5px;width:16px;}
-.s3d-page-header-bottom-row .s3d-button:hover .s3d-page-header-add-to-icon {background:url("/dev/images/savecontent_button_icon_16x16_hover.png") no-repeat top left transparent;}
-.s3d-page-header-bottom-row .s3d-button[disabled]:hover .s3d-page-header-add-to-icon {background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left top transparent;}
+.s3d-page-header-bottom-row .s3d-button .s3d-page-header-add-to-icon {background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left center transparent;display:block;float:right;height:18px;margin-left:5px;width:16px;}
+.s3d-page-header-bottom-row .s3d-button:hover .s3d-page-header-add-to-icon {background:url("/dev/images/savecontent_button_icon_16x16_hover.png") no-repeat scroll left center transparent;}
+.s3d-page-header-bottom-row .s3d-button[disabled]:hover .s3d-page-header-add-to-icon {background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left center transparent;}
 
 /* LIST VIEW OPTIONS */
 .s3d-listview-options {float:right;padding:0 !important;height:19px !important;margin-top:4px;margin-left:20px;}
@@ -241,7 +241,7 @@ a.s3d-button.s3d-header-button {height:24px;line-height:24px;}
 .s3d-button.s3d-header-button.s3d-popout-button > span {display:inline-block;float:right;font-size:18px;margin-left:4px;}
 
 /* Header buttons, smaller */
-.s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:10px;height:23px;padding:0 5px;}
+.s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:10px;height:23px;padding:0 5px;line-height:19px;}
 a.s3d-button.s3d-header-button.s3d-header-smaller-button {display:inline-block;}
 
 /* Regular in-page buttons */

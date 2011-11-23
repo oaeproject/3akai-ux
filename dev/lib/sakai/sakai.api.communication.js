@@ -125,7 +125,7 @@ define(
                         toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|name=" + groupTitle +
                         "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid) +
-                        "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
+                        "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId + "#e=joinrequests";
                         break;
                     case "group_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
