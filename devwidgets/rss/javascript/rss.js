@@ -142,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var body = resultJSON.entries[((pageClicked - 1) * 3) + index].description + "\n";
                 body += "read more: " + resultJSON.entries[((pageClicked - 1) * 3) + index].link;
                 // initialize the sendmessage-widget
-                $(window).trigger("initialize.sendmessage.sakai", [null, true, false, null, subject, body]);
+                $(window).trigger("initialize.sendmessage.sakai", [null, null, null, subject, body]);
             });
 
             $(rssOrderBySource, rootel).bind("click", function(e, ui) {
