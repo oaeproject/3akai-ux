@@ -400,8 +400,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         * @param {Object} file    File that has been dropped in from the desktop
         */
        var fileDropped = function(file){
+            var extension = file.name.split('.');
+            extension = extension[extension.length - 1];
             var contentObj = {
                 "sakai:originaltitle": file.name,
+                "sakai:fileextension": extension,
                 "sakai:pooled-content-file-name": file.name,
                 "sakai:description": "",
                 "sakai:tags": "",
@@ -1196,14 +1199,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $newaddcontentContainer.jqm({
                 modal: true,
                 overlay: 20,
+                zIndex: 4001,
                 toTop: true
             });
             $newaddcontentUploading.jqm({
                 modal: true,
                 overlay: 20,
+                zIndex: 4003,
                 toTop: true
             });
-            $newaddcontentUploading.css("z-index", "4002");
             $newaddcontentContainer.jqmShow();
         };
 

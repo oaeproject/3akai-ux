@@ -55,6 +55,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentPath = "";
         var store = "";
         var showCommentsChecked = true;
+        var contentData = {};
 
         // Main Ids
         var contentcomments = "#contentcomments";
@@ -153,7 +154,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 if (!picture) {
                     picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 }
-                $("#contentcomments_userProfileAvatarPicture").attr("src", picture);
+                $("#contentcomments_userProfileAvatarPicture", rootel).attr("src", picture);
             }
         };
 
@@ -208,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 // User
                 // Puts the userinformation in a better structure for trimpath
                 if (comment.userid) {
-                    if (sakai_global.content_profile.content_data.isManager){
+                    if (contentData.isManager){
                         comment.canDelete = true;
                     }
                     var profile = comment;
@@ -282,7 +283,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 items = widgetSettings.perPage;
             }
 
-            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
+            var url = "/p/" + contentData.data["_path"] + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
 
             $.ajax({
                 url: url,
@@ -303,13 +304,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var pagerClickHandler = function(pageclickednumber){
             clickedPage = pageclickednumber;
-
-            // Change the page-number on the display
-    /*        $(contentcommentsPager, rootel).pager({
-                pagenumber: pageclickednumber,
-                pagecount: Math.ceil(json.total / widgetSettings.perPage),
-                buttonClickCallback: pagerClickHandler
-            });*/
             getComments();
         };
 
@@ -356,20 +350,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     "comment": body
                 };
 
-                var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".comments";
+                var url = "/p/" + contentData.data["_path"] + ".comments";
                 $.ajax({
                     url: url,
                     type: "POST",
                     cache: false,
                     success: function(data){
-                        // Hide the form.
-                        //$(contentcommentsUserCommentContainer, rootel).hide();
                         // Clear the textboxes.
                         $(contentcommentsMessageTxt, rootel).val("");
                         $(contentcommentsNamePosterTxt, rootel).val("");
                         $(contentcommentsMailPosterTxt, rootel).val("");
                         // Add an acitivty
-                        sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["_path"], "content", "default", {"sakai:activityMessage": "CONTENT_ADDED_COMMENT"}, function(responseData, success){
+                        sakai.api.Activity.createActivity("/p/" + contentData.data["_path"], "content", "default", {"sakai:activityMessage": "CONTENT_ADDED_COMMENT"}, function(responseData, success){
                             if (success) {
                                 // update the entity widget with the new activity
                                 $(window).trigger("updateContentActivity.entity.sakai", "CONTENT_ADDED_COMMENT");
@@ -532,8 +524,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Boolean} getComments true = fetch contentcomments if contentcomments are to be shown, false = do not fetch contentcomments.
          */
         var checkCommentsPermissions = function(getComments){
-            var showComments = sakai_global.content_profile.content_data.data["sakai:showcontentcomments"];
-            var allowComments = sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"];
+            var showComments = contentData.data["sakai:showcontentcomments"];
+            var allowComments = contentData.data["sakai:allowcontentcomments"];
             if (showComments === true) {
                 if (getComments) {
                     pagerClickHandler(1);
@@ -617,31 +609,31 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var doInit = function(){
             addBinding();
             // Temporarily set these here, always allowing comments
-            sakai_global.content_profile.content_data.data["sakai:showcontentcomments"] = true;
-            sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"] = true;
-            $(contentcommentsEditorOptions).hide();
-            if (sakai_global.content_profile && sakai_global.content_profile.content_data){
-                contentPath = "/p/" + sakai_global.content_profile.content_data.path.split("/")[2];
+            contentData.data["sakai:showcontentcomments"] = true;
+            contentData.data["sakai:allowcontentcomments"] = true;
+            $(contentcommentsEditorOptions, rootel).hide();
+            if (sakai_global.content_profile && contentData){
+                contentPath = "/p/" + contentData.path.split("/")[2];
 
                 // check if contentcomments are allowed or shown and display the checkbox options for the manager
-                if (sakai_global.content_profile.content_data.isManager){
-                    if (sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"] === false){
+                if (contentData.isManager){
+                    if (contentData.data["sakai:allowcontentcomments"] === false){
                         $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
                     } else {
-                        sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"] = true;
+                        contentData.data["sakai:allowcontentcomments"] = true;
                         $(contentcommentsAllowCheckbox, rootel).attr("checked", "checked");
                     }
-                    if (sakai_global.content_profile.content_data.data["sakai:showcontentcomments"] === false){
+                    if (contentData.data["sakai:showcontentcomments"] === false){
                         $(contentcommentsShowCheckbox, rootel).removeAttr("checked");
                         $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
                         $(contentcommentsAllowCheckbox, rootel).attr("disabled", "disabled");
                         showCommentsChecked = false;
                     } else {
-                        sakai_global.content_profile.content_data.data["sakai:showcontentcomments"] = true;
+                        contentData.data["sakai:showcontentcomments"] = true;
                         $(contentcommentsShowCheckbox, rootel).attr("checked", "checked");
                         $(contentcommentsAllowCheckbox, rootel).removeAttr("disabled");
                     }
-                    $(contentcommentsEditorOptions).show();
+                    $(contentcommentsEditorOptions, rootel).show();
                 }
             }
             if (!showSettings) {
@@ -654,23 +646,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $(contentcommentsUserCommentContainer, rootel).hide();
                 }
             }
-            //getWidgetSettings();
-            //pagerClickHandler(1);
             checkCommentsPermissions(true);
-
-            // listen for event if new content profile is loaded
-            $(window).unbind("content_profile_hash_change");
-            $(window).bind("content_profile_hash_change", function(e){
-                doInit();
-            });
         };
-        if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
+
+        $(window).bind("ready.contentprofile.sakai", function(ev, data) {
+            contentData = data || sakai_global.content_profile.content_data;
             doInit();
-        } else {
-            $(window).bind("ready.contentprofile.sakai", function() {
-                doInit();
-            });
-        }
+        });
+
+        // listen for event if new content profile is loaded
+        $(window).bind("content_profile_hash_change", function(ev, data){
+            contentData = data || sakai_global.content_profile.content_data;
+            doInit();
+        });
+
+        $(window).trigger("content_profile_hash_change");
 
     };
 
