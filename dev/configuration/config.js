@@ -63,6 +63,7 @@ define(function(){
             PRESENCE_SERVICE: "/var/presence.json",
             SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
             WORLD_CREATION_SERVICE: "/system/world/create",
+            WORLD_INFO_URL: "/var/templates/worlds.2.json",
 
             // Replace these in widgets with proper widgetsave functions from magic
             SEARCH_ALL_ENTITIES: "/var/search/general.json",

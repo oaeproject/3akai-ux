@@ -83,6 +83,32 @@ define(
         },
 
         /**
+         * Get the world templates from the server
+         */
+        getTemplates: function() {
+            var templates = [];
+            $.ajax({
+                url: sakai_conf.URL.WORLD_INFO_URL,
+                async:false,
+                success: function(data) {
+                    templates = _.toArray(sakai_serv.removeServerCreatedObjects(data, ["jcr:"]));
+                }
+            });
+            $.each(templates, function(i,temp) {
+                $.each(temp, function(k,templ) {
+                    if ($.isPlainObject(temp[k])) {
+                        temp.templates = temp.templates || [];
+                        temp.templates.push(temp[k]);
+                    }
+                });
+            });
+            templates = _.sortBy(templates, function(templ) {
+                return templ.order;
+            });
+            return templates;
+        },
+
+        /**
          * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
          *
          * <p>
