@@ -29,19 +29,38 @@ define(
     function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_l10n, sakai_user) {
 
     var sakai_content = {
+        /**
+         * Parses a full profile as received from the loadFullProfile function
+         * @param {Object} data Object containing data as received from the loadFullProfile function.
+         * @param {Function} callback Function to execute when the function finishes
+         */
         parseFullProfile: function(data, callback){
+            // contains data to return in callback
             var parsedData = [];
+            // temporary object to store in parsedData
             var tempItem = {};
 
+            // Loops over results and gets the data to put in tempItem
+            // Each tempItem consists of 4 requests made by loadFullProfile, these are:
+            //    - poolid.infinity.json -> Fetches all general data for a content item (description, tags, title,...)
+            //    - members.json -> Fetches all viewers and managers for a content item
+            //    - versions.json -> Fetches all versions for a content item
+            //    - activityfeed.json -> Fetches all activity for a content item
             $.each(data, function(i, dataItem){
                 // results for poolid.infinity.json
                 if(dataItem.url.indexOf(".infinity.json") > -1){
+
+                    // Stores all general data on tempItem.data
                     tempItem = {};
                     tempItem.data = $.parseJSON(dataItem.body);
+
                 } else if(dataItem.url.indexOf(".members.json") > -1){
+
                     // results for members.json
+                    // Members are parsed an put into a .viewers and .managers object in tempItem
                     var contentMembers = $.parseJSON(dataItem.body);
                     contentMembers.viewers = contentMembers.viewers || {};
+                    // Parse the viewers and add them to the .viewers object.
                     $.each(contentMembers.viewers, function(index, resultObject) {
                         if (contentMembers.viewers[index].hasOwnProperty("basic") &&
                             contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
@@ -59,7 +78,9 @@ define(
                             contentMembers.viewers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
                         }
                     });
+
                     contentMembers.managers = contentMembers.managers || {};
+                    // Parse the managers and add them to the .managers object.
                     $.each(contentMembers.managers, function(index, resultObject) {
                         if (contentMembers.managers[index].hasOwnProperty("basic") &&
                             contentMembers.managers[index].basic.hasOwnProperty("elements") &&
@@ -87,6 +108,7 @@ define(
                         return false;
                     });
 
+                    // Add counts for managers and viewers
                     contentMembers.counts = { people: 0, groups: 0};
                     $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
                         if (member.hasOwnProperty("userid")) {
@@ -96,9 +118,13 @@ define(
                         }
                     });
 
+                    // Add the members to the tempItem object
                     tempItem.members = contentMembers;
+
                 } else if(dataItem.url.indexOf(".versions.json") > -1){
+
                     // results for versions.json
+                    // Parses all information related to versions and stores them on tempItem
                     var versionInfo =$.parseJSON(dataItem.body);
                     var versions = [];
                     for (var i in versionInfo.versions) {
@@ -109,12 +135,15 @@ define(
                         }
                     }
                     versionInfo.versions = versions.reverse();
+                    // Add the versions to the tempItem object
                     tempItem.versions = versionInfo;
+
                 }else if (dataItem.url.indexOf("activityfeed.json") > -1){
+
                     // results for activity.json
                     tempItem.activity = $.parseJSON(dataItem.body);
 
-                    // Add in some extra data
+                    // Add in some extra data on the object about the content
                     // Is current user manager/viewer
                     tempItem.isManager = sakai_content.isUserAManager(tempItem.data, require("sakai/sakai.api.user").data.me);
                     tempItem.isViewer = sakai_content.isUserAViewer(tempItem.data, require("sakai/sakai.api.user").data.me);
@@ -125,6 +154,7 @@ define(
                         tempItem.saveddirectory = sakai_util.getDirectoryTags(tempItem.data["sakai:tags"].toString());
                     }
 
+                    // Set the mimetype of the content
                     var mimeType = sakai_content.getMimeType(tempItem.data);
                     tempItem.data.mimeType = mimeType;
                     if (sakai_conf.MimeTypes[mimeType]) {
@@ -133,22 +163,39 @@ define(
                         tempItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
                     }
 
+                    // Add paths to the content item
                     tempItem.content_path = "/p/" + tempItem.data._path;
                     tempItem.smallPath = "/p/" + tempItem.data._path;
                     tempItem.url = sakai_conf.SakaiDomain + "/p/" + tempItem.data._path + "/" + sakai_util.safeURL(tempItem.data["sakai:pooled-content-file-name"]);
                     tempItem.path = "/p/" + tempItem.data._path + "/" + sakai_util.safeURL(tempItem.data["sakai:pooled-content-file-name"]);
 
-                    // All data gathered
+                    // All data gathered in the tempItem object so it's now pushed to parsedData
+                    // and will be returned in the callback function.
                     parsedData.push(tempItem);
+
                 }
             });
 
+            // If callback is supplied it is executed
+            // otherwise it will just return the data.
             if($.isFunction(callback)){
                 callback(parsedData);
             } else {
                 return parsedData;
             }
+
         },
+        /**
+         * Loads the full content profile containing:
+         *    - poolid.infinity.json -> Fetches all general data for a content item (description, tags, title,...)
+         *    - members.json -> Fetches all viewers and managers for a content item
+         *    - versions.json -> Fetches all versions for a content item
+         *    - activityfeed.json -> Fetches all activity for a content item
+         * and returns it in a callback function
+         * @param {Array} Array of content ID's to load the profile for
+         * @param {Function} callback Function that executes when all data thas been gathered,
+         *                            passes through the unparsed results.
+         */
         loadFullProfile: function(idArray, callback){
             var batchRequests = [];
             $.each(idArray, function(i, poolid){
