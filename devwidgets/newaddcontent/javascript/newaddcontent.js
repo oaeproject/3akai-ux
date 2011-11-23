@@ -400,8 +400,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         * @param {Object} file    File that has been dropped in from the desktop
         */
        var fileDropped = function(file){
+            var extension = file.name.split('.');
+            extension = extension[extension.length - 1];
             var contentObj = {
                 "sakai:originaltitle": file.name,
+                "sakai:fileextension": extension,
                 "sakai:pooled-content-file-name": file.name,
                 "sakai:description": "",
                 "sakai:tags": "",
