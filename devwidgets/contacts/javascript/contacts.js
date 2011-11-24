@@ -170,8 +170,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (sakai_global.profile.main.mode.value === "view") {
                     for (var i in items) {
                         if (items.hasOwnProperty(i)) {
+                            items[i].accepted = false;
+                            items[i].connected = false;
                             for (var m in sakai.data.me.mycontacts) {
-                                if (sakai.data.me.mycontacts.hasOwnProperty(m) && items[i].profile.userid === sakai.data.me.mycontacts[m].profile.userid) {
+                                if (sakai.data.me.mycontacts.hasOwnProperty(m) && items[i].userid === sakai.data.me.mycontacts[m].profile.userid) {
                                     var connectionState = sakai.data.me.mycontacts[m].details["sakai:state"];
                                     items[i].connected = true;
                                     if (connectionState === "INVITED"){
@@ -180,8 +182,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                         items[i].pending = true;
                                     } else if(connectionState === "ACCEPTED"){
                                         items[i].accepted = true;
-                                    } else if(connectionState === "NONE"){
-                                        items[i].connected = false;
                                     }
                                 }
                             }
