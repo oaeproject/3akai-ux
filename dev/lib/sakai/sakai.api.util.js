@@ -237,6 +237,26 @@ define(
         },
 
         /**
+         * Shorten tags to be displayed in search results
+         * @param {Array} tags The array containing tags.
+         * @return {Object} Object containing the tag and shortened lengths
+         */
+        shortenTags : function(tags) {
+            var tagsObj = {};
+            for (var i in tags) {
+                if (tags.hasOwnProperty(i)) {
+                    tagsObj[i] = {
+                        "tag": tags[i],
+                        "tagShort": sakai_util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
+                        "tagShorter": sakai_util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, ""),
+                        "link": "search#q=" + sakai_util.safeURL(tags[i])
+                    };
+                }
+            }
+            return tagsObj;
+        },
+
+        /**
          * Formats a comma separated string of text to an array of usable directory tags
          * Returns the array of tags, if no tags were provided or none were valid an empty array is returned
          *
@@ -1545,6 +1565,11 @@ define(
                 html4.ATTRIBS["button::entitypicture"] = 0;
                 html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
+                html4.ATTRIBS["a::aria-haspopup"] = 0;
+                html4.ATTRIBS["a::role"] = 0;
+                html4.ATTRIBS["ul::aria-hidden"] = 0;
+                html4.ATTRIBS["ul::role"] = 0;
+
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];

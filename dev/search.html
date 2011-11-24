@@ -72,7 +72,8 @@
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']|safeURL}" title="${i['_path']}"{/if}>
                                 {if i['sakai:pooled-content-file-name']}
-                                    ${i['sakai:pooled-content-file-name']}
+                                    <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']|safeOutput}</span>
+                                    <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']|safeOutput}</span>
                                 {elseif i['_path']}
                                     ${i['_path']}
                                 {/if}
@@ -82,19 +83,27 @@
                             {/if}
                         </div>
                         <div class="searchcontent_result_by">
-                            __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeURL}">${i.displayNameShort}</a> <span class="s3d-search-result-detail-separator"><span> | </span></span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
+                            __MSG__BY__
+                            <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeURL}">
+                                <span class="searchcontent_result_by_name">${i.ownerDisplayNameShort}</span>
+                                <span class="searchcontent_result_by_name_grid">${i.ownerDisplayNameShorter}</span>
+                            </a>
+                            <span class="s3d-search-result-detail-separator"><span> | </span></span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                         </div>
                         {if i["sakai:description"]}
                             <span class="searchcontent_result_description">${i["sakai:description"]}</span>
-                            <span class="searchcontent_result_description_grid s3d-search_result-description">${i["sakai:description-shorter"]}</span>
+                            <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
                         {/if}
-                        {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                        {if !$.isEmptyObject(i.tagsProcessed)}
                             <div class="searchcontent_result_tags">
                                 <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
                                 <p class="searchcontent_result_tags_list">
-                                    {for t in i["sakai:tags"]}
+                                    {for t in i.tagsProcessed}
                                         {if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if}
-                                        <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
+                                        <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                        </a>
                                     {/for}
                                 </p>
                             </div>
@@ -145,32 +154,48 @@
                         <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
                             <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/>
                             {if i.pictureLarge}
-                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" width="48px" height="48px" class="searchpeople_avatar_large"/>
+                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" width="48px" height="48px" class="s3d-search-result-avatar-large"/>
                             {/if}
                         </a>
                     {/if}
                     <div class="s3d-search-result-right">
-                        <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
+                        <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${i.name}">
+                            <span class="s3d-search-result-name">${i.nameShort}</span>
+                            <span class="s3d-search-result-name-grid">${i.nameShorter}</span>
+                        </a>
                         <div class="searchpeople_result_counts">
-                            <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
-                                ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
-                            </a>
-                            <span class="s3d-search-result-detail-separator"><span> | </span></span>
-                            <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=contacts">
-                                ${i.counts.contactsCount || 0} {if i.counts.contactsCount === 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
-                            </a>
-                            <span class="s3d-search-result-detail-separator"><span> | </span></span>
-                            <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=memberships">
-                                ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
-                            </a>
+                            {if i.counts.contentCount > 0}
+                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
+                                    ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+                                </a>
+                                {if i.counts.contactsCount > 0 || i.counts.membershipsCount > 0}
+                                    <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                {/if}
+                            {/if}
+                            {if i.counts.contactsCount > 0}
+                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=contacts">
+                                    ${i.counts.contactsCount || 0} {if i.counts.contactsCount === 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
+                                </a>
+                                {if i.counts.membershipsCount > 0}
+                                    <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                {/if}
+                            {/if}
+                            {if i.counts.membershipsCount > 0}
+                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=memberships">
+                                    ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount === 1} __MSG__MEMBERSHIP_LC__{else} __MSG__MEMBERSHIPS_LC__{/if}
+                                </a>
+                            {/if}
                         </div>
-                        {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                        {if !$.isEmptyObject(i.tagsProcessed)}
                             <div class="searchpeople_result_tags">
                                 <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
                                 <p class="searchpeople_result_tags_list">
-                                    {for t in i["sakai:tags"]}
-                                        {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} 
-                                        <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
+                                    {for t in i.tagsProcessed}
+                                        {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if}
+                                        <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                        </a>
                                     {/for}
                                 </p>
                             </div>
@@ -189,13 +214,14 @@
                     <a href="${i.homePath}" title="${i['sakai:group-title']|safeOutput}">
                         <img src="${sakai.api.Groups.getProfilePicture(i)}" alt="${i['sakai:group-title']|safeOutput}">
                         {if i.picPathLarge}
-                            <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="searchgroups_avatar_large">
+                            <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="s3d-search-result-avatar-large">
                         {/if}
                     </a>
                     <div class="s3d-search-result-right">
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                ${i["sakai:group-title-short"]}
+                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]|safeOutput}</span>
+                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]|safeOutput}</span>
                             </a>
                             {if i.groupType}
                                 <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>
@@ -218,15 +244,18 @@
                         </div>
                         {if i["sakai:group-description-short"]}
                             <div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>
-                            <div class="searchgroups_result_description_grid s3d-search_result-description">${i["sakai:group-description-shorter"]}</div>
+                            <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                         {/if}
-                        {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                        {if !$.isEmptyObject(i.tagsProcessed)}
                             <div class="searchgroups_result_tags">
                                 <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
                                 <p class="searchgroups_result_tags_list">
-                                {for t in i["sakai:tags"]}
+                                {for t in i.tagsProcessed}
                                     {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if}
-                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
+                                    <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                        <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                        <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                    </a>
                                 {/for}
                                 </p>
                             </div>
