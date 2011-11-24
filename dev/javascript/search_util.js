@@ -212,9 +212,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // bind sortby select box
         $("#search_select_sortby").die("change").live("change", function(ev) {
             var sortby = $(this).find(":selected").val();
+            var sorton = $(this).find(":selected").attr("data-sakai-searchon");
             $.bbq.pushState({
                 "page": 1,
-                "sortby": sortby
+                "sortby": sortby,
+                "sorton": sorton
             }, 0);
         });
 
