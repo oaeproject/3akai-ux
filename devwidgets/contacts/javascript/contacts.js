@@ -167,6 +167,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $(".s3d-page-header-top-row", $rootel).show();
                     $(".s3d-page-header-bottom-row", $rootel).show();
                 }
+
+                // check if any of the users contacts are also contacts with the viewer
+                if (sakai_global.profile.main.mode.value === "view") {
+                    for (var i in items) {
+                        if (items.hasOwnProperty(i)) {
+                            for (var m in sakai.data.me.mycontacts) {
+                                if (sakai.data.me.mycontacts.hasOwnProperty(m) && items[i].profile.userid === sakai.data.me.mycontacts[m].profile.userid) {
+                                    var connectionState = sakai.data.me.mycontacts[m].details["sakai:state"];
+                                    items[i].connected = true;
+                                    if (connectionState === "INVITED"){
+                                        items[i].invited = true;
+                                    } else if(connectionState === "PENDING"){
+                                        items[i].pending = true;
+                                    } else if(connectionState === "ACCEPTED"){
+                                        items[i].accepted = true;
+                                    } else if(connectionState === "NONE"){
+                                        items[i].connected = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 return sakai.api.Util.TemplateRenderer(contactsAcceptedTemplate, {
                     "results": items,
                     "sakai": sakai
@@ -183,6 +207,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if ($(this).attr("sakai-entityid") === userToAdd.uuid){
                     $(this).hide();
                     $("#left_filler_"+userToAdd.uuid).show();
+                }
+            });
+        });
+
+        $(".link_accept_invitation").live("click", function(ev){
+            var userid = $(this).attr("sakai-entityid");
+            $.ajax({
+                url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.accept.html",
+                type: "POST",
+                data : {"targetUserId": userid},
+                error: function(xhr, textStatus, thrownError) {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
+                }
+            });
+            $('.link_accept_invitation').each(function(index) {
+                if ($(this).attr("sakai-entityid") === userid){
+                    $(this).hide();
+                    $("#left_accept_" + userid).show();
                 }
             });
         });
@@ -212,7 +254,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 getPendingFromOther(getAccepted);
             } else {
                 contacts.invited = false;
-                getAccepted();
+                sakai.api.User.getContacts(function(){
+                    getAccepted();
+                });
             }
         };
 
