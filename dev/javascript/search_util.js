@@ -120,6 +120,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                 });
+                tagArray = sakai.api.Util.formatTagsExcludeLocation(tagArray);
                 // store tags in either already active tags, or tags available to refine the search by
                 $.each(tagArray, function(key, tag) {
                     if ($.inArray(tag, activeTags) === -1) {
@@ -148,6 +149,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "refine": $.bbq.getState('refine')
             };
             return params;
+        };
+
+        sakai_global.data.search.processSearchString = function(params){
+            var searchString = params.q;
+            var catString = params.cat;
+            if (params.refine){
+                if (catString) {
+                    catString = catString + " " + params.refine.replace(/,/g, " ");
+                } else if (searchString === "*"){
+                    searchString = params.refine.replace(/,/g, " ");
+                } else {
+                    searchString = searchString + " " + params.refine.replace(/,/g, " ");
+                }
+            }
+            return sakai.api.Server.createSearchString(catString || searchString);
         };
 
         ////////////

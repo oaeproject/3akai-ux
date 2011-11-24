@@ -148,15 +148,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         var doSearch = function(){
             var params = sakai_global.data.search.getQueryParams();
-            var searchString = params.q;
-            if (params.refine){
-                if (searchString === "*"){
-                    searchString = params.refine.replace(/,/g, " ");
-                } else {
-                    searchString = searchString + " " + params.refine.replace(/,/g, " ");
-                }
-            }
-            var urlsearchterm = sakai.api.Server.createSearchString(params.cat || searchString);
+            var urlsearchterm = sakai_global.data.search.processSearchString(params);
 
             var facetedurl = "";
             var facetedurlall = "";
