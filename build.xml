@@ -43,6 +43,7 @@
         <property name="YUI_COMPRESSOR" value="tools/yuicompressor/yuicompressor-2.4.2.jar" description="YUI Compressor 2.4.2" />
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
         <property name="ANT_CONTRIB" value="tools/ant-contrib/ant-contrib-1.0b3.jar" description="Ant-contrib 1.0b3" />
+        <property name="HASHTOOL_DIR" value="tools/hashfiles" description="hash js and css files" />
 
         <!-- SETUP - Set Ant-contrib dependency -->
         <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -248,8 +249,34 @@
         <delete file="${MATH_DIR}/config/local/imageFonts.js"/>
     </target>
 
+    <!-- Build hash tool -->
+    <target name="compile_hash_tool">
+        <delete dir="${HASHTOOL_DIR}/HashAndRefreshFiles/classes"/>
+        <mkdir dir="${HASHTOOL_DIR}/HashAndRefreshFiles/classes"/>
+        <javac srcdir="${HASHTOOL_DIR}/HashAndRefreshFiles/src/org/sakaiproject/ux/tools" 
+            destdir="${HASHTOOL_DIR}/HashAndRefreshFiles/classes"/>
+        <delete file="${HASHTOOL_DIR}/HashAndRefreshFiles.jar"/>
+        <delete file="${HASHTOOL_DIR}/MANIFEST.MF"/>
+        <manifest file="${HASHTOOL_DIR}/MANIFEST.MF">
+            <attribute name="Built-By" value="Sakai project"/>
+            <attribute name="Main-class" value="org.sakaiproject.ux.tools.HashRefreshFiles"/>
+        </manifest>
+        <jar destfile="${HASHTOOL_DIR}/HashAndRefreshFiles.jar"
+            basedir="${HASHTOOL_DIR}/HashAndRefreshFiles/classes"
+            manifest="${HASHTOOL_DIR}/MANIFEST.MF"
+            />
+    </target>
+
+    <!-- Target: Hash files-->
+    <target name="hash_files" depends="compile_hash_tool, optimize">
+        <java jar="${HASHTOOL_DIR}/HashAndRefreshFiles.jar"
+        fork="true">
+            <arg value="${HASHTOOL_DIR}/config.properties" />
+        </java>
+    </target>
+
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize">
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, hash_files">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
