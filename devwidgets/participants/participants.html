@@ -48,7 +48,7 @@
                 {/if}
             </span>
             <label for="${participant.id|safeOutput}_chk">
-                <img src="${participant.profilePicture}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__" class="s3d-list-entity-picture"/>
+                <img src="${participant.profilePicture}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__" class="s3d-list-entity-picture s3d-icon-35"/>
             </label>
             <a href="/~${participant.id|safeOutput}" title="{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}</a>
             <br/>
