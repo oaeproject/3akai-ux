@@ -1427,8 +1427,8 @@ define(
             // If so, put the rendered template in there
             if (outputElement) {
                 outputElement.html(render);
-                sakai_util.Draggable.setupDraggable();
-                sakai_util.Droppable.setupDroppable();
+                sakai_util.Draggable.setupDraggable({}, outputElement);
+                sakai_util.Droppable.setupDroppable({}, outputElement);
 
                 // tell MathJax about the updated element
                 //MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElement]);
@@ -2127,17 +2127,16 @@ define(
             /**
              * Sets up draggables accross the page
              * @param {Object} params Optional parameters that override defaults
+             * @param {Object} $container Optional container element to add draggables, defaults to $("html") if not set
              */
-            setupDraggable: function(params){
+            setupDraggable: function(params, $container){
                 $.each($(".s3d-draggable-container"), function(index, draggable){
-                    if(!$(draggable).hasClass("ui-draggable")){
-                        // HTML overrides default, JS overrides HTML
-                        // Override default parameters with attribute defined parameters
-                        var htmlParams =  $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
-                        // Override attribute defined parameters with JS defined ones
-                        params = $.extend(true, htmlParams, params);
-                        $(".s3d-draggable-container").draggable(params);
-                    }
+                    // HTML overrides default, JS overrides HTML
+                    // Override default parameters with attribute defined parameters
+                    var htmlParams =  $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
+                    // Override attribute defined parameters with JS defined ones
+                    params = $.extend(true, htmlParams, params);
+                    $(".s3d-draggable-container", $container || $("html")).draggable(params);
                 });
             }
         },
@@ -2166,17 +2165,16 @@ define(
             /**
              * Sets up droppables accross the page
              * @param {Object} params Optional parameters that override defaults
+             * @param {Object} $container Optional container element to add droppables, defaults to $("html") if not set
              */
-            setupDroppable: function(params){
+            setupDroppable: function(params, $container){
                 $.each($(".s3d-droppable-container"), function(index, droppable){
-                    if(!$(droppable).hasClass("ui-droppable")){
-                        // HTML overrides default, JS overrides HTML
-                        // Override default parameters with attribute defined parameters
-                        var htmlParams =  $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
-                        // Override attribute defined parameters with JS defined ones
-                        params = $.extend(true, htmlParams, params);
-                        $(".s3d-droppable-container").droppable(params);
-                    }
+                    // HTML overrides default, JS overrides HTML
+                    // Override default parameters with attribute defined parameters
+                    var htmlParams =  $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
+                    // Override attribute defined parameters with JS defined ones
+                    params = $.extend(true, htmlParams, params);
+                    $(".s3d-droppable-container", $container || $("html")).droppable(params);
                 });
             }
         }

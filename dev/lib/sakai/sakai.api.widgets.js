@@ -671,6 +671,14 @@ define(
             },
 
             informOnLoad : function(widgetname){
+                // Set up draggable/droppable containers if there are any
+                if($(".s3d-droppable-container").length){
+                    sakai_util.Droppable.setupDroppable();
+                }
+                if($(".s3d-draggable-container").length){
+                    sakai_util.Draggable.setupDraggable();
+                }
+                // Inform the widgets that they have been loaded
                 for (var i = 0, j = sakaiWidgetsAPI.widgetLoader.loaded.length; i<j; i++){
                     sakaiWidgetsAPI.widgetLoader.loaded[i].informOnLoad(widgetname);
                 }
