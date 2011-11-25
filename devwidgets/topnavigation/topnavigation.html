@@ -21,14 +21,14 @@
 <div id="navigation_template" style="display:none"><!--
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a role="menuitem" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} </a>
+            <a role="menuitem" aria-haspopup="true" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} </a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
-                    <ul role="menu">
+                    <ul role="menu" aria-hidden="true">
                         {for subnav in i.subnav}
                             {if subnav !== "hr"}
                             <li>
-                                <a tabindex="-1" role="menuitem" href="${subnav.url}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
+                                <a role="menuitem" tabindex="-1" href="${subnav.url}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
                             </li>
                             {else}
                                 <hr class="s3d-split-line"/>
@@ -44,13 +44,13 @@
 <div id="search_template" style="display:none"><!--
         {if files && files.length}
             <a href="/search#l=content&q=${query}" class="topnavigation_search_results_section_header">__MSG__CONTENT__</a>
-            <ul>
+            <ul role="menu">
                {for file in files}
                     <li>
                         <div class="topnav_content_icon_container fl-force-left">
                             <span class="topnav_content_icon ${file.css_class}"></span>
                         </div>
-                        <a tabindex="-1" role="menuitem" href="${file.url}" title="${file.name|safeOutput}" class="s3d-bold">${file.dottedname}</a>
+                        <a role="menuitem" tabindex="-1" href="${file.url}" title="${file.name|safeOutput}" class="s3d-bold">${file.dottedname}</a>
                     </li>
                     {if file_index != files.length -1}<hr class="s3d-split-line"/>{/if}
                 {/for}
@@ -58,13 +58,13 @@
         {/if}
         {if people && people.length}
             <a href="/search#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
-            <ul>
+            <ul role="menu">
                 {for person in people}
                     <li>
                         <div class="topnav_content_icon_container fl-force-left">
                             <span class="topnav_person_icon"></span>
                         </div>
-                        <a tabindex="-1" role="menuitem" href="${person.url}" title="${person.name}" class="s3d-bold">${person.dottedname}</a>
+                        <a role="menuitem" tabindex="-1" href="${person.url}" title="${person.name}" class="s3d-bold">${person.dottedname}</a>
                     </li>
                     {if person_index != people.length -1}<hr class="s3d-split-line"/>{/if}
                 {/for}
@@ -73,13 +73,13 @@
         {for c in sakai.config.worldTemplates}
             {if groups[c.id] && groups[c.id].length}
                 <a href="/search#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header">${sakai.api.i18n.getValueForKey(c.title)}</a>
-                <ul>
+                <ul role="menu">
                     {for group in groups[c.id]}
                         <li>
                             <div class="topnav_content_icon_container fl-force-left">
                                 <span class="${group.css_class}"></span>
                             </div>
-                            <a tabindex="-1" role="menuitem" href="${group.url}" title="${group.name|safeOutput}" class="s3d-bold">${group.dottedname}</a>
+                            <a role="menuitem" tabindex="-1" href="${group.url}" title="${group.name|safeOutput}" class="s3d-bold">${group.dottedname}</a>
                         </li>
                         {if group_index != groups.length -1}<hr class="s3d-split-line"/>{/if}
                     {/for}
@@ -114,21 +114,25 @@
 
 <div id="topnavigation_user_template"><!--
     {if anon}
-        <div class="s3d-dropdown-menu" id="topnavigation_user_options_login_wrapper">
-            <button id="topnavigation_user_options_login">__MSG__SIGN_IN__</button>
-            <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container{if auth.externalAuth} topnavigation_external_login{/if}" style="display:none;">
-                {if auth.externalAuth}
-                    <ul id="subnavigation_login_list">
+        {if auth.externalAuth}
+        <ul id="subnavigation_login_list" role="menu">
+            <li class="s3d-bold s3d-dropdown-menu hassubnav">
+                <a role="menuitem" aria-haspopup="true" href="#" id="topnavigation_user_options_login_external" class="s3d-bold">__MSG__SIGN_IN__</a>
+                <div class="topnavigation_external_login s3d-dropdown-container" style="display:none;">
+                    <ul role="menu" aria-hidden="true">
                         {for i in auth.Authentication.external}
                             <li>
-                                <div class="topnav_content_icon_container fl-force-left">
-                                    <span class="topnav_content_icon ${i.css_class}"></span>
-                                </div>
                                 <a tabindex="-1" role="menuitem" href="${i.url}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
                             </li>
                         {/for}
                     </ul>
-                {else}
+                </div>
+            </li>
+        </ul>
+        {else}
+        <div class="s3d-dropdown-menu" id="topnavigation_user_options_login_wrapper">
+            <button id="topnavigation_user_options_login">__MSG__SIGN_IN__</button>
+            <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container" style="display:none;">
                 <form id="topnavigation_user_options_login_form" method="POST">
                     <div id="topnavigation_user_options_login_fields_container" class="s3d-dropdown-menu-content-container s3d-form-field-wrapper">
                         <div id="topnavigation_user_options_login_error" style="display:none;">
@@ -136,9 +140,9 @@
                             <span>__MSG__INVALID_USERNAME_OR_PASSWORD__</span>
                         </div>
                         <label for="topnavigation_user_options_login_fields_username" class="s3d-input-label-above">__MSG__USERNAME__</label>
-                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield s3d-input" />
+                        <input type="text" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield s3d-input" />
                         <label for="topnavigation_user_options_login_fields_password" class="s3d-input-label-above">__MSG__PASSWORD__</label>
-                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield s3d-input" />
+                        <input type="password" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield s3d-input" />
                         <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
                         <hr class="s3d-split-line fl-push"/>
                         {if auth.Authentication.allowInternalAccountCreation}
@@ -150,9 +154,9 @@
                         <hr class="fl-push fl-hidden"/>
                     </div>
                 </form>
-                {/if}
             </div>
         </div>
+        {/if}
     {else}
         <a href="/me#l=messages/inbox" id="topnavigation_user_inbox_container">
             <span class="s3d-aural-text">__MSG__MY_INBOX__</span>
@@ -161,9 +165,9 @@
         </a>
         <ul id="topnavigation_user_options_list" role="menu">
             <li class="s3d-bold s3d-dropdown-menu hassubnav">
-                <a role="menuitem" href="/me#" id="topnavigation_user_options_name" class="s3d-bold"></a>
+                <a role="menuitem" aria-haspopup="true" href="/me#" id="topnavigation_user_options_name" class="s3d-bold"></a>
                 <div class="topnavigation_user_dropdown s3d-dropdown-container" style="display:none;">
-                    <ul>
+                    <ul role="menu" aria-hidden="true">
                         <li><a tabindex="-1" role="menuitem" href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
                         <li><a tabindex="-1" role="menuitem" href="/logout" id="subnavigation_logout_link" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
                     </ul>
