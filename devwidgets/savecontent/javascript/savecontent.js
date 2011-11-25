@@ -90,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var tempGroups = $.extend(true, [], sakai.data.me.groups);
             var filteredGroups = [];
             $.each(tempGroups, function(i, group){
-                if(sakai.api.Groups.isCurrentUserAManager(group.groupid, sakai.data.me)){
+                if(!group["sakai:pseudoGroup"]){
                     filteredGroups.push(group);
                 }
             });

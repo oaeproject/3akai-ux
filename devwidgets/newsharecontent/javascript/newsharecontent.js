@@ -198,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $('.share_trigger_click').live('click',function(){
                 sakai.api.Util.Forms.clearValidation($newsharecontent_form);
-                var idArr = $(this).data("entityid");
+                var idArr = $(this).attr("data-entityid");
                 if(idArr.length > 1 && !$.isArray(idArr)){
                     idArr = idArr.split(",");
                 }
