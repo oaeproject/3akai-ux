@@ -214,11 +214,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $(".link_accept_invitation").live("click", function(ev){
             var userid = $(this).attr("sakai-entityid");
             var displayName = $(this).attr("sakai-entityname");
-            $.ajax({
-                url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.accept.html",
-                type: "POST",
-                data : {"targetUserId": userid},
-                success: function() {
+            sakai.api.User.acceptContactInvite(userid, function(success, data){
+                if (success){
                     $('.link_accept_invitation').each(function(index) {
                         if ($(this).attr("sakai-entityid") === userid){
                             $(this).hide();
@@ -228,8 +225,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_CONTACTS"),
                         sakai.api.i18n.getValueForKey("YOU_HAVE_ACCEPTED_CONTACT_INVITATION").replace("${displayName}", displayName),
                         sakai.api.Util.notification.type.ERROR);
-                },
-                error: function(xhr, textStatus, thrownError) {
+                } else {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
                 }
             });
