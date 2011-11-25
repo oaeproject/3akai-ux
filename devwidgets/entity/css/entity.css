@@ -33,7 +33,7 @@
 #entity_container .entity_owns_actions_container .entity_owns_actions > div .s3d-dropdown-list,
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list {color:#333;font-size:11px;font-weight:normal;line-height:13px;padding:8px;margin:28px 0 0 -72px;text-align:left;cursor:auto;display:none;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > div .s3d-dropdown-list .s3d-dropdown-list-arrow-up,
-#entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin:-27px 0 0 50px;cursor:pointer;}
+#entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin:-34px 0 0 50px;cursor:pointer;}
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list {margin-left:-63px;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > div .s3d-dropdown-list .s3d-link-button {margin:0;display:inline;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > div .s3d-dropdown-list .s3d-link-button.ew_permissions,
@@ -64,7 +64,7 @@
 #entity_container .entity_owns_actions_container .entity_owns_actions .entity_owns_actions_share.selected {background:url("/devwidgets/entity/images/share_icon_20x16_hover.png") no-repeat center center transparent;}
 #entity_container .s3d-button .entity_share_icon {background:url("/dev/images/share_icon_default_16x11.png") no-repeat scroll left top transparent;float:right;margin-left:8px;margin-top:3px;}
 #entity_container .s3d-button:hover .entity_share_icon {background:url("/dev/images/share_icon_hover_16x11.png") no-repeat scroll left top transparent;}
-#entity_container .s3d-dropdown-list-arrow-up {background-position:center center;margin-left:14px !important;width:100px;}
+#entity_container .s3d-dropdown-list-arrow-up {background-position:center center;margin-left:40px !important;width:46px;height:32px !important;}
 #contentpreview_download_button {line-height:23px !important;}
 
 /* Directory */
