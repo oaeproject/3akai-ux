@@ -568,7 +568,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-header .s3d-search-selects{float:right;}
 .s3d-search-header .s3d-search-selects div{display:inline;}
 .s3d-search-header .s3d-search-selects select{border: 1px solid #CCCCCC;}
-.s3d-search-header .s3d-search-selects .s3d-search-sortby{margin-left:10px;}
+.s3d-search-header .s3d-search-selects .s3d-search-sort{margin-left:10px;}
 
 /* SEARCH REFINE BY TAGS */
 .s3d-search-tag{padding:0;margin:5px 2px 0 2px;}

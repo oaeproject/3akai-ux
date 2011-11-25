@@ -139,15 +139,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Query parameters //
         //////////////////////
 
-        sakai_global.data.search.getQueryParams = function(){
+        sakai_global.data.search.getQueryParams = function($rootel){
             var params = {
                 "page": parseInt($.bbq.getState('page'), 10) || 1,
                 "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
                 "sortby": $.bbq.getState('sortby'),
+                "sorton": $.bbq.getState('sorton'),
                 "refine": $.bbq.getState('refine')
             };
+            // get the sort by and sort on
+            if (!params["sortby"] || !params["sorton"]){
+                var val = $(".s3d-search-sort option:selected", $rootel).val().split(",");
+                params["sortby"] = val[0];
+                params["sorton"] = val[1];
+            }
             return params;
         };
 
@@ -210,9 +217,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind sortby select box
-        $("#search_select_sortby").die("change").live("change", function(ev) {
-            var sortby = $(this).find(":selected").val();
-            var sorton = $(this).find(":selected").attr("data-sakai-searchon");
+        $(".s3d-search-sort select").die("change").live("change", function(ev) {
+            var val = $(this).find(":selected").val().split(",");
+            var sortby = val[0];
+            var sorton = val[1];
             $.bbq.pushState({
                 "page": 1,
                 "sortby": sortby,

@@ -163,17 +163,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
-            // get the sort by
-            var sortBy = $("#search_select_sortby option:first").val();
-            if (params["sortby"]){
-                sortBy = params["sortby"];
-            }
-            // get the sort on
-            var sortOn = $("#search_select_sortby option:selected").attr("data-sakai-searchon");
-            if (params["sorton"]){
-                sortOn = params["sorton"];
-            }
-
             // Set all the input fields and paging correct.
             showSearchPeople(params);
 
@@ -197,8 +186,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // Set up the infinite scroll for the list of search results
             infinityScroll = $(searchConfig.results.container).infinitescroll(url, {
                 "q": urlsearchterm,
-                "sortOn": sortOn,
-                "sortOrder": sortBy
+                "sortOn": params["sorton"],
+                "sortOrder": params["sortby"]
             }, function(items, total){
                 // Adjust display global total
                 $(searchConfig.global.numberFound, $rootel).text("" + total);
