@@ -182,6 +182,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                         items[i].pending = true;
                                     } else if(connectionState === "ACCEPTED"){
                                         items[i].accepted = true;
+                                    } else if(connectionState === "NONE"){
+                                        items[i].connected = false;
                                     }
                                 }
                             }
@@ -204,25 +206,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if ($(this).attr("sakai-entityid") === userToAdd.uuid){
                     $(this).hide();
-                    $("#left_filler_"+userToAdd.uuid).show();
+                    $("#contacts_left_filler_"+userToAdd.uuid).show();
                 }
             });
         });
 
         $(".link_accept_invitation").live("click", function(ev){
             var userid = $(this).attr("sakai-entityid");
+            var displayName = $(this).attr("sakai-entityname");
             $.ajax({
                 url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.accept.html",
                 type: "POST",
                 data : {"targetUserId": userid},
+                success: function() {
+                    $('.link_accept_invitation').each(function(index) {
+                        if ($(this).attr("sakai-entityid") === userid){
+                            $(this).hide();
+                            $("#contacts_left_accept_" + userid).show();
+                        }
+                    });
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_CONTACTS"),
+                        sakai.api.i18n.getValueForKey("YOU_HAVE_ACCEPTED_CONTACT_INVITATION").replace("${displayName}", displayName),
+                        sakai.api.Util.notification.type.ERROR);
+                },
                 error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
-                }
-            });
-            $('.link_accept_invitation').each(function(index) {
-                if ($(this).attr("sakai-entityid") === userid){
-                    $(this).hide();
-                    $("#left_accept_" + userid).show();
                 }
             });
         });
