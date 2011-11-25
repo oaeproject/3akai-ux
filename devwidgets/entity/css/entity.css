@@ -31,7 +31,7 @@
 #entity_container .entity_owns_actions_container .entity_owns_actions .s3d-link-button {margin:0 9px 0 7px;}
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary {margin:3px 5px 0 0;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > div .s3d-dropdown-list,
-#entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list {color:#333;font-size:11px;font-weight:normal;line-height:13px;padding:8px;margin:28px 0 0 -72px;text-align:left;cursor:auto;display:none;}
+#entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list {color:#333;font-size:11px;font-weight:normal;line-height:13px;padding:8px;margin:28px 0 0 -72px;text-align:left;cursor:auto;display:none;z-index:10000;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > div .s3d-dropdown-list .s3d-dropdown-list-arrow-up,
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin:-34px 0 0 50px;cursor:pointer;}
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list {margin-left:-63px;}
