@@ -2131,12 +2131,14 @@ define(
              */
             setupDraggable: function(params, $container){
                 $.each($(".s3d-draggable-container"), function(index, draggable){
-                    // HTML overrides default, JS overrides HTML
-                    // Override default parameters with attribute defined parameters
-                    var htmlParams =  $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
-                    // Override attribute defined parameters with JS defined ones
-                    params = $.extend(true, htmlParams, params);
-                    $(".s3d-draggable-container", $container || $("html")).draggable(params);
+                    if(!$(draggable).hasClass("ui-draggable")){
+                        // HTML overrides default, JS overrides HTML
+                        // Override default parameters with attribute defined parameters
+                        var htmlParams =  $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
+                        // Override attribute defined parameters with JS defined ones
+                        params = $.extend(true, htmlParams, params);
+                        $(".s3d-draggable-container", $container || $("html")).draggable(params);
+                    }
                 });
             }
         },
@@ -2169,12 +2171,14 @@ define(
              */
             setupDroppable: function(params, $container){
                 $.each($(".s3d-droppable-container"), function(index, droppable){
-                    // HTML overrides default, JS overrides HTML
-                    // Override default parameters with attribute defined parameters
-                    var htmlParams =  $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
-                    // Override attribute defined parameters with JS defined ones
-                    params = $.extend(true, htmlParams, params);
-                    $(".s3d-droppable-container", $container || $("html")).droppable(params);
+                    if(!$(droppable).hasClass("ui-droppable")){
+                        // HTML overrides default, JS overrides HTML
+                        // Override default parameters with attribute defined parameters
+                        var htmlParams =  $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
+                        // Override attribute defined parameters with JS defined ones
+                        params = $.extend(true, htmlParams, params);
+                        $(".s3d-droppable-container", $container || $("html")).droppable(params);
+                    }
                 });
             }
         }
