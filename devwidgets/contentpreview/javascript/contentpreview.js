@@ -42,6 +42,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var obj = {};
         obj.type = "showpreview";
+        var contentData = {};
 
         var qs = new Querystring();
 
@@ -50,12 +51,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             obj.buttons = "default";
             var callback = null;
-            var user = sakai_global.content_profile.content_data.data["_bodyLastModifiedBy"];
+            var user = contentData.data["_bodyLastModifiedBy"];
             if (user === "admin") {
-                user = sakai_global.content_profile.content_data.data["sakai:pool-content-created-for"];
+                user = contentData.data["sakai:pool-content-created-for"];
             }
             sakai.api.User.getUser(user, function(success, userdata){
-                var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
+                var mimeType = sakai.api.Content.getMimeType(contentData.data);
                 obj.userName = sakai.api.User.getDisplayName(userdata);
                 if (qs.get("nopreview") === "true"){
                     callback = renderDefaultPreview;
@@ -63,12 +64,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else if (mimeType === "x-sakai/link"){
                     obj.buttons = "links";
                 }
-                if (sakai.api.Content.hasPreview(sakai_global.content_profile.content_data.data)) {
+                if (sakai.api.Content.hasPreview(contentData.data)) {
                     callback = renderFullSizePreview;
                 } else {
                     obj.type = "default";
                 }
                 obj.sakai = sakai;
+                obj.contentData = contentData;
                 sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
                 if (callback) {
                     callback();
@@ -77,10 +79,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderFullSizePreview = function(){
-            var sakData = sakai_global.content_profile.content_data;
             var fullSizeContainer = $("#contentpreview_fullsize_preview");
             sakai.api.Util.TemplateRenderer($("#contentpreview_fullsize_template"), {}, fullSizeContainer);
-            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [{cpFullSizePreview:sakData}]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [{cpFullSizePreview:contentData}]);
         };
 
         var hidePreview = function(){
@@ -88,7 +89,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#contentpreview_image_preview").html("");
         };
 
-        $(window).bind("start.contentpreview.sakai", function(){
+        $(window).bind("start.contentpreview.sakai", function(ev, data){
+            contentData = data;
             determineDataType();
         });
 

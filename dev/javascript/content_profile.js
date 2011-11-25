@@ -140,13 +140,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // The request was successful so initialise the relatedcontent widget
                     if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
                         if (showPreview) {
-                            $(window).trigger("start.contentpreview.sakai");
+                            $(window).trigger("start.contentpreview.sakai", sakai_global.content_profile.content_data);
                         }
                     }
                     else {
                         $(window).bind("ready.contentpreview.sakai", function(e){
                             if (showPreview) {
-                                $(window).trigger("start.contentpreview.sakai");
+                                $(window).trigger("start.contentpreview.sakai", sakai_global.content_profile.content_data);
                                 ready_event_fired++;
                             }
                         });

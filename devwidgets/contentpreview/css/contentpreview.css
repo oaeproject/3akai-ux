@@ -37,3 +37,4 @@
  .contentpreview_fullsize_preview #documentviewer_preview>div,
  .contentpreview_fullsize_preview #documentviewer_preview>embed,
  .contentpreview_fullsize_preview #documentviewer_preview>iframe { border: 1px solid #D4DADE; }
+ .contentpreview_fullsize_preview #documentviewer_preview #documentviewer_html_iframe {width: 100%; height: 560px;}
