@@ -129,6 +129,20 @@ define(
          * @param {String} id the id of the group that's being created
          * @param {String} title the title of the group that's being created
          * @param {String} description the description of the group that's being created
+         * @param {Array} tags The tags to tag the group with on creation
+         * @param {Array} users An array of users of the format:
+         *  "name": user name
+         *  "firstName": user's first name
+         *  "userid": user's userid
+         *  "role": the permission to give the user (manager, member, ta)
+         *  "roleString": The translated role string to give the user ("Member", "Manager", "Teaching Assistant")
+         *  "creator": true | false (if this user is the creator of the group)
+         * @param {String} joinability The joinability of the group (yes, no, withauth)
+         * @param {String} visibility The visibility of the group (members-only, logged-in-only, public)
+         * @param {String} templatePath The path in the /var/templates/worlds space for this template, without .json (/var/templates/worlds/group/basic-group)
+         * @param {String} subject The tokenized subject of the message (translated) to send to the users joined to this group
+         * @param {String} body The body of the aforementioned message in the same format
+         * @param {Object} meData The sakai.data.me object
          * @param {Function} callback the callback function for when the group save is complete. It will pass
          *                            two params, success {Boolean} and nameTaken {Boolean}
         */
@@ -486,11 +500,13 @@ define(
                 var systemString = sakai_i18n.getValueForKey("SAKAI");
                 var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid);
                 var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"] + "#e=joinrequests";
+                var subject = "",
+                    body = "";
                 if (groupProfile["sakai:group-joinable"] === "withauth") {
-                    var subject = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
+                    subject = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
                          .replace(/\$\{sender\}/g, userString)
                          .replace(/\$\{group\}/g, groupString);
-                    var body = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_BODY")
+                    body = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_BODY")
                          .replace(/\$\{sender\}/g, userString)
                          .replace(/\$\{group\}/g, groupString)
                          .replace(/\$\{system\}/g, systemString)
@@ -498,10 +514,10 @@ define(
                          .replace(/\$\{acceptlink\}/g, acceptLink)
                          .replace(/\$\{br\}/g,"\n");
                 } else { // groupProfile["sakai:group-joinable"] === "yes")
-                    var subject = sakai_i18n.getValueForKey("GROUP_JOINED_TITLE")
+                    subject = sakai_i18n.getValueForKey("GROUP_JOINED_TITLE")
                          .replace(/\$\{sender\}/g, userString)
                          .replace(/\$\{group\}/g, groupString);
-                    var body = sakai_i18n.getValueForKey("GROUP_JOINED_BODY")
+                    body = sakai_i18n.getValueForKey("GROUP_JOINED_BODY")
                          .replace(/\$\{sender\}/g, userString)
                          .replace(/\$\{group\}/g, groupString)
                          .replace(/\$\{system\}/g, systemString)
