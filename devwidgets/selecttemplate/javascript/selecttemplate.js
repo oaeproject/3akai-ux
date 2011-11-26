@@ -67,6 +67,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderTemplateList = function(templates){
             $("#selecttemplate_container", $rootel).show();
             templates.sakai = sakai;
+            templates.templates = templates.templates.sort(function(a,b) {
+                return a.order - b.order;
+            });
             $("#selecttemplate_templatelist_container", $rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_templatelist_template", templates));
             $("#selecttemplate_type_name", $rootel).text(sakai.api.i18n.getValueForKey(templates.menuLabel || templates.title));
             $("#selecttemplate_createworld_container", $rootel).hide();
@@ -91,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             toPassOn[tuid + "addpeople"] = {
                 "category": category,
                 "id": id
-            }
+            };
             $("#selecttemplate_createworld_container", $rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_createworld_template", {"tuid" : tuid}));
             sakai.api.Widgets.widgetLoader.insertWidgets("selecttemplate_createworld_" + tuid, false, false,[toPassOn]);
             $("#selecttemplate_createworld_container", $rootel).show();

@@ -4,6 +4,7 @@
     "img": "/var/templates/worlds/course/math-course/mathcourse.png",
     "fullImg": "/var/templates/worlds/course/math-course/mathcourse-full.png",
     "perfectFor": "MATHEMATICS_COURSE_PERFECT_FOR",
+    "order": 0,
     "roles": [
         {
             "id": "student",

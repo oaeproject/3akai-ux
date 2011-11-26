@@ -4,6 +4,7 @@
     "img": "/var/templates/worlds/course/basic-course/basiccourse.png",
     "fullImg": "/var/templates/worlds/course/basic-course/basiccourse-full.png",
     "perfectFor": "BASIC_COURSE_PERFECT_FOR",
+    "order": 1,
     "roles": [
         {
             "id": "student",

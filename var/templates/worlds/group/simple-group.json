@@ -4,6 +4,7 @@
     "img": "",
     "fullImg": "",
     "perfectFor": "SIMPLE_GROUP_PERFECT_FOR",
+    "order": 0,
     "roles": [
         {
             "id": "manager",

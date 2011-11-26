@@ -4,6 +4,7 @@
     "img": "/var/templates/worlds/resarch/research-support/researchsupport.png",
     "fullImg": "/var/templates/worlds/resarch/research-support/researchsupport-full.png",
     "perfectFor": "RESEARCH_SUPPORT_GROUP_PERFECT_FOR",
+    "order": 1,
     "roles": [
         {
             "id": "participant",

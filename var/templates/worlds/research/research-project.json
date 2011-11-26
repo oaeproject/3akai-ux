@@ -4,6 +4,7 @@
     "img": "/var/templates/worlds/research/research-project/researchgroup-full.png",
     "fullImg": "/var/templates/worlds/resarch/research-project/research_tempate.png",
     "perfectFor": "RESEARCH_PROJECT_PERFECT_FOR",
+    "order": 0,
     "roles": [
         {
             "id": "leadresearcher",
