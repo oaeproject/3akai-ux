@@ -414,7 +414,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var roles = fetchGroupRoles();
             for (var i = 0; i < roles.length; i++){
                 var role = roles[i];
-                if (role.allowManage){
+                if (role.isManagerRole){
                     editRoles.push(role.id);
                 } else {
                     viewRoles.push(role.id);
@@ -520,7 +520,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     var roles = fetchGroupRoles();
                     for (var i = 0; i < roles.length; i++){
                         var role = roles[i];
-                        if (role.allowManage){
+                        if (role.isManagerRole){
                             if (existingNotMine) {
                                 newView.push("-" + role.id);
                             } else {
