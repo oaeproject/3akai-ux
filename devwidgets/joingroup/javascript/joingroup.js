@@ -259,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var roles = $.parseJSON(membershipData.properties["sakai:roles"]);
                             var numManagers = 0;
                             $.each(roles, function(index, role){
-                                if (role.allowManage) {
+                                if (role.isManagerRole) {
                                     numManagers = numManagers + memberData[role.title].results.length;
                                 }
                             });

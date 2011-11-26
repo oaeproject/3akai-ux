@@ -83,6 +83,32 @@ define(
         },
 
         /**
+         * Get the world templates from the server
+         */
+        getTemplates: function() {
+            var templates = [];
+            $.ajax({
+                url: sakai_conf.URL.WORLD_INFO_URL,
+                async:false,
+                success: function(data) {
+                    templates = _.toArray(sakai_serv.removeServerCreatedObjects(data, ["jcr:"]));
+                }
+            });
+            $.each(templates, function(i,temp) {
+                $.each(temp, function(k,templ) {
+                    if ($.isPlainObject(temp[k])) {
+                        temp.templates = temp.templates || [];
+                        temp.templates.push(temp[k]);
+                    }
+                });
+            });
+            templates = _.sortBy(templates, function(templ) {
+                return templ.order;
+            });
+            return templates;
+        },
+
+        /**
          * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
          *
          * <p>
@@ -1850,7 +1876,7 @@ define(
                     startText: "Enter name here",
                     scrollresults:true,
                     source: function(query, add) {
-                        var user = require("sakai/sakai.api.user");
+                        var sakai_user = require("sakai/sakai.api.user");
                         var q = sakai_serv.createSearchString(query);
                         var searchoptions = {"page": 0, "items": 15};
                         var searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS;
@@ -1863,9 +1889,9 @@ define(
                             if (success) {
                                 var suggestions = [];
                                 $.each(data.results, function(i) {
-                                    if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
+                                    if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== sakai_user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": user.getDisplayName(data.results[i]), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
+                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_user.getDisplayName(data.results[i]), "firstName": sakai_user.getFirstName(data.results[i]), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){

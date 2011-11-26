@@ -42,7 +42,7 @@
             </select>
             <input id="contentpermissions_members_autosuggest"/>
             <div id="contentpermissions_members_autosuggest_container" style="display:none;">
-                <textarea id="contentpermissions_members_autosuggest_text" placeholder="__MSG__ENTER_A_MESSAGE__"></textarea>
+                <textarea id="contentpermissions_members_autosuggest_text" placeholder="__MSG__ENTER_A_MESSAGE__" title="__MSG__ENTER_A_MESSAGE__"></textarea>
                 <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button" id="contentpermissions_members_autosuggest_sharebutton">__MSG__SHARE__</button>
             </div>
             <ul id="contentpermissions_members_list">
@@ -64,7 +64,12 @@
                                     {else}
                                         <img src="${sakai.api.User.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
                                     {/if}
-                                    <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
+                                    {if member["sakai:pseudoGroup"]}
+                                        <a class="s3d-bold" href="/~${member["sakai:parent-group-id"]|safeURL}" title="__MSG__VIEW__ ${member["sakai:parent-group-title"]|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</span>
+                                    {else}
+                                        <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
+                                    {/if}
+
                                 </label>
                             </li>
                         {/for}

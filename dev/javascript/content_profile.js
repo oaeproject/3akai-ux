@@ -40,44 +40,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var loadContentProfile = function(callback, ignoreActivity){
             // Check whether there is actually a content path in the URL
             if (content_path) {
-                
                 // Get the content information, the members and managers and version information
-                var batchRequests = [
-                    {
-                        "url": content_path + ".infinity.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": content_path + ".members.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": content_path + ".versions.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED,
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json",
-                        "parameters":{"p":content_path, "items":"1000"}
-                    }
-                ];
-
-                var contentInfo = false;
-                var contentMembers = false;
-                var contentActivity = false;
-                var versionInfo = false;
-
-                sakai.api.Server.batch(batchRequests, function(success, data) {
+                sakai.api.Content.loadFullProfile([content_path], function(success, data){
                     if (success) {
                         if (data.results.hasOwnProperty(0)) {
+                            var contentInfo = false;
                             if (data.results[0]["status"] === 404){
                                 sakai.api.Security.send404();
                                 return;
@@ -94,134 +61,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
 
-                        if (data.results.hasOwnProperty(1)) {
-                            contentMembers = $.parseJSON(data.results[1].body);
-                            contentMembers.viewers = contentMembers.viewers || {};
-                            $.each(contentMembers.viewers, function(index, resultObject) {
-                                if (contentMembers.viewers[index].hasOwnProperty("basic") &&
-                                    contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
-                                    contentMembers.viewers[index].basic.elements.hasOwnProperty("picture") &&
-                                    contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                        contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
-                                }
-                                if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
-                                    contentMembers.viewers[index].pseudoGroup = true;
-                                    contentMembers.viewers[index].parent = {};
-                                    var groupid = contentMembers.viewers[index].groupid;
-                                    contentMembers.viewers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
-                                    var grouptitle = contentMembers.viewers[index]["sakai:group-title"];
-                                    contentMembers.viewers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
-                                    contentMembers.viewers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
-                                }
-                            });
-                            contentMembers.managers = contentMembers.managers || {};
-                            $.each(contentMembers.managers, function(index, resultObject) {
-                                if (contentMembers.managers[index].hasOwnProperty("basic") &&
-                                    contentMembers.managers[index].basic.hasOwnProperty("elements") &&
-                                    contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
-                                    contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                        contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
-                                }
-                                if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
-                                    contentMembers.managers[index].pseudoGroup = true;
-                                    contentMembers.managers[index].parent = {};
-                                    var groupid = contentMembers.managers[index].groupid;
-                                    contentMembers.managers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
-                                    var grouptitle = contentMembers.managers[index]["sakai:group-title"];
-                                    contentMembers.managers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
-                                    contentMembers.managers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
-                                }
-                            });
-                        }
-
-                        if (data.results.hasOwnProperty(2)) {
-                            versionInfo =$.parseJSON(data.results[2].body);
-                            var versions = [];
-                            for (var i in versionInfo.versions) {
-                                if(versionInfo.versions.hasOwnProperty(i)){
-                                    var splitDate = versionInfo.versions[i]["_created"];
-                                    versionInfo.versions[i]["_created"] = sakai.api.l10n.transformDate(new Date(splitDate));
-                                    versions.push(versionInfo.versions[i]);
-                                }
+                        sakai.api.Content.parseFullProfile(data.results, function(parsedData){
+                            parsedData[0].mode = "content";
+                            sakai_global.content_profile.content_data = parsedData[0];
+                            $(window).trigger("ready.contentprofile.sakai", sakai_global.content_profile.content_data);
+                            if ($.isFunction(callback)) {
+                                callback(true);
                             }
-                            versionInfo.versions = versions.reverse();
-                        }
-                        
-                        if (data.results.hasOwnProperty(3)) {
-                            contentActivity = $.parseJSON(data.results[3].body);
-                        }
+                            initEntityWidget();
 
-                        var manager = sakai.api.Content.isUserAManager(contentInfo, sakai.data.me);
-                        var viewer = sakai.api.Content.isUserAViewer(contentInfo, sakai.data.me);
-
-                        var directory = [];
-                        // When only one tag is put in this will not be an array but a string
-                        // We need an array to parse and display the results
-                        if (contentInfo && contentInfo['sakai:tags']) {
-                            directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
-                        }
-
-                        var fullPath = content_path + "/" + sakai.api.Util.safeURL(contentInfo["sakai:pooled-content-file-name"]);
-
-                        // filter out the the everyone group and the anonymous user
-                        contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
-                            if (resultObject['sakai:group-id'] !== 'everyone' &&
-                                resultObject['rep:userId'] !== 'anonymous') {
-                                return true;
-                            }
-                            return false;
-                        });
-
-                        contentMembers.counts = { people: 0, groups: 0};
-                        $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
-                            if (member.hasOwnProperty("userid")) {
-                                contentMembers.counts.people++;
-                            } else {
-                                contentMembers.counts.groups++;
+                            if (!showPreview){
+                                renderSakaiDoc(parsedData[0].data);
                             }
                         });
-
-                        var mimeType = sakai.api.Content.getMimeType(contentInfo);
-                        contentInfo.mimeType = mimeType;
-                        if (sakai.config.MimeTypes[mimeType]) {
-                            contentInfo.iconURL = sakai.config.MimeTypes[mimeType].URL;
-                        } else {
-                            contentInfo.iconURL = sakai.config.MimeTypes["other"].URL;
-                        }
-
-                        if (ignoreActivity && sakai_global.content_profile && sakai_global.content_profile.content_data){
-                            contentActivity = sakai_global.content_profile.content_data.activity;
-                        }
-
-                        json = {
-                            data: contentInfo,
-                            members: contentMembers,
-                            activity: contentActivity,
-                            mode: "content",
-                            url: sakai.config.SakaiDomain + fullPath,
-                            path: fullPath,
-                            smallPath: content_path,
-                            saveddirectory : directory,
-                            versions : versionInfo,
-                            content_path: content_path,
-                            isManager: manager,
-                            isViewer: viewer
-                        };
-
-                        sakai_global.content_profile.content_data = json;
-                        $(window).trigger("ready.contentprofile.sakai");
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                        }
-                        initEntityWidget();
-
-                        if (!showPreview){
-                            renderSakaiDoc(contentInfo);
-                        }
-
                     }
                 });
-
             } else {
                 sakai.api.Security.send404();
             }
@@ -286,13 +140,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // The request was successful so initialise the relatedcontent widget
                     if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
                         if (showPreview) {
-                            $(window).trigger("start.contentpreview.sakai");
+                            $(window).trigger("start.contentpreview.sakai", sakai_global.content_profile.content_data);
                         }
                     }
                     else {
                         $(window).bind("ready.contentpreview.sakai", function(e){
                             if (showPreview) {
-                                $(window).trigger("start.contentpreview.sakai");
+                                $(window).trigger("start.contentpreview.sakai", sakai_global.content_profile.content_data);
                                 ready_event_fired++;
                             }
                         });

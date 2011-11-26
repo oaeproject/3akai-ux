@@ -21,7 +21,7 @@
             <select id="addpeople_selected_all_permissions"></select>
             <div id="addpeople_selected_permissions_template"><!--
                 {for role in roles}
-                    <option value="${role.id}">${sakai.api.i18n.General.process(role.title)}</option>
+                    <option value="${role.id}">${role.title}</option>
                 {/for}
             --></div>
         </div>
@@ -78,7 +78,7 @@
             {if contact.details["sakai:state"] === "ACCEPTED"}
                 ${total++|eat}
                 <li class="s3d-list-item">
-                    <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk"/>
+                    <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk" data-user-firstname="${sakai.api.User.getFirstName(contact.profile)|safeOutput}"/>
                     <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.User.getProfilePicture(contact.profile)}" alt="__MSG__PROFILE_PICTURE__"/></label>
                     <a href="/~${contact.profile.userid|safeURL}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 90, null, null, true)}</a>
                 </li>
