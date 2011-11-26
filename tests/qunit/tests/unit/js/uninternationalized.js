@@ -188,7 +188,7 @@ require(
              getWidgetInfo(widget.name, function(hasBundles) {
                  for (var i=0,j=keys.length;i<j;i++) {
                      if (hasBundles) {
-                         ok(sakai.api.i18n.getValueForKey(keys[i], widget.name), "Default value exists for " + keys[i]);
+                         notEqual(sakai.api.i18n.getValueForKey(keys[i], widget.name), keys[i], "Default value exists for " + keys[i]);
                      } else {
                          ok(sakai.api.i18n.data.defaultBundle[keys[i]], "Default value exists for " + keys[i]);
                      }
