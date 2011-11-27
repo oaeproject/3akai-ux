@@ -62,7 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  } else {
                      role.value = "hidden";
                  }
-                 role.roleTitle = sakai.api.i18n.getValueForKey(role.roleTitle.substring(7).slice(0, -2));
+                 role.roleTitle = sakai.api.i18n.getValueForKey(role.titlePlural);
                  role.creatorRole = sakai_global.group.groupData["sakai:creatorRole"] === role.id;
              }
 
@@ -75,13 +75,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              });
              // Managers
              $.each(roles, function(i, role){
-                 if(role.allowManage && !role.creatorRole){
+                 if(role.isManagerRole && !role.creatorRole){
                      sortedroles.push(role);
                  }
              });
              // Viewers
              $.each(roles, function(i, role){
-                 if(!role.allowManage){
+                 if(!role.isManagerRole){
                      sortedroles.push(role);
                  }
              });

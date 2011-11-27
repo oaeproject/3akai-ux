@@ -49,7 +49,7 @@
 .contentpermissions_permissions_container #contentpermissions_members_autosuggest_permissions {border:1px solid #999;float:right;margin-top:3px;}
 
 li.contentpermissions_edit.s3d-outer-shadow-container {padding:3px 13px 6px;}
-li.contentpermissions_edit label a {line-height:30px;}
+li.contentpermissions_edit label a, li.contentpermissions_edit label span {line-height:30px;}
 li.contentpermissions_edit label img {float:left;}
 li.contentpermissions_edit select.contentpermissions_member_permissions {float:right;margin-top:7px;}
 li.contentpermissions_edit button{float:right;margin:10px 0 0 10px;}

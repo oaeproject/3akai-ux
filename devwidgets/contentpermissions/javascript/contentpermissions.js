@@ -283,14 +283,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Renders the list of members and their permissions in the widget
          */
         var renderMemberList = function(){
-            $("#contentpermissions_content_container").html(
                 sakai.api.Util.TemplateRenderer("contentpermissions_content_template", {
                     title: sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                     contentData: removeDuplicateUsersGroups(contentData),
                     sakai: sakai,
                     defaultPermission: defaultPermissionPassed
-                })
-            );
+                }, $("#contentpermissions_content_container"));
         };
 
         /**
@@ -352,7 +350,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 modal: true,
                 overlay: 20,
                 toTop: true,
-                zIndex: 3000
+                zIndex: 11000
             });
             $("#contentpermissions_container").jqmShow();
         };

@@ -255,7 +255,7 @@
                                         	    __MSG__PEOPLE_LC__
                                         	{/if}
                                     	</button>
-                                    	{if data.members.counts.managergroups !== 0 && data.members.counts.managerusers !== 0}and{/if}
+                                    	{if data.members.counts.managergroups !== 0 && data.members.counts.managerusers !== 0}__MSG__AND__{/if}
                                 	{/if}
                                 	{if data.members.counts.managergroups !== 0}
                                     	<button class="s3d-link-button entity_content_group">${data.members.counts.managergroups}
@@ -266,7 +266,7 @@
                                         	{/if}
                                     	</button>
                                 	{/if}
-                                	{if (data.members.counts.managerusers === 1 && data.members.counts.managergroups === 0) || (data.members.counts.managerusers === 0 && data.members.counts.managergroups === 1)}is{else}are{/if} collaborating manager{if (data.members.counts.managerusers >= 1 && data.members.counts.managergroups >= 1) || (data.members.counts.managerusers > 1 && data.members.counts.managergroups === 0)}s{/if} of this list</span>
+                                	{if (data.members.counts.managerusers === 1 && data.members.counts.managergroups === 0) || (data.members.counts.managerusers === 0 && data.members.counts.managergroups === 1)}__MSG__IS__{else}__MSG__ARE__{/if} __MSG__COLLABORATING_ON_THIS__</span>
                                 {else}
                                     __MSG__THERE_ARE_NO_COLLABORATORS__
                                 {/if}
@@ -289,7 +289,7 @@
                                                 {/if}
                                             </button>
                                         {/if}
-                                        {if data.members.counts.viewergroups !== 0 && data.members.counts.viewerusers !== 0}and{/if}
+                                        {if data.members.counts.viewergroups !== 0 && data.members.counts.viewerusers !== 0}_MSG__AND__{/if}
                                         {if data.members.counts.viewergroups !== 0}
                                         	<button class="s3d-link-button entity_content_group">${data.members.counts.viewergroups}
                                         	    {if data.members.counts.viewergroups == 1}
