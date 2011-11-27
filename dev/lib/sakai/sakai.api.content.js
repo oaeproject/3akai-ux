@@ -1125,6 +1125,26 @@ define(
              *                                  success parameter and 
              */
             createCollection: function(title, description, permissions, tags, contentToAdd, usersToAdd, callback){
+                
+                // 0. Help functions
+                // 0a. Creating a group
+                var createGroup = function(id, title, role){
+                    id = role ? id + "-" + role : id;
+                    return {
+                        "url": sakai_conf.URL.GROUP_CREATE_SERVICE,
+                        "method": "POST",
+                        "parameters": {
+                            ":name": id,
+                            "sakai:group-title" : title,
+                            "sakai:group-id": id,
+                            "sakai:excludeSearch": true,
+                            "sakai:pseudoGroup": role ? true : false,
+                            "sakai:pseudoGroup@TypeHint": "Boolean",
+                            "sakai:pseudogroupparent": role ? id : ""
+                        }
+                    };
+                }
+                
                 // 1. Create the pooled content item
                 var collectionObject = {
                     "sakai:pooled-content-file-name": title,
@@ -1147,15 +1167,56 @@ define(
                         sakai_util.tagEntity("/p/" + collectionId, sakai_util.formatTags(collectionObject["sakai:tags"]), false, function(){
                             // 3. Set the permissions on the pooled content item
                             sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
+                                
                                 // 4. Create the pseudoGroups
-                                // TODO
+                                var batchRequests = [];
+                                var membershipsToProcess = [];
+                                var managershipsToProcess = [];
+                                // 4a. Create the collection managers group
+                                batchRequests.push(createGroup("c-" + collectionId, "", "managers"));
+                                // 4b. Create the collection members group
+                                batchRequests.push(createGroup("c-" + collectionId, "", "members"));
+                                // 4c. Create the main collections group
+                                batchRequests.push(createGroup("c-" + collectionId, title));
+                                // 4d. Create the groups
+                                sakai.api.Server.batch(batchRequests, function(success, response){
+                                    // 4e. Set the correct members and managers
+                                    managershipsToProcess.push({
+                                        "user": "c-" + collectionId + "-manager",
+                                        "permission": "manager"
+                                    });
+                                    managershipsToProcess.push({
+                                        "user": "c-" + collectionId + "-manager",
+                                        "permission": "member"
+                                    });
+                                    managershipsToProcess.push({
+                                        "user": "c-" + collectionId + "-manager"
+                                    });
+                                    membershipsToProcess.push({
+                                        "user": sakai_user.data.me.userid,
+                                        "permission": "manager",
+                                        "viewer": true
+                                    });
+                                    membershipsToProcess.push({
+                                        "user": "c-" + collectionId + "-member",
+                                        "viewer": true
+                                    });
+                                    sakaiGroupsAPI.addUsersToGroup("c-" + collectionId, managershipsToProcess, sakai_user.data.me, true, function(){
+                                        sakaiGroupsAPI.addUsersToGroup("c-" + collectionId, membershipsToProcess, sakai_user.data.me, false, function(){
+                                            
+                                            // 5. Set the permissions on the pseudoGroups
+                                            
+
+                                        });
+                                    });
+                                });
+
                             });
                         });
                     }
                 });
 
-                // 5. Set the permissions on the pseudoGroups
-                
+
                 // 6. Share the collection with the pseudoGroups and remove creator as manager
                 
                 // 7. Share the collections with the appropriate users
