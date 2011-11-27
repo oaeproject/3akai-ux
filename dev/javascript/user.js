@@ -434,6 +434,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
+        $("#collection_create").click(function(){
+            sakai.api.Content.Collections.createCollection("Hello World Collection", "Description for the hello world collection", "public", [], [], [], function(success, collectionId){
+                alert("Finished: Collection id is " + collectionId);
+            });
+        });
+
         determineContext();
         renderEntity();
         generateNav();

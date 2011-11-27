@@ -1106,6 +1106,93 @@ define(
             } else if ($.isFunction(callback)) {
                 callback(results);
             }
+        },
+        
+        Collections: {
+            
+            /**
+             * Create a new content collection. This includes the creation of a pooled content item and a pseudoGroup used to share
+             * content with. The manager-viewer feed for that pseudoGroup is then used to retrieve the content of the collection
+             * @param {Object} title            Title of the collection
+             * @param {Object} description      Description of the collection
+             * @param {Object} permissions      Permission to be set on the collection. Possible values are "public", "everyone"
+             *                                  and "private"
+             * @param {Object} tags             Tags to be set on the collection
+             * @param {Object} contentToAdd     Array of pooled content ids that need to be added to the collection
+             * @param {Object} usersToAdd       Array of {"id": authorizableId, "role": "member/manager"} objects that determines who
+             *                                  can see and who can edit the collections
+             * @param {Object} callback         Function to be called after the collections has been created. This will pass in a
+             *                                  success parameter and 
+             */
+            createCollection: function(title, description, permissions, tags, contentToAdd, usersToAdd, callback){
+                // 1. Create the pooled content item
+                var collectionObject = {
+                    "sakai:pooled-content-file-name": title,
+                    "sakai:permissions": permissions,
+                    "sakai:description": description,
+                    "sakai:tags": tags,
+                    "sakai:copyright": sakai_conf.Permissions.Copyright.defaults["collections"],
+                    "mimeType": "x-sakai/collection",
+                    "sakai:allowcomments": "true",
+                    "sakai:showcomments": "true"
+                };
+                $.ajax({
+                    url: "/system/pool/createfile",
+                    data: collectionObject,
+                    type: "POST",
+                    dataType: "json",
+                    success: function(data) {
+                        var collectionId = data._contentItem.poolId;
+                        // 2. Tag the collection
+                        sakai_util.tagEntity("/p/" + collectionId, sakai_util.formatTags(collectionObject["sakai:tags"]), false, function(){
+                            // 3. Set the permissions on the pooled content item
+                            sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
+                                // 4. Create the pseudoGroups
+                                // TODO
+                            });
+                        });
+                    }
+                });
+
+                // 5. Set the permissions on the pseudoGroups
+                
+                // 6. Share the collection with the pseudoGroups and remove creator as manager
+                
+                // 7. Share the collections with the appropriate users
+                
+                // 8. Add the content to the collection
+                
+                // 9. Execute the callback function
+            },
+
+            deleteCollection: function(collectionId){
+                
+            },
+
+            addToCollection: function(collectionId, poolIds){
+                
+            },
+
+            removeFromCollection: function(collectionId, poolIds){
+                
+            },
+
+            getCollectionProfile: function(collectionId){
+                
+            },
+
+            updateCollectionProfile: function(collectionId, data){
+                
+            },
+
+            shareCollection: function(collectionId, authorizables){
+                
+            },
+
+            getMyCollections: function(){
+                
+            }
+
         }
 
     };
