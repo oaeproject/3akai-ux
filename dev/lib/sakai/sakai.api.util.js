@@ -2156,7 +2156,7 @@ define(
              * @param {Object} $container Optional container element to add draggables, defaults to $("html") if not set
              */
             setupDraggable: function(params, $container){
-                $.each($(".s3d-draggable-container"), function(index, draggable){
+                $.each($(".s3d-draggable-container", $container), function(index, draggable){
                     if(!$(draggable).hasClass("ui-draggable")){
                         // HTML overrides default, JS overrides HTML
                         // Override default parameters with attribute defined parameters
@@ -2196,7 +2196,7 @@ define(
              * @param {Object} $container Optional container element to add droppables, defaults to $("html") if not set
              */
             setupDroppable: function(params, $container){
-                $.each($(".s3d-droppable-container"), function(index, droppable){
+                $.each($(".s3d-droppable-container", $container), function(index, droppable){
                     if(!$(droppable).hasClass("ui-droppable")){
                         // HTML overrides default, JS overrides HTML
                         // Override default parameters with attribute defined parameters
