@@ -702,6 +702,7 @@ define(
          * @param {Function} callback Callback function
          */
         removeUser: function(role, contentId, userId, callback){
+
             var batchRequests = [];
             var userIds = [];
             var contentIds = [];
@@ -1127,24 +1128,40 @@ define(
             createCollection: function(title, description, permissions, tags, contentToAdd, usersToAdd, callback){
                 
                 // 0. Help functions
-                // 0a. Creating a group
+                // 0a. Prepare arguments
+                usersToAdd = usersToAdd || [];
+                contentToAdd = contentToAdd || []; 
+                // 0b. Creating a group
                 var createGroup = function(id, title, role){
                     id = role ? id + "-" + role : id;
+                    var roleTitle = "";
+                    var roleTitlePlural = "";
+                    if (role && role === "managers"){
+                        roleTitle = "MANAGER";
+                        roleTitlePlural = "MANAGERS";
+                    } else if (role && role === "members"){
+                        roleTitle = "MEMBER";
+                        roleTitlePlural = "MEMBERS";
+                    }
                     return {
                         "url": sakai_conf.URL.GROUP_CREATE_SERVICE,
                         "method": "POST",
                         "parameters": {
                             ":name": id,
-                            "sakai:group-title" : title,
+                            "sakai:group-title" : role ? "" : title,
                             "sakai:group-id": id,
+                            "sakai:category": "collection",
                             "sakai:excludeSearch": true,
                             "sakai:pseudoGroup": role ? true : false,
                             "sakai:pseudoGroup@TypeHint": "Boolean",
-                            "sakai:pseudogroupparent": role ? id : ""
+                            "sakai:parent-group-title": role ? title : "",
+                            "sakai:parent-group-id": role ? id : "",
+                            "sakai:role-title": roleTitle,
+                            "sakai:role-title-plural": roleTitlePlural
                         }
                     };
                 }
-                
+
                 // 1. Create the pooled content item
                 var collectionObject = {
                     "sakai:pooled-content-file-name": title,
@@ -1169,43 +1186,84 @@ define(
                             sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
                                 
                                 // 4. Create the pseudoGroups
+                                var groupId = "c-" + collectionId;
                                 var batchRequests = [];
                                 var membershipsToProcess = [];
                                 var managershipsToProcess = [];
                                 // 4a. Create the collection managers group
-                                batchRequests.push(createGroup("c-" + collectionId, "", "managers"));
+                                batchRequests.push(createGroup(groupId, title, "managers"));
                                 // 4b. Create the collection members group
-                                batchRequests.push(createGroup("c-" + collectionId, "", "members"));
+                                batchRequests.push(createGroup(groupId, title, "members"));
                                 // 4c. Create the main collections group
-                                batchRequests.push(createGroup("c-" + collectionId, title));
+                                batchRequests.push(createGroup(groupId, title));
                                 // 4d. Create the groups
-                                sakai.api.Server.batch(batchRequests, function(success, response){
+                                sakai_serv.batch(batchRequests, function(success, response){
                                     // 4e. Set the correct members and managers
                                     managershipsToProcess.push({
-                                        "user": "c-" + collectionId + "-manager",
-                                        "permission": "manager"
+                                        "user": groupId + "-managers",
+                                        "permission": "managers"
                                     });
                                     managershipsToProcess.push({
-                                        "user": "c-" + collectionId + "-manager",
-                                        "permission": "member"
+                                        "user": groupId + "-managers",
+                                        "permission": "members"
                                     });
                                     managershipsToProcess.push({
-                                        "user": "c-" + collectionId + "-manager"
+                                        "user": groupId + "-managers"
                                     });
                                     membershipsToProcess.push({
                                         "user": sakai_user.data.me.userid,
-                                        "permission": "manager",
+                                        "permission": "managers",
                                         "viewer": true
                                     });
                                     membershipsToProcess.push({
-                                        "user": "c-" + collectionId + "-member",
+                                        "user": groupId + "-members",
                                         "viewer": true
                                     });
-                                    sakaiGroupsAPI.addUsersToGroup("c-" + collectionId, managershipsToProcess, sakai_user.data.me, true, function(){
-                                        sakaiGroupsAPI.addUsersToGroup("c-" + collectionId, membershipsToProcess, sakai_user.data.me, false, function(){
+                                    // 4f. Share the collections with the appropriate users
+                                    // {"id": authorizableId, "role": "member/manager"}
+                                    $.each(usersToAdd, function(index, user){
+                                        membershipsToProcess.push({
+                                            "user": user.id,
+                                            "permission": user.role === "manager" ? "managers" : "members",
+                                            "viewer": true
+                                        });
+                                    });
+                                    
+                                    sakai_groups.addUsersToGroup(groupId, managershipsToProcess, sakai_user.data.me, true, function(){
+                                        sakai_groups.addUsersToGroup(groupId, membershipsToProcess, sakai_user.data.me, false, function(){
                                             
                                             // 5. Set the permissions on the pseudoGroups
-                                            
+                                            var visible = "public";
+                                            if (permissions === "everyone"){
+                                                visible = "logged-in-only";
+                                            } else if (permissions === "private"){
+                                                visible = "members-only";
+                                            }
+                                            var roles = [{"id": "managers"}, {"id": "members"}];
+                                            sakai_groups.setPermissions(groupId, "yes", visible, roles, function(){
+                                                
+                                                // 6. Share the collection with the pseudoGroups and remove creator as manager
+                                                sakai_content.addToLibrary(collectionId, groupId + "-managers", true, function(){
+                                                    sakai_content.addToLibrary(collectionId, groupId + "-members", false, function(){
+                                                        // TODO: Enable this once KERN-2273 is fixed
+                                                        //sakai_content.removeUser("manager", collectionId, sakai_user.data.me.user.userid, function(){
+                                                            
+                                                            // 7. Add the content to the collection
+                                                            if (contentToAdd.length){
+                                                                sakai_content.addToLibrary(contentToAdd, groupId, false, function(){
+                                                                    // 8. Execute the callback function
+                                                                    callback(true, collectionId);
+                                                                });
+                                                            } else {
+                                                                // 8. Execute the callback function
+                                                                callback(true, collectionId);
+                                                            }
+
+                                                        //})
+                                                    });
+                                                });
+                                                
+                                            });
 
                                         });
                                     });
@@ -1216,14 +1274,6 @@ define(
                     }
                 });
 
-
-                // 6. Share the collection with the pseudoGroups and remove creator as manager
-                
-                // 7. Share the collections with the appropriate users
-                
-                // 8. Add the content to the collection
-                
-                // 9. Execute the callback function
             },
 
             deleteCollection: function(collectionId){
