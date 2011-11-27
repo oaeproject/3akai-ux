@@ -52,7 +52,7 @@
 
         {for g in groups.entry}
             {if g["sakai:group-title"]}
-                {if !g.overrideAllSelectedAMember && g.allSelectedAMember}
+                {if !g.overrideAllSelectedAMember}
                     <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> __MSG__GROUPS_LIBRARY__ (__MSG__GOT_IT__)</option>
                 {else}
                     <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}> __MSG__GROUPS_LIBRARY__</option>

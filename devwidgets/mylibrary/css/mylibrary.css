@@ -41,7 +41,6 @@
 .mylibrary_center {text-align:center;}
 #mylibrary_sortby{border:1px solid #ccc;}
 
-.mylibrary_item{color:#333;padding: 10px 0 10px 5px;border-bottom: 1px dotted #cccccc; overflow:hidden; clear:both; list-style-type:none;}
 .mylibrary_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
 .mylibrary_item_right{margin-left:3px; float:left; width: 580px;}
 .mylibrary_item_mimetype {font-size:smaller;white-space:pre;text-transform:uppercase;}
