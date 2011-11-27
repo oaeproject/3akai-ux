@@ -16,10 +16,10 @@
                     {if templatesize == "large"}
                         <img src=${template.img} />
                     {/if}
-                    <h2>${sakai.api.i18n.General.process(template.title)}</h2>
+                    <h2>${sakai.api.i18n.getValueForKey(template.title)}</h2>
                     <div class="selecttemplate_perfectfor">
                         <h4>__MSG__PERFECT_FOR__:</h4>
-                        <p>${sakai.api.i18n.General.process(template.perfectFor)}</p>
+                        <p>${sakai.api.i18n.getValueForKey(template.perfectFor)}</p>
                     </div>
                     <button type="button" class="s3d-button s3d-header-button selecttemplate_preview_button" data-templateid="${template.id}">__MSG__PREVIEW_TEMPLATE__</button>
                     <button type="button" class="s3d-button s3d-overlay-button selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>

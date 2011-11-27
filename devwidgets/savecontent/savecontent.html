@@ -41,7 +41,7 @@
     __MSG__TO__:
     <select name="savecontent_select" id="savecontent_select">
         {for world in sakai.config.worldTemplates}
-            <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${sakai.api.i18n.getValueForKey(world.titleSing).toLowerCase()}</option>
+            <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${sakai.api.i18n.getValueForKey(world.title).toLowerCase()}</option>
         {/for}
 
         {if libraryHasIt}

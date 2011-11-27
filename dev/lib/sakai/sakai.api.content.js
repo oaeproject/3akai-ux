@@ -71,12 +71,11 @@ define(
                         }
                         if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
                             contentMembers.viewers[index].pseudoGroup = true;
+                            contentMembers.viewers[index]["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.viewers[index]["sakai:role-title-plural"]) + ")";
                             contentMembers.viewers[index].parent = {};
-                            var groupid = contentMembers.viewers[index].groupid;
-                            contentMembers.viewers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
-                            var grouptitle = contentMembers.viewers[index]["sakai:group-title"];
-                            contentMembers.viewers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
-                            contentMembers.viewers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
+                            contentMembers.viewers[index].parent["sakai:group-id"] = contentMembers.viewers[index]["sakai:parent-group-id"];
+                            contentMembers.viewers[index].parent["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"];
+                            contentMembers.viewers[index].parent["sakai:role-title"] = contentMembers.viewers[index]["sakai:group-title"];
                         }
                     });
 
@@ -91,12 +90,11 @@ define(
                         }
                         if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
                             contentMembers.managers[index].pseudoGroup = true;
+                            contentMembers.managers[index]["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.managers[index]["sakai:role-title-plural"]) + ")";
                             contentMembers.managers[index].parent = {};
-                            var groupid = contentMembers.managers[index].groupid;
-                            contentMembers.managers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
-                            var grouptitle = contentMembers.managers[index]["sakai:group-title"];
-                            contentMembers.managers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
-                            contentMembers.managers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
+                            contentMembers.managers[index].parent["sakai:group-id"] = contentMembers.managers[index]["sakai:parent-group-id"];
+                            contentMembers.managers[index].parent["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"];
+                            contentMembers.managers[index].parent["sakai:role-title"] = contentMembers.managers[index]["sakai:group-title"];
                         }
                     });
 
@@ -128,11 +126,11 @@ define(
                     // Parses all information related to versions and stores them on tempItem
                     var versionInfo =$.parseJSON(dataItem.body);
                     var versions = [];
-                    for (var i in versionInfo.versions) {
-                        if(versionInfo.versions.hasOwnProperty(i)){
-                            var splitDate = versionInfo.versions[i]["_created"];
-                            versionInfo.versions[i]["_created"] = sakai_l10n.transformDate(new Date(splitDate));
-                            versions.push(versionInfo.versions[i]);
+                    for (var j in versionInfo.versions) {
+                        if(versionInfo.versions.hasOwnProperty(j)){
+                            var splitDate = versionInfo.versions[j]["_created"];
+                            versionInfo.versions[j]["_created"] = sakai_l10n.transformDate(new Date(splitDate));
+                            versions.push(versionInfo.versions[j]);
                         }
                     }
                     versionInfo.versions = versions.reverse();
@@ -663,11 +661,11 @@ define(
                 if (canManage){
                     params = {
                         ":manager": addTo[i]
-                    }
+                    };
                 } else {
                     params = {
                         ":viewer": addTo[i]
-                    }
+                    };
                 }
                 for (var j = 0; j < toAdd.length; j++){
                     batchRequests.push({
