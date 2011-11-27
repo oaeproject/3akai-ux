@@ -158,7 +158,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (group["sakai:category"]){
                             for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                                 if (sakai.config.worldTemplates[c].id === group["sakai:category"]){
-                                    groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titleSing);
+                                    groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].title);
                                 }
                             }
                         }
