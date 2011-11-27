@@ -73,7 +73,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $('#autosave_dialog').jqmHide();
         };
 
-        var checkAutosave = function(callback) {
+        var checkAutosave = function(newPage, callback) {
+            if (newPage){
+                // a new page won't have an autosave yet
+                callback(true);
+                return;
+            }
             var pageSavePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
             sakai.api.Server.loadJSON(pageSavePath + ".infinity.json", function(success, data) {
                 if (success) {
@@ -659,8 +664,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Rendering a page in edit mode //
         ///////////////////////////////////
 
-        var editPage = function(){
-            checkAutosave(function(safeToEdit) {
+        var editPage = function(newPage){
+            checkAutosave(newPage, function(safeToEdit) {
                 if (safeToEdit) {
                     isEditingPage = true;
                     editing();
@@ -812,10 +817,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderPage();
         });
 
-        $(window).bind("editpage.sakaidocs.sakai", function(ev, _currentPageShown){
+        $(window).bind("editpage.sakaidocs.sakai", function(ev, _currentPageShown, newPage){
             currentPageShown = _currentPageShown;
             renderPage();
-            editPage();
+            editPage(newPage);
         });
 
         sakai.api.Util.hideOnClickOut("#sakaidocs_insert_dropdown","#sakaidocs_insert_dropdown_button");

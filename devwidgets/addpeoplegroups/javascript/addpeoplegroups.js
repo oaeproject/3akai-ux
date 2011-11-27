@@ -111,10 +111,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if(success){
                         renderObj.memberOfGroups.entry[membershipFetched].managers = [];
                         renderObj.memberOfGroups.entry[membershipFetched].members = [];
-                        $.each(data["__MSG__MANAGER__"].results, function(i, manager){
+                        $.each(data["manager"].results, function(i, manager){
                             renderObj.memberOfGroups.entry[membershipFetched].managers.push(manager["rep:userId"] || manager.groupid);
                         });
-                        $.each(data["__MSG__MEMBER__"].results, function(i, member){
+                        $.each(data["member"].results, function(i, member){
                             renderObj.memberOfGroups.entry[membershipFetched].members.push(member["rep:userId"] || member.groupid);
                         });
                         membershipFetched++;

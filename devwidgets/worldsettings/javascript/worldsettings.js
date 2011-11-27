@@ -104,7 +104,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                          "sakai:group-description": worldDescription,
                          "sakai:group-visible": foundIn,
                          "sakai:group-joinable": membership
-                     }, function(success) {
+                     }, sakai_global.group.groupData,
+                     function(success) {
                          $worldsettingsContainer.find("select, input, textarea").removeAttr("disabled");
                          $worldsettingsContainer.find("select, input, textarea").removeAttr("disabled");
                          // only POST if user has changed values

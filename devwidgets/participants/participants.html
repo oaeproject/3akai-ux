@@ -52,7 +52,7 @@
             </label>
             <a href="/~${participant.id|safeOutput}" title="{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}</a>
             <br/>
-            <span class="participants_list_participant_details">${sakai.api.i18n.General.process(participant.title)}</span>
+            <span class="participants_list_participant_details">${sakai.api.i18n.getValueForKey(participant.title)}</span>
             <br/>
             <a href="/~${participant.id|safeOutput}#l=library" class="s3d-regular-light-links participants_list_participant_details">
                 ${participant.content} {if participant.content === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
