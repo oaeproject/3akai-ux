@@ -372,15 +372,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sortSelection === "desc") {
                     mylibrary.sortOrder = "desc";
                     mylibrary.sortBy = "sakai:pooled-content-file-name";
-                    $.bbq.pushState({"lso": "desc"});
                 } else if (sortSelection === "asc") {
                     mylibrary.sortOrder = "asc";
                     mylibrary.sortBy = "sakai:pooled-content-file-name";
-                    $.bbq.pushState({"lso": "asc"});
                 } else {
                     mylibrary.sortOrder = "modified";
                     mylibrary.sortBy = "_lastModified";
-                    $.bbq.pushState({"lso": "modified"});
                 }
                 $.bbq.pushState({"lsb": mylibrary.sortBy, "lso": mylibrary.sortOrder, "lq": query});
             });
