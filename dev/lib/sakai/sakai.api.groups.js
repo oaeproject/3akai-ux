@@ -1200,10 +1200,6 @@ define(
         },
 
         filterGroup: function(group, includeCollections){
-            debug.log("==========");
-            debug.log(group);
-            debug.log(includeCollections);
-            debug.log("==========");
             if (includeCollections && group["sakai:category"] && group["sakai:category"] === "collection" && !group["sakai:pseudoGroup"]){
                 return true;
             } else if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {

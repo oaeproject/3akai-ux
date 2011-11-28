@@ -435,7 +435,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#collection_create").click(function(){
-            sakai.api.Content.Collections.createCollection("Hello World Collection 21", "Description for the hello world collection", "public", [], ["j1BGKkYkaa", "j1BLYwRkaa"], [], function(success, collectionId){
+            sakai.api.Content.Collections.createCollection("Hello World Collection 23", "Description for the hello world collection", "public", [], ["j1BGKkYkaa", "j1BLYwRkaa"], [], function(success, collectionId){
                 alert("Finished: Collection id is " + collectionId);
                 $("#collection_add").click(function(){
                     sakai.api.Content.Collections.addToCollection(collectionId, ["j1BLc7rmqi", "j1BLKJraa", "j1BL3b1Yaa"], function(){

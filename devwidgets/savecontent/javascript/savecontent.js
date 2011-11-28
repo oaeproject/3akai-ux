@@ -112,14 +112,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 top: savecontentTop,
                 left: savecontentLeft
             });
-                
+
             var json = {
                 "content": dataCache[contentId],
                 "me": sakai.data.me,
                 "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
                 "sakai": sakai
             };
-                
+
             $($savecontent_container).html(sakai.api.Util.TemplateRenderer("#savecontent_template", json));
             enableDisableAddButton();
             $savecontent_widget.jqmShow();
@@ -142,6 +142,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     _.uniq($.merge(allNewlyShared, [thisContent]));
                     if (entityId === sakai.data.me.user.userid) {
                         sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
+                    } else if (entityId.substring(0, 2) === "c-"){
+                         var notificationBody = decodeURIComponent($("#savecontent_collection_add_library_body").html());
+                         alert(notificationBody);
+                         notificationBody = notificationBody.replace("${collectionid}", sakai.api.Security.safeOutput(entityId.substring(2)));
+                         notificationBody = notificationBody.replace("${collectiontitle}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
+                         sakai.api.Util.notification.show($("#savecontent_collection_add_library_title").html(), notificationBody);
                     } else {
                         var notificationBody = decodeURIComponent($("#savecontent_group_add_library_body").html());
                         notificationBody = notificationBody.replace("${groupid}", sakai.api.Security.safeOutput(entityId));
