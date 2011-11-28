@@ -60,56 +60,76 @@ define(
                     // results for members.json
                     // Members are parsed an put into a .viewers and .managers object in tempItem
                     var contentMembers = $.parseJSON(dataItem.body);
-                    contentMembers.viewers = contentMembers.viewers || {};
+                    if(contentMembers && !contentMembers.viewers){
+                        contentMembers.viewers = {};
+                    } else if (!contentMembers){
+                        contentMembers = {};
+                    }
                     // Parse the viewers and add them to the .viewers object.
-                    $.each(contentMembers.viewers, function(index, resultObject) {
-                        if (contentMembers.viewers[index].hasOwnProperty("basic") &&
-                            contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
-                            contentMembers.viewers[index].basic.elements.hasOwnProperty("picture") &&
-                            contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
-                        }
-                        if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
-                            contentMembers.viewers[index].pseudoGroup = true;
-                            contentMembers.viewers[index]["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.viewers[index]["sakai:role-title-plural"]) + ")";
-                            contentMembers.viewers[index].parent = {};
-                            contentMembers.viewers[index].parent["sakai:group-id"] = contentMembers.viewers[index]["sakai:parent-group-id"];
-                            contentMembers.viewers[index].parent["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"];
-                            contentMembers.viewers[index].parent["sakai:role-title"] = contentMembers.viewers[index]["sakai:group-title"];
-                        }
-                    });
+                    if(contentMembers && contentMembers.viewers){
+                        $.each(contentMembers.viewers, function(index, resultObject) {
+                            if (contentMembers.viewers[index].hasOwnProperty("basic") &&
+                                contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
+                                contentMembers.viewers[index].basic.elements.hasOwnProperty("picture") &&
+                                contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
+                                    contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
+                            }
+                            if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
+                                contentMembers.viewers[index].pseudoGroup = true;
+                                contentMembers.viewers[index]["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.viewers[index]["sakai:role-title-plural"]) + ")";
+                                contentMembers.viewers[index].parent = {};
+                                contentMembers.viewers[index].parent["sakai:group-id"] = contentMembers.viewers[index]["sakai:parent-group-id"];
+                                contentMembers.viewers[index].parent["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"];
+                                contentMembers.viewers[index].parent["sakai:role-title"] = contentMembers.viewers[index]["sakai:group-title"];
+                            }
+                        });
+                        // filter out the the everyone group and the anonymous user
+                        contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
+                            if (resultObject['sakai:group-id'] !== 'everyone' &&
+                                resultObject['rep:userId'] !== 'anonymous') {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
 
-                    contentMembers.managers = contentMembers.managers || {};
+                    if(contentMembers && !contentMembers.managers){
+                        contentMembers.managers = {};
+                    }
                     // Parse the managers and add them to the .managers object.
-                    $.each(contentMembers.managers, function(index, resultObject) {
-                        if (contentMembers.managers[index].hasOwnProperty("basic") &&
-                            contentMembers.managers[index].basic.hasOwnProperty("elements") &&
-                            contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
-                            contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
-                        }
-                        if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
-                            contentMembers.managers[index].pseudoGroup = true;
-                            contentMembers.managers[index]["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.managers[index]["sakai:role-title-plural"]) + ")";
-                            contentMembers.managers[index].parent = {};
-                            contentMembers.managers[index].parent["sakai:group-id"] = contentMembers.managers[index]["sakai:parent-group-id"];
-                            contentMembers.managers[index].parent["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"];
-                            contentMembers.managers[index].parent["sakai:role-title"] = contentMembers.managers[index]["sakai:group-title"];
-                        }
-                    });
-
-                    // filter out the the everyone group and the anonymous user
-                    contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
-                        if (resultObject['sakai:group-id'] !== 'everyone' &&
-                            resultObject['rep:userId'] !== 'anonymous') {
-                            return true;
-                        }
-                        return false;
-                    });
+                    if(contentMembers && contentMembers.managers){
+                        $.each(contentMembers.managers, function(index, resultObject) {
+                            if (contentMembers.managers[index].hasOwnProperty("basic") &&
+                                contentMembers.managers[index].basic.hasOwnProperty("elements") &&
+                                contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
+                                contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
+                                    contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
+                            }
+                            if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
+                                contentMembers.managers[index].pseudoGroup = true;
+                                contentMembers.managers[index]["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.managers[index]["sakai:role-title-plural"]) + ")";
+                                contentMembers.managers[index].parent = {};
+                                contentMembers.managers[index].parent["sakai:group-id"] = contentMembers.managers[index]["sakai:parent-group-id"];
+                                contentMembers.managers[index].parent["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"];
+                                contentMembers.managers[index].parent["sakai:role-title"] = contentMembers.managers[index]["sakai:group-title"];
+                            }
+                        });
+                    }
 
                     // Add counts for managers and viewers
-                    contentMembers.counts = { people: 0, groups: 0};
-                    $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
+                    contentMembers.counts = {
+                        people: 0,
+                        groups: 0
+                    };
+                    var managers = [];
+                    var viewers = [];
+                    if(contentMembers.viewers){
+                        viewers = contentMembers.viewers;
+                    }
+                    if(contentMembers.managers){
+                        managers = contentMembers.managers;
+                    }
+                    $.each(viewers.concat(managers), function(i, member) {
                         if (member.hasOwnProperty("userid")) {
                             contentMembers.counts.people++;
                         } else {
@@ -125,18 +145,21 @@ define(
                     // results for versions.json
                     // Parses all information related to versions and stores them on tempItem
                     var versionInfo =$.parseJSON(dataItem.body);
-                    var versions = [];
-                    for (var j in versionInfo.versions) {
-                        if(versionInfo.versions.hasOwnProperty(j)){
-                            var splitDate = versionInfo.versions[j]["_created"];
-                            versionInfo.versions[j]["_created"] = sakai_l10n.transformDate(new Date(splitDate));
-                            versions.push(versionInfo.versions[j]);
+                    if(versionInfo){
+                        var versions = [];
+                        for (var j in versionInfo.versions) {
+                            if(versionInfo.versions.hasOwnProperty(j)){
+                                var splitDate = versionInfo.versions[j]["_created"];
+                                versionInfo.versions[j]["_created"] = sakai_l10n.transformDate(new Date(splitDate));
+                                versions.push(versionInfo.versions[j]);
+                            }
                         }
+                        versionInfo.versions = versions.reverse();
+                        // Add the versions to the tempItem object
+                        tempItem.versions = versionInfo;
+                    } else {
+                        tempItem.versions = [];
                     }
-                    versionInfo.versions = versions.reverse();
-                    // Add the versions to the tempItem object
-                    tempItem.versions = versionInfo;
-
                 }else if (dataItem.url.indexOf("activityfeed.json") > -1){
 
                     // results for activity.json
@@ -154,12 +177,14 @@ define(
                     }
 
                     // Set the mimetype of the content
-                    var mimeType = sakai_content.getMimeType(tempItem.data);
-                    tempItem.data.mimeType = mimeType;
-                    if (sakai_conf.MimeTypes[mimeType]) {
-                        tempItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
-                    } else {
-                        tempItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
+                    if(tempItem.data){
+                        var mimeType = sakai_content.getMimeType(tempItem.data);
+                        tempItem.data.mimeType = mimeType;
+                        if (sakai_conf.MimeTypes[mimeType]) {
+                            tempItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
+                        } else {
+                            tempItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
+                        }
                     }
 
                     // Add paths to the content item

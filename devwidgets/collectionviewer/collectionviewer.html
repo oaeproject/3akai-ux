@@ -17,7 +17,7 @@
 	    {/if}
     {/macro}
 
-    {if data.results.length}
+    {if data.length}
         <div class="collectionviewer_prev_next_container fl-force-right">
             <button id="collectionviewer_older" class="collectionviewer_controls s3d-link-button"></button>
             <button id="collectionviewer_oldest" class="collectionviewer_controls s3d-link-button"></button>
@@ -29,7 +29,7 @@
     {/if}
     <div id="collectionviewer_carousel" class="jcarousel-skin-tango s3d-bold">
         <ul>
-            {for result in data.results}
+            {for result in data}
                 <li class="collectionviewer_carousel_item" data-arr-index="${result_index}">
                     {var thumbnail = sakai.api.Content.getThumbnail(result)}
                     <div class="collectionviewer_carousel_thumbnail_container">
@@ -44,8 +44,8 @@
                     <div class="arrow-down" style="display:none;"></div>
                 </li>
             {/for}
-            {if data.results.length < 12}
-                {var itemsShort = 12 - data.results.length}
+            {if data.length < 12}
+                {var itemsShort = 12 - data.length}
                 ${fillUpList(itemsShort)}
             {/if}
         </ul>
@@ -55,7 +55,6 @@
 <div id="collectionviewer_list_item_template"><!--
     <ul>
         <li class="s3d-search-result">
-            ${debug.log(data)}
 
             {if data['sakai:pooled-content-file-name']}
                 {var path = data["_path"] + "/" + data["sakai:pooled-content-file-name"]}
@@ -126,6 +125,16 @@
             </div>
             <hr class="fl-push fl-hidden"/>
         </li>
+        <div class="collectionviewer_collection_item_comments" style="display:none;">
+            <div id="widget_contentcomments" class="widget_inline"></div>
+        </div>
+        <hr class="fl-push fl-hidden"/>
+        {if data.hasPreview}
+            <div class="collectionviewer_collection_item_preview">
+                <div id="widget_contentpreview" class="widget_inline"></div>
+            </div>
+        {/if}
+        <hr class="fl-push fl-hidden"/>
     </ul>
 --></div>
 
