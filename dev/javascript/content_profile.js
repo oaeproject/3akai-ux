@@ -53,7 +53,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 return;
                             } else {
                                 contentInfo = $.parseJSON(data.results[0].body);
-                                if (contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/document"){
+                                if (contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/document" || contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/collection"){
                                     showPreview = false;
                                 } else {
                                     switchToOneColumnLayout(false);

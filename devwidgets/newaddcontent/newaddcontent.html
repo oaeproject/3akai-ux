@@ -204,11 +204,12 @@
             <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
             <select id="newaddcontent_saveto">
                 <option value="${me.user.userid}">__MSG__MY_LIBRARY__</option>
-                {for g in me.groups}
-                    {if g["sakai:group-title"]}
-                        {if !g["sakai:excludeSearch"]}
-                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
-                        {/if}
+                {var groups = sakai.api.Groups.getMemberships(me.groups, true)}
+                {for g in groups}
+                    {if g["sakai:category"] === "collection"}
+                        <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}</option>
+                    {else}
+                        <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
                     {/if}
                 {/for}
             </select>
