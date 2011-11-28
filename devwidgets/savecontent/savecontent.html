@@ -35,11 +35,20 @@
         {/if}
         {for g in groups.entry}
             {if g["sakai:group-title"]}
-                {if !sakai.api.Content.isContentInLibrary(content, g.groupid)}
-                    <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]|safeOutput}'s Library</option>
+                {if g["sakai:category"] === "collection"}
+                    {if !sakai.api.Content.isContentInLibrary(content, g.groupid)}
+                        <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]|safeOutput}</option>
+                    {else}
+                        <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]|safeOutput} (got it)</option>
+                    {/if}
                 {else}
-                    <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]|safeOutput}'s Library (got it)</option>
-                {/if}>
+                    {if !sakai.api.Content.isContentInLibrary(content, g.groupid)}
+                        <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]|safeOutput}'s Library</option>
+                    {else}
+                        <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]|safeOutput}'s Library (got it)</option>
+                    {/if}
+                {/if}
+                
             {/if}
         {/for}
     </select>

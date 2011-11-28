@@ -59,7 +59,7 @@
                                     <option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
                                 </select>
                                 <label for="select_${id|safeOutput}">
-                                    {if member["sakai:category"] && member["sakai:category"] === "group"}
+                                    {if member["sakai:group-id"]}
                                         <img src="${sakai.api.Groups.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__GROUP_PICTURE__"/>
                                     {else}
                                         <img src="${sakai.api.User.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
