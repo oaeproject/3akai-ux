@@ -31,7 +31,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.collectionviewer = function (tuid, showSettings) {
+    sakai_global.collectionviewer = function (tuid, showSettings, widgetData) {
 
 
         /////////////////////////////
@@ -160,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Retrieves the basic data for items in a collection
          */
         var getCollectionData = function(){
-            sakai.api.Server.loadJSON(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=collections-viewer&items=1000", function(success, data){
+            sakai.api.Server.loadJSON(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=1000", function(success, data){
                 if(success){
                     collectionData = data.results;
                     // Get the full profiles for these items
@@ -217,6 +217,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         doInit();
+
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run

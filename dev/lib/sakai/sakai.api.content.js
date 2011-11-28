@@ -1341,10 +1341,10 @@ define(
                                                                     // which it'll show on the top of the library listing
                                                                     var toSave = {}
                                                                     toSave[refID] = {
-                                                                        "page": "<img id='widget_mylibrary_" + refID + "2' class='widget_inline' src='/devwidgets/mylibrary/images/mylibrary.png'/></p>"
+                                                                        "page": "<img id='widget_collectionviewer_" + refID + "2' class='widget_inline' src='/devwidgets/mylibrary/images/mylibrary.png'/></p>"
                                                                     }
                                                                     toSave[refID + "2"] = {
-                                                                        "mylibrary": {
+                                                                        "collectionviewer": {
                                                                             "groupid": groupId
                                                                         }
                                                                     }
