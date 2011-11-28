@@ -455,30 +455,26 @@ define(
          * @param {Function} callback Function to be called on complete - callback
          */
         isAllowedToLeave : function(groupid, meData, callback) {
-            sakaiGroupsAPI.getMembers(groupid,"",function(membersSuccess, memberData){
                 sakaiGroupsAPI.getGroupAuthorizableData(groupid, function(membershipSuccess, membershipData){
-                    var leaveAllowed = false;
                     if (!sakaiGroupsAPI.isCurrentUserAManager(groupid, meData, membershipData.properties)) {
                         // Members are always allowed to leave the group, managers should always be present and cannot leave when they are the last one in the group
-                        leaveAllowed = true;
-                    } else {
-                        var roles = $.parseJSON(membershipData.properties["sakai:roles"]);
-                        var numManagers = 0;
-                        $.each(roles, function(index, role){
-                            if (role.isManagerRole) {
-                                numManagers = numManagers + memberData[role.title].results.length;
-                            }
-                        });
-                        var leaveAllowed = false;
-                        if (numManagers > 1) {
-                            leaveAllowed = true;
+                        if ($.isFunction(callback)) {
+                            callback(true);
                         }
-                    }
-                    if ($.isFunction(callback)) {
-                        callback(leaveAllowed);
+                    } else {
+                        sakaiGroupsAPI.getMembers(groupid,"",function(membersSuccess, memberData){
+                            // Check if there is more then one manager in the group
+                            var numManagers = sakaiGroupsAPI.getManagerCount(membershipData.properties, memberData)
+                            var leaveAllowed = false;
+                            if (numManagers > 1) {
+                                leaveAllowed = true;
+                            }
+                            if ($.isFunction(callback)) {
+                                callback(leaveAllowed);
+                            }
+                        }, "everyone");
                     }
                 });
-            }, "everyone");
         },
 
         /**
@@ -503,6 +499,8 @@ define(
                 $.each(members, function(i, member) {
                     if ($.inArray(i, managerRoles) > -1 && member.length) {
                         managers += member.length;
+                    } else if ($.inArray(i, managerRoles) > -1 && member.results.length) {
+                        managers += member.results.length;
                     }
                 });
             }
