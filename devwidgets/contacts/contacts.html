@@ -101,7 +101,7 @@
                             {if i.profile["sakai:tags"] && i.profile["sakai:tags"].length > 0}
                                 <div class="contacts_item_tags">
                                     <ul class="contacts_item_tags_list s3d-taglist">
-                                        {for t in i.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}<li><a class="s3d-regular-light-links" href="/search#q=${t}">${t}</a></li>{/if}{/for}
+                                        {for t in i.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}<li><a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a></li>{/if}{/for}
                                     </ul>
                                 </div>
                             {/if}
@@ -188,8 +188,8 @@
                                         {for t in a.tagsProcessed}
                                             <li>
                                                 <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                                    <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                                    <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                                    <span class="s3d-search-result-tag">${t.tagShort}</span>
+                                                    <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
                                                 </a>
                                             </li>
                                         {/for}

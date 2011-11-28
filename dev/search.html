@@ -56,8 +56,8 @@
                     {for t in i.tagsProcessed}
                         <li>
                             <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                <span class="s3d-search-result-tag">${t.tagShort}</span>
+                                <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
                             </a>
                         </li>
                     {/for}
