@@ -23,8 +23,8 @@
 #contacts_container .contacts_pending_name {width:auto;}
 #contacts_container .contacts_highlight {background:#C4E6FD;}
 #contacts_container .contact_delete_button{float:right; margin-top:10px;}
-#contacts_message_button .s3d-action-icon {float: right;margin-left:7px;}
-#contacts_select_checkbox {margin:0 6px;}
+#contacts_message_button .s3d-action-icon {float: right;margin:2px 0 0 7px;}
+#contacts_select_all_container {float:left;height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}
 
 /* contact lists */
 #contacts_invited_container .contacts_list_items, #contacts_container .contacts_list_items {margin:0; border-top: 1px solid #DDDDDD;}

@@ -287,6 +287,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var init = function(){
+            if (sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me)){
+                $("#participants_manage_participants").show();
+            }
             addBinding();
             handleHashChange();
         };

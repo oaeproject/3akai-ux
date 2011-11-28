@@ -65,4 +65,4 @@
 
 .mymemberships_item .s3d-actions-delete {float: left;margin:8px 7px 0 2px}
 .s3d-search-results-grid .s3d-actions-delete {margin:3px 7px 0 2px}
-.mymemberships_widget #mymemberships_select_checkbox {margin:0 6px;}
+.mymemberships_widget #mymemberships_select_all_container {float:left;height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}

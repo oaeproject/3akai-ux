@@ -133,10 +133,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.TemplateRenderer("mymemberships_nogroups_template", {isMe: mymemberships.isOwnerViewing}, $mymemberships_nogroups);
                 $mymemberships_nogroups.show();
                 $(".s3d-page-header-top-row", $rootel).hide();
+                $(".s3d-page-header-bottom-row", $rootel).hide();
                 return;
             } else {
                 if(sakai.data.me.user.anon){
                     $(".s3d-page-header-bottom-row", $rootel).hide();
+                } else {
+                    $(".s3d-page-header-top-row", $rootel).show();
+                    $(".s3d-page-header-bottom-row", $rootel).show();
                 }
                 if(mymemberships.sortOrder === "modified"){
                     groups.entry = groups.entry.sort(groupSortModified);
@@ -158,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (group["sakai:category"]){
                             for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                                 if (sakai.config.worldTemplates[c].id === group["sakai:category"]){
-                                    groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titleSing);
+                                    groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].title);
                                 }
                             }
                         }

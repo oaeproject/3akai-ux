@@ -513,7 +513,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "title": pageTitle
             };
             if (newPageMode) {
-                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
+                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown, newPageMode]);
                 contextMenuHover = {
                     path: currentPageShown.path,
                     ref: currentPageShown.ref,

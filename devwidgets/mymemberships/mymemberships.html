@@ -12,7 +12,7 @@
         {/if}
     --></div>
 
-    <div class="s3d-page-header-top-row">
+    <div class="s3d-page-header-top-row" style="display:none;">
         <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
             <div class="s3d-listview-grid">
                 <div class="s3d-action-icon s3d-search-results-gridview"></div>
@@ -36,9 +36,11 @@
             </button>
         </div>
     </div>
-    <div class="s3d-page-header-bottom-row">
+    <div class="s3d-page-header-bottom-row" style="display:none;">
         <a class="s3d-button s3d-large-button fl-force-right" href="/create">__MSG__CREATE_A_NEW_GROUP__</a>
-        <input type="checkbox" id="mymemberships_select_checkbox"/>
+        <div class="s3d-button s3d-header-button s3d-header-smaller-button" id="mymemberships_select_all_container">
+            <input type="checkbox" id="mymemberships_select_checkbox"/>
+        </div>
         <label for="mymemberships_select_checkbox" class="s3d-aural-text">__MSG__SELECT_ALL__</label>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="mymemberships_addpeople_button" disabled="true" data-entityname="" data-entityid="">
             <span class="s3d-page-header-add-to-icon"></span>
