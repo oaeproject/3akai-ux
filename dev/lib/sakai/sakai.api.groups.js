@@ -1200,7 +1200,7 @@ define(
         },
 
         filterGroup: function(group, includeCollections){
-            if (includeCollections && group["sakai:category"] && group["sakai:category"] === "collection" && !group["sakai:pseudoGroup"]){
+            if (includeCollections && group["sakai:category"] && group["sakai:category"] === "collection" && group["sakai:group-title"]){
                 return true;
             } else if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
                 return false;

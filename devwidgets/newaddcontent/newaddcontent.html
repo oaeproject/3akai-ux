@@ -204,8 +204,7 @@
             <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
             <select id="newaddcontent_saveto">
                 <option value="${me.user.userid}">__MSG__MY_LIBRARY__</option>
-                {var groups = sakai.api.Groups.getMemberships(me.groups, true)}
-                {for g in groups}
+                {for g in groups.entry}
                     {if g["sakai:category"] === "collection"}
                         <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}</option>
                     {else}
@@ -283,9 +282,14 @@
 <div id="newaddcontent_notification_finished_template" style="display:none;"><!--
     {if me.user.userid === libraryid}
         __MSG__MY_LIBRARY_ADDED__
+    {elseif libraryid.substring(0, 2) === "c-"}
+        __MSG__COLLECTION_ADDED__
     {else}
         __MSG__THIS_CONTENT_HAS_BEEN_ADDED_TO__ <a href="/~${libraryid}#l=library">${librarytitle|safeOutput}</a>
     {/if}
+--></div>
+<div id="newaddcontent_notification_collection_finished_template" style="display:none;"><!--
+    __MSG__COLLECTION_ADDED__
 --></div>
 
 <div id="newaddcontent_uploading" class="s3d-dialog s3d-dialog-container" style="display:none;">

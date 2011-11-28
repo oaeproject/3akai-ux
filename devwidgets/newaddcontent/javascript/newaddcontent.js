@@ -210,10 +210,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Render the queue
          */
         var renderQueue = function(){
+            debug.log(sakai.api.Groups.getMemberships(sakai.data.me.groups, true));
             $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
                 "items": itemsToUpload,
                 "sakai": sakai,
                 "me": sakai.data.me,
+                "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
                 "currentSelectedLibrary": currentSelectedLibrary
             }));
         };
@@ -488,6 +490,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         // UPLOADING ACTIONS //
         ///////////////////////
 
+        // TODO: Pre-select current collection if I'm in a collection profile
         /**
          * Check if all items have been uploaded
          */
@@ -502,11 +505,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 $newaddcontentContainer.jqmHide();
                 $newaddcontentUploading.jqmHide();
                 var librarytitle = $(newaddcontentSaveTo + " option:selected").text();
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
-                    me: sakai.data.me,
-                    libraryid: libraryToUploadTo,
-                    librarytitle: librarytitle
-                }));
+                if (libraryToUploadTo.substring(0, 2) === "c-") {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_collection_finished_template", {
+                        collectionid: libraryToUploadTo.substring(2),
+                        collectiontitle: librarytitle
+                    }));
+                } else {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
+                        me: sakai.data.me,
+                        libraryid: libraryToUploadTo,
+                        librarytitle: librarytitle
+                    }));
+                }
             }
         };
 
