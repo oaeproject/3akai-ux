@@ -366,6 +366,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     for (var b = 0; b < batchRequests.length; b++){
                         batchRequests[b].url = "/p/" + poolId;
                     }
+                    $.each(struct, function(i, obj){
+                        batchRequests.push({
+                            url: "/p/" + poolId + "/" + obj._ref + ".save.json",
+                            method: "POST"
+                        });
+                    });
                     sakai.api.Server.batch(batchRequests, function(success2, data2) {
                         if (success2) {
                             callback(poolId, itemURLName);
@@ -408,7 +414,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var roles = fetchGroupRoles();
             for (var i = 0; i < roles.length; i++){
                 var role = roles[i];
-                if (role.allowManage){
+                if (role.isManagerRole){
                     editRoles.push(role.id);
                 } else {
                     viewRoles.push(role.id);
@@ -514,7 +520,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     var roles = fetchGroupRoles();
                     for (var i = 0; i < roles.length; i++){
                         var role = roles[i];
-                        if (role.allowManage){
+                        if (role.isManagerRole){
                             if (existingNotMine) {
                                 newView.push("-" + role.id);
                             } else {

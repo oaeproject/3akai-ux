@@ -274,10 +274,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 ret = "";
             $.each(roles, function(i, role) {
                 if (role.id === groupData["sakai:joinRole"]) {
-                    ret = role.roleTitle;
+                    ret = role.titlePlural;
                 }
             });
-            return ret;
+            return sakai.api.i18n.getValueForKey(ret);
         };
 
         /**
@@ -301,6 +301,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     debug.warn("The group's authprofile node wasn't passed in to init.joinrequests.sakai");
                 }
             });
+            $(window).trigger("ready.joinrequests.sakai");
         };
 
         init();

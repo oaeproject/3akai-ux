@@ -386,6 +386,8 @@ define(
         /**
          * Get the internationalised value for a specific key.
          * We expose this function so you can do internationalisation within JavaScript.
+         * If the key isn't found in a translation bundle, the key will be returned unmodified
+         *
          * @example sakai.api.i18n.getValueForKey("CHANGE_LAYOUT", ["widgetid"]);
          * @param {String} key The key that will be used to get the translation
          * @param {String} optional widget name. This will cause the widget language
@@ -425,7 +427,7 @@ define(
                 // If none of the about found something, log an error message
                 else {
                     debug.warn("sakai.api.i18n.getValueForKey: Not found in any bundles. Key: " + key);
-                    return false;
+                    return key;
                 }
             }
         },

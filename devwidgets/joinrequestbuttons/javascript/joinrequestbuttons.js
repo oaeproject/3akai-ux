@@ -162,7 +162,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         showButton("request");
                     }
                 } else {
-                    sakai.api.Groups.getJoinRequests(joinrequestbuttons.groupid,
+                    var joinGroup = joinrequestbuttons.groupid+"-"+joinrequestbuttons.groupData.groupProfile["sakai:joinRole"];
+                    sakai.api.Groups.getJoinRequests(joinGroup,
                     function (success, data) {
                         if (success) {
                             if (data.results && data.results.length) {
@@ -239,7 +240,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 debug.error("Anonymous user tried to join group id: " + groupid);
                 return false;
             }
-            sakai.api.Groups.addJoinRequest(sakai.data.me, joinrequestbuttons.groupid, false, false, function (success) {
+            sakai.api.Groups.addJoinRequest(sakai.data.me, joinrequestbuttons.groupid, false, true, function (success) {
                 if (success) {
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_adding_successful.text(), sakai.api.Util.notification.type.INFORMATION);
                     showButton("leave");

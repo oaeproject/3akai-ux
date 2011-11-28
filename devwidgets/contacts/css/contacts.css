@@ -23,7 +23,7 @@
 #contacts_container .contacts_pending_name {width:auto;}
 #contacts_container .contacts_highlight {background:#C4E6FD;}
 #contacts_container .contact_delete_button{float:right; margin-top:10px;}
-#contacts_message_button .s3d-action-icon {float: right;margin-left:7px;}
+#contacts_message_button .s3d-action-icon {float: right;margin:2px 0 0 7px;}
 
 /* contact lists */
 #contacts_invited_container .contacts_list_items, #contacts_container .contacts_list_items {margin:0; border-top: 1px solid #DDDDDD;}
@@ -49,9 +49,9 @@
 #contacts_invited_container .s3d-search-results-grid .contacts_item_plus, #contacts_container .s3d-search-results-grid .contacts_item_plus {margin:0;}
 #contacts_invited_container .contacts_item:hover .contacts_item_message_icon, #contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
 #contacts_invited_container .contacts_item .s3d-actions-delete, #contacts_container .contacts_item .s3d-actions-delete{float:left;margin:6px 2px 0 0;}
-#contacts_invited_container .contacts_item .left_filler, #contacts_container .contacts_item .left_filler {display:inline;float:left;height:25px;margin:6px 8px 0 1px;width:17px;}
+#contacts_invited_container .contacts_item .left_filler, #contacts_container .contacts_item .left_filler {display:inline;float:left;height:25px;margin:6px 8px 0 0;width:17px;}
 #contacts_container .contacts_list_items.s3d-search-results-grid .contacts_item .left_filler{margin:1px 8px 0 9px;}
-#contacts_invited_container .contacts_item .s3d-actions-addtolibrary, #contacts_container .contacts_item .s3d-actions-addtolibrary {float:left;margin-right:9px;}
+#contacts_invited_container .contacts_item .s3d-actions-addtolibrary, #contacts_container .contacts_item .s3d-actions-addtolibrary {float:left;margin-right:9px;margin-left:-1px;}
 #contacts_container .contacts_list_items .contacts_gridview_items {display:none}
 #contacts_container .contacts_list_items.s3d-search-results-grid .contacts_gridview_items {display:block;float:right;margin-left:10px;margin-top:-3px;}
 #contacts_container .contacts_list_items.s3d-search-results-grid .contacts_listview_items {display:none;}

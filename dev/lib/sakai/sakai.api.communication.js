@@ -120,13 +120,6 @@ define(
                         toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
                         break;
-                    case "join_request":
-                        toSend["sakai:templatePath"] = "/var/templates/email/join_request";
-                        toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|name=" + groupTitle +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid) +
-                        "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
-                        break;
                     case "group_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
                         toSend["sakai:templateParams"] = "sender=" + sender +

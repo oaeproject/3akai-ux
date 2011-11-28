@@ -513,7 +513,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "title": pageTitle
             };
             if (newPageMode) {
-                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
+                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown, newPageMode]);
                 contextMenuHover = {
                     path: currentPageShown.path,
                     ref: currentPageShown.ref,
@@ -939,13 +939,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var handleReorder = function(e, ui) {
             var $target = $(e.target);
-            var savePath = $target.children("li:first").data("sakai-savepath");
+            var savePath = $target.parents(".lhnavigation_menuitem:first").data("sakai-savepath");
             var structure = sakaiDocsInStructure[savePath];
+            var $list = $target.parents("ul div.lhnavigation_menu_list");
+            if ($target.parents("ul.lhnavigation_subnav").length){
+                $list = $target.parents("ul.lhnavigation_subnav");
+            }
             var area = privstructure;
-            if ($target.data("sakai-space") === "public") {
+            if ($list.data("sakai-space") === "public") {
                 area = pubstructure;
             }
-            $target.children("li").each(function(i, elt) {
+            $list.children("li").each(function(i, elt) {
                 var path = ""+$(elt).data("sakai-path");
                 var struct0path = path;
                 if ($(elt).data("sakai-ref").indexOf("-") === -1) {

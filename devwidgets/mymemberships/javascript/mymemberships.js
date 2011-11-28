@@ -148,61 +148,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 var groupData = [];
-                $.each(groups.entry, function (i, group) {
+                var tempGroupData = sakai.api.Groups.prepareGroupsForRender(groups.entry, sakai.data.me);
+                $.each(tempGroupData, function (i, group) {
                     var titleMatch = group["sakai:group-title"] && group["sakai:group-title"].toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
                     var descriptionMatch = group["sakai:group-description"] && group["sakai:group-description"].toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
                     var idMatch = group.groupid.toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
                     if(titleMatch || descriptionMatch || idMatch){
-                        var titleShort = sakai.api.Util.applyThreeDots(
-                            group["sakai:group-title"],
-                            550,  // width of .mymemberships_info div (not yet rendered)
-                            {max_rows: 1, whole_word: false},
-                            "s3d-bold"
-                        );
-                        var desc = group["sakai:group-description"] &&
-                            $.trim(group["sakai:group-description"]) ?
-                                sakai.api.Util.applyThreeDots(
-                                    group["sakai:group-description"],
-                                    600,  // width of .mymemberships_info div (not yet rendered)
-                                    {max_rows: 3, whole_word: false},
-                                    "s3d-bold mymemberships_item_description"
-                                ) : false;
                         var groupType = sakai.api.i18n.getValueForKey("OTHER");
                         if (group["sakai:category"]){
                             for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                                 if (sakai.config.worldTemplates[c].id === group["sakai:category"]){
-                                    groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titleSing);
+                                    groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].title);
                                 }
                             }
-                        }
-
-                        var tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
-                        if (!tags || tags.length === 0){
-                            if (group.basic && group.basic.elements && group.basic.elements["sakai:tags"]){
-                                tags = sakai.api.Util.formatTagsExcludeLocation(group.basic.elements["sakai:tags"].value);
-                            }
-                        }
-
-                        var pic = "";
-                        if(group.basic.elements.picture){
-                            pic = sakai.api.Groups.getProfilePicture(group)
-                        } else {
-                            pic = false;
                         }
 
                         groupData.push({
                             id: group.groupid,
                             url: "/~" + sakai.api.Util.makeSafeURL(group.groupid),
-                            picsrc: pic,
+                            picsrc: group.picPath,
                             edit_url: "/dev/group_edit2.html?id=" + group.groupid,
                             title: group["sakai:group-title"],
-                            titleShort: titleShort,
-                            desc: desc,
+                            titleShort: group["sakai:group-title-short"],
+                            titleShorter: group["sakai:group-title-shorter"],
+                            descShort: group["sakai:group-description-short"],
+                            descShorter: group["sakai:group-description-shorter"],
                             type: groupType,
                             lastModified: group.lastModified,
                             contentCount: group.counts.contentCount,
                             membersCount: group.counts.membersCount,
-                            tags: tags,
+                            tags: group["sakai:tags-processed"],
                             userMember: sakai.api.Groups.isCurrentUserAMember(group.groupid,sakai.data.me),
                             joinable: group["sakai:group-joinable"]
                         });
