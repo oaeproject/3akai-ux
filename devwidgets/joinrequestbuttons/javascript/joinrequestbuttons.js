@@ -78,7 +78,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(".joinrequestbuttons_join").show();
                         break;
                     case "leave":
-                        $(".joinrequestbuttons_leave").show();
+                        // don't display this button on the entity widget
+                        if (!$rootel.parents("#entity_container")){
+                            $(".joinrequestbuttons_leave").show();
+                        }
                         break;
                     case "request":
                         $(".joinrequestbuttons_request").show();
