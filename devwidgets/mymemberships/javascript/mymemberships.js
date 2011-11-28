@@ -382,6 +382,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
                                 notimsg, sakai.api.Util.notification.type.INFORMATION);
                             itemdiv.removeClass("s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus");
+                            $("#searchgroups_memberimage_" + groupid).show();
                         } else {
                             sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
                                 sakai.api.i18n.getValueForKey("PROBLEM_ADDING_TO_GROUP"),
