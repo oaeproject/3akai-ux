@@ -608,7 +608,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             if (xhReq.status == 201){
                 var data = $.parseJSON(xhReq.responseText);
                 documentObj = $.extend({}, data[documentObj["sakai:originaltitle"]].item, documentObj);
-                setDataOnContent(documentObj);
+                if (data[documentObj["sakai:originaltitle"]].type === "imscp") {
+                    setIMSCPContent(documentObj, data[documentObj["sakai:originaltitle"]].item)
+                } else {
+                    setDataOnContent(documentObj);
+                }
             } else {
                 checkUploadCompleted();
             }
