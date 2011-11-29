@@ -56,9 +56,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             search: "#searchcontent",
             global: {
                 resultTemp: search + "_result_temp",
-                button: search + "_button",
-                text: search + '_text',
                 numberFound: search + '_numberFound',
+                text: "#form .s3d-search-inputfield",
                 searchButton: "#form .s3d-search-button"
             },
             results: {
@@ -105,9 +104,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * @param {Object} callback    Callback function from the infinite scroll plugin to call
          */
         var renderResults = function(results, callback){
-            var userArray = [];
-            var fetchUsers = false;
-
             // If we have results we add them to the object.
             if (results && results.length) {
                 sakai_global.data.search.prepareCMforRender(results, function(_results){
@@ -128,7 +124,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             } else {
                 $(searchConfig.global.text).val(params.q);
             }
-            $(searchConfig.global.numberFound).text("0");
             $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
         };
 
@@ -137,6 +132,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * be called by the infinite scroll plugin
          */
         var handleEmptyResultList = function(){
+            $(searchConfig.global.numberFound).text("0");
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
         };
 
@@ -146,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         var doSearch = function(){
             var params = sakai_global.data.search.getQueryParams();
-            var urlsearchterm = sakai.api.Server.createSearchString(params.cat || params.q);
+            var urlsearchterm = sakai_global.data.search.processSearchString(params);
 
             var facetedurl = "";
             var facetedurlall = "";
@@ -161,22 +157,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
-            // get the sort by
-            var sortBy = $("#search_select_sortby option:first").val();
-            if (params["sortby"]){
-                sortBy = params["sortby"];
-            }
-
             // Set all the input fields and paging correct.
             showSearchContent(params);
 
             var url = "";
             if (urlsearchterm === '**' || urlsearchterm === '*') {
                 url = facetedurlall;
-                $(window).trigger("lhnav.addHashParam", [{"q": "", "cat": ""}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": "", "cat": "", "refine": ""}]);
             } else {
                 url = facetedurl.replace(".json", ".infinity.json");
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat, "refine": params.refine}]);
             }
 
             // Disable the previous infinite scroll
@@ -186,8 +176,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // Set up the infinite scroll for the list of search results
             infinityScroll = $(searchConfig.results.container).infinitescroll(url, {
                 "q": urlsearchterm,
-                "sortOn": "_lastModified",
-                "sortOrder": sortBy
+                "sortOn": params["sorton"],
+                "sortOrder": params["sortby"]
             }, function(items, total){
                 // Adjust display global total
                 $(searchConfig.global.numberFound, $rootel).text("" + total);
@@ -195,35 +185,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     "items": items,
                     "sakai": sakai
                 });
-            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults);
+            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, false, function(data){
+                // Generate refine by tags
+                sakai_global.data.search.generateTagsRefineBy(data, params);
+            });
         };
-
-        ///////////////////
-        // Event binding //
-        ///////////////////
-
-        $(searchConfig.global.text).live("keydown", function(ev){
-            if (ev.keyCode === 13) {
-                $.bbq.pushState({
-                    "q": $(searchConfig.global.text).val(),
-                    "cat": ""
-                }, 0);
-            }
-        });
-
-        $(searchConfig.global.searchButton).live("click", function(ev){
-            $.bbq.pushState({
-                "q": $(searchConfig.global.text).val(),
-                "cat": ""
-            }, 0);
-        });
-
-        $(searchConfig.global.button).live("click", function(ev){
-            $.bbq.pushState({
-                "q": $(searchConfig.global.text).val(),
-                "cat": ""
-            }, 0);
-        });
 
         /////////////////////////
         // Initialise Function //
