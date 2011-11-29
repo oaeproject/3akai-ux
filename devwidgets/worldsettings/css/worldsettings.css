@@ -35,7 +35,7 @@
 
 #worldsettings_form h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}
 #worldsettings_form h1 + hr {border:none;border-top:1px solid #A9A9A9;background:none;}
-#worldsettings_container {width: 350px !important; margin-left: -175px !important;}
+#worldsettings_container {width: 370px !important; margin-left: -185px !important;}
 #worldsettings_container label {display:block; color:#424242;font-size:12px;width:38%;text-align:left;}
 #worldsettings_container input, #worldsettings_container textarea {width:95%;}
 #worldsettings_container .s3d-form-field-wrapper span.s3d-error-after{width:95%;}
