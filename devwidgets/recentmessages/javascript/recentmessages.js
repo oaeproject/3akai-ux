@@ -115,6 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Set a params object to set which params should be passed into the request
             var params = $.param({
                 box: "inbox",
+                category: "message,invitation",
                 items: 4,
                 sortOn: "_created",
                 sortOrder: "desc",
@@ -123,7 +124,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Fire an Ajax request to get the recent messages for the current user
             $.ajax({
-                url: sakai.config.URL.MESSAGE_BOX_SERVICE + "?" + params,
+                url: sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE + "?" + params,
                 cache: false,
                 success: function(data){
                     loadRecentMessages(data);
