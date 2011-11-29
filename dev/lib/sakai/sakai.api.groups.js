@@ -464,11 +464,8 @@ define(
                     } else {
                         sakaiGroupsAPI.getMembers(groupid,"",function(membersSuccess, memberData){
                             // Check if there is more then one manager in the group
-                            var numManagers = sakaiGroupsAPI.getManagerCount(membershipData.properties, memberData)
-                            var leaveAllowed = false;
-                            if (numManagers > 1) {
-                                leaveAllowed = true;
-                            }
+                            var numManagers = sakaiGroupsAPI.getManagerCount(membershipData.properties, memberData);
+                            var leaveAllowed = numManagers > 1;
                             if ($.isFunction(callback)) {
                                 callback(leaveAllowed);
                             }
@@ -497,10 +494,9 @@ define(
                     }
                 });
                 $.each(members, function(i, member) {
+                    member = member.results ? member.results : member;
                     if ($.inArray(i, managerRoles) > -1 && member.length) {
                         managers += member.length;
-                    } else if ($.inArray(i, managerRoles) > -1 && member.results.length) {
-                        managers += member.results.length;
                     }
                 });
             }
