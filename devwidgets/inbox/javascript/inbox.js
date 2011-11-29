@@ -431,7 +431,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
             // check if the inbox is open, or if the hashchange will open an inbox message
-            if ($rootel.is(":visible")) {
+            if ($rootel.is(":visible") || (currentState && currentState.l === "messages/inbox" && currentState.message)) {
                 if (!$.isEmptyObject(changed) || (first && !$.isEmptyObject(all))) {
                     if (all.hasOwnProperty("message")) {
                         storeCurrentScrollPosition();
