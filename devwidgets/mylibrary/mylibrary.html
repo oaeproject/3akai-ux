@@ -112,25 +112,24 @@
                         </div>
                         {if item["sakai:description-long"]}<div class="mylibrary_item_description">${item["sakai:description-long"]}</div>{/if}
                         {if item.tags && item.tags.length > 0}
-                            <div class="mylibrary_item_tags">
-                                <span class="mylibrary_item_icon mylibrary_item_tags_icon"></span>
-                                <p class="mylibrary_item_tags_list">
-                                    {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name|safeOutput}">${t.name|safeOutput}</a>{/for}
-                                </p>
+                            <div class="mylibrary_item_tags s3d-taglist">
+                                <ul class="mylibrary_item_tags_list">
+                                    {for t in item.tags}<li><a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name|safeOutput}">${t.name|safeOutput}</a></li>{/for}
+                                </ul>
                             </div>
                         {/if}
                         {if !$.isEmptyObject(item.tagsProcessed)}
                             <div class="mylibrary_item_tags">
-                                <span class="mylibrary_item_icon mylibrary_item_tags_icon"></span>
-                                <p class="mylibrary_item_tags_list">
+                                <ul class="mylibrary_item_tags_list s3d-taglist">
                                     {for t in item.tagsProcessed}
-                                        {if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if}
-                                        <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.tag|safeOutput}">
-                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
-                                        </a>
+                                        <li>
+                                            <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.tag|safeOutput}">
+                                                <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
+                                                <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                            </a>
+                                        </li>
                                     {/for}
-                                </p>
+                                </ul>
                             </div>
                         {/if}
                         <div class="mylibrary_item_usedin">
