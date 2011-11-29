@@ -188,7 +188,7 @@
                     __MSG__OPEN_LINK__<span class="entity_download_content"></span>
                 </a>
             {elseif data.data.mimeType === "x-sakai/document"}
-                {var imspath = "/imscp/" + data.data._path +"/" + data.data["sakai:pooled-content-file-name"] +".zip"}
+                {var imspath = "/imscp/" + data.data._path +"/" + sakai.api.Util.Security.safeOutput(data.data["sakai:pooled-content-file-name"]) +".zip"}
                 <a id="contentpreview_download_button" href="${imspath}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>
