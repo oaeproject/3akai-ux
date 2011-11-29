@@ -142,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     _.uniq($.merge(allNewlyShared, [thisContent]));
                     if (entityId === sakai.data.me.user.userid) {
                         sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
-                    } else if (entityId.substring(0, 2) === "c-"){
+                    } else if (sakai.api.Collection.isCollection(entityId)){
                          var notificationBody = decodeURIComponent($("#savecontent_collection_add_library_body").html());
                          notificationBody = notificationBody.replace("${collectionid}", sakai.api.Security.safeOutput(entityId.substring(2)));
                          notificationBody = notificationBody.replace("${collectiontitle}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));

@@ -435,15 +435,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#collection_create").click(function(){
-            sakai.api.Content.Collections.createCollection("Hello World Collection 23", "Description for the hello world collection", "public", [], ["j1BGKkYkaa", "j1BLYwRkaa"], [], function(success, collectionId){
+            sakai.api.Content.Collections.createCollection("Hello World Collection 23", "Description for the hello world collection", "public", [], ["j09MuE7aa", "j09wWI3Y6"], [], function(success, collectionId){
                 alert("Finished: Collection id is " + collectionId);
                 $("#collection_add").click(function(){
-                    sakai.api.Content.Collections.addToCollection(collectionId, ["j1BLc7rmqi", "j1BLKJraa", "j1BL3b1Yaa"], function(){
+                    sakai.api.Content.Collections.addToCollection(collectionId, ["j09gQc1aa", "j09wECFaa", "j093q51Yie"], function(){
                         alert("Finished: Added content to " + collectionId);
                     });
                 });
                 $("#collection_remove").click(function(){
-                    sakai.api.Content.Collections.removeFromCollection(collectionId, ["j1BGKkYkaa", "j1BLYwRkaa"], function(){
+                    sakai.api.Content.Collections.removeFromCollection(collectionId, ["j09MuE7aa", "j09wWI3Y6"], function(){
                         alert("Finished: Removed content from " + collectionId);
                     });
                 });

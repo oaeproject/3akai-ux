@@ -96,13 +96,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             batchRequests = batchRequests || [];
             for (var i = 0; i < items.length; i++){
                 var parameters = {};
-                parameters[":manager@Delete"] = context;
-                parameters[":viewer@Delete"] = context;
-                batchRequests.push({
-                    "url": "/p/" + items[i]["_path"] + ".members.json",
-                    "method": "POST",
-                    "parameters": parameters
-                });
+                if (sakai.api.Content.Collections.isCollection(items[i])) {
+                    var groupId = sakai.api.Content.Collections.getCollectionGroupId(item[i]);
+                    parameters[":member@Delete"] = context;
+                    parameters[":viewer@Delete"] = context;
+                    reqData.push({
+                        "url": "/system/userManager/group/" + groupId + "-members.update.json",
+                        "method": "POST",
+                        "parameters": params
+                    });
+                    reqData.push({
+                        "url": "/system/userManager/group/" + groupId + "-managers.update.json",
+                        "method": "POST",
+                        "parameters": params
+                    });
+                } else {
+                    parameters[":manager@Delete"] = context;
+                    parameters[":viewer@Delete"] = context;
+                    batchRequests.push({
+                        "url": "/p/" + items[i]["_path"] + ".members.json",
+                        "method": "POST",
+                        "parameters": parameters
+                    });
+                }
             }
         };
 
@@ -129,6 +145,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var processRemoveFromSystem = function(batchRequests, items){
             batchRequests = batchRequests || [];
             for (var i = 0; i < items.length; i++){
+                if (sakai.api.Content.Collections.isCollection(items[i])) {
+                
+                }
                 batchRequests.push({
                     "url": "/p/" + items[i]["_path"],
                     "method": "POST",

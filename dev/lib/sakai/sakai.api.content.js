@@ -1035,7 +1035,7 @@ define(
                 if (contentItem['sakai:pooled-content-file-name']) {
                     contentItem.id = contentItem["_path"];
                     contentItem.link = "/content#p=" + sakai_util.safeURL(contentItem["_path"]);
-                    contentItem.canDelete = sakai_content.isContentInLibrary(contentItem, meData.user.userid);
+                    contentItem.canDelete = sakai_content.isContentInLibrary(contentItem, meData.user.userid) || (sakai_content.Collections.isCollection(contentItem) && sakai_content.Collections.isCollectionInMyLibrary(contentItem));
                     contentItem.numPlaces = sakai_content.getPlaceCount(contentItem);
                     contentItem.numComments = sakai_content.getCommentCount(contentItem);
                     // Only modify the description if there is one
@@ -1109,7 +1109,16 @@ define(
             }
         },
 
+        /**
+         * Set of API function around collection creation and management
+         */
         Collections: {
+
+            /**
+             * Prefix that will be prepended to all pseudoGroups created
+             * for collections
+             */
+            COLLECTION_GROUP_PREFIX: "c-",
 
             /**
              * Create a new content collection. This includes the creation of a pooled content item and a pseudoGroup used to share
@@ -1125,7 +1134,6 @@ define(
              * @param {Object} callback         Function to be called after the collections has been created. This will pass in a
              *                                  success parameter and 
              */
-            // TODO: Remove creator as explicit manager of all pseudoGroups
             createCollection: function(title, description, permissions, tags, contentToAdd, usersToAdd, callback){
 
                 // 0. Help functions
@@ -1222,7 +1230,7 @@ define(
                             sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
 
                             	// 4. Create the pseudoGroups
-                                var groupId = "c-" + collectionId;
+                                var groupId = sakai_content.Collection.getCollectionGroupId(collectionId);
                                 var batchRequests = [];
                                 var membershipsToProcess = [];
                                 var managershipsToProcess = [];
@@ -1305,8 +1313,7 @@ define(
                                                     // 6. Share the collection with the pseudoGroups and remove creator as manager
                                                     sakai_content.addToLibrary(collectionId, groupId + "-managers", true, function(){
                                                         sakai_content.addToLibrary(collectionId, groupId + "-members", false, function(){
-                                                            // TODO: Enable this once KERN-2273 is fixed
-                                                            //sakai_content.removeUser("manager", collectionId, sakai_user.data.me.user.userid, function(){
+                                                            sakai_content.removeUser("manager", collectionId, sakai_user.data.me.user.userid, function(){
     
                                                                 // 7. Add the content to the collection
                                                                 sakai_content.addToLibrary(contentToAdd, groupId, false, function(){
@@ -1329,7 +1336,7 @@ define(
                                                                     });
                                                                 });
     
-                                                            //})
+                                                            })
     
                                                         });
                                                     });
@@ -1363,7 +1370,7 @@ define(
                 if (_.isString(poolIds)){
                     poolIds = [poolIds];
                 }
-                sakai_content.addToLibrary(poolIds, "c-" + collectionId, false, callback);
+                sakai_content.addToLibrary(poolIds, sakai_content.Collections.getCollectionGroupId(collectionId), false, callback);
             },
 
             /**
@@ -1377,7 +1384,7 @@ define(
                 if (_.isString(poolIds)){
                     poolIds = [poolIds];
                 }
-                sakai_content.removeUser("viewer", poolIds, "c-" + collectionId, callback);
+                sakai_content.removeUser("viewer", poolIds, sakai_content.Collections.getCollectionGroupId(collectionId), callback);
             },
 
             getCollectionProfile: function(collectionId){
@@ -1394,6 +1401,56 @@ define(
 
             getMyCollections: function(){
                 // TODO
+            },
+
+            /**
+             * Check whether a given object represents a collection
+             * @param {Object} identifier    This can be a group id, a content object or a group object
+             */
+            isCollection: function(identifier){
+                // The identifier is a group id
+                if (_.isString(identifier)){
+                    return identifier.substring(0, 2) === sakai_content.Collections.COLLECTION_GROUP_PREFIX;
+                // The identifier is a content object
+                } else if (identifier["_path"]){
+                    debug.log("PATHTHAP: " + sakai_content.getMimeType(identifier));
+                    debug.log(identifier);
+                    return sakai_content.getMimeType(identifier) === "x-sakai/collection";
+                } else if (identifier["sakai:category"] === "collection"){
+                    return true;
+                }
+                return false;
+            },
+
+            /**
+             * Check whether a collection is part of my library or not
+             * @param {Object} collection    This can be the pooled content id of the collection or the
+             *                               pooled content object of the collection
+             */
+            isCollectionInMyLibrary: function(collection){
+                if ($.isPlainObject(collection)){
+                    collection = collection["_path"];
+                }
+                var groupToCheck = sakai_content.Collections.getCollectionGroupId(collection);
+                return sakai_groups.isCurrentUserAMember(groupToCheck, sakai_user.data.me);
+            },
+
+            //getCollectionRole: function(collection, authorizable){
+            //    authorizable = authorizable || sakai_user.data.me.user.userid;
+            //    
+            //},
+
+            /**
+             * Get the group ID of the pseudoGroup that's associated to a collection
+             * @param {Object} collection    This can be the pooled content id of the collection or the
+             *                               pooled content object of the collection
+             */
+            getCollectionGroupId: function(collection){
+                if (_.isString(collection)) {
+                    return sakai_content.Collections.COLLECTION_GROUP_PREFIX + collection;
+                } else {
+                    return sakai_content.Collections.COLLECTION_GROUP_PREFIX + collection["_path"];
+                }
             }
 
         }
