@@ -187,7 +187,12 @@
                 <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-smaller-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__OPEN_LINK__<span class="entity_download_content"></span>
                 </a>
-            {elseif data.data.mimeType !== "x-sakai/document"}
+            {elseif data.data.mimeType === "x-sakai/document"}
+                {var imspath = "/imscp/" + data.data._path +"/" + sakai.api.Util.safeURL(data.data["sakai:pooled-content-file-name"]) +".zip"}
+                <a id="contentpreview_download_button" href="${imspath}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
+                    __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+                </a>
+            {else}
                 <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>
