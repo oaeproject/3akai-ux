@@ -16,5 +16,6 @@
     "type":               "sakai",
     "url":                "/devwidgets/collectionviewer/collectionviewer.html",
     "userdashboard":      false,
-    "userpages":          false
+    "userpages":          false,
+    "hashParams": ["ls", "so"]
 }

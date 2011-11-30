@@ -24,3 +24,4 @@
 
 /* Sakai docs */
 #content_profile_sakaidoc_container{min-height: 300px; padding-bottom: 20px; border-bottom: 5px solid #E2E2E2; margin-bottom: 20px;}
+#content_profile_sakaidoc_container.collections {min-height:195px;padding-bottom:0;}

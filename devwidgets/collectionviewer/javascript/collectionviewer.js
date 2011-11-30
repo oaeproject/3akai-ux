@@ -39,17 +39,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var $rootel = $("#" + tuid);
-        var listStyle = "carousel";
+        var collectionviewer = {
+            listStyle: "carousel",
+            sortOn: "_lastModified",
+            sortOrder: "desc"
+        };
         var collectionData = [];
 
         // containers
         var $collectionviewerCarouselContainer = $("#collectionviewer_carousel_container", $rootel);
+        var $collectionviewerExpandedContentContainer = $("#collectionviewer_expanded_content_container", $rootel);
+        var $collectionviewerGridListContainer = $("#collectionviewer_grid_list_container", $rootel);
 
 
         /////////////////////////
         // RENDERING FUNCTIONS //
         /////////////////////////
 
+        // CAROUSEL //
         /**
          * Adds binding for the carousel actions and buttons
          */
@@ -82,6 +89,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "sakai": sakai
             }));
             $collectionviewerCarouselContainer.show();
+            $collectionviewerExpandedContentContainer.show();
             $("#collectionviewer_carousel", $rootel).jcarousel({
                 animation: "slow",
                 easing: "swing",
@@ -104,6 +112,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         };
 
+        // GRID OR LIST //
+        var renderGridOrList = function(grid){
+            sakai.api.Content.prepareContentForRender(collectionData, sakai.data.me, function(data){
+                $collectionviewerGridListContainer.html(sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
+                    "items": data,
+                    "sakai": sakai,
+                    "grid": grid
+                }));
+                $collectionviewerGridListContainer.show();
+            });
+        };
+
+        // BLOG //
+        var renderBlog = function(){
+            
+        };
+
 
         ///////////////////////
         // UTILITY FUNCTIONS //
@@ -114,6 +139,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var hideContainers = function(){
             $collectionviewerCarouselContainer.hide();
+            $collectionviewerExpandedContentContainer.hide();
+            $collectionviewerGridListContainer.hide();
         };
 
         /**
@@ -121,8 +148,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var showData = function(){
             hideContainers();
-            if(listStyle === "carousel"){
-                renderCarousel();
+            switch (collectionviewer.listStyle){
+                case "carousel":
+                    $("#collectionviewer_carousel_view,#collectionviewer_carousel_view > div", $rootel).addClass("selected");
+                    renderCarousel();
+                    break;
+                case "grid":
+                    $("#collectionviewer_grid_view,#collectionviewer_grid_view > div", $rootel).addClass("selected");
+                    renderGridOrList(true);
+                    break;
+                case "list":
+                    $("#collectionviewer_list_view,#collectionviewer_list_view > div", $rootel).addClass("selected");
+                    renderGridOrList(false);
+                    break;
+                case "blog":
+                    $("#collectionviewer_blog_view,#collectionviewer_blog_view > div", $rootel).addClass("selected");
+                    renderBlog();
+                    break;
             }
         };
 
@@ -160,7 +202,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Retrieves the basic data for items in a collection
          */
         var getCollectionData = function(){
-            sakai.api.Server.loadJSON(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=1000", function(success, data){
+            var sortOn = collectionviewer.sortOn;
+            var sortOrder = collectionviewer.sortOrder;
+            if(collectionviewer.sortOrder === "modified"){
+                sortOrder = "desc";
+                sortOn = "_lastModified";
+            } else {
+                sortOn = "sakai:pooled-content-file-name";
+            }
+            sakai.api.Server.loadJSON(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=1000&sortOn=" + sortOn + "&sortOrder=" + sortOrder, function(success, data){
                 if(success){
                     collectionData = data.results;
                     // Get the full profiles for these items
@@ -182,14 +232,43 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+
         ////////////////////
         // INITIALIZATION //
         ////////////////////
+
+        var handleHashChange = function(){
+            collectionviewer.listStyle = $.bbq.getState("ls") || "carousel";
+            $(".s3d-listview-options", $rootel).children(".selected").children().removeClass("selected");
+            $(".s3d-listview-options", $rootel).children(".selected").removeClass("selected");
+            getCollectionData();
+        };
 
         /**
          * Add binding to various elements and events.
          */
         var addBinding = function(){
+            
+            // Header bindings
+            $("#collectionviewer_carousel_view").live("click", function(){
+                $.bbq.pushState({"ls":"carousel"});
+            });
+
+            $("#collectionviewer_grid_view").live("click", function(){
+                $.bbq.pushState({"ls":"grid"});
+            });
+
+            $("#collectionviewer_list_view").live("click", function(){
+                $.bbq.pushState({"ls":"list"});
+            });
+
+            $("#collectionviewer_blog_view").live("click", function(){
+                $.bbq.pushState({"ls":"blog"});
+            });
+
+            $(window).bind("hashchanged.collectionviewer.sakai", handleHashChange);
+
+            // Carousel bindings
             $(".collectionviewer_carousel_item").live("click", function(){
                 $(".collectionviewer_carousel_item").removeClass("selected");
                 $(this).addClass("selected");
@@ -200,10 +279,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(".collectionviewer_comments_button").live("click", showComments);
 
+            $(window).bind("ready.pageviewer.sakai", function(){
+                $(window).trigger("start.pageviewer.sakai", collectionData[$(".collectionviewer_carousel_item.selected").data("arr-index")].fullProfile);
+            });
+
             $(window).bind("ready.collectioncontentpreview.sakai", function(){
-                if(listStyle === "carousel"){
+                if(collectionviewer.listStyle === "carousel"){
                     $(window).trigger("start.collectioncontentpreview.sakai", collectionData[$(".collectionviewer_carousel_item.selected").data("arr-index")].fullProfile);
                     $(".collectionviewer_collection_item_preview").show();
+                }
+            });
+
+            $("#collectionviewer_sortby").change(function(){
+                var sortSelection = $(this).val(); //this.options[this.selectedIndex].value;
+                if (sortSelection === "desc") {
+                    collectionviewer.sortOrder = "desc";
+                    $.bbq.pushState({"so": "desc"});
+                } else if (sortSelection === "asc") {
+                    collectionviewer.sortOrder = "asc";
+                    $.bbq.pushState({"so": "asc"});
+                } else {
+                    collectionviewer.sortOrder = "modified";
+                    $.bbq.pushState({"so": "modified"});
                 }
             });
         };
@@ -212,8 +309,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Initialize the widget by adding bindings to elements and gathering collection information
          */
         var doInit = function(){
+            $("#content_profile_sakaidoc_container").addClass("collections");
+            collectionviewer.listStyle = $.bbq.getState("ls") || "carousel";
+            collectionviewer.sortOrder = $.bbq.getState("so") || "modified";
+
+            $("#collectionviewer_sortby").val(collectionviewer.sortOrder);
+
+            handleHashChange();
             addBinding();
-            getCollectionData();
         };
 
         doInit();

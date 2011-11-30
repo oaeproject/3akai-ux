@@ -438,7 +438,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Content.Collections.createCollection("Hello World Collection 21", "Description for the hello world collection", "public", [], ["j1BGKkYkaa", "j1BLYwRkaa"], [], function(success, collectionId){
                 alert("Finished: Collection id is " + collectionId);
                 $("#collection_add").click(function(){
-                    sakai.api.Content.Collections.addToCollection(collectionId, ["j4eASLdJ9E", "j4eCPHCbaa", "j4e9NySvaa", "j4eoNT7AkL", "j4eEMciAdie", "j4eEMKvtQie", "j4eIGhI7aa", "j1n2NTDec", "j4aHrvABkL"], function(){
+                    sakai.api.Content.Collections.addToCollection(collectionId, ["j4eASLdJ9E", "j4eCPHCbaa", "j4e9NySvaa", "j4eoNT7AkL", "j4eEMciAdie", "j4eEMKvtQie", "j4eIGhI7aa", "j1n2NTDec", "j4aHrvABkL", "j4whwkOTqi", "j0GiB7kpie"], function(){
                         alert("Finished: Added content to " + collectionId);
                     });
                 });

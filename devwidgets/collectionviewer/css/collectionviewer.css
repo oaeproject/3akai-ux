@@ -32,12 +32,15 @@
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon.png") no-repeat top left transparent;width:21px;height:21px;float:right;}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button:hover .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon_hover.png") no-repeat top left transparent;}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_count {display:block;float:left;font-size:13px;margin-right:4px;margin-top:4px;}
+.collectionviewer_widget #collectionviewer_header_container {border-bottom:5px solid #E2E2E2;min-height:40px;}
+.collectionviewer_widget #collectionviewer_sortby {border:1px solid #A9A9A9;}
 
 /* Overrides */
 .collectionviewer_widget .documentviewer_preview {background-color:#fff;padding:15px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;width:870px;}
 .collectionviewer_widget .documentviewer_preview_width,
 .collectionviewer_widget .contentpreview_fullsize_preview embed {width:870px;}
 .collectionviewer_widget #contentpreview_fullsize_preview {padding:0 0 15px;}
+.collectionviewer_widget .s3d-search-results-grid {border:none !important;padding-top:0;}
 
 /* Carousel Specific */
 .collectionviewer_widget #collectionviewer_carousel_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin-top:10px;border-top: 5px solid #E2E2E2;}
