@@ -158,6 +158,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     }
                     hideSavecontent();
+                    $(window).trigger("sakai.entity.updateOwnCounts", {contentId:contentId,entityID:entityId});
                 });
             }
         };

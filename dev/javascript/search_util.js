@@ -267,6 +267,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         });
 
+        $(window).bind("sakai.entity.updateOwnCounts", function(e, context) {
+            sakai.api.Server.loadJSON('/p/'+context.contentId+'.infinity.json',function(success,data) {
+                sakai.api.Content.prepareContentForRender([data],sakai.data.me,function(results) {
+                    sakai.api.Util.TemplateRenderer($("#search_content_item_template"),{item:results[0],sakai:sakai},$("#"+context.contentId));
+                });
+            });
+        });
+
         /////////////////////////
         // Util initialisation //
         /////////////////////////
