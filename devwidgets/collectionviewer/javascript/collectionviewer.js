@@ -212,6 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             sakai.api.Server.loadJSON(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=1000&sortOn=" + sortOn + "&sortOrder=" + sortOrder, function(success, data){
                 if(success){
+                    $("#collectionviewer_add_content_button > div").text(data.results.length);
                     collectionData = data.results;
                     // Get the full profiles for these items
                     getFullProfiles(data);
