@@ -230,16 +230,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         // bind search view change
         $(".search_view_list, .search_view_grid").die("click").live("click", function(ev){
-            if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
-                view = "list";
-                $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
-            } else {
-                view = "grid";
-                $(".s3d-search-results-container").addClass("s3d-search-results-grid");
+            if (!$(this).hasClass("selected")) {
+                if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")) {
+                    view = "list";
+                    $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
+                } else {
+                    view = "grid";
+                    $(".s3d-search-results-container").addClass("s3d-search-results-grid");
+                }
+                $(".s3d-search-listview-options").find("div").removeClass("selected");
+                $(".search_view_" + view).addClass("selected");
+                $(".search_view_" + view).children("div").addClass("selected");
             }
-            $(".s3d-search-listview-options").find("div").removeClass("selected");
-            $(".search_view_" + view).addClass("selected");
-            $(".search_view_" + view).children("div").addClass("selected");
         });
 
         $('.searchgroups_result_plus').die("click");
