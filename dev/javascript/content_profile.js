@@ -41,7 +41,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Check whether there is actually a content path in the URL
             if (content_path) {
                 // Get the content information, the members and managers and version information
-                sakai.api.Content.loadFullProfile([content_path], function(success, data){
+                sakai.api.Content.loadFullProfile(content_path, function(success, data){
                     if (success) {
                         if (data.results.hasOwnProperty(0)) {
                             var contentInfo = false;
@@ -62,8 +62,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
 
                         sakai.api.Content.parseFullProfile(data.results, function(parsedData){
-                            parsedData[0].mode = "content";
-                            sakai_global.content_profile.content_data = parsedData[0];
+                            parsedData.mode = "content";
+                            sakai_global.content_profile.content_data = parsedData;
                             $(window).trigger("ready.contentprofile.sakai", sakai_global.content_profile.content_data);
                             if ($.isFunction(callback)) {
                                 callback(true);
@@ -71,7 +71,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             initEntityWidget();
 
                             if (!showPreview){
-                                renderSakaiDoc(parsedData[0].data);
+                                renderSakaiDoc(parsedData.data);
                             }
                         });
                     }

@@ -97,15 +97,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var i = 0; i < items.length; i++){
                 var parameters = {};
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
-                    var groupId = sakai.api.Content.Collections.getCollectionGroupId(item[i]);
+                    var groupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
                     parameters[":member@Delete"] = context;
                     parameters[":viewer@Delete"] = context;
-                    reqData.push({
+                    batchRequests.push({
                         "url": "/system/userManager/group/" + groupId + "-members.update.json",
                         "method": "POST",
                         "parameters": params
                     });
-                    reqData.push({
+                    batchRequests.push({
                         "url": "/system/userManager/group/" + groupId + "-managers.update.json",
                         "method": "POST",
                         "parameters": params
@@ -146,7 +146,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             batchRequests = batchRequests || [];
             for (var i = 0; i < items.length; i++){
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
-                
+                    // TODO: Replace this by removal of the pseudoGroup once it exists
+                    batchRequests.push({
+                        "url": "/system/userManager/group/" + sakai.api.Content.Collections.getCollectionGroupId(items[i]) + ".update.json",
+                        "method": "POST",
+                        "parameters": {
+                            "sakai:excludeSearch": true
+                        }
+                    });
                 }
                 batchRequests.push({
                     "url": "/p/" + items[i]["_path"],

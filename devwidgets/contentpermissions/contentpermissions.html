@@ -60,9 +60,9 @@
                                 </select>
                                 <label for="select_${id|safeOutput}">
                                     {if member["sakai:group-id"]}
-                                        <img src="${sakai.api.Groups.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__GROUP_PICTURE__"/>
+                                        <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__GROUP_PICTURE__"/>
                                     {else}
-                                        <img src="${sakai.api.User.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
+                                        <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
                                     {/if}
                                     {if member["sakai:pseudoGroup"]}
                                         <a class="s3d-bold" href="/~${member["sakai:parent-group-id"]|safeURL}" title="__MSG__VIEW__ ${member["sakai:parent-group-title"]|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</span>

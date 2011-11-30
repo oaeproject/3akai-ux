@@ -36,10 +36,64 @@ define(
          * @param {Function} callback Function to execute when the function finishes
          */
         parseFullProfile: function(data, callback){
-            // contains data to return in callback
-            var parsedData = [];
             // temporary object to store in parsedData
-            var tempItem = {};
+            var contentItem = {};
+            // collection pseudoGroup info to retrieve
+            var collectionGroup = false;
+
+            var parseMembers = function(contentMembers, contentItem){
+                // results for members.json
+                // Members are parsed an put into a .viewers and .managers object in tempItem
+                contentMembers.viewers = contentMembers.viewers || {};
+                // Parse the viewers and add them to the .viewers object.
+                $.each(contentMembers.viewers, function(index, resultObject) {
+                    contentMembers.viewers[index].picture = sakai_util.constructProfilePicture(contentMembers.viewers[index]);
+                    if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
+                        contentMembers.viewers[index].pseudoGroup = true;
+                        contentMembers.viewers[index]["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.viewers[index]["sakai:role-title-plural"]) + ")";
+                        contentMembers.viewers[index].parent = {};
+                        contentMembers.viewers[index].parent["sakai:group-id"] = contentMembers.viewers[index]["sakai:parent-group-id"];
+                        contentMembers.viewers[index].parent["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"];
+                        contentMembers.viewers[index].parent["sakai:role-title"] = contentMembers.viewers[index]["sakai:group-title"];
+                    }
+                });
+
+                contentMembers.managers = contentMembers.managers || {};
+                // Parse the managers and add them to the .managers object.
+                $.each(contentMembers.managers, function(index, resultObject) {
+                    contentMembers.managers[index].picture = sakai_util.constructProfilePicture(contentMembers.managers[index]);
+                    if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
+                        contentMembers.managers[index].pseudoGroup = true;
+                        contentMembers.managers[index]["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.managers[index]["sakai:role-title-plural"]) + ")";
+                        contentMembers.managers[index].parent = {};
+                        contentMembers.managers[index].parent["sakai:group-id"] = contentMembers.managers[index]["sakai:parent-group-id"];
+                        contentMembers.managers[index].parent["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"];
+                        contentMembers.managers[index].parent["sakai:role-title"] = contentMembers.managers[index]["sakai:group-title"];
+                    }
+                });
+
+                // filter out the the everyone group and the anonymous user
+                contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
+                    if (resultObject['sakai:group-id'] !== 'everyone' &&
+                        resultObject['rep:userId'] !== 'anonymous') {
+                        return true;
+                    }
+                    return false;
+                });
+
+                // Add counts for managers and viewers
+                contentMembers.counts = { people: 0, groups: 0};
+                $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
+                    if (member.hasOwnProperty("userid")) {
+                        contentMembers.counts.people++;
+                    } else {
+                        contentMembers.counts.groups++;
+                    }
+                });
+
+                // Add the members to the tempItem object
+                contentItem.members = contentMembers;
+            }
 
             // Loops over results and gets the data to put in tempItem
             // Each tempItem consists of 4 requests made by loadFullProfile, these are:
@@ -52,73 +106,19 @@ define(
                 if(dataItem.url.indexOf(".infinity.json") > -1){
 
                     // Stores all general data on tempItem.data
-                    tempItem = {};
-                    tempItem.data = $.parseJSON(dataItem.body);
+                    contentItem = {};
+                    contentItem.data = $.parseJSON(dataItem.body);
+                    if (sakai_content.Collections.isCollection(contentItem.data)){
+                        collectionGroup = true;
+                    }
 
                 } else if(dataItem.url.indexOf(".members.json") > -1){
 
-                    // results for members.json
-                    // Members are parsed an put into a .viewers and .managers object in tempItem
-                    var contentMembers = $.parseJSON(dataItem.body);
-                    contentMembers.viewers = contentMembers.viewers || {};
-                    // Parse the viewers and add them to the .viewers object.
-                    $.each(contentMembers.viewers, function(index, resultObject) {
-                        if (contentMembers.viewers[index].hasOwnProperty("basic") &&
-                            contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
-                            contentMembers.viewers[index].basic.elements.hasOwnProperty("picture") &&
-                            contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
-                        }
-                        if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
-                            contentMembers.viewers[index].pseudoGroup = true;
-                            contentMembers.viewers[index]["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.viewers[index]["sakai:role-title-plural"]) + ")";
-                            contentMembers.viewers[index].parent = {};
-                            contentMembers.viewers[index].parent["sakai:group-id"] = contentMembers.viewers[index]["sakai:parent-group-id"];
-                            contentMembers.viewers[index].parent["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"];
-                            contentMembers.viewers[index].parent["sakai:role-title"] = contentMembers.viewers[index]["sakai:group-title"];
-                        }
-                    });
-
-                    contentMembers.managers = contentMembers.managers || {};
-                    // Parse the managers and add them to the .managers object.
-                    $.each(contentMembers.managers, function(index, resultObject) {
-                        if (contentMembers.managers[index].hasOwnProperty("basic") &&
-                            contentMembers.managers[index].basic.hasOwnProperty("elements") &&
-                            contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
-                            contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
-                        }
-                        if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
-                            contentMembers.managers[index].pseudoGroup = true;
-                            contentMembers.managers[index]["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.managers[index]["sakai:role-title-plural"]) + ")";
-                            contentMembers.managers[index].parent = {};
-                            contentMembers.managers[index].parent["sakai:group-id"] = contentMembers.managers[index]["sakai:parent-group-id"];
-                            contentMembers.managers[index].parent["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"];
-                            contentMembers.managers[index].parent["sakai:role-title"] = contentMembers.managers[index]["sakai:group-title"];
-                        }
-                    });
-
-                    // filter out the the everyone group and the anonymous user
-                    contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
-                        if (resultObject['sakai:group-id'] !== 'everyone' &&
-                            resultObject['rep:userId'] !== 'anonymous') {
-                            return true;
-                        }
-                        return false;
-                    });
-
-                    // Add counts for managers and viewers
-                    contentMembers.counts = { people: 0, groups: 0};
-                    $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
-                        if (member.hasOwnProperty("userid")) {
-                            contentMembers.counts.people++;
-                        } else {
-                            contentMembers.counts.groups++;
-                        }
-                    });
-
-                    // Add the members to the tempItem object
-                    tempItem.members = contentMembers;
+                    // If this content item is a collection, retrieve the list of members
+                    // behind the pseudoGroup
+                    if (!collectionGroup){
+                        parseMembers($.parseJSON(dataItem.body), contentItem);
+                    }
 
                 } else if(dataItem.url.indexOf(".versions.json") > -1){
 
@@ -135,52 +135,58 @@ define(
                     }
                     versionInfo.versions = versions.reverse();
                     // Add the versions to the tempItem object
-                    tempItem.versions = versionInfo;
+                    contentItem.versions = versionInfo;
 
                 }else if (dataItem.url.indexOf("activityfeed.json") > -1){
 
                     // results for activity.json
-                    tempItem.activity = $.parseJSON(dataItem.body);
+                    contentItem.activity = $.parseJSON(dataItem.body);
 
                     // Add in some extra data on the object about the content
                     // Is current user manager/viewer
-                    tempItem.isManager = sakai_content.isUserAManager(tempItem.data, sakai_user.data.me);
-                    tempItem.isViewer = sakai_content.isUserAViewer(tempItem.data, sakai_user.data.me);
+                    contentItem.isManager = sakai_content.isUserAManager(contentItem.data, sakai_user.data.me);
+                    contentItem.isViewer = sakai_content.isUserAViewer(contentItem.data, sakai_user.data.me);
 
                     // Directory location
-                    tempItem.saveddirectory = [];
-                    if (tempItem.data && tempItem.data['sakai:tags']) {
-                        tempItem.saveddirectory = sakai_util.getDirectoryTags(tempItem.data["sakai:tags"].toString());
+                    contentItem.saveddirectory = [];
+                    if (contentItem.data && contentItem.data['sakai:tags']) {
+                        contentItem.saveddirectory = sakai_util.getDirectoryTags(contentItem.data["sakai:tags"].toString());
                     }
 
                     // Set the mimetype of the content
-                    var mimeType = sakai_content.getMimeType(tempItem.data);
-                    tempItem.data.mimeType = mimeType;
+                    var mimeType = sakai_content.getMimeType(contentItem.data);
+                    contentItem.data.mimeType = mimeType;
                     if (sakai_conf.MimeTypes[mimeType]) {
-                        tempItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
+                        contentItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
                     } else {
-                        tempItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
+                        contentItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
                     }
 
                     // Add paths to the content item
-                    tempItem.content_path = "/p/" + tempItem.data._path;
-                    tempItem.smallPath = "/p/" + tempItem.data._path;
-                    tempItem.url = sakai_conf.SakaiDomain + "/p/" + tempItem.data._path + "/" + sakai_util.safeURL(tempItem.data["sakai:pooled-content-file-name"]);
-                    tempItem.path = "/p/" + tempItem.data._path + "/" + sakai_util.safeURL(tempItem.data["sakai:pooled-content-file-name"]);
-
-                    // All data gathered in the tempItem object so it's now pushed to parsedData
-                    // and will be returned in the callback function.
-                    parsedData.push(tempItem);
+                    contentItem.content_path = "/p/" + contentItem.data._path;
+                    contentItem.smallPath = "/p/" + contentItem.data._path;
+                    contentItem.url = sakai_conf.SakaiDomain + "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
+                    contentItem.path = "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
 
                 }
             });
 
-            // If callback is supplied it is executed
-            // otherwise it will just return the data.
-            if($.isFunction(callback)){
-                callback(parsedData);
+            if (collectionGroup){
+                sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), false, function(success, members){
+                    parseMembers({
+                        "viewers": members.members.results,
+                        "managers": members.managers.results
+                    }, contentItem);
+                    // If callback is supplied it is executed
+                    if($.isFunction(callback)){
+                        callback(contentItem);
+                    }
+                });
             } else {
-                return parsedData;
+                // If callback is supplied it is executed
+                if($.isFunction(callback)){
+                    callback(contentItem);
+                }
             }
 
         },
@@ -191,43 +197,35 @@ define(
          *    - versions.json -> Fetches all versions for a content item
          *    - activityfeed.json -> Fetches all activity for a content item
          * and returns it in a callback function
-         * @param {Array} Array of content ID's to load the profile for
-         * @param {Function} callback Function that executes when all data thas been gathered,
+         * @param {String}     Pooled content id for the item to load the content profile for
+         * @param {Function}   callback Function that executes when all data thas been gathered,
          *                            passes through the unparsed results.
          */
-        loadFullProfile: function(idArray, callback){
-            var batchRequests = [];
-            $.each(idArray, function(i, poolid){
-                batchRequests.push({
-                        "url": poolid + ".infinity.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": poolid + ".members.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": poolid + ".versions.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": sakai_conf.URL.POOLED_CONTENT_ACTIVITY_FEED,
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json",
-                        "parameters":{
-                            "p":poolid,
-                            "items":"1000"
-                        }
+        loadFullProfile: function(poolid, callback){
+            var batchRequests = [
+                {
+                    "url": poolid + ".infinity.json",
+                    "method":"GET",
+                    "cache":false,
+                    "dataType":"json"
+                },
+                {
+                    "url": poolid + ".versions.json",
+                    "method":"GET",
+                    "cache":false,
+                    "dataType":"json"
+                },
+                {
+                    "url": sakai_conf.URL.POOLED_CONTENT_ACTIVITY_FEED,
+                    "method":"GET",
+                    "cache":false,
+                    "dataType":"json",
+                    "parameters":{
+                        "p":poolid,
+                        "items":"1000"
                     }
-                );
-            });
+                }
+            ];
 
             sakai_serv.batch(batchRequests, function(success, data) {
                 if (success) {
@@ -1230,7 +1228,7 @@ define(
                             sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
 
                             	// 4. Create the pseudoGroups
-                                var groupId = sakai_content.Collection.getCollectionGroupId(collectionId);
+                                var groupId = sakai_content.Collections.getCollectionGroupId(collectionId);
                                 var batchRequests = [];
                                 var membershipsToProcess = [];
                                 var managershipsToProcess = [];
@@ -1387,16 +1385,68 @@ define(
                 sakai_content.removeUser("viewer", poolIds, sakai_content.Collections.getCollectionGroupId(collectionId), callback);
             },
 
-            getCollectionProfile: function(collectionId){
-                // TODO
+            /**
+             * TODO
+             * @param {Object} collectionId
+             * @param {Object} permission
+             * @param {Object} callback
+             */
+            setCollectionPermissions: function(collectionId, permission, callback){
+                // Change the permissions of the Sakai Doc
+                sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": permission}], function(){
+                    // Change the permissions of the Sakai Doc
+                    var groupId = sakai_content.Collections.getCollectionGroupId(collectionId);
+                    var visible = "public";
+                    if (permission === "everyone"){
+                        visible = "logged-in-only";
+                    } else if (permission === "private"){
+                        visible = "members-only";
+                    }
+                    var roles = [{"id": "managers"}, {"id": "members"}];
+                    sakai_groups.setPermissions(groupId, "yes", visible, roles, function(){
+                         if ($.isFunction(callback)){
+                             callback();
+                         }
+                    });
+                });
             },
 
-            updateCollectionProfile: function(collectionId, data){
-                // TODO
-            },
-
-            shareCollection: function(collectionId, authorizables){
-                // TODO
+            /**
+             * TODO
+             * @param {Object} collectionId
+             * @param {Object} authorizables
+             * @param {Object} canManage
+             * @param {Object} callback
+             */
+            shareCollection: function(collectionId, authorizables, canManage, callback){
+                var permissionBatch = [];
+                var groupID = sakai_content.Collections.getCollectionGroupId(collectionId);
+                $.each(authorizables, function(index, authorizable) {
+                    if (canManage){
+                        permissionBatch.push({
+                            "url": "/system/userManager/group/" + groupID + "-managers.update.json",
+                            "method": "POST",
+                            "parameters": {
+                                ":member": authorizable,
+                                ":viewer": authorizable
+                            }
+                        });
+                    } else {
+                        permissionBatch.push({
+                            "url": "/system/userManager/group/" + groupID + "-members.update.json",
+                            "method": "POST",
+                            "parameters": {
+                                ":member": authorizable,
+                                ":viewer": authorizable
+                            }
+                        });
+                    }  
+                });
+                sakai_serv.batch(permissionBatch, function(success, response){
+                    if ($.isFunction(callback)) {
+                        callback(success);
+                    }
+                });
             },
 
             getMyCollections: function(){
@@ -1413,8 +1463,6 @@ define(
                     return identifier.substring(0, 2) === sakai_content.Collections.COLLECTION_GROUP_PREFIX;
                 // The identifier is a content object
                 } else if (identifier["_path"]){
-                    debug.log("PATHTHAP: " + sakai_content.getMimeType(identifier));
-                    debug.log(identifier);
                     return sakai_content.getMimeType(identifier) === "x-sakai/collection";
                 } else if (identifier["sakai:category"] === "collection"){
                     return true;
@@ -1434,11 +1482,6 @@ define(
                 var groupToCheck = sakai_content.Collections.getCollectionGroupId(collection);
                 return sakai_groups.isCurrentUserAMember(groupToCheck, sakai_user.data.me);
             },
-
-            //getCollectionRole: function(collection, authorizable){
-            //    authorizable = authorizable || sakai_user.data.me.user.userid;
-            //    
-            //},
 
             /**
              * Get the group ID of the pseudoGroup that's associated to a collection
