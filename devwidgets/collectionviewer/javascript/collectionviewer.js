@@ -106,6 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderItemsForSelected = function(pageIndex, selectedIndex){
             var selectedData = collectionData[pageIndex][selectedIndex];
+            debug.log(selectedData);
             $("#collectionviewer_expanded_content_container").html(sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
                 data: selectedData,
                 sakai: sakai
@@ -115,21 +116,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // GRID OR LIST //
         var renderGridOrList = function(grid){
-            sakai.api.Content.prepareContentForRender(collectionData[collectionviewer.page], sakai.data.me, function(data){
-                $collectionviewerGridListContainer.html(sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
-                    "items": data,
-                    "sakai": sakai,
-                    "grid": grid
-                }));
-                $collectionviewerGridListContainer.show();
-                $("#collectionviewer_paging").pager({
-                    pagenumber: collectionviewer.page,
-                    pagecount: Math.ceil(collectionviewer.total / 12),
-                    buttonClickCallback: function(page){
-                        collectionviewer.page = parseInt(page);
-                        decideGetNextBatch();
-                    }
-                });
+            $collectionviewerGridListContainer.html(sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
+                "items": collectionData[collectionviewer.page],
+                "sakai": sakai,
+                "grid": grid
+            }));
+            $collectionviewerGridListContainer.show();
+            $("#collectionviewer_paging").pager({
+                pagenumber: collectionviewer.page,
+                pagecount: Math.ceil(collectionviewer.total / 12),
+                buttonClickCallback: function(page){
+                    collectionviewer.page = parseInt(page);
+                    decideGetNextBatch();
+                }
             });
         };
 
@@ -189,56 +188,63 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
         * Parses the profile data and puts it in the collectionData variable to be reusable
         */
-        var parseProfiles = function(data, index){
-            sakai.api.Content.parseFullProfile(data, function(parsedData){
-                collectionData[collectionviewer.page][index].hasPreview = sakai.api.Content.hasPreview(parsedData[0].data);
-                collectionData[collectionviewer.page][index].fullProfile = parsedData;
-            });
-        };
+        //var parseProfiles = function(data, index){
+        //    debug.log(data);
+        //    sakai.api.Content.parseFullProfile(data, function(parsedData){
+        //        collectionData[collectionviewer.page][index].hasPreview = sakai.api.Content.hasPreview(parsedData.data);
+        //        collectionData[collectionviewer.page][index].fullProfile = parsedData;
+        //    });
+        //};
 
         /**
          * Gets the full profiles for items in the collection
          */
-        var getFullProfiles = function(data){
-            var idArr = [];
-            $.each(data.results, function(i, item){
-                idArr.push("/p/" + item._path);
-            });
-            sakai.api.Content.loadFullProfile(idArr, function(success, data){
-                var count = 0;
-                while (count < data.results.length / 4){
-                    parseProfiles(data.results.slice(count * 4,count * 4 + 4), count);
-                    count++;
-                    if(count * 4 === data.results.length){
-                        showData();
-                    }
-                }
-            });
-        };
+        //var getFullProfiles = function(data){
+        //    sakai.api.Content.loadFullProfile("/p/" + item._path, function(success, data){
+        //        var count = 0;
+        //        while (count < data.results.length / 4){
+        //            parseProfiles(data.results.slice(count * 4,count * 4 + 4), count);
+        //            count++;
+        //            if(count * 4 === data.results.length){
+        //                showData();
+        //            }
+        //        }
+        //    });
+        //};
 
         /**
          * Retrieves the basic data for items in a collection
          */
         var getCollectionData = function(){
-            var sortOn = collectionviewer.sortOn;
-            var sortOrder = collectionviewer.sortOrder;
+            var data = {
+                "sortOn": "sakai:pooled-content-file-name",
+                "sortOrder": collectionviewer.sortOrder,
+                "userid": widgetData.collectionviewer.groupid,
+                "items": 12,
+                "page": (collectionviewer.page - 1)
+            }
             if(collectionviewer.sortOrder === "modified"){
-                sortOrder = "desc";
-                sortOn = "_lastModified";
-            } else {
-                sortOn = "sakai:pooled-content-file-name";
+                data.sortOrder = "desc";
+                data.sortOn = "_lastModified";
             }
-            var url = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=12&sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (collectionviewer.page - 1);
-            if(collectionviewer.listStyle === "carousel"){
-                url = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=1000&sortOn=" + sortOn + "&sortOrder=" + sortOrder;
+            if (collectionviewer.listStyle === "carousel") {
+                data.items = 1000;
+                data.page = 0;
             }
-            sakai.api.Server.loadJSON(url, function(success, data){
-                if(success){
+            $.ajax({
+                "url": sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
+                "data": data,
+                "success": function(data){
                     $("#collectionviewer_add_content_button > div").text(data.total);
                     collectionviewer.total = data.total;
-                    collectionData[collectionviewer.page] = data.results;
-                    // Get the full profiles for these items
-                    getFullProfiles(data);
+                    //debug.log(data.results);
+                    sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
+                        collectionData[collectionviewer.page] = parsedContent;
+                        // Get the full profiles for these items
+                        //getFullProfiles(data);
+                        //debug.log(collectionData[collectionviewer.page]);
+                        showData();
+                    });
                 }
             });
         };

@@ -1070,13 +1070,10 @@ define(
                     }
                     // set mimetype
                     var mimeType = sakai_content.getMimeType(contentItem);
+                    var mimeTypeData = sakai_content.getMimeTypeData(mimeType)
                     contentItem.mimeType = mimeType;
-                    contentItem.mimeTypeURL = sakai_conf.MimeTypes["other"].URL;
-                    contentItem.mimeTypeDescription = sakai_i18n.getValueForKey(sakai_conf.MimeTypes["other"].description);
-                    if (sakai_conf.MimeTypes[mimeType]){
-                        contentItem.mimeTypeDescription = sakai_i18n.getValueForKey(sakai_conf.MimeTypes[mimeType].description);
-                        contentItem.mimeTypeURL = sakai_conf.MimeTypes[mimeType].URL;
-                    }
+                    contentItem.mimeTypeURL = mimeTypeData.URL;
+                    contentItem.mimeTypeDescription = sakai_i18n.getValueForKey(mimeTypeData.description);
                     contentItem.thumbnail = sakai_content.getThumbnail(results[i]);
                     // if the content has an owner we need to add their ID to an array,
                     // so we can lookup the users display name in a batch req
