@@ -1876,7 +1876,7 @@ define(
                 var defaults = {
                     selectedItemProp: "name",
                     searchObjProps: "name",
-                    startText: "Enter name here",
+                    startText: require("sakai/sakai.api.i18n").getValueForKey("ENTER_NAME_HERE"),
                     scrollresults:true,
                     source: function(query, add) {
                         var sakai_user = require("sakai/sakai.api.user");
