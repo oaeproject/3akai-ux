@@ -1873,6 +1873,12 @@ define(
             * @returns {Object} new jQuery object with autosuggest
             */        
             setup: function(element,options,callback){
+                if (!options.preFill){
+                    options.preFill = false;
+                }
+                if (!options.formatList){
+                    options.formatList = false;
+                }
                 var defaults = {
                     selectedItemProp: "name",
                     searchObjProps: "name",
@@ -1910,17 +1916,17 @@ define(
                 var opts = $.extend(defaults, options);
                 var namespace = opts.namespace || "api_util_autosuggest";
                 element = (element instanceof jQuery) ? element:$(element);
-                
+
                 if(element.data(namespace)){//already an autosuggest so for now return element, could also call destroy and setup again
                     return element;
                 }
                 var orig_element = element.clone(true);
                 element.autoSuggest("", opts).data(namespace,orig_element);
-                
+
                 if ($.isFunction(callback)) {
                     callback();
                 }
-                
+
                 return element;
             },
             /**
