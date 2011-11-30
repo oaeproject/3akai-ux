@@ -180,7 +180,7 @@
                 {if type && type == "content_managed"}
                     <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
                 {/if}
-                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger" data-entityid="${data.data["_path"]}">__MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span></button>
+                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger" data-entityid="${data.data["_path"]}">__MSG__ADD_TO__<span class="entity_add_to_library"></span></button>
             {/if}
             {if !data.isManager}
                 <button type="button" id="entity_content_share" class="s3d-button s3d-header-button s3d-header-smaller-button share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__<div class="s3d-action-icon entity_share_icon"></div></button>
@@ -190,11 +190,11 @@
                     __MSG__OPEN_LINK__<span class="entity_download_content"></span>
                 </a>
             {elseif data.data.mimeType === "x-sakai/document"}
-                {var imspath = "/imscp/" + data.data._path +"/" + sakai.api.Util.safeURL(data.data["sakai:pooled-content-file-name"]) +".zip"}
+                {var imspath = "/imscp/" + data.data._path +"/" + data.data["sakai:pooled-content-file-name"] +".zip"}
                 <a id="contentpreview_download_button" href="${imspath}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>
-            {else}
+            {elseif data.data.mimeType !== "x-sakai/collection"}
                 <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>

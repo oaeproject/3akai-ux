@@ -871,21 +871,6 @@ define(
             return return_string;
         },
 
-
-        /**
-         * Sets the chat bullets after update of status by
-         * adding the right status css class on an element.
-         * @param {Object} element the jquery element you wish to add the class to
-         * @param {Object} status the status
-         */
-        updateChatStatusElement : function(element, chatstatus) {
-            element.removeClass("chat_available_status_online");
-            element.removeClass("chat_available_status_busy");
-            element.removeClass("chat_available_status_offline");
-            element.addClass("chat_available_status_" + chatstatus);
-        },
-
-
         include : {
             /**
              * Generic function that will insert an HTML tag into the head of the document. This

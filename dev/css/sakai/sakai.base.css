@@ -716,6 +716,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .icon-url-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -304px 0 transparent;}
 .icon-sakaidoc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1185px 0 transparent;}
 .icon-unknown-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -143px 0 transparent;}
+.icon-collection-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -430px 0 transparent;}
 
 /*
  * Forms and Validation

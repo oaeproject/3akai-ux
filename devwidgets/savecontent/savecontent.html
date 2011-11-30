@@ -9,7 +9,7 @@
 
         <!-- SAVECONTENT CONTENT -->
         <div class="savecontent_outer clearfix">
-            <h2 id="savecontent_title">__MSG__SAVE_TO__</h2>
+            <h2 id="savecontent_title">__MSG__ADD_TO__</h2>
             <div class="savecontent_inner">
                 <div id="savecontent_container"></div>
             </div>
@@ -23,6 +23,8 @@
 <span style="display:none;" id="savecontent_my_add_library_body">__MSG__MY_LIBRARY_ADDED__</span>
 <span style="display:none;" id="savecontent_group_add_library_title">__MSG__LIBRARY__</span>
 <span style="display:none;" id="savecontent_group_add_library_body">__MSG__LIBRARY_ADDED__</span>
+<span style="display:none;" id="savecontent_collection_add_library_title">__MSG__COLLECTION__</span>
+<span style="display:none;" id="savecontent_collection_add_library_body">__MSG__COLLECTION_ADDED__</span>
 
 <div id="savecontent_template" style="display:none"><!--
    {var contentTitle = content["sakai:pooled-content-file-name"]}
@@ -35,8 +37,8 @@
         {/if}
         {for g in groups.entry}
             {if g["sakai:group-title"]}
-                {if g["sakai:category"] === "collection"}
-                    {if !sakai.api.Content.isContentInLibrary(content, g.groupid)}
+                {if sakai.api.Content.Collections.isCollection(g)}
+                    {if !sakai.api.Content.isContentInLibrary(content, g.groupid) && g.groupid !== sakai.api.Content.Collections.getCollectionGroupId(content)}
                         <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]|safeOutput}</option>
                     {else}
                         <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]|safeOutput} (got it)</option>

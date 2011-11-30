@@ -1134,7 +1134,7 @@ define(
         /**
          * Remove users from the specified group
          *
-         * @param {String} groupID the ID of the group to add members to
+         * @param {String} groupID the ID of the group to remove members from
          * @param {Array} users Array of user/group IDs to remove from the group
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
@@ -1229,11 +1229,7 @@ define(
         },
 
         filterGroup: function(group, includeCollections){
-            debug.log("==========");
-            debug.log(group);
-            debug.log(includeCollections);
-            debug.log("==========");
-            if (includeCollections && group["sakai:category"] && group["sakai:category"] === "collection" && !group["sakai:pseudoGroup"]){
+            if (includeCollections && group["sakai:category"] && group["sakai:category"] === "collection" && group["sakai:group-title"]){
                 return true;
             } else if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
                 return false;

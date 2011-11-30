@@ -42,9 +42,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectionviewer = {
             listStyle: "carousel",
             sortOn: "_lastModified",
-            sortOrder: "desc"
+            sortOrder: "desc",
+            total: 0,
+            page: 1
         };
         var collectionData = [];
+        var carouselInitialized = false;
 
         // containers
         var $collectionviewerCarouselContainer = $("#collectionviewer_carousel_container", $rootel);
@@ -65,9 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 carousel.prev();
             });
             $("#collectionviewer_older", $rootel).live("click",function(){
-                if (carousel.last !== carousel.size()){
-                    carousel.next();
-                }
+                carousel.next();
             });
             $("#collectionviewer_oldest", $rootel).live("click",function(){
                 carousel.scroll(carousel.size() || 0);
@@ -93,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#collectionviewer_carousel", $rootel).jcarousel({
                 animation: "slow",
                 easing: "swing",
-                scroll: 4,
+                scroll: 12,
                 start: 0,
                 initCallback: carouselBinding,
                 itemFallbackDimension: 123
@@ -103,8 +104,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Renders the items for a selected item in the carousel
          */
-        var renderItemsForSelected = function(selectedIndex){
-            var selectedData = collectionData[selectedIndex];
+        var renderItemsForSelected = function(pageIndex, selectedIndex){
+            var selectedData = collectionData[pageIndex][selectedIndex];
             $("#collectionviewer_expanded_content_container").html(sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
                 data: selectedData,
                 sakai: sakai
@@ -114,13 +115,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // GRID OR LIST //
         var renderGridOrList = function(grid){
-            sakai.api.Content.prepareContentForRender(collectionData, sakai.data.me, function(data){
+            sakai.api.Content.prepareContentForRender(collectionData[collectionviewer.page], sakai.data.me, function(data){
                 $collectionviewerGridListContainer.html(sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
                     "items": data,
                     "sakai": sakai,
                     "grid": grid
                 }));
                 $collectionviewerGridListContainer.show();
+                $("#collectionviewer_paging").pager({
+                    pagenumber: collectionviewer.page,
+                    pagecount: Math.ceil(collectionviewer.total / 12),
+                    buttonClickCallback: function(page){
+                        collectionviewer.page = parseInt(page);
+                        decideGetNextBatch();
+                    }
+                });
             });
         };
 
@@ -133,6 +142,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////
         // UTILITY FUNCTIONS //
         ///////////////////////
+
+        var decideGetNextBatch = function(){
+            // Fetch page if it wasn't fetched previously
+            if(!collectionData[collectionviewer.page]){
+                getCollectionData();
+            } else {
+                showData();
+            }
+        }
 
         /**
          * Hides the main containers
@@ -173,8 +191,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         */
         var parseProfiles = function(data, index){
             sakai.api.Content.parseFullProfile(data, function(parsedData){
-                collectionData[index].hasPreview = sakai.api.Content.hasPreview(parsedData[0].data);
-                collectionData[index].fullProfile = parsedData;
+                collectionData[collectionviewer.page][index].hasPreview = sakai.api.Content.hasPreview(parsedData[0].data);
+                collectionData[collectionviewer.page][index].fullProfile = parsedData;
             });
         };
 
@@ -210,10 +228,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 sortOn = "sakai:pooled-content-file-name";
             }
-            sakai.api.Server.loadJSON(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=1000&sortOn=" + sortOn + "&sortOrder=" + sortOrder, function(success, data){
+            var url = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=12&sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (collectionviewer.page - 1);
+            if(collectionviewer.listStyle === "carousel"){
+                url = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + widgetData.collectionviewer.groupid + "&items=1000&sortOn=" + sortOn + "&sortOrder=" + sortOrder;
+            }
+            sakai.api.Server.loadJSON(url, function(success, data){
                 if(success){
-                    $("#collectionviewer_add_content_button > div").text(data.results.length);
-                    collectionData = data.results;
+                    $("#collectionviewer_add_content_button > div").text(data.total);
+                    collectionviewer.total = data.total;
+                    collectionData[collectionviewer.page] = data.results;
                     // Get the full profiles for these items
                     getFullProfiles(data);
                 }
@@ -227,7 +250,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if($(".collectionviewer_collection_item_comments").is(":visible")){
                 $(".collectionviewer_collection_item_comments").toggle();
             } else {
-                var contentProfile = collectionData[$(".collectionviewer_carousel_item.selected").data("arr-index")].fullProfile;
+                var $selectedItem = $(".collectionviewer_carousel_item.selected");
+                var contentProfile = collectionData[$selectedItem.data("page-index")][$selectedItem.data("arr-index")].fullProfile;
                 $(window).trigger("start.collectioncomments.sakai", contentProfile);
                 $(".collectionviewer_collection_item_comments").toggle();
             }
@@ -242,6 +266,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             collectionviewer.listStyle = $.bbq.getState("ls") || "carousel";
             $(".s3d-listview-options", $rootel).children(".selected").children().removeClass("selected");
             $(".s3d-listview-options", $rootel).children(".selected").removeClass("selected");
+            collectionviewer.page = 1;
             getCollectionData();
         };
 
@@ -275,24 +300,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(this).addClass("selected");
                 $(window).unbind("ready.collectionviewer.sakai");
                 $(window).unbind("start.collectioncontentpreview.sakai");
-                renderItemsForSelected($(this).data("arr-index"));
+                renderItemsForSelected($(this).data("page-index"), $(this).data("arr-index"));
             });
 
             $(".collectionviewer_comments_button").live("click", showComments);
 
             $(window).bind("ready.pageviewer.sakai", function(){
-                $(window).trigger("start.pageviewer.sakai", collectionData[$(".collectionviewer_carousel_item.selected").data("arr-index")].fullProfile);
+                $(window).trigger("start.pageviewer.sakai", collectionData[$(".collectionviewer_carousel_item.selected").data("page-index")][$(".collectionviewer_carousel_item.selected").data("arr-index")].fullProfile);
             });
 
             $(window).bind("ready.collectioncontentpreview.sakai", function(){
                 if(collectionviewer.listStyle === "carousel"){
-                    $(window).trigger("start.collectioncontentpreview.sakai", collectionData[$(".collectionviewer_carousel_item.selected").data("arr-index")].fullProfile);
+                    $(window).trigger("start.collectioncontentpreview.sakai", collectionData[$(".collectionviewer_carousel_item.selected").data("page-index")][$(".collectionviewer_carousel_item.selected").data("arr-index")].fullProfile);
                     $(".collectionviewer_collection_item_preview").show();
                 }
             });
 
             $("#collectionviewer_sortby").change(function(){
-                var sortSelection = $(this).val(); //this.options[this.selectedIndex].value;
+                var sortSelection = $(this).val();
                 if (sortSelection === "desc") {
                     collectionviewer.sortOrder = "desc";
                     $.bbq.pushState({"so": "desc"});

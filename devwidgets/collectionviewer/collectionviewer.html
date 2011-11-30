@@ -259,6 +259,7 @@
                 ${listGroup(i, sakai)}
             {/if}
         {/for}
+        <div id="collectionviewer_paging" class="jq_pager"></div>
     </ul>
 --></div>
 
@@ -285,25 +286,27 @@
     {/if}
     <div id="collectionviewer_carousel" class="jcarousel-skin-tango s3d-bold">
         <ul>
-            {for result in data}
-                <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
-                    {var thumbnail = sakai.api.Content.getThumbnail(result)}
-                    <div class="collectionviewer_carousel_thumbnail_container">
-                        {if thumbnail}
-                            <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result["_mimeType"]}" />
-                        {elseif sakai.config.MimeTypes[result["_mimeType"]]}
-                            <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes[result["_mimeType"]].URL}" alt="${result["_mimeType"]}" />
-                        {else}
-                            <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes["other"].URL}" alt="${result["_mimeType"]}" />
-                        {/if}
-                    </div>
-                    <div class="arrow-down" style="display:none;"></div>
-                </li>
+            {for page in data}
+                {for result in page}
+                    <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
+                        {var thumbnail = sakai.api.Content.getThumbnail(result)}
+                        <div class="collectionviewer_carousel_thumbnail_container">
+                            {if thumbnail}
+                                <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result["_mimeType"]}" />
+                            {elseif sakai.config.MimeTypes[result["_mimeType"]]}
+                                <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes[result["_mimeType"]].URL}" alt="${result["_mimeType"]}" />
+                            {else}
+                                <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes["other"].URL}" alt="${result["_mimeType"]}" />
+                            {/if}
+                        </div>
+                        <div class="arrow-down" style="display:none;"></div>
+                    </li>
+                {/for}
+                {if page.length < 12}
+                    {var itemsShort = 12 - data.length}
+                    ${fillUpList(itemsShort)}
+                {/if}
             {/for}
-            {if data.length < 12}
-                {var itemsShort = 12 - data.length}
-                ${fillUpList(itemsShort)}
-            {/if}
         </ul>
     </div>
 --></div>
@@ -333,6 +336,11 @@
                 </button>
                 {if data["_mimeType"] !== "x-sakai/document"}
                     <a target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right collectionviewer_download_button" href="/p/${path|safeURL}">
+                        __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+                    </a>
+                {else}
+                    {var imspath = "/imscp/" + data._path +"/" + data["sakai:pooled-content-file-name"] +".zip"}
+                    <a  target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right collectionviewer_download_button" href="${imspath}">
                         __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                     </a>
                 {/if}

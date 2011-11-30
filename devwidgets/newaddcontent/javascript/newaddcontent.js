@@ -210,10 +210,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Render the queue
          */
         var renderQueue = function(){
+            debug.log(sakai.api.Groups.getMemberships(sakai.data.me.groups, true));
             $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
                 "items": itemsToUpload,
                 "sakai": sakai,
                 "me": sakai.data.me,
+                "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
                 "currentSelectedLibrary": currentSelectedLibrary
             }));
         };
@@ -377,6 +379,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                                 "sakai:pooled-content-viewer": viewers,
                                 "sakai:pooled-content-manager": managers,
                                 "_path": item.id,
+                                "_mimeType": $(item).data("mimetype"),
                                 "type": "existing",
                                 "css_class": $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
                             };
@@ -488,6 +491,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         // UPLOADING ACTIONS //
         ///////////////////////
 
+        // TODO: Pre-select current collection if I'm in a collection profile
         /**
          * Check if all items have been uploaded
          */
@@ -495,6 +499,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             itemsUploaded++;
             if(itemsToUpload.length === itemsUploaded) {
                 $(window).trigger("done.newaddcontent.sakai", [lastUpload, libraryToUploadTo]);
+                // If adding to a group library or collection, these will also still be added to my library
+                if (libraryToUploadTo !== sakai.data.me.user.userid){
+                    $(window).trigger("done.newaddcontent.sakai", [lastUpload, sakai.data.me.user.userid]);
+                    brandNewContent[sakai.data.me.user.userid] = brandNewContent[sakai.data.me.user.userid] || [];
+                    _.uniq($.merge(brandNewContent[sakai.data.me.user.userid], lastUpload));
+                }
                 brandNewContent[libraryToUploadTo] = brandNewContent[libraryToUploadTo] || [];
                 _.uniq($.merge(brandNewContent[libraryToUploadTo], lastUpload));
                 _.uniq($.merge(allNewContent, lastUpload));
@@ -502,11 +512,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 $newaddcontentContainer.jqmHide();
                 $newaddcontentUploading.jqmHide();
                 var librarytitle = $(newaddcontentSaveTo + " option:selected").text();
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
-                    me: sakai.data.me,
-                    libraryid: libraryToUploadTo,
-                    librarytitle: librarytitle
-                }));
+                if (sakai.api.Content.Collections.isCollection(libraryToUploadTo)) {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_collection_finished_template", {
+                        collectionid: libraryToUploadTo.substring(2),
+                        collectiontitle: librarytitle
+                    }));
+                } else {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
+                        me: sakai.data.me,
+                        libraryid: libraryToUploadTo,
+                        librarytitle: librarytitle
+                    }));
+                }
             }
         };
 
