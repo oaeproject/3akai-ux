@@ -568,6 +568,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var showContextMenu = function($clickedItem){
             var contextMenu = $("#lhnavigation_submenu");
             $clickedItem.children(".lhnavigation_selected_submenu_image").addClass("clicked");
+            if($clickedItem.closest('li').siblings('li').length ===0){
+            //     $('#lhavigation_submenu_deletepage').closest('li').hide()
+            } else {
+              //   $('#lhavigation_submenu_deletepage').closest('li').show()
+            }
             contextMenu.css("left", $clickedItem.position().left + 130 - 50 + "px");
             contextMenu.css("top", $clickedItem.position().top + 6 + "px");
             toggleContextMenu();
