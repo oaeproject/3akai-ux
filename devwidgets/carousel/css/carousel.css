@@ -21,7 +21,7 @@
 #carousel_container h2{margin-top: 0px;display:inline;}
 #carousel_container .carousel_item_title {display:block;font-size:12px;overflow:hidden;}
 #carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
-#carousel_container .carousel_content_tags {font-size: 11px; font-weight: normal;}
+#carousel_container .carousel_three_column_left .carousel_content_tags{text-indent:0}
 #carousel_container .carousel_content_tags .s3d-action {font-size: 11px; font-weight: normal;}
 #carousel_container .carousel_counts {font-size: 11px;}
 #carousel_container .carousel_counts ul {margin:0;overflow:hidden;}
