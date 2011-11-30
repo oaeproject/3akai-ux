@@ -92,6 +92,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var newaddcontentAddDocumentDescription = "#newaddcontent_add_document_description";
         var newaddcontentAddDocumentTags = "#newaddcontent_add_document_tags";
         var newaddcontentExistingItemsListContainerListItemIcon = ".newaddcontent_existingitems_list_container_list_item_icon";
+        var newaddcontentExistingItemsListContainerActionsSort = "#newaddcontent_existingitems_list_container_actions_sort";
         var newaddcontentSelectedItemsEditDataTitle = "#newaddcontent_selecteditems_edit_data_title";
         var newaddcontentSelectedItemsEditDataDescription = " #newaddcontent_selecteditems_edit_data_description";
         var newaddcontentSelectedItemsEditDataTags = " #newaddcontent_selecteditems_edit_data_tags";
@@ -936,16 +937,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var searchAndRenderExistingContent = function($container, q, pagenum){
             pagenum = pagenum || 1;
             var searchURL = "";
+            var selectVal = $(newaddcontentExistingItemsListContainerActionsSort).val().split(",");
+            var sortOrder = selectVal[0];
+            var sortOn = selectVal[1];
             switch(currentExistingContext){
                 case "everything":
                     if (q === "*") {
-                        searchURL = "/var/search/pool/all-all.infinity.json?items=10&page=" + (pagenum - 1);
+                        searchURL = "/var/search/pool/all-all.infinity.json?items=10&page=" + (pagenum - 1) + "&sortOrder=" + sortOrder + "&sortOn=" + sortOn;
                     } else {
-                        searchURL = "/var/search/pool/all.infinity.json?items=10&page=" + (pagenum - 1) + "&q=" + q;
+                        searchURL = "/var/search/pool/all.infinity.json?items=10&page=" + (pagenum - 1) + "&sortOrder=" + sortOrder + "&sortOn=" + sortOn + "&q=" + q;
                     }
                     break;
                 case "my_library":
-                    searchURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&items=10&page=" + (pagenum - 1) + "&q=" + q;
+                    searchURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&items=10&page=" + (pagenum - 1) + "&sortOrder=" + sortOrder + "&sortOn=" + sortOn + "&q=" + q;
                     break;
             }
 
@@ -1129,6 +1133,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $(newaddcontentSelectedItemsRemove).die("click", removeItemToAdd);
             $(newaddcontentSelectedItemsActionsPermissions).die("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).die("click", editData);
+            $(newaddcontentExistingItemsListContainerActionsSort).die("change");
             $(window).unbind("init.deletecontent.sakai", deleteContent);
         };
 
@@ -1149,6 +1154,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
+            $(newaddcontentExistingItemsListContainerActionsSort).live("change", function(){searchPaging(1)});
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);
             sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
