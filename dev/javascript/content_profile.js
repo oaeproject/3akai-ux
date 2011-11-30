@@ -28,6 +28,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var showPreview = true;
         var filename = "";
+        var previous_was_collection = false;
+        var collection_path = false;
 
         ///////////////////////////////
         // PRIVATE UTILITY FUNCTIONS //
@@ -57,6 +59,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     showPreview = false;
                                 } else {
                                     switchToOneColumnLayout(false);
+                                }
+                                if(contentInfo["_mimeType"] === "x-sakai/collection"){
+                                    previous_was_collection = contentInfo["sakai:pooled-content-file-name"];
+                                    collection_path = window.location.href;
+                                } else {
+                                    previous_was_collection = false;
                                 }
                             }
                         }
@@ -106,13 +114,23 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         var handleHashChange = function() {
+
+            if(previous_content_path && previous_was_collection){
+                // Show go back to collection link
+                $("#back_to_collection_button #collection_title").text(previous_was_collection);
+                $("#back_to_collection_button").attr("data-href", collection_path);
+                $("#back_to_collection_container").show();
+            } else {
+                $("#back_to_collection_container").hide();
+            }
+
             content_path = $.bbq.getState("p") || "";
             content_path = content_path.split("/");
             if (content_path[1]) {
                 filename = content_path[1];
             }
             content_path = "/p/" + content_path[0];
-            
+
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
                 globalPageStructure = false;
@@ -169,6 +187,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             showPreview = true;
         };
+
+        $("#back_to_collection_button").bind("click", function(){
+            window.location = $("#back_to_collection_button").attr("data-href");
+        });
 
         $("#entity_content_share").live("click", function(){
             $(window).trigger("init.sharecontent.sakai");

@@ -1,0 +1,20 @@
+{
+    "enabled":            true,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/pageviewer/bundles/default.properties",
+            "name":       "Page Viewer",
+            "description":"Show single level pages"
+        }
+    },
+    "id":                 "pageviewer",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/pageviewer/pageviewer.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

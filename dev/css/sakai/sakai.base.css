@@ -192,13 +192,13 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 .s3d-page-header-bottom-row .s3d-button[disabled]:hover .s3d-page-header-add-to-icon {background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left center transparent;}
 
 /* LIST VIEW OPTIONS */
-.s3d-listview-options {float:right;padding:0 !important;height:19px !important;margin-top:4px;margin-left:20px;}
+.s3d-listview-options {float:right;padding:0 !important;height:19px !important;margin-top:4px;margin-left:20px;border-radius:3px !important;-moz-border-radius:3px !important;-webkit-border-radius:3px !important;}
 .s3d-listview-options:hover {background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;}
 .s3d-listview-options > div {float:left;height:15px;padding:3px 4px 2px;}
 .s3d-listview-options > div.selected,
 .s3d-listview-options > div:hover {background:url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;box-shadow:0 0 4px -2px #A8A8A8 inset;} 
-.s3d-listview-options .s3d-listview-list {border-radius:0 5px 5px 0;}
-.s3d-listview-options .s3d-listview-grid {border-radius:5px 0 0 5px;}
+.s3d-listview-options > div:last-child {border-radius:0 3px 3px 0;}
+.s3d-listview-options > div:first-child {border-radius:3px 0 0 3px;}
 
 /*
  * BUTTONS 
@@ -211,7 +211,7 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 .s3d-sprites-buttons ul li a:hover{text-decoration:none;}
 .s3d-sprites-buttons ul li.more_option{border-bottom:1px solid #cbd0d4;}
 .s3d-sprites-buttons ul li.more_option.option_last{border-bottom:0;}
-.s3d-sprites-buttons .more_link{background:transparent url(/dev/images/more_bg_18.png) top left no-repeat;padding:1px 21px 2px 12px;}
+.s3d-sprites-buttons .more_link{background:transparent url("/dev/images/more_bg_18.png") top left no-repeat;padding:1px 21px 2px 12px;}
 
 /* New button style */
 /* General */
@@ -276,6 +276,7 @@ a.s3d-button.s3d-overlay-button {display:inline-block;height:21px;line-height:21
 
 /* Button in another button */
 .s3d-button .s3d-button-in-button {background:url("/dev/images/button_in_button_default.png") repeat-x top left #5d6267;color:#fff;display:inline;height:15px;line-height:15px;margin:0 0 0 5px;padding:2px 4px;border:1px solid #4f4f4f;}
+.s3d-button .s3d-button-in-button-lighter {background:url("/dev/images/button_in_button_light_default.png") repeat-x scroll left top #CBC9C9;border:1px solid #B5B5B5;color:#fff;display:inline;height:12px;line-height:12px;margin:2px 9px 0 -3px;padding:0 4px;float:left;}
 
 .s3d-button.s3d-overlay-action-button .s3d-button-in-button {display:inline-block;margin-top:-3px;}
 
@@ -689,6 +690,12 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-results-listview {background:url('/dev/images/search_list_16x16.png') no-repeat top left transparent;}
 .s3d-search-results-listview:hover {background:url('/dev/images/search_list_16x16_hover.png') no-repeat top left transparent;}
 .s3d-search-results-listview.selected {background:url('/dev/images/search_list_16x16_hover.png') no-repeat top left transparent;}
+.s3d-search-results-carouselview {background:url('/dev/images/search_carousel_16x16.png') no-repeat top left transparent;margin-top:-2px;}
+.s3d-search-results-carouselview:hover {background:url('/dev/images/search_carousel_16x16_hover.png') no-repeat top left transparent;}
+.s3d-search-results-carouselview.selected {background:url('/dev/images/search_carousel_16x16_hover.png') no-repeat top left transparent;}
+.s3d-search-results-blogview {background:url('/dev/images/search_blog_16x16.png') no-repeat top left transparent;margin-top:-1px;}
+.s3d-search-results-blogview:hover {background:url('/dev/images/search_blog_16x16_hover.png') no-repeat top left transparent;}
+.s3d-search-results-blogview.selected {background:url('/dev/images/search_blog_16x16_hover.png') no-repeat top left transparent;}
 
 /*
  * ICONS
