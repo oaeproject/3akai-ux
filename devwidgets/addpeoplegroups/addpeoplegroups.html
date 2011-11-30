@@ -41,7 +41,7 @@
     __MSG__TO__:
     <select name="addpeoplegroups_select" id="addpeoplegroups_select">
         {for world in worlds}
-            <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${api.i18n.getValueForKey(world.titleSing).toLowerCase()}</option>
+            <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${api.i18n.getValueForKey(world.title).toLowerCase()}</option>
         {/for}
 
         {for memberOfGroup in memberOfGroups.entry}

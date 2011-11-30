@@ -20,6 +20,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.search = function() {
         var worldsOrderIncrement = 3;
+        var searchButton = "#form .s3d-search-button";
+        var searchInput = "#form .s3d-search-inputfield";
         var pubdata = {
             "structure0": {
                 "all": {
@@ -63,11 +65,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "page": "<div id='widget_searchpeople' class='widget_inline'></div>"
             }
         };
-        
+
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             var category = sakai.config.worldTemplates[c];
             var refId = sakai.api.Util.generateWidgetId();
-            var title = sakai.api.i18n.getValueForKey(category.title);
+            var title = sakai.api.i18n.getValueForKey(category.titlePlural);
             pubdata.structure0[category.id] = {
                 "_title": title,
                 "_ref": refId,
@@ -86,7 +88,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "category": category.id
             }
         }
-        
+
+        ///////////////////
+        // Event binding //
+        ///////////////////
+
+        var eventBinding = function(){
+            $(searchInput).live("keydown", function(ev){
+                if (ev.keyCode === 13) {
+                    $.bbq.pushState({
+                        "q": $(searchInput).val(),
+                        "cat": "",
+                        "refine": $.bbq.getState("refine")
+                    }, 0);
+                }
+            });
+
+            $(searchButton).live("click", function(ev){
+                $.bbq.pushState({
+                    "q": $(searchInput).val(),
+                    "cat": "",
+                    "refine": $.bbq.getState("refine")
+                }, 0);
+            });
+        };
+
         var generateNav = function(){
             $(window).trigger("lhnav.init", [pubdata, {}, {}]);
         };
@@ -105,6 +131,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         renderEntity();
         generateNav();
+        eventBinding();
 
     };
 

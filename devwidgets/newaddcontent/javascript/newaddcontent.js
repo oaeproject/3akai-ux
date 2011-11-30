@@ -400,8 +400,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         * @param {Object} file    File that has been dropped in from the desktop
         */
        var fileDropped = function(file){
+            var extension = file.name.split('.');
+            extension = extension[extension.length - 1];
             var contentObj = {
                 "sakai:originaltitle": file.name,
+                "sakai:fileextension": extension,
                 "sakai:pooled-content-file-name": file.name,
                 "sakai:description": "",
                 "sakai:tags": "",
@@ -588,7 +591,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             if (xhReq.status == 201){
                 var data = $.parseJSON(xhReq.responseText);
                 documentObj = $.extend({}, data[documentObj["sakai:originaltitle"]].item, documentObj);
-                setDataOnContent(documentObj);
+                if (data[documentObj["sakai:originaltitle"]].type === "imscp") {
+                    setIMSCPContent(documentObj, data[documentObj["sakai:originaltitle"]].item)
+                } else {
+                    setDataOnContent(documentObj);
+                }
             } else {
                 checkUploadCompleted();
             }
@@ -1176,9 +1183,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 drop: function (ev, data) {
                     ev.stopPropagation();
                     ev.preventDefault();
+                    var error = false;
                     $.each(data.files, function (index, file) {
-                        fileDropped(file);
+                        if (file.size > 0){
+                            fileDropped(file);
+                        } else {
+                            error = true;
+                        }
                     });
+                    if (error) {
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "newaddcontent"),
+                            sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "newaddcontent"));
+                    }
                 }
             });
 

@@ -54,7 +54,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var $newcreategroupGroupMembership = $("#newcreategroup_membership", $rootel);
     var $newcreategroupAddPeople = $(".newcreategroup_add_people", $rootel);
     var newcreategroupMembersMessage = "#newcreategroup_members_message";
-    var $newcreategroupCreating = $("#newcreategroup_creating");
+    var $newcreategroupCreating = $("#newcreategroup_creating"),
+        $newcreategroup_members_message_template_unprocessed = $("#newcreategroup_members_message_template_unprocessed", $rootel);
 
     // Forms
     var $newcreategroupGroupForm = $("#newcreategroup_group_form", $rootel);
@@ -63,278 +64,71 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var newcreategroupMembersSelectedTemplate = "newcreategroup_group_members_selected_template";
     var newcreategroupMembersMessageTemplate = "newcreategroup_members_message_template";
 
-    var selectedUsers = {};
-    var currentTemplate = false;
-    var creationComplete = {
-        "tags": false,
-        "permissions": false,
-        "members": false,
-        "message": false,
-        "groupid": false
-    };
+    var selectedUsers = {},
+        currentTemplate = false,
+        templatePath = false,
+        translatedRoles = {};
 
     var renderShareMessage = function(){
         $(newcreategroupMembersMessage, $rootel).html(sakai.api.Util.TemplateRenderer(newcreategroupMembersMessageTemplate, {
-            "user" : sakai.api.User.getDisplayName(sakai.data.me.profile),
+            "creatorRole" : sakai.api.User.getDisplayName(sakai.data.me.profile),
             "groupName" : sakai.api.Security.safeOutput($newcreategroupGroupTitle.val() || ""),
-            "groupURL": window.location.protocol + "//" + window.location.host + "/~" + sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val() || "")
+            "groupURL": sakai.config.SakaiDomain + "/~" + sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val() || "")
         }));
     };
 
-    /**
-     * When a group is created, the creator of the group is added directly to
-     * the managers list. This is good during group creation, but creates
-     * undesired side-effects when managing permissions later on. This function
-     * gets ahead of the issue by removing the creator from the managers
-     * list after group creation
-     *
-     * @param {String} groupid the id of the group to remove the creator
-     *                        (current user) from
-     */
-    var removeCreatorFromManagersOfMainGroup = function(groupid, template, callback) {
-        var members = [];
-        members.push({
-            "userid": sakai.api.User.data.me.user.userid,
-            "removeManagerOnly": true
-        });
-        $.each(template.roles, function(i, role) {
-            members.push({
-                "userid": sakai.api.User.data.me.user.userid,
-                "permission": role.id,
-                "removeManagerOnly": true
+    var getTranslatedRoles = function() {
+        if (currentTemplate.roles) {
+            var roles = [];
+            $.each(currentTemplate.roles, function(i,role) {
+                translatedRoles[role.id] = role.title;
+            });
+        }
+    };
+
+    var createUsersToAddObject = function() {
+        var users = [];
+        $.each(selectedUsers, function(index, item){
+            users.push({
+                "name": item.name,
+                "firstName": item.firstName || item.name,
+                "userid": item.userid,
+                "role": item.permission,
+                "roleString": translatedRoles[item.permission]
             });
         });
-        sakai.api.Groups.removeUsersFromGroup(groupid, members, sakai.api.User.data.me, function() {
-            if ($.isFunction(callback)) {
-                callback();
-            }
+        users.push({
+            "name": sakai.api.User.getDisplayName(sakai.data.me.profile),
+            "userid": sakai.data.me.user.userid,
+            "role": currentTemplate.creatorRole,
+            "roleString": translatedRoles[currentTemplate.creatorRole],
+            "creator": true
         });
+        return users;
     };
 
     /**
      * Create a simple group and execute the tagging and membership functions
      */
-    var doCreateSimpleGroup = function(){
+    var doCreateSimpleGroup = function() {
         $newcreategroupCreating.jqmShow();
         var grouptitle = $newcreategroupGroupTitle.val() || "";
         var groupdescription = $newcreategroupGroupDescription.val() || "";
         var groupid = sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-");
         var grouptags = $newcreategroupGroupTags.val().split(",");
-        sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, sakai.data.me, currentTemplate, widgetData.category, function(success, groupData, nameTaken){
+        var users = createUsersToAddObject();
+        var subject = sakai.api.i18n.getValueForKey("USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME", "newcreategroup").replace("<\"Role\">", "${role}");
+        var body = $.trim($newcreategroup_members_message_template_unprocessed.text().
+                                                    replace("<\"Role\">", "${role}").
+                                                    replace("<\"First Name\">", "${firstName}"));
+        var joinable = $newcreategroupGroupMembership.val();
+        var visible = $newcreategroupCanBeFoundIn.val();
+        //createGroup : function(id, title, description, tags, users, joinability, visibility, templatePath, subject, body, meData, callback) {
+        sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, grouptags, users, joinable, visible, templatePath, subject, body, sakai.data.me, function(success, groupData, nameTaken){
             if (success) {
-                // Tag group
-                var groupProfileURL = "/~" + groupid + "/public/authprofile";
-                sakai.api.Util.tagEntity(groupProfileURL, grouptags, [], function(){
-                    
-                    // Set permissions on group
-                    var joinable = $newcreategroupGroupMembership.val();
-                    var visible = $newcreategroupCanBeFoundIn.val();
-                    var roles = $.parseJSON(groupData["sakai:roles"]);
-                    sakai.api.Groups.setPermissions(groupid, joinable, visible, roles, function(){
-
-                        // Set members and managers on group
-                        var users = [];
-                        $.each(selectedUsers, function(index, item){
-                            users.push({
-                                "name": item.name,
-                                "user": item.userid,
-                                "permission": item.permission
-                            });
-                        });
-
-                        if (users.length > 0) {
-                            sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
-                                $.each(users, function(index, item){
-                                    var subject = sakai.api.i18n.getValueForKey("USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME", "newcreategroup").replace("${user}", sakai.api.Security.unescapeHTML(sakai.api.User.getDisplayName(sakai.data.me.profile))).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle);
-                                    var body = $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name);
-                                    sakai.api.Communication.sendMessage(item.user, sakai.data.me, subject, body, "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
-                                    if(users.length - 1 === index){
-                                        createGroupDocs(groupid, currentTemplate);
-                                    }
-                                });
-                            });
-                        } else {
-                            createGroupDocs(groupid, currentTemplate);
-                        }
-                    });
-                });
-
+                window.location = "/~" + groupid;
             } else {
                 $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
-            }
-        });
-    };
-
-    var createGroupDocs = function(groupid, currentTemplate){
-        var templateParameters = {
-            "groupid": groupid,
-            "refid": sakai.api.Util.generateWidgetId()
-        };
-        currentTemplate = sakai.api.Util.replaceTemplateParameters(templateParameters, currentTemplate);
-        createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate, sakaiDocs){
-            fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
-                setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
-                    addStructureToGroup(groupid, currentTemplate, function(){
-                        removeCreatorFromManagersOfMainGroup(groupid, currentTemplate, function() {
-                            // find the sakai doc content ID's and remove the user from the management role
-                            var contentIds = [];
-                            for (var s in sakaiDocs) {
-                                if (sakaiDocs.hasOwnProperty(s)){
-                                    contentIds.push(sakaiDocs[s]._contentItem.poolId);
-                                }
-                            }
-                            sakai.api.Content.removeUser("manager", contentIds, sakai.data.me.user.userid, function() {
-                                $newcreategroupCreating.jqmHide();
-                                window.location = "/~" + groupid;
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    };
-
-    var addStructureToGroup = function(groupid, currentTemplate, callback){
-        for (var doc in currentTemplate.structure) {
-            var definition = currentTemplate.structure[doc];
-            delete definition._docref;
-            definition._view = $.toJSON(definition._view);
-            definition._edit = $.toJSON(definition._edit);
-        }
-        $.ajax({
-            url: "/~" + groupid + "/docstructure",
-            type: "POST",
-            data: {
-                ":operation": "import",
-                ":contentType": "json",
-                ":replace": true,
-                ":replaceProperties": true,
-                "_charset_": "utf-8",
-                ":content": $.toJSON({
-                    "structure0": $.toJSON(currentTemplate.structure)
-                })
-            },
-            success: function(){
-                callback();
-            }
-        });
-    };
-
-    var setSakaiDocPermissions = function(groupid, currentTemplate, callback){
-        var filesArray = {};
-        for (var doc in currentTemplate.structure){
-            var definition = currentTemplate.structure[doc];
-            var permission = "private";
-            if ($.inArray("anonymous", definition._view) !== -1 && $newcreategroupCanBeFoundIn.val() === "public"){
-                permission = "public";
-            } else if ($.inArray("everyone", definition._view) !== -1 && ($newcreategroupCanBeFoundIn.val() === "public" || $newcreategroupCanBeFoundIn.val() === "logged-in-only")){
-                permission = "everyone";
-            }
-            filesArray[definition._pid] = {
-                "hashpath": definition._pid,
-                "permissions": permission
-            };
-        }
-        sakai.api.Content.setFilePermissions(filesArray, function(){
-            var batchRequests = [];
-            for (var doc in currentTemplate.structure) {
-                var definition = currentTemplate.structure[doc];
-                for (var i = 0; i < definition._view.length; i++){
-                    if (definition._view[i].substring(0, 1) === "-") {
-                        batchRequests.push({
-                            "url": "/p/" + definition._pid + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": groupid + definition._view[i]
-                            }
-                        });
-                    }
-                }
-                for (var j = 0; j < definition._edit.length; j++){
-                    if (definition._edit[j].substring(0, 1) === "-") {
-                        batchRequests.push({
-                            "url": "/p/" + definition._pid + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":manager": groupid + definition._edit[j]
-                            }
-                        });
-                    }
-                }
-            }
-            sakai.api.Server.batch(batchRequests, function(success, data) {
-                if (success) {
-                    callback(groupid, currentTemplate);
-                }
-            });
-        });
-    };
-
-    var fillSakaiDocs = function(groupid, currentTemplate, callback){
-        var batchRequests = [];
-        for (var doc in currentTemplate.structure){
-            var definition = currentTemplate.structure[doc];
-            var toCreate = currentTemplate.docs[definition._docref];
-            delete toCreate.structure0;
-            batchRequests.push({
-                url: "/p/" + definition._pid,
-                method: "POST",
-                parameters: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":replace": true,
-                    ":replaceProperties": true,
-                    "_charset_": "utf-8",
-                    ":content": $.toJSON(toCreate)
-                }
-            });
-        }
-        sakai.api.Server.batch(batchRequests, function(success, data) {
-            if (success) {
-                callback(groupid, currentTemplate);
-            }
-        });
-    };
-
-    var createSakaiDocs = function(groupid, currentTemplate, callback){
-        var batchRequests = [];
-        for (var doc in currentTemplate.structure){
-            var definition = currentTemplate.structure[doc];
-            var permission = "private";
-            if ($.inArray("anonymous", definition._view) !== -1 && $newcreategroupCanBeFoundIn.val() === "public"){
-                permission = "public";
-            } else if ($.inArray("everyone", definition._view) !== -1 && ($newcreategroupCanBeFoundIn.val() === "public" || $newcreategroupCanBeFoundIn.val() === "logged-in-only")){
-                permission = "everyone";
-            }
-            var toCreate = currentTemplate.docs[definition._docref];
-            batchRequests.push({
-                url: "/system/pool/createfile",
-                method:"POST",
-                parameters: {
-                    "sakai:pooled-content-file-name": definition._title,
-                    "sakai:description": "",
-                    "sakai:permissions": permission,
-                    "sakai:copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
-                    "structure0": $.toJSON(toCreate.structure0),
-                    "mimeType": "x-sakai/document"
-                }
-            });
-        }
-        sakai.api.Server.batch(batchRequests, function(success, data) {
-            if (success && data.results) {
-                var sakaiDocs = [];
-                for (var i in data.results) {
-                    if (data.results.hasOwnProperty(i)){
-                        sakaiDocs.push($.parseJSON(data.results[i].body));
-                    }
-                }
-                var count = 0;
-                for (var doc in currentTemplate.structure){
-                    var response = $.parseJSON(data.results[count].body);
-                    currentTemplate.structure[doc]._pid = response._contentItem.poolId;
-                    count++;
-                }
-                callback(groupid, currentTemplate, sakaiDocs);
             }
         });
     };
@@ -372,7 +166,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupAddPeople.live("click", function(){
             $(window).trigger("init.addpeople.sakai", [tuid, false]);
         });
-        $newcreategroupCreating.html(sakai.api.Util.TemplateRenderer("newcreategroup_creating_template", {type: sakai.api.i18n.General.process(currentTemplate.title)}));
+        $newcreategroupCreating.html(sakai.api.Util.TemplateRenderer("newcreategroup_creating_template", {type: sakai.api.i18n.getValueForKey(currentTemplate.title)}));
         $newcreategroupCreating.jqm({
             modal: true,
             overlay: 20,
@@ -384,8 +178,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Initialize the create group widget
      */
     var doInit = function(){
-        currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
-        $(".newcreategroup_template_name", $rootel).text(sakai.api.i18n.General.process(currentTemplate.title));
+        currentTemplate = $.extend(true, {}, sakai.api.Groups.getTemplate(widgetData.category, widgetData.id));
+        currentTemplate.roles = sakai.api.Groups.getRoles(currentTemplate, true);
+        getTranslatedRoles();
+        templatePath = "/var/templates/worlds/" + widgetData.category + "/" + widgetData.id;
+        $(".newcreategroup_template_name", $rootel).text(sakai.api.i18n.getValueForKey(currentTemplate.title));
         if(widgetData.singleTemplate === true){
             $newcreategroupCancelCreateButton.hide();
         }
@@ -399,9 +196,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 break;
             }
         }
-
-        var defaultaccess =  category.defaultaccess || sakai.config.Permissions.Groups.defaultaccess;
-        var defaultjoin = category.defaultjoin || sakai.config.Permissions.Groups.defaultjoin;
+        var defaultaccess =  currentTemplate.defaultaccess || sakai.config.Permissions.Groups.defaultaccess;
+        var defaultjoin = currentTemplate.defaultjoin || sakai.config.Permissions.Groups.defaultjoin;
 
         $("#newcreategroup_can_be_found_in option[value='" + defaultaccess + "']", $rootel).attr("selected", "selected");
         $("#newcreategroup_membership option[value='" + defaultjoin + "']", $rootel).attr("selected", "selected");

@@ -42,10 +42,13 @@
             <input type="checkbox" id="mymemberships_select_checkbox"/><label for="mymemberships_select_checkbox" class="s3d-aural-text">__MSG__SELECT_ALL__</label>
         </div>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="mymemberships_addpeople_button" disabled="true" data-entityname="" data-entityid="">
-            __MSG__ADD_TO__...
             <span class="s3d-page-header-add-to-icon"></span>
+            __MSG__ADD_TO__...
         </button>
-        <button class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" type="button" sakai-entityid="" sakai-entityname="" sakai-entitytype="group" id="mymemberships_message_button" disabled="true">__MSG__MESSAGE__<div class="s3d-action-icon s3d-actions-message"></div></button>
+        <button class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" type="button" sakai-entityid="" sakai-entityname="" sakai-entitytype="group" id="mymemberships_message_button" disabled="true">
+            <div class="s3d-action-icon s3d-actions-message"></div>
+            __MSG__MESSAGE__
+        </button>
     </div>
 
     <!-- Empty/Error messages -->
@@ -92,21 +95,17 @@
                     </span>
                     {if isOwnerViewing}
                         <div class="mymemberships_item_left_filler">
-                                <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}" id="mymemberships_check_${group.id}"/>
-                                <label for="mymemberships_check_${group.id}" class="s3d-aural-text">__MSG__SELECT__ ${group.title|safeOutput}</label>
-                                <button title="__MSG__REMOVE_MEMBERSHIP__ ${group.title|safeOutput}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${group.id}" data-sakai-entityname="${group.title|safeOutput}">
+                                <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}" id="mymemberships_check_${group.id}" title="__MSG__SELECT__ ${group.title|safeOutput}"/>
+                                <button title="__MSG__REMOVE_MEMBERSHIP__ ${group.title|safeOutput}" type="button" class="mymemberships_leave s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${group.id}" data-sakai-entityname="${group.title|safeOutput}">
                                 </button>
                         </div>
                     {/if}
 
                     {if !isOwnerViewing}
                         <div class="mymemberships_item_left_filler">
-                            <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}" id="mymemberships_check_${group.id}"/>
-                            <label for="mymemberships_check_${group.id}">__MSG__SELECT__ ${group.title|safeOutput}</label>
-                            {if group.userMember}
-                                <img class="mymemberships_member_icon" src="/dev/images/accept.png" id="searchgroups_memberimage_${group.id}"></div>
-                            {/if}
-                            <div class="{if !group.userMember && group.joinable !== "no"} s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus {/if}" data-group-joinable="${group.joinable}" data-groupid="${group.id}" {if group.userMember}style="display:none;" {/if}>
+                            <input type="checkbox" class="mymemberships_item_left_filler mymemberships_select_group_checkbox" data-groupid="${group.id}" data-grouptitle="${group.title|safeOutput}" id="mymemberships_check_${group.id}" title="__MSG__SELECT__ ${group.title|safeOutput}"/>
+                            <img class="mymemberships_member_icon" src="/dev/images/accept.png" id="searchgroups_memberimage_${group.id}"{if !group.userMember} style="display:none;"{/if}>
+                            <div class="{if !group.userMember && group.joinable !== "no"} s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus {/if}" data-group-joinable="${group.joinable}" data-groupid="${group.id}" {if group.userMember}style="display:none;" {/if}></div>
                         </div>
                     {/if}
                 </span>

@@ -16,16 +16,16 @@
         <h2>__MSG__VISIBLE_TO__</h2>
         <div class="s3d-inset-shadow-container" id="contentpermissions_see_container">
             <p>__MSG__WHO_CAN_SEE_THIS__</p>
-            <div class="{if contentData.data["sakai:permissions"] === "public"} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
-                <input type="radio" name="contentpermissions_see" id="contentpermissions_see_public" {if contentData.data["sakai:permissions"] === "public"} checked="checked" {/if} value="public">
+            <div class="{if defaultPermission === "public"} s3d-outer-shadow-container{elseif contentData.data["sakai:permissions"] === "public" && !defaultPermission} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
+                <input type="radio" name="contentpermissions_see" id="contentpermissions_see_public" {if defaultPermission === "public"}checked="checked" {elseif contentData.data["sakai:permissions"] === "public" && !defaultPermission} checked="checked" {/if} value="public">
                 <label for="contentpermissions_see_public" class="s3d-bold"><span class="label_icon globe"></span>__MSG__ANYONE_PUBLIC__</label>
             </div>
-            <div class="{if contentData.data["sakai:permissions"] === "everyone"} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
-                <input type="radio" name="contentpermissions_see" id="contentpermissions_see_everyone" {if contentData.data["sakai:permissions"] === "everyone"} checked="checked" {/if} value="everyone">
+            <div class="{if defaultPermission === "selected"} s3d-outer-shadow-container{elseif contentData.data["sakai:permissions"] === "everyone" && !defaultPermission} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
+                <input type="radio" name="contentpermissions_see" id="contentpermissions_see_everyone" {if defaultPermission === "selected"}checked="checked" {elseif contentData.data["sakai:permissions"] === "everyone" && !defaultPermission} checked="checked" {/if} value="everyone">
                 <label for="contentpermissions_see_everyone" class="s3d-bold"><span class="label_icon small_institution"></span>__MSG__LOGGED_IN_PEOPLE_ONLY__</label>
             </div>
-            <div class="{if contentData.data["sakai:permissions"] === "private"} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
-                <input type="radio" name="contentpermissions_see" id="contentpermissions_see_private" {if contentData.data["sakai:permissions"] === "private"} checked="checked" {/if} value="private">
+            <div class="{if defaultPermission === "private"} s3d-outer-shadow-container{elseif contentData.data["sakai:permissions"] === "private" && !defaultPermission} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
+                <input type="radio" name="contentpermissions_see" id="contentpermissions_see_private" {if defaultPermission === "private"}checked="checked" {elseif contentData.data["sakai:permissions"] === "private" && !defaultPermission} checked="checked" {/if} value="private">
                 <label for="contentpermissions_see_private" class="s3d-bold"><span class="label_icon lock"></span>__MSG__PRIVATE_TO_THE_SHARED_WITH_LIST__ <span class="contentpermissions_you"> (__MSG__RIGHT__)</span></label>
             </div>
         </div>
@@ -42,7 +42,7 @@
             </select>
             <input id="contentpermissions_members_autosuggest"/>
             <div id="contentpermissions_members_autosuggest_container" style="display:none;">
-                <textarea id="contentpermissions_members_autosuggest_text" placeholder="__MSG__ENTER_A_MESSAGE__"></textarea>
+                <textarea id="contentpermissions_members_autosuggest_text" placeholder="__MSG__ENTER_A_MESSAGE__" title="__MSG__ENTER_A_MESSAGE__"></textarea>
                 <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button" id="contentpermissions_members_autosuggest_sharebutton">__MSG__SHARE__</button>
             </div>
             <ul id="contentpermissions_members_list">
@@ -64,7 +64,12 @@
                                     {else}
                                         <img src="${sakai.api.User.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
                                     {/if}
-                                    <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
+                                    {if member["sakai:pseudoGroup"]}
+                                        <a class="s3d-bold" href="/~${member["sakai:parent-group-id"]|safeURL}" title="__MSG__VIEW__ ${member["sakai:parent-group-title"]|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</span>
+                                    {else}
+                                        <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
+                                    {/if}
+
                                 </label>
                             </li>
                         {/for}

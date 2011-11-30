@@ -60,6 +60,9 @@ define(
         data : sakai_user.data,
         widgets : sakai_widget_config
     };
+    // Load in the world templates
+    var templates = sakai_util.getTemplates();
+    sakai.config.worldTemplates = templates;
     return sakai;
 
 });
