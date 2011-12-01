@@ -35,12 +35,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.collections = function (tuid, showSettings) {
 
         var subnavigationAddCollectionLink = "#subnavigation_add_collection_link";
+        var collectorToggle = ".collector_toggle";
+        var collectionsTotal = "#topnavigation_user_collections_total";
         var $collectionsWidget = $(".collections_widget");
-        var collections = true;
-        var collectionScrollArrowsHidden = false;
         
         var collectionsNoCollections = "#collections_nocollections";
-        var collectionsCollectionsList = "#collections_collections_list"
+        var collectionsCollectionsList = "#collections_collections_list";
         
         // Buttons, links, etc.
         var collectionsCloseButton = "#collections_close_button";
@@ -51,6 +51,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectionsMainCancelNewButton = "#collections_main_cancel_new_button";
         var collectionsAddNewNextStepLabel = ".collections_add_new_nextsteplabel";
         var collectionsSeeAllButton = "#collections_see_all_button";
+        var collectionsSaveNewButton = "#collections_save_new_button";
+        var collectionsNewCollectionPermission = "#collections_newcollection_permissions";
 
         // Classes
         var collectionsAddNewSteps = ".collections_add_new_steps";
@@ -78,12 +80,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(collectionsNewButton).show();
         };
 
-        var showNextStep = function(){
-            var nextStep = $(this).data("next-step");
-            var currentStep = $(this).data("current-step");
-            $("#" + currentStep).hide();
-            $("#" + nextStep).show();
-        };
+        //var showNextStep = function(){
+        //    var nextStep = $(this).data("next-step");
+        //    var currentStep = $(this).data("current-step");
+        //    $("#" + currentStep).hide();
+        //    $("#" + nextStep).show();
+        //};
 
         /**
         * Enable creation of collection and enable elements
@@ -99,9 +101,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
         * Determine the screen to display
         */
-        var switchDisplay = function(){
+        var switchDisplay = function(collections){
             resetGUI();
-            if(collections){
+            if(collections.total){
                 $(collectionsCollectionsList).show();
                 $(collectionsScrollArrow).show();
                 $(collectionsSeeAllButton).show();
@@ -117,6 +119,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var createNewCollection = function(){
+            var title = $.trim($("#collections_collection_title").val()) || sakai.api.i18n.getValueForKey("UNTITLED_COLLECTION", "collections");
+            var permissions = $(collectionsNewCollectionPermission).val();
+            sakai.api.Content.Collections.createCollection(title, "", permissions, [], [], [], function(){
+                alert("Created");
+                getCollections();
+            });
+        };
 
         ////////////////////
         // INITIALIZATION //
@@ -127,9 +137,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         */
          var getCollections = function(){
              // Get Collections
-             
-             // Decide what screen to show depending on results
-             switchDisplay();
+             sakai.api.Content.Collections.getMyCollections(0, 8, function(data){
+                 // Decide what screen to show depending on results
+                 switchDisplay(data);
+             });
          };
 
         /**
@@ -142,15 +153,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 opacity: 'toggle',
                 'padding-top': 'toggle',
                 'padding-bottom': 'toggle'
-            }, 400);
-            // The scroll arrows have an absolute positioning so we have to toggle them without animation to avoid strange rendering
-            if($(collectionsScrollArrow).is(":visible")){
-                $(collectionsScrollArrow).toggle();
-                collectionScrollArrowsHidden = true;
-            } else if (collectionScrollArrowsHidden) {
-                $(collectionsScrollArrow).toggle();
-                collectionScrollArrowsHidden = false
-            }
+            }, 400, function(){
+                if ($collectionsWidget.is(":visible")){
+                    getCollections();
+                } else {
+                    $(collectionsScrollArrow).hide();
+                    $(collectionsCollectionsList).hide();
+                    $(collectionsSeeAllButton).hide();
+                    $(collectionsNoCollections).hide();
+                }
+            });
         };
 
         /**
@@ -159,15 +171,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addBinding = function(){
             $(subnavigationAddCollectionLink).live("click", toggleCollectionsInlay);
             $(collectionsCloseButton).live("click", toggleCollectionsInlay);
+            $(collectorToggle).live("click", toggleCollectionsInlay);
             $(collectionsNewButton).live("click", initializeNewCollectionsSetup);
             $(collectionsCancelNewButton).live("click", switchDisplay);
-            $(collectionsAddNewNextStepLabel).live("click", showNextStep);
+            //$(collectionsAddNewNextStepLabel).live("click", showNextStep);
             $("." + collectionsLargePreview).live("click", expandCollection);
+            $(collectionsSaveNewButton).live("click", createNewCollection);
         };
 
         var doInit = function(){
             addBinding();
-            getCollections();
         };
 
         doInit();

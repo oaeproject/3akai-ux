@@ -142,9 +142,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var currentExistingContext = false;
 
         var currentSelectedLibrary = sakai.data.me.user.userid;
-        if (sakai_global.group && sakai_global.group.groupId){
-            currentSelectedLibrary = sakai_global.group.groupId;
-        }
 
         ////////////////////////////////
         // Get newly uploaded content //
@@ -1223,6 +1220,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         // INITIALIZATION //
         ////////////////////
 
+        var setCurrentlySelectedLibrary = function(){
+            if (sakai_global.group && sakai_global.group.groupId){
+                currentSelectedLibrary = sakai_global.group.groupId;
+            } else if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai_global.content_profile.content_data.data){
+                if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
+                    currentSelectedLibrary = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
+                }
+            }
+        };
+
         /**
          * Initialize the modal dialog
          */
@@ -1262,6 +1269,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Initialize the widget
          */
         var initialize = function(){
+            setCurrentlySelectedLibrary();
             initializeJQM();
             resetWidget();
             addBinding();

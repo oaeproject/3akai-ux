@@ -186,33 +186,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-        * Parses the profile data and puts it in the collectionData variable to be reusable
-        */
-        //var parseProfiles = function(data, index){
-        //    debug.log(data);
-        //    sakai.api.Content.parseFullProfile(data, function(parsedData){
-        //        collectionData[collectionviewer.page][index].hasPreview = sakai.api.Content.hasPreview(parsedData.data);
-        //        collectionData[collectionviewer.page][index].fullProfile = parsedData;
-        //    });
-        //};
-
-        /**
-         * Gets the full profiles for items in the collection
-         */
-        //var getFullProfiles = function(data){
-        //    sakai.api.Content.loadFullProfile("/p/" + item._path, function(success, data){
-        //        var count = 0;
-        //        while (count < data.results.length / 4){
-        //            parseProfiles(data.results.slice(count * 4,count * 4 + 4), count);
-        //            count++;
-        //            if(count * 4 === data.results.length){
-        //                showData();
-        //            }
-        //        }
-        //    });
-        //};
-
-        /**
          * Retrieves the basic data for items in a collection
          */
         var getCollectionData = function(){
@@ -237,12 +210,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "success": function(data){
                     $("#collectionviewer_add_content_button > div").text(data.total);
                     collectionviewer.total = data.total;
-                    //debug.log(data.results);
                     sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
                         collectionData[collectionviewer.page] = parsedContent;
                         // Get the full profiles for these items
-                        //getFullProfiles(data);
-                        //debug.log(collectionData[collectionviewer.page]);
                         showData();
                     });
                 }

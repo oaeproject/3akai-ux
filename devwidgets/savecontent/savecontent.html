@@ -30,7 +30,7 @@
    {var contentTitle = content["sakai:pooled-content-file-name"]}
     __MSG__YOU_ARE_SAVING_CONTENT_TO__:
     <select name="savecontent_select" id="savecontent_select">
-        {if !sakai.api.Content.isContentInLibrary(content, me.user.userid)}
+        {if !sakai.api.Content.isContentInLibrary(content, me.user.userid) && !sakai.api.Content.Collections.isCollectionInMyLibrary(content)}
             <option value="${sakai.data.me.user.userid}">__MSG__MY_LIBRARY__</option>
         {else}
             <option value="${sakai.data.me.user.userid}" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>

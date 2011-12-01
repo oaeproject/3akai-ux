@@ -98,17 +98,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var parameters = {};
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
                     var groupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
-                    parameters[":member@Delete"] = context;
-                    parameters[":viewer@Delete"] = context;
                     batchRequests.push({
-                        "url": "/system/userManager/group/" + groupId + "-members.update.json",
-                        "method": "POST",
-                        "parameters": params
+                        "url": "/system/userManager/group/" + groupId + "-members.leave.json",
+                        "method": "POST"
                     });
                     batchRequests.push({
-                        "url": "/system/userManager/group/" + groupId + "-managers.update.json",
-                        "method": "POST",
-                        "parameters": params
+                        "url": "/system/userManager/group/" + groupId + "-managers.leave.json",
+                        "method": "POST"
                     });
                 } else {
                     parameters[":manager@Delete"] = context;
@@ -145,16 +141,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var processRemoveFromSystem = function(batchRequests, items){
             batchRequests = batchRequests || [];
             for (var i = 0; i < items.length; i++){
-                if (sakai.api.Content.Collections.isCollection(items[i])) {
-                    // TODO: Replace this by removal of the pseudoGroup once it exists
-                    batchRequests.push({
-                        "url": "/system/userManager/group/" + sakai.api.Content.Collections.getCollectionGroupId(items[i]) + ".update.json",
-                        "method": "POST",
-                        "parameters": {
-                            "sakai:excludeSearch": true
-                        }
-                    });
-                }
                 batchRequests.push({
                     "url": "/p/" + items[i]["_path"],
                     "method": "POST",
@@ -162,6 +148,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         ":operation": "delete"
                     }
                 });
+                // Remove the pseudoGroups associated to the collection
+                if (sakai.api.Content.Collections.isCollection(items[i])) {
+                    batchRequests.push({
+                        "url": "/system/userManager/group/" + sakai.api.Content.Collections.getCollectionGroupId(items[i]) + ".delete.html",
+                        "method": "POST"
+                    });
+                    batchRequests.push({
+                        "url": "/system/userManager/group/" + sakai.api.Content.Collections.getCollectionGroupId(items[i]) + "-members.delete.html",
+                        "method": "POST"
+                    });
+                    batchRequests.push({
+                        "url": "/system/userManager/group/" + sakai.api.Content.Collections.getCollectionGroupId(items[i]) + "-managers.delete.html",
+                        "method": "POST"
+                    });
+                }
             }
         };
 
@@ -183,32 +184,71 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var checkUsedByOthers = function(){
             var userGroupIds = [];
+            var collectionsToCheck = [];
             // Check whether any of the content I manage is managed by or
             // shared with other people
             for (var m = 0; m < contentIManage.length; m++){
-                var managers = contentIManage[m]["sakai:pooled-content-manager"];
-                if (managers){
-                    for (var i = 0; i < managers.length; i++){
-                        if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid 
-                            && managers[i] !== context){
-                            userGroupIds.push(managers[i]);
+                if (sakai.api.Content.Collections.isCollection(contentIManage[m])){
+                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentIManage[m]);
+                    collectionsToCheck.push(collectionGroupId + "-members");
+                    collectionsToCheck.push(collectionGroupId + "-managers");
+                } else {
+                    var managers = contentIManage[m]["sakai:pooled-content-manager"];
+                    if (managers){
+                        for (var i = 0; i < managers.length; i++){
+                            if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid 
+                                && managers[i] !== context){
+                                userGroupIds.push(managers[i]);
+                            }
                         }
                     }
-                }
-                var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
-                if (viewers){
-                    for (var i = 0; i < viewers.length; i++){
-                        if ($.inArray(viewers[i], userGroupIds) === -1 && viewers[i] !== sakai.data.me.user.userid &&
-                            viewers[i] !== context && viewers[i] !== "everyone" && viewers[i] !== "anonymous"){
-                            userGroupIds.push(viewers[i]);
+                    var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
+                    if (viewers){
+                        for (var i = 0; i < viewers.length; i++){
+                            if ($.inArray(viewers[i], userGroupIds) === -1 && viewers[i] !== sakai.data.me.user.userid &&
+                                viewers[i] !== context && viewers[i] !== "everyone" && viewers[i] !== "anonymous"){
+                                userGroupIds.push(viewers[i]);
+                            }
                         }
                     }
                 }
             }
-            if (userGroupIds.length > 0){
-                setUpUsedByOverlay(userGroupIds);
+            if (collectionsToCheck.length > 0) {
+                var batchRequest = [];
+                $.each(collectionsToCheck, function(index, collectiongroup){
+                    batchRequest.push({
+                        "url": "/system/userManager/group/" + collectiongroup + ".members.json",
+                        "method": "GET",
+                        "parameters": {
+                            items: 1000
+                        }
+                    })
+                });
+                sakai.api.Server.batch(batchRequest, function (success, data) {
+                    for (var i = 0; i < data.results.length; i++) {
+                        if (data.results.hasOwnProperty(i)) {
+                            var members = $.parseJSON(data.results[i].body);
+                            for (var ii = 0; ii < members.length; ii++){
+                                var member = members[ii].userid;
+                                if ($.inArray(member, userGroupIds) === -1 && member !== sakai.data.me.user.userid 
+                                    && member !== context){
+                                    userGroupIds.push(member);
+                                }
+                            }
+                        }
+                    }
+                    if (userGroupIds.length > 0) {
+                        setUpUsedByOverlay(userGroupIds);
+                    } else {
+                        removeFromSystem();
+                    }
+                });
             } else {
-                removeFromSystem();
+                if (userGroupIds.length > 0) {
+                    setUpUsedByOverlay(userGroupIds);
+                } else {
+                    removeFromSystem();
+                }
             }
         };
 

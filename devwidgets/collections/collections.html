@@ -6,7 +6,7 @@
         <div id="collections_scroll_left" class="collections_scroll_arrow" style="display:none;"></div>
         <div class="s3d-button s3d-overlay-action-button" id="collections_new_button">__MSG__NEW__ <span>+</span></div>
         <div id="collections_new_action_buttons" style="display:none;">
-            <div class="s3d-button s3d-overlay-action-button" id="collections_save_new_button">__MSG__SAVE__</div>
+            <button class="s3d-button s3d-overlay-action-button" id="collections_save_new_button">__MSG__SAVE__</button>
             <button type="button" class="s3d-button s3d-link-button collections_cancel_new_button" id="collections_main_cancel_new_button">__MSG__CANCEL__</button>
         </div>
         <h1>__MSG__COLLECTOR__</h1>
@@ -161,16 +161,22 @@
         <div id="collections_add_new" style="display:none;">
             <div id="collections_add_new_stepone" class="collections_add_new_steps">
                 <input type="text" id="collections_collection_title" placeholder="__MSG__UNTITLED_COLLECTION__"/>
-                <div class="collection_counts_container">
+                <!-- <div class="collection_counts_container">
                     <div id="collection_counts_participants_icon"></div>
                     <span class="collection_counts" id="collection_counts_participants_count">0</span>
-                </div>
+                </div> -->
                 <div class="collection_counts_container">
                     <div id="collection_counts_content_icon"></div>
                     <span class="collection_counts" id="collection_counts_content_counts">0</span>
                 </div>
                 <hr class="fl-push fl-hidden"/>
-                <select id="collection_type">
+                <label for="collections_newcollection_permissions">__MSG__WHO_CAN_SEE_IT__</label>
+                <select id="collections_newcollection_permissions" name="collections_newcollection_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+                <!-- <select id="collection_type">
                     <option value="plain">__MSG__NO_JUST_A_COLLECTION__</option>
                     <option value="readinglist">__MSG__READING_LIST__</option>
                     <option value="blog">__MSG__BLOG__</option>
@@ -183,11 +189,11 @@
                     <option value="submissionbox">__MSG__SUBMISSION_BOX__</option>
                     <option value="sharefiles">__MSG__SHARE_SOME_FILES__</option>
                 </select>
-                <button class="s3d-button s3d-link-button collections_add_new_nextsteplabel" data-next-step="collections_add_new_steptwo" data-current-step="collections_add_new_stepone">__MSG__PERMISSIONS__</button>
+                <button class="s3d-button s3d-link-button collections_add_new_nextsteplabel" data-next-step="collections_add_new_steptwo" data-current-step="collections_add_new_stepone">__MSG__PERMISSIONS__</button> -->
             </div>
 
 
-            <div id="collections_add_new_steptwo" class="collections_add_new_steps" style="display:none;">
+            <!--<div id="collections_add_new_steptwo" class="collections_add_new_steps" style="display:none;">
                 <button class="s3d-button s3d-link-button collections_add_new_nextsteplabel back" data-next-step="collections_add_new_stepone" data-current-step="collections_add_new_steptwo">__MSG__BACK__</button>
                 <hr class="fl-push fl-hidden"/>
                 <label for="collections_newcollection_permissions">__MSG__WHO_CAN_SEE_IT__</label>
@@ -200,10 +206,10 @@
                 <input type="text" id="collections_newcollection_tags" name="collections_newcollection_tags" placeholder="__MSG__TAGS_AND_CATEGORIES__"/>
                 <button type="button" class="s3d-button s3d-link-button" id="collections_list_categories">__MSG__LIST_CATEGORIES__</button>
                 <button class="s3d-button s3d-link-button collections_add_new_nextsteplabel" data-next-step="collections_add_new_stepthree" data-current-step="collections_add_new_steptwo">__MSG__DESCRIPTION__</button>
-            </div>
+            </div> -->
 
 
-            <div id="collections_add_new_stepthree" class="collections_add_new_steps" style="display:none;">
+            <!-- <div id="collections_add_new_stepthree" class="collections_add_new_steps" style="display:none;">
                 <button class="s3d-button s3d-link-button collections_add_new_nextsteplabel back" data-next-step="collections_add_new_steptwo" data-current-step="collections_add_new_stepthree">__MSG__BACK__</button>
                 <hr class="fl-push fl-hidden"/>
                 <label for="collections_newcollection_description">__MSG__DESCRIPTION__ <span>(__MSG__OPTIONAL__)</span></label>
@@ -212,13 +218,11 @@
                     <button class="s3d-link-button jqmClose s3d-bold collections_cancel_new_button" type="button">__MSG__CANCEL__</button>
                     <button class="s3d-button s3d-overlay-action-button collections_save_new_collection" type="button">__MSG__SAVE__</button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div id="collections_rightcolumn" class="collections_maincolumn">
         <div id="collections_scroll_right" class="collections_scroll_arrow" style="display:none;"></div>
-        <button type="button" class="s3d-link-button s3d-button" id="collections_cog_button"></button>
-        <button type="button" class="s3d-link-button s3d-button" id="collections_min_button"></button>
         <button type="button" class="s3d-link-button s3d-button" id="collections_close_button"></button>
         <button type="button" id="collections_see_all_button" class="s3d-overlay-action-button s3d-button" style="display:none;">See all <div class="s3d-button s3d-button-in-button">26</div></button>
     </div>

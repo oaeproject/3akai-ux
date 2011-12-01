@@ -210,6 +210,12 @@ define(
                     "dataType":"json"
                 },
                 {
+                    "url": poolid + ".members.json",
+                    "method":"GET",
+                    "cache":false,
+                    "dataType":"json"
+                },
+                {
                     "url": poolid + ".versions.json",
                     "method":"GET",
                     "cache":false,
@@ -687,6 +693,10 @@ define(
                         debug.error("xhr data returned: " + data);
                     }
                 }, null, true);
+            } else {
+                if (callBack) {
+                    callBack(contentId, userId);
+                }
             }
         },
 
@@ -1080,6 +1090,7 @@ define(
                     if (contentItem["sakai:pool-content-created-for"]) {
                         userArray.push(contentItem["sakai:pool-content-created-for"]);
                     }
+                    contentItem.hasPreview = sakai_content.hasPreview(contentItem);
                 }
             });
             // Get displaynames for the users that created content
@@ -1383,10 +1394,11 @@ define(
             },
 
             /**
-             * TODO
-             * @param {Object} collectionId
-             * @param {Object} permission
-             * @param {Object} callback
+             * Make a collection either public, private or only visible to the people it's shared with
+             * @param {Object} collectionId    Pooled content id that represents the collection
+             * @param {Object} permission      Permission to be set on the collection. Possible values are "public", "everyone"
+             *                                 and "private"
+             * @param {Object} callback        Function to be called when the new permissions have been set on the collection
              */
             setCollectionPermissions: function(collectionId, permission, callback){
                 // Change the permissions of the Sakai Doc
@@ -1409,11 +1421,12 @@ define(
             },
 
             /**
-             * TODO
-             * @param {Object} collectionId
-             * @param {Object} authorizables
-             * @param {Object} canManage
-             * @param {Object} callback
+             * Share a collection with a list of users/groups
+             * @param {Object} collectionId    Pooled content id for the collection that's shared
+             * @param {Object} authorizables   Array of authorizable ids to share the collection with
+             * @param {Object} canManage       Whether or not the collections can be managed by the 
+             *                                 authorizables the collections is being shared with
+             * @param {Object} callback        Function to call when the collection has been shared
              */
             shareCollection: function(collectionId, authorizables, canManage, callback){
                 var permissionBatch = [];
@@ -1446,8 +1459,37 @@ define(
                 });
             },
 
-            getMyCollections: function(){
-                // TODO
+            getMyCollectionsCount: function(){
+                var count = 0;
+                var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
+                $.each(memberships.entry, function(index, membership){
+                    if (sakai_content.Collections.isCollection(membership)){
+                        count++;
+                    }
+                });
+                return count;
+            },
+
+            /**
+             * Get a list of the current user's collections in his library
+             * @param {Object} page        The page number to retrieve
+             * @param {Object} items       Number of items on each page
+             * @param {Object} callback    Function to call when the collections have been retrieved
+             */
+            getMyCollections: function(page, items, callback){
+                var data = {
+                    "sortOn": "_lastModified",
+                    "sortOrder": "desc",
+                    "userid": sakai_user.data.me.user.userid,
+                    "items": items,
+                    "page": page,
+                    "mimetype": "x-sakai/collection"
+                }
+                $.ajax({
+                    "url": sakai_conf.URL.POOLED_CONTENT_SPECIFIC_USER,
+                    "data": data,
+                    "success": callback
+                });
             },
 
             /**
