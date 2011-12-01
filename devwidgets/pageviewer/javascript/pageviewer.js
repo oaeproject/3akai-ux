@@ -78,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(page.hasOwnProperty("_title")){
                     pages.push({
                         title: page._title,
-                        poolpath: page._poolpath || "/p/" + contentData.data._path,
+                        poolpath: page._poolpath || "/p/" + contentData._path,
                         ref: page._ref
                     });
                 }
@@ -97,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var doInit = function(){
             addBinding();
-            processPages($.parseJSON(contentData.data.structure0));
+            processPages($.parseJSON(contentData.structure0));
         };
 
         $(window).unbind("start.pageviewer.sakai");
