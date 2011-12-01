@@ -51,12 +51,6 @@
             <li id="ew_group_settings">
                 <button class="s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
             </li>
-            {if sakai.config.enableCategories}
-                <hr class="s3d-split-line"/>
-                <li id="ew_group_categories">
-                    <button class="s3d-link-button" id="ew_group_categories_link">__MSG__CATEGORIES__</button>
-                </li>
-            {/if}
         <ul>
     </div>
 --></div>
@@ -167,7 +161,7 @@
         {/if}
         <img src="${data.data['iconURL']}" alt="${data.data["sakai:pooled-content-file-name"]|safeOutput}"/>
     </div>
-    <span id="entity_name" class="s3d-bold {if data.isManager} contentmetadata_editable{/if}">${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
+    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{/if}">${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
     <span id="entity_name_edit" style="display:none">
         <input id="entity_name_text" type="text" />
     </span>
