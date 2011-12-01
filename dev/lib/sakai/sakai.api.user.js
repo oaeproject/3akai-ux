@@ -425,13 +425,6 @@ define(
                         sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, "lastName", sakaiUserAPI.data.me.profile["rep:userId"]);
                     }
 
-                    // Parse the directory locations
-                    var directory = [];
-                    if(sakaiUserAPI.data.me.profile && sakaiUserAPI.data.me.profile["sakai:tags"]){
-                        directory = sakai_util.getDirectoryTags(sakaiUserAPI.data.me.profile["sakai:tags"].toString());
-                        sakaiUserAPI.data.me.profile.saveddirectory = directory;
-                    }
-
                     // SAKIII-2419 server isn't saving basic access param
                     if (sakaiUserAPI.data.me.profile.basic.access === undefined){
                         sakaiUserAPI.data.me.profile.basic.access = "everybody";
@@ -736,39 +729,6 @@ define(
             });
         },
 
-        parseDirectory : function(profile){
-            var obj = {"elements":[]};
-            if (profile.main.data["sakai:tags"] && profile.main.data["sakai:tags"].length > 0) {
-                profile.main.data["sakai:tags"].sort(sakai_util.Sorting.naturalSort);
-                for (var i in profile.main.data["sakai:tags"]) {
-                    if (profile.main.data["sakai:tags"].hasOwnProperty(i)) {
-                        var tag = profile.main.data["sakai:tags"][i] + "";
-                        if (tag.substring(0, 10) === "directory/") {
-                            var finalTag = "";
-                            var split = tag.split("/");
-                            for (var ii = 1; ii < split.length; ii++) {
-                                finalTag += sakai_util.getValueForDirectoryKey(split[ii]);
-                                if (ii < split.length - 1) {
-                                    finalTag += "<span class='profilesection_location_divider'>&raquo;</span>";
-                                }
-                            }
-                            obj.elements.push({
-                                "locationtitle": {
-                                    "value": tag,
-                                    "title": finalTag
-                                },
-                                "id": {
-                                    "display": false,
-                                    "value": "" + Math.round(Math.random() * 1000000000)
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-            return obj;
-        },
-
         /**
          * Adds system tour progress for the user to be tracked by the systemtour widget
          *
@@ -868,7 +828,7 @@ define(
                 if (item.target){
                     item = item.profile;
                 }
-                if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
+                if (item && item["rep:userId"] && item["rep:userId"] !== "anonymous") {
                     item.id = item["rep:userId"];
                     item.userid = item["rep:userId"];
                     item.picture = sakaiUserAPI.getProfilePicture(item);
@@ -881,9 +841,9 @@ define(
                         item.pictureLarge = sakai_conf.URL.USER_DEFAULT_ICON_URL_LARGE;
                     }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
-                        item.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(item["sakai:tags"]));
+                        item.tagsProcessed = sakai_util.formatTags(item["sakai:tags"]);
                     } else if (item.basic && item.basic.elements && item.basic.elements["sakai:tags"]) {
-                        item.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(item.basic.elements["sakai:tags"].value));
+                        item.tagsProcessed = sakai_util.formatTags(item.basic.elements["sakai:tags"].value);
                     }
 
                     item.connected = false;

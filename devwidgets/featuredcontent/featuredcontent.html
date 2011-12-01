@@ -29,9 +29,10 @@
     {macro displayTags(item, sakai)}
         {if item["sakai:tags"]}
             <ul class="featuredcontent_content_tags s3d-taglist">
-                {for tag in item["sakai:tags"]}
+                {var tags = sakai.api.Util.formatTags(item["sakai:tags"])}
+                {for tag in tags}
                     {if tag_index < 2}
-                        <li><a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a></li>
+                        <li><a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a></li>
                     {/if}
                 {/for}
             </ul>

@@ -147,12 +147,6 @@ define(
                     tempItem.isManager = sakai_content.isUserAManager(tempItem.data, sakai_user.data.me);
                     tempItem.isViewer = sakai_content.isUserAViewer(tempItem.data, sakai_user.data.me);
 
-                    // Directory location
-                    tempItem.saveddirectory = [];
-                    if (tempItem.data && tempItem.data['sakai:tags']) {
-                        tempItem.saveddirectory = sakai_util.getDirectoryTags(tempItem.data["sakai:tags"].toString());
-                    }
-
                     // Set the mimetype of the content
                     var mimeType = sakai_content.getMimeType(tempItem.data);
                     tempItem.data.mimeType = mimeType;
@@ -1064,10 +1058,10 @@ define(
                     }
                     // Modify the tags if there are any
                     if (contentItem["sakai:tags"]) {
-                        if (typeof(contentItem["sakai:tags"]) === 'string') {
+                        if ( _.isString(contentItem["sakai:tags"]) ) {
                             contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
                         }
-                        contentItem.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(contentItem["sakai:tags"]));
+                        contentItem.tagsProcessed = sakai_util.formatTags(contentItem["sakai:tags"]);
                     }
                     // set mimetype
                     var mimeType = sakai_content.getMimeType(contentItem);

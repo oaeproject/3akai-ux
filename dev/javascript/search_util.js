@@ -105,8 +105,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var tagArray = [];
 
             // get any tags already in location hash
-            if (params && params.refine){
-                activeTags = params.refine.split(',');
+            if (params && params.refine) {
+                activeTags = sakai.api.Util.formatTags(params.refine.split(','));
             }
 
             // filter tags
@@ -120,14 +120,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                 });
-                tagArray = sakai.api.Util.formatTagsExcludeLocation(tagArray);
+                tagArray = sakai.api.Util.formatTags(tagArray);
                 // store tags in either already active tags, or tags available to refine the search by
                 $.each(tagArray, function(key, tag) {
-                    if ($.inArray(tag, activeTags) === -1) {
+                    var inArray = false;
+                    $.each( activeTags, function( i, activeTag ) {
+                        if ( tag.original === activeTag.original ) {
+                            inArray = true;
+                        }
+                    });
+                    if (!inArray) {
                         refineTags.push(tag);
                     }
                 });
-                activeTags.sort();
+                activeTags.sort(function( a, b ) {
+                    return sakai.api.Util.Sorting.naturalSort( a.value, b.value );
+                });
                 // limit the number of tags to display in refine list
                 refineTags = refineTags.slice(0, maxTagsDisplayed).sort();
             }
@@ -173,25 +181,34 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return sakai.api.Server.createSearchString(catString || searchString);
         };
 
+        var setActiveTags = function() {
+            var searchString = "";
+            $.each( activeTags, function(i, tag) {
+                searchString += tag.original + ",";
+            });
+            searchString = searchString.substr(0,searchString.length-1);
+            return searchString;
+        };
+
         ////////////
         // Events //
         ////////////
 
         $(".search_tag_refine_item").die("click").live("click", function(ev){
             var tag = $(this).attr("data-sakai-entityid");
-            activeTags.push(tag);
+            activeTags.push(sakai.api.Util.formatTags([tag])[0]);
             $.bbq.pushState({
-                "refine": activeTags.toString()
+                "refine": setActiveTags(activeTags)
             }, 0);
         });
 
         $(".search_tag_active_item").die("click").live("click", function(ev){
             var tag = $(this).attr("data-sakai-entityid");
             activeTags = $.grep(activeTags, function(value) {
-                return value !== tag;
+                return value.original !== tag;
             });
             $.bbq.pushState({
-                "refine": activeTags.toString()
+                "refine": setActiveTags(activeTags)
             }, 0);
         });
 
@@ -249,12 +266,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var itemdiv = $(this);
             sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, false, true, function (success) {
                 if (success) {
+                    var notimsg = "";
                     if (joinable === "withauth") {
                         // Don't add green tick yet because they need to be approved.
-                        var notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
+                        notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
                     } else  { // Everything else should be regular success
                         $(".searchgroups_memberimage_"+groupid).show();
-                        var notimsg = sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED_TO_GROUP");
+                        notimsg = sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED_TO_GROUP");
                     }
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
                         notimsg, sakai.api.Util.notification.type.INFORMATION);

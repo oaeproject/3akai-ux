@@ -15,17 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*
- * Dependencies
- *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
- * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js (autoSuggest)
- */
-/*global $ */
 
-// Namespaces
 require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     /**
@@ -243,7 +233,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.ajaxSettings.cache = true;
             $.getScript('//s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
             $.ajaxSettings.cache = ajaxcache;
-            sakai.api.Util.AutoSuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
+            sakai.api.Util.AutoSuggest.setup( $newsharecontentSharelist, {
+                asHtmlID: tuid,
+                scrollHeight: 120
+            });
             $("label#newsharecontent_autosuggest_for").attr("for", tuid);
         };
 

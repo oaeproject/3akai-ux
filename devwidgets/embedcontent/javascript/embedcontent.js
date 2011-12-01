@@ -15,14 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*
- * Dependencies
- *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
- * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js (autoSuggest)
- */
-/*global $ */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
@@ -226,6 +218,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * When typing in the suggest box this function is executed to provide the user with a list of possible autocompletions
          */
         var setupAutoSuggest = function() {
+            var dataFn = function( query, add ) {
+                var q = sakai.api.Server.createSearchString(query);
+                var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
+                searchUrl = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
+                sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+                    if (success) {
+                        var suggestions = [];
+                        $.each(data.results, function(i) {
+                            var dataObj = createDataObject(data.results[i]);
+                            var doAdd = true;
+                            if (embedConfig.filter) {
+                                if (dataObj.filetype !== embedConfig.filter) {
+                                    doAdd = false;
+                                }
+                            }
+                            if (doAdd) {
+                                suggestions.push(dataObj);
+                            }
+                        });
+                        add( suggestions, query );
+                    }
+                }, options);
+            };
             sakai.api.Util.AutoSuggest.setup($embedcontent_content_input,{
                 asHtmlID: tuid,
                 retrieveLimit: 10,
@@ -240,31 +255,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (elem.attr("id").indexOf("as-selection-notfound") > -1) {
                         elem.addClass("embedcontent_selection_notfound");
                     }
-                },
-                source: function(query, add) {
-                    var q = sakai.api.Server.createSearchString(query);
-                    var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
-                    searchUrl = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
-                    sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                        if (success) {
-                            var suggestions = [];
-                            $.each(data.results, function(i) {
-                                var dataObj = createDataObject(data.results[i]);
-                                var doAdd = true;
-                                if (embedConfig.filter) {
-                                    if (dataObj.filetype !== embedConfig.filter) {
-                                        doAdd = false;
-                                    }
-                                }
-                                if (doAdd) {
-                                    suggestions.push(dataObj);
-                                }
-                            });
-                            add(suggestions);
-                        }
-                    }, options);
                 }
-            });
+            }, false, dataFn);
         };
 
         /**
@@ -285,9 +277,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(wData.items, function(i,val) {
                 autosuggestSelectionAdded(val);
                 if (val.value) {
-                    $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
+                    $embedcontent_content_input.autoSuggest( "add_selected_item", val, val.value);
                 } else {
-                    $embedcontent_content_input.autoSuggest.add_selected_item({name:$embedcontent_item_unavailable_text.text(), value:"notfound"+Math.ceil(Math.random() * 9999)}, "notfound");
+                    $embedcontent_content_input.autoSuggest( "add_selected_item", {name:$embedcontent_item_unavailable_text.text(), value:"notfound"+Math.ceil(Math.random() * 9999)}, "notfound");
                 }
             });
             $(".as-original input.as-input").val('').focus();
@@ -339,7 +331,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(files, function(i,val) {
                 var newObj = createDataObject(val, val["_path"]);
                 autosuggestSelectionAdded(newObj);
-                $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
+                $embedcontent_content_input.autoSuggest( "add_selected_item", newObj, newObj.value);
             });
             $("input[id='" + tuid + "']").val('').focus();
         };
@@ -355,7 +347,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  success: function(data) {
                      var newObj = createDataObject(data, val.url.split("/p/")[1]);
                      autosuggestSelectionAdded(newObj);
-                     $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
+                     $embedcontent_content_input.autoSuggest( "add_selected_item", newObj, newObj.value);
                  }
               });
           });
