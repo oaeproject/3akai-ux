@@ -151,9 +151,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
             // get the sort by and sort on
             if (!params["sortby"] || !params["sorton"]){
-                var val = $(".s3d-search-sort option:selected", $rootel).val().split(",");
-                params["sortby"] = val[0];
-                params["sorton"] = val[1];
+                var val = $(".s3d-search-sort option:selected", $rootel).val();
+                if (val) {
+                    val = val.split(",");
+                    params["sortby"] = val[0];
+                    params["sorton"] = val[1];
+                }
             }
             return params;
         };
