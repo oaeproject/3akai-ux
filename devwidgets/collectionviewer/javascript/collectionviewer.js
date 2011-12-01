@@ -227,7 +227,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(".collectionviewer_collection_item_comments").toggle();
             } else {
                 var $selectedItem = $(".collectionviewer_carousel_item.selected");
-                var contentProfile = collectionData[$selectedItem.data("page-index")][$selectedItem.data("arr-index")].fullProfile;
+                var contentProfile = {
+                    data: collectionData[$selectedItem.data("page-index")][$selectedItem.data("arr-index")]
+                };
                 $(window).trigger("start.collectioncomments.sakai", contentProfile);
                 $(".collectionviewer_collection_item_comments").toggle();
             }
@@ -287,7 +289,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(window).bind("ready.collectioncontentpreview.sakai", function(){
                 if(collectionviewer.listStyle === "carousel"){
-                    $(window).trigger("start.collectioncontentpreview.sakai", collectionData[$(".collectionviewer_carousel_item.selected").data("page-index")][$(".collectionviewer_carousel_item.selected").data("arr-index")].fullProfile);
+                    $(window).trigger("start.collectioncontentpreview.sakai", {
+                        data: collectionData[$(".collectionviewer_carousel_item.selected").data("page-index")][$(".collectionviewer_carousel_item.selected").data("arr-index")]
+                    });
                     $(".collectionviewer_collection_item_preview").show();
                 }
             });

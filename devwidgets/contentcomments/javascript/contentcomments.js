@@ -613,7 +613,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             contentData.data["sakai:allowcontentcomments"] = true;
             $(contentcommentsEditorOptions, rootel).hide();
             if (sakai_global.content_profile && contentData){
-                contentPath = "/p/" + contentData.path.split("/")[2];
+                contentPath = "/p/" + contentData.data["_path"].split("/")[2];
 
                 // check if contentcomments are allowed or shown and display the checkbox options for the manager
                 if (contentData.isManager){
