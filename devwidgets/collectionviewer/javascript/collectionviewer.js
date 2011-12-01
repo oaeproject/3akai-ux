@@ -106,7 +106,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderItemsForSelected = function(pageIndex, selectedIndex){
             var selectedData = collectionData[pageIndex][selectedIndex];
-            debug.log(selectedData);
             $("#collectionviewer_expanded_content_container").html(sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
                 data: selectedData,
                 sakai: sakai

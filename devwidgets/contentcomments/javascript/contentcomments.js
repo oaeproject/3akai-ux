@@ -652,13 +652,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         if (!rootel.parents(".collectionviewer_collection_item_comments").length){
             $(window).bind("ready.contentprofile.sakai", function(ev, data) {
                 contentData = data || sakai_global.content_profile.content_data;
-                doInit();
+                if (contentData) {
+                    doInit();
+                }
             });
 
             // listen for event if new content profile is loaded
             $(window).bind("content_profile_hash_change", function(ev, data){
                 contentData = data || sakai_global.content_profile.content_data;
-                doInit();
+                if (contentData) {
+                    doInit();
+                }
             });
         } else {
             $(window).bind("start.collectioncomments.sakai", function(ev, data){
