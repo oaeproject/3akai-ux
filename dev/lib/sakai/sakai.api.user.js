@@ -112,6 +112,71 @@ define(
             });
         },
 
+        /**
+         * Update a user's profile
+         *
+         * @param {String} userid The userid of the user to update their profile
+         * @param {String} section The profile section (ie basic, publications)
+         * @param {Object} data The data to save on this section
+         * @param {Array} tags The tags and categories on this user
+         * @param {Object} sectionData The current data for this section, before any updates.
+         *                             Used for saving tags on the user.
+         * @param {Boolean} multiple If this is a multi-assign section, like publications
+         * @param {Function} callback The callback function for after the data has been saved
+         */
+        updateUserProfile: function( userid, section, data, tags, sectionData, multiple, callback ) {
+            var url = "/~" + userid + "/public/authprofile",
+                saveJSONURL = url + "/" + section + ".profile.json";
+
+            var postData = {
+                elements: {}
+            };
+            $.each( data, function( key, value ) {
+                if ( multiple ) {
+                    postData.elements[ key ] = {};
+                    $.each( value, function( subkey, subvalue ) {
+                        //oOrder is special, save it without a value sub-element
+                        if ( subkey === "order" ) {
+                            postData.elements[ key ][ subkey ] = subvalue;
+                        } else {
+                            postData.elements[ key ][ subkey ] = {
+                                value: subvalue
+                            };
+                        }
+                    });
+                    // TODO set the data nested-like
+                } else {
+                    postData.elements[ key ] = {
+                        value: value
+                    };
+                }
+
+            });
+            var existingTags = sectionData["sakai:tags"] ? sectionData["sakai:tags"].value : false;
+            sakai_util.tagEntity( url, tags, existingTags, function( success, final_tags ) {
+                sectionData["sakai:tags"] = {
+                    value: final_tags
+                };
+                sakai_serv.saveJSON( saveJSONURL, postData, callback, true );
+            });
+
+        },
+
+        deleteUserProfileSection: function( userid, section, subsection, callback ) {
+            var url = "/~" + userid + "/public/authprofile/" + section + "/elements/" + subsection + ".json";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    ":operation": "delete"
+                },
+                success: function( data ) {
+                    if ( $.isFunction( callback ) ) {
+                        callback( data );
+                    }
+                }
+            });
+        },
 
         /**
          * Remove the user credentials in the Sakai3 system.

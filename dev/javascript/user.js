@@ -43,7 +43,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var contextType = false;
         var contextData = false;
 
-        var setupProfile = function(structure) {
+        var setupProfileSection = function( title, section ) {
+            var ret = {
+                _ref: sakai.api.Util.generateWidgetId(),
+                _order: section.order,
+                _altTitle: section.label,
+                _title: section.label,
+                _nonEditable: true,
+                _view: section.permission
+            };
+            // _reorderOnly is only true for the basic profile
+            ret._reorderOnly = title === "basic";
+            return ret;
+        };
+
+        var setupProfile = function( structure, isMe ) {
             var firstWidgetRef = "";
             var profilestructure = {
                 _title: structure.structure0.profile._title,
@@ -54,57 +68,80 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 _reorderOnly: true,
                 _canSubedit: true
             };
-            structure.structure0.profile = {};
+            var newProfile = true;
+            $.each( structure.structure0.profile, function( key, section ) {
+                if ( $.isPlainObject( section ) ) {
+                    newProfile = false;
+                }
+            });
+            if ( newProfile ) {
+                structure.structure0.profile = {};
+            }
             var initialProfilePost = [];
-            var paths = []; var permissions = [];
+            var paths = [];
+            var permissions = [];
+            var updateStructure = false;
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
-                var widgetID = sakai.api.Util.generateWidgetId();
                 var widgetUUID = sakai.api.Util.generateWidgetId();
-                profilestructure[title] = {
-                    _ref: widgetID,
-                    _order: section.order,
-                    _altTitle: section.label,
-                    _title: section.label,
-                    _nonEditable: true,
-                    _view: section.permission
-                };
-                initialProfilePost.push({
-                    "url": "/~" + sakai.data.me.user.userid + "/public/authprofile/" + title,
-                    "method": "POST",
-                    "parameters": {
-                        "init": true
+                if ( !newProfile && structure.structure0.profile.hasOwnProperty( title ) ) {
+                    profilestructure[ title ] = structure.structure0.profile[ title ];
+                } else if ( newProfile || !structure.structure0.profile.hasOwnProperty( title )) {
+                    profilestructure[ title ] = setupProfileSection( title, section );
+                    if (title !== "basic"){
+                        paths.push("/~" + sakai.data.me.user.userid + "/public/authprofile/" + title);
+                        permissions.push(section.permission);
                     }
-                });
-                if (title === "basic" || title === "locations"){
-                    profilestructure[title]._reorderOnly = true;
-                } else {
-                    profilestructure[title]._reorderOnly = false;
-                    paths.push("/~" + sakai.data.me.user.userid + "/public/authprofile/" + title);
-                    permissions.push(section.permission);
+                    if (section.order === 0) {
+                        firstWidgetRef = profilestructure[ title ]._ref;
+                    }
+                    initialProfilePost.push({
+                        "url": "/~" + sakai.data.me.user.userid + "/public/authprofile/" + title,
+                        "method": "POST",
+                        "parameters": {
+                            "init": true
+                        }
+                    });
                 }
-                if (section.order === 0) {
-                    firstWidgetRef = widgetID;
-                }
-                structure[widgetID] = {
+                // Don't need to use these from the profile, gives us more flexibility on the profile itself
+                structure[ profilestructure[ title ]._ref ] = {
                     page: "<div id='widget_displayprofilesection_" + widgetUUID + "' class='widget_inline'/>"
                 };
-                structure[widgetUUID] = {
+                structure[ widgetUUID ] = {
                     sectionid: title
                 };
             });
-            sakai.api.Server.batch(initialProfilePost, function(success, data){
-                if (success) {
-                    sakai.api.Content.setACLsOnPath(paths, permissions, sakai.data.me.user.userid, function(success){
-                        if (!success){
-                            debug.error("Error setting initial profile ACLs");
+
+            // Eliminate extra sections in the profile that are hanging around
+            $.each( structure.structure0.profile, function( section_title, section_data ) {
+                if ( $.isPlainObject( section_data ) && !profilestructure.hasOwnProperty( section_title ) ) {
+                    initialProfilePost.push({
+                        "url": "/~" + sakai.data.me.user.userid + "/public/authprofile/" + section_title,
+                        "method": "POST",
+                        "parameters": {
+                            ":operation": "delete"
                         }
                     });
-                } else {
-                    debug.error("Error saving initial profile fields");
                 }
             });
+
+            if ( isMe && initialProfilePost.length ) {
+                updateStructure = true;
+                sakai.api.Server.batch(initialProfilePost, function(success, data){
+                    if (success) {
+                        sakai.api.Content.setACLsOnPath(paths, permissions, sakai.data.me.user.userid, function(success){
+                            if (!success){
+                                debug.error("Error setting initial profile ACLs");
+                            }
+                        });
+                    } else {
+                        debug.error("Error saving initial profile fields");
+                    }
+                });
+            }
+
             structure.structure0.profile = profilestructure;
             structure.structure0.profile._ref = firstWidgetRef;
+            return updateStructure;
         };
 
         var continueLoadSpaceData = function(userid){
@@ -117,10 +154,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
                     var refid = {"refid": sakai.api.Util.generateWidgetId()};
                     pubdata = sakai.api.Util.replaceTemplateParameters(refid, pubdata);
-                    if (pubdata.structure0.profile) {
-                        setupProfile(pubdata);
-                    }
-                    publicToStore = $.extend(true, {}, pubdata);
                 } else {
                     pubdata = data;
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
@@ -131,19 +164,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         pubdata.structure0[i] = determineUserAreaPermissions(pubdata.structure0[i]);
                     }
                 }
+                if ( pubdata.structure0.profile && setupProfile( pubdata, isMe ) ) {
+                    publicToStore = $.extend(true, {}, pubdata);
+                }
                 if (isMe){
                     sakai.api.Server.loadJSON(privurl, function(success2, data2){
                         if (!success2){
                             privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
                             var refid = {"refid": sakai.api.Util.generateWidgetId()};
                             privdata = sakai.api.Util.replaceTemplateParameters(refid, privdata);
-                            if (privdata.structure0.profile) {
-                                setupProfile(privdata);
-                            }
-                            privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;
                             privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
+                            // privdata = cleanProfile( privdata );
+                        }
+                        if ( privdata.structure0.profile && setupProfile( privdata, isMe ) ) {
+                            privateToStore = $.extend(true, {}, privdata);
                         }
                         if (publicToStore) {
                             if ($.isPlainObject(publicToStore.structure0)) {
@@ -183,7 +219,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else {
                 continueLoadSpaceData(userid);
             }
-            
+
         };
 
         var addCounts = function(){
