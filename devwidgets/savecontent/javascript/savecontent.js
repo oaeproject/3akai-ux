@@ -133,39 +133,47 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveContent = function(id){
             if (id) {
                 $savecontent_save.attr("disabled", "disabled");
-                sakai.api.Content.addToLibrary(currentSelected, id, false, function(contentId, entityId) {
-                    // cache the content locally
-                    var thisContent = dataCache[contentId];
-                    $(window).trigger("done.newaddcontent.sakai", [[thisContent], entityId]);
-                    newlyShared[entityId] = newlyShared[entityId] || [];
-                    _.uniq($.merge(newlyShared[entityId], [thisContent]));
-                    _.uniq($.merge(allNewlyShared, [thisContent]));
-                    if (entityId === sakai.data.me.user.userid) {
-                        sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
-                    } else if (sakai.api.Content.Collections.isCollection(entityId)){
-                         var notificationBody = decodeURIComponent($("#savecontent_collection_add_library_body").html());
-                         notificationBody = notificationBody.replace("${collectionid}", sakai.api.Security.safeOutput(entityId.substring(2)));
-                         notificationBody = notificationBody.replace("${collectiontitle}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
-                         sakai.api.Util.notification.show($("#savecontent_collection_add_library_title").html(), notificationBody);
-                    } else {
-                        var notificationBody = decodeURIComponent($("#savecontent_group_add_library_body").html());
-                        notificationBody = notificationBody.replace("${groupid}", sakai.api.Security.safeOutput(entityId));
-                        notificationBody = notificationBody.replace("${grouplibrary}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
-                        sakai.api.Util.notification.show($("#savecontent_group_add_library_title").html(), notificationBody);
-                    }
-                    if(!dataCache[currentSelected]["sakai:pooled-content-viewer"]){
-                        dataCache[currentSelected]["sakai:pooled-content-viewer"] = [];
-                    }
-                    dataCache[currentSelected]["sakai:pooled-content-viewer"].push(entityId);
-                    if (sakai_global.content_profile) {
-                        sakai_global.content_profile.content_data.members.viewers.push({
-                            "userid": entityId
-                        });
-                    }
-                    hideSavecontent();
-                });
+                if (sakai.api.Content.Collections.isCollection(dataCache[currentSelected])){
+                    sakai.api.Content.Collections.shareCollection(currentSelected, id, false, function(){
+                        finishSaveContent(currentSelected, id);
+                    });
+                } else {
+                    sakai.api.Content.addToLibrary(currentSelected, id, false, finishSaveContent);
+                }
             }
         };
+
+        var finishSaveContent = function(contentId, entityId){
+            // cache the content locally
+            var thisContent = dataCache[contentId];
+            $(window).trigger("done.newaddcontent.sakai", [[thisContent], entityId]);
+            newlyShared[entityId] = newlyShared[entityId] || [];
+            _.uniq($.merge(newlyShared[entityId], [thisContent]));
+            _.uniq($.merge(allNewlyShared, [thisContent]));
+            if (entityId === sakai.data.me.user.userid) {
+                sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
+            } else if (sakai.api.Content.Collections.isCollection(entityId)){
+                 var notificationBody = decodeURIComponent($("#savecontent_collection_add_library_body").html());
+                 notificationBody = notificationBody.replace("${collectionid}", sakai.api.Security.safeOutput(entityId.substring(2)));
+                 notificationBody = notificationBody.replace("${collectiontitle}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
+                 sakai.api.Util.notification.show($("#savecontent_collection_add_library_title").html(), notificationBody);
+            } else {
+                var notificationBody = decodeURIComponent($("#savecontent_group_add_library_body").html());
+                notificationBody = notificationBody.replace("${groupid}", sakai.api.Security.safeOutput(entityId));
+                notificationBody = notificationBody.replace("${grouplibrary}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
+                sakai.api.Util.notification.show($("#savecontent_group_add_library_title").html(), notificationBody);
+            }
+            if(!dataCache[currentSelected]["sakai:pooled-content-viewer"]){
+                dataCache[currentSelected]["sakai:pooled-content-viewer"] = [];
+            }
+            dataCache[currentSelected]["sakai:pooled-content-viewer"].push(entityId);
+            if (sakai_global.content_profile) {
+                sakai_global.content_profile.content_data.members.viewers.push({
+                    "userid": entityId
+                });
+            }
+            hideSavecontent();
+        }
 
         enableDisableAddButton = function(){
             var dropdownSelection = $("#savecontent_select option:selected", $rootel);

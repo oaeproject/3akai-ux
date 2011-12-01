@@ -1459,6 +1459,9 @@ define(
                 });
             },
 
+            /**
+             * Retrieve the number of collections that are in my library
+             */
             getMyCollectionsCount: function(){
                 var count = 0;
                 var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
