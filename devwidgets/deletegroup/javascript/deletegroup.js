@@ -80,7 +80,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Add binding to the delete button
             $deletegroup_action_delete.unbind("click").bind("click", function () {
                 sakai.api.Groups.deleteGroup(deletedata["sakai:group-id"], sakai.data.me, function(success){
-                    debug.log("success: "+success);
                     if (success){
                         sakai.api.Util.notification.show($deletegroup_deleted.html(),
                             $deletegroup_successfully_deleted.html());
@@ -88,10 +87,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Util.notification.show($deletegroup_not_deleted.html(),
                             $deletegroup_not_successfully_deleted.html());
                     }
+                    if ($.isFunction(callback)) {
+                        callback(success);
+                    }
+                    $(window).trigger("done.deletegroup.sakai", [deletedata]);
+                    $deletegroup_dialog.jqmHide();
                 });
 
-                $(window).trigger("done.deletegroup.sakai", [deletedata]);
-                $deletegroup_dialog.jqmHide();
                 return false;
             });
         };
@@ -112,7 +114,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             deletedata = $.extend(true, {}, data);
             addBinding(callback);
             currentTemplate = sakai.api.Groups.getTemplate(deletedata["sakai:category"], deletedata["sakai:templateid"]);
-            $deletegroup_category.html(sakai.api.i18n.General.process(currentTemplate.title));
+            $deletegroup_category.html(sakai.api.i18n.getValueForKey(currentTemplate.title));
             $deletegroup_title.html(sakai.api.Util.Security.safeOutput(data["sakai:group-title"]));
             $deletegroup_dialog.jqmShow();
         };

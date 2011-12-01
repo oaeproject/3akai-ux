@@ -203,7 +203,6 @@ define(
             sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
                 if (success && data) {
                     var groupArray = groupID;
-                    //var groupArray = [groupID];
                     var pseudoGroupReqs = [];
                     groupAuthData = data;
 
@@ -226,9 +225,7 @@ define(
                                         }
                                     }
                                     if (!managementGroup || (managementGroup && managementGroup !== pseudoGroupID)) {
-                                        //sakaiGroupsAPI.deleteGroup(pseudoGroupID);
                                         groupArray = groupArray + "," + pseudoGroupID;
-                                        //groupArray.push(pseudoGroupID);
                                         pseudoGroupReqs.push({
                                             url: "/~" + pseudoGroupID,
                                             method: "POST",
@@ -238,9 +235,7 @@ define(
                                 }
                             }
                             if (managementGroup){
-                                //sakaiGroupsAPI.deleteGroup(managementGroup);
                                 groupArray = groupArray + "," + managementGroup;
-                                //groupArray.push(managementGroup);
                                 pseudoGroupReqs.push({
                                     url: "/~" + managementGroup,
                                     method: "POST",
