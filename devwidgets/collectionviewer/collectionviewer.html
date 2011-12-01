@@ -12,9 +12,6 @@
             <div class="s3d-listview-list" id="collectionviewer_list_view">
                 <div class="s3d-action-icon s3d-search-results-listview"></div>
             </div>
-            <div class="s3d-listview-blog" id="collectionviewer_blog_view">
-                <div class="s3d-action-icon s3d-search-results-blogview"></div>
-            </div>
             <div class="s3d-listview-carousel" id="collectionviewer_carousel_view">
                 <div class="s3d-action-icon s3d-search-results-carouselview"></div>
             </div>
@@ -109,7 +106,7 @@
         </li>
     {/macro}
 
-    <ul {if grid} class="s3d-search-results-grid"{/if}>
+    <ul {if grid} class="s3d-search-results-grid collectionviewer_list_grid_container"{else} class="collectionviewer_list_grid_container"{/if}>
         {for i in items}
             {if i['sakai:pooled-content-file-name']}
                 ${listContent(i, sakai)}

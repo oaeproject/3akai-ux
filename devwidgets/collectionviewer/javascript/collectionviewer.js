@@ -142,11 +142,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        // BLOG //
-        var renderBlog = function(){
-            
-        };
-
 
         ///////////////////////
         // UTILITY FUNCTIONS //
@@ -187,10 +182,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "list":
                     $("#collectionviewer_list_view,#collectionviewer_list_view > div", $rootel).addClass("selected");
                     renderGridOrList(false);
-                    break;
-                case "blog":
-                    $("#collectionviewer_blog_view,#collectionviewer_blog_view > div", $rootel).addClass("selected");
-                    renderBlog();
                     break;
             }
         };
@@ -284,10 +275,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#collectionviewer_list_view").live("click", function(){
                 $.bbq.pushState({"ls":"list"});
-            });
-
-            $("#collectionviewer_blog_view").live("click", function(){
-                $.bbq.pushState({"ls":"blog"});
             });
 
             $(window).bind("hashchanged.collectionviewer.sakai", handleHashChange);

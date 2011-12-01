@@ -36,7 +36,7 @@
 .collectionviewer_widget #collectionviewer_sortby {border:1px solid #A9A9A9;}
 .collectionviewer_widget #collectionviewer_paging {clear:both;display:block;}
 
-.collectionviewer_widget ul#collectionviewer_collection_items_list {margin:0;}
+.collectionviewer_widget ul#collectionviewer_collection_items_list, .collectionviewer_widget .collectionviewer_list_grid_container {margin:0;}
 .collectionviewer_widget ul#collectionviewer_collection_items_list .collectionviewer_item_title {font-size:14px !important;}
 .collectionviewer_widget .collectionviewer_collection_item_container {background-color:#fff !important;border:none !important;padding:7px 12px !important;margin-bottom:4px;list-style:none;border-radius:4px !important;-moz-border-radius:4px !important;-webkit-border-radius:4px !important;box-shadow:1px 1px 1px #BABABA;-moz-box-shadow:1px 1px 1px #BABABA;-webkit-box-shadow:1px 1px 1px #BABABA;}
 
