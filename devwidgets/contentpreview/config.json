@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/contentpreview/bundles/default.properties",
-            "name":"Content Preview",
-            "description":"Content Preview"
+            "name":"Content preview",
+            "description":"Content preview"
         }
     },
     "url":"/devwidgets/contentpreview/contentpreview.html"

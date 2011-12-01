@@ -7,17 +7,55 @@ require(
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
 
     module("Server Object Removal");
 
-    var dummyObject = {
+    var serverObject = {
         "name":"dummy",
         "version":"dummy version",
         "jcr:primaryType":"dummy primary type",
         "_created":"dummy created",
         "_createdBy":"dummy createdby",
-        "jcr:mixinTypes":"dummy mixin type"
+        "jcr:mixinTypes":"dummy mixin type",
+        "objects": {
+            "jcr:object1": "object1",
+            "object2": [
+                "jcr:arrayVal1",
+                "arrayVal2"
+            ],
+            "object3": "zzzz"
+        },
+        "arrayOfObjects": [
+            {
+                "jcr:nestedObj1": "nestedObj1"
+            },
+            {
+                "jcr:nestedObj2": "nestedObj2"
+            },
+            {
+                "nestedObj3": "nestedObj3"
+            }
+        ]
+    };
+
+    var cleanedObj = {
+        "name":"dummy",
+        "version":"dummy version",
+        "objects": {
+            "object2": [
+                "jcr:arrayVal1",
+                "arrayVal2"
+            ],
+            "object3": "zzzz"
+        },
+        "arrayOfObjects": [
+            {},
+            {},
+            {
+                "nestedObj3": "nestedObj3"
+            }
+        ]
     };
 
     /**
@@ -25,19 +63,10 @@ require(
      */
     var testJCRRemoval = function(){
 
-        //remove all the jcr objects from the dummyobject
-        dummyObject = sakai.api.Server.removeServerCreatedObjects(dummyObject, ["_", "jcr:"]);
+        // remove all the jcr: and _-prefixed objects from the dummyobject
+        var thisCleanedObj = sakai.api.Server.removeServerCreatedObjects(serverObject, ["_", "jcr:"]);
 
-        //get the amount of properties
-        var objCount=0;
-        for(var p in dummyObject){
-            if(dummyObject.hasOwnProperty(p)){
-                objCount++;
-            }
-        }
-
-        //check if it is the same as expected
-        same(objCount, 2,"Checking if removal went well by checking amount of left properties");
+        same(thisCleanedObj, cleanedObj,"Checking if removal went well by checking amount of left properties");
 
     };
 

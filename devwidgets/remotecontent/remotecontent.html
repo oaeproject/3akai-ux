@@ -13,8 +13,9 @@
         <div id="remotecontent_settings_template"><!--
             <form id="remotecontent_form">
                 <div class="remotecontent_settings_subcontainer">
-                    <div class="remotecontent_settings_url_input">
-                        <label class="remotecontent_settings_label_head">__MSG__REMOTE_CONTENT_WEB_ADDRESS_URL__:</label> <input type="text" id="remotecontent_settings_url" value="${url}" class="required appendhttp url"/>
+                    <div class="remotecontent_settings_url_input s3d-form-field-wrapper">
+                        <label class="s3d-input-label remotecontent_settings_label_head s3d-input-label-above" for="remotecontent_settings_url">__MSG__REMOTE_CONTENT_WEB_ADDRESS_URL__:</label>
+                        <input type="text" id="remotecontent_settings_url" name="remotecontent_settings_url" value="${url}" class="required appendhttp url s3d-input-full-width"/>
                         <span class="remotecontent_settings_url_help">__MSG__PLEASE_PASTE_OR_ENTER_THE_ADDRESS__</span>
                     </div>
                     <span class="remotecontent_settings_error" id="remotecontent_settings_url_blank" style="display:none;">__MSG__YOU_HAVENT_ENTERED_AN_ADDRESS__</span>
@@ -59,7 +60,7 @@
                 <div class="dialog_buttons">
                     <div class="remotecontent_buttons">
                         <button type="button" id="remotecontent_settings_cancel" class="s3d-link-button s3d-bold jqmClose">__MSG__DONT_SAVE__</button>
-                        <button type="button" id="remotecontent_settings_insert" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
+                        <button type="button" id="remotecontent_settings_insert" class="s3d-button s3d-overlay-action-button">__MSG__SAVE__</button>
                     </div>
                 </div>
             </form>

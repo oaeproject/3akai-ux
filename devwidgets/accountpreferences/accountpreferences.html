@@ -27,21 +27,21 @@
                     <h4 class="section_header">
                         __MSG__PASSWORD__:
                     </h4>
-                    <form id="accountpreferences_password_change" class="preferences-form" method="POST" action="#">
-                        <div class="form-item">
+                    <form id="accountpreferences_password_change" class="preferences-form">
+                        <div class="form-item s3d-form-field-wrapper">
                             <label for="curr_pass">__MSG__CURRENT_PASSWORD__:</label>
-                            <input maxlength="255" type="password" id="curr_pass" name="curr_pass" class="password-preferences-input" />
+                            <input maxlength="255" type="password" id="curr_pass" name="curr_pass" class="password-preferences-input required" />
                         </div>
-                        <div class="form-item">
+                        <div class="form-item s3d-form-field-wrapper">
                             <label for="new_pass">__MSG__NEW_PASSWORD__:</label>
-                            <input maxlength="255" type="password" id="new_pass" name="new_pass" class="password-preferences-input" />
+                            <input maxlength="255" type="password" id="new_pass" name="new_pass" class="password-preferences-input required" />
                         </div>
-                        <div class="form-item">
+                        <div class="form-item s3d-form-field-wrapper">
                             <label for="retype_pass">__MSG__RETYPE_NEW_PASSWORD__:</label>
-                            <input maxlength="255" type="password" id="retype_pass" name="retype_pass" class="password-preferences-input" />
+                            <input maxlength="255" type="password" id="retype_pass" name="retype_pass" class="password-preferences-input required" />
                         </div>
                         <div class="save-preferences">
-                            <button type="submit" id="accountpreferences_saveNewPass" class="s3d-button s3d-overlay-button">__MSG__SAVE_CHANGES__</button>
+                            <button type="submit" id="accountpreferences_saveNewPass" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_CHANGES__</button>
                             <div class="accountpreferences_general_message" id="accountpreferences_general_message_pass"></div>
                         </div>
                     </form>
@@ -132,7 +132,7 @@
                             </select>
                         </div>
                         <div class="save-preferences">
-                            <button type="button" id="accountpreferences_submitRegional" class="s3d-button s3d-overlay-button">__MSG__SAVE_CHANGES__</button>
+                            <button type="button" id="accountpreferences_submitRegional" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_CHANGES__</button>
                             <div class="accountpreferences_general_message" id="accountpreferences_general_message_regional"></div>
                         </div>
                     </form>

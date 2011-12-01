@@ -88,8 +88,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
         // Add new topic
         var discussionAddNewTopic = "#discussion_add_new_topic";
-        var discussionDontAddTopic= "#discussion_dont_add_topic";
-        var discussionAddTopic= "#discussion_add_topic";
+        var discussionDontAddTopic = "#discussion_dont_add_topic";
+        var discussionAddTopic = "#discussion_add_topic";
         var discussionCreateNewTopicTitle = "#discussion_create_new_topic_title";
         var discussionCreateNewTopicMessageText = "#discussion_create_new_topic_message_text";
         var discussionCreateNewTopicForm = "#discussion_create_new_topic form";
@@ -259,6 +259,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 "settings":parsedSettings,
                 "sakai": sakai
             }, $(discussionListTopicsContainer, $rootel));
+            sakai.api.Util.renderMath(tuid);
         };
 
         var setEllipsis = function(){
@@ -285,7 +286,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 try {
                     renderPosts(response.results);
                     $discussionListTopics.show();
-                    setEllipsis();
 
                     var cookieData = $.parseJSON($.cookie(tuid));
                     // loop through the posts
@@ -534,6 +534,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     $parentDiv.prevAll(discussionTopicRepliesContainer).append(renderedTemplate);
 
                     $parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(parseInt($parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(), 10) + 1);
+                    sakai.api.Util.renderMath(tuid);
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
@@ -548,24 +549,37 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             });
         };
 
-        var doAddReply = function(){
-            var replyParent = $(this).parents(discussionTopicContainer);
-            var topicId = replyParent[0].id.split("discussion_post_")[1];
-            var message = $.trim(replyParent.children(discussionTopicReplyContainer).children(discussionTopicReplyText).val());
+        var doAddReply = function(form){
+            var $replyParent = $(form).parents(discussionTopicContainer);
+            var topicId = $replyParent.attr("id").split("discussion_post_")[1];
+            var message = $.trim($replyParent.find("#discussion_topic_reply_text").val());
 
-            if (message){
-                if(replyParent.children(discussionTopicReplyContainer).children(discussionTopicQuotedText).length && replyParent.children(discussionTopicReplyContainer).children(discussionTopicQuotedText).val()){
-                    message = "[quote='" + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + "']" + $.trim(replyParent.children(discussionTopicReplyContainer).children(discussionTopicQuotedText).val()) + "[/quote]" + message;
+            if (message) {
+                if ($replyParent.find("#discussion_topic_quoted_text").length) {
+                    message = "[quote='" + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + "']" + $replyParent.find("#discussion_topic_quoted_text").val() + "[/quote]" + message;
                 }
 
-                replyToTopic(topicId, message, $(this).parents(discussionTopicReplyContainer));
+                replyToTopic(topicId, message, $(form).parents(discussionTopicReplyContainer));
 
-                var $repliesIcon = replyParent.find(discussionRepliesIcon);
+                var $repliesIcon = $replyParent.find(discussionRepliesIcon);
                 if ($repliesIcon.hasClass(discussionShowRepliesIcon)) {
                     // expand topic reply list
                     $("#discussion_post_" + topicId + " " + discussionShowTopicReplies, $rootel).click();
                 }
                 $(discussionTopicReplyQuotedUser, $rootel).text("");
+            }
+        };
+
+        var saveEdit = function(form) {
+            var editParent = $(form);
+            var id = $(form).parents(s3dHighlightBackgroundClass).attr("id");
+            var body = $.trim(editParent.find(discussionTopicReplyText).val());
+            var quote = $.trim(editParent.find(discussionTopicQuotedText).val());
+            var quoted = $(form).parents(s3dHighlightBackgroundClass).find(discussionReplyContentsTextQuoted).text();
+            var post = $(form).parents(s3dHighlightBackgroundClass);
+
+            if (body) {
+                updatePost(id, body, quote, quoted, post);
             }
         };
 
@@ -642,7 +656,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
                     // Set post data
                     post.find(discussionPostMessage).text(body);
+                    post.find(discussionPostMessage).attr("data-source-text", body);
                     post.find(discussionReplyContentsText).text(quote);
+                    post.find(discussionReplyContentsText).attr("data-source-text", quote);
+                    sakai.api.Util.renderMath(tuid);
 
                     // Set entity data
                     post.children(discussionEntityContainer).find(discussionUpdatingDate).children("span").text(sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date()))));
@@ -724,11 +741,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 getWidgetSettings();
             });
 
-            $(discussionCreateNewTopicForm, $rootel).validate({
-                submitHandler: function(form){
-                    createTopic();
-                }
-            });
+            var validateOpts = {
+                submitHandler: createTopic
+            };
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($(discussionCreateNewTopicForm, $rootel), validateOpts, true);
 
             $(".discussion_show_all_ellipsis_text", $rootel).live("click", function(){
                 $(this).parent().prev().text($(this).parent().prev()[0].title);
@@ -758,11 +775,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             });
 
             // Open quoted reply fields
-            $(discussionQuote, $rootel).live("click", function(){
+            $(discussionQuote, $rootel).live("click", function(e){
                 var replyParent = $(this).parents(discussionTopicContainer);
                 replyParent.find(discussionReplyTopicBottom).hide();
-                var postId = replyParent[0].id.split("discussion_post_")[1];
-                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text(), "quotedMessage":$(this).parent().prev().children(discussionPostMessage).text(), "postId": postId}, replyParent.children(discussionTopicReplyContainer));
+                var postId = replyParent.attr("id").split("discussion_post_")[1];
+                var quotedMessage = $(this).parent().prev().children(discussionPostMessage).attr("data-source-text");
+                var quotedUser = $(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text();
+                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":quotedUser, "quotedMessage":quotedMessage, "postId": postId}, replyParent.children(discussionTopicReplyContainer));
+                var replyValidateOpts = {
+                    submitHandler: doAddReply
+                };
+                sakai.api.Util.Forms.validate($(".discussion_reply_form", $rootel), replyValidateOpts, true);
                 replyParent.children(discussionTopicReplyContainer).show();
                 replyParent.find(discussionTopicReplyText).focus();
             });
@@ -771,8 +794,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             $(discussionReplyTopic, $rootel).live("click", function(){
                 var replyParent = $(this).parents(discussionTopicContainer);
                 replyParent.find(discussionReplyTopicBottom).hide();
-                var postId = replyParent[0].id.split("discussion_post_")[1];
+                var postId = replyParent.attr("id").split("discussion_post_")[1];
                 sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":false, "postId": postId}, replyParent.children(discussionTopicReplyContainer));
+                var replyValidateOpts = {
+                    submitHandler: doAddReply
+                };
+                sakai.api.Util.Forms.validate($(".discussion_reply_form", $rootel), replyValidateOpts, true);
                 replyParent.children(discussionTopicReplyContainer).show();
                 replyParent.find(discussionTopicReplyText).focus();
             });
@@ -784,19 +811,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 }
             });
 
-            // Make the actual reply
-            $(discussionAddReply, $rootel).die("click");
-            $(discussionAddReply, $rootel).live("click", doAddReply);
-
             // DELETE REPLIES //
             // Delete reply
             $(discussionDelete, $rootel).live("click", function(){
-                deletePost($(this).parents(s3dHighlightBackgroundClass)[0].id, true, $(this).parents(s3dHighlightBackgroundClass));
+                deletePost($(this).parents(s3dHighlightBackgroundClass).attr("id"), true, $(this).parents(s3dHighlightBackgroundClass));
             });
 
             // Restore reply
             $(discussionRestore, $rootel).live("click", function(){
-                deletePost($(this).parents(s3dHighlightBackgroundClass)[0].id, false, $(this).parents(s3dHighlightBackgroundClass));
+                deletePost($(this).parents(s3dHighlightBackgroundClass).attr("id"), false, $(this).parents(s3dHighlightBackgroundClass));
             });
 
             $(discussionHideReply, $rootel).live("click", function(){
@@ -812,19 +835,23 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         "edit": true,
                         "quoted": true,
                         "quotedUser": $(this).parents(s3dHighlightBackgroundClass).find(discussionReplyContentsTextQuoted).text(),
-                        "quotedMessage": $.trim($(this).parent().prevAll(discussionQuotedTextContainer).children(discussionReplyContentsText).text()),
-                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).text())
+                        "quotedMessage": $.trim($(this).parent().prevAll(discussionQuotedTextContainer).children(discussionReplyContentsText).attr("data-source-text")),
+                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
                     };
                 } else {
                     renderData = {
                         "edit": true,
                         "quoted": false,
                         "quotedUser": false,
-                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).text())
+                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
                     };
                 }
                 $(this).parents(s3dHighlightBackgroundClass).children( discussionEntityContainer + "," + discussionReplyContents).hide();
                 sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, renderData, $(this).parents(s3dHighlightBackgroundClass).children(discussionEditContainer));
+                var editValidateOpts = {
+                    submitHandler: saveEdit
+                };
+                sakai.api.Util.Forms.validate($(".discussion_edit_form", $rootel), editValidateOpts, true);
             });
 
             $(discussionDontSaveEdit, $rootel).live("click", function(){
@@ -832,18 +859,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 $(this).parents(discussionEditContainer).text("");
             });
 
-            $(discussionSaveEdit, $rootel).live("click", function(){
-                var editParent = $(this).parents(discussionEditContainer);
-                var id = $(this).parents(s3dHighlightBackgroundClass)[0].id;
-                var body = $.trim(editParent.children(discussionTopicReplyText).val());
-                var quote = $.trim(editParent.children(discussionTopicQuotedText).val());
-                var quoted = $(this).parents(s3dHighlightBackgroundClass).find(discussionReplyContentsTextQuoted).text();
-                var post = $(this).parents(s3dHighlightBackgroundClass);
-
-                if (body) {
-                    updatePost(id, body, quote, quoted, post);
-                }
-            });
         };
 
 

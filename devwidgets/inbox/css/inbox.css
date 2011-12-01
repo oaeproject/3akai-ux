@@ -1,3 +1,20 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 /* Title */
 #inbox_box_title_wrapper{text-transform:capitalize;font-weight:normal;}
 .inbox_main, .inbox_main .inbox_name button{font-size:12px;}
@@ -9,12 +26,10 @@
 /* Message Header */
 #inbox_message_header{float:left;width:100%;padding:5px 0 18px;}
 #inbox_select span{font-size:9px;}
-#inbox_search_messages{width:34%;padding:2px;float:right;margin-right:50px;}
-#inbox_search_messages:disabled{background-color:#fff;}
-#inbox_search_messages{background:url(/devwidgets/topnavigation/images/topnav_search_icon.png) 98% 2px no-repeat;}
-#inbox_select_options{position:absolute;top:-10000px;left:-10000px;width:60px;background-color:#F4F4F4;z-index:999;box-shadow:0px 0px 5px 0px #aaa;-moz-box-shadow:0px 0px 5px 0px #aaa;-webkit-box-shadow:0px 0px 5px 0px #aaa;}
-#inbox_select_options ul{margin:0;padding:2px;}
-#inbox_select_options ul li{list-style:none;}
+#inbox_search_messages{width:290px;}
+.s3d-search-container.inbox-message-list-view {float:right;margin-top:5px;}
+#inbox_search_messages[disabled]{background-color:#fff;opacity:0.4;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";filter: alpha(opacity=40);}
+#inbox_select {padding: 3px;}
 /* Inbox Columns */
 .inbox_col{float:left;}
 .inbox_left_col{width:10%;}
@@ -58,15 +73,11 @@
 /* Message detail - reply */
 #inbox_show_message_reply{float:left;width:79%;margin-left:25px;border-top:1px dotted #d4d4d4;padding-top:10px;}
 #inbox_show_message_reply .sendmessage_send_form{padding:0;}
-#inbox_show_message_reply .send_message ul.as-selections{width:100%;margin:5px 0px 10px 0px;}
 #inbox_show_message_reply .message_dialog{width:92%;float:left;}
-#inbox_show_message_reply textarea{width:100%;height:100px;}
+#inbox_show_message_reply textarea{height:100px;}
 #inbox_show_message_reply #send_message_cancel{display:none;}
 /* New Message */
 #inbox_new_message{width:90%;padding:10px;background-color:#f4f4f4;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;box-shadow:0px 0px 5px 0px #ccc;-moz-box-shadow:0px 0px 5px 0px #ccc;-webkit-box-shadow:0px 0px 5px 0px #ccc;}
-#inbox_new_message .send_message .compose-form .compose-subject,
-#inbox_new_message .send_message .compose-form .compose-body,
-#inbox_new_message .send_message .compose-form ul.as-selections{width:100%}
 #inbox_new_message .send_message .compose-form .compose-body{height:100px;}
 /* Replies */
 #inbox_show_message_replies{float:left;width:79%;margin-left:25px;}

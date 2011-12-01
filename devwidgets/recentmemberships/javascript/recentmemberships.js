@@ -196,7 +196,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getGroupInfo = function(newjson){
             newjson.entry[0].displayLinkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.Security.safeOutput(newjson.entry[0]["sakai:group-title"]));
-            $(recentmembershipsItem, rootel).html(sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,newjson));
+            $(recentmembershipsItem, rootel).html(sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,{
+                "entry": newjson.entry,
+                "sakai": sakai
+            }));
 
             // get related content for group
             var params = {

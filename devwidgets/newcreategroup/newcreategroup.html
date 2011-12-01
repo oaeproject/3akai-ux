@@ -3,29 +3,22 @@
 
 <!-- CONTAINER -->
 <div id="newcreategroup_container" style="display:none;">
-    <h1>__MSG__CREATE_A__ <span class="newcreategroup_template_name"></span></h1>
+    <h1>__MSG__CREATE_A__ <span class="s3d-lowercase newcreategroup_template_name"></span></h1>
     <hr/>
 
-    <div id="newcreategroup_group_members_container">
-        <div id="newcreategroup_group_members_none_added_container">
-            <button type="button" class="s3d-button s3d-overlay-button grey newcreategroup_add_people">__MSG__ADD_PEOPLE__</button>
-            __MSG__NO_MEMBERS_ADDED__
-            <span class="newcreategroup_small_text">__MSG__YOU_CAN_ADD_OR_EDIT_MEMBERS__</span>
-        </div>
-        <div  id="newcreategroup_group_members_added_container" style="display:none;"><!----></div>
-    </div>
-
-    <div id="newcreategroup_group_data_container">
-        <form id="newcreategroup_group_form">
-            <label for="newcreategroup_title">__MSG__TITLE__:</label>
-            <input type="text" id="newcreategroup_title" name="newcreategroup_title" class="required"/>
-            <label for="newcreategroup_suggested_url">__MSG__SUGGESTED_URL__:</label>
-            <span id="newcreategroup_suggested_url_base"></span><input type="text" id="newcreategroup_suggested_url" name="newcreategroup_suggested_url" class="required"/>
-            <label for="newcreategroup_description">__MSG__DESCRIPTION__:</label>
-            <textarea id="newcreategroup_description" name="newcreategroup_description" placeholder="__MSG__ENTER_A_DESCRIPTION__"></textarea>
-            <label for="newcreategroup_tags">__MSG__TAGS__:</label>
-            <textarea id="newcreategroup_tags" name="newcreategroup_tags" placeholder="__MSG__ENTER_TAGS__"></textarea>
-
+    <form id="newcreategroup_group_form" action="#">
+        <div id="newcreategroup_group_data_container">
+            <div class="s3d-form-field-wrapper">
+              <label id="newcreategroup_title_label" for="newcreategroup_title" class="s3d-input-label s3d-input-label-above">__MSG__TITLE__:</label>
+              <input type="text" id="newcreategroup_title" name="newcreategroup_title" class="required s3d-input-full-width"/>
+              <label id="newcreategroup_suggested_url_label" for="newcreategroup_suggested_url" class="s3d-input-label s3d-input-label-above">__MSG__SUGGESTED_URL__:</label>
+              <span id="newcreategroup_suggested_url_base"></span>
+              <input type="text" id="newcreategroup_suggested_url" name="newcreategroup_suggested_url" class="required uniquegroupname s3d-error-calculate"/>
+              <label for="newcreategroup_description" class="s3d-input-label s3d-input-label-above">__MSG__DESCRIPTION__:</label>
+              <textarea id="newcreategroup_description" name="newcreategroup_description" placeholder="__MSG__ENTER_A_DESCRIPTION__" class="s3d-input-full-width"></textarea>
+              <label for="newcreategroup_tags" class="s3d-input-label-above">__MSG__TAGS__:</label>
+              <textarea id="newcreategroup_tags" name="newcreategroup_tags" placeholder="__MSG__ENTER_TAGS__" class="s3d-input-full-width"></textarea>
+            </div>
             <div class="newcreategroup_section">
                 <label for="newcreategroup_can_be_found_in">__MSG__CAN_BE_FOUND_BY__:</label>
                 <select id="newcreategroup_can_be_found_in" name="newcreategroup_can_be_found_in">
@@ -43,13 +36,20 @@
                     <option value="no">__MSG__JOIN_MANAGER_ADD__</option>
                 </select>
             </div>
-        </form>
-    </div>
-
-    <div id="newcreategroup_group_actions">
-        <button id="newcreategroup_cancel_create" type="button" class="s3d-link-button s3d-bold">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button newcreategroup_create_simple_group">__MSG__CREATE__ <span class="newcreategroup_template_name"></span></button>
-    </div>
+        </div>
+        <div id="newcreategroup_group_members_container">
+            <div id="newcreategroup_group_members_none_added_container">
+                <button type="button" class="s3d-button s3d-overlay-button grey newcreategroup_add_people">__MSG__ADD_PEOPLE__</button>
+                __MSG__NO_MEMBERS_ADDED__
+                <span class="newcreategroup_small_text">__MSG__YOU_CAN_ADD_OR_EDIT_MEMBERS__</span>
+            </div>
+            <div  id="newcreategroup_group_members_added_container" style="display:none;"><!----></div>
+        </div>
+        <div id="newcreategroup_group_actions">
+            <button id="newcreategroup_cancel_create" type="button" class="s3d-link-button s3d-bold">__MSG__CANCEL__</button>
+            <button type="submit" class="s3d-button s3d-overlay-button newcreategroup_create_simple_group">__MSG__CREATE__ <span class="s3d-lowercase newcreategroup_template_name"></span></button>
+        </div>
+    </form>
 
     <div id="newcreategroup_group_members_selected_template"><!--
         <button type="button" class="s3d-button s3d-overlay-button grey newcreategroup_add_people">__MSG__ADD_MORE_PEOPLE__</button>
@@ -74,7 +74,7 @@
                 {/for}
             </ul>
         </div>
-        <textarea id="newcreategroup_members_message" placeholder="__MSG__ENTER_A_MESSAGE__"></textarea>
+        <textarea id="newcreategroup_members_message" placeholder="__MSG__ENTER_A_MESSAGE__" title="__MSG__ENTER_A_MESSAGE__"></textarea>
     --></div>
 
     <div id="newcreategroup_members_message_template"><!--
@@ -84,6 +84,14 @@
 
  __MSG__YOU_CAN_FIND_IT_HERE_URL__
     --></div>
+
+    <div id="newcreategroup_members_message_template_unprocessed" style="display:none">
+ __MSG__HI__
+
+ __MSG__USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME__
+
+ __MSG__YOU_CAN_FIND_IT_HERE_URL__
+    </div>
 
     <div id="newcreategroup_creating" class="s3d-dialog s3d-dialog-container" style="display:none;"></div>
 

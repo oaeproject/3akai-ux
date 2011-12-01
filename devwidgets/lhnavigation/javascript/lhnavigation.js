@@ -359,19 +359,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var orderedItems = [],
                 alreadyAdded = [],
                 order = 0;
-            $.each(items, function(idx, item) {
-                var toAdd = getLowestOrderItem(items, alreadyAdded);
-                var itemToAdd = toAdd[1],
-                    itemID = toAdd[0];
-                if (toAdd) {
-                    itemToAdd._order = order;
-                    order++;
-                    itemToAdd._id = itemID;
-                    itemToAdd._elements = orderItems(itemToAdd);
-                    orderedItems.push(itemToAdd);
-                    alreadyAdded.push(itemID);
-                }
-            });
+            if (items) {
+                $.each(items, function(idx, item){
+                    var toAdd = getLowestOrderItem(items, alreadyAdded);
+                    var itemToAdd = toAdd[1], itemID = toAdd[0];
+                    if (toAdd) {
+                        itemToAdd._order = order;
+                        order++;
+                        itemToAdd._id = itemID;
+                        itemToAdd._elements = orderItems(itemToAdd);
+                        orderedItems.push(itemToAdd);
+                        alreadyAdded.push(itemID);
+                    }
+                });
+            }
             return orderedItems;
         };
 
@@ -512,7 +513,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "title": pageTitle
             };
             if (newPageMode) {
-                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
+                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown, newPageMode]);
                 contextMenuHover = {
                     path: currentPageShown.path,
                     ref: currentPageShown.ref,
@@ -608,7 +609,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var newpageid = sakai.api.Util.generateWidgetId();
             var neworder = pubstructure.orderedItems.length;
 
-            var pageContent = "Default content";
+            var pageContent = "";
             var pageToCreate = {
                 "_ref": newpageid,
                 "_title": "Untitled Page",
@@ -656,7 +657,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var fullRef = currentPageShown.pageSavePath.split("/p/")[1] + "-" + newpageid;
             var basePath = currentPageShown.path.split("/")[0];
 
-            var pageContent = "Default content";
+            var pageContent = "";
             var pageToCreate = {
                 "_ref": fullRef,
                 "_title": "Untitled Page",
@@ -938,13 +939,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var handleReorder = function(e, ui) {
             var $target = $(e.target);
-            var savePath = $target.children("li:first").data("sakai-savepath");
+            var savePath = $target.parents(".lhnavigation_menuitem:first").data("sakai-savepath");
             var structure = sakaiDocsInStructure[savePath];
+            var $list = $target.parents("ul div.lhnavigation_menu_list");
+            if ($target.parents("ul.lhnavigation_subnav").length){
+                $list = $target.parents("ul.lhnavigation_subnav");
+            }
             var area = privstructure;
-            if ($target.data("sakai-space") === "public") {
+            if ($list.data("sakai-space") === "public") {
                 area = pubstructure;
             }
-            $target.children("li").each(function(i, elt) {
+            $list.children("li").each(function(i, elt) {
                 var path = ""+$(elt).data("sakai-path");
                 var struct0path = path;
                 if ($(elt).data("sakai-ref").indexOf("-") === -1) {
@@ -1118,8 +1123,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         return false;
                     }
                     // check if next menu structure
-                    else if ($el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").length){
-                        $el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").focus();
+                    else if ($el.parents(".lhnavigation_menu_list").nextAll("div:first").children("li:first").children("div").children("a").length){
+                        $el.parents(".lhnavigation_menu_list").nextAll("div:first").children("li:first").children("div").children("a").focus();
                         return false;
                     }
                 }
@@ -1136,8 +1141,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         return false;
                     }
                     // find next menu structure
-                    else if ($el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").length){
-                        $el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").focus();
+                    else if ($el.parents(".lhnavigation_menu_list").nextAll("div:first").children("li:first").children("div").children("a").length){
+                        $el.parents(".lhnavigation_menu_list").nextAll("div:first").children("li:first").children("div").children("a").focus();
                         return false;
                     }
                 }
@@ -1156,13 +1161,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         return false;
                     }
                     // check if next menu structure
-                    else if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").length){
+                    else if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").length){
                         // check if sub menu open
-                        if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("ul:visible").length){
-                            $el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("ul:visible").children("li:last").find("a").focus()
+                        if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").length){
+                            $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").children("li:last").find("a").focus()
                             return false;
-                        } else if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("div").children("a").length){
-                            $el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("div").children("a").focus();
+                        } else if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("div").children("a").length){
+                            $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("div").children("a").focus();
                             return false;
                         }
                     }

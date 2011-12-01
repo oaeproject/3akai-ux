@@ -2,8 +2,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/uploadcontent/bundles/default.properties",
-            "name": "Upload Content",
-            "description": "Upload content to Sakai3"
+            "name": "Upload content",
+            "description": "Upload content to Sakai OAE"
         }
     },
     "id": "uploadcontent",

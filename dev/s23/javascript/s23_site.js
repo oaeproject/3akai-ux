@@ -114,7 +114,7 @@ sakai_global.s23_site = function(){
      */
     var loadPageTools = function(){
 
-        var pageid = $.bbq.getState("tool");
+        var pageid = $.bbq.getState("page");
         if (pageid) {
 
             // Remove the active class from the previous selected item
@@ -229,7 +229,26 @@ sakai_global.s23_site = function(){
                             nextset[0].attr("src", nextset[1]);
                         }
                     });
-                    firstFrame.attr("src", firstFrameSrcUrl);
+                    if (sakai.config.hybridCasHost){
+                        // check for CLE session cookie
+                        if ($.cookie('JSESSIONID')){
+                            firstFrame.attr("src", firstFrameSrcUrl);
+                        } else {
+                            $.ajax({
+                                url: "/system/sling/cas/proxy?t=https://" + sakai.config.hybridCasHost + "/sakai-login-tool/container",
+                                success: function(data){
+                                    $.ajax({
+                                        url: "/sakai-login-tool/container?ticket=" + data["proxyticket"],
+                                        success: function(){
+                                            firstFrame.attr("src", firstFrameSrcUrl);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    } else {
+                        firstFrame.attr("src", firstFrameSrcUrl);
+                    }
                 }
             }
         }
@@ -277,7 +296,7 @@ sakai_global.s23_site = function(){
             // Set the title of the page
             entityReady = true;
             renderEntity();
-            document.title += " " + sakai.api.Security.saneHTML(completeJSON.site.title)
+            document.title += " " + sakai.api.Security.saneHTML(completeJSON.site.title);
 
             // Render the menu of the workspace
             s23SiteMenuContainer.html(sakai.api.Util.TemplateRenderer(s23SiteMenuContainerTemplate, completeJSON));
@@ -285,11 +304,11 @@ sakai_global.s23_site = function(){
             // Create xid's
             createxids();
 
-            if ($.bbq.getState("tool")) {
+            if ($.bbq.getState("page")) {
                 // If the pageid was passed in through the URL. This will sometimes be
                 // the result of a Sakai 2 portal being rewritten from:
                 // portal/site/{siteid}/page/{pageid}
-                loadPageTools($.bbq.getState("tool"));
+                loadPageTools($.bbq.getState("page"));
             }
             else {
                 // Pretend like you clicked on the first page

@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 #sakaidocs_edit_cancel_button {font-size: 12px !important; margin-right: 10px; font-weight: bold;}
 
 /** Insert Dropdown **/
@@ -32,3 +31,5 @@
 .context_more .more_option {padding: 1px 0 1px 9px;}
 .MathJax_Display {margin: 0px !important;}
 #fl-tab-content-editor{overflow:hidden;}
+.sakaidocs_default_editable_content_imagecontainer {background:url("/dev/images/emptydocument_editor_placeholder.jpg") no-repeat scroll left top transparent;display:block;height:228px;margin:4px auto;width:462px;}
+.sakaidocs_default_viewable_content_imagecontainer {background:url("/dev/images/emptydocument_viewer_placeholder.jpg") no-repeat scroll left top transparent !important;width:156px !important;height:154px !important;margin:4px auto; position: relative; top: 70px; margin-bottom: 90px;}

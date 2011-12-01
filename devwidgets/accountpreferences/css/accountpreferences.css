@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /** MAIN CONTENT **/
 #accountpreferences_container { width: 580px; margin-left:-280px !important;}
 .accountpreferences .section_header{color:#5A697B;font-size:1.1em;}
@@ -27,3 +26,4 @@
 .accountpreferences .preferences-form{margin-top:25px;}
 .accountpreferences .preferences-form select{height:21px;width:330px;}
 div.accountpreferences_error{color:#9F3333;font-weight:bold;left:180px;position:relative;top:5px;width:300px;}
+.accountpreferences .s3d-form-field-wrapper span.s3d-error{margin-left:175px;width:330px;}

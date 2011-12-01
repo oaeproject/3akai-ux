@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,14 +15,13 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /* General */
 #carousel_container {padding:5px 12px;}
 #carousel_container h1{color: #424242;font-size: 13px; margin-bottom:10px;}
 #carousel_container h2{margin-top: 0px;display:inline;}
 #carousel_container .carousel_item_title {display:block;font-size:12px;overflow:hidden;}
 #carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
-#carousel_container .carousel_content_tags {font-size: 11px; font-weight: normal;}
+#carousel_container .carousel_three_column_left .carousel_content_tags{text-indent:0}
 #carousel_container .carousel_content_tags .s3d-action {font-size: 11px; font-weight: normal;}
 #carousel_container .carousel_counts {font-size: 11px;}
 #carousel_container .carousel_counts ul {margin:0;overflow:hidden;}
@@ -66,10 +65,10 @@
 #carousel_container .carousel_sharecontent {float:right; margin-right:10px;}
 
 #carousel_container .carousel_three_column_left {width: 312px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float:left; position:relative;}
-#carousel_container .carousel_three_column_left > img {max-width: 140px; max-height: 160px; float:left; margin-right: 10px; overflow:hidden;}
+#carousel_container .carousel_three_column_left img.carousel_item_preview_img {max-width: 140px; max-height: 160px; float:left; margin-right: 10px; overflow:hidden;}
 
 #carousel_container .carousel_three_column_middle {width: 160px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; margin-left: 7px; float:left; position:relative;}
-#carousel_container .carousel_three_column_middle > img {min-width:42px;max-width:42px;max-height:42px;float:left;margin-right:10px;overflow:hidden;}
+#carousel_container .carousel_three_column_middle img.carousel_item_preview_img {min-width:42px;max-width:42px;max-height:42px;float:left;margin-right:10px;overflow:hidden;}
 
 #carousel_container .carousel_three_column_right {width: 160px; height: 192px; margin-left: 7px; float:left;}
 #carousel_container .carousel_three_column_right > div {width: 160px; height: 83px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px;}

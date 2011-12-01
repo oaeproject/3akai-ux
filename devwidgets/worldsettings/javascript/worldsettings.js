@@ -51,7 +51,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $worldsettingsForm = $("#worldsettings_form", rootel);
         var $worldsettingsApplyButton = $("#worldsettings_apply_button");
 
-        var visibility = "";
+        var visibility = "",
+            worldId = "";
 
         var showWarning = function(){
             var newVisibility = $(worldsettingsCanBeFoundIn);
@@ -72,6 +73,72 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Event Handlers //
         ////////////////////
 
+        var handleSubmit = function(form) {
+            $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
+            $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
+            var worldTitle = $.trim($(worldsettingsTitle).val());
+            var worldDescription = $.trim($(worldsettingsDescription).val());
+            var worldTags = $.trim($(worldsettingsTags).val());
+            var foundIn = $.trim($(worldsettingsCanBeFoundIn).val());
+            var membership = $.trim($(worldsettingsMembership).val());
+            var originalWorldTitle = $.trim($(worldsettingsTitle).attr("data-original-value"));
+            var originalWorldDescription = $.trim($(worldsettingsDescription).attr("data-original-value"));
+            var originalWorldTags = $.trim($(worldsettingsTags).attr("data-original-value"));
+            var originalFoundIn = $.trim($(worldsettingsCanBeFoundIn).attr("data-original-value"));
+            var originalMembership = $.trim($(worldsettingsMembership).attr("data-original-value"));
+
+            // If nothing changed then don't do anything
+            if (originalWorldTitle !== worldTitle ||
+                originalWorldDescription !== worldDescription ||
+                originalWorldTags !== worldTags ||
+                originalFoundIn !== foundIn ||
+                originalMembership !== membership){
+                // Update group object
+                sakai_global.group.groupData["sakai:group-title"] = worldTitle;
+                sakai_global.group.groupData["sakai:group-description"] = worldDescription;
+                sakai_global.group.groupData["sakai:group-visible"] = foundIn;
+                sakai_global.group.groupData["sakai:group-joinable"] = membership;
+
+                sakai.api.Groups.updateGroupProfile(worldId, {
+                         "sakai:group-title" :  worldTitle,
+                         "sakai:group-description": worldDescription,
+                         "sakai:group-visible": foundIn,
+                         "sakai:group-joinable": membership
+                     }, sakai_global.group.groupData,
+                     function(success) {
+                         $worldsettingsContainer.find("select, input, textarea").removeAttr("disabled");
+                         $worldsettingsContainer.find("select, input, textarea").removeAttr("disabled");
+                         // only POST if user has changed values
+                         if(membership !== originalMembership || foundIn !== originalFoundIn) {
+                             // set new group permissions
+                             var roles = $.parseJSON(sakai_global.group.groupData["sakai:roles"]);
+                             sakai.api.Groups.setPermissions(sakai_global.group.groupId, membership, foundIn, roles);
+                         }
+
+                         // Set the group tags
+                         // Collect tags
+                         var grouptags = $.trim(worldTags).split(",");
+                         for (var t = 0; t < grouptags.length; t++){
+                             grouptags[t] = $.trim(grouptags[t]);
+                         }
+                         var groupProfileURL = "/~" + sakai_global.group.groupId + "/public/authprofile";
+                         var locations = sakai.api.Util.getDirectoryTags(sakai_global.group.groupData["sakai:tags"], true);
+                         grouptags = grouptags.concat(locations);
+                         sakai.api.Util.tagEntity(groupProfileURL, grouptags, sakai_global.group.groupData["sakai:tags"], function(success, tags){
+                             sakai_global.group.groupData["sakai:tags"] = tags;
+                         });
+                         $(window).trigger("sakai.entity.updateTitle", worldTitle);
+                         sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
+                         $worldsettingsDialog.jqmHide();
+                         $("#worldsettings_warning_container").jqmHide();
+                });
+            } else {
+                sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
+                $worldsettingsDialog.jqmHide();
+                $("#worldsettings_warning_container").jqmHide();
+            }
+        };
+
         var bindEvents = function(worldId) {
             $worldsettingsApplyButton.die("click").live("click", function() {
                 showWarning();
@@ -81,70 +148,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $worldsettingsForm.submit();
             });
 
-            $worldsettingsForm.validate({submitHandler: function(form) {
-                $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
-                $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
-                var worldTitle = $.trim($(worldsettingsTitle).val());
-                var worldDescription = $.trim($(worldsettingsDescription).val());
-                var worldTags = $.trim($(worldsettingsTags).val());
-                var foundIn = $.trim($(worldsettingsCanBeFoundIn).val());
-                var membership = $.trim($(worldsettingsMembership).val());
-                var originalWorldTitle = $.trim($(worldsettingsTitle).attr("data-original-value"));
-                var originalWorldDescription = $.trim($(worldsettingsDescription).attr("data-original-value"));
-                var originalWorldTags = $.trim($(worldsettingsTags).attr("data-original-value"));
-                var originalFoundIn = $.trim($(worldsettingsCanBeFoundIn).attr("data-original-value"));
-                var originalMembership = $.trim($(worldsettingsMembership).attr("data-original-value"));
-
-                // If nothing changed then don't do anything
-                if (originalWorldTitle !== worldTitle ||
-                    originalWorldDescription !== worldDescription ||
-                    originalWorldTags !== worldTags ||
-                    originalFoundIn !== foundIn ||
-                    originalMembership !== membership){
-                    // Update group object
-                    sakai_global.group.groupData["sakai:group-title"] = worldTitle;
-                    sakai_global.group.groupData["sakai:group-description"] = worldDescription;
-                    sakai_global.group.groupData["sakai:group-visible"] = foundIn;
-                    sakai_global.group.groupData["sakai:group-joinable"] = membership;
-
-                    sakai.api.Groups.updateGroupProfile(worldId, {
-                             "sakai:group-title" :  worldTitle,
-                             "sakai:group-description": worldDescription,
-                             "sakai:group-visible": foundIn,
-                             "sakai:group-joinable": membership
-                         }, function(success) {
-                             $worldsettingsContainer.find("select, input, textarea").removeAttr("disabled");
-                             $worldsettingsContainer.find("select, input, textarea").removeAttr("disabled");
-                             // only POST if user has changed values
-                             if(membership !== originalMembership || foundIn !== originalFoundIn) {
-                                 // set new group permissions
-                                 var roles = $.parseJSON(sakai_global.group.groupData["sakai:roles"]);
-                                 sakai.api.Groups.setPermissions(sakai_global.group.groupId, membership, foundIn, roles);
-                             }
-
-                             // Set the group tags
-                             // Collect tags
-                             var grouptags = $.trim(worldTags).split(",");
-                             for (var t = 0; t < grouptags.length; t++){
-                                 grouptags[t] = $.trim(grouptags[t]);
-                             }
-                             var groupProfileURL = "/~" + sakai_global.group.groupId + "/public/authprofile";
-                             var locations = sakai.api.Util.getDirectoryTags(sakai_global.group.groupData["sakai:tags"], true);
-                             grouptags = grouptags.concat(locations);
-                             sakai.api.Util.tagEntity(groupProfileURL, grouptags, sakai_global.group.groupData["sakai:tags"], function(success, tags){
-                                 sakai_global.group.groupData["sakai:tags"] = tags;
-                             });
-                             $(window).trigger("sakai.entity.updateTitle", worldTitle);
-                             sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
-                             $worldsettingsDialog.jqmHide();
-                             $("#worldsettings_warning_container").jqmHide();
-                    });
-                } else {
-                    sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
-                    $worldsettingsDialog.jqmHide();
-                    $("#worldsettings_warning_container").jqmHide();
-                }
-            }});
+            var validateOpts = {
+                submitHandler: handleSubmit
+            };
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($worldsettingsForm, validateOpts, true);
         };
 
         /////////////////////////////
@@ -169,9 +177,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Initialization function DOCUMENTATION
          */
-        var doInit = function (worldId) {
+        var doInit = function (_worldId) {
+            worldId = _worldId;
             renderWorldSettings();
-            bindEvents(worldId);
+            bindEvents();
             $worldsettingsDialog.jqm({
                 modal: true,
                 overlay: 20,
@@ -188,8 +197,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         // run the initialization function when the widget object loads
-        $(window).bind("init.worldsettings.sakai", function(e, worldId) {
-            doInit(worldId);
+        $(window).bind("init.worldsettings.sakai", function(e, _worldId) {
+            doInit(_worldId);
         });
     };
 

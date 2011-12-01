@@ -60,7 +60,7 @@
                             <div class="edit_contents_main">
                                 <div id="fl-tab-content-editor">
                                     <div id="placeholderforeditor" class="textarea">
-                                        <textarea id="elm1" name="elm1" style="width: 100%; height:430px"></textarea>
+                                        <textarea id="elm1" name="elm1" style="width: 100%; height:430px" title="__MSG__EDITOR__"></textarea>
                                     </div>
                                 </div>
 
@@ -146,7 +146,7 @@
                 <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
                 <div class="fl-force-right">
                     <button type="button" class="s3d-button s3d-link-button" id="autosave_keep">__MSG__NO__</button>
-                    <button type="button" class="s3d-button s3d-overlay-button" id="autosave_revert">__MSG__YES__</button>
+                    <button type="button" class="s3d-button s3d-overlay-action-button" id="autosave_revert">__MSG__YES__</button>
                 </div>
             </div>
         </div>
@@ -177,6 +177,14 @@
         <div class="s3d-widget-no-options-inner"></div>
     </div>
 </div>
+
+<div id="sakaidocs_empty_document_template" style="display:none;"><!--
+{if editor}
+    <div class="sakaidocs_default_editable_content_imagecontainer"></div>
+{else}
+    <div class="sakaidocs_default_viewable_content_imagecontainer"></div>
+{/if}
+--></div>
 
 <div id="sakaidocs_concurrent_editing_message" style="display:none">__MSG__CONCURRENT_EDITING__</div>
 <!-- JAVASCRIPT -->

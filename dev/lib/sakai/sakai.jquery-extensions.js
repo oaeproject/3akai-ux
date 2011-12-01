@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 ///////////////////////////
 // jQuery AJAX extention //
 ///////////////////////////
@@ -11,6 +28,8 @@
  * to the login page with the current URL encoded in the url. This will cause the system to
  * redirect to the page we used to be on once logged in.
  */
+require(["jquery", "jquery-plugins/jquery.validate"], function(jQuery) {
+
 (function($){
 
     /**
@@ -132,3 +151,25 @@
         return o;
     };
 })(jQuery);
+
+/**
+ * Add some jquery validate methods
+ */
+
+// Don't allow spaces in the field
+$.validator.addMethod("nospaces", function(value, element){
+    return this.optional(element) || (value.indexOf(" ") === -1);
+}, "* No spaces are allowed");
+
+// this method appends http:// or ftp:// or https://
+$.validator.addMethod("appendhttp", function(value, element) {
+    if(value.substring(0,7) !== "http://" &&
+    value.substring(0,6) !== "ftp://" &&
+    value.substring(0,8) !== "https://" &&
+    $.trim(value) !== "") {
+        $(element).val("http://" + value);
+    }
+    return true;
+}, "No error message, this is just an appender");
+
+});

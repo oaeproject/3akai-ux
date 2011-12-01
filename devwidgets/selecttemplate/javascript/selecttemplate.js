@@ -20,7 +20,6 @@
  * Dependencies
  *
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
@@ -57,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
         };
-        
+
         $(".selecttemplate_use_button", $rootel).live("click", function(){
             var clicked = $(this);
             if (clicked.data("templateid")){
@@ -68,8 +67,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderTemplateList = function(templates){
             $("#selecttemplate_container", $rootel).show();
             templates.sakai = sakai;
+            templates.templates = templates.templates.sort(function(a,b) {
+                return a.order - b.order;
+            });
             $("#selecttemplate_templatelist_container", $rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_templatelist_template", templates));
-            $("#selecttemplate_type_name", $rootel).text(sakai.api.i18n.getValueForKey(templates.title));
+            $("#selecttemplate_type_name", $rootel).text(sakai.api.i18n.getValueForKey(templates.menuLabel || templates.title));
             $("#selecttemplate_createworld_container", $rootel).hide();
 
             $(".selecttemplate_preview_button", $rootel).live("click", function(){
@@ -92,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             toPassOn[tuid + "addpeople"] = {
                 "category": category,
                 "id": id
-            }
+            };
             $("#selecttemplate_createworld_container", $rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_createworld_template", {"tuid" : tuid}));
             sakai.api.Widgets.widgetLoader.insertWidgets("selecttemplate_createworld_" + tuid, false, false,[toPassOn]);
             $("#selecttemplate_createworld_container", $rootel).show();
@@ -139,7 +141,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         doInit();
-        
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("selecttemplate");

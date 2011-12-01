@@ -3,25 +3,99 @@
 
 <!-- ERROR MESSAGES -->
 <div style="display:none">
-    <div id="deletecontent_not_successfully_deleted">__MSG__CONTENT_NOT_SUCCESSFULLY_DELETED__.</div>
-    <div id="deletecontent_not_deleted">__MSG__CONTENT_NOT_DELETED__.</div>
-    <div id="deletecontent_successfully_deleted">__MSG__CONTENT_SUCCESSFULLY_DELETED__.</div>
-    <div id="deletecontent_deleted">__MSG__CONTENT_DELETED__.</div>
+    <div id="deletecontent_message_title">__MSG__REMOVE_CONTENT__</div>
+    <div id="deletecontent_message_from_library">__MSG__CONTENT_SUCCESSFULLY_DELETED_FROM_LIBRARY__.</div>
+    <div id="deletecontent_message_from_system">__MSG__CONTENT_SUCCESSFULLY_DELETED_FROM_SYSTEM__.</div>
+    <div id="deletecontent_message_error">__MSG__AN_ERROR_HAS_OCCURED_TRY_LATER__.</div>
 </div>
 
 <!-- DIALOG -->
 <div class="s3d-dialog s3d-dialog-container" id="deletecontent_dialog">
     <div class="s3d-dialog-close jqmClose"></div>
-    <h1 class="s3d-dialog-header">__MSG__DELETE_CONTENT__</h1>
-    <form id="deletecontent_form" method="post" action="#">
-        <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT__?</h4>
-        <span>__MSG__DELETING_THIS_CONTENT_IS_PERMANENT__</span>
-        <div id="deletecontent_error_container" style="display:none;"><!-- --></div>
-        <div class="deletecontent_buttons">
-            <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__DONT_DELETE_CONTENT__</button>
-            <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_delete">__MSG__DELETE_CONTENT__</button>
+    <h1 class="s3d-dialog-header" id="deletecontent_main_content">__MSG__REMOVE_CONTENT__</h1>
+    <h1 class="s3d-dialog-header" id="deletecontent_main_confirm">__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT__</h1>
+    <div id="deletecontent_container"><!-- --></div>
+    <div id="deletecontent_used_by_others">
+        <div id="deletecontent_main_confirm_message">__MSG__USED_BY_OTHER_USERS_GROUPS_PAGES__:</div>
+        <div id="deletecontent_used_by_others_container" class="deletecontent_hybrid_container"><!-- --></div>
+        <div id="deletecontent_used_by_others_template"><!--
+            <div id="deletecontent_used_by_others_list_container">
+                <ul id="deletecontent_used_by_others_list">
+                    {for profile in profiles}
+                        <li class="s3d-outer-shadow-container">
+                            {if profile.userid}
+                                {var displayName = sakai.api.User.getDisplayName(profile)}
+                                <img alt="__MSG__USER_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.User.getProfilePicture(profile)}">
+                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.userid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
+                            {else}
+                                {var displayName = sakai.api.i18n.General.process(profile["sakai:group-title"])}
+                                <img alt="__MSG__GROUP_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.Groups.getProfilePicture(profile)}">
+                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
+                            {/if}
+                        </li>
+                    {/for} 
+                </ul>
+            </div>
+        --></div>
+    </div>
+    <div id="deletecontent_button_container" class="fl-force-right">
+        <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromsystem">__MSG__REMOVE_FROM_SYSTEM__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem_nocontext">__MSG__REMOVE_FROM_SYSTEM__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromlibrary">__MSG__REMOVE_FROM_LIBRARY__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_apply">__MSG__APPLY__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromlibrary_only">__MSG__REMOVE_FROM_LIBRARY_ONLY__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem_confirm">__MSG__REMOVE_FROM_SYSTEM_ANYWAY__</button>
+    </div>
+    <div id="deletecontent_template_list" style="display:none"><!--
+        <ul class="deletecontent_content_list deletecontent_content_list_large">
+            {var count = 0}
+            {for content in contentIView}
+                ${count++|eat}
+                {if count <= 8}
+                    <li>"${content["sakai:pooled-content-file-name"]|safeOutput}"</li>
+                {/if}
+            {/for}
+            {for content in contentIManage}
+                ${count++|eat}
+                {if count <= 8}
+                    <li>"${content["sakai:pooled-content-file-name"]|safeOutput}"</li>
+                {/if}
+            {/for}
+            {if count > 8}
+                <li>__MSG__AND__ ${contentIView.length + contentIManage.length - 8} __MSG__MORE_LC__</li>
+            {/if}
+        </ul>
+    --></div>
+    <div id="deletecontent_template_hybrid" style="display:none"><!--
+        <div class="deletecontent_hybrid_container deletecontent_hybrid_dontmanage">
+            <div class="s3d-bold deletecontent_hybrid_container_padding">__MSG__YOU_DONT_MANAGE__ ${contentIView.length} __MSG__ITEMS__</div>
+            <div class="deletecontent_hybrid_container_padding">__MSG__CONTENT_DONT_MANAGE_REMOVED_FROM_LIBRARY__</div>
         </div>
-    </form>
+        <div class="deletecontent_hybrid_container deletecontent_hybrid_manage">
+            <div class="s3d-bold deletecontent_hybrid_container_padding">
+                You manage ${contentIManage.length} __MSG__ITEMS__
+                <div class="deletecontent_hybrid_right">
+                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="libraryonly" checked> __MSG__REMOVE_FROM_LIBRARY_ONLY__</div>
+                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="system"> __MSG__REMOVE_FROM_SYSTEM__</div>
+                </div>
+                <div class="deletecontent_hybrid_left">
+                    <ul class="deletecontent_content_list">
+                        {var count = 0}
+                        {for content in contentIManage}
+                            ${count++|eat}
+                            {if count <= 8}
+                                <li>"${sakai.api.Util.applyThreeDots(content["sakai:pooled-content-file-name"], 115)}"</li>
+                            {/if}
+                        {/for}
+                        {if count > 8}
+                            <li>__MSG__AND__ ${contentIManage.length - 8} __MSG__MORE_LC__</li>
+                        {/if}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    --></div>
 </div>
 
 <!-- JAVASCRIPT -->

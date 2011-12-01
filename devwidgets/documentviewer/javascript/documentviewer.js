@@ -39,7 +39,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.documentviewer = function(tuid,showSettings,widgetData){
-        
+
         var documentviewerPreview = "#" + tuid + " #documentviewer_preview";
         var $documentviewerPreview = $(documentviewerPreview);
         var templateObject = {};
@@ -118,6 +118,19 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             sakai.api.Util.TemplateRenderer("documentviewer_externalhtml_template", templateObject, $documentviewerPreview);
             $("#documentviewer_externalhtml_iframe").attr("src", url);
             $("#documentviewer_externalhtml_iframe").attr("frameborder", "0");
+        };
+
+         var renderKalturaPlayer = function(data){
+            var html5FlashCompatibilityURL = sakai.config.kaltura.serverURL +"/p/"+sakai.config.kaltura.partnerId+"/sp/"+sakai.config.kaltura.partnerId+"00/embedIframeJs/uiconf_id/"+sakai.config.kaltura.playerId+"/partner_id/"+sakai.config.kaltura.partnerId;
+            $.getScript(html5FlashCompatibilityURL, function() {
+                var kaltura_id = data["kaltura-id"];
+                var url = sakai.config.kaltura.serverURL + "/kwidget/wid/_"+sakai.config.kaltura.partnerId+"?ui_conf_id="+sakai.config.kaltura.playerId;
+                var so = createSWFObject(url, {}, {});
+                so.addVariable('stretching','uniform');
+                so.addVariable('image', data["kaltura-thumbnail"]);
+                so.addVariable('entryId',kaltura_id);
+                so.write("documentviewer_video_" + tuid);
+            });
         };
 
         var renderVideoPlayer = function(url, preview_avatar){
@@ -242,7 +255,9 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             var data = widgetData.data;
             var mimeType = sakai.api.Content.getMimeType(widgetData.data);
 
-            if (sakai.api.Content.isJwPlayerSupportedVideo(mimeType)){
+            if (sakai.api.Content.isKalturaPlayerSupported(mimeType)) {
+                renderKalturaPlayer(data);
+            } else if (sakai.api.Content.isJwPlayerSupportedVideo(mimeType)){            
                 renderVideoPlayer(getPath(data));
             } else if (sakai.api.Content.isJwPlayerSupportedAudio(mimeType)) {
                 renderAudioPlayer(data);

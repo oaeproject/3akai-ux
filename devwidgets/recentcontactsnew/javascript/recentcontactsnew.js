@@ -82,15 +82,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
             }
 
-            // set file name without the extension
-            // be aware that links don't have an extension
-            var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
-            if(lastDotIndex !== -1) {
-                if (item["_mimeType"] !== "x-sakai/link") {
-                    // extension found
-                    item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
-                }
-            }
             item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycreatecontent_widget .s3d-widget-createcontent").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
 
             // set the file size
@@ -173,12 +164,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (connection.userid) {
                             id = connection.userid;
                             name = sakai.api.User.getDisplayName(connection);
-                            linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
+                            linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                             picture = sakai.api.User.getProfilePicture(connection);
                         } else if (connection.groupid) {
                             id = connection.groupid;
                             name = sakai.api.Security.safeOutput(connection["sakai:group-title"]);
-                            linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
+                            linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                             picture = sakai.api.Groups.getProfilePicture(connection);
                         }
                         newjson.connection = {
@@ -199,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getContactInfo = function(newjson){
             newjson.displayName = sakai.api.User.getDisplayName(newjson.profile);
-            newjson.displayNameLinkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", newjson.displayName);
+            newjson.displayNameLinkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", newjson.displayName);
             newjson.profilePicture = sakai.api.User.getProfilePicture(newjson.profile);
             var fname = sakai.api.User.getFirstName(newjson.profile);
             if (fname.substring(fname.length-1, fname.length).toLowerCase() === "s"){

@@ -53,12 +53,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
 
         var carouselBinding = function(carousel){
-            $("#versions_next", $rootel).live("click",function(){
-                carousel.next();
+            $("#versions_newer", $rootel).live("click",function(){
+                carousel.prev();
             });
 
-            $("#versions_prev", $rootel).live("click",function(){
-                carousel.prev();
+            $("#versions_older", $rootel).live("click",function(){
+                if (carousel.last !== carousel.size()){
+                    carousel.next();
+                }
+            });
+
+            $("#versions_oldest", $rootel).live("click",function(){
+                carousel.scroll(carousel.size() || 0);
+            });
+
+            $("#versions_newest", $rootel).live("click",function(){
+                carousel.scroll(0);
             });
         };
 
@@ -76,8 +86,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#versions_carousel_container", $rootel).jcarousel({
                 animation: "slow",
                 easing: "swing",
-                scroll: 3,
-                start: versions.length - 1,
+                scroll: 4,
+                start: 0,
                 initCallback: carouselBinding,
                 itemFallbackDimension: 123
             });
@@ -87,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(versions, $rootel).each(function(index, val){
                var userId = val["sakai:pool-content-created-for"] || val["_lastModifiedBy"];
                if (userId === u){
-                    val["username"] = sakai.api.User.getDisplayName(users[u]);
+                    val["username"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(users[u]), 80, null, "s3d-regular-links versions_updater");
                }
             });
         };
@@ -99,7 +109,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 versions.push(version);
                 userIds.push(version["sakai:pool-content-created-for"] || version["_lastModifiedBy"]);
             });
-            versions.reverse();
             if (userIds.length) {
                 sakai.api.User.getMultipleUsers(userIds, function(users){
                     for (var u in users) {
@@ -143,7 +152,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (!$("#" + currentPageShown.ref + "_previewversion").length) {
                     $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
                 }
-                $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
+                if(sakai.api.Util.determineEmptyContent(versions[$(this).attr("data-versionId")].page)) {
+                    $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
+                } else {
+                    $("#" + currentPageShown.ref + "_previewversion").html(sakai.api.Util.TemplateRenderer("versions_empty_document_template", {
+                        "currentversion": $(this).attr("data-versionId") === versions.length - 1
+                    }));
+                }
                 $("#" + currentPageShown.ref).remove();
                 $("#" + currentPageShown.ref + "_previewversion").show();
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref + "_previewversion", false, currentPageShown.pageSavePath + "/");
@@ -159,7 +174,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 page: versions[$(this).parent().attr("data-versionId")].page
             }
             $.ajax({
-                url: currentPageShown.pageSavePath + ".resource",
+                url: currentPageShown.pageSavePath,
                 type: "POST",
                 dataType: "json",
                 data: {
@@ -219,6 +234,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         $(window).bind("init.versions.sakai", function(ev, cps){
+            if($("#content_profile_left_column").is(":visible")){
+                // There is a left hand navigation visible, versions widget will be smaller
+                $(versionsContainer, $rootel).removeClass("versions_without_left_hand_nav");
+            } else {
+                // No left hand navigation visible, versions widget will be wider
+                $(versionsContainer, $rootel).addClass("versions_without_left_hand_nav");
+            }
             if ($(versionsContainer, $rootel).is(":visible")) {
                 $(versionsContainer, $rootel).hide();
             } else {

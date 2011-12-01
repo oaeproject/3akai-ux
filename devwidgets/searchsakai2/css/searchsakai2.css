@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*
  * The below CSS sections may not be necesary for your widget, but best practice
  * is to organize your CSS into sections like these (or add new sections)
@@ -33,7 +32,7 @@ strong{color:#000;}
 /* SEARCH RESULTS TITLE */
 .searchsakai2_result_title{text-align:center;font-size:1.1em;color:#6d6d6d;padding:0;}
 .searchsakai2_result_title{text-align:left;font-weight:normal;font-size:1em;color:#828e9c;margin:10px 0px 0 10px;}
-.searchsakai2_selects{float:right;}
+.searchsakai2_selects{float:right;margin-top:-23px;}
 .search_sortby{margin-left:10px;}
 .searchsakai2_selects div{display:inline !important;}
 

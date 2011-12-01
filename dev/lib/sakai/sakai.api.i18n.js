@@ -1,5 +1,4 @@
-/**
- *
+/*
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,9 +14,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
  */
-
 /**
  * @class i18n
  *
@@ -217,7 +214,6 @@ define(
                 if($i18nable.length > 0){
                     $i18nable[0].innerHTML = newstring;
                 }
-                document.title = sakaii18nAPI.General.process(document.title);
                 finishI18N();
             };
 
@@ -390,6 +386,8 @@ define(
         /**
          * Get the internationalised value for a specific key.
          * We expose this function so you can do internationalisation within JavaScript.
+         * If the key isn't found in a translation bundle, the key will be returned unmodified
+         *
          * @example sakai.api.i18n.getValueForKey("CHANGE_LAYOUT", ["widgetid"]);
          * @param {String} key The key that will be used to get the translation
          * @param {String} optional widget name. This will cause the widget language
@@ -429,7 +427,7 @@ define(
                 // If none of the about found something, log an error message
                 else {
                     debug.warn("sakai.api.i18n.getValueForKey: Not found in any bundles. Key: " + key);
-                    return false;
+                    return key;
                 }
             }
         },
@@ -456,7 +454,7 @@ define(
                     translation = translation.replace("\\" + replace, String.fromCharCode(parseInt(replace.substring(1), 16)));
                 }
             }
-            return translation;
+            return $.trim(translation);
         },
 
         /**

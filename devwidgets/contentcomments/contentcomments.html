@@ -2,25 +2,21 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentcomments/css/contentcomments.css" />
 
 <!-- MAIN VIEW -->
-<div id="contentcomments_mainContainer" class="fl-widget-content s3d-widget-content" style="display:none;">
-    <div id="contentcomments_titlebar">
-        <span class="contentcomments_titleLeft">__MSG__COMMENTS__</span>
-    </div>
+<div id="contentcomments_mainContainer" class="s3d-widget-container" style="display:none;">
+    <div class="s3d-contentpage-title">__MSG__COMMENTS__</div>
 
     <div id="contentcomments_userCommentContainer">
         <div id="contentcomments_userProfileAvatar">
             <img id="contentcomments_userProfileAvatarPicture" alt="__MSG__AVATAR__" class="contentcomments_avatar" src="/dev/images/default_profile_picture_64.png" />
         </div>
-        <div class="contentcomments_arrowLeftFiller"></div>
-        <div class="contentcomments_arrowLeft"></div>
-        <div id="contentcomments_fillInComment">
-            <div class="contentcomments_fillInCommentTopContainer">
-                <br />
-                <textarea id="contentcomments_txtMessage" class="contentcomments_inputFields" cols="20" placeholder="__MSG__ENTER_A_COMMENT__"></textarea>
+        <div class="contentcomments_fillInCommentTopContainer s3d-form-field-wrapper">
+            <form>
+                <label style="display:none" for="contentcomments_txtMessage">__MSG__ENTER_A_COMMENT__</label>
+                <textarea id="contentcomments_txtMessage" name="contentcomments_txtMessage" class="required s3d-error-calculate contentcomments_inputFields" cols="10" placeholder="__MSG__ENTER_A_COMMENT__" title="__MSG__ENTER_A_COMMENT__"></textarea>
                 <div class="dialog_buttons contentcomments_dialog_buttons right">
-                    <button id="contentcomments_postComment" class="s3d-button s3d-overlay-button comment_postCommentTopBottom">__MSG__COMMENT__</button>
+                    <button id="contentcomments_postComment" type="submit" class="s3d-button s3d-overlay-button comment_postCommentTopBottom">__MSG__COMMENT__</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -40,20 +36,20 @@
     <div class="contentcommentsTable">
 
         {for i in comments}
-        <div class="contentcomments_comment">
+        <div class="contentcomments_comment {if comments.length == 1} last first {elseif i_index == comments.length - 1} first{elseif i_index == 0} last{/if}">
             <div class="contentcomments_leftCommentBar">
                 <img alt="__MSG__AVATAR__" class="contentcomments_avatar" src="${i.user.pictureUrl}" />
             </div>
             <div class="contentcomments_topCommentBar">
-                <div class="contentcomments_posterData s3d-regular-light-links">
-                    <span class="contentcomments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}" target="_blank">${i.user.fullName}</a></span>
-                    <span class="contentcomments_dateComment">${i.formatDate}</span>
+                <div class="contentcomments_posterData s3d-regular-links">
+                    <span class="contentcomments_posterDataName s3d-regular-links"><a href="/~${i.user.uid}" target="_blank">${i.user.fullName}</a></span>
+                    <span class="contentcomments_dateComment">${i.timeAgo}</span>
                 </div>
                 {if i.canDelete && i.canDelete === true || i.userid === sakai.data.me.user.userid}
                     {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                        <button type="button" class="s3d-button contentcomments_undelete s3d-regular-light-links s3d-link-button" id="contentcomments_undelete_${i['sakai:id']}">__MSG__UNDELETE__</button>
+                        <button type="button" class="s3d-button contentcomments_undelete s3d-regular-links s3d-link-button" id="contentcomments_undelete_${i['sakai:id']}">__MSG__UNDELETE__</button>
                     {else}
-                        <button type="button" class="s3d-button contentcomments_delete s3d-regular-light-links s3d-link-button" id="contentcomments_delete_${i['sakai:id']}">__MSG__DELETE__</button>
+                        <button type="button" class="s3d-button contentcomments_delete s3d-regular-links s3d-link-button" id="contentcomments_delete_${i['sakai:id']}">__MSG__DELETE__</button>
                     {/if}
                 {/if}
                 <div class="contentcomments_commentMessage">
@@ -90,10 +86,11 @@
                     </div>
                 </div>
             </div>
+            <hr class="fl-push fl-hidden"/>
         </div>
         {forelse}
             {if sakai.data.me.user.anon}
-                <div class="s3d-no-results-container">
+                <div class="s3d-no-results-container contentcomments_no_results">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-search-content"></div>
                     <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>

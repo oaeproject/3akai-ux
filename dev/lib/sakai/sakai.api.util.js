@@ -1,5 +1,4 @@
-/**
- *
+/*
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,9 +14,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
  */
-
 /**
  * @class Util
  *
@@ -36,7 +33,8 @@ define(
         "config/config_custom",
         "misc/trimpath.template",
         "misc/underscore",
-        "jquery-plugins/jquery.ba-bbq"
+        "jquery-plugins/jquery.ba-bbq",
+        "jquery-plugins/jquery.validate"
     ],
     function($, sakai_serv, sakai_l10n, sakai_conf) {
 
@@ -82,6 +80,32 @@ define(
                     });
                 }, 60000);
             }
+        },
+
+        /**
+         * Get the world templates from the server
+         */
+        getTemplates: function() {
+            var templates = [];
+            $.ajax({
+                url: sakai_conf.URL.WORLD_INFO_URL,
+                async:false,
+                success: function(data) {
+                    templates = _.toArray(sakai_serv.removeServerCreatedObjects(data, ["jcr:"]));
+                }
+            });
+            $.each(templates, function(i,temp) {
+                $.each(temp, function(k,templ) {
+                    if ($.isPlainObject(temp[k])) {
+                        temp.templates = temp.templates || [];
+                        temp.templates.push(temp[k]);
+                    }
+                });
+            });
+            templates = _.sortBy(templates, function(templ) {
+                return templ.order;
+            });
+            return templates;
         },
 
         /**
@@ -239,6 +263,26 @@ define(
         },
 
         /**
+         * Shorten tags to be displayed in search results
+         * @param {Array} tags The array containing tags.
+         * @return {Object} Object containing the tag and shortened lengths
+         */
+        shortenTags : function(tags) {
+            var tagsObj = {};
+            for (var i in tags) {
+                if (tags.hasOwnProperty(i)) {
+                    tagsObj[i] = {
+                        "tag": tags[i],
+                        "tagShort": sakai_util.applyThreeDots(tags[i], 680, {max_rows: 1, whole_word: true}, ""),
+                        "tagShorter": sakai_util.applyThreeDots(tags[i], 125, {max_rows: 1, whole_word: true}, ""),
+                        "link": "search#q=" + sakai_util.safeURL(tags[i])
+                    };
+                }
+            }
+            return tagsObj;
+        },
+
+        /**
          * Formats a comma separated string of text to an array of usable directory tags
          * Returns the array of tags, if no tags were provided or none were valid an empty array is returned
          *
@@ -284,36 +328,6 @@ define(
 
         tagEntity : function(tagLocation, newTags, currentTags, callback) {
             var setTags = function(tagLocation, tags, setTagsCallback) {
-                if (tags.length) {
-                    var requests = [];
-                    $(tags).each(function(i, val){
-                        requests.push({
-                            "url": "/tags/" + val,
-                            "method": "POST",
-                            "parameters": {
-                                "sakai:tag-name": val,
-                                "sling:resourceType": "sakai/tag"
-                            }
-                        });
-                    });
-                    sakai_serv.batch(requests, function(success, data) {
-                        if (success) {
-                            doSetTags(tags, function(_success) {
-                                setTagsCallback(_success);
-                            });
-                        } else {
-                            debug.error(val + " failed to be created");
-                            if ($.isFunction(setTagsCallback)) {
-                                setTagsCallback();
-                            }
-                        }
-                    }, false, true);
-                } else {
-                    if ($.isFunction(setTagsCallback)) {
-                        setTagsCallback();
-                    }
-                }
-
                 // set the tag on the entity
                 var doSetTags = function(tags, doSetTagsCallback) {
                     var setTagsRequests = [];
@@ -336,6 +350,17 @@ define(
                         }
                     }, false, true);
                 };
+
+                if (tags.length) {
+                    doSetTags(tags, function(_success) {
+                        setTagsCallback(_success);
+                    });
+                } else {
+                    if ($.isFunction(setTagsCallback)) {
+                        setTagsCallback();
+                    }
+                }
+
             };
 
             /**
@@ -345,6 +370,7 @@ define(
              * @param (Array) tags Array of tags to be deleted from the entity
              * @param (Function) callback The callback function
              */
+
 
             var deleteTags = function(tagLocation, tags, deleteTagsCallback) {
                 if (tags.length) {
@@ -567,6 +593,24 @@ define(
                 }
             }
             return imgUrl;
+        },
+
+        /**
+         * Do some checks on the content to see if it's the default Tinymce content or just empty
+         * @param {String} content Content in the form of a string
+         * @return{Boolean} True indicates that content is present, False indicates that there is no content
+         */
+        determineEmptyContent: function(content){
+            var textPresent = $.trim($("<div>").html(content).text());
+            var elementArr = ["div", "img", "ol", "ul", "li", "hr", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "em", "strong", "code", "dl", "dt", "dd", "table", "tr", "th", "td", "iframe", "frame", "form", "input", "select", "option", "blockquote", "address"];
+            var containsElement = false;
+            $.each(elementArr, function(i, el){
+                if(content.indexOf(el) != -1){
+                    containsElement = true;
+                    return false;
+                }
+            });
+            return textPresent || containsElement;
         },
 
         /**
@@ -1287,6 +1331,20 @@ define(
         },
 
         /**
+         * Convert a string into something that is safe to put into an HTML attribute.
+         * This is made available as a modifier to TrimPath templates, as we can't call
+         * the .data() function of jQuery whilst rendering a template
+         * @param {Object} str    String to be transformed into a string safe for use in an attribute
+         */
+        saneHTMLAttribute: function(str) {
+            if (str) {
+                return sakai_util.Security.safeOutput(str.replace(/"/g, "\\\"").replace(/'/g, "\\\'"));
+            } else {
+                return "";
+            }
+        },
+
+        /**
          * A cache that will keep a copy of every template we have parsed so far. Like this,
          * we avoid having to parse the same template over and over again.
          */
@@ -1322,6 +1380,7 @@ define(
                 templateElement = $("#" + templateName);
             }
             else {
+                debug.error(templateElement);
                 throw "TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
             }
 
@@ -1369,6 +1428,9 @@ define(
                 },
                 safeOutput: function(str) {
                     return sakai_util.Security.safeOutput(str);
+                },
+                saneHTMLAttribute: function(str) {
+                    return sakai_util.saneHTMLAttribute(str);
                 }
             };
 
@@ -1391,6 +1453,9 @@ define(
             // If so, put the rendered template in there
             if (outputElement) {
                 outputElement.html(render);
+                sakai_util.Draggable.setupDraggable({}, outputElement);
+                sakai_util.Droppable.setupDroppable({}, outputElement);
+
                 // tell MathJax about the updated element
                 //MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElement]);
             }
@@ -1529,6 +1594,11 @@ define(
                 html4.ATTRIBS["button::entitypicture"] = 0;
                 html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
+                html4.ATTRIBS["a::aria-haspopup"] = 0;
+                html4.ATTRIBS["a::role"] = 0;
+                html4.ATTRIBS["ul::aria-hidden"] = 0;
+                html4.ATTRIBS["ul::role"] = 0;
+
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
@@ -1648,7 +1718,7 @@ define(
                 // Put the title inside the page
                 var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
                 if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    pageTitle += require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                    pageTitle += " " + require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content
@@ -1809,7 +1879,7 @@ define(
                     startText: "Enter name here",
                     scrollresults:true,
                     source: function(query, add) {
-                        var user = require("sakai/sakai.api.user");
+                        var sakai_user = require("sakai/sakai.api.user");
                         var q = sakai_serv.createSearchString(query);
                         var searchoptions = {"page": 0, "items": 15};
                         var searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS;
@@ -1822,9 +1892,9 @@ define(
                             if (success) {
                                 var suggestions = [];
                                 $.each(data.results, function(i) {
-                                    if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
+                                    if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== sakai_user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": user.getDisplayName(data.results[i]), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
+                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_user.getDisplayName(data.results[i]), "firstName": sakai_user.getFirstName(data.results[i]), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
@@ -1893,8 +1963,251 @@ define(
                 $("#as-results-" + element.attr("id")).remove();
                 return $(ascontainer);
             }
-        }
+        },
 
+        Forms : {
+            /**
+             * A wrapper for jquery.validate, so we can perform the same
+             * errorPlacement on each form, without any duplicated code
+             *
+             * @param {jQuery} $form the jQuery element of the form in question
+             * @param {Object} opts options to pass through to jquery.validate
+             *    NOTE: There is one additional option you can pass in -- an error callback function
+             *    When there is an error in validation detected, it will be called
+             * @param {Function} [invalidCallback] The function to call when an error is detected
+             * @param {Boolean} [insertAfterLabel] Insert the error span after the label, not before
+             */
+            validate: function($form, opts, insertAfterLabel) {
+                var options = {
+                    onclick: false,
+                    onkeyup: false,
+                    onfocusout: false
+                };
+                // when you set onclick to true, you actually just don't set it
+                // to false, because onclick is a handler function, not a boolean
+                if (opts) {
+                    $.each(options, function(key,val) {
+                        if (opts.hasOwnProperty(key) && opts[key] === true) {
+                            delete opts[key];
+                            delete options[key];
+                        }
+                    });
+                }
+                options.errorElement = "span";
+                options.errorClass = insertAfterLabel ? "s3d-error-after" : "s3d-error";
+
+                // we need to handle success and invalid in the framework first
+                // then we can pass it to the caller
+                var successCallback = false,
+                    invalidCallback = false;
+
+                if (opts) {
+                    if (opts.hasOwnProperty("success") && $.isFunction(opts.success)) {
+                        successCallback = opts.success;
+                        delete opts.succss;
+                    }
+
+                    if (opts && opts.hasOwnProperty("invalidCallback") && $.isFunction(opts.invalidCallback)) {
+                        invalidCallback = opts.invalidCallback;
+                        delete opts.invalidCallback;
+                    }
+                }
+
+                // include the passed in options
+                $.extend(true, options, opts);
+
+                // Success is a callback on each individual field being successfully validated
+                options.success = function($label) {
+                    // For autosuggest clearing, since we have to put the error on the ul instead of the element
+                    if (insertAfterLabel && $label.next("ul.as-selections").length) {
+                        $label.next("ul.as-selections").removeClass("s3d-error");
+                    } else if ($label.prev("ul.as-selections").length) {
+                        $label.prev("ul.as-selections").removeClass("s3d-error");
+                    }
+                    $label.remove();
+                    if ($.isFunction(successCallback)) {
+                        successCallback($label);
+                    }
+                };
+
+                options.errorPlacement = function($error, $element) {
+                    if ($element.hasClass("s3d-error-calculate")) {
+                        // special element with variable left margin
+                        // calculate left margin and width, set it directly on the error element
+                        $error.css({
+                            "margin-left": $element.position().left,
+                            "width": $element.width()
+                        });
+                    }
+                    // Get the closest-previous label in the DOM
+                    var $prevLabel = $("label[for='" + $element.attr("id") + "']");
+                    $error.attr("id", $element.attr("name") + "_error");
+                    $element.attr("aria-describedby", $element.attr("name") + "_error");
+                    if (insertAfterLabel) {
+                        $error.insertAfter($prevLabel);
+                    } else {
+                        $error.insertBefore($prevLabel);
+                    }
+                };
+
+                options.invalidHandler = function($thisForm, validator) {
+                    $form.find(".s3d-error").attr("aria-invalid", "false");
+                    if ($.isFunction(invalidCallback)){
+                        invalidCallback($thisForm, validator);
+                    }
+                };
+
+                options.showErrors = function(errorMap, errorList) {
+                    if (errorList.length !== 0 && $.isFunction(options.error)) {
+                        options.error();
+                    }
+                    $.each(errorList, function(i,error) {
+                        $(error.element).attr("aria-invalid", "true");
+                        // Handle errors on autosuggest
+                        if ($(error.element).hasClass("s3d-error-autosuggest")) {
+                            $(error.element).parents("ul.as-selections").addClass("s3d-error");
+                        }
+                    });
+                    this.defaultShowErrors();
+                };
+
+                // Set up the form with these options in jquery.validate
+                $form.validate(options);
+            },
+
+            clearValidation: function($form) {
+                $form.find("span.s3d-error, span.s3d-error-after").remove();
+                $form.find(".s3d-error").removeClass("s3d-error");
+                $form.find(".s3d-error-after").removeClass("s3d-error-after");
+                $form.find("*[aria-invalid]").removeAttr("aria-invalid");
+                $form.find("*[aria-describedby]").removeAttr("aria-describedby");
+            }
+        },
+        Draggable: {
+            getDraggableMessage: function(items){
+                var message = "";
+                if(items > 1){
+                    message = require("sakai/sakai.api.i18n").getValueForKey("MOVING") + " " + items + " " + require("sakai/sakai.api.i18n").getValueForKey("ITEMS_PL");
+                } else {
+                    message = require("sakai/sakai.api.i18n").getValueForKey("MOVING") + " " + items + " " + require("sakai/sakai.api.i18n").getValueForKey("ITEM");
+                }
+                return message;
+            },
+            /*
+             * Gets data from a helper and returns an array
+             */
+            getDraggableData: function(helper){
+                var draggableData = [];
+                if($(helper.children()).length > 1){
+                    $.each(helper.children(), function(i, draggable){
+                        draggableData.push($(draggable).data());
+                    });
+                } else {
+                    draggableData.push(helper.children().data());
+                }
+                return [draggableData];
+            },
+            /**
+             * Sets and overrides default parameters for the jQuery Droppable plugin
+             * @param {Object} params Optional parameters that override defaults
+             */
+            setDraggableParameters: function(){
+                return {
+                    revert: true,
+                    revertDuration: 0,
+                    scrollSensitivity: 100,
+                    opacity: 0.5,
+                    helper: "clone",
+                    cursor: "move",
+                    zindex: 10000,
+                    cursorAt: {
+                        top: 10,
+                        left: 5
+                    },
+                    stop: function(event, ui) {
+                        $(".s3d-draggable-draggingitems").remove();
+                        if($(this).data("stopdragevent")){
+                            $(window).trigger($(this).data("stopdragevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        }
+                    },
+                    start: function(event, ui){
+                        $("body").append("<div class='s3d-draggable-draggingitems'>" + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + "</div>");
+                        if($(this).data("startdragevent")){
+                            $(window).trigger($(this).data("startdragevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        }
+                    },
+                    helper: function(){
+                        var selected = $('.s3d-draggable-select:checked').parents('li');
+                        if (selected.length === 0) {
+                          selected = $(this);
+                        }
+                        var container = $('<div/>').attr('id', 's3d-draggeditems-container');
+                        container.append(selected.clone());
+                        return container;
+                    },
+                    drag: function(ev, data){
+                        $(".s3d-draggable-draggingitems").offset({left:data.offset.left - 10,top:data.offset.top - 12});
+                    }
+                };
+            },
+            /**
+             * Sets up draggables accross the page
+             * @param {Object} params Optional parameters that override defaults
+             * @param {Object} $container Optional container element to add draggables, defaults to $("html") if not set
+             */
+            setupDraggable: function(params, $container){
+                $.each($(".s3d-draggable-container", $container), function(index, draggable){
+                    if(!$(draggable).hasClass("ui-draggable")){
+                        // HTML overrides default, JS overrides HTML
+                        // Override default parameters with attribute defined parameters
+                        var htmlParams =  $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
+                        // Override attribute defined parameters with JS defined ones
+                        params = $.extend(true, htmlParams, params);
+                        $(".s3d-draggable-container", $container || $("html")).draggable(params);
+                    }
+                });
+            }
+        },
+        Droppable: {
+            /**
+             * Sets and overrides default parameters for the jQuery Draggable plugin
+             * @param {Object} params Optional parameters that override defaults
+             */
+            setDroppableParameters: function(){
+                return {
+                    tolerance: "touch",
+                    hoverClass: "s3d-droppable-hover",
+                    drop: function(event, ui) {
+                        $(".s3d-draggable-draggingitems").remove();
+                        if($(this).data("dropevent")){
+                            $(window).trigger($(this).data("dropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        }
+                    },
+                    over: function(event, ui) {
+                        if($(this).data("overdropevent")){
+                            $(window).trigger($(this).data("overdropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        }
+                    }
+                }
+            },
+            /**
+             * Sets up droppables accross the page
+             * @param {Object} params Optional parameters that override defaults
+             * @param {Object} $container Optional container element to add droppables, defaults to $("html") if not set
+             */
+            setupDroppable: function(params, $container){
+                $.each($(".s3d-droppable-container", $container), function(index, droppable){
+                    if(!$(droppable).hasClass("ui-droppable")){
+                        // HTML overrides default, JS overrides HTML
+                        // Override default parameters with attribute defined parameters
+                        var htmlParams =  $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
+                        // Override attribute defined parameters with JS defined ones
+                        params = $.extend(true, htmlParams, params);
+                        $(".s3d-droppable-container", $container || $("html")).droppable(params);
+                    }
+                });
+            }
+        }
     };
     
     return sakai_util;

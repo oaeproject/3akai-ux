@@ -1,27 +1,58 @@
-#entity_container #entity_content_permissions .entity_content_permissions_icon {margin-left:5px;padding-left:20px;background:url("/dev/images/settings_icon.png") no-repeat scroll left -1px transparent;}
-#contentpermissions_container #contentpermissions_global_permissions, #contentpermissions_container .contentpermissions_member_permissions, #contentpermissions_container #contentpermissions_newmember_all_permissions {border: 1px solid #A9A9A9;height: 20px;margin-top: -2px;}
-#contentpermissions_container #contentpermissions_global_permissions {margin-left:30px;}
-#contentpermissions_container .contentpermissions_member_permissions {float:right;margin:8px 25px 0 0}
-#contentpermissions_container .contentpermissions_content_section {background-color: #E5EAED;border-radius:4px;padding:10px 12px;margin-bottom: 10px;}
-#contentpermissions_container .contentpermissions_content_section_no_bottom_borders{border-radius:4px 4px 0 0;}
-#contentpermissions_container .contentpermissions_content_section #contentpermissions_members_message {resize:none;padding:0;border:1px solid #A9A9A9;width:100%;height:75px;}
-#contentpermissions_container .contentpermissions_content_section #contentpermissions_members_message:hover, #contentpermissions_container #contentpermissions_newmember_permissions {border: 1px solid #A9A9A9;}
-#contentpermission_members_container {border:1px solid #A9A9A9;margin-top:-10px;}
-#contentpermissions_container #contentpermissions_newmember_permissions {margin-top:10px;}
-#contentpermissions_container #contentpermissions_share_button{margin-top: 10px;}
-#contentpermissions_container #contentpermissions_members_list {height:168px;overflow:auto;}
-#contentpermissions_container #contentpermissions_members_actions {border-bottom:1px solid #A9A9A9;height:25px;margin-bottom:5px;padding:8px 10px 3px;}
-#contentpermissions_container #contentpermissions_members_actions input[type="checkbox"] {margin-right:10px;}
-#contentpermissions_container #contentpermissions_newmember_all_permissions {float: right;margin-right: 25px;margin-top:0;}
-#contentpermissions_container #contentpermissions_members_list ul {margin:0;}
-#contentpermissions_container #contentpermissions_members_list ul li {list-style:none;padding:5px 10px;height:32px;clear:both;display:block;}
-#contentpermissions_container #contentpermissions_members_list ul li input[type="checkbox"] {display: block;float: left;margin-right: 15px;margin-top:11px;}
-#contentpermissions_container #contentpermissions_members_list ul li label img {float: left;margin-right:15px;cursor:pointer;}
-#contentpermissions_container #contentpermissions_members_list ul li label a {display:block;float:left;margin-top:9px;}
-#contentpermissions_container #contentpermissions_members_list ul li select {margin-top:7px;}
-#contentpermissions_container #contentpermissions_save_actions {float:right;margin-top:11px;}
-#contentpermissions_container #contentpermissions_save_actions #contentpermissions_cancel_button {margin-right: 12px;margin-top: 4px;}
-#contentpermissions_container .contentpermissions_content_section .as-selections {margin:8px 0;}
-#contentpermissions_container .contentpermissions_pseudogroup {font-size:10px; color: #666;}
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+#contentpermissions_container {width:800px !important;font-size:12px;margin-left:-420px !important;color:#666;}
+#contentpermissions_container h1.s3d-dialog-header {margin-bottom:0;}
+#contentpermissions_container .contentpermissions_permissions_container {width:390px;float:left;}
+#contentpermissions_container #contentpermissions_content_container .contentpermissions_permissions_container.first {margin-right:20px;}
+#contentpermissions_container .s3d-inset-shadow-container {padding:10px;}
+#contentpermissions_container .contentpermissions_selectable > input {float:left;margin-right:10px;margin-top:2px;}
+#contentpermissions_container .s3d-inset-shadow-container label {padding:1px 0 0 6px;}
+#contentpermissions_container .s3d-inset-shadow-container label .label_icon {width:15px;height:15px;display:inline-block;margin:0 8px 0 2px;float:left;}
+#contentpermissions_container .s3d-inset-shadow-container label .label_icon.globe {background:url("/dev/images/globe_icon.png") no-repeat top left transparent;}
+#contentpermissions_container .s3d-inset-shadow-container label .label_icon.small_institution {background:url("/dev/images/small_institution_icon.png") no-repeat top left transparent;}
+#contentpermissions_container .s3d-inset-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon.png") no-repeat top left transparent;}
+#contentpermissions_container .s3d-outer-shadow-container label .label_icon.globe {background:url("/dev/images/globe_icon_black.png") no-repeat top left transparent;}
+#contentpermissions_container .s3d-outer-shadow-container label .label_icon.small_institution {background:url("/dev/images/small_institution_icon_black.png") no-repeat top left transparent;}
+#contentpermissions_container .s3d-outer-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon_black.png") no-repeat top left transparent;}
+#contentpermissions_container .s3d-outer-shadow-container select {border:1px solid #999;}
+#contentpermissions_container .s3d-inset-shadow-container .s3d-split-line {border-top-style:solid;margin:7px 0 10px;}
+#contentpermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {width:95%}
+#contentpermissions_container .s3d-inset-shadow-container .contentpermissions_unselected_rbt {height:30px;margin-left:13px;padding-top:15px;}
+#contentpermissions_container .contentpermissions_buttons{margin-top:15px;}
+#contentpermissions_container ul#contentpermissions_members_list {margin:0;padding:0;overflow-y:auto;height:210px;}
+#contentpermissions_container .s3d-outer-shadow-container {color:#333;list-style:none;}
+#contentpermissions_container .s3d-inset-shadow-container {background-color:none;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
+#contentpermissions_container .contentpermissions_you {font-weight:normal;}
+#contentpermissions_container #contentpermissions_see_private_specific, #contentpermissions_container .contentpermissions_role_label {text-transform: capitalize;}
+#contentpermissions_container #contentpermissions_see_private_specific > hr:first-child {margin:10px 0 20px;}
+#contentpermissions_container .contentpermissions_grouppermissions_notificationlabel {font-size:10px;font-weight:normal;}
+#contentpermissions_container .contentpermissions_edit_role_container {width:169px;}
+#contentpermissions_container .contentpermissions_edit_role_container.multiple {float:left;}
+.contentpermissions_permissions_container .as-selections {margin-bottom:10px;width:277px;padding:0 5px;box-shadow:none;}
+.contentpermissions_permissions_container #contentpermissions_members_autosuggest_text {border:1px solid #999;height:90px;resize:none;width:270px;padding:5px;}
+.contentpermissions_permissions_container #contentpermissions_members_autosuggest_sharebutton {float:right;margin-top:80px;}
+.contentpermissions_permissions_container #contentpermissions_members_autosuggest_permissions {border:1px solid #999;float:right;margin-top:3px;}
+
+li.contentpermissions_edit.s3d-outer-shadow-container {padding:3px 13px 6px;}
+li.contentpermissions_edit label a, li.contentpermissions_edit label span {line-height:30px;}
+li.contentpermissions_edit label img {float:left;}
+li.contentpermissions_edit select.contentpermissions_member_permissions {float:right;margin-top:7px;}
+li.contentpermissions_edit button{float:right;margin:10px 0 0 10px;}
+
+#contentpermissions_warning_container {top:150px;}
 #contentpermissions_warning_container #contentpermissions_warning_container_text {font-size:16px;line-height:20px;}
-#contentpermissions_warning_container {margin-top: 150px;}

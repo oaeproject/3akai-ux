@@ -1,322 +1,258 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/addarea/css/addarea.css" />
 
-<div class="addarea_widget" id="addarea_widget" style="display:none;">
-    <div class="addarea_dropdown">
-        <span class="addarea_plus_icon"><!----></span>
-        <div class="addarea_dropdown_content">
-            <ul class="addarea_contents_list">
-                <li id="addarea_contents_list_first_item" class="addarea_contents_list_item" data-context="pages">__MSG__PAGES__</li>
-                <li class="addarea_contents_list_item" data-context="sakaidoc">__MSG__CONTENT_AND_SAKAI_DOC__</li>
-                <li class="addarea_contents_list_item" data-context="dashboardoverview" style="display:none;">__MSG__DASHBOARD_OVERVIEW__</li>
-                <li class="addarea_contents_list_item" data-context="participantlist">__MSG__PARTICIPANT_LIST_PAGE__</li>
-                <li class="addarea_contents_list_item" data-context="timetable" style="display:none;">__MSG__TIMETABLE__</li>
-                <li class="addarea_contents_list_item" data-context="contentlibrary">__MSG__CONTENT_LIBRARY__</li>
-                <li class="addarea_contents_list_item" data-context="widgetpage">__MSG__WIDGET_PAGE__</li>
-                <li class="addarea_contents_list_item" data-context="sakaitwotool" style="display:none;">__MSG__SAKAI_2_TOOL__</li>
+<div id="addarea_container" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__ADD__ +</h1>
+    <ul id="addarea_content_menu">
+        <li class="addarea_content_menu_item selected">
+            <button type="button" class="s3d-button s3d-link-button" data-containertoshow="addarea_new_container"><span class="navigation_icon new_document_icon"></span>__MSG__NEW__</button>
+        </li>
+        <li class="addarea_content_menu_item hassubnav">
+            <button type="button" class="s3d-button s3d-link-button subnav_header" id="addarea_new" data-containertoshow="addarea_existing_currentlyviewing_container"><span class="navigation_icon existing_content_icon"></span>__MSG__FROM_EXISTING__...</button>
+            <ul class="addarea_content_menu_item_subnav">
+                <li>
+                    <button type="button" class="s3d-button s3d-link-button subnav_button" data-containertoshow="addarea_existing_currentlyviewing_container">__MSG__CURRENTLY_VIEWING__</button>
+                </li>
+                <li>
+                    <button type="button" class="s3d-button s3d-link-button subnav_button" data-containertoshow="addarea_existing_mylibrary_container">__MSG__MY_LIBRARY__</button>
+                </li>
+                <li>
+                    <button type="button" class="s3d-button s3d-link-button subnav_button" data-containertoshow="addarea_existing_everywhere_container">__MSG__EVERYWHERE__</button>
+                </li>
             </ul>
-            <div id="addarea_contents_container">
-                <div id="addarea_contents_container_description"><!----></div>
-                <div id="addarea_contents_container_form" style="display:none;"><!----></div>
+        </li>
+        <hr class="s3d-split-line"/>
+        <li class="addarea_content_menu_item">
+            <button type="button" class="s3d-button s3d-link-button" data-containertoshow="addarea_contentlist_container"><span class="navigation_icon content_list_icon"></span>__MSG__CONTENT_LIST__</button>
+        </li>
+        <li class="addarea_content_menu_item">
+            <button type="button" class="s3d-button s3d-link-button" data-containertoshow="addarea_participants_container"><span class="navigation_icon participants_icon"></span>__MSG__PARTICIPANTS_LIST__</button>
+        </li>
+        <li class="addarea_content_menu_item">
+            <button type="button" class="s3d-button s3d-link-button" data-containertoshow="addarea_widgets_container"><span class="navigation_icon widgets_icon"></span>__MSG__WIDGETS__</button>
+        </li>
+    </ul>
+    <div id="addarea_content_container">
+        <div id="addarea_new_container" data-doc-type="new">
+            <h3>__MSG__NEW_SAKAI_DOCUMENT__</h3>
+            <div class="addarea_preview_container">
+                <img src="/devwidgets/addarea/images/addarea_new_document_example.png" alt="__MSG__NEW_SAKAI_DOCUMENT__"/>
+                <span>__MSG__A_NEW_SAKAI_DOCUMENT__</span>
             </div>
-            <div id="addarea_action_buttons" style="display:none;">
-                <button id="addarea_cancel_new_area" class="s3d-link-button s3d-bold" type="button">__MSG__CANCEL__</button>
-                <button type="button" id="addarea_create_new_area" class="s3d-button s3d-overlay-button">__MSG__CREATE__</button>
+            <div class="addarea_data_container">
+                <label for="addarea_new_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_new_name" id="addarea_new_name" class="addarea_name_field"></input>
+                <label for="addarea_new_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_new_permissions" name="addarea_new_permissions"></select>
+                <label for="addarea_new_numberofpages">__MSG__NUMBER_OF_PAGES__:</label>
+                <select id="addarea_new_numberofpages" name="addarea_new_numberofpages">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <span id="addarea_new_numberofpages_doc">__MSG__YOU_CAN_ADD_MORE_LATER__</span>
+                <hr class="fl-push fl-hidden"/>
+                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
+                <label for="addarea_new_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_new_tagsandcategories" name="addarea_new_tagsandcategories"></textarea>
             </div>
         </div>
+        <div id="addarea_existing_currentlyviewing_container" data-doc-type="existing_currentlyviewing" class="addarea_existing_container" style="display:none;">
+            <h3>__MSG__CURRENTLY_VIEWING__ <span class="addarea_group_name"></span></h3>
+            <div class="addarea_existing_top">
+                <select id="addarea_existing_currentlyviewing_sort" class="addarea_existing_sort" name="addarea_existing_currentlyviewing_sort">
+                    <option value="desc">__MSG__NEWEST__</option>
+                    <option value="asc">__MSG__OLDEST__</option>
+                </select>
+                <label for="addarea_existing_currentlyviewing_sort">__MSG__SORT_BY__</label>
+                <div class="s3d-search-container">
+                    <input type="text" tabindex_none="40" id="addarea_existing_currentlyviewing_search" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield addarea_existing_search"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                    </button>
+                </div>
+            </div>
+            <div class="addarea_existing_bottom" id="addarea_existing_currentlyviewing_bottom">
+                
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select name="addarea_existing_permissions" class="addarea_existing_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USER_ONLY__</option>
+                    <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+                    <option value="advanced">__MSG__ADVANCED__</option>
+                </select>
+            </div>
+        </div>
+        <div id="addarea_existing_mylibrary_container" class="addarea_existing_container" data-doc-type="existing_mylibrary" style="display:none;">
+            <h3>__MSG__FROM_MY_LIBRARY__...</h3>
+            <div class="addarea_existing_top">
+                <select id="addarea_existing_mylibrary_sort" class="addarea_existing_sort" name="addarea_existing_mylibrary_sort">
+                    <option value="desc">__MSG__NEWEST__</option>
+                    <option value="asc">__MSG__OLDEST__</option>
+                </select>
+                <label for="addarea_existing_mylibrary_sort">__MSG__SORT_BY__</label>
+                <div class="s3d-search-container">
+                    <input type="text" tabindex_none="40" id="addarea_existing_mylibrary_search" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield addarea_existing_search"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                    </button>
+                </div>
+            </div>
+            <div class="addarea_existing_bottom" id="addarea_existing_mylibrary_bottom">
+                
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select name="addarea_existing_permissions" class="addarea_existing_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USER_ONLY__</option>
+                    <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+                    <option value="advanced">__MSG__ADVANCED__</option>
+                </select>
+            </div>
+        </div>
+        <div id="addarea_existing_everywhere_container" class="addarea_existing_container" data-doc-type="existing_everywhere" style="display:none;">
+            <h3>__MSG__FROM_EXISTING__...</h3>
+            <div class="addarea_existing_top">
+                <select id="addarea_existing_everywhere_sort" class="addarea_existing_sort" name="addarea_existing_everywhere_sort">
+                    <option value="desc">__MSG__NEWEST__</option>
+                    <option value="asc">__MSG__OLDEST__</option>
+                </select>
+                <label for="addarea_existing_everywhere_sort">__MSG__SORT_BY__</label>
+                <div class="s3d-search-container">
+                    <input type="text" tabindex_none="40" id="addarea_existing_everywhere_search" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield addarea_existing_search"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
+                    </button>
+                </div>
+            </div>
+            <div class="addarea_existing_bottom" id="addarea_existing_everywhere_bottom">
+                
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select name="addarea_existing_permissions" class="addarea_existing_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USER_ONLY__</option>
+                    <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+                    <option value="advanced">__MSG__ADVANCED__</option>
+                </select>
+            </div>
+        </div>
+        <div id="addarea_contentlist_container" data-doc-type="contentlibrary" style="display:none;">
+            <h3>__MSG__CONTENT_LIST_OR_LIBARY__</h3>
+            <div class="addarea_preview_container">
+                <img src="/devwidgets/addarea/images/addarea_content_library_example.png" alt="__MSG__CONTENT_LIST_OR_LIBARY__"/>
+                <span>__MSG__A_LIST_OF_ALL_CONTENT_USED_HERE__</span>
+            </div>
+            <div class="addarea_data_container">
+                <label for="addarea_contentlist_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" id="addarea_contentlist_name" name="addarea_contentlist_name" class="addarea_name_field"/>
+                <label for="addarea_contentlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_contentlist_permissions" name="addarea_contentlist_permissions"></select>
+                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
+                <label for="addarea_contentlist_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_contentlist_tagsandcategories" name="addarea_contentlist_tagsandcategories"></textarea>
+            </div>
+        </div>
+        <div id="addarea_participants_container" data-doc-type="participants" style="display:none;">
+            <h3>__MSG__PARTICIPANTS_OR_MEMBERS_LIST__</h3>
+            <div class="addarea_preview_container">
+                <img src="/devwidgets/addarea/images/addarea_content_library_example.png" alt="__MSG__PARTICIPANTS_OR_MEMBERS_LIST__"/>
+                <span>__MSG__A_LIST_OF_ALL_PARTICIPANTS_OR_MEMBERS_IN_THE_GROUP__</span>
+            </div>
+            <div class="addarea_data_container">
+                <label for="addarea_participants_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" id="addarea_participants_name" name="addarea_participants_name" class="addarea_name_field"/>
+                <label for="addarea_participants_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_participants_permissions" name="addarea_participants_permissions"></select>
+                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
+                <label for="addarea_participants_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_participants_tagsandcategories" name="addarea_participants_tagsandcategories"></textarea>
+            </div>
+        </div>
+        <div id="addarea_widgets_container" data-doc-type="widgets" style="display:none;">
+            <h3>__MSG__WIDGET_PAGE__</h3>
+            <div class="addarea_preview_container">
+                <img src="/devwidgets/addarea/images/addarea_widget_example.png" alt="__MSG__WIDGET_PAGE__"/>
+                <span>__MSG__CREATE_A_PAGE_USING_WIDGETS__</span>
+            </div>
+            <div class="addarea_data_container">
+                <label for="addarea_widgets_widget">__MSG__SELECT_WIDGET__:</label>
+                <select id="addarea_widgets_widget" name="addarea_widgets_widget"></select>
+                <label for="addarea_widgets_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_widgets_name" id="addarea_widgets_name" class="addarea_name_field"></input>
+                <label for="addarea_widgets_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_widgets_permissions" name="addarea_widgets_permissions"></select>
+                <hr class="fl-push fl-hidden"/>
+                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
+                <label for="addarea_widgets_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_widgets_tagsandcategories" name="addarea_widgets_tagsandcategories"></textarea>
+            </div>
+        </div>
+    </div>
+    <div id="addarea_actions">
+        <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
+        <button class="s3d-button s3d-overlay-action-button" id="addarea_create_doc_button" type="button" disabled="true">__MSG__DONE_ADD__</button>
     </div>
 </div>
 
-<div id="addarea_existing_sakaidoc_visibility_template"><!--
-    {if group["sakai:group-visible"] === "public"}
-        {if canManage}
-            <option value="public">__MSG__PUBLIC__</option>
-            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__YOU_MUST_MANAGE_DOCUMENT__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__YOU_MUST_MANAGE_DOCUMENT__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
-    {elseif group["sakai:group-visible"] === "logged-in-only"}
-        {if canManage}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__YOU_MUST_MANAGE_DOCUMENT__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__YOU_MUST_MANAGE_DOCUMENT__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
+<div id="addarea_widgets_widget_container"><!--
+    {for widget in data}
+        <option value="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</option>
+    {/for}
+--></div>
+
+<div id="addarea_existing_bottom_template"><!--
+    {if data.length}
+        <ul>
+            {for doc in data}
+                <li class="addarea_existing_item" data-can-manage="${doc.canManage}" data-doc-title="${doc["sakai:pooled-content-file-name"]}" data-doc-id="${doc["_path"]}"><a href="javascript:;" title="${doc["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${doc["sakai:pooled-content-file-name"]}</a></li>
+            {/for}
+        </ul>
     {else}
-        <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-        <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-        <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-    {/if}
-    <option value="advanced">__MSG__ADVANCED__</option> 
---></div>
-
-<div id="addarea_existing_sakaidoc_template"><!--
-    <ul>
-        {for item in data.results}
-            <li class="addarea_existing_sakaidoc_item" data-sakai-poolid="${item["_path"]}" data-sakai-manage="${item.canManage}"><span class="icon-sakaidoc-sprite s3d-icon-16"></span>${item["sakai:pooled-content-file-name"]|safeOutput}</li>
-            {if item_index < data.results.length - 1}
-                <hr class="s3d-split-line">
-            {/if}
-        {/for}
-    </ul>    
---></div>
-
-<div id="addarea_contents_container_description_template"><!--
-    <img src="/devwidgets/addarea/images/addarea_preview.png" id="addarea_preview_image" alt="__MSG__AREA_PREVIEW__"/>
-    <span id="addarea_preview_description">${areadescription}</span>
-    
-    <button type="button" class="s3d-button s3d-header-button addarea_select_template" data-context="${context}">__MSG__SELECT__</button>
---></div>
-
-<div id="addarea_pages_form_template"><!--
-    <label for="addarea_pages_page_name">__MSG__PAGE_NAME__:</label>
-    <input type="text" id="addarea_pages_page_name"/>
-
-    <label for="addarea_pages_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-    <select id="addarea_pages_permissions">
-        {if group["sakai:group-visible"] === "public"}
-            <option value="public">__MSG__PUBLIC__</option>
-            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {elseif group["sakai:group-visible"] === "logged-in-only"}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
-        <option value="advanced">__MSG__ADVANCED__</option>
-    </select>
-
-    <label for="addarea_pages_numberofpages">__MSG__NUMBER_OF_PAGES__:</label>
-    <select id ="addarea_pages_numberofpages">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-    </select>
-    <span class="addarea_form_annotation">__MSG__YOU_CAN_ADD_MORE_AND_NAME_THEM_LATER__</span>
---></div>
-
-<div id="addarea_sakaidoc_form_template"><!--
-    <div id="addarea_sakaidoc_existingdocs">
-        <div id="addarea_sakaidoc_search">
-            <select id="addarea_sakaidoc_existingdocs_sort">
-                <option value="asc">__MSG__A_Z__</option>
-                <option value="desc">__MSG__Z_A__</option>
-            </select>
-            <label class="fl-force-right" for="addarea_sakaidoc_existingdocs_sort">__MSG__SORT_BY__</label>
-            <label class="fl-force-left" for="addarea_sakaidoc_searchfield">__MSG__SEARCH_EVERYWHERE__</label>
-            <input type="text" id="addarea_sakaidoc_searchfield"/>
-            <button id="addarea_sakaidoc_search_clear" class="s3d-link-button">__MSG__CLEAR__</button>
-        </div>
-        <div id="addarea_sakaidoc_existingdocscontainer"></div>
-    </div>
-
-    <div class="addarea_divide_container">
-        <label for="addarea_sakaidoc_page_name">__MSG__PLACEMENT_TITLE__:</label>
-        <input type="text" id="addarea_sakaidoc_page_name"/>
-    </div>
-
-    <div class="addarea_divide_container">
-        <label for="addarea_sakaidoc_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-        <select id="addarea_sakaidoc_permissions">
-            {if group["sakai:group-visible"] === "public"}
-                <option value="public">__MSG__PUBLIC__</option>
-                <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-                <option value="private">__MSG__MEMBERS_ONLY__</option>
-            {elseif group["sakai:group-visible"] === "logged-in-only"}
-                <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-                <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-                <option value="private">__MSG__MEMBERS_ONLY__</option>
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+            <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
+            {if context && context === "currently_viewing"}
+                <h1>__MSG__NO_CURRENTLY_VIEWING_RESULTS_DESCRIPTION__</h1>
+            {elseif context && context === "my_library"}
+                <h1>__MSG__NO_LIBRARY_RESULTS_DESCRIPTION__</h1>
             {else}
-                <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-                <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-                <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+                <h1>__MSG__NO_EVERYWHERE_RESULTS_DESCRIPTION__</h1>
             {/if}
-            <option value="advanced">__MSG__ADVANCED__</option>
-        </select>
-    </div>
+        </div>
+    {/if}
 --></div>
 
-<div id="addarea_dashboardoverview_form_template"><!--
-    <label for="addarea_dashboardoverview_page_name">__MSG__PAGE_NAME__:</label>
-    <input type="text" id="addarea_dashboardoverview_page_name"/>
-
-    <label for="addarea_dashboardoverview_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-    <select id="addarea_dashboardoverview_permissions">
-        {if group["sakai:group-visible"] === "public"}
-            <option value="public">__MSG__PUBLIC__</option>
-            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {elseif group["sakai:group-visible"] === "logged-in-only"}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
+<div id="addarea_permissions_template"><!--
+    {if !newDoc}
+        <option value="public" {if !canManage || groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
+        <option value="everyone" {if !canManage || groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USER_ONLY__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
+        <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
         <option value="advanced">__MSG__ADVANCED__</option>
-    </select>
---></div>
-
-<div id="addarea_participantlist_form_template"><!--
-    <label for="addarea_participantlist_page_name">__MSG__PAGE_NAME__:</label>
-    <input type="text" id="addarea_participantlist_page_name"/>
-
-    <label for="addarea_participantlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-    <select id="addarea_participantlist_permissions">
-        {if group["sakai:group-visible"] === "public"}
-            <option value="public">__MSG__PUBLIC__</option>
-            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {elseif group["sakai:group-visible"] === "logged-in-only"}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
+    {else}
+        <option value="public" {if groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){/if}</option>
+        <option value="everyone" {if groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USER_ONLY__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){/if}</option>
+        <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
         <option value="advanced">__MSG__ADVANCED__</option>
-    </select>
---></div>
-
-<div id="addarea_timetable_form_template"><!--
-    <label for="addarea_timetable_page_name">__MSG__PAGE_NAME__:</label>
-    <input type="text" id="addarea_timetable_page_name"/>
-
-    <label for="addarea_timetable_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-    <select id="addarea_timetable_permissions">
-        {if group["sakai:group-visible"] === "public"}
-            <option value="public">__MSG__PUBLIC__</option>
-            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {elseif group["sakai:group-visible"] === "logged-in-only"}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
-        <option value="advanced">__MSG__ADVANCED__</option>
-    </select>
---></div>
-
-<div id="addarea_contentlibrary_form_template"><!--
-    <label for="addarea_contentlibrary_page_name">__MSG__PAGE_NAME__:</label>
-    <input type="text" id="addarea_contentlibrary_page_name"/>
-
-    <label for="addarea_contentlibrary_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-    <select id="addarea_contentlibrary_permissions">
-        {if group["sakai:group-visible"] === "public"}
-            <option value="public">__MSG__PUBLIC__</option>
-            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {elseif group["sakai:group-visible"] === "logged-in-only"}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
-        <option value="advanced">__MSG__ADVANCED__</option>
-    </select>
---></div>
-
-<div id="addarea_widgetpage_form_template"><!--
-    <label for="addarea_widgetpage_page_name">__MSG__PAGE_NAME__:</label>
-    <input type="text" id="addarea_widgetpage_page_name"/>
-
-    <label for="addarea_widgetpage_selectwidget">__MSG__SELECT_WIDGET__:</label>
-    <select id="addarea_widgetpage_selectwidget">
-        {for widget in data}
-            <option value="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</option>
-        {/for}
-    </select>
-
-    <label for="addarea_widgetpage_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-    <select id="addarea_widgetpage_permissions">
-        {if group["sakai:group-visible"] === "public"}
-            <option value="public">__MSG__PUBLIC__</option>
-            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {elseif group["sakai:group-visible"] === "logged-in-only"}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
-        <option value="advanced">__MSG__ADVANCED__</option>
-    </select>
---></div>
-
-<div id="addarea_sakaitwotool_form_template"><!--
-    <label for="addarea_sakaitwotool_page_name">__MSG__PAGE_NAME__:</label>
-    <input type="text" id="addarea_sakaitwotool_page_name"/>
-
-    <label for="addarea_sakaitwotool_selecttool">__MSG__SELECT_SAKAI_2_TOOL__:</label>
-    <select id="addarea_sakaitwotool_selecttool">
-        <option value="sakai.announcements">__MSG__ANNOUNCEMENTS__</option>
-        <option value="sakai.assignment.grades">__MSG__ASSIGNMENTS__</option>
-        <option value="sakai.schedule">__MSG__CALENDAR__</option>
-        <option value="sakai.summary.calendar">__MSG__CALENDAR_SUMMARY__</option>
-        <option value="sakai.chat">__MSG__CHAT_ROOM__</option>
-        <option value="sakai.dropbox">__MSG__DROP_BOX__</option>
-        <option value="sakai.mailbox">__MSG__EMAIL_ARCHIVE__</option>
-        <option value="sakai.forums">__MSG__FORUMS__</option>
-        <option value="sakai.gradebook.tool">__MSG__GRADEBOOK__</option>
-        <option value="sakai.messages">__MSG__MESSAGES__</option>
-        <option value="sakai.news">__MSG__NEWS__</option>
-        <option value="sakai.poll">__MSG__POLLS__</option>
-        <option value="sakai.postem">__MSG__POSTEM__</option>
-        <option value="sakai.profile">__MSG__PROFILE__</option>
-        <option value="sakai.profile2">__MSG__PROFILE2__</option>
-        <option value="sakai.resources">__MSG__RESOURCES__</option>
-        <option value="sakai.site.roster">__MSG__ROSTER__</option>
-        <option value="sakai.rwiki">__MSG__RWIKI__</option>
-        <option value="sakai.singleuser">__MSG__SINGLE_USER__</option>
-        <option value="sakai.syllabus">__MSG__SYLLABUS__</option>
-        <option value="sakai.samigo">__MSG__TESTS_N_QUIZZES__</option>
-    </select>
-
-    <label for="addarea_sakaitwotool_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-    <select id="addarea_sakaitwotool_permissions">
-        {if group["sakai:group-visible"] === "public"}
-            <option value="public">__MSG__PUBLIC__</option>
-            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {elseif group["sakai:group-visible"] === "logged-in-only"}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
-            <option value="private">__MSG__MEMBERS_ONLY__</option>
-        {else}
-            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
-            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
-            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
-        {/if}
-        <option value="advanced">__MSG__ADVANCED__</option>
-    </select>
-
-
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->

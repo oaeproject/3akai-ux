@@ -106,62 +106,58 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var rssPagesShouldBeBiggerThan = "#rss_pages_should_be_bigger_than";
         var rssAddedNoFeeds = "#rss_added_no_feeds";
 
+        var $rss_settings_form = $("#rss_settings_form", rootel),
+            $rss_display_form = $("#rss_display_form", rootel);
 
         ////////////////////
         // Event Handlers //
         ////////////////////
-        var addBinding = function(){
-            $(rssAddUrl,rootel).bind("click", function(e, ui){
-                addRssFeed();
-            });
-            $(rssTxtUrl, rootel).bind("keydown", function(e, ui) {
-                if (e.keyCode === 13) {
-                    addRssFeed();
-                }
-            });
+        var addBinding = function() {
+            var validateOpts = {
+                submitHandler: addRssFeed
+            };
+            sakai.api.Util.Forms.validate($rss_settings_form, validateOpts, true);
             $(rssCancel, rootel).bind("click",function(e,ui){
                 sakai.api.Widgets.Container.informCancel(tuid, "rss");
             });
-            $(rssSubmit, rootel).bind("click",function(e,ui){
-                var object = getSettingsObject();
-                if(object !== false){
-                    sakai.api.Widgets.saveWidgetData(tuid, object, function(success, data){
-                        if ($(".sakai_dashboard_page").is(":visible")) {
-                            showSettings = false;
-                            showHideSettings(showSettings);
-                        }
-                        else {
-                            sakai.api.Widgets.Container.informFinish(tuid, "rss");
-                        }
-                    }, true);
+            var saveValidateOpts = {
+                submitHandler: saveRssOptions,
+                rules: {
+                    rss_settings_numEntries: {
+                        min: 1
+                    }
+                },
+                messages: {
+                    rss_settings_numEntries: {
+                        min: sakai.api.i18n.getValueForKey("MUST_BE_MORE_THAN_ZERO", "rss")
+                    }
                 }
-            });
+            };
+            sakai.api.Util.Forms.validate($rss_display_form, saveValidateOpts, true);
 
-            $(rssSendToFriend, rootel).bind("click", function(e, ui){
+            $(rssSendToFriend, rootel).bind("click", function(e, ui) {
                 var index = parseInt(e.target.id.replace(rssSendToFriendNoDot, ""), 10);
                 // retrieve the title and body of the entry
                 var subject = resultJSON.entries[((pageClicked - 1) * 3) + index].title;
                 var body = resultJSON.entries[((pageClicked - 1) * 3) + index].description + "\n";
                 body += "read more: " + resultJSON.entries[((pageClicked - 1) * 3) + index].link;
                 // initialize the sendmessage-widget
-                $(window).trigger("initialize.sendmessage.sakai", [null, true, false, null, subject, body]);
+                $(window).trigger("initialize.sendmessage.sakai", [null, null, null, subject, body]);
             });
 
-            $(rssOrderBySource, rootel).bind("click", function(e, ui){
+            $(rssOrderBySource, rootel).bind("click", function(e, ui) {
                 if (currentSort === "sourceD") {
                     currentSort = "sourceA";
-                }
-                else {
+                } else {
                     currentSort = "sourceD";
                 }
                 resultJSON.entries.sort(sortBySourcefunction);
                 pagerClickHandler(1);
             });
-            $(rssOrderByDate, rootel).bind("click", function(e, ui){
+            $(rssOrderByDate, rootel).bind("click", function(e, ui) {
                 if (currentSort === "dateD") {
                     currentSort = "dateA";
-                }
-                else {
+                } else {
                     currentSort = "dateD";
                 }
                 resultJSON.entries.sort(sortByDatefunction);
@@ -170,7 +166,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var bindFeedRemove = function () {
-            $(rssRemove, rootel).bind("click", function(e,ui){
+            $(rssRemove, rootel).bind("click", function(e,ui) {
                 var index = this.id.split("-")[1];
                 resultJSON.feeds.splice(index,1);
                 $(rssRemoveFeed + "-" + index).parent().remove();
@@ -187,9 +183,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * return "" if undefined
          * @param {XMLNode} node
          */
-        var getContent = function(node){
+        var getContent = function(node) {
             // checks if the node isn't undefined
-            if(node){
+            if (node) {
                 return node.textContent;
             }
             return "";
@@ -199,10 +195,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * converts the xml-feed to a json-object
          * @param {Object} feed
          */
-        var printFeed = function(feed){
-
-            try{
-
+        var printFeed = function(feed) {
+            try {
                 // Make the json-object where the rss-data will be saved
                 var rss = {"items" : []};
                 var xmlobject = feed;
@@ -241,8 +235,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
               });
               return rss;
-            }
-            catch(ex){
+            } catch(ex){
                 sakai.api.Util.notification.show($(rssIncorrectRssFeed).html(), $(rssPasteValidRssAddress).html());
             }
             // return false if some kind of error occured
@@ -255,11 +248,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} url: the url for the rss-feed
          * @param {function} The function where the response will be send to;
          */
-        var getFeed = function(url, onResponse){
+        var getFeed = function(url, onResponse) {
             // put the url to a module variable
             // later on this will also be added to the json-object
             // See if we have http:// in url
-            if (url.search("http://") === -1) {
+            if (url.search("http://") === -1 && url.search("https://") === -1) {
                 url = "http://" + url;
             }
 
@@ -294,16 +287,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} b  another rss feed item
          */
         var sortByDatefunction = function(a, b) {
-
             var ret = -1;
             if (currentSort === "dateD") {
                 ret = 1;
             }
-
-            if(a.pubDateObj >  b.pubDateObj){
+            if (a.pubDateObj >  b.pubDateObj) {
                 return ret;
-            }
-            else if(b.pubDateObj >  a.pubDateObj){
+            } else if (b.pubDateObj >  a.pubDateObj) {
                 return -(ret);
             }
             return 0;
@@ -315,16 +305,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} b
          */
         var sortBySourcefunction =  function(a, b){
-
             var ret = -1;
-            if (currentSort === "sourceD"){
+            if (currentSort === "sourceD") {
                 ret = 1;
             }
-
-            if(a.feed.title >  b.feed.title){
+            if (a.feed.title >  b.feed.title) {
                 return -(ret);
-            }
-            else if(b.feed.title >  a.feed.title){
+            } else if (b.feed.title >  a.feed.title) {
                 return ret;
             }
             return 0;
@@ -337,19 +324,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * resultJSON object contains the displaySource and displayHeadlines settings
          */
         var convertDisplaySettingsToBool = function () {
-            if (!resultJSON) { return; }
-            if (resultJSON.displaySource) {
-                if (!resultJSON.displaySource || resultJSON.displaySource === "false") {
-                    resultJSON.displaySource = false;
-                } else {
-                    resultJSON.displaySource = true;
+            if (resultJSON) {
+                if (resultJSON.displaySource) {
+                    if (!resultJSON.displaySource || resultJSON.displaySource === "false") {
+                        resultJSON.displaySource = false;
+                    } else {
+                        resultJSON.displaySource = true;
+                    }
                 }
-            }
-            if (resultJSON.displayHeadlines) {
-                if (!resultJSON.displayHeadlines || resultJSON.displayHeadlines === "false") {
-                    resultJSON.displayHeadlines = false;
-                } else {
-                    resultJSON.displayHeadlines = true;
+                if (resultJSON.displayHeadlines) {
+                    if (!resultJSON.displayHeadlines || resultJSON.displayHeadlines === "false") {
+                        resultJSON.displayHeadlines = false;
+                    } else {
+                        resultJSON.displayHeadlines = true;
+                    }
                 }
             }
         };
@@ -388,7 +376,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {int} pagenumber
          * @return {array} entries
          */
-        var getShownEntries = function(page){
+        var getShownEntries = function(page) {
             page = page-1;
             // if you don't make a clone, the splice-method will also remove entries form the original JSON-object
             var shownEntries = cloneObject(resultJSON);
@@ -404,7 +392,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * and connects the pager again
          * @param {Object} pageClicked
          */
-        var pagerClickHandler = function(clicked){
+        var pagerClickHandler = function(clicked) {
             pageClicked = parseInt(clicked, 10);
             // first get the entries that need to be shown on this page
             resultJSON.shownEntries = getShownEntries(clicked);
@@ -423,9 +411,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * gets the entries from all subscribed feeds
          * @param {Object} json
          */
-        var fillRssOutput = function(){
+        var fillRssOutput = function() {
             // retrieve the rss-feeds
-            getFeed(resultJSON.urlFeeds[resultJSON.feeds.length], function(rssFeed){
+            getFeed(resultJSON.urlFeeds[resultJSON.feeds.length], function(rssFeed) {
                 for (var i = 0; i < rssFeed.items.length; i++) {
                     // Some info needs to be shown in every entry
                     rssFeed.items[i].feed = {};
@@ -457,11 +445,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Loads the settings screen
          * @param {Object} exists
          */
-        var loadSettings = function(exists){
+        var loadSettings = function(exists) {
             $(rssOutput,rootel).hide();
             $(rssSettings,rootel).show();
 
-            if(exists){
+            if (exists) {
                 resultJSON.feeds = resultJSON.feeds || [];
                 $(rssTxtTitle,rootel).val(resultJSON.title);
                 $(rssNumEntries,rootel).val(resultJSON.numEntries);
@@ -488,10 +476,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * checks if a feed is already added
          * @param {Object} rssFeedUrl
          */
-        var checkIfRssAlreadyAdded = function(rssFeedUrl){
+        var checkIfRssAlreadyAdded = function(rssFeedUrl) {
             resultJSON.feeds = resultJSON.feeds || [];
-            for(var i = 0; i < resultJSON.feeds.length; i++){
-                if($.trim(resultJSON.feeds[i].id).replace("http://", "") === $.trim(rssFeedUrl)){
+            for (var i = 0; i < resultJSON.feeds.length; i++) {
+                if ($.trim(resultJSON.feeds[i].id) === $.trim(rssFeedUrl)) {
                     return true;
                 }
             }
@@ -501,8 +489,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * executed when feed-request responses
          * @param {Object} rssFeed
          */
-        var getFeedResponse = function(rssFeed){
-            if(rssFeed !== false){
+        var getFeedResponse = function(rssFeed) {
+            if (rssFeed !== false) {
                 resultJSON.feeds = resultJSON.feeds || [];
                 resultJSON.feeds.push(rssFeed);
                 $(rssFeedListContainer, rootel).html(sakai.api.Util.TemplateRenderer(rssFeedListTemplate, resultJSON));
@@ -513,17 +501,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * adds a feed to the widget
          */
-        var addRssFeed = function(){
+        var addRssFeed = function() {
             var rssURL = $(rssTxtUrl,rootel).val();
-            if (!rssURL || $.trim(rssURL) === "") {
-                sakai.api.Util.notification.show("", $(rssPasteValidRssAddress).html());
-                return false;
-            }
-            rssURL = rssURL.replace("http://","");
-            if(!checkIfRssAlreadyAdded(rssURL)){
+            rssURL = rssURL.replace("feed://","http://");
+            if (!checkIfRssAlreadyAdded(rssURL)) {
                 getFeed(rssURL, getFeedResponse);
-            }
-            else{
+            } else {
                 sakai.api.Util.notification.show($(rssFeedAlreadyAdded).html(), $(rssFeedAlreadyEntered).html());
             }
         };
@@ -531,28 +514,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * gets the settings object
          */
-        var getSettingsObject = function(){
+        var getSettingsObject = function() {
             resultJSON.feeds = resultJSON.feeds || [];
             resultJSON.title = $(rssTxtTitle,rootel).val();
             resultJSON.numEntries = parseInt($(rssNumEntries,rootel).val(),10);
-            if(!_.isNumber(resultJSON.numEntries)){
-                sakai.api.Util.notification.show("", $(rssNumberOfItemsShouldBeNumber).html());
-                return false;
-            }
-            else if(resultJSON.numEntries < 1){
-                sakai.api.Util.notification.show("", $(rssPagesShouldBeBiggerThan).html() + resultJSON.numEntries);
-                return false;
-            }
             resultJSON.displaySource = $(rssDisplaySource, rootel).is(":checked");
             resultJSON.displayHeadlines = $(rssDisplayHeadlines, rootel).is(":checked");
             resultJSON.urlFeeds = [];
-            for(var i= 0; i< resultJSON.feeds.length;i++){
+            for (var i= 0; i< resultJSON.feeds.length; i++) {
                 resultJSON.urlFeeds.push(resultJSON.feeds[i].id);
             }
             resultJSON.feeds = [];
             return resultJSON;
         };
 
+        var saveRssOptions = function() {
+            var settingsObj = getSettingsObject();
+            if (settingsObj !== false) {
+                sakai.api.Widgets.saveWidgetData(tuid, settingsObj, function(success, data){
+                    if ($(".sakai_dashboard_page").is(":visible")) {
+                        showSettings = false;
+                        showHideSettings(showSettings);
+                    } else {
+                        sakai.api.Widgets.Container.informFinish(tuid, "rss");
+                    }
+                }, true);
+            }
+        };
 
         /////////////////////////////
         // Initialisation function //
@@ -562,9 +550,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Shows or hides the settings screen
          * @param {Object} show
          */
-        var showHideSettings = function(show){
-
-            if(show){
+        var showHideSettings = function(show) {
+            if (show) {
                 sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
                     if (success) {
                         resultJSON = data;
@@ -574,8 +561,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         loadSettings(false);
                     }
                 });
-
-            } else{
+            } else {
                 $(rssSettings,rootel).hide();
                 $(rssOutput,rootel).show();
 
@@ -604,7 +590,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Inserts the sendmessage-widget
         sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
     };
-
 
     sakai.api.Widgets.widgetLoader.informOnLoad("rss");
 });

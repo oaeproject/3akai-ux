@@ -24,7 +24,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var content_path = ""; // The current path of the content
         var ready_event_fired = 0;
         var list_event_fired = false;
-        var tooltip_opened = false;
         var intervalId;
 
         var showPreview = true;
@@ -41,44 +40,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var loadContentProfile = function(callback, ignoreActivity){
             // Check whether there is actually a content path in the URL
             if (content_path) {
-                
                 // Get the content information, the members and managers and version information
-                var batchRequests = [
-                    {
-                        "url": content_path + ".infinity.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": content_path + ".members.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": content_path + ".versions.json",
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json"
-                    },
-                    {
-                        "url": sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED,
-                        "method":"GET",
-                        "cache":false,
-                        "dataType":"json",
-                        "parameters":{"p":content_path, "items":"1000"}
-                    }
-                ];
-
-                var contentInfo = false;
-                var contentMembers = false;
-                var contentActivity = false;
-                var versionInfo = false;
-
-                sakai.api.Server.batch(batchRequests, function(success, data) {
+                sakai.api.Content.loadFullProfile([content_path], function(success, data){
                     if (success) {
                         if (data.results.hasOwnProperty(0)) {
+                            var contentInfo = false;
                             if (data.results[0]["status"] === 404){
                                 sakai.api.Security.send404();
                                 return;
@@ -95,169 +61,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
 
-                        if (data.results.hasOwnProperty(1)) {
-                            contentMembers = $.parseJSON(data.results[1].body);
-                            contentMembers.viewers = contentMembers.viewers || {};
-                            $.each(contentMembers.viewers, function(index, resultObject) {
-                                if (contentMembers.viewers[index].hasOwnProperty("basic") &&
-                                    contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
-                                    contentMembers.viewers[index].basic.elements.hasOwnProperty("picture") &&
-                                    contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                        contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
-                                }
-                                if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
-                                    contentMembers.viewers[index].pseudoGroup = true;
-                                    contentMembers.viewers[index].parent = {};
-                                    var groupid = contentMembers.viewers[index].groupid;
-                                    contentMembers.viewers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
-                                    var grouptitle = contentMembers.viewers[index]["sakai:group-title"];
-                                    contentMembers.viewers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
-                                    contentMembers.viewers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
-                                }
-                            });
-                            contentMembers.managers = contentMembers.managers || {};
-                            $.each(contentMembers.managers, function(index, resultObject) {
-                                if (contentMembers.managers[index].hasOwnProperty("basic") &&
-                                    contentMembers.managers[index].basic.hasOwnProperty("elements") &&
-                                    contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
-                                    contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                        contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
-                                }
-                                if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
-                                    contentMembers.managers[index].pseudoGroup = true;
-                                    contentMembers.managers[index].parent = {};
-                                    var groupid = contentMembers.managers[index].groupid;
-                                    contentMembers.managers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
-                                    var grouptitle = contentMembers.managers[index]["sakai:group-title"];
-                                    contentMembers.managers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
-                                    contentMembers.managers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
-                                }
-                            });
-                        }
-
-                        if (data.results.hasOwnProperty(2)) {
-                            versionInfo =$.parseJSON(data.results[2].body);
-                            var versions = [];
-                            for (var i in versionInfo.versions) {
-                                if(versionInfo.versions.hasOwnProperty(i)){
-                                    var splitDate = versionInfo.versions[i]["_created"];
-                                    versionInfo.versions[i]["_created"] = sakai.api.l10n.transformDate(new Date(splitDate));
-                                    versions.push(versionInfo.versions[i]);
-                                }
+                        sakai.api.Content.parseFullProfile(data.results, function(parsedData){
+                            parsedData[0].mode = "content";
+                            sakai_global.content_profile.content_data = parsedData[0];
+                            $(window).trigger("ready.contentprofile.sakai", sakai_global.content_profile.content_data);
+                            if ($.isFunction(callback)) {
+                                callback(true);
                             }
-                            versionInfo.versions = versions.reverse();
-                        }
-                        
-                        if (data.results.hasOwnProperty(3)) {
-                            contentActivity = $.parseJSON(data.results[3].body);
-                        }
+                            initEntityWidget();
 
-                        var manager = false;
-                        var viewer = false;
-                        var anon = true;
-                        var groups = [];
-                        if (!sakai.data.me.user.anon){
-                            for (var ii in contentMembers.managers) {
-                                if (contentMembers.managers.hasOwnProperty(ii)) {
-                                    if (contentMembers.managers[ii].hasOwnProperty("rep:userId")) {
-                                        if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
-                                            manager = true;
-                                        }
-                                    } else if (contentMembers.managers[ii].hasOwnProperty("sakai:group-id")) {
-                                        if (sakai.api.Groups.isCurrentUserAMember(
-                                            contentMembers.managers[ii]["sakai:group-id"],
-                                            sakai.data.me)) {
-                                            manager = true;
-                                        }
-                                    }
-                                }
-                            }
-                            for (var jj in contentMembers.viewers) {
-                                if (contentMembers.viewers.hasOwnProperty(jj)) {
-                                    if (contentMembers.viewers[jj].hasOwnProperty("rep:userId")) {
-                                        if (contentMembers.viewers[jj]["rep:userId"] === sakai.data.me.user.userid) {
-                                            viewer = true;
-                                        }
-                                    } else if (contentMembers.viewers[jj].hasOwnProperty("sakai:group-id")) {
-                                        if (sakai.api.Groups.isCurrentUserAMember(
-                                            contentMembers.viewers[jj]["sakai:group-id"],
-                                            sakai.data.me)) {
-                                            viewer = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        var directory = [];
-                        // When only one tag is put in this will not be an array but a string
-                        // We need an array to parse and display the results
-                        if (contentInfo && contentInfo['sakai:tags']) {
-                            directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
-                        }
-
-                        var fullPath = content_path + "/" + sakai.api.Util.safeURL(contentInfo["sakai:pooled-content-file-name"]);
-
-                        // filter out the the everyone group and the anonymous user
-                        contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
-                            if (resultObject['sakai:group-id'] !== 'everyone' &&
-                                resultObject['rep:userId'] !== 'anonymous') {
-                                return true;
-                            }
-                            return false;
-                        });
-
-                        contentMembers.counts = { people: 0, groups: 0};
-                        $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
-                            if (member.hasOwnProperty("userid")) {
-                                contentMembers.counts.people++;
-                            } else {
-                                contentMembers.counts.groups++;
+                            if (!showPreview){
+                                renderSakaiDoc(parsedData[0].data);
                             }
                         });
-
-                        var mimeType = sakai.api.Content.getMimeType(contentInfo);
-                        contentInfo.mimeType = mimeType;
-                        if (sakai.config.MimeTypes[mimeType]) {
-                            contentInfo.iconURL = sakai.config.MimeTypes[mimeType].URL;
-                        } else {
-                            contentInfo.iconURL = sakai.config.MimeTypes["other"].URL;
-                        }
-
-                        if (ignoreActivity && sakai_global.content_profile && sakai_global.content_profile.content_data){
-                            contentActivity = sakai_global.content_profile.content_data.activity;
-                        }
-
-                        json = {
-                            data: contentInfo,
-                            members: contentMembers,
-                            activity: contentActivity,
-                            mode: "content",
-                            url: sakai.config.SakaiDomain + fullPath,
-                            path: fullPath,
-                            smallPath: content_path,
-                            saveddirectory : directory,
-                            versions : versionInfo,
-                            anon: anon,
-                            content_path: content_path,
-                            isManager: manager,
-                            isViewer: viewer
-                        };
-
-                        sakai_global.content_profile.content_data = json;
-                        $(window).trigger("ready.contentprofile.sakai");
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                        }
-                        initEntityWidget();
-
-                        if (!showPreview){
-                            renderSakaiDoc(contentInfo);
-                        }
-
                     }
                 });
-
             } else {
                 sakai.api.Security.send404();
             }
@@ -322,13 +140,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // The request was successful so initialise the relatedcontent widget
                     if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
                         if (showPreview) {
-                            $(window).trigger("start.contentpreview.sakai");
+                            $(window).trigger("start.contentpreview.sakai", sakai_global.content_profile.content_data);
                         }
                     }
                     else {
                         $(window).bind("ready.contentpreview.sakai", function(e){
                             if (showPreview) {
-                                $(window).trigger("start.contentpreview.sakai");
+                                $(window).trigger("start.contentpreview.sakai", sakai_global.content_profile.content_data);
                                 ready_event_fired++;
                             }
                         });
@@ -352,155 +170,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             showPreview = true;
         };
 
-        /**
-         * addRemoveUsers users
-         * Function that adds or removes selected users to/from the content
-         * @param {String} tuid Identifier for the widget/type of user we're adding (viewer or manager)
-         * @param {Object} users List of users we're adding/removing
-         * @param {String} task Operation of either adding or removing
-         * @param {Array} Array containg user ID's and names that can be displayed on the UI
-         */
-        var addRemoveUsers = function(tuid, users, task){
-            var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
-            var reqData = [];
-            $.each(users.toAdd, function(index, user){
-                user = user.split("/")[1] || user;
-                // set the default data value to tuid=='viewer' and task=='add'
-                var data = {
-                    ":viewer": user
-                };
-                if (sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data, user)) {
-                    data = {
-                        ":viewer": user,
-                        ":manager@Delete": user
-                    };
-                }
-                if (tuid === 'managers' && task === 'add') {
-                    notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
-                    if (sakai.api.Content.isUserAViewer(sakai_global.content_profile.content_data, user)) {
-                        data = {
-                            ":manager": user,
-                            ":viewer@Delete": user
-                        };
-                    } else {
-                        data = {
-                            ":manager": user
-                        };
-                    }
-                }
-                else {
-                    if (task === 'remove') {
-                        if (user['userid']) {
-                            user = user['userid'];
-                        }
-                        else {
-                            if (user['sakai:group-id']) {
-                                user = user['sakai:group-id'];
-                            }
-                            else {
-                                if (user['rep:userId']) {
-                                    user = user['rep:userId'];
-                                }
-                            }
-                        }
-                        data = {
-                            ":viewer@Delete": user
-                        };
-                        if (tuid === 'managers') {
-                            notificationType = sakai.api.Security.saneHTML($("#content_profile_managers_text").text());
-                            data = {
-                                ":manager@Delete": user
-                            };
-                        }
-                    }
-                }
-                if (user) {
-                    reqData.push({
-                        "url": content_path + ".members.json",
-                        "method": "POST",
-                        "parameters": data
-                    });
-                }
-            });
-
-            if (reqData.length > 0) {
-                // batch request to update user access for the content
-                sakai.api.Server.batch(reqData, function(success, data) {
-                    if (success) {
-                        if (task === 'add') {
-                            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
-                            loadContentProfile(function(){
-                                $(window).trigger("membersadded.content.sakai");
-                                $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
-                            }, true);
-                            // record that user shared content
-                            sakai.api.User.addUserProgress("sharedContent");
-                        }
-                        else {
-                            sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_removed_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
-                        }
-                    }
-                });
-            }
-        };
-
-        /**
-         * Checks if user is in the share content tour and displays tooltips
-         */
-        var checkShareContentTour = function(){
-            var querystring = new Querystring();
-            if (querystring.contains("sharecontenttour") && querystring.get("sharecontenttour") === "true" && !tooltip_opened) {
-                if ($("#entity_content_share_link").length) {
-                    tooltip_opened = true;
-                    // display tooltip
-                    var tooltipLeft = 410;
-                    if ($.browser.msie && $.browser.version === "7.0"){
-                        tooltipLeft = 310;
-                    }
-                    var tooltipData = {
-                        "tooltipSelector": "#entity_content_share_link",
-                        "tooltipTitle": "TOOLTIP_SHARE_CONTENT",
-                        "tooltipDescription": "TOOLTIP_SHARE_CONTENT_P3",
-                        "tooltipArrow": "top",
-                        "tooltipLeft": tooltipLeft,
-                        "tooltipTop": -10
-                    };
-                    if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
-                        $(window).bind("ready.tooltip.sakai", function(){
-                            $(window).trigger("init.tooltip.sakai", tooltipData);
-                        });
-                    } else {
-                        $(window).trigger("init.tooltip.sakai", tooltipData);
-                    }
-                    if (intervalId){
-                        clearInterval(intervalId);
-                    }
-                } else {
-                    intervalId = setInterval(checkShareContentTour, 2000);
-                }
-            }
-        };
-
         $("#entity_content_share").live("click", function(){
-
             $(window).trigger("init.sharecontent.sakai");
-
-            // display help tooltip
-            var tooltipData = {
-                "tooltipSelector":"#sharecontent_add_people",
-                "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
-                "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P4",
-                "tooltipArrow":"bottom",
-                "tooltipTop":3,
-                "tooltipLeft":120
-            };
-            $(window).trigger("update.tooltip.sakai", tooltipData);
-
             return false;
         });
 
         $("#entity_content_add_to_library").live("click", function(){
-            sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["_path"], sakai.data.me.user.userid, function(){
+            sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["_path"], sakai.data.me.user.userid, false, function(){
                 $("#entity_content_add_to_library").hide();
                 sakai.api.Util.notification.show($("#content_profile_add_library_title").html(), $("#content_profile_add_library_body").html());
             });
@@ -520,8 +196,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 handleHashChange();
             });
             handleHashChange();
-
-            checkShareContentTour();
         };
 
         // //////////////////////////

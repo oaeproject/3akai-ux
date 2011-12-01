@@ -35,14 +35,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
-        var NUM_PER_PAGE = 10,
-            currentPage = 1;
+        var infinityScroll = false;
 
         // Containers
-        var $participantsListContainer = $("#participants_list_container", rootel);
+        var $participantsListContainer = $("#participants_list_container_list", rootel);
 
         // Templates
         var participantsListTemplate = "participants_list_template";
+        var participantsListTemplateEmpty = "participants_list_empty_template";
 
         // Elements
         var $participantsSearchField = $("#participants_search_field", rootel);
@@ -51,7 +51,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var participantsListParticipantCheckbox = ".participants_list_participant_checkbox input:checkbox";
         var $participantsSendSelectedMessage = $("#participants_send_selected_message", rootel);
         var participantsListParticipantName = ".participants_list_participant_name";
-        var $participants_pager = $("#participants_pager", rootel);
         var $participants_sort_by = $("#participants_sort_by", rootel);
 
 
@@ -102,96 +101,69 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Render functions //
         //////////////////////
 
-        var renderParticipants = function (success, data){
-            if (success) {
-                if (data && data.results && data.results.length) {
-                    sakai.api.User.getContacts(function() {
-                        var participantsArr = [];
-                        for (var i = 0; i < data.results.length; i++) {
-                            var contentCount = 0;
-                            var contactsCount = 0;
-                            var membershipsCount = 0;
-                            if (data.results[i].counts){
-                                contentCount = data.results[i].counts.contentCount;
-                                contactsCount = data.results[i].counts.contactsCount;
-                                membershipsCount = data.results[i].counts.membershipsCount;
-                            }
-                            if (data.results[i]["sakai:group-id"]) {
-                                participantsArr.push({
-                                    "name": data.results[i]["sakai:group-title"],
-                                    "id": data.results[i]["sakai:group-id"],
-                                    "title": data.results[i].role.title,
-                                    "type": "group",
-                                    "connected": false,
-                                    "content": contentCount,
-                                    "contacts": contactsCount,
-                                    "memberships": membershipsCount,
-                                    "profilePicture": sakai.api.Groups.getProfilePicture(data.results[i]),
-                                    "membersCount": data.results[i].counts.membersCount
-                                });
-                            } else {
-                                // Check if this user is a friend of us already.
-                                var connected = false, invited = false, pending = false, none = false;
-                                if (sakai.data.me.mycontacts) {
-                                    for (var ii = 0, jj = sakai.data.me.mycontacts.length; ii<jj; ii++) {
-                                        var friend = sakai.data.me.mycontacts[ii];
-                                        if (friend.target === data.results[i]["rep:userId"]) {
-                                            connected = true;
-                                            // if invited state set invited to true
-                                            if(friend.details["sakai:state"] === "INVITED"){
-                                                invited = true;
-                                            } else if(friend.details["sakai:state"] === "PENDING"){
-                                                pending = true;
-                                            } else if(friend.details["sakai:state"] === "NONE"){
-                                                none = true;
-                                            }
+        var processParticipants = function (results, callback){
+            var participantsArr = [];
+            if (results && results.length){
+                sakai.api.User.getContacts(function() {
+                    $.each(results, function(i, result){
+                        var contentCount = 0;
+                        var contactsCount = 0;
+                        var membershipsCount = 0;
+                        if (result.counts){
+                            contentCount = result.counts.contentCount;
+                            contactsCount = result.counts.contactsCount;
+                            membershipsCount = result.counts.membershipsCount;
+                        }
+                        if (result["sakai:group-id"]) {
+                            participantsArr.push({
+                                "name": result["sakai:group-title"],
+                                "id": result["sakai:group-id"],
+                                "title": result.role.title,
+                                "type": "group",
+                                "connected": false,
+                                "content": contentCount,
+                                "contacts": contactsCount,
+                                "memberships": membershipsCount,
+                                "profilePicture": sakai.api.Groups.getProfilePicture(result),
+                                "membersCount": result.counts.membersCount
+                            });
+                        } else {
+                            // Check if this user is a friend of us already.
+                            var connected = false, invited = false, pending = false, none = false;
+                            if (sakai.data.me.mycontacts) {
+                                $.each(sakai.data.me.mycontacts, function(ii, contact){
+                                    if (contact.target === result["rep:userId"]) {
+                                        connected = true;
+                                        // if invited state set invited to true
+                                        if(contact.details["sakai:state"] === "INVITED"){
+                                            invited = true;
+                                        } else if(contact.details["sakai:state"] === "PENDING"){
+                                            pending = true;
+                                        } else if(contact.details["sakai:state"] === "NONE"){
+                                            none = true;
                                         }
                                     }
-                                }
-
-                                participantsArr.push({
-                                    "name": sakai.api.User.getDisplayName(data.results[i]),
-                                    "id": data.results[i]["rep:userId"],
-                                    "title": data.results[i].role.title,
-                                    "type": "user",
-                                    "content": contentCount,
-                                    "contacts": contactsCount,
-                                    "memberships": membershipsCount,
-                                    "connected": connected,
-                                    "invited": invited,
-                                    "pending": pending,
-                                    "none": none,
-                                    "profilePicture": sakai.api.User.getProfilePicture(data.results[i])
                                 });
                             }
-                        }
-                        $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplate, {
-                            "participants": participantsArr,
-                            "sakai": sakai
-                        }));
-                        if (data.total > NUM_PER_PAGE) {
-                            $participants_pager.pager({ pagenumber: currentPage, pagecount: Math.ceil(data.total/NUM_PER_PAGE), buttonClickCallback: handlePageClick }).show();
-                        } else {
-                            $participants_pager.empty();
+                            participantsArr.push({
+                                "name": sakai.api.User.getDisplayName(result),
+                                "id": result["rep:userId"],
+                                "title": result.role.title,
+                                "type": "user",
+                                "content": contentCount,
+                                "contacts": contactsCount,
+                                "memberships": membershipsCount,
+                                "connected": connected,
+                                "invited": invited,
+                                "pending": pending,
+                                "none": none,
+                                "profilePicture": sakai.api.User.getProfilePicture(result)
+                            });
                         }
                     });
-                } else {
-                    $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplate, {
-                        "participants": [],
-                        "sakai": sakai
-                    }));
-                    $participants_pager.empty();
-                }
-            } else {
-                debug.warn("Participants could not be loaded");
+                });
             }
-        };
-
-        var handlePageClick = function(pageNum) {
-            if (pageNum !== currentPage) {
-                currentPage = pageNum;
-                loadParticipants();
-            }
+            callback(participantsArr);                        
         };
 
         ////////////////////
@@ -199,13 +171,38 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         var loadParticipants = function(){
-            sakai.api.Groups.searchMembers(widgetData.participants.groupid, $.trim($participantsSearchField.val()), NUM_PER_PAGE, currentPage-1, "firstName", $participants_sort_by.val(), renderParticipants);
+            // Disable the previous infinite scroll
+            if (infinityScroll){
+                infinityScroll.kill();
+            }
+            // Set up the infinite scroll for the list of items in the library
+            infinityScroll = $participantsListContainer.infinitescroll(function(parameters, callback){
+                sakai.api.Groups.searchMembers(widgetData.participants.groupid, parameters.query, parameters.items, parameters.page, parameters.sortBy, parameters.sortOrder, function(success, data){
+                    callback(true, data);
+                });
+            }, {
+                "query": $.trim($participantsSearchField.val()),
+                "sortBy": "firstName",
+                "sortOrder": $participants_sort_by.val()
+            }, function(items, total){
+                return sakai.api.Util.TemplateRenderer(participantsListTemplate, {
+                    "participants": items,
+                    "sakai": sakai
+                });
+            }, function(){
+                $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplateEmpty, {}));                
+            }, sakai.config.URL.INFINITE_LOADING_ICON, processParticipants);
         };
 
         var addBinding = function(){
-            $participantsSearchField.unbind("keyup").bind("keyup", function() {
+            $(".participants_widget .s3d-search-button").unbind("click").bind("click", function(){
                 currentPage = 1;
                 loadParticipants();
+            });
+            $participantsSearchField.unbind("keyup").bind("keyup", function(ev) {
+                if (ev.keyCode === 13) {
+                    loadParticipants();
+                }
             });
             $participants_sort_by.unbind("change").bind("change", loadParticipants);
             $participantsSelectAll.unbind("click").bind("click", checkAll);

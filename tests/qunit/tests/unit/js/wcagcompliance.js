@@ -9,13 +9,15 @@ require(
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
 
     module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
 
     var checkElements = function($elt, callback){
         $.each($elt.find("a"), function(i, elt) {
-            ok($(elt).attr("title") || $(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $("<div/>").html(elt).html());
+            if ($(elt).attr("id") !== "topnavigation_user_options_name") {
+                ok($(elt).attr("title") || $(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $("<div/>").html(elt).html());
+            }
             if ($(elt).attr("title") && ($(elt).text() || $(elt).find("*").text())){
                 if ($.trim($(elt).attr("title")) === $.trim($(elt).text()) || $.trim($(elt).attr("title")) === $.trim($(elt).find("*").text())){
                     ok(false, "A tag has duplicate text and title attribute: " + $("<div/>").html(elt).html());        
@@ -25,6 +27,10 @@ require(
 
         $.each($elt.find("img"), function(i, elt) {
             ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
+        });
+
+        $.each($elt.find("input[type='image']"), function(i, elt) {
+            ok($(elt).attr("alt"), "INPUT img type tag has ALT attribute:" + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("applet"), function(i, elt) {
@@ -48,10 +54,23 @@ require(
         });
 
         $.each($elt.find("textarea"), function(i, elt) {
-            // ignore the tinymce editor textarea
-            if ($(elt).attr("id") !== "elm1") {
-                ok($(elt).attr("title") || $(elt).attr("placeholder"), "TEXTAREA tag has TITLE or PLACEHOLDER attribute: " + $("<div/>").html(elt).html());
+            // check if textarea has an attached label element, otherwise it needs a title attribute
+            var hasLabel = false;
+            if ($(elt).attr("id")) {
+                var textareaId = $(elt).attr("id");
+                $.each($elt.find("label"), function(j, label) {
+                    if ($(label).attr("for") ===  textareaId){
+                        hasLabel = true;
+                    }
+                });
             }
+
+            ok($(elt).attr("title") || hasLabel, "TEXTAREA tag has TITLE attribute or LABEL element: " + $("<div/>").html(elt).html());
+            ok(!$(elt).attr("alt"), "TEXTAREA tag does not have ALT attribute: " + $("<div/>").html(elt).html());
+        });
+
+        $.each($elt.find("input, select"), function(i, elt) {
+            ok(!$(elt).attr("alt"), "INPUT/SELECT tag does not have ALT attribute: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("div"), function(i, elt) {

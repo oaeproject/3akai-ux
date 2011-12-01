@@ -44,8 +44,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Buttons
         var entityUserCreateAndAdd = "#entity_user_create_and_add";
-        var entityUserImage = "#entity_user_image";
-        var entityGroupImage = "#entity_group_image";
+        var entityChangeImage = ".entity_change_avatar";
         var entityUserMessage = "#entity_user_message";
         var entityUserAddToContacts = "#entity_user_add_to_contacts";
         var entityUserDropdown = "#entity_user_image.s3d-dropdown-menu";
@@ -135,6 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                     break;
                 case "group_managed":
+                    checkHash(context);
                     var json = {
                         "joinable": context.data.authprofile["sakai:group-joinable"] === "withauth",
                         "context": context,
@@ -192,15 +192,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
                         sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], false, function(success, members) {
-                            var managerCount = false;
-                            var leaveAllowed = false;
-                            if (members.Manager && members.Manager.results){
-                                managerCount = members.Manager.results.length;
-                                if (managerCount > 1 || !sakai.api.Groups.isCurrentUserAManager(context.data.authprofile["sakai:group-id"], sakai.data.me)) {
-                                    // user is allowed to leave group
-                                    leaveAllowed = true;
-                                }
-                            }
+                            var managerCount = sakai.api.Groups.getManagerCount(context.data.authprofile, members);
+                            var leaveAllowed = managerCount > 1 || !sakai.api.Groups.isCurrentUserAManager(context.data.authprofile["sakai:group-id"], sakai.data.me);
                             $(window).trigger("init.joinrequestbuttons.sakai", [
                                 {
                                     "groupProfile": context.data.authprofile,
@@ -276,8 +269,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#entity_comments_link").live("click", function(){
                         $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#contentcomments_mainContainer").offset().top}, 500 );
                         $("#contentcomments_txtMessage").focus();
-                       return false;
-
                     });
                     break;
             }
@@ -286,6 +277,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderEntity = function(context){
             if (context.context === "content") {
                 getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
+                sakai_global.content_profile.content_data.members.counts.managergroups = 0;
+                sakai_global.content_profile.content_data.members.counts.managerusers = 0;
+                $.each(sakai_global.content_profile.content_data.members.managers, function(i, manager){
+                    if(manager["sakai:group-id"]){
+                        sakai_global.content_profile.content_data.members.counts.managergroups++;
+                    } else {
+                        sakai_global.content_profile.content_data.members.counts.managerusers++;
+                    }
+                });
+                sakai_global.content_profile.content_data.members.counts.viewergroups = 0;
+                sakai_global.content_profile.content_data.members.counts.viewerusers = 0;
+                $.each(sakai_global.content_profile.content_data.members.viewers, function(i, viewer){
+                    if(viewer["sakai:group-id"]){
+                        sakai_global.content_profile.content_data.members.counts.viewergroups++;
+                    } else {
+                        sakai_global.content_profile.content_data.members.counts.viewerusers++;
+                    }
+                });
             }
             context.sakai = sakai;
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
@@ -293,8 +302,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var toggleDropdownList = function(){
             $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
-            $(".entity_profile_picture_down_arrow").toggleClass("clicked");
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 60);
+            $(entityChangeImage).toggleClass("clicked");
+            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
+        };
+
+        var checkHash = function(context){
+            if ($.bbq.getState("e") === "joinrequests" && context.context === "group" && context.data.authprofile["sakai:group-joinable"] === "withauth"){
+                $(window).bind("ready.joinrequests.sakai", function(){
+                    $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
+                });
+            }
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
@@ -368,10 +385,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_groupsettings_dropdown').jqmHide();
             });
 
-            $('#ew_permissions').click(function(e){
+            $('.ew_permissions').click(function(e){
                 e.preventDefault();
-                $(window).trigger("init.contentpermissions.sakai");
-                $('#entity_contentsettings_dropdown').jqmHide();
+                if($(this).parents(".s3d-dropdown-list").length || $(e.target).hasClass("s3d-dropdown-list-arrow-up")){
+                    $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).data("permissionvalue") || false});
+                    $('#entity_contentsettings_dropdown').jqmHide();
+                }
             });
 
             $('#ew_upload').click(function(e){
@@ -392,7 +411,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#ew_content_preview_delete").bind("click", function(e){
                 e.preventDefault();
                 window.scrollTo(0,0);
-                $(window).trigger('init.deletecontent.sakai', [{"path": sakai_global.content_profile.content_data.content_path},
+                $(window).trigger('init.deletecontent.sakai', [{
+                        "paths": [sakai_global.content_profile.content_data.data._path]
+                    },
                     function (success) {
                         if (success) {
                             // Wait for 2 seconds
@@ -407,15 +428,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(".addpeople_init").click(function(){
-                $(window).trigger("init.addpeople.sakai", [tuid]);
+                $(window).trigger("init.addpeople.sakai", [tuid, true]);
                 $("#entity_groupsettings_dropdown").jqmHide();
             });
 
-            $(entityUserImage).click(toggleDropdownList);
-            $(entityGroupImage).click(toggleDropdownList);
+            $(entityChangeImage).click(toggleDropdownList);
 
-            sakai.api.Util.hideOnClickOut(entityGroupImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
-            sakai.api.Util.hideOnClickOut(entityUserImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
+            sakai.api.Util.hideOnClickOut(entityChangeImage + " .s3d-dropdown-list", entityChangeImage, toggleDropdownList);
 
         });
 

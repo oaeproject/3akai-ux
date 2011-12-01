@@ -8,7 +8,7 @@
         "default": {
             "bundle": "/devwidgets/embedcontent/bundles/default.properties",
             "name": "Files and documents",
-            "description": "Embed Content on a Page"
+            "description": "Embed content on a page"
         }
     },
     "img":"/devwidgets/embedcontent/images/content.png",

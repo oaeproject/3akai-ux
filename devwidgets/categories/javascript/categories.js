@@ -28,24 +28,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.categories = function(tuid, showSettings){
-    
+
         // Containers
         var $categoriesItemsContainer = $("#categories_items_container");
-        
+
         // Templates
         var categoriesItemsTemplate = "categories_items_template";
-        
+
         // Elements
         var $categoriesExpandContract = $("#categories_expand_contract");
-        
+
         var directory = sakai.config.Directory;
         var categoriesToRender = [];
-        
-        
+
         /////////////
         // BINDING //
         /////////////
-        
+
         /**
          * Expand or collapse the widget
          */
@@ -53,11 +52,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $categoriesItemsContainer.toggle("display");
             $categoriesExpandContract.children("div").toggle();
         };
-        
+
         var addBinding = function(){
             $categoriesExpandContract.bind("click", toggleWidgetvisibility);
         };
-        
+
         /**
          * Add binding to the carousel action buttons after rendering and initializing the carousel
          * @param {Object} carousel reference to the carousel instance
@@ -95,11 +94,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 return false;
             });
         };
-        
+
         ////////////////////////////
         // CAROUSEL AND RENDERING //
         ////////////////////////////
-        
+
         /**
          * Initialize the carousel after rendering the items
          */
@@ -113,7 +112,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
             $categoriesItemsContainer.css("display", "none");
         };
-        
+
         var renderCategories = function(){
             $categoriesItemsContainer.html(sakai.api.Util.TemplateRenderer(categoriesItemsTemplate, {
                 "directory": categoriesToRender,
@@ -122,7 +121,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             addCarousel();
             $(".categories_widget").css("visibility", "visible");
         };
-        
+
         /**
          * Parse the directory structure and extract some information from the featured content
          * @param {Object} success true or false depending on the success of loading the featured content
@@ -143,9 +142,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
                         toplevel.count = data[i]["sakai:tag-count"];
                         var mimeType = sakai.api.Content.getMimeType(data[i].content);
-                        toplevel.mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+                        toplevel.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
                         if (sakai.config.MimeTypes[mimeType]){
-                            toplevel.mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+                            toplevel.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                         }
                     }
                     toplevel.id = i;
@@ -158,27 +157,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
             renderCategories();
         };
-        
+
         /**
          * Get a feed of content to display in the carousel
          */
         var getCategoryContent = function(){
             sakai.api.Server.loadJSON("/tags/directory.tagged.json", parseDirectory, {});
         };
-        
-        
+
         ////////////////
         // INITIALIZE //
         ////////////////
-        
+
         var doInit = function(){
             addBinding();
             getCategoryContent();
         };
-        
+
         doInit();
-        
+
     };
-    
+
     sakai.api.Widgets.widgetLoader.informOnLoad("categories");
 });

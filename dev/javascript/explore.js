@@ -17,7 +17,7 @@
  */
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
-    
+
     sakai_global.explore = function() {
         var doInit = function() {
             if (sakai.config.enableCategories) {

@@ -1,16 +1,15 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentmetadata/css/contentmetadata.css" />
 
-
-<div id="contentmetadata_container">
-    <div class="contentmetadata_title">__MSG__DETAILS__</div>
+<div class="s3d-widget-container" id="contentmetadata_container">
+    <div class="s3d-contentpage-title metadata">__MSG__DETAILS__</div>
     <div id="contentmetadata_description_container" class="contentmetadata_editable_for_maintainers">
         <!-- -->
     </div>
-    <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers">
+    <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers last">
         <!-- -->
     </div>
-    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers" style="display:none;">
+    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers last" style="display:none;">
         <!-- -->
     </div>
     <div id="contentmetadata_copyright_container" class="collapsible_container contentmetadata_editable_for_maintainers" style="display:none;">
@@ -19,14 +18,15 @@
     <div id="contentmetadata_locations_container" class="collapsible_container contentmetadata_editable_for_maintainers" style="display:none;">
         <!-- -->
     </div>
-    <div id="contentmetadata_details_container" class="collapsible_container" style="display:none;">
+    <div id="contentmetadata_details_container" class="collapsible_container last" style="display:none;">
         <!-- -->
     </div>
-    <button type="button" id="contentmetadata_show_more" class="s3d-button s3d-link-button s3d-action">
-        <div id="contentmetadata_see_more"><span id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
-        <div id="contentmetadata_see_less" style="display:none;"><span id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
-    </button>
-    <hr class="fl-hidden fl-push">
+    <div class="s3d-widget-footer">
+        <button type="button" id="contentmetadata_show_more" class="s3d-button s3d-link-button s3d-action">
+            <div id="contentmetadata_see_more"><span id="contentmetadata_show_more_arrow"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
+            <div id="contentmetadata_see_less" style="display:none;"><span id="contentmetadata_show_less_arrow"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
+        </button>
+    </div>
 </div>
 
 <div id="contentmetadata_description_template" style="display:none;"><!--
@@ -69,13 +69,13 @@
 <div id="contentmetadata_copyright_template" style="display:none;"><!--
         {if data.mode === "edit"}
             <select id="contentmetadata_copyright_copyright" class="contentmetadata_edit_input">
-                {for copyrightLabel in sakai.config.Permissions.Copyright}
+                {for copyrightLabel in sakai.config.Permissions.Copyright.types}
                     <option {if data.data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}</option>
                 {/for}
             </select>
         {else}
             <span class="contentmetadata_first_column">__MSG__COPYRIGHT__: </span>
-            {for copyrightLabel in sakai.config.Permissions.Copyright}
+            {for copyrightLabel in sakai.config.Permissions.Copyright.types}
                 {if data.data["sakai:copyright"] === copyrightLabel_index}
                     <label class="content_profile_basic_info_form_anon_label">
                         ${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}

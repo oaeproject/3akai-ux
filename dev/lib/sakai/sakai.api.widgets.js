@@ -1,5 +1,4 @@
-/**
- *
+/*
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,9 +14,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
  */
-
 /**
  * @class Widgets
  *
@@ -351,6 +348,14 @@ define(
                         container.html(content);
                         $("#" + widgetsInternal[widgetname][widget].uid).append(container);
 
+                        // Set up draggable/droppable containers in the widget HTML if there are any
+                        if($(".s3d-droppable-container", container).length){
+                            sakai_util.Droppable.setupDroppable({}, container);
+                        }
+                        if($(".s3d-draggable-container", container).length){
+                            sakai_util.Draggable.setupDraggable({}, container);
+                        }
+
                         widgetsInternal[widgetname][widget].todo = JSTags.URL.length;
                         widgetsInternal[widgetname][widget].done = 0;
                     }
@@ -674,6 +679,7 @@ define(
             },
 
             informOnLoad : function(widgetname){
+                // Inform the widgets that they have been loaded
                 for (var i = 0, j = sakaiWidgetsAPI.widgetLoader.loaded.length; i<j; i++){
                     sakaiWidgetsAPI.widgetLoader.loaded[i].informOnLoad(widgetname);
                 }
@@ -749,13 +755,17 @@ define(
             }
         },
 
-        canEditContainer: function(widgetData) {
+        canEditContainer: function(widgetData, tuid) {
             if (widgetData &&
                 widgetData.data &&
                 widgetData.data.currentPageShown &&
                 widgetData.data.currentPageShown.canEdit &&
                 !widgetData.data.currentPageShown.nonEditable) {
                 return true;
+            } else if (!widgetData && tuid) {
+                var ref = $("#" + tuid).parents("#s3d-page-container").children("div").attr("id");
+                var canEdit = $("li[data-sakai-ref='"+ ref +"']").data("sakai-manage");
+                return canEdit;
             } else {
                 return false;
             }
@@ -847,42 +857,46 @@ define(
              * construct the changedParams object which contains a map like this:
              * widgetHashes = { "widgetid" : { "changed": {"property": "value"}, "deleted": {}}};
              */
-            $.each(sakai_widgets_config, function(id, obj) {
-                if (obj.hasOwnProperty('hashParams')) {
-                    // iterate over each of the params that the widet watches
-                    $.each(obj.hashParams, function(i, val) {
-                        // If the current history state has this value
-                        if (currentState.hasOwnProperty(val)) {
-                            widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
-                            // and the oldState value exists and isn't the same as the new value
-                            // or the oldState didn't have the value
-                            if ((oldState.hasOwnProperty(val) && oldState[val] !== currentState[val]) ||
-                                !oldState.hasOwnProperty(val)) {
+            if (!$.isEmptyObject(sakai_widgets_config)) {
+                $.each(sakai_widgets_config, function(id, obj) {
+                    if (obj.hasOwnProperty('hashParams')) {
+                        // iterate over each of the params that the widet watches
+                        $.each(obj.hashParams, function(i, val) {
+                            // If the current history state has this value
+                            if (currentState.hasOwnProperty(val)) {
+                                widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
+                                // and the oldState value exists and isn't the same as the new value
+                                // or the oldState didn't have the value
+                                if ((oldState.hasOwnProperty(val) && oldState[val] !== currentState[val]) ||
+                                    !oldState.hasOwnProperty(val)) {
 
-                                widgetHashes[id].changed[val] = currentState[val];
+                                    widgetHashes[id].changed[val] = currentState[val];
+                                }
+                                widgetHashes[id].all[val] = currentState[val];
+
+                            // Check if the property was in the history state previously,
+                            // indicating that it was deleted from the currentState
+                            } else if (oldState.hasOwnProperty(val)) {
+                                widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
+                                widgetHashes[id].deleted[val] = oldState[val];
                             }
-                            widgetHashes[id].all[val] = currentState[val];
-
-                        // Check if the property was in the history state previously,
-                        // indicating that it was deleted from the currentState
-                        } else if (oldState.hasOwnProperty(val)) {
-                            widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
-                            widgetHashes[id].deleted[val] = oldState[val];
-                        }
-                    });
-                }
-            });
-            if (e.currentTarget) {
-                // Fire an event to each widget that has the hash params in it
-                $.each(widgetHashes, function(widgetID, hashObj) {
-                    $(window).trigger("hashchanged." + widgetID + ".sakai", [hashObj.changed || {}, hashObj.deleted || {}, hashObj.all || {}, currentState || {}]);
+                        });
+                    }
                 });
+                if (e.currentTarget) {
+                    // Fire an event to each widget that has the hash params in it
+                    $.each(widgetHashes, function(widgetID, hashObj) {
+                        $(window).trigger("hashchanged." + widgetID + ".sakai", [hashObj.changed || {}, hashObj.deleted || {}, hashObj.all || {}, currentState || {}]);
+                    });
 
-                // Reset the oldState to the currentState
-                oldState = currentState;
-                return true;
+                    // Reset the oldState to the currentState
+                    oldState = currentState;
+                    return true;
+                } else {
+                    return widgetHashes[e];
+                }
             } else {
-                return widgetHashes[e];
+                return null;
             }
         },
 
@@ -934,6 +948,14 @@ define(
             sakaiWidgetsAPI.bindToHash();
             sakaiWidgetsAPI.Container.setReadyToLoad(true);
             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
+
+            // Set up draggable/droppable containers for the main page if there are any
+            if($(".s3d-droppable-container", $("body")).length){
+                sakai_util.Droppable.setupDroppable({}, $("body"));
+            }
+            if($(".s3d-draggable-container", $("body")).length){
+                sakai_util.Draggable.setupDraggable({}, $("body"));
+            }
         }
     };
 

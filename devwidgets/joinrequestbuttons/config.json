@@ -3,7 +3,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/joinrequestbuttons/bundles/default.properties",
-            "name":"Join Request Buttons",
+            "name":"Join request buttons",
             "description":"Display join/leave/pending buttons to match the context"
         }
     },

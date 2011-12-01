@@ -6,47 +6,49 @@
     <p>
         __MSG__FILL_IN_FORM_BELOW__ "<span class="rss_quote">__MSG__EXAMPLE_RSS_SITE__</span>"
     </p>
-    <form class="rss_settings_form" method="post">
-        <label for="rss_settings_txtTitle">__MSG__TITLE__:</label>
-        <p>
-        <input type="text" id="rss_settings_txtTitle" />
-        </p>
-        <label for="rss_settings_txtUrl">__MSG__RSS_FEED_URL__:</label><br />
-        <input type="text" id="rss_settings_txtUrl" />
-        <br/>
-        <button type="button" class="s3d-button s3d-header-button rss_settings_btnAddUrl">__MSG__ADD_RSS_FEED__</button>
-        <br />
-
-        <div id="rss_settings_rssFeedList">
-            <!-- In this list all the feeds added to the rss-widget will be shown -->
+    <form id="rss_settings_form">
+        <div class="s3d-form-field-wrapper">
+            <label for="rss_settings_txtTitle" class="s3d-input-label s3d-input-label-above">__MSG__TITLE__:</label>
+            <input type="text" id="rss_settings_txtTitle" name="rss_settings_txtTitle" class="required s3d-input-full-width" />
+            <label for="rss_settings_txtUrl" class="s3d-input-label s3d-input-label-above">__MSG__RSS_FEED_URL__:</label>
+            <input type="text" id="rss_settings_txtUrl" name="rss_settings_txtUrl" class="required appendhttp url s3d-input-full-width" />
+            <button type="submit" class="s3d-button s3d-header-button rss_settings_btnAddUrl">__MSG__ADD_RSS_FEED__</button>
         </div>
-        <div id="rss_settings_rssFeedListTemplate" style="display:none"><!--
-            {for i in feeds}
-            <div class="rss_settings_rssFeedListItem">
-                <button type="button" id="rss_settings_removeFeed-${feeds.indexOf(i)}"
-                    title="__MSG__REMOVE_FEED__" class="rss_settings_removeFeed rss_setting_listRight s3d-bold s3d-link-button"><img src="/dev/images/close_icon_small.png" alt="X"/></button>
-                <span class="rss_feed_title">${i.title|saneHTML}</span>
-                <span class="rss_grey"><a href="${i.id}" target="_blank">${i.id}</a></span>
-                <span>
-                    ${i.items.length}
-                    {if i.items.length == 1}
-                     item
-                    {else}
-                     items
-                    {/if}
-                </span>
-            </div>
-            {/for}
-        --></div>
+    </form>
+
+    <div id="rss_settings_rssFeedList">
+        <!-- In this list all the feeds added to the rss-widget will be shown -->
+    </div>
+    <div id="rss_settings_rssFeedListTemplate" style="display:none"><!--
+        {for i in feeds}
+        <div class="rss_settings_rssFeedListItem">
+            <button type="button" id="rss_settings_removeFeed-${feeds.indexOf(i)}"
+                title="__MSG__REMOVE_FEED__" class="rss_settings_removeFeed rss_setting_listRight s3d-bold s3d-link-button"><img src="/dev/images/close_icon_small.png" alt="X"/></button>
+            <span class="rss_feed_title">${i.title|saneHTML}</span>
+            <span class="rss_grey"><a href="${i.id}" target="_blank">${i.id}</a></span>
+            <span>
+                ${i.items.length}
+                {if i.items.length == 1}
+                 item
+                {else}
+                 items
+                {/if}
+            </span>
+        </div>
+        {/for}
+    --></div>
+    <form id="rss_display_form">
+        <div class="s3d-form-field-wrapper">
+            <label for="rss_settings_numEntries" class="s3d-input-label s3d-input-label-above">__MSG__NUMBER_OF_ITEMS_TO_DISPLAY__ </label>
+            <input type="text" id="rss_settings_numEntries" value="25" class="required s3d-error-calculate" name="rss_settings_numEntries"/>
+        </div>
         <p>
-            <br />
-            <span>__MSG__NUMBER_OF_ITEMS_TO_DISPLAY__ </span><input type="text" id="rss_settings_numEntries" value="25"/><span></span><br />
-            <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">__MSG__DISPLAY_SOURCE__</label><br />
-            <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">__MSG__DISPLAY_HEADLINES_ONLY__</label><br />
+            <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">__MSG__DISPLAY_SOURCE__</label><br/>
+            <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">__MSG__DISPLAY_HEADLINES_ONLY__</label>
         </p>
         <div class="fl-force-right">
             <button type="button" id="rss_setting_cancel" class="s3d-bold s3d-link-button">__MSG__CANCEL__</button>
-            <button type="button" id="rss_setting_finish" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
+            <button type="submit" id="rss_setting_finish" class="s3d-button s3d-overlay-action-button">__MSG__SAVE__</button>
         </div>
     </form>
     <hr class='fl-hidden fl-push'>
@@ -93,10 +95,6 @@
         {/for}
         <div class="jq_pager rss_jq_pager"></div>
     --></div>
-<!-- SEND MESSAGE CONTAINER -->
-<div id="rss_sendmessagecontainer" style="display:none;">
-    <div id="widget_sendmessage" class="widget_inline"></div>
-</div>
 
 <!-- MESSAGES -->
 <div id="rss_cannot_connect_to_rss_feed" style="display:none;">__MSG__ERROR_CAN_NOT_CONNECT_TO_RSS_FEED__</div>

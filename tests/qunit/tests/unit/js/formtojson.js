@@ -3,11 +3,12 @@ require(
     "jquery",
     "sakai/sakai.api.core",
     "../../../../tests/qunit/js/qunit.js",
-    "../../../../tests/qunit/js/sakai_qunit_lib.js"
+    "../../../../tests/qunit/js/sakai_qunit_lib.js",
+    "jquery-plugins/jquery.form"
     ], 
     function($, sakai) {
 
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
 
     module("Forms");
 
@@ -35,15 +36,15 @@ require(
         var result = $("#dummyForm").clearForm();
 
         //check the fields to be empty/unselected
-        same($("input[name=name]").val(),"","Reset the 'name' field.");
-        $("input[name=gender]").each(function(){
+        same($("input[name='name']").val(),"","Reset the 'name' field.");
+        $("input[name='gender']").each(function(){
             same($(this).attr("checked"),false,"Reset the '"+$(this).val()+"' field.");
         });
-        $("input[name=color]").each(function(){
+        $("input[name='color']").each(function(){
             same($(this).attr("checked"),false,"Reset the '"+$(this).val()+"' checkbox.");
         });
-        same($("select[name=shape] option:selected").val(),undefined,"Reset the 'shape' field.");
-        same($("textarea[name=description]").val(),"","Reset the 'description' field.");
+        same($("select[name='shape'] option:selected").val(),undefined,"Reset the 'shape' field.");
+        same($("textarea[name='description']").val(),"","Reset the 'description' field.");
     });
 
     });

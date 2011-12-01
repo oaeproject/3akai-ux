@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,52 +15,46 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 .mylibrary_main{margin:0 10px 10px 15px;overflow:hidden; }
 
 .mylibrary_title {font-size:1.1em;}
 .mylibrary_information {margin-top:15px;}
 .mylibrary_information_detail {width:70%;}
 .mylibrary_information_fliter {float:right;}
-#mylibrary_items {margin-top:10px;}
+#mylibrary_items {margin: 10px 0 0; border-top: 1px solid #DDDDDD;}
 .mylibrary_title_bar {padding:5px 0 10px;min-height:21px;}
 .mylibrary_check, #mylibrary_check_all {margin-top:4px;}
 .mylibrary_widget{overflow:hidden;}
 .mylibrary_item img {float: left;padding: 0 10px 5px 0;width: 40px;}
 .mylibrary_details {font-size:0.9em;}
-.mylibrary_edit {background:url("/dev/images/imanage.png") no-repeat scroll 0 0 transparent;
-    height:14px;width:54px;display:inline-block;vertical-align:text-top;}
-.mylibrary_placeholder {width:20px; height:20px; float:left;}
+.mylibrary_edit {background:url("/dev/images/imanage.png") no-repeat scroll 0 0 transparent;height:14px;width:54px;display:inline-block;vertical-align:text-top;}
+.mylibrary_placeholder {width:20px; height:20px; float:left;margin-left: 5px;}
 .mylibrary_icon {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent; margin-top:10px;float:left;display:none;}
+.mylibrary_remove_icon {margin-top: 10px;}
 .mylibrary_description {float:right; border-left:1px solid #DDDDDD;width:30%; padding-left:5px;}
 .mylibrary_description_detail {color: #878A8C; font-size:0.9em; display:block; padding-top:2px; margin:0;}
 .mylibrary_detail_dark {color:#000000;}
 .mylibrary_noborder{border:none;}
-#mylibrary_livefilter{float:right; width:200px; margin-right: 170px; height: 20px;}
+#mylibrary_actionbar .s3d-search-container {display:inline-block;float:right;margin-right:140px;}
+#mylibrary_actionbar .s3d-search-container #mylibrary_livefilter{width:200px;}
 #mylibrary_actionbar {margin-top: 10px; margin-bottom: 10px;}
-.mylibrary_livefilter_working{background:url("/dev/images/ajax-loader-gray.gif") no-repeat scroll right transparent;}
 .mylibrary_center {text-align:center;}
 #mylibrary_sortby{border:1px solid #ccc;}
 
-.mylibrary_item{color:#333;padding:10px;border-top: 1px dotted #cccccc; overflow:hidden;}
-.mylibrary_item_first{border-top: 1px solid #DDDDDD;clear:both;}
-.mylibrary_item_end{border-bottom: 1px solid #DDDDDD;}
+.mylibrary_item{color:#333;padding: 10px 0 10px 5px;border-bottom: 1px dotted #cccccc; overflow:hidden; clear:both; list-style-type:none;}
 .mylibrary_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
-.mylibrary_item_right{margin-left:78px;}
+.mylibrary_item_right{margin-left:3px; float:left; width: 580px;}
 .mylibrary_item_mimetype {font-size:smaller;white-space:pre;text-transform:uppercase;}
 .mylibrary_item_by {padding:3px 0;font-size:11px;}
-.mylibrary_item_description{margin:0 0 5px;font-size:.90em;padding:6px 0;}
-.mylibrary_item_share_icon{display:inline-block;float:right;}
+.mylibrary_item_description{margin:0px;font-size:.90em;padding:6px 0; word-wrap: break-word;}
+.mylibrary_item_share_icon{display:inline-block;float:right; margin-right: 10px;}
 .mylibrary_item_author_icon{margin-left:8px;display:inline-block;float:right;}
 .mylibrary_item_usedin{margin-top:2px;font-size:11px;}
 .mylibrary_item_icon{display: inline-block;height: 10px;width: 15px;}
 .mylibrary_item_usedin_icon{background: url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
 .mylibrary_item_comments_icon{margin-left:8px;background: url("/devwidgets/entity/images/entity_comment_icon.png") no-repeat scroll left top transparent;}
-.mylibrary_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
-.mylibrary_item_tags_list {margin:6px 0 0 20px;font-size:11px;}
-.mylibrary_item_tags_dot{color: #999999;}
+.mylibrary_item_tags_list {margin:0px 0 0 20px;font-size:11px; padding-bottom: 4px;}
 .mylibrary_item:hover {background-color: #f2f9fc;}
-#mylibrary_pager{border-bottom: 1px solid #e9e9e9;}
 #mylibrary_empty{width:100%;}
 /* Used in group filter */
 #mylibrary_groupfilter{

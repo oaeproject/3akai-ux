@@ -1,3 +1,20 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 #pickeradvanced_container {width: 720px !important; margin-left: -360px !important;}
 #pickeradvanced_container #pickeradvanced_container_search{width:722px;height:379px;}
 
@@ -46,6 +63,8 @@
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page .pickeradvanced_subnameinfo{color:#999;font-size:11px;position:relative;top:5px;left:5px;}
 .loadinganim{background:#fff url(/dev/images/ajax_load.gif) center 8px no-repeat;min-height:50px;}
 #pickeradvanced_container #pickeradvanced_no_results{font-weight:bold;margin-left:128px;margin-top:20px;float:left;}
+#pickeradvanced_container label#pickeradvanced_search_query_label{float:left;margin:6px 10px 0 0;}
+#pickeradvanced_container #pickeradvanced_search_query {width:150px;}
 
 /* HIDE SORT SAKIII-1790 */
 #pickeradvanced_container #pickeradvanced_sort{display:none;}

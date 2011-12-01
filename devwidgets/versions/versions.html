@@ -7,14 +7,20 @@
 
 <div id="versions_template"><!--
     {if data.length}
-        <div id="versions_next" class="versions_controls"></div>
-        <div id="versions_prev" class="versions_controls"></div>
+        <div class="versions_prev_next_container fl-force-right">
+            <button id="versions_older" class="versions_controls s3d-link-button" title="__MSG__VIEW_OLDER_VERSIONS__"></button>
+            <button id="versions_oldest" class="versions_controls s3d-link-button" title="__MSG__VIEW_OLDEST_VERSIONS__"></button>
+        </div>
+        <div class="versions_prev_next_container fl-force-left">
+            <button id="versions_newer" class="versions_controls s3d-link-button" title="__MSG__VIEW_NEWER_VERSIONS__"></button>
+            <button id="versions_newest" class="versions_controls s3d-link-button" title="__MSG__VIEW_NEWEST_VERSIONS__"></button>
+        </div>
     {/if}
     <div id="versions_carousel_container" class="jcarousel-skin-tango s3d-bold">
         {if data.length}
             <ul>
                 {for version in data}
-                    <li class="versions_version_item {if version_index == data.length -1} versions_selected {else} versions_divider{/if}" data-versionId="${version_index}" data-version="${version.versionId}" data-pooleditemname="${version["sakai:pooled-content-file-name"]|safeOutput}">
+                    <li class="versions_version_item {if version_index == 0} versions_selected {else} versions_divider{/if}" data-versionId="${version_index}" data-version="${version.versionId}" data-pooleditemname="${version["sakai:pooled-content-file-name"]|safeOutput}">
                         {var date = sakai.api.Util.parseSakaiDate(version["_versionNumber"]).toString().split(" ")}
                         <span class="versions_date">${date[1]} ${date[2]}, ${date[4].substring(0,5)}</span>
                         <a href="javascript:;" class="s3d-regular-links versions_updater">${version["username"]}</a>
@@ -32,6 +38,14 @@
             <div id="versions_noversions">__MSG__NO_REVISIONS__</div>
         {/if}
     </div>
+--></div>
+
+<div id="versions_empty_document_template" style="display:none;"><!--
+{if currentversion}
+    <div class="sakaidocs_default_editable_content_imagecontainer"></div>
+{else}
+    <div class="sakaidocs_default_viewable_content_imagecontainer"></div>
+{/if}
 --></div>
 
 <!-- JAVASCRIPT -->

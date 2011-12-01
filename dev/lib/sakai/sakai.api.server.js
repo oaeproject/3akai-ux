@@ -1,5 +1,4 @@
-/**
- *
+/*
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,9 +14,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
  */
-
 /**
 * @class Server
 *
@@ -343,7 +340,12 @@ define(
          * @param {Array}  an array containing a string for each namespace to move
          */
         removeServerCreatedObjects : function(obj, namespace, notToRemove) {
-            var newobj = $.extend(true, {}, obj);
+            var newobj = false;
+            if ($.isPlainObject(obj)) {
+                newobj = $.extend(true, {}, obj);
+            } else if ($.isArray(obj)) {
+                newobj = $.merge([], obj);
+            }
             notToRemove = notToRemove || [];
             $.each(newobj, function(key,val) {
                 for (var ns = 0; ns < namespace.length; ns++) {
@@ -358,16 +360,13 @@ define(
                         if (canRemove) {
                             delete newobj[key];
                         }
-                    } else if ($.isPlainObject(newobj[key])) {
+                    } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
                         newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
-                    } /* else if ($.isArray(newobj[key])) {
-                        //newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
-                    } */
+                    }
                 }
             });
             return newobj;
         },
-
 
         cleanUpSakaiDocObject: function(pagestructure){
             // Convert the special objects to arrays

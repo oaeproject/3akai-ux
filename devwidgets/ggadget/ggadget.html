@@ -12,50 +12,57 @@
         <!-- The main  settings template -->
         <div id="ggadget_remotecontent_settings_template"><!--
             <div class="ggadget_remotecontent_settings_subcontainer">
-                <label>__MSG__GADGET_EMBED_CODE__</label>
-                <input type="text" id="ggadget_remotecontent_settings_url" value="${url}" /><br />
-                <span id="ggadget_remotecontent_settings_help">__MSG__PLEASE_PATE_OR_ENTER_THE_GADGETS_EMBED_CODE__</span>
-                <span id="ggadget_remotecontent_settings_url_error" style="display:none;">__MSG__PLEASE_ENTER_A_VALID_GOOGLE_GADGET_EMBED_CODE__ <a href="http://www.google.com/webmasters/gadgets">http://www.google.com/webmasters/gadgets</a></span>
-                <span id="ggadget_remotecontent_settings_url_error_title" style="display:none;">__MSG__INCORRECT_URL__</span>
-                <p class="ggadget_remotecontent_settings_label">
-                    <button type="button" class="s3d-button s3d-header-button ggadget_preview_button fl-force-right">__MSG__PREVIEW_GADGET__</button>
-                    <label class="ggadget_remotecontent_settings_label_head">__MSG__PREVIEW__:</label> <span> __MSG__SIZE_DOESNT_CHANGE_ON_PREVIEW_MODE__<br class="fl-push" />
-                </p>
+                <form id="ggadget_form">
+                    <div class="s3d-form-field-wrapper">
+                        <label id="ggadget_remotecontent_settings_url_label" for="ggadget_remotecontent_settings_url" class="s3d-input-label s3d-input-label-above">__MSG__GADGET_EMBED_CODE__</label>
+                        <input type="text" id="ggadget_remotecontent_settings_url" value="${url}" class="required s3d-input-full-width"/>
+                    </div>
+                    <span id="ggadget_remotecontent_settings_help">__MSG__PLEASE_PATE_OR_ENTER_THE_GADGETS_EMBED_CODE__</span>
+                    <span id="ggadget_remotecontent_settings_url_error" style="display:none;">__MSG__PLEASE_ENTER_A_VALID_GOOGLE_GADGET_EMBED_CODE__ <a href="http://www.google.com/webmasters/gadgets">http://www.google.com/webmasters/gadgets</a></span>
+                    <span id="ggadget_remotecontent_settings_url_error_title" style="display:none;">__MSG__INCORRECT_URL__</span>
+                    <p class="ggadget_remotecontent_settings_label">
+                        <button type="submit" class="s3d-button s3d-header-button ggadget_preview_button fl-force-right">__MSG__PREVIEW_GADGET__</button>
+                        <label class="ggadget_remotecontent_settings_label_head">__MSG__PREVIEW__:</label> <span> __MSG__SIZE_DOESNT_CHANGE_ON_PREVIEW_MODE__<br class="fl-push" />
+                    </p>
+                </form>
                 <div id="ggadget_remotecontent_settings_preview"></div>
                     <button type="button" id="ggadget_remotecontent_settings_advanced_toggle_settings" class="s3d-button s3d-header-button">__MSG__ADVANCED_SETTINGS__&nbsp;&nbsp;<span id="ggadget_remotecontent_settings_advanced_down">&#8595;</span><span id="ggadget_remotecontent_settings_advanced_up">&#8593;</span></button>
                 </div>
-                <div id="ggadget_remotecontent_settings_advanced" style="display:none;">
-                    <div class="ggadget_remotecontent_settings_subcontainer">
-                        <label class="ggadget_remotecontent_settings_label_head">__MSG__SIZE__:</label><br />
-                        <div class="ggadget_remotecontent_settings_block">
-                            <label for="ggadget_remotecontent_settings_width">__MSG__WIDTH__:</label>
-                            <input type="text" id="ggadget_remotecontent_settings_width" value="${width}" />
-                            <button type="button" id="ggadget_remotecontent_settings_width_unit_px" class="ggadget_remotecontent_settings_width_unit s3d-link-button s3d-action {if width_unit == "px"} ggadget_remotecontent_settings_width_unit_selected{/if}"> __MSG__PX__</button>
-                            <span> or </span>
-                            <button type="button" id="ggadget_remotecontent_settings_width_unit_percent" class="ggadget_remotecontent_settings_width_unit s3d-link-button s3d-action {if width_unit == "%"} ggadget_remotecontent_settings_width_unit_selected{/if}"> %</button>
-                            <br />
-                            <label for="ggadget_remotecontent_settings_height">__MSG__HEIGHT__:</label>
-                            <input type="text" id="ggadget_remotecontent_settings_height" value="${height}" /><span> px</span>
-                            <button type="button" id="ggadget_remotecontent_settings_reset_size" class="s3d-button s3d-header-button">__MSG__RESET_TO_ORIGINAL_SIZE__</button>
-                            <br class="fl-push" />
+                <form id="ggadget_settings_form">
+                    <div id="ggadget_remotecontent_settings_advanced" style="display:none;">
+                        <div class="ggadget_remotecontent_settings_subcontainer">
+                            <label class="ggadget_remotecontent_settings_label_head">__MSG__SIZE__:</label><br />
+                            <div class="ggadget_remotecontent_settings_block">
+                                <label for="ggadget_remotecontent_settings_width">__MSG__WIDTH__:</label>
+                                <input type="text" id="ggadget_remotecontent_settings_width" value="${width}" />
+                                <button type="button" id="ggadget_remotecontent_settings_width_unit_px" class="ggadget_remotecontent_settings_width_unit s3d-link-button s3d-action {if width_unit == "px"} ggadget_remotecontent_settings_width_unit_selected{/if}"> __MSG__PX__</button>
+                                <span> __MSG__OR__ </span>
+                                <button type="button" id="ggadget_remotecontent_settings_width_unit_percent" class="ggadget_remotecontent_settings_width_unit s3d-link-button s3d-action {if width_unit == "%"} ggadget_remotecontent_settings_width_unit_selected{/if}"> %</button>
+                                <br />
+                                <label for="ggadget_remotecontent_settings_height">__MSG__HEIGHT__:</label>
+                                <input type="text" id="ggadget_remotecontent_settings_height" value="${height}" /><span> px</span>
+                                <button type="button" id="ggadget_remotecontent_settings_reset_size" class="s3d-button s3d-header-button">__MSG__RESET_TO_ORIGINAL_SIZE__</button>
+                                <br class="fl-push" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="ggadget_remotecontent_settings_subcontainer">
-                        <label class="ggadget_remotecontent_settings_label_head">__MSG__BORDER__:</label><br />
-                        <div class="ggadget_remotecontent_settings_block">
-                            <label for="ggadget_remotecontent_settings_borders">__MSG__WIDTH__:</label>
-                            <input type="text" id="ggadget_remotecontent_settings_borders" value="${border_size}" /><span> __MSG__PX__</span><br class="fl-push" />
-                            <div id="ggadget_remotecontent_settings_color_container">
+                        <div class="ggadget_remotecontent_settings_subcontainer">
+                            <label class="ggadget_remotecontent_settings_label_head">__MSG__BORDER__:</label><br />
+                            <div class="ggadget_remotecontent_settings_block">
+                                <label for="ggadget_remotecontent_settings_borders">__MSG__WIDTH__:</label>
+                                <input type="text" id="ggadget_remotecontent_settings_borders" value="${border_size}" /><span> __MSG__PX__</span><br class="fl-push" />
+                                <div id="ggadget_remotecontent_settings_color_container">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="fl-force-right">
-                    <button type="button" id="ggadget_remotecontent_settings_cancel" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-                    <button type="button" id="ggadget_remotecontent_settings_insert" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
-                </div>
+                    <div class="fl-force-right">
+                        <button type="button" id="ggadget_remotecontent_settings_cancel" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
+                        <button type="submit" id="ggadget_remotecontent_settings_insert" class="s3d-button s3d-overlay-action-button">__MSG__SAVE__</button>
+                    </div>
+                </form>
+            </div>
         --></div>
 
         <!-- Template to show the preview of the iframe -->

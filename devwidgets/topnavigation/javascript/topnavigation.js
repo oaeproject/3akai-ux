@@ -23,7 +23,7 @@
  */
 /*global Config, $, jQuery, get_cookie, delete_cookie, set_cookie, window, alert */
 
-require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
     /**
@@ -188,6 +188,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             return redirectURL;
         }
 
+       /**
+         * Check if a redirect should be performed
+         */
+        var checkForRedirect = function() {
+            var qs = new Querystring();
+            // Check for url param, path and if user is logged in
+            if (qs.get("url") && !sakai.api.User.isAnonymous(sakai.data.me) &&
+                (window.location.pathname === "/" || window.location.pathname === "/dev/explore.html" ||
+                  window.location.pathname === "/index" || window.location.pathname === "/dev")) {
+                    window.location = qs.get("url");
+            }
+        };
+
         ////////////////////////
         /////// MESSAGES ///////
         ////////////////////////
@@ -258,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             if (data) {
                 for (var i in data.results) {
                     if (data.results.hasOwnProperty(i)) {
-                        var mimeType = sakai.api.Content.getMimeTypeData(data.results[i]).cssClass;
+                        var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.results[i])).cssClass;
                         var tempFile = {
                             "dottedname": sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                             "name": data.results[i]["sakai:pooled-content-file-name"],
@@ -372,14 +385,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
          */
         var createMenuList = function(i){
             var temp = getNavItem(i, sakai.config.Navigation);
-            
             // Add in the template categories
             if (sakai.config.Navigation[i].id === "navigation_create_and_add_link"){
                 for (var c = 0; c < sakai.config.worldTemplates.length; c++){
                     var category = sakai.config.worldTemplates[c];
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
-                        "label": category.title,
+                        "label": category.menuLabel || category.title,
                         "url": "/create#l=" + category.id
                     });
                 }
@@ -388,7 +400,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     var categoryx = sakai.config.worldTemplates[x];
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_explore_" + categoryx.id + "_link",
-                        "label": categoryx.title,
+                        "label": categoryx.titlePlural,
                         "url": "/search#l=" + categoryx.id
                     });
                 }
@@ -453,6 +465,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     next = up ? (currentIndex - 1 >= 0 ? currentIndex-1 : -1) : (currentIndex + 1 >= $(topnavSearchResultsContainer).find("li").length ? $(topnavSearchResultsContainer).find("li").length-1 : currentIndex +1);
                     $(topnavSearchResultsContainer).find("li.selected").removeClass("selected");
                 }
+                if (next !== 0 && next === currentIndex){
+                    next = 0;
+                } else if (next === -1){
+                    next = $(topnavSearchResultsContainer).find("li").length - 1;
+                }
                 if (next !== -1) {
                     $(topnavSearchResultsContainer).find("li:eq(" + next + ")").addClass("selected");
                 }
@@ -477,6 +494,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 if ($openMenu.length){
                     $openMenu.children("a").removeClass(topnavigationForceSubmenuDisplayTitle);
                     $openMenu.children(subnavtl).hide();
+                    $openMenu.children(navLinkDropdown).children("ul").attr("aria-hidden", "true");
                     $openMenu.children(navLinkDropdown).hide();
                     $openMenu = false;
                 }
@@ -490,15 +508,25 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 // close another sub menu if ones open
                 closeMenu();
 
-                var $li = $(this);
-                $openMenu = $li;
-                $li.removeClass("topnavigation_close_override");
-                $li.children(subnavtl).show();
-                var $subnav = $li.children(navLinkDropdown);
+                $openMenu = $(this);
+                $openMenu.removeClass("topnavigation_close_override");
+                $openMenu.children(subnavtl).show();
+                $openMenu.children(navLinkDropdown).children("ul").attr("aria-hidden", "false");
+                var $subnav = $openMenu.children(navLinkDropdown);
 
-                var pos = $li.position();
+                var pos = $openMenu.position();
                 $subnav.css("left", pos.left - 2);
                 $subnav.show();
+
+                if ($openMenu.children(topnavigationExternalLogin).length){
+                    // adjust margin of external login menu to position correctly according to padding and width of menu
+                    var menuPadding = parseInt($openMenu.css("paddingRight").replace("px", ""), 10) +
+                         $openMenu.width() -
+                         parseInt($subnav.css("paddingRight").replace("px", ""), 10) -
+                         parseInt($subnav.css("paddingLeft").replace("px", ""), 10);
+                    var margin = ($subnav.width() - menuPadding) * -1;
+                    $subnav.css("margin-left", margin + "px");
+                }
             };
 
             $(hasSubnav).hover(openMenu, closeMenu);
@@ -512,42 +540,21 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
 
             // bind down/left/right keys for top menu
             $("#topnavigation_container .s3d-dropdown-menu").keydown(function(e) {
-                if (e.which == $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
+                if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
                     $(this).find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
-                } else if (e.which == $.ui.keyCode.LEFT) {
+                } else if (e.which === $.ui.keyCode.LEFT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     if ($(this).prevAll("li:first").length > 0){
                         $(this).prevAll("li:first").children("a").focus();
-                    } else if ($(this).parent().hasClass("topnavigation_user_container")) {
-                        if ($("#topnavigation_search_input").length) {
-                            $("#topnavigation_search_input").focus();
-                        } else {
-                            $(this).parent().prevAll("ul").find("li:last a").focus();
-                        }
-                    } else if ($(this).parent().parent().hasClass("topnavigation_user_container")) {
-                        if ($("#topnavigation_user_inbox_container").length){
-                            $("#topnavigation_user_inbox_container").focus();
-                        } else if ($("#topnavigation_search_input").length) {
-                            $("#topnavigation_search_input").focus();
-                        } else {
-                            $(this).parent().parent().parent().prevAll("ul").children("li:last").children("a").focus();
-                        }
+                    } else {
+                        $(this).nextAll("li:last").children("a").focus();
                     }
                     return false;
-                } else if (e.which == $.ui.keyCode.RIGHT) {
+                } else if (e.which === $.ui.keyCode.RIGHT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     if ($(this).nextAll("li:first").length > 0){
                         $(this).nextAll("li:first").children("a").focus();
-                    } else if ($(this).parent().hasClass("topnavigation_explore")) {
-                        if ($("#topnavigation_search_input").length) {
-                            $("#topnavigation_search_input").focus();
-                        } else if ($("#topnavigation_user_options_login").length) {
-                            // focus on login menu
-                            $("#topnavigation_user_options_login").focus();
-                            $(topnavUseroptionsLoginFieldsUsername).focus();
-                        } else if ($("#topnavigation_user_options_name").length) {
-                            // focus on user options menu
-                            $("#topnavigation_user_options_name").focus();
-                        }
+                    } else {
+                        $(this).prevAll("li:last").children("a").focus();
                     }
                     return false;
                 } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
@@ -560,26 +567,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                             return false;
                         }
                     });
-                }
-            });
-
-            $("#topnavigation_search_input").keydown(function(e) {
-                if (e.which == $.ui.keyCode.LEFT && $(this).getSelection().start === 0) {
-                    $(this).parent().parent().prevAll("ul").children("li:last").children("a").focus();
-                    return false;
-                } else if (e.which == $.ui.keyCode.RIGHT && $(this).getSelection().start === $(this).val().length) {
-                    if ($("#topnavigation_user_inbox_container").length) {
-                        // focus on inbox link
-                        $("#topnavigation_user_inbox_container").focus();
-                    } else if ($("#topnavigation_user_options_login").length) {
-                        // focus on login menu
-                        $("#topnavigation_user_options_login").focus();
-                        $(topnavUseroptionsLoginFieldsUsername).focus();
-                    } else if ($("#topnavigation_user_options_name").length) {
-                        // focus on user options menu
-                        $("#topnavigation_user_options_name").focus();
-                    }
-                    return false;
                 }
             });
 
@@ -597,21 +584,23 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            // bind up/down keys in sub menu
+            // bind up/down/escape keys in sub menu
             $(hasSubnav + " div a").keydown(function(e) {
-                if (e.which == $.ui.keyCode.DOWN) {
+                if (e.which === $.ui.keyCode.DOWN) {
                     if ($(this).parent().nextAll("li:first").length > 0){
                         $(this).parent().nextAll("li:first").children("a").focus();
+                    } else {
+                        $(this).parent().prevAll("li:last").children("a").focus();
                     }
                     return false; // prevent browser page from scrolling down
-                } else if (e.which == $.ui.keyCode.UP) {
+                } else if (e.which === $.ui.keyCode.UP) {
                     if ($(this).parent().prevAll("li:first").length > 0) {
                         $(this).parent().prevAll("li:first").children("a").focus();
                     } else {
-                        $(this).parent().parents("li:first").find("a:first").focus();
+                        $(this).parent().nextAll("li:last").children("a").focus();
                     }
                     return false;
-                } else if (e.which == $.ui.keyCode.ESCAPE) {
+                } else if (e.which === $.ui.keyCode.ESCAPE) {
                     $(this).parent().parents("li:first").find("a:first").focus();
                 } else {
                     // if a letter was pressed, search for the next menu item that starts with the letter
@@ -687,6 +676,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
+            $(".topnavigation_search .s3d-search-button").bind("click", handleEnterKeyInSearch);
+
             $("#topnavigation_search_input").keydown(function(evt){
                 var val = $.trim($(this).val());
                 // 40 is down, 38 is up, 13 is enter
@@ -699,12 +690,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            $("#subnavigation_logout_link").keydown(function(e) {
-                // if user is signed in and tabs out of user menu, close the sub menu
+            $(".topnavigation_user_dropdown a, .topnavigation_external_login a").keydown(function(e) {
+                // if user is signed in and tabs out of user menu, or the external auth menu, close the sub menu
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     closeMenu();
                 }
             });
+
+            $("#topnavigation_user_options_login_external").click(function(){return false;});
 
             $("#topnavigation_user_options_login_button_login").keydown(function(e) {
                 // if user is not signed in we need to check when they tab out of the login form and close the login menu
@@ -715,17 +708,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            $("#subnavigation_login_list li a").keydown(function(e) {
-                // hide signin or user options menu when tabbing out of the last menu option
-                if (!e.shiftKey && e.which == $.ui.keyCode.TAB && $(this).parents("li").next().length == 0) {
-                    // if user is not signed in we need to check when they tab out of the external auth menu, and close the sub menu
-                    mouseOverSignIn = false;
-                    $(topnavUserLoginButton).trigger("mouseout");
-                    $("html").trigger("click");
-                }
-            });
-
-            $("#topnavigation_user_options_name").keydown(function(e) {
+            $("#topnavigation_user_options_name, #topnavigation_user_options_login_external").keydown(function(e) {
                 // hide signin or user options menu when tabbing out of the last menu option
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     closeMenu();
@@ -734,7 +717,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
 
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
-            $(topnavUserOptionsLoginForm).submit(function(){
+            var doLogin = function(){
                 $(topnavUserOptionsLoginButtonSigningIn).show();
                 $(topnavUserOptionsLoginButtonCancel).hide();
                 $(topnavuserOptionsLoginButtonLogin).hide();
@@ -753,22 +736,30 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                         $(topnavUserOptionsLoginButtonSigningIn).hide();
                         $(topnavUserOptionsLoginButtonCancel).show();
                         $(topnavuserOptionsLoginButtonLogin).show();
-                        $(topnavUserOptionsLoginForm).addClass("topnavigation_user_options_login_sign_in_error_margin");
-                        $(topnavUserOptionsLoginError).show();
+                        $(topnavUseroptionsLoginFieldsPassword).val("");
                         $(topnavUseroptionsLoginFieldsUsername).focus();
+                        $(topnavUseroptionsLoginFieldsUsername).addClass("failedloginusername");
+                        $(topnavUseroptionsLoginFieldsPassword).addClass("failedloginpassword");
+                        $(topnavUserOptionsLoginForm).valid();
+                        $(topnavUseroptionsLoginFieldsUsername).removeClass("failedloginusername");
+                        $(topnavUseroptionsLoginFieldsPassword).removeClass("failedloginpassword");
                     }
                 });
+            };
+
+            $.validator.addMethod("failedloginusername", function(value, element){
                 return false;
-            });
-            
-            // Make up for IE8 to submit login on Enter
-            // http://www.thefutureoftheweb.com/blog/submit-a-form-in-ie-with-enter
-            $(topnavUserOptionsLoginForm + " input").keydown(function(e){
-                if (e.keyCode === 13) {
-                    $(this).parents('form').submit();
-                    e.preventDefault();
+            }, sakai.api.i18n.getValueForKey("INVALID_USERNAME_OR_PASSWORD"));
+            $.validator.addMethod("failedloginpassword", function(value, element){
+                return false;
+            }, "");
+            var validateOpts = {
+                submitHandler: function(form){
+                    doLogin();
                 }
-            });
+            };
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($(topnavUserOptionsLoginForm), validateOpts, true);
 
             // Make sure that the sign in dropdown does not disappear after it has
             // been clicked
@@ -819,22 +810,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     $("#navigation_anon_signup_link:focus").blur();
                 }
                 closeMenu();
-                var $menu = $(this);
-                if ($menu.children(topnavigationExternalLogin).length){
-                    // adjust margin of external login menu to position correctly according to padding and width of menu
-                    var $externalAuth = $menu.children(topnavigationExternalLogin);
-                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""), 10) +
-                         $menu.width() -
-                         parseInt($externalAuth.css("paddingRight").replace("px", ""), 10) -
-                         parseInt($externalAuth.css("paddingLeft").replace("px", ""), 10);
-
-                    var margin = ($externalAuth.width() - menuPadding) * -1;
-                    $externalAuth.css("margin-left", margin + "px");
-                }
                 $(topnavUserOptionsLoginFields).show();
             },
             function(){
                 $(topnavUserOptionsLoginFields).hide();
+                if ($(this).children(topnavigationExternalLogin).length) {
+                    $(this).children(topnavigationExternalLogin).find("ul").attr("aria-hidden", "true");
+                }
             });
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
@@ -908,6 +890,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
          * Initialise the topnavigation widget
          */
         var doInit = function(){
+            checkForRedirect();
             renderMenu();
             renderUser();
             setCountUnreadMessages();

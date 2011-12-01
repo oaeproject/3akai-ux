@@ -6,7 +6,7 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/mylibrary/bundles/default.properties",
-            "name":       "My Library",
+            "name":       "My library",
             "description":"View and manage a user's library items"
         }
     },
@@ -16,6 +16,5 @@
     "type":               "sakai",
     "url":                "/devwidgets/mylibrary/mylibrary.html",
     "userdashboard":      false,
-    "userpages":          false,
-    "hashParams":         ["l", "lq", "lso", "lsb", "lp"]
+    "userpages":          false
 }

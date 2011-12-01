@@ -8,33 +8,29 @@
         <div class="inbox_main">
             <!-- Title -->
             <div id="inbox_header" class="inbox-message-list-view s3d-contentpage-title inbox-message-detail-view inbox-new-message-view" style="display:none">
-              <span id="inbox_box_title" class="inbox-message-list-view inbox-message-detail-view inbox-new-message-view"></span> <span class="inbox-message-list-view inbox_title_total_wrapper" style="display:none">(<span id="inbox_title_total"></span>)</span>
+              <span id="inbox_box_title" class="inbox-message-list-view inbox-message-detail-view inbox-new-message-view"></span>
             </div>
             <div id="inbox_message_header">
-            <button type="button" id="inbox_select" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5 inbox-message-list-view" title="__MSG__SELECT_MESSAGES__">
-                <span><input type="checkbox" id="inbox_select_checkbox"/> __MSG__DOWN_ARROW__</span>
-            </button>
-              <div id="inbox_select_options" style="display:none">
-                <ul>
-                  <li>
-                    <button type="button" id="inbox_select_all" class="s3d-link-button s3d-action">__MSG__ALL__</button>
-                  </li>
-                  <li>
-                    <button type="button" id="inbox_select_unread" class="s3d-link-button  s3d-action">__MSG__UNREAD__</button>
-                  </li>
-                </ul>
-              </div>
+                <span type="button" id="inbox_select" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5 inbox-message-list-view" title="__MSG__SELECT_MESSAGES__">
+                    <input type="checkbox" id="inbox_select_checkbox"/>
+                </span>
 
-              <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__DELETE_SELECTED__</button>
-              <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__MARK_AS_READ__</button>
+                <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__DELETE_SELECTED__</button>
+                <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__MARK_AS_READ__</button>
 
-              <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-smaller-button s3d-margin-top-5 s3d-header-button" style="display:none">
-                  __MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__
-              </a>
-              <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-margin-top-3 s3d-overlay-button grey fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
-                  __MSG__CREATE_NEW_MESSAGE__
-              </a>
-              <input type="text" id="inbox_search_messages" disabled="disabled" placeholder="__MSG__SEARCH_MESSAGES__" class="inbox-message-list-view s3d-margin-top-5" style="display:none"/>
+                <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-smaller-button s3d-margin-top-5 s3d-header-button" style="display:none">
+                    __MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__
+                </a>
+                <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-margin-top-3 s3d-overlay-button grey fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
+                    __MSG__CREATE_NEW_MESSAGE__
+                </a>
+
+                <div class="s3d-search-container inbox-message-list-view">
+                    <input type="text" maxlength="255" title="__MSG__SEARCH_MESSAGES__" disabled="disabled" id="inbox_search_messages" class="s3d-search-inputfield newaddcontent_existingitems_search" placeholder="__MSG__SEARCH_MESSAGES__"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_MESSAGES__"/>
+                    </button>
+                </div>
             </div>
 
             <!-- Inbox Items -->
@@ -42,11 +38,11 @@
 
             <!-- Inbox Item Template -->
             <div id="inbox_message_list_item_template"><!--
-                {if search}
+                {if search && results.length > 0}
                     <p id="inbox_search_term">__MSG__SEARCH_RESULTS_FOR__ <span>${search}</span></p>
                 {/if}
-                {for message in data.results}
-                    <div class="inbox_item fl-container fl-fix inbox_items_container{if message.read !== "true" && message.read !== true} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">
+                {for message in results}
+                    <div class="inbox_item fl-container fl-fix inbox_items_container{if message.read !== "true" && message.read !== true} unread{/if}{if message_index == results.length-1} last{/if}" id="${message.id}">
                         <div class="inbox_items_inner">
                             <div class="inbox_left_col inbox_col">
                                 <div class="inbox_placeholder"><input type="checkbox"/></div>
@@ -77,28 +73,31 @@
                             </div>
                         </div>
                     </div>
-                {forelse}
-                    <div class="fl-container fl-fix" id="inbox_no_messages">
-                        <div class="s3d-no-results-container">
-                            <div class="s3d-no-results-arrow-up"></div>
-                            {if widgetData.category == "invitation"}
-                                <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
-                                <h1>__MSG__NO_RESULTS_DESCRIPTION_INVITATIONS__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
-                            {elseif widgetData.box == "outbox"}
-                                <div class="s3d-no-results-icon s3d-no-results-replied"></div>
-                                <h1>__MSG__NO_RESULTS_DESCRIPTION_OUTBOX__ <a href="#newmessage=true" class="s3d-regular-links">__MSG__COMPOSE_A_MESSAGE__</a></h1>
-                            {elseif widgetData.box == "inbox"}
-                                <div class="s3d-no-results-icon s3d-no-results-people"></div>
-                                <h1>__MSG__NO_RESULTS_DESCRIPTION_INBOX__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
-                            {elseif widgetData.box == "trash"}
-                                <div class="s3d-no-results-icon s3d-no-results-trash"></div>
-                                <h1>__MSG__NO_RESULTS_DESCRIPTION_TRASH__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
-                            {/if}
-                        </div>
-                    </div>
                 {/for}
             --></div>
-            <div id="inbox_pager" class="jq_pager inbox-message-list-view" style="display:none"></div>
+            <div id="inbox_message_list_item_empty_template"><!--
+                <div class="fl-container fl-fix" id="inbox_no_messages">
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        {if search}
+                            <div class="s3d-no-results-icon s3d-no-results-search-messages"></div>
+                            <h1>__MSG__NO_SEARCH_RESULTS__</h1>
+                        {elseif widgetData.category == "invitation"}
+                            <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION_INVITATIONS__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                        {elseif widgetData.box == "outbox"}
+                            <div class="s3d-no-results-icon s3d-no-results-replied"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION_OUTBOX__ <a href="#newmessage=true" class="s3d-regular-links">__MSG__COMPOSE_A_MESSAGE__</a></h1>
+                        {elseif widgetData.box == "inbox"}
+                            <div class="s3d-no-results-icon s3d-no-results-people"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION_INBOX__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                        {elseif widgetData.box == "trash"}
+                            <div class="s3d-no-results-icon s3d-no-results-trash"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION_TRASH__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                        {/if}
+                    </div>
+                </div>
+            --></div>
 
             <!-- Message show pane -->
             <div id="inbox_show_message" style="display:none" class="inbox-message-detail-view"></div>
@@ -172,7 +171,7 @@
 
             <!-- New Message -->
             <div id="inbox_new_message" class="inbox-new-message-view" style="display:none">
-              <div id="inbox_new_message_sendmessage"></div>
+                <div id="inbox_new_message_sendmessage"></div>
             </div>
         </div>
     </div>

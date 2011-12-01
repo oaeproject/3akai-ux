@@ -3,8 +3,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/accountpreferences/bundles/default.properties",
-            "description":"Account Preferences",
-            "name":"Account Preferences"
+            "description":"Account preferences",
+            "name":"Account preferences"
         }
     },
     "type":"core",

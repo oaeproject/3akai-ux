@@ -49,6 +49,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var relatedcontent = "#relatedcontent";
         var relatedcontentContainer = relatedcontent + "_container";
         var relatedcontentDefaultTemplate = relatedcontent + "_default_template";
+        var relatedcontentContent = ".relatedcontent_content";
+        var relatedcontentFooter = "#relatedcontent_footer";
+        var relatedcontentShowMore = "#relatedcontent_show_more";
+        
+        var contentData = {};
+        var page = 0;
+        var numberofitems = 5;
 
 
         //////////////////////
@@ -106,19 +113,43 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Fetches the related content
          */
-        var getRelatedContent = function(contentData){
-
+        var getRelatedContent = function(checkMoreRelated){
             var managersList = "";
             var viewersList = "";
             var ajaxSuccess = function(data) {
+                var moreResults = false;
+                $.each(data.results, function(index, item){
+                    if(checkMoreRelated){
+                        moreResults = true;
+                    }
+                    data.results[index].commentcount = sakai.api.Content.getCommentCount(item);
+                    var mimeType = sakai.api.Content.getMimeType(data.results[index]);
+                    var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
+                    if (sakai.config.MimeTypes[mimeType]){
+                        mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+                    }
+                    data.results[index].mimeTypeDescription = mimeTypeDescription;
+                });
                 var json = {
                     "content": contentData,
                     "relatedContent": data
                 };
-                renderTemplate(json);
+                if(!checkMoreRelated){
+                    renderTemplate(json);
+                } else {
+                    if (!moreResults){
+                        $(relatedcontentShowMore).hide();
+                        $("#relatedcontent_footer").addClass("relatedcontent_footer_norelated");
+                    } else {
+                        $(relatedcontentShowMore).show();
+                        $("#relatedcontent_footer").removeClass("relatedcontent_footer_norelated");
+                    }
+                }
             };
             var ajaxError = function() {
-                renderTemplate({});
+                if(!checkMoreRelated){
+                    renderTemplate({});
+                }
             };
 
             for (var i = 0; i < contentData.members.managers.length; i++) {
@@ -139,8 +170,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // get related content for contentData
             // return some search results for now
+            var paging = page;
+            if(checkMoreRelated){
+                paging++;
+            }
             var params = {
-                "items" : "11"
+                "items": numberofitems,
+                "page": paging
             };
             var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
             if (searchquery === '*' || searchquery === '**') {
@@ -157,6 +193,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             
         };
 
+        var showMore = function(){
+            page++;
+            getRelatedContent();
+            getRelatedContent(true);
+        };
 
         //////////////
         // Bindings //
@@ -167,7 +208,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
             // bind the more link
-
+            $(relatedcontentShowMore).die("click", showMore);
+            $(relatedcontentShowMore).live("click", showMore);
         };
 
         ////////////////////
@@ -177,10 +219,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Render function
          */
-       $(window).bind("render.relatedcontent.sakai", function(e, contentData){
-            addBinding();
-            getRelatedContent(contentData);
+       $(window).bind("render.relatedcontent.sakai", function(e, data){
+           page = 0;
+           addBinding();
+           contentData = data;
+           getRelatedContent();
+           getRelatedContent(true);
         });
+
+        $(relatedcontentContent).live("click", function(){
+            $.bbq.pushState($(this).attr("data-href"));
+        })
 
         // Indicate that the widget has finished loading
         $(window).trigger("ready.relatedcontent.sakai", {});

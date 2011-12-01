@@ -27,6 +27,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.data.search = sakai_global.data.search || {};
 
     var view = "list";
+    var refineTags = [];
+    var activeTags = [];
+    var maxTagsDisplayed = 10;
 
     $(window).bind("sakai.search.util.init", function(ev, config){
 
@@ -55,7 +58,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             && $(".s3d-search-results-container").length){
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
-
+        $(".search_view_" + view).addClass("selected");
+        $(".search_view_" + view).children("div").addClass("selected");
 
         ////////////////////////////////
         // Finish util initialisation //
@@ -69,188 +73,129 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Prepare for rendering //
         ///////////////////////////
 
-        sakai_global.data.search.prepareCMforRender = function(results, finaljson) {
-            for (var i = 0, j = results.length; i < j; i++) {
-                if (results[i]['sakai:pooled-content-file-name']) {
-                    // Set the item object in finaljson equal to the object in results
-                    var contentItem = results[i];
-
-                    // Only modify the description if there is one
-                    if (contentItem["sakai:description"]) {
-                        contentItem["sakai:description"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 580, {
-                            max_rows: 2,
-                            whole_word: false
-                        }, "search_result_course_site_excerpt");
-                    }
-                    if (contentItem["sakai:pooled-content-file-name"]) {
-                        contentItem["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 600, {
-                            max_rows: 1,
-                            whole_word: false
-                        }, "s3d-bold");
-                    }
-                    // Modify the tags if there are any
-                    if (contentItem["sakai:tags"]) {
-                        if (typeof(contentItem["sakai:tags"]) === 'string') {
-                            contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
-                        }
-                        contentItem["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(contentItem["sakai:tags"]);
-                    }
-                    // set mimetype
-                    var mimeType = sakai.api.Content.getMimeType(contentItem);
-                    contentItem.mimeType = mimeType;
-                    contentItem.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
-                    if (sakai.config.MimeTypes[mimeType]){
-                        contentItem.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
-                    }
-                    contentItem.thumbnail = sakai.api.Content.getThumbnail(results[i]);
-                    finaljson.items.push(contentItem);
-                }
-            }
-            finaljson.sakai = sakai;
-            return finaljson;
-        };
-        
-        sakai_global.data.search.prepareGroupsForRender = function(results, finaljson){
-            for (var group in results){
-                if (results.hasOwnProperty(group) && results[group]["sakai:group-id"]) {
-                    if (results[group]["sakai:group-title"]) {
-                        results[group]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
-                    }
-                    if (results[group]["sakai:group-description"]) {
-                        results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 580, {max_rows: 2,whole_word: false}, "");
-                    }
-
-                    var groupType = sakai.api.i18n.getValueForKey("OTHER");
-                    if (results[group]["sakai:category"]){
-                        for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
-                            if (sakai.config.worldTemplates[c].id === results[group]["sakai:category"]){
-                                groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titleSing);
-                            }
-                        }
-                    }
-                    // Modify the tags if there are any
-                    if (results[group]["sakai:tags"]) {
-                        results[group]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(results[group]["sakai:tags"]);
-                    }
-                    results[group].groupType = groupType;
-                    results[group].lastModified = results[group].lastModified;
-                    results[group].picPath = sakai.api.Groups.getProfilePicture(results[group]);
-                    results[group].userMember = false;
-                    if (sakai.api.Groups.isCurrentUserAManager(results[group]["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(results[group]["sakai:group-id"], sakai.data.me)){
-                        results[group].userMember = true;
-                    }
-
-                    finaljson.items.push(results[group]);
-                }
-            }
-
-            finaljson.sakai = sakai;
-            return finaljson;
+        sakai_global.data.search.prepareCMforRender = function(results, callback) {
+            sakai.api.Content.prepareContentForRender(results, sakai.data.me, callback);
         };
 
-        sakai_global.data.search.preparePeopleForRender = function(results, finaljson) {
-            for (var i = 0, j = results.length; i<j; i++) {
-                var item = results[i];
-                var details = false;
-                if (item.target){
-                    item = results[i].profile;
-                    details = results[i].details;
-                }
-                if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
-                    var user = {};
-                    user.userid = item["rep:userId"];
-                    // Parse the user his info.
-                    user.path = item.homePath + "/public/";
-                    var person = item;
-                    user.picture = sakai.api.User.getProfilePicture(person);
-                    user.counts = item.counts;
-                    user.name = sakai.api.User.getDisplayName(item);
-                    user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                    user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
-                    user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
+        sakai_global.data.search.prepareGroupsForRender = function(results) {
+            return sakai.api.Groups.prepareGroupsForRender(results, sakai.data.me);
+        };
 
-                    if (item["sakai:tags"] && item["sakai:tags"].length > 0){
-                        user["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
-                    }
-                    if (item.basic && item.basic.elements && item.basic.elements.description){
-                        user.extra = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 580, {max_rows: 2,whole_word: false}, "");
-                        user.extraGrid = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 200, {max_rows: 2,whole_word: false}, "");
-                    }
+        sakai_global.data.search.preparePeopleForRender = function(results) {
+            return sakai.api.User.preparePeopleForRender(results, sakai.data.me);
+        };
 
-                    user.connected = false;
-                    user.accepted = false;
-                    user.invited = item.invited !== undefined ? item.invited : false;
-                    // Check if this user is a friend of us already.
-                    var connectionState = false;
-                    if (item["sakai:state"]) {
-                        connectionState = item["sakai:state"];
-                    } else if (details && details["sakai:state"]) {
-                        connectionState = details["sakai:state"];
-                    } else if (sakai_global.data.search.contacts && sakai_global.data.search.contacts.results) {
-                        for (var ii = 0, jj = sakai_global.data.search.contacts.results.length; ii<jj; ii++) {
-                            var friend = sakai_global.data.search.contacts.results[ii];
-                            if (friend.target === user.userid) {
-                                connectionState = friend.details["sakai:state"];
-                            }
-                        }
-                    }
-                    if (connectionState) {
-                        user.connected = true;
-                        // if invited state set invited to true
-                        if(connectionState === "INVITED"){
-                            user.invited = true;
-                        } else if(connectionState === "PENDING"){
-                            user.pending = true;
-                        } else if(connectionState === "ACCEPTED"){
-                            user.accepted = true;
-                        } else if(connectionState === "NONE"){
-                            user.none = true;
-                            user.connected = false;
-                        }
-                    }
-                    // Check if the user you found in the list isn't the current
-                    // logged in user
-                    if (user.userid === sakai.data.me.user.userid) {
-                        user.isMe = true;
-                    }
+        /**
+         * Renders the tag lists
+         */
+        renderRefineTags = function() {
+            sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags, "sakai": sakai}, $("#search_tags_active_container"));
+            sakai.api.Util.TemplateRenderer($("#search_tags_refine_template"), {"tags": refineTags, "sakai": sakai}, $(".search_tags_refine_container"));
+        };
 
-                    if (user["sakai:tags"]) {
-                        var filteredTags = [];
-                        for (var t = 0; t < user["sakai:tags"].length; t++) {
-                            if (user["sakai:tags"][t].split("/")[0] !== "directory") {
-                                filteredTags.push(user["sakai:tags"][t]);
-                            }
-                        }
-                        user["sakai:tags"] = filteredTags;
-                    }
+        /**
+         * Generates the tag list to refine the search by
+         * @param {Object} data Search result containing the tags available
+         * @param {Object} params Parameters used in the search
+         */
+        sakai_global.data.search.generateTagsRefineBy = function(data, params) {
+            $("#search_tags_active_container").empty();
+            activeTags = [];
+            refineTags = [];
+            var tagArray = [];
 
-                    finaljson.items.push(user);
-
-                }
+            // get any tags already in location hash
+            if (params && params.refine){
+                activeTags = params.refine.split(',');
             }
-            finaljson.sakai = sakai;
-            return finaljson;
+
+            // filter tags
+            if (data.facet_fields && data.facet_fields[0] && data.facet_fields[0].tagname && data.facet_fields[0].tagname.length > 0) {
+                var tempTagArray = data.facet_fields[0].tagname;
+                // put the tags from the tag cloud service into an array
+                $.each(tempTagArray, function(key, tagOjb) {
+                    $.each(tagOjb, function(tag, count) {
+                        if (count > 0) {
+                            tagArray.push(tag);
+                        }
+                    });
+                });
+                tagArray = sakai.api.Util.formatTagsExcludeLocation(tagArray);
+                // store tags in either already active tags, or tags available to refine the search by
+                $.each(tagArray, function(key, tag) {
+                    if ($.inArray(tag, activeTags) === -1) {
+                        refineTags.push(tag);
+                    }
+                });
+                activeTags.sort();
+                // limit the number of tags to display in refine list
+                refineTags = refineTags.slice(0, maxTagsDisplayed).sort();
+            }
+
+            renderRefineTags();
         };
 
         //////////////////////
         // Query parameters //
         //////////////////////
 
-        sakai_global.data.search.getQueryParams = function(){
+        sakai_global.data.search.getQueryParams = function($rootel){
             var params = {
                 "page": parseInt($.bbq.getState('page'), 10) || 1,
+                "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
-                "sortby": $.bbq.getState('sortby')
+                "sortby": $.bbq.getState('sortby'),
+                "sorton": $.bbq.getState('sorton'),
+                "refine": $.bbq.getState('refine')
             };
+            // get the sort by and sort on
+            if (!params["sortby"] || !params["sorton"]){
+                var val = $(".s3d-search-sort option:selected", $rootel).val().split(",");
+                params["sortby"] = val[0];
+                params["sorton"] = val[1];
+            }
             return params;
+        };
+
+        sakai_global.data.search.processSearchString = function(params){
+            var searchString = params.q;
+            var catString = params.cat;
+            if (params.refine){
+                if (catString) {
+                    catString = catString + " " + params.refine.replace(/,/g, " ");
+                } else if (searchString === "*"){
+                    searchString = params.refine.replace(/,/g, " ");
+                } else {
+                    searchString = searchString + " " + params.refine.replace(/,/g, " ");
+                }
+            }
+            return sakai.api.Server.createSearchString(catString || searchString);
         };
 
         ////////////
         // Events //
         ////////////
 
-        $(".link_accept_invitation").live("click", function(ev){
+        $(".search_tag_refine_item").die("click").live("click", function(ev){
+            var tag = $(this).attr("data-sakai-entityid");
+            activeTags.push(tag);
+            $.bbq.pushState({
+                "refine": activeTags.toString()
+            }, 0);
+        });
+
+        $(".search_tag_active_item").die("click").live("click", function(ev){
+            var tag = $(this).attr("data-sakai-entityid");
+            activeTags = $.grep(activeTags, function(value) {
+                return value !== tag;
+            });
+            $.bbq.pushState({
+                "refine": activeTags.toString()
+            }, 0);
+        });
+
+        $(".link_accept_invitation").die("click").live("click", function(ev){
             var userid = $(this).attr("sakai-entityid");
             $.ajax({
                 url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.accept.html",
@@ -272,27 +217,54 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind sortby select box
-        $("#search_select_sortby").live("change", function(ev) {
-            var sortby = $(this).find(":selected").val();
+        $(".s3d-search-sort select").die("change").live("change", function(ev) {
+            var val = $(this).find(":selected").val().split(",");
+            var sortby = val[0];
+            var sorton = val[1];
             $.bbq.pushState({
                 "page": 1,
-                "sortby": sortby
+                "sortby": sortby,
+                "sorton": sorton
             }, 0);
         });
 
-        // bind search view type
-        $("#search_view_list").live("click", function(ev){
+        // bind search view change
+        $(".search_view_list, .search_view_grid").die("click").live("click", function(ev){
             if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
                 view = "list";
                 $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
-            }
-        });
-
-        $("#search_view_grid").live("click", function(ev){
-            if (!$(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
+            } else {
                 view = "grid";
                 $(".s3d-search-results-container").addClass("s3d-search-results-grid");
             }
+            $(".s3d-search-listview-options").find("div").removeClass("selected");
+            $(".search_view_" + view).addClass("selected");
+            $(".search_view_" + view).children("div").addClass("selected");
+        });
+
+        $('.searchgroups_result_plus').die("click");
+        $('.searchgroups_result_plus').live("click", function(ev) {
+            var joinable = $(this).data("group-joinable");
+            var groupid = $(this).data("groupid");
+            var itemdiv = $(this);
+            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, false, true, function (success) {
+                if (success) {
+                    if (joinable === "withauth") {
+                        // Don't add green tick yet because they need to be approved.
+                        var notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
+                    } else  { // Everything else should be regular success
+                        $(".searchgroups_memberimage_"+groupid).show();
+                        var notimsg = sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED_TO_GROUP");
+                    }
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
+                        notimsg, sakai.api.Util.notification.type.INFORMATION);
+                    itemdiv.removeClass("s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus");
+                } else {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
+                        sakai.api.i18n.getValueForKey("PROBLEM_ADDING_TO_GROUP"),
+                        sakai.api.Util.notification.type.ERROR);
+                }
+            });
         });
 
         /////////////////////////
