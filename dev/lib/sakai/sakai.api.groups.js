@@ -202,8 +202,7 @@ define(
         deleteGroup : function(groupID, meData, callback) {
             sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
                 if (success && data) {
-                    var groupArray = groupID;
-                    var pseudoGroupReqs = [];
+                    var deleteGroupReqs = [];
                     groupAuthData = data;
 
                     // delete any pseudo groups
@@ -216,8 +215,7 @@ define(
                                 for (var r = 0; r < roles.length; r++) {
                                     // check if we need this group access to delete the other groups
                                     var pseudoGroupID = groupID + "-" + roles[r].id;
-
-                                    if (roles[r] && roles[r].allowManage && !managementGroup && !groupAuthData.properties["sakai:pseudoGroup"]) {
+                                    if (roles[r] && roles[r].isManagerRole && !managementGroup && !groupAuthData.properties["sakai:pseudoGroup"]) {
                                         for (var i = 0; i < meData.groups.length; i++) {
                                             if (meData.groups[i]["sakai:group-id"] === pseudoGroupID) {
                                                 managementGroup = pseudoGroupID;
@@ -225,41 +223,25 @@ define(
                                         }
                                     }
                                     if (!managementGroup || (managementGroup && managementGroup !== pseudoGroupID)) {
-                                        groupArray = groupArray + "," + pseudoGroupID;
-                                        pseudoGroupReqs.push({
-                                            url: "/~" + pseudoGroupID,
-                                            method: "POST",
-                                            parameters: {":operation" : "delete"}
+                                        deleteGroupReqs.push({
+                                            url: "/system/userManager/group/" + pseudoGroupID + ".delete.html",
+                                            method: "POST"
                                         });
                                     }
                                 }
                             }
+                            // add management group to the end of the requests
                             if (managementGroup){
-                                groupArray = groupArray + "," + managementGroup;
-                                pseudoGroupReqs.push({
-                                    url: "/~" + managementGroup,
-                                    method: "POST",
-                                    parameters: {":operation" : "delete"}
+                                deleteGroupReqs.push({
+                                    url: "/system/userManager/group/" + managementGroup + ".delete.html",
+                                    method: "POST"
                                 });
                             }
                         }
                     }
 
                     // delete the group
-                    var batchRequests = [];
-                    batchRequests.push({
-                        url: "/~" + groupID,
-                        method: "POST",
-                        parameters: {":operation" : "delete"}
-                    });
-                    batchRequests.push({
-                        url: "/system/userManager/group/" + groupID + ".delete.html",
-                        method: "POST",
-                        parameters: {":applyTo" : groupArray}
-                    });
-                    batchRequests = pseudoGroupReqs.concat(batchRequests);
-                    
-                    sakai_serv.batch(batchRequests, function (success, data) {
+                    sakai_serv.batch(deleteGroupReqs, function (success, data) {
                         if ($.isFunction(callback)) {
                             callback(success);
                         }
