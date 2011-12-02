@@ -17,6 +17,7 @@
  */
 .collections_widget {height:200px;background:url("/devwidgets/collections/images/collections_bg.png") repeat-x top left #1f1f1f;margin:0 2px;border-radius:0 0 3px 3px;-webkit-border-radius:0 0 3px 3px;-moz-border-radius:0 0 3px 3px;}
 .collections_widget .collections_maincolumn {height:200px;float:left;}
+.collections_widget #collections_carousel ul {margin: 0px;}
 
 .collections_widget #collections_scroll_right,
 .collections_widget #collections_scroll_left {width:27px;height:41px;cursor:pointer;position:absolute;margin-top:59px;}

@@ -207,7 +207,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Render the queue
          */
         var renderQueue = function(){
-            debug.log(sakai.api.Groups.getMemberships(sakai.data.me.groups, true));
             $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
                 "items": itemsToUpload,
                 "sakai": sakai,
@@ -488,7 +487,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         // UPLOADING ACTIONS //
         ///////////////////////
 
-        // TODO: Pre-select current collection if I'm in a collection profile
         /**
          * Check if all items have been uploaded
          */
@@ -788,16 +786,25 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 "url": "/p/" + existingItem["_path"] + ".json",
                 "cache": false,
                 "success": function(item){
-                    // Don't make the authorizable a viewer if it's already part of the library
-                    if (!sakai.api.Content.isContentInLibrary(item, libraryToUploadTo)){
-                        sakai.api.Content.addToLibrary(item["_path"], libraryToUploadTo, function(){
+                    if (sakai.api.Content.Collections.isCollection(item)) {
+                        sakai.api.Content.Collections.shareCollection(item["_path"], libraryToUploadTo, false, function(){
                             item["sakai:pooled-content-viewer"] = item["sakai:pooled-content-viewer"] || [];
                             item["sakai:pooled-content-viewer"].push(libraryToUploadTo);
                             lastUpload.push(item);
                             checkUploadCompleted();
                         });
                     } else {
-                        checkUploadCompleted();
+                        // Don't make the authorizable a viewer if it's already part of the library
+                        if (!sakai.api.Content.isContentInLibrary(item, libraryToUploadTo)) {
+                            sakai.api.Content.addToLibrary(item["_path"], libraryToUploadTo, function(){
+                                item["sakai:pooled-content-viewer"] = item["sakai:pooled-content-viewer"] || [];
+                                item["sakai:pooled-content-viewer"].push(libraryToUploadTo);
+                                lastUpload.push(item);
+                                checkUploadCompleted();
+                            });
+                        } else {
+                            checkUploadCompleted();
+                        }
                     }
                 }
             });

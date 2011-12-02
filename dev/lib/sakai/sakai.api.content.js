@@ -938,7 +938,7 @@ define(
         },
 
         isKalturaPlayerSupported : function(mimeType) {
-            return sakai_conf.kaltura.enabled && (mimeType === "kaltura/video" || mimeType === "kaltura/audio");
+            return sakai_conf.kaltura && sakai_conf.kaltura.enabled && (mimeType === "kaltura/video" || mimeType === "kaltura/audio");
         },
 
         getCreatorProfile : function(content, callback) {
@@ -1361,10 +1361,6 @@ define(
 
             },
 
-            deleteCollection: function(collectionId){
-                // TODO
-            },
-
             /**
              * Add a number of content items to an existing collection
              * @param {Object} collectionId    Pooled content id that represents the collection
@@ -1431,6 +1427,9 @@ define(
             shareCollection: function(collectionId, authorizables, canManage, callback){
                 var permissionBatch = [];
                 var groupID = sakai_content.Collections.getCollectionGroupId(collectionId);
+                if (_.isString(authorizables)){
+                    authorizables = [authorizables];
+                }
                 $.each(authorizables, function(index, authorizable) {
                     if (canManage){
                         permissionBatch.push({
@@ -1459,6 +1458,9 @@ define(
                 });
             },
 
+            /**
+             * Retrieve the number of collections that are in my library
+             */
             getMyCollectionsCount: function(){
                 var count = 0;
                 var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);

@@ -1,8 +1,8 @@
 {
     "id": "research-support",
     "title": "RESEARCH_SUPPORT_GROUP",
-    "img": "/var/templates/worlds/resarch/research-support/researchsupport.png",
-    "fullImg": "/var/templates/worlds/resarch/research-support/researchsupport-full.png",
+    "img": "/var/templates/worlds/research/research-support/researchsupport.png",
+    "fullImg": "/var/templates/worlds/research/research-support/researchsupport-full.png",
     "perfectFor": "RESEARCH_SUPPORT_GROUP_PERFECT_FOR",
     "order": 1,
     "roles": [

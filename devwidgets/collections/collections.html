@@ -4,7 +4,7 @@
 <div class="collections_widget" style="display:none;">
     <div id="collections_leftcolumn" class="collections_maincolumn">
         <div id="collections_scroll_left" class="collections_scroll_arrow" style="display:none;"></div>
-        <div class="s3d-button s3d-overlay-action-button" id="collections_new_button">__MSG__NEW__ <span>+</span></div>
+        <button class="s3d-button s3d-overlay-action-button" id="collections_new_button">__MSG__NEW__ <span>+</span></button>
         <div id="collections_new_action_buttons" style="display:none;">
             <button class="s3d-button s3d-overlay-action-button" id="collections_save_new_button">__MSG__SAVE__</button>
             <button type="button" class="s3d-button s3d-link-button collections_cancel_new_button" id="collections_main_cancel_new_button">__MSG__CANCEL__</button>
@@ -14,150 +14,52 @@
     </div>
     <div id="collections_middlecolumn" class="collections_maincolumn">
         <div id="collections_nocollections" style="display:none;"></div>
-        <div id="collections_collections_list" style="display:none;">
-            <div class="collections_large_preview">
-                <div class="collections_general_information">
-                    <h2>
-                        <a href="#" class="s3d-regular-links" title="Football team training materials">Football team...</a>
-                    </h2>
-                    <span id="collections_collection_type">__MSG__READING_LIST__</span>
-                    <hr class="fl-push fl-hidden"/>
-                    <div class="collection_counts_container">
-                        <div id="collection_counts_participants_icon"></div>
-                        <a href="#" title="12 participants" class="s3d-regular-links">12</a>
-                    </div>
-                    <div class="collection_counts_container">
-                        <div id="collection_counts_content_icon"></div>
-                        <a href="#" title="34 content items" class="s3d-regular-links">34</a>
-                    </div>
-                    <img src="/devwidgets/collections/images/collections_drag_here_icon.png" alt="__MSG__DRAG_HERE_TO_COLLECT__" class="drag_here_icon"/>
-                </div>
-                <div class="collections_recently_added">
-                    <span>__MSG__RECENTLY_ADDED__</span>
-                    <ul>
-                        <li>
-                            <img src="/p/i3oOCug2aa" class="collections_recently_added_icon" alt="Sakai Doc"/>
-                            <a href="#" class="s3d-regular-links">Reading materials for...</a>
-                            <span>image</span>
-                            <hr class="fl-push fl-hidden"/>
+        <div id="collections_collections_list" style="display:none;"></div>
+        <div id="collections_collections_list_template"><!--
+            <div id="collections_carousel" class="jcarousel-skin-tango s3d-bold">
+                <ul>
+                    {var count = 0}
+                    {for result in results}
+                        <li class="collections_large_preview {if count % 4 > 0} collapsed {/if}">
+                            <div class="collections_general_information">
+                                <h2>
+                                    <a href="#" class="s3d-regular-links" title="Football team training materials">Collection Name</a>
+                                </h2>
+                                <hr class="fl-push fl-hidden"/>
+                                <div class="collection_counts_container">
+                                    <div id="collection_counts_content_icon"></div>
+                                    <a href="#" title="34 content items" class="s3d-regular-links">34</a>
+                                </div>
+                                <img src="/devwidgets/collections/images/collections_drag_here_icon.png" alt="__MSG__DRAG_HERE_TO_COLLECT__" class="drag_here_icon"/>
+                            </div>
+                            <div class="collections_recently_added">
+                                <span>__MSG__RECENTLY_ADDED__</span>
+                                <ul>
+                                    <li>
+                                        <img src="/p/i3oOCug2aa" class="collections_recently_added_icon" alt="Sakai Doc"/>
+                                        <a href="#" class="s3d-regular-links">Reading materials for...</a>
+                                        <span>image</span>
+                                        <hr class="fl-push fl-hidden"/>
+                                    </li>
+                                    <li>
+                                        <img src="/dev/images/mimetypes/sakaidoc.png" class="collections_recently_added_icon" alt="Sakai Doc"/>
+                                        <a href="#" class="s3d-regular-links">Literature project ha...</a>
+                                        <span>document</span>
+                                        <hr class="fl-push fl-hidden"/>
+                                    </li>
+                                    <li>
+                                        <img src="/p/iC5i6naYie" class="collections_recently_added_icon" alt="Sakai Doc"/>
+                                        <a href="#" class="s3d-regular-links">Cara McMann</a>
+                                        <hr class="fl-push fl-hidden"/>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
-                        <li>
-                            <img src="/dev/images/mimetypes/sakaidoc.png" class="collections_recently_added_icon" alt="Sakai Doc"/>
-                            <a href="#" class="s3d-regular-links">Literature project ha...</a>
-                            <span>document</span>
-                            <hr class="fl-push fl-hidden"/>
-                        </li>
-                        <li>
-                            <img src="/p/iC5i6naYie" class="collections_recently_added_icon" alt="Sakai Doc"/>
-                            <a href="#" class="s3d-regular-links">Cara McMann</a>
-                            <hr class="fl-push fl-hidden"/>
-                        </li>
-                    </ul>
-                </div>
+                        ${count++|eat}
+                    {/for}
+                </ul>
             </div>
-            <div class="collections_large_preview collapsed">
-                <div class="collections_general_information">
-                    <h2>
-                        <a href="#" class="s3d-regular-links" title="Football team training materials">Darts schedule</a>
-                    </h2>
-                    <span id="collections_collection_type">__MSG__READING_LIST__</span>
-                    <hr class="fl-push fl-hidden"/>
-                    <div class="collection_counts_container">
-                        <div id="collection_counts_participants_icon"></div>
-                        <a href="#" title="12 participants" class="s3d-regular-links">12</a>
-                    </div>
-                    <div class="collection_counts_container">
-                        <div id="collection_counts_content_icon"></div>
-                        <a href="#" title="34 content items" class="s3d-regular-links">34</a>
-                    </div>
-                </div>
-                <div class="collections_recently_added">
-                    <span>__MSG__RECENTLY_ADDED__</span>
-                    <ul>
-                        <li>
-                            <img src="/dev/images/mimetypes/sakaidoc.png" class="collections_recently_added_icon" alt="Sakai Doc"/>
-                            <a href="#" class="s3d-regular-links">Literature Journal</a>
-                            <span>pdf</span>
-                            <hr class="fl-push fl-hidden"/>
-                        </li>
-                        <li>
-                            <img src="/dev/images/mimetypes/sakaidoc.png" class="collections_recently_added_icon" alt="Sakai Doc"/>
-                            <a href="#" class="s3d-regular-links">Literature project ha...</a>
-                            <span>document</span>
-                            <hr class="fl-push fl-hidden"/>
-                        </li>
-                        <li>
-                            <img src="/p/iC5i6naYie" class="collections_recently_added_icon" alt="Cara McMann"/>
-                            <a href="#" class="s3d-regular-links">Cara McMann</a>
-                            <hr class="fl-push fl-hidden"/>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="collections_large_preview collapsed">
-                <div class="collections_general_information">
-                    <h2>
-                        <a href="#" class="s3d-regular-links" title="Football team training materials">Football team...</a>
-                    </h2>
-                    <span id="collections_collection_type">__MSG__READING_LIST__</span>
-                    <hr class="fl-push fl-hidden"/>
-                    <div class="collection_counts_container">
-                        <div id="collection_counts_participants_icon"></div>
-                        <a href="#" title="12 participants" class="s3d-regular-links">12</a>
-                    </div>
-                    <div class="collection_counts_container">
-                        <div id="collection_counts_content_icon"></div>
-                        <a href="#" title="34 content items" class="s3d-regular-links">34</a>
-                    </div>
-                </div>
-                <div class="collections_recently_added">
-                    <span>__MSG__RECENTLY_ADDED__</span>
-                    <div class="s3d-no-results-container">
-                        <div class="s3d-no-results-arrow-up"></div>
-                            <h1>When you collect things, it shows right here</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="collections_large_preview collapsed">
-                <div class="collections_general_information">
-                    <h2>
-                        <a href="#" class="s3d-regular-links" title="Football team training materials">FWA awards</a>
-                    </h2>
-                    <span id="collections_collection_type">__MSG__READING_LIST__</span>
-                    <hr class="fl-push fl-hidden"/>
-                    <div class="collection_counts_container">
-                        <div id="collection_counts_participants_icon"></div>
-                        <a href="#" title="12 participants" class="s3d-regular-links">12</a>
-                    </div>
-                    <div class="collection_counts_container">
-                        <div id="collection_counts_content_icon"></div>
-                        <a href="#" title="34 content items" class="s3d-regular-links">34</a>
-                    </div>
-                </div>
-                <div class="collections_recently_added">
-                    <span>__MSG__RECENTLY_ADDED__</span>
-                    <ul>
-                        <li>
-                            <img src="/dev/images/mimetypes/sakaidoc.png" class="collections_recently_added_icon" alt="Sakai Doc"/>
-                            <a href="#" class="s3d-regular-links">FWA Award nomination</a>
-                            <span>pdf</span>
-                            <hr class="fl-push fl-hidden"/>
-                        </li>
-                        <li>
-                            <img src="/dev/images/mimetypes/sakaidoc.png" class="collections_recently_added_icon" alt="Sakai Doc"/>
-                            <a href="#" class="s3d-regular-links">FWA nominations accross...</a>
-                            <span>document</span>
-                            <hr class="fl-push fl-hidden"/>
-                        </li>
-                        <li>
-                            <img src="/dev/images/mimetypes/sakaidoc.png" class="collections_recently_added_icon" alt="Sakai Doc"/>
-                            <a href="#" class="s3d-regular-links">Cara McMann</a>
-                            <hr class="fl-push fl-hidden"/>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        --></div>
         <div id="collections_add_new" style="display:none;">
             <div id="collections_add_new_stepone" class="collections_add_new_steps">
                 <input type="text" id="collections_collection_title" placeholder="__MSG__UNTITLED_COLLECTION__"/>
