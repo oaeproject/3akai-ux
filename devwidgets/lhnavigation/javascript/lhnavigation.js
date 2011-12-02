@@ -803,6 +803,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(window).trigger("sakai.contentauthoring.needsOneColumn");
             }
 
+            // Delete the page
+            sakai.api.Server.removeJSON(pageToDelete.savePath + "/" + pageToDelete.ref); 
+
             // Re-render the navigation
             renderData();
             addParametersToNavigation();
