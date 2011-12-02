@@ -1413,11 +1413,14 @@ define(
             var templateStr = "";
             if (templateElement instanceof jQuery && templateElement.length){
                 var firstNode = templateElement.contents(":first-child");
-                if (firstNode.length && (firstNode.get(0).nodeType === 8 || firstNode.get(0).nodeType === 4)) {
-                    templateStr = firstNode.get(0).data;
-                }
-                else {
-                    templateStr = templateElement.html();
+                if (firstNode.length) {
+                    var firstNodeDomElem = firstNode.get(0);
+                    if (firstNodeDomElem.nodeType === 8 || firstNodeDomElem.nodeType === 4) {
+                        templateStr = firstNodeDomElem.data;
+                    }
+                    else {
+                        templateStr = templateElement.html();
+                    }
                 }
             }
             else if (_.isString(templateElement)) {
