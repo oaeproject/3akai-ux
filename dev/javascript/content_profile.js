@@ -221,7 +221,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var getPageCount = function(pagestructure){
             var pageCount = 0;
             for (var tl in pagestructure["structure0"]){
-                if (pagestructure["structure0"].hasOwnProperty(tl)){
+                if (pagestructure["structure0"].hasOwnProperty(tl) && tl !== "_childCount"){
                     pageCount++;
                     if (pageCount >= 3){
                         return 3;
