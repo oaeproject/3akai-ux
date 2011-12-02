@@ -26,7 +26,7 @@ public class HashRefreshFiles {
   public final String REQUIRE_PATHS = "require_paths";
   public final String REQUIRE_DEPENDENCY_FILE = "require_dependency_file";
   public final String MANAGE_FOLDERS = "folder_libs";
-  
+
   public Set<String> hashFileTypes = new HashSet<String>();
   public Set<String> ignoreFilePaths = new HashSet<String>();
   public Set<String> processingFileTypes = new HashSet<String>();
@@ -36,9 +36,9 @@ public class HashRefreshFiles {
   public Map<String, String> hashedResults = new HashMap<String, String>();
   public String requireDependencyFile = "";
   public Set<String> manageFolders = new HashSet<String>();
-  
+
   public final String charSet = "UTF-8";
-  
+
   public void readProperties (String fileName) throws Exception{
     FileInputStream fis = new FileInputStream(new File(fileName));
     BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
@@ -60,7 +60,7 @@ public class HashRefreshFiles {
     System.out.println("===========================");
     fis.close();
   }
-  
+
   private void putString (String data, String split, Set<String> set) {
     if (data != null && data.length() > 0) {
       String[] names = data.split(split);
@@ -71,7 +71,7 @@ public class HashRefreshFiles {
       }
     }
   }
-  
+
   public String getCheckSum (File file) throws Exception {
     InputStream is = new FileInputStream (file);
     byte[] buffer = new byte[2048];
@@ -93,12 +93,12 @@ public class HashRefreshFiles {
    * @param path2
    * @return
    */
-  public String getRelativePath (String path1, String path2) { 
+  public String getRelativePath (String path1, String path2) {
     if (path1 == null || path2 == null)
       return null;
     if (path1.equals(path2))
       return null;
-    
+
     String lastDir = "../";
     String result = "";
     String[] allPath1 = path1.split("/");
@@ -119,7 +119,7 @@ public class HashRefreshFiles {
     }
     return result;
   }
-  
+
   public String hashFolders (File file) throws Exception{
     if (file == null || ! file.exists())
       return null;
@@ -176,7 +176,7 @@ public class HashRefreshFiles {
       }
       return;
     }
-    
+
     String fileName = file.getName();
     if (this.hashFileTypes != null && hashFileTypes.size() > 0) {
       boolean isToHash = false;
@@ -195,7 +195,7 @@ public class HashRefreshFiles {
       prefix = fileName.substring(0, fileName.lastIndexOf('.'));
       suffix = fileName.substring(fileName.lastIndexOf('.'));
     }
-    
+
     String newName = prefix + "-" + getCheckSum(file) + suffix;
     String path = file.getAbsolutePath();
     String relativePath = path.substring(rootDir.getAbsolutePath().length());
@@ -204,7 +204,7 @@ public class HashRefreshFiles {
     this.hashedResults.put(relativePath, newPath);
     System.out.println("hashed file: {" + relativePath + ", " + newPath + "}");
   }
-  
+
   public String readFile (File file) throws Exception{
     if (file == null || !file.exists() || file.isDirectory())
       return null;
@@ -219,7 +219,7 @@ public class HashRefreshFiles {
     br.close();
     return sb.toString();
   }
-  
+
   public void writeToFile (File file, String text) throws Exception {
     if (file == null || !file.exists() || file.isDirectory())
       return;
@@ -227,7 +227,7 @@ public class HashRefreshFiles {
     fos.write(text.getBytes(charSet));
     fos.close();
   }
-  
+
   public void replaceWithNewPaths(File file) throws Exception{
     if (file == null || !file.exists())
       return;
@@ -280,22 +280,22 @@ public class HashRefreshFiles {
     if (modifiedFlag)
       writeToFile (file, all);
   }
-  
+
   public void handleRequireJS () throws Exception{
     if (this.requireDependencyFile == null || this.requireDependencyFile.trim().length() == 0)
       return;
     if (this.hashedResults.containsKey(requireDependencyFile)) {
       this.requireDependencyFile = this.hashedResults.get(requireDependencyFile);
     }
-    
+
     this.requireDependencyFile = props.get(BASE_DIR) + this.requireDependencyFile;
-    
+
     File dFile = new File (requireDependencyFile);
     if (!dFile.exists())
       return;
     if (hashedResults == null || hashedResults.size() == 0)
       return;
-   
+
     String all = readFile(dFile);
     int loc = 0, endloc = 0;
     String newline = "";
@@ -348,29 +348,29 @@ public class HashRefreshFiles {
       loc = all.indexOf("require({baseUrl:");
       loc = all.indexOf("paths", loc);
       if (loc < 0)
-        return; 
+        return;
       endloc = all.indexOf("}", loc);
       if (endloc < 0)
         return ;
     }
-    
+
     System.out.println("proceeded require js dependency file: " + requireDependencyFile);
     String oldline = all.substring(loc, endloc + 1);
     all = all.replace(oldline, newline);
     writeToFile (dFile, all);
   }
-  
+
   public void processData () throws Exception{
     readProperties(configName);
     if (props.get(BASE_DIR) == null || props.get(BASE_DIR).trim().length() == 0) {
       return;
     }
-    
+
     putString (props.get(HASH_TYPES), ",", this.hashFileTypes);
     putString (props.get(PROCESSING_FILE_TYPES), ",", this.processingFileTypes);
     putString (props.get(IGNORE_FILE_PATHS), ",", this.ignoreFilePaths);
     putString (props.get(MANAGE_FOLDERS), ",", this.manageFolders);
-    
+
     this.requireBaseUrl = props.get(REQUIRE_BASE_URL);
     this.requireDependencyFile = props.get(REQUIRE_DEPENDENCY_FILE);
     if (this.requireBaseUrl != null && this.requireDependencyFile != null) {
@@ -389,7 +389,7 @@ public class HashRefreshFiles {
     replaceWithNewPaths(rootDir);
     handleRequireJS();
   }
-  
+
   public static void main (String[] args) throws Exception{
     HashRefreshFiles hrf = new HashRefreshFiles();
     if (args != null && args.length > 0)
