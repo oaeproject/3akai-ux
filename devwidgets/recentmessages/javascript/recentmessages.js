@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Set a params object to set which params should be passed into the request
             var params = $.param({
                 box: "inbox",
-                category: "message",
+                category: "message,invitation",
                 items: 4,
                 sortOn: "_created",
                 sortOrder: "desc",
