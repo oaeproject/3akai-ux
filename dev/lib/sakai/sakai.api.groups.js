@@ -203,6 +203,10 @@ define(
             sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
                 if (success && data) {
                     var deleteGroupReqs = [];
+                    deleteGroupReqs.push({
+                        url: "/system/userManager/group/" + groupID + ".delete.html",
+                        method: "POST"
+                    });
                     groupAuthData = data;
 
                     // delete any pseudo groups
