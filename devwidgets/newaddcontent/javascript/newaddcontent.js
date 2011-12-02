@@ -937,9 +937,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var searchAndRenderExistingContent = function($container, q, pagenum){
             pagenum = pagenum || 1;
             var searchURL = "";
-            var selectVal = $(newaddcontentExistingItemsListContainerActionsSort).val().split(",");
-            var sortOrder = selectVal[0];
-            var sortOn = selectVal[1];
+            var sortOrder = $(newaddcontentExistingItemsListContainerActionsSort + " option:selected").attr("data-sort-order");
+            var sortOn = $(newaddcontentExistingItemsListContainerActionsSort + " option:selected").attr("data-sort-on");
             switch(currentExistingContext){
                 case "everything":
                     if (q === "*") {
