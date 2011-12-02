@@ -1411,15 +1411,13 @@ define(
           */
         processLocalMacros : function(templateElement) {
             var templateStr = "";
-            if (templateElement instanceof jQuery){
-                if (templateElement.get(0)) {   
-                    var firstNode = templateElement.get(0).firstChild;
-                    if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
-                        templateStr = firstNode.data.toString();
-                    }
-                    else {
-                        templateStr = templateElement.get(0).innerHTML.toString();
-                    }
+            if (templateElement instanceof jQuery && templateElement.length){
+                var firstNode = templateElement.contents(":first-child");
+                if (firstNode.length && (firstNode.get(0).nodeType === 8 || firstNode.get(0).nodeType === 4)) {
+                    templateStr = firstNode.get(0).data;
+                }
+                else {
+                    templateStr = templateElement.html();
                 }
             }
             else if (_.isString(templateElement)) {
