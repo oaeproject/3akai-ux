@@ -110,8 +110,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $embedcontent_primary_display.hide();
                 $embedcontent_alt_display.show();
             }
-            $("#as-values-" + tuid).val("");
-            $(".as-selection-item").remove();
             if (wData && wData.items && wData.items.length) {
                 setCurrentFiles();
             }
@@ -131,6 +129,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     };
                 }
             });
+            // Sort the items alphabetically for now
+            wData.items.sort(function( a, b ) {
+                return sakai.api.Util.Sorting.naturalSort( a.name, b.name );
+            });
             // boolean are return as string from ajax call so change back to boolean value
             wData.download = wData.download === "true" || wData.download === true;
             wData.name = wData.name === "true" || wData.name === true;
@@ -143,10 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Do a reset of the embed screen
          */
         var doReset = function() {
-            $("#as-values-" + tuid).val("");
-            $(".as-selection-item").remove();
-            // $embedcontent_alternative_display_name_value.val('');
-            //         $embedcontent_description_value.val('');
+            sakai.api.Util.AutoSuggest.reset( $embedcontent_content_input );
         };
 
         var toggleButtons = function(doDisable) {
@@ -241,7 +240,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }, options);
             };
-            sakai.api.Util.AutoSuggest.setup($embedcontent_content_input,{
+            sakai.api.Util.AutoSuggest.setup($embedcontent_content_input, {
                 asHtmlID: tuid,
                 retrieveLimit: 10,
                 selectionLimit: embedConfig.limit,
@@ -250,11 +249,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 selectionRemoved: function(elem) {
                     autosuggestSelectionRemoved(elem);
-                },
-                selectionAdded: function(elem) {
-                    if (elem.attr("id").indexOf("as-selection-notfound") > -1) {
-                        elem.addClass("embedcontent_selection_notfound");
-                    }
                 }
             }, false, dataFn);
         };
@@ -324,9 +318,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 filesPicked++;
             });
             // revisit this next conditional -- right now it'll clear out all selections, not just add up to the limit
-            if (embedConfig.limit && filesPicked && ($(".as-selection-item").length + filesPicked) > embedConfig.limit) {
-                $("#as-values-" + tuid).val('');
-                $(".as-selection-item").remove();
+            if (embedConfig.limit && filesPicked && ($(".as-selection-item", "#embedcontent_settings").length + filesPicked) > embedConfig.limit) {
+                doReset();
             }
             $.each(files, function(i,val) {
                 var newObj = createDataObject(val, val["_path"]);

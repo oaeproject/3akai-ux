@@ -1901,7 +1901,8 @@ define(
                     limitText: sakaii18nAPI.getValueForKey("NO_MORE_SELECTIONS_ALLOWED"),
                     scroll: true,
                     canGenerateNewSelections: false,
-                    usePlaceholder: true
+                    usePlaceholder: true,
+                    showResultListWhenNoMatch: true
                 };
 
                 var opts = $.extend( defaults, options );
