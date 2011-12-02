@@ -1384,7 +1384,8 @@ define(
                 asyncsetting = asyncreq;
             }
             var mc = this.macroCache;
-            $.ajax({url: url, 
+            $.ajax({
+                url: url, 
                 async: asyncsetting, // Sometimes we need to immediately return this value for on-demand loading.
                 success: function(data) { 
                   mc._MODIFIERS = sakai_util.trimpathModifiers; 
@@ -1421,7 +1422,7 @@ define(
                     }
                 }
             }
-            else if (typeof templateElement === "string") {
+            else if (_.isString(templateElement)) {
                 templateStr = templateElement;
             }
             var contextdata = { macros: {} };
