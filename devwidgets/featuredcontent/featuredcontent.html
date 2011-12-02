@@ -17,23 +17,24 @@
 <div id="featuredcontent_main_template"><!--
 
     {macro actionbuttons(item, sakai)}
-        <div class="featuredcontent_content_actions">
+        <fieldset class="featuredcontent_content_actions">
+        <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
             <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
             {if !sakai.data.me.user.anon}
                 <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__SAVE_CONTENT__"></div>
             {/if}
             <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}" title="__MSG__VIEW_OWNER_INFO__"></div>
-       </div>
+       </fieldset>
     {/macro}
     {macro displayTags(item, sakai)}
         {if item["sakai:tags"]}
-            <span class="featuredcontent_content_tags">
+            <ul class="featuredcontent_content_tags s3d-taglist">
                 {for tag in item["sakai:tags"]}
                     {if tag_index < 2}
-                        <a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                        <li><a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a></li>
                     {/if}
                 {/for}
-            </span>
+            </ul>
         {/if}
     {/macro}
     {macro embedSmallThumbnail(item, sakai)}
@@ -148,13 +149,14 @@
             ${count++|eat}
             {if count <= 6}
                 <div class="featuredcontent_content featuredcontent_content_small">
-                    <div class="featuredcontent_content_actions">
+                    <fieldset class="featuredcontent_content_actions">
+                        <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
                         <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
                         {if !sakai.data.me.user.anon}
                             <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__SAVE_CONTENT__"></div>
                         {/if}
                         <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}" title="__MSG__VIEW_OWNER_INFO__"></div>
-                    </div>
+                    </fieldset>
                     {if item.thumbnail}
                         <img src="${item.thumbnail}" class="featuredcontent_thumbnail_image" alt="${item["sakai:pooled-content-file-name"]|safeOutput}"/>
                     {else}

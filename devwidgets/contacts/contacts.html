@@ -101,10 +101,9 @@
                             {/if}
                             {if i.profile["sakai:tags"] && i.profile["sakai:tags"].length > 0}
                                 <div class="contacts_item_tags">
-                                    <span class="contacts_item_icon contacts_item_tags_icon"></span>
-                                    <p class="contacts_item_tags_list">
-                                        {for t in i.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}">${t}</a>{/if}{/for}
-                                    </p>
+                                    <ul class="contacts_item_tags_list s3d-taglist">
+                                        {for t in i.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}<li><a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a></li>{/if}{/for}
+                                    </ul>
                                 </div>
                             {/if}
                             <div style="display:none;">
@@ -192,16 +191,16 @@
                             {/if}
                             {if !$.isEmptyObject(a.tagsProcessed)}
                                 <div class="contacts_item_tags">
-                                    <span class="contacts_item_icon contacts_item_tags_icon"></span>
-                                    <p class="contacts_item_tags_list">
+                                    <ul class="contacts_item_tags_list s3d-taglist">
                                         {for t in a.tagsProcessed}
-                                            {if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if}
-                                            <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                                <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                                <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
-                                            </a>
+                                            <li>
+                                                <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                                                    <span class="s3d-search-result-tag">${t.tagShort}</span>
+                                                    <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
+                                                </a>
+                                            </li>
                                         {/for}
-                                    </p>
+                                    </ul>
                                 </div>
                             {/if}
                         </div>

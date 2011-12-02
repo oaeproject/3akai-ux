@@ -249,7 +249,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $participantsSearchField.unbind("keyup").bind("keyup", function(ev) {
                 if (ev.keyCode === 13) {
                     $.bbq.pushState({"pq": $.trim($participantsSearchField.val())});
-                    loadParticipants();
                 }
             });
             $participants_sort_by.unbind("change").bind("change", function(){

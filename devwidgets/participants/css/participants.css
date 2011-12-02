@@ -49,3 +49,4 @@
 .participants_widget .s3d-search-result .participants_group_pic {display:inline;}
 .participants_widget .s3d-search-result .participants_avatar_large {display:none;}
 .participants_widget #participants_select_all_container {float:left;height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}
+.participants_widget #participants_manage_participants{margin-top:0 !important;}
