@@ -121,12 +121,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var body = $.trim($newcreategroup_members_message_template_unprocessed.text().replace("<\"Role\">", "${role}").replace("<\"First Name\">", "${firstName}"));
         var joinable = $newcreategroupGroupMembership.val();
         var visible = $newcreategroupCanBeFoundIn.val();
-        //createGroup : function(id, title, description, tags, users, joinability, visibility, templatePath, subject, body, meData, callback) {
         sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, grouptags, users, joinable, visible, templatePath, subject, body, sakai.data.me, function(success, groupData, nameTaken){
             if (success) {
                 window.location = "/~" + groupid;
             } else {
-                $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
+                $newcreategroupContainer.find("select, input, textarea:not([class*='as-input']), button").removeAttr("disabled");
             }
         });
     };
@@ -141,7 +140,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var validateOpts = {
             submitHandler: function(form){
-                $newcreategroupContainer.find("select, input, textarea, button").attr("disabled", "disabled");
+                $newcreategroupContainer.find("select, input, textarea:not([class*='as-input']), button").attr("disabled", "disabled");
                 doCreateSimpleGroup();
             }
         };

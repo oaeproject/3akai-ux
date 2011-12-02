@@ -242,8 +242,8 @@ define(
                             tag = {
                                 original: tag,
                                 value: sakai_util.Security.safeOutput(tag_val),
-                                tagShort: sakai_util.applyThreeDots(tag_val, 680, {max_rows: 1, whole_word: true}, ""),
-                                tagShorter: sakai_util.applyThreeDots(tag_val, 125, {max_rows: 1, whole_word: true}, ""),
+                                tagShort: tag_val,
+                                tagShorter: tag_val,
                                 link: tagLink,
                                 linkTitle: sakai_i18n.getValueForKey("SEARCH_CONTENT_LOCATED_AT") + " " + sakai_util.Security.safeOutput(tag_val)
                             };

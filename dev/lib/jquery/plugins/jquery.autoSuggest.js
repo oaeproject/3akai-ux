@@ -265,30 +265,22 @@ require([ 'jquery' ], function(jQuery) {
                                     break;
                                 case 9: case 188:  // tab or comm
                                     if ( opts.canGenerateNewSelections ) {
-                                        input.data( "tab_press", true );
-                                        var i_input = input.val().replace( /(,)/g, "" );
-                                        active = $( "li.active:first", input.data( "results_holder" ) );
-                                        // Generate a new bubble with text when no suggestion selected
-                                        if ( i_input !== "" && input.data( "values_input" ).val().search( ","+i_input+"," ) < 0 && i_input.length >= opts.minChars && active.length === 0 ) {
-                                            e.preventDefault();
-                                            var n_data = {};
-                                            n_data[ opts.selectedItemProp ] = i_input;
-                                            n_data[ opts.selectedValuesProp ] = i_input;
-                                            var lis = $( "li", input.data( "selections_holder" )).length;
-                                            input.autoSuggest( "add_selected_item", n_data, "00" + ( lis + 1 ) );
-                                            input.val( "" );
-                                            break;
-                                        }
+                                        processSelection( e );
                                     }
+                                    break;
                                 case 13: // return
-                                    input.data( "tab_press", false );
                                     active = $( "li.active:first", input.data( "results_holder" ) );
-                                    if ( active.length > 0 ) {
-                                        active.click();
-                                        input.data( "results_holder" ).hide();
-                                    }
-                                    if ( opts.neverSubmit || active.length > 0 ) {
-                                        e.preventDefault();
+                                    if ( active.length === 0 && opts.canGenerateNewSelections ) {
+                                        processSelection( e );
+                                    } else {
+                                        input.data( "tab_press", false );
+                                        if ( active.length > 0 ) {
+                                            active.click();
+                                            input.data( "results_holder" ).hide();
+                                        }
+                                        if ( opts.neverSubmit || active.length > 0 ) {
+                                            e.preventDefault();
+                                        }
                                     }
                                     break;
                                 // ignore if the following keys are pressed: [escape] [shift] [capslock]
@@ -299,6 +291,22 @@ require([ 'jquery' ], function(jQuery) {
                                     break;
                             }
                         });
+                    };
+
+                    var processSelection = function( e ) {
+                        input.data( "tab_press", true );
+                        var i_input = input.val().replace( /(,)/g, "" );
+                        active = $( "li.active:first", input.data( "results_holder" ) );
+                        // Generate a new bubble with text when no suggestion selected
+                        if ( i_input !== "" && input.data( "values_input" ).val().search( ","+i_input+"," ) < 0 && i_input.length >= opts.minChars && active.length === 0 ) {
+                            e.preventDefault();
+                            var n_data = {};
+                            n_data[ opts.selectedItemProp ] = i_input;
+                            n_data[ opts.selectedValuesProp ] = i_input;
+                            var lis = $( "li", input.data( "selections_holder" )).length;
+                            input.autoSuggest( "add_selected_item", n_data, "00" + ( lis + 1 ) );
+                            input.val( "" );
+                        }
                     };
 
                     var keyChange = function() {
