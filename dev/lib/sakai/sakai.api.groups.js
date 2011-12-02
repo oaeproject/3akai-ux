@@ -210,37 +210,35 @@ define(
                     groupAuthData = data;
 
                     // delete any pseudo groups
-                    if (groupAuthData.properties["sakai:roles"]){
-                        if (groupAuthData.properties["sakai:roles"]){
-                            var roles = $.parseJSON(groupAuthData.properties["sakai:roles"]);
-                            var managementGroup = false;
+                    if (groupAuthData.properties["sakai:roles"]) {
+                        var roles = $.parseJSON(groupAuthData.properties["sakai:roles"]);
+                        var managementGroup = false;
 
-                            if (roles && roles.length > 0){
-                                for (var r = 0; r < roles.length; r++) {
-                                    // check if we need this group access to delete the other groups
-                                    var pseudoGroupID = groupID + "-" + roles[r].id;
-                                    if (roles[r] && roles[r].isManagerRole && !managementGroup && !groupAuthData.properties["sakai:pseudoGroup"]) {
-                                        for (var i = 0; i < meData.groups.length; i++) {
-                                            if (meData.groups[i]["sakai:group-id"] === pseudoGroupID) {
-                                                managementGroup = pseudoGroupID;
-                                            }
+                        if (roles && roles.length > 0) {
+                            for (var r = 0; r < roles.length; r++) {
+                                // check if we need this group access to delete the other groups
+                                var pseudoGroupID = groupID + "-" + roles[r].id;
+                                if (roles[r] && roles[r].isManagerRole && !managementGroup && !groupAuthData.properties["sakai:pseudoGroup"]) {
+                                    for (var i = 0; i < meData.groups.length; i++) {
+                                        if (meData.groups[i]["sakai:group-id"] === pseudoGroupID) {
+                                            managementGroup = pseudoGroupID;
                                         }
                                     }
-                                    if (!managementGroup || (managementGroup && managementGroup !== pseudoGroupID)) {
-                                        deleteGroupReqs.push({
-                                            url: "/system/userManager/group/" + pseudoGroupID + ".delete.html",
-                                            method: "POST"
-                                        });
-                                    }
+                                }
+                                if (!managementGroup || (managementGroup && managementGroup !== pseudoGroupID)) {
+                                    deleteGroupReqs.push({
+                                        url: "/system/userManager/group/" + pseudoGroupID + ".delete.html",
+                                        method: "POST"
+                                    });
                                 }
                             }
-                            // add management group to the end of the requests
-                            if (managementGroup){
-                                deleteGroupReqs.push({
-                                    url: "/system/userManager/group/" + managementGroup + ".delete.html",
-                                    method: "POST"
-                                });
-                            }
+                        }
+                        // add management group to the end of the requests
+                        if (managementGroup) {
+                            deleteGroupReqs.push({
+                                url: "/system/userManager/group/" + managementGroup + ".delete.html",
+                                method: "POST"
+                            });
                         }
                     }
 
