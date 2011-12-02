@@ -46,8 +46,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var contactsAcceptedEmptyTemplate = "contacts_accepted_empty_template";
         var contactsInvitedTemplate = "contacts_invited_template";
         var contactsInvitedContainer = "#contacts_invited_container";
-        var contactsShowGrid = ".s3d-listview-grid"
-        var contactsShowList = ".s3d-listview-list"
+        var contactsShowGrid = ".s3d-listview-grid";
+        var contactsShowList = ".s3d-listview-list";
         var contacts = {  // global data for contacts widget
             totalItems: 0,
             sortBy: "lastName",
@@ -374,7 +374,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     contacts.query = q;
                     $.bbq.pushState({"cq": q});
                 }
-            })
+            });
         };
 
         var doInit = function(){

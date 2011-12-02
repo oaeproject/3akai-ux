@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 query: query
             }));
             $mylibrary_empty.show();
-        }
+        };
 
         ////////////////////
         // Load a library //

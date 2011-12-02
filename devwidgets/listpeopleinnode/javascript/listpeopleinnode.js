@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             data.results[p].picture = $.parseJSON(data.results[p].picture);
                         }
                         var name = sakai.api.User.getDisplayName(data.results[p]);
-                        data.results[p].linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name)
+                        data.results[p].linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                         data.results[p].imageAlt = sakai.api.i18n.getValueForKey("USERS_PROFILE_PICTURE").replace("{user}", name);
                     }
 

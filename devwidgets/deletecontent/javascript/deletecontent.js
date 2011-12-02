@@ -163,18 +163,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var managers = contentIManage[m]["sakai:pooled-content-manager"];
                 if (managers){
                     for (var i = 0; i < managers.length; i++){
-                        if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid 
-                            && managers[i] !== context){
+                        if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid &&
+                                managers[i] !== context){
                             userGroupIds.push(managers[i]);
                         }
                     }
                 }
                 var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
                 if (viewers){
-                    for (var i = 0; i < viewers.length; i++){
-                        if ($.inArray(viewers[i], userGroupIds) === -1 && viewers[i] !== sakai.data.me.user.userid &&
-                            viewers[i] !== context && viewers[i] !== "everyone" && viewers[i] !== "anonymous"){
-                            userGroupIds.push(viewers[i]);
+                    for (var j = 0; j < viewers.length; j++){
+                        if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
+                            viewers[j] !== context && viewers[j] !== "everyone" && viewers[j] !== "anonymous"){
+                            userGroupIds.push(viewers[j]);
                         }
                     }
                 }

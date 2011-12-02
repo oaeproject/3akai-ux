@@ -229,7 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(relatedcontentContent).live("click", function(){
             $.bbq.pushState($(this).attr("data-href"));
-        })
+        });
 
         // Indicate that the widget has finished loading
         $(window).trigger("ready.relatedcontent.sakai", {});

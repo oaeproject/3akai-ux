@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }));
             if (externalAuth){
                 setExternalLoginRedirectURL();
-            };
+            }
         };
 
         var setExternalLoginRedirectURL = function(){
@@ -176,7 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var qs = new Querystring();
             // Check whether we require a redirect
             if (qs.get("url")) {
-                redirectURL = qs.get("url");;
+                redirectURL = qs.get("url");
             // Go to You when you're on explore page
             } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
@@ -186,7 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 redirectURL = "/me";
             }
             return redirectURL;
-        }
+        };
 
        /**
          * Check if a redirect should be performed

@@ -530,7 +530,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                                 if (itemsToUpload[itemToUpload]["sakai:originaltitle"] === i){
                                     itemsToUpload[itemToUpload] = $.extend({}, data[i].item, itemsToUpload[itemToUpload]);
                                     if (data[i].type === "imscp") {
-                                        setIMSCPContent(itemsToUpload[itemToUpload], data[i].item)
+                                        setIMSCPContent(itemsToUpload[itemToUpload], data[i].item);
                                     } else {
                                         setDataOnContent(itemsToUpload[itemToUpload]);
                                     }
@@ -592,7 +592,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 var data = $.parseJSON(xhReq.responseText);
                 documentObj = $.extend({}, data[documentObj["sakai:originaltitle"]].item, documentObj);
                 if (data[documentObj["sakai:originaltitle"]].type === "imscp") {
-                    setIMSCPContent(documentObj, data[documentObj["sakai:originaltitle"]].item)
+                    setIMSCPContent(documentObj, data[documentObj["sakai:originaltitle"]].item);
                 } else {
                     setDataOnContent(documentObj);
                 }
