@@ -250,8 +250,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ////////////////////////
 
         var updateTags = function(){
-            // Add any tags that haven't yet been added to the list
-            $contentmetadataAutosuggestElt.trigger($.Event("keydown", { keyCode: 13 }));
             var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $contentmetadataAutosuggestElt, true );
             sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
                 sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;

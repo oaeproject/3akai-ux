@@ -2094,6 +2094,8 @@ define(
              * @return {Object} Two arrays, categories and tags - OR - one array of tags and categories if merge === true
              */
             getTagsAndCategories: function( $elt, merge, longform ) {
+                // Add any tags that haven't yet been added to the list
+                $elt.trigger($.Event("keydown", { keyCode: 13 }));
                 var tags_cats = $elt.autoSuggest( "get_selections" );
                 var ret = {
                     categories: [],
