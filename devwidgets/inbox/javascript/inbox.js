@@ -424,7 +424,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Cleans up or sets the polling interval for new messages
          */
         var handleShown = function(e, showing) {
-            if (showing) {
+            if (showing && !$.bbq.getState("message")) {
                 getMessages();
             }
         };
