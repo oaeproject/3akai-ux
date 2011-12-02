@@ -173,7 +173,8 @@
     <span id="entity_name_edit" style="display:none">
         <input id="entity_name_text" type="text" />
     </span>
-    <span id="entity_type">${data.data['iconDescription']}</span>
+    {var mimeType = sakai.config.MimeTypes[data.data._mimeType] || sakai.config.MimeTypes["other"]}
+    <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
     <div id="entity_owns" class="s3d-regular-links">
         <div id="entity_actions">
             {if !anon}
