@@ -1361,10 +1361,6 @@ define(
 
             },
 
-            deleteCollection: function(collectionId){
-                // TODO
-            },
-
             /**
              * Add a number of content items to an existing collection
              * @param {Object} collectionId    Pooled content id that represents the collection
@@ -1431,6 +1427,9 @@ define(
             shareCollection: function(collectionId, authorizables, canManage, callback){
                 var permissionBatch = [];
                 var groupID = sakai_content.Collections.getCollectionGroupId(collectionId);
+                if (_.isString(authorizables)){
+                    authorizables = [authorizables];
+                }
                 $.each(authorizables, function(index, authorizable) {
                     if (canManage){
                         permissionBatch.push({

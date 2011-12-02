@@ -80,13 +80,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(collectionsNewButton).show();
         };
 
-        //var showNextStep = function(){
-        //    var nextStep = $(this).data("next-step");
-        //    var currentStep = $(this).data("current-step");
-        //    $("#" + currentStep).hide();
-        //    $("#" + nextStep).show();
-        //};
-
         /**
         * Enable creation of collection and enable elements
         */
@@ -104,6 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var switchDisplay = function(collections){
             resetGUI();
             if(collections.total){
+                sakai.api.Util.TemplateRenderer("collections_collections_list_template", collections, $(collectionsCollectionsList));
                 $(collectionsCollectionsList).show();
                 $(collectionsScrollArrow).show();
                 $(collectionsSeeAllButton).show();
