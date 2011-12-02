@@ -923,7 +923,7 @@ define(
         },
 
         isKalturaPlayerSupported : function(mimeType) {
-            return sakai_conf.kaltura.enabled && (mimeType === "kaltura/video" || mimeType === "kaltura/audio");
+            return sakai_conf.kaltura && sakai_conf.kaltura.enabled && (mimeType === "kaltura/video" || mimeType === "kaltura/audio");
         },
 
         getCreatorProfile : function(content, callback) {
