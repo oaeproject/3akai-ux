@@ -268,7 +268,7 @@
     </target>
 
     <!-- Target: Hash files-->
-    <target name="hash_files" depends="compile_hash_tool, optimize">
+    <target name="hash_files" depends="compile_hash_tool, copy_optimized">
         <java jar="${HASHTOOL_DIR}/HashAndRefreshFiles.jar"
         fork="true">
             <arg value="${HASHTOOL_DIR}/config.properties" />
