@@ -293,17 +293,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("drop.collections.sakai", function(ev, data, target){
             var collectionId = target.data("sakai-collection-id");
-            var collected = [];
+            var collectedContent = [];
+            var collectedCollections = [];
             $.each(data, function(index, item){
-                collected.push(item.entityid);
+                if (item.collection){
+                    collectedCollections.push(item.entityid);
+                } else {
+                    collectedContent.push(item.entityid);
+                }
             });
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_CONTENT_ADDING_TO_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
-            sakai.api.Content.Collections.addToCollection(collectionId, collected, function(){
-                setTimeout(function(){
-                    addToCollectionCount(collectionId, 1);
-                    getRecentContent(collectionId);
-                    sakai.api.Util.progressIndicator.hideProgressIndicator();
-                }, 500);
+            sakai.api.Content.Collections.addToCollection(collectionId, collectedContent, function(){
+                sakai.api.Content.Collections.shareCollection(collectedCollections, sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function(){
+                    setTimeout(function(){
+                        addToCollectionCount(collectionId, 1);
+                        getRecentContent(collectionId);
+                        sakai.api.Util.progressIndicator.hideProgressIndicator();
+                    }, 500);
+                });
             });  
         });
 

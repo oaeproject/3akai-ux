@@ -128,7 +128,7 @@
 #entity_container #entity_type {color:#999;text-transform:uppercase;}
 
 /* Search title */
-.entity_search {float:left;}
+.entity_search {float:left; margin-top: 4px !important;}
 
 /* Dialogs */
 .entity_content_users_dialog_list{margin:12px 0 0;padding:0;height:310px;overflow:auto;border:1px solid #d4dade;}

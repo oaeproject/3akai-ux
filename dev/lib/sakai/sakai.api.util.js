@@ -2183,16 +2183,18 @@ define(
              * @param {Object} $container Optional container element to add draggables, defaults to $("html") if not set
              */
             setupDraggable: function(params, $container){
-                $.each($(".s3d-draggable-container", $container), function(index, draggable){
-                    if(!$(draggable).hasClass("ui-draggable")){
-                        // HTML overrides default, JS overrides HTML
-                        // Override default parameters with attribute defined parameters
-                        var htmlParams =  $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
-                        // Override attribute defined parameters with JS defined ones
-                        params = $.extend(true, htmlParams, params);
-                        $(".s3d-draggable-container", $container || $("html")).draggable(params);
-                    }
-                });
+                if (!require("sakai/sakai.api.user").data.me.user.anon) {
+                    $.each($(".s3d-draggable-container", $container), function(index, draggable){
+                        if (!$(draggable).hasClass("ui-draggable")) {
+                            // HTML overrides default, JS overrides HTML
+                            // Override default parameters with attribute defined parameters
+                            var htmlParams = $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
+                            // Override attribute defined parameters with JS defined ones
+                            params = $.extend(true, htmlParams, params);
+                            $(".s3d-draggable-container", $container || $("html")).draggable(params);
+                        }
+                    });
+                }
             }
         },
         Droppable: {
@@ -2223,16 +2225,18 @@ define(
              * @param {Object} $container Optional container element to add droppables, defaults to $("html") if not set
              */
             setupDroppable: function(params, $container){
-                $.each($(".s3d-droppable-container", $container), function(index, droppable){
-                    if(!$(droppable).hasClass("ui-droppable")){
-                        // HTML overrides default, JS overrides HTML
-                        // Override default parameters with attribute defined parameters
-                        var htmlParams =  $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
-                        // Override attribute defined parameters with JS defined ones
-                        params = $.extend(true, htmlParams, params);
-                        $(".s3d-droppable-container", $container || $("html")).droppable(params);
-                    }
-                });
+                if (!require("sakai/sakai.api.user").data.me.user.anon) {
+                    $.each($(".s3d-droppable-container", $container), function(index, droppable){
+                        if (!$(droppable).hasClass("ui-droppable")) {
+                            // HTML overrides default, JS overrides HTML
+                            // Override default parameters with attribute defined parameters
+                            var htmlParams = $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
+                            // Override attribute defined parameters with JS defined ones
+                            params = $.extend(true, htmlParams, params);
+                            $(".s3d-droppable-container", $container || $("html")).droppable(params);
+                        }
+                    });
+                }
             }
         }
     };

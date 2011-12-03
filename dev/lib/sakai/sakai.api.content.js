@@ -1431,38 +1431,43 @@ define(
 
             /**
              * Share a collection with a list of users/groups
-             * @param {Object} collectionId    Pooled content id for the collection that's shared
+             * @param {Object} collectionIds   Pooled content id(s) for the collection that's shared
              * @param {Object} authorizables   Array of authorizable ids to share the collection with
              * @param {Object} canManage       Whether or not the collections can be managed by the 
              *                                 authorizables the collections is being shared with
              * @param {Object} callback        Function to call when the collection has been shared
              */
-            shareCollection: function(collectionId, authorizables, canManage, callback){
+            shareCollection: function(collectionIds, authorizables, canManage, callback){
                 var permissionBatch = [];
-                var groupID = sakai_content.Collections.getCollectionGroupId(collectionId);
                 if (_.isString(authorizables)){
                     authorizables = [authorizables];
                 }
-                $.each(authorizables, function(index, authorizable) {
-                    if (canManage){
-                        permissionBatch.push({
-                            "url": "/system/userManager/group/" + groupID + "-managers.update.json",
-                            "method": "POST",
-                            "parameters": {
-                                ":member": authorizable,
-                                ":viewer": authorizable
-                            }
-                        });
-                    } else {
-                        permissionBatch.push({
-                            "url": "/system/userManager/group/" + groupID + "-members.update.json",
-                            "method": "POST",
-                            "parameters": {
-                                ":member": authorizable,
-                                ":viewer": authorizable
-                            }
-                        });
-                    }  
+                if (_.isString(collectionIds)){
+                    collectionIds = [collectionIds];
+                }
+                $.each(collectionIds, function(index, collectionId){
+                    var groupID = sakai_content.Collections.getCollectionGroupId(collectionId);
+                    $.each(authorizables, function(index, authorizable) {
+                        if (canManage){
+                            permissionBatch.push({
+                                "url": "/system/userManager/group/" + groupID + "-managers.update.json",
+                                "method": "POST",
+                                "parameters": {
+                                    ":member": authorizable,
+                                    ":viewer": authorizable
+                                }
+                            });
+                        } else {
+                            permissionBatch.push({
+                                "url": "/system/userManager/group/" + groupID + "-members.update.json",
+                                "method": "POST",
+                                "parameters": {
+                                    ":member": authorizable,
+                                    ":viewer": authorizable
+                                }
+                            });
+                        }  
+                    });
                 });
                 sakai_serv.batch(permissionBatch, function(success, response){
                     if ($.isFunction(callback)) {
