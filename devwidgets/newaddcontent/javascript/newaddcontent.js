@@ -99,7 +99,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var newaddcontentSelectedItemsEditPermissionsCopyright = "#newaddcontent_selecteditems_edit_permissions_copyright";
         var newaddcontentUploadContentFields = "#newaddcontent_upload_content_fields";
         var newaddcontentSaveTo = "#newaddcontent_saveto";
-        var $newaddcontentUploading = $("#newaddcontent_uploading");
+        //var $newaddcontentUploading = $("#newaddcontent_uploading");
         var newaddcontentAddExistingSearchButton = "#newaddcontent_add_existing_template .s3d-search-button";
         var newaddcontentSelectedItemsEditDataForm = "#newaddcontent_selecteditems_edit_data_form";
 
@@ -505,7 +505,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 _.uniq($.merge(allNewContent, lastUpload));
                 lastUpload = [];
                 $newaddcontentContainer.jqmHide();
-                $newaddcontentUploading.jqmHide();
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
                 var librarytitle = $(newaddcontentSaveTo + " option:selected").text();
                 if (sakai.api.Content.Collections.isCollection(libraryToUploadTo)) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_collection_finished_template", {
@@ -818,7 +818,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Execute the upload of the files in the queue by calling the functions needed for the specific type of content
          */
         var doUpload = function(){
-            $newaddcontentUploading.jqmShow();
+            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_YOUR_CONTENT"), sakai.api.i18n.getValueForKey("PROCESSING"));
             libraryToUploadTo = $(newaddcontentSaveTo).val();
             if(numberOfBrowsedFiles < $(".MultiFile-list").children().length){
                 // Remove the previously added file to avoid https://jira.sakaiproject.org/browse/SAKIII-3269
@@ -1202,20 +1202,24 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $("#newaddcontent_container_selecteditems").fileupload({
                 url: uploadPath,
                 drop: function (ev, data) {
+                    debug.log("In new add content overlay");
                     ev.stopPropagation();
                     ev.preventDefault();
-                    var error = false;
-                    $.each(data.files, function (index, file) {
-                        if (file.size > 0){
-                            fileDropped(file);
-                        } else {
-                            error = true;
+                    if ($(ev.target).get(0) === $("#newaddcontent_container_selecteditems").get(0) || $(ev.target).parents("#newaddcontent_container_selecteditems").length){
+                        debug.log("Is the correct parent");
+                        var error = false;
+                        $.each(data.files, function (index, file) {
+                            if (file.size > 0){
+                                fileDropped(file);
+                            } else {
+                                error = true;
+                            }
+                        });
+                        if (error) {
+                            sakai.api.Util.notification.show(
+                                sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "newaddcontent"),
+                                sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "newaddcontent"));
                         }
-                    });
-                    if (error) {
-                        sakai.api.Util.notification.show(
-                            sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "newaddcontent"),
-                            sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "newaddcontent"));
                     }
                 }
             });
@@ -1245,12 +1249,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 modal: true,
                 overlay: 20,
                 zIndex: 4001,
-                toTop: true
-            });
-            $newaddcontentUploading.jqm({
-                modal: true,
-                overlay: 20,
-                zIndex: 4003,
                 toTop: true
             });
             $newaddcontentContainer.jqmShow();

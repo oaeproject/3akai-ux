@@ -1337,7 +1337,20 @@ define(
                                                                         }
                                                                     }
                                                                     sakai_serv.saveJSON("/p/" + collectionId, toSave, function(){
-                                                                        // 8. Execute the callback function
+                                                                        // 8. Add the new collection to your me-object
+                                                                        sakai_user.data.me.groups.push({
+                                                                            "sakai:category": "collection",
+                                                                            "sakai:group-title": title,
+                                                                            "sakai:group-id": groupId,
+                                                                            "sakai:pseudoGroup": false,
+                                                                            "groupid": "c-juydRaRSec",
+                                                                            "sakai:excludeSearch": "true",
+                                                                            "counts": {
+                                                                                "contentCount": contentToAdd.length,
+                                                                                "membersCount": usersToAdd.length
+                                                                            }
+                                                                        });
+                                                                        // 9. Execute the callback function
                                                                         callback(true, collectionId);
                                                                     });
                                                                 });
@@ -1490,8 +1503,30 @@ define(
                 $.ajax({
                     "url": sakai_conf.URL.POOLED_CONTENT_SPECIFIC_USER,
                     "data": data,
-                    "success": callback
+                    "success": function(data){
+                        var batchRequest = [];
+                        $.each(data.results, function(index, collection){
+                            collection.counts = collection.counts || {};
+                            collection.counts.contentCount = sakai_content.Collections.getCollectionContentCount(collection);
+                        });
+                        callback(data);
+                    }
                 });
+            },
+
+            getCollectionContentCount: function(collection){
+                if ($.isPlainObject(collection)){
+                    collection = collection["_path"];
+                }
+                var groupId = sakai_content.Collections.getCollectionGroupId(collection);
+                var count = 0;
+                var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
+                $.each(memberships.entry, function(index, membership){
+                    if (sakai_content.Collections.isCollection(membership) && membership["sakai:group-id"] === groupId){
+                        count = membership.counts.membersCount;
+                    }
+                });
+                return count;
             },
 
             /**

@@ -706,6 +706,48 @@ define(
         },
 
         /**
+         * Allows you to show a progress indicator on the screen. Example of where this is done are the Add Content
+         * and the Create World widgets
+         */
+        progressIndicator: {
+
+            /**
+             * Show the progress indicator on the screen
+             * @param {Object} title    Title of the indicator screen
+             * @param {Object} body     Additional text to be shown in the indicator
+             */
+            showProgressIndicator: function(title, body){
+                // Create the HTML for the progress indicator if it doesn't exist yet
+                if ($("#sakai_progressindicator").length === 0){
+                    var htmlCode = '<div id="sakai_progressindicator" class="s3d-dialog s3d-dialog-container" style="display:none;">';
+                    htmlCode += '<h1 id="sakai_progressindicator_title" class="s3d-dialog-header"></h1><p id="sakai_progressindicator_body"></p>';
+                    htmlCode += '<div class="s3d-inset-shadow-container"><img src="/dev/images/progress_bar.gif"/></div></div>'
+                    var notification = $(htmlCode);
+                    $('body').append(notification);
+                    $("#sakai_progressindicator").jqm({
+                        modal: true,
+                        overlay: 20,
+                        zIndex: 40003,
+                        toTop: true
+                    });
+                }
+                // Fill out the title and the body
+                $("#sakai_progressindicator_title").html(title);
+                $("#sakai_progressindicator_body").html(body);
+                // Show the indicator
+                $("#sakai_progressindicator").jqmShow();
+            },
+
+            /**
+             * Hide the existing progress indicator (if there is one)
+             */
+            hideProgressIndicator: function(){
+                $("#sakai_progressindicator").jqmHide();
+            }            
+
+        },
+
+        /**
          * Parse a ISO8601 date into a JavaScript date object.
          *
          * <p>
@@ -2090,7 +2132,7 @@ define(
                 } else {
                     draggableData.push(helper.children().data());
                 }
-                return [draggableData];
+                return draggableData;
             },
             /**
              * Sets and overrides default parameters for the jQuery Droppable plugin
@@ -2165,12 +2207,12 @@ define(
                     drop: function(event, ui) {
                         $(".s3d-draggable-draggingitems").remove();
                         if($(this).data("dropevent")){
-                            $(window).trigger($(this).data("dropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                            $(window).trigger($(this).data("dropevent"), [sakai_util.Draggable.getDraggableData(ui.helper), $(this)]);
                         }
                     },
                     over: function(event, ui) {
                         if($(this).data("overdropevent")){
-                            $(window).trigger($(this).data("overdropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                            $(window).trigger($(this).data("overdropevent"), [sakai_util.Draggable.getDraggableData(ui.helper), $(this)]);
                         }
                     }
                 }

@@ -698,6 +698,14 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-results-blogview.selected {background:url('/dev/images/search_blog_16x16_hover.png') no-repeat top left transparent;}
 
 /*
+ * Progress indicator
+ */
+#sakai_progressindicator {margin-top:25px;}
+#sakai_progressindicator h1, #sakai_progressindicator p {text-align:center;}
+#sakai_progressindicator .s3d-inset-shadow-container {height:50px;padding-top:30px;}
+#sakai_progressindicator .s3d-inset-shadow-container img {display:block;height:20px;margin-left:auto;margin-right:auto;width:188px;}
+
+/*
  * ICONS
  */
 .s3d-icon-16{width:16px; height:16px;}

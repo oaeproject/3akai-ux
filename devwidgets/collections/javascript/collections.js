@@ -34,6 +34,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.collections = function (tuid, showSettings) {
 
+        var itemsToShow = 20;
+
         var subnavigationAddCollectionLink = "#subnavigation_add_collection_link";
         var collectorToggle = ".collector_toggle";
         var collectionsTotal = "#topnavigation_user_collections_total";
@@ -51,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectionsMainCancelNewButton = "#collections_main_cancel_new_button";
         var collectionsAddNewNextStepLabel = ".collections_add_new_nextsteplabel";
         var collectionsSeeAllButton = "#collections_see_all_button";
+        var collectionsSeeAllButtonTotal = "#collections_see_all_total_count";
         var collectionsSaveNewButton = "#collections_save_new_button";
         var collectionsNewCollectionPermission = "#collections_newcollection_permissions";
 
@@ -97,49 +100,236 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var switchDisplay = function(collections){
             resetGUI();
             if(collections.total){
+                collections.sakai = sakai;
                 sakai.api.Util.TemplateRenderer("collections_collections_list_template", collections, $(collectionsCollectionsList));
                 $(collectionsCollectionsList).show();
-                $(collectionsScrollArrow).show();
-                $(collectionsSeeAllButton).show();
+                $("#collections_carousel").jcarousel({
+                    animation: "slow",
+                    easing: "swing",
+                    scroll: 4,
+                    start: 0,
+                    initCallback: carouselBinding,
+                    itemFallbackDimension: 77
+                });
+                if (collections.total > 4) {
+                    $(collectionsScrollArrow).show();
+                    $(collectionsSeeAllButton).show();
+                    $(collectionsSeeAllButtonTotal).text("" + sakai.api.Content.Collections.getMyCollectionsCount());
+                } else {
+                    $(collectionsScrollArrow).hide();
+                    $(collectionsSeeAllButton).hide();
+                }
+                initializeDesktopDD(collections.results);
             } else {
                 $(collectionsNoCollections).show();
             }
         }
 
+        var carouselBinding = function(carousel){
+            $("#collections_scroll_right").unbind("click");
+            $("#collections_scroll_right").bind("click", function(){
+                carousel.next();
+            });
+            $("#collections_scroll_left").unbind("click");
+            $("#collections_scroll_left").bind("click", function(){
+                carousel.prev();
+            });
+        };
+
         var expandCollection = function(){
-            if($(this).hasClass(collectionsLargePreview)){
-                $("." + collectionsLargePreview).addClass("collapsed");
+            if($(this).hasClass(collectionsLargePreview) && !$(this).hasClass("fixed-collapsed")){
+                var pageOn = $(this).data("sakai-page");
+                var collectionId = $(this).data("sakai-collection-id");
+                $("." + collectionsLargePreview + "[data-sakai-page='" + pageOn + "']").addClass("collapsed");
+                $("." + collectionsLargePreview + "[data-sakai-page='" + pageOn + "'] .collections_collection_title_short").show();
+                $("." + collectionsLargePreview + "[data-sakai-page='" + pageOn + "'] .collections_collection_title_long").hide();
                 $(this).removeClass("collapsed");
+                $(".collections_collection_title_short", $(this)).hide();
+                $(".collections_collection_title_long", $(this)).show();
+                getRecentContent(collectionId);
             }
         };
 
         var createNewCollection = function(){
+            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("CREATING_YOUR_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
             var title = $.trim($("#collections_collection_title").val()) || sakai.api.i18n.getValueForKey("UNTITLED_COLLECTION", "collections");
             var permissions = $(collectionsNewCollectionPermission).val();
             sakai.api.Content.Collections.createCollection(title, "", permissions, [], [], [], function(){
-                alert("Created");
                 getCollections();
+                $("#topnavigation_user_collections_total").text("" + sakai.api.Content.Collections.getMyCollectionsCount());
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
+                $("#collections_collection_title").val("");
             });
         };
+
+        ///////////////////////////////////////////
+        // RETRIEVE RECENT CONTENT IN COLLECTION //
+        ///////////////////////////////////////////
+
+        var getRecentContent = function(collectionIds){
+            if (_.isString(collectionIds)){
+                collectionIds = [collectionIds];
+            }
+            var batchRequest = [];
+            $.each(collectionIds, function(index, collectionId){
+                batchRequest.push({
+                    "url": sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
+                    "method":"GET",
+                    "cache":false,
+                    "dataType":"json",
+                    "parameters": {
+                        "sortOn": "_lastModified",
+                        "sortOrder": "desc",
+                        "userid": sakai.api.Content.Collections.getCollectionGroupId(collectionId),
+                        "items": 3,
+                        "page": 0
+                    }
+                });
+            });
+            sakai.api.Server.batch(batchRequest, function(success, response){
+                $.each(response.results, function(i, dataItem){
+                    var contentItems = $.parseJSON(dataItem.body);
+                    contentItems.sakai = sakai;
+                    $("ul[data-sakai-collection-id='" + collectionIds[i] + "']").html(sakai.api.Util.TemplateRenderer("collections_collections_recentcontent_template", contentItems));
+                });
+            });
+        }
+
+        ////////////////////////////
+        // DRAG AND DROP ITEMS IN //
+        ////////////////////////////
+
+        var filesToUpload = [];
+
+        var finishInitializeDD = function(collectionid, permissions){
+            $("#collection_drop_" + collectionid).fileupload({
+                url: "/system/pool/createfile",
+                drop: function (ev, data) {
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                    if ($(ev.target).get(0) === $("#collection_drop_" + collectionid).get(0) && data.files){
+                        $.each(data.files, function (index, file) {
+                            if (file.size > 0){
+                                filesToUpload.push(file);
+                            }
+                        });
+                        sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_CONTENT_ADDING_TO_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
+                        uploadFile($(this).data("sakai-collection-id"), permissions);
+                    }
+                }
+            });
+        };
+
+        var addToCollectionCount = function(collectionId, amount){
+            var $contentCountEl = $("." + collectionsLargePreview + "[data-sakai-collection-id='" + collectionId + "'] .collections_collection_content_count");
+            var currentAmount = parseInt($contentCountEl.text(), 10);
+            $contentCountEl.text("" + (currentAmount + amount));
+            $contentCountEl.attr("title", "" + (currentAmount + amount) + " " + sakai.api.i18n.getValueForKey("CONTENT_ITEMS"));
+        };
+
+        var uploadFile = function(collectionId, permissions){
+            if (filesToUpload.length){
+                var fileToUpload = filesToUpload[0];
+                var splitOnDot = fileToUpload.name.split(".");
+                var xhReq = new XMLHttpRequest();
+                xhReq.open("POST", "/system/pool/createfile", false);
+                var formData = new FormData();
+                formData.append("enctype", "multipart/form-data");
+                formData.append("filename", fileToUpload.name);
+                formData.append("file", fileToUpload);
+                xhReq.send(formData);
+                if (xhReq.status == 201){
+                    var data = $.parseJSON(xhReq.responseText);
+                    var poolid = data[fileToUpload.name].poolId;
+                    var batchRequests = [];
+                    batchRequests.push({
+                        "url": "/p/" + poolid,
+                        "method": "POST",
+                        "parameters": {
+                            "sakai:pooled-content-file-name": fileToUpload.name,
+                            "sakai:permissions": permissions,
+                            "sakai:copyright": "creativecommons",
+                            "sakai:allowcomments": "true",
+                            "sakai:showcomments": "true",
+                            "sakai:fileextension": splitOnDot[splitOnDot.length - 1]
+                        }
+                    });
+        
+                    // Set initial version
+                    batchRequests.push({
+                        "url": "/p/" + poolid + ".save.json",
+                        "method": "POST"
+                    });
+        
+                    sakai.api.Server.batch(batchRequests, function(success, response){
+                        // Set the correct file permissions
+                        sakai.api.Content.setFilePermissions([{"hashpath": poolid, "permissions": permissions}], function(){
+                            // Add it to the collection
+                            sakai.api.Content.Collections.addToCollection(collectionId, poolid, function(){
+                                addToCollectionCount(collectionId, 1);
+                                filesToUpload.splice(0, 1);
+                                uploadFile(collectionId);
+                            })
+                        });
+                    });
+                } else {
+                    filesToUpload.splice(0, 1);
+                    uploadFile(collectionId);
+                }
+            } else {
+                setTimeout(function(){
+                    getRecentContent(collectionId);
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
+                }, 500);
+            }
+        }
+
+        var initializeDesktopDD = function(collections){
+            // Initialize drag and drop from desktop
+            $.each(collections, function(index, collection){
+                finishInitializeDD(collection["_path"], collection["sakai:permissions"]);
+            });
+        }
+
+        $(window).bind("drop.collections.sakai", function(ev, data, target){
+            var collectionId = target.data("sakai-collection-id");
+            var collected = [];
+            $.each(data, function(index, item){
+                collected.push(item.entityid);
+            });
+            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_CONTENT_ADDING_TO_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
+            sakai.api.Content.Collections.addToCollection(collectionId, collected, function(){
+                setTimeout(function(){
+                    addToCollectionCount(collectionId, 1);
+                    getRecentContent(collectionId);
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
+                }, 500);
+            });  
+        });
 
         ////////////////////
         // INITIALIZATION //
         ////////////////////
 
         /**
-        * Retrieve the collections and render the appropriate display
-        */
-         var getCollections = function(){
-             // Get Collections
-             sakai.api.Content.Collections.getMyCollections(0, 8, function(data){
-                 // Decide what screen to show depending on results
-                 switchDisplay(data);
-             });
-         };
+         * Retrieve the collections and render the appropriate display
+         */
+        var getCollections = function(){
+            // Get Collections
+            sakai.api.Content.Collections.getMyCollections(0, itemsToShow, function(data){
+                // Decide what screen to show depending on results
+                switchDisplay(data);
+                var recentContentToLoad = [];
+                for (var i = 0; i < data.results.length; i = i + 4){
+                    recentContentToLoad.push(data.results[i]["_path"]);
+                };
+                getRecentContent(recentContentToLoad);
+            });
+        };
 
         /**
-        * Show/hide the collections inlay
-        */
+         * Show/hide the collections inlay
+         */
         var toggleCollectionsInlay = function(){
             $collectionsWidget.animate({
                 'margin-bottom': 'toggle',
@@ -160,15 +350,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-        * Add binding to various elements in the widget
-        */
+         * Add binding to various elements in the widget
+         */
         var addBinding = function(){
             $(subnavigationAddCollectionLink).live("click", toggleCollectionsInlay);
             $(collectionsCloseButton).live("click", toggleCollectionsInlay);
             $(collectorToggle).live("click", toggleCollectionsInlay);
             $(collectionsNewButton).live("click", initializeNewCollectionsSetup);
-            $(collectionsCancelNewButton).live("click", switchDisplay);
-            //$(collectionsAddNewNextStepLabel).live("click", showNextStep);
+            $(collectionsCancelNewButton).live("click", getCollections);
             $("." + collectionsLargePreview).live("click", expandCollection);
             $(collectionsSaveNewButton).live("click", createNewCollection);
         };

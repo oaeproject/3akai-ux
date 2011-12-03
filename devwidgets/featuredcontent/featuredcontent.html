@@ -60,7 +60,7 @@
         <div id="featuredcontent_content_offset_container">
         {for item in results}
             {if item_index === "0"}
-                <div class="featuredcontent_content featuredcontent_content_large">
+                <div class="featuredcontent_content featuredcontent_content_large s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}">
                     ${actionbuttons(item, sakai)}
                     {if item.thumbnail}
                         <div id="featuredcontent_large_preview">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             {elseif item_index === "1" || item_index === "4" || item_index === "7"}
-                <div class="featuredcontent_content featuredcontent_content_medium">
+                <div class="featuredcontent_content featuredcontent_content_medium s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}">
                     ${actionbuttons(item, sakai)}
                     ${embedSmallThumbnail(item, sakai)}
                     ${displayTitle(item, params, 100)}
@@ -87,9 +87,9 @@
                 </div>
             {else}
                 {if item_index === "2" || item_index === "5" || item_index === "8"}
-                    <div class="featuredcontent_content_small_container">
+                    <div class="featuredcontent_content_small_container s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}">
                 {/if}
-                <div class="featuredcontent_content featuredcontent_content_small">
+                <div class="featuredcontent_content featuredcontent_content_small s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}">
                     ${actionbuttons(item, sakai)}
                     ${embedSmallThumbnail(item, sakai)}
                     ${displayTitle(item, params, 100)}
@@ -107,7 +107,7 @@
             </a>
         </div>
     {elseif item}
-        <div class="featuredcontent_content featuredcontent_content_large featuredcontent_category_content_large">
+        <div class="featuredcontent_content featuredcontent_content_large featuredcontent_category_content_large s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}">
             ${actionbuttons(item, sakai)}
             <div id="featuredcontent_large_preview">
                 <a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" title="${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
