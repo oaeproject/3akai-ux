@@ -574,7 +574,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
  */
 
 /* SEARCH BAR */
-.s3d-search-bar{margin-left:175px; position: relative; top: -10px;}
+.s3d-search-bar{margin-left:205px; position: relative; top: -10px;}
 .s3d-search-bar input{color:#6d6d6d !important;width:500px;font-size:1.2em !important;display:block;}
 
 /* SEARCH HEADER */
