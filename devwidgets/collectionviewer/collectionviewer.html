@@ -47,9 +47,9 @@
     {/if}
 
     {macro listContent(i, sakai)}
-        <li id="${i.id}" class="fl-container fl-fix s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}">
+        <li id="${i.id}" class="fl-container fl-fix s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if} s3d-draggable-container" data-scope="content" data-entityid="${i["_path"]}" {if sakai.api.Content.Collections.isCollection(i)} data-collection="true" {/if}>
             {if !editMode}
-                <span class="s3d-search-result-user-functions">
+                <span class="s3d-search-result-user-functions s3d-draggable-hidden">
                     {if !sakai.data.me.user.anon}
                         <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}" title="__MSG__SAVE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']}{elseif i['_path']} ${i['_path']}{/if}"></button>
                     {/if}
@@ -58,7 +58,7 @@
                 </span>
             {else}
                 <span class="s3d-search-result-user-functions fl-force-left collectionviewer_remove_actions">
-                    <input class="collectionviewer_check" id="collectionviewer_check_${i.id}" type="checkbox" data-entityid="${i.id}" data-entityname="${i['sakai:pooled-content-file-name']|safeOutput}"/>
+                    <input class="collectionviewer_check s3d-draggable-select" id="collectionviewer_check_${i.id}" type="checkbox" data-entityid="${i.id}" data-entityname="${i['sakai:pooled-content-file-name']|safeOutput}"/>
                     <label for="collectionviewer_check_${i.id}" class="s3d-aural-text">__MSG__SELECT__ ${i['sakai:pooled-content-file-name']|safeOutput} __MSG__TO_REMOVE__</label>
                     <button class="s3d-link-button s3d-action-icon s3d-actions-delete collectionviewer_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${i.id}"></button>
                 </span>
@@ -165,7 +165,7 @@
                 {for result in page}
                     <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
                         {var thumbnail = sakai.api.Content.getThumbnail(result)}
-                        <div class="collectionviewer_carousel_thumbnail_container">
+                        <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-scope="content" data-entityid="${result["_path"]}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
                             {if thumbnail}
                                 <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result["_mimeType"]}" />
                             {elseif sakai.config.MimeTypes[result["_mimeType"]]}
@@ -191,7 +191,7 @@
 
 <div id="collectionviewer_list_item_template"><!--
     <ul>
-        <li class="s3d-search-result">
+        <li class="s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${data["_path"]}" {if sakai.api.Content.Collections.isCollection(data)} data-collection="true" {/if}>
 
             {if data['sakai:pooled-content-file-name']}
                 {var path = data["_path"] + "/" + data["sakai:pooled-content-file-name"]}
@@ -199,11 +199,11 @@
                 {var path = data["_path"]}
             {/if}
 
-            <button class="s3d-link-button s3d-button collectionviewer_comments_button">
+            <button class="s3d-link-button s3d-button collectionviewer_comments_button s3d-draggable-hidden">
                 <span class="collectionviewer_comments_count">${data.numComments || sakai.api.Content.getCommentCount(data)}</span>
                 <div class="collectionviewer_comments_icon"></div>
             </button>
-            <div class="collectionviewer_item_actions">
+            <div class="collectionviewer_item_actions s3d-draggable-hidden">
                 {if !sakai.data.me.user.anon}
                     <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right savecontent_trigger" data-entityid="${data["_path"]}">
                         __MSG__ADD_TO__...

@@ -80,17 +80,17 @@
         {for item in items}
             {if item["sakai:pooled-content-file-name"]}
                 {var count = count + 1}
-                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item">
-                    <div class="mylibrary_item_left_filler">
+                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item s3d-draggable-container" data-scope="content" data-entityid="${item.id}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
+                    <div class="mylibrary_item_left_filler s3d-draggable-hidden">
                         {if item.canDelete}
-                            <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" />
+                            <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" />
                             <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item.filename|safeOutput} __MSG__SELECT_REMOVE__</label>
                             <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}"></button>
                         {/if}
                     </div>
-                    <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger"></button>
-                    <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
-                    <a href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
+                    <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
+                    <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
+                    <a href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img class="s3d-icon-40" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                         {else}

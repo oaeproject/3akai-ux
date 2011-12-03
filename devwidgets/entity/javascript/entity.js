@@ -204,6 +204,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var $entityContentUsersDialog = $("#entity_content_users_dialog");
                     var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container");
                     var entityContentUsersDialogTemplate = "#entity_content_users_dialog_list_template";
+                    var entityContentCollectionsDialogTemplate = "#entity_content_collections_dialog_list_template";
 
                     $entityContentUsersDialog.jqm({
                         modal: true,
@@ -248,6 +249,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         return false;
                     });
 
+                    $(".entity_content_collections").live("click", function(){
+                        var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
+                        $entityContentUsersDialog.jqmShow();
+
+                        var json = {
+                            "userList": userList,
+                            sakai: sakai
+                        };
+
+                        // render users dialog template
+                        sakai.api.Util.TemplateRenderer(entityContentCollectionsDialogTemplate, json, $entityContentUsersDialogContainer);
+                        $entityContentUsersDialogContainer.show();
+                        $("#entity_content_users_dialog_heading").html($("#entity_content_collections").html());
+
+                        return false;
+                    });
+
                     $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_contentsettings_dropdown", context));
 
                     $("#entity_comments_link").live("click", function(){
@@ -272,8 +290,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 sakai_global.content_profile.content_data.members.counts.viewergroups = 0;
                 sakai_global.content_profile.content_data.members.counts.viewerusers = 0;
+                sakai_global.content_profile.content_data.members.counts.viewercollections = 0;
                 $.each(sakai_global.content_profile.content_data.members.viewers, function(i, viewer){
-                    if(viewer["sakai:group-id"]){
+                    if(viewer["sakai:group-id"] && sakai.api.Content.Collections.isCollection(viewer)){
+                        sakai_global.content_profile.content_data.members.counts.viewercollections++;
+                    } else if(viewer["sakai:group-id"]){
                         sakai_global.content_profile.content_data.members.counts.viewergroups++;
                     } else {
                         sakai_global.content_profile.content_data.members.counts.viewerusers++;

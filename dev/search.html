@@ -109,8 +109,8 @@
             {/macro}
 
             {macro listContent(i, sakai)}
-                <li id="${i.id}" class="fl-container fl-fix s3d-draggable-container s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}" data-scope="content" data-entity-id="${i.id}">
-                    <span class="s3d-search-result-user-functions">
+                <li id="${i.id}" class="fl-container fl-fix s3d-draggable-container s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}" data-scope="content" data-entityid="${i.id}" {if sakai.api.Content.Collections.isCollection(i)} data-collection="true" {/if}>
+                    <span class="s3d-search-result-user-functions s3d-draggable-hidden">
                         <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary s3d-draggable-hidden searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}" title="__MSG__SAVE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']}{elseif i['_path']} ${i['_path']}{/if}"></button>
                         <button class="s3d-link-button s3d-action-icon s3d-actions-author s3d-draggable-hidden searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']|safeOutput}" title="__MSG__VIEW_OWNER_INFO_FOR__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']}{elseif i['_path']} ${i['_path']}{/if}"></button>
                         <button class="s3d-link-button s3d-action-icon s3d-actions-share s3d-draggable-hidden searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}" title="__MSG__SHARE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']}{elseif i['_path']} ${i['_path']}{/if}"></button>

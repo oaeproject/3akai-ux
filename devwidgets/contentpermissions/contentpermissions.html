@@ -52,7 +52,7 @@
                         {var id = member.userid || member.groupid}
                         {var name = sakai.api.i18n.General.process(member["sakai:group-title"] || sakai.api.User.getDisplayName(member), "contentpermissions")}
                         {var nameshort = sakai.api.Util.applyThreeDots(name, 100, null, "s3d-bold")}
-                            <li id="member_${id|safeOutput}" data-originalpermission="${memberArr_index}" class="contentpermissions_edit s3d-outer-shadow-container">
+                            <li id="member_${id|safeOutput}" data-originalpermission="${memberArr_index}" class="contentpermissions_edit s3d-outer-shadow-container" {if member["sakai:group-id"] && member["sakai:category"] === "collection"} style="display:none" {/if}>
                                 <button data-sakai-entityid="${id|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-delete" type="button" title="Remove ${name|safeOutput}"></button>
                                 <select class="contentpermissions_member_permissions">
                                     <option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>

@@ -268,13 +268,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             sakai.api.Content.Collections.addToCollection(collectionId, poolid, function(){
                                 addToCollectionCount(collectionId, 1);
                                 filesToUpload.splice(0, 1);
-                                uploadFile(collectionId);
+                                uploadFile(collectionId, permissions);
                             })
                         });
                     });
                 } else {
                     filesToUpload.splice(0, 1);
-                    uploadFile(collectionId);
+                    uploadFile(collectionId, permissions);
                 }
             } else {
                 setTimeout(function(){
@@ -306,10 +306,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Content.Collections.addToCollection(collectionId, collectedContent, function(){
                 sakai.api.Content.Collections.shareCollection(collectedCollections, sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function(){
                     setTimeout(function(){
-                        addToCollectionCount(collectionId, 1);
+                        addToCollectionCount(collectionId, collectedCollections.length + collectedContent.length);
                         getRecentContent(collectionId);
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
-                    }, 500);
+                    }, 1000);
                 });
             });  
         });

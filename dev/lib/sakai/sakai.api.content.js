@@ -48,7 +48,7 @@ define(
                 // Parse the viewers and add them to the .viewers object.
                 $.each(contentMembers.viewers, function(index, resultObject) {
                     contentMembers.viewers[index].picture = sakai_util.constructProfilePicture(contentMembers.viewers[index]);
-                    if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
+                    if (contentMembers.viewers[index]["sakai:pseudoGroup"]){
                         contentMembers.viewers[index].pseudoGroup = true;
                         contentMembers.viewers[index]["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.viewers[index]["sakai:role-title-plural"]) + ")";
                         contentMembers.viewers[index].parent = {};
@@ -82,15 +82,17 @@ define(
                 });
 
                 // Add counts for managers and viewers
-                contentMembers.counts = { people: 0, groups: 0};
+                contentMembers.counts = { people: 0, groups: 0, collections: 0};
                 $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
                     if (member.hasOwnProperty("userid")) {
                         contentMembers.counts.people++;
+                    } else if (sakai_content.Collections.isCollection(member)) {
+                        contentMembers.counts.collections++;
                     } else {
                         contentMembers.counts.groups++;
                     }
                 });
-
+                debug.log(contentMembers);
                 // Add the members to the tempItem object
                 contentItem.members = contentMembers;
             }
@@ -899,6 +901,8 @@ define(
             var mimeType = "other";
             if (content['_mimeType']){
                 mimeType = content['_mimeType'];
+            } else if (content['mimeType']){
+                mimeType = content['mimeType'];
             }
             return mimeType;
         },
@@ -988,20 +992,22 @@ define(
 
         getPlaceCount : function(content){
             var count = 0;
-            if (content["sakai:pooled-content-viewer"]) {
-                for (var i in content["sakai:pooled-content-viewer"]) {
-                    if (content["sakai:pooled-content-viewer"].hasOwnProperty(i)) {
-                        if (content["sakai:pooled-content-viewer"][i] !== "anonymous" && content["sakai:pooled-content-viewer"][i] !== "everyone") {
-                            count++;
+            if (!sakai_content.Collections.isCollection(content)) {
+                if (content["sakai:pooled-content-viewer"]) {
+                    for (var i in content["sakai:pooled-content-viewer"]) {
+                        if (content["sakai:pooled-content-viewer"].hasOwnProperty(i)) {
+                            if (content["sakai:pooled-content-viewer"][i] !== "anonymous" && content["sakai:pooled-content-viewer"][i] !== "everyone") {
+                                count++;
+                            }
                         }
                     }
                 }
-            }
-            if (content["sakai:pooled-content-manager"]) {
-                for (var ii in content["sakai:pooled-content-manager"]) {
-                    if (content["sakai:pooled-content-manager"].hasOwnProperty(ii)) {
-                        if (content["sakai:pooled-content-manager"][ii] !== "anonymous" && content["sakai:pooled-content-manager"][ii] !== "everyone") {
-                            count++;
+                if (content["sakai:pooled-content-manager"]) {
+                    for (var ii in content["sakai:pooled-content-manager"]) {
+                        if (content["sakai:pooled-content-manager"].hasOwnProperty(ii)) {
+                            if (content["sakai:pooled-content-manager"][ii] !== "anonymous" && content["sakai:pooled-content-manager"][ii] !== "everyone") {
+                                count++;
+                            }
                         }
                     }
                 }
@@ -1575,6 +1581,18 @@ define(
                 } else {
                     return sakai_content.Collections.COLLECTION_GROUP_PREFIX + collection["_path"];
                 }
+            },
+
+            /**
+             * Get the pool id of a collection pseudoGroup
+             * @param {Object} collectionGroup    This can be the collection group id or the collection
+             *                                    group object
+             */
+            getCollectionPoolId: function(collectionGroup){
+                if ($.isPlainObject(collectionGroup)){
+                    collectionGroup = collectionGroup["sakai:group-id"];
+                }
+                return collectionGroup.substring(2);
             }
 
         }

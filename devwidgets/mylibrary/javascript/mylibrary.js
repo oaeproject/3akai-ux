@@ -181,7 +181,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "items": items,
                     "sakai": sakai
                 });
-            }, handleEmptyLibrary, sakai.config.URL.INFINITE_LOADING_ICON, handleLibraryItems, sakai.api.Content.getNewList(mylibrary.contextId));
+            }, handleEmptyLibrary, sakai.config.URL.INFINITE_LOADING_ICON, handleLibraryItems, function(){
+                // Initialize content draggable
+                sakai.api.Util.Draggable.setupDraggable({}, $mylibrary_items);
+            }, sakai.api.Content.getNewList(mylibrary.contextId));
         };
 
         ////////////////////

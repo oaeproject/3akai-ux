@@ -86,13 +86,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         * Renders the carousel on the page and initializes it
         */
         var renderCarousel = function(){
-            $collectionviewerCarouselContainer.html(sakai.api.Util.TemplateRenderer("collectionviewer_carousel_template", {
+            sakai.api.Util.TemplateRenderer("collectionviewer_carousel_template", {
                 "data": collectionData,
                 "sakai": sakai,
                 "collectionName": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                 "collectionId": sakai_global.content_profile.content_data.data._path,
                 "isManager": sakai_global.content_profile.content_data.isManager
-            }));
+            }, $collectionviewerCarouselContainer);
             $collectionviewerCarouselContainer.show();
             $collectionviewerExpandedContentContainer.show();
             $("#collectionviewer_carousel", $rootel).jcarousel({
@@ -113,30 +113,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(selectedData._mimeType === "x-sakai/collection"){
                 getCollectionData("c-" + selectedData._path, false, function(data){
                     selectedData.collectionItems = data.results;
-                    $("#collectionviewer_expanded_content_container").html(sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
+                    sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
                         data: selectedData,
                         sakai: sakai,
                         "collectionName": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                         "collectionId": sakai_global.content_profile.content_data.data._path,
                         "isManager": sakai_global.content_profile.content_data.isManager
-                    }));
+                    }, $("#collectionviewer_expanded_content_container"));
                     sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
                 });
             } else {
-                $("#collectionviewer_expanded_content_container").html(sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
+                sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
                     data: selectedData,
                     sakai: sakai,
                     "collectionName": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                     "collectionId": sakai_global.content_profile.content_data.data._path,
                     "isManager": sakai_global.content_profile.content_data.isManager
-                }));
+                }, $("#collectionviewer_expanded_content_container"));
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
             }
         };
 
         // GRID OR LIST //
         var renderGridOrList = function(grid, editMode){
-            $collectionviewerGridListContainer.html(sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
+            sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
                 "items": collectionData[collectionviewer.page],
                 "sakai": sakai,
                 "grid": grid,
@@ -144,7 +144,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "collectionName": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                 "collectionId": sakai_global.content_profile.content_data.data._path,
                 "isManager": sakai_global.content_profile.content_data.isManager
-            }));
+            }, $collectionviewerGridListContainer);
             $collectionviewerGridListContainer.show();
             $("#collectionviewer_paging").pager({
                 pagenumber: collectionviewer.page,
