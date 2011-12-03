@@ -880,6 +880,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
             }
         });
+        $("#topnavigation_scroll_to_top").live("click", function(ev){
+            $("html:not(:animated),body:not(:animated)").animate({
+                scrollTop: $("html").offset().top
+            }, 500 );
+        });
+
+        $(window).scroll(function(ev){
+            if($(window).scrollTop() > 800){
+                $("#topnavigation_scroll_to_top").show("slow");
+            } else {
+                $("#topnavigation_scroll_to_top").hide("slow");
+            }
+        });
+
 
 
         /////////////////////////
