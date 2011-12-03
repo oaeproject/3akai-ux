@@ -618,7 +618,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-result-content .searchcontent_result_by_name_grid{display:none;}
 
 /* search results content */
-.s3d-search-result-content .searchcontent_result_description{margin:0 0 5px;color:#333;font-size:.90em;padding:6px 0; word-wrap: break-word;}
+.s3d-search-result-content .searchcontent_result_description{margin:0 0 5px;color:#333;font-size:11px;padding:6px 0; word-wrap: break-word;}
 .s3d-search-result-content .searchcontent_result_mimetype{font-size:smaller;white-space:pre;text-transform:uppercase;}
 .s3d-search-result-content .searchcontent_result_by{padding:3px 0;font-size:11px;}
 .s3d-search-result-content .searchcontent_result_detail_separator{color:#cccccc;}

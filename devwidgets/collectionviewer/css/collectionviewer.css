@@ -23,18 +23,23 @@
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result:hover {border:2px solid #c4d9e1;padding:8px;border-radius:6px;background-color:#e1ecef;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right {margin-left:60px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_item_title {font-size:16px;}
-.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_result_mimetype {font-size:11px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_result_mimetype {font-size:11px;text-transform:uppercase;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_result_by {line-height:20px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_download_button {height:21px;line-height:22px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_item_actions {display:none;}
-.collectionviewer_widget #collectionviewer_expanded_content_container:hover .collectionviewer_item_actions {display:inline;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result:hover .collectionviewer_item_actions {display:inline;}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button {float:right;margin-left:10px;}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon.png") no-repeat top left transparent;width:21px;height:21px;float:right;}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button:hover .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon_hover.png") no-repeat top left transparent;}
-.collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_count {display:block;float:left;font-size:13px;margin-right:4px;margin-top:4px;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_count {display:block;float:left;font-size:13px;margin:4px 4px 0 0;}
 .collectionviewer_widget #collectionviewer_header_container {border-bottom:5px solid #E2E2E2;min-height:40px;}
 .collectionviewer_widget #collectionviewer_sortby {border:1px solid #A9A9A9;}
 .collectionviewer_widget #collectionviewer_paging {clear:both;display:block;}
+.collectionviewer_widget #collectionviewer_sortarea {font-size:13px;}
+
+.collectionviewer_widget ul#collectionviewer_collection_items_list, .collectionviewer_widget .collectionviewer_list_grid_container {margin:0;}
+.collectionviewer_widget ul#collectionviewer_collection_items_list .collectionviewer_item_title {font-size:14px !important;}
+.collectionviewer_widget .collectionviewer_collection_item_container {background-color:#fff !important;border:none !important;padding:7px 12px !important;margin-bottom:4px;list-style:none;border-radius:4px !important;-moz-border-radius:4px !important;-webkit-border-radius:4px !important;box-shadow:1px 1px 1px #BABABA;-moz-box-shadow:1px 1px 1px #BABABA;-webkit-box-shadow:1px 1px 1px #BABABA;}
 
 /* Overrides */
 .collectionviewer_widget .documentviewer_preview {background-color:#fff;padding:15px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;width:870px;}
@@ -42,6 +47,7 @@
 .collectionviewer_widget .contentpreview_fullsize_preview embed {width:870px;}
 .collectionviewer_widget #contentpreview_fullsize_preview {padding:0 0 15px;}
 .collectionviewer_widget .s3d-search-results-grid {border:none !important;padding-top:0;}
+.collectionviewer_widget .searchcontent_result_usedin_icon {background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll center center transparent;display:block;float:left;height:15px;margin-right:5px;width:15px;}
 
 /* Carousel Specific */
 .collectionviewer_widget #collectionviewer_carousel_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin-top:10px;border-top: 5px solid #E2E2E2;}
@@ -68,6 +74,11 @@
 .collectionviewer_widget #collectionviewer_carousel_container .jcarousel-skin-tango{margin:0 31px;}
 
 /* List Specific */
+.collectionviewer_widget .collectionviewer_remove_actions {width:20px;}
+.collectionviewer_widget .collectionviewer_editable {border-top:1px solid #ccc;}
+.collectionviewer_widget .s3d-page-header-bottom-row {margin:7px 0 7px 10px;}
+.collectionviewer_widget .s3d-page-header-bottom-row > input,
+.collectionviewer_widget .s3d-page-header-bottom-row > button {margin-right:7px;}
 
 /* Grid Specific */
 

@@ -251,8 +251,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_contentsettings_dropdown", context));
 
                     $("#entity_comments_link").live("click", function(){
-                        $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#contentcomments_mainContainer").offset().top}, 500 );
-                        $("#contentcomments_txtMessage").focus();
+                        $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#content_profile_right_metacomments #contentcomments_mainContainer").offset().top}, 500 );
+                        $("#content_profile_right_metacomments #contentcomments_txtMessage").focus();
                     });
                     break;
             }
