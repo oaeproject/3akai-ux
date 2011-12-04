@@ -499,7 +499,14 @@ define(function(){
              * in search results
              */
             userShortDescription: "${role} in ${department} at ${college}",
-            groupShortDescription: "asdf"
+            groupShortDescription: "asdf",
+
+            /*
+             * Set the default user settings in account preferences for automatic tagging
+             * and auto-tagged notifications
+             */
+            defaultAutoTagging: "true",
+            defaultSendTagMsg: "false"
         },
 
         Groups: {
