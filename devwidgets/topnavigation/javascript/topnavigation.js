@@ -916,9 +916,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "items": 1,
                 "page": 0,
                 "box": "inbox",
-                "category": "message",
                 "sortOn": "_created",
-                "sortOrder": "asc"
+                "sortOrder": "desc"
             });
         });
 
