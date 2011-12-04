@@ -223,7 +223,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var profile = $.parseJSON(data.results[i].body);
                         if (profile["sakai:excludeSearch"] === "true"){
                             var splitOnDash = profile.groupid.split("-");
-                            profile.title = profile["sakai:parent-group-title"] + " (" + sakai.api.i18n.getValueForKey(profile["sakai:role-title-plural"]) + ")";
+                            profile["sakai:group-title"] = profile["sakai:parent-group-title"] + " (" + sakai.api.i18n.getValueForKey(profile["sakai:role-title-plural"]) + ")";
                             profile.groupid = splitOnDash.splice(0, splitOnDash.length - 1).join("-");
                         }
                         profileInfo.push(profile);
