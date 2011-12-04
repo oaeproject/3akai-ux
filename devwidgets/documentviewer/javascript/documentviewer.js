@@ -41,7 +41,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
     sakai_global.documentviewer = function(tuid,showSettings,widgetData){
 
         var $rootel = $("#" + tuid);
-        var $documentviewerPreview = $(".documentviewer_preview", $rootel);
+        var documentviewerPreview = "#" + tuid + " #documentviewer_preview";
+        var $documentviewerPreview = $(documentviewerPreview);
         var templateObject = {};
 
         var getPath = function(data) {
@@ -61,7 +62,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     }
                 }
             };
-            var container = $documentviewerPreview;
+            var container = documentviewerPreview;
             DV.load(pdfDoc, {
                 container: container,
                 width: "100%",
@@ -91,8 +92,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 } else if (height > 560 && width / height * 560 <= 920){
                     $imageRendered.addClass("documentviewer_preview_height");
                 }
-                $imageRendered.css("height", $imageRendered.height());
-                $imageRendered.css("width", $imageRendered.width());
+                //$imageRendered.css("height", $imageRendered.height());
+                //$imageRendered.css("width", $imageRendered.width());
                 $documentviewerPreview.append($imageRendered);
             });
         };
