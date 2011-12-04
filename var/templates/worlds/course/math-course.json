@@ -38,6 +38,7 @@
     "defaultjoin": "yes",
     "docs": {
         "${pid}0": {
+            "excludeSearch": false,
             "structure0": {
                 "week1": {
                     "_ref": "${refid}0",
@@ -68,6 +69,7 @@
             }
         },
         "${pid}1": {
+            "excludeSearch": false,
             "structure0": {
                 "lecture01": {
                     "_ref": "${refid}2",
@@ -141,6 +143,7 @@
             }
         },
         "${pid}2": {
+            "excludeSearch": false,
             "structure0": {
                 "problemset01": {
                     "_ref": "${refid}8",
@@ -171,6 +174,7 @@
             }
         },
         "${pid}3": {
+            "excludeSearch": false,
             "structure0": {
                 "about": {
                     "_ref": "${refid}10",
@@ -226,6 +230,7 @@
             }
         },
         "${pid}4": {
+            "excludeSearch": false,
             "structure0": {
                 "organizationnotes": {
                     "_ref": "${refid}14",
@@ -243,6 +248,7 @@
             }
         },
         "${pid}5": {
+            "excludeSearch": false,
             "structure0": {
                 "lecturetemplate": {
                     "_ref": "${refid}15",
@@ -260,6 +266,7 @@
             }
         },
         "${pid}6": {
+            "excludeSearch": true,
             "structure0": {
                 "library": {
                     "_ref": "${refid}16",
@@ -284,6 +291,7 @@
             }
         },
         "${pid}7": {
+            "excludeSearch": true,
             "structure0": {
                 "participants": {
                     "_ref": "${refid}18",
