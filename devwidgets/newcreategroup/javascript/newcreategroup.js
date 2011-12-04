@@ -71,9 +71,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     var renderShareMessage = function(){
         $(newcreategroupMembersMessage, $rootel).html(sakai.api.Util.TemplateRenderer(newcreategroupMembersMessageTemplate, {
-            "creatorRole" : sakai.api.User.getDisplayName(sakai.data.me.profile),
+            "creatorName" : sakai.api.User.getDisplayName(sakai.data.me.profile),
             "groupName" : sakai.api.Security.safeOutput($newcreategroupGroupTitle.val() || ""),
-            "groupURL": sakai.config.SakaiDomain + "/~" + sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val() || "")
+            "link": sakai.config.SakaiDomain + "/~" + sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val() || "")
         }));
     };
 
