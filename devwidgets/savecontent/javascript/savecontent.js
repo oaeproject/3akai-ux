@@ -216,7 +216,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (dropdownSelection.val() === "new_collection"){
                 var contentToAdd = [];
                 $.each(contentObj.data, function(index, item){
-                    contentToAdd.push(item.body["_path"]);
+                    contentToAdd.push(item.body);
                 });
                 hideSavecontent();
                 $(window).trigger("create.collections.sakai", [contentToAdd]);

@@ -1139,7 +1139,7 @@ define(
              * @param {Object} permissions      Permission to be set on the collection. Possible values are "public", "everyone"
              *                                  and "private"
              * @param {Object} tags             Tags to be set on the collection
-             * @param {Object} contentToAdd     Array of pooled content ids that need to be added to the collection
+             * @param {Object} contentToAdd     Array of pooled content items that need to be added to the collection
              * @param {Object} usersToAdd       Array of {"id": authorizableId, "role": "member/manager"} objects that determines who
              *                                  can see and who can edit the collections
              * @param {Object} callback         Function to be called after the collections has been created. This will pass in a
@@ -1327,57 +1327,61 @@ define(
                                                             sakai_content.removeUser("manager", collectionId, sakai_user.data.me.user.userid, function(){
     
                                                                 // 7. Add the content to the collection
-                                                                sakai_content.addToLibrary(contentToAdd, groupId, false, function(){
-    
-                                                                    //1b. Set the pagecontent to have the collectionviewer widget
-                                                                    // We do this here so the collection itself is the item that is touched latest,
-                                                                    // which it'll show on the top of the library listing
-                                                                    var toSave = {}
-                                                                    toSave[refID] = {
-                                                                        "page": "<img id='widget_collectionviewer_" + refID + "2' class='widget_inline' src='/devwidgets/mylibrary/images/mylibrary.png'/></p>"
+                                                                var pooledContentToAdd = [];
+                                                                var collectionsToAdd = [];
+                                                                $.each(contentToAdd, function(index, item){
+                                                                    if (sakai_content.Collections.isCollection(item)){
+                                                                        collectionsToAdd.push(item["_path"]);
+                                                                    } else {
+                                                                        pooledContentToAdd.push(item["_path"]);
                                                                     }
-                                                                    toSave[refID + "2"] = {
-                                                                        "collectionviewer": {
-                                                                            "groupid": groupId
+                                                                });
+                                                                sakai_content.addToLibrary(pooledContentToAdd, groupId, false, function(){
+                                                                    sakai_content.Collections.shareCollection(collectionsToAdd, groupId, false, function(){
+
+                                                                        //1b. Set the pagecontent to have the collectionviewer widget
+                                                                        // We do this here so the collection itself is the item that is touched latest,
+                                                                        // which it'll show on the top of the library listing
+                                                                        var toSave = {}
+                                                                        toSave[refID] = {
+                                                                            "page": "<img id='widget_collectionviewer_" + refID + "2' class='widget_inline' src='/devwidgets/mylibrary/images/mylibrary.png'/></p>"
                                                                         }
-                                                                    }
-                                                                    sakai_serv.saveJSON("/p/" + collectionId, toSave, function(){
-                                                                        // 8. Add the new collection to your me-object
-                                                                        sakai_user.data.me.groups.push({
-                                                                            "sakai:category": "collection",
-                                                                            "sakai:group-title": title,
-                                                                            "sakai:group-id": groupId,
-                                                                            "sakai:pseudoGroup": false,
-                                                                            "groupid": "c-juydRaRSec",
-                                                                            "sakai:excludeSearch": "true",
-                                                                            "counts": {
-                                                                                "contentCount": contentToAdd.length,
-                                                                                "membersCount": usersToAdd.length
+                                                                        toSave[refID + "2"] = {
+                                                                            "collectionviewer": {
+                                                                                "groupid": groupId
                                                                             }
+                                                                        }
+                                                                        sakai_serv.saveJSON("/p/" + collectionId, toSave, function(){
+                                                                            // 8. Add the new collection to your me-object
+                                                                            sakai_user.data.me.groups.push({
+                                                                                "sakai:category": "collection",
+                                                                                "sakai:group-title": title,
+                                                                                "sakai:group-id": groupId,
+                                                                                "sakai:pseudoGroup": false,
+                                                                                "groupid": groupId,
+                                                                                "sakai:excludeSearch": "true",
+                                                                                "counts": {
+                                                                                    "contentCount": contentToAdd.length,
+                                                                                    "membersCount": usersToAdd.length
+                                                                                }
+                                                                            });
+                                                                            // 9. Execute the callback function
+                                                                            callback(true, collectionId);
                                                                         });
-                                                                        debug.log(sakai_user.data.me.groups);
-                                                                        // 9. Execute the callback function
-                                                                        callback(true, collectionId);
                                                                     });
                                                                 });
-    
                                                             })
-    
                                                         });
                                                     });
-    
                                                 });
                                             });
                                         });
                                     });
                                 });
-
                             });
                         });
-
                     }
                 });
-
             },
 
             /**
@@ -1539,7 +1543,7 @@ define(
                 var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
                 $.each(memberships.entry, function(index, membership){
                     if (sakai_content.Collections.isCollection(membership) && membership["sakai:group-id"] === groupId){
-                        count = membership.counts.contentCount;
+                        count = membership.counts.contentCount || 0;
                     }
                 });
                 return count;

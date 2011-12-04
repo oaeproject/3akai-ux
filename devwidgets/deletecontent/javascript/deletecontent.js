@@ -99,12 +99,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
                     var groupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
                     batchRequests.push({
-                        "url": "/system/userManager/group/" + groupId + "-members.leave.json",
-                        "method": "POST"
+                        "url": "/system/userManager/group/" + groupId + "-members.update.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer@Delete": context,
+                            ":member@Delete": context
+                        }
                     });
                     batchRequests.push({
-                        "url": "/system/userManager/group/" + groupId + "-managers.leave.json",
-                        "method": "POST"
+                        "url": "/system/userManager/group/" + groupId + "-managers.update.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer@Delete": context,
+                            ":member@Delete": context
+                        }
                     });
                 } else {
                     parameters[":manager@Delete"] = context;
@@ -287,7 +295,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (data.results[i].success){
                         // Process pseudoGroups
                         var profile = $.parseJSON(data.results[i].body);
-                        debug.log(profile);
                         if (sakai.api.Content.Collections.isCollection(profile)){
                             profile.collectionid = sakai.api.Content.Collections.getCollectionPoolId(profile);
                         } else if (profile["sakai:excludeSearch"] === "true"){
