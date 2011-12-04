@@ -1525,6 +1525,11 @@ define(
                 });
             },
 
+            /**
+             * Get the number of items that are part of a specific collection
+             * @param {Object} collection    This can either be the pooled id of a collection object or the
+             *                               full collection pooled content object
+             */
             getCollectionContentCount: function(collection){
                 if ($.isPlainObject(collection)){
                     collection = collection["_path"];
