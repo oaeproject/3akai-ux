@@ -559,6 +559,7 @@ define(
                 imgUrl = sakai_conf.URL.GROUP_DEFAULT_ICON_URL;
             }
             var id = null, picture_name = null;
+            debug.log(profile);
             if (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"] || profile["userid"]){
                 if (profile["rep:userId"]){
                     id = profile["rep:userId"];

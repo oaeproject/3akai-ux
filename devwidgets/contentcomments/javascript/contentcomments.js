@@ -206,34 +206,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 comment["sakai:id"] = comment.commentId.substring((comment.commentId.lastIndexOf("/") + 1),comment.commentId.length);
 
                 var user = {};
+                user.pictureUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // User
                 // Puts the userinformation in a better structure for trimpath
                 if (comment.userid) {
                     if (contentData.isManager){
                         comment.canDelete = true;
                     }
-                    var profile = comment;
-                    user.fullName = sakai.api.User.getDisplayName(profile);
-                    user.uid = profile.userid;
-                    user.pictureUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
+                    user.fullName = sakai.api.User.getDisplayName(comment);
+                    user.uid = comment.userid;
                     // Check if the user has a picture
-                    var pictureUrl = sakai.api.Util.constructProfilePicture(profile);
+                    var pictureUrl = sakai.api.Util.constructProfilePicture(comment);
                     if (pictureUrl){
                         user.pictureUrl = pictureUrl;
                     }
                     user.profile = "/~" + sakai.api.Util.safeURL(user.uid);
-                }
-                else {
-                    // This is an anonymous user.
-                    comment.profile = {};
-                    comment.profile.fullName = "Anonymous";
-                    comment.profile.email = "noreply@sakaiproject.org";
-                    if (widgetSettings["sakai:forcename"] === true) {
-                        comment.profile.fullName = comment['sakai:name'];
-                    }
-                    if (widgetSettings["sakai:forcemail"] === true) {
-                        comment.profile.email = comment['sakai:email'];
-                    }
                 }
 
                 comment.user = user;
