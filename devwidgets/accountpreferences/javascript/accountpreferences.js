@@ -54,9 +54,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Containers
         var accountPreferencesTabsButtons = "#accountpreferences_tabs button";
         var accountPreferencesPreferencesTab = "#accountpreferences_preferences_tab";
+        var accountPreferencesPrivacyTab = "#accountpreferences_privacy_tab";
         var accountPasswordTab = "#accountpreferences_password_tab";
         var accountPreferencesContainer =  "#accountpreferences_container";
         var preferContainer = accountPreferencesID + "_preferContainer";
+        var privacyContainer = accountPreferencesID + "_changePrivacyContainer";
         var passChangeContainer =  accountPreferencesID + "_changePassContainer";
 
         // Forms
@@ -221,6 +223,47 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         };
 
+        /////////////////////////////
+        // Change privacy settings //
+        /////////////////////////////
+
+        var loadPrivacySettings = function(){
+            $.ajax({
+                "url": "/~" + sakai.data.me.user.userid + ".acl.json",
+                "success": function(data){
+                    var setting = data["anonymous"].granted && data["anonymous"].granted.length ? "public" : "everyone";
+                    $("#accountpreferences_privacy_" + setting).click();
+                }
+            });
+        };
+
+        $(".accountpreferences_selectable").live("click", function(){
+            $(".accountpreferences_selectable").addClass("accountpreferences_unselected_rbt");
+            $(".accountpreferences_selectable").removeClass("s3d-outer-shadow-container");
+            $(this).addClass("s3d-outer-shadow-container");
+            $(this).removeClass("accountpreferences_unselected_rbt");
+            $("input", $(this)).attr("checked", "checked");
+        });
+
+        $("#accountpreferences_privacy_change").live("submit", function(){
+            var option = $(".accountpreferences_selectable input:radio[name='accountpreferences_privacy_radio']:checked").val();
+            var data = {"principalId": "anonymous"};
+            if (option === "public"){
+                data["privilege@jcr:read"] = "granted";
+            } else {
+                data["privilege@jcr:read"] = "denied";
+            }
+            $.ajax({
+                "url": "/~" + sakai.data.me.user.userid + ".modifyAce.json",
+                "type": "POST",
+                "data": data,
+                "success": function(){
+                    $(accountPreferencesContainer).jqmHide();
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS", "accountpreferences"), sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS_UPDATED", "accountpreferences"));
+                }
+            });
+            return false;
+        });
 
         //////////////////////////////
         // Change Country, Timezone //
@@ -438,17 +481,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             e.preventDefault();
         })
 
+        var hideAllPanes = function(){
+            $(passChangeContainer).hide();
+            $(preferContainer).hide();
+            $(privacyContainer).hide();
+        }
+
         $(accountPreferencesPreferencesTab).click(function(){
             $(accountPreferencesTabsButtons).removeClass(tabSelected);
             $(accountPreferencesPreferencesTab).addClass(tabSelected);
-            $(passChangeContainer).hide();
+            hideAllPanes();
             $(preferContainer).show();
+        });
+
+        $(accountPreferencesPrivacyTab).click(function(){
+            $(accountPreferencesTabsButtons).removeClass(tabSelected);
+            $(accountPreferencesPrivacyTab).addClass(tabSelected);
+            hideAllPanes();
+            $(privacyContainer).show();
+            loadPrivacySettings();
         });
 
         $(accountPasswordTab).click(function(){
             $(accountPreferencesTabsButtons).removeClass(tabSelected);
             $(accountPasswordTab).addClass(tabSelected);
-            $(preferContainer).hide();
+            hideAllPanes();
             $(passChangeContainer).show();
         });
 
