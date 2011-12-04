@@ -1548,11 +1548,12 @@ define(
                 // The identifier is a group id
                 if (_.isString(identifier)){
                     return identifier.substring(0, 2) === sakai_content.Collections.COLLECTION_GROUP_PREFIX;
+                // The identifier is a collection pseudoGroup
+                } else if (identifier["sakai:category"] === "collection"){
+                    return true;
                 // The identifier is a content object
                 } else if (identifier["_path"]){
                     return sakai_content.getMimeType(identifier) === "x-sakai/collection";
-                } else if (identifier["sakai:category"] === "collection"){
-                    return true;
                 }
                 return false;
             },
