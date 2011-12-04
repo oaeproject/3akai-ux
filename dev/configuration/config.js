@@ -506,7 +506,7 @@ define(function(){
              * and auto-tagged notifications
              */
             defaultAutoTagging: "true",
-            defaultSendTagMsg: "false"
+            defaultSendTagMsg: "true"
         },
 
         Groups: {
