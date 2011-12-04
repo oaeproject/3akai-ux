@@ -95,14 +95,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }, $collectionviewerCarouselContainer);
             $collectionviewerCarouselContainer.show();
             $collectionviewerExpandedContentContainer.show();
-            $("#collectionviewer_carousel", $rootel).jcarousel({
-                animation: "slow",
-                easing: "swing",
-                scroll: 12,
-                start: 0,
-                initCallback: carouselBinding,
-                itemFallbackDimension: 123
-            });
+            if(collectionData.length){
+                $("#collectionviewer_carousel", $rootel).jcarousel({
+                    animation: "slow",
+                    easing: "swing",
+                    scroll: 12,
+                    start: 0,
+                    initCallback: carouselBinding,
+                    itemFallbackDimension: 123
+                });
+            }
         };
 
         /**
@@ -265,6 +267,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var handleHashChange = function(){
+            $(".documentviewer_preview").remove();
             $("#collectionviewer_finish_editing_collection_button").hide();
             $("#collectionviewer_edit_collection_button").show();
             collectionviewer.listStyle = $.bbq.getState("ls") || "carousel";
@@ -422,6 +425,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var t=setTimeout(refreshCollection, 1000);
                     }]);
                 }
+            });
+
+            $(".collectionviewer_remove_icon").live("click", function(){
+                var $itemToRemove = $(this);
+                var toRemoveId = $(this).data("entityid");
+                $(window).trigger('init.deletecontent.sakai', [{
+                    paths: [toRemoveId],
+                    context: collectionviewer.contextId
+                }, function (success) {
+                    $itemToRemove.parents("li").hide("slow");
+                    var t=setTimeout(refreshCollection, 1000);
+                }]);
+            });
+
+            $(window).bind("done.newaddcontent.sakai", function(ev, data){
+                handleHashChange();
             });
 
         };

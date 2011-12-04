@@ -36,6 +36,8 @@
 .collectionviewer_widget #collectionviewer_sortby {border:1px solid #A9A9A9;}
 .collectionviewer_widget #collectionviewer_paging {clear:both;display:block;}
 .collectionviewer_widget #collectionviewer_sortarea {font-size:13px;}
+.collectionviewer_widget #collectionviewer_no_content {color:#999;font-size:15px;font-weight:normal;height:75px;line-height:75px;text-align:center;text-shadow:0 0 0 #ccc;width:100%;}
+.collectionviewer_widget #collectionviewer_no_content button {font-size:14px;}
 
 .collectionviewer_widget ul#collectionviewer_collection_items_list, .collectionviewer_widget .collectionviewer_list_grid_container {margin:0;}
 .collectionviewer_widget ul#collectionviewer_collection_items_list .collectionviewer_item_title {font-size:14px !important;}
