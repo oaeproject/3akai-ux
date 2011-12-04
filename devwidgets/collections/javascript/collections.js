@@ -35,6 +35,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.collections = function (tuid, showSettings) {
 
         var itemsToShow = 20;
+        var contentToAdd = [];
 
         var subnavigationAddCollectionLink = "#subnavigation_add_collection_link";
         var collectorToggle = ".collector_toggle";
@@ -56,6 +57,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectionsSeeAllButtonTotal = "#collections_see_all_total_count";
         var collectionsSaveNewButton = "#collections_save_new_button";
         var collectionsNewCollectionPermission = "#collections_newcollection_permissions";
+        var collectionCountsContentCountsNew = "#collection_counts_content_counts_new";
 
         // Classes
         var collectionsAddNewSteps = ".collections_add_new_steps";
@@ -86,8 +88,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
         * Enable creation of collection and enable elements
         */
-        var initializeNewCollectionsSetup = function(){
+        var initializeNewCollectionsSetup = function(ev, _contentToAdd){
             resetGUI();
+            contentToAdd = _contentToAdd || [];
+            if (!$collectionsWidget.is(":visible")){
+                $collectionsWidget.animate({
+                    'margin-bottom': 'toggle',
+                    'height': 'toggle',
+                    'opacity': 'toggle',
+                    'padding-top': 'toggle',
+                    'padding-bottom': 'toggle'
+               }, 400);
+            }
+            $(collectionCountsContentCountsNew).text("" + contentToAdd.length);
             $(collectionsNewButton).hide();
             $(collectionsNoCollections).hide();
             $(collectionsAddNewContainer).show();
@@ -154,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("CREATING_YOUR_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
             var title = $.trim($("#collections_collection_title").val()) || sakai.api.i18n.getValueForKey("UNTITLED_COLLECTION", "collections");
             var permissions = $(collectionsNewCollectionPermission).val();
-            sakai.api.Content.Collections.createCollection(title, "", permissions, [], [], [], function(){
+            sakai.api.Content.Collections.createCollection(title, "", permissions, [], contentToAdd, [], function(){
                 getCollections();
                 $("#topnavigation_user_collections_total").text("" + sakai.api.Content.Collections.getMyCollectionsCount());
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
@@ -367,6 +380,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(collectionsCancelNewButton).live("click", getCollections);
             $("." + collectionsLargePreview).live("click", expandCollection);
             $(collectionsSaveNewButton).live("click", createNewCollection);
+            $(window).bind("create.collections.sakai", initializeNewCollectionsSetup);
         };
 
         var doInit = function(){

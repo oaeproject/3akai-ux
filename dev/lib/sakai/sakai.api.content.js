@@ -1355,6 +1355,7 @@ define(
                                                                                 "membersCount": usersToAdd.length
                                                                             }
                                                                         });
+                                                                        debug.log(sakai_user.data.me.groups);
                                                                         // 9. Execute the callback function
                                                                         callback(true, collectionId);
                                                                     });
@@ -1533,7 +1534,7 @@ define(
                 var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
                 $.each(memberships.entry, function(index, membership){
                     if (sakai_content.Collections.isCollection(membership) && membership["sakai:group-id"] === groupId){
-                        count = membership.counts.membersCount;
+                        count = membership.counts.contentCount;
                     }
                 });
                 return count;

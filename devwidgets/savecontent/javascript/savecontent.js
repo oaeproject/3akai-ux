@@ -213,7 +213,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // bind savecontent save button
         $savecontent_save.live("click", function(){
             var dropdownSelection = $("#savecontent_select option:selected", $rootel);
-            if (!dropdownSelection.attr("disabled") && dropdownSelection.val()) {
+            if (dropdownSelection.val() === "new_collection"){
+                var contentToAdd = [];
+                $.each(contentObj.data, function(index, item){
+                    contentToAdd.push(item.body["_path"]);
+                });
+                hideSavecontent();
+                $(window).trigger("create.collections.sakai", [contentToAdd]);
+            } else if (!dropdownSelection.attr("disabled") && dropdownSelection.val()) {
                 saveContent(dropdownSelection.val(), dropdownSelection.data("entityid"));
             }
         });

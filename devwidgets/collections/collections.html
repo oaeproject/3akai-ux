@@ -34,7 +34,7 @@
                             <div class="collections_general_information">
                                 <h2>
                                     <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_long" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 > 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 110)}</a>
-                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_short" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 === 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 48)}</a>
+                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_short" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 === 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 47)}</a>
                                 </h2>
                                 <hr class="fl-push fl-hidden"/>
                                 <div class="collection_counts_container">
@@ -83,7 +83,7 @@
                 <input type="text" id="collections_collection_title" placeholder="__MSG__UNTITLED_COLLECTION__"/>
                 <div class="collection_counts_container">
                     <div id="collection_counts_content_icon"></div>
-                    <span class="collection_counts" id="collection_counts_content_counts">0</span>
+                    <span class="collection_counts" id="collection_counts_content_counts_new"></span>
                 </div>
                 <hr class="fl-push fl-hidden"/>
                 <label for="collections_newcollection_permissions">__MSG__WHO_CAN_SEE_IT__</label>

@@ -45,6 +45,7 @@
         {for world in sakai.config.worldTemplates}
             <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${sakai.api.i18n.getValueForKey(world.title).toLowerCase()}</option>
         {/for}
+        <option value="new_collection">__MSG__A_NEW__ __MSG__COLLECTION_LC__</option>
 
         {if libraryHasIt}
             <option value="${sakai.data.me.user.userid}" id="mylibrary_option" disabled="disabled">__MSG__MY_LIBRARY__ (__MSG__GOT_IT__)</option>
