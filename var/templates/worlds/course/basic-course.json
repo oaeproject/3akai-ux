@@ -38,6 +38,7 @@
     "defaultjoin": "yes",
     "docs": {
         "${pid}0": {
+            "excludeSearch": true,
             "structure0": {
                 "library": {
                     "_ref": "${refid}0",
@@ -62,6 +63,7 @@
             }
         },
         "${pid}1": {
+            "excludeSearch": true,
             "structure0": {
                 "participants": {
                     "_ref": "${refid}2",
