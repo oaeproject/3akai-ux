@@ -112,3 +112,7 @@
 #topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
 .topnavigation_explore .s3d-dropdown-menu li a:focus, .topnavigation_user_container .s3d-dropdown-menu li a:focus, #topnavigation_user_options_login li a:focus, #navigation_anon_signup_link:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2; color:#fff !important;}
 #topnavigation_search_input:focus{outline:2px solid #2683BC;}
+
+#topnavigation_scroll_to_top_container {display:block;width:50px;height:50px;float:right;margin-right:-50px;}
+#topnavigation_scroll_to_top_container #topnavigation_scroll_to_top {background: url("/devwidgets/topnavigation/images/topnav_scrolltotop.png") no-repeat scroll left top transparent;height:49px;position:fixed;top:70%;width:46px;}
+#topnavigation_scroll_to_top_container #topnavigation_scroll_to_top:hover {background:url("/devwidgets/topnavigation/images/topnav_scrolltotop_hover.png") no-repeat scroll top left transparent;}

@@ -900,6 +900,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
             }
         });
+        $("#topnavigation_scroll_to_top").live("click", function(ev){
+            $("html:not(:animated),body:not(:animated)").animate({
+                scrollTop: $("html").offset().top
+            }, 500 );
+        });
+
+        $(window).scroll(function(ev){
+            if($(window).scrollTop() > 800){
+                $("#topnavigation_scroll_to_top").show("slow");
+            } else {
+                $("#topnavigation_scroll_to_top").hide("slow");
+            }
+        });
+
 
         $("#topnavigation_messages_container").live("click", function(){
             sakai.api.Server.loadJSON(sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE, function(success, data){
@@ -918,9 +932,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "items": 1,
                 "page": 0,
                 "box": "inbox",
-                "category": "message",
                 "sortOn": "_created",
-                "sortOrder": "asc"
+                "sortOrder": "desc"
             });
         });
 
