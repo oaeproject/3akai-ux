@@ -593,7 +593,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var data = {
                 "sakai:deleted": deleteValue,
                 "sakai:deletedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                "sakai:deletedOn": sakai.api.Util.createSakaiDate(new Date())
+                "sakai:deletedOn": Date.now()
             };
             $.ajax({
                 url: url,
@@ -611,8 +611,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         post.find(discussionPostMessage).nextAll().remove();
                         post.find(discussionPostMessage).after(sakai.api.Util.TemplateRenderer(discussionDeletedPostActionsTemplate, {}));
                         post.find(discussionPostingDate).after(sakai.api.Util.TemplateRenderer(discussionDeletedPostEntityInfoTemplate, {
-                            "deletedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                            "deletedOn": sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date())))
+                            "deletedBy": data["sakai:deletedBy"],
+                            "deletedOn": sakai.api.l10n.transformDateTimeShort(parseDate(data["sakai:deletedOn"]))
                         }));
                     }else{
                         // Apply grey class
@@ -639,7 +639,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var data = {
                 "sakai:edited": true,
                 "sakai:editedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                "sakai:editedOn": sakai.api.Util.createSakaiDate(new Date()),
+                "sakai:editedOn": Date.now(),
                 "sakai:body": body
             };
             if(quote){
@@ -662,7 +662,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     sakai.api.Util.renderMath(tuid);
 
                     // Set entity data
-                    post.children(discussionEntityContainer).find(discussionUpdatingDate).children("span").text(sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date()))));
+                    post.children(discussionEntityContainer).find(discussionUpdatingDate).children("span").text(sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.l10n.transformDateTimeShort(parseDate(data["sakai:editedOn"])));
                     post.children(discussionEntityContainer).children(discussionPostingDate).children().show();
 
                     // Show all
