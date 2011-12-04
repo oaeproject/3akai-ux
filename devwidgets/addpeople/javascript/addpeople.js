@@ -543,16 +543,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-
-        if (!hasbeenInit && !sakai_global.group) {
+        if(!hasbeenInit && !sakai_global.group){
             loadRoles();
             var defaultMembers = $.bbq.getState("members") || [];
-            if (defaultMembers.length) {
+            if(defaultMembers.length){
                 defaultMembers = defaultMembers.split(",");
                 fetchGroupsAndUsersData(defaultMembers);
             }
         }
-
     };
     sakai.api.Widgets.widgetLoader.informOnLoad("addpeople");
 

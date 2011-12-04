@@ -107,6 +107,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         return users;
     };
 
+    var checkDefaultContentAdded = function(contentToAdd, count){
+        return !$.isArray(contentToAdd) || contentToAdd.length - 1 === count;
+    };
+
+    var setDefaultContent = function(groupid){
+        var contentToAdd = $.bbq.getState("contentToAdd");
+        if(contentToAdd.length > 1 && !$.isArray(contentToAdd)){
+            contentToAdd = contentToAdd.split(",");
+        }
+        var count = 0;
+        $.each(contentToAdd, function(i, contentId){
+            sakai.api.Content.addToLibrary(contentId, groupid, false, function(contentId, entityId) {
+                if(checkDefaultContentAdded(contentToAdd, count)){
+                    $newcreategroupCreating.jqmHide();
+                    window.location = "/~" + groupid;
+                } else {
+                    count++;
+                }
+            });
+        });
+    };
+
     /**
      * Create a simple group and execute the tagging and membership functions
      */
@@ -126,7 +148,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //createGroup : function(id, title, description, tags, users, joinability, visibility, templatePath, subject, body, meData, callback) {
         sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, grouptags, users, joinable, visible, templatePath, subject, body, sakai.data.me, function(success, groupData, nameTaken){
             if (success) {
-                window.location = "/~" + groupid;
+                if($.bbq.getState("contentToAdd")){
+                    setDefaultContent(groupid);
+                } else {
+                    window.location = "/~" + groupid;
+                }
             } else {
                 $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
             }
