@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     }
                 }
             };
-            var container = documentviewerPreview;
+            var container = $documentviewerPreview;
             DV.load(pdfDoc, {
                 container: container,
                 width: "100%",
