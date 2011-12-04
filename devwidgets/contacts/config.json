@@ -11,5 +11,5 @@
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/contacts/contacts.html",
-    "hashParams": ["cq", "cp", "cso", "cls"]
+    "hashParams": ["cq", "cp", "cso", "ls"]
 }
