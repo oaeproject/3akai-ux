@@ -28,9 +28,8 @@
                                 <img alt="__MSG__USER_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.User.getProfilePicture(profile)}">
                                 <a title="__MSG__VIEW_PROFILE__" href="/~${profile.userid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
                             {else}
-                                {var displayName = sakai.api.i18n.General.process(profile["sakai:group-title"])}
                                 <img alt="__MSG__GROUP_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.Groups.getProfilePicture(profile)}">
-                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
+                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">${profile["sakai:group-title"]}</a>
                             {/if}
                         </li>
                     {/for} 
@@ -40,10 +39,10 @@
     </div>
     <div id="deletecontent_button_container" class="fl-force-right">
         <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromsystem">__MSG__REMOVE_FROM_SYSTEM__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromlibrary">__MSG__REMOVE_FROM_LIBRARY__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem">__MSG__REMOVE_FROM_SYSTEM__</button>
         <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem_nocontext">__MSG__REMOVE_FROM_SYSTEM__</button>
-        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromlibrary">__MSG__REMOVE_FROM_LIBRARY__</button>
-        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_apply">__MSG__APPLY__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_apply">__MSG__APPLY__</button>
         <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromlibrary_only">__MSG__REMOVE_FROM_LIBRARY_ONLY__</button>
         <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem_confirm">__MSG__REMOVE_FROM_SYSTEM_ANYWAY__</button>
     </div>
