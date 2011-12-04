@@ -92,7 +92,6 @@ define(
                         contentMembers.counts.groups++;
                     }
                 });
-                debug.log(contentMembers);
                 // Add the members to the tempItem object
                 contentItem.members = contentMembers;
             }

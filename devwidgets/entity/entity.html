@@ -482,7 +482,7 @@
                 {var userlist_groups_index = 0}
                 {var userlist_people_index = 0}
                 {for i in userList}
-                    {if i['sakai:group-id'] && type === "groups"}
+                    {if i['sakai:group-id'] && type === "groups" && !sakai.api.Content.Collections.isCollection(i)}
                         ${userlist_groups_index++|eat}
                         {if userlist_groups_index%2} <li id="${i['sakai:group-id']}">
                         {else} <li id="${i['sakai:group-id']|safeOutput}" class="entity_content_even">

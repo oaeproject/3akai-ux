@@ -61,6 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var parentGroups = {};
             if (setCount) {
                 context.data.members.counts.groups = 0;
+                context.data.members.counts.collections = 0;
             }
             $.each(data, function(index, group){
                 // Check for pseudogroups, if a pseudogroup filter out the parent
@@ -79,7 +80,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // If no pseudogroup store the group as it is
                 } else if (!parentGroups.hasOwnProperty(group["sakai:group-id"]) && group["sakai:group-id"]) {
                     if (setCount) {
-                        context.data.members.counts.groups++;
+                        if (sakai.api.Content.Collections.isCollection(group)){
+                            context.data.members.counts.collections++;
+                        } else {
+                            context.data.members.counts.groups++;
+                        }
                     }
                     parentGroups[group["sakai:group-id"]] = group;
                 }
