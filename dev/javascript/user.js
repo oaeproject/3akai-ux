@@ -62,12 +62,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var profilestructure = {
                 _title: structure.structure0.profile._title,
                 _altTitle: structure.structure0.profile._altTitle,
-                _order: structure.structure0.profile._order,
-                _canEdit: true,
-                _nonEditable: true,
-                _reorderOnly: true,
-                _canSubedit: true
+                _order: structure.structure0.profile._order
             };
+            if ( isMe ) {
+                profilestructure["_canEdit"] = true;
+                profilestructure["_nonEditable"] = true;
+                profilestructure["_reorderOnly"] = true;
+                profilestructure["_canSubedit"] = true;
+            }
             var newProfile = true;
             $.each( structure.structure0.profile, function( key, section ) {
                 if ( $.isPlainObject( section ) ) {

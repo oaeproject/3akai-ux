@@ -145,13 +145,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var sectionHasElements = function( section ) {
-            var empty = false;
-            $.each( section, function( i, elt ) {
-                if ( $.isPlainObject( elt ) ) {
-                    empty = true;
-                }
-            });
-            return empty;
+            var hasElts = false;
+            if ( section ) {
+                $.each( section, function( i, elt ) {
+                    if ( $.isPlainObject( elt ) ) {
+                        hasElts = true;
+                    }
+                });
+            }
+            return hasElts;
         };
 
         var renderEmptySection = function( userProfile, section ) {

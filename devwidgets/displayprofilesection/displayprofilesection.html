@@ -120,7 +120,6 @@
     {for field in section.elements}
         {if field.display}
             {var field_key = field_index === "tags" ? "sakai:tags" : field_index}
-            ${debug.log(field, data[ field_key ])}
             {var field_data = data && data[ field_key ] ? data[ field_key ] : false}
             {if field_data && field_data.value && ($.trim(field_data.value) !== "" || $.isArray(field_data.value))}
             <div class="displayprofilesection_field">
