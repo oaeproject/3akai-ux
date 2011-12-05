@@ -163,8 +163,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var managers = contentIManage[m]["sakai:pooled-content-manager"];
                 if (managers){
                     for (var i = 0; i < managers.length; i++){
-                        if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid 
-                            && managers[i] !== context){
+                        if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid &&
+                                managers[i] !== context){
                             userGroupIds.push(managers[i]);
                         }
                     }

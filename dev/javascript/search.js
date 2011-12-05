@@ -79,14 +79,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "_order": 0,
                     "_title": title
                 }
-            }
+            };
             var searchWidgetId = sakai.api.Util.generateWidgetId();
             pubdata[refId] = {
                 "page": "<div id='widget_searchgroups_" + searchWidgetId + "' class='widget_inline'></div>"
-            }
+            };
             pubdata[searchWidgetId] = {
                 "category": category.id
-            }
+            };
         }
 
         ///////////////////

@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addareaCreateDocButton = "#addarea_create_doc_button";
         var addAreaExistingEverywhereSearchInput = "#addarea_existing_everywhere_search";
         var addAreaExistingMyLibrarySearchInput = "#addarea_existing_mylibrary_search";
-        var addAreaExistingCurrentlyViewingInput = "#addarea_existing_currentlyviewing_search"
+        var addAreaExistingCurrentlyViewingInput = "#addarea_existing_currentlyviewing_search";
         var addareaExistingItem = ".addarea_existing_item";
         var addAreaGroupName = ".addarea_group_name";
 
@@ -732,14 +732,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 mimetype: "x-sakai/document",
                 q: query,
                 items: 50
-            }
+            };
             var url = "/var/search/pool/all.0.json";
             if (!query){
                 url = "/var/search/pool/all-all.0.json";
             }
             if(library){
-                json["userid"] = sakai.data.me.user.userid
-                url = "/var/search/pool/manager-viewer.json"
+                json["userid"] = sakai.data.me.user.userid;
+                url = "/var/search/pool/manager-viewer.json";
             }
             sakai.api.Server.loadJSON(url,
                 function(success, data){
@@ -764,7 +764,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     var context = "everywhere";
                     if(library){
                         container = "#addarea_existing_mylibrary_bottom";
-                        context = "my_library"
+                        context = "my_library";
                     }
                     // Render the results
                     $(container).html(sakai.api.Util.TemplateRenderer("addarea_existing_bottom_template", {
@@ -811,7 +811,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var renderWidgets = function(){
             var widgets = [];
-            var nameSet = false
+            var nameSet = false;
             for (var widget in sakai.widgets){
                 if(!nameSet){
                     $("#addarea_widgets_name").val(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widget].id));

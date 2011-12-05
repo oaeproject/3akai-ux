@@ -47,7 +47,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
-        var contentpermissionsSelectable = ".contentpermissions_selectable > input"
+        var contentpermissionsSelectable = ".contentpermissions_selectable > input";
         var contentData = sakai_global.content_profile.content_data;
         var contentPermissionsEditList = "li.contentpermissions_edit";
         var contentpermissionsMemberPermissions = ".contentpermissions_member_permissions";
@@ -143,7 +143,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     type: "POST",
                     data: dataObj,
                     success: function(){
-                        sakai_global.content_profile.content_data.data["sakai:permissions"] = newPermissions
+                        sakai_global.content_profile.content_data.data["sakai:permissions"] = newPermissions;
                         saveMemberPermissions();
                     }
                 });
@@ -339,7 +339,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $(".contentpermissions_permissions_container .s3d-actions-delete").live("click", doDelete);
             $("#contentpermissions_apply_permissions").live("click", doSave);
-            $("#contentpermissions_members_autosuggest_sharebutton").live("click", doShare)
+            $("#contentpermissions_members_autosuggest_sharebutton").live("click", doShare);
         };
 
         /**

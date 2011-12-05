@@ -1895,7 +1895,7 @@ define(
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== sakai_user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
                                             suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_user.getDisplayName(data.results[i]), "firstName": sakai_user.getFirstName(data.results[i]), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
-                                    	}
+                                        }
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
                                             suggestions.push({"value": data.results[i]["sakai:group-id"], "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]), "picture": sakai_util.constructProfilePicture(data.results[i], "group"), "type": "group"});
@@ -1957,7 +1957,7 @@ define(
                 var opts = $.extend({}, options);
                 var namespace = opts.namespace || "api_util_autosuggest";
                 if(!element || (element.length!==1 && !element.data(namespace)) ){
-                	return false; //may want to return element?
+                    return false; //may want to return element?
                 } 
                 var ascontainer = $("#as-selections-" + element.attr("id")).replaceWith(element.data(namespace));
                 $("#as-results-" + element.attr("id")).remove();
@@ -2117,7 +2117,6 @@ define(
                     revertDuration: 0,
                     scrollSensitivity: 100,
                     opacity: 0.5,
-                    helper: "clone",
                     cursor: "move",
                     zindex: 10000,
                     cursorAt: {
@@ -2188,7 +2187,7 @@ define(
                             $(window).trigger($(this).data("overdropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     }
-                }
+                };
             },
             /**
              * Sets up droppables accross the page
