@@ -279,6 +279,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#contacts_select_checkbox").removeAttr("checked");
         };
 
+        var handleHashChange = function(){
+            getContacts();
+            uncheckAll();
+
+            $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
+            contacts.listStyle = $.bbq.getState("ls") || "list";
+            if(contacts.listStyle === "list"){
+                $("#contacts_container div .contacts_list_items", $rootel).removeClass("s3d-search-results-grid");
+                $(contactsShowList, $rootel).addClass("selected");
+                $(contactsShowList, $rootel).children().addClass("selected");
+            } else {
+                $("#contacts_container div .contacts_list_items", $rootel).addClass("s3d-search-results-grid");
+                $(contactsShowGrid, $rootel).addClass("selected");
+                $(contactsShowGrid, $rootel).children().addClass("selected");
+            }
+        };
+
         var bindEvents = function(){
             $(".contacts_add_to_contacts").live("click", function(){
                 acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
@@ -327,7 +344,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $("#contacts_sortby").change(function () {
-                uncheckAll();
                 var sortSelection = this.options[this.selectedIndex].value;
                 if (sortSelection === "desc") {
                     contacts.sortOrder = "desc";
@@ -338,27 +354,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             });
 
-            $(contactsShowList, $rootel).click(function(){
-                uncheckAll();
-                $("#contacts_container div .contacts_list_items", $rootel).removeClass("s3d-search-results-grid");
-                $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
-                $(this).addClass("selected");
-                $(this).children().addClass("selected");
-                $.bbq.pushState({"cls": "list"});
+            $(contactsShowList, $rootel).live("click", function(){
+                $.bbq.pushState({"ls": "list"});
             });
 
-            $(contactsShowGrid, $rootel).click(function(){
-                uncheckAll();
-                $("#contacts_container div .contacts_list_items", $rootel).addClass("s3d-search-results-grid");
-                $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
-                $(this).addClass("selected");
-                $(this).children().addClass("selected");
-                $.bbq.pushState({"cls": "grid"});
+            $(contactsShowGrid, $rootel).live("click", function(){
+                $.bbq.pushState({"ls": "grid"});
             });
 
-            $(window).bind("hashchanged.contacts.sakai", function(){
-                getContacts();
-            });
+            $(window).bind("hashchanged.contacts.sakai", handleHashChange);
 
             $("#contacts_search_input").live("keyup", function(ev){
                 var q = $.trim($(this).val());
@@ -382,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#contacts_sortby").val(contacts.sortOrder);
             contacts.query = $.bbq.getState("cq") || "";
             $("#contacts_search_input").val(contacts.query);
-            getContacts();
+            handleHashChange();
             bindEvents();
         };
 

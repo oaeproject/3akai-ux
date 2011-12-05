@@ -133,10 +133,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.TemplateRenderer("mymemberships_nogroups_template", {isMe: mymemberships.isOwnerViewing}, $mymemberships_nogroups);
                 $mymemberships_nogroups.show();
                 $(".s3d-page-header-top-row", $rootel).hide();
+                $(".s3d-page-header-bottom-row", $rootel).hide();
                 return;
             } else {
                 if(sakai.data.me.user.anon){
                     $(".s3d-page-header-bottom-row", $rootel).hide();
+                } else {
+                    $(".s3d-page-header-top-row", $rootel).show();
+                    $(".s3d-page-header-bottom-row", $rootel).show();
                 }
                 if(mymemberships.sortOrder === "modified"){
                     groups.entry = groups.entry.sort(groupSortModified);
@@ -222,10 +226,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     });
                 }
-
-                if(mymemberships.listStyle === "grid"){
-                    $mymemberships_show_grid.click();
-                }
             }
         };
 
@@ -289,50 +289,58 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization function //
         /////////////////////////////
 
+        var handleHashChange = function(){
+            if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
+                mymemberships.isOwnerViewing = true;
+                render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
+            } else {
+                sakai.api.Server.loadJSON("/system/me", function(success, data){
+                    mymemberships.isOwnerViewing = false;
+                    render(sakai.api.Groups.getMemberships(data.groups));
+                }, { uid: sakai_global.profile.main.data.userid });
+            }
+            sakai.api.Util.TemplateRenderer("mymemberships_title_template", {
+                isMe: mymemberships.isOwnerViewing,
+                user: sakai_global.profile.main.data.basic.elements.firstName.value
+            }, $("#mymemberships_title_container", $rootel));
+
+            uncheckAll();
+
+            $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
+            mymemberships.listStyle = $.bbq.getState("ls") || "list";
+            if (mymemberships.listStyle === "list"){
+                $("#mymemberships_items", $rootel).removeClass("s3d-search-results-grid");
+                $mymemberships_show_list.addClass("selected");
+                $mymemberships_show_list.children().addClass("selected");
+            } else {
+                $("#mymemberships_items", $rootel).addClass("s3d-search-results-grid");
+                $mymemberships_show_grid.addClass("selected");
+                $mymemberships_show_grid.children().addClass("selected");
+            }
+        };
+
         var addBinding = function(){
-            $(window).bind("hashchanged.mymemberships.sakai", function(){
-                if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
-                    render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
-                } else {
-                    sakai.api.Server.loadJSON("/system/me", function(success, data){
-                        render(sakai.api.Groups.getMemberships(data.groups));
-                    }, { uid: sakai_global.profile.main.data.userid });
-                }
-            });
+            $(window).bind("hashchanged.mymemberships.sakai", handleHashChange);
 
             $("#mymemberships_search_button").click(function(){
                 var q = $.trim($("#mymemberships_livefilter").val());
                 if (q !== currentQuery) {
-                    uncheckAll();
                     $.bbq.pushState({"mq": q, "mp": 1});
                     currentQuery = q;
                 }
             });
 
             $mymemberships_show_list.click(function(){
-                uncheckAll();
-                $("#mymemberships_items", $rootel).removeClass("s3d-search-results-grid");
-                $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
-                $(this).addClass("selected");
-                $(this).children().addClass("selected");
-                $.bbq.pushState({"mls": "list"});
-                mymemberships.listStyle = "list";
+                $.bbq.pushState({"ls": "list"});
             });
 
             $mymemberships_show_grid.click(function(){
-                uncheckAll();
-                $("#mymemberships_items", $rootel).addClass("s3d-search-results-grid");
-                $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
-                $(this).addClass("selected");
-                $(this).children().addClass("selected");
-                $.bbq.pushState({"mls": "grid"});
-                mymemberships.listStyle = "grid";
+                $.bbq.pushState({"ls": "grid"});
             });
 
             $("#mymemberships_livefilter").keyup(function(ev){
                 var q = $.trim($("#mymemberships_livefilter").val());
                 if (q !== currentQuery && ev.keyCode === 13) {
-                    uncheckAll();
                     $.bbq.pushState({"mq": q, "mp": 1});
                     currentQuery = q;
                 }
@@ -419,23 +427,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function () {
             addBinding();
             currentQuery = $.bbq.getState("mq") || "";
-            $("#mymemberships_sortby").val($.bbq.getState("mso") || "modified");
-            mymemberships.sortOrder = $.bbq.getState("mso") || "modified";
-            mymemberships.listStyle = $.bbq.getState("mls") || "list";
             $("#mymemberships_livefilter").val(currentQuery);
-            if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
-                mymemberships.isOwnerViewing = true;
-                render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
-            } else {
-                sakai.api.Server.loadJSON("/system/me", function(success, data){
-                    mymemberships.isOwnerViewing = false;
-                    render(sakai.api.Groups.getMemberships(data.groups));
-                }, { uid: sakai_global.profile.main.data.userid });
-            }
-            sakai.api.Util.TemplateRenderer("mymemberships_title_template", {
-                isMe: mymemberships.isOwnerViewing,
-                user: sakai_global.profile.main.data.basic.elements.firstName.value
-            }, $("#mymemberships_title_container", $rootel));
+            mymemberships.sortOrder = $.bbq.getState("mso") || "modified";
+            $("#mymemberships_sortby").val(mymemberships.sortOrder);
+            mymemberships.listStyle = $.bbq.getState("ls") || "list";
+
+            handleHashChange();
         };
 
         // run the initialization function when the widget object loads
