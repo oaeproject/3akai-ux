@@ -435,10 +435,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("sakai.entity.updateOwnCounts", function(e) {
-            $(window).trigger("load.content_profile.sakai", function() {
-                prepareRenderContext(renderObj);
-                $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
-            }, false);
+            sakai.api.Content.loadFullProfile([renderObj.data.content_path], function(success,data){
+                sakai.api.Content.parseFullProfile(data.results, function(parsedData){
+                    parsedData[0].mode = "content";
+                    renderObj.data = parsedData[0];
+                    sakai_global.content_profile.content_data = parsedData[0];
+                    prepareRenderContext(renderObj);
+                    $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
+                });
+            });
         });
 
         $(window).trigger("sakai.entity.ready");
