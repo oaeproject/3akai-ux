@@ -30,9 +30,10 @@
 #contentmetadata_show_more span{float:right;display:inline;}/** Fix for IE and older FF browsers **/
 #contentmetadata_show_more span + span{padding-top:2px;}
 #contentmetadata_show_more.s3d-link-button {*width:250px;height:14px;padding:0;margin-top:2px;}
-.contentmetadata_first_column{display:block;float:left;width:100px;font-weight:normal;margin-bottom:3px;padding:2px 0;}
+.contentmetadata_first_column{display:block;float:left;width:140px;font-weight:normal;margin-bottom:3px;padding:2px 0;}
 .contentmetadata_content_row{clear:both;}
 .contentmetadata_second_column{display:block;overflow:hidden;padding:2px 0;}
+.content_profile_basic_info_form_anon_label{float:left;padding:2px 0px;}
 
 /* EDITABLE FIELDS */
 .contentmetadata_editable{padding:5px;}

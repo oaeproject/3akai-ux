@@ -50,7 +50,12 @@
                     {/for}
                 </span>
             {else}
-                {if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_TAGS__</span>{else}__MSG__NO_TAGS__{/if}
+                {if data.isManager}
+                   <label class="contentmetadata_manager_edit content_profile_basic_info_form_anon_label">__MSG__CLICK_TO_EDIT_TAGS__
+                {else}
+                    <label class="content_profile_basic_info_form_anon_label">__MSG__NO_TAGS__
+                {/if}
+                </label>
             {/if}
         {/if}
 --></div>

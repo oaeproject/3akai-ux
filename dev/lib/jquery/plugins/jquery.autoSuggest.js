@@ -320,8 +320,7 @@ require([ 'jquery' ], function(jQuery) {
                             return;
                         }
                         input.data( "prev" , string );
-                        if ( string.length >= opts.minChars && input.data( "selections_holder" ) ) {
-                            input.data( "selections_holder" ).addClass( "loading" );
+                        if ( string.length >= opts.minChars ) {
                             processRequest(string);
                         } else if ( input.data( "selections_holder" ) && input.data( "results_holder" ) ) {
                             input.data( "selections_holder" ).removeClass( "loading" );
@@ -330,10 +329,15 @@ require([ 'jquery' ], function(jQuery) {
                     };
 
                     var processRequest = function( string ) {
-                      if ( opts.beforeRetrieve ) {
-                          string = opts.beforeRetrieve.call( this, string );
-                      }
-                      d_fetcher( string, processData );
+                        if ( opts.beforeRetrieve ) {
+                            string = opts.beforeRetrieve.call( this, string );
+                        }
+                        if ( string ) {
+                            if ( input.data( "selections_holder" ) ) {
+                                input.data( "selections_holder" ).addClass( "loading" );
+                            }
+                            d_fetcher( string, processData );
+                        }
                     };
 
                     var processData = function( data, query ) {

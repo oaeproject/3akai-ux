@@ -91,6 +91,7 @@
 .newaddcontent_form .list_categories{margin:12px 0 7px;}
 .newaddcontent_form textarea{height:60px;resize:none;}
 .MultiFile-list{display:none;}
+#newaddcontent_upload_content_copyright_container{float:left;width:100%;}
 
 /* Add new Sakai Doc */
 #newaddcontent_add_document_description_container {width:145px;background-color:#cbd2d8;padding:10px;float:left;margin-right:15px;color:#424242;}
@@ -140,5 +141,4 @@
 #newaddcontent_container ul.as-selections li.as-original input{width:150px;padding-top:0px;margin-bottom:0px}
 #newaddcontent_container .autosuggest_wrapper label{width:auto;}
 #newaddcontent_container .autosuggest_wrapper .list_categories {margin-right:7px;}
-
 #newaddcontent_selecteditems_edit_data_form .autosuggest_wrapper ul.as-list, #newaddcontent_upload_content_fields .autosuggest_wrapper ul.as-list{margin-top:0;}

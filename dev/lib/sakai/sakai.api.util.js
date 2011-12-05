@@ -1980,7 +1980,10 @@ define(
                     canGenerateNewSelections: true,
                     scroll: true,
                     showResultListWhenNoMatch: false,
-                    startText: sakaii18nAPI.getValueForKey( "ENTER_TAGS_OR_CATEGORIES" )
+                    startText: sakaii18nAPI.getValueForKey( "ENTER_TAGS_OR_CATEGORIES" ),
+                    beforeRetrieve: function( userinput ) {
+                        return $.trim(userinput);
+                    }
                 };
 
                 // Set up the directory structure for autoSuggesting
