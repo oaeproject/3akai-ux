@@ -15,10 +15,11 @@
      * @param {String} loadingImage          Path to the loading image that should be shown when 
      * @param {Function} postprocessor       Function used to transform the search results before rendering
      *                                       the template [optional]
+     * @param {Function} postrenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
      * @param {Object} initialcontent        Initial content to be added to the list [optional]
      * @param {Function} initialCallback     Function to call with data from initial request [optional]
      */
-    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, initialcontent, initialCallback){
+    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, postrenderer, initialcontent, initialCallback){
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -136,6 +137,9 @@
                     $container.prepend(templateOutput);
                 } else {
                     $container.append(templateOutput);
+                }
+                if ($.isFunction(postrenderer)){
+                    postrenderer();
                 }
             }
             isDoingExtraSearch = false;

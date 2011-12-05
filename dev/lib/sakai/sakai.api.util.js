@@ -706,6 +706,48 @@ define(
         },
 
         /**
+         * Allows you to show a progress indicator on the screen. Example of where this is done are the Add Content
+         * and the Create World widgets
+         */
+        progressIndicator: {
+
+            /**
+             * Show the progress indicator on the screen
+             * @param {Object} title    Title of the indicator screen
+             * @param {Object} body     Additional text to be shown in the indicator
+             */
+            showProgressIndicator: function(title, body){
+                // Create the HTML for the progress indicator if it doesn't exist yet
+                if ($("#sakai_progressindicator").length === 0){
+                    var htmlCode = '<div id="sakai_progressindicator" class="s3d-dialog s3d-dialog-container" style="display:none;">';
+                    htmlCode += '<h1 id="sakai_progressindicator_title" class="s3d-dialog-header"></h1><p id="sakai_progressindicator_body"></p>';
+                    htmlCode += '<div class="s3d-inset-shadow-container"><img src="/dev/images/progress_bar.gif"/></div></div>'
+                    var notification = $(htmlCode);
+                    $('body').append(notification);
+                    $("#sakai_progressindicator").jqm({
+                        modal: true,
+                        overlay: 20,
+                        zIndex: 40003,
+                        toTop: true
+                    });
+                }
+                // Fill out the title and the body
+                $("#sakai_progressindicator_title").html(title);
+                $("#sakai_progressindicator_body").html(body);
+                // Show the indicator
+                $("#sakai_progressindicator").jqmShow();
+            },
+
+            /**
+             * Hide the existing progress indicator (if there is one)
+             */
+            hideProgressIndicator: function(){
+                $("#sakai_progressindicator").jqmHide();
+            }            
+
+        },
+
+        /**
          * Parse a ISO8601 date into a JavaScript date object.
          *
          * <p>
@@ -870,21 +912,6 @@ define(
 
             return return_string;
         },
-
-
-        /**
-         * Sets the chat bullets after update of status by
-         * adding the right status css class on an element.
-         * @param {Object} element the jquery element you wish to add the class to
-         * @param {Object} status the status
-         */
-        updateChatStatusElement : function(element, chatstatus) {
-            element.removeClass("chat_available_status_online");
-            element.removeClass("chat_available_status_busy");
-            element.removeClass("chat_available_status_offline");
-            element.addClass("chat_available_status_" + chatstatus);
-        },
-
 
         include : {
             /**
@@ -2105,7 +2132,7 @@ define(
                 } else {
                     draggableData.push(helper.children().data());
                 }
-                return [draggableData];
+                return draggableData;
             },
             /**
              * Sets and overrides default parameters for the jQuery Droppable plugin
@@ -2156,16 +2183,18 @@ define(
              * @param {Object} $container Optional container element to add draggables, defaults to $("html") if not set
              */
             setupDraggable: function(params, $container){
-                $.each($(".s3d-draggable-container", $container), function(index, draggable){
-                    if(!$(draggable).hasClass("ui-draggable")){
-                        // HTML overrides default, JS overrides HTML
-                        // Override default parameters with attribute defined parameters
-                        var htmlParams =  $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
-                        // Override attribute defined parameters with JS defined ones
-                        params = $.extend(true, htmlParams, params);
-                        $(".s3d-draggable-container", $container || $("html")).draggable(params);
-                    }
-                });
+                if (!require("sakai/sakai.api.user").data.me.user.anon) {
+                    $.each($(".s3d-draggable-container", $container), function(index, draggable){
+                        if (!$(draggable).hasClass("ui-draggable")) {
+                            // HTML overrides default, JS overrides HTML
+                            // Override default parameters with attribute defined parameters
+                            var htmlParams = $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
+                            // Override attribute defined parameters with JS defined ones
+                            params = $.extend(true, htmlParams, params);
+                            $(".s3d-draggable-container", $container || $("html")).draggable(params);
+                        }
+                    });
+                }
             }
         },
         Droppable: {
@@ -2180,12 +2209,12 @@ define(
                     drop: function(event, ui) {
                         $(".s3d-draggable-draggingitems").remove();
                         if($(this).data("dropevent")){
-                            $(window).trigger($(this).data("dropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                            $(window).trigger($(this).data("dropevent"), [sakai_util.Draggable.getDraggableData(ui.helper), $(this)]);
                         }
                     },
                     over: function(event, ui) {
                         if($(this).data("overdropevent")){
-                            $(window).trigger($(this).data("overdropevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                            $(window).trigger($(this).data("overdropevent"), [sakai_util.Draggable.getDraggableData(ui.helper), $(this)]);
                         }
                     }
                 }
@@ -2196,16 +2225,18 @@ define(
              * @param {Object} $container Optional container element to add droppables, defaults to $("html") if not set
              */
             setupDroppable: function(params, $container){
-                $.each($(".s3d-droppable-container", $container), function(index, droppable){
-                    if(!$(droppable).hasClass("ui-droppable")){
-                        // HTML overrides default, JS overrides HTML
-                        // Override default parameters with attribute defined parameters
-                        var htmlParams =  $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
-                        // Override attribute defined parameters with JS defined ones
-                        params = $.extend(true, htmlParams, params);
-                        $(".s3d-droppable-container", $container || $("html")).droppable(params);
-                    }
-                });
+                if (!require("sakai/sakai.api.user").data.me.user.anon) {
+                    $.each($(".s3d-droppable-container", $container), function(index, droppable){
+                        if (!$(droppable).hasClass("ui-droppable")) {
+                            // HTML overrides default, JS overrides HTML
+                            // Override default parameters with attribute defined parameters
+                            var htmlParams = $.extend(true, sakai_util.Droppable.setDroppableParameters(), $(droppable).data());
+                            // Override attribute defined parameters with JS defined ones
+                            params = $.extend(true, htmlParams, params);
+                            $(".s3d-droppable-container", $container || $("html")).droppable(params);
+                        }
+                    });
+                }
             }
         }
     };

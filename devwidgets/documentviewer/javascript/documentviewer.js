@@ -40,8 +40,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
      */
     sakai_global.documentviewer = function(tuid,showSettings,widgetData){
 
-        var documentviewerPreview = "#" + tuid + " #documentviewer_preview";
-        var $documentviewerPreview = $(documentviewerPreview);
+        var $rootel = $("#" + tuid);
+        var $documentviewerPreview = $(".documentviewer_preview", $rootel);
         var templateObject = {};
 
         var getPath = function(data) {
@@ -78,8 +78,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             if (date){
                 templateObject.contentURL += "?_=" + date.getTime();
             }
-            sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#" + tuid + " #documentviewer_image_calculatesize"));
-            var $imageRendered = $("#"+tuid+" #documentviewer_image_rendered");
+            sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#documentviewer_image_calculatesize", $rootel));
+            var $imageRendered = $("#documentviewer_image_rendered", $rootel);
             $imageRendered.bind('load', function(ev){
                 var width = $imageRendered.width();
                 var height = $imageRendered.height();
@@ -91,6 +91,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 } else if (height > 560 && width / height * 560 <= 920){
                     $imageRendered.addClass("documentviewer_preview_height");
                 }
+                //$imageRendered.css("height", $imageRendered.height());
+                //$imageRendered.css("width", $imageRendered.width());
                 $documentviewerPreview.append($imageRendered);
             });
         };
@@ -101,8 +103,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
 
         var renderHTMLPreview = function(data){
             sakai.api.Util.TemplateRenderer("documentviewer_html_template", templateObject, $documentviewerPreview);
-            $("#documentviewer_html_iframe").attr("src", getPath(data));
-            $("#documentviewer_html_iframe").attr("frameborder", "0");
+            $("#documentviewer_html_iframe", $rootel).attr("src", getPath(data));
+            $("#documentviewer_html_iframe", $rootel).attr("frameborder", "0");
         };
 
         var renderPlainTextPreview = function(data){
@@ -116,8 +118,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
 
         var renderExternalHTMLPreview = function(url){
             sakai.api.Util.TemplateRenderer("documentviewer_externalhtml_template", templateObject, $documentviewerPreview);
-            $("#documentviewer_externalhtml_iframe").attr("src", url);
-            $("#documentviewer_externalhtml_iframe").attr("frameborder", "0");
+            $("#documentviewer_externalhtml_iframe", $rootel).attr("src", url);
+            $("#documentviewer_externalhtml_iframe", $rootel).attr("frameborder", "0");
         };
 
          var renderKalturaPlayer = function(data){

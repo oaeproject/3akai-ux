@@ -242,7 +242,8 @@ define(function(){
                 defaults: {
                     "content": "creativecommons",
                     "sakaidocs": "creativecommons",
-                    "links": "creativecommons"
+                    "links": "creativecommons",
+                    "collections": "creativecommons"
                 }
             }
         },
@@ -818,6 +819,11 @@ define(function(){
                 cssClass: "icon-sakaidoc-sprite",
                 URL: "/dev/images/mimetypes/sakaidoc.png",
                 description: "DOCUMENT"
+            },
+            "x-sakai/collection": {
+                cssClass: "icon-collection-sprite",
+                URL: "/dev/images/mimetypes/collection.png",
+                description: "COLLECTION"
             },
             "kaltura/video": {
                 cssClass: "icon-video-sprite",

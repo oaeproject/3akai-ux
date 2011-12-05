@@ -116,11 +116,6 @@
 #newaddcontent_existingitems_paging {margin-top: 3px; width: 430px;}
 #newaddcontent_existingitems_paging li {margin: 0px 2px !important;}
 
-#newaddcontent_uploading {margin-top:25px;}
-#newaddcontent_uploading h1, #newaddcontent_uploading p {text-align:center;}
-#newaddcontent_uploading .s3d-inset-shadow-container {height:50px;padding-top:30px;}
-#newaddcontent_uploading .s3d-inset-shadow-container img {display:block;height:20px;margin-left:auto;margin-right:auto;width:188px;}
-
 /* Errors */
 #newaddcontent_selecteditems_edit_data_fields span.s3d-error-after{width:231px;}
 #newaddcontent_selecteditems_edit_data_fields .s3d-form-field-wrapper{position:static!important}
