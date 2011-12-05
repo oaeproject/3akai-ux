@@ -866,7 +866,9 @@ define(
         getRoles : function(groupData, translate) {
             var roles = [];
             $.each(groupData.roles, function(i,role) {
-                role = $.parseJSON(role);
+                if ( _.isString( role ) ) {
+                    role = $.parseJSON( role );
+                }
                 if (translate) {
                     role.title = sakai_i18n.getValueForKey(role.title);
                     role.titlePlural = sakai_i18n.getValueForKey(role.titlePlural);
