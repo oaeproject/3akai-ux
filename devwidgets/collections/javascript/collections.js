@@ -383,11 +383,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).bind("create.collections.sakai", initializeNewCollectionsSetup);
         };
 
-        var doInit = function(){
-            addBinding();
-        };
-
-        doInit();
+        addBinding();
 
     };
 
