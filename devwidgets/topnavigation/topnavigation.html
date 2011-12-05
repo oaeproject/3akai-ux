@@ -34,9 +34,9 @@
         {elseif type === "collections"}
             <div id="topnavigation_user_collections_container" class="topnavigation_counts_container">
                 <div class="topnavigation_usersection_splitter">|</div>
-                <div class="topnavigation_menuitem_counts_container">
+                <div class="topnavigation_menuitem_counts_container collector_toggle">
                     <div id="topnavigation_user_collections_icon" class="topnavigation_menuitem_icon"></div>
-                    <div id="topnavigation_user_collections" class="topnavigation_menuitem_counts s3d-bold">23</div>
+                    <div id="topnavigation_user_collections_total" class="topnavigation_menuitem_counts s3d-bold">${"" + sakai.api.Content.Collections.getMyCollectionsCount()}</div>
                 </div>
             </div>
         {/if}

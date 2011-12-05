@@ -22,7 +22,7 @@
     {/macro}
 
     {macro contentButtons(id, uploader,title,type)}
-        <span class="carousel_bottom_buttons">
+        <span class="carousel_bottom_buttons s3d-draggable-hidden">
             <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__ ${title}</legend>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE__ ${title}"></button>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE__ ${title}"></button>
@@ -37,8 +37,8 @@
                 <li>
                         {if item.contentType == "suggestedContent"}
                             <div class="carousel_three_column_container">
-                                <div class="carousel_three_column_left">
-                                    {var content0 = item.suggestions[0]}
+                                {var content0 = item.suggestions[0]}
+                                <div class="carousel_three_column_left s3d-draggable-container" {if content0} data-scope="content" data-entityid="${content0.id}" {if sakai.api.Content.Collections.isCollection(content0)} data-collection="true" {/if} {/if}>
                                     {if content0}
                                         {if content0.preview}
                                             <a href="${content0.url}">
@@ -55,8 +55,8 @@
                                         ${contentButtons(content0.id, content0.createdBy,content0.title,content0.mimeType)}
                                     {/if}
                                 </div>
-                                <div class="carousel_three_column_middle">
-                                    {var content1 = item.suggestions[1]}
+                                {var content1 = item.suggestions[1]}
+                                <div class="carousel_three_column_middle s3d-draggable-container" {if content1} data-scope="content" data-entityid="${content1.id}" {if sakai.api.Content.Collections.isCollection(content1)} data-collection="true" {/if} {/if}>
                                     {if content1}
                                         {if content1.preview}
                                             <a href="${content1.url}">
@@ -74,8 +74,8 @@
                                     {/if}
                                 </div>
                                 <div class="carousel_three_column_right">
-                                    <div class="carousel_two_high_top">
-                                        {var content2 = item.suggestions[2]}
+                                    {var content2 = item.suggestions[2]}
+                                    <div class="carousel_two_high_top s3d-draggable-container" {if content2} data-scope="content" data-entityid="${content2.id}" {if sakai.api.Content.Collections.isCollection(content2)} data-collection="true" {/if} {/if}>
                                         {if content2}
                                             <h2>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}">
@@ -85,15 +85,15 @@
                                             ${contentButtons(content2.id, content2.createdBy,content2.title,content2.mimeType)}
                                         {/if}
                                     </div>
-                                    <div class="carousel_two_high_bottom">
-                                        {var content3 = item.suggestions[3]}
+                                    {var content3 = item.suggestions[3]}
+                                    <div class="carousel_two_high_bottom s3d-draggable-container" {if content3} data-scope="content" data-entityid="${content3.id}" {if sakai.api.Content.Collections.isCollection(content3)} data-collection="true" {/if} {/if}>
                                         {if content3}
                                             <h2>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}">
                                                     ${content3.title|safeOutput}
                                                 </a>
                                             </h2>
-                                            ${contentButtons(content3.id, content3.createdBy,content3.title,content0.mimeType)}
+                                            ${contentButtons(content3.id, content3.createdBy,content3.title,content3.mimeType)}
                                         {/if}
                                     </div>
                                 </div>

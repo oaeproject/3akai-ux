@@ -157,7 +157,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
                 "anon" : sakai.data.me.user.anon,
                 "auth": auth,
-                "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile)
+                "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile),
+                "sakai": sakai
             }));
             if (externalAuth){
                 setExternalLoginRedirectURL();
@@ -451,6 +452,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             obj.links = menulinks;
             obj.selectedpage = true;
+            obj.sakai = sakai;
             // Get navigation and render menu template
             $(topnavExplore).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
         };
