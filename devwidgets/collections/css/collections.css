@@ -59,7 +59,7 @@
 .collections_widget #collections_middlecolumn label {margin-left:12px;color:#fff;font-size:12px;letter-spacing:0.03em;}
 .collections_widget #collections_middlecolumn label span {letter-spacing:0;font-size:11px;}
 
-.collections_widget #collections_middlecolumn .collections_large_preview {width:337px;color:#ccc;display:inline-block;float:left;background: url("/devwidgets/collections/images/collections_bg_selected.png") repeat-x scroll left top transparent;box-shadow:0 0 15px 3px #2E2E2E inset;}
+.collections_widget #collections_middlecolumn .collections_large_preview {width:337px;color:#ccc;display:inline-block;float:left;background: url("/devwidgets/collections/images/collections_bg_selected.png") repeat-x scroll left top transparent;box-shadow:0 0 15px 3px #2E2E2E inset;-moz-box-shadow:0 0 15px 3px #2E2E2E inset;-webkit-box-shadow:0 0 15px 3px #2E2E2E inset;}
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_general_information {float:left;width:146px;padding:20px 10px 0;height:177px;}
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_general_information h2 {margin:0;font-size:15px;height: 25px;}
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_general_information p {margin-top: 15px;}

@@ -1458,25 +1458,14 @@ define(
                 $.each(collectionIds, function(index, collectionId){
                     var groupID = sakai_content.Collections.getCollectionGroupId(collectionId);
                     $.each(authorizables, function(index, authorizable) {
-                        if (canManage){
-                            permissionBatch.push({
-                                "url": "/system/userManager/group/" + groupID + "-managers.update.json",
-                                "method": "POST",
-                                "parameters": {
-                                    ":member": authorizable,
-                                    ":viewer": authorizable
-                                }
-                            });
-                        } else {
-                            permissionBatch.push({
-                                "url": "/system/userManager/group/" + groupID + "-members.update.json",
-                                "method": "POST",
-                                "parameters": {
-                                    ":member": authorizable,
-                                    ":viewer": authorizable
-                                }
-                            });
-                        }  
+                        permissionBatch.push({
+                            "url": "/system/userManager/group/" + groupID + "-" + (canManage ? "managers" : "members") + ".update.json",
+                            "method": "POST",
+                            "parameters": {
+                                ":member": authorizable,
+                                ":viewer": authorizable
+                            }
+                        }); 
                     });
                 });
                 sakai_serv.batch(permissionBatch, function(success, response){
@@ -1524,7 +1513,15 @@ define(
                             collection.counts = collection.counts || {};
                             collection.counts.contentCount = sakai_content.Collections.getCollectionContentCount(collection);
                         });
-                        callback(data);
+                        if ($.isFunction(callback)) {
+                            callback(data);
+                        }
+                    },
+                    "error": function(status){
+                        debug.error("Loading the current user's collections did not succeed");
+                        if ($.isFunction(callback)) {
+                            callback(false);
+                        }
                     }
                 });
             },

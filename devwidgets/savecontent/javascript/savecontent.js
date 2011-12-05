@@ -162,9 +162,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * saveContent
          * Saves the content to the selected group
-         * @param {String} id ID of the group we want to add as a viewer
+         * @param {String} id     ID of the group we want to add as a viewer
          */
-        var saveContent = function(id, title){
+        var saveContent = function(id){
             if(!$("#savecontent_select option:selected", $rootel).data("redirect") === true){
                 $savecontent_save.attr("disabled", "disabled");
                 $.each(contentObj.data, function(i, content){
@@ -221,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 hideSavecontent();
                 $(window).trigger("create.collections.sakai", [contentToAdd]);
             } else if (!dropdownSelection.attr("disabled") && dropdownSelection.val()) {
-                saveContent(dropdownSelection.val(), dropdownSelection.data("entityid"));
+                saveContent(dropdownSelection.val());
             }
         });
 

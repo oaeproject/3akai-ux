@@ -29,7 +29,7 @@
                                 <a title="__MSG__VIEW_PROFILE__" href="/~${profile.userid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
                             {elseif profile.collectionid}
                                 {var displayName = profile["sakai:group-title"]}
-                                <img alt="${displayName}" class="s3d-icon-32 fl-force-left" src="/dev/images/mimetypes/collection.png">
+                                <img alt="${displayName|safeOutput}" class="s3d-icon-32 fl-force-left" src="/dev/images/mimetypes/collection.png">
                                 <a title="__MSG__VIEW_PROFILE__" href="/content#p=${profile.collectionid|safeURL}/${displayName|safeURL}" class="s3d-bold" target="_blank">${displayName|safeOutput}</a>
                             {else}
                                 {var displayName = profile["sakai:group-title"]}

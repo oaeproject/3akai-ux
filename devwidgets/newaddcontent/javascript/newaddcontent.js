@@ -99,7 +99,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var newaddcontentSelectedItemsEditPermissionsCopyright = "#newaddcontent_selecteditems_edit_permissions_copyright";
         var newaddcontentUploadContentFields = "#newaddcontent_upload_content_fields";
         var newaddcontentSaveTo = "#newaddcontent_saveto";
-        //var $newaddcontentUploading = $("#newaddcontent_uploading");
         var newaddcontentAddExistingSearchButton = "#newaddcontent_add_existing_template .s3d-search-button";
         var newaddcontentSelectedItemsEditDataForm = "#newaddcontent_selecteditems_edit_data_form";
 
@@ -1202,11 +1201,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $("#newaddcontent_container_selecteditems").fileupload({
                 url: uploadPath,
                 drop: function (ev, data) {
-                    debug.log("In new add content overlay");
                     ev.stopPropagation();
                     ev.preventDefault();
                     if ($(ev.target).get(0) === $("#newaddcontent_container_selecteditems").get(0) || $(ev.target).parents("#newaddcontent_container_selecteditems").length){
-                        debug.log("Is the correct parent");
                         var error = false;
                         $.each(data.files, function (index, file) {
                             if (file.size > 0){
