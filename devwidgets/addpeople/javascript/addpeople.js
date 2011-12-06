@@ -38,7 +38,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.addpeople = function(tuid, showSettings, widgetData){
 
-
         /////////////////////////////
         // CONFIGURATION VARIABLES //
         /////////////////////////////
@@ -359,7 +358,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
             selectedUsers[userObj.userid] = userObj;
             renderSelectedContacts();
-            $(".as-close").click();
+            $(".as-close", $addpeopleContainer).click();
         };
 
 
@@ -525,7 +524,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     loadRoles();
                     addBinding();
-                    sakai.api.Util.AutoSuggest.setup($addpeopleMembersAutoSuggestField, {"asHtmlID": tuid,"resultClick":createAutoSuggestedUser},function(){$addpeopleMembersAutoSuggest.show();});
+                    var autoSuggestOpts = {
+                        "asHtmlID": tuid,
+                        "resultClick":createAutoSuggestedUser
+                    };
+                    sakai.api.Util.AutoSuggest.setup($addpeopleMembersAutoSuggestField, autoSuggestOpts, function() {
+                        $addpeopleMembersAutoSuggest.show();
+                    });
                     initializeJQM();
                     hasbeenInit = true;
                 } else {
@@ -543,16 +548,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-
-        if (!hasbeenInit && !sakai_global.group) {
+        if(!hasbeenInit && !sakai_global.group){
             loadRoles();
             var defaultMembers = $.bbq.getState("members") || [];
-            if (defaultMembers.length) {
+            if(defaultMembers.length){
                 defaultMembers = defaultMembers.split(",");
                 fetchGroupsAndUsersData(defaultMembers);
             }
         }
-
     };
     sakai.api.Widgets.widgetLoader.informOnLoad("addpeople");
 

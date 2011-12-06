@@ -2,7 +2,7 @@
     "id": "research-project",
     "title": "RESEARCH_PROJECT",
     "img": "/var/templates/worlds/research/research-project/researchgroup-full.png",
-    "fullImg": "/var/templates/worlds/resarch/research-project/research_tempate.png",
+    "fullImg": "/var/templates/worlds/research/research-project/research_tempate.png",
     "perfectFor": "RESEARCH_PROJECT_PERFECT_FOR",
     "order": 0,
     "roles": [
@@ -54,6 +54,7 @@
     "defaultjoin": "yes",
     "docs": {
         "${pid}0": {
+            "excludeSearch": false,
             "structure0": {
                 "introduction": {
                     "_ref": "${refid}0",
@@ -71,6 +72,7 @@
             }
         },
         "${pid}1": {
+            "excludeSearch": true,
             "structure0": {
                 "library": {
                     "_ref": "${refid}1",
@@ -95,6 +97,7 @@
             }
         },
         "${pid}2": {
+            "excludeSearch": true,
             "structure0": {
                 "participants": {
                     "_ref": "${refid}3",
@@ -119,6 +122,7 @@
             }
         },
         "${pid}3": {
+            "excludeSearch": false,
             "structure0": {
                 "references": {
                     "_ref": "${refid}5",

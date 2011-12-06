@@ -50,8 +50,8 @@ h2 {color:#666;font-size:15px;}
 .signup_comment_icon_cohere {background:url("/dev/images/cohere_icon_50x110.png") no-repeat top left transparent;height:110px;}
 .signup_comment_icon_editable {background:url("/dev/images/editable_icon_50x50.png") no-repeat top left transparent;height:50px;}
 
-#signup_institution_logos {background:url("/dev/images/signup_institution_logos.jpg") no-repeat top left transparent;height:40px;width:920px;margin-top:25px;}
-
+#signup_institution_logos {height:40px;width:925px;margin:25px 0 0 0;padding:0}
+#signup_institution_logos li{list-style:none;float:left;padding:0;margin:0}
 /* Override CSS */
 .s3d-page-header {height:0;margin-top:15px;min-height:0;}
 .recaptchatable {background:#FFF;float:left;}

@@ -100,13 +100,17 @@ ul.as-selections li.as-original {
     list-style: none outside none;  /** sakai addition **/
 }
 
-ul.as-selections li.as-original input {
+ul.as-selections li.as-original input, ul.as-selections li.as-original textarea {
 	border: none;
 	outline: none;
 	font-size: 13px;
 	width: 120px;
 	height: 18px;
 	padding-top: 3px;
+}
+
+ul.as-selections li.as-original textarea {
+    width:200px;
 }
 
 ul.as-list {

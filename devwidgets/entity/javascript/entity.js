@@ -380,11 +380,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#entity_contentsettings_dropdown").jqmHide();
             });
 
-            $("#ew_group_categories_link").click(function(){
-                $("#assignlocation_container").jqmShow();
-                $('#entity_groupsettings_dropdown').jqmHide();
-            });
-
             $('.ew_permissions').click(function(e){
                 e.preventDefault();
                 if($(this).parents(".s3d-dropdown-list").length || $(e.target).hasClass("s3d-dropdown-list-arrow-up")){
@@ -427,7 +422,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
-            $(".addpeople_init").click(function(){
+            $(".addpeople_init").live("click", function(){
                 $(window).trigger("init.addpeople.sakai", [tuid, true]);
                 $("#entity_groupsettings_dropdown").jqmHide();
             });

@@ -43,7 +43,7 @@
 #contentpermissions_container .contentpermissions_grouppermissions_notificationlabel {font-size:10px;font-weight:normal;}
 #contentpermissions_container .contentpermissions_edit_role_container {width:169px;}
 #contentpermissions_container .contentpermissions_edit_role_container.multiple {float:left;}
-.contentpermissions_permissions_container .as-selections {margin-bottom:10px;width:277px;padding:0 5px;box-shadow:none;}
+.contentpermissions_permissions_container .as-selections {margin-bottom:10px;width:250px;padding:0 5px;box-shadow:none;}
 .contentpermissions_permissions_container #contentpermissions_members_autosuggest_text {border:1px solid #999;height:90px;resize:none;width:270px;padding:5px;}
 .contentpermissions_permissions_container #contentpermissions_members_autosuggest_sharebutton {float:right;margin-top:80px;}
 .contentpermissions_permissions_container #contentpermissions_members_autosuggest_permissions {border:1px solid #999;float:right;margin-top:3px;}

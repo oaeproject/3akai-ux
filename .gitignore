@@ -1,6 +1,6 @@
 .tmp_*
 .project
-/target
+target/
 *.kpf
 nginx.*
 /dev-i
@@ -8,4 +8,3 @@ nginx.*
 *.swp
 /tests/speed/yslow/yslow_results.txt
 Thumbs.db
-tools/hashfiles
