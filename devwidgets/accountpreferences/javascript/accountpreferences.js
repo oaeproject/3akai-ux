@@ -97,6 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var messagePassChangedBody = accountPreferencesID + "_message_passChangedBody";
         var errorInvalidPass = accountPreferencesID + "_error_invalidPass";
         var errorFailChangeLang = accountPreferencesID + "_error_failChangeLang";
+        var messageChangeLangTitle = accountPreferencesID + "_message_ChangeLang_title";
         var messageChangeLang = accountPreferencesID + "_message_ChangeLang";
         var errorPassSame = accountPreferencesID + "_error_passSame";
 
@@ -228,12 +229,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var loadPrivacySettings = function(){
-            $.ajax({
-                "url": "/~" + sakai.data.me.user.userid + ".acl.json",
-                "success": function(data){
-                    var setting = data["anonymous"].granted && data["anonymous"].granted.length ? "public" : "everyone";
-                    $("#accountpreferences_privacy_" + setting).click();
-                }
+            sakai.api.User.loadPrivacySettings(function(setting){
+                 $("#accountpreferences_privacy_" + setting).click();
             });
         };
 
@@ -247,20 +244,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $("#accountpreferences_privacy_change").live("submit", function(){
             var option = $(".accountpreferences_selectable input:radio[name='accountpreferences_privacy_radio']:checked").val();
-            var data = {"principalId": "anonymous"};
-            if (option === "public"){
-                data["privilege@jcr:read"] = "granted";
-            } else {
-                data["privilege@jcr:read"] = "denied";
-            }
-            $.ajax({
-                "url": "/~" + sakai.data.me.user.userid + ".modifyAce.json",
-                "type": "POST",
-                "data": data,
-                "success": function(){
-                    $(accountPreferencesContainer).jqmHide();
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS", "accountpreferences"), sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS_UPDATED", "accountpreferences"));
-                }
+            sakai.api.User.savePrivacySettings(option, function(success){
+                $(accountPreferencesContainer).jqmHide();
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS", "accountpreferences"), sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS_UPDATED", "accountpreferences"));
             });
             return false;
         });
@@ -291,14 +277,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *
          */
         var selectAutoTagging = function(autoTag){
+            autoTag = autoTag || false;
             $("#accountpreferences_section_autotagging_buttons button").removeClass(taggingSelected);
-            if (autoTag) {
-                $("input:radio[name='autotagging'][value='true']").attr("checked", "checked");
-                $("#accountpreferences_section_autotagging_buttons #button_autotagging_true").addClass(taggingSelected);
-            } else {
-                $("input:radio[name='autotagging'][value='false']").attr("checked", "checked");
-                $("#accountpreferences_section_autotagging_buttons #button_autotagging_false").addClass(taggingSelected);
-            }
+            $("input:radio[name='autotagging'][value=" + autoTag + "]").attr("checked", "checked");
+            $("#accountpreferences_section_autotagging_buttons #button_autotagging_" + autoTag).addClass(taggingSelected);
+            $("#tag_msg_info").attr("disabled", !autoTag);
         };
 
         /**
@@ -343,9 +326,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var saveRegionalToMe = function(){
             var language = $(languagesContainer).val();
-            var isAutoTagging = $('input:radio[name=autotagging]:checked').val();
+            var isAutoTagging = $("input:radio[name='autotagging']:checked").val();
             var sendTagMsg = $("#tag_msg_info").is(':checked');
-            var locale = {"locale" : language, "timezone" : $(timezonesContainer).val(), "_charset_":"utf-8", ":sakai:update-profile": false, "isAutoTagging": isAutoTagging, "sendTagMsg": sendTagMsg};
+            var locale = {
+                "locale" : language, 
+                "timezone" : $(timezonesContainer).val(), 
+                "_charset_":"utf-8", 
+                ":sakai:update-profile": false, 
+                "isAutoTagging": isAutoTagging, 
+                "sendTagMsg": sendTagMsg
+            };
 
             // if regional Setting and langauge is changed only then save the changes
             if (me.user.locale.timezone.name !== $(timezonesContainer).val() || language !== me.user.locale.language+"_"+me.user.locale.country || me.user.properties.isAutoTagging !== isAutoTagging || me.user.properties.sendTagMsg !== sendTagMsg) {
@@ -357,7 +347,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         if (language !== me.user.locale.language + "_" + me.user.locale.country) {
                             // Reload the page if the language for a user has changed
-                            sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+                            sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(messageChangeLang).html());
                                 window.setTimeout(function(){
                                 document.location.reload();
                             },2000);
@@ -365,7 +355,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         else {
                             // Show successful regional setting change through gritter and reload the page
                             me.user.locale.timezone.name = $(timezonesContainer).val();
-                            sakai.api.Util.notification.show($(messageChangeLang).html(), $(messageChangeLang).html());
+                            sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(messageChangeLang).html());
                                 window.setTimeout(function(){
                                 document.location.reload();
                             },2000);
@@ -374,7 +364,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     },
                     error: function(xhr, textStatus, thrownError){
                         // show regional setting error message through gritter
-                        sakai.api.Util.notification.show($(errorFailChangeLang).html(), $(errorFailChangeLang).html());
+                        sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(errorFailChangeLang).html());
                     }
                 });
             }
@@ -475,9 +465,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#accountpreferences_section_autotagging_buttons button").click(function(e){
-            selectAutoTagging($(this).attr("data-sakai-autotagging"));
+            selectAutoTagging($(this).data("sakai-autotagging"));
             enableElements($(saveRegional));
-            e.preventDefault();
         })
 
         var hideAllPanes = function(){
@@ -522,16 +511,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 clearPassFields();
                 disableElements($(saveRegional));
                 selectTimezone(me.user.locale.timezone);
-                if (me.user.properties.isAutoTagging){
-                    selectAutoTagging(me.user.properties.isAutoTagging);
-                } else {
-                    selectAutoTagging(sakai.config.Profile.defaultAutoTagging);
-                }
-                if (me.user.properties.sendTagMsg){
-                    selectSendTagMsg(me.user.properties.sendTagMsg);
-                } else {
-                    selectSendTagMsg(sakai.config.Profile.defaultSendTagMsg);
-                }
+                selectAutoTagging(me.user.properties.isAutoTagging);
+                selectSendTagMsg(me.user.properties.sendTagMsg);
+
                 getLanguages();
                 initValidation();
 
