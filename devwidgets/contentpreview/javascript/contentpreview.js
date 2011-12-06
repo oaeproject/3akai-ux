@@ -72,6 +72,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 obj.sakai = sakai;
                 obj.contentData = contentData;
+                if(sakai_global.content_profile.content_data.data.mimeType !== "x-sakai/collection"){
+                    $(".collectionviewer_widget .collectionviewer_collection_item_preview").remove();
+                }
                 sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container", $rootel));
                 if (callback) {
                     callback();

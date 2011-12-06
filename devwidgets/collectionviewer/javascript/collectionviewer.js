@@ -267,9 +267,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var handleHashChange = function(){
-            $(".documentviewer_preview").remove();
-            $("#collectionviewer_finish_editing_collection_button").hide();
-            $("#collectionviewer_edit_collection_button").show();
             collectionviewer.listStyle = $.bbq.getState("ls") || "carousel";
             $(".s3d-listview-options", $rootel).children(".selected").children().removeClass("selected");
             $(".s3d-listview-options", $rootel).children(".selected").removeClass("selected");
@@ -462,6 +459,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)){
                 $("#collectionviewer_header_container #collectionviewer_add_content_button").show();
                 $("#collectionviewer_header_container #collectionviewer_edit_collection_button").show();
+                $("#collectionviewer_finish_editing_collection_button").hide();
             }
 
             $("#content_profile_sakaidoc_container").addClass("collections");

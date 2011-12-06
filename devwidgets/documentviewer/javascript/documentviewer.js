@@ -41,8 +41,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
     sakai_global.documentviewer = function(tuid,showSettings,widgetData){
 
         var $rootel = $("#" + tuid);
-        var documentviewerPreview = "#" + tuid + " #documentviewer_preview";
-        var $documentviewerPreview = $(documentviewerPreview);
+        var $documentviewerPreview = $(".documentviewer_preview", $rootel);
         var templateObject = {};
 
         var getPath = function(data) {
