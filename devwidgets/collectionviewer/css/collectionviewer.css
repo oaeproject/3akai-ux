@@ -17,6 +17,7 @@
  */
 /* General */
 .collectionviewer_widget {clear:both;font-size:11px;margin-bottom:15px;}
+.collectionviewer_widget #contentcomments_mainContainer {font-size: 12px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container {background-color:#ededed;width:100%;padding:10px 0;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul {margin:0 10px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result {border-bottom:none;}
