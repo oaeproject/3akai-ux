@@ -51,12 +51,6 @@
             <li id="ew_group_settings">
                 <button class="s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
             </li>
-            {if sakai.config.enableCategories}
-                <hr class="s3d-split-line"/>
-                <li id="ew_group_categories">
-                    <button class="s3d-link-button" id="ew_group_categories_link">__MSG__CATEGORIES__</button>
-                </li>
-            {/if}
         <ul>
     </div>
 --></div>
@@ -167,21 +161,21 @@
         {/if}
         <img src="${data.data['iconURL']}" alt="${data.data["sakai:pooled-content-file-name"]|safeOutput}"/>
     </div>
-    <span id="entity_name" class="s3d-bold {if data.isManager} contentmetadata_editable{/if}">${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
+    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{else} contentmetadata_noneditable{/if}">${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
     <span id="entity_name_edit" style="display:none">
         <input id="entity_name_text" type="text" />
     </span>
     <span id="entity_type">${data.data['iconDescription']}</span>
-    <div id="entity_owns" class="s3d-regular-links">
+    <div id="entity_owns" class="s3d-regular-links {if !data.isManager} entity_owns_viewer{/if}">
         <div id="entity_actions">
             {if !anon}
                 {if type && type == "content_managed"}
-                    <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
+                    <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
                 {/if}
-                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger" data-entityid="${data.data["_path"]}">__MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span></button>
+                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span></button>
             {/if}
             {if !data.isManager}
-                <button type="button" id="entity_content_share" class="s3d-button s3d-header-button s3d-header-smaller-button share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__<div class="s3d-action-icon entity_share_icon"></div></button>
+                <button type="button" id="entity_content_share" class="s3d-button s3d-header-button s3d-header-smaller-button share_trigger_click s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__SHARE__<div class="s3d-action-icon entity_share_icon"></div></button>
             {/if}
             {if data.data.mimeType === "x-sakai/link"}
                 <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-smaller-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">

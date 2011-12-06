@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addareaCreateDocButton = "#addarea_create_doc_button";
         var addAreaExistingEverywhereSearchInput = "#addarea_existing_everywhere_search";
         var addAreaExistingMyLibrarySearchInput = "#addarea_existing_mylibrary_search";
-        var addAreaExistingCurrentlyViewingInput = "#addarea_existing_currentlyviewing_search"
+        var addAreaExistingCurrentlyViewingInput = "#addarea_existing_currentlyviewing_search";
         var addareaExistingItem = ".addarea_existing_item";
         var addAreaGroupName = ".addarea_group_name";
 
@@ -59,6 +59,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var selected = "selected";
         var addAreaSubnavButtonClass = "subnav_button";
 
+        var $autoSuggestElt = false,
+            $autoSuggestListCatElt = false,
+            autoSuggestElts = {};
 
         ///////////
         // UTILS //
@@ -101,6 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Reset the UI for existing content
          */
         var resetExisting = function(){
+            sakai.api.Util.AutoSuggest.reset( $autoSuggestElt );
             $(".addarea_existing_name").val("");
             $(".addarea_existing_permissions").val("");
             $(".addarea_existing_bottom").html("");
@@ -138,7 +142,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#addarea_content_menu .addarea_content_menu_item").removeClass("selected");
             $("#addarea_content_menu .addarea_content_menu_item:first").addClass("selected");
             $("#addarea_content_container > div").hide();
-            $("#addarea_new_container").show();
+            // Do a click so it runs through switchNavigation so it can set up the AutoSuggest
+            $( "button[data-containertoshow='addarea_new_container']" ).click();
         };
 
         /*
@@ -191,9 +196,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(addAreaSubnavButton).parent().removeClass("selected");
                 $($(addAreaSubnavButton)[0]).parent().addClass("selected");
             }
-            if (!$("#" + $(this).data("containertoshow")).is(":visible")){
+            var containerToShow = $(this).data("containertoshow");
+            if (!$("#" + containerToShow).is(":visible")){
                 $(addAreaContentContainer + " > div").hide();
-                $("#" + $(this).data("containertoshow")).show();
+                $("#" + containerToShow).show();
                 centerOverlay();
             }
             var $addAreaVisibleContainer = $(addAreaContentContainer + " > div:visible");
@@ -205,6 +211,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 getCurrentlyViewingDocs();
             }
             checkTitleProvided();
+
+            // Setup AutoSuggest
+            if ( !autoSuggestElts[ containerToShow ] ) {
+                autoSuggestElts[ containerToShow ] = $( "#" + containerToShow ).find( ".addarea_autosuggest_tags_cats" );
+            }
+            $autoSuggestElt = autoSuggestElts[ containerToShow ];
+            $autoSuggestListCatElt = $( "#" + containerToShow ).find( ".list_categories" );
+            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, null, $autoSuggestListCatElt );
         };
 
         /*
@@ -372,10 +386,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             method: "POST"
                         });
                     });
-                    sakai.api.Server.batch(batchRequests, function(success2, data2) {
-                        if (success2) {
-                            callback(poolId, itemURLName);
-                        }
+                    var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $autoSuggestElt, true );
+                    sakai.api.Util.tagEntity( "/p/" + poolId, tags, [], function() {
+                        sakai.api.Server.batch(batchRequests, function(success2, data2) {
+                            if (success2) {
+                                callback(poolId, itemURLName);
+                            }
+                        });
                     });
                 }
             });
@@ -680,24 +697,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getCurrentlyViewingDocs = function(query){
             var currentDocs = [];
             query = query || "";
-            $.each(sakai_global.group.pubdata.structure0, function(i, index){
-                if($.isPlainObject(sakai_global.group.pubdata.structure0[i])){
+            $.each(sakai_global.group.pubdata.structure0, function(i, index) {
+                if ($.isPlainObject(sakai_global.group.pubdata.structure0[i])) {
                     var docObj = {
                         "sakai:pooled-content-file-name": sakai_global.group.pubdata.structure0[i]["_title"],
                         "_path": sakai_global.group.pubdata.structure0[i]["_pid"],
                         "canManage": sakai_global.group.pubdata.structure0[i]["_canSubedit"],
                         "groupVisibility": sakai_global.group.groupData["sakai:group-visible"]
                     };
-                    if(query && docMatches(query, docObj["sakai:pooled-content-file-name"])){
+                    if (query && docMatches(query, docObj["sakai:pooled-content-file-name"])) {
                         currentDocs.push(docObj);
-                    } else if (query === ""){
+                    } else if (query === "") {
                         currentDocs.push(docObj);
                     }
                 }
             });
             var sortOrder = $(".addarea_existing_container:visible").find(".addarea_existing_sort").val();
             currentDocs.sort(dateSort);
-            if (sortOrder === "desc"){
+            if (sortOrder === "desc") {
                 currentDocs.reverse();
             }
             // Render the results
@@ -732,48 +749,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 mimetype: "x-sakai/document",
                 q: query,
                 items: 50
-            }
+            };
             var url = "/var/search/pool/all.0.json";
-            if (!query){
+            if (!query) {
                 url = "/var/search/pool/all-all.0.json";
             }
-            if(library){
-                json["userid"] = sakai.data.me.user.userid
-                url = "/var/search/pool/manager-viewer.json"
+            if (library) {
+                json["userid"] = sakai.data.me.user.userid;
+                url = "/var/search/pool/manager-viewer.json";
             }
-            sakai.api.Server.loadJSON(url,
-                function(success, data){
-                    var sortOrder = $(".addarea_existing_container:visible").find(".addarea_existing_sort").val();
-                    data.results.sort(dateSort);
-                    if (sortOrder === "desc"){
-                        data.results.reverse();
-                    }
-                    // Check which items I can manage
-                    for (var i = 0; i < data.results.length; i++) {
-                        var manager = false;
-                        var managers = data.results[i]["sakai:pooled-content-manager"];
-                        for (var m = 0; m < managers.length; m++) {
-                            if (managers[m] === sakai.data.me.user.userid ||
-                            sakai.api.Groups.isCurrentUserAMember(managers[m], sakai.data.me)) {
-                                manager = true;
-                            }
+            sakai.api.Server.loadJSON( url, function(success, data) {
+                var sortOrder = $(".addarea_existing_container:visible").find(".addarea_existing_sort").val();
+                data.results.sort(dateSort);
+                if (sortOrder === "desc"){
+                    data.results.reverse();
+                }
+                // Check which items I can manage
+                for (var i = 0; i < data.results.length; i++) {
+                    var manager = false;
+                    var managers = data.results[i]["sakai:pooled-content-manager"];
+                    for (var m = 0; m < managers.length; m++) {
+                        if (managers[m] === sakai.data.me.user.userid ||
+                        sakai.api.Groups.isCurrentUserAMember(managers[m], sakai.data.me)) {
+                            manager = true;
                         }
-                        data.results[i].canManage = manager;
                     }
-                    var container = "#addarea_existing_everywhere_bottom";
-                    var context = "everywhere";
-                    if(library){
-                        container = "#addarea_existing_mylibrary_bottom";
-                        context = "my_library"
-                    }
-                    // Render the results
-                    $(container).html(sakai.api.Util.TemplateRenderer("addarea_existing_bottom_template", {
-                            data: data.results,
-                            "context": context
-                        })
-                    );
-                }, json
-            );
+                    data.results[i].canManage = manager;
+                }
+                var container = "#addarea_existing_everywhere_bottom";
+                var context = "everywhere";
+                if (library) {
+                    container = "#addarea_existing_mylibrary_bottom";
+                    context = "my_library";
+                }
+                // Render the results
+                $(container).html(sakai.api.Util.TemplateRenderer("addarea_existing_bottom_template", {
+                        data: data.results,
+                        "context": context
+                    })
+                );
+            }, json);
         };
 
         var handleSearch = function(ev){
@@ -811,7 +826,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var renderWidgets = function(){
             var widgets = [];
-            var nameSet = false
+            var nameSet = false;
             for (var widget in sakai.widgets){
                 if(!nameSet){
                     $("#addarea_widgets_name").val(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widget].id));

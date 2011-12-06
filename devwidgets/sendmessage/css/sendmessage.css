@@ -37,4 +37,3 @@
 .send_message #sendmessage_to_container{margin-bottom:10px;}
 .send_message img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 .send_message input#sendmessage_to_autoSuggest{width:175px;margin-bottom:0px;padding-top:0px;}
-.send_message .autosuggest_wrapper{float:left;position:relative;width:100%;}

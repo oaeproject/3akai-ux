@@ -51,6 +51,8 @@
 #worldsettings_warning_container #worldsettings_warning_container_text {font-size:16px;line-height:20px;}
 #worldsettings_warning_container {margin-top: 140px;}
 
+#worldsettings_container .autosuggest_wrapper {width:97%;}
+
 /* Actions */
 #worldsettings_container #worldsettings_group_actions {float: right;margin-top: 20px;}
 #worldsettings_container #worldsettings_group_actions .s3d-link-button {margin-right: 20px;}

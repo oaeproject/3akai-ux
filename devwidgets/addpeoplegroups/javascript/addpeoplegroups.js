@@ -109,7 +109,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(renderObj.memberOfGroups.entry.length){
                 sakai.api.Groups.getMembers(renderObj.memberOfGroups.entry[membershipFetched].groupid, "query", function(success, data){
                     if(success){
-                        renderObj.memberOfGroups.entry[membershipFetched].managers = [];
                         renderObj.memberOfGroups.entry[membershipFetched].members = [];
                         $.each(data, function(i, roleData){
                             $.each(data[i].results, function(i, obj){
