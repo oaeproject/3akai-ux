@@ -137,19 +137,20 @@
                 } else {
                     $container.append(templateOutput);
                 }
-            }
-            isDoingExtraSearch = false;
-            // If there are more results and we're still close to the bottom of the page,
-            // do another one
-            if (doAnotherOne) {
-                loadNextList();
-            } else {
-                isDoingExtraSearch = true;
-                if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
-                    if ($.isFunction(emptylistprocessor)) {
-                        emptylistprocessor();
-                    };
-                };
+
+                isDoingExtraSearch = false;
+                // If there are more results and we're still close to the bottom of the page,
+                // do another one
+                if (doAnotherOne) {
+                    loadNextList();
+                } else {
+                    isDoingExtraSearch = true;
+                    if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
+                        if ($.isFunction(emptylistprocessor)) {
+                            emptylistprocessor();
+                        }
+                    }
+                }
             }
         };
 
@@ -281,7 +282,7 @@
             "removeItems": removeItems,
             "prependItems": prependItems,
             "kill": kill
-        }
+        };
 
     };
 
