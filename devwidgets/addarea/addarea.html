@@ -54,9 +54,11 @@
                 </select>
                 <span id="addarea_new_numberofpages_doc">__MSG__YOU_CAN_ADD_MORE_LATER__</span>
                 <hr class="fl-push fl-hidden"/>
-                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
-                <label for="addarea_new_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
-                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_new_tagsandcategories" name="addarea_new_tagsandcategories"></textarea>
+                <div class="autosuggest_wrapper">
+                    <label for="addarea_new_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                    <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
+                    <textarea id="addarea_new_tagsandcategories" name="addarea_new_tagsandcategories" class="addarea_autosuggest_tags_cats"></textarea>
+                </div>
             </div>
         </div>
         <div id="addarea_existing_currentlyviewing_container" data-doc-type="existing_currentlyviewing" class="addarea_existing_container" style="display:none;">
@@ -166,9 +168,11 @@
                 <input type="text" id="addarea_contentlist_name" name="addarea_contentlist_name" class="addarea_name_field"/>
                 <label for="addarea_contentlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_contentlist_permissions" name="addarea_contentlist_permissions"></select>
-                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
-                <label for="addarea_contentlist_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
-                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_contentlist_tagsandcategories" name="addarea_contentlist_tagsandcategories"></textarea>
+                <div class="autosuggest_wrapper">
+                    <label for="addarea_contentlist_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                    <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
+                    <textarea id="addarea_contentlist_tagsandcategories" name="addarea_contentlist_tagsandcategories" class="addarea_autosuggest_tags_cats"></textarea>
+                </div>
             </div>
         </div>
         <div id="addarea_participants_container" data-doc-type="participants" style="display:none;">
@@ -182,9 +186,11 @@
                 <input type="text" id="addarea_participants_name" name="addarea_participants_name" class="addarea_name_field"/>
                 <label for="addarea_participants_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_participants_permissions" name="addarea_participants_permissions"></select>
-                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
-                <label for="addarea_participants_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
-                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_participants_tagsandcategories" name="addarea_participants_tagsandcategories"></textarea>
+                <div class="autosuggest_wrapper">
+                    <label for="addarea_participants_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                    <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
+                    <textarea id="addarea_participants_tagsandcategories" name="addarea_participants_tagsandcategories" class="addarea_autosuggest_tags_cats"></textarea>
+                </div>
             </div>
         </div>
         <div id="addarea_widgets_container" data-doc-type="widgets" style="display:none;">
@@ -201,9 +207,11 @@
                 <label for="addarea_widgets_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_widgets_permissions" name="addarea_widgets_permissions"></select>
                 <hr class="fl-push fl-hidden"/>
-                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
-                <label for="addarea_widgets_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
-                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_widgets_tagsandcategories" name="addarea_widgets_tagsandcategories"></textarea>
+                <div class="autosuggest_wrapper">
+                    <label for="addarea_widgets_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                     <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
+                    <textarea id="addarea_widgets_tagsandcategories" name="addarea_widgets_tagsandcategories" class="addarea_autosuggest_tags_cats"></textarea>
+                </div>
             </div>
         </div>
     </div>

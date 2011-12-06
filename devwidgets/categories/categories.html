@@ -59,12 +59,12 @@
                                     {/if}
                                     <span class="categories_content_category_description"><span class="categories_content_usedin_icon categories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
                                     {if item.content.commentcount}<span class="categories_content_category_description"><span class="categories_content_comments_icon categories_content_icon"></span><a href="/content#p=${item.content["_path"]|safeURL}/${item.content["sakai:pooled-content-file-name"]|safeURL}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
-                                    {var tags = sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"].join(","))}
+                                    {var tags = sakai.api.Util.format(item.content["sakai:tags"].join(","))}
                                     {if tags.length}
                                         <span class="categories_content_tags">
                                             {for tag in tags}
                                                 {if tag_index < 2}
-                                                    <a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a>{if tag_index < tags.length-1 && tag_index < 1}, {/if}
+                                                    <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>{if tag_index < tags.length-1 && tag_index < 1}, {/if}
                                                 {/if}
                                             {/for}
                                         </span>

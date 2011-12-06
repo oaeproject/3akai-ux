@@ -147,9 +147,9 @@
                             <ul class="mymemberships_item_tags_list s3d-taglist">
                                 {for t in group.tagsProcessed}
                                     <li>
-                                        <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                        <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
+                                            <span class="s3d-search-result-tag">${t.tagShort}</span>
+                                            <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
                                         </a>
                                     </li>
                                 {/for}

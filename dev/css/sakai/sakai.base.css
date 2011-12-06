@@ -432,8 +432,14 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 /*
  * AUTOSUGGEST
  */
+.requireUser ul.as-selections{box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;}
 ul.as-selections.loading{background:#fff url(../../../dev/images/ajax_load.gif) center center no-repeat;}
-ul.as-selections li.as-original input {border: 0;}
+ul.as-selections li.as-original input {border:0;}
+ul.as-selections textarea.as-input, ul.as-selections input.as-input{border:0;resize:none;}
+ul.as-selections textarea.as-input{padding:0;}
+.autosuggest_wrapper{float:left;position:relative;width:100%;}
+.autosuggest_wrapper ul.as-list{top:100%;margin-top:-15px;}
+.autosuggest_wrapper .list_categories{float:right;}
 
 /* http://blogs.sitepoint.com/2005/02/26/simple-clearing-of-floats/ */
 .clearfix{overflow:auto;}
@@ -530,6 +536,13 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-dropdownlisttwo-menu{font-size:.95em!important;left:110px;list-style-image:none;position:absolute;top:29px;z-index:10;margin:0;}
 .s3d-dropdownlisttwo-menu ul{background-color:#fff;border:1px solid #CCC;margin:0;padding:5px 15px 5px 7px;}
 .s3d-dropdownlisttwo-menu li{list-style-type:none;padding:0;}
+
+/*
+ * POPOVERS
+ */
+.s3d-popover-container {border: 1px solid #EAEBEC;border-top: none;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;box-shadow: 0px 0px 5px #454545;-moz-box-shadow: 0px 0px 5px #454545;-webkit-box-shadow: 0px 0px 5px #454545;background:url("/dev/images/popover_bg.png") repeat-x scroll left top #f4f4f4;font-size:13px;}
+.s3d-popover-container .s3d-popover-inner {padding:10px;word-wrap:break-word;}
+.s3d-popover-arrowup {background:url("/dev/images/popover_arrowup.png") no-repeat scroll left top transparent;height:13px;margin-left:110px;position:relative;width:33px;}
 
 /* 
  * TAGLISTS
