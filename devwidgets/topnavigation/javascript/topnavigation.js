@@ -925,27 +925,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
                 $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
                 $messageContainer.show();
-            }); 
-            //sakai.api.Server.loadJSON(sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE, function(success, data){
-            //    var dataPresent = false;
-            //    if (data.results && data.results[0]){
-            //        dataPresent = true;
-            //        var created = new Date(data.results[0]["_created"]);
-            //        data.results[0].timeago = $.timeago(created);
-            //    }
-            //    $("#topnavigation_messages_container").addClass("selected");
-            //    var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
-            //    $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
-            //    $messageContainer.show();
-            //    
-            //}, {
-            //    "items": 1,
-            //    "page": 0,
-            //    "box": "inbox",
-            //    "sortOn": "_created",
-            //    "sortOrder": "desc"
-            //});
-        });
+            });
+            /* sakai.api.Server.loadJSON(sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE, function(success, data){
+                var dataPresent = false;
+                if (data.results && data.results[0]){
+                    dataPresent = true;
+                    var created = new Date(data.results[0]["_created"]);
+                    data.results[0].timeago = $.timeago(created);
+                }
+                $("#topnavigation_messages_container").addClass("selected");
+                var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
+                $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
+                $messageContainer.show();
+                
+            }, {
+                "items": 1,
+                "page": 0,
+                "box": "inbox",
+                "sortOn": "_created",
+                "sortOrder": "desc"
+            }); */
+        }); 
 
 
         /////////////////////////

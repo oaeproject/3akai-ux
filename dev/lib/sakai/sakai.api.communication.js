@@ -434,10 +434,8 @@ define(
             // Set the base URL for the search
             if (search) {
                 url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE;
-            } else if (category) {
-                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE;
             } else {
-                url = sakai_conf.URL.MESSAGE_BOX_SERVICE;
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE;
             }
             $.ajax({
                 url: url,
