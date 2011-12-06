@@ -465,8 +465,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#accountpreferences_section_autotagging_buttons button").click(function(e){
-            selectAutoTagging($(this).data("sakai-autotagging"));
+            selectAutoTagging($(this).attr("data-sakai-autotagging") === "true" ? true : false);
             enableElements($(saveRegional));
+            e.preventDefault();
         })
 
         var hideAllPanes = function(){
