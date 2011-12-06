@@ -119,7 +119,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $.each(contentToAdd, function(i, contentId){
             sakai.api.Content.addToLibrary(contentId, groupid, false, function(contentId, entityId) {
                 if(checkDefaultContentAdded(contentToAdd, count)){
-                    $newcreategroupCreating.jqmHide();
                     window.location = "/~" + groupid;
                 } else {
                     count++;
