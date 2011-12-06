@@ -1,63 +1,146 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/displayprofilesection/css/displayprofilesection.css" />
+<link href="/devwidgets/displayprofilesection/css/displayprofilesection.css" type="text/css" />
 
-<div class="displayprofilesection_widget profile">
+<!-- GENERAL INFO -->
+<div id="displayprofilesection_container">
+    <div id="displayprofilesection_header"></div>
+    <div id="displayprofilesection_body"></div>
+</div>
 
-<div class="fl-widget-content">
-    <div class="displayprofilesection_content" style="display:none;">
-        <p class="displayprofilesection_no_profile_info_inserted" style="display:none;">__MSG__NO_PROFILE_INFO_TO_DISPLAY__ <a href="/profile/edit" class="s3d-action">__MSG__EDIT_YOUR_PROFILE__</a> __MSG__OR_SELECT_ANOTHER_SECTION_TO_DISPLAY__</p>
-        <span class="displayprofilesection_no_profile_info_inserted_view_mode" style="display:none;">
-            <div class="s3d-no-results-container">
-                <div class="s3d-no-results-arrow-up"></div>
-                <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
-                <h1>
-                    <span id="displayprofilesection_no_results_text">__MSG__THIS_PERSON_HASNT_ADDED_SECTION_YET__.</span>
-                    <span id="displayprofilesection_no_results_message" style="display:none;">
-                        <button type="button" id="displayprofilesection_user_message" class="s3d-link-button sakai_sendmessage_overlay" data-sakai-entityid="" data-sakai-entityname="" data-sakai-entitytype="user">__MSG__SEND_THEM_A_MESSAGE__</button> __MSG__TO_REMIND_THEM__
-                    </span>
-                </h1>
-            </div>
-        </span>
-        <div class="displayprofilesection_content_widget_holder"></div>
-    </div>
-    <div class="displayprofilesection_settings" style="display:none;">
-        <label for="displayprofilesection_section_title">__MSG__SECTION_TITLE__</label>
-        <input type="text" id="displayprofilesection_section_title" class = "displayprofilesection_section_title"/>
-        <select class="displayprofilesection_select_section">
+<div id="displayprofilesection_header_template" style="display:none"><!--
+    <div class="s3d-contentpage-title">${section.label}</div>
+--></div>
+
+<div id="displayprofilesection_edit_template" style="display:none"><!--
+    {macro renderTextInput(config, field_id, data)}
+        <input type="text" id="${field_id}" name="${field_id}" {if data && data.value}value="${data.value}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
+    {/macro}
+
+    {macro renderTextarea(config, field_id, data)}
+        <textarea id="${field_id}" name="${field_id}" {if config.required} class="required"{/if}>{if data && data.value}${data.value}{/if}</textarea>
+    {/macro}
+
+    {macro renderDropdown(config, field_id, data)}
+        <select id="${field_id}" name="${field_id}" {if config.required} class="required"{/if}>
+            <option value=""></option>
+        {for option in config.select_elements}
+            <option value="${option_index}"{if data && data.value === option_index} selected="selected"{/if}>${option}</option>
+        {/for}
         </select>
-        <div class="dialog_buttons">
-            <button class="s3d-button displayprofilesection_add_cancel">
-                <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
-            </button>
-            <button class="s3d-button s3d-button-primary submit_button displayprofilesection_add_submit" type="submit">
-                <span class="s3d-button-inner">__MSG__ADD_PROFILE_SECTION__</span>
-            </button>
+    {/macro}
+
+    {macro renderTagField(config, field_id, data)}
+        <div class="autosuggest_wrapper">
+            <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
+            <textarea id=${field_id} name="${field_id}" data-tag-field="true"></textarea>
         </div>
-        <hr class="fl-push fl-hidden"/>
-    </div>
-</div>
+    {/macro}
 
-<div class="fl-widget-no-options fl-fix">
-    <div class="widget-no-options-inner">
-    </div>
-</div>
+    {var form_group = unique ? "form_group_" + unique : section.id}
 
-<div id="displayprofilesection_select_section_template" style="display:none;"><!--
-    <option value="no_value">__MSG__SELECT_SECTION_TO_DISPLAY__</option>
-    {for section in configuration}
-        <option value="${section.id}" {if selectedsection == section.id} selected="selected"{/if}>${section.label}</option>
-    {/for}
---></div>
-
-<!-- SECTION WIDGET TEMPLATE -->
-<div id="displayprofilesection_sectionwidgets_container_template"><!--
-    <form id="profile_form_${sectionid}">
-    <div id="widget_profilesection_${sectionid}" class="widget_inline"></div>
-    <hr class="fl-push fl-hidden"/>
+    {if !section.multiple}
+    <form id="displayprofilesection_form_${sectionid}">
+    {else}
+    <div id="${form_group}" class="displayprofilesection_multiple_section">
+    <input type="hidden" name="order_${unique}" value="${order}" />
+    {/if}
+        <div class="s3d-form-field-wrapper">
+        {for field in section.elements}
+            {if field.display}
+                {var field_data = data && data[ field_index ] ? data[ field_index ] : false}
+                {var field_id = unique ? field_index + "_" + unique : field_index}
+                <div class="displayprofilesection_field">
+                    <label for="${field_id}" class="s3d-input-label{if field.type === "tags"} tagslabel{/if}">${field.label}:</label>
+                    {if field.type === "select"}
+                        ${renderDropdown(field, field_id, field_data)}
+                    {elseif field.type === "textarea"}
+                        ${renderTextarea(field, field_id, field_data)}
+                    {elseif field.type === "tags"}
+                        ${renderTagField(field, field_id, field_data)}
+                    {else}
+                        ${renderTextInput(field, field_id, field_data)}
+                    {/if}
+                    {if field.example}
+                        <p class="displayprofilesection_generalinfo_example">${field.example}</p>
+                    {/if}
+                </div>
+            {/if}
+        {/for}
+        </div>
+    {if !section.multiple}
+        <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button">__MSG__UPDATE__</button>
     </form>
+    {else}
+        <button type="button" class="displayprofilesection_remove_section s3d-bold s3d-link-button" id="displayprofilesection_remove_link_${unique}"><span>__MSG__REMOVE_THIS__ ${section.multipleLabel}</span></button>
+        <hr/>
+    </div>
+    {/if}
 --></div>
 
+<div id="displayprofilesection_edit_multiple_template"><!--
+    <form id="displayprofilesection_form_${sectionid}">
+        <div id="displayprofilesection_sections_${sectionid}" class="displayprofilesection_multiple_sections"></div>
+        <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button" style="display:none">__MSG__UPDATE__</button>
+    </form>
+    <button id="displayprofilesection_add_${sectionid}" class="displayprofilesection_add_section s3d-link-button s3d-bold" type="button"><span class="s3d-add_another_location"></span><span>__MSG__ADD_ANOTHER__ ${section.multipleLabel}</span></button>
+--></div>
+
+<div id="displayprofilesection_view_multiple_template"><!--
+    <div id="displayprofilesection_sections_${sectionid}" class="displayprofilesection_multiple_sections"></div>
+--></div>
+
+<div id="displayprofilesection_view_no_results_template" style="display:none"><!--
+    <div class="s3d-no-results-container">
+        <div class="s3d-no-results-arrow-up"></div>
+        <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
+        <h1>
+            <span id="displayprofilesection_no_results_text">${errorString}</span>
+            <span id="displayprofilesection_no_results_message" {if !showMessage}style="display:none;"{/if}>
+                <button type="button" id="displayprofilesection_user_message" class="s3d-link-button sakai_sendmessage_overlay" sakai-entityid="${userid}" sakai-entityname="${displayName}" data-sakai-entitytype="user">__MSG__SEND_THEM_A_MESSAGE__</button> __MSG__TO_REMIND_THEM__
+            </span>
+        </h1>
+    </div>
+--></div>
+
+<div id="displayprofilesection_view_template" style="display:none"><!--
+    {macro renderField(config, field_id, field_data)}
+        {var value = config.type === "select" ? sakai.api.i18n.General.process(config.select_elements[field_data.value]) : field_data.value}
+        <span class="field_value">
+        {if config.limitDisplayLength}
+            ${sakai.api.Util.shortenString(value, config.limitDisplayLength)|safeOutput}
+        {elseif config.type === "tags"}
+            {var tags = sakai.api.Util.formatTags(value)}
+            {for tag in tags}{if tag_index > 0},{/if} <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>{/for}
+        {else}
+            ${value|safeOutput}
+        </span>
+        {/if}
+    {/macro}
+
+    {for field in section.elements}
+        {if field.display}
+            {var field_key = field_index === "tags" ? "sakai:tags" : field_index}
+            {var field_data = data && data[ field_key ] ? data[ field_key ] : false}
+            {if field_data && field_data.value && ($.trim(field_data.value) !== "" || $.isArray(field_data.value))}
+            <div class="displayprofilesection_field">
+                <span class="s3d-input-label">${field.label}:</span>
+                ${renderField(field, field_key, field_data)}
+            </div>
+            {/if}
+        {/if}
+    {/for}
+
+    {if section.multiple}
+    <hr/>
+    {/if}
+--></div>
+
+
+<!-- ERROR CONTAINER -->
+<div id="profile_error" style="display:none;">
+    <div id="profile_error_form_error_server">__MSG__THERE_WAS_AN_ERROR_TRYING_TO_SAVE_YOUR_DATA_ON_THE_SERVER__. __MSG__PLEASE_TRY_AGAIN_LATER_OR_CALL_HELPDESK__.</div>
+    <div id="profile_message_form_successful">__MSG__YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED__</div>
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" src="/devwidgets/displayprofilesection/javascript/displayprofilesection.js"></script>
+<script src="/devwidgets/displayprofilesection/javascript/displayprofilesection.js" type="application/javascript"></script>
