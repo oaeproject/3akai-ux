@@ -16,15 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*
- * Dependencies
- *
- * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js (autoSuggest)
- */
-
-/*global $, opensocial, Config */
-
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     if (!sakai_global.sendmessage){
 
@@ -214,7 +205,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 sakai.api.Util.AutoSuggest.setup($("#sendmessage_to_autoSuggest"), {
                     "asHtmlID": "sendmessage_to_autoSuggest",
-                    startText: "Enter contact or group names",
+                    startText: sakai.api.i18n.getValueForKey("ENTER_CONTACT_OR_GROUP_NAMES", "sendmessage"),
                     keyDelay: "200",
                     retrieveLimit: 10,
                     preFill: preFill,
@@ -367,7 +358,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             var bindEvents = function() {
                 $.validator.addMethod("requiredsuggest", function(value, element){
-                    return value.indexOf("Enter contact or group names") === -1 && $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
+                    return value.indexOf(sakai.api.i18n.getValueForKey("ENTER_CONTACT_OR_GROUP_NAMES", "sendmessage")) === -1 && $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
                 }, sakai.api.i18n.getValueForKey("AUTOSUGGEST_REQUIRED_ERROR", "sendmessage"));
 
                 var validateOpts = {

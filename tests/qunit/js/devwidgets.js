@@ -96,7 +96,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "pickeruser",
         "poll",
         "popularcontent",
-        "profilesection",
         "recentactivity",
         "recentchangedcontent",
         "recentcontactsnew",

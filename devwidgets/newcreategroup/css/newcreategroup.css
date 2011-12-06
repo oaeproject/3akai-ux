@@ -35,6 +35,8 @@
 #newcreategroup_container textarea {height:50px;resize:none;}
 #newcreategroup_container #newcreategroup_description{height:100px;}
 #newcreategroup_container #newcreategroup_tags{margin-bottom:0px;}
+#newcreategroup_container #newcreategroup_tags_label{width:50%;float:left;}
+#newcreategroup_container button.list_categories{float:right;}
 
 #newcreategroup_group_form{margin-top:10px;}
 #newcreategroup_container #newcreategroup_title_form.s3d-form-field-wrapper span.s3d-error{margin-left:29px;width:296px;}
