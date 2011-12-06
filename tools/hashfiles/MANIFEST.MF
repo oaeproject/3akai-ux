@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Ant-Version: Apache Ant 1.8.1
-Created-By: 1.6.0_26-b03-384-9M3425 (Apple Inc.)
-Built-By: Sakai project
-Main-class: org.sakaiproject.ux.tools.HashRefreshFiles
-
