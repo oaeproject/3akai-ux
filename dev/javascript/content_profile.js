@@ -66,7 +66,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 if(collectionId && collectionName){
                                     // Show go back to collection link
                                     $("#back_to_collection_button #collection_title").text(collectionName);
-                                    $("#back_to_collection_button").attr("data-href", "/content#p=" + collectionId + "/" + collectionName);
+                                    $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + collectionName);
                                     $("#back_to_collection_container").show("slow");
                                 } else {
                                     $("#back_to_collection_container").hide("slow");
@@ -179,10 +179,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             showPreview = true;
         };
-
-        $("#back_to_collection_button").bind("click", function(){
-            window.location = $("#back_to_collection_button").attr("data-href");
-        });
 
         $("#entity_content_share").live("click", function(){
             $(window).trigger("init.sharecontent.sakai");
