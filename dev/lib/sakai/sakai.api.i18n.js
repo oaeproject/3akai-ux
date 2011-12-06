@@ -175,10 +175,7 @@ define(
                     "next" : '<span><a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("NEXT_PAGE") + '">' + sakaii18nAPI.getValueForKey("NEXT") + '</a><div class=\"sakai_pager_next\"></div></span>',
                     "current": '<li class="page-number"><a href="javascript:;" title="' + sakaii18nAPI.getValueForKey("PAGE") + ' ${page}">${page}</a></li>'
                 };
-                // Translate the jquery.autosuggest plugin
-                $.fn.autoSuggest.defaults.startText = sakaii18nAPI.getValueForKey("ENTER_NAME_HERE");
-                $.fn.autoSuggest.defaults.emptyText = sakaii18nAPI.getValueForKey("NO_RESULTS_FOUND");
-                $.fn.autoSuggest.defaults.limitText = sakaii18nAPI.getValueForKey("NO_MORE_SELECTIONS_ALLOWED");
+
             };
 
             /**

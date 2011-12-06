@@ -140,7 +140,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     item.usedin = sakai.api.Content.getPlaceCount(item);
                     item.commentcount = sakai.api.Content.getCommentCount(item);
                     if (item["sakai:tags"]) {
-                        item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                        item["sakai:tags"] = sakai.api.Util.formatTags(item["sakai:tags"].toString());
                     }
                 });
                 data.results.sort(sortBasedOnThumbnailAndMetadata);

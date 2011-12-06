@@ -48,8 +48,8 @@
             {for t in tags}
                 <span class="s3d-search-tag">
                     <img src=/dev/images/search_tag_active.png" />
-                    <button class="search_tag_active_item" data-sakai-entityid="${t}" title="__MSG__REMOVE__ ${t} __MSG__FROM_SEARCH__">
-                        ${sakai.api.Util.applyThreeDots(t, 345)}<img src=/dev/images/search_tag_remove.png" />
+                    <button class="search_tag_active_item" data-sakai-entityid="${t.original}" title="__MSG__REMOVE__ ${t.value} __MSG__FROM_SEARCH__">
+                        ${sakai.api.Util.applyThreeDots(t.value, 345, null, null, true)}<img src=/dev/images/search_tag_remove.png" />
                     </button>
                 </span>
             {/for}
@@ -65,9 +65,9 @@
                     {var tagsListed = true}
                 {/if}
                 <span class="s3d-search-tag">
-                    <button class="search_tag_refine_item" data-sakai-entityid="${t}" title="__MSG__REFINE_SEARCH_TO__ ${t}">
+                    <button class="search_tag_refine_item" data-sakai-entityid="${t.original}" title="__MSG__REFINE_SEARCH_TO__ ${t.value}">
                         <img src=/dev/images/search_tag_add.png" />
-                        ${sakai.api.Util.applyThreeDots(t, 345)}
+                        ${sakai.api.Util.applyThreeDots(t.value, 345, null, null, true)}
                     </button>
                 </span>
             {/for}
@@ -99,7 +99,7 @@
                 <ul class="s3d-taglist">
                     {for t in i.tagsProcessed}
                         <li>
-                            <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
+                            <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
                                 <span class="s3d-search-result-tag">${t.tagShort}</span>
                                 <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
                             </a>

@@ -438,8 +438,14 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 /*
  * AUTOSUGGEST
  */
+.requireUser ul.as-selections{box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;}
 ul.as-selections.loading{background:#fff url(../../../dev/images/ajax_load.gif) center center no-repeat;}
-ul.as-selections li.as-original input {border: 0;}
+ul.as-selections li.as-original input {border:0;}
+ul.as-selections textarea.as-input, ul.as-selections input.as-input{border:0;resize:none;}
+ul.as-selections textarea.as-input{padding:0;}
+.autosuggest_wrapper{float:left;position:relative;width:100%;}
+.autosuggest_wrapper ul.as-list{top:100%;margin-top:-15px;}
+.autosuggest_wrapper .list_categories{float:right;}
 
 /* http://blogs.sitepoint.com/2005/02/26/simple-clearing-of-floats/ */
 .clearfix{overflow:auto;}

@@ -396,13 +396,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var itemdiv = $(this);
                     sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, false, true, function (success) {
                         if (success) {
+                            var notimsg = "";
                             if (joinable === "withauth") {
                                 // Don't add green tick yet because they need to be approved.
-                                var notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
-                            } 
+                                notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
+                            }
                             else  { // Everything else should be regular success
                                 $("#searchgroups_memberimage_"+groupid).show();
-                                var notimsg = sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED_TO_GROUP");
+                                notimsg = sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED_TO_GROUP");
                             }
                             sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
                                 notimsg, sakai.api.Util.notification.type.INFORMATION);

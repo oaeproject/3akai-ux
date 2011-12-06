@@ -93,7 +93,7 @@ require(
         "config/config_custom",
         "jquery-ui",
         "jquery-plugins/jquery.validate",
-        "jquery-plugins/jquery.autoSuggest.sakai-edited",
+        "jquery-plugins/jquery.autoSuggest",
         "misc/l10n/globalize",
         "misc/underscore",
         "jquery-plugins/jquery.json",

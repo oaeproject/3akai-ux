@@ -304,7 +304,7 @@ define(function(){
                                 "errorMessage": "__MSG__PROFILE_BASIC_EMAIL_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "type": "email"
+                                "validation": "email"
                             },
                             "status": {
                                 "label": "__MSG__PROFILE_BASIC_STATUS_LABEL__",
@@ -339,10 +339,10 @@ define(function(){
                                 "display": true
                             },
                             "tags": {
-                                "label": "__MSG__TAGS__",
+                                "label": "__MSG__TAGS_AND_CATEGORIES__",
                                 "required": false,
                                 "display": true,
-                                "type": "textarea",
+                                "type": "tags",
                                 "tagField": true
                             }
                         }
@@ -381,26 +381,6 @@ define(function(){
                             }
                         }
                     },
-                    "locations": {
-                        "label": "__MSG__PROFILE_LOCATIONS_LABEL__",
-                        "required": false,
-                        "display": true,
-                        "access": "everybody",
-                        "modifyacl": true,
-                        "permission": "anonymous",
-                        "multiple": true,
-                        "directory": true,
-                        "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
-                        "order": 2,
-                        "elements": {
-                            "locationtitle": {
-                                "label": "__MSG__PROFILE_LOCATION_LABEL__",
-                                "required": true,
-                                "display": true,
-                                "type": "location"
-                            }
-                        }
-                    },
                     "publications": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
                         "required": false,
@@ -410,7 +390,7 @@ define(function(){
                         "permission": "anonymous",
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
-                        "order": 3,
+                        "order": 2,
                         //"template": "profile_section_publications_template",
                         "elements": {
                             "maintitle": {
