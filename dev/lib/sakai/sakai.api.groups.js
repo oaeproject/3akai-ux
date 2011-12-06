@@ -1325,13 +1325,13 @@ define(
             }
             newjson.entry.sort(function(a, b){
                 if (a["sakai:category"] === "collection" && b["sakai:category"] === "collection"){
-                    return a["sakai:group-title"] > b["sakai:group-title"];
+                    return sakai_util.Sorting.naturalSort(a["sakai:group-title"], b["sakai:group-title"]);
                 } else if (a["sakai:category"] === "collection"){
                     return 1;
                 } else if (b["sakai:category"] === "collection"){
                     return -1;
                 } else {
-                    return a["sakai:group-title"] > b["sakai:group-title"];
+                    return sakai_util.Sorting.naturalSort(a["sakai:group-title"], b["sakai:group-title"]);
                 }
             });
             return newjson;

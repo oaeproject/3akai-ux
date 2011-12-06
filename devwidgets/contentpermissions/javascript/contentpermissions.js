@@ -152,27 +152,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 // Do the Batch request
                 sakai.api.Server.batch(permissionBatch, function(success, data){
                     if(globalPermissionsChanged){
-
                         if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)) {
-                            sakai.api.Content.Collections.setCollectionPermissions(sakai_global.content_profile.content_data.data["_path"], sakai_global.content_profile.content_data.data["sakai:permissions"], function(){
-                                closeOverlay();
-                                sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
-                                $(window).trigger("load.content_profile.sakai");
-                            });
+                            sakai.api.Content.Collections.setCollectionPermissions(sakai_global.content_profile.content_data.data["_path"], sakai_global.content_profile.content_data.data["sakai:permissions"], finishSavePermissions);
                         } else {
                             sakai.api.Content.setFilePermissions([{
                                 "hashpath": sakai_global.content_profile.content_data.data["_path"],
                                 "permissions": sakai_global.content_profile.content_data.data["sakai:permissions"]
-                            }], function(){
-                                closeOverlay();
-                                sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
-                                $(window).trigger("load.content_profile.sakai");
-                            });
+                            }], finishSavePermissions);
                         }
                     } else {
-                        closeOverlay();
-                        sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
-                        $(window).trigger("load.content_profile.sakai");
+                        finishSavePermissions();
                     }
                 }, false);
             } else {
@@ -183,6 +172,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_SAVE_SETTINGS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
                 }
             }
+        };
+
+        var finishSavePermissions = function(){
+            closeOverlay();
+            sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
+            $(window).trigger("load.content_profile.sakai");
         };
 
         /**

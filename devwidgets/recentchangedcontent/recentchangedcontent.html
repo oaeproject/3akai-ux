@@ -20,7 +20,7 @@
                 <div class="recentchangedcontent_related_details">
                     <div class="s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                         <div class="recentchangedcontent_item_img fl-force-left">
-                            <a href="/content#p=${item.link|safeURL}/${item.filename|safeURL}" title="${item.name|safeOutput}">
+                            <a href="/content#p=${item.link}/${item.filename|safeURL}" title="${item.name|safeOutput}">
                                 {if item.thumbnail}
                                     <img class="s3d-icon-50" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                                 {elseif sakai.config.MimeTypes[item.mimeType]}
@@ -32,7 +32,7 @@
                         </div>
                         <div class="recentchangedcontent_item_info">
                             <p class="recentchangedcontent_item_title">
-                                <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link|safeURL}/${item.filename|safeURL}" title="${item.name|safeOutput}">
+                                <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link}/${item.filename|safeURL}" title="${item.name|safeOutput}">
                                     ${item.nameShort}
                                 </a>
                                 <span class="recentchangedcontent_mimetype_desc">${item.mimeTypeDescription}</span>

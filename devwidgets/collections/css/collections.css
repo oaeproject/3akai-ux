@@ -21,9 +21,9 @@
 
 .collections_widget #collections_scroll_right,
 .collections_widget #collections_scroll_left {width:27px;height:41px;cursor:pointer;position:absolute;margin-top:59px;}
-.collections_widget #collections_scroll_right {background:url("/devwidgets/collections/images/collections_large_arrowright.png") no-repeat top left transparent;margin-left:17px;}
+.collections_widget #collections_scroll_right {background:url("/devwidgets/collections/images/collections_large_arrowright.png") no-repeat top left transparent;margin-left:17px; border: none;}
 .collections_widget #collections_scroll_right:hover {background:url("/devwidgets/collections/images/collections_large_arrowright_hover.png") no-repeat top left transparent;}
-.collections_widget #collections_scroll_left {background: url("/devwidgets/collections/images/collections_large_arrowleft.png") no-repeat scroll left top transparent;float:right;margin-left:129px;}
+.collections_widget #collections_scroll_left {background: url("/devwidgets/collections/images/collections_large_arrowleft.png") no-repeat scroll left top transparent;float:right;margin-left:129px; border: none;}
 .collections_widget #collections_scroll_left:hover {background: url("/devwidgets/collections/images/collections_large_arrowleft_hover.png") no-repeat scroll left top transparent;}
 
 .collections_widget #collections_leftcolumn, .collections_widget #collections_rightcolumn {background:url("/devwidgets/collections/images/collections_column_bg.jpg") repeat top left transparent;}

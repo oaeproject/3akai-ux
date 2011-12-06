@@ -221,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 hideSavecontent();
                 $(window).trigger("create.collections.sakai", [contentToAdd]);
-            } else if (!dropdownSelection.attr("disabled") && dropdownSelection.val()) {
+            } else if (!dropdownSelection.is(":disabled") && dropdownSelection.val()) {
                 saveContent(dropdownSelection.val());
             }
         });

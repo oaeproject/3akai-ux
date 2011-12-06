@@ -151,8 +151,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var expandCollection = function(){
             if($(this).hasClass(collectionsLargePreview) && !$(this).hasClass("fixed-collapsed")){
-                var pageOn = $(this).data("sakai-page");
-                var collectionId = $(this).data("sakai-collection-id");
+                var pageOn = parseInt($(this).attr("data-sakai-page"), 10);
+                var collectionId = $(this).attr("data-sakai-collection-id");
                 $("." + collectionsLargePreview + "[data-sakai-page='" + pageOn + "']").addClass("collapsed");
                 $("." + collectionsLargePreview + "[data-sakai-page='" + pageOn + "'] .collections_collection_title_short").show();
                 $("." + collectionsLargePreview + "[data-sakai-page='" + pageOn + "'] .collections_collection_title_long").hide();
@@ -227,7 +227,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         });
                         sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_CONTENT_ADDING_TO_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
-                        uploadFile($(this).data("sakai-collection-id"), permissions);
+                        uploadFile($(this).attr("data-sakai-collection-id"), permissions);
                     }
                 }
             });
@@ -309,7 +309,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////////////////////
 
         $(window).bind("drop.collections.sakai", function(ev, data, target){
-            var collectionId = target.data("sakai-collection-id");
+            var collectionId = target.attr("data-sakai-collection-id");
             var collectedContent = [];
             var collectedCollections = [];
             $.each(data, function(index, item){

@@ -46,7 +46,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderContainer = function(){
             $("#pageviewer_lhnav_container", $rootel).html(sakai.api.Util.TemplateRenderer("pageviewer_lhnav_template", {pages: pages}));
             $("#pageviewer_content_container", $rootel).html(sakai.api.Util.TemplateRenderer("pageviewer_content_template", {pages: pages}));
-            sakai.api.Widgets.widgetLoader.insertWidgets(pages[0].ref, false, pages[0].poolpath + "/");
+            if (pages.length && pages[0].ref && pages[0].poolpath) {
+                sakai.api.Widgets.widgetLoader.insertWidgets(pages[0].ref, false, pages[0].poolpath + "/");
+            }
         };
 
         var fetchPageContent = function(){
@@ -60,8 +62,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(batchRequests, function(success, data) {
                 if(success){
                     $.each(data.results, function(i, pageData){
-                        if(sakai.api.Util.determineEmptyContent($.parseJSON(pageData.body).page)){
-                            pages[i].pageContent = $.parseJSON(pageData.body);
+                        var pageBody = $.parseJSON(pageData.body);
+                        if(sakai.api.Util.determineEmptyContent(pageBody.page)){
+                            pages[i].pageContent = pageBody;
                         } else {
                             pages[i].pageContent = false;
                         }
@@ -75,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var processPages = function(data){
             $.each(data, function(i, page){
-                if(page.hasOwnProperty("_title")){
+                if(page.hasOwnProperty("_title") && page.hasOwnPropery("_poolpath") && page.hasOwnPropery("_ref")){
                     pages.push({
                         title: page._title,
                         poolpath: page._poolpath || "/p/" + contentData._path,

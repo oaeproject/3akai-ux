@@ -337,6 +337,7 @@ define(
          * Processes the messages from the server, stripping out everything we don't need
          */
         processMessages : function(results) {
+            alert($.timeago);
             var messages = [];//,
             $.each(results, function(i, msg) {
                 if (!$.isEmptyObject(msg)) {
@@ -385,6 +386,7 @@ define(
                     newMsg.box = msg["sakai:messagebox"];
                     newMsg.category = msg["sakai:category"];
                     newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.fromEpoch(msg["_created"], sakai_user.data.me));
+                    newMsg.timeago = $.timeago(newMsg.date);
                     newMsg.id = msg.id;
                     newMsg.read = msg["sakai:read"];
                     newMsg.path = msg["_path"];

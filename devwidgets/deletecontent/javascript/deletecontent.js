@@ -157,18 +157,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
                 // Remove the pseudoGroups associated to the collection
+                var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
                     batchRequests.push({
-                        "url": "/system/userManager/group/" + sakai.api.Content.Collections.getCollectionGroupId(items[i]) + ".delete.html",
-                        "method": "POST"
-                    });
-                    batchRequests.push({
-                        "url": "/system/userManager/group/" + sakai.api.Content.Collections.getCollectionGroupId(items[i]) + "-members.delete.html",
-                        "method": "POST"
-                    });
-                    batchRequests.push({
-                        "url": "/system/userManager/group/" + sakai.api.Content.Collections.getCollectionGroupId(items[i]) + "-managers.delete.html",
-                        "method": "POST"
+                        "url": "/system/userManager/group.delete.html",
+                        "method": "POST",
+                        "parameters": {
+                            ":applyTo": [collectionGroupId, collectionGroupId + "-members", collectionGroupId + "-managers"]
+                        }
                     });
                 }
             }
