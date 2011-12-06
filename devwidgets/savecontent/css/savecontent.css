@@ -15,11 +15,10 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#savecontent_widget{color: #333333;position:absolute;display:none;width:250px;}
-.savecontent_outer {border: 1px solid #EAEBEC;border-top: none;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;box-shadow: 0px 0px 5px #454545;-moz-box-shadow: 0px 0px 5px #454545;-webkit-box-shadow: 0px 0px 5px #454545;background:url("/dev/images/popover_bg.png") repeat-x scroll left top #f4f4f4;}
-.savecontent_inner {padding:10px;word-wrap:break-word;}
+#savecontent_widget {color: #333333;position:absolute;display:none;width:250px;}
 #savecontent_title {font-size: 13px; margin: 10px 10px 5px;}
-#savecontent_select {margin-top:10px;width:220px;border:1px solid #999999;}
-#savecontent_widget button{margin:10px 10px 10px 0px;}
-#savecontent_widget .savecontent_close{margin-right:20px;padding-top:6px;}
-#savecontent_widget .savecontent_header_arrow{background:url("/dev/images/popover_arrowup.png") no-repeat scroll left top transparent;height:13px;margin-left:110px;position:relative;width:33px;}
+#savecontent_select {margin-top:10px;width:220px;border:1px solid #999999;height:20px;}
+#savecontent_widget button {margin:10px 10px 10px 0px;}
+#savecontent_widget .savecontent_close {margin-right:20px;padding-top:6px;}
+#savecontent_widget #savecontent_select option {padding:3px 0;}
+#savecontent_widget #mylibrary_option, #savecontent_widget #mylibrary_group_first {border-top:1px solid #ddd;}

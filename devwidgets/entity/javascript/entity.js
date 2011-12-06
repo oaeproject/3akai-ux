@@ -363,11 +363,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.hideOnClickOut("#entity_contentsettings_dropdown", "#entity_content_permissions, .entity_permissions_icon", function(){
                 $("#entity_contentsettings_dropdown").jqmHide();
             });
-
-            $("#ew_group_categories_link").click(function(){
-                $("#assignlocation_container").jqmShow();
-                $('#entity_groupsettings_dropdown').jqmHide();
-            });
             
              // templateGenerator
             $('#ew_group_export_as_template_link').click(function(e){
@@ -417,7 +412,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
-            $(".addpeople_init").click(function(){
+            $(".addpeople_init").live("click", function(){
                 $(window).trigger("init.addpeople.sakai", [tuid, true]);
                 $("#entity_groupsettings_dropdown").jqmHide();
             });

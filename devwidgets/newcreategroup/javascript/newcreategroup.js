@@ -71,9 +71,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     var renderShareMessage = function(){
         $(newcreategroupMembersMessage, $rootel).html(sakai.api.Util.TemplateRenderer(newcreategroupMembersMessageTemplate, {
-            "creatorRole" : sakai.api.User.getDisplayName(sakai.data.me.profile),
+            "creatorName" : sakai.api.User.getDisplayName(sakai.data.me.profile),
             "groupName" : sakai.api.Security.safeOutput($newcreategroupGroupTitle.val() || ""),
-            "groupURL": sakai.config.SakaiDomain + "/~" + sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val() || "")
+            "link": sakai.config.SakaiDomain + "/~" + sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val() || "")
         }));
     };
 
@@ -107,6 +107,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         return users;
     };
 
+    var checkDefaultContentAdded = function(contentToAdd, count){
+        return !$.isArray(contentToAdd) || contentToAdd.length - 1 === count;
+    };
+
+    var setDefaultContent = function(groupid){
+        var contentToAdd = $.bbq.getState("contentToAdd");
+        if(contentToAdd.length > 1 && !$.isArray(contentToAdd)){
+            contentToAdd = contentToAdd.split(",");
+        }
+        var count = 0;
+        $.each(contentToAdd, function(i, contentId){
+            sakai.api.Content.addToLibrary(contentId, groupid, false, function(contentId, entityId) {
+                if(checkDefaultContentAdded(contentToAdd, count)){
+                    $newcreategroupCreating.jqmHide();
+                    window.location = "/~" + groupid;
+                } else {
+                    count++;
+                }
+            });
+        });
+    };
+
     /**
      * Create a simple group and execute the tagging and membership functions
      */
@@ -115,20 +137,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var grouptitle = $newcreategroupGroupTitle.val() || "";
         var groupdescription = $newcreategroupGroupDescription.val() || "";
         var groupid = sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-");
-        var grouptags = $newcreategroupGroupTags.val().split(",");
+        var grouptags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $newcreategroupGroupTags, true );
         var users = createUsersToAddObject();
         var subject = sakai.api.i18n.getValueForKey("USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME", "newcreategroup").replace("<\"Role\">", "${role}");
-        var body = $.trim($newcreategroup_members_message_template_unprocessed.text().
-                                                    replace("<\"Role\">", "${role}").
-                                                    replace("<\"First Name\">", "${firstName}"));
+        var body = $.trim($newcreategroup_members_message_template_unprocessed.text().replace("<\"Role\">", "${role}").replace("<\"First Name\">", "${firstName}"));
         var joinable = $newcreategroupGroupMembership.val();
         var visible = $newcreategroupCanBeFoundIn.val();
-        //createGroup : function(id, title, description, tags, users, joinability, visibility, templatePath, subject, body, meData, callback) {
         sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, grouptags, users, joinable, visible, templatePath, subject, body, sakai.data.me, function(success, groupData, nameTaken){
             if (success) {
-                window.location = "/~" + groupid;
+                if($.bbq.getState("contentToAdd")){
+                    setDefaultContent(groupid);
+                } else {
+                    window.location = "/~" + groupid;
+                }
             } else {
-                $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
+                $newcreategroupContainer.find("select, input, textarea:not([class*='as-input']), button").removeAttr("disabled");
             }
         });
     };
@@ -143,13 +166,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var validateOpts = {
             submitHandler: function(form){
-                $newcreategroupContainer.find("select, input, textarea, button").attr("disabled", "disabled");
+                $newcreategroupContainer.find("select, input, textarea:not([class*='as-input']), button").attr("disabled", "disabled");
                 doCreateSimpleGroup();
             }
         };
         // Initialize the validate plug-in
         sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOpts, true);
-
+        sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($newcreategroupGroupTags, null, $(".list_categories", $rootel));
         $newcreategroupGroupTitle.bind("keyup", function(){
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val().toLowerCase(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);

@@ -11,5 +11,5 @@
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/mymemberships/mymemberships.html",
-    "hashParams": ["mq", "mp", "mso", "mls"]
+    "hashParams": ["mq", "mp", "mso", "ls"]
 }

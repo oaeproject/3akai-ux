@@ -16,5 +16,6 @@
     "type":               "sakai",
     "url":                "/devwidgets/participants/participants.html",
     "userdashboard":      false,
-    "userpages":          false
+    "userpages":          false,
+    "hashParams": ["pq", "psb", "ls"]
 }

@@ -12,7 +12,7 @@
         {/if}
     --></div>
 
-    <div class="s3d-page-header-top-row">
+    <div class="s3d-page-header-top-row" style="display:none;">
         <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
             <div class="s3d-listview-grid">
                 <div class="s3d-action-icon s3d-search-results-gridview"></div>
@@ -21,7 +21,7 @@
                 <div class="s3d-action-icon s3d-search-results-listview selected"></div>
             </div>
         </div>
-        <div id="mymemberships_sortarea" class="s3d-margin-top-5 s3d-page-header-sort-area" style="display:none;">
+        <div id="mymemberships_sortarea" class="s3d-margin-top-5 s3d-page-header-sort-area">
             <label for="mymemberships_sortby">__MSG__SORT_BY__:</label>
             <select id="mymemberships_sortby" name="mymemberships_sortby">
                 <option value="modified">__MSG__RECENTLY_CHANGED__</option>
@@ -36,11 +36,12 @@
             </button>
         </div>
     </div>
-    <div class="s3d-page-header-bottom-row">
+    <div class="s3d-page-header-bottom-row" style="display:none;">
         <a class="s3d-button s3d-large-button fl-force-right" href="/create">__MSG__CREATE_A_NEW_GROUP__</a>
-        <div title="__MSG__SELECT_ALL_GROUPS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-page-header-selectall" id="mymemberships_select" type="button">
-            <input type="checkbox" id="mymemberships_select_checkbox"/><label for="mymemberships_select_checkbox" class="s3d-aural-text">__MSG__SELECT_ALL__</label>
+        <div class="s3d-button s3d-header-button s3d-header-smaller-button" id="mymemberships_select_all_container">
+            <input type="checkbox" id="mymemberships_select_checkbox"/>
         </div>
+        <label for="mymemberships_select_checkbox" class="s3d-aural-text">__MSG__SELECT_ALL__</label>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button addpeoplegroups_trigger" id="mymemberships_addpeople_button" disabled="true" data-entityname="" data-entityid="">
             <span class="s3d-page-header-add-to-icon"></span>
             __MSG__ADD_TO__...
@@ -146,9 +147,9 @@
                             <ul class="mymemberships_item_tags_list s3d-taglist">
                                 {for t in group.tagsProcessed}
                                     <li>
-                                        <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
+                                        <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
+                                            <span class="s3d-search-result-tag">${t.tagShort}</span>
+                                            <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
                                         </a>
                                     </li>
                                 {/for}

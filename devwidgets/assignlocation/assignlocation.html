@@ -27,10 +27,8 @@
 <div id="assignlocation_jstree_selected_template"><!--
     <ul id="assignlocation_locations_selected">
         {for location in selections}
-            <li {if location_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if} id="${location}">
-                {for locationpiece in location.split("/")}
-                    ${sakai.api.Util.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}
-                {/for}
+            <li {if location_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if} id="${location.id}">
+                ${location.value}
                 <button type="button" class="assignlocation_close_image s3d-link-button" title="__MSG__REMOVE__"></button>
             </li>
         {/for}

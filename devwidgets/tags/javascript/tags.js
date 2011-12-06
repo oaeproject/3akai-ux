@@ -48,38 +48,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var generateTagCloud = function(){
             var newtags = [];
-            // Filter out directory tags
-            if (tagData.results.length && tagData.results[0].tags) {
-                for (var i = 0; i < tagData.results[0].tags.length; i++) {
-                    if (tagData.results[0].tags[i].name.substring(0, 10) !== "directory/") {
-                        newtags.push(tagData.results[0].tags[i]);
-                    }
-                }
-                tagData.results[0].tags = newtags;
-                // Sort the tags in alphabetical order so we can generate a tag cloud
-                tagData.results[0].tags.sort(function(a, b){
-                    var nameA = a.name.toLowerCase();
-                    var nameB = b.name.toLowerCase();
-                    if (nameA < nameB) {
-                        return -1;
-                    }
-                    if (nameA > nameB) {
-                        return 1;
-                    }
-                    return 0;
+            if ( tagData.facet_fields && tagData.facet_fields.length && tagData.facet_fields[ 0 ].tagname ) {
+                $.each(tagData.facet_fields[0].tagname, function( i, tagobj ) {
+                    var tag = sakai.api.Util.formatTags( _.keys( tagobj )[ 0 ] )[ 0 ];
+                    tag.count = _.values( tagobj )[ 0 ];
+                    newtags.push( tag );
                 });
                 // Only show the first 20 tags
-                var totalAdded = 0;
-                newtags = [];
-                for (var ii = 0; ii < tagData.results[0].tags.length; ii++) {
-                    if (totalAdded < 20) {
-                        newtags.push(tagData.results[0].tags[ii]);
-                        totalAdded++;
-                    }
-                }
-                tagData.results[0].tags = newtags;
+                newtags = _.first( newtags, 20 );
             }
-            $tags_main.html(sakai.api.Util.TemplateRenderer($tags_main_template, {data: tagData})).show();
+            sakai.api.Util.TemplateRenderer( $tags_main_template, { tags: newtags }, $tags_main );
+            $tags_main.show();
         };
 
         var loadData = function(directory, callback){

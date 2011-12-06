@@ -15,21 +15,25 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+#contentmetadata_container{float:left;}
 #contentmetadata_description_container,#contentmetadata_tags_container,#contentmetadata_details_container,#contentmetadata_locations_container,#contentmetadata_copyright_container,#contentmetadata_url_container{padding:7px 0;background-color:#FFF;border-bottom:1px dotted #aaa;margin-right:10px;}
 #contentmetadata_container > div.last {border-bottom:none;}
-.fl-container-650 #contentmetadata_description_container,.fl-container-650 #contentmetadata_tags_container,.fl-container-650 #contentmetadata_details_container,.fl-container-650 #contentmetadata_locations_container,.fl-container-650 #contentmetadata_copyright_container,.fl-container-650 #contentmetadata_url_container{width:600px;clear:both;min-height:15px;margin:0 15px;color:#666;}
-.fl-container-450 #contentmetadata_description_container,.fl-container-450 #contentmetadata_tags_container,.fl-container-450 #contentmetadata_details_container,.fl-container-450 #contentmetadata_locations_container,.fl-container-450 #contentmetadata_copyright_container,.fl-container-450 #contentmetadata_url_container{width:420px;clear:both;min-height:15px;margin:0 15px;color:#666;}
+.fl-container-650 #contentmetadata_description_container,.fl-container-650 #contentmetadata_tags_container,.fl-container-650 #contentmetadata_details_container,.fl-container-650 #contentmetadata_locations_container,.fl-container-650 #contentmetadata_copyright_container,.fl-container-650 #contentmetadata_url_container{width:600px;clear:both;min-height:15px;margin:0 15px;color:#666;float:left;}
+.fl-container-450 #contentmetadata_description_container,.fl-container-450 #contentmetadata_tags_container,.fl-container-450 #contentmetadata_details_container,.fl-container-450 #contentmetadata_locations_container,.fl-container-450 #contentmetadata_copyright_container,.fl-container-450 #contentmetadata_url_container{width:420px;clear:both;min-height:15px;margin:0 15px;color:#666;float:left;}
 #contentmetadata_container .s3d-contentpage-title.metadata {margin-bottom:5px;}
-#contentmetadata_container .s3d-widget-footer {padding-bottom:0px;}
+#contentmetadata_container .s3d-widget-footer {padding-bottom:0px;float:left;}
+.fl-container-650 #contentmetadata_container .s3d-widget-footer{width:626px;}
+.fl-container-450 #contentmetadata_container .s3d-widget-footer{width:426px;}
 #contentmetadata_container .s3d-link-button {color:#666;}
 #contentmetadata_container .s3d-link-button:hover {color:#2683BC;}
 #contentmetadata_show_more{padding: 10px 0px 7px; display:inline;clear:both;}
 #contentmetadata_show_more span{float:right;display:inline;}/** Fix for IE and older FF browsers **/
 #contentmetadata_show_more span + span{padding-top:2px;}
 #contentmetadata_show_more.s3d-link-button {*width:250px;height:14px;padding:0;margin-top:2px;}
-.contentmetadata_first_column{display:block;float:left;width:100px;font-weight:normal;margin-bottom:3px;padding:2px 0;}
+.contentmetadata_first_column{display:block;float:left;width:140px;font-weight:normal;margin-bottom:3px;padding:2px 0;}
 .contentmetadata_content_row{clear:both;}
 .contentmetadata_second_column{display:block;overflow:hidden;padding:2px 0;}
+.content_profile_basic_info_form_anon_label{float:left;padding:2px 0px;}
 
 /* EDITABLE FIELDS */
 .contentmetadata_editable{padding:5px;}
@@ -40,6 +44,8 @@
 .contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_binner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1187px transparent;}
 .contentmetadata_editing:hover{background-color:#FFFFFF!important;}
 .contentmetadata_edit_input{width:100%;margin:7px 0;background-color: #fcecb2;}
+.contentmetadata_edit_input.as-selections, .contentmetadata_edit_input.as-selections textarea {background-color: #fcecb2;}
+.contentmetadata_edit_input textarea{min-height: 75px;}
 textarea.contentmetadata_edit_input{min-height: 75px; resize:vertical; background-color: #fcecb2;}
 #contentmetadata_container ul{margin:0;overflow:hidden;}
 #contentmetadata_container ul li{list-style:none outside none;}
