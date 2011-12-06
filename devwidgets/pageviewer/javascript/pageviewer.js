@@ -68,7 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                     renderContainer();
                 } else {
-                    debug.log("Page contents could not be fetched.")
+                    debug.warn("Page contents could not be fetched.")
                 }
             });
         };

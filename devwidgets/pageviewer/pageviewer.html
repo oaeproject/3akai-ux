@@ -20,7 +20,7 @@
 <div id="pageviewer_content_template"><!--
     {for page in pages}
         <div id="pageviewer_content_for_page_${page_index}" class="pageviewer_content_for_page" {if page_index != 0} style="display:none;"{/if}>
-            {if page.pageContent}
+            {if page.pageContent && page.pageContent.page}
                 ${page.pageContent.page}
             {else}
                 <div class="sakaidocs_default_viewable_content_imagecontainer"></div>

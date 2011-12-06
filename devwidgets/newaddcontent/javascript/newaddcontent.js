@@ -1240,7 +1240,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 drop: function (ev, data) {
                     ev.stopPropagation();
                     ev.preventDefault();
-                    if ($(ev.target).get(0) === $("#newaddcontent_container_selecteditems").get(0) || $(ev.target).parents("#newaddcontent_container_selecteditems").length){
+                    if ($(ev.target).is($("#newaddcontent_container_selecteditems")) || $(ev.target).parents("#newaddcontent_container_selecteditems").length){
                         var error = false;
                         $.each(data.files, function (index, file) {
                             if (file.size > 0){
@@ -1268,10 +1268,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var setCurrentlySelectedLibrary = function(){
             if (sakai_global.group && sakai_global.group.groupId){
                 currentSelectedLibrary = sakai_global.group.groupId;
-            } else if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai_global.content_profile.content_data.data){
-                if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
-                    currentSelectedLibrary = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
-                }
+            } else if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai_global.content_profile.content_data.data
+                       && sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
+                currentSelectedLibrary = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
             }
         };
 

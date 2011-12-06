@@ -228,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "url": "/system/userManager/group/" + collectiongroup + ".members.json",
                         "method": "GET",
                         "parameters": {
-                            items: 1000
+                            items: 10000
                         }
                     })
                 });

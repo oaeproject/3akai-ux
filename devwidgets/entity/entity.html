@@ -526,12 +526,14 @@
                 {for i in userList}
                     {if sakai.api.Content.Collections.isCollection(i)}
                         ${userlist_groups_index++|eat}
-                        {if userlist_groups_index%2} <li id="${i['sakai:group-id']}">
-                        {else} <li id="${i['sakai:group-id']|safeOutput}" class="entity_content_even">
+                        {if userlist_groups_index%2} 
+                            <li id="${i['sakai:group-id']}">
+                        {else} 
+                            <li id="${i['sakai:group-id']}" class="entity_content_even">
                         {/if}
-                        <a href="/content#p=${sakai.api.Content.Collections.getCollectionPoolId(i)|safeURL}/${i['sakai:group-title']|safeURL}" target="_blank"><img src="/dev/images/mimetypes/collection.png" alt="${i['sakai:group-title']|safeOutput}" class="entity_content_picture"/></a>
+                        <a href="/content#p=${sakai.api.Content.Collections.getCollectionPoolId(i)}/${i['sakai:group-title']|safeURL}" target="_blank"><img src="/dev/images/mimetypes/collection.png" alt="${i['sakai:group-title']|safeOutput}" class="entity_content_picture"/></a>
                         <span class="entity_content_name">
-                            <a class="s3d-regular-links s3d-bold" href="/content#p=${sakai.api.Content.Collections.getCollectionPoolId(i)|safeURL}/${i['sakai:group-title']|safeURL}" target="_blank">${i['sakai:group-title']|safeOutput}</a>
+                            <a class="s3d-regular-links s3d-bold" href="/content#p=${sakai.api.Content.Collections.getCollectionPoolId(i)}/${i['sakai:group-title']|safeURL}" target="_blank">${i['sakai:group-title']|safeOutput}</a>
                          </span>
                     {/if}
                     </li>

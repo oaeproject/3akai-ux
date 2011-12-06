@@ -100,7 +100,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 var groupID = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
                 $(contentPermissionsEditList).each(function(index, item){
                     var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
-                    var userId = item.id.split("_")[1];
+                    var userId = $(item).attr("id").split("_")[1];
                     if (newPermission === "manager") {
                         atLeastOneManager = true;
                     }
@@ -124,8 +124,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             } else {
                 $(contentPermissionsEditList).each(function(index, item){
                     var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
-                    var userId = item.id.split("_")[1];
-                    if (newPermission == "manager") {
+                    var userId = $(item).attr("id").split("_")[1];
+                    if (newPermission === "manager") {
                         atLeastOneManager = true;
                         permissionBatch.push({
                             "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
@@ -221,7 +221,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if (sakai_global.content_profile.content_data.members.managers.length > 1 || !manager) {
 
                 if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)) {
-                    var userObj = [{"permission": "managers", "userid": userid}, {"permission": "members", "userid": userid}];
+                    var userObj = [
+                        {
+                            "permission": "managers", 
+                            "userid": userid
+                        }, 
+                        {
+                            "permission": "members", 
+                            "userid": userid
+                        }
+                    ];
                     sakai.api.Groups.removeUsersFromGroup(sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data), userObj, sakai.data.me, function(){
                         $(window).trigger("load.content_profile.sakai");
                         $itemToDelete.remove();

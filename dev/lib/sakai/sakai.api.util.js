@@ -2344,7 +2344,7 @@ define(
              */
             setupDraggable: function(params, $container){
                 if (!require("sakai/sakai.api.user").data.me.user.anon) {
-                    $.each($(".s3d-draggable-container", $container), function(index, draggable){
+                    $(".s3d-draggable-container", $container).each(function(index, draggable){
                         if (!$(draggable).hasClass("ui-draggable")) {
                             // HTML overrides default, JS overrides HTML
                             // Override default parameters with attribute defined parameters
@@ -2386,7 +2386,7 @@ define(
              */
             setupDroppable: function(params, $container){
                 if (!require("sakai/sakai.api.user").data.me.user.anon) {
-                    $.each($(".s3d-droppable-container", $container), function(index, droppable){
+                    $(".s3d-droppable-container", $container).each(function(index, droppable){
                         if (!$(droppable).hasClass("ui-droppable")) {
                             // HTML overrides default, JS overrides HTML
                             // Override default parameters with attribute defined parameters

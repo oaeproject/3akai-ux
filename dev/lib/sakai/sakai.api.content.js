@@ -1230,7 +1230,7 @@ define(
 
                         // 2. Tag the collection
                         var collectionId = data._contentItem.poolId;
-                        sakai_util.tagEntity("/p/" + collectionId, sakai_util.formatTags(collectionObject["sakai:tags"]), false, function(){
+                        sakai_util.tagEntity("/p/" + collectionId, collectionObject["sakai:tags"], false, function(){
                             // 3. Set the permissions on the pooled content item
                             sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
 
@@ -1467,6 +1467,21 @@ define(
                         callback(success);
                     }
                 });
+            },
+
+            /**
+             * Check whether the current user can manage a given collection
+             * @param {Object} collectionid   Pseudogroup id of the collection
+             */
+            canCurrentUserManageCollection: function(collectionid){
+                if (!sakai_user.data.me.user.anon){
+                    for (var i = 0, il = sakai_user.data.me.groups.length; i < il; i++) {
+                        if (sakai_user.data.me.groups[i]["sakai:group-id"] === collectionid + "-managers"){
+                            return true;
+                        }
+                    }
+                }
+                return false;
             },
 
             /**

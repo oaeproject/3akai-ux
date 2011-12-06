@@ -208,9 +208,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         }
 
-        ////////////////////////////
-        // DRAG AND DROP ITEMS IN //
-        ////////////////////////////
+        /////////////////////////////////////////
+        // DRAG AND DROP ITEMS IN FROM DESKTOP //
+        /////////////////////////////////////////
 
         var filesToUpload = [];
 
@@ -220,7 +220,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 drop: function (ev, data) {
                     ev.stopPropagation();
                     ev.preventDefault();
-                    if ($(ev.target).get(0) === $("#collection_drop_" + collectionid).get(0) && data.files){
+                    if ($(ev.target).is("#collection_drop_" + collectionid) && data.files){
                         $.each(data.files, function (index, file) {
                             if (file.size > 0){
                                 filesToUpload.push(file);
@@ -282,7 +282,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 addToCollectionCount(collectionId, 1);
                                 filesToUpload.splice(0, 1);
                                 uploadFile(collectionId, permissions);
-                            })
+                            });
                         });
                     });
                 } else {
@@ -295,14 +295,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                 }, 500);
             }
-        }
+        };
 
         var initializeDesktopDD = function(collections){
             // Initialize drag and drop from desktop
             $.each(collections, function(index, collection){
                 finishInitializeDD(collection["_path"], collection["sakai:permissions"]);
             });
-        }
+        };
+
+        ////////////////////////////////////////
+        // DRAG AND DROP ITEMS IN FROM SYSTEM //
+        ////////////////////////////////////////
 
         $(window).bind("drop.collections.sakai", function(ev, data, target){
             var collectionId = target.data("sakai-collection-id");
@@ -315,16 +319,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     collectedContent.push(item.entityid);
                 }
             });
-            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_CONTENT_ADDING_TO_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
-            sakai.api.Content.Collections.addToCollection(collectionId, collectedContent, function(){
-                sakai.api.Content.Collections.shareCollection(collectedCollections, sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function(){
-                    setTimeout(function(){
-                        addToCollectionCount(collectionId, collectedCollections.length + collectedContent.length);
-                        getRecentContent(collectionId);
-                        sakai.api.Util.progressIndicator.hideProgressIndicator();
-                    }, 1000);
+            if (collectedContent.length + collectedCollections.length > 0) {
+                sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_CONTENT_ADDING_TO_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
+                sakai.api.Content.Collections.addToCollection(collectionId, collectedContent, function(){
+                    sakai.api.Content.Collections.shareCollection(collectedCollections, sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function(){
+                        setTimeout(function(){
+                            addToCollectionCount(collectionId, collectedCollections.length + collectedContent.length);
+                            getRecentContent(collectionId);
+                            sakai.api.Util.progressIndicator.hideProgressIndicator();
+                        }, 1000);
+                    });
                 });
-            });  
+            } 
         });
 
         ////////////////////
