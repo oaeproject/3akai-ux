@@ -17,7 +17,9 @@
             {/if}
             </div>
             <div id="contentpreview_default_preview_data">
-                __MSG__UPLOADED_BY__ <a class="s3d-action" title="${userName}'s __MSG__PROFILE__" href="/~${contentData.data["sakai:pool-content-created-for"]}">${userName}</a> <br/>
+                {if userName}
+                    __MSG__UPLOADED_BY__ <a class="s3d-action" title="${userName}'s __MSG__PROFILE__" href="/~${contentData.data["sakai:pool-content-created-for"]}">${userName}</a> <br/>
+                {/if}
                 ${sakai.api.Util.convertToHumanReadableFileSize(contentData.data["length"] || contentData.data["_length"])}<br/>
                 {if contentData.data["_mimeType"] !== "x-sakai/link"}
                     ${sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(contentData.data)).description)}
