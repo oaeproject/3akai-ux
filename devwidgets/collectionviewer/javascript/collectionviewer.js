@@ -95,7 +95,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }, $collectionviewerCarouselContainer);
             $collectionviewerCarouselContainer.show();
             $collectionviewerExpandedContentContainer.show();
+            $(".collectionviewer_controls", $rootel).hide();
             if(collectionData.length){
+                var totalItems = 0;
+                $.each(collectionData, function(index, item){
+                    if (item){
+                        totalItems += item.length;
+                    }
+                });
+                if (totalItems > 12) {
+                    $(".collectionviewer_controls", $rootel).show();
+                }
                 $("#collectionviewer_carousel", $rootel).jcarousel({
                     animation: "slow",
                     easing: "swing",
@@ -238,7 +248,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         collectionviewer.total = data.total;
                         if(data.results && data.results.length){
                             sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
-                                collectionData[collectionviewer.page] = parsedContent;
+                                collectionData[(collectionviewer.page - 1)] = parsedContent;
                                 // Get the full profiles for these items
                                 showData();
                             });
