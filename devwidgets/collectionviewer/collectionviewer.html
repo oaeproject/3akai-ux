@@ -100,7 +100,7 @@
                         <span class="searchcontent_result_description">${i["sakai:description"]|safeOutput}</span>
                         <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]|safeOutput}</span>
                     {/if}
-                    {if i.tagsProcessed.length}
+                    {if i.tagsProcessed && i.tagsProcessed.length}
                         <ul class="s3d-taglist">
                             {for t in i.tagsProcessed}
                                 <li>
@@ -163,7 +163,7 @@
     </div>
     <div class="collectionviewer_prev_next_container fl-force-left">
         <button id="collectionviewer_newer" class="collectionviewer_controls s3d-link-button" title="__MSG__NEXT_PAGE__"></button>
-        <button id="collectionviewer_newest" class="collectionviewer_controls s3d-link-button" title="__MSG__LAST_PAGE__></button>
+        <button id="collectionviewer_newest" class="collectionviewer_controls s3d-link-button" title="__MSG__LAST_PAGE__"></button>
     </div>
 
     <div id="collectionviewer_carousel" class="jcarousel-skin-tango s3d-bold">

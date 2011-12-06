@@ -148,8 +148,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // GRID OR LIST //
         var renderGridOrList = function(grid, editMode){
+            var pageNumber = collectionviewer.page - 1;
             sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
-                items: collectionData[collectionviewer.page],
+                items: collectionData[pageNumber],
                 sakai: sakai,
                 grid: grid,
                 editMode: editMode,
@@ -158,14 +159,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
             }, $collectionviewerGridListContainer);
             $collectionviewerGridListContainer.show();
-            $("#collectionviewer_paging", $rootel).pager({
-                pagenumber: collectionviewer.page,
-                pagecount: Math.ceil(collectionviewer.total / 12),
-                buttonClickCallback: function(page){
-                    collectionviewer.page = parseInt(page, 10);
-                    decideGetNextBatch();
-                }
-            });
+            var pageCount = Math.ceil(collectionviewer.total / 12);
+            if (pageCount > 1){
+                $("#collectionviewer_paging", $rootel).show();
+                $("#collectionviewer_paging", $rootel).pager({
+                    pagenumber: collectionviewer.page,
+                    pagecount: Math.ceil(collectionviewer.total / 12),
+                    buttonClickCallback: function(page){
+                        collectionviewer.page = parseInt(page, 10);
+                        decideGetNextBatch();
+                    }
+                });
+            } else {
+                $("#collectionviewer_paging", $rootel).hide();
+            }
         };
 
 
