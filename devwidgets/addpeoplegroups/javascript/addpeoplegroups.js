@@ -55,7 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 selectedTitles = selectedTitles.split(",");
                 selectedIDs = selectedIDs.split(",");
             }
-            $.each(selectedTitles, function(i, title){
+            $.each(selectedTitles, function(i, title) {
                 selected.push({
                     id: selectedIDs[i],
                     title: title
@@ -66,8 +66,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getSelectedIDs = function(){
             var selected = [];
-            $.each(selectedTitles, function(i, select){
-                selected.push(selectedIDs[i]);
+            $.each( selectedIDs, function( i, id ){
+                if ( id !== sakai.data.me.user.userid ) {
+                    selected.push( id );
+                }
             });
             return selected;
         };
@@ -136,7 +138,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 api: sakai.api,
                 groups: getSelected(),
                 libraryHasIt: false,
-                memberOfGroups: sakai.api.Groups.getMemberships(filterManagedGroups()),
+                memberOfGroups: sakai.api.Groups.getMemberships(filterManagedGroups),
                 worlds: sakai.config.worldTemplates
             };
             // Check if groups are part of my library

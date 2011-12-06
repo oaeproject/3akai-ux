@@ -548,6 +548,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var defaultMembers = $.bbq.getState("members") || [];
             if(defaultMembers.length){
                 defaultMembers = defaultMembers.split(",");
+                defaultMembers = _.without(defaultMembers, sakai.data.me.user.userid);
                 fetchGroupsAndUsersData(defaultMembers);
             }
         }
