@@ -534,11 +534,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 getLanguages();
                 initValidation();
-                
+
                 // if allowpasswordchange is false then hide the regional setting
                 if (!sakai.config.allowPasswordChange) {
+                    $(accountPasswordTab).hide();
                     $(passChangeContainer).hide();
-                }               
+                }
             }
         };
 
