@@ -200,52 +200,33 @@ define(
          * @param {Function} callback the callback function for when the group delete is complete.
         */
         deleteGroup : function(groupID, meData, callback) {
-            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
+            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, groupAuthData){
                 if (success && data) {
-                    var deleteGroupReqs = [];
-                    deleteGroupReqs.push({
-                        url: "/system/userManager/group/" + groupID + ".delete.html",
-                        method: "POST"
-                    });
-                    groupAuthData = data;
+                    var groupArray = [groupID];
 
                     // delete any pseudo groups
                     if (groupAuthData.properties["sakai:roles"]) {
                         var roles = $.parseJSON(groupAuthData.properties["sakai:roles"]);
-                        var managementGroup = false;
-
                         if (roles && roles.length > 0) {
                             for (var r = 0; r < roles.length; r++) {
-                                // check if we need this group access to delete the other groups
-                                var pseudoGroupID = groupID + "-" + roles[r].id;
-                                if (roles[r] && roles[r].isManagerRole && !managementGroup && !groupAuthData.properties["sakai:pseudoGroup"]) {
-                                    for (var i = 0; i < meData.groups.length; i++) {
-                                        if (meData.groups[i]["sakai:group-id"] === pseudoGroupID) {
-                                            managementGroup = pseudoGroupID;
-                                        }
-                                    }
-                                }
-                                if (!managementGroup || (managementGroup && managementGroup !== pseudoGroupID)) {
-                                    deleteGroupReqs.push({
-                                        url: "/system/userManager/group/" + pseudoGroupID + ".delete.html",
-                                        method: "POST"
-                                    });
-                                }
+                                groupArray.push(groupID + "-" + roles[r].id);
                             }
-                        }
-                        // add management group to the end of the requests
-                        if (managementGroup) {
-                            deleteGroupReqs.push({
-                                url: "/system/userManager/group/" + managementGroup + ".delete.html",
-                                method: "POST"
-                            });
                         }
                     }
 
                     // delete the group
-                    sakai_serv.batch(deleteGroupReqs, function (success, data) {
-                        if ($.isFunction(callback)) {
-                            callback(success);
+                    $.ajax({
+                        url: "/system/userManager/group.delete.html",
+                        type: "POST",
+                        traditional: true,
+                        data: {
+                            ":applyTo": groupArray.toString()
+                        },
+                        success: function(data){
+                            callback(true);
+                        },
+                        error: function(){
+                            callback(false);
                         }
                     });
                 } else if ($.isFunction(callback)) {
