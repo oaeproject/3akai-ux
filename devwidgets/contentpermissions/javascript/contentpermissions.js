@@ -371,17 +371,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Share the piece of content with a user by adding the user to the list of members (manager or viewer)
          */
         var doShare = function(){
+            $(window).unbind("ready.contentprofile.sakai", doInit);
             $(window).bind("ready.contentprofile.sakai", doInit);
             var userList = getSelectedList();
             $(window).trigger("finished.sharecontent.sakai", [
                 userList, $.trim($("#contentpermissions_members_autosuggest_text").val()), { 
-                    data:{
-                        "_path": sakai_global.content_profile.content_data.data["_path"],
-                        "sakai:pooled-content-file-name": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
-                        "_mimeType": sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data),
-                        "canManage": $("#contentpermissions_members_autosuggest_permissions").val() === "manager"
-                    }
-                }
+                    data: [{
+                        body: sakai_global.content_profile.content_data.data
+                    }]
+                }, $("#contentpermissions_members_autosuggest_permissions").val() === "manager"
             ]);
         };
 

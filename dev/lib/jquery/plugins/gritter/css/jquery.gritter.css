@@ -4,7 +4,7 @@
     top: 20px;
     right: 20px;
     width: 301px;
-    z-index: 9999;
+    z-index: 999999;
 }
 
 .gritter-item-wrapper {
