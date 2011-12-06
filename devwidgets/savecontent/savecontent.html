@@ -56,13 +56,13 @@
         {for g in groups.entry}
             {if g["sakai:group-title"]}
                 {if sakai.api.Content.Collections.isCollection(g)}
-                    {if !g.overrideAllSelectedAMember}
+                    {if g.alreadyHasIt}
                         <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> ${g["sakai:group-title"]|safeOutput} (__MSG__GOT_IT__)</option>
                     {else}
                         <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}> ${g["sakai:group-title"]|safeOutput}</option>
                     {/if}
                 {else}
-                    {if !g.overrideAllSelectedAMember}
+                    {if g.alreadyHasIt}
                         <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> __MSG__GROUPS_LIBRARY__ (__MSG__GOT_IT__)</option>
                     {else}
                         <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}> __MSG__GROUPS_LIBRARY__</option>

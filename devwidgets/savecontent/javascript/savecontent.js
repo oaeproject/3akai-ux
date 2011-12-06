@@ -139,12 +139,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Determines if the selected content items are a part of any groups
          */
         var selectAlreadyInGroup = function(){
-            $.each(contentObj.data, function(i, selectedContent){
-                $.each(contentObj.memberOfGroups.entry, function(j, memberOfGroup){
-                    // Check if content is part of the group
-                    var isContentInGroup = sakai.api.Content.isContentInLibrary(selectedContent.body, memberOfGroup["sakai:group-id"]);
+            $.each(contentObj.memberOfGroups.entry, function(j, memberOfGroup){
+                memberOfGroup.alreadyHasIt = true;
+                $.each(contentObj.data, function(i, selectedContent){
+                    var contentItem = selectedContent.body;
+                    var isContentInGroup = sakai.api.Content.isContentInLibrary(contentItem, memberOfGroup["sakai:group-id"]);
                     if (!isContentInGroup){
-                        memberOfGroup.overrideAllSelectedAMember = true;
+                        memberOfGroup.alreadyHasIt = false;
                     }
                 });
             });
@@ -233,12 +234,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(".savecontent_trigger").live("click", function(el){
             clickedEl = $(this);
-            contentObj.memberOfGroups = $.extend(true, {}, sakai.api.Groups.getMemberships(sakai.data.me.groups, true));
-            contentObj.context = $(el.currentTarget).attr("data-entitycontext") || false;
-            var idArr = $(".savecontent_trigger:visible").attr("data-entityid");
+            idArr = clickedEl.attr("data-entityid");
             if(idArr.length > 1 && !$.isArray(idArr)){
                 idArr = idArr.split(",");
             }
+
+            contentObj.memberOfGroups = $.extend(true, {}, sakai.api.Groups.getMemberships(sakai.data.me.groups, true));
+            contentObj.context = $(el.currentTarget).attr("data-entitycontext") || false;
+
             var batchRequests = [];
             $.each(idArr, function(i, id){
                 batchRequests.push({
