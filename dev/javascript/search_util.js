@@ -102,7 +102,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#search_tags_active_container").empty();
             activeTags = [];
             refineTags = [];
-            var tagArray = [];
+            var tagArray = [],
+                tagCountObject = {};
 
             // get any tags already in location hash
             if (params && params.refine) {
@@ -117,6 +118,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $.each(tagOjb, function(tag, count) {
                         if (count > 0) {
                             tagArray.push(tag);
+                            tagCountObject[tag] = count;
                         }
                     });
                 });
@@ -135,6 +137,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 });
                 activeTags.sort(function( a, b ) {
                     return sakai.api.Util.Sorting.naturalSort( a.value, b.value );
+                });
+                refineTags.sort( function( a, b ) {
+                    return tagCountObject[b.original] - tagCountObject[a.original];
                 });
                 // limit the number of tags to display in refine list
                 refineTags = refineTags.slice(0, maxTagsDisplayed).sort();
