@@ -41,7 +41,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
     sakai_global.documentviewer = function(tuid,showSettings,widgetData){
 
         var $rootel = $("#" + tuid);
-        var $documentviewerPreview = $(".documentviewer_preview", $rootel);
+        var $documentviewerPreview = $("#documentviewer_preview", $rootel);
+        var documentviewerPreviewSelector = "#" + tuid + " .documentviewer_preview";
         var templateObject = {};
 
         var getPath = function(data) {
@@ -61,7 +62,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     }
                 }
             };
-            var container = documentviewerPreview;
+            var container = documentviewerPreviewSelector;
             DV.load(pdfDoc, {
                 container: container,
                 width: "100%",
