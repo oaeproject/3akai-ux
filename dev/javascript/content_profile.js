@@ -173,6 +173,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }                   
                     sakai.api.Security.showPage();
 
+                    if(sakai_global.content_profile.content_data.data._mimeType === "x-sakai/collection"){
+                        $(".collectionviewer_carousel_item.selected").click();
+                    }
+
                     // rerender comments widget
                     $(window).trigger("content_profile_hash_change");
                 });
