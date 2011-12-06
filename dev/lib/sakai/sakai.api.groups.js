@@ -220,13 +220,17 @@ define(
                         type: "POST",
                         traditional: true,
                         data: {
-                            ":applyTo": groupArray.toString()
+                            ":applyTo": groupArray
                         },
                         success: function(data){
-                            callback(true);
+                            if ($.isFunction(callback)) {
+                                callback(true);
+                            }
                         },
                         error: function(){
-                            callback(false);
+                            if ($.isFunction(callback)) {
+                                callback(false);
+                            }
                         }
                     });
                 } else if ($.isFunction(callback)) {
