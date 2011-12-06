@@ -485,8 +485,8 @@ define(function(){
              * Set the default user settings in account preferences for automatic tagging
              * and auto-tagged notifications
              */
-            defaultAutoTagging: "true",
-            defaultSendTagMsg: "false"
+            defaultAutoTagging: true,
+            defaultSendTagMsg: false
         },
 
         Groups: {

@@ -292,11 +292,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var selectAutoTagging = function(autoTag){
             $("#accountpreferences_section_autotagging_buttons button").removeClass(taggingSelected);
-            if (autoTag === "true") {
+            if (autoTag) {
                 $("input:radio[name='autotagging'][value='true']").attr("checked", "checked");
                 $("#accountpreferences_section_autotagging_buttons #button_autotagging_true").addClass(taggingSelected);
-            }
-            if (autoTag === "false") {
+            } else {
                 $("input:radio[name='autotagging'][value='false']").attr("checked", "checked");
                 $("#accountpreferences_section_autotagging_buttons #button_autotagging_false").addClass(taggingSelected);
             }
@@ -307,9 +306,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *
          */
         var selectSendTagMsg = function(sendTagMsg){
-            if (sendTagMsg === "true"){
+            if (sendTagMsg){
                 $("#tag_msg_info").attr("checked", "checked");
-            } else if (sendTagMsg === "false"){
+            } else {
                 $("#tag_msg_info").removeAttr("checked");
             }
         };
@@ -328,7 +327,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getLanguages = function(){
             var langs = sakai.config.Languages;
-            if (sakai.config.displayDebugInfo === true) {
+            if (sakai.config.displayDebugInfo) {
                 langs.push({
                     "country": "GB",
                     "displayName": "i18n debug",
@@ -528,7 +527,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     selectAutoTagging(sakai.config.Profile.defaultAutoTagging);
                 }
-                if (me.user.properties.isAutoTagging){
+                if (me.user.properties.sendTagMsg){
                     selectSendTagMsg(me.user.properties.sendTagMsg);
                 } else {
                     selectSendTagMsg(sakai.config.Profile.defaultSendTagMsg);

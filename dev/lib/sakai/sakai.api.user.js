@@ -432,6 +432,21 @@ define(
                         sakaiUserAPI.data.me.profile.basic.access = "everybody";
                     }
 
+                    if (sakaiUserAPI.data.me.user.properties.isAutoTagging){
+                        if (sakaiUserAPI.data.me.user.properties.isAutoTagging === "true"){
+                            sakaiUserAPI.data.me.user.properties.isAutoTagging = true;
+                        } else if (sakaiUserAPI.data.me.user.properties.isAutoTagging === "false"){
+                            sakaiUserAPI.data.me.user.properties.isAutoTagging = false;
+                        }
+                    }
+                    if (sakaiUserAPI.data.me.user.properties.sendTagMsg){
+                        if (sakaiUserAPI.data.me.user.properties.sendTagMsg === "true"){
+                            sakaiUserAPI.data.me.user.properties.sendTagMsg = true;
+                        } else if (sakaiUserAPI.data.me.user.properties.sendTagMsg === "false"){
+                            sakaiUserAPI.data.me.user.properties.sendTagMsg = false;
+                        }
+                    }
+
                     // Call callback function if set
                     if ($.isFunction(callback)) {
                         callback(true, sakaiUserAPI.data.me);
