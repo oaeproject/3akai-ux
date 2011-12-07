@@ -346,6 +346,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var setupCountAreaBindings = function() {
+            $('#entity_content_permissions').unbind();
+            $('#entity_content_permissions').click(function(){
+                var $this = $(this);
+                if ($("#entity_contentsettings_dropdown").is(":visible")) {
+                    $('#entity_contentsettings_dropdown').jqmHide();
+                } else {
+                    $('#entity_contentsettings_dropdown').css({
+                        'top': $this.offset().top + $this.height() + 5,
+                        'left': $this.offset().left + $this.width() / 2 - 138
+                    }).jqmShow();
+                }
+            });
+
+            $('.ew_permissions').unbind();
+            $('.ew_permissions').click(function(e){
+                e.preventDefault();
+                if($(this).parents(".s3d-dropdown-list").length || $(e.target).hasClass("s3d-dropdown-list-arrow-up")){
+                    $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).data("permissionvalue") || false});
+                    $('#entity_contentsettings_dropdown').jqmHide();
+                }
+            });
+
+        };
+
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
             renderObj = {
                 "context": context,
@@ -369,17 +394,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 zIndex: 3000
             });
 
-            $('#entity_content_permissions').click(function(){
-                var $this = $(this);
-                if ($("#entity_contentsettings_dropdown").is(":visible")) {
-                    $('#entity_contentsettings_dropdown').jqmHide();
-                } else {
-                    $('#entity_contentsettings_dropdown').css({
-                        'top': $this.offset().top + $this.height() + 5,
-                        'left': $this.offset().left + $this.width() / 2 - 138
-                    }).jqmShow();
-                }
-            });
+            setupCountAreaBindings();
 
             $(window).bind("updateParticipantCount.entity.sakai", function(ev, val){
                 var num = parseInt($("#entity_participants_count").text(), 10);
@@ -410,14 +425,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             sakai.api.Util.hideOnClickOut("#entity_contentsettings_dropdown", "#entity_content_permissions, .entity_permissions_icon", function(){
                 $("#entity_contentsettings_dropdown").jqmHide();
-            });
-
-            $('.ew_permissions').click(function(e){
-                e.preventDefault();
-                if($(this).parents(".s3d-dropdown-list").length || $(e.target).hasClass("s3d-dropdown-list-arrow-up")){
-                    $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).data("permissionvalue") || false});
-                    $('#entity_contentsettings_dropdown').jqmHide();
-                }
             });
 
             $('#ew_upload').click(function(e){
@@ -482,6 +489,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 sakai_global.content_profile.content_data = parsedData;
                                 prepareRenderContext(renderObj);
                                 $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
+                                setupCountAreaBindings();
                             }
                         });
                     }
