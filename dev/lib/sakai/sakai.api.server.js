@@ -78,6 +78,15 @@ define(
                         if ($.isFunction(_callback)) {
                             _callback(true, retObj);
                         }
+                    },
+                    error: function(status){
+                        if ($.isFunction(_callback)) {
+                            _callback(false, {"results": [{
+                                "url": _requests[0].url,
+                                "success": false,
+                                "body": "{}"
+                            }]});
+                        }
                     }
                 });
             } else {
