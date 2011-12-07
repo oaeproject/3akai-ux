@@ -216,7 +216,7 @@ define(
 
                     // delete the group
                     $.ajax({
-                        url: "/system/userManager/group.delete.html",
+                        url: "/system/userManager.delete.json",
                         type: "POST",
                         traditional: true,
                         data: {
