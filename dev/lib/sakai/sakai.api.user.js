@@ -242,9 +242,11 @@ define(
             // callback function for response from batch request
             var bundleReqFunction = function(success, reqData){
                 var users = {};
-                for (var j in reqData.responseId) {
-                    if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
-                        users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
+                if (reqData && reqData.responseId) {
+                    for (var j in reqData.responseId) {
+                        if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
+                            users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
+                        }
                     }
                 }
                 callback(users);
@@ -428,6 +430,23 @@ define(
                     // SAKIII-2419 server isn't saving basic access param
                     if (sakaiUserAPI.data.me.profile.basic.access === undefined){
                         sakaiUserAPI.data.me.profile.basic.access = "everybody";
+                    }
+
+                    if (sakaiUserAPI.data.me.user.properties) {
+                        if (sakaiUserAPI.data.me.user.properties.isAutoTagging) {
+                            if (sakaiUserAPI.data.me.user.properties.isAutoTagging === "true") {
+                                sakaiUserAPI.data.me.user.properties.isAutoTagging = true;
+                            } else if (sakaiUserAPI.data.me.user.properties.isAutoTagging === "false") {
+                                sakaiUserAPI.data.me.user.properties.isAutoTagging = false;
+                            }
+                        }
+                        if (sakaiUserAPI.data.me.user.properties.sendTagMsg) {
+                            if (sakaiUserAPI.data.me.user.properties.sendTagMsg === "true") {
+                                sakaiUserAPI.data.me.user.properties.sendTagMsg = true;
+                            } else if (sakaiUserAPI.data.me.user.properties.sendTagMsg === "false") {
+                                sakaiUserAPI.data.me.user.properties.sendTagMsg = false;
+                            }
+                        }
                     }
 
                     // Call callback function if set
@@ -876,6 +895,62 @@ define(
                 }
             });
             return results;
+        },
+
+        /**
+         * Load the privacy settings for the current user's account
+         * @param {Function} callback    Function to call once the privacy setting has been retrieved. Returns 
+         *                               "public" for public user accounts or "everyone" for user
+         *                               accounts that are only visible to logged in users     
+         */
+        loadPrivacySettings: function(callback){
+            $.ajax({
+                url: "/~" + sakaiUserAPI.data.me.user.userid + ".acl.json",
+                success: function(data){
+                    var setting = data["anonymous"].granted && data["anonymous"].granted.length ? "public" : "everyone";
+                    if ($.isFunction(callback)){
+                        callback(setting);
+                    }
+                },
+                error: function(){
+                    if ($.isFunction(callback)){
+                        callback(false);
+                    }
+                }
+            });
+        },
+
+        /**
+         * Store new account privacy settings for the current user. This can either make the account
+         * public or only visible to logged in users
+         * @param {String} option         "public" for a public account or "everyone" for an account that's only
+         *                                visible to logged in users
+         * @param {Function} callback     Function to call once the privacy setting has been stored. Returns
+         *                                true when the change was successful and false when the change failed
+         */
+        savePrivacySettings: function(option, callback){
+            var data = {"principalId": "anonymous"};
+            if (option === "public"){
+                data["privilege@jcr:read"] = "granted";
+            } else {
+                data["privilege@jcr:read"] = "denied";
+            }
+            $.ajax({
+                url: "/~" + sakaiUserAPI.data.me.user.userid + ".modifyAce.json",
+                type: "POST",
+                data: data,
+                success: function(data){
+                    if ($.isFunction(callback)){
+                        callback(true);
+                    }
+                },
+                error: function(){
+                    if ($.isFunction(callback)){
+                        callback(false);
+                    }
+                }
+            });
+            return false;
         }
 
     };

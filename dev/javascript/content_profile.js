@@ -27,7 +27,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var intervalId;
 
         var showPreview = true;
-        var filename = "";
+        var collectionID = false;
+        var collectionName = false;
+        var isCollection = false;
 
         ///////////////////////////////
         // PRIVATE UTILITY FUNCTIONS //
@@ -41,7 +43,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Check whether there is actually a content path in the URL
             if (content_path) {
                 // Get the content information, the members and managers and version information
-                sakai.api.Content.loadFullProfile([content_path], function(success, data){
+                sakai.api.Content.loadFullProfile(content_path, function(success, data){
                     if (success) {
                         if (data.results.hasOwnProperty(0)) {
                             var contentInfo = false;
@@ -53,17 +55,28 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 return;
                             } else {
                                 contentInfo = $.parseJSON(data.results[0].body);
-                                if (contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/document"){
+                                if (contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/document" || contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/collection"){
                                     showPreview = false;
                                 } else {
                                     switchToOneColumnLayout(false);
+                                }
+
+                                var collectionId = $.bbq.getState("collectionId");
+                                var collectionName = $.bbq.getState("collectionName");
+                                if(collectionId && collectionName){
+                                    // Show go back to collection link
+                                    $("#back_to_collection_button #collection_title").text(collectionName);
+                                    $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + sakai.api.Util.safeURL(collectionName));
+                                    $("#back_to_collection_container").show("slow");
+                                } else {
+                                    $("#back_to_collection_container").hide("slow");
                                 }
                             }
                         }
 
                         sakai.api.Content.parseFullProfile(data.results, function(parsedData){
-                            parsedData[0].mode = "content";
-                            sakai_global.content_profile.content_data = parsedData[0];
+                            parsedData.mode = "content";
+                            sakai_global.content_profile.content_data = parsedData;
                             $(window).trigger("ready.contentprofile.sakai", sakai_global.content_profile.content_data);
                             if ($.isFunction(callback)) {
                                 callback(true);
@@ -71,7 +84,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             initEntityWidget();
 
                             if (!showPreview){
-                                renderSakaiDoc(parsedData[0].data);
+                                renderSakaiDoc(parsedData.data);
                             }
                         });
                     }
@@ -108,11 +121,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var handleHashChange = function() {
             content_path = $.bbq.getState("p") || "";
             content_path = content_path.split("/");
-            if (content_path[1]) {
-                filename = content_path[1];
-            }
             content_path = "/p/" + content_path[0];
-            
+
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
                 globalPageStructure = false;
@@ -162,6 +172,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         });
                     }                   
                     sakai.api.Security.showPage();
+
+                    if(sakai_global.content_profile.content_data.data._mimeType === "x-sakai/collection"){
+                        $(".collectionviewer_carousel_item.selected").click();
+                    }
 
                     // rerender comments widget
                     $(window).trigger("content_profile_hash_change");

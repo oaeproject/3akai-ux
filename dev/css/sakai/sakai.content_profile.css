@@ -24,3 +24,9 @@
 
 /* Sakai docs */
 #content_profile_sakaidoc_container{min-height: 300px; padding-bottom: 20px; border-bottom: 5px solid #E2E2E2; margin-bottom: 20px;}
+#content_profile_sakaidoc_container.collections {min-height:195px;padding-bottom:0;}
+
+/* Go back to collection button */
+#back_to_collection_container {overflow:hidden;border-bottom:1px solid #c6c6c6;height:35px;background:url("/dev/images/back_to_collection_bg.png") repeat-x scroll left bottom #f8f8f9;}
+#back_to_collection_container #back_to_collection_button {display:inline-block;line-height:25px;margin-left:15px;margin-top:10px;border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;-webkit-border-radius:5px 5px 0 0;}
+#back_to_collection_container #collection_title{margin-right:15px;color:#2683BC;}

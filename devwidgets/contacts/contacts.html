@@ -84,17 +84,27 @@
                         <div class="contacts_list s3d-search-result-right">
                             <a href="/~${i.profile.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${i.linkTitle}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(i.profile), 170, null, "s3d-bold", true)}</a>
                             <div class="contacts_item_counts">
-                                <a class="s3d-regular-light-links" href="/~${i.profile.userid|safeURL}#l=library">
-                                    ${i.profile.counts.contentCount} {if i.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
-                                </a>
-                                <span class="contacts_item_detail_separator s3d-search-result-detail-separator"><span>|</span></span>
-                                <a class="s3d-regular-light-links" href="/~${i.profile.userid|safeURL}#l=contacts">
-                                    ${i.profile.counts.contactsCount} {if i.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
-                                </a>
-                                <span class="contacts_item_detail_separator s3d-search-result-detail-separator"><span>|</span></span>
-                                <a class="s3d-regular-light-links" href="/~${i.profile.userid|safeURL}#l=memberships">
-                                    ${i.profile.counts.membershipsCount} {if i.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
-                                </a>
+                                {if i.profile.counts.contentCount > 0}
+                                    <a class="s3d-regular-light-links" href="/~${i.profile.userid|safeURL}#l=library">
+                                        ${i.profile.counts.contentCount || 0} {if i.profile.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+                                    </a>
+                                    {if i.profile.counts.contactsCount > 0 || i.profile.counts.membershipsCount > 0}
+                                        <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                    {/if}
+                                {/if}
+                                {if i.profile.counts.contactsCount > 0}
+                                    <a class="s3d-regular-light-links" href="/~${i.profile.userid|safeURL}#l=contacts">
+                                        ${i.profile.counts.contactsCount || 0} {if i.profile.counts.contactsCount === 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
+                                    </a>
+                                    {if i.profile.counts.membershipsCount > 0}
+                                        <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                    {/if}
+                                {/if}
+                                {if i.profile.counts.membershipsCount > 0}
+                                    <a class="s3d-regular-light-links" href="/~${i.profile.userid|safeURL}#l=memberships">
+                                        ${i.profile.counts.membershipsCount || 0} {if i.profile.counts.membershipsCount === 1} __MSG__MEMBERSHIP_LC__{else} __MSG__MEMBERSHIPS_LC__{/if}
+                                    </a>
+                                {/if}
                             </div>
                             {if i.profile.basic.elements && i.profile.basic.elements.description && i.profile.basic.elements.description.value}
                                 <div class="contacts_item_description"><span>${i.profile.basic.elements.description.value}</span></div>
@@ -177,17 +187,27 @@
                                 <span class="s3d-search-result-name-grid">${a.nameShorter|safeOutput}</span>
                             </a>
                             <div class="contacts_item_counts">
-                                <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=library">
-                                    ${a.counts.contentCount} {if a.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
-                                </a>
-                                <span class="contacts_item_detail_separator s3d-search-result-detail-separator"><span>|</span></span>
-                                <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=contacts">
-                                    ${a.counts.contactsCount} {if a.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
-                                </a>
-                                <span class="contacts_item_detail_separator s3d-search-result-detail-separator"><span>|</span></span>
-                                <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=memberships">
-                                    ${a.counts.membershipsCount} {if a.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
-                                </a>
+                                {if a.counts.contentCount > 0}
+                                    <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=library">
+                                        ${a.counts.contentCount || 0} {if a.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+                                    </a>
+                                    {if a.counts.contactsCount > 0 || a.counts.membershipsCount > 0}
+                                        <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                    {/if}
+                                {/if}
+                                {if a.counts.contactsCount > 0}
+                                    <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=contacts">
+                                        ${a.counts.contactsCount || 0} {if a.counts.contactsCount === 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
+                                    </a>
+                                    {if a.counts.membershipsCount > 0}
+                                        <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                    {/if}
+                                {/if}
+                                {if a.counts.membershipsCount > 0}
+                                    <a class="s3d-regular-light-links" href="/~${a.userid|safeURL}#l=memberships">
+                                        ${a.counts.membershipsCount || 0} {if a.counts.membershipsCount === 1} __MSG__MEMBERSHIP_LC__{else} __MSG__MEMBERSHIPS_LC__{/if}
+                                    </a>
+                                {/if}
                             </div>
                             {if a.basic.elements && a.basic.elements.description && a.basic.elements.description.value}
                                 <div class="contacts_item_description"><span>${a.basic.elements.description.value}</span></div>

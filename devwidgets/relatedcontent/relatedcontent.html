@@ -14,7 +14,7 @@
                 {for i in relatedContent.results}
                     {if i['sakai:pooled-content-file-name'] && relatedcontent_index < 10 && i['_path'] !== content.data["_path"]}
                         {var contentFound = true}
-                        <div class="relatedcontent_content {if i_index == relatedContent.results.length - 1} last{/if}" data-href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']|safeOutput}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']|safeURL}{/if}">
+                        <div class="relatedcontent_content {if i_index == relatedContent.results.length - 1} last{/if} s3d-draggable-container" data-scope="content" data-entityid="${i["_path"]}" {if sakai.api.Content.Collections.isCollection(i)} data-collection="true" {/if} data-href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']|safeOutput}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']}{/if}">
                             {var mimeType = sakai.api.Content.getMimeType(i)}
                             {var thumbnail = sakai.api.Content.getThumbnail(i)}
                             <a href="/content#p=${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']|safeOutput}" title="${i['sakai:pooled-content-file-name']|safeOutput}">

@@ -102,26 +102,28 @@
             </div>
 
             <div id="newaddcontent_add_existing_template" class="newaddcontent_newitem_container" style="display:none;">
-                <div class="s3d-search-container">
-                    <input type="text" maxlength="255" title="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__" class="s3d-search-inputfield newaddcontent_existingitems_search" placeholder="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
-                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
-                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
-                    </button>
-                </div>
-                <div id="newaddcontent_existingitems_list_container">
-                    <div id="newaddcontent_existingitems_list_container_actions">
-                        <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall"/>
-                        <select id="newaddcontent_existingitems_list_container_actions_sort" class="fl-force-right">
-                            <option data-sort-order="desc" data-sort-on="_lastModified">__MSG__CHANGED_RECENTLY__</option>
-                            <option data-sort-order="asc" data-sort-on="filename">__MSG__A_Z__</option>
-                            <option data-sort-order="desc" data-sort-on="filename">__MSG__Z_A__</option>
-                        </select>
-                        <label for="newaddcontent_existingitems_list_container_actions_sort" id="newaddcontent_existingitems_list_container_actions_sort_label" class="fl-force-right">__MSG__SORT_BY__</label>
+                <form id="newaddcontent_existing_content_form" class="newaddcontent_form">
+                    <div class="s3d-search-container">
+                        <input type="text" maxlength="255" title="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__" class="s3d-search-inputfield newaddcontent_existingitems_search" placeholder="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
+                        <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                            <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
+                        </button>
                     </div>
-                    <div id="newaddcontent_existingitems_list_container_list"><!-- --></div>
-                </div>
-                <div id="newaddcontent_existingitems_paging" class="jq_pager"><!-- --></div>
-                <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
+                    <div id="newaddcontent_existingitems_list_container">
+                        <div id="newaddcontent_existingitems_list_container_actions">
+                            <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall"/>
+                            <select id="newaddcontent_existingitems_list_container_actions_sort" class="fl-force-right">
+                                <option data-sort-order="desc" data-sort-on="_lastModified">__MSG__CHANGED_RECENTLY__</option>
+                                <option data-sort-order="asc" data-sort-on="filename">__MSG__A_Z__</option>
+                                <option data-sort-order="desc" data-sort-on="filename">__MSG__Z_A__</option>
+                            </select>
+                            <label for="newaddcontent_existingitems_list_container_actions_sort" id="newaddcontent_existingitems_list_container_actions_sort_label" class="fl-force-right">__MSG__SORT_BY__</label>
+                        </div>
+                        <div id="newaddcontent_existingitems_list_container_list"><!-- --></div>
+                    </div>
+                    <div id="newaddcontent_existingitems_paging" class="jq_pager"><!-- --></div>
+                    <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
+                </form>
             </div>
 
             <div id="newaddcontent_add_link_template" class="newaddcontent_newitem_container" style="display:none;">
@@ -220,11 +222,11 @@
             <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
             <select id="newaddcontent_saveto">
                 <option value="${me.user.userid}">__MSG__MY_LIBRARY__</option>
-                {for g in me.groups}
-                    {if g["sakai:group-title"]}
-                        {if !g["sakai:excludeSearch"]}
-                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
-                        {/if}
+                {for g in groups.entry}
+                    {if sakai.api.Content.Collections.isCollection(g)}
+                        <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}</option>
+                    {else}
+                        <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
                     {/if}
                 {/for}
             </select>
@@ -244,6 +246,8 @@
                 {else}
                     {if $.inArray(currentSelectedLibrary, item["sakai:pooled-content-viewer"]) !== -1 || $.inArray(currentSelectedLibrary, item["sakai:pooled-content-manager"]) !== -1}
                         <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (got it)</span>
+                    {elseif sakai.api.Content.Collections.isCollection(item) && (sakai.api.Content.Collections.getCollectionGroupId(item) === currentSelectedLibrary || sakai.api.Content.Collections.isCollectionInMyLibrary(item))}
+                        <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (got it)</span>
                     {else}
                         <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
                     {/if}
@@ -258,12 +262,11 @@
 --></div>
 
 <div id="newaddcontent_existingitems_template" style="display:none;"><!--
-    <form id="newaddcontent_existing_content_form" class="newaddcontent_form">
         <ul>
             {if data.results.length}
                 {for item in data.results}
                     <li {if item_index == data.results.length -1} id="newaddcontent_existingitems_list_lastitem"{/if} {if $.inArray(item["_path"], queue) >= 0} class="newaddcontent_existingitems_list_container_disabled_list_item"{/if}>
-                        <input type="checkbox" class="newaddcontent_existingitems_select_checkbox" id="${item["_path"]}" {if $.inArray(item["_path"], queue) >= 0} checked="checked"{/if} {if $.inArray(item["_path"], queue) >= 0} disabled{/if} {if item["sakai:pooled-content-manager"]}data-sakai-pooled-content-manager="${item["sakai:pooled-content-manager"].join(",")}"{/if} {if item["sakai:pooled-content-viewer"]}data-sakai-pooled-content-viewer="${item["sakai:pooled-content-viewer"].join(",")}"{/if}/>
+                        <input type="checkbox" class="newaddcontent_existingitems_select_checkbox" id="${item["_path"]}" {if $.inArray(item["_path"], queue) >= 0} checked="checked"{/if} {if $.inArray(item["_path"], queue) >= 0} disabled{/if} {if item["sakai:pooled-content-manager"]}data-sakai-pooled-content-manager="${item["sakai:pooled-content-manager"].join(",")}"{/if} {if item["sakai:pooled-content-viewer"]}data-sakai-pooled-content-viewer="${item["sakai:pooled-content-viewer"].join(",")}"{/if} data-mimeType="${item["_mimeType"]}"/>
                         <label for="${item["_path"]}">
                             <span id="{if sakai.config.MimeTypes[item["_mimeType"]]}${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{/if}" class="{if sakai.config.MimeTypes[item["_mimeType"]]} ${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{else} icon-unknown-sprite{/if} newaddcontent_existingitems_list_container_list_item_icon"></span>
                             ${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300) || item["_path"]}
@@ -292,28 +295,20 @@
                 {/if}
             {/if}
         </ul>
-    </form>
 --></div>
 
 <div id="newaddcontent_notification_finished_template" style="display:none;"><!--
     {if me.user.userid === libraryid}
         __MSG__MY_LIBRARY_ADDED__
+    {elseif sakai.api.Content.Collections.isCollection(libraryid)}
+        __MSG__COLLECTION_ADDED__
     {else}
         __MSG__THIS_CONTENT_HAS_BEEN_ADDED_TO__ <a href="/~${libraryid}#l=library">${librarytitle|safeOutput}</a>
     {/if}
 --></div>
+<div id="newaddcontent_notification_collection_finished_template" style="display:none;"><!--
+    __MSG__COLLECTION_ADDED__
+--></div>
 
-<div id="newaddcontent_uploading" class="s3d-dialog s3d-dialog-container" style="display:none;">
-    <h1 class="s3d-dialog-header">__MSG__UPLOADING_YOUR_CONTENT__</h1>
-    <p>__MSG__PROCESSING__</p>
-    <div class="s3d-inset-shadow-container">
-        <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING__"/>
-    </div>
-</div>
-
-<!-- 
-{if $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) >= 0 || $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"]) >= 0 || $.inArray(item["_path"], queue) >= 0} disabled{/if}
-{if $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) >= 0 || $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"]) >= 0 || $.inArray(item["_path"], queue) >= 0} class="newaddcontent_existingitems_list_container_disabled_list_item"{/if}
--->
 <!-- JAVASCRIPT -->
 <script type="application/javascript" src="/devwidgets/newaddcontent/javascript/newaddcontent.js"></script>

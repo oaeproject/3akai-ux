@@ -15,10 +15,11 @@
      * @param {String} loadingImage          Path to the loading image that should be shown when 
      * @param {Function} postprocessor       Function used to transform the search results before rendering
      *                                       the template [optional]
+     * @param {Function} postrenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
      * @param {Object} initialcontent        Initial content to be added to the list [optional]
      * @param {Function} initialCallback     Function to call with data from initial request [optional]
      */
-    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, initialcontent, initialCallback){
+    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, postrenderer, initialcontent, initialCallback){
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -137,19 +138,23 @@
                 } else {
                     $container.append(templateOutput);
                 }
-            }
-            isDoingExtraSearch = false;
-            // If there are more results and we're still close to the bottom of the page,
-            // do another one
-            if (doAnotherOne) {
-                loadNextList();
-            } else {
-                isDoingExtraSearch = true;
-                if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
-                    if ($.isFunction(emptylistprocessor)) {
-                        emptylistprocessor();
-                    };
-                };
+                if ($.isFunction(postrenderer)){
+                    postrenderer();
+                }
+
+                isDoingExtraSearch = false;
+                // If there are more results and we're still close to the bottom of the page,
+                // do another one
+                if (doAnotherOne) {
+                    loadNextList();
+                } else {
+                    isDoingExtraSearch = true;
+                    if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
+                        if ($.isFunction(emptylistprocessor)) {
+                            emptylistprocessor();
+                        }
+                    }
+                }
             }
         };
 
@@ -281,7 +286,7 @@
             "removeItems": removeItems,
             "prependItems": prependItems,
             "kill": kill
-        }
+        };
 
     };
 
