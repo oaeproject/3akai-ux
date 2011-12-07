@@ -472,19 +472,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("sakai.entity.updateOwnCounts", function(e) {
-            sakai.api.Content.loadFullProfile([renderObj.data.content_path], function(success,data){
-                if (success){
-                    sakai.api.Content.parseFullProfile(data.results, function(parsedData){
-                        if (parsedData){
-                            parsedData.mode = "content";
-                            renderObj.data = parsedData;
-                            sakai_global.content_profile.content_data = parsedData;
-                            prepareRenderContext(renderObj);
-                            $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
-                        }
-                    });
-                }
-            });
+           if (renderObj.data.content_path) {
+                sakai.api.Content.loadFullProfile([renderObj.data.content_path], function(success,data){
+                    if (success){
+                        sakai.api.Content.parseFullProfile(data.results, function(parsedData){
+                            if (parsedData){
+                                parsedData.mode = "content";
+                                renderObj.data = parsedData;
+                                sakai_global.content_profile.content_data = parsedData;
+                                prepareRenderContext(renderObj);
+                                $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
+                            }
+                        });
+                    }
+                });
+            }
         });
 
         $(window).trigger("sakai.entity.ready");
