@@ -1503,8 +1503,10 @@ define(
              * @param {Object} page        The page number to retrieve
              * @param {Object} items       Number of items on each page
              * @param {Object} callback    Function to call when the collections have been retrieved
+             * @param {Boolean} cache      Sets cache option for the ajax request
              */
-            getMyCollections: function(page, items, callback){
+            getMyCollections: function(page, items, callback, cache){
+                var cacheRequest = cache === false ? false : true;
                 var data = {
                     "sortOn": "_lastModified",
                     "sortOrder": "desc",
@@ -1516,6 +1518,7 @@ define(
                 $.ajax({
                     "url": sakai_conf.URL.POOLED_CONTENT_SPECIFIC_USER,
                     "data": data,
+                    "cache": cacheRequest,
                     "success": function(data){
                         var batchRequest = [];
                         $.each(data.results, function(index, collection){

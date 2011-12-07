@@ -168,7 +168,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var title = $.trim($("#collections_collection_title").val()) || sakai.api.i18n.getValueForKey("UNTITLED_COLLECTION", "collections");
             var permissions = $(collectionsNewCollectionPermission).val();
             sakai.api.Content.Collections.createCollection(title, "", permissions, [], contentToAdd, [], function(){
-                getCollections();
+                getCollections(false);
                 $("#topnavigation_user_collections_total").text("" + sakai.api.Content.Collections.getMyCollectionsCount());
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 $("#collections_collection_title").val("");
@@ -340,7 +340,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Retrieve the collections and render the appropriate display
          */
-        var getCollections = function(){
+        var getCollections = function(cache){
             // Get Collections
             sakai.api.Content.Collections.getMyCollections(0, itemsToShow, function(data){
                 // Decide what screen to show depending on results
@@ -350,7 +350,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     recentContentToLoad.push(data.results[i]["_path"]);
                 };
                 getRecentContent(recentContentToLoad);
-            });
+            }, cache);
         };
 
         /**
