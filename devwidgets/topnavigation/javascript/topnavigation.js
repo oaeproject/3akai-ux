@@ -916,7 +916,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         $("#topnavigation_messages_container").live("click", function(){
-            sakai.api.Communication.getAllMessages("inbox", false, false, 1, 0, "_created", "desc", function(data){
+            sakai.api.Communication.getAllMessages("inbox", false, false, 1, 0, "_created", "desc", function(success, data){
                 var dataPresent = false;
                 if (data.results && data.results[0]) {
                     dataPresent = true;

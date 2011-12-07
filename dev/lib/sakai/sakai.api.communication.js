@@ -313,8 +313,12 @@ define(
             }
 
             $.each(messages, function(i, message) {
-               var req = {url: message.path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
-               requests.push(req);
+                var path = message.path;
+                if (path.substring(0, 2) === "a:"){
+                    path = "~" + path.substring(2);
+                };                 
+                var req = {url: path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
+                requests.push(req);
             });
             sakai_server.batch(requests, function(success, data) {
                 if (success) {
@@ -337,7 +341,6 @@ define(
          * Processes the messages from the server, stripping out everything we don't need
          */
         processMessages : function(results) {
-            alert($.timeago);
             var messages = [];//,
             $.each(results, function(i, msg) {
                 if (!$.isEmptyObject(msg)) {
