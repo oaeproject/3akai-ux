@@ -174,6 +174,16 @@
     {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
     <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
     <div id="entity_owns" class="s3d-regular-links {if !data.isManager} entity_owns_viewer{/if}">
+        ${entitymacros.entityContentOwnsMacro(anon,type,data,sakai)}
+    </div>
+--></div>
+
+<div id="entity_counts_template" class="s3d-regular-links"><!--
+    ${entitymacros.entityContentOwnsMacro(anon,type,data,sakai)}
+--></div>
+
+<div id="entity_macros_template" style="display:none"><!--
+{macro entityContentOwnsMacro(anon,type,data,sakai)}
         <div id="entity_actions">
             {if !anon}
                 {if type && type == "content_managed"}
@@ -394,7 +404,10 @@
         {/if}
     </div>
     <hr class="fl-push fl-hidden"/>
+{/macro}
+${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
 --></div>
+
 
 <div id="entity_group_template" style="display:none"><!--
     <div id="entity_actions">
