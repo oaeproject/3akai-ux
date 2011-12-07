@@ -120,6 +120,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             wData.showDefaultContent = false;
             var docData = {};
             $.each(wData.items, function(index, value) {
+                if (value.description){
+                    value.description = sakai.api.Util.applyThreeDots(value.description, 680, {max_rows: 3});
+                }
+                
                 if (value.fullresult) {
                     var placement = "ecDocViewer" + tuid + value["_path"] + index;
                     wData.items[index].placement = placement;
