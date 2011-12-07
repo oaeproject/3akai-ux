@@ -274,8 +274,9 @@ public class HashRefreshFiles {
           System.out.println("replace path: {" + s + ", " + hashedResults.get(s) + "}");
           modifiedFlag = true;
         }
+        continue;
       }
-      String relativePath = this.getRelativePath(filePath, s);
+      String relativePath = this.getRelativePath(filePath, s); 
       if (relativePath != null && sb.indexOf(relativePath) >= 0) {
         String newPath = hashedResults.get(s);
         newPath = relativePath.substring(0, relativePath.lastIndexOf("/") + 1) + newPath.substring(newPath.lastIndexOf("/") + 1);
@@ -289,7 +290,7 @@ public class HashRefreshFiles {
             continue;
           }
           sb.replace(loc, loc + relativePath.length(), newPath);
-          loc = sb.indexOf(relativePath, loc + relativePath.length());
+          loc = sb.indexOf(relativePath, loc + newPath.length());
           System.out.println("processing file: " + filePath);
           System.out.println("replace relative path: {" + relativePath + ", " + newPath + "}");
           modifiedFlag = true;
