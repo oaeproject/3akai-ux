@@ -164,8 +164,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
             // get the sort by and sort on
             if (!params["sortby"] || !params["sorton"]){
-                params["sortby"] = $(this).find(":selected").attr("data-sort-order");
-                params["sorton"] = $(this).find(":selected").attr("data-sort-on");
+                params["sortby"] = $(".s3d-search-sort option:selected", $rootel).attr("data-sort-order");
+                params["sorton"] = $(".s3d-search-sort option:selected", $rootel).attr("data-sort-on");
             }
             return params;
         };
