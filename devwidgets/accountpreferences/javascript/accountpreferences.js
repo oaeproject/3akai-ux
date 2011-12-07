@@ -114,6 +114,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var myShow = function(hash){
+            doInit();
+            loadPrivacySettings();
             window.scrollTo(0, 0);
             hash.w.show();
         };
@@ -338,36 +340,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             // if regional Setting and langauge is changed only then save the changes
-            if (me.user.locale.timezone.name !== $(timezonesContainer).val() || language !== me.user.locale.language+"_"+me.user.locale.country || me.user.properties.isAutoTagging !== isAutoTagging || me.user.properties.sendTagMsg !== sendTagMsg) {
-                $.ajax({
-                    data: locale,
-                    url: "/system/userManager/user/" + me.user.userid + ".update.html",
-                    type: "POST",
-                    success: function(data){
+            //if ( || me.user.properties.isAutoTagging !== isAutoTagging || me.user.properties.sendTagMsg !== sendTagMsg) {
+            $.ajax({
+                data: locale,
+                url: "/system/userManager/user/" + me.user.userid + ".update.html",
+                type: "POST",
+                success: function(data){
 
-                        if (language !== me.user.locale.language + "_" + me.user.locale.country) {
-                            // Reload the page if the language for a user has changed
-                            sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(messageChangeLang).html());
-                                window.setTimeout(function(){
-                                document.location.reload();
-                            },2000);
-                        }
-                        else {
-                            // Show successful regional setting change through gritter and reload the page
-                            me.user.locale.timezone.name = $(timezonesContainer).val();
-                            sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(messageChangeLang).html());
-                                window.setTimeout(function(){
-                                document.location.reload();
-                            },2000);
-                        }
-
-                    },
-                    error: function(xhr, textStatus, thrownError){
-                        // show regional setting error message through gritter
-                        sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(errorFailChangeLang).html());
+                    if (language !== me.user.locale.language + "_" + me.user.locale.country || me.user.locale.timezone.name !== $(timezonesContainer).val()) {
+                        // Reload the page if the language for a user has changed
+                        $(accountPreferencesContainer).jqmHide();
+                        sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(messageChangeLang).html());
+                        window.setTimeout(function(){
+                            document.location.reload();
+                        },2000);
+                    } else {
+                        sakai.data.me.user.properties.isAutoTagging = isAutoTagging;
+                        sakai.data.me.user.properties.sendTagMsg = sendTagMsg;
+                        $(accountPreferencesContainer).jqmHide();
+                        sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(messageChangeLang).html());
                     }
-                });
-            }
+
+                },
+                error: function(xhr, textStatus, thrownError){
+                    // show regional setting error message through gritter
+                    sakai.api.Util.notification.show($(messageChangeLangTitle).html(), $(errorFailChangeLang).html());
+                }
+            });
         };
 
         /**
@@ -488,7 +487,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(accountPreferencesPrivacyTab).addClass(tabSelected);
             hideAllPanes();
             $(privacyContainer).show();
-            loadPrivacySettings();
         });
 
         $(accountPasswordTab).click(function(){
