@@ -183,7 +183,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 notificationBody = notificationBody.replace("${grouplibrary}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
                 sakai.api.Util.notification.show($("#savecontent_group_add_library_title").html(), notificationBody);
                 hideSavecontent();
-                $(window).trigger("sakai.entity.updateOwnCounts", {contentId:contentId,entityID:entityId});
             } else {
                 document.location = "/create#l=" + $("#savecontent_select", $rootel).val() + "&contentToAdd=" + getFileIDs().toString();
             }
@@ -196,6 +195,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "userid": entityId
                 });
             }
+            $(window).trigger("sakai.entity.updateOwnCounts", {contentId:contentId,entityID:entityId});
         }
 
         enableDisableAddButton = function(){

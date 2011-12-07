@@ -475,10 +475,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Content.loadFullProfile([renderObj.data.content_path], function(success,data){
                 if (success){
                     sakai.api.Content.parseFullProfile(data.results, function(parsedData){
-                        if (parsedData && parsedData.length){
-                            parsedData[0].mode = "content";
-                            renderObj.data = parsedData[0];
-                            sakai_global.content_profile.content_data = parsedData[0];
+                        if (parsedData){
+                            parsedData.mode = "content";
+                            renderObj.data = parsedData;
+                            sakai_global.content_profile.content_data = parsedData;
                             prepareRenderContext(renderObj);
                             $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
                         }
