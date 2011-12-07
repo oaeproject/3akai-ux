@@ -66,9 +66,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getSelectedIDs = function(){
             var selected = [];
-            $.each( selectedIDs, function( i, id ){
-                if ( id !== sakai.data.me.user.userid ) {
-                    selected.push( id );
+            $.each(selectedIDs, function(i, id){
+                if (id !== sakai.data.me.user.userid) {
+                    selected.push(id);
                 }
             });
             return selected;
