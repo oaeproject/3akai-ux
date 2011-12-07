@@ -2350,7 +2350,7 @@ define(
                             // Override default parameters with attribute defined parameters
                             var htmlParams = $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
                             // Override attribute defined parameters with JS defined ones
-                            $.extend(true, htmlParams, params);
+                            params = $.extend(true, htmlParams, params);
                             $(".s3d-draggable-container", $container || $("html")).draggable(params);
                         }
                     });
