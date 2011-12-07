@@ -78,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var processPages = function(data){
             $.each(data, function(i, page){
-                if(page.hasOwnProperty("_title") && page.hasOwnPropery("_poolpath") && page.hasOwnPropery("_ref")){
+                if(page.hasOwnProperty("_title") && page.hasOwnProperty("_ref")){
                     pages.push({
                         title: page._title,
                         poolpath: page._poolpath || "/p/" + contentData._path,

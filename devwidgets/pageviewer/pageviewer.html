@@ -10,7 +10,7 @@
 <div id="pageviewer_lhnav_template"><!--
     <ul>
         {for page in pages}
-            <li class="pageviewer_lhnav_item {if page_index === 0} selected{/if}" data-index="${page_index}">
+            <li class="pageviewer_lhnav_item {if page_index === "0"} selected{/if}" data-index="${page_index}">
                 <button type="button" class="s3d-link-button">${page.title}</button>
             </li>
         {/for}
@@ -19,7 +19,7 @@
 
 <div id="pageviewer_content_template"><!--
     {for page in pages}
-        <div id="pageviewer_content_for_page_${page_index}" class="pageviewer_content_for_page" {if page_index !== 0} style="display:none;"{/if}>
+        <div id="pageviewer_content_for_page_${page_index}" class="pageviewer_content_for_page" {if page_index !== "0"} style="display:none;"{/if}>
             {if page.pageContent && page.pageContent.page}
                 ${page.pageContent.page}
             {else}
