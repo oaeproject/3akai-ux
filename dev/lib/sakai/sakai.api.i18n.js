@@ -55,9 +55,9 @@ define(
             for (i in inputLine) {
                 // IE 8 i has indexof as well which breaks the page.
                 if (inputLine.hasOwnProperty(i)) {
-                    var keyValuePair = inputLine[i].split(/\s*\=\s*/);
-                    var key = keyValuePair.shift();
-                    var value = keyValuePair.join(" = ");
+                    var keyValuePair = inputLine[i].split(/\=/);
+                    var key = $.trim(keyValuePair.shift());
+                    var value = $.trim(keyValuePair.join("="));
                     json[key] = value;
                 }
             }

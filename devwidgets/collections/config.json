@@ -1,0 +1,20 @@
+{
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/collections/bundles/default.properties",
+            "name":       "Hello world",
+            "description":"Collections widget"
+        }
+    },
+    "id":                 "collections",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/collections/collections.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

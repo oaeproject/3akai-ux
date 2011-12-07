@@ -18,30 +18,32 @@
             <div id="recentchangedcontent_item_template"><!--
             {for item in items}
                 <div class="recentchangedcontent_related_details">
-                    <div class="recentchangedcontent_item_img fl-force-left">
-                        <a href="/content#p=${item.link|safeURL}/${item.filename|safeURL}" title="${item.name|safeOutput}">
-                            {if item.thumbnail}
-                                <img class="s3d-icon-50" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
-                            {elseif sakai.config.MimeTypes[item.mimeType]}
-                                <img class="s3d-icon-50" src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${item.mimeTypeDescription}" />
-                            {else}
-                                <img class="s3d-icon-50" src="${sakai.config.MimeTypes["other"].URL}" alt="${item.mimeTypeDescription}" />
-                            {/if}
-                        </a>
-                    </div>
-                    <div class="recentchangedcontent_item_info">
-                        <p class="recentchangedcontent_item_title">
-                            <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link|safeURL}/${item.filename|safeURL}" title="${item.name|safeOutput}">
-                                ${item.nameShort}
+                    <div class="s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
+                        <div class="recentchangedcontent_item_img fl-force-left">
+                            <a href="/content#p=${item.link}/${item.filename|safeURL}" title="${item.name|safeOutput}">
+                                {if item.thumbnail}
+                                    <img class="s3d-icon-50" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
+                                {elseif sakai.config.MimeTypes[item.mimeType]}
+                                    <img class="s3d-icon-50" src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${item.mimeTypeDescription}" />
+                                {else}
+                                    <img class="s3d-icon-50" src="${sakai.config.MimeTypes["other"].URL}" alt="${item.mimeTypeDescription}" />
+                                {/if}
                             </a>
-                            <span class="recentchangedcontent_mimetype_desc">${item.mimeTypeDescription}</span>
-                        </p>
-                        {if item.usedin > 0}
-                            <p class="recentchangedcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
-                        {/if}
-                        {if item.totalcomment > 0}
-                            <p class="recentchangedcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
-                        {/if}
+                        </div>
+                        <div class="recentchangedcontent_item_info">
+                            <p class="recentchangedcontent_item_title">
+                                <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link}/${item.filename|safeURL}" title="${item.name|safeOutput}">
+                                    ${item.nameShort}
+                                </a>
+                                <span class="recentchangedcontent_mimetype_desc">${item.mimeTypeDescription}</span>
+                            </p>
+                            {if item.usedin > 0}
+                                <p class="recentchangedcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
+                            {/if}
+                            {if item.totalcomment > 0}
+                                <p class="recentchangedcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                            {/if}
+                        </div>
                     </div>
 
                     {if item.comment}
@@ -61,7 +63,7 @@
                     {/if}
 
                     {if item.relatedContent}
-                    <div class="recentchangedcontent_item_related_info">
+                    <div class="recentchangedcontent_item_related_info s3d-draggable-container" data-scope="content" data-entityid="${item.relatedContent["_path"]}" {if sakai.api.Content.Collections.isCollection(item.relatedContent)} data-collection="true" {/if}>
                         <p class="recentchangedcontent_item_meta_data">__MSG__RELATED_CONTENT_TO__ <span class="s3d-bold">${item.nameShort}</span></p>
                         <div class="fl-force-left">
                         <a href="/content#p=${item.relatedContent['_path']|safeURL}/${item.relatedContent.filename|safeURL}" title="${item.relatedContent.name|safeOutput}">

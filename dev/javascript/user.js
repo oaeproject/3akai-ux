@@ -175,13 +175,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
                             var refid = {"refid": sakai.api.Util.generateWidgetId()};
                             privdata = sakai.api.Util.replaceTemplateParameters(refid, privdata);
+                            privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;
                             privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
-                            // privdata = cleanProfile( privdata );
-                        }
-                        if ( privdata.structure0.profile && setupProfile( privdata, isMe ) ) {
-                            privateToStore = $.extend(true, {}, privdata);
                         }
                         if (publicToStore) {
                             if ($.isPlainObject(publicToStore.structure0)) {

@@ -24,7 +24,7 @@
 .categories_widget #categories_items_content li {display:block;width:207px;}
 .categories_widget #categories_items_scroll {color:#FFFFFF;float:right;font-size:60px;height:180px;margin-top:19px;width:90px;}
 .categories_widget #categories_items_scroll #categories_view_next_raquo {width:90px;height:42px;background:url("/devwidgets/categories/images/categories_raquo.png") no-repeat center center transparent;margin-top:35px;cursor:pointer;}
-.categories_widget #categories_items_scroll #categories_view_all {margin-left: 5px; padding-bottom: 4px; padding-top: 5px;}
+.categories_widget #categories_items_scroll #categories_view_all {margin-left: 5px;}
 .categories_widget #categories_items_scroll .categories_view_all_link:hover {text-decoration:none !important;}
 .categories_widget #categories_expand_contract .categories_expand, .categories_widget #categories_expand_contract .categories_contract {float:right;height:9px;margin:16px 0 0 12px;width:13px;}
 .categories_widget #categories_expand_contract .categories_expand {background:url("/devwidgets/categories/images/categories_expand.png") repeat-x top left transparent;}
@@ -33,7 +33,7 @@
 .categories_widget #categories_expand_contract span.s3d-bold {float:left;}
 
 /* Content Style */
-.categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;font-size:12px;display:block;overflow:hidden;word-wrap:break-word;}
+.categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;font-size:12px;display:block;overflow:hidden;word-wrap:break-word;line-height: 20px;}
 .categories_widget .categories_item a.categories_item_header_link{font-size: 17px;}
 .categories_widget .categories_item .categories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
 .categories_widget .categories_item .categories_item_header_meta {color:#ccc;font-size:12px;display:block;}
