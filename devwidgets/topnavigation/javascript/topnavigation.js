@@ -555,22 +555,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // bind down/left/right keys for top menu
-            $("#topnavigation_container .s3d-dropdown-menu").keydown(function(e) {
+            $("#topnavigation_container .s3d-dropdown-menu,.topnavigation_counts_container button").keydown(function(e) {
                 if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
                     $(this).find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
                 } else if (e.which === $.ui.keyCode.LEFT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
-                    if ($(this).prevAll("li:first").length > 0){
-                        $(this).prevAll("li:first").children("a").focus();
+                    closeMenu();
+                    var $focusElement = "";
+                    if($(this).parents(".topnavigation_counts_container").length){
+                        $focusElement = $(this).parents(".topnavigation_counts_container");
                     } else {
-                        $(this).nextAll("li:last").children("a").focus();
+                        $focusElement = $(this);
+                    }
+                    if($focusElement.prev(".topnavigation_counts_container").length > 0){
+                        $focusElement.prev(".topnavigation_counts_container").children("button").focus()
+                    } else if ($focusElement.prev("li:first").length > 0){
+                        $focusElement.prev("li:first").children("a").focus();
+                    } else {
+                        $focusElement.nextAll("li:last").children("a").focus();
                     }
                     return false;
                 } else if (e.which === $.ui.keyCode.RIGHT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
-                    if ($(this).nextAll("li:first").length > 0){
-                        $(this).nextAll("li:first").children("a").focus();
+                    closeMenu();
+                    var $focusElement = "";
+                    if($(this).parents(".topnavigation_counts_container").length){
+                        $focusElement = $(this).parents(".topnavigation_counts_container");
                     } else {
-                        $(this).prevAll("li:last").children("a").focus();
+                        $focusElement = $(this);
+                    }
+                    if($focusElement.next(".topnavigation_counts_container").length > 0){
+                        $focusElement.next(".topnavigation_counts_container").children("button").focus()
+                    } else if ($focusElement.next("li:first").length > 0){
+                        $focusElement.next("li:first").children("a").focus();
+                    } else {
+                        $focusElement.prevAll("li:last").children("a").focus();
                     }
                     return false;
                 } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
@@ -916,16 +934,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         $("#topnavigation_messages_container").live("click", function(){
-            sakai.api.Communication.getAllMessages("inbox", false, false, 1, 0, "_created", "desc", function(success, data){
-                var dataPresent = false;
-                if (data.results && data.results[0]) {
-                    dataPresent = true;
-                }
-                $("#topnavigation_messages_container").addClass("selected");
-                var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
-                $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
-                $messageContainer.show();
-            });
+            if($("#topnavigation_user_messages_container .s3d-dropdown-menu").is(":hidden")){
+                sakai.api.Communication.getAllMessages("inbox", false, false, 1, 0, "_created", "desc", function(success, data){
+                    var dataPresent = false;
+                    if (data.results && data.results[0]) {
+                        dataPresent = true;
+                    }
+                    $("#topnavigation_messages_container").addClass("selected");
+                    var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
+                    $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
+                    $messageContainer.show();
+                });
+            }
         }); 
 
 
