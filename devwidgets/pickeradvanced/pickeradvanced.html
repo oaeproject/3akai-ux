@@ -18,34 +18,14 @@
                     </div>
                 </form>
             </span>
-
-            <span class="fl-force-right" id="pickeradvanced_sort">
-                <select id="pickeradvanced_sort_on">
-                    <option default="true" value="lastName_asc">__MSG__LAST_NAME__ __MSG__A_Z__</option>
-                    <option value="lastName_desc">__MSG__LAST_NAME__ __MSG__Z_A__</option>
-                    <option value="firstName_asc">__MSG__FIRST_NAME__ __MSG__A_Z__</option>
-                    <option value="firstName_desc">__MSG__FIRST_NAME__ __MSG__Z_A__</option>
-                </select>
-            </span>
         </div>
 
         <div id="pickeradvanced_content" class="s3d-highlight_area_background">
             <div id="pickeradvanced_results_header" class="fl-force-left"><span><button type="button" id="pickeradvanced_select_all_button" class="s3d-button s3d-link-button s3d-bold">__MSG__SELECT_ALL__</button></span></div>
             <div id="pickeradvanced_content_list" class="fl-force-left">
                 <ul id="pickeradvanced_file_filters" style="display:none" class="pickeradvanced_search_content">
-                    <li><button type="button" id="pickeradvanced_search_files_all" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTENT_I_CAN_SEE__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_files_mylibrary" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__MY_LIBRARY__</button></li>
-                </ul>
-                <ul id="pickeradvanced_people_filters" style="display:none" class="pickeradvanced_search_people">
-                    <li><button type="button" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTACTS__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_users" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_USERS__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_GROUPS__</button></li>
-                </ul>
-                <ul id="pickeradvanced_group_filters" style="display:none" class="pickeradvanced_search_people">
-                    <li><button type="button" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__GROUPS_I_CAN_SEE__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__GROUPS_I_MANAGE__</button></li>
-                </ul>
-                <ul id="pickeradvanced_group_specific_filters" class="last pickeradvanced_search_people" style="display:none">
+                    <li><button type="button" data-search="all" id="pickeradvanced_search_files_all" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTENT_I_CAN_SEE__</button></li>
+                    <li><button type="button" data-search="my" id="pickeradvanced_search_files_mylibrary" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__MY_LIBRARY__</button></li>
                 </ul>
             </div>
             <div id="pickeradvanced_content_search" class="fl-force-left"></div>
@@ -54,8 +34,6 @@
                 <button type="button" id="pickeradvanced_add_button" class="s3d-button s3d-overlay-action-button" disabled="disabled">__MSG__ADD_SELECTED__</button>
             </div>
         </div>
-
-
 
         <div id="pickeradvanced_content_search_pagedefault">
 
@@ -71,41 +49,7 @@
 
             <div id="pickeradvanced_content_search_pagetemplate" style="display:none;"><!--
                 {for i in results}
-                    {if i['rep:userId']}
-                    <li id="${i['rep:userId']}">
-                        <input type="checkbox" name="selected" value="${i['rep:userId']}" />
-                        {if i.picture}
-                            <img src="/~${i["rep:userId"]|safeURL}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
-                        {else}
-                            <img src="/dev/images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeradvanced_ppicture"/>
-                        {/if}
-                        <a class="pickeradvanced_name" href="/~${i['rep:userId']|safeURL}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
-                        <br />
-                        {if sakai.api.User.getShortDescription(i).length > 125}
-                            <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i).substring(0, 125)}...</span>
-                        {else}
-                            <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i)}</span>
-                        {/if}
-                    </li>
-                    {elseif i['sakai:group-id']}
-                    <li id="${i['sakai:group-id']}">
-                        <input type="checkbox" name="selected" value="${i['sakai:group-id']}" />
-                        {if i.picture}
-                            <img src="/~${i["sakai:group-id"]}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i["sakai:group-title"]|safeOutput}" class="pickeradvanced_ppicture"/>
-                        {else}
-                            <img src="/dev/images/group_avatar_icon_64x64.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="pickeradvanced_ppicture"/>
-                        {/if}
-                        <a class="pickeradvanced_name" href="/~${i["sakai:group-id"]}" target="_blank">${i["sakai:group-title"]|safeOutput}</a>
-                        <br />
-                        {if i["sakai:group-description"]}
-                            {if i["sakai:group-description"].length > 125}
-                                <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"].substring(0, 125)|safeOutput}...</span>
-                            {else}
-                                <span class="pickeradvanced_subnameinfo">${i["sakai:group-description"]|safeOutput}</span>
-                            {/if}
-                        {/if}
-                    </li>
-                    {elseif i["sakai:pooled-content-file-name"]}
+                    {if i["sakai:pooled-content-file-name"]}
                     <li id="${i["_path"]}">
                         <input type="checkbox" name="selected" value="${i["_path"]}" />
                         {var mimetype = sakai.api.Content.getMimeType(i)}
@@ -133,10 +77,6 @@
                 {/for}
             --></div>
         </div>
-
-        <div id="pickeradvanced_group_search_template" style="display:none"><!--
-            <li><button type="button" id="pickeradvanced_search_groups_${data.groupid}" class="pickeradvanced_search_filter s3d-action s3d-bold s3d-link-button">${data["sakai:group-title"]|safeOutput}</button></li>
-        --></div>
 
         <div id="pickeradvanced_error_template" style="display:none;">
             <span>__MSG__ERROR_MSG__</span>
