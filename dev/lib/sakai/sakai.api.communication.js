@@ -382,7 +382,7 @@ define(
                     // as html and not a selector (in case there are no tags
                     // in the messsage body).
                     msg["sakai:body"] = sakai_util.Security.safeOutput(msg["sakai:body"]);
-                    var bodyToAutolink = $("<div>"+msg["sakai:body"].replace(/\n/gi, "<br />")+"</div>");
+                    var bodyToAutolink = $("<div>"+sakai_util.Security.safeOutput(msg["sakai:body"]).replace(/\n/gi, "<br />")+"</div>");
                     newMsg.body = bodyToAutolink.autolink().html();
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
