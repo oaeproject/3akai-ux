@@ -54,8 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var $newcreategroupGroupMembership = $("#newcreategroup_membership", $rootel);
     var $newcreategroupAddPeople = $(".newcreategroup_add_people", $rootel);
     var newcreategroupMembersMessage = "#newcreategroup_members_message";
-    var $newcreategroupCreating = $("#newcreategroup_creating"),
-        $newcreategroup_members_message_template_unprocessed = $("#newcreategroup_members_message_template_unprocessed", $rootel);
+    var $newcreategroup_members_message_template_unprocessed = $("#newcreategroup_members_message_template_unprocessed", $rootel);
 
     // Forms
     var $newcreategroupGroupForm = $("#newcreategroup_group_form", $rootel);
@@ -120,7 +119,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $.each(contentToAdd, function(i, contentId){
             sakai.api.Content.addToLibrary(contentId, groupid, false, function(contentId, entityId) {
                 if(checkDefaultContentAdded(contentToAdd, count)){
-                    $newcreategroupCreating.jqmHide();
                     window.location = "/~" + groupid;
                 } else {
                     count++;
@@ -133,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Create a simple group and execute the tagging and membership functions
      */
     var doCreateSimpleGroup = function() {
-        $newcreategroupCreating.jqmShow();
+        sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("CREATING_YOUR_GROUP", "newcreategroup").replace(/\$\{type\}/, sakai.api.i18n.getValueForKey(currentTemplate.title)), sakai.api.i18n.getValueForKey("PROCESSING"));
         var grouptitle = $newcreategroupGroupTitle.val() || "";
         var groupdescription = $newcreategroupGroupDescription.val() || "";
         var groupid = sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-");
@@ -188,12 +186,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $newcreategroupAddPeople.live("click", function(){
             $(window).trigger("init.addpeople.sakai", [tuid, false]);
-        });
-        $newcreategroupCreating.html(sakai.api.Util.TemplateRenderer("newcreategroup_creating_template", {type: sakai.api.i18n.getValueForKey(currentTemplate.title)}));
-        $newcreategroupCreating.jqm({
-            modal: true,
-            overlay: 20,
-            toTop: true
         });
     };
 

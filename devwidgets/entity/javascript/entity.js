@@ -61,6 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var parentGroups = {};
             if (setCount) {
                 context.data.members.counts.groups = 0;
+                context.data.members.counts.collections = 0;
             }
             $.each(data, function(index, group){
                 // Check for pseudogroups, if a pseudogroup filter out the parent
@@ -79,7 +80,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // If no pseudogroup store the group as it is
                 } else if (!parentGroups.hasOwnProperty(group["sakai:group-id"]) && group["sakai:group-id"]) {
                     if (setCount) {
-                        context.data.members.counts.groups++;
+                        if (sakai.api.Content.Collections.isCollection(group)){
+                            context.data.members.counts.collections++;
+                        } else {
+                            context.data.members.counts.groups++;
+                        }
                     }
                     parentGroups[group["sakai:group-id"]] = group;
                 }
@@ -204,6 +209,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var $entityContentUsersDialog = $("#entity_content_users_dialog");
                     var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container");
                     var entityContentUsersDialogTemplate = "#entity_content_users_dialog_list_template";
+                    var entityContentCollectionsDialogTemplate = "#entity_content_collections_dialog_list_template";
 
                     $entityContentUsersDialog.jqm({
                         modal: true,
@@ -248,11 +254,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         return false;
                     });
 
+                    $(".entity_content_collections").live("click", function(){
+                        var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
+                        $entityContentUsersDialog.jqmShow();
+
+                        var json = {
+                            "userList": userList,
+                            sakai: sakai
+                        };
+
+                        // render users dialog template
+                        sakai.api.Util.TemplateRenderer(entityContentCollectionsDialogTemplate, json, $entityContentUsersDialogContainer);
+                        $entityContentUsersDialogContainer.show();
+                        $("#entity_content_users_dialog_heading").html($("#entity_content_collections").html());
+
+                        return false;
+                    });
+
                     $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_contentsettings_dropdown", context));
 
                     $("#entity_comments_link").live("click", function(){
-                        $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#contentcomments_mainContainer").offset().top}, 500 );
-                        $("#contentcomments_txtMessage").focus();
+                        $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#content_profile_right_metacomments #contentcomments_mainContainer").offset().top}, 500 );
+                        $("#content_profile_right_metacomments #contentcomments_txtMessage").focus();
                     });
                     break;
             }
@@ -272,8 +295,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 sakai_global.content_profile.content_data.members.counts.viewergroups = 0;
                 sakai_global.content_profile.content_data.members.counts.viewerusers = 0;
+                sakai_global.content_profile.content_data.members.counts.viewercollections = 0;
                 $.each(sakai_global.content_profile.content_data.members.viewers, function(i, viewer){
-                    if(viewer["sakai:group-id"]){
+                    if(viewer["sakai:group-id"] && sakai.api.Content.Collections.isCollection(viewer)){
+                        sakai_global.content_profile.content_data.members.counts.viewercollections++;
+                    } else if(viewer["sakai:group-id"]){
                         sakai_global.content_profile.content_data.members.counts.viewergroups++;
                     } else {
                         sakai_global.content_profile.content_data.members.counts.viewerusers++;
