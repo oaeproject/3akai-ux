@@ -1051,7 +1051,7 @@ define(
                             max_rows: 2,
                             whole_word: false
                         }, "");
-                        contentItem["sakai:description-long"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 1300, {
+                        contentItem["sakai:description-long"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 1200, {
                             max_rows: 2,
                             whole_word: false
                         }, "");

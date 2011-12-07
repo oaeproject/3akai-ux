@@ -44,7 +44,8 @@
 .mylibrary_add_content_button {margin-top: 0px !important;}
 
 .mylibrary_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
-.mylibrary_item_right{margin-left:3px; float:left;}
+.mylibrary_item_right{margin-left:3px;overflow:hidden;}
+.s3d-search-results-grid .mylibrary_item_right {float:left;}
 .mylibrary_item_mimetype {font-size:smaller;white-space:pre;text-transform:uppercase;}
 .mylibrary_item_by {padding:3px 0;font-size:11px;}
 .mylibrary_item_description{margin:0px;font-size:.90em;padding:6px 0; word-wrap: break-word;}
