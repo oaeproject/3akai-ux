@@ -71,14 +71,14 @@
         {if dataPresent}
             <div class="s3d-dropdown-menu-content-container">
                 <div id="topnavigation_message_profile_pic">
-                    <img src="${sakai.api.User.getProfilePicture(data.results[0].userFrom[0])}" alt="test"/>
+                    <img src="${sakai.api.User.getProfilePicture(data.results[0].from.picture)}" alt="test"/>
                 </div>
-                <div id="topnavigation_message_sender" class="s3d-bold">${sakai.api.User.getDisplayName(data.results[0].userFrom[0])} <span>(${data.results[0].timeago})</span></div>
-                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0]["sakai:subject"], 120)}</div>
-                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0]["sakai:body"], 270)}</div>
+                <div id="topnavigation_message_sender" class="s3d-bold">${sakai.api.User.getDisplayName(data.results[0].name)} <span>(${data.results[0].timeago})</span></div>
+                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0].subject, 120)}</div>
+                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0].body, 270)}</div>
 
-                <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">Reply</a>
-                <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">Read full message</a>
+                <a href="/me#l=messages/inbox&message=${data.results[0].id}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">Reply</a>
+                <a href="/me#l=messages/inbox&message=${data.results[0].id}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">Read full message</a>
                 <hr class="fl-hidden fl-push"/>
             {else}
                 <div class="s3d-dropdown-menu-content-container no_messages">
