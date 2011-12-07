@@ -231,33 +231,107 @@ define(
          *
          * @param {String} id The id of the group to update
          * @param {Object} profile The group's profile
+         * @param {Array} tags The group's tags
          * @param {Object} groupData The group's authprofile data - need this for role extraction
-         * @param {Function} callback Callback function, passes (success)
+         * @param {Function} callback Callback function, passes (success, updated)
          */
-        updateGroupProfile : function(id, profile, groupData, callback) {
-            var groupProfileURL = "/~" + id + "/public/authprofile.profile.json";
+        updateGroupProfile : function(id, profile, tags, groupData, callback) {
+            var groupProfileURL = "/~" + id + "/public/authprofile";
+            var groupProfileSaveURL = groupProfileURL + ".profile.json";
             var batch = [];
-            batch.push({
-                "url": groupProfileURL,
-                "method": "POST",
-                "parameters": profile
-            });
-            // Also update the pseudo-groups sakai:parent-group-title property
-            var roles = $.parseJSON(groupData["sakai:roles"]);
-            $.each(roles, function(i, role) {
-                batch.push({
-                    "url": "/system/userManager/group/" + id + "-" + role.id + ".update.json",
-                    "method": "POST",
-                    "parameters": {
-                        "sakai:parent-group-title": profile["sakai:group-title"]
+            var doProfilePost = false,
+                doTagsPost = false,
+                doPermissionPost = false;
+
+            var updatePermissions = function(_callback) {
+                var roles = $.parseJSON(groupData["sakai:roles"]);
+                sakaiGroupsAPI.setPermissions(id, profile[ "sakai:group-joinable" ], profile[ "sakai:group-visible" ], roles, function( success, data ) {
+                    if ( $.isFunction( _callback ) ) {
+                        _callback( success );
                     }
                 });
-            });
-            sakai_serv.batch(batch, function(success, data) {
-                if ($.isFunction(callback)) {
-                    callback(success);
+            };
+
+            var updateProfile = function(_callback) {
+                sakai_serv.batch( batch, function( success, data ) {
+                    if ( $.isFunction( _callback ) ) {
+                        _callback( success );
+                    }
+                });
+            };
+
+            // Get the difference of the tags arrays. If there is one, then we should update it
+            groupData[ "sakai:tags" ] = groupData[ "sakai:tags" ] || [];
+            var merged = _.uniq( $.merge( $.merge( [], tags ), groupData[ "sakai:tags" ] ) );
+            if ( merged.length !== tags.length || merged.length !== groupData[ "sakai:tags" ].length ) {
+                doTagsPost = true;
+            }
+
+            if ( groupData[ "sakai:group-joinable" ] !== profile[ "sakai:group-joinable" ] || groupData[ "sakai:group-visible" ] !== profile[ "sakai:group-visible" ] ) {
+                doPermissionPost = true;
+            }
+
+            $.each( profile, function(i, data) {
+                if ( groupData[i] !== data ) {
+                    doProfilePost = true;
+                    // Update the group data immediately
+                    groupData[i] = data;
                 }
             });
+
+            if ( doProfilePost || doTagsPost || doPermissionPost ) {
+                if ( doProfilePost ) {
+                    batch.push({
+                        "url": groupProfileSaveURL,
+                        "method": "POST",
+                        "parameters": profile
+                    });
+                    // Also update the pseudo-groups sakai:parent-group-title property
+                    var roles = $.parseJSON(groupData["sakai:roles"]);
+                    $.each(roles, function(i, role) {
+                        batch.push({
+                            "url": "/system/userManager/group/" + id + "-" + role.id + ".update.json",
+                            "method": "POST",
+                            "parameters": {
+                                "sakai:parent-group-title": profile["sakai:group-title"]
+                            }
+                        });
+                    });
+                }
+
+                // Always call tagEntity, it has it's own internal 'no POSTing if no changes' mechanism
+                sakai_util.tagEntity( groupProfileURL, tags, groupData[ "sakai:tags" ], function( success, newTags ) {
+                    groupData[ "sakai:tags" ] = newTags;
+
+                    if ( doProfilePost ) {
+                        updateProfile(function(success, data) {
+                            if ( doPermissionPost ) {
+                                updatePermissions(function(success, data) {
+                                    if ( $.isFunction( callback ) ) {
+                                        callback( success );
+                                    }
+                                });
+                            } else {
+                                if ( $.isFunction( callback ) ) {
+                                    callback( success );
+                                }
+                            }
+                        });
+                    } else if ( doPermissionPost ) {
+                        updatePermissions(function(success, data) {
+                            if ( $.isFunction( callback ) ) {
+                                callback( success );
+                            }
+                        });
+                    } else {
+                        if ( $.isFunction( callback ) ) {
+                            callback( success );
+                        }
+                    }
+                });
+            } else {
+                callback( true );
+            }
         },
 
         /**
@@ -300,7 +374,7 @@ define(
          * @return None
          */
         setPermissions : function(groupid, joinable, visible, roles, callback) {
-            if(groupid && typeof(groupid) === "string" &&
+            if ( groupid && _.isString(groupid) &&
                this.isValidPermissionsProperty(sakai_conf.Permissions.Groups.joinable, joinable) &&
                this.isValidPermissionsProperty(sakai_conf.Permissions.Groups.visible, visible)) {
 
@@ -995,9 +1069,9 @@ define(
                     }
                     // Modify the tags if there are any
                     if (group["sakai:tags"]) {
-                        group.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group["sakai:tags"]));
+                        group.tagsProcessed = sakai_util.formatTags(group["sakai:tags"]);
                     } else if (group.basic && group.basic.elements && group.basic.elements["sakai:tags"]) {
-                        group.tagsProcessed = sakai_util.shortenTags(sakai_util.formatTagsExcludeLocation(group.basic.elements["sakai:tags"].value));
+                        group.tagsProcessed = sakai_util.formatTags(group.basic.elements["sakai:tags"].value);
                     }
                     group.groupType = groupType;
                     group.lastModified = group.lastModified;
@@ -1134,7 +1208,7 @@ define(
         /**
          * Remove users from the specified group
          *
-         * @param {String} groupID the ID of the group to add members to
+         * @param {String} groupID the ID of the group to remove members from
          * @param {Array} users Array of user/group IDs to remove from the group
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
@@ -1228,8 +1302,10 @@ define(
             }
         },
 
-        filterGroup: function(group){
-            if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
+        filterGroup: function(group, includeCollections){
+            if (includeCollections && group["sakai:category"] && group["sakai:category"] === "collection" && group["sakai:group-title"]){
+                return true;
+            } else if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
                 return false;
             } else {
                 if (group.groupid === "everyone") {
@@ -1240,15 +1316,23 @@ define(
             }
         },
 
-        getMemberships : function(groups){
+        getMemberships : function(groups, includeCollections){
             var newjson = {entry: []};
             for (var i = 0, il = groups.length; i < il; i++) {
-                if (sakaiGroupsAPI.filterGroup(groups[i])) {
+                if (sakaiGroupsAPI.filterGroup(groups[i], includeCollections)) {
                     newjson.entry.push(groups[i]);
                 }
             }
             newjson.entry.sort(function(a, b){
-                return a["sakai:group-title"] > b["sakai:group-title"];
+                if (a["sakai:category"] === "collection" && b["sakai:category"] === "collection"){
+                    return sakai_util.Sorting.naturalSort(a["sakai:group-title"], b["sakai:group-title"]);
+                } else if (a["sakai:category"] === "collection"){
+                    return 1;
+                } else if (b["sakai:category"] === "collection"){
+                    return -1;
+                } else {
+                    return sakai_util.Sorting.naturalSort(a["sakai:group-title"], b["sakai:group-title"]);
+                }
             });
             return newjson;
         },

@@ -313,8 +313,12 @@ define(
             }
 
             $.each(messages, function(i, message) {
-               var req = {url: message.path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
-               requests.push(req);
+                var path = message.path;
+                if (path.substring(0, 2) === "a:"){
+                    path = "~" + path.substring(2);
+                };                 
+                var req = {url: path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
+                requests.push(req);
             });
             sakai_server.batch(requests, function(success, data) {
                 if (success) {
@@ -385,6 +389,7 @@ define(
                     newMsg.box = msg["sakai:messagebox"];
                     newMsg.category = msg["sakai:category"];
                     newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.fromEpoch(msg["_created"], sakai_user.data.me));
+                    newMsg.timeago = $.timeago(newMsg.date);
                     newMsg.id = msg.id;
                     newMsg.read = msg["sakai:read"];
                     newMsg.path = msg["_path"];
@@ -434,10 +439,8 @@ define(
             // Set the base URL for the search
             if (search) {
                 url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE;
-            } else if (category) {
-                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE;
             } else {
-                url = sakai_conf.URL.MESSAGE_BOX_SERVICE;
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE;
             }
             $.ajax({
                 url: url,

@@ -242,7 +242,8 @@ define(function(){
                 defaults: {
                     "content": "creativecommons",
                     "sakaidocs": "creativecommons",
-                    "links": "creativecommons"
+                    "links": "creativecommons",
+                    "collections": "creativecommons"
                 }
             }
         },
@@ -303,7 +304,7 @@ define(function(){
                                 "errorMessage": "__MSG__PROFILE_BASIC_EMAIL_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "type": "email"
+                                "validation": "email"
                             },
                             "status": {
                                 "label": "__MSG__PROFILE_BASIC_STATUS_LABEL__",
@@ -338,10 +339,10 @@ define(function(){
                                 "display": true
                             },
                             "tags": {
-                                "label": "__MSG__TAGS__",
+                                "label": "__MSG__TAGS_AND_CATEGORIES__",
                                 "required": false,
                                 "display": true,
-                                "type": "textarea",
+                                "type": "tags",
                                 "tagField": true
                             }
                         }
@@ -380,26 +381,6 @@ define(function(){
                             }
                         }
                     },
-                    "locations": {
-                        "label": "__MSG__PROFILE_LOCATIONS_LABEL__",
-                        "required": false,
-                        "display": true,
-                        "access": "everybody",
-                        "modifyacl": true,
-                        "permission": "anonymous",
-                        "multiple": true,
-                        "directory": true,
-                        "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
-                        "order": 2,
-                        "elements": {
-                            "locationtitle": {
-                                "label": "__MSG__PROFILE_LOCATION_LABEL__",
-                                "required": true,
-                                "display": true,
-                                "type": "location"
-                            }
-                        }
-                    },
                     "publications": {
                         "label": "__MSG__PROFILE_PUBLICATIONS_LABEL__",
                         "required": false,
@@ -409,7 +390,7 @@ define(function(){
                         "permission": "anonymous",
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
-                        "order": 3,
+                        "order": 2,
                         //"template": "profile_section_publications_template",
                         "elements": {
                             "maintitle": {
@@ -819,6 +800,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/sakaidoc.png",
                 description: "DOCUMENT"
             },
+            "x-sakai/collection": {
+                cssClass: "icon-collection-sprite",
+                URL: "/dev/images/mimetypes/collection.png",
+                description: "COLLECTION"
+            },
             "kaltura/video": {
                 cssClass: "icon-video-sprite",
                 URL: "/dev/images/mimetypes/video.png",
@@ -867,6 +853,7 @@ define(function(){
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
+            "append": "messages",
             "subnav": [{
                 "url": "/me#l=dashboard",
                 "id": "subnavigation_home_link",
@@ -898,15 +885,16 @@ define(function(){
             "url": "#",
             "id": "navigation_create_and_add_link",
             "anonymous": false,
-            "label": "CREATE_AND_ADD",
+            "label": "CREATE_AND_COLLECT",
+            "append": "collections",
             "subnav": [{
                 "id": "subnavigation_add_content_link",
                 "label": "ADD_CONTENT",
                 "url": "#"
             }, {
-                "id": "subnavigation_add_contacts_link",
-                "label": "ADD_CONTACTS",
-                "url": "/search#l=people"
+                "id": "subnavigation_add_collection_link",
+                "label": "ADD_COLLECTION",
+                "url": "#"
             }, {
                 "id": "subnavigation_hr"
             }]

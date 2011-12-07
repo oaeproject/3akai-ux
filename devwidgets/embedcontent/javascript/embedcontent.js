@@ -15,14 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*
- * Dependencies
- *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
- * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js (autoSuggest)
- */
-/*global $ */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
@@ -118,8 +110,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $embedcontent_primary_display.hide();
                 $embedcontent_alt_display.show();
             }
-            $("#as-values-" + tuid).val("");
-            $(".as-selection-item").remove();
             if (wData && wData.items && wData.items.length) {
                 setCurrentFiles();
             }
@@ -139,6 +129,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     };
                 }
             });
+            // Sort the items alphabetically for now
+            wData.items.sort(function( a, b ) {
+                return sakai.api.Util.Sorting.naturalSort( a.name, b.name );
+            });
             // boolean are return as string from ajax call so change back to boolean value
             wData.download = wData.download === "true" || wData.download === true;
             wData.name = wData.name === "true" || wData.name === true;
@@ -151,10 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Do a reset of the embed screen
          */
         var doReset = function() {
-            $("#as-values-" + tuid).val("");
-            $(".as-selection-item").remove();
-            // $embedcontent_alternative_display_name_value.val('');
-            //         $embedcontent_description_value.val('');
+            sakai.api.Util.AutoSuggest.reset( $embedcontent_content_input );
         };
 
         var toggleButtons = function(doDisable) {
@@ -226,7 +217,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * When typing in the suggest box this function is executed to provide the user with a list of possible autocompletions
          */
         var setupAutoSuggest = function() {
-            sakai.api.Util.AutoSuggest.setup($embedcontent_content_input,{
+            var dataFn = function( query, add ) {
+                var q = sakai.api.Server.createSearchString(query);
+                var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
+                searchUrl = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
+                sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+                    if (success) {
+                        var suggestions = [];
+                        $.each(data.results, function(i) {
+                            var dataObj = createDataObject(data.results[i]);
+                            var doAdd = true;
+                            if (embedConfig.filter) {
+                                if (dataObj.filetype !== embedConfig.filter) {
+                                    doAdd = false;
+                                }
+                            }
+                            if (doAdd) {
+                                suggestions.push(dataObj);
+                            }
+                        });
+                        add( suggestions, query );
+                    }
+                }, options);
+            };
+            sakai.api.Util.AutoSuggest.setup($embedcontent_content_input, {
                 asHtmlID: tuid,
                 retrieveLimit: 10,
                 selectionLimit: embedConfig.limit,
@@ -235,36 +249,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 selectionRemoved: function(elem) {
                     autosuggestSelectionRemoved(elem);
-                },
-                selectionAdded: function(elem) {
-                    if (elem.attr("id").indexOf("as-selection-notfound") > -1) {
-                        elem.addClass("embedcontent_selection_notfound");
-                    }
-                },
-                source: function(query, add) {
-                    var q = sakai.api.Server.createSearchString(query);
-                    var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
-                    searchUrl = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
-                    sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                        if (success) {
-                            var suggestions = [];
-                            $.each(data.results, function(i) {
-                                var dataObj = createDataObject(data.results[i]);
-                                var doAdd = true;
-                                if (embedConfig.filter) {
-                                    if (dataObj.filetype !== embedConfig.filter) {
-                                        doAdd = false;
-                                    }
-                                }
-                                if (doAdd) {
-                                    suggestions.push(dataObj);
-                                }
-                            });
-                            add(suggestions);
-                        }
-                    }, options);
                 }
-            });
+            }, false, dataFn);
         };
 
         /**
@@ -285,9 +271,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(wData.items, function(i,val) {
                 autosuggestSelectionAdded(val);
                 if (val.value) {
-                    $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
+                    $embedcontent_content_input.autoSuggest( "add_selected_item", val, val.value);
                 } else {
-                    $embedcontent_content_input.autoSuggest.add_selected_item({name:$embedcontent_item_unavailable_text.text(), value:"notfound"+Math.ceil(Math.random() * 9999)}, "notfound");
+                    $embedcontent_content_input.autoSuggest( "add_selected_item", {name:$embedcontent_item_unavailable_text.text(), value:"notfound"+Math.ceil(Math.random() * 9999)}, "notfound");
                 }
             });
             $(".as-original input.as-input").val('').focus();
@@ -332,14 +318,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 filesPicked++;
             });
             // revisit this next conditional -- right now it'll clear out all selections, not just add up to the limit
-            if (embedConfig.limit && filesPicked && ($(".as-selection-item").length + filesPicked) > embedConfig.limit) {
-                $("#as-values-" + tuid).val('');
-                $(".as-selection-item").remove();
+            if (embedConfig.limit && filesPicked && ($(".as-selection-item", "#embedcontent_settings").length + filesPicked) > embedConfig.limit) {
+                doReset();
             }
             $.each(files, function(i,val) {
                 var newObj = createDataObject(val, val["_path"]);
                 autosuggestSelectionAdded(newObj);
-                $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
+                $embedcontent_content_input.autoSuggest( "add_selected_item", newObj, newObj.value);
             });
             $("input[id='" + tuid + "']").val('').focus();
         };
@@ -355,7 +340,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  success: function(data) {
                      var newObj = createDataObject(data, val.url.split("/p/")[1]);
                      autosuggestSelectionAdded(newObj);
-                     $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
+                     $embedcontent_content_input.autoSuggest( "add_selected_item", newObj, newObj.value);
                  }
               });
           });
@@ -611,9 +596,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
         
         var renderDefaultContent = function(){
-            $("#embedcontent_content", $rootel).html(sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
+            sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
                 "showDefaultContent": true
-            }));
+            }, $("#embedcontent_content", $rootel));
         };
 
         var doInit = function() {

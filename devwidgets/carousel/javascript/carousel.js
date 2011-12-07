@@ -154,7 +154,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderCarousel = function(dataArr){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
-                "data": dataArr
+                "data": dataArr,
+                "sakai": sakai
             }, $(carouselContainer), false);
             applyThreeDots();
             $(carouselContainer).jcarousel({
@@ -199,7 +200,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         obj.description = item["sakai:description"];
                     }
                     if (item["sakai:tags"]) {
-                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
+                        obj.tags = sakai.api.Util.formatTags(item["sakai:tags"]);
                     }
                     if (item[item["_path"] + "/comments"]) {
                         obj.comments = [];
@@ -224,6 +225,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.url = "/content#p=" + sakai.api.Util.safeURL(item["_path"]) + "/" + sakai.api.Util.safeURL(item["sakai:pooled-content-file-name"]);
                     obj.contentType = "content";
                     obj.id = item["_path"];
+                    obj._path = item["_path"];
 
                     if (obj.preview) {
                         previewArr.push(obj);
@@ -257,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.description = group["sakai:group-description"];
                 }
                 if (group["sakai:tags"] && group["sakai:tags"].length) {
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
+                    obj.tags = sakai.api.Util.formatTags(group["sakai:tags"]);
                 }
                 if (group.picture){
                     obj.picture = sakai.api.Groups.getProfilePicture(group);
@@ -310,7 +312,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                     user = user.profile.basic.elements;
                     if (user["sakai:tags"] && user["sakai:tags"].value && user["sakai:tags"].value.length){
-                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"].value);
+                        obj.tags = sakai.api.Util.formatTags(user["sakai:tags"].value);
                     }
                     if (user.aboutme){
                         obj.aboutme = user.aboutme.elements.aboutme.value;
