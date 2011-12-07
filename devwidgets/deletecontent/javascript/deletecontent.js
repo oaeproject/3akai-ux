@@ -160,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
                     batchRequests.push({
-                        "url": "/system/userManager/group.delete.html",
+                        "url": "/system/userManager.delete.json",
                         "method": "POST",
                         "parameters": {
                             ":applyTo": [collectionGroupId, collectionGroupId + "-members", collectionGroupId + "-managers"]
