@@ -22,9 +22,9 @@
 .collections_widget #collections_scroll_right,
 .collections_widget #collections_scroll_left {width:27px;height:41px;cursor:pointer;position:absolute;margin-top:59px;}
 .collections_widget #collections_scroll_right {background:url("/devwidgets/collections/images/collections_large_arrowright.png") no-repeat top left transparent;margin-left:17px; border: none;}
-.collections_widget #collections_scroll_right:hover {background:url("/devwidgets/collections/images/collections_large_arrowright_hover.png") no-repeat top left transparent;}
+.collections_widget #collections_scroll_right:hover, .collections_widget #collections_scroll_right:focus {background:url("/devwidgets/collections/images/collections_large_arrowright_hover.png") no-repeat top left transparent;}
 .collections_widget #collections_scroll_left {background: url("/devwidgets/collections/images/collections_large_arrowleft.png") no-repeat scroll left top transparent;float:right;margin-left:129px; border: none;}
-.collections_widget #collections_scroll_left:hover {background: url("/devwidgets/collections/images/collections_large_arrowleft_hover.png") no-repeat scroll left top transparent;}
+.collections_widget #collections_scroll_left:hover, .collections_widget #collections_scroll_left:focus {background: url("/devwidgets/collections/images/collections_large_arrowleft_hover.png") no-repeat scroll left top transparent;}
 
 .collections_widget #collections_leftcolumn, .collections_widget #collections_rightcolumn {background:url("/devwidgets/collections/images/collections_column_bg.jpg") repeat top left transparent;}
 .collections_widget #collections_leftcolumn {width:170px;border-right:1px solid #232323;color:#d2d2d2;padding:16px 0 0 17px;height:184px;border-radius:0 0 0 3px;-webkit-border-radius:0 0 0 3px;-moz-border-radius:0 0 0 3px;box-shadow:-5px -4px 9px -8px #000000 inset;}
@@ -90,10 +90,6 @@
 
 .collections_widget #collections_rightcolumn {width:160px;border-left:1px solid #232323;border-radius:0 0 3px 0;-webkit-border-radius:0 0 3px 0;-moz-border-radius:0 0 3px 0;box-shadow:5px -8px 9px -8px #000000 inset;padding-top:16px;height:183px;}
 .collections_widget #collections_rightcolumn .s3d-link-button {width:20px;height:20px;margin:0 10px;float:right;}
-.collections_widget #collections_rightcolumn #collections_cog_button {background:url("/devwidgets/collections/images/collections_cog_icon_20x20.png") no-repeat top left transparent;margin-left:27px;}
-.collections_widget #collections_rightcolumn #collections_cog_button:hover {background:url("/devwidgets/collections/images/collections_cog_icon_20x20_hover.png") no-repeat top left transparent;}
-.collections_widget #collections_rightcolumn #collections_min_button {background:url("/devwidgets/collections/images/collections_min_icon_20x20.png") no-repeat top left transparent;}
-.collections_widget #collections_rightcolumn #collections_min_button:hover {background:url("/devwidgets/collections/images/collections_min_icon_20x20_hover.png") no-repeat top left transparent;}
 .collections_widget #collections_rightcolumn #collections_close_button {background:url("/devwidgets/collections/images/collections_delete_icon_20x20.png") no-repeat top left transparent;}
-.collections_widget #collections_rightcolumn #collections_close_button:hover {background:url("/devwidgets/collections/images/collections_delete_icon_20x20_hover.png") no-repeat top left transparent;}
+.collections_widget #collections_rightcolumn #collections_close_button:hover, .collections_widget #collections_rightcolumn #collections_close_button:focus {background:url("/devwidgets/collections/images/collections_delete_icon_20x20_hover.png") no-repeat top left transparent;}
 .collections_widget #collections_rightcolumn #collections_see_all_button {display:inline-block;margin:130px 20px 0px 50px;line-height:25px;}
