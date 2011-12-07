@@ -165,6 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var createNewCollection = function(){
+            $("#collections_collection_title").attr("disabled", "disabled");
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("CREATING_YOUR_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
             var title = $.trim($("#collections_collection_title").val()) || sakai.api.i18n.getValueForKey("UNTITLED_COLLECTION", "collections");
             var permissions = $(collectionsNewCollectionPermission).val();
@@ -173,6 +174,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#topnavigation_user_collections_total").text("" + sakai.api.Content.Collections.getMyCollectionsCount());
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 $("#collections_collection_title").val("");
+                $("#collections_collection_title").removeAttr("disabled");
             });
         };
 
@@ -388,6 +390,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("." + collectionsLargePreview).live("click", expandCollection);
             $(collectionsSaveNewButton).live("click", createNewCollection);
             $(window).bind("create.collections.sakai", initializeNewCollectionsSetup);
+            // Save the new collection when enter is pressed
+            $("#collections_collection_title").bind("keyup", function(ev, data){
+                if (ev.keyCode === 13){
+                    createNewCollection();
+                }
+            });
         };
 
         addBinding();
