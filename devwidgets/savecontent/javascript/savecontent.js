@@ -195,6 +195,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "userid": entityId
                 });
             }
+            $(window).trigger("sakai.entity.updateOwnCounts", {contentId:contentId,entityID:entityId});
         }
 
         enableDisableAddButton = function(){
