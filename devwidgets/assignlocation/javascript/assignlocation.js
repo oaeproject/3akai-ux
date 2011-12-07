@@ -43,7 +43,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.assignlocation = function(tuid, showSettings) {
         // Containers
-        var $assignlocationContainer = $("#assignlocation_container");
+        var $rootel = $( "#" + tuid );
+        var $assignlocationContainer = $("#assignlocation_container", $rootel);
         var $assignlocationJSTreeContainer = $("#assignlocation_jstree_container");
         var $assignlocationJSTreeSelectedContainer = $("#assignlocation_jstree_selected_container");
 
@@ -52,10 +53,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Variables
         var alreadyAssignedLocations = [];
-        var contextVariables = {};
         var initiallySelected = [],
             initiallyRendered = [],
-            initial = 0;
+            initial = 0,
+            saveCallback = false;
 
         // i18n
         var assignlocationLocationSaved = $("#assignlocation_location_saved");
@@ -64,9 +65,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Actions
         var $assignlocationSaveButton = $("#assignlocation_save_button");
         var $assignlocationActions = $("#assignlocation_actions");
-
-        // Elements
-        var $assignlocationAjaxLoader = $("#assignlocation_ajax_loader");
 
         var renderSelected = function() {
             var locations = {
@@ -86,13 +84,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var addTreeBinding = function(){
-            $assignlocationJSTreeContainer.bind("change_state.jstree", function(ev){
+            $assignlocationJSTreeContainer.bind("change_state.jstree", function( e ) {
                 if (initial > 0) {
                     initial--;
                 } else {
                     initiallyRendered = [];
                     $(".jstree-checked>a").each(function(index, val) {
-                        initiallyRendered.push($(val).attr("data-path"));
+                        initiallyRendered.push({
+                            id: $(val).attr("data-id"),
+                            path: $(val).attr("data-path"),
+                            title: $(val).attr("title"),
+                            value: $(val).attr("data-long-title"),
+                            parent: $(val).attr("data-parent"),
+                            category: true
+                        });
                     });
                     renderSelected();
                 }
@@ -100,37 +105,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var saveLocations = function(){
-            $assignlocationActions.hide();
-            $assignlocationAjaxLoader.show();
-
-            var locations = [];
-            $("#assignlocation_locations_selected li").each(function(index, val){
-                locations.push("directory/" + $(val)[0].id);
-            });
-
-            var originalTags = [],
-                newTags = [];
-
-            // Fetch original tags and directory locations
-            if (contextVariables.data["sakai:tags"]){
-                originalTags = $.merge([], contextVariables.data["sakai:tags"]);
+            if ( saveCallback ) {
+                saveCallback( initiallyRendered );
             }
-
-            // Concatenate the tags with the new locations
-            if (originalTags) {
-                newTags = sakai.api.Util.formatTagsExcludeLocation(originalTags);
-            }
-            newTags = newTags.concat(locations);
-
-            sakai.api.Util.tagEntity(contextVariables.path, newTags, originalTags, function(success, tags){
-                contextVariables.data["sakai:tags"] = tags;
-                contextVariables.data.saveddirectory = sakai.api.Util.getDirectoryTags(tags);
-                $assignlocationContainer.jqmHide();
-                sakai.api.Util.notification.show($(assignlocationLocationSaved).html(), $(assignlocationLocationSuccessfullySaved).html());
-                $(window).trigger("renderlocations.contentmetadata.sakai", contextVariables);
-                $assignlocationActions.show();
-                $assignlocationAjaxLoader.hide();
-            });
+            $assignlocationContainer.jqmHide();
         };
 
         var addWidgetBinding = function(){
@@ -141,7 +119,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var showContainer = function(hash){
-            determineContext();
+            initTree();
+            addTreeBinding();
+            addWidgetBinding();
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();
             var docScrollPos = $(document).scrollTop();
@@ -166,58 +146,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $assignlocationAjaxLoader.hide();
         };
 
-        var determineContext = function(){
-            if ($.isEmptyObject(contextVariables)) {
-                var context = sakai.api.Util.getPageContext();
-                if (context) {
-                    $("#assignlocation_secondcolumn_header_" + context).show();
-                    switch (context) {
-                        case "user":
-                            contextVariables = {
-                                "data": sakai.data.me.profile,
-                                "path": "/~" + sakai.api.Util.safeURL(sakai.data.me.profile["rep:userId"]) + "/public/authprofile",
-                                "context" : "user"
-                            };
-                            break;
-                        case "group":
-                            contextVariables = {
-                                "data": sakai_global.group.groupData,
-                                "path": "/~" + sakai_global.group.groupId + "/public/authprofile",
-                                "context": "group"
-                            };
-                            break;
-                        case "content":
-                            contextVariables = {
-                                "data": sakai_global.content_profile.content_data,
-                                "path": "/p/" + sakai_global.content_profile.content_data.data["_path"],
-                                "context" : "content"
-                            };
-                            // check if content tags are stored another level down
-                            if (!contextVariables.data["sakai:tags"]
-                                && sakai_global.content_profile.content_data.data
-                                && sakai_global.content_profile.content_data.data["sakai:tags"]) {
-                                contextVariables.data["sakai:tags"] = sakai_global.content_profile.content_data.data["sakai:tags"];
-                            }
-                            break;
-                    }
-                }
-                determineInitiallySelected();
-                initTree();
-                addTreeBinding();
-                addWidgetBinding();
-            }
-        };
-
-        var determineInitiallySelected = function() {
+        var determineInitiallySelected = function( _initiallySelected ) {
             initiallySelected = [];
             initiallyRendered = [];
-            for (var location in contextVariables.data.saveddirectory) {
-                if (contextVariables.data.saveddirectory.hasOwnProperty(location)) {
-                    var jstreeID = contextVariables.data.saveddirectory[location][contextVariables.data.saveddirectory[location].length - 1];
-                    var initialRender = contextVariables.data.saveddirectory[location].join("/");
-                    initiallySelected.push(jstreeID);
-                    initiallyRendered.push(initialRender);
-                }
+            if ( _initiallySelected ) {
+                $.each( _initiallySelected, function( i, val ) {
+                    initiallySelected.push( val.id );
+                    initiallyRendered.push({
+                        id: val.id,
+                        value: val.value
+                    });
+                });
             }
             initial = initiallySelected.length;
         };
@@ -225,7 +164,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var initTree = function(){
             // set up new jstree for directory
             var jsonData = sakai.api.Util.getDirectoryStructure();
-            var pluginArray = ["themes", "json_data", "cookies", "search", "checkbox", "ui"];
+            var pluginArray = ["themes", "json_data", "search", "checkbox", "ui"];
             $assignlocationJSTreeContainer.jstree("destroy");
             $assignlocationJSTreeContainer.jstree({
                 "plugins": pluginArray,
@@ -250,19 +189,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "ui": {
                     "initially_select": initiallySelected,
                     "preventDefault": true
+                },
+                "checkbox": {
+                    "two_state": true
                 }
             });
         };
 
         var doInit = function(){
-            $assignlocationContainer.jqm({
-                modal: true,
-                toTop: true,
-                onShow: showContainer,
-                onClose: closeContainer
-            });
 
-            //determineContext();
+            $( window ).bind( "init.assignlocation.sakai", function( e, _initiallySelected, originalEvent, _saveCallback ) {
+                if ( $.isFunction( _saveCallback ) ) {
+                    saveCallback = _saveCallback;
+                }
+                if ( _initiallySelected ) {
+                    determineInitiallySelected( _initiallySelected );
+                }
+                // Need a larget zIndex if this was triggered from another overlay
+                var $target = $( originalEvent.target );
+                var zIndex = 4000;
+                if ( $target.parents( ".s3d-dialog" ).length ) {
+                    zIndex = 5000;
+                }
+                $assignlocationContainer.jqm({
+                    modal: true,
+                    toTop: true,
+                    onShow: showContainer,
+                    onClose: closeContainer,
+                    zIndex: zIndex
+                });
+                $assignlocationContainer.jqmShow();
+            });
         };
         doInit();
 

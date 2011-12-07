@@ -33,7 +33,6 @@
 .mymemberships_item_first {border-top:none;}
 .mymemberships_no_memberships {text-decoration:none;}
 #mymemberships_message_button .s3d-action-icon{float:right;margin:2px 0 0 7px;}
-#mymemberships_items .s3d-search-result {padding:10px 10px 10px 4px;}
 /* groups list */
 .mymemberships_item_grouptype {font-size:smaller;white-space:pre;}
 .mymemberships_item_icon{display: inline-block;height: 10px;width: 15px;}
@@ -43,9 +42,7 @@
 .mymemberships_item_usedin{font-size: 11px;padding:3px 0;}
 .mymemberships_item_description{color:#333;font-size:.90em;padding:3px 0 6px 0;word-wrap:break-word;overflow:auto;}
 .mymemberships_item_tags{padding-top:3px;}
-.mymemberships_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
 .mymemberships_item_tags_list {margin-left:20px;margin-top:-2px;font-size:11px;}
-.mymemberships_item_tags_dot{color: #999;}
 .mymemberships_item_anonuser{display:inline;float:left;height:15px;width:15px;}
 .mymemberships_item_left_filler{margin:0 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
 .s3d-search-results-grid .mymemberships_item_left_filler{width:auto;}
@@ -65,3 +62,5 @@
 
 .mymemberships_item .s3d-actions-delete {float: left;margin:8px 7px 0 2px}
 .s3d-search-results-grid .s3d-actions-delete {margin:3px 7px 0 2px}
+.mymemberships_widget #mymemberships_select_all_container {float:left;height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}
+.mymemberships_item.s3d-search-result {padding:10px 10px 6px 4px !important;}

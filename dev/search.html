@@ -28,9 +28,52 @@
                 <div class="s3d-container-shadow-right"><!----></div>
                 <div class="s3d-page-header">
                     <div id="widget_entity" class="widget_inline"></div>
+                    <!-- SEARCH BAR -->
+                    <div class="s3d-search-bar">
+                        <span id="form" class="s3d-search-container">
+                            <input type="text" maxlength="255" id="search_text" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
+                            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SEARCH_FOR__">
+                                <span class="s3d-search-button-icon"></span>
+                            </button
+                        </span>
+                        <div class="s3d-search-activetags" id="search_tags_active_container"></div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- TEMPLATE FOR ACTIVE REFINE BY TAGS -->
+        <div id="search_tags_active_template"><!--
+            {for t in tags}
+                <span class="s3d-search-tag">
+                    <img src=/dev/images/search_tag_active.png" />
+                    <button class="search_tag_active_item" data-sakai-entityid="${t.original}" title="__MSG__REMOVE__ ${t.value} __MSG__FROM_SEARCH__">
+                        ${sakai.api.Util.applyThreeDots(t.value, 345, null, null, true)}<img src=/dev/images/search_tag_remove.png" />
+                    </button>
+                </span>
+            {/for}
+        --></div>
+
+        <!-- TEMPLATE FOR REFINE BY TAGS LIST -->
+        <div id="search_tags_refine_template"><!--
+            {var tagsListed = false}
+            {for t in tags}
+                {if t_index === "0"}
+                    <span class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</span>
+                    <div class="s3d-search-refineby-list">
+                    {var tagsListed = true}
+                {/if}
+                <span class="s3d-search-tag">
+                    <button class="search_tag_refine_item" data-sakai-entityid="${t.original}" title="__MSG__REFINE_SEARCH_TO__ ${t.value}">
+                        <img src=/dev/images/search_tag_add.png" />
+                        ${sakai.api.Util.applyThreeDots(t.value, 345, null, null, true)}
+                    </button>
+                </span>
+            {/for}
+            {if tagsListed === true}
+                </div>
+            {/if}
+        --></div>
 
         <!-- HEADER -->
         <div class="fl-container-flex">
@@ -50,6 +93,19 @@
 
         <!-- TEMPLATE CONTAINING THE RESULTS -->
         <div id="search_general_results_template"><!--
+
+            {macro tags(t)}
+                <ul class="s3d-taglist">
+                    {for t in i.tagsProcessed}
+                        <li>
+                            <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
+                                <span class="s3d-search-result-tag">${t.tagShort}</span>
+                                <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
+                            </a>
+                        </li>
+                    {/for}
+                </ul>
+            {/macro}
 
             {macro listContent(i, sakai)}
                 <li id="${i.id}" class="fl-container fl-fix s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}">
@@ -95,18 +151,7 @@
                             <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
                         {/if}
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            <div class="searchcontent_result_tags">
-                                <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
-                                <p class="searchcontent_result_tags_list">
-                                    {for t in i.tagsProcessed}
-                                        {if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if}
-                                        <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
-                                        </a>
-                                    {/for}
-                                </p>
-                            </div>
+                            ${tags(i.tagsProcessed)}
                         {/if}
                         <div class="searchcontent_result_usedin">
                             {var placeCount = sakai.api.Content.getPlaceCount(i)}
@@ -187,18 +232,7 @@
                             {/if}
                         </div>
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            <div class="searchpeople_result_tags">
-                                <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
-                                <p class="searchpeople_result_tags_list">
-                                    {for t in i.tagsProcessed}
-                                        {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if}
-                                        <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                            <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                            <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
-                                        </a>
-                                    {/for}
-                                </p>
-                            </div>
+                            ${tags(i.tagsProcessed)}
                         {/if}
                     </div>
                 </li>
@@ -247,18 +281,7 @@
                             <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                         {/if}
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            <div class="searchgroups_result_tags">
-                                <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
-                                <p class="searchgroups_result_tags_list">
-                                {for t in i.tagsProcessed}
-                                    {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if}
-                                    <a class="s3d-regular-light-links" href="/search#q=${t.tag|safeURL}" title="${t.tag|safeOutput}">
-                                        <span class="s3d-search-result-tag">${t.tagShort|safeOutput}</span>
-                                        <span class="s3d-search-result-tag-grid">${t.tagShorter|safeOutput}</span>
-                                    </a>
-                                {/for}
-                                </p>
-                            </div>
+                            ${tags(i.tagsProcessed)}
                         {/if}
                     </div>
                 </li>

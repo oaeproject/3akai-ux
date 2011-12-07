@@ -134,18 +134,22 @@ require(["jquery", "jquery-plugins/jquery.validate"], function(jQuery) {
  * http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
  */
 (function($){
-    $.fn.serializeObject = function()
-    {
+    $.fn.serializeObject = function( includeEmpty ) {
         var o = {};
         var a = this.serializeArray();
+        includeEmpty = includeEmpty === false ? false : true;
         $.each(a, function() {
             if (o[this.name]) {
                 if (!o[this.name].push) {
                     o[this.name] = [o[this.name]];
                 }
-                o[this.name].push(this.value || '');
+                if (includeEmpty || $.trim(this.value) !== "") {
+                    o[this.name].push(this.value || "");
+                }
             } else {
-                o[this.name] = this.value || '';
+                if (includeEmpty || $.trim(this.value) !== "") {
+                    o[this.name] = this.value || '';
+                }
             }
         });
         return o;

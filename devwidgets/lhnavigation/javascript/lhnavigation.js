@@ -513,7 +513,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "title": pageTitle
             };
             if (newPageMode) {
-                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
+                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown, newPageMode]);
                 contextMenuHover = {
                     path: currentPageShown.path,
                     ref: currentPageShown.ref,
@@ -802,6 +802,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (getPageCount(pubstructure.items) < 3){
                 $(window).trigger("sakai.contentauthoring.needsOneColumn");
             }
+
+            // Delete the page
+            sakai.api.Server.removeJSON(pageToDelete.savePath + "/" + pageToDelete.ref); 
 
             // Re-render the navigation
             renderData();

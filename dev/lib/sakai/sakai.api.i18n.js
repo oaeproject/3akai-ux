@@ -175,10 +175,7 @@ define(
                     "next" : '<span><a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("NEXT_PAGE") + '">' + sakaii18nAPI.getValueForKey("NEXT") + '</a><div class=\"sakai_pager_next\"></div></span>',
                     "current": '<li class="page-number"><a href="javascript:;" title="' + sakaii18nAPI.getValueForKey("PAGE") + ' ${page}">${page}</a></li>'
                 };
-                // Translate the jquery.autosuggest plugin
-                $.fn.autoSuggest.defaults.startText = sakaii18nAPI.getValueForKey("ENTER_NAME_HERE");
-                $.fn.autoSuggest.defaults.emptyText = sakaii18nAPI.getValueForKey("NO_RESULTS_FOUND");
-                $.fn.autoSuggest.defaults.limitText = sakaii18nAPI.getValueForKey("NO_MORE_SELECTIONS_ALLOWED");
+
             };
 
             /**
@@ -386,6 +383,8 @@ define(
         /**
          * Get the internationalised value for a specific key.
          * We expose this function so you can do internationalisation within JavaScript.
+         * If the key isn't found in a translation bundle, the key will be returned unmodified
+         *
          * @example sakai.api.i18n.getValueForKey("CHANGE_LAYOUT", ["widgetid"]);
          * @param {String} key The key that will be used to get the translation
          * @param {String} optional widget name. This will cause the widget language
@@ -425,7 +424,7 @@ define(
                 // If none of the about found something, log an error message
                 else {
                     debug.warn("sakai.api.i18n.getValueForKey: Not found in any bundles. Key: " + key);
-                    return false;
+                    return key;
                 }
             }
         },

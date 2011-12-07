@@ -55,7 +55,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentpermissionsShareMessageTemplate = "contentpermissions_share_message_template";
 
         var globalPermissionsChanged = false;
-
+        var defaultPermissionPassed = false;
+        var visibility = "selected";
+        var visibilityindex = {
+            "public": 1,
+            "everyone": 2,
+            "private": 3
+        };
 
         ////////////////////
         // UTIL FUNCTIONS //
@@ -66,6 +72,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var closeOverlay= function(){
             $("#contentpermissions_container").jqmHide();
+            $("#contentpermissions_warning_container").jqmHide();
+        };
+
+        var showWarning = function(){
+            var newVisibilityVal = $.trim($("#contentpermissions_see_container input:checked").val());
+            if (visibility === newVisibilityVal || visibilityindex[newVisibilityVal] > visibilityindex[visibility] || newVisibilityVal === "selected"){
+                doSave();
+            } else {
+                $("#contentpermissions_warning_container_text").html(sakai.api.Util.TemplateRenderer("contentpermissions_warning_container_text_template", {
+                    "visibility": newVisibilityVal,
+                    "content": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
+                }));
+                $("#contentpermissions_warning_container").jqmShow();
+            }
         };
 
         /**
@@ -282,13 +302,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Renders the list of members and their permissions in the widget
          */
         var renderMemberList = function(){
-            $("#contentpermissions_content_container").html(
-                sakai.api.Util.TemplateRenderer("contentpermissions_content_template", {
-                    title: sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
-                    contentData: removeDuplicateUsersGroups(contentData),
-                    sakai: sakai
-                })
-            );
+            sakai.api.Util.TemplateRenderer("contentpermissions_content_template", {
+                title: sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                contentData: removeDuplicateUsersGroups(contentData),
+                sakai: sakai,
+                defaultPermission: defaultPermissionPassed
+            }, $("#contentpermissions_content_container"));
         };
 
         /**
@@ -338,7 +357,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             $(".contentpermissions_permissions_container .s3d-actions-delete").live("click", doDelete);
-            $("#contentpermissions_apply_permissions").live("click", doSave);
+            $("#contentpermissions_apply_permissions").live("click", showWarning);
             $("#contentpermissions_members_autosuggest_sharebutton").live("click", doShare)
         };
 
@@ -350,7 +369,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 modal: true,
                 overlay: 20,
                 toTop: true,
-                zIndex: 3000
+                zIndex: 11000
+            });
+            $("#contentpermissions_warning_container").jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+                zIndex: 12000
             });
             $("#contentpermissions_container").jqmShow();
         };
@@ -361,6 +386,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var doInit = function(){
             $(window).unbind("ready.contentprofile.sakai", doInit);
             contentData = sakai_global.content_profile.content_data;
+            visibility = contentData.data["sakai:permissions"];
             globalPermissionsChanged = false;
             renderMemberList();
             sakai.api.Util.AutoSuggest.setup($(contentpermissionsMembersAutosuggest), {
@@ -373,7 +399,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             initializeOverlay();
         };
 
-        $(window).bind("init.contentpermissions.sakai", function(){
+        $("#contentpermissions_proceedandapply").click(doSave);
+
+        $(window).bind("init.contentpermissions.sakai", function(ev, data){
+            defaultPermissionPassed = data.newPermission;
             doInit();
         });
 

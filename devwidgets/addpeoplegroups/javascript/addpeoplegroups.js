@@ -92,8 +92,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var selectAlreadyGroupMember = function(){
             $.each(getSelected(), function(i, selectedGroup){
                 $.each(renderObj.memberOfGroups.entry, function(j, memberOfGroup){
-                    if($.inArray(selectedGroup.id, memberOfGroup.members) > -1 || $.inArray(selectedGroup.id, memberOfGroup.managers) > -1 || selectedGroup.id === memberOfGroup["sakai:group-id"]){
-                       renderObj.memberOfGroups.entry[j].allSelectedAMember = true;
+                    if($.inArray(selectedGroup.id, memberOfGroup.members) > -1 || selectedGroup.id === memberOfGroup["sakai:group-id"]){
+                        renderObj.memberOfGroups.entry[j].allSelectedAMember = true;
                     } else {
                         renderObj.memberOfGroups.entry[j].overrideAllSelectedAMember = true;
                     }
@@ -109,13 +109,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(renderObj.memberOfGroups.entry.length){
                 sakai.api.Groups.getMembers(renderObj.memberOfGroups.entry[membershipFetched].groupid, "query", function(success, data){
                     if(success){
-                        renderObj.memberOfGroups.entry[membershipFetched].managers = [];
                         renderObj.memberOfGroups.entry[membershipFetched].members = [];
-                        $.each(data["__MSG__MANAGER__"].results, function(i, manager){
-                            renderObj.memberOfGroups.entry[membershipFetched].managers.push(manager["rep:userId"] || manager.groupid);
-                        });
-                        $.each(data["__MSG__MEMBER__"].results, function(i, member){
-                            renderObj.memberOfGroups.entry[membershipFetched].members.push(member["rep:userId"] || member.groupid);
+                        $.each(data, function(i, roleData){
+                            $.each(data[i].results, function(i, obj){
+                                renderObj.memberOfGroups.entry[membershipFetched].members.push(obj["rep:userId"] || obj.groupid);
+                            });
                         });
                         membershipFetched++;
                         if(!(membershipFetched >= renderObj.memberOfGroups.entry.length)){
@@ -185,7 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var tempGroups = $.extend(true, [], sakai.data.me.groups);
             var filteredGroups = [];
             $.each(tempGroups, function(i, group){
-                if(sakai.api.Groups.isCurrentUserAManager(group.groupid, sakai.data.me)){
+                if(!group["sakai:pseudoGroup"]){
                     filteredGroups.push(group);
                 }
             });
@@ -194,7 +192,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var doInit = function(el){
             toggleVisibility();
-            $addpeoplegroupsWidget.css("top", $(el).position().top + 30);
+            $addpeoplegroupsWidget.css("top", $(el).position().top + 24);
             $addpeoplegroupsWidget.css("left", $(el).position().left - ($addpeoplegroupsWidget.width() / 2) + ($(el).width() / 2 + 10) );
         };
 
