@@ -140,12 +140,15 @@
                             {/if}
                         </div>
                         <div class="searchcontent_result_by">
-                            __MSG__BY__
-                            <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeURL}">
-                                <span class="searchcontent_result_by_name">${i.ownerDisplayNameShort}</span>
-                                <span class="searchcontent_result_by_name_grid">${i.ownerDisplayNameShorter}</span>
-                            </a>
-                            <span class="s3d-search-result-detail-separator"><span> | </span></span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
+                            {if i.ownerDisplayNameShort}
+                                __MSG__BY__
+                                <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeURL}">
+                                    <span class="searchcontent_result_by_name">${i.ownerDisplayNameShort}</span>
+                                    <span class="searchcontent_result_by_name_grid">${i.ownerDisplayNameShorter}</span>
+                                </a>
+                                <span class="s3d-search-result-detail-separator"><span> | </span>
+                            {/if}
+                            </span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                         </div>
                         {if i["sakai:description"]}
                             <span class="searchcontent_result_description">${i["sakai:description"]}</span>

@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 numItems = data.total;
                 var total = 0;
                 $.each(data.results, function(index, item){
-                    if (item["sakai:pooled-content-file-name"] && activityMap[item["sakai:activityMessage"]] && total < 5) {
+                    if (item["sakai:pooled-content-file-name"] && activityMap[item["sakai:activityMessage"]] && item["who"] && item["who"].basic && total < 5) {
                         if (index < numDiff) {
                             item.fadeIn = true;
                         }
