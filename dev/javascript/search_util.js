@@ -238,7 +238,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind sortby select box
-        $(".s3d-search-sort").on("change", "select", function(ev) {
+        $("#s3d-page-container").on("change", ".s3d-search-header .s3d-search-sort select", function(ev) {
             var sortby = $(this).find(":selected").attr("data-sort-order");
             var sorton = $(this).find(":selected").attr("data-sort-on");
             $.bbq.pushState({
