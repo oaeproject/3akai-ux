@@ -253,7 +253,7 @@ define(
                                 value: sakai_util.Security.safeOutput(tag),
                                 tagShort: sakai_util.applyThreeDots(tag, 680, {max_rows: 1, whole_word: true}, ""),
                                 tagShorter: sakai_util.applyThreeDots(tag, 125, {max_rows: 1, whole_word: true}, ""),
-                                link: "/search#q=" + sakai_util.safeURL(tag),
+                                link: "/search#q=&refine=" + sakai_util.safeURL(tag),
                                 linkTitle: sakai_i18n.getValueForKey("SEARCH_CONTENT_TAGGED_WITH") + " " + sakai_util.Security.safeOutput(tag)
                             };
                         }
@@ -676,7 +676,7 @@ define(
                 if ($("#sakai_progressindicator").length === 0){
                     var htmlCode = '<div id="sakai_progressindicator" class="s3d-dialog s3d-dialog-container" style="display:none;">';
                     htmlCode += '<h1 id="sakai_progressindicator_title" class="s3d-dialog-header"></h1><p id="sakai_progressindicator_body"></p>';
-                    htmlCode += '<div class="s3d-inset-shadow-container"><img src="/dev/images/progress_bar.gif"/></div></div>'
+                    htmlCode += '<div class="s3d-inset-shadow-container"><img src="/dev/images/progress_bar.gif"/></div></div>';
                     var notification = $(htmlCode);
                     $('body').append(notification);
                     $("#sakai_progressindicator").jqm({
