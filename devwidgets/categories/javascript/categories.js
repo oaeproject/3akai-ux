@@ -114,10 +114,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var renderCategories = function(){
-            $categoriesItemsContainer.html(sakai.api.Util.TemplateRenderer(categoriesItemsTemplate, {
+            sakai.api.Util.TemplateRenderer(categoriesItemsTemplate, {
                 "directory": categoriesToRender,
                 "sakai": sakai
-            }));
+            }, $categoriesItemsContainer);
             addCarousel();
             $(".categories_widget").css("visibility", "visible");
         };

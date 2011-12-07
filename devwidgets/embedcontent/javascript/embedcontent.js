@@ -596,9 +596,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
         
         var renderDefaultContent = function(){
-            $("#embedcontent_content", $rootel).html(sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
+            sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
                 "showDefaultContent": true
-            }));
+            }, $("#embedcontent_content", $rootel));
         };
 
         var doInit = function() {

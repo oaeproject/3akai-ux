@@ -242,7 +242,8 @@ define(function(){
                 defaults: {
                     "content": "creativecommons",
                     "sakaidocs": "creativecommons",
-                    "links": "creativecommons"
+                    "links": "creativecommons",
+                    "collections": "creativecommons"
                 }
             }
         },
@@ -479,7 +480,14 @@ define(function(){
              * in search results
              */
             userShortDescription: "${role} in ${department} at ${college}",
-            groupShortDescription: "asdf"
+            groupShortDescription: "asdf",
+
+            /*
+             * Set the default user settings in account preferences for automatic tagging
+             * and auto-tagged notifications
+             */
+            defaultAutoTagging: true,
+            defaultSendTagMsg: true
         },
 
         Groups: {
@@ -799,6 +807,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/sakaidoc.png",
                 description: "DOCUMENT"
             },
+            "x-sakai/collection": {
+                cssClass: "icon-collection-sprite",
+                URL: "/dev/images/mimetypes/collection.png",
+                description: "COLLECTION"
+            },
             "kaltura/video": {
                 cssClass: "icon-video-sprite",
                 URL: "/dev/images/mimetypes/video.png",
@@ -847,6 +860,7 @@ define(function(){
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
+            "append": "messages",
             "subnav": [{
                 "url": "/me#l=dashboard",
                 "id": "subnavigation_home_link",
@@ -878,15 +892,16 @@ define(function(){
             "url": "#",
             "id": "navigation_create_and_add_link",
             "anonymous": false,
-            "label": "CREATE_AND_ADD",
+            "label": "CREATE_AND_COLLECT",
+            "append": "collections",
             "subnav": [{
                 "id": "subnavigation_add_content_link",
                 "label": "ADD_CONTENT",
                 "url": "#"
             }, {
-                "id": "subnavigation_add_contacts_link",
-                "label": "ADD_CONTACTS",
-                "url": "/search#l=people"
+                "id": "subnavigation_add_collection_link",
+                "label": "ADD_COLLECTION",
+                "url": "#"
             }, {
                 "id": "subnavigation_hr"
             }]

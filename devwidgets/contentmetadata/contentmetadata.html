@@ -93,12 +93,17 @@
         {if mimeType === "x-sakai/link"}
             <div class="contentmetadata_content_row">
                 <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
-                <span>Link</span>
+                <span>__MSG__LINK__</span>
             </div>
         {elseif mimeType === "x-sakai/document"}
             <div class="contentmetadata_content_row">
                 <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
-                <span>Document</span>
+                <span>__MSG__DOCUMENT__</span>
+            </div>
+        {elseif mimeType === "x-sakai/collection"}
+            <div class="contentmetadata_content_row">
+                <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
+                <span>__MSG__COLLECTION__</span>
             </div>
         {else}
             <div class="contentmetadata_content_row">
@@ -110,14 +115,16 @@
                 <span>${data.data["_mimeType"]}</span>
             </div>
         {/if}
-        <div class="contentmetadata_content_row">
-            <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
-            <span>
-                <a href="${creator.homePath}" class="s3d-regular-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(creator)}'s __MSG__PROFILE__">
-                    ${sakai.api.User.getDisplayName(creator)}
-                </a>
-            </span>
-        </div>
+        {if sakai.api.User.getDisplayName(creator)}
+            <div class="contentmetadata_content_row">
+                <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
+                <span>
+                    <a href="${creator.homePath}" class="s3d-regular-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(creator)}'s __MSG__PROFILE__">
+                        ${sakai.api.User.getDisplayName(creator)}
+                    </a>
+                </span>
+            </div>
+        {/if}
         <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
             <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_created"], sakai.data.me))}</span>

@@ -4,7 +4,14 @@
 <!-- CONTAINER -->
 <div style="display:none" id="accountpreferences_container" class="s3d-dialog s3d-dialog-container">
     <div class="s3d-dialog-close jqmClose"></div>
-    <h1 class="s3d-dialog-header">__MSG__WIDGET_TITLE__</h1>
+    <div class="accountpreferences_header">
+        <h1 id="accountpreferences_title" class="s3d-dialog-header">__MSG__WIDGET_TITLE__</h1>
+        <ul id="accountpreferences_tabs">
+            <li><button class="selected" id="accountpreferences_preferences_tab">__MSG__ACCOUNT_PREFERENCES__</button></li>
+            <li><button id="accountpreferences_privacy_tab">__MSG__PRIVACY_SETTINGS__</button></li>
+            <li><button id="accountpreferences_password_tab">__MSG__PASSWORD__</button></li>
+        </ul>
+    </div>
 
     <!-- ERRORS AND MESSAGES -->
     <span id="accountpreferences_error_passNotEqual" style="display:none;">__MSG__NEW_PASSWORDS_ARENT_EQUAL__.</span>
@@ -15,136 +22,183 @@
     <span id="accountpreferences_message_passChangedBody" style="display:none;">__MSG__PASSWORD_CHANGED_BODY__.</span>
     <span id="accountpreferences_error_invalidPass" style="display:none;">__MSG__PASSWORD_SHOULD_BE_AT_LEAST_FIVE_CHARACTERS_LONG__.</span>
     <span id="accountpreferences_error_failChangeLang" style="display:none;">__MSG__CHANGING_REGIONAL_SETTINGS_FAILED__.</span>
+    <span id="accountpreferences_message_ChangeLang_title" style="display:none;">__MSG__REGIONAL_SETTINGS__.</span>
     <span id="accountpreferences_message_ChangeLang" style="display:none;">__MSG__REGIONAL_SETTINGS_CHANGED__.</span>
     <span id="accountpreferences_error_passSame" style="display:none;">__MSG__NEW_OLD_PASSWORD_EQUAL__</span>
 
     <!-- Account Preferences -->
     <div class="fl-container-flex">
         <div class="fl-fix fl-centered accountpreferences">
-            <div>
-                <!-- CONTENT -->
-                <div class="fl-push password" id="accountpreferences_changePassContainer">
-                    <h4 class="section_header">
-                        __MSG__PASSWORD__:
-                    </h4>
-                    <form id="accountpreferences_password_change" class="preferences-form">
-                        <div class="form-item s3d-form-field-wrapper">
-                            <label for="curr_pass">__MSG__CURRENT_PASSWORD__:</label>
-                            <input maxlength="255" type="password" id="curr_pass" name="curr_pass" class="password-preferences-input required" />
+            <!-- CONTENT -->
+            <div class="password" id="accountpreferences_changePassContainer" style="display:none;">
+                <form id="accountpreferences_password_change" class="preferences-form">
+                    <h2>__MSG__PASSWORD__:</h2>
+                    <div class="accountpreferences_section_wrap_password accountpreferences_section_border">
+                        <div id="accountpreferences_section_password">
+                            <div class="form-item s3d-form-field-wrapper">
+                                <label for="curr_pass">__MSG__CURRENT_PASSWORD__:</label>
+                                <input maxlength="255" type="password" id="curr_pass" name="curr_pass" class="password-preferences-input required" />
+                            </div>
+                            <div class="form-item s3d-form-field-wrapper">
+                                <label for="new_pass">__MSG__NEW_PASSWORD__:</label>
+                                <input maxlength="255" type="password" id="new_pass" name="new_pass" class="password-preferences-input required" />
+                            </div>
+                            <div class="form-item s3d-form-field-wrapper">
+                                <label for="retype_pass">__MSG__RETYPE_NEW_PASSWORD__:</label>
+                                <input maxlength="255" type="password" id="retype_pass" name="retype_pass" class="password-preferences-input required" />
+                            </div>
                         </div>
-                        <div class="form-item s3d-form-field-wrapper">
-                            <label for="new_pass">__MSG__NEW_PASSWORD__:</label>
-                            <input maxlength="255" type="password" id="new_pass" name="new_pass" class="password-preferences-input required" />
+                    </div>
+                    <div class="save-preferences">
+                        <button type="button" class="s3d-link-button s3d-bold accountpreferences_cancel">__MSG__CANCEL__</button>
+                        <button type="submit" id="accountpreferences_saveNewPass" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_NEW_PASSWORD__</button>
+                        <div class="accountpreferences_general_message" id="accountpreferences_general_message_pass"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="privacysettings" id="accountpreferences_changePrivacyContainer" style="display:none;">
+                <form id="accountpreferences_privacy_change" class="preferences-form">
+                    <h2>__MSG__PRIVACY_SETTINGS__:</h2>
+                    <div class="accountpreferences_section_privacy accountpreferences_section_border">
+                        __MSG__PRIVACY_SETTINGS_INFO__
+                        <div class="accountpreferences_privacy_selection_container">
+                            <div class="accountpreferences_unselected_rbt accountpreferences_selectable">
+                                <input type="radio" value="public" checked="checked" id="accountpreferences_privacy_public" name="accountpreferences_privacy_radio">
+                                <label class="s3d-bold" for="accountpreferences_privacy_public"><span class="label_icon globe"></span>__MSG__VISIBLE_TO_ANYONE__</label>
+                            </div>
+                            <div class="accountpreferences_unselected_rbt accountpreferences_selectable">
+                                <input type="radio" value="everyone" id="accountpreferences_privacy_everyone" name="accountpreferences_privacy_radio">
+                                <label class="s3d-bold" for="accountpreferences_privacy_everyone"><span class="label_icon small_institution"></span>__MSG__VISIBLE_TO_LOGGED__</label>
+                            </div>
                         </div>
-                        <div class="form-item s3d-form-field-wrapper">
-                            <label for="retype_pass">__MSG__RETYPE_NEW_PASSWORD__:</label>
-                            <input maxlength="255" type="password" id="retype_pass" name="retype_pass" class="password-preferences-input required" />
+                    </div>
+                    <div class="fl-force-right">
+                        <button type="button" class="s3d-link-button s3d-bold accountpreferences_cancel">__MSG__CANCEL__</button>
+                        <button type="submit" id="accountpreferences_submitPrivacy" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_PRIVACY_SETTINGS__</button>
+                    </div>
+                </form>
+            </div>
+            <div class="regional" id="accountpreferences_preferContainer">
+                <form id="accountpreferences_preferences_form" class="preferences-form" method="POST" action="#">
+                    <div class="accountpreferences_section_wrap">
+                        <h2>__MSG__ACCOUNT_PREFERENCES__:</h2>
+                        <div class="accountpreferences_section accountpreferences_section_border" id="accountpreferences_section_regional">
+                            <div class="form-item">
+                                <label for="time_zone">__MSG__TIME_ZONE__:</label>
+                                <select id="time_zone" name="time-zone">
+                                    <option value="Etc/GMT+12"> __MSG__ETC/GMT+12__ </option>
+                                    <option value="Pacific/Pago_Pago"> __MSG__PACIFIC/PAGO_PAGO__ </option>
+                                    <option value="America/Adak"> __MSG__AMERICA/ADAK__ </option>
+                                    <option value="Pacific/Apia"> __MSG__PACIFIC/APIA__ </option>
+                                    <option value="Pacific/Honolulu"> __MSG__PACIFIC/HONOLULU__ </option>
+                                    <option value="Pacific/Marquesas"> __MSG__PACIFIC/MARQUESAS__ </option>
+                                    <option value="Pacific/Gambier"> __MSG__PACIFIC/GAMBIER__ </option>
+                                    <option value="America/Anchorage"> __MSG__AMERICA/ANCHORAGE__ </option>
+                                    <option value="America/Los_Angeles"> __MSG__AMERICA/LOS_ANGELES__ </option>
+                                    <option value="Pacific/Pitcairn"> __MSG__PACIFIC/PITCAIRN__ </option>
+                                    <option value="America/Phoenix"> __MSG__AMERICA/PHOENIX__ </option>
+                                    <option value="America/Denver"> __MSG__AMERICA/DENVER__ </option>
+                                    <option value="America/Guatemala"> __MSG__AMERICA/GUATEMALA__ </option>
+                                    <option value="America/Chicago"> __MSG__AMERICA/CHICAGO__ </option>
+                                    <option value="Pacific/Easter"> __MSG__PACIFIC/EASTER__ </option>
+                                    <option value="America/Bogota"> __MSG__AMERICA/BOGOTA__ </option>
+                                    <option value="America/New_York"> __MSG__AMERICA/NEW_YORK__ </option>
+                                    <option value="America/Caracas"> __MSG__AMERICA/CARACAS__ </option>
+                                    <option value="America/Halifax"> __MSG__AMERICA/HALIFAX__ </option>
+                                    <option value="America/Santo_Domingo"> __MSG__AMERICA/SANTO_DOMINGO__ </option>
+                                    <option value="America/Asuncion"> __MSG__AMERICA/ASUNCION__ </option>
+                                    <option value="America/St_Johns"> __MSG__AMERICA/ST_JOHNS__ </option>
+                                    <option value="America/Godthab"> __MSG__AMERICA/GODTHAB__ </option>
+                                    <option value="America/Argentina/Buenos_Aires"> __MSG__AMERICA/ARGENTINA/BUENOS_AIRES__ </option>
+                                    <option value="America/Montevideo"> __MSG__AMERICA/MONTEVIDEO__ </option>
+                                    <option value="America/Noronha"> __MSG__AMERICA/NORONHA__ </option>
+                                    <option value="Etc/GMT+2"> __MSG__ETC/GMT+2__ </option>
+                                    <option value="Atlantic/Azores"> __MSG__ATLANTIC/AZORES__ </option>
+                                    <option value="Atlantic/Cape_Verde"> __MSG__ATLANTIC/CAPE_VERDE__ </option>
+                                    <option value="Africa/Casablanca"> __MSG__AFRICA/CASABLANCA__ </option>
+                                    <option value="Europe/London"> __MSG__EUROPE/LONDON__ </option>
+                                    <option value="Europe/Berlin"> __MSG__EUROPE/BERLIN__ </option>
+                                    <option value="Africa/Lagos"> __MSG__AFRICA/LAGOS__ </option>
+                                    <option value="Africa/Windhoek"> __MSG__AFRICA/WINDHOEK__ </option>
+                                    <option value="Asia/Beirut"> __MSG__ASIA/BEIRUT__ </option>
+                                    <option value="Africa/Johannesburg"> __MSG__AFRICA/JOHANNESBURG__ </option>
+                                    <option value="Europe/Moscow"> __MSG__EUROPE/MOSCOW__ </option>
+                                    <option value="Asia/Baghdad"> __MSG__ASIA/BAGHDAD__ </option>
+                                    <option value="Asia/Tehran"> __MSG__ASIA/TEHRAN__ </option>
+                                    <option value="Asia/Dubai"> __MSG__ASIA/DUBAI__ </option>
+                                    <option value="Asia/Yerevan"> __MSG__ASIA/YEREVAN__ </option>
+                                    <option value="Asia/Kabul"> __MSG__ASIA/KABUL__ </option>
+                                    <option value="Asia/Yekaterinburg"> __MSG__ASIA/YEKATERINBURG__ </option>
+                                    <option value="Asia/Karachi"> __MSG__ASIA/KARACHI__ </option>
+                                    <option value="Asia/Kolkata"> __MSG__ASIA/KOLKATA__ </option>
+                                    <option value="Asia/Kathmandu"> __MSG__ASIA/KATHMANDU__ </option>
+                                    <option value="Asia/Dhaka"> __MSG__ASIA/DHAKA__ </option>
+                                    <option value="Asia/Omsk"> __MSG__ASIA/OMSK__ </option>
+                                    <option value="Asia/Rangoon"> __MSG__ASIA/RANGOON__ </option>
+                                    <option value="Asia/Krasnoyarsk"> __MSG__ASIA/KRASNOYARSK__ </option>
+                                    <option value="Asia/Jakarta"> __MSG__ASIA/JAKARTA__ </option>
+                                    <option value="Asia/Shanghai"> __MSG__ASIA/SHANGHAI__ </option>
+                                    <option value="Asia/Irkutsk"> __MSG__ASIA/IRKUTSK__ </option>
+                                    <option value="Australia/Eucla"> __MSG__AUSTRALIA/EUCLA__ </option>
+                                    <option value="Asia/Yakutsk"> __MSG__ASIA/YAKUTSK__ </option>
+                                    <option value="Asia/Tokyo"> __MSG__ASIA/TOKYO__ </option>
+                                    <option value="Australia/Darwin"> __MSG__AUSTRALIA/DARWIN__ </option>
+                                    <option value="Australia/Adelaide"> __MSG__AUSTRALIA/ADELAIDE__ </option>
+                                    <option value="Australia/Brisbane"> __MSG__AUSTRALIA/BRISBANE__ </option>
+                                    <option value="Asia/Vladivostok"> __MSG__ASIA/VLADIVOSTOK__ </option>
+                                    <option value="Australia/Sydney"> __MSG__AUSTRALIA/SYDNEY__ </option>
+                                    <option value="Australia/Lord_Howe"> __MSG__AUSTRALIA/LORD_HOWE__ </option>
+                                    <option value="Asia/Kamchatka"> __MSG__ASIA/KAMCHATKA__ </option>
+                                    <option value="Pacific/Noumea"> __MSG__PACIFIC/NOUMEA__ </option>
+                                    <option value="Pacific/Norfolk"> __MSG__PACIFIC/NORFOLK__ </option>
+                                    <option value="Pacific/Auckland"> __MSG__PACIFIC/AUCKLAND__ </option>
+                                    <option value="Pacific/Tarawa"> __MSG__PACIFIC/TARAWA__ </option>
+                                    <option value="Pacific/Chatham"> __MSG__PACIFIC/CHATHAM__ </option>
+                                    <option value="Pacific/Tongatapu"> __MSG__PACIFIC/TONGATAPU__ </option>
+                                    <option value="Pacific/Kiritimati"> __MSG__PACIFIC/KIRITIMATI__ </option>
+                                </select>
+                            </div>
+                            <div class="form-item">
+                                <label for="pass_language">__MSG__LANGUAGE__:</label>
+                                <select id="pass_language" name="language">
+                                </select>
+                            </div>
                         </div>
-                        <div class="save-preferences">
-                            <button type="submit" id="accountpreferences_saveNewPass" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_CHANGES__</button>
-                            <div class="accountpreferences_general_message" id="accountpreferences_general_message_pass"></div>
+                    </div>
+                    <div class="accountpreferences_section_wrap">
+                        <h2>__MSG__AUTOTAGGING__:</h2>
+                        <div class="accountpreferences_section accountpreferences_section_border" id="accountpreferences_section_autotagging">
+                            <div>
+                                <label>__MSG__AUTOTAGGING_INFO__</label>
+                                <div id="accountpreferences_section_autotagging_buttons" class="s3d-button s3d-header-button">
+                                    <button id="button_autotagging_true" data-sakai-autotagging="true"><span>__MSG__AUTOTAGGING_ON__</span></button>
+                                    <button id="button_autotagging_false" data-sakai-autotagging="false"><span>__MSG__AUTOTAGGING_OFF__</span></button>
+                                </div>
+                                <div id="accountpreferences_section_autotagging_radio">
+                                    <input type="radio" name="autotagging" id="autotagging_on" value="true" /><label for="autotagging_on">__MSG__AUTOTAGGING_ON__</label> 
+                                    <input type="radio" name="autotagging" id="autotagging_off" value="false" /><label for="autotagging_off">__MSG__AUTOTAGGING_OFF__</label>
+                                </div>
+                            </div>
+                            <div id="accountpreferences_section_autotagging_notify">
+                                <input type="checkbox" name="accountpreferences_tag_msg_info" id="tag_msg_info" />
+                                <label for="tag_msg_info">__MSG__NOTIFY_INFO__</label>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="fl-push regional">
-                    <h4 class="section_header">
-                        __MSG__REGIONAL_SETTINGS__:
-                    </h4>
-                    <form class="preferences-form" method="POST" action="#">
-                        <div class="form-item">
-                            <label for="time_zone">__MSG__TIME_ZONE__:</label>
-                            <select id="time_zone" name="time-zone">
-                                <option value="Etc/GMT+12"> __MSG__ETC/GMT+12__ </option>
-                                <option value="Pacific/Pago_Pago"> __MSG__PACIFIC/PAGO_PAGO__ </option>
-                                <option value="America/Adak"> __MSG__AMERICA/ADAK__ </option>
-                                <option value="Pacific/Apia"> __MSG__PACIFIC/APIA__ </option>
-                                <option value="Pacific/Honolulu"> __MSG__PACIFIC/HONOLULU__ </option>
-                                <option value="Pacific/Marquesas"> __MSG__PACIFIC/MARQUESAS__ </option>
-                                <option value="Pacific/Gambier"> __MSG__PACIFIC/GAMBIER__ </option>
-                                <option value="America/Anchorage"> __MSG__AMERICA/ANCHORAGE__ </option>
-                                <option value="America/Los_Angeles"> __MSG__AMERICA/LOS_ANGELES__ </option>
-                                <option value="Pacific/Pitcairn"> __MSG__PACIFIC/PITCAIRN__ </option>
-                                <option value="America/Phoenix"> __MSG__AMERICA/PHOENIX__ </option>
-                                <option value="America/Denver"> __MSG__AMERICA/DENVER__ </option>
-                                <option value="America/Guatemala"> __MSG__AMERICA/GUATEMALA__ </option>
-                                <option value="America/Chicago"> __MSG__AMERICA/CHICAGO__ </option>
-                                <option value="Pacific/Easter"> __MSG__PACIFIC/EASTER__ </option>
-                                <option value="America/Bogota"> __MSG__AMERICA/BOGOTA__ </option>
-                                <option value="America/New_York"> __MSG__AMERICA/NEW_YORK__ </option>
-                                <option value="America/Caracas"> __MSG__AMERICA/CARACAS__ </option>
-                                <option value="America/Halifax"> __MSG__AMERICA/HALIFAX__ </option>
-                                <option value="America/Santo_Domingo"> __MSG__AMERICA/SANTO_DOMINGO__ </option>
-                                <option value="America/Asuncion"> __MSG__AMERICA/ASUNCION__ </option>
-                                <option value="America/St_Johns"> __MSG__AMERICA/ST_JOHNS__ </option>
-                                <option value="America/Godthab"> __MSG__AMERICA/GODTHAB__ </option>
-                                <option value="America/Argentina/Buenos_Aires"> __MSG__AMERICA/ARGENTINA/BUENOS_AIRES__ </option>
-                                <option value="America/Montevideo"> __MSG__AMERICA/MONTEVIDEO__ </option>
-                                <option value="America/Noronha"> __MSG__AMERICA/NORONHA__ </option>
-                                <option value="Etc/GMT+2"> __MSG__ETC/GMT+2__ </option>
-                                <option value="Atlantic/Azores"> __MSG__ATLANTIC/AZORES__ </option>
-                                <option value="Atlantic/Cape_Verde"> __MSG__ATLANTIC/CAPE_VERDE__ </option>
-                                <option value="Africa/Casablanca"> __MSG__AFRICA/CASABLANCA__ </option>
-                                <option value="Europe/London"> __MSG__EUROPE/LONDON__ </option>
-                                <option value="Europe/Berlin"> __MSG__EUROPE/BERLIN__ </option>
-                                <option value="Africa/Lagos"> __MSG__AFRICA/LAGOS__ </option>
-                                <option value="Africa/Windhoek"> __MSG__AFRICA/WINDHOEK__ </option>
-                                <option value="Asia/Beirut"> __MSG__ASIA/BEIRUT__ </option>
-                                <option value="Africa/Johannesburg"> __MSG__AFRICA/JOHANNESBURG__ </option>
-                                <option value="Europe/Moscow"> __MSG__EUROPE/MOSCOW__ </option>
-                                <option value="Asia/Baghdad"> __MSG__ASIA/BAGHDAD__ </option>
-                                <option value="Asia/Tehran"> __MSG__ASIA/TEHRAN__ </option>
-                                <option value="Asia/Dubai"> __MSG__ASIA/DUBAI__ </option>
-                                <option value="Asia/Yerevan"> __MSG__ASIA/YEREVAN__ </option>
-                                <option value="Asia/Kabul"> __MSG__ASIA/KABUL__ </option>
-                                <option value="Asia/Yekaterinburg"> __MSG__ASIA/YEKATERINBURG__ </option>
-                                <option value="Asia/Karachi"> __MSG__ASIA/KARACHI__ </option>
-                                <option value="Asia/Kolkata"> __MSG__ASIA/KOLKATA__ </option>
-                                <option value="Asia/Kathmandu"> __MSG__ASIA/KATHMANDU__ </option>
-                                <option value="Asia/Dhaka"> __MSG__ASIA/DHAKA__ </option>
-                                <option value="Asia/Omsk"> __MSG__ASIA/OMSK__ </option>
-                                <option value="Asia/Rangoon"> __MSG__ASIA/RANGOON__ </option>
-                                <option value="Asia/Krasnoyarsk"> __MSG__ASIA/KRASNOYARSK__ </option>
-                                <option value="Asia/Jakarta"> __MSG__ASIA/JAKARTA__ </option>
-                                <option value="Asia/Shanghai"> __MSG__ASIA/SHANGHAI__ </option>
-                                <option value="Asia/Irkutsk"> __MSG__ASIA/IRKUTSK__ </option>
-                                <option value="Australia/Eucla"> __MSG__AUSTRALIA/EUCLA__ </option>
-                                <option value="Asia/Yakutsk"> __MSG__ASIA/YAKUTSK__ </option>
-                                <option value="Asia/Tokyo"> __MSG__ASIA/TOKYO__ </option>
-                                <option value="Australia/Darwin"> __MSG__AUSTRALIA/DARWIN__ </option>
-                                <option value="Australia/Adelaide"> __MSG__AUSTRALIA/ADELAIDE__ </option>
-                                <option value="Australia/Brisbane"> __MSG__AUSTRALIA/BRISBANE__ </option>
-                                <option value="Asia/Vladivostok"> __MSG__ASIA/VLADIVOSTOK__ </option>
-                                <option value="Australia/Sydney"> __MSG__AUSTRALIA/SYDNEY__ </option>
-                                <option value="Australia/Lord_Howe"> __MSG__AUSTRALIA/LORD_HOWE__ </option>
-                                <option value="Asia/Kamchatka"> __MSG__ASIA/KAMCHATKA__ </option>
-                                <option value="Pacific/Noumea"> __MSG__PACIFIC/NOUMEA__ </option>
-                                <option value="Pacific/Norfolk"> __MSG__PACIFIC/NORFOLK__ </option>
-                                <option value="Pacific/Auckland"> __MSG__PACIFIC/AUCKLAND__ </option>
-                                <option value="Pacific/Tarawa"> __MSG__PACIFIC/TARAWA__ </option>
-                                <option value="Pacific/Chatham"> __MSG__PACIFIC/CHATHAM__ </option>
-                                <option value="Pacific/Tongatapu"> __MSG__PACIFIC/TONGATAPU__ </option>
-                                <option value="Pacific/Kiritimati"> __MSG__PACIFIC/KIRITIMATI__ </option>
-                            </select>
-                         </div>
-                         <div class="form-item">
-                            <label for="pass_language">__MSG__LANGUAGE__:</label>
-                            <select id="pass_language" name="language">
-                            </select>
-                        </div>
-                        <div class="save-preferences">
-                            <button type="button" id="accountpreferences_submitRegional" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_CHANGES__</button>
-                            <div class="accountpreferences_general_message" id="accountpreferences_general_message_regional"></div>
-                        </div>
-                    </form>
-                </div>
-                <div id="accountpreferences_languagesTemplate" style="display:none"><!--
+                    </div>
+                    <div class="save-preferences">
+                        <button type="button" class="s3d-link-button s3d-bold accountpreferences_cancel">__MSG__CANCEL__</button>
+                        <button type="submit" id="accountpreferences_submitRegional" class="s3d-button s3d-overlay-action-button">__MSG__SAVE_PREFERENCES__</button>
+                        <div class="accountpreferences_general_message" id="accountpreferences_general_message_regional"></div>
+                    </div>
+                </form>
+            </div>
+            <div id="accountpreferences_languagesTemplate" style="display:none"><!--
                 {for i in languages}
                     <option value="${i.language}_${i.country}">${i.displayName}</option>
                 {/for}
-                --></div>
+            --></div>
 
-                <div class="fl-push"></div>
-            </div>
+            <div class="fl-push"></div>
         </div>
     </div>
 </div>

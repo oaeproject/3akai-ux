@@ -63,17 +63,17 @@
                         {var id = member.userid || member.groupid}
                         {var name = sakai.api.i18n.General.process(member["sakai:group-title"] || sakai.api.User.getDisplayName(member), "contentpermissions")}
                         {var nameshort = sakai.api.Util.applyThreeDots(name, 100, null, "s3d-bold")}
-                            <li id="member_${id|safeOutput}" data-originalpermission="${memberArr_index}" class="contentpermissions_edit s3d-outer-shadow-container">
+                            <li id="member_${id|safeOutput}" data-originalpermission="${memberArr_index}" class="contentpermissions_edit s3d-outer-shadow-container" {if member["sakai:group-id"] && member["sakai:category"] === "collection"} style="display:none" {/if}>
                                 <button data-sakai-entityid="${id|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-delete" type="button" title="Remove ${name|safeOutput}"></button>
                                 <select class="contentpermissions_member_permissions">
                                     <option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
                                     <option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
                                 </select>
                                 <label for="select_${id|safeOutput}">
-                                    {if member["sakai:category"] && member["sakai:category"] === "group"}
-                                        <img src="${sakai.api.Groups.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__GROUP_PICTURE__"/>
+                                    {if member["sakai:group-id"]}
+                                        <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__GROUP_PICTURE__"/>
                                     {else}
-                                        <img src="${sakai.api.User.getProfilePicture(member)}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
+                                        <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
                                     {/if}
                                     {if member["sakai:pseudoGroup"]}
                                         <a class="s3d-bold" href="/~${member["sakai:parent-group-id"]|safeURL}" title="__MSG__VIEW__ ${member["sakai:parent-group-title"]|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</span>

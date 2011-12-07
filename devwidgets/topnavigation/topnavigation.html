@@ -17,14 +17,34 @@
             </div>
         </div>
         <div class="topnavigation_user_container"></div>
-        <div class="topnavigation_usersection_splitter">|</div>
     </div>
 </div>
 
 <div id="navigation_template" style="display:none"><!--
+    {macro appendInfo(type)}
+        {if type === "messages"}
+            <div id="topnavigation_user_messages_container" class="topnavigation_counts_container">
+                <div class="topnavigation_usersection_splitter">|</div>
+                <div class="topnavigation_menuitem_counts_container" id="topnavigation_messages_container">
+                    <div id="topnavigation_user_inbox_icon" class="topnavigation_menuitem_icon"></div>
+                    <div id="topnavigation_user_inbox_messages" class="topnavigation_menuitem_counts s3d-bold"></div>
+                </div>
+                <div class="s3d-dropdown-menu" style="display:none;"></div>
+            </div>
+        {elseif type === "collections"}
+            <div id="topnavigation_user_collections_container" class="topnavigation_counts_container">
+                <div class="topnavigation_usersection_splitter">|</div>
+                <div class="topnavigation_menuitem_counts_container collector_toggle">
+                    <div id="topnavigation_user_collections_icon" class="topnavigation_menuitem_icon"></div>
+                    <div id="topnavigation_user_collections_total" class="topnavigation_menuitem_counts s3d-bold">${"" + sakai.api.Content.Collections.getMyCollectionsCount()}</div>
+                </div>
+            </div>
+        {/if}
+    {/macro}
+
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a role="menuitem" aria-haspopup="true" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} </a>
+            <a role="menuitem" aria-haspopup="true" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label}</a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul role="menu" aria-hidden="true">
@@ -41,7 +61,35 @@
                 {/if}
             </div>
         </li>
+        {if i.append}${appendInfo(i.append)}{/if}
     {/for}
+--></div>
+
+<div id="topnavigation_messages_dropdown_template"><!--
+    <div class="dropdown-menu-arrowup"></div>
+    <div class="s3d-dropdown-container">
+        {if dataPresent}
+            <div class="s3d-dropdown-menu-content-container">
+                <div id="topnavigation_message_profile_pic">
+                    <img src="${sakai.api.User.getProfilePicture(data.results[0].from.picture)}" alt="test"/>
+                </div>
+                <div id="topnavigation_message_sender" class="s3d-bold">${data.results[0].from.name} <span>(${data.results[0].timeago})</span></div>
+                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0].subject, 120)}</div>
+                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0].body, 270, false, false, true)}</div>
+
+                <a href="/me#l=messages/inbox&message=${data.results[0].id}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">Reply</a>
+                <a href="/me#l=messages/inbox&message=${data.results[0].id}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">Read full message</a>
+                <hr class="fl-hidden fl-push"/>
+            {else}
+                <div class="s3d-dropdown-menu-content-container no_messages">
+                    <div class="s3d-no-results-container">
+                        <img src="/devwidgets/topnavigation/images/topnav_messages_demo.png" alt="__MSG__MESSAGES_DEMO__" id="message_video_preview"/>
+                        <div class="s3d-no-results-icon s3d-no-results-people"></div>
+                        <h1>__MSG__YOUR_INBOX_IS_EMPTY__. <a class="s3d-regular-links" href="/me#l=messages/inbox&newmessage=true">__MSG__SEND_A_MESSAGE__</a> __MSG__OR__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_PEOPLE__</a> __MSG__TO_EXPAND_YOUR_NETWORK__.</h1>
+                    </div>
+            {/if}
+        </div>
+    </div>
 --></div>
 
 <div id="search_template" style="display:none"><!--
@@ -161,23 +209,17 @@
         </div>
         {/if}
     {else}
-        <a href="/me#l=messages/inbox" id="topnavigation_user_inbox_container">
-            <span class="s3d-aural-text">__MSG__MY_INBOX__</span>
-            <div id="topnavigation_user_inbox_icon"></div>
-            <div id="topnavigation_user_inbox_messages"></div>
-        </a>
         <ul id="topnavigation_user_options_list" role="menu">
             <li class="s3d-bold s3d-dropdown-menu hassubnav">
                 <a role="menuitem" aria-haspopup="true" href="/me#" id="topnavigation_user_options_name" class="s3d-bold"></a>
                 <div class="topnavigation_user_dropdown s3d-dropdown-container" style="display:none;">
                     <ul role="menu" aria-hidden="true">
-                        <li><a tabindex="-1" role="menuitem" href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
+                        <li><a tabindex="-1" role="menuitem" href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_ACCOUNT__</a></li>
                         <li><a tabindex="-1" role="menuitem" href="/logout" id="subnavigation_logout_link" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
                     </ul>
                 </div>
             </li>
         </ul>
-        <div class="topnavigation_usersection_splitter">|</div>
     {/if}
 --></div>
 

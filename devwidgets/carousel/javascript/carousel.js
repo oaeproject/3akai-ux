@@ -154,7 +154,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderCarousel = function(dataArr){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
-                "data": dataArr
+                "data": dataArr,
+                "sakai": sakai
             }, $(carouselContainer), false);
             applyThreeDots();
             $(carouselContainer).jcarousel({
@@ -224,6 +225,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.url = "/content#p=" + sakai.api.Util.safeURL(item["_path"]) + "/" + sakai.api.Util.safeURL(item["sakai:pooled-content-file-name"]);
                     obj.contentType = "content";
                     obj.id = item["_path"];
+                    obj._path = item["_path"];
 
                     if (obj.preview) {
                         previewArr.push(obj);
