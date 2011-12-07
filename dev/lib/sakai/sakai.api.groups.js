@@ -195,6 +195,51 @@ define(
         },
 
         /**
+         * Delete a group
+         * @param {String} id the id of the group that's being deleted
+         * @param {Function} callback the callback function for when the group delete is complete.
+        */
+        deleteGroup : function(groupID, meData, callback) {
+            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, groupAuthData){
+                if (success && groupAuthData) {
+                    var groupArray = [groupID];
+
+                    // delete any pseudo groups
+                    if (groupAuthData.properties["sakai:roles"]) {
+                        var roles = $.parseJSON(groupAuthData.properties["sakai:roles"]);
+                        if (roles && roles.length > 0) {
+                            for (var r = 0; r < roles.length; r++) {
+                                groupArray.push(groupID + "-" + roles[r].id);
+                            }
+                        }
+                    }
+
+                    // delete the group
+                    $.ajax({
+                        url: "/system/userManager.delete.json",
+                        type: "POST",
+                        traditional: true,
+                        data: {
+                            ":applyTo": groupArray
+                        },
+                        success: function(data){
+                            if ($.isFunction(callback)) {
+                                callback(true);
+                            }
+                        },
+                        error: function(){
+                            if ($.isFunction(callback)) {
+                                callback(false);
+                            }
+                        }
+                    });
+                } else if ($.isFunction(callback)) {
+                    callback(false);
+                }
+            });
+        },
+
+        /**
          * Update group basic information
          *
          * @param {String} id The id of the group to update
@@ -1210,7 +1255,7 @@ define(
         /**
          * Remove users from the specified group
          *
-         * @param {String} groupID the ID of the group to add members to
+         * @param {String} groupID the ID of the group to remove members from
          * @param {Array} users Array of user/group IDs to remove from the group
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
@@ -1304,8 +1349,10 @@ define(
             }
         },
 
-        filterGroup: function(group){
-            if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
+        filterGroup: function(group, includeCollections){
+            if (includeCollections && group["sakai:category"] && group["sakai:category"] === "collection" && group["sakai:group-title"]){
+                return true;
+            } else if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
                 return false;
             } else {
                 if (group.groupid === "everyone") {
@@ -1316,15 +1363,23 @@ define(
             }
         },
 
-        getMemberships : function(groups){
+        getMemberships : function(groups, includeCollections){
             var newjson = {entry: []};
             for (var i = 0, il = groups.length; i < il; i++) {
-                if (sakaiGroupsAPI.filterGroup(groups[i])) {
+                if (sakaiGroupsAPI.filterGroup(groups[i], includeCollections)) {
                     newjson.entry.push(groups[i]);
                 }
             }
             newjson.entry.sort(function(a, b){
-                return a["sakai:group-title"] > b["sakai:group-title"];
+                if (a["sakai:category"] === "collection" && b["sakai:category"] === "collection"){
+                    return sakai_util.Sorting.naturalSort(a["sakai:group-title"], b["sakai:group-title"]);
+                } else if (a["sakai:category"] === "collection"){
+                    return 1;
+                } else if (b["sakai:category"] === "collection"){
+                    return -1;
+                } else {
+                    return sakai_util.Sorting.naturalSort(a["sakai:group-title"], b["sakai:group-title"]);
+                }
             });
             return newjson;
         },

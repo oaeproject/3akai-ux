@@ -11,13 +11,13 @@
                 <button class="s3d-link-button">__MSG__PERMISSIONS__</button>
             </li>
             <hr class="s3d-split-line"/>
-            {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link"}
+            {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"}
                 <li id="ew_upload">
                     <button class="s3d-link-button">__MSG__UPLOAD_NEW_VERSION__</button>
                 </li>
                 <hr class="s3d-split-line"/>
             {/if}
-            {if sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link"}
+            {if sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"}
                 <li id="ew_revhistory">
                     <button class="s3d-link-button">__MSG__REVISION_HISTORY__</button>
                 </li>
@@ -50,6 +50,10 @@
             {/if}
             <li id="ew_group_settings">
                 <button class="s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
+            </li>
+            <hr class="s3d-split-line"/>
+            <li id="ew_group_settings">
+                <button class="s3d-link-button" id="ew_group_delete_link">__MSG__DELETE__</button>
             </li>
         <ul>
     </div>
@@ -121,6 +125,7 @@
                 </span>
         </div>
     {/if}
+    <hr class="fl-push fl-hidden"/>
 --></div>
 
 <div id="entity_newaccount_template" style="display:none"><!--
@@ -151,6 +156,7 @@
         {/if}
     </div>
     <div id="entity_name" class="s3d-bold entity_plaintitle">${data.title|safeOutput}</div>
+    <hr class="fl-push fl-hidden"/>
 --></div>
 
 <div id="entity_content_template" style="display:none"><!--
@@ -165,14 +171,15 @@
     <span id="entity_name_edit" style="display:none">
         <input id="entity_name_text" type="text" />
     </span>
-    <span id="entity_type">${data.data['iconDescription']}</span>
+    {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
+    <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
     <div id="entity_owns" class="s3d-regular-links {if !data.isManager} entity_owns_viewer{/if}">
         <div id="entity_actions">
             {if !anon}
                 {if type && type == "content_managed"}
                     <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
                 {/if}
-                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span></button>
+                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__ADD_TO__<span class="entity_add_to_library"></span></button>
             {/if}
             {if !data.isManager}
                 <button type="button" id="entity_content_share" class="s3d-button s3d-header-button s3d-header-smaller-button share_trigger_click s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__SHARE__<div class="s3d-action-icon entity_share_icon"></div></button>
@@ -186,7 +193,7 @@
                 <a id="contentpreview_download_button" href="${imspath}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>
-            {else}
+            {elseif data.data.mimeType !== "x-sakai/collection"}
                 <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>
@@ -234,7 +241,7 @@
             </div>
             <div class="entity_owns_actions_container">
                 <span class="entity_owns_actions_header">__MSG__COLLABORATION__</span>
-                <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right">
+                <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right"  style="display:none;">
                     <div class="s3d-dropdown-list">
                         <div class="s3d-dropdown-list-arrow-up"></div>
                         <span>__MSG__CREATE_COLLECTION_FROM_PEOPLE_WORKING_ON_THIS__</span>
@@ -277,8 +284,9 @@
                     <div class="entity_owns_actions_share has_counts ew_permissions">
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
-                                {if data.members.counts.viewerusers + data.members.counts.viewergroups !== 0}
-                            	    <span>Shared with
+                                {if data.members.counts.viewerusers + data.members.counts.viewergroups + data.members.counts.viewercollections !== 0}
+                            	    <span>
+                                        {if data.members.counts.viewerusers + data.members.counts.viewergroups !== 0}__MSG__SHARED_WITH__{/if}
                                 	    {if data.members.counts.viewerusers !== 0}
                                         	<button type="button" class="s3d-link-button entity_content_people">${data.members.counts.viewerusers}
                                             	{if data.members.counts.viewerusers == 1}
@@ -288,7 +296,8 @@
                                                 {/if}
                                             </button>
                                         {/if}
-                                        {if data.members.counts.viewergroups !== 0 && data.members.counts.viewerusers !== 0}_MSG__AND__{/if}
+                                        {if data.members.counts.viewergroups !== 0 && data.members.counts.viewerusers !== 0 && data.members.counts.viewercollections === 0}__MSG__AND__{/if}
+                                        {if data.members.counts.viewergroups !== 0 && data.members.counts.viewerusers !== 0 && data.members.counts.viewercollections !== 0},{/if}
                                         {if data.members.counts.viewergroups !== 0}
                                         	<button class="s3d-link-button entity_content_group">${data.members.counts.viewergroups}
                                         	    {if data.members.counts.viewergroups == 1}
@@ -298,13 +307,27 @@
                                         	{/if}
                                         	</button>
                                     	{/if}
+                                        {if (data.members.counts.viewergroups !== 0 || data.members.counts.viewerusers !== 0) && data.members.counts.viewercollections !== 0}
+                                            __MSG__AND__ __MSG__USED_IN_LC__
+                                        {elseif data.members.counts.viewercollections !== 0}
+                                            __MSG__USED_IN__
+                                        {/if}
+                                        {if data.members.counts.viewercollections !== 0}
+                                        	<button class="s3d-link-button entity_content_collections">${data.members.counts.viewercollections}
+                                        	    {if data.members.counts.viewercollections == 1}
+                                                    __MSG__COLLECTION_LC__
+                                                {else}
+                                            	    __MSG__COLLECTIONS_LC__
+                                        	{/if}
+                                        	</button>
+                                    	{/if}
                                 	</span>
                                 {else}
                                     __MSG__SHARED_WITH_NO_ONE__
                                 {/if}
                             <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                         </div>
-                        <span>${data.members.counts.viewergroups + data.members.counts.viewerusers}</span>
+                        <span>${data.members.counts.viewergroups + data.members.counts.viewerusers + data.members.counts.viewercollections}</span>
                     </div>
                     <span>|</span>
                     <button type="button" class="s3d-link-button s3d-bold share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
@@ -318,26 +341,38 @@
         {else}
             <span class="entity_comments">
                 {var peopleCount = data.members.counts.people}
-                <div class="entity_number">
-                    <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
-                    __MSG__USED_BY__
-                    <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people s3d-regular-links">
-                        ${peopleCount}
-                        {if peopleCount == 1}
-                            __MSG__PERSON_LC__
-                        {else}
-                            __MSG__PEOPLE_LC__
+                {var groupCount = data.members.counts.groups}
+                {var collectionCount = data.members.counts.collections}
+                {if peopleCount || groupCount || collectionCount}
+                    <div class="entity_number entity_content_usedby">
+                        <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
+                        __MSG__USED_BY__
+                        {if peopleCount}
+                            <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people s3d-regular-links">
+                                ${peopleCount}
+                                {if peopleCount == 1}
+                                    __MSG__PERSON_LC__
+                                {else}
+                                    __MSG__PEOPLE_LC__
+                                {/if}
+                            </a>
                         {/if}
-                    </a>
-                    {var groupCount = data.members.counts.groups}
-                    {if groupCount}
-                        and
-                        <a href="#" class="entity_content_group s3d-regular-links">
-                            ${groupCount}
-                            {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
-                        </a>
-                    {/if}
-                </div>
+                        {if groupCount}
+                            {if peopleCount && collectionCount},{else}__MSG__AND__{/if}
+                            <a href="#" class="entity_content_group s3d-regular-links">
+                                ${groupCount}
+                                {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
+                            </a>
+                        {/if}
+                        {if collectionCount}
+                            {if peopleCount || groupCount}__MSG__AND__{/if}
+                            <a href="#" class="entity_content_collections s3d-regular-links">
+                                ${collectionCount}
+                                {if collectionCount == 1} __MSG__COLLECTION_LC__{else} __MSG__COLLECTIONS_LC__{/if}
+                            </a>
+                        {/if}
+                    </div>
+                {/if}
                 <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
                 {var commentCount = sakai.api.Content.getCommentCount(data.data)}
                 <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
@@ -426,6 +461,7 @@
             </div>
         </div>
     {/if}
+    <hr class="fl-push fl-hidden"/>
 --></div>
 
 <!-- <div id="entity_group_image" class="entity_group_image {if type && type == "group_managed"} entity_user_image_pointer{/if} "></div> -->
@@ -444,7 +480,7 @@
                 {var userlist_groups_index = 0}
                 {var userlist_people_index = 0}
                 {for i in userList}
-                    {if i['sakai:group-id'] && type === "groups"}
+                    {if i['sakai:group-id'] && type === "groups" && !sakai.api.Content.Collections.isCollection(i)}
                         ${userlist_groups_index++|eat}
                         {if userlist_groups_index%2} <li id="${i['sakai:group-id']}">
                         {else} <li id="${i['sakai:group-id']|safeOutput}" class="entity_content_even">
@@ -487,6 +523,27 @@
                 {/for}
             </ul>
             --></div>
+            <div id="entity_content_collections_dialog_list_template" style="display:none;"><!--
+            <ul class="entity_content_users_dialog_list">
+                {var userlist_groups_index = 0}
+                {var userlist_people_index = 0}
+                {for i in userList}
+                    {if sakai.api.Content.Collections.isCollection(i)}
+                        ${userlist_groups_index++|eat}
+                        {if userlist_groups_index%2} 
+                            <li id="${i['sakai:group-id']}">
+                        {else} 
+                            <li id="${i['sakai:group-id']}" class="entity_content_even">
+                        {/if}
+                        <a href="/content#p=${sakai.api.Content.Collections.getCollectionPoolId(i)}/${i['sakai:group-title']|safeURL}" target="_blank"><img src="/dev/images/mimetypes/collection.png" alt="${i['sakai:group-title']|safeOutput}" class="entity_content_picture"/></a>
+                        <span class="entity_content_name">
+                            <a class="s3d-regular-links s3d-bold" href="/content#p=${sakai.api.Content.Collections.getCollectionPoolId(i)}/${i['sakai:group-title']|safeURL}" target="_blank">${i['sakai:group-title']|safeOutput}</a>
+                         </span>
+                    {/if}
+                    </li>
+                {/for}
+            </ul>
+            --></div>
 
         <div class="dialog_buttons fl-force-right">
             <button type="button" class="s3d-button s3d-overlay-action-button jqmClose">__MSG__CLOSE__</button>
@@ -499,6 +556,7 @@
 <div id="entity_notifications" style="display:none">
     <span id="entity_content_groups">__MSG__THE_FOLLOWING_GROUPS_USING_CONTENT__</span>
     <span id="entity_content_people">__MSG__THE_FOLLOWING_PEOPLE_USING_CONTENT__</span>
+    <span id="entity_content_collections">__MSG__THE_FOLLOWING_COLLECTIONS_USING_CONTENT__</span>
 </div>
 
 <!-- JAVASCRIPT -->

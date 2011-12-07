@@ -1,0 +1,13 @@
+{
+    "id":"deletegroup",
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/deletegroup/bundles/default.properties",
+            "name": "Delete group",
+            "description":"Delete group widget"
+        }
+    },
+    "type":"core",
+    "enabled":true,
+    "url":"/devwidgets/deletegroup/deletegroup.html"
+}

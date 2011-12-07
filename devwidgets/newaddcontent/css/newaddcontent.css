@@ -114,18 +114,13 @@
 #newaddcontent_add_existing_template .s3d-search-container {display:block;margin-bottom:7px;}
 #newaddcontent_add_existing_template .s3d-search-container .newaddcontent_existingitems_search {width:295px !important;}
 #newaddcontent_existingitems_search_clear {font-size:11px;}
-#newaddcontent_existingitems_list_container label#newaddcontent_existingitems_list_container_actions_sort_label{margin-top: 2px;}
+#newaddcontent_existingitems_list_container label#newaddcontent_existingitems_list_container_actions_sort_label{margin-top: 2px; float: right;}
 #newaddcontent_existingitems_list_container .newaddcontent_existingitems_list_container_list_item_icon {display: block;float: left;height: 16px;margin-right: 8px;width: 16px;}
 #newaddcontent_existingitems_list_container .newaddcontent_existingitems_list_container_disabled_list_item label{color:#A9A9A9 !important;}
 #newaddcontent_existingitems_list_container #newaddcontent_existingitems_no_items_found {color:#424242; margin-left:12px;}
-#newaddcontent_existingitems_list_container_actions_sort {margin-left:7px;border: 1px solid #A9A9A9;height: 20px;}
+#newaddcontent_existingitems_list_container_actions_sort {margin-left:7px;border: 1px solid #A9A9A9;height: 20px; float: right;}
 #newaddcontent_existingitems_paging {margin-top: 3px; width: 430px;}
 #newaddcontent_existingitems_paging li {margin: 0px 2px !important;}
-
-#newaddcontent_uploading {margin-top:25px;}
-#newaddcontent_uploading h1, #newaddcontent_uploading p {text-align:center;}
-#newaddcontent_uploading .s3d-inset-shadow-container {height:50px;padding-top:30px;}
-#newaddcontent_uploading .s3d-inset-shadow-container img {display:block;height:20px;margin-left:auto;margin-right:auto;width:188px;}
 
 /* Link */
 #newaddcontent_add_link_template{float:left;width:342px;}

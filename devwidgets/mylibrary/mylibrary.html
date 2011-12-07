@@ -109,20 +109,21 @@
         {for item in items}
             {if item["sakai:pooled-content-file-name"]}
                 {var count = count + 1}
-                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item s3d-search-result">
-                    <div class="s3d-search-result-user-functions">
+                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${item.id}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
+                    <div class="s3d-search-result-user-functions s3d-draggable-hidden">
                         <div class="mylibrary_item_left_filler">
                             {if !sakai.data.me.user.anon}
-                                <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item.filename|safeOutput}"/>
+                                <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item.filename|safeOutput}"/>
                                 {if isMe}
+                                    <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item.filename|safeOutput} __MSG__SELECT_REMOVE__</label>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}"></button>
                                 {/if}
                             {/if}
                         </div>
-                        <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger" data-entitycontext="mylibrary"></button>
-                        <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
+                        <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                     </div>
-                    <a href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
+                    <a href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img class="s3d-icon-40" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                         {else}
@@ -140,10 +141,12 @@
                             {/if}
                         </div>
                         <div class="mylibrary_item_by">
-                            __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerId} mylibrary_item_username{/if}" href="/~${item.ownerId|safeURL}">${item.ownerDisplayName}</a> 
-                            <span class="s3d-search-result-detail-separator">
-                                <span> | </span>
-                            </span>
+                            {if item.ownerDisplayName}
+                                __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerId} mylibrary_item_username{/if}" href="/~${item.ownerId|safeURL}">${item.ownerDisplayName}</a> 
+                                <span class="s3d-search-result-detail-separator">
+                                    <span> | </span>
+                                </span>
+                            {/if}
                             __MSG__CHANGED__ ${jQuery.timeago(new Date(item._lastModified))}
                         </div>
                         {if item["sakai:description-long"]}

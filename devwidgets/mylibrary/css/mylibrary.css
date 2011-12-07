@@ -26,7 +26,6 @@
 .mylibrary_check, #mylibrary_check_all {margin-top:4px;}
 #mylibrary_select {height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}
 .mylibrary_widget{overflow:hidden;}
-.mylibrary_item img {padding:0 10px 5px 0 !important;width: 40px !important;}
 .mylibrary_details {font-size:0.9em;}
 .mylibrary_edit {background:url("/dev/images/imanage.png") no-repeat scroll 0 0 transparent;height:14px;width:54px;display:inline-block;vertical-align:text-top;}
 .mylibrary_placeholder {width:20px; height:20px; float:left;margin-left: 5px;}
@@ -44,7 +43,6 @@
 .mylibrary_add_content_button {margin-top: 0px !important;}
 
 .mylibrary_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
-.mylibrary_item_right{margin-left:3px; float:left;}
 .mylibrary_item_mimetype {font-size:smaller;white-space:pre;text-transform:uppercase;}
 .mylibrary_item_by {padding:3px 0;font-size:11px;}
 .mylibrary_item_description{margin:0px;font-size:.90em;padding:6px 0; word-wrap: break-word;}
@@ -112,7 +110,6 @@
 .mylibrary_meta .s3d-no-results-container {font-style:normal;}
 
 #mylibrary_items.s3d-search-results-grid .mylibrary_item.s3d-search-result a img {position:inherit;}
-#mylibrary_items.s3d-search-results-grid .s3d-search-result-right {margin:35px 0 0 7px;width:130px;}
 #mylibrary_items.s3d-search-results-grid .s3d-search-result-user-functions .mylibrary_item_left_filler {width:auto;}
 #mylibrary_items.s3d-search-results-grid .s3d-search-result-user-functions .mylibrary_item_left_filler input {float:left;margin-right:13px;margin-top:0;}
 #mylibrary_items.s3d-search-results-grid .s3d-search-result-user-functions .mylibrary_item_left_filler button {float:left;margin-top:1px;}

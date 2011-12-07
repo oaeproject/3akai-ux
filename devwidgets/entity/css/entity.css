@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 /* General*/
+.me #entity_container {padding:20px 0 0;}
+#entity_container {padding:20px 15px 10px 20px;}
 #entity_container .entity_number {display:inline-block;color:#424242;}
 #entity_container #entity_name {display:inline-block;word-wrap:break-word;font-size:18px;margin-bottom:0;padding:0 0 2px !important;color:#454A4F;}
 #entity_container #entity_name.contentmetadata_noneditable {margin-top:8px;}
@@ -70,6 +72,7 @@
 #entity_container .s3d-button:hover .entity_share_icon {background:url("/dev/images/share_icon_hover_16x11.png") no-repeat scroll left top transparent;}
 #entity_container .entity_owns_actions_container .s3d-dropdown-list-arrow-up {background-position:center center;margin-left:40px !important;width:46px;height:32px !important;}
 #contentpreview_download_button {line-height:23px !important;}
+#entity_container .entity_content_usedby {margin-right: 10px;}
 
 /* Directory */
 #entity_container #entity_directory_image {width:45px;float:left;margin-right:15px;margin-top:-14px;}
@@ -130,9 +133,10 @@
 #entity_container #entity_type {color:#999;text-transform:uppercase;}
 
 /* Search title */
-.entity_search {float:left;}
+.entity_search {float:left; margin-top: 4px !important;}
 
 /* Dialogs */
+#entity_content_users_dialog {z-index: 40000 !important;}
 .entity_content_users_dialog_list{margin:12px 0 0;padding:0;height:310px;overflow:auto;border:1px solid #d4dade;}
 .entity_content_users_dialog_list li{display:block;list-style:none;clear:both;padding:5px 0 5px 10px;border-bottom:1px solid #FFF;border-top:1px solid #FFF;overflow:hidden;}
 .entity_content_users_dialog_list .entity_content_picture{float:left;display:block;height:32px;width:32px;padding-right:10px;}

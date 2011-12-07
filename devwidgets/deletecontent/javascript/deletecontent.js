@@ -96,13 +96,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             batchRequests = batchRequests || [];
             for (var i = 0; i < items.length; i++){
                 var parameters = {};
-                parameters[":manager@Delete"] = context;
-                parameters[":viewer@Delete"] = context;
-                batchRequests.push({
-                    "url": "/p/" + items[i]["_path"] + ".members.json",
-                    "method": "POST",
-                    "parameters": parameters
-                });
+                if (sakai.api.Content.Collections.isCollection(items[i])) {
+                    var groupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
+                    batchRequests.push({
+                        "url": "/system/userManager/group/" + groupId + "-members.update.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer@Delete": context,
+                            ":member@Delete": context
+                        }
+                    });
+                    batchRequests.push({
+                        "url": "/system/userManager/group/" + groupId + "-managers.update.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer@Delete": context,
+                            ":member@Delete": context
+                        }
+                    });
+                } else {
+                    parameters[":manager@Delete"] = context;
+                    parameters[":viewer@Delete"] = context;
+                    batchRequests.push({
+                        "url": "/p/" + items[i]["_path"] + ".members.json",
+                        "method": "POST",
+                        "parameters": parameters
+                    });
+                }
             }
         };
 
@@ -136,6 +156,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         ":operation": "delete"
                     }
                 });
+                // Remove the pseudoGroups associated to the collection
+                var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
+                if (sakai.api.Content.Collections.isCollection(items[i])) {
+                    batchRequests.push({
+                        "url": "/system/userManager.delete.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":applyTo": [collectionGroupId, collectionGroupId + "-members", collectionGroupId + "-managers"]
+                        }
+                    });
+                }
             }
         };
 
@@ -157,32 +188,71 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var checkUsedByOthers = function(){
             var userGroupIds = [];
+            var collectionsToCheck = [];
             // Check whether any of the content I manage is managed by or
             // shared with other people
             for (var m = 0; m < contentIManage.length; m++){
-                var managers = contentIManage[m]["sakai:pooled-content-manager"];
-                if (managers){
-                    for (var i = 0; i < managers.length; i++){
-                        if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid 
-                            && managers[i] !== context){
-                            userGroupIds.push(managers[i]);
+                if (sakai.api.Content.Collections.isCollection(contentIManage[m])){
+                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentIManage[m]);
+                    collectionsToCheck.push(collectionGroupId + "-members");
+                    collectionsToCheck.push(collectionGroupId + "-managers");
+                } else {
+                    var managers = contentIManage[m]["sakai:pooled-content-manager"];
+                    if (managers){
+                        for (var i = 0; i < managers.length; i++){
+                            if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid 
+                                && managers[i] !== context){
+                                userGroupIds.push(managers[i]);
+                            }
                         }
                     }
-                }
-                var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
-                if (viewers){
-                    for (var j = 0; j < viewers.length; j++){
-                        if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
-                            viewers[j] !== context && viewers[j] !== "everyone" && viewers[j] !== "anonymous"){
-                            userGroupIds.push(viewers[j]);
+                    var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
+                    if (viewers){
+                        for (var j = 0; j < viewers.length; j++){
+                            if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
+                                viewers[j] !== context && viewers[j] !== "everyone" && viewers[j] !== "anonymous"){
+                                userGroupIds.push(viewers[j]);
+                            }
                         }
                     }
                 }
             }
-            if (userGroupIds.length > 0){
-                setUpUsedByOverlay(userGroupIds);
+            if (collectionsToCheck.length > 0) {
+                var batchRequest = [];
+                $.each(collectionsToCheck, function(index, collectiongroup){
+                    batchRequest.push({
+                        "url": "/system/userManager/group/" + collectiongroup + ".members.json",
+                        "method": "GET",
+                        "parameters": {
+                            items: 10000
+                        }
+                    })
+                });
+                sakai.api.Server.batch(batchRequest, function (success, data) {
+                    for (var i = 0; i < data.results.length; i++) {
+                        if (data.results.hasOwnProperty(i)) {
+                            var members = $.parseJSON(data.results[i].body);
+                            for (var ii = 0; ii < members.length; ii++){
+                                var member = members[ii].userid;
+                                if ($.inArray(member, userGroupIds) === -1 && member !== sakai.data.me.user.userid 
+                                    && member !== context){
+                                    userGroupIds.push(member);
+                                }
+                            }
+                        }
+                    }
+                    if (userGroupIds.length > 0) {
+                        setUpUsedByOverlay(userGroupIds);
+                    } else {
+                        removeFromSystem();
+                    }
+                });
             } else {
-                removeFromSystem();
+                if (userGroupIds.length > 0) {
+                    setUpUsedByOverlay(userGroupIds);
+                } else {
+                    removeFromSystem();
+                }
             }
         };
 
@@ -221,7 +291,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (data.results[i].success){
                         // Process pseudoGroups
                         var profile = $.parseJSON(data.results[i].body);
-                        if (profile["sakai:excludeSearch"] === "true"){
+                        if (sakai.api.Content.Collections.isCollection(profile)){
+                            profile.collectionid = sakai.api.Content.Collections.getCollectionPoolId(profile);
+                        } else if (profile["sakai:excludeSearch"] === "true"){
                             var splitOnDash = profile.groupid.split("-");
                             profile["sakai:group-title"] = profile["sakai:parent-group-title"] + " (" + sakai.api.i18n.getValueForKey(profile["sakai:role-title-plural"]) + ")";
                             profile.groupid = splitOnDash.splice(0, splitOnDash.length - 1).join("-");
