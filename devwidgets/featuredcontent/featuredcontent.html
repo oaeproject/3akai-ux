@@ -17,7 +17,7 @@
 <div id="featuredcontent_main_template"><!--
 
     {macro actionbuttons(item, sakai)}
-        <fieldset class="featuredcontent_content_actions">
+        <fieldset class="featuredcontent_content_actions s3d-draggable-hidden">
         <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
             <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
             {if !sakai.data.me.user.anon}
@@ -28,7 +28,7 @@
     {/macro}
     {macro displayTags(item, sakai)}
         {if item["sakai:tags"]}
-            <ul class="featuredcontent_content_tags s3d-taglist">
+            <ul class="featuredcontent_content_tags s3d-taglist fl-push">
                 {for tag in item["sakai:tags"]}
                     {if tag_index < 2}
                         <li><a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a></li>
@@ -60,7 +60,7 @@
         <div id="featuredcontent_content_offset_container">
         {for item in results}
             {if item_index === "0"}
-                <div class="featuredcontent_content featuredcontent_content_large">
+                <div class="featuredcontent_content featuredcontent_content_large s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     ${actionbuttons(item, sakai)}
                     {if item.thumbnail}
                         <div id="featuredcontent_large_preview">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             {elseif item_index === "1" || item_index === "4" || item_index === "7"}
-                <div class="featuredcontent_content featuredcontent_content_medium">
+                <div class="featuredcontent_content featuredcontent_content_medium s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     ${actionbuttons(item, sakai)}
                     ${embedSmallThumbnail(item, sakai)}
                     ${displayTitle(item, params, 100)}
@@ -87,9 +87,9 @@
                 </div>
             {else}
                 {if item_index === "2" || item_index === "5" || item_index === "8"}
-                    <div class="featuredcontent_content_small_container">
+                    <div class="featuredcontent_content_small_container s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                 {/if}
-                <div class="featuredcontent_content featuredcontent_content_small">
+                <div class="featuredcontent_content featuredcontent_content_small s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     ${actionbuttons(item, sakai)}
                     ${embedSmallThumbnail(item, sakai)}
                     ${displayTitle(item, params, 100)}
@@ -107,7 +107,7 @@
             </a>
         </div>
     {elseif item}
-        <div class="featuredcontent_content featuredcontent_content_large featuredcontent_category_content_large">
+        <div class="featuredcontent_content featuredcontent_content_large featuredcontent_category_content_large s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
             ${actionbuttons(item, sakai)}
             <div id="featuredcontent_large_preview">
                 <a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" title="${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
@@ -148,8 +148,8 @@
         {for item in results}
             ${count++|eat}
             {if count <= 6}
-                <div class="featuredcontent_content featuredcontent_content_small">
-                    <fieldset class="featuredcontent_content_actions">
+                <div class="featuredcontent_content featuredcontent_content_small s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
+                    <fieldset class="featuredcontent_content_actions s3d-draggable-hidden">
                         <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
                         <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
                         {if !sakai.data.me.user.anon}

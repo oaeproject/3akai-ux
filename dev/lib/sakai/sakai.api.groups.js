@@ -1208,7 +1208,7 @@ define(
         /**
          * Remove users from the specified group
          *
-         * @param {String} groupID the ID of the group to add members to
+         * @param {String} groupID the ID of the group to remove members from
          * @param {Array} users Array of user/group IDs to remove from the group
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
@@ -1302,8 +1302,10 @@ define(
             }
         },
 
-        filterGroup: function(group){
-            if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
+        filterGroup: function(group, includeCollections){
+            if (includeCollections && group["sakai:category"] && group["sakai:category"] === "collection" && group["sakai:group-title"]){
+                return true;
+            } else if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
                 return false;
             } else {
                 if (group.groupid === "everyone") {
@@ -1314,15 +1316,23 @@ define(
             }
         },
 
-        getMemberships : function(groups){
+        getMemberships : function(groups, includeCollections){
             var newjson = {entry: []};
             for (var i = 0, il = groups.length; i < il; i++) {
-                if (sakaiGroupsAPI.filterGroup(groups[i])) {
+                if (sakaiGroupsAPI.filterGroup(groups[i], includeCollections)) {
                     newjson.entry.push(groups[i]);
                 }
             }
             newjson.entry.sort(function(a, b){
-                return a["sakai:group-title"] > b["sakai:group-title"];
+                if (a["sakai:category"] === "collection" && b["sakai:category"] === "collection"){
+                    return sakai_util.Sorting.naturalSort(a["sakai:group-title"], b["sakai:group-title"]);
+                } else if (a["sakai:category"] === "collection"){
+                    return 1;
+                } else if (b["sakai:category"] === "collection"){
+                    return -1;
+                } else {
+                    return sakai_util.Sorting.naturalSort(a["sakai:group-title"], b["sakai:group-title"]);
+                }
             });
             return newjson;
         },

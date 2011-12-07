@@ -5,12 +5,12 @@
     <!-- SAVECONTENT DIALOG -->
     <div id="savecontent" class="savecontent_dialog">
         <!-- SAVECONTENT HEADER -->
-        <div class="savecontent_header_arrow"></div>
+        <div class="s3d-popover-arrowup"></div>
 
         <!-- SAVECONTENT CONTENT -->
-        <div class="savecontent_outer clearfix">
-            <h2 id="savecontent_title">__MSG__SAVE_TO__</h2>
-            <div class="savecontent_inner">
+        <div class="s3d-popover-container clearfix">
+            <h2 id="savecontent_title">__MSG__ADD_TO__</h2>
+            <div class="s3d-popover-inner">
                 <div id="savecontent_container"></div>
             </div>
             <button type="button" id="savecontent_save" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right">__MSG__ADD__</button>
@@ -23,6 +23,8 @@
 <span style="display:none;" id="savecontent_my_add_library_body">__MSG__MY_LIBRARY_ADDED__</span>
 <span style="display:none;" id="savecontent_group_add_library_title">__MSG__LIBRARY__</span>
 <span style="display:none;" id="savecontent_group_add_library_body">__MSG__LIBRARY_ADDED__</span>
+<span style="display:none;" id="savecontent_collection_add_library_title">__MSG__COLLECTION__</span>
+<span style="display:none;" id="savecontent_collection_add_library_body">__MSG__COLLECTION_ADDED__</span>
 
 <div id="savecontent_template" style="display:none"><!--
     __MSG__YOU_ARE_SAVING__
@@ -43,6 +45,7 @@
         {for world in sakai.config.worldTemplates}
             <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${sakai.api.i18n.getValueForKey(world.title).toLowerCase()}</option>
         {/for}
+        <option value="new_collection">__MSG__A_NEW__ __MSG__COLLECTION_LC__</option>
 
         {if libraryHasIt}
             <option value="${sakai.data.me.user.userid}" id="mylibrary_option" disabled="disabled">__MSG__MY_LIBRARY__ (__MSG__GOT_IT__)</option>
@@ -52,11 +55,19 @@
 
         {for g in groups.entry}
             {if g["sakai:group-title"]}
-                {if !g.overrideAllSelectedAMember}
-                    <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> __MSG__GROUPS_LIBRARY__ (__MSG__GOT_IT__)</option>
+                {if sakai.api.Content.Collections.isCollection(g)}
+                    {if g.alreadyHasIt}
+                        <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> ${g["sakai:group-title"]|safeOutput} (__MSG__GOT_IT__)</option>
+                    {else}
+                        <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}> ${g["sakai:group-title"]|safeOutput}</option>
+                    {/if}
                 {else}
-                    <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}> __MSG__GROUPS_LIBRARY__</option>
-                {/if}>
+                    {if g.alreadyHasIt}
+                        <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> __MSG__GROUPS_LIBRARY__ (__MSG__GOT_IT__)</option>
+                    {else}
+                        <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}> __MSG__GROUPS_LIBRARY__</option>
+                    {/if}                
+                {/if}
             {/if}
         {/for}
     </select>
