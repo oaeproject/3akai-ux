@@ -267,7 +267,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     callback(true, data);
                 });
             }, {}, function(items, total){
-                $(".inbox_select_all_container:visible").removeClass("no_messages_transparent");
+                $(".inbox_select_all_container:visible input").removeAttr("disabled");
                 $("#inbox_delete_selected").removeAttr("disabled");
                 $("#inbox_mark_as_read").removeAttr("disabled");
                 return sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
@@ -277,7 +277,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     search: searchTerm
                 });
             }, function(){
-                $(".inbox_select_all_container:visible").addClass("no_messages_transparent");
+                $(".inbox_select_all_container:visible input").attr("disabled", true);
                 $("#inbox_delete_selected").attr("disabled", true);
                 $("#inbox_mark_as_read").attr("disabled", true);
                 $inbox_message_list.html(sakai.api.Util.TemplateRenderer($inbox_message_list_item_empty_template, {
