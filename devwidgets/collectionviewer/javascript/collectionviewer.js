@@ -146,6 +146,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var renderEditMode = function(){
+            hideContainers();
+            $("#collectionviewer_edit_collection_button").hide();
+            $("#collectionviewer_finish_editing_collection_button").show();
+            renderGridOrList(false, true);
+        };
+
         // GRID OR LIST //
         var renderGridOrList = function(grid, editMode){
             var pageNumber = collectionviewer.page - 1;
@@ -211,6 +218,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "grid":
                     $("#collectionviewer_grid_view,#collectionviewer_grid_view > div", $rootel).addClass("selected");
                     renderGridOrList(true);
+                    break;
+                case "edit":
+                    renderEditMode();
                     break;
                 case "list":
                     $("#collectionviewer_list_view,#collectionviewer_list_view > div", $rootel).addClass("selected");
@@ -283,7 +293,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var handleHashChange = function(ev, added, removed, all){
+        var handleHashChange = function(){
             collectionviewer.listStyle = $.bbq.getState("ls") || "carousel";
             $(".s3d-listview-options", $rootel).children(".selected").children().removeClass("selected");
             $(".s3d-listview-options", $rootel).children(".selected").removeClass("selected");
@@ -315,12 +325,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var refreshCollection = function(){
-            collectionviewer.listStyle = "list";
+            var pageNumber = collectionviewer.page - 1;
             getCollectionData("", true, function(data){
                 collectionviewer.listStyle = $.bbq.getState("ls") || "list";
                 $("#collectionviewer_add_content_button > div").text(data.total);
                 collectionviewer.total = data.total;
-                collectionData[collectionviewer.page] = data.results;
+                collectionData[pageNumber] = data.results;
                 renderGridOrList(false, true);
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
             });
@@ -347,6 +357,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#collectionviewer_list_view").live("click", function(){
                 $.bbq.pushState({"ls":"list"});
+            });
+
+            $("#collectionviewer_edit_collection_button").live("click", function(){
+                $.bbq.pushState({"ls":"edit"});
             });
 
             $(window).bind("hashchanged.collectionviewer.sakai", handleHashChange);
@@ -394,24 +408,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(".collectionviewer_comments_count").text(collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"), 10)][parseInt($(".collectionviewer_carousel_item.selected").attr("arr-index"), 10)].numComments);
             });
 
-            $("#collectionviewer_edit_collection_button").click(function(){
-                hideContainers();
-                $(this).hide();
-                $("#collectionviewer_finish_editing_collection_button").show();
-                if(collectionviewer.listStyle === "carousel"){
-                    getCollectionData("", true, function(data){
-                        collectionData[collectionviewer.page] = data.results;
-                        renderGridOrList(false, true);
-                    })
-                } else {
-                    renderGridOrList(false, true);
-                }
-            });
-
             $("#collectionviewer_finish_editing_collection_button").click(function(){
                 $(this).hide();
                 $("#collectionviewer_edit_collection_button").show();
-                getCollectionData();
+                $.bbq.pushState({"ls":"carousel"});
             })
 
             $("#collectionviewer_select_all").live("click", function(){
