@@ -105,6 +105,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(collectionsNoCollections).hide();
             $(collectionsAddNewContainer).show();
             $(collectionsNewActionButtons).show();
+            $("#collections_collection_title").focus();
         };
 
         /**
@@ -379,7 +380,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to various elements in the widget
          */
         var addBinding = function(){
-            $(subnavigationAddCollectionLink).live("click", toggleCollectionsInlay);
+            $(subnavigationAddCollectionLink).live("click", initializeNewCollectionsSetup);
             $(collectionsCloseButton).live("click", toggleCollectionsInlay);
             $(collectorToggle).live("click", toggleCollectionsInlay);
             $(collectionsNewButton).live("click", initializeNewCollectionsSetup);
