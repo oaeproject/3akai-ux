@@ -357,6 +357,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show/hide the collections inlay
          */
         var toggleCollectionsInlay = function(){
+            if(!$collectionsWidget.is(":visible")){
+                $("#collections_leftcolumn").focus();
+            }
             $collectionsWidget.animate({
                 'margin-bottom': 'toggle',
                 height: 'toggle',
