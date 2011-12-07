@@ -324,7 +324,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $pickeradvanced_search_filter.live("click", function() {
            $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
            $(this).parent("li").addClass("pickeradvanced_selected_list");
-           debug.log($(this));
            if ( $( this ).attr( "data-search" ) === "all" ) {
                pickerData.searchIn = sakai.config.URL.SEARCH_ALL_FILES;
            } else if ($( this ).attr( "data-search" ) === "my" ) {
