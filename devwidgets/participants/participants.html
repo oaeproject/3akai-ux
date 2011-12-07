@@ -74,15 +74,15 @@
                 <a href="/~${participant.id|safeURL}">
                     {if !participant.profilePicture}
                         {if participant.type === "group"}
-                            <img class="s3d-list-entity-picture participants_group_pic s3d-icon-35" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
-                            <img class="s3d-list-entity-picture participants_avatar_large s3d-icon-35" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
+                            <img class="s3d-list-entity-picture participants_group_pic" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
+                            <img class="s3d-list-entity-picture participants_avatar_large" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
                         {else}
-                            <img class="s3d-list-entity-picture participants_group_pic s3d-icon-35" src="${sakai.config.URL.USER_DEFAULT_ICON_URL}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
-                            <img class="s3d-list-entity-picture participants_avatar_large s3d-icon-35" src="${sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
+                            <img class="s3d-list-entity-picture participants_group_pic" src="${sakai.config.URL.USER_DEFAULT_ICON_URL}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
+                            <img class="s3d-list-entity-picture participants_avatar_large" src="${sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
                         {/if}
                     {else}
-                        <img class="s3d-list-entity-picture participants_group_pic s3d-icon-35" src="${participant.profilePicture}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
-                        <img class="s3d-list-entity-picture participants_avatar_large s3d-icon-35" src="${participant.profilePicture}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
+                        <img class="s3d-list-entity-picture participants_group_pic" src="${participant.profilePicture}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
+                        <img class="s3d-list-entity-picture participants_avatar_large" src="${participant.profilePicture}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__"/>
                     {/if}
                 </a>
             </label>
