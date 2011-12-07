@@ -93,6 +93,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 collectionId: sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId),
                 isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
             }, $collectionviewerCarouselContainer);
+            $("#collectionviewer_finish_editing_collection_button").hide();
+            $("#collectionviewer_edit_collection_button").show();
             $collectionviewerCarouselContainer.show();
             $collectionviewerExpandedContentContainer.show();
             $(".collectionviewer_controls", $rootel).hide();
@@ -147,14 +149,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderEditMode = function(){
-            hideContainers();
-            $("#collectionviewer_edit_collection_button").hide();
-            $("#collectionviewer_finish_editing_collection_button").show();
+            hideContainers();            
             renderGridOrList(false, true);
         };
 
         // GRID OR LIST //
         var renderGridOrList = function(grid, editMode){
+            if (editMode){
+                $("#collectionviewer_edit_collection_button").hide();
+                $("#collectionviewer_finish_editing_collection_button").show();
+            } else {
+                $("#collectionviewer_finish_editing_collection_button").hide();
+                $("#collectionviewer_edit_collection_button").show();
+            }
             var pageNumber = collectionviewer.page - 1;
             sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
                 items: collectionData[pageNumber],
