@@ -165,6 +165,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }, $inbox_show_message);
             $("#sendmessage_to_autoSuggest").data(cacheAutoSuggestData);
             if (!currentMessage.read) {
+                if(currentMessage.path.substring(0, 2) === "a:"){
+                    currentMessage.path = "~" + currentMessage.path.substring(2, currentMessage.path.length);
+                }
                 sakai.api.Communication.markMessagesAsRead(currentMessage);
                 $("#" + currentMessage.id, $rootel).removeClass("unread");
             }
