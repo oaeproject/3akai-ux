@@ -75,7 +75,7 @@
                 </div>
                 <div id="topnavigation_message_sender" class="s3d-bold">${data.results[0].from.name} <span>(${data.results[0].timeago})</span></div>
                 <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0].subject, 120)}</div>
-                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0].body, 270)}</div>
+                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0].body, 270, false, false, true)}</div>
 
                 <a href="/me#l=messages/inbox&message=${data.results[0].id}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">Reply</a>
                 <a href="/me#l=messages/inbox&message=${data.results[0].id}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">Read full message</a>
