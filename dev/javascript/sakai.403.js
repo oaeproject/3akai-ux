@@ -44,7 +44,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (sakai.config.enableCategories) {
                 var catcount = 0;
                 for (var i in sakai.config.Directory) {
-                    if (sakai.config.Directory.hasOwnProperty(i)) {
+                    if (sakai.config.Directory.hasOwnProperty(i) && !sakai.config.Directory[i].divider) {
                         catcount+=1;
                     }
                 }
