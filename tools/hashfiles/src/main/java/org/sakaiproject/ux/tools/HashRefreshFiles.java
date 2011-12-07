@@ -276,7 +276,7 @@ public class HashRefreshFiles {
         }
         continue;
       }
-      String relativePath = this.getRelativePath(filePath, s); 
+      String relativePath = this.getRelativePath(filePath, s);
       if (relativePath != null && sb.indexOf(relativePath) >= 0) {
         String newPath = hashedResults.get(s);
         newPath = relativePath.substring(0, relativePath.lastIndexOf("/") + 1) + newPath.substring(newPath.lastIndexOf("/") + 1);
