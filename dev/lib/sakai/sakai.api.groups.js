@@ -1393,10 +1393,12 @@ define(
                 }
             }
             var template = false;
-            for (var w = 0; w < category.templates.length; w++){
-                if (category.templates[w].id === id){
-                    template = category.templates[w];
-                    break;
+            if (category && category.templates && category.templates.length) {
+                for (var w = 0; w < category.templates.length; w++){
+                    if (category.templates[w].id === id){
+                        template = category.templates[w];
+                        break;
+                    }
                 }
             }
             return template;
