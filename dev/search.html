@@ -201,9 +201,9 @@
                         <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                     {else}
                         <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
-                            <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/>
+                            <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}"/>
                             {if i.pictureLarge}
-                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" width="48px" height="48px" class="s3d-search-result-avatar-large"/>
+                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
                             {/if}
                         </a>
                     {/if}

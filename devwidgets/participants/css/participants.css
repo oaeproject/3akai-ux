@@ -21,7 +21,7 @@
 /* Participants list */
 .participants_widget #participants_list_container {float:none !important;}
 .participants_widget #participants_list_container label {cursor:pointer;}
-.participants_widget #participants_list_container .s3d-list-entity-picture {margin-right: 15px;}
+.participants_widget #participants_list_container .s3d-list-entity-picture {width:46px;height:46px;margin-right: 15px;}
 .participants_widget #participants_list_container .participants_list_participant_checkbox {float:left; width: 25px;}
 .participants_widget #participants_list_container ul {margin:7px 0; border-top: 1px solid #e9e9e9;}
 .participants_widget #participants_list_container ul li {color:#333;padding:10px 10px 10px 6px !important;}

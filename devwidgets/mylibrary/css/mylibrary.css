@@ -26,7 +26,6 @@
 .mylibrary_check, #mylibrary_check_all {margin-top:4px;}
 #mylibrary_select {height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}
 .mylibrary_widget{overflow:hidden;}
-.mylibrary_item img {padding:0 10px 5px 0 !important;width: 40px !important;}
 .mylibrary_details {font-size:0.9em;}
 .mylibrary_edit {background:url("/dev/images/imanage.png") no-repeat scroll 0 0 transparent;height:14px;width:54px;display:inline-block;vertical-align:text-top;}
 .mylibrary_placeholder {width:20px; height:20px; float:left;margin-left: 5px;}
