@@ -2226,7 +2226,7 @@ define(
                         });
                     }
                     // Get the closest-previous label in the DOM
-                    var $prevLabel = $("label[for='" + $element.attr("id") + "']");
+                    var $prevLabel = $form.find("label[for='" + $element.attr("id") + "']");
                     $error.attr("id", $element.attr("name") + "_error");
                     $element.attr("aria-describedby", $element.attr("name") + "_error");
                     if (insertAfterLabel) {
