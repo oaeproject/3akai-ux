@@ -195,6 +195,51 @@ define(
         },
 
         /**
+         * Delete a group
+         * @param {String} id the id of the group that's being deleted
+         * @param {Function} callback the callback function for when the group delete is complete.
+        */
+        deleteGroup : function(groupID, meData, callback) {
+            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, groupAuthData){
+                if (success && groupAuthData) {
+                    var groupArray = [groupID];
+
+                    // delete any pseudo groups
+                    if (groupAuthData.properties["sakai:roles"]) {
+                        var roles = $.parseJSON(groupAuthData.properties["sakai:roles"]);
+                        if (roles && roles.length > 0) {
+                            for (var r = 0; r < roles.length; r++) {
+                                groupArray.push(groupID + "-" + roles[r].id);
+                            }
+                        }
+                    }
+
+                    // delete the group
+                    $.ajax({
+                        url: "/system/userManager.delete.json",
+                        type: "POST",
+                        traditional: true,
+                        data: {
+                            ":applyTo": groupArray
+                        },
+                        success: function(data){
+                            if ($.isFunction(callback)) {
+                                callback(true);
+                            }
+                        },
+                        error: function(){
+                            if ($.isFunction(callback)) {
+                                callback(false);
+                            }
+                        }
+                    });
+                } else if ($.isFunction(callback)) {
+                    callback(false);
+                }
+            });
+        },
+
+        /**
          * Update group basic information
          *
          * @param {String} id The id of the group to update
