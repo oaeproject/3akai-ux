@@ -241,7 +241,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sortOn: "sakai:pooled-content-file-name",
                 sortOrder: collectionviewer.sortOrder,
                 userid: userid || widgetData.collectionviewer.groupid,
-                items: 12,
+                items: 15,
                 page: (collectionviewer.page - 1)
             }
             if(collectionviewer.sortOrder === "modified"){
