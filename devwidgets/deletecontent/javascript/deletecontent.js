@@ -51,6 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var contentIView = false;
         var context = false;
         var callback = false;
+        var contextType = false;
 
         ///////////////////
         // CSS Selectors //
@@ -134,7 +135,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var batchRequests = [];
             processRemoveFromLibrary(batchRequests, contentIView);
             processRemoveFromLibrary(batchRequests, contentIManage);
-            sendDeletes(batchRequests, "#deletecontent_message_from_library");
+            sendDeletes(batchRequests, (contextType === "collection" ? "#deletecontent_message_from_collection" : "#deletecontent_message_from_library"));
         };
 
         ////////////////////////////
@@ -271,7 +272,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Set up the buttons correctly
             hideButtons();
             $("#deletecontent_action_removefromsystem_confirm").show();
-            $("#deletecontent_action_removefromlibrary_only").show();
+            if (contextType === "collection"){
+                $("#deletecontent_action_removefromcollection_only").show();
+            } else {
+                $("#deletecontent_action_removefromlibrary_only").show();
+            }
             // Show the correct overlay title
             $("#deletecontent_main_content").hide();
             $("#deletecontent_main_confirm").show();
@@ -338,9 +343,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#deletecontent_action_removefromsystem").hide();
             $("#deletecontent_action_removefromsystem_nocontext").hide();
             $("#deletecontent_action_removefromlibrary").hide();
+            $("#deletecontent_action_removefromcollection").hide();
             $("#deletecontent_action_apply").hide();
             $("#deletecontent_action_removefromsystem_confirm").hide();
             $("#deletecontent_action_removefromlibrary_only").hide();
+            $("#deletecontent_action_removefromcollection_only").hide();
         };
 
         /**
@@ -367,7 +374,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 template = "deletecontent_template_list";
                 if (context){
                     $("#deletecontent_action_removefromsystem").show();
-                    $("#deletecontent_action_removefromlibrary").show();
+                    if (contextType === "collection"){
+                        $("#deletecontent_action_removefromcollection").show();
+                    } else {
+                        $("#deletecontent_action_removefromlibrary").show();
+                    }
                 // When no context/library is specified, we assume that the content is being deleted outside
                 // of a library (e.g. content profile). We thus don't offer the remove from library option
                 } else {
@@ -376,11 +387,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else if (contentIView.length > 0){
                 // Set up overlay for full viewer permissions
                 template = "deletecontent_template_list";
-                $("#deletecontent_action_removefromlibrary").show();
+                if (contextType === "collection") {
+                    $("#deletecontent_action_removefromcollection").show();
+                } else {
+                    $("#deletecontent_action_removefromlibrary").show();
+                }
             }
             $("#deletecontent_container").html(sakai.api.Util.TemplateRenderer(template, {
                 "contentIManage": contentIManage,
                 "contentIView": contentIView,
+                "contextType": contextType,
                 "sakai": sakai
             }));
         };
@@ -449,6 +465,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var load = function(ev, data, _callback){
             context = data.context;
+            contextType = "default";
+            if (context && sakai.api.Content.Collections.isCollection(context)){
+                contextType = "collection";
+            }
             callback = _callback;
             pathsToDelete = data.paths;
             getContentInfo(data.paths);
@@ -481,9 +501,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////////
 
         $("#deletecontent_action_removefromlibrary").bind("click", removeFromLibrary);
+        $("#deletecontent_action_removefromcollection").bind("click", removeFromLibrary);
         $("#deletecontent_action_removefromsystem").bind("click", checkUsedByOthers);
         $("#deletecontent_action_apply").bind("click", selectHybrid);
         $("#deletecontent_action_removefromlibrary_only").bind("click", removeFromLibrary);
+        $("#deletecontent_action_removefromcollection_only").bind("click", removeFromLibrary);
         $("#deletecontent_action_removefromsystem_confirm").bind("click", removeFromSystem);
         $("#deletecontent_action_removefromsystem_nocontext").bind("click", removeFromSystem);
 
