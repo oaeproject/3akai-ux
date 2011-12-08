@@ -74,7 +74,7 @@
 .addarea_existing_bottom ul li.selected .s3d-regular-links {color:#fff;}
 .addarea_existing_top input {margin-bottom:0 !important;width:210px !important;}
 .addarea_existing_top select {float:right;margin-bottom:0 !important;}
-.addarea_existing_top label {float:right;margin:6px 7px 0 0;}
+.addarea_existing_top label {float:right !important;margin:6px 7px 0 0;width:auto !important;}
 
 
 /** 
