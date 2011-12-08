@@ -150,6 +150,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             currentMessage = message;
             var cacheAutoSuggestData = $("#sendmessage_to_autoSuggest").data();
             $(listViewClass).hide();
+            $(newMessageViewClass).hide();
             hideReply();
             var messageToShow = $.extend(true, {}, currentMessage);
             if (widgetData.category === "invitation") {
@@ -430,8 +431,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
+            if (first) {
+                // Store the l param for later
+                widgetData.l = $.bbq.getState("l");
+            }
             // check if the inbox is open, or if the hashchange will open an inbox message
-            if ($rootel.is(":visible") || (currentState && currentState.message)) {
+            if ( $rootel.is(":visible") || widgetData.l === currentState.l ) {
                 if (!$.isEmptyObject(changed) || (first && !$.isEmptyObject(all))) {
                     if (all.hasOwnProperty("message")) {
                         storeCurrentScrollPosition();

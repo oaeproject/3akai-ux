@@ -147,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * initiate an infinite scroll for each search
          */
         var doSearch = function(){
-            var params = sakai_global.data.search.getQueryParams();
+            var params = sakai_global.data.search.getQueryParams($rootel);
             var urlsearchterm = sakai_global.data.search.processSearchString(params);
 
             var facetedurl = "";

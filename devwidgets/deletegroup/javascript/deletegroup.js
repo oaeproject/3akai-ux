@@ -85,7 +85,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $deletegroup_successfully_deleted.html());
                     } else {
                         sakai.api.Util.notification.show($deletegroup_not_deleted.html(),
-                            $deletegroup_not_successfully_deleted.html());
+                            $deletegroup_not_successfully_deleted.html(),
+                            sakai.api.Util.notification.type.ERROR);
                     }
                     if ($.isFunction(callback)) {
                         callback(success);

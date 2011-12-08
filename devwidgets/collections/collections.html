@@ -3,14 +3,16 @@
 
 <div class="collections_widget" style="display:none;">
     <div id="collections_leftcolumn" class="collections_maincolumn">
-        <button id="collections_scroll_left" class="collections_scroll_arrow" style="display:none;" title="__MSG__PREVIOUS_PAGE__"></button>
-        <button class="s3d-button s3d-overlay-action-button" id="collections_new_button">__MSG__NEW__ <span>+</span></button>
-        <div id="collections_new_action_buttons" style="display:none;">
-            <button class="s3d-button s3d-overlay-action-button" id="collections_save_new_button">__MSG__SAVE__</button>
-            <button type="button" class="s3d-button s3d-link-button collections_cancel_new_button" id="collections_main_cancel_new_button">__MSG__CANCEL__</button>
-        </div>
         <h1>__MSG__COLLECTOR__</h1>
         <div id="collections_descriptive_text">__MSG__COLLECTIONS_DESCRIPTIVE_TEXT__</div>
+        <div id="collections_left_action_buttons">
+            <button id="collections_scroll_left" class="collections_scroll_arrow" style="display:none;" title="__MSG__PREVIOUS_PAGE__"></button>
+            <button class="s3d-button s3d-overlay-action-button" id="collections_new_button">__MSG__NEW__ <span>+</span></button>
+            <div id="collections_new_action_buttons" style="display:none;">
+                <button class="s3d-button s3d-overlay-action-button" id="collections_save_new_button">__MSG__SAVE__</button>
+                <button type="button" class="s3d-button s3d-link-button collections_cancel_new_button" id="collections_main_cancel_new_button">__MSG__CANCEL__</button>
+            </div>
+        </div>
     </div>
     <div id="collections_middlecolumn" class="collections_maincolumn">
         <div id="collections_nocollections" style="display:none;"></div>
@@ -34,12 +36,12 @@
                             <div class="collections_general_information">
                                 <h2>
                                     <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_long" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 > 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 110)}</a>
-                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_short" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 === 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 47)}</a>
+                                    <span class="s3d-regular-links collections_collection_title_short" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 === 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 47)}</span>
                                 </h2>
                                 <hr class="fl-push fl-hidden"/>
                                 <div class="collection_counts_container">
                                     <div id="collection_counts_content_icon"></div>
-                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" title="${"" + collection.counts.contentCount} __MSG__CONTENT_ITEMS__" class="s3d-regular-links collections_collection_content_count">${"" + collection.counts.contentCount}</a>
+                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" title="${"" + collection.counts.contentCount} __MSG__CONTENT_ITEMS__ __MSG__FOR__ ${collection["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links collections_collection_content_count">${"" + collection.counts.contentCount} <span class="s3d-aural-text">__MSG__CONTENT_ITEMS__ __MSG__FOR__ __MSG__FOR__ ${collection["sakai:pooled-content-file-name"]|safeOutput}</span></a>
                                 </div>
                                 <img id="collection_drop_${collection["_path"]}" src="/devwidgets/collections/images/collections_drag_here_icon.png" alt="__MSG__DRAG_HERE_TO_COLLECT__" class="collections_drag_here_icon s3d-droppable-container" data-scope="content" data-dropevent="drop.collections.sakai" data-sakai-collection-id="${collection["_path"]}"/>
                             </div>
@@ -80,7 +82,7 @@
 
         <div id="collections_add_new" style="display:none;">
             <div id="collections_add_new_stepone" class="collections_add_new_steps">
-                <input type="text" id="collections_collection_title" placeholder="__MSG__UNTITLED_COLLECTION__"/>
+                <input type="text" id="collections_collection_title" placeholder="__MSG__UNTITLED_COLLECTION__" title="__MSG__ENTER_TITLE__"/>
                 <div class="collection_counts_container">
                     <div id="collection_counts_content_icon"></div>
                     <span class="collection_counts" id="collection_counts_content_counts_new"></span>

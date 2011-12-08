@@ -45,6 +45,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION //
         ///////////////////
 
+        var qs = new Querystring();
+
         // Elements
         var subnavtl = ".hassubnav_tl";
         var navLinkDropdown = ".s3d-dropdown-container";
@@ -174,7 +176,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getRedirectURL = function(){
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
-            var qs = new Querystring();
             // Check whether we require a redirect
             if (qs.get("url")) {
                 redirectURL = qs.get("url");;
@@ -193,12 +194,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Check if a redirect should be performed
          */
         var checkForRedirect = function() {
-            var qs = new Querystring();
             // Check for url param, path and if user is logged in
             if (qs.get("url") && !sakai.api.User.isAnonymous(sakai.data.me) &&
                 (window.location.pathname === "/" || window.location.pathname === "/dev/explore.html" ||
                   window.location.pathname === "/index" || window.location.pathname === "/dev")) {
                     window.location = qs.get("url");
+            }
+        };
+
+        /**
+         * Open the login overlay even though the user is not hovering over it
+         */
+        var forceShowLogin = function(){
+            if (qs.get("url") && sakai.api.User.isAnonymous(sakai.data.me)) {
+                $("#topnavigation_user_options_login_fields").addClass("topnavigation_force_submenu_display");
+                $("#topnavigation_user_options_login_wrapper").addClass("topnavigation_force_submenu_display_title");
+                $("#topnavigation_user_options_login_fields_username").focus();
             }
         };
 
@@ -856,6 +867,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#topnavigation_message_reply").live("click", hideMessageInlay);
             $("#topnavigation_message_readfull").live("click", hideMessageInlay);
             $(".no_messages .s3d-no-results-container a").live("click", hideMessageInlay);
+            $(".topnavigation_trigger_login").live("click", forceShowLogin);
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
         };
@@ -964,6 +976,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setUserName();
             addBinding();
             renderOverlays();
+            forceShowLogin();
         };
 
         doInit();
