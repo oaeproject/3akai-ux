@@ -33,6 +33,7 @@
 .collections_widget #collections_leftcolumn #collections_new_button, .collections_widget #collections_leftcolumn #collections_save_new_button {border:1px solid #232323;border-radius:5px 0 0 5px;box-shadow:none;float:right;line-height:22px;margin-right:-2px;text-shadow:0 1px 1px #000000;padding:0 8px 1px 12px;font-weight:normal;}
 .collections_widget #collections_leftcolumn #collections_main_cancel_new_button{clear:right;float:right;margin:10px 5px 0 0;}
 .collections_widget #collections_leftcolumn #collections_new_button > span{float:right;font-size:15px;margin-left:7px;}
+.collections_widget #collections_leftcolumn #collections_left_action_buttons {position: relative; top: -147px;}
 
 .collections_widget #collections_middlecolumn {width:607px;}
 .collections_widget .collections_collection_title_short, .collections_widget button, .collections_widget a {color:#00c6ff;}
