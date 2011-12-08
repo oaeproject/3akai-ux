@@ -81,13 +81,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 hash.w.show();
             }
             var tbx = $('#toolbox');
-            if(tbx.find('a').length===0){
-                var svcs = {facebook: 'Facebook', twitter: 'Twitter', delicious:'Delicious', stumbleupon: 'StumbleUpon', blogger:'Blogger', wordpress:'Wordpress', google:'Google', expanded: 'More'};
-                for (var s in svcs) {
-                    tbx.append('<a class="addthis_button_'+s+'" addthis:url="'+contentObj.shareUrl+'"></a>');
-                }
-                addthis.toolbox("#toolbox");
+            if (tbx.find("a").length !==0) {
+                tbx.find("a").remove();
             }
+            var svcs = {facebook: 'Facebook', twitter: 'Twitter', delicious:'Delicious', stumbleupon: 'StumbleUpon', blogger:'Blogger', wordpress:'Wordpress', google:'Google', expanded: 'More'};
+            for (var s in svcs) {
+                tbx.append('<a class="addthis_button_'+s+'" addthis:url="'+contentObj.shareUrl+'"></a>');
+            }
+            addthis.toolbox("#toolbox");
         };
 
         var resetWidget = function(hash){
@@ -212,12 +213,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     });
                 });
                 sakai.api.Server.batch(batchRequests, function(success, data) {
-                    if (success) {
-                        $.each(data.results, function(i, result){
-                            data.results[i].body = $.parseJSON(data.results[i].body);
-                        });
-                        contentObj = {
-                            "data": data.results
+                    if (success && data) {
+                        if (data.results) {
+                            $.each(data.results, function(i, result){
+                                data.results[i].body = $.parseJSON(data.results[i].body);
+                            });
+                            contentObj = {
+                                data: data.results,
+                                shareUrl: sakai.api.Content.createContentURL(data.results[0].body)
+                            };
+                        } else if (data.url) {
+                            contentObj = {
+                                data: [data],
+                                shareUrl:  sakai.api.Content.createContentURL(data)
+                            };
                         }
                         if (window["addthis"]) {
                             $newsharecontentContainer.jqmShow();
