@@ -35,7 +35,7 @@
 .collections_widget #collections_leftcolumn #collections_new_button > span{float:right;font-size:15px;margin-left:7px;}
 
 .collections_widget #collections_middlecolumn {width:607px;}
-.collections_widget button, .collections_widget a {color:#00c6ff;}
+.collections_widget .collections_collection_title_short, .collections_widget button, .collections_widget a {color:#00c6ff;}
 .collections_widget #collections_middlecolumn #collections_nocollections {background:url("/devwidgets/collections/images/collections_nocollections_bg.png") no-repeat top left transparent;width:557px;height:187px;margin:13px auto 0;}
 .collections_widget #collections_middlecolumn #collections_add_new > div {width:150px;height:200px;border-right:1px solid #232323;float:left;background:url("/devwidgets/collections/images/collections_new_bg.png") repeat-x top left #28363a;}
 .collections_widget #collections_middlecolumn #collections_add_new #collections_collection_title {margin-top:16px;}

@@ -34,7 +34,7 @@
                             <div class="collections_general_information">
                                 <h2>
                                     <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_long" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 > 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 110)}</a>
-                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_short" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 === 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 47)}</a>
+                                    <span class="s3d-regular-links collections_collection_title_short" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 === 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 47)}</span>
                                 </h2>
                                 <hr class="fl-push fl-hidden"/>
                                 <div class="collection_counts_container">
