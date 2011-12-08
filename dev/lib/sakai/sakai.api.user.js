@@ -935,14 +935,14 @@ define(
                 "method":"POST",
                 "parameters":{
                     "principalId": "anonymous",
-                    "privelege@jcr:read": (option === "public" ? "granted" : "denied")
+                    "privilege@jcr:read": (option === "public" ? "granted" : "denied")
                 }
             }, {
                 "url": "/system/userManager/user/" + sakaiUserAPI.data.me.user.userid + ".modifyAce.json",
                 "method": "POST",
                 "parameters":{
                     "principalId": "anonymous",
-                    "privelege@jcr:read": (option === "public" ? "granted" : "denied")
+                    "privilege@jcr:read": (option === "public" ? "granted" : "denied")
                 }
             }];
             sakai_serv.batch(batchRequest, function(success, data) {
