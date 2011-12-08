@@ -162,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     viewersList += " " + (contentData.members.viewers[j]["rep:userId"] || contentData.members.viewers[j]["sakai:group-id"]);
                 }
             }
-            var searchterm = contentData.data["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
+            var searchterm = contentData.data["sakai:pooled-content-file-name"].substring(0,400) + " " + managersList + " " + viewersList;
             searchquery = prepSearchTermForURL(searchterm);
             if (contentData.data["sakai:tags"]){
                 searchquery = searchquery + " OR " + contentData.data["sakai:tags"].join(" OR ");

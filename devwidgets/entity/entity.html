@@ -167,9 +167,9 @@
         {/if}
         <img src="${data.data['iconURL']}" alt="${data.data["sakai:pooled-content-file-name"]|safeOutput}"/>
     </div>
-    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{else} contentmetadata_noneditable{/if}">${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
+    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{else} contentmetadata_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]|safeOutput}</span>
     <span id="entity_name_edit" style="display:none">
-        <input id="entity_name_text" type="text" />
+        <input id="entity_name_text" type="text"/>
     </span>
     {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
     <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
