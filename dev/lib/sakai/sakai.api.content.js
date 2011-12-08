@@ -705,7 +705,6 @@ define(
          * @param {Function} callback Callback function
          */
         removeUser: function(role, contentId, userId, callback){
-
             var batchRequests = [];
             var userIds = [];
             var contentIds = [];
