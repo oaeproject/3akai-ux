@@ -218,6 +218,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MANAGE_PARTICIPANTS", "addpeople"), errorMsg);
             }
+            $(window).trigger("updatelist.participants.sakai");
         };
 
         /**
