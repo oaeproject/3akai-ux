@@ -92,6 +92,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var resetWidget = function(hash){
             $newsharecontentMessageContainer.hide();
+            $newsharecontentMessageArrow.removeClass('arrow_down');
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
             sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
