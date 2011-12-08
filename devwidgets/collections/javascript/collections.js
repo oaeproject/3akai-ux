@@ -373,6 +373,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }, 400, function(){
                 if ($collectionsWidget.is(":visible")){
                     getCollections();
+                    $("#collections_leftcolumn").focus();
                 } else {
                     $(collectionsScrollArrow).hide();
                     $(collectionsCollectionsList).hide();
