@@ -142,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var renderName = function(mode){
             if (mode === "edit") {
                 $("#entity_name").hide();
-                $("#entity_name_text").val($.trim($("#entity_name").text()));
+                $("#entity_name_text").val($.trim($("#entity_name").attr("data-original-title") || $("#entity_name").text()));
                 $("#entity_name_edit").show();
                 $("#entity_name_text").focus();
             }
@@ -150,8 +150,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $("#entity_name_text").bind("blur", function(){
                 $("#entity_name_edit").hide();
                 var newTitle = $("#entity_name_text").val();
+                var newDottedTitle = sakai.api.Util.applyThreeDots(newTitle, 800, {
+                    whole_word: false
+                }, "");
                 if ($.trim(newTitle)) {
-                    $("#entity_name").text(newTitle);
+                    $("#entity_name").text(newDottedTitle);
+                    $("#entity_name").attr("data-original-title", newTitle);
                     $("#entity_name").show();
                     $.ajax({
                         url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
