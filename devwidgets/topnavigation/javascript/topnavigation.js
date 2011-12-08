@@ -599,7 +599,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $focusElement.nextAll("li:last").children("a").focus();
                     }
                     return false;
-                } else if (e.which === $.ui.keyCode.RIGHT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                } else if ((e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.TAB) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
                     closePopover();
                     var $focusElement = $(this);
@@ -752,6 +752,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // if user is signed in and tabs out of user menu, or the external auth menu, close the sub menu
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     closeMenu();
+                    closePopover();
                 }
             });
 
@@ -770,6 +771,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // hide signin or user options menu when tabbing out of the last menu option
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     closeMenu();
+                    closePopover();
                 }
             });
 
@@ -840,6 +842,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
                 }
                 closeMenu();
+                closePopover();
             });
 
             $(topnavUserLoginButton).bind("focus",function(){
