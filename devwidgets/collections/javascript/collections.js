@@ -175,6 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 $("#collections_collection_title").val("");
                 $("#collections_collection_title").removeAttr("disabled");
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION_CREATED"), sakai.api.i18n.getValueForKey("COLLECTION_CREATED_LONG"));
             });
         };
 
