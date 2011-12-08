@@ -164,12 +164,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
             // get the sort by and sort on
             if (!params["sortby"] || !params["sorton"]){
-                var val = $(".s3d-search-sort option:selected", $rootel).val();
-                if (val) {
-                    val = val.split(",");
-                    params["sortby"] = val[0];
-                    params["sorton"] = val[1];
-                }
+                params["sortby"] = $(".s3d-search-sort option:selected", $rootel).attr("data-sort-order");
+                params["sorton"] = $(".s3d-search-sort option:selected", $rootel).attr("data-sort-on");
             }
             return params;
         };
@@ -242,10 +238,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind sortby select box
-        $(".s3d-search-sort select").die("change").live("change", function(ev) {
-            var val = $(this).find(":selected").val().split(",");
-            var sortby = val[0];
-            var sorton = val[1];
+        $("#s3d-page-container").on("change", ".s3d-search-header .s3d-search-sort select", function(ev) {
+            var sortby = $(this).find(":selected").attr("data-sort-order");
+            var sorton = $(this).find(":selected").attr("data-sort-on");
             $.bbq.pushState({
                 "page": 1,
                 "sortby": sortby,
