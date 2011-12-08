@@ -951,6 +951,7 @@ define(
                 if (success){
                     var batchRequests = [];
                     var dataToReturn = {};
+                    var urlToGroupMapping = {};
                     $.each(groupData, function(groupid, group){
                         var roles = $.parseJSON(group.properties["sakai:roles"]);
                         for (var i = 0; i < roles.length; i++) {
@@ -959,6 +960,10 @@ define(
                                 selector = "everyone";
                             }
                             var url = "/system/userManager/group/" + groupid + "-" + roles[i].id + "." + selector + ".json";
+                            urlToGroupMapping[url] = {
+                                "groupid": groupid,
+                                "role": roles[i].id
+                            }
                             batchRequests.push({
                                 "url": url,
                                 "method": "GET",
@@ -972,14 +977,8 @@ define(
                         if (success) {
                             $.each(data.results, function(m, membershiplist){
                                 // Retrieve the group and role id from the URL
-                                var groupid = false;
-                                var roleid = false;
-                                var splitOnSlash = membershiplist.url.split("/");
-                                membershiplist.url = splitOnSlash[splitOnSlash.length - 1].replace("." + (everyone ? "everyone" : "members") + ".json", "");
-                                var splitOnDash = membershiplist.url.split("-");
-                                var roleid = splitOnDash[splitOnDash.length - 1];
-                                splitOnDash.splice(splitOnDash.length - 1, 1);
-                                var groupid = splitOnDash.join("-");
+                                var groupid = urlToGroupMapping[membershiplist.url].groupid;
+                                var roleid = urlToGroupMapping[membershiplist.url].role;
                                 // Add the members to the response
                                 var members = $.parseJSON(membershiplist.body);
                                 dataToReturn[groupid] = dataToReturn[groupid] || {};
