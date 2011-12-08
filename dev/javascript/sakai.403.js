@@ -80,7 +80,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 });
 
                 $signinbuttonwrapper.show();
-                $signinbutton.live("click", forceLoginOverlay);
 
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
@@ -116,11 +115,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $searchButton.click(doSearch);
             sakai.api.Security.showPage();
             document.title = document.title + " " + sakai.api.i18n.getValueForKey("ACCESS_DENIED");
-        };
-
-        var forceLoginOverlay = function(){
-            $("#topnavigation_user_options_login_fields").addClass("topnavigation_force_submenu_display");
-            $("#topnavigation_user_options_login_wrapper").addClass("topnavigation_force_submenu_display_title");
         };
 
         doInit();

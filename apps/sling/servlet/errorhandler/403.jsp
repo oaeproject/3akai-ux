@@ -39,7 +39,7 @@ response.setStatus(403);
             <div id="error_content">
                 <div id="error_content_second_column">
                     <div id="error_sign_in_button">
-                        <p class="error_signin_button"><button>__MSG__SIGN_IN__</button></p>
+                        <p class="error_signin_button topnavigation_trigger_login"><button>__MSG__SIGN_IN__</button></p>
                         <p id="error_sign_up">__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/register">__MSG__SIGN_UP__</a></p>
                     </div>
                     <div class="error_content_second_column_box">
