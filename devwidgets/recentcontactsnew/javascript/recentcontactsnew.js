@@ -178,7 +178,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             connectionNameLinkTitle: linkTitle,
                             connectionPicture: picture
                         };
-                        $("#recentcontactsnew_recent_connection_container").html(sakai.api.Util.TemplateRenderer("#recentcontactsnew_recent_connection_template", newjson));
+                        sakai.api.Util.TemplateRenderer("#recentcontactsnew_recent_connection_template", newjson, $("#recentcontactsnew_recent_connection_container"));
                         break;
                     }
                 }
@@ -199,7 +199,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 fname = fname + "'s";
             }
             newjson.firstName = fname;
-            $(recentcontactsnewItem, rootel).html(sakai.api.Util.TemplateRenderer(recentcontactsnewItemTemplate,newjson));
+            sakai.api.Util.TemplateRenderer(recentcontactsnewItemTemplate,newjson, $(recentcontactsnewItem, rootel));
 
             // get related content for group
             var params = {
@@ -225,7 +225,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             sakai: sakai
                         };
 
-                        $("#recentcontactsnew_latest_content_container").html(sakai.api.Util.TemplateRenderer("#recentcontactsnew_latest_content_template",item));
+                        sakai.api.Util.TemplateRenderer("#recentcontactsnew_latest_content_template",item, $("#recentcontactsnew_latest_content_container"));
                     }
                 }
             });
