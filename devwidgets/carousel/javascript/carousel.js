@@ -191,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var parseContent = function(data, dataArr, callback){
             var noPreviewArr = [];
             var previewArr = [];
-            
+
             if (data && data.content && data.content.results) {
                 sakai.api.Content.prepareContentForRender(data.content.results, sakai.data.me, function(results){
                     $.each(results, function(index, item) {
