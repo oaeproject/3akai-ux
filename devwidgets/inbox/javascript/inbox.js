@@ -222,6 +222,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 messageList.push(msg);
             });
             deleteMessages(messageList);
+            $inbox_select_checkbox.click();
         };
 
         /**
