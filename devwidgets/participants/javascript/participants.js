@@ -297,6 +297,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var t = setTimeout(loadParticipants, 2000);
         });
 
+        // This is it's own event, because the one above has interactions and seems to be 
+        // redefined bound/unbound in other widgets.
+        $(window).bind("updatelist.participants.sakai", function(){
+            var t = setTimeout(loadParticipants, 2000);
+        });
+
         init();
 
     };
