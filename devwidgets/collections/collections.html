@@ -41,7 +41,7 @@
                                 <hr class="fl-push fl-hidden"/>
                                 <div class="collection_counts_container">
                                     <div id="collection_counts_content_icon"></div>
-                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" title="${"" + collection.counts.contentCount} __MSG__CONTENT_ITEMS__" class="s3d-regular-links collections_collection_content_count">${"" + collection.counts.contentCount}</a>
+                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" title="${"" + collection.counts.contentCount} __MSG__CONTENT_ITEMS__ __MSG__FOR__ ${collection["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links collections_collection_content_count">${"" + collection.counts.contentCount} <span class="s3d-aural-text">__MSG__CONTENT_ITEMS__ __MSG__FOR__ __MSG__FOR__ ${collection["sakai:pooled-content-file-name"]|safeOutput}</span></a>
                                 </div>
                                 <img id="collection_drop_${collection["_path"]}" src="/devwidgets/collections/images/collections_drag_here_icon.png" alt="__MSG__DRAG_HERE_TO_COLLECT__" class="collections_drag_here_icon s3d-droppable-container" data-scope="content" data-dropevent="drop.collections.sakai" data-sakai-collection-id="${collection["_path"]}"/>
                             </div>
