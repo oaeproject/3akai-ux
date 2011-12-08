@@ -84,6 +84,7 @@
 .collections_widget #collections_middlecolumn .collections_large_preview #collections_recent_no_results {margin-top: 30px;}
 .collections_widget #collections_middlecolumn .collections_large_preview #collections_recent_no_results h1 {color: #333; text-shadow: none;}
 
+.collections_widget #collections_middlecolumn .collections_collection_content_count:focus { border: 1px dotted #FFFFFF;} 
 .collections_widget #collections_middlecolumn .s3d-no-results-container {padding:10px;width:116px;}
 .collections_widget #collections_middlecolumn .s3d-no-results-container .s3d-no-results-arrow-up{margin-top:-34px;}
 .collections_widget #collections_middlecolumn .s3d-no-results-container h1 {color:#363636;font-size:17px;margin:0 !important;text-shadow:0 0 1px #fff;}
