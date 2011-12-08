@@ -48,6 +48,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#pageviewer_content_container", $rootel).html(sakai.api.Util.TemplateRenderer("pageviewer_content_template", {pages: pages}));
             if (pages.length && pages[0].ref && pages[0].poolpath) {
                 sakai.api.Widgets.widgetLoader.insertWidgets(pages[0].ref, false, pages[0].poolpath + "/");
+                sakai.api.Util.renderMath("pageviewer_content_container");
             }
         };
 
