@@ -418,8 +418,8 @@ define(
         applyThreeDots : function(body, width, params, optClass, alreadySecure){
             body = sakai_util.Security.safeOutput(body);
             // IE7 and IE6 have trouble with width
-            if(!jQuery.support.leadingWhitespace){
-                width = width - 10;
+            if(!jQuery.support.leadingWhitespace || jQuery.browser.webkit){
+                width = width - 15;
             } else {
                 width = width - 5;
             }
