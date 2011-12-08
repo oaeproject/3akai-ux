@@ -98,6 +98,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             searchTimeout = false;
 
         var $openMenu = false;
+        var $openPopover = false;
 
 
         ////////////////////////
@@ -526,6 +527,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $openMenu = false;
                 }
             };
+            // Navigation popover binding
+            var closePopover = function(e){
+                if ($openPopover.length){
+                    $openPopover.prev().removeClass("selected");
+                    $openPopover.attr("aria-hidden", "true");
+                    $openPopover.hide();
+                    $openPopover = false;
+                }
+            };
             var openMenu = function(){
                 $("#topnavigation_search_results").hide();
                 if ($("#navigation_anon_signup_link:focus").length){
@@ -572,15 +582,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return false; // prevent browser page from scrolling down
                 } else if (e.which === $.ui.keyCode.LEFT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
-                    var $focusElement = "";
+                    closePopover();
+                    var $focusElement = $(this);
                     if($(this).parents(".topnavigation_counts_container").length){
                         $focusElement = $(this).parents(".topnavigation_counts_container");
-                    } else {
-                        $focusElement = $(this);
                     }
-                    if($focusElement.prev(".topnavigation_counts_container").length > 0){
+                    if($focusElement.prev(".topnavigation_counts_container").length){
                         $focusElement.prev(".topnavigation_counts_container").children("button").focus()
-                    } else if ($focusElement.prev("li:first").length > 0){
+                    } else if ($focusElement.prev("li:first").length){
                         $focusElement.prev("li:first").children("a").focus();
                     } else {
                         $focusElement.nextAll("li:last").children("a").focus();
@@ -588,15 +597,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return false;
                 } else if (e.which === $.ui.keyCode.RIGHT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
-                    var $focusElement = "";
+                    closePopover();
+                    var $focusElement = $(this);
                     if($(this).parents(".topnavigation_counts_container").length){
                         $focusElement = $(this).parents(".topnavigation_counts_container");
-                    } else {
-                        $focusElement = $(this);
                     }
-                    if($focusElement.next(".topnavigation_counts_container").length > 0){
+                    if($focusElement.next(".topnavigation_counts_container").length){
                         $focusElement.next(".topnavigation_counts_container").children("button").focus()
-                    } else if ($focusElement.next("li:first").length > 0){
+                    } else if ($focusElement.next("li:first").length){
                         $focusElement.next("li:first").children("a").focus();
                     } else {
                         $focusElement.prevAll("li:last").children("a").focus();
@@ -632,14 +640,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // bind up/down/escape keys in sub menu
             $(hasSubnav + " div a").keydown(function(e) {
                 if (e.which === $.ui.keyCode.DOWN) {
-                    if ($(this).parent().nextAll("li:first").length > 0){
+                    if ($(this).parent().nextAll("li:first").length){
                         $(this).parent().nextAll("li:first").children("a").focus();
                     } else {
                         $(this).parent().prevAll("li:last").children("a").focus();
                     }
                     return false; // prevent browser page from scrolling down
                 } else if (e.which === $.ui.keyCode.UP) {
-                    if ($(this).parent().prevAll("li:first").length > 0) {
+                    if ($(this).parent().prevAll("li:first").length) {
                         $(this).parent().prevAll("li:first").children("a").focus();
                     } else {
                         $(this).parent().nextAll("li:last").children("a").focus();
@@ -954,6 +962,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     $("#topnavigation_messages_container").addClass("selected");
                     var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
+                    $openPopover = $messageContainer;
                     $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
                     $messageContainer.show();
                 });
