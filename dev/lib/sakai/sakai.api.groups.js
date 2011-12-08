@@ -88,6 +88,7 @@ define(
             }
             $.each(groupids, function(index, groupid){
                 if ($.isPlainObject(sakaiGroupsAPI.groupData[groupid])) {
+                    alert("From cache");
                     toReturn[groupid] = sakaiGroupsAPI.groupData[groupid];
                 } else {
                     batchRequest.push({
