@@ -143,7 +143,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         group.id =
                             groupid;
                     }
-                    sakai.api.Groups.getMembers(groupid, false, function(success, members) {
+                    sakai.api.Groups.getMembers(groupid, function(success, members) {
+                        members = members[groupid];
                         group.groupMembers = members;
 
                         $.each(members, function(role, users) {
@@ -251,7 +252,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function () {
             $(window).bind("initialize.joingroup.sakai", function(evObj, groupid, target){
                 sakai.api.Groups.isAllowedToLeave(groupid, sakai.data.me, function(leaveAllowed){
-                    openTooltip(groupid, $(target), leaveAllowed);
+                    openTooltip(groupid, $(target), leaveAllowed[groupid]);
                 });
                 return false;
             });

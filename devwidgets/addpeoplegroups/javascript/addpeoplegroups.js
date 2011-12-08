@@ -79,15 +79,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $addpeoplegroupsWidget.toggle();
         };
 
-        var selectedAlreadyLibraryMember = function(){
-            $.each(getSelected(), function(i, group){
-                if(sakai.api.Groups.isCurrentUserAMember(group.id, sakai.data.me)){
-                    renderObj.libraryHasIt = true;
-                }
-            });
-            renderTemplate();
-        };
-
         /**
          * Determines if the selected groups are a part of any groups
          */
@@ -101,30 +92,54 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             });
-            selectedAlreadyLibraryMember();
+            renderTemplate();
         };
 
         /**
          * Gets memberships for all groups you're a member of to be able to match them to the selected groups
          */
         var getMemberships = function(){
+            var groupsToFetch = [];
+            var membershipsManage = [];
+            $.each(renderObj.memberOfGroups.entry, function(index, item){
+                groupsToFetch.push(item["sakai:group-id"]);
+            });
             if(renderObj.memberOfGroups.entry.length){
-                sakai.api.Groups.getMembers(renderObj.memberOfGroups.entry[membershipFetched].groupid, "query", function(success, data){
-                    if(success){
-                        renderObj.memberOfGroups.entry[membershipFetched].members = [];
-                        $.each(data, function(i, roleData){
-                            $.each(data[i].results, function(i, obj){
-                                renderObj.memberOfGroups.entry[membershipFetched].members.push(obj["rep:userId"] || obj.groupid);
+                // First fetch the group info so we can tell whether the current user can manage any of the groups
+                sakai.api.Groups.getGroupAuthorizableData(groupsToFetch, function(success, groupData){
+                    $.each(groupData, function(index, group){
+                        $.each(renderObj.memberOfGroups.entry, function(m, membership){
+                            if (membership["sakai:group-id"] === group.properties["sakai:group-id"]){
+                                membership.canManage = false;
+                                var roles = sakai.api.Groups.getRoles({"roles": $.parseJSON(group.properties["sakai:roles"])}, true);
+                                $.each(roles, function(r, role){
+                                    if (role.isManagerRole){
+                                        var isMember = sakai.api.Groups.isCurrentUserAMember(membership["sakai:group-id"] + "-" + role.id, sakai.data.me);
+                                        if (isMember){
+                                            membership.canManage = true;
+                                        }
+                                    }
+                                });
+                                if (membership.canManage){
+                                    membershipsManage.push(membership);
+                                }
+                            }
+                        });
+                    });
+                    // Now fetch all members of all groups
+                    renderObj.memberOfGroups.entry = membershipsManage;
+                    sakai.api.Groups.getMembers(groupsToFetch, function(success, data){
+                        $.each(renderObj.memberOfGroups.entry, function(g, membership){
+                            membership.members = [];
+                            var groupRoles = data[membership["sakai:group-id"]] || {};
+                            $.each(groupRoles, function(r, role){
+                                $.each(role.results, function(u, user){
+                                    membership.members.push(user["rep:userId"] || user.groupid);
+                                });
                             });
                         });
-                        membershipFetched++;
-                        if(!(membershipFetched >= renderObj.memberOfGroups.entry.length)){
-                            getMemberships();
-                        } else {
-                            selectAlreadyGroupMember();
-                            membershipFetched = 0;
-                        }
-                    }
+                        selectAlreadyGroupMember();
+                    });
                 });
             } else {
                 renderTemplate();
@@ -136,8 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderObj = {
                 api: sakai.api,
                 groups: getSelected(),
-                libraryHasIt: false,
-                memberOfGroups: sakai.api.Groups.getMemberships(filterManagedGroups),
+                memberOfGroups: sakai.api.Groups.getMemberships(sakai.data.me.groups),
                 worlds: sakai.config.worldTemplates
             };
             // Check if groups are part of my library
@@ -155,6 +169,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var groupsToAdd = [];
                 $.each(getSelected(), function(i, selectedGroup){
                     sakai.api.Groups.getGroupAuthorizableData($addPeopleGroupsSelect.val(), function(success, data){
+                        data = data[$addPeopleGroupsSelect.val()];
                         groupsToAdd.push({
                             user: selectedGroup.id,
                             permission: data.properties["sakai:joinRole"]
@@ -179,17 +194,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(addpeoplegroupsClose, $rootel).live("click", toggleVisibility);
             $(addpeoplegroupsSave, $rootel).die("click", saveMemberships);
             $(addpeoplegroupsSave, $rootel).live("click", saveMemberships);
-        };
-
-        var filterManagedGroups = function(){
-            var tempGroups = $.extend(true, [], sakai.data.me.groups);
-            var filteredGroups = [];
-            $.each(tempGroups, function(i, group){
-                if(!group["sakai:pseudoGroup"]){
-                    filteredGroups.push(group);
-                }
-            });
-            return filteredGroups;
         };
 
         var doInit = function(el){

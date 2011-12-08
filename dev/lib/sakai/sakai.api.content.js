@@ -168,6 +168,7 @@ define(
 
             if (collectionGroup){
                 sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), false, function(success, members){
+                    members = members[sakai_content.Collections.getCollectionGroupId(contentItem.data)];
                     parseMembers({
                         "viewers": members.members.results,
                         "managers": members.managers.results
