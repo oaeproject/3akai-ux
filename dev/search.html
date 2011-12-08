@@ -100,19 +100,6 @@
         <!-- TEMPLATE CONTAINING THE RESULTS -->
         <div id="search_general_results_template"><!--
 
-            {macro tags(t)}
-                <ul class="s3d-taglist">
-                    {for t in i.tagsProcessed}
-                        <li>
-                            <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
-                                <span class="s3d-search-result-tag">${t.tagShort}</span>
-                                <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
-                            </a>
-                        </li>
-                    {/for}
-                </ul>
-            {/macro}
-
             {macro listUser(i, sakai)}
                 <li id="${i.id}" class="fl-container fl-fix s3d-search-result-person s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}">
                     <span class="s3d-search-result-user-functions">
@@ -176,7 +163,7 @@
                             {/if}
                         </div>
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            ${tags(i.tagsProcessed)}
+                            ${macro("search.tags", i.tagsProcessed)}
                         {/if}
                     </div>
                 </li>
@@ -225,7 +212,7 @@
                             <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                         {/if}
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            ${tags(i.tagsProcessed)}
+                            ${macro("search.tags", i.tagsProcessed)}
                         {/if}
                     </div>
                 </li>

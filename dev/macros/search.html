@@ -1,3 +1,17 @@
+{macro tags(tags)}
+    <ul class="s3d-taglist">
+        {for t in tags}
+            <li>
+                <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
+                    <span class="s3d-search-result-tag">${t.tagShort}</span>
+                    <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
+                </a>
+            </li>
+        {/for}
+    </ul>
+{/macro}
+${macros["search.tags"] = tags |eat}
+
 {macro listContentBody(i, sakai)}
     <span class="s3d-search-result-user-functions s3d-draggable-hidden">
         <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary s3d-draggable-hidden searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}" title="__MSG__SAVE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
