@@ -167,9 +167,9 @@
         {/if}
         <img src="${data.data['iconURL']}" alt="${data.data["sakai:pooled-content-file-name"]|safeOutput}"/>
     </div>
-    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{else} contentmetadata_noneditable{/if}">${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
+    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{else} contentmetadata_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]|safeOutput}</span>
     <span id="entity_name_edit" style="display:none">
-        <input id="entity_name_text" type="text" />
+        <input id="entity_name_text" type="text"/>
     </span>
     {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
     <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
@@ -504,8 +504,8 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
                                 <a class="s3d-regular-links s3d-bold" href="/~${i.parent['sakai:group-id']|safeURL}" target="_blank">${i.parent['sakai:group-title']|safeOutput} <span class="entity_pseudogroup">${i.parent["sakai:role-title"]|safeOutput}</span></a>
                             </span>
                         {else}
-                            {if i.pictureUrl}
-                                <a href="/~${i['sakai:group-id']|safeURL}" target="_blank"><img src="${i.pictureUrl}" alt="${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                            {if i.picture}
+                                <a href="/~${i['sakai:group-id']|safeURL}" target="_blank"><img src="${i.picture}" alt="${i['sakai:group-title']}" class="entity_content_picture"/></a>
                             {else}
                                 <a href="/~${i['sakai:group-id']|safeURL}" target="_blank"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="${i['sakai:group-title']}" class="s3d-icon-32 entity_content_picture"/></a>
                             {/if}
@@ -523,8 +523,8 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
                         {if userlist_people_index%2} <li id="${i["rep:userId"]}">
                         {else} <li id="${i["rep:userId"]|safeOutput}" class="entity_content_even">
                         {/if}
-                        {if i.pictureUrl}
-                            <a href="/~${i["rep:userId"]|safeURL}" target="_blank"><img src="${i.pictureUrl}" alt="${displayName}" class="entity_content_picture"/></a>
+                        {if i.picture}
+                            <a href="/~${i["rep:userId"]|safeURL}" target="_blank"><img src="${i.picture}" alt="${displayName}" class="entity_content_picture"/></a>
                         {else}
                             <a href="/~${i["rep:userId"]|safeURL}" target="_blank"><img src="/dev/images/default_User_icon_35x35.png" alt="${displayName}" class="s3d-icon-32 entity_content_picture"/></a>
                         {/if}

@@ -370,6 +370,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
+            if(data && data.data && data.data["sakai:pooled-content-file-name"]){
+                data.data["sakai:pooled-content-file-name-shorter"] = sakai.api.Util.applyThreeDots(data.data["sakai:pooled-content-file-name"], 800, {
+                    whole_word: false
+                }, "");
+            }
             renderObj = {
                 "context": context,
                 "type": type,
@@ -462,6 +467,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".addpeople_init").live("click", function(){
                 $(window).trigger("init.addpeople.sakai", [tuid, true]);
                 $("#entity_groupsettings_dropdown").jqmHide();
+            });
+
+            $(".entity_owns_actions_container .ew_permissions").live("hover", function(){
+                var $dropdown = $(this).find(".s3d-dropdown-list");
+                $dropdown.css("left", $(this).position().left - $dropdown.width() / 2 + 7  );
+                $dropdown.css("margin-top", $(this).height() + 7 + "px");
             });
 
             $(entityChangeImage).click(toggleDropdownList);
