@@ -345,6 +345,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     $.bbq.pushState({"iq": $inbox_search_messages.val()});
                 }
+                return false;
             }
         };
 
