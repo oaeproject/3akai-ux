@@ -544,6 +544,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // close another sub menu if ones open
                 closeMenu();
+                closePopover();
 
                 $openMenu = $(this);
                 $openMenu.removeClass("topnavigation_close_override");
@@ -566,7 +567,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             };
 
-            $(hasSubnav).hover(openMenu, closeMenu);
+            $(hasSubnav).hover(openMenu, function(){
+                closePopover();
+                closeMenu();
+            });
 
             // remove focus of menu item if mouse is used
             $(hasSubnav + " div").find("a").hover(function(){
@@ -691,6 +695,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#navigation_anon_signup_link").live("hover",function(evt){
                 closeMenu();
+                closePopover();
             });
 
             // hide the menu after an option has been clicked
@@ -863,6 +868,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#navigation_anon_signup_link:focus").blur();
                 }
                 closeMenu();
+                closePopover();
                 $(topnavUserOptionsLoginFields).show();
             },
             function(){
