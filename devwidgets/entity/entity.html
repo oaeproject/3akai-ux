@@ -26,7 +26,7 @@
             <li id="ew_content_preview_delete">
                 <button class="s3d-link-button">__MSG__DELETE__</button>
             </li>
-        <ul>
+        </ul>
     </div>
 --></div>
 
@@ -174,6 +174,17 @@
     {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
     <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
     <div id="entity_owns" class="s3d-regular-links {if !data.isManager} entity_owns_viewer{/if}">
+        ${entitymacros.entityContentOwnsMacro(anon,type,data,sakai)}
+    </div>
+--></div>
+
+<div id="entity_counts_template" class="s3d-regular-links"><!--
+    ${entitymacros.entityContentOwnsMacro(anon,type,data,sakai)}
+--></div>
+
+<div id="entity_macros_template" style="display:none"><!--
+{macro entityContentOwnsMacro(anon,type,data,sakai)}
+        {var permissions = data.data["sakai:permissions"]}
         <div id="entity_actions">
             {if !anon}
                 {if type && type == "content_managed"}
@@ -208,20 +219,20 @@
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             {if permissions === "private"}
-                            	<span>__MSG__PRIVATE_SELECTED__</span>
+                                <span>__MSG__PRIVATE_SELECTED__</span>
                             {else}
                                 <span>__MSG__PRIVATE_DESCRIPTION__</span>
                             {/if}
-                        	<button type="button" class="s3d-link-button ew_permissions" data-permissionvalue="private">__MSG__CHANGE__</button>
+                            <button type="button" class="s3d-link-button ew_permissions" data-permissionvalue="private">__MSG__CHANGE__</button>
                         </div>
                     </div>
                     <div class="entity_owns_actions_institution ew_permissions {if permissions === "everyone"} selected {/if}" data-permissionvalue="selected">
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                             {if permissions === "everyone"}
-                            	<span>__MSG__EVERYONE_SELECTED__</span>
+                                <span>__MSG__EVERYONE_SELECTED__</span>
                             {else}
-                            	<span>__MSG__EVERYONE_DESCRIPTION__</span>
+                                <span>__MSG__EVERYONE_DESCRIPTION__</span>
                             {/if}
                             <button type="button" class="s3d-link-button ew_permissions" data-permissionvalue="selected">__MSG__CHANGE__</button>
                         </div>
@@ -251,28 +262,28 @@
                     <div class="entity_owns_actions_collaborator has_counts ew_permissions">
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
-                            	<span>
-                            	{if data.members.counts.managerusers + data.members.counts.managergroups !== 0}
-                                	{if data.members.counts.managerusers !== 0}
-                                    	<button type="button" class="s3d-link-button entity_content_people">${data.members.counts.managerusers}
-                                        	{if data.members.counts.managerusers === 1}
-                                        	    __MSG__PERSON_LC__
-                                        	{else}
-                                        	    __MSG__PEOPLE_LC__
-                                        	{/if}
-                                    	</button>
-                                    	{if data.members.counts.managergroups !== 0 && data.members.counts.managerusers !== 0}__MSG__AND__{/if}
-                                	{/if}
-                                	{if data.members.counts.managergroups !== 0}
-                                    	<button class="s3d-link-button entity_content_group">${data.members.counts.managergroups}
-                                        	{if data.members.counts.managergroups === 1}
-                                        	    __MSG__GROUP_LC__
-                                        	{else}
-                                        	    __MSG__GROUPS_LC__
-                                        	{/if}
-                                    	</button>
-                                	{/if}
-                                	{if (data.members.counts.managerusers === 1 && data.members.counts.managergroups === 0) || (data.members.counts.managerusers === 0 && data.members.counts.managergroups === 1)}__MSG__IS__{else}__MSG__ARE__{/if} __MSG__COLLABORATING_ON_THIS__</span>
+                                <span>
+                                {if data.members.counts.managerusers + data.members.counts.managergroups !== 0}
+                                    {if data.members.counts.managerusers !== 0}
+                                        <button type="button" class="s3d-link-button entity_content_people">${data.members.counts.managerusers}
+                                            {if data.members.counts.managerusers === 1}
+                                                __MSG__PERSON_LC__
+                                            {else}
+                                                __MSG__PEOPLE_LC__
+                                            {/if}
+                                        </button>
+                                        {if data.members.counts.managergroups !== 0 && data.members.counts.managerusers !== 0}__MSG__AND__{/if}
+                                    {/if}
+                                    {if data.members.counts.managergroups !== 0}
+                                        <button class="s3d-link-button entity_content_group">${data.members.counts.managergroups}
+                                            {if data.members.counts.managergroups === 1}
+                                                __MSG__GROUP_LC__
+                                            {else}
+                                                __MSG__GROUPS_LC__
+                                            {/if}
+                                        </button>
+                                    {/if}
+                                    {if (data.members.counts.managerusers === 1 && data.members.counts.managergroups === 0) || (data.members.counts.managerusers === 0 && data.members.counts.managergroups === 1)}__MSG__IS__{else}__MSG__ARE__{/if} __MSG__COLLABORATING_ON_THIS__</span>
                                 {else}
                                     __MSG__THERE_ARE_NO_COLLABORATORS__
                                 {/if}
@@ -285,13 +296,13 @@
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                                 {if data.members.counts.viewerusers + data.members.counts.viewergroups + data.members.counts.viewercollections !== 0}
-                            	    <span>
+                                    <span>
                                         {if data.members.counts.viewerusers + data.members.counts.viewergroups !== 0}__MSG__SHARED_WITH__{/if}
-                                	    {if data.members.counts.viewerusers !== 0}
-                                        	<button type="button" class="s3d-link-button entity_content_people">${data.members.counts.viewerusers}
-                                            	{if data.members.counts.viewerusers == 1}
-                                            	    __MSG__PERSON_LC__
-                                            	{else}
+                                        {if data.members.counts.viewerusers !== 0}
+                                            <button type="button" class="s3d-link-button entity_content_people">${data.members.counts.viewerusers}
+                                                {if data.members.counts.viewerusers == 1}
+                                                    __MSG__PERSON_LC__
+                                                {else}
                                                     __MSG__PEOPLE_LC__
                                                 {/if}
                                             </button>
@@ -299,35 +310,35 @@
                                         {if data.members.counts.viewergroups !== 0 && data.members.counts.viewerusers !== 0 && data.members.counts.viewercollections === 0}__MSG__AND__{/if}
                                         {if data.members.counts.viewergroups !== 0 && data.members.counts.viewerusers !== 0 && data.members.counts.viewercollections !== 0},{/if}
                                         {if data.members.counts.viewergroups !== 0}
-                                        	<button class="s3d-link-button entity_content_group">${data.members.counts.viewergroups}
-                                        	    {if data.members.counts.viewergroups == 1}
+                                            <button class="s3d-link-button entity_content_group">${data.members.counts.viewergroups}
+                                                {if data.members.counts.viewergroups == 1}
                                                     __MSG__GROUP_LC__
                                                 {else}
-                                            	    __MSG__GROUPS_LC__
-                                        	{/if}
-                                        	</button>
-                                    	{/if}
+                                                    __MSG__GROUPS_LC__
+                                            {/if}
+                                            </button>
+                                        {/if}
                                         {if (data.members.counts.viewergroups !== 0 || data.members.counts.viewerusers !== 0) && data.members.counts.viewercollections !== 0}
                                             __MSG__AND__ __MSG__USED_IN_LC__
                                         {elseif data.members.counts.viewercollections !== 0}
                                             __MSG__USED_IN__
                                         {/if}
                                         {if data.members.counts.viewercollections !== 0}
-                                        	<button class="s3d-link-button entity_content_collections">${data.members.counts.viewercollections}
-                                        	    {if data.members.counts.viewercollections == 1}
+                                            <button class="s3d-link-button entity_content_collections">${data.members.counts.viewercollections}
+                                                {if data.members.counts.viewercollections == 1}
                                                     __MSG__COLLECTION_LC__
                                                 {else}
-                                            	    __MSG__COLLECTIONS_LC__
-                                        	{/if}
-                                        	</button>
-                                    	{/if}
-                                	</span>
+                                                    __MSG__COLLECTIONS_LC__
+                                            {/if}
+                                            </button>
+                                        {/if}
+                                    </span>
                                 {else}
                                     __MSG__SHARED_WITH_NO_ONE__
                                 {/if}
                             <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                         </div>
-                        <span>${data.members.counts.viewergroups + data.members.counts.viewerusers + data.members.counts.viewercollections}</span>
+                        <span>${(data.members.counts.viewergroups + data.members.counts.viewerusers + data.members.counts.viewercollections) || "0"}</span>
                     </div>
                     <span>|</span>
                     <button type="button" class="s3d-link-button s3d-bold share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
@@ -392,9 +403,11 @@
                 </div>
             </span>
         {/if}
-    </div>
     <hr class="fl-push fl-hidden"/>
+{/macro}
+${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
 --></div>
+
 
 <div id="entity_group_template" style="display:none"><!--
     <div id="entity_actions">

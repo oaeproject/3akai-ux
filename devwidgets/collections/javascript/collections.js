@@ -105,6 +105,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(collectionsNoCollections).hide();
             $(collectionsAddNewContainer).show();
             $(collectionsNewActionButtons).show();
+            $("#collections_collection_title").focus();
         };
 
         /**
@@ -164,14 +165,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var createNewCollection = function(){
+            $("#collections_collection_title").attr("disabled", "disabled");
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("CREATING_YOUR_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
             var title = $.trim($("#collections_collection_title").val()) || sakai.api.i18n.getValueForKey("UNTITLED_COLLECTION", "collections");
             var permissions = $(collectionsNewCollectionPermission).val();
             sakai.api.Content.Collections.createCollection(title, "", permissions, [], contentToAdd, [], function(){
-                getCollections();
+                getCollections(false);
                 $("#topnavigation_user_collections_total").text("" + sakai.api.Content.Collections.getMyCollectionsCount());
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 $("#collections_collection_title").val("");
+                $("#collections_collection_title").removeAttr("disabled");
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION_CREATED"), sakai.api.i18n.getValueForKey("COLLECTION_CREATED_LONG"));
             });
         };
 
@@ -340,7 +344,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Retrieve the collections and render the appropriate display
          */
-        var getCollections = function(){
+        var getCollections = function(cache){
             // Get Collections
             sakai.api.Content.Collections.getMyCollections(0, itemsToShow, function(data){
                 // Decide what screen to show depending on results
@@ -350,7 +354,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     recentContentToLoad.push(data.results[i]["_path"]);
                 };
                 getRecentContent(recentContentToLoad);
-            });
+            }, cache);
         };
 
         /**
@@ -382,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to various elements in the widget
          */
         var addBinding = function(){
-            $(subnavigationAddCollectionLink).live("click", toggleCollectionsInlay);
+            $(subnavigationAddCollectionLink).live("click", initializeNewCollectionsSetup);
             $(collectionsCloseButton).live("click", toggleCollectionsInlay);
             $(collectorToggle).live("click", toggleCollectionsInlay);
             $(collectionsNewButton).live("click", initializeNewCollectionsSetup);
@@ -390,6 +394,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("." + collectionsLargePreview).live("click", expandCollection);
             $(collectionsSaveNewButton).live("click", createNewCollection);
             $(window).bind("create.collections.sakai", initializeNewCollectionsSetup);
+            // Save the new collection when enter is pressed
+            $("#collections_collection_title").bind("keyup", function(ev, data){
+                if (ev.keyCode === 13){
+                    createNewCollection();
+                }
+            });
         };
 
         addBinding();

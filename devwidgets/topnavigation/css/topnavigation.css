@@ -56,12 +56,11 @@
 .s3d-dropdown-menu .topnavigation_external_login {width: auto !important;}
 .s3d-dropdown-menu #topnavigation_user_options_login_form .s3d-split-line {display: block;margin: 15px 0;}
 
-<<<<<<< HEAD
 .topnavigation_user_container #topnavigation_user_options_list, .topnavigation_user_container #subnavigation_login_list {float:right;}
 .topnavigation_counts_container {float:left;margin:8px 15px 0 0;}
-.topnavigation_counts_container .topnavigation_menuitem_counts_container {background:none;float:left;padding:3px 5px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;cursor:pointer;}
+.topnavigation_counts_container .topnavigation_menuitem_counts_container {background:none;float:left;padding:3px 5px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;cursor:pointer; border: none; font-size: 13px;}
 .topnavigation_counts_container .topnavigation_menuitem_counts_container:hover {background:url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2;}
-.topnavigation_counts_container .topnavigation_menuitem_counts_container.selected {background:url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2;}
+.topnavigation_counts_container .topnavigation_menuitem_counts_container.selected {background:url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2; }
 .topnavigation_counts_container .topnavigation_menuitem_counts {float:left;color:#fff;}
 .topnavigation_counts_container .topnavigation_menuitem_icon {display:inline;float:left;height:15px;margin:1px 5px 0 0;width:15px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu {display:block;margin-left:-71px;position:relative;top:25px;z-index:100;}

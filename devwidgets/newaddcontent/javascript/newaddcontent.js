@@ -288,9 +288,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          */
         var constructItemToAdd = function(){
             var uniqueId = sakai.api.Util.generateWidgetId();
-            var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $autoSuggestElt, true );
-            var $thisForm = $( this ).parents( $newaddcontentNewItemContainer ).children( newAddContentForm );
-            switch ( $thisForm.attr("id") ) {
+            var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($autoSuggestElt, true);
+            var $thisForm = $(this).parents($newaddcontentNewItemContainer).children(newAddContentForm);
+            switch ($thisForm.attr("id")) {
 
                 //////////////////////////
                 // Uploading a new file //
@@ -364,7 +364,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 ///////////////////////////////
 
                 case "newaddcontent_existing_content_form":
-                    $.each($thisForm.find(":checked"), function(index, item){
+                    $.each($thisForm.find(".newaddcontent_existingitems_select_checkbox:checked"), function(index, item){
                         if (!$(item).is(":disabled")) {
                             var viewers = [];
                             if ($(item).data("sakai-pooled-content-viewer")){
@@ -807,7 +807,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                     } else {
                         // Don't make the authorizable a viewer if it's already part of the library
                         if (!sakai.api.Content.isContentInLibrary(item, libraryToUploadTo)) {
-                            sakai.api.Content.addToLibrary(item["_path"], libraryToUploadTo, function(){
+                            sakai.api.Content.addToLibrary(item["_path"], libraryToUploadTo, false, function(){
                                 item["sakai:pooled-content-viewer"] = item["sakai:pooled-content-viewer"] || [];
                                 item["sakai:pooled-content-viewer"].push(libraryToUploadTo);
                                 lastUpload.push(item);
