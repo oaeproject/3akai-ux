@@ -78,15 +78,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var processPages = function(data){
+            // Respect the order specified in the docstructure
+            var totalToOrder = 0;
             $.each(data, function(i, page){
-                if(page.hasOwnProperty("_title") && page.hasOwnProperty("_ref")){
+                totalToOrder++;
+            });
+            while (totalToOrder > 0){
+                var lowestOrder = false;
+                var pageToAdd = false;
+                $.each(data, function(i, page){
+                    if (lowestOrder === false || page._order < lowestOrder){
+                        lowestOrder = page._order;
+                        pageToAdd = i;
+                    }
+                });
+                var page = data[pageToAdd];
+                if (page.hasOwnProperty("_title") && page.hasOwnProperty("_ref")) {
                     pages.push({
                         title: page._title,
                         poolpath: page._poolpath || "/p/" + contentData._path,
                         ref: page._ref
                     });
                 }
-            });
+                delete data[pageToAdd];
+                totalToOrder--;
+            };
             fetchPageContent();
         };
 
