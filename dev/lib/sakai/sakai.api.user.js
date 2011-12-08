@@ -929,25 +929,25 @@ define(
          *                                true when the change was successful and false when the change failed
          */
         savePrivacySettings: function(option, callback){
-            var data = {"principalId": "anonymous"};
-            if (option === "public"){
-                data["privilege@jcr:read"] = "granted";
-            } else {
-                data["privilege@jcr:read"] = "denied";
-            }
-            $.ajax({
-                url: "/~" + sakaiUserAPI.data.me.user.userid + ".modifyAce.json",
-                type: "POST",
-                data: data,
-                success: function(data){
-                    if ($.isFunction(callback)){
-                        callback(true);
-                    }
-                },
-                error: function(){
-                    if ($.isFunction(callback)){
-                        callback(false);
-                    }
+            // Both the user's home folder and authorizable node need to be updated
+            var batchRequest = [{
+                "url": "/~" + sakaiUserAPI.data.me.user.userid + ".modifyAce.json",
+                "method":"POST",
+                "parameters":{
+                    "principalId": "anonymous",
+                    "privelege@jcr:read": (option === "public" ? "granted" : "denied")
+                }
+            }, {
+                "url": "/system/userManager/user/" + sakaiUserAPI.data.me.user.userid + ".modifyAce.json",
+                "method": "POST",
+                "parameters":{
+                    "principalId": "anonymous",
+                    "privelege@jcr:read": (option === "public" ? "granted" : "denied")
+                }
+            }];
+            sakai_serv.batch(batchRequest, function(success, data) {
+                if ($.isFunction(callback)){
+                    callback(success);
                 }
             });
             return false;
