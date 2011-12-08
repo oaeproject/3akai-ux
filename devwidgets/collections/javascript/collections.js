@@ -361,22 +361,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show/hide the collections inlay
          */
         var toggleCollectionsInlay = function(){
+            $(collectionsScrollArrow).hide();
+            $(collectionsCollectionsList).hide();
+            $(collectionsSeeAllButton).hide();
+            $(collectionsNoCollections).hide();
+            $(collectionsAddNewContainer).hide();
+            if (!$collectionsWidget.is(":visible")){
+                getCollections();
+            }
             $collectionsWidget.animate({
                 'margin-bottom': 'toggle',
                 height: 'toggle',
                 opacity: 'toggle',
                 'padding-top': 'toggle',
                 'padding-bottom': 'toggle'
-            }, 400, function(){
-                if ($collectionsWidget.is(":visible")){
-                    getCollections();
-                } else {
-                    $(collectionsScrollArrow).hide();
-                    $(collectionsCollectionsList).hide();
-                    $(collectionsSeeAllButton).hide();
-                    $(collectionsNoCollections).hide();
-                }
-            });
+            }, 400);
         };
 
         /**
