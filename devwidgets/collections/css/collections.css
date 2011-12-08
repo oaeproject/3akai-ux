@@ -33,9 +33,10 @@
 .collections_widget #collections_leftcolumn #collections_new_button, .collections_widget #collections_leftcolumn #collections_save_new_button {border:1px solid #232323;border-radius:5px 0 0 5px;box-shadow:none;float:right;line-height:22px;margin-right:-2px;text-shadow:0 1px 1px #000000;padding:0 8px 1px 12px;font-weight:normal;}
 .collections_widget #collections_leftcolumn #collections_main_cancel_new_button{clear:right;float:right;margin:10px 5px 0 0;}
 .collections_widget #collections_leftcolumn #collections_new_button > span{float:right;font-size:15px;margin-left:7px;}
+.collections_widget #collections_leftcolumn #collections_left_action_buttons {position: relative; top: -147px;}
 
 .collections_widget #collections_middlecolumn {width:607px;}
-.collections_widget button, .collections_widget a {color:#00c6ff;}
+.collections_widget .collections_collection_title_short, .collections_widget button, .collections_widget a {color:#00c6ff;}
 .collections_widget #collections_middlecolumn #collections_nocollections {background:url("/devwidgets/collections/images/collections_nocollections_bg.png") no-repeat top left transparent;width:557px;height:187px;margin:13px auto 0;}
 .collections_widget #collections_middlecolumn #collections_add_new > div {width:150px;height:200px;border-right:1px solid #232323;float:left;background:url("/devwidgets/collections/images/collections_new_bg.png") repeat-x top left #28363a;}
 .collections_widget #collections_middlecolumn #collections_add_new #collections_collection_title {margin-top:16px;}
@@ -84,6 +85,7 @@
 .collections_widget #collections_middlecolumn .collections_large_preview #collections_recent_no_results {margin-top: 30px;}
 .collections_widget #collections_middlecolumn .collections_large_preview #collections_recent_no_results h1 {color: #333; text-shadow: none;}
 
+.collections_widget #collections_middlecolumn .collections_collection_content_count:focus { border: 1px dotted #FFFFFF;} 
 .collections_widget #collections_middlecolumn .s3d-no-results-container {padding:10px;width:116px;}
 .collections_widget #collections_middlecolumn .s3d-no-results-container .s3d-no-results-arrow-up{margin-top:-34px;}
 .collections_widget #collections_middlecolumn .s3d-no-results-container h1 {color:#363636;font-size:17px;margin:0 !important;text-shadow:0 0 1px #fff;}
