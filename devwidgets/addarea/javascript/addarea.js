@@ -584,6 +584,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(window).trigger("rerender.group.sakai", [path]);
         };
 
+        /**
+         * Remove the creator of a Sakai Doc as an explicit manager, in order to avoid world created
+         * areas to show up in the personal library
+         * @param {Object} poolId        Pooled content id of the new area
+         * @param {Object} callback      Function to call when the creator has been removed
+         */
+        var removeCreatorAsManager = function(poolId, callback){
+            sakai.api.Content.removeUser("manager", poolId, sakai.data.me.user.userid, callback);
+        };
+
         ///////////////////////
         // CREATE SAKAI DOCS //
         ///////////////////////
@@ -602,8 +612,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
             createSakaiDoc(docTitle, docPermission, pageContents, false, {}, nonEditable, function(poolId, urlName){
                 setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
-                    addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
-                        selectPageAndShowPermissions(poolId2, path, docPermission);
+                    removeCreatorAsManager(poolId, function(){
+                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                            selectPageAndShowPermissions(poolId2, path, docPermission);
+                        });
                     });
                 });
             });
@@ -626,8 +638,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             };
             createSakaiDoc(docTitle, docPermission, pageContents, "library", widgetContents, nonEditable, function(poolId, urlName){
                 setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
-                    addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
-                        selectPageAndShowPermissions(poolId2, path, docPermission);
+                    removeCreatorAsManager(poolId, function(){
+                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                            selectPageAndShowPermissions(poolId2, path, docPermission);
+                        });
                     });
                 });
             });
@@ -650,8 +664,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             };
             createSakaiDoc(docTitle, docPermission, pageContents, "participants", widgetContents, nonEditable, function(poolId, urlName){
                 setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
-                    addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
-                        selectPageAndShowPermissions(poolId2, path, docPermission);
+                    removeCreatorAsManager(poolId, function(){
+                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                            selectPageAndShowPermissions(poolId2, path, docPermission);
+                        });
                     });
                 });
             });
@@ -680,8 +696,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var nonEditable = false;
             createSakaiDoc(docTitle, docPermission, pageContents, false, widgetContents, nonEditable, function(poolId, urlName){
                 setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
-                    addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
-                        selectPageAndShowPermissions(poolId2, path, docPermission);
+                    removeCreatorAsManager(poolId, function(){
+                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                            selectPageAndShowPermissions(poolId2, path, docPermission);
+                        });
                     });
                 });
             });
