@@ -611,7 +611,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else if ($focusElement.next("li:first").length){
                         $focusElement.next("li:first").children("a").focus();
                     } else {
-                        $focusElement.prevAll("li:last").children("a").focus();
+                        $("#topnavigation_search_input").focus();
                     }
                     return false;
                 } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
@@ -842,7 +842,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
                 }
                 closeMenu();
-                closePopover();
             });
 
             $(topnavUserLoginButton).bind("focus",function(){
