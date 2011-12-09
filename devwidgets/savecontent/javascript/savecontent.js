@@ -157,6 +157,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Hides the widget
          */
         var hideSavecontent = function() {
+            $(window).trigger("hiding.savecontent.sakai");
             $savecontent_widget.jqmHide();
         };
 

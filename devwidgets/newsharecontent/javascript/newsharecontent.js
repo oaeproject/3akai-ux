@@ -96,6 +96,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
             sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
+            $(window).trigger("hiding.newsharecontent.sakai");
             hash.w.hide();
         };
 

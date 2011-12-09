@@ -21,14 +21,14 @@
 .collectionviewer_widget #collectionviewer_expanded_content_container {background-color:#ededed;width:100%;padding:10px 0;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul {margin:0 10px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result {border-bottom:none;}
-.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result:hover {border:2px solid #c4d9e1;padding:8px;border-radius:6px;background-color:#e1ecef;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result:hover, .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result.hovered {border:2px solid #c4d9e1;padding:8px;border-radius:6px;background-color:#e1ecef;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right {margin-left:60px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_item_title {font-size:16px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_result_mimetype {font-size:11px;text-transform:uppercase;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_result_by {line-height:20px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_download_button {height:21px;line-height:22px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_item_actions {display:none;}
-.collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result:hover .collectionviewer_item_actions {display:inline;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result:hover .collectionviewer_item_actions, .collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result.hovered .collectionviewer_item_actions {display:inline;}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button {float:right;margin-left:10px;}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon.png") no-repeat top left transparent;width:21px;height:21px;float:right;}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button:hover .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon_hover.png") no-repeat top left transparent;}
