@@ -32,7 +32,7 @@
                 <ul>
                     {var count = 0}
                     {for collection in results}
-                        <li class="collections_large_preview {if count % 4 > 0} collapsed {/if}" data-sakai-page="${Math.floor(count / 4)}" data-sakai-collection-id="${collection["_path"]}">
+                        <li id="collection_drop_${collection["_path"]}" class="collections_large_preview {if count % 4 > 0} collapsed {/if} s3d-droppable-container" data-sakai-page="${Math.floor(count / 4)}" data-scope="content" data-dropevent="drop.collections.sakai" data-sakai-collection-id="${collection["_path"]}">
                             <div class="collections_general_information">
                                 <h2>
                                     <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_long" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 > 0}style="display:none"{/if} tabindex="${collection_index}" id="collection_title_${collection_index}">${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 110)}</a>
@@ -43,7 +43,7 @@
                                     <div id="collection_counts_content_icon"></div>
                                     <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" title="${"" + collection.counts.contentCount} __MSG__CONTENT_ITEMS__ __MSG__FOR__ ${collection["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links collections_collection_content_count">${"" + collection.counts.contentCount} <span class="s3d-aural-text">__MSG__CONTENT_ITEMS__ __MSG__FOR__ __MSG__FOR__ ${collection["sakai:pooled-content-file-name"]|safeOutput}</span></a>
                                 </div>
-                                <img id="collection_drop_${collection["_path"]}" src="/devwidgets/collections/images/collections_drag_here_icon.png" alt="__MSG__DRAG_HERE_TO_COLLECT__" class="collections_drag_here_icon s3d-droppable-container" data-scope="content" data-dropevent="drop.collections.sakai" data-sakai-collection-id="${collection["_path"]}"/>
+                                <img src="/devwidgets/collections/images/collections_drag_here_icon.png" alt="__MSG__DRAG_HERE_TO_COLLECT__" class="collections_drag_here_icon"/>
                             </div>
                             <div class="collections_recently_added">
                                 <span>__MSG__RECENTLY_ADDED__</span>
