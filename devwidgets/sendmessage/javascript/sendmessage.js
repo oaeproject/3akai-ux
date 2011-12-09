@@ -139,10 +139,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // remove autoSuggest if it exists
                 sakai.api.Util.AutoSuggest.destroy($("#sendmessage_to_autoSuggest"));
-
-                // Remove error status styling classes
-                $(messageFieldSubject).removeClass(invalidClass);
-                $(messageFieldBody).removeClass(invalidClass);
             };
 
             /**
@@ -294,10 +290,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Altough this isnt strictly nescecary it is cleaner.
                         $rootel = $insertInId;
                         $rootel.append($(messageDialogContainer));
+                        $sendmessage_form = $("#sendmessage_form", $rootel);
                         bindEvents();
                     }
                 } else {
                     $rootel = $("#"+tuid);
+                    $sendmessage_form = $("#sendmessage_form", $rootel);
                     bindEvents();
                 }
 
@@ -316,7 +314,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                     $(messageDialogContainer).jqmShow();
                 }
-
+                sakai.api.Util.Forms.clearValidation($sendmessage_form);
             };
 
 
