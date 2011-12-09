@@ -94,7 +94,7 @@ define(
                 });
                 // Add the members to the tempItem object
                 contentItem.members = contentMembers;
-            }
+            };
 
             // Loops over results and gets the data to put in tempItem
             // Each tempItem consists of 4 requests made by loadFullProfile, these are:
@@ -235,13 +235,10 @@ define(
                     } else {
                         return data;
                     }
-                } else {
-                    if($.isFunction(callback)){
-                        callback(success);
-                    } else {
-                        return success;
-                    }
+                } else if($.isFunction(callback)){
+                    callback(success);
                 }
+                return success;
             });
         },
         /**
@@ -1078,7 +1075,7 @@ define(
                     }
                     // set mimetype
                     var mimeType = sakai_content.getMimeType(contentItem);
-                    var mimeTypeData = sakai_content.getMimeTypeData(mimeType)
+                    var mimeTypeData = sakai_content.getMimeTypeData(mimeType);
                     contentItem.mimeType = mimeType;
                     contentItem.mimeTypeURL = mimeTypeData.URL;
                     contentItem.mimeTypeDescription = sakai_i18n.getValueForKey(mimeTypeData.description);
@@ -1111,6 +1108,14 @@ define(
             } else if ($.isFunction(callback)) {
                 callback(results);
             }
+        },
+
+        createContentURL: function(contentData) {
+            var ret = "";
+            if (contentData && contentData._path && contentData["sakai:pooled-content-file-name"]) {
+                ret = sakai_conf.SakaiDomain + "/p/" + contentData._path + "/" + sakai_util.safeURL(contentData["sakai:pooled-content-file-name"]);
+            }
+            return ret;
         },
 
         /**
@@ -1189,7 +1194,7 @@ define(
                             "sakai:role-title-plural": roleTitlePlural
                         }
                     };
-                }
+                };
 
                 // 1. Create the pooled content item
                 // 1a. Create the base node
@@ -1335,15 +1340,15 @@ define(
                                                                         //1b. Set the pagecontent to have the collectionviewer widget
                                                                         // We do this here so the collection itself is the item that is touched latest,
                                                                         // which it'll show on the top of the library listing
-                                                                        var toSave = {}
+                                                                        var toSave = {};
                                                                         toSave[refID] = {
                                                                             "page": "<img id='widget_collectionviewer_" + refID + "2' class='widget_inline' src='/devwidgets/mylibrary/images/mylibrary.png'/></p>"
-                                                                        }
+                                                                        };
                                                                         toSave[refID + "2"] = {
                                                                             "collectionviewer": {
                                                                                 "groupid": groupId
                                                                             }
-                                                                        }
+                                                                        };
                                                                         sakai_serv.saveJSON("/p/" + collectionId, toSave, function(){
                                                                             // 8. Add the new collection to your me-object
                                                                             sakai_user.data.me.groups.push({
@@ -1363,7 +1368,7 @@ define(
                                                                         });
                                                                     });
                                                                 });
-                                                            })
+                                                            });
                                                         });
                                                     });
                                                 });
@@ -1513,7 +1518,7 @@ define(
                     "items": items,
                     "page": page,
                     "mimetype": "x-sakai/collection"
-                }
+                };
                 $.ajax({
                     "url": sakai_conf.URL.POOLED_CONTENT_SPECIFIC_USER,
                     "data": data,
