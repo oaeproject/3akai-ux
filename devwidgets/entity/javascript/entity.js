@@ -430,6 +430,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.hideOnClickOut("#entity_contentsettings_dropdown", "#entity_content_permissions, .entity_permissions_icon", function(){
                 $("#entity_contentsettings_dropdown").jqmHide();
             });
+            
+             // templateGenerator
+            $('#ew_group_export_as_template_link').click(function(e){
+                $(window).trigger("init.templategenerator.sakai");
+                $('#entity_groupsettings_dropdown').jqmHide();
+            });
 
             $('#ew_upload').click(function(e){
                 e.preventDefault();
