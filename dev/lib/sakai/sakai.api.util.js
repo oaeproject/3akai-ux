@@ -425,7 +425,7 @@ define(
             }
 
             // Create elements to apply threedots
-            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; visibility:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
+            var $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; visibility:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
             $("body").append($container);
 
             // There seems to be a race condition where the
