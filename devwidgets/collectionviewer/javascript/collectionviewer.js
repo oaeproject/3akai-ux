@@ -245,7 +245,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 collectionData = [];
             }
             var data = {
-                sortOn: "sakai:pooled-content-file-name",
+                sortOn: "filename",
                 sortOrder: collectionviewer.sortOrder,
                 userid: userid || widgetData.collectionviewer.groupid,
                 items: 15,
