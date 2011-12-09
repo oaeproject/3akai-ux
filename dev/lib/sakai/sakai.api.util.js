@@ -530,7 +530,11 @@ define(
                         picture_name = profile.picture.name;
                     } else {
                         //change string to json object and get name from picture object
-                        picture_name = $.parseJSON(profile.picture).name;
+                        try {
+                            picture_name = $.parseJSON(profile.picture).name;
+                        } catch (e) {
+                            picture_name = profile.picture;
+                        }
                     }
                     imgUrl = "/~" + sakai_util.safeURL(id) + "/public/profile/" + sakai_util.safeURL(picture_name);
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
