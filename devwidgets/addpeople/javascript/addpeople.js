@@ -71,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var currentTemplate = false;
         var hasbeenInit = false;
         var existingGroup = false;
-
+        var permissionsToChange = [];
 
         ///////////////
         // RENDERING //
@@ -168,7 +168,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var finishAdding = function(){
             var managerSelected = false;
-            var permissionsToChange = [];
+            permissionsToChange = [];
             var newUsers = [];
             $.each(selectedUsers, function(index, user){
                 if (user.originalPermission && user.permission !== user.originalPermission) {
@@ -190,12 +190,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             });
             if (managerSelected || !sakai_global.group) {
-                // This is called after toadd.addpeople.sakai completes
-                $(window).unbind("usersselected.addpeople.sakai").bind("usersselected.addpeople.sakai", function(e) {
-                    if (permissionsToChange.length) {
-                        $(window).trigger("usersswitchedpermission.addpeople.sakai", [tuid.replace("addpeople", ""), permissionsToChange]);
-                    }
-                });
                 $(window).trigger("toadd.addpeople.sakai", [tuid.replace("addpeople", ""), newUsers]);
                 if (sakai_global.group) {
                     $.each(newUsers, function(index, user){
@@ -451,6 +445,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(addpeopleSelectedPermissions).die("change").live("change", changePermission);
             $addpeopleFinishAdding.bind("click", finishAdding);
             $addpeopleRemoveSelected.bind("click", removeSelected);
+
+            $(window).bind("usersselected.addpeople.sakai", function(e) {
+                if (permissionsToChange.length) {
+                    $(window).trigger("usersswitchedpermission.addpeople.sakai", [tuid.replace("addpeople", ""), permissionsToChange]);
+                }
+            });
         };
 
         var loadRoles = function(){

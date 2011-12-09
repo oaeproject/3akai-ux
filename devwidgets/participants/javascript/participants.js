@@ -294,7 +294,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(window).bind("usersselected.addpeople.sakai", function(){
-            var t = setTimeout(loadParticipants, 2000);
+            setTimeout(loadParticipants, 2000);
         });
 
         init();
