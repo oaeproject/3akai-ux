@@ -28,6 +28,7 @@
 #entity_container #entity_owns.entity_owns_viewer .entity_comments {margin-top:5px;}
 #entity_container #entity_actions .s3d-button {float:right;margin-left:5px;color:#666;line-height:17px;}
 #entity_container #entity_owns.entity_owns_viewer .s3d-margin-top-5 {margin-top:0 !important;}
+#entity_container #entity_comments_link {text-transform:lowercase;}
 #entity_container .entity_plaintitle {font-size: 18px; margin-top: 8px; margin-left: 10px;}
 #entity_container .entity_owns_actions_container {background:#fff;border:1px solid #eee;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;display:inline-block;padding:4px 0 4px 6px;line-height:23px;height:23px;float:left;margin-right:7px;}
 #entity_container .entity_owns_actions_container .entity_owns_actions_header {float:left;}
