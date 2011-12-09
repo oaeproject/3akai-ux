@@ -90,6 +90,7 @@
                         parameters.page = 0;
                         loadResultList();
                     }
+                    $(this).remove();
                 });
             });
         };
