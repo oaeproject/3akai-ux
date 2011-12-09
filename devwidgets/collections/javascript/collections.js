@@ -225,14 +225,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 drop: function (ev, data) {
                     ev.stopPropagation();
                     ev.preventDefault();
-                    if ($(ev.target).is("#collection_drop_" + collectionid) && data.files){
+                    if (($(ev.target).is("#collection_drop_" + collectionid) || $("#collection_drop_" + collectionid).find($(ev.target)).length) && data.files){
                         $.each(data.files, function (index, file) {
                             if (file.size > 0){
                                 filesToUpload.push(file);
                             }
                         });
-                        sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_CONTENT_ADDING_TO_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
-                        uploadFile($(this).attr("data-sakai-collection-id"), permissions);
+                        if (filesToUpload.length){
+                            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("UPLOADING_CONTENT_ADDING_TO_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
+                            uploadFile(collectionid, permissions);
+                        }
                     }
                 }
             });
