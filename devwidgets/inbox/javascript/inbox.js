@@ -91,7 +91,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Mark all selected messsages as read
          */
         $inbox_mark_as_read.live("click", function() {
-            var unreadMessages = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container.unread");
+            var unreadMessages = $inbox_message_list.find("input[type='checkbox']:visible:checked").parents(".inbox_items_container.unread");
             var readList = [];
             $.each(unreadMessages, function(i,elt) {
                 var message = messages[$(elt).attr("id")];
@@ -216,7 +216,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Delete messages selected in the current view
          */
         var deleteMultipleMessages = function(e){
-            var messagesToDelete = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container");
+            var messagesToDelete = $inbox_message_list.find("input[type='checkbox']:visible:checked").parents(".inbox_items_container");
             var messageList = [];
             $.each(messagesToDelete, function(i,elt) {
                 var msg = messages[$(elt).attr("id")];

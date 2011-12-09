@@ -59,6 +59,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         widgetData.query = "";
         widgetData.sortby = "asc";
 
+        var newlyAdded = [],
+            roles = false;
 
         ///////////////////////
         // Utility functions //
@@ -107,6 +109,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
 
+        var getRoleTitle = function(result) {
+            var ret = "";
+            if (result.role && result.role.title) {
+                ret = result.role.title;
+            } else if (result.role === undefined && newlyAdded && newlyAdded.length && roles && roles.length) {
+                $.each(newlyAdded, function(i, member) {
+                    if (member.user === result["rep:userId"] || member.user === result["sakai:group-id"]) {
+                        $.each(roles, function(i, role) {
+                            if (role.id === member.permission) {
+                                ret = role.title;
+                            }
+                        });
+                    }
+                });
+            }
+            return ret;
+        };
+
         //////////////////////
         // Render functions //
         //////////////////////
@@ -124,15 +144,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             contactsCount = result.counts.contactsCount;
                             membershipsCount = result.counts.membershipsCount;
                         }
+                        var picture = false;
+                        var roleTitle = getRoleTitle(result);
                         if (result["sakai:group-id"]) {
-                            var picture = false;
                             if(result.basic.elements.picture && result.basic.elements.picture.value){
                                 picture = sakai.api.Groups.getProfilePicture(result);
                             }
                             participantsArr.push({
                                 "name": result["sakai:group-title"],
                                 "id": result["sakai:group-id"],
-                                "title": result.role.title,
+                                "title": roleTitle,
                                 "type": "group",
                                 "connected": false,
                                 "content": contentCount,
@@ -159,14 +180,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     }
                                 });
                             }
-                            var picture = false;
                             if(result.basic.elements.picture && result.basic.elements.picture.value){
                                 picture = sakai.api.User.getProfilePicture(result);
                             }
                             participantsArr.push({
                                 "name": sakai.api.User.getDisplayName(result),
                                 "id": result["rep:userId"],
-                                "title": result.role.title,
+                                "title": roleTitle,
                                 "type": "user",
                                 "content": contentCount,
                                 "contacts": contactsCount,
@@ -181,7 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 });
             }
-            callback(participantsArr);                        
+            callback(participantsArr);
         };
 
         ////////////////////
@@ -216,7 +236,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "sakai": sakai
                 });
             }, function(){
-                $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplateEmpty, {}));                
+                $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplateEmpty, {}));
             }, sakai.config.URL.INFINITE_LOADING_ICON, processParticipants);
         };
 
@@ -286,15 +306,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var init = function(){
-            if (sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me)){
+            var groupData = $.extend(true, {}, sakai_global.group.groupData);
+            groupData.roles = groupData["sakai:roles"];
+            roles = sakai.api.Groups.getRoles(groupData);
+            if (sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me, groupData)){
                 $("#participants_manage_participants").show();
             }
             addBinding();
             handleHashChange();
         };
 
-        $(window).bind("usersselected.addpeople.sakai", function(){
-            var t = setTimeout(loadParticipants, 2000);
+        $(window).bind("usersselected.addpeople.sakai", function(e, _newlyAdded){
+            newlyAdded = _newlyAdded;
+            setTimeout(loadParticipants, 1000);
         });
 
         init();
