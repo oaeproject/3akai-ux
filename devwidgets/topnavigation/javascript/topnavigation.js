@@ -85,6 +85,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var searchBottomTemplate = "search_bottom_template";
         var topnavUserTemplate = "topnavigation_user_template";
 
+        var shiftDown = false;
+
         var renderObj = {
             "people":"",
             "groups":"",
@@ -98,6 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             searchTimeout = false;
 
         var $openMenu = false;
+        var $openPopover = false;
 
 
         ////////////////////////
@@ -526,6 +529,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $openMenu = false;
                 }
             };
+            // Navigation popover binding
+            var closePopover = function(e){
+                if ($openPopover.length){
+                    $openPopover.prev().removeClass("selected");
+                    $openPopover.attr("aria-hidden", "true");
+                    $openPopover.hide();
+                    $openPopover = false;
+                }
+            };
             var openMenu = function(){
                 $("#topnavigation_search_results").hide();
                 if ($("#navigation_anon_signup_link:focus").length){
@@ -534,6 +546,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // close another sub menu if ones open
                 closeMenu();
+                closePopover();
 
                 $openMenu = $(this);
                 $openMenu.removeClass("topnavigation_close_override");
@@ -556,7 +569,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             };
 
-            $(hasSubnav).hover(openMenu, closeMenu);
+            $(hasSubnav).hover(openMenu, function(){
+                closePopover();
+                closeMenu();
+            });
 
             // remove focus of menu item if mouse is used
             $(hasSubnav + " div").find("a").hover(function(){
@@ -566,22 +582,38 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // bind down/left/right keys for top menu
-            $("#topnavigation_container .s3d-dropdown-menu").keydown(function(e) {
+            $("#topnavigation_container .s3d-dropdown-menu,.topnavigation_counts_container button").keydown(function(e) {
                 if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
                     $(this).find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
-                } else if (e.which === $.ui.keyCode.LEFT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
-                    if ($(this).prevAll("li:first").length > 0){
-                        $(this).prevAll("li:first").children("a").focus();
+                } else if (e.which === $.ui.keyCode.LEFT || (e.which === $.ui.keyCode.TAB && shiftDown) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                    closeMenu();
+                    closePopover();
+                    var $focusElement = $(this);
+                    if($(this).parents(".topnavigation_counts_container").length){
+                        $focusElement = $(this).parents(".topnavigation_counts_container");
+                    }
+                    if($focusElement.prev(".topnavigation_counts_container").length){
+                        $focusElement.prev(".topnavigation_counts_container").children("button").focus()
+                    } else if ($focusElement.prev("li:first").length){
+                        $focusElement.prev("li:first").children("a").focus();
                     } else {
-                        $(this).nextAll("li:last").children("a").focus();
+                        $focusElement.nextAll("li:last").children("a").focus();
                     }
                     return false;
-                } else if (e.which === $.ui.keyCode.RIGHT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
-                    if ($(this).nextAll("li:first").length > 0){
-                        $(this).nextAll("li:first").children("a").focus();
+                } else if ((e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.TAB) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                    closeMenu();
+                    closePopover();
+                    var $focusElement = $(this);
+                    if($(this).parents(".topnavigation_counts_container").length){
+                        $focusElement = $(this).parents(".topnavigation_counts_container");
+                    }
+                    if($focusElement.next(".topnavigation_counts_container").length){
+                        $focusElement.next(".topnavigation_counts_container").children("button").focus()
+                    } else if ($focusElement.next("li:first").length){
+                        $focusElement.next("li:first").children("a").focus();
                     } else {
-                        $(this).prevAll("li:last").children("a").focus();
+                        $("#topnavigation_search_input").focus();
                     }
                     return false;
                 } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
@@ -614,14 +646,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // bind up/down/escape keys in sub menu
             $(hasSubnav + " div a").keydown(function(e) {
                 if (e.which === $.ui.keyCode.DOWN) {
-                    if ($(this).parent().nextAll("li:first").length > 0){
+                    if ($(this).parent().nextAll("li:first").length){
                         $(this).parent().nextAll("li:first").children("a").focus();
                     } else {
                         $(this).parent().prevAll("li:last").children("a").focus();
                     }
                     return false; // prevent browser page from scrolling down
                 } else if (e.which === $.ui.keyCode.UP) {
-                    if ($(this).parent().prevAll("li:first").length > 0) {
+                    if ($(this).parent().prevAll("li:first").length) {
                         $(this).parent().prevAll("li:first").children("a").focus();
                     } else {
                         $(this).parent().nextAll("li:last").children("a").focus();
@@ -665,6 +697,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#navigation_anon_signup_link").live("hover",function(evt){
                 closeMenu();
+                closePopover();
             });
 
             // hide the menu after an option has been clicked
@@ -721,6 +754,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // if user is signed in and tabs out of user menu, or the external auth menu, close the sub menu
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     closeMenu();
+                    closePopover();
                 }
             });
 
@@ -739,6 +773,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // hide signin or user options menu when tabbing out of the last menu option
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     closeMenu();
+                    closePopover();
                 }
             });
 
@@ -837,6 +872,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#navigation_anon_signup_link:focus").blur();
                 }
                 closeMenu();
+                closePopover();
                 $(topnavUserOptionsLoginFields).show();
             },
             function(){
@@ -852,6 +888,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".topnavigation_trigger_login").live("click", forceShowLogin);
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
+
+            $(window).keydown(function(e){
+                if (e.which === $.ui.keyCode.SHIFT){
+                    shiftDown = true;
+                }
+            });
+
+            $(window).keyup(function(e){
+                if (e.which === $.ui.keyCode.SHIFT){
+                    shiftDown = false;
+                }
+            });
         };
 
 
@@ -928,16 +976,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         $("#topnavigation_messages_container").live("click", function(){
-            sakai.api.Communication.getAllMessages("inbox", false, false, 1, 0, "_created", "desc", function(success, data){
-                var dataPresent = false;
-                if (data.results && data.results[0]) {
-                    dataPresent = true;
-                }
-                $("#topnavigation_messages_container").addClass("selected");
-                var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
-                $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
-                $messageContainer.show();
-            });
+            if($("#topnavigation_user_messages_container .s3d-dropdown-menu").is(":hidden")){
+                sakai.api.Communication.getAllMessages("inbox", false, false, 1, 0, "_created", "desc", function(success, data){
+                    var dataPresent = false;
+                    if (data.results && data.results[0]) {
+                        dataPresent = true;
+                    }
+                    $("#topnavigation_messages_container").addClass("selected");
+                    var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
+                    $openPopover = $messageContainer;
+                    $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
+                    $messageContainer.show();
+                });
+            }
         }); 
 
 

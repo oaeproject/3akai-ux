@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/collections/css/collections.css" />
 
 <div class="collections_widget" style="display:none;">
-    <div id="collections_leftcolumn" class="collections_maincolumn">
+    <div id="collections_leftcolumn" class="collections_maincolumn" tabindex="-1">
         <h1>__MSG__COLLECTOR__</h1>
         <div id="collections_descriptive_text">__MSG__COLLECTIONS_DESCRIPTIVE_TEXT__</div>
         <div id="collections_left_action_buttons">
@@ -35,7 +35,7 @@
                         <li class="collections_large_preview {if count % 4 > 0} collapsed {/if}" data-sakai-page="${Math.floor(count / 4)}" data-sakai-collection-id="${collection["_path"]}">
                             <div class="collections_general_information">
                                 <h2>
-                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_long" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 > 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 110)}</a>
+                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_long" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 > 0}style="display:none"{/if} tabindex="${collection_index}" id="collection_title_${collection_index}">${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 110)}</a>
                                     <span class="s3d-regular-links collections_collection_title_short" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 === 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 47)}</span>
                                 </h2>
                                 <hr class="fl-push fl-hidden"/>

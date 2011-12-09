@@ -41,10 +41,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectorToggle = ".collector_toggle";
         var collectionsTotal = "#topnavigation_user_collections_total";
         var $collectionsWidget = $(".collections_widget");
-        
+
         var collectionsNoCollections = "#collections_nocollections";
         var collectionsCollectionsList = "#collections_collections_list";
-        
+
         // Buttons, links, etc.
         var collectionsCloseButton = "#collections_close_button";
         var collectionsNewButton = "#collections_new_button";
@@ -176,6 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#collections_collection_title").val("");
                 $("#collections_collection_title").removeAttr("disabled");
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION_CREATED"), sakai.api.i18n.getValueForKey("COLLECTION_CREATED_LONG"));
+                var t = setTimeout("$('#collection_title_0').focus()", 1000);
             });
         };
 
@@ -375,7 +376,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 opacity: 'toggle',
                 'padding-top': 'toggle',
                 'padding-bottom': 'toggle'
-            }, 400);
+            }, 400, function(){
+                if ($collectionsWidget.is(":visible")){
+                    getCollections();
+                    $("#collections_leftcolumn").focus();
+                } else {
+                    $(collectionsScrollArrow).hide();
+                    $(collectionsCollectionsList).hide();
+                    $(collectionsSeeAllButton).hide();
+                    $(collectionsNoCollections).hide();
+                }
+            });
         };
 
         /**
