@@ -94,7 +94,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
             }, $collectionviewerCarouselContainer);
             $("#collectionviewer_finish_editing_collection_button").hide();
-            $("#collectionviewer_edit_collection_button").show();
+            if(sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)){
+                $("#collectionviewer_edit_collection_button").show();
+            }
             $collectionviewerCarouselContainer.show();
             $collectionviewerExpandedContentContainer.show();
             $(".collectionviewer_controls", $rootel).hide();
