@@ -374,10 +374,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var sortSelection = $(this).val();
                 if (sortSelection === "desc") {
                     mylibrary.sortOrder = "desc";
-                    mylibrary.sortBy = "sakai:pooled-content-file-name";
+                    mylibrary.sortBy = "filename";
                 } else if (sortSelection === "asc") {
                     mylibrary.sortOrder = "asc";
-                    mylibrary.sortBy = "sakai:pooled-content-file-name";
+                    mylibrary.sortBy = "filename";
                 } else {
                     mylibrary.sortOrder = "modified";
                     mylibrary.sortBy = "_lastModified";
