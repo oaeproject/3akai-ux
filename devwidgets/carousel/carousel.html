@@ -52,7 +52,7 @@
                                             ${content0["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
                                     </h2>
-                                    ${contentButtons(content0.id, content0._createdBy,content0["sakai:pooled-content-file-name"],content0.mimeType)}
+                                    ${contentButtons(content0.id, content0["sakai:pool-content-created-for"],content0["sakai:pooled-content-file-name"],content0.mimeType)}
                                 </div>
                             {/if}
                             {var content1 = item.suggestions[1]}
@@ -70,7 +70,7 @@
                                             ${content1["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
                                     </h2>
-                                    ${contentButtons(content1.id, content1._createdBy,content1["sakai:pooled-content-file-name"],content1.mimeType)}
+                                    ${contentButtons(content1.id, content1["sakai:pool-content-created-for"],content1["sakai:pooled-content-file-name"],content1.mimeType)}
                                 </div>
                             {/if}
                             <div class="carousel_three_column_right">
@@ -82,7 +82,7 @@
                                                 ${content2["sakai:pooled-content-file-name"]|safeOutput}
                                             </a>
                                         </h2>
-                                        ${contentButtons(content2.id, content2._createdBy,content2["sakai:pooled-content-file-name"],content2.mimeType)}
+                                        ${contentButtons(content2.id, content2["sakai:pool-content-created-for"],content2["sakai:pooled-content-file-name"],content2.mimeType)}
                                     {/if}
                                 </div>
                                 {var content3 = item.suggestions[3]}
@@ -93,7 +93,7 @@
                                                     ${content3["sakai:pooled-content-file-name"]|safeOutput}
                                                 </a>
                                             </h2>
-                                            ${contentButtons(content3.id, content3._createdBy,content3["sakai:pooled-content-file-name"],content3.mimeType)}
+                                            ${contentButtons(content3.id, content3["sakai:pool-content-created-for"],content3["sakai:pooled-content-file-name"],content3.mimeType)}
                                     </div>
                                 {/if}
                             </div>
