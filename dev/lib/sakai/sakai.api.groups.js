@@ -76,38 +76,36 @@ define(
         /**
          * Get the data for the specified group
          *
-         * @param {String} groupid The ID of the group
+         * @param {Object} groupids The ID of the group or an array of group IDs
          * @param {Function} callback Callback function, passes (success, (data|xhr))
          * @param {Boolean} async If this call should be ascynronous, defaults to true
          */
-        getGroupAuthorizableData : function(groupid, callback, async, cache) {
-            if ($.isPlainObject(sakaiGroupsAPI.groupData[groupid]) && $.isFunction(callback)) {
-                callback(true, sakaiGroupsAPI.groupData[groupid]);
-            } else {
-                if (async === null || async === undefined) {
-                    async = true;
-                }
-                if (cache !== false) {
-                    cache = true;
-                }
-                $.ajax({
-                    url: "/system/userManager/group/" + groupid + ".json",
-                    async: async,
-                    cache: cache,
-                    success: function(data) {
-                        sakaiGroupsAPI.groupData[groupid] = data;
-                        if ($.isFunction(callback)) {
-                            callback(true, data);
-                        }
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        debug.error("Could not get data for group " + groupid);
-                        if ($.isFunction(callback)) {
-                            callback(false, xhr);
-                        }
-                    }
-                });
+        getGroupAuthorizableData : function(groupids, callback) {
+            var toReturn = {};
+            var batchRequest = [];
+            if (_.isString(groupids)){
+                groupids = [groupids];
             }
+            $.each(groupids, function(index, groupid){
+                if ($.isPlainObject(sakaiGroupsAPI.groupData[groupid])) {
+                    toReturn[groupid] = sakaiGroupsAPI.groupData[groupid];
+                } else {
+                    batchRequest.push({
+                        url: "/system/userManager/group/" + groupid + ".json",
+                        method: "GET"
+                    });
+                }
+            });
+            sakai_serv.batch(batchRequest, function(success, response){
+                $.each(response.results, function(index, item){
+                    var group = $.parseJSON(item.body);
+                    sakaiGroupsAPI.groupData[group.properties["sakai:group-id"]] = group;
+                    toReturn[group.properties["sakai:group-id"]] = group;
+                });
+                if ($.isFunction(callback)){
+                    callback(true, toReturn);
+                };
+            });
         },
 
         checkIfGroupExists : function(groupid) {
@@ -202,6 +200,7 @@ define(
         deleteGroup : function(groupID, meData, callback) {
             sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, groupAuthData){
                 if (success && groupAuthData) {
+                    groupAuthData = groupAuthData[groupID];
                     var groupArray = [groupID];
 
                     // delete any pseudo groups
@@ -573,24 +572,31 @@ define(
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Function to be called on complete - callback
          */
-        isAllowedToLeave : function(groupid, meData, callback) {
-                sakaiGroupsAPI.getGroupAuthorizableData(groupid, function(membershipSuccess, membershipData){
-                    if (!sakaiGroupsAPI.isCurrentUserAManager(groupid, meData, membershipData.properties)) {
-                        // Members are always allowed to leave the group, managers should always be present and cannot leave when they are the last one in the group
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                        }
+        isAllowedToLeave : function(groupids, meData, callback) {
+            sakaiGroupsAPI.getGroupAuthorizableData(groupids, function(groupSuccess, groupData){
+                var toReturn = {};
+                var groupDataCache = {};
+                var toCheck = [];
+                $.each(groupData, function(groupid, group){
+                    if (sakaiGroupsAPI.isCurrentUserAManager(groupid, meData, group.properties)) {
+                        // Check if there is more then one manager in the group
+                        toCheck.push(groupid);
+                        groupDataCache[groupid] = group.properties;
                     } else {
-                        sakaiGroupsAPI.getMembers(groupid,"",function(membersSuccess, memberData){
-                            // Check if there is more then one manager in the group
-                            var numManagers = sakaiGroupsAPI.getManagerCount(membershipData.properties, memberData);
-                            var leaveAllowed = numManagers > 1;
-                            if ($.isFunction(callback)) {
-                                callback(leaveAllowed);
-                            }
-                        }, "everyone");
+                        // Members are always allowed to leave the group, managers should always be present and cannot leave when they are the last one in the group
+                        toReturn[groupid] = true;
                     }
                 });
+                sakaiGroupsAPI.getMembers(toCheck, function(membersSuccess, memberData){
+                    $.each(memberData, function(groupid, members){
+                        var numManagers = sakaiGroupsAPI.getManagerCount(groupDataCache[groupid], members);
+                        toReturn[groupid] = numManagers > 1;
+                    });
+                    if ($.isFunction(callback)) {
+                        callback(toReturn);
+                    }
+                });
+            });
         },
 
         /**
@@ -683,6 +689,7 @@ define(
              */
             var getRoleData = function(groupID, callback){
                 sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
+                    data = data[groupID];
                     if (success && data && $.isFunction(callback)) {
                         callback(true, data.properties);
                     } else if ($.isFunction(callback)) {
@@ -931,48 +938,71 @@ define(
         /**
          * Returns all the users who are member of a certain group
          *
-         * @param {String} groupID The ID of the group we would like to get the members of
+         * @param {String} groupids The ID of the group we would like to get the members of or an array of group IDs
          * @param {Function} callback Callback function, passes (success, (data|xhr))
          * @param {Boolean} everyone If we should return managers + members (useful for pseudoGroups)
          *
          */
-        getMembers : function(groupID, query, callback, everyone) {
-            var searchquery = query || "*";
-            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
+        getMembers : function(groupids, callback, everyone) {
+            var dataToReturn = {};
+            var toCheck = [];
+            if (_.isString(groupids)){
+                groupids = [groupids];
+            }
+            $.each(groupids, function(index, groupid){
+                if (sakaiGroupsAPI.groupData[groupid] && sakaiGroupsAPI.groupData[groupid].membersPerRole){
+                    dataToReturn[groupid] = sakaiGroupsAPI.groupData[groupid].membersPerRole;
+                } else {
+                    toCheck.push(groupid);
+                }
+            });
+            sakaiGroupsAPI.getGroupAuthorizableData(toCheck, function(success, groupData){
                 if (success){
-                    var roles = $.parseJSON(data.properties["sakai:roles"]);
                     var batchRequests = [];
-                    var dataToReturn = {};
-                    for (var i = 0; i < roles.length; i++) {
-                        var selector = "members";
-                        if (everyone) {
-                            selector = "everyone";
-                        }
-                        var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + "." + selector + ".json";
-                        batchRequests.push({
-                            "url": url,
-                            "method": "GET",
-                            "parameters": {
-                                items: 1000
+                    var urlToGroupMapping = {};
+                    $.each(groupData, function(groupid, group){
+                        var roles = $.parseJSON(group.properties["sakai:roles"]);
+                        for (var i = 0; i < roles.length; i++) {
+                            var selector = "members";
+                            if (everyone) {
+                                selector = "everyone";
                             }
-                        });
-                    }
+                            var url = "/system/userManager/group/" + groupid + "-" + roles[i].id + "." + selector + ".json";
+                            urlToGroupMapping[url] = {
+                                "groupid": groupid,
+                                "role": roles[i].id
+                            }
+                            batchRequests.push({
+                                "url": url,
+                                "method": "GET",
+                                "parameters": {
+                                    items: 1000
+                                }
+                            });
+                        }
+                    });
                     sakai_serv.batch(batchRequests, function(success, data){
                         if (success) {
-                            for (var i = 0; i < roles.length; i++) {
-                                if (data.results.hasOwnProperty(i)) {
-                                    var members = $.parseJSON(data.results[i].body);
-                                    dataToReturn[roles[i].id] = {};
-                                    dataToReturn[roles[i].id].results = members;
+                            $.each(data.results, function(m, membershiplist){
+                                // Retrieve the group and role id from the URL
+                                var groupid = urlToGroupMapping[membershiplist.url].groupid;
+                                var roleid = urlToGroupMapping[membershiplist.url].role;
+                                // Add the members to the response
+                                var members = $.parseJSON(membershiplist.body);
+                                dataToReturn[groupid] = dataToReturn[groupid] || {};
+                                dataToReturn[groupid][roleid] = {"results": members};
+                                if (sakaiGroupsAPI.groupData[groupid]){
+                                    sakaiGroupsAPI.groupData[groupid].membersPerRole = sakaiGroupsAPI.groupData[groupid].membersPerRole || {};
+                                    sakaiGroupsAPI.groupData[groupid].membersPerRole[roleid] = {"results": members}
                                 }
-                            }
+                            });
                             if ($.isFunction(callback)) {
                                 callback(true, dataToReturn);
                             }
                         }
                     }, false, true);
                 } else {
-                    debug.error("Could not get members group info for " + groupID);
+                    debug.error("Could not get members group info for " + groupids);
                     if ($.isFunction(callback)) {
                         callback(false, xhr);
                     }
@@ -985,8 +1015,8 @@ define(
         getRoles : function(groupData, translate) {
             var roles = [];
             $.each(groupData.roles, function(i,role) {
-                if ( _.isString( role ) ) {
-                    role = $.parseJSON( role );
+                if (_.isString(role)){
+                    role = $.parseJSON(role);
                 }
                 if (translate) {
                     role.title = sakai_i18n.getValueForKey(role.title);
@@ -1000,6 +1030,7 @@ define(
         getRole : function(userId, groupID, callback){
             var groupInfo = sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
                 if (success){
+                    data = data[groupID];
                     var roles = $.parseJSON(data.properties["sakai:roles"]);
                     var batchRequests = [];
                     var role;
@@ -1205,6 +1236,15 @@ define(
                             debug.error("Could not add users to group");
                         } else if (currentUserIncluded) {
                             medata.user.subjects.push(groupID);
+                        }
+                        // Add this to the members of the groups in the cache
+                        if (sakaiGroupsAPI.groupData[groupID] && sakaiGroupsAPI.groupData[groupID].membersPerRole){
+                            $.each(users, function(index, user) {
+                                sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission] = sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission] || {"results": []};
+                                sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission].results.push({
+                                    "rep:userId": user.user
+                                });
+                            });
                         }
                         if ($.isFunction(callback)) {
                             callback(success);

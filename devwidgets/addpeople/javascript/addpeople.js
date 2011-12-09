@@ -376,6 +376,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var prepareSelectedContacts = function(success, data){
+            data = data[sakai_global.group.groupData["sakai:group-id"]];
             for(var role in data){
                 for(var user in data[role].results){
                     if (data[role].results.hasOwnProperty(user)) {
@@ -414,7 +415,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var fetchMembers = function(){
-            sakai.api.Groups.getMembers(sakai_global.group.groupData["sakai:group-id"], "", prepareSelectedContacts, true);
+            sakai.api.Groups.getMembers(sakai_global.group.groupData["sakai:group-id"], prepareSelectedContacts, true);
         };
 
         /**

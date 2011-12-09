@@ -45,7 +45,7 @@
         {/for}
 
         {for memberOfGroup in memberOfGroups.entry}
-            <option value="${memberOfGroup["sakai:group-id"]}" {if !memberOfGroup.overrideAllSelectedAMember && memberOfGroup.allSelectedAMember} disabled="true"{/if} {if memberOfGroup_index == 0} class="addpeoplegroups_listitem_topborder"{/if}>${memberOfGroup["sakai:group-title"]} {if !memberOfGroup.overrideAllSelectedAMember && memberOfGroup.allSelectedAMember}(__MSG__ALREADY_A_MEMBER__){/if}</option>
+            <option value="${memberOfGroup["sakai:group-id"]}" {if memberOfGroup.alreadyMember} disabled="true"{/if} {if memberOfGroup_index == 0} class="addpeoplegroups_listitem_topborder"{/if}>${memberOfGroup["sakai:group-title"]} {if memberOfGroup.alreadyMember}(__MSG__ALREADY_A_MEMBER__){/if}</option>
         {/for}
     </select>
 --></div>
