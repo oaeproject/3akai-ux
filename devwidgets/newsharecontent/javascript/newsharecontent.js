@@ -91,6 +91,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var resetWidget = function(hash){
+            $newsharecontentMessageContainer.hide();
+            $newsharecontentMessageArrow.removeClass('arrow_down');
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
             sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
@@ -191,6 +193,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $('.share_trigger_click').live('click',function(){
+                if($newsharecontentContainer.is(":visible")){
+                    $newsharecontentContainer.jqmHide();
+                }
                 sakai.api.Util.Forms.clearValidation($newsharecontent_form);
                 var idArr = $(this).attr("data-entityid");
                 if(idArr.length > 1 && !$.isArray(idArr)){

@@ -164,12 +164,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
             // get the sort by and sort on
             if (!params["sortby"] || !params["sorton"]){
-                var val = $(".s3d-search-sort option:selected", $rootel).val();
-                if (val) {
-                    val = val.split(",");
-                    params["sortby"] = val[0];
-                    params["sorton"] = val[1];
-                }
+                params["sortby"] = $(".s3d-search-sort option:selected", $rootel).attr("data-sort-order");
+                params["sorton"] = $(".s3d-search-sort option:selected", $rootel).attr("data-sort-on");
             }
             return params;
         };
@@ -242,10 +238,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind sortby select box
-        $(".s3d-search-sort select").die("change").live("change", function(ev) {
-            var val = $(this).find(":selected").val().split(",");
-            var sortby = val[0];
-            var sorton = val[1];
+        $("#s3d-page-container").on("change", ".s3d-search-header .s3d-search-sort select", function(ev) {
+            var sortby = $(this).find(":selected").attr("data-sort-order");
+            var sorton = $(this).find(":selected").attr("data-sort-on");
             $.bbq.pushState({
                 "page": 1,
                 "sortby": sortby,
@@ -292,6 +287,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.i18n.getValueForKey("PROBLEM_ADDING_TO_GROUP"),
                         sakai.api.Util.notification.type.ERROR);
                 }
+            });
+        });
+
+        $(window).bind("sakai.entity.updateOwnCounts", function(e, context) {
+            sakai.api.Server.loadJSON('/p/'+context.contentId+'.infinity.json',function(success,data) {
+                sakai.api.Content.prepareContentForRender([data],sakai.data.me,function(results) {
+                    if (results[0]) {
+                        sakai.api.Util.TemplateRenderer($("#search_content_item_template"),{item:results[0],sakai:sakai},$("#"+context.contentId));
+                    }
+                });
             });
         });
 

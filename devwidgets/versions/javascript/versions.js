@@ -95,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var setUsername = function(u, users) {
             $(versions, $rootel).each(function(index, val){
-               var userId = val["sakai:pool-content-created-for"] || val["_lastModifiedBy"];
+               var userId = val["_lastModifiedBy"] || val["sakai:pool-content-created-for"];
                if (userId === u){
                     val["username"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(users[u]), 80, null, "s3d-regular-links versions_updater");
                }
@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(data.versions, function(index, version){
                 version.versionId = index;
                 versions.push(version);
-                userIds.push(version["sakai:pool-content-created-for"] || version["_lastModifiedBy"]);
+                userIds.push(version["_lastModifiedBy"] || version["sakai:pool-content-created-for"]);
             });
             if (userIds.length) {
                 sakai.api.User.getMultipleUsers(userIds, function(users){
@@ -116,18 +116,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             setUsername(u, users);
                         }
                     }
-                    if ($(versionsContainer, $rootel).is(":visible")) {
-                        renderVersions();
-                    } else {
-                        renderVersions();
-                    }
+                    renderVersions();
                 });
             } else {
-                if ($(versionsContainer, $rootel).is(":visible")) {
-                    renderVersions();
-                } else {
-                    renderVersions();
-                }
+                renderVersions();
             }
         };
 

@@ -264,7 +264,8 @@ public class HashRefreshFiles {
         int loc = sb.indexOf(s);
         while (loc >= 0) {
           char c = sb.charAt(loc + s.length());
-          if ((!s.endsWith("/")) && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))) {
+          if ((!s.endsWith("/")) && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')
+             || c == '(')) {
             loc = sb.indexOf(s, loc + s.length());
             continue;
           }
@@ -285,7 +286,8 @@ public class HashRefreshFiles {
         int loc = sb.indexOf(relativePath);
         while (loc >= 0) {
           char c = sb.charAt(loc + relativePath.length());
-          if ((!relativePath.endsWith("/")) && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))) {
+          if ((!relativePath.endsWith("/")) && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')
+              || c == '(')) {
             loc = sb.indexOf(relativePath, loc + relativePath.length());
             continue;
           }

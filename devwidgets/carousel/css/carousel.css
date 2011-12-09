@@ -65,15 +65,21 @@
 #carousel_container .carousel_sharecontent {float:right; margin-right:10px;}
 
 #carousel_container .carousel_three_column_left {width: 312px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float:left; position:relative;}
-#carousel_container .carousel_three_column_left img.carousel_item_preview_img {max-width: 140px; max-height: 160px; float:left; margin-right: 10px; overflow:hidden;}
+#carousel_container .carousel_three_column_left img.carousel_item_preview_img {float:left; margin-right: 10px; overflow:hidden;}
 
 #carousel_container .carousel_three_column_middle {width: 160px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; margin-left: 7px; float:left; position:relative;}
-#carousel_container .carousel_three_column_middle img.carousel_item_preview_img {min-width:42px;max-width:42px;max-height:42px;float:left;margin-right:10px;overflow:hidden;}
+#carousel_container .carousel_three_column_middle img.carousel_item_preview_img {float:left;margin-right:10px;overflow:hidden;}
 
 #carousel_container .carousel_three_column_right {width: 160px; height: 192px; margin-left: 7px; float:left;}
 #carousel_container .carousel_three_column_right > div {width: 160px; height: 83px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px;}
 #carousel_container .carousel_three_column_right .carousel_two_high_top {margin-bottom: 6px; position:relative;}
 #carousel_container .carousel_three_column_right .carousel_two_high_bottom {position:relative;}
+
+/* Thumnail sizes */
+#carousel_container .carousel_item_large_preview {max-width: 140px; max-height: 160px;}
+#carousel_container .carousel_item_large_mimetype {max-width: 50px;}
+#carousel_container .carousel_item_medium_preview {min-width:42px;max-width:42px;max-height:42px;}
+#carousel_container .carousel_item_medium_mimetype {max-width:30px;}
 
 /* 4x2 grid */
 

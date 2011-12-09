@@ -40,14 +40,16 @@
                             {var content0 = item.suggestions[0]}
                             {if content0}
                                 <div class="carousel_three_column_left s3d-draggable-container" data-scope="content" data-entityid="${content0.id}" {if sakai.api.Content.Collections.isCollection(content0)} data-collection="true" {/if}>
-                                    {if content0.preview}
-                                        <a href="${content0.url}">
-                                           <img class="carousel_item_preview_img" src="${content0.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
-                                        </a>
-                                    {/if}
+                                    <a href="${content0.link}">
+                                        {if content0.thumbnail}
+                                            <img class="carousel_item_preview_img carousel_item_large_preview" src="${content0.thumbnail}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                        {else}
+                                            <img class="carousel_item_preview_img carousel_item_large_mimetype" src="${content0.mimeTypeURL}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                        {/if}
+                                     </a>
                                     <h2>
-                                        <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.url}">
-                                            ${content0.title|safeOutput}
+                                        <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.link}">
+                                            ${content0["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
                                     </h2>
                                     ${contentButtons(content0.id, content0.createdBy,content0.title,content0.mimeType)}
@@ -56,14 +58,16 @@
                             {var content1 = item.suggestions[1]}
                             {if content1}
                                 <div class="carousel_three_column_middle s3d-draggable-container" data-scope="content" data-entityid="${content1.id}" {if sakai.api.Content.Collections.isCollection(content1)} data-collection="true" {/if}>
-                                    {if content1.preview}
-                                        <a href="${content1.url}">
-                                            <img class="carousel_item_preview_img" src="${content1.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
-                                        </a>
-                                    {/if}
+                                    <a href="${content1.link}">
+                                        {if content1.thumbnail}
+                                            <img class="carousel_item_preview_img carousel_item_medium_preview" src="${content1.thumbnail}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                        {else}
+                                            <img class="carousel_item_preview_img carousel_item_medium_mimetype" src="${content1.mimeTypeURL}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                        {/if}
+                                    </a>
                                     <h2>
-                                        <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.url}">
-                                            ${content1.title|safeOutput}
+                                        <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.link}">
+                                            ${content1["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
                                     </h2>
                                     ${contentButtons(content1.id, content1.createdBy,content1.title,content1.mimeType)}
@@ -75,7 +79,7 @@
                                     <div class="carousel_two_high_top s3d-draggable-container" data-scope="content" data-entityid="${content2.id}" {if sakai.api.Content.Collections.isCollection(content2)} data-collection="true" {/if}>
                                         <h2>
                                             <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}">
-                                                ${content2.title|safeOutput}
+                                                ${content2["sakai:pooled-content-file-name"]|safeOutput}
                                             </a>
                                         </h2>
                                         ${contentButtons(content2.id, content2.createdBy,content2.title,content2.mimeType)}
@@ -86,7 +90,7 @@
                                     <div class="carousel_two_high_bottom s3d-draggable-container" data-scope="content" data-entityid="${content3.id}" {if sakai.api.Content.Collections.isCollection(content3)} data-collection="true" {/if}>
                                             <h2>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}">
-                                                    ${content3.title|safeOutput}
+                                                    ${content3["sakai:pooled-content-file-name"]|safeOutput}
                                                 </a>
                                             </h2>
                                             ${contentButtons(content3.id, content3.createdBy,content3.title,content3.mimeType)}

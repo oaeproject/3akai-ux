@@ -76,7 +76,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
             if (sakai.data.me.user.anon){
                 $signinbuttonwrapper.show();
-                $signinbutton.live("click", forceLoginOverlay);
 
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
@@ -110,11 +109,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             $searchButton.click(doSearch);
-        };
-
-        var forceLoginOverlay = function(){
-            $("#topnavigation_user_options_login_fields").addClass("topnavigation_force_submenu_display");
-            $("#topnavigation_user_options_login_wrapper").addClass("topnavigation_force_submenu_display_title");
         };
 
         doInit();

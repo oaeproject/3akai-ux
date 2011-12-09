@@ -280,7 +280,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var handleHashChange = function(){
-            getContacts();
             uncheckAll();
 
             $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
@@ -386,6 +385,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#contacts_sortby").val(contacts.sortOrder);
             contacts.query = $.bbq.getState("cq") || "";
             $("#contacts_search_input").val(contacts.query);
+            getContacts();
             handleHashChange();
             bindEvents();
         };

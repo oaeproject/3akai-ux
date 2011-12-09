@@ -1,0 +1,83 @@
+{macro tags(tags)}
+    <ul class="s3d-taglist">
+        {for t in tags}
+            <li>
+                <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
+                    <span class="s3d-search-result-tag">${t.tagShort}</span>
+                    <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
+                </a>
+            </li>
+        {/for}
+    </ul>
+{/macro}
+${macros["search.tags"] = tags |eat}
+
+{macro listContentBody(i, sakai)}
+    <span class="s3d-search-result-user-functions s3d-draggable-hidden">
+        <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary s3d-draggable-hidden searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}" title="__MSG__SAVE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+        <button class="s3d-link-button s3d-action-icon s3d-actions-author s3d-draggable-hidden searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']|safeOutput}" title="__MSG__VIEW_OWNER_INFO_FOR__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+        <button class="s3d-link-button s3d-action-icon s3d-actions-share s3d-draggable-hidden searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}" title="__MSG__SHARE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+    </span>
+    <span class="s3d-search-result-anonuser"></span>
+    <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']|safeURL}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']|safeURL}" title="${i['_path']|safeOutput}"{/if}>
+        {if i.thumbnail}
+            <img src="${i.thumbnail}" alt="${i.mimeTypeDescription}" />
+        {elseif sakai.config.MimeTypes[i.mimeType]}
+            <img src="${sakai.config.MimeTypes[i.mimeType].URL}" alt="${i.mimeTypeDescription}" />
+        {else}
+            <img src="${sakai.config.MimeTypes["other"].URL}" alt="${i.mimeTypeDescription}" />
+        {/if}
+    </a>
+    <div class="s3d-search-result-right">
+        <div>
+            <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']|safeURL}" title="${i['_path']|safeOutput}"{/if}>
+                {if i['sakai:pooled-content-file-name']}
+                    <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']|safeOutput}</span>
+                    <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']|safeOutput}</span>
+                {elseif i['_path']}
+                    ${i['_path']}
+                {/if}
+            </a>
+            {if i.mimeTypeDescription}
+                <span class="searchcontent_result_mimetype">${i.mimeTypeDescription}</span>
+            {/if}
+        </div>
+        <div class="searchcontent_result_by">
+            {if i.ownerDisplayNameShort}
+                __MSG__BY__
+                <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeURL}">
+                    <span class="searchcontent_result_by_name">${i.ownerDisplayNameShort}</span>
+                    <span class="searchcontent_result_by_name_grid">${i.ownerDisplayNameShorter}</span>
+                </a>
+                <span class="s3d-search-result-detail-separator"><span> | </span>
+            {/if}
+            </span> __MSG__CHANGED__ ${$.timeago(new Date(i._lastModified))}
+        </div>
+        {if i["sakai:description"]}
+            <span class="searchcontent_result_description">${i["sakai:description"]}</span>
+            <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
+        {/if}
+        {if !$.isEmptyObject(i.tagsProcessed)}
+            ${tags(i.tagsProcessed)}
+        {/if}
+        <div class="searchcontent_result_usedin">
+            {var placeCount = sakai.api.Content.getPlaceCount(i)}
+            {if placeCount > 0}
+                <span class="searchcontent_result_icon searchcontent_result_usedin_icon"></span>
+                __MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
+            {/if}
+            {var commentCount = sakai.api.Content.getCommentCount(i)}
+            {if commentCount > 0}
+                <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
+                ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+            {/if}
+        </div>
+    </div>
+{/macro}
+${macros["search.listContentBody"] = listContentBody |eat}
+{macro listContent(i, sakai, i_index)}
+     <li id="${i.id}" class="fl-container fl-fix s3d-draggable-container s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}" data-scope="content" data-entityid="${i.id}" {if sakai.api.Content.Collections.isCollection(i)} data-collection="true" {/if}>
+      ${listContentBody(i,sakai)}
+    </li>
+{/macro}
+${macros["search.listContent"] = listContent |eat}

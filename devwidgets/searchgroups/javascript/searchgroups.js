@@ -32,11 +32,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      */
     sakai_global.searchgroups = function(tuid, showSettings, widgetData){
 
-        var selectedCategory = "other";
-        var selectedCategoryId = "";
+        var selectedCategory = "other",
+            selectedCategoryPlural = "other",
+            selectedCategoryId = "";
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             if (sakai.config.worldTemplates[c].id === widgetData.category) {
                 selectedCategory = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].title);
+                selectedCategoryPlural = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titlePlural);
                 selectedCategoryId = sakai.config.worldTemplates[c].id;
             }
         }
@@ -80,7 +82,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 value : "Groups",
                 facets: {
                     "all": {
-                        "category": "All " + selectedCategory.toLowerCase(),
+                        "category": "All " + selectedCategoryPlural.toLowerCase(),
                         "searchurl": searchURLmap.allgroups,
                         "searchurlall": searchURLmap.allgroupsall
                     }
@@ -90,12 +92,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         if (!sakai.data.me.user.anon) {
             searchConfig.facetedConfig.facets.manage = {
-               "category": selectedCategory + " I manage",
+               "category": selectedCategoryPlural + " I manage",
                "searchurl": searchURLmap.managergroups,
                "searchurlall": searchURLmap.managergroups
             };
             searchConfig.facetedConfig.facets.member = {
-               "category": selectedCategory + " I'm a member of",
+               "category": selectedCategoryPlural + " I'm a member of",
                "searchurl": searchURLmap.membergroups,
                "searchurlall": searchURLmap.membergroups
             };
@@ -105,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Functions //
         ///////////////
 
-        $("#searchgroups_type_title", $rootel).text(selectedCategory);
+        $("#searchgroups_type_title", $rootel).text(selectedCategoryPlural);
 
         /**
          * Take a list of search results retrieved by the server and process them so they are
@@ -153,7 +155,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * initiate an infinite scroll for each search
          */
         var doSearch = function(){
-            var params = sakai_global.data.search.getQueryParams();
+            var params = sakai_global.data.search.getQueryParams($rootel);
             var urlsearchterm = sakai_global.data.search.processSearchString(params);
 
             var facetedurl = "";
