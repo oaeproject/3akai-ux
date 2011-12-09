@@ -41,10 +41,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectorToggle = ".collector_toggle";
         var collectionsTotal = "#topnavigation_user_collections_total";
         var $collectionsWidget = $(".collections_widget");
-        
+
         var collectionsNoCollections = "#collections_nocollections";
         var collectionsCollectionsList = "#collections_collections_list";
-        
+
         // Buttons, links, etc.
         var collectionsCloseButton = "#collections_close_button";
         var collectionsNewButton = "#collections_new_button";

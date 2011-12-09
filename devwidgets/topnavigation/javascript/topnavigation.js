@@ -85,6 +85,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var searchBottomTemplate = "search_bottom_template";
         var topnavUserTemplate = "topnavigation_user_template";
 
+        var shiftDown = false;
+
         var renderObj = {
             "people":"",
             "groups":"",
@@ -584,7 +586,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
                     $(this).find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
-                } else if (e.which === $.ui.keyCode.LEFT && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                } else if (e.which === $.ui.keyCode.LEFT || (e.which === $.ui.keyCode.TAB && shiftDown) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
                     closePopover();
                     var $focusElement = $(this);
@@ -886,6 +888,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".topnavigation_trigger_login").live("click", forceShowLogin);
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
+
+            $(window).keydown(function(e){
+                if (e.which === $.ui.keyCode.SHIFT){
+                    shiftDown = true;
+                }
+            });
+
+            $(window).keyup(function(e){
+                if (e.which === $.ui.keyCode.SHIFT){
+                    shiftDown = false;
+                }
+            });
         };
 
 
