@@ -294,8 +294,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(".collectionviewer_collection_item_comments", $rootel).toggle();
             } else if ($rootel.is(":visible")) {
                 var $selectedItem = $(".collectionviewer_carousel_item.selected", $rootel);
+                var arrIndex = 0;
+                if ($selectedItem.attr("data-page-index")) {
+                    arrIndex = parseInt($selectedItem.attr("data-page-index"), 10);
+                }
                 var contentProfile = {
-                    data: collectionData[parseInt($selectedItem.attr("data-page-index"), 10)][parseInt($selectedItem.attr("data-arr-index"),10)]
+                    data: collectionData[arrIndex][arrIndex]
                 };
                 $(window).trigger("start.collectioncomments.sakai", contentProfile);
                 $(".collectionviewer_collection_item_comments", $rootel).toggle();
@@ -351,19 +355,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var doStart = function(which) {
             if ($rootel.is(":visible")) {
-                var arrIndex1 = 0;
+                var arrIndex = 0;
                 if ($(".collectionviewer_carousel_item.selected", $rootel).length){
-                    arrIndex1 = parseInt($(".collectionviewer_carousel_item.selected", $rootel).attr("data-page-index"), 10);
-                }
-                var arrIndex2 = 0;
-                if ($(".collectionviewer_carousel_item.selected", $rootel).length) {
-                    arrIndex2 = parseInt($(".collectionviewer_carousel_item.selected", $rootel).attr("data-arr-index"), 10);
+                    arrIndex = parseInt($(".collectionviewer_carousel_item.selected", $rootel).attr("data-page-index"), 10);
                 }
                 if (which === "collectioncontentpreview" && collectionviewer.listStyle === "carousel") {
-                    $(window).trigger("start.collectioncontentpreview.sakai", collectionData[arrIndex1][arrIndex2]);
+                    $(window).trigger("start.collectioncontentpreview.sakai", collectionData[arrIndex][arrIndex]);
                     $(".collectionviewer_collection_item_preview", $rootel).show();
                 } else if (which === "pageviewer") {
-                    $(window).trigger("start.pageviewer.sakai", collectionData[arrIndex1][arrIndex2]);
+                    $(window).trigger("start.pageviewer.sakai", collectionData[arrIndex][arrIndex]);
                 }
             }
         };
@@ -403,7 +403,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(this).addClass("selected");
                 $(window).unbind("ready.collectionviewer.sakai");
                 $(window).unbind("start.collectioncontentpreview.sakai");
-                renderItemsForSelected(parseInt($(this).attr("data-page-index"), 10), parseInt($(this).attr("data-arr-index"), 10));
+                var arrIndex = 0;
+                if ($(this).attr("data-page-index")) {
+                    arrIndex = parseInt($(this).attr("data-page-index"), 10);
+                }
+                renderItemsForSelected(arrIndex, arrIndex);
             });
 
             $(".collectionviewer_comments_button", $rootel).live("click", showComments);
@@ -432,8 +436,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(".collectionviewer_collection_item_comments #contentcomments_postComment", $rootel).live("click", function(){
-                collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"),10)][parseInt($(".collectionviewer_carousel_item.selected").attr("data-arr-index"), 10)].numComments++;
-                $(".collectionviewer_comments_count").text(collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"), 10)][parseInt($(".collectionviewer_carousel_item.selected").attr("arr-index"), 10)].numComments);
+                var arrIndex = 0;
+                if ($(".collectionviewer_carousel_item.selected", $rootel).length) {
+                    arrIndex = parseInt($(".collectionviewer_carousel_item.selected", $rootel).attr("data-page-index"),10);
+                }
+                collectionData[arrIndex][arrIndex].numComments++;
+                $(".collectionviewer_comments_count", $rootel).text(collectionData[arrIndex][arrIndex].numComments);
             });
 
             $("#collectionviewer_finish_editing_collection_button", $rootel).click(function(){
