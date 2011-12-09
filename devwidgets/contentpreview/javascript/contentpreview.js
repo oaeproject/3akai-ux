@@ -55,6 +55,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var user = contentData.data["_bodyLastModifiedBy"];
             if (user === "admin") {
                 user = contentData.data["sakai:pool-content-created-for"];
+            } else if (!user) {
+                user = contentData.data["_lastModifiedBy"];
             }
             sakai.api.User.getUser(user, function(success, userdata){
                 var mimeType = sakai.api.Content.getMimeType(contentData.data);
@@ -84,8 +86,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderFullSizePreview = function(){
             var fullSizeContainer = $("#contentpreview_fullsize_preview", $rootel);
-            sakai.api.Util.TemplateRenderer($("#contentpreview_fullsize_template", $rootel), {}, fullSizeContainer);
-            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [{cpFullSizePreview:contentData}]);
+            var tuid = sakai.api.Util.generateWidgetId();
+            var data = {};
+            data[tuid] = contentData;
+            sakai.api.Util.TemplateRenderer($("#contentpreview_fullsize_template", $rootel), {tuid: tuid}, fullSizeContainer);
+            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [data]);
         };
 
         var hidePreview = function(){
@@ -107,16 +112,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.contentpreview.isReady = true;
             $(window).trigger("ready.contentpreview.sakai", {});
         } else {
-            $(window).bind("start.collectioncontentpreview.sakai", function(ev, data){
-                contentData = data;
+            $(window).bind("start.collectioncontentpreview.sakai", function(ev, data) {
+                contentData = {data: data};
                 determineDataType();
             });
 
             // Indicate that the widget has finished loading
             sakai_global.contentpreview.isReady = true;
-            $(window).trigger("ready.collectioncontentpreview.sakai", {});
+            $(window).trigger("ready.collectioncontentpreview.sakai");
         }
     };
-    
+
     sakai.api.Widgets.widgetLoader.informOnLoad("contentpreview");
 });
