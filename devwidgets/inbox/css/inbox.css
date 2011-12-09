@@ -23,7 +23,7 @@
 .inbox_title_bar span,.inbox_items span{color:#878A8C;font-size:0.9em;}
 #inbox_search_term{margin:10px 0px;}
 #inbox_search_term span{font-weight:bold;}
-#inbox_select_all_container {float:left;height:19px;margin:5px 8px 0 1px;padding:2px 0 0;width:22px;}
+.inbox_select_all_container {float:left;height:19px !important;margin:5px 8px 0 1px;padding:2px 0 0 !important;width:22px;}
 /* Message Header */
 #inbox_message_header{float:left;width:100%;padding:5px 0 18px;}
 #inbox_select span{font-size:9px;}
