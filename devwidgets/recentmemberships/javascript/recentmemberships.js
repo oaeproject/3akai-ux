@@ -153,6 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getMembers = function (newjson){
             sakai.api.Groups.getMembers(newjson.entry[0].groupid, "", function(success, memberList){
+                memberList = memberList[newjson.entry[0].groupid];
                 if (success) {
                     var id, name, picture;
                     for (var role in memberList) {

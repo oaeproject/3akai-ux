@@ -187,6 +187,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(newMessageViewClass).show();
         };
 
+
         ///////////////////////
         // Deleting messages //
         ///////////////////////
@@ -222,6 +223,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 messageList.push(msg);
             });
             deleteMessages(messageList);
+            $inbox_select_checkbox.removeAttr("checked");
+            toggleGlobalButtons(false);
         };
 
         /**
@@ -235,6 +238,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $inbox_delete_button.live("click", deleteSingleMessage);
         $inbox_delete_selected.live("click", deleteMultipleMessages);
+
 
         ///////////////////
         // List messages //
@@ -266,6 +270,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     callback(true, data);
                 });
             }, {}, function(items, total){
+                $(".inbox_select_all_container:visible input").removeAttr("disabled");
+                $("#inbox_delete_selected").removeAttr("disabled");
+                $("#inbox_mark_as_read").removeAttr("disabled");
                 return sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
                     sakai: sakai,
                      _: _,
@@ -273,6 +280,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     search: searchTerm
                 });
             }, function(){
+                $(".inbox_select_all_container:visible input").attr("disabled", true);
+                $("#inbox_delete_selected").attr("disabled", true);
+                $("#inbox_mark_as_read").attr("disabled", true);
                 $inbox_message_list.html(sakai.api.Util.TemplateRenderer($inbox_message_list_item_empty_template, {
                     "widgetData": widgetData,
                     "search": searchTerm
@@ -282,6 +292,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }, sakai.config.URL.INFINITE_LOADING_ICON);
         };
+
 
         /////////////
         // Replies //
@@ -334,6 +345,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+
         ////////////
         // SEARCH //
         ////////////
@@ -345,6 +357,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     $.bbq.pushState({"iq": $inbox_search_messages.val()});
                 }
+                return false;
             }
         };
 
@@ -354,6 +367,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "iq": $inbox_search_messages.val()
             });
         });
+
 
         ////////////////////////////////
         // SCROLL POSITION MANAGEMENT //
@@ -380,6 +394,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(listViewClass).show();
             window.scrollTo(0, previousPosition);
         };
+
 
         ////////////////////////
         // HISTORY MANAGEMENT //

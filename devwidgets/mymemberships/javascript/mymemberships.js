@@ -218,10 +218,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 if (mymemberships.isOwnerViewing) {
                     // disable remove membership button if not allowed to leave
+                    var groupsToCheck = [];
                     $.each(groups.entry, function(i, group){
-                        sakai.api.Groups.isAllowedToLeave(group.groupid, sakai.data.me, function(leaveAllowed){
-                            if (!leaveAllowed) {
-                                $(".mymemberships_leave[data-sakai-entityid='" + group.groupid + "']").addClass("mymemberhips_disabled_leave");
+                        groupsToCheck.push(group.groupid);
+                    });
+                    sakai.api.Groups.isAllowedToLeave(groupsToCheck, sakai.data.me, function(leaveAllowed){
+                        $.each(leaveAllowed, function(groupid, canLeave){
+                            if (!canLeave) {
+                                $(".mymemberships_leave[data-sakai-entityid='" + groupid + "']").addClass("mymemberhips_disabled_leave");
                             }
                         });
                     });

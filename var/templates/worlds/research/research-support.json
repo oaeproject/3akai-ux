@@ -8,8 +8,8 @@
     "roles": [
         {
             "id": "participant",
-            "title": "PARTICIPANT",
-            "titlePlural": "PARTICIPANTS",
+            "title": "PARTICIPANT_ROLE",
+            "titlePlural": "PARTICIPANTS_ROLE",
             "isManagerRole": true,
             "manages": [
                 "lurker"

@@ -91,6 +91,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var initializeNewCollectionsSetup = function(ev, _contentToAdd){
             resetGUI();
             contentToAdd = _contentToAdd || [];
+            $(collectionCountsContentCountsNew).text("" + contentToAdd.length);
+            $(collectionsNewButton).hide();
+            $(collectionsNoCollections).hide();
+            $(collectionsAddNewContainer).show();
+            $(collectionsNewActionButtons).show();
+            $("#collections_collection_title").focus();
             if (!$collectionsWidget.is(":visible")){
                 $collectionsWidget.animate({
                     'margin-bottom': 'toggle',
@@ -100,12 +106,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     'padding-bottom': 'toggle'
                }, 400);
             }
-            $(collectionCountsContentCountsNew).text("" + contentToAdd.length);
-            $(collectionsNewButton).hide();
-            $(collectionsNoCollections).hide();
-            $(collectionsAddNewContainer).show();
-            $(collectionsNewActionButtons).show();
-            $("#collections_collection_title").focus();
         };
 
         /**
@@ -176,6 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#collections_collection_title").val("");
                 $("#collections_collection_title").removeAttr("disabled");
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION_CREATED"), sakai.api.i18n.getValueForKey("COLLECTION_CREATED_LONG"));
+                var t = setTimeout("$('#collection_title_0').focus()", 1000);
             });
         };
 
@@ -361,6 +362,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show/hide the collections inlay
          */
         var toggleCollectionsInlay = function(){
+            $(collectionsScrollArrow).hide();
+            $(collectionsCollectionsList).hide();
+            $(collectionsSeeAllButton).hide();
+            $(collectionsNoCollections).hide();
+            $(collectionsAddNewContainer).hide();
+            if (!$collectionsWidget.is(":visible")){
+                getCollections();
+            }
             $collectionsWidget.animate({
                 'margin-bottom': 'toggle',
                 height: 'toggle',
