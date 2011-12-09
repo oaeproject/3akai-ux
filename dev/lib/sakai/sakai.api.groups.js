@@ -709,9 +709,9 @@ define(
                 var managers = [];
                 var roles = $.parseJSON(groupInfo["sakai:roles"]);
                 for (var r = 0; r < roles.length; r++) {
-                    if (roles[r].isManagerRole && groupMembers[roles[r].title] && groupMembers[roles[r].title].results) {
-                        for (var m = 0; m < groupMembers[roles[r].title].results.length; m++) {
-                            managers.push(groupMembers[roles[r].title].results[m].userid);
+                    if (roles[r].isManagerRole && groupMembers[roles[r].id] && groupMembers[roles[r].id].results) {
+                        for (var m = 0; m < groupMembers[roles[r].id].results.length; m++) {
+                            managers.push(groupMembers[roles[r].id].results[m].userid);
                         }
                     }
                 }
