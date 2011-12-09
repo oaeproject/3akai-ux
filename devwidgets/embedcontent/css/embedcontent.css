@@ -72,9 +72,9 @@
 #embedcontent_content div.embedcontent_large_content div.embedcontent_details span{display:block;}
 #embedcontent_content div.embedcontent_thumbnail_content img{height:40px;width:40px;}
 #embedcontent_content div.embedcontent_thumbnail_content img.not_found{width:29px;height:36px;}
-#embedcontent_content div.embedcontent_thumbnail_content img,#embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details{ margin: 0 8px 0 0; overflow: hidden; }
+#embedcontent_content div.embedcontent_thumbnail_content img,#embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details{ margin: 0 8px 0 0;}
 #embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details span{display:block;}
-#embedcontent_content div.horizontal{display:inline;margin-right:20px;margin-bottom:20px;float:left;}
+#embedcontent_content div.horizontal{display:inline;margin-right:20px;margin-bottom:20px;float:left;min-width: 160px;}
 #embedcontent_content div.vertical{display:block;margin-bottom:15px;}
 #embedcontent_content div.embedcontent_grey_background {padding: 1px 10px 10px !important;}
 #embedcontent_content div.embedcontent_thumbnail_content a{float: left;}
