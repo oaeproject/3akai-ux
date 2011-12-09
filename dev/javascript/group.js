@@ -173,10 +173,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             if (members.length) {
                 sakai.api.Groups.addUsersToGroup(groupId, members, sakai.api.User.data.me, false, function(){
-                    $(window).trigger("usersselected.addpeople.sakai");
+                    $(window).trigger("usersselected.addpeople.sakai", [members]);
                 });
             } else {
-                $(window).trigger("usersselected.addpeople.sakai");
+                $(window).trigger("usersselected.addpeople.sakai", []);
             }
         });
 
