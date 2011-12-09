@@ -129,6 +129,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentcommentsMainContainerTextarea = contentcommentsOutputContainer + " textarea";
         var contentcommentsTitlebar = contentcomments + "_titlebar";
 
+        var contentcomments_userCommentContainer_template = "#contentcomments_userCommentContainer_template";
+
         ////////////////////////
         // Utility  functions //
         ////////////////////////
@@ -142,20 +144,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             str = str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             str = str.replace(/\n/g, '<br />');
             return str;
-        };
-
-        /**
-         * Show the users profile picture
-         */
-        var displayUserProfilePicture = function(){
-            if (me.profile) {
-                var profile = me.profile;
-                var picture = sakai.api.Util.constructProfilePicture(profile);
-                if (!picture) {
-                    picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                }
-                $("#contentcomments_userProfileAvatarPicture", rootel).attr("src", picture);
-            }
         };
 
         /**
@@ -568,7 +556,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     getComments();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_DELETE"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_DELETE", "contentcomments"), "", sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
@@ -593,14 +581,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Boolean} showSettings Show the settings of the widget or not
          */
         var doInit = function(){
-            addBinding();
             // Temporarily set these here, always allowing comments
             //contentData.data = contentData.data || {};
             contentData.data["sakai:showcontentcomments"] = true;
             contentData.data["sakai:allowcontentcomments"] = true;
             $(contentcommentsEditorOptions, rootel).hide();
             if (sakai_global.content_profile && contentData){
-                contentPath = "/p/" + contentData.data["_path"].split("/")[2];
+                contentPath = "/p/" + contentData.data["_path"];
 
                 // check if contentcomments are allowed or shown and display the checkbox options for the manager
                 if (contentData.isManager){
@@ -625,7 +612,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
             if (!showSettings) {
                 // Show the main view.
-                displayUserProfilePicture();
+                var picture = sakai.api.Util.constructProfilePicture(me.profile);
+                sakai.api.Util.TemplateRenderer("#contentcomments_userCommentContainer_template", {picture: picture}, $(contentcommentsUserCommentContainer, rootel));
                 $(contentcommentsSettingsContainer, rootel).hide();
                 $(contentcommentsOutputContainer, rootel).show();
                 var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
@@ -633,6 +621,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $(contentcommentsUserCommentContainer, rootel).hide();
                 }
             }
+            addBinding();
             checkCommentsPermissions(true);
         };
 

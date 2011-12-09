@@ -26,7 +26,7 @@
             <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__ ${title}</legend>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE__ ${title}"></button>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE__ ${title}"></button>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__"></button>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__ __MSG__FOR__ ${title}"></button>
             </fieldset>
         </span>
     {/macro}
@@ -52,7 +52,7 @@
                                             ${content0["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
                                     </h2>
-                                    ${contentButtons(content0.id, content0.createdBy,content0.title,content0.mimeType)}
+                                    ${contentButtons(content0.id, content0._createdBy,content0["sakai:pooled-content-file-name"],content0.mimeType)}
                                 </div>
                             {/if}
                             {var content1 = item.suggestions[1]}
@@ -70,7 +70,7 @@
                                             ${content1["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
                                     </h2>
-                                    ${contentButtons(content1.id, content1.createdBy,content1.title,content1.mimeType)}
+                                    ${contentButtons(content1.id, content1._createdBy,content1["sakai:pooled-content-file-name"],content1.mimeType)}
                                 </div>
                             {/if}
                             <div class="carousel_three_column_right">
@@ -82,7 +82,7 @@
                                                 ${content2["sakai:pooled-content-file-name"]|safeOutput}
                                             </a>
                                         </h2>
-                                        ${contentButtons(content2.id, content2.createdBy,content2.title,content2.mimeType)}
+                                        ${contentButtons(content2.id, content2._createdBy,content2["sakai:pooled-content-file-name"],content2.mimeType)}
                                     {/if}
                                 </div>
                                 {var content3 = item.suggestions[3]}
@@ -93,7 +93,7 @@
                                                     ${content3["sakai:pooled-content-file-name"]|safeOutput}
                                                 </a>
                                             </h2>
-                                            ${contentButtons(content3.id, content3.createdBy,content3.title,content3.mimeType)}
+                                            ${contentButtons(content3.id, content3._createdBy,content3["sakai:pooled-content-file-name"],content3.mimeType)}
                                     </div>
                                 {/if}
                             </div>
