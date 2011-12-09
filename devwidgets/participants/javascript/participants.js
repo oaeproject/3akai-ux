@@ -309,7 +309,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var groupData = $.extend(true, {}, sakai_global.group.groupData);
             groupData.roles = groupData["sakai:roles"];
             roles = sakai.api.Groups.getRoles(groupData);
-            if (sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me)){
+            if (sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me, groupData)){
                 $("#participants_manage_participants").show();
             }
             addBinding();
@@ -318,7 +318,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("usersselected.addpeople.sakai", function(e, _newlyAdded){
             newlyAdded = _newlyAdded;
-            loadParticipants();
+            setTimeout(loadParticipants, 1000);
         });
 
         init();

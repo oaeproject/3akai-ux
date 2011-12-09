@@ -941,16 +941,16 @@ define(
          * @param {String} groupids The ID of the group we would like to get the members of or an array of group IDs
          * @param {Function} callback Callback function, passes (success, (data|xhr))
          * @param {Boolean} everyone If we should return managers + members (useful for pseudoGroups)
-         *
+         * @param {Boolean} noCache Whether or not to refresh the cache
          */
-        getMembers : function(groupids, callback, everyone) {
+        getMembers : function(groupids, callback, everyone, noCache) {
             var dataToReturn = {};
             var toCheck = [];
             if (_.isString(groupids)){
                 groupids = [groupids];
             }
             $.each(groupids, function(index, groupid){
-                if (sakaiGroupsAPI.groupData[groupid] && sakaiGroupsAPI.groupData[groupid].membersPerRole){
+                if (sakaiGroupsAPI.groupData[groupid] && sakaiGroupsAPI.groupData[groupid].membersPerRole && !noCache){
                     dataToReturn[groupid] = sakaiGroupsAPI.groupData[groupid].membersPerRole;
                 } else {
                     toCheck.push(groupid);

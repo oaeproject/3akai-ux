@@ -409,7 +409,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var fetchMembers = function(){
-            sakai.api.Groups.getMembers(sakai_global.group.groupData["sakai:group-id"], prepareSelectedContacts, true);
+            sakai.api.Groups.getMembers(sakai_global.group.groupData["sakai:group-id"], prepareSelectedContacts, true, true);
         };
 
         /**
