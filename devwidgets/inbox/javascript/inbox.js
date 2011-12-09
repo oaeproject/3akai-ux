@@ -204,10 +204,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (infinityScroll){
                     var ids = [];
+                    var removeIds = [];
                     $.each(messages, function(i, message){
                         ids.push(message.id);
+                        removeIds.push("#" + message.id);
                     });
                     infinityScroll.removeItems(ids);
+                    $(removeIds.toString()).remove();
                 }
             });
         };
