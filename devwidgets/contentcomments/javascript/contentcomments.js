@@ -343,7 +343,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         });
                         // Get the contentcomments.
                         getComments();
-                        $(window).trigger("sakai.entity.updateOwnCounts");
+                        if (!contentData.isCollectionItem) {
+                            $(window).trigger("sakai.entity.updateOwnCounts");
+                        }
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status === 401) {
@@ -555,7 +557,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 type: 'DELETE',
                 success: function(){
                     getComments();
-                    $(window).trigger("sakai.entity.updateOwnCounts");
+                    if (!contentData.isCollectionItem) {
+                        $(window).trigger("sakai.entity.updateOwnCounts");
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("ERROR"), sakai.api.i18n.getValueForKey("FAILED_TO_DELETE", "contentcomments"),sakai.api.Util.notification.type.ERROR);
@@ -643,8 +647,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             });
         } else {
-            $(window).bind("start.collectioncomments.sakai", function(ev, data){
+            $(window).unbind("start.collectioncomments.sakai").bind("start.collectioncomments.sakai", function(ev, data){
                 contentData = data;
+                contentData.isCollectionItem = true;
                 doInit();
             });
         }
