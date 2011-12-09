@@ -433,7 +433,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(".collectionviewer_collection_item_comments #contentcomments_postComment", $rootel).live("click", function(){
                 collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"),10)][parseInt($(".collectionviewer_carousel_item.selected").attr("data-arr-index"), 10)].numComments++;
-                $(".collectionviewer_comments_count").text(collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"), 10)][parseInt($(".collectionviewer_carousel_item.selected").attr("arr-index"), 10)].numComments);
+                $(".collectionviewer_comments_count").text(collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"), 10)][parseInt($(".collectionviewer_carousel_item.selected").attr("data-arr-index"), 10)].numComments);
+            });
+
+            $(".collectionviewer_collection_item_comments .contentcomments_delete", $rootel).live("click", function(){
+                collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"),10)][parseInt($(".collectionviewer_carousel_item.selected").attr("data-arr-index"), 10)].numComments--;
+                $(".collectionviewer_comments_count").text(collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"), 10)][parseInt($(".collectionviewer_carousel_item.selected").attr("data-arr-index"), 10)].numComments);
             });
 
             $("#collectionviewer_finish_editing_collection_button", $rootel).click(function(){
