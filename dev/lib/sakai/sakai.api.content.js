@@ -167,7 +167,7 @@ define(
             });
 
             if (collectionGroup){
-                sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), false, function(success, members){
+                sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), function(success, members){
                     members = members[sakai_content.Collections.getCollectionGroupId(contentItem.data)];
                     parseMembers({
                         "viewers": members.members.results,

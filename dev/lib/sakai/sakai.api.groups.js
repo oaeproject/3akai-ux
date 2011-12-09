@@ -88,7 +88,6 @@ define(
             }
             $.each(groupids, function(index, groupid){
                 if ($.isPlainObject(sakaiGroupsAPI.groupData[groupid])) {
-                    alert("From cache");
                     toReturn[groupid] = sakaiGroupsAPI.groupData[groupid];
                 } else {
                     batchRequest.push({
@@ -945,13 +944,21 @@ define(
          *
          */
         getMembers : function(groupids, callback, everyone) {
+            var dataToReturn = {};
+            var toCheck = [];
             if (_.isString(groupids)){
                 groupids = [groupids];
             }
-            sakaiGroupsAPI.getGroupAuthorizableData(groupids, function(success, groupData){
+            $.each(groupids, function(index, groupid){
+                if (sakaiGroupsAPI.groupData[groupid] && sakaiGroupsAPI.groupData[groupid].membersPerRole){
+                    dataToReturn[groupid] = sakaiGroupsAPI.groupData[groupid].membersPerRole;
+                } else {
+                    toCheck.push(groupid);
+                }
+            });
+            sakaiGroupsAPI.getGroupAuthorizableData(toCheck, function(success, groupData){
                 if (success){
                     var batchRequests = [];
-                    var dataToReturn = {};
                     var urlToGroupMapping = {};
                     $.each(groupData, function(groupid, group){
                         var roles = $.parseJSON(group.properties["sakai:roles"]);
@@ -983,8 +990,11 @@ define(
                                 // Add the members to the response
                                 var members = $.parseJSON(membershiplist.body);
                                 dataToReturn[groupid] = dataToReturn[groupid] || {};
-                                dataToReturn[groupid][roleid] = {};
-                                dataToReturn[groupid][roleid].results = members;
+                                dataToReturn[groupid][roleid] = {"results": members};
+                                if (sakaiGroupsAPI.groupData[groupid]){
+                                    sakaiGroupsAPI.groupData[groupid].membersPerRole = sakaiGroupsAPI.groupData[groupid].membersPerRole || {};
+                                    sakaiGroupsAPI.groupData[groupid].membersPerRole[roleid] = {"results": members}
+                                }
                             });
                             if ($.isFunction(callback)) {
                                 callback(true, dataToReturn);
@@ -1226,6 +1236,15 @@ define(
                             debug.error("Could not add users to group");
                         } else if (currentUserIncluded) {
                             medata.user.subjects.push(groupID);
+                        }
+                        // Add this to the members of the groups in the cache
+                        if (sakaiGroupsAPI.groupData[groupID] && sakaiGroupsAPI.groupData[groupID].membersPerRole){
+                            $.each(users, function(index, user) {
+                                sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission] = sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission] || {"results": []};
+                                sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission].results.push({
+                                    "rep:userId": user.user
+                                });
+                            });
                         }
                         if ($.isFunction(callback)) {
                             callback(success);

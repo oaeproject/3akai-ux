@@ -83,14 +83,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Determines if the selected groups are a part of any groups
          */
         var selectAlreadyGroupMember = function(){
-            $.each(getSelected(), function(i, selectedGroup){
-                $.each(renderObj.memberOfGroups.entry, function(j, memberOfGroup){
-                    if($.inArray(selectedGroup.id, memberOfGroup.members) > -1 || selectedGroup.id === memberOfGroup["sakai:group-id"]){
-                        renderObj.memberOfGroups.entry[j].allSelectedAMember = true;
-                    } else {
-                        renderObj.memberOfGroups.entry[j].overrideAllSelectedAMember = true;
+            $.each(renderObj.memberOfGroups.entry, function(j, memberOfGroup){
+                var alreadyMember = true;
+                $.each(getSelected(), function(i, selectedAuthorizable){
+                    if ($.inArray(selectedAuthorizable.id, memberOfGroup.members) === -1 && selectedAuthorizable.id !== memberOfGroup["sakai:group-id"]){
+                        alreadyMember = false;
                     }
                 });
+                memberOfGroup.alreadyMember = alreadyMember;
             });
             renderTemplate();
         };
