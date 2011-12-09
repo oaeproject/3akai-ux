@@ -56,6 +56,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var globalPermissionsChanged = false;
         var defaultPermissionPassed = false;
+        var changesMade = false;
         var visibility = "selected";
         var visibilityindex = {
             "public": 1,
@@ -176,7 +177,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var finishSavePermissions = function(){
             closeOverlay();
-            sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
+            if (globalPermissionsChanged || changesMade) {
+                sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
+            }
             $(window).trigger("load.content_profile.sakai");
         };
 
@@ -252,6 +255,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         $itemToDelete.remove();
                     }
                 });
+                changesMade = true;
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("CANNOT_DELETE_USERS", "contentpermissions"), sakai.api.i18n.getValueForKey("THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER", "contentpermissions"));
             }
@@ -376,6 +380,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }]
                 }, $("#contentpermissions_members_autosuggest_permissions").val() === "manager"
             ]);
+            changesMade = true;
         };
 
         /**
@@ -439,6 +444,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             contentData = sakai_global.content_profile.content_data;
             visibility = contentData.data["sakai:permissions"];
             globalPermissionsChanged = false;
+            changesMade = false;
             renderMemberList();
             sakai.api.Util.AutoSuggest.setup($(contentpermissionsMembersAutosuggest), {
                 "asHtmlID": tuid,
