@@ -984,6 +984,9 @@ define(
 
         getRoles : function(groupData, translate) {
             var roles = [];
+            if ( _.isString( groupData.roles ) ) {
+                groupData.roles = $.parseJSON( groupData.roles );
+            }
             $.each(groupData.roles, function(i,role) {
                 if ( _.isString( role ) ) {
                     role = $.parseJSON( role );
