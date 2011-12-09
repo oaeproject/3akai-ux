@@ -23,5 +23,6 @@
 .pageviewer_widget #pageviewer_lhnav_container ul li.selected {background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left top #22AAE7;color:#FFFFFF;}
 .pageviewer_widget #pageviewer_lhnav_container ul li.selected button {color:#fff;font-weight:bold;text-shadow:0 1px 0 #666;}
 .pageviewer_widget #pageviewer_lhnav_container ul li button {display:block;padding:5px 0 7px;text-decoration:none;word-wrap:break-word;width:100%;}
-.pageviewer_widget #pageviewer_content_container {min-height:400px;overflow:auto;padding:12px;border-left:1px solid #D6DADD;box-shadow:3px -10px 7px 0;position:relative;z-index:200;}
+.pageviewer_widget #pageviewer_content_container {min-height:400px;overflow:auto;padding:12px;}
+.pageviewer_widget #pageviewer_content_container.hasnav {border-left:1px solid #D6DADD;box-shadow:3px -10px 7px 0;z-index:200;position:relative;}
 .pageviewer_widget .documentviewer_preview {width:auto !important;}

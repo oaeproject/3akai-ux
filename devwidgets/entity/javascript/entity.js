@@ -494,6 +494,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $('#entity_name').html(sakai.api.Security.safeOutput(title));
         });
 
+        $(window).bind("sakai.entity.updatecountcache", function(e, data){
+            if(data.increment){
+                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text()) + 1);
+            } else{
+                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text()) - 1);
+            }
+        });
+
         $(window).bind("sakai.entity.updateOwnCounts", function(e) {
            if (renderObj.data.content_path) {
                 sakai.api.Content.loadFullProfile([renderObj.data.content_path], function(success,data){
