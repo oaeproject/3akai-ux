@@ -466,6 +466,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 handleHashChange();
             });
 
+            $(".collectionviewer_widget", $rootel).on("click", "#collectionviewer_expanded_content_container .s3d-search-result .share_trigger_click, #collectionviewer_expanded_content_container .s3d-search-result .savecontent_trigger", function() {
+                $(this).parents(".s3d-search-result").addClass("hovered");
+            });
+
+            $(window).bind("hiding.newsharecontent.sakai hiding.savecontent.sakai", function() {
+                $("#collectionviewer_expanded_content_container .s3d-search-result.hovered").removeClass("hovered");
+            });
+
         };
 
         var getCollectionName = function(){
