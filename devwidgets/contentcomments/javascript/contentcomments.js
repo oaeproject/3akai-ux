@@ -339,6 +339,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             if (success) {
                                 // update the entity widget with the new activity
                                 $(window).trigger("updateContentActivity.entity.sakai", "CONTENT_ADDED_COMMENT");
+                                if (!rootel.parents(".collectionviewer_collection_item_comments").length){
+                                    $(window).trigger("sakai.entity.updatecountcache", {increment: true});
+                                }
                             }
                         });
                         // Get the contentcomments.
@@ -554,6 +557,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 type: 'DELETE',
                 success: function(){
                     getComments();
+                    $(window).trigger("sakai.entity.updatecountcache", {increment: false});
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_DELETE", "contentcomments"), "", sakai.api.Util.notification.type.ERROR);

@@ -122,12 +122,6 @@
                             <span class="searchcontent_result_icon searchcontent_result_usedin_icon"></span>
                             __MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
                         {/if}
-                        {var commentCount = i.numComments || sakai.api.Content.getCommentCount(i)}
-                        {if commentCount > 0}
-                            <br/>
-                            <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
-                            ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
-                        {/if}
                     </div>
                 </div>
             </li>
