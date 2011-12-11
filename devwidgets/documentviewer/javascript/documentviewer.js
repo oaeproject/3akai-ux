@@ -106,15 +106,6 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             $("#documentviewer_html_iframe", $rootel).attr("frameborder", "0");
         };
 
-        var renderPlainTextPreview = function(data){
-            $.ajax({
-                url: getPath(data),
-                success: function(txt){
-                    sakai.api.Util.TemplateRenderer("documentviewer_plaintext_template", {plaintext: txt}, $documentviewerPreview);
-                }
-            });
-        };
-
         var renderExternalHTMLPreview = function(url){
             sakai.api.Util.TemplateRenderer("documentviewer_externalhtml_template", templateObject, $documentviewerPreview);
             $("#documentviewer_externalhtml_iframe", $rootel).attr("src", url);
@@ -264,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 renderAudioPlayer(data);
             } else if (mimeType === "application/x-shockwave-flash") {
                 renderFlashPlayer(data);
-            } else if (mimeType === "text/html") {
+            } else if (mimeType === "text/html" || mimeType.substring(0, 5) === "text/") {
                 renderHTMLPreview(data);
             } else if (mimeType === "x-sakai/link"){
                 var pUrl = data["sakai:preview-url"];
@@ -285,8 +276,6 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     pUrl = widgetData["sakai:pooled-content-url"];
                     renderExternalHTMLPreview(pUrl);
                 }
-            } else if (mimeType.substring(0, 5) === "text/") {
-                renderPlainTextPreview(data);
             } else  if (mimeType.substring(0, 6) === "image/") {
                 renderImagePreview(getPath(data), data["_bodyLastModified"]);
             } else if (data["sakai:pagecount"]){
