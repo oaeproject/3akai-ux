@@ -398,7 +398,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var joinable = $(this).data("group-joinable");
                     var groupid = $(this).data("groupid");
                     var itemdiv = $(this);
-                    sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, false, true, function (success) {
+                    sakai.api.Groups.addJoinRequest(groupid, function (success) {
                         if (success) {
                             var notimsg = "";
                             if (joinable === "withauth") {

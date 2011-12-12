@@ -396,7 +396,6 @@
                     </div>
                 {/if}
                 <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
-                ${debug.log(sakai.api.Content.getCommentCount(data.data), data)}
                 {var commentCount = sakai.api.Content.getCommentCount(data.data)}
                 <a id="entity_comments_link" href="javascript:;"><span>${commentCount || "0"}</span> {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
                 <div class="entity_number entity_permissions_label">
