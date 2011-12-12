@@ -669,6 +669,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-results-grid .s3d-search-result-user-functions{position:absolute;float:left !important;margin:110px 0 0 21px !important;}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-addtolibrary{margin-right:8px;}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-author{margin-right:20px;}
+.s3d-search-results-grid .s3d-search-result-content .searchcontent_result_usedin_line{display:block;margin-bottom:2px;}
 .s3d-search-results-grid .s3d-search-result-group .s3d-actions-message{margin-left:60px;}
 .s3d-search-results-grid .s3d-search-result-group .searchgroups_result_plus{margin-top:-1px;}
 .s3d-search-results-grid .s3d-search-result-person .searchpeople_result_left_filler{margin: 0 70px 0 -50px;}
