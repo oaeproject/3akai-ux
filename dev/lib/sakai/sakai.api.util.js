@@ -991,8 +991,8 @@ define(
                     dre = /(^[0-9\-\.\/]{5,}$)|[0-9]+:[0-9]+|( [0-9]{4})/i,
                     ore = /^0/,
                     // convert all to strings and trim()
-                    x = a.toString().toLowerCase().replace(sre, '') || '',
-                    y = b.toString().toLowerCase().replace(sre, '') || '',
+                    x = a ? a.toString().toLowerCase().replace(sre, '') || '' : '';
+                    y = b ? b.toString().toLowerCase().replace(sre, '') || '' : '';
                     // chunk/tokenize
                     xN = x.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
                     yN = y.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
