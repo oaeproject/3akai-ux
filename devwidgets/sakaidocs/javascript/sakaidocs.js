@@ -73,41 +73,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $('#autosave_dialog').jqmHide();
         };
 
-        var checkAutosave = function(newPage, callback) {
-            if (newPage){
-                // a new page won't have an autosave yet
-                callback(true);
-                return;
-            }
-            var pageSavePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
-            sakai.api.Server.loadJSON(pageSavePath + ".infinity.json", function(success, data) {
-                if (success) {
-                    // update the cached copy of autosave
-                    currentPageShown.autosave = data.autosave;
-                    currentPageShown.content = data.page;
-                    // if there is an editing flag and it is less than CONCURRENT_EDITING_TIMEOUT ago, and you aren't the most recent editor, then
-                    // someone else is editing the page right now.
-                    if (data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
-                        if ($.isFunction(callback)) {
-                            callback(false);
-                            return;
-                        }
-                    } else if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
-                        $('#autosave_dialog').jqmShow();
-                        autosaveDialogShown = true;
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                            return;
-                        }
-                    }
-                }
-                if ($.isFunction(callback)) {
-                    callback(true);
-                    return;
-                }
-            });
-        };
-
         var editing = function() {
             if (isEditingPage) {
                 var editingContent = {};
@@ -665,21 +630,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////////////
 
         var editPage = function(newPage){
-            checkAutosave(newPage, function(safeToEdit) {
-                if (safeToEdit) {
-                    isEditingPage = true;
-                    editing();
-                    setEditInterval();
-                    if (!autosaveDialogShown) {
-                        setAutosaveInterval();
+            sakai.api.Content.checkAutosave(newPage, currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data){
+                if(success){
+                    // update the cached copy of autosave
+                    currentPageShown.autosave = data.autosave;
+                    currentPageShown.content = data.page;
+                    var safeToEdit = true;
+                    if(data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid){
+                        safeToEdit = false;
                     }
-                    $("#sakaidocs-page-edit-mode").show();
-                    $("#s3d-page-container").hide();
-                    var content = currentPageShown.content || "";
-                    tinyMCE.get("elm1").setContent(content, {format : 'raw'});
-                    lastAutosave = content;
-                } else {
-                    sakai.api.Util.notification.show("", $("#sakaidocs_concurrent_editing_message").text());
+                    if (safeToEdit) {
+                        // if there is an editing flag and it is less than CONCURRENT_EDITING_TIMEOUT ago, and you aren't the most recent editor, then
+                        // someone else is editing the page right now.
+                        if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
+                            $('#autosave_dialog').jqmShow();
+                            autosaveDialogShown = true;
+                        }
+                        isEditingPage = true;
+                        editing();
+                        setEditInterval();
+                        if (!autosaveDialogShown) {
+                            setAutosaveInterval();
+                        }
+                        $("#sakaidocs-page-edit-mode").show();
+                        $("#s3d-page-container").hide();
+                        var content = currentPageShown.content || "";
+                        tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+                        lastAutosave = content;
+                    } else {
+                        sakai.api.Util.notification.show("", $("#sakaidocs_concurrent_editing_message").text());
+                    }
                 }
             });
         };

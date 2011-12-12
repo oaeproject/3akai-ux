@@ -51,6 +51,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var versionsVersionItem = ".versions_version_item";
         var versionsRestoreVersion = ".versions_restore_version";
 
+        var CONCURRENT_EDITING_TIMEOUT = 10000;
+
 
         var carouselBinding = function(carousel){
             $("#versions_newer", $rootel).live("click",function(){
@@ -161,34 +163,47 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var restoreVersion = function(e){
-            var toStore = {};
-            toStore[currentPageShown.saveRef] = {
-                page: versions[$(this).parent().attr("data-versionId")].page
-            }
-            $.ajax({
-                url: currentPageShown.pageSavePath,
-                type: "POST",
-                dataType: "json",
-                data: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":replace": true,
-                    ":replaceProperties": true,
-                    "_charset_":"utf-8",
-                    ":content": $.toJSON(toStore)
-                },
-                success: function(){
-                    $.ajax({
-                        url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
-                        type: "POST",
-                        data: {
-                            "sling:resourceType": "sakai/pagecontent",
-                            "sakai:pagecontent": $.toJSON(toStore),
-                            "_charset_": "utf-8"
-                        }, success: function(){
-                            $(window).trigger("update.versions.sakai", currentPageShown);
+            var page = versions[$(this).parent().attr("data-versionId")].page;
+            sakai.api.Content.checkAutosave(false, currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data){
+                if(success){
+                    var safeToEdit = true;
+                    if(data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid){
+                        safeToEdit = false;
+                    }
+                    if (safeToEdit) {
+                        var toStore = {};
+                        toStore[currentPageShown.saveRef] = {
+                            page: page
                         }
-                    });
+                        $.ajax({
+                            url: currentPageShown.pageSavePath,
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                ":operation": "import",
+                                ":contentType": "json",
+                                ":replace": true,
+                                ":replaceProperties": true,
+                                "_charset_":"utf-8",
+                                ":content": $.toJSON(toStore)
+                            },
+                            success: function(){
+                                $.ajax({
+                                    url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
+                                    type: "POST",
+                                    data: {
+                                        "sling:resourceType": "sakai/pagecontent",
+                                        "sakai:pagecontent": $.toJSON(toStore),
+                                        "_charset_": "utf-8"
+                                    }, success: function(){
+                                        $(window).trigger("update.versions.sakai", currentPageShown);
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("RESTORE_VERSION", "versions"), sakai.api.i18n.getValueForKey("NEW_VERSION_COULD_NOT_BE_STORED", "versions"));
+                    }
                 }
             });
         };

@@ -741,6 +741,33 @@ define(
         },
 
         /**
+         * Checks for autosaved documents for a sakai doc and returns that data
+         *
+         * @param {Boolean} Indicating if the sakai doc is a new page that can't have a autosaved page yet
+         * @param {String} Path to the sakai document in the system
+         * @param {Function} Callback function to execute on finish
+         */
+         checkAutosave: function(newPage, pagePath, callback) {
+             if (newPage){
+                 // a new page won't have an autosave yet
+                 callback(true, {});
+                 return;
+             }
+             sakai_serv.loadJSON(pagePath + ".infinity.json", function(success, data) {
+                 if (success) {
+                     callback(success, data);
+                     return;
+                 } else {
+                     if ($.isFunction(callback)) {
+                         callback(success, data);
+                         return;
+                     }
+                 }
+             });
+         },
+
+
+        /**
          * Returns a preview URL for known services, empty string otherwise
          *
          * @param url The url of the content in an external service that you'd like a preview of
