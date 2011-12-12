@@ -2106,6 +2106,9 @@ define(
                     startText: sakaii18nAPI.getValueForKey( "ENTER_TAGS_OR_CATEGORIES" ),
                     beforeRetrieve: function( userinput ) {
                         return $.trim(userinput);
+                    },
+                    processNewSelection: function( userinput ) {
+                        return sakai_util.Security.safeOutput(sakai_util.makeSafeTag(userinput));
                     }
                 };
 
@@ -2188,8 +2191,8 @@ define(
                             };
                         } else {
                             tagObj = {
-                                id: tag,
-                                value: tag
+                                id: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag)),
+                                value: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag))
                             };
                         }
                         preFill.push( tagObj );
@@ -2236,7 +2239,7 @@ define(
                             ret.categories.push( "directory/" + tc.path );
                         }
                     } else {
-                        ret.tags.push( tc.value );
+                        ret.tags.push( sakai_util.Security.unescapeHTML(tc.value) );
                     }
                 });
                 if ( merge ) {
