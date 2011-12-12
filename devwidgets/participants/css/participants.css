@@ -38,7 +38,7 @@
 .participants_selectall input{margin-top:4px;}
 .participants_widget .s3d-search-container .s3d-search-inputfield {width:200px;}
 .participants_widget .fl-hidden {float:none !important;}
-.participants_widget #participants_send_selected_message .s3d-actions-message {float:right;margin:1px 0 0 7px;}
+.participants_widget #participants_send_selected_message .s3d-actions-message {float:right;margin:2px 0 0 7px;}
 .participants_widget .s3d-search-results-grid .s3d-search-result {clear:none !important;}
 .participants_widget .s3d-search-results-grid .s3d-search-result input {float:left;}
 .participants_widget .s3d-search-results-grid .s3d-search-result .participants_list_participant_checkbox {width:auto !important;}
