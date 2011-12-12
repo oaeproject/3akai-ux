@@ -287,6 +287,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             initializeJQM();
             // _groupdata should be the group's authprofile
             $(window).bind("init.joinrequests.sakai", function(e, _groupdata) {
+                debug.log("Triggered");
                 if (_groupdata && _groupdata["sakai:group-id"]) {
                     groupData = _groupdata;
                     groupid = groupData["sakai:group-id"];
