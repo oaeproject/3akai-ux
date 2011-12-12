@@ -414,36 +414,45 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var newItems = [];
-        var processWidget = function(item, items) {
+        var processWidget = function(data, callback) {
             var ret = false;
-            if (item.notfound) {
-                newItems.push({type:"notfound"});
-                if (newItems.length === items.length) {
-                    wData.items = newItems;
-                    ret = true;
-                }
-            } else {
-               $.ajax({
-                    url: sakai.config.SakaiDomain + item + ".2.json",
-                    // we have to wait for them all to return anyway, so
-                    // no need to make them async calls
-                    async:false,
-                    success: function(data) {
-                        var newItem = createDataObject(data);
-                        newItems.push(newItem);
-                    },
-                    error: function(data) {
-                        newItems.push({type:"notfound"});
-                    },
-                    complete: function() {
-                        if (newItems.length === items.length) {
-                            wData.items = newItems;
-                            ret = true;
-                        }
+            var batchRequests = [];
+            for (var i = 0, j = data.items.length; i < j; i++) {
+                if (data.items[i].notfound) {
+                    newItems.push({type:"notfound"});
+                    if (newItems.length === data.items.length) {
+                        wData.items = newItems;
+                        ret = true;
                     }
-                });
+                } else {
+                    batchRequests.push({
+                        url: data.items[i] + ".2.json",
+                        method: "GET"
+                    });
+                }
             }
-            return ret;
+
+            if (batchRequests.length > 0) {
+                sakai.api.Server.batch(batchRequests, function(success, response){
+                    if (success) {
+                        $.each(response.results, function(index, item){
+                            if (item.success){
+                                var newItem = createDataObject($.parseJSON(item.body));
+                                newItems.push(newItem);
+                            } else {
+                                newItems.push({type:"notfound"});
+                            }
+                        });
+                        wData.items = newItems;
+                        ret = true;
+                    }
+                    if ($.isFunction(callback)) {
+                        callback(ret);
+                    };
+                });
+            } else if ($.isFunction(callback)) {
+                callback(ret);
+            }
         };
 
         var getWidgetData = function(callback) {
@@ -462,13 +471,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 firstLoad = false;
                 newItems = [];
                 // get the item profile data
-                for (var i = 0, j = data.items.length; i < j; i++) {
-                    if (processWidget(data.items[i], data.items)) {
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                        }
-                    }
-                }
+                processWidget(data, callback);
             } else {
                 if ($.isFunction(callback)) {
                     callback(false);
@@ -582,11 +585,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).unbind("done.newaddcontent.sakai");
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            var obj = {};
-            for (var i = 0; i < data.length; i++){
-                obj[data[i]._path] = data[i];
+            if (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId === library)) {
+                var obj = {};
+                for (var i = 0; i < data.length; i++){
+                    obj[data[i]._path] = data[i];
+                }
+                addChoicesFromPickeradvanced(obj);
             }
-            addChoicesFromPickeradvanced(obj);
         });
 
         $(window).unbind("ready.pickeradvanced.sakai");
