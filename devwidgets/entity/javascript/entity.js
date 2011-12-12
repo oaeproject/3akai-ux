@@ -340,7 +340,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var checkHash = function(context){
-            debug.log(context);
             if ($.bbq.getState("e") === "joinrequests" && context.context === "group" && context.data.authprofile["sakai:group-joinable"] === "withauth"){
                 $(window).bind("ready.joinrequests.sakai", function(){
                     $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
