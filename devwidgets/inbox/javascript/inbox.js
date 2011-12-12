@@ -277,7 +277,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai: sakai,
                      _: _,
                     results: items,
-                    search: searchTerm
+                    search: searchTerm,
+                    box: widgetData.box
                 });
             }, function(){
                 $(".inbox_select_all_container:visible input").attr("disabled", true);
