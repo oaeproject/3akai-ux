@@ -211,7 +211,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ") membership");
                 return false;
             }
-            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, joinrequestbuttons.groupData, true, function (success) {
+            sakai.api.Groups.addJoinRequest(groupid, function (success) {
                 if (success) {
                     // show a notification and change the button
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
@@ -243,7 +243,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 debug.error("Anonymous user tried to join group id: " + groupid);
                 return false;
             }
-            sakai.api.Groups.addJoinRequest(sakai.data.me, joinrequestbuttons.groupid, false, true, function (success) {
+            sakai.api.Groups.addJoinRequest(joinrequestbuttons.groupid, function (success) {
                 if (success) {
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_adding_successful.text(), sakai.api.Util.notification.type.INFORMATION);
                     showButton("leave");
