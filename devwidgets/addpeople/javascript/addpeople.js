@@ -249,9 +249,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var userObj = {
                         userid: $(this)[0].id.split("_")[0],
                         roleid: $(this).val(),
-                        name: $(this).nextAll(".s3d-entity-displayname").text(),
+                        name: $(this).attr("data-entityname"),
                         firstName: $(this).attr("data-user-firstname"),
-                        dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold"),
+                        dottedname: sakai.api.Util.applyThreeDots($(this).attr("data-entityname"), 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold"),
                         permission: currentTemplate.joinRole,
                         picture: $(this).next().children("img").attr("src"),
                         tmpsrc:"checklistadded"
