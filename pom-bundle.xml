@@ -13,6 +13,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sakaiproject.nakamura</groupId>
+    <artifactId>org.sakaiproject.nakamura.uxloader-wrap</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <relativePath>./pom.xml</relativePath>
+  </parent>
   <groupId>org.sakaiproject.nakamura</groupId>
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
@@ -29,91 +35,6 @@
     <system>jira</system>
     <url>http://jira.sakaiproject.org/jira/browse/SAKIII</url>
   </issueManagement>
-  <distributionManagement>
-        <downloadUrl>http://source.sakaiproject.org/maven2/</downloadUrl>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>sakai-maven-snapshots-scp</id>
-            <name>Sakai snapshot Repo</name>
-            <url>scp://source.sakaiproject.org/var/www/html/maven2-snapshots</url>
-            <layout>default</layout>
-        </snapshotRepository>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>sakai-maven2-scp</id>
-            <name>Sakai maven2 repository</name>
-            <url>scp://source.sakaiproject.org/var/www/html/maven2</url>
-            <layout>default</layout>
-        </repository>
-        <site>
-            <id>sakai-site</id>
-            <name>Sakai release Site</name>
-            <url>scp://source.sakaiproject.org/var/www/html/release/nakamura/${project.version}</url>
-        </site>
-  </distributionManagement>
-  <repositories>
-        <repository>
-            <id>sakai-maven2</id>
-            <name>Sakai Maven Repository</name>
-            <layout>default</layout>
-            <url>http://source.sakaiproject.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>sakai-maven2-snapshots</id>
-            <name>Sakai Maven Repo Snapshots</name>
-            <layout>default</layout>
-            <url>http://source.sakaiproject.org/maven2-snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>default</id>
-            <name>Maven Repository Switchboard</name>
-            <layout>default</layout>
-            <url>http://repo1.maven.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-           <id>apache-snapshots</id>
-            <name>Apache Snapshot Repository</name>
-           <url>http://repository.apache.org/snapshots/</url>
-          <snapshots>
-             <enabled>true</enabled>
-          </snapshots>
-         <releases>
-            <enabled>false</enabled>
-         </releases>
-       </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>default</id>
-      <name>Maven Repository Switchboard</name>
-      <layout>default</layout>
-      <url>http://repo1.maven.org/maven2</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
   <properties>
     <ant.target>dev_light</ant.target>
     <dev.content>
