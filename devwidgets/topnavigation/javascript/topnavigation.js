@@ -517,6 +517,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 hideMessageInlay();
             });
 
+            // if a letter was pressed, search for the first menu item that starts with the letter
+            var findByChar = function($el, key){
+                $el.find("ul:first").children().each(function(index, item){
+                    var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                    if (key === firstChar){
+                        $(item).find("a").focus();
+                        return false;
+                    }
+                });
+            };
             // Navigation hover binding
             var closeMenu = function(e){
                 if ($openMenu.length){
@@ -619,15 +629,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     return false;
                 } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
-                    // if a letter was pressed, search for the first menu item that starts with the letter
-                    var keyPressed = String.fromCharCode(e.which).toLowerCase();
-                    $(this).find("ul:first").children().each(function(index, item){
-                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
-                        if (keyPressed === firstChar){
-                            $(item).find("a").focus();
-                            return false;
-                        }
-                    });
+                    findByChar($(this), String.fromCharCode(e.which).toLowerCase());
                 }
             });
 
@@ -644,15 +646,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $("html").trigger("click");
                     }
                 } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
-                    // if a letter was pressed, search for the first menu item that starts with the letter
-                    var keyPressed = String.fromCharCode(e.which).toLowerCase();
-                    $(this).find("ul:first").children().each(function(index, item){
-                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
-                        if (keyPressed === firstChar){
-                            $(item).find("a").focus();
-                            return false;
-                        }
-                    });
+                    findByChar($(this), String.fromCharCode(e.which).toLowerCase());
                 }
             });
 
