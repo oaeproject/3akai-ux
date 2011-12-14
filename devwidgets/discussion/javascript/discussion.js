@@ -220,6 +220,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             }
         };
 
+        /**
+         * Enables or disables buttons in the widget
+         * @param {Boolean} enable Flag for whether to enable or disable the buttons
+         */
         var disableEnableButtons = function(enable){
             if (enable) {
                 $("#discussion_container button", $rootel).removeAttr("disabled");
