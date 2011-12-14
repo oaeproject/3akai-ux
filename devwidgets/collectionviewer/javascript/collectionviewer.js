@@ -68,17 +68,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var carouselBinding = function(carousel){
             $("#collectionviewer_newer", $rootel).live("click",function(){
                 carousel.prev();
+                $(this).focus();
             });
             $("#collectionviewer_older", $rootel).live("click",function(){
+                $(this).focus();
                 carousel.next();
             });
             $("#collectionviewer_oldest", $rootel).live("click",function(){
+                $(this).focus();
                 carousel.scroll(carousel.size() || 0);
             });
             $("#collectionviewer_newest", $rootel).live("click",function(){
+                $(this).focus();
                 carousel.scroll(0);
             });
-            $(window).keyup(function(e){
+            $rootel.keyup(function(e){
                 if(e.which === $.ui.keyCode.LEFT){
                     carousel.prev();
                 }else if(e.which === $.ui.keyCode.RIGHT){
@@ -86,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             if(carousel.size()){
-                var $selectedItem =  $(".collectionviewer_carousel_item[data-item-id=" + $.bbq.getState("item") + "]", $rootel);
+                var $selectedItem =  $(".collectionviewer_carousel_item[data-item-id='" + $.bbq.getState("item") + "']", $rootel);
                 if ($.bbq.getState("item") && $selectedItem.length){
                     $selectedItem.click();
                 } else{
@@ -405,14 +409,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $("#collectionviewer_grid_view", $rootel).live("click", function(){
-                $.bbq.pushState({"ls":"grid", "lp": collectionviewer.page});
-                $.bbq.removeState("item");
+                $.bbq.pushState({"ls":"grid", "lp": collectionviewer.page, "item": ""});
                 fetchCollectionData = true;
             });
 
             $("#collectionviewer_list_view", $rootel).live("click", function(){
-                $.bbq.pushState({"ls":"list", "lp": collectionviewer.page});
-                $.bbq.removeState("item");
+                $.bbq.pushState({"ls":"list", "lp": collectionviewer.page, "item": ""});
                 fetchCollectionData = true;
             });
 
@@ -426,8 +428,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Carousel bindings
             $(".collectionviewer_carousel_item", $rootel).live("click", function(){
                 if(collectionviewer.listStyle === "carousel"){
-                    $.bbq.pushState({"item": $(this).attr("data-item-id")});
-                    $.bbq.removeState("lp");
+                    $.bbq.pushState({"item": $(this).attr("data-item-id"), "lp": ""});
                     fetchCollectionData = false;
                 }
                 $(".collectionviewer_carousel_item", $rootel).removeClass("selected");
