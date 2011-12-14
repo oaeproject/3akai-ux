@@ -78,7 +78,7 @@
                                 {if content2}
                                     <div class="carousel_two_high_top s3d-draggable-container" data-scope="content" data-entityid="${content2.id}" {if sakai.api.Content.Collections.isCollection(content2)} data-collection="true" {/if}>
                                         <h2>
-                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}">
+                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.link}">
                                                 ${content2["sakai:pooled-content-file-name"]|safeOutput}
                                             </a>
                                         </h2>
@@ -89,7 +89,7 @@
                                 {if content3}
                                     <div class="carousel_two_high_bottom s3d-draggable-container" data-scope="content" data-entityid="${content3.id}" {if sakai.api.Content.Collections.isCollection(content3)} data-collection="true" {/if}>
                                             <h2>
-                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}">
+                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.link}">
                                                     ${content3["sakai:pooled-content-file-name"]|safeOutput}
                                                 </a>
                                             </h2>
