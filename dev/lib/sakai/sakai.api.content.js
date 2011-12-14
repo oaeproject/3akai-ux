@@ -750,20 +750,25 @@ define(
          checkAutosave: function(newPage, pagePath, callback) {
              if (newPage){
                  // a new page won't have an autosave yet
-                 callback(true, {});
-                 return;
-             }
-             sakai_serv.loadJSON(pagePath + ".infinity.json", function(success, data) {
-                 if (success) {
-                     callback(success, data);
-                     return;
-                 } else {
-                     if ($.isFunction(callback)) {
-                         callback(success, data);
-                         return;
-                     }
+                 if($.isFunction(callback)){
+                     callback(true, {});
                  }
-             });
+             } else {
+                 sakai_serv.loadJSON(pagePath + ".infinity.json", function(success, data) {
+                     if($.isFunction(callback)){
+                         // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
+                         // someone else is editing the page right now.
+                         data.safeToEdit = true;
+                         if(data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 && data.editing._lastModifiedBy !== sakai_user.data.me.user.userid){
+                             data.safeToEdit = false;
+                         }
+                         if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
+                             data.hasAutosave = true;
+                         }
+                         callback(success, data);
+                     }
+                 });
+             }
          },
 
 

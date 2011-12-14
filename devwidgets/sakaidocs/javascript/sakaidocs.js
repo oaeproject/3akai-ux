@@ -24,7 +24,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bookmark = false;
 
         var AUTOSAVE_INTERVAL = 15000, // 15 seconds
-            CONCURRENT_EDITING_TIMEOUT = 10000, // 10 seconds
             CONCURRENT_EDITING_INTERVAL = 5000; // 5 seconds
 
         var isEditingPage = false,
@@ -635,18 +634,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // update the cached copy of autosave
                     currentPageShown.autosave = data.autosave;
                     currentPageShown.content = data.page;
-                    var safeToEdit = true;
-                    if(data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid){
-                        safeToEdit = false;
-                    }
-                    if (safeToEdit) {
-                        // if there is an editing flag and it is less than CONCURRENT_EDITING_TIMEOUT ago, and you aren't the most recent editor, then
-                        // someone else is editing the page right now.
-                        if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
-                            $('#autosave_dialog').jqmShow();
-                            autosaveDialogShown = true;
-                        }
+                    if (data.safeToEdit) {
                         isEditingPage = true;
+                        if (data.hasAutosave) {
+                            autosaveDialogShown = true;
+                            $('#autosave_dialog').jqmShow();
+                        }
                         editing();
                         setEditInterval();
                         if (!autosaveDialogShown) {

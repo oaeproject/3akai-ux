@@ -51,8 +51,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var versionsVersionItem = ".versions_version_item";
         var versionsRestoreVersion = ".versions_restore_version";
 
-        var CONCURRENT_EDITING_TIMEOUT = 10000;
-
 
         var carouselBinding = function(carousel){
             $("#versions_newer", $rootel).live("click",function(){
@@ -166,11 +164,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var page = versions[$(this).parent().attr("data-versionId")].page;
             sakai.api.Content.checkAutosave(false, currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data){
                 if(success){
-                    var safeToEdit = true;
-                    if(data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid){
-                        safeToEdit = false;
-                    }
-                    if (safeToEdit) {
+                    if (data.safeToEdit) {
                         var toStore = {};
                         toStore[currentPageShown.saveRef] = {
                             page: page
