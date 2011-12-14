@@ -61,6 +61,9 @@ require([ 'jquery' ], function(jQuery) {
                     elem.remove();
                 },
                 formatList: false, //callback function
+                processNewSelection: function( string ) {
+                    return string;
+                },
                 beforeRetrieve: function( string ) {
                     return string;
                 },
@@ -91,11 +94,11 @@ require([ 'jquery' ], function(jQuery) {
                 } else if ( typeof data === "string" ) {
                     d_fetcher = function( query, next ) {
                         var limit = "";
-                        if ( opts.retrieveLimit ) {
-                            limit = "&limit=" + encodeURIComponent( opts.retrieveLimit );
+                        if ( input.data( "opts" ).retrieveLimit ) {
+                            limit = "&limit=" + encodeURIComponent( input.data( "opts" ).retrieveLimit );
                         }
-                        $.getJSON( data + "?" + opts.queryParam + "=" + encodeURIComponent( query ) + limit + opts.extraParams, function( data ) {
-                            var new_data = opts.retrieveComplete.call( this, data );
+                        $.getJSON( data + "?" + input.data( "opts" ).queryParam + "=" + encodeURIComponent( query ) + limit + input.data( "opts" ).extraParams, function( data ) {
+                            var new_data = input.data( "opts" ).retrieveComplete.call( this, data );
                             next( new_data, query );
                         });
                     };
@@ -109,14 +112,14 @@ require([ 'jquery' ], function(jQuery) {
                     input.data( "results_ul", $( "<ul class='as-list'></ul>" ) );
 
                     var setup = function() {
-                        if ( !opts.asHtmlID ) {
+                        if ( !input.data( "opts" ).asHtmlID ) {
                             x = x + "" + Math.floor( Math.random() * 100 ); //this ensures there will be unique IDs on the page if autoSuggest() is called multiple times
                             input.data( "x_id", "as-input-" + x);
                         } else {
-                            x = opts.asHtmlID;
+                            x = input.data( "opts" ).asHtmlID;
                             input.data( "x_id", x);
                         }
-                        opts.start.call( this, {
+                        input.data( "opts" ).start.call( this, {
                             add: function( data ) {
                                 input.autoSuggest( "add_selected_item", data, "u" + $( "li", input.data( "selections_holder" ) ).length ).addClass( "blur" );
                             },
@@ -127,10 +130,10 @@ require([ 'jquery' ], function(jQuery) {
                         });
 
                         input.attr( "autocomplete", "off" ).addClass( "as-input" ).attr( "id", input.data( "x_id" ) );
-                        if ( opts.usePlaceholder ) {
-                            input.attr( "placeholder", opts.startText );
+                        if ( input.data( "opts" ).usePlaceholder ) {
+                            input.attr( "placeholder", input.data( "opts" ).startText );
                         } else {
-                            input.val( opts.startText );
+                            input.val( input.data( "opts" ).startText );
                         }
 
 
@@ -141,31 +144,31 @@ require([ 'jquery' ], function(jQuery) {
                         input.data( "results_holder", $( "<div class='as-results' id='as-results-" + x + "'></div>" ).hide() );
                         input.data( "values_input", $( "<input type='hidden' class='as-values' name='as_values_" + x + "' id='as-values-" + x + "' />" ) );
 
-                        if ( typeof opts.preFill === "string" ) {
-                            var vals = opts.preFill.split( "," );
+                        if ( typeof input.data( "opts" ).preFill === "string" ) {
+                            var vals = input.data( "opts" ).preFill.split( "," );
                             for (var i = 0; i < vals.length; i++ ) {
                                 var v_data = {};
-                                v_data[ opts.selectedValuesProp ] = vals[ i ];
+                                v_data[ input.data( "opts" ).selectedValuesProp ] = vals[ i ];
                                 if ( vals[ i ] !== "" ) {
                                     input.autoSuggest( "add_selected_item", v_data, "000" + i );
                                 }
                             }
-                            input.data( "prefill_value", opts.preFill );
+                            input.data( "prefill_value", input.data( "opts" ).preFill );
                         } else {
                             input.data( "prefill_value", "" );
                             var prefill_count = 0;
-                            $.each( opts.preFill, function() {
+                            $.each( input.data( "opts" ).preFill, function() {
                                 prefill_count++;
                             });
                             if (prefill_count > 0) {
                                 for ( var j = 0; j < prefill_count; j++ ) {
-                                    var new_v = opts.preFill[ j ][ opts.selectedValuesProp ];
+                                    var new_v = input.data( "opts" ).preFill[ j ][ input.data( "opts" ).selectedValuesProp ];
                                     if ( new_v === undefined ) {
                                         new_v = "";
                                     }
                                     input.data( "prefill_value", input.data( "prefill_value" ) + new_v + "," );
                                     if ( new_v !== "" ) {
-                                        input.autoSuggest( "add_selected_item", opts.preFill[ j ], "000" + j );
+                                        input.autoSuggest( "add_selected_item", input.data( "opts" ).preFill[ j ], "000" + j );
                                     }
                                 }
                             }
@@ -189,7 +192,7 @@ require([ 'jquery' ], function(jQuery) {
 
                         // Handle input (functionfield events
                         input.focus(function(){
-                            if ( !opts.usePlaceholder && $( this ).val() === opts.startText && input.data( "values_input" ).val() === "" ) {
+                            if ( !input.data( "opts" ).usePlaceholder && $( this ).val() === input.data( "opts" ).startText && input.data( "values_input" ).val() === "" ) {
                                 $( this ).val( "" );
                             } else if ( input.data( "input_focus" ) ) {
                                 $( "li.as-selection-item", input.data( "selections_holder" ) ).removeClass( "blur" );
@@ -202,23 +205,23 @@ require([ 'jquery' ], function(jQuery) {
                                 clearInterval( input.data( "interval" ) );
                             }
                             input.data( "interval", setInterval(function() {
-                                if ( opts.showResultList ) {
-                                    if ( opts.selectionLimit && $( "li.as-selection-item", input.data( "selections_holder" ) ).length >= opts.selectionLimit ) {
-                                        input.data( "results_ul" ).html( "<li class='as-message'>" + opts.limitText + "</li>" );
+                                if ( input.data( "opts" ).showResultList ) {
+                                    if ( input.data( "opts" ).selectionLimit && $( "li.as-selection-item", input.data( "selections_holder" ) ).length >= input.data( "opts" ).selectionLimit ) {
+                                        input.data( "results_ul" ).html( "<li class='as-message'>" + input.data( "opts" ).limitText + "</li>" );
                                         input.data( "results_holder" ).show();
                                     } else {
                                         keyChange();
                                     }
                                 }
-                            }, opts.keyDelay));
+                            }, input.data( "opts" ).keyDelay));
                             input.data( "input_focus", true );
-                            if (opts.minChars === 0 ) {
+                            if (input.data( "opts" ).minChars === 0 ) {
                               processRequest( $( this ).val() );
                             }
                             return true;
                         }).blur(function( e ) {
-                            if ( !opts.usePlaceholder && $( this ).val() === "" && input.data( "values_input" ).val() === "" && input.data( "prefill_value" ) === "" && opts.minChars > 0 ) {
-                                $( this ).val( opts.startText );
+                            if ( !input.data( "opts" ).usePlaceholder && $( this ).val() === "" && input.data( "values_input" ).val() === "" && input.data( "prefill_value" ) === "" && input.data( "opts" ).minChars > 0 ) {
+                                $( this ).val( input.data( "opts" ).startText );
                             } else if ( input.data( "input_focus" ) ) {
                                 $( "li.as-selection-item", input.data( "selections_holder" ) ).addClass( "blur" ).removeClass( "selected" );
                                 input.data( "results_holder" ).hide();
@@ -246,7 +249,7 @@ require([ 'jquery' ], function(jQuery) {
                                         if ( input.data( "org_li" ).prev().hasClass( "selected" ) ) {
                                             input.autoSuggest( "remove_item", last, input.data( "org_li" ).prev(), $( input.data( "org_li" ).prev() ).data( "data" ));
                                         } else {
-                                            opts.selectionClick.call( this, input.data( "org_li" ).prev() );
+                                            input.data( "opts").selectionClick.call( this, input.data( "org_li" ).prev() );
                                             input.data( "org_li" ).prev().addClass( "selected" );
                                         }
                                     }
@@ -260,17 +263,17 @@ require([ 'jquery' ], function(jQuery) {
                                         }
                                         input.data( "timeout", setTimeout(function() {
                                             keyChange();
-                                        }, opts.keyDelay));
+                                        }, input.data( "opts" ).keyDelay));
                                     }
                                     break;
                                 case 9: case 188:  // tab or comm
-                                    if ( opts.canGenerateNewSelections ) {
+                                    if ( input.data( "opts" ).canGenerateNewSelections ) {
                                         processSelection( e );
                                     }
                                     break;
                                 case 13: // return
                                     active = $( "li.active:first", input.data( "results_holder" ) );
-                                    if ( active.length === 0 && opts.canGenerateNewSelections ) {
+                                    if ( active.length === 0 && input.data( "opts" ).canGenerateNewSelections ) {
                                         processSelection( e );
                                     } else {
                                         input.data( "tab_press", false );
@@ -278,7 +281,7 @@ require([ 'jquery' ], function(jQuery) {
                                             active.click();
                                             input.data( "results_holder" ).hide();
                                         }
-                                        if ( opts.neverSubmit || active.length > 0 ) {
+                                        if ( input.data( "opts" ).neverSubmit || active.length > 0 ) {
                                             e.preventDefault();
                                         }
                                     }
@@ -297,12 +300,16 @@ require([ 'jquery' ], function(jQuery) {
                         input.data( "tab_press", true );
                         var i_input = input.val().replace( /(,)/g, "" );
                         active = $( "li.active:first", input.data( "results_holder" ) );
+                        i_input = input.data( "opts" ).processNewSelection.call( this, i_input );
+                        // need to escape regex characters before doing a search using them
+                        // RegExp from http://80.68.89.23/2006/Jan/20/escape/
+                        var searchVal = i_input.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
                         // Generate a new bubble with text when no suggestion selected
-                        if ( i_input !== "" && input.data( "values_input" ).val().search( ","+i_input+"," ) < 0 && i_input.length >= opts.minChars && active.length === 0 ) {
+                        if ( i_input !== "" && input.data( "values_input" ).val().search( ","+searchVal+"," ) < 0 && i_input.length >= input.data( "opts" ).minChars && active.length === 0 ) {
                             e.preventDefault();
                             var n_data = {};
-                            n_data[ opts.selectedItemProp ] = i_input;
-                            n_data[ opts.selectedValuesProp ] = i_input;
+                            n_data[ input.data( "opts" ).selectedItemProp ] = i_input;
+                            n_data[ input.data( "opts" ).selectedValuesProp ] = i_input;
                             var lis = $( "li", input.data( "selections_holder" )).length;
                             input.autoSuggest( "add_selected_item", n_data, "00" + ( lis + 1 ) );
                             input.val( "" );
@@ -320,7 +327,7 @@ require([ 'jquery' ], function(jQuery) {
                             return;
                         }
                         input.data( "prev" , string );
-                        if ( string.length >= opts.minChars ) {
+                        if ( string.length >= input.data( "opts" ).minChars ) {
                             processRequest(string);
                         } else if ( input.data( "selections_holder" ) && input.data( "results_holder" ) ) {
                             input.data( "selections_holder" ).removeClass( "loading" );
@@ -329,8 +336,8 @@ require([ 'jquery' ], function(jQuery) {
                     };
 
                     var processRequest = function( string ) {
-                        if ( opts.beforeRetrieve ) {
-                            string = opts.beforeRetrieve.call( this, string );
+                        if ( input.data( "opts" ).beforeRetrieve ) {
+                            string = input.data( "opts" ).beforeRetrieve.call( this, string );
                         }
                         if ( string ) {
                             if ( input.data( "selections_holder" ) ) {
@@ -341,7 +348,7 @@ require([ 'jquery' ], function(jQuery) {
                     };
 
                     var processData = function( data, query ) {
-                        if ( !opts.matchCase ) {
+                        if ( !input.data( "opts" ).matchCase ) {
                             query = query.toLowerCase();
                         }
                         var matchCount = 0;
@@ -352,20 +359,20 @@ require([ 'jquery' ], function(jQuery) {
                             input.data( "num_count", input.data( "num_count" ) + 1 );
                             var forward = false;
                             var str = "";
-                            if ( opts.searchObjProps === "value" ) {
+                            if ( input.data( "opts" ).searchObjProps === "value" ) {
                                 str = data[ num ].value;
                             } else {
-                                var names = opts.searchObjProps.split( "," );
+                                var names = input.data( "opts" ).searchObjProps.split( "," );
                                 for ( var y = 0; y < names.length; y++ ) {
                                     var name = $.trim( names[ y ] );
                                     str = str + data[ num ][ name ] + " ";
                                 }
                             }
                             if ( str ) {
-                                if ( !opts.matchCase ) {
+                                if ( !input.data( "opts" ).matchCase ) {
                                     str = str.toLowerCase();
                                 }
-                                if ( str.search(query) != -1 && input.data( "values_input" ).val().search( "," + data[ num ][ opts.selectedValuesProp ] + "," ) === -1 ) {
+                                if ( str.search(query) != -1 && input.data( "values_input" ).val().search( "," + data[ num ][ input.data( "opts" ).selectedValuesProp ] + "," ) === -1 ) {
                                     forward = true;
                                 }
                             }
@@ -378,7 +385,7 @@ require([ 'jquery' ], function(jQuery) {
                                             input.val( "" ).focus();
                                             input.data( "prev", "");
                                             input.autoSuggest( "add_selected_item", data, number );
-                                            opts.resultClick.call( this, raw_data );
+                                            input.data( "opts" ).resultClick.call( this, raw_data );
                                             input.data( "results_holder" ).hide();
                                         }
                                         input.data( "tab_press", false );
@@ -393,42 +400,42 @@ require([ 'jquery' ], function(jQuery) {
                                     });
                                 var this_data = $.extend( {}, data[ num ] );
                                 var regx = new RegExp( "(?![^&;]+;)(?!<[^<>]*)(" + query + ")(?![^<>]*>)(?![^&;]+;)", "g" );
-                                if ( !opts.matchCase  ) {
+                                if ( !input.data( "opts" ).matchCase  ) {
                                     regx = new RegExp( "(?![^&;]+;)(?!<[^<>]*)(" + query + ")(?![^<>]*>)(?![^&;]+;)", "gi" );
                                 }
-                                if ( opts.resultsHighlight && query.length > 0 ) {
-                                    this_data[ opts.selectedItemProp ] = this_data[ opts.selectedItemProp ].replace( regx,"<em>$1</em>" );
+                                if ( input.data( "opts" ).resultsHighlight && query.length > 0 ) {
+                                    this_data[ input.data( "opts" ).selectedItemProp ] = this_data[ input.data( "opts" ).selectedItemProp ].replace( regx,"<em>$1</em>" );
                                 }
-                                if ( !opts.formatList  ) {
-                                    formatted = formatted.html( this_data[ opts.selectedItemProp ] );
+                                if ( !input.data( "opts" ).formatList  ) {
+                                    formatted = formatted.html( this_data[ input.data( "opts" ).selectedItemProp ] );
                                 } else {
-                                    formatted = opts.formatList.call( this, this_data, formatted );
+                                    formatted = input.data( "opts" ).formatList.call( this, this_data, formatted );
                                 }
                                 input.data( "results_ul" ).append( formatted );
                                 delete this_data;
                                 matchCount++;
-                                if ( opts.retrieveLimit && opts.retrieveLimit === matchCount ) {
+                                if ( input.data( "opts" ).retrieveLimit && input.data( "opts" ).retrieveLimit === matchCount ) {
                                     break;
                                 }
                             }
                         }
                         input.data( "selections_holder" ).removeClass( "loading" );
                         if ( matchCount <= 0 ) {
-                            input.data( "results_ul" ).html( "<li class='as-message'>" + opts.emptyText + "</li>" );
+                            input.data( "results_ul" ).html( "<li class='as-message'>" + input.data( "opts" ).emptyText + "</li>" );
                         }
                         input.data( "results_ul" ).css( "width", input.data( "selections_holder" ).outerWidth() );
-                        if ( opts.scroll ) {
+                        if ( input.data( "opts" ).scroll ) {
                             input.data( "results_ul" ).css({
-                                "max-height": opts.scrollHeight,
+                                "max-height": input.data( "opts" ).scrollHeight,
                                 "overflow-y": "scroll"
                             });
                         }
-                        if ( matchCount > 0 || opts.showResultListWhenNoMatch ) {
+                        if ( matchCount > 0 || input.data( "opts" ).showResultListWhenNoMatch ) {
                             input.data( "results_holder" ).show();
-                        } else if ( !opts.showResultListWhenNoMatch ) {
+                        } else if ( !input.data( "opts" ).showResultListWhenNoMatch ) {
                             input.data( "results_holder" ).hide();
                         }
-                        opts.resultsComplete.call( this );
+                        input.data( "opts" ).resultsComplete.call( this );
                     };
 
                     var moveSelection = function( direction ) {
@@ -450,7 +457,7 @@ require([ 'jquery' ], function(jQuery) {
                             start.addClass( "active" );
                             start.focus();
                             // Handle scrolling
-                            if ( opts.scroll && start.length && ( start.position().top + start.height() > input.data( "results_ul" ).height() || start.position().top < 0 ) ) {
+                            if ( input.data( "opts" ).scroll && start.length && ( start.position().top + start.height() > input.data( "results_ul" ).height() || start.position().top < 0 ) ) {
                                 input.data( "results_ul" ).scrollTop( input.data( "results_ul" ).scrollTop() + ( start.position().top ) );
                             }
                         }
