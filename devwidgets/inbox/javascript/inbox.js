@@ -323,7 +323,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showReply = function() {
             $inbox_show_message_reply_fields = $($inbox_show_message_reply_fields.selector);
             var replyButtonText = sakai.api.i18n.getValueForKey("REPLY", "inbox");
-            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
+            var reText = "Re: ";
+            var messageSubject = currentMessage.subject;
+            // Check whether "Re: " is already there. If not, add it to the subject line
+            if(currentMessage.subject.substring(0, reText.length) !== reText){
+                messageSubject = reText + currentMessage.subject;
+            }
+            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, messageSubject, null, true, currentMessage.id, replyButtonText]);
             $inbox_show_message_reply_fields.show();
         };
 
