@@ -415,7 +415,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * @param {Object} library     Context id of the library the content has been added to
              */
             $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-                if (library === mylibrary.contextId) {
+                if (library === mylibrary.contextId || mylibrary.contextId === sakai.data.me.user.userid) {
                     mylibrary.infinityScroll.prependItems(data);
                 }
             });

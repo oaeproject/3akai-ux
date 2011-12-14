@@ -991,8 +991,8 @@ define(
                     dre = /(^[0-9\-\.\/]{5,}$)|[0-9]+:[0-9]+|( [0-9]{4})/i,
                     ore = /^0/,
                     // convert all to strings and trim()
-                    x = a.toString().toLowerCase().replace(sre, '') || '',
-                    y = b.toString().toLowerCase().replace(sre, '') || '',
+                    x = a ? a.toString().toLowerCase().replace(sre, '') || '' : '';
+                    y = b ? b.toString().toLowerCase().replace(sre, '') || '' : '';
                     // chunk/tokenize
                     xN = x.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
                     yN = y.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
@@ -1375,6 +1375,9 @@ define(
             },
             safeOutput: function(str) {
                 return sakai_util.Security.safeOutput(str);
+            },
+            saneHTMLAttribute: function(str) {
+                return sakai_util.saneHTMLAttribute(str);
             }
         },
 
@@ -2103,6 +2106,9 @@ define(
                     startText: sakaii18nAPI.getValueForKey( "ENTER_TAGS_OR_CATEGORIES" ),
                     beforeRetrieve: function( userinput ) {
                         return $.trim(userinput);
+                    },
+                    processNewSelection: function( userinput ) {
+                        return sakai_util.Security.safeOutput(sakai_util.makeSafeTag(userinput));
                     }
                 };
 
@@ -2185,8 +2191,8 @@ define(
                             };
                         } else {
                             tagObj = {
-                                id: tag,
-                                value: tag
+                                id: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag)),
+                                value: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag))
                             };
                         }
                         preFill.push( tagObj );
@@ -2233,7 +2239,7 @@ define(
                             ret.categories.push( "directory/" + tc.path );
                         }
                     } else {
-                        ret.tags.push( tc.value );
+                        ret.tags.push( sakai_util.Security.unescapeHTML(tc.value) );
                     }
                 });
                 if ( merge ) {

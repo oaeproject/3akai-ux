@@ -377,7 +377,7 @@
                             </a>
                         {/if}
                         {if groupCount}
-                            {if peopleCount && collectionCount},{else}__MSG__AND__{/if}
+                            {if peopleCount && collectionCount},{elseif peopleCount}__MSG__AND__{/if}
                             <a href="#" class="entity_content_group s3d-regular-links">
                                 ${groupCount}
                                 {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
