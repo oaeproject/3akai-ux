@@ -99,8 +99,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)){
                 $("#collectionviewer_edit_collection_button", $rootel).show();
             }
-            $collectionviewerCarouselContainer.show();
-            $collectionviewerExpandedContentContainer.show();
+            $collectionviewerCarouselContainer.animate({height: "toggle", opacity: "toggle"}, 500);
+            $collectionviewerExpandedContentContainer.animate({height: "toggle", opacity: "toggle"}, 500);
             $(".collectionviewer_controls", $rootel).hide();
             if(collectionData.length){
                 var totalItems = 0;
@@ -247,6 +247,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var getMultipleUserData = function(data, callback){
+            var batchRequests = [];
+            $.each(data.results, function(i, user){
+                if (user["sakai:pool-content-created-for"]) {
+                    batchRequests.push({
+                        "url": "/~" + user["sakai:pool-content-created-for"] + "/public/authprofile.profile.json",
+                        "method":"GET"
+                    });
+                }
+            });
+            sakai.api.Server.batch(batchRequests, function(success, results){
+                if(success){
+                    $.each(results.results, function(index, item){
+                        item = $.parseJSON(item.body);
+                        var userid = item["rep:userId"];
+                        var displayName = sakai.api.User.getDisplayName(item);
+                        data.results[index].ownerId = userid;
+                        data.results[index].ownerDisplayName = displayName;
+                        data.results[index].ownerDisplayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                        data.results[index].ownerDisplayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                    });
+                    if($.isFunction(callback)){
+                        callback();
+                    }
+                }
+            });
+        }
+
         /**
          * Retrieves the basic data for items in a collection
          */
@@ -276,16 +304,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 data: data,
                 success: function(data){
                     if($.isFunction(callback)){
-                        sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
-                            callback(data);
+                        getMultipleUserData(data, function(){
+                            data.results.fetchMultipleUserDataInWidget = true;
+                            sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
+                                callback(data);
+                            });
                         });
                     } else {
                         $("#collectionviewer_add_content_button > div", $rootel).text(data.total);
                         collectionviewer.total = data.total;
                         if(data.results && data.results.length){
-                            sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
-                                collectionData[(collectionviewer.page - 1)] = parsedContent;
-                                showData();
+                            getMultipleUserData(data, function(){
+                                data.results.fetchMultipleUserDataInWidget = true;
+                                sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
+                                    collectionData[(collectionviewer.page - 1)] = parsedContent;
+                                    showData();
+                                });
                             });
                         } else {
                             showData();

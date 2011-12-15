@@ -1079,7 +1079,7 @@ define(
                     contentItem.thumbnail = sakai_content.getThumbnail(results[i]);
                     // if the content has an owner we need to add their ID to an array,
                     // so we can lookup the users display name in a batch req
-                    if (contentItem["sakai:pool-content-created-for"]) {
+                    if (contentItem["sakai:pool-content-created-for"] && !results.fetchMultipleUserDataInWidget) {
                         userArray.push(contentItem["sakai:pool-content-created-for"]);
                     }
                     contentItem.hasPreview = sakai_content.hasPreview(contentItem);
