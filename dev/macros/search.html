@@ -1,14 +1,16 @@
 {macro tags(tags)}
-    <ul class="s3d-taglist">
-        {for t in tags}
-            <li>
-                <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
-                    <span class="s3d-search-result-tag">${t.tagShort}</span>
-                    <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
-                </a>
-            </li>
-        {/for}
-    </ul>
+    <div class="s3d-taglist-container">
+        <ul class="s3d-taglist">
+            {for t in tags}
+                <li>
+                    <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
+                        <span class="s3d-search-result-tag">${t.tagShort}</span>
+                        <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
+                    </a>
+                </li>
+            {/for}
+        </ul>
+    </div>
 {/macro}
 ${macros["search.tags"] = tags |eat}
 

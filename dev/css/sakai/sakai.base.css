@@ -554,6 +554,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 /* 
  * TAGLISTS
  */
+.s3d-taglist-container {max-height:53px;overflow-y:hidden;}
 .s3d-taglist{margin:3px 0 0 20px;text-indent:-20px;}
 .s3d-taglist li{display:inline;list-style:disc;padding: 0;margin:0;list-position:inside}
 .s3d-taglist li a{font-size:11px !important;font-weight:normal !important;}
