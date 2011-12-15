@@ -157,12 +157,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // GRID OR LIST //
         var renderGridOrList = function(grid, editMode){
-            if (editMode){
-                $("#collectionviewer_edit_collection_button").hide();
-                $("#collectionviewer_finish_editing_collection_button").show();
-            } else {
-                $("#collectionviewer_finish_editing_collection_button").hide();
-                $("#collectionviewer_edit_collection_button").show();
+            if (sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)) {
+                if (editMode) {
+                    $("#collectionviewer_edit_collection_button").hide();
+                    $("#collectionviewer_finish_editing_collection_button").show();
+                } else {
+                    $("#collectionviewer_finish_editing_collection_button").hide();
+                    $("#collectionviewer_edit_collection_button").show();
+                }
             }
             var pageNumber = collectionviewer.page - 1;
             sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {

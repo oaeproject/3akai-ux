@@ -344,6 +344,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).bind("ready.joinrequests.sakai", function(){
                     $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
                 });
+                $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
             }
         };
 
