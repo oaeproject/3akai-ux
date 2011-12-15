@@ -970,8 +970,12 @@ define(
 
         getCommentCount : function(content){
             var count = 0;
-            if (content.hasOwnProperty("commentCount")) {
-                count = content.commentCount;
+            if (content.hasOwnProperty("comments")) {
+                $.each(content.comments, function(key, val){
+                    if ($.isPlainObject(val)) {
+                        count++;
+                    }
+                });
             }
             return count;
         },
