@@ -153,8 +153,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var mode = "user_me";
             if (sakai_global.profile && mylibrary.contextId !== sakai.data.me.user.userid) {
                 mode = "user_other";
-            } else if (!sakai_global.profile && mylibrary.isOwnerViewing) {
-                mode = "group_managed";
+            } else if (!sakai_global.profile && (mylibrary.isOwnerViewing || mylibrary.isMemberViewing)) {
+                mode = "group_manager_member";
             } else if (!sakai_global.profile) {
                 mode = "group";
             }
@@ -486,6 +486,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         contextName = currentGroup.properties["sakai:group-title"];
                         isGroup = true;
                         mylibrary.isOwnerViewing = sakai.api.Groups.isCurrentUserAManager(currentGroup.properties["sakai:group-id"], sakai.data.me, currentGroup.properties);
+                        mylibrary.isMemberViewing = sakai.api.Groups.isCurrentUserAMember(currentGroup.properties["sakai:group-id"], sakai.data.me);
                         finishInit(contextName, isGroup);
                     }
                 });
