@@ -524,6 +524,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                     }));
                 } else {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
+                        sakai: sakai,
                         me: sakai.data.me,
                         libraryid: libraryToUploadTo,
                         librarytitle: librarytitle,
