@@ -663,7 +663,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 
 /* search results grid */
 .s3d-search-results-grid{border:0 !important;border-top:1px solid #ddd !important;padding-top:5px;border-spacing:10px;}
-.s3d-search-results-grid .s3d-search-result{width:145px;height:232px;overflow:hidden;border: 1px solid #FFFFFF !important;float:left;position:relative;margin:0 10px 10px 0;clear:none;}
+.s3d-search-results-grid .s3d-search-result{width:150px;height:232px;overflow:hidden;border: 1px solid #FFFFFF !important;float:left;position:relative;margin:0 8px 8px 0;clear:none;}
 .s3d-search-results-grid .s3d-search-result a img{float:left !important;padding:0 !important;margin-left:21px;width:100px !important;height:100px !important;position:absolute;}
 .s3d-search-results-grid .s3d-search-result-right{margin:135px 0 0 7px;}
 .s3d-search-results-grid .s3d-search-result-user-functions{position:absolute;float:left !important;margin:110px 0 0 21px !important;}
