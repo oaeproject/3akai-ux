@@ -80,6 +80,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         ///////////////////
 
         /**
+         * Disables or enables the invite button on the widget
+         * @param {Boolean} disable Flag to disable or enable the button
+         */
+        var enableDisableInviteButton = function(disable){
+            if(disable){
+                $(addToContactsFormButtonInvite).attr("disabled","disabled");
+            }else{
+                $(addToContactsFormButtonInvite).removeAttr("disabled");
+            }
+        };
+
+        /**
          * Render the templates that are needed for the add contacts widget.
          * It renders the contacts types and the personal note
          */
@@ -133,6 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          * @param {String} userid
          */
         var doInvite = function(userid){
+            enableDisableInviteButton(true);
             var formValues = $(addToContactsForm).serializeObject();
             var types = formValues[addToContactsFormType.replace(/#/gi, "")];
             if (!$.isArray(types)) {
@@ -173,6 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                         "targetUserId": userid
                     },
                     success: function(data){
+                        enableDisableInviteButton(false);
                         $(addToContactsDialog).jqmHide();
                         sakai.api.Communication.sendMessage(userid, sakai.data.me, title, message, "invitation", false,false,true,"contact_invitation");
                         $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
@@ -193,12 +207,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                         $(window).trigger("update.tooltip.sakai", tooltipData);
                     },
                     error: function(xhr, textStatus, thrownError){
+                        enableDisableInviteButton(false);
                         $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
                     }
                 });
 
             }
             else {
+                enableDisableInviteButton(false);
                 $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorNoTypeSelected).text()));
             }
         };
