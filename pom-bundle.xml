@@ -10,19 +10,18 @@
     implied. See the License for the * specific language governing permissions and limitations under
     the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.sakaiproject.nakamura</groupId>
     <artifactId>org.sakaiproject.nakamura.uxloader-wrap</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <relativePath>./pom.xml</relativePath>
   </parent>
   <groupId>org.sakaiproject.nakamura</groupId>
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
   <name>Sakai 3 UX Loader</name>
   <description>Loads the Sakai 3 UI into the JCR</description>
   <url>http://github.com/sakaiproject/3akai-ux</url>
@@ -45,7 +44,7 @@
       <!-- Begin workaround for maven-bundle-plugin 2.0.1 ignoring processed resources. -->
       <properties>
         <ant.target>release</ant.target>
-        <dev.content></dev.content>
+        <dev.content />
       </properties>
     </profile>
     <profile>
@@ -53,7 +52,7 @@
       <!-- Begin workaround for maven-bundle-plugin 2.0.1 ignoring processed resources. -->
       <properties>
         <ant.target>development</ant.target>
-        <dev.content></dev.content>
+        <dev.content />
       </properties>
     </profile>
     <profile>
@@ -227,13 +226,13 @@
             <phase>initialize</phase>
             <configuration>
               <target>
-                <exec outputproperty="git.version" executable="git" failifexecutionfails="false" searchpath="true" >
+                <exec outputproperty="git.version" executable="git" failifexecutionfails="false" searchpath="true">
                   <arg line="describe" />
                 </exec>
-                <condition property="git.version.value" value="${git.version}" else="UnknownVersion" >
+                <condition property="git.version.value" value="${git.version}" else="UnknownVersion">
                   <isset property="git.version" />
                 </condition>
-                <echo file="${basedir}/target/scm-version.properties" >
+                <echo file="${basedir}/target/scm-version.properties">
                   scm.version=${git.version.value}
                 </echo>
               </target>
@@ -264,7 +263,7 @@
     <dependency>
       <groupId>org.sakaiproject.nakamura</groupId>
       <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.1</version>
     </dependency>
   </dependencies>
 </project>
