@@ -43,6 +43,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         // Configuration variables //
         /////////////////////////////
 
+        var $rootel = $("#" + tuid);
+
         // Help variables
         var contactToAdd = false;
 
@@ -101,7 +103,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          */
         var fillInUserInfo = function(user){
             if (user) {
-                $(addToContactsInfoDisplayName).text(user.displayName);
+                $(addToContactsInfoDisplayName, $rootel).text(user.displayName);
                 if (!user.pictureLink) {
                     user.pictureLink = sakai.api.Util.constructProfilePicture(user);
                 }
@@ -178,7 +180,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                         $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();
-                        sakai.api.Util.notification.show("", $(addToContactsDone).html());
+                        sakai.api.Util.notification.show("", $(addToContactsDone, $rootel).html());
                         // record that user made contact request
                         sakai.api.User.addUserProgress("madeContactRequest");
                         // display tooltip
