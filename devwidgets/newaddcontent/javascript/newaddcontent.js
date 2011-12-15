@@ -1033,6 +1033,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * @param {Object} context The context that will help decide what to render
          */
         var renderExistingContent = function(q, pagenum){
+            $(newaddcontentExistingCheckAll).removeAttr("checked");
             if (!q) {
                 q = "*";
             }
