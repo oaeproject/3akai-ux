@@ -1373,9 +1373,6 @@ define(
             saneHTML: function(str) {
                 return sakai_util.Security.saneHTML(str);
             },
-            saneHTMLAttribute: function(str) {
-                return sakai_util.saneHTMLAttribute(str);
-            },
             safeOutput: function(str) {
                 return sakai_util.Security.safeOutput(str);
             },
