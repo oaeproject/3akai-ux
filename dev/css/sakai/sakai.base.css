@@ -554,6 +554,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 /* 
  * TAGLISTS
  */
+.s3d-taglist-container {max-height:53px;overflow-y:hidden;}
 .s3d-taglist{margin:3px 0 0 20px;text-indent:-20px;}
 .s3d-taglist li{display:inline;list-style:disc;padding: 0;margin:0;list-position:inside}
 .s3d-taglist li a{font-size:11px !important;font-weight:normal !important;}
@@ -663,12 +664,13 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 
 /* search results grid */
 .s3d-search-results-grid{border:0 !important;border-top:1px solid #ddd !important;padding-top:5px;border-spacing:10px;}
-.s3d-search-results-grid .s3d-search-result{width:145px;height:232px;overflow:hidden;border: 1px solid #FFFFFF !important;float:left;position:relative;margin:0 10px 10px 0;clear:none;}
-.s3d-search-results-grid .s3d-search-result a img{float:left !important;padding:0 !important;margin-left:21px;width:100px !important;height:100px !important;position:absolute;}
+.s3d-search-results-grid .s3d-search-result{width:150px;height:232px;overflow:hidden;border: 1px solid #FFFFFF !important;float:left;position:relative;margin:0 8px 8px 0;clear:none;}
+.s3d-search-results-grid .s3d-search-result a img{float:left !important;padding:0 !important;margin-left:24px;width:100px !important;height:100px !important;position:absolute;}
 .s3d-search-results-grid .s3d-search-result-right{margin:135px 0 0 7px;}
 .s3d-search-results-grid .s3d-search-result-user-functions{position:absolute;float:left !important;margin:110px 0 0 21px !important;}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-addtolibrary{margin-right:8px;}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-author{margin-right:20px;}
+.s3d-search-results-grid .s3d-search-result-content .searchcontent_result_usedin_line{display:block;margin-bottom:2px;}
 .s3d-search-results-grid .s3d-search-result-group .s3d-actions-message{margin-left:60px;}
 .s3d-search-results-grid .s3d-search-result-group .searchgroups_result_plus{margin-top:-1px;}
 .s3d-search-results-grid .s3d-search-result-person .searchpeople_result_left_filler{margin: 0 70px 0 -50px;}

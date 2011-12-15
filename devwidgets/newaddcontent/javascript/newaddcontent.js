@@ -507,7 +507,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 $(window).trigger("done.newaddcontent.sakai", [lastUpload, libraryToUploadTo]);
                 // If adding to a group library or collection, these will also still be added to my library
                 if (libraryToUploadTo !== sakai.data.me.user.userid){
-                    $(window).trigger("done.newaddcontent.sakai", [lastUpload, sakai.data.me.user.userid]);
                     brandNewContent[sakai.data.me.user.userid] = brandNewContent[sakai.data.me.user.userid] || [];
                     _.uniq($.merge(brandNewContent[sakai.data.me.user.userid], lastUpload));
                 }
@@ -525,9 +524,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                     }));
                 } else {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
+                        sakai: sakai,
                         me: sakai.data.me,
                         libraryid: libraryToUploadTo,
-                        librarytitle: librarytitle
+                        librarytitle: librarytitle,
+                        sakai: sakai
                     }));
                 }
             }
