@@ -773,7 +773,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 url = "/var/search/pool/all-all.0.json";
             }
 
-            if(library){
+            if (library) {
                 json["userid"] = sakai.data.me.user.userid;
                 url = "/var/search/pool/manager-viewer.json";
             }
@@ -797,7 +797,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
                 var container = "#addarea_existing_everywhere_bottom";
                 var context = "everywhere";
-                if (library){
+                if (library) {
                     container = "#addarea_existing_mylibrary_bottom";
                     context = "my_library";
                 }

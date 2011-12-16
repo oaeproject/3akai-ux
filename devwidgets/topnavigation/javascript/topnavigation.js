@@ -583,16 +583,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // bind down/left/right keys for top menu
             $("#topnavigation_container .s3d-dropdown-menu,.topnavigation_counts_container button").keydown(function(e) {
-                var $focusElement;
-                if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
-                    $(this).find("div a:first").focus();
+                var $focusElement = $(this);
+                if (e.which === $.ui.keyCode.DOWN && $focusElement.hasClass("hassubnav")) {
+                    $focusElement.find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
-                } else if (e.which === $.ui.keyCode.LEFT || (e.which === $.ui.keyCode.TAB && shiftDown) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                } else if (e.which === $.ui.keyCode.LEFT || (e.which === $.ui.keyCode.TAB && shiftDown) && $focusElement.attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
                     closePopover();
-                    $focusElement = $(this);
-                    if($(this).parents(".topnavigation_counts_container").length){
-                        $focusElement = $(this).parents(".topnavigation_counts_container");
+                    if($focusElement.parents(".topnavigation_counts_container").length){
+                        $focusElement = $focusElement.parents(".topnavigation_counts_container");
                     }
                     if($focusElement.prev(".topnavigation_counts_container").length){
                         $focusElement.prev(".topnavigation_counts_container").children("button").focus();
@@ -602,12 +601,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $focusElement.nextAll("li:last").children("a").focus();
                     }
                     return false;
-                } else if ((e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.TAB) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                } else if ((e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.TAB) && $focusElement.attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
                     closePopover();
-                    $focusElement = $(this);
-                    if($(this).parents(".topnavigation_counts_container").length){
-                        $focusElement = $(this).parents(".topnavigation_counts_container");
+                    if($focusElement.parents(".topnavigation_counts_container").length){
+                        $focusElement = $focusElement.parents(".topnavigation_counts_container");
                     }
                     if($focusElement.next(".topnavigation_counts_container").length){
                         $focusElement.next(".topnavigation_counts_container").children("button").focus();
@@ -617,10 +615,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $("#topnavigation_search_input").focus();
                     }
                     return false;
-                } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
+                } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
                     // if a letter was pressed, search for the first menu item that starts with the letter
                     var keyPressed = String.fromCharCode(e.which).toLowerCase();
-                    $(this).find("ul:first").children().each(function(index, item){
+                    $focusElement.find("ul:first").children().each(function(index, item){
                         var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
                         if (keyPressed === firstChar){
                             $(item).find("a").focus();
