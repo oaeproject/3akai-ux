@@ -221,6 +221,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         };
 
         /**
+         * Enables or disables buttons in the widget
+         * @param {Boolean} enable Flag for whether to enable or disable the buttons
+         */
+        var disableEnableButtons = function(enable){
+            if (enable) {
+                $("#discussion_container button", $rootel).removeAttr("disabled");
+            } else {
+                $("#discussion_container button", $rootel).attr("disabled", "disabled");
+            }
+        };
+
+        /**
          * Callback function to sort replies based on created timestamp
          */
         var sortReplies = function(a, b){
@@ -452,6 +464,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * Creates a new topic
          */
         var createTopic = function(){
+            disableEnableButtons(false);
             var postData = {
                 "sakai:type": "discussion",
                 "sling:resourceType": "sakai/message",
@@ -484,6 +497,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     showPosts(topicData, true);
 
                     getWidgetSettings();
+                    disableEnableButtons(true);
+                },
+                error: function(){
+                    disableEnableButtons(true);
                 }
             });
         };
@@ -535,6 +552,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
                     $parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(parseInt($parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(), 10) + 1);
                     sakai.api.Util.renderMath(tuid);
+                    disableEnableButtons(true);
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
@@ -544,12 +562,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     else {
                         sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_ADD_REPLY"), "", sakai.api.Util.notification.type.ERROR);
                     }
+                    disableEnableButtons(true);
                 },
                 data: object
             });
         };
 
         var doAddReply = function(form){
+            disableEnableButtons(false);
             var $replyParent = $(form).parents(discussionTopicContainer);
             var topicId = $replyParent.attr("id").split("discussion_post_")[1];
             var message = $.trim($replyParent.find("#discussion_topic_reply_text").val());
