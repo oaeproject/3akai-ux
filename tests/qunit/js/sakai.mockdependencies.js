@@ -99,7 +99,6 @@ require(
         "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
         "misc/querystring",
-        "fluid/3akai_Infusion",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",

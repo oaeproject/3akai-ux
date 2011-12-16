@@ -24,7 +24,7 @@
  * /dev/lib/jquery/plugins/jquery.form.js (ajaxForm)
  */
 
-/*global, fluid, window, $ */
+/*global, window, $ */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
