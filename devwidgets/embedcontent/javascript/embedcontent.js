@@ -575,7 +575,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
-        $(window).unbind("finished.pickeradvanced.sakai"); 	
+        $(window).unbind("finished.pickeradvanced.sakai");
         $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
             addChoicesFromPickeradvanced(data.toAdd);
         });

@@ -164,7 +164,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var toStore = {};
             toStore[currentPageShown.saveRef] = {
                 page: versions[$(this).parent().attr("data-versionId")].page
-            }
+            };
             $.ajax({
                 url: currentPageShown.pageSavePath,
                 type: "POST",
@@ -204,8 +204,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(versionsVersionItem, $rootel).live("click", previewVersion);
             }
 
-            $(versionsRestoreVersion, $rootel).die("click", restoreVersion)
-            $(versionsRestoreVersion, $rootel).live("click", restoreVersion)
+            $(versionsRestoreVersion, $rootel).die("click", restoreVersion);
+            $(versionsRestoreVersion, $rootel).live("click", restoreVersion);
         };
 
 

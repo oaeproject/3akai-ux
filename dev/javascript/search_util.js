@@ -54,8 +54,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Set search view //
         /////////////////////
 
-        if (config && config.tuid && view === "grid"
-            && $(".s3d-search-results-container").length){
+        if (config && config.tuid && view === "grid" &&
+                $(".s3d-search-results-container").length){
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
         $(".search_view_" + view).addClass("selected");
@@ -271,7 +271,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var itemdiv = $(this);
             sakai.api.Groups.addJoinRequest(groupid, function (success) {
                 if (success) {
-                    var notimsg = "";
+                    var notimsg;
                     if (joinable === "withauth") {
                         // Don't add green tick yet because they need to be approved.
                         notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");

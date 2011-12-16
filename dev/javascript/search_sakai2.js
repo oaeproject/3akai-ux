@@ -185,10 +185,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global._search.doSearch = function(page, searchquery, searchwhere, facet) {
 
-            //alert(page);
-            //alert(searchquery);
-            //alert(searchwhere);
-            //alert(facet);
+            //debug.log(page);
+            //debug.log(searchquery);
+            //debug.log(searchwhere);
+            //debug.log(facet);
 
             // if there is facet selected then remove previous one and highlight new one
             if (facet) {

@@ -400,7 +400,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var itemdiv = $(this);
                     sakai.api.Groups.addJoinRequest(groupid, function (success) {
                         if (success) {
-                            var notimsg = "";
+                            var notimsg;
                             if (joinable === "withauth") {
                                 // Don't add green tick yet because they need to be approved.
                                 notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
