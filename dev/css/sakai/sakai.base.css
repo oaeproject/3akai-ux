@@ -447,6 +447,7 @@ ul.as-selections textarea.as-input{padding:0;}
 .autosuggest_wrapper{float:left;position:relative;width:100%;}
 .autosuggest_wrapper ul.as-list{top:100%;margin-top:-15px;}
 .autosuggest_wrapper .list_categories{float:right;}
+.autosuggest_wrapper textarea {overflow:hidden;}
 
 /* http://blogs.sitepoint.com/2005/02/26/simple-clearing-of-floats/ */
 .clearfix{overflow:auto;}
