@@ -346,18 +346,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var handleHashChange = function(){
-            var hash = collectionviewer.contextId.substring(2);
-            var currHash = $.bbq.getState("p");
-            if(currHash){
-                currHash = currHash.split("/")[0];
-            }
-            //if (hash === currHash) {
-                collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || "carousel";
-                $(".s3d-listview-options", $rootel).children(".selected").children().removeClass("selected");
-                $(".s3d-listview-options", $rootel).children(".selected").removeClass("selected");
-                collectionviewer.page = 1;
-                getCollectionData();
-            //}
+            collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || "carousel";
+            $(".s3d-listview-options", $rootel).children(".selected").children().removeClass("selected");
+            $(".s3d-listview-options", $rootel).children(".selected").removeClass("selected");
+            collectionviewer.page = 1;
+            getCollectionData();
         };
 
         var checkEditingEnabled = function(){
@@ -424,32 +417,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
 
-            // Header bindings
-            $("#collectionviewer_carousel_view", $rootel).live("click", function(){
-                var state = {}
-                state[collectionviewer.tuidls] = "carousel";
+            $("#collectionviewer_carousel_view, #collectionviewer_grid_view, #collectionviewer_list_view, #collectionviewer_edit_collection_button", $rootel).bind("click", function(){
+                var state = {};
+                state[collectionviewer.tuidls] = $(this).data("liststyle") || "carousel";
                 $.bbq.pushState(state);
             });
 
-            $("#collectionviewer_grid_view", $rootel).live("click", function(){
-                var state = {}
-                state[collectionviewer.tuidls] = "grid";
-                $.bbq.pushState(state);
-            });
-
-            $("#collectionviewer_list_view", $rootel).live("click", function(){
-                var state = {}
-                state[collectionviewer.tuidls] = "list";
-                $.bbq.pushState(state);
-            });
-
-            $("#collectionviewer_edit_collection_button", $rootel).live("click", function(){
-                var state = {}
-                state[collectionviewer.tuidls] = "edit";
-                $.bbq.pushState(state);
-            });
-
-            //$(window).bind("hashchanged.collectionviewer.sakai", handleHashChange);
             $(window).bind("hashchange", handleHashChange);
 
             // Carousel bindings
