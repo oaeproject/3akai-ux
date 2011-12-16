@@ -1169,7 +1169,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     else if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").length){
                         // check if sub menu open
                         if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").length){
-                            $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").children("li:last").find("a").focus()
+                            $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").children("li:last").find("a").focus();
                             return false;
                         } else if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("div").children("a").length){
                             $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("div").children("a").focus();
@@ -1190,13 +1190,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.RIGHT
-                && $el.prev("div").hasClass("lhnavigation_has_subnav")
-                && !$el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
+            } else if (ev.which == $.ui.keyCode.RIGHT &&
+                    $el.prev("div").hasClass("lhnavigation_has_subnav") &&
+                    !$el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
                 // open sub menu
                 $el.click();
-            } else if (ev.which == $.ui.keyCode.LEFT
-                && $el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
+            } else if (ev.which == $.ui.keyCode.LEFT &&
+                    $el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
                 // close sub menu
                 $el.click();
             }

@@ -167,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".s3d-page-header-bottom-row").hide();
 
             $mylibrary_empty.show();
-        }
+        };
 
         ////////////////////
         // Load a library //
