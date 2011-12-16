@@ -104,7 +104,7 @@ define(
                 });
                 if ($.isFunction(callback)){
                     callback(true, toReturn);
-                };
+                }
             });
         },
 
@@ -903,7 +903,7 @@ define(
                             urlToGroupMapping[url] = {
                                 "groupid": groupid,
                                 "role": roles[i].id
-                            }
+                            };
                             batchRequests.push({
                                 "url": url,
                                 "method": "GET",
@@ -925,7 +925,7 @@ define(
                                 dataToReturn[groupid][roleid] = {"results": members};
                                 if (sakaiGroupsAPI.groupData[groupid]){
                                     sakaiGroupsAPI.groupData[groupid].membersPerRole = sakaiGroupsAPI.groupData[groupid].membersPerRole || {};
-                                    sakaiGroupsAPI.groupData[groupid].membersPerRole[roleid] = {"results": members}
+                                    sakaiGroupsAPI.groupData[groupid].membersPerRole[roleid] = {"results": members};
                                 }
                             });
                             if ($.isFunction(callback)) {

@@ -201,8 +201,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var managers = contentIManage[m]["sakai:pooled-content-manager"];
                     if (managers){
                         for (var i = 0; i < managers.length; i++){
-                            if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid 
-                                && managers[i] !== context){
+                            if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid &&
+                            managers[i] !== context){
                                 userGroupIds.push(managers[i]);
                             }
                         }
@@ -227,7 +227,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "parameters": {
                             items: 10000
                         }
-                    })
+                    });
                 });
                 sakai.api.Server.batch(batchRequest, function (success, data) {
                     for (var i = 0; i < data.results.length; i++) {
@@ -235,8 +235,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var members = $.parseJSON(data.results[i].body);
                             for (var ii = 0; ii < members.length; ii++){
                                 var member = members[ii].userid;
-                                if ($.inArray(member, userGroupIds) === -1 && member !== sakai.data.me.user.userid 
-                                    && member !== context){
+                                if ($.inArray(member, userGroupIds) === -1 && member !== sakai.data.me.user.userid &&
+                                member !== context){
                                     userGroupIds.push(member);
                                 }
                             }

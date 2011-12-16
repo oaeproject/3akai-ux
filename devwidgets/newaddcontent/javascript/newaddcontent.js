@@ -527,8 +527,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                         sakai: sakai,
                         me: sakai.data.me,
                         libraryid: libraryToUploadTo,
-                        librarytitle: librarytitle,
-                        sakai: sakai
+                        librarytitle: librarytitle
                     }));
                 }
             }
@@ -1206,7 +1205,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
-            $(newaddcontentExistingItemsListContainerActionsSort).live("change", function(){searchPaging(1)});
+            $(newaddcontentExistingItemsListContainerActionsSort).live("change", function(){searchPaging(1);});
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit + ", #assignlocation_container");
             sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
@@ -1269,8 +1268,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var setCurrentlySelectedLibrary = function(){
             if (sakai_global.group && sakai_global.group.groupId){
                 currentSelectedLibrary = sakai_global.group.groupId;
-            } else if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai_global.content_profile.content_data.data
-                       && sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
+            } else if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai_global.content_profile.content_data.data &&
+                sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
                 currentSelectedLibrary = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
             }
         };

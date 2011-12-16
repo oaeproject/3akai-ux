@@ -1273,7 +1273,7 @@ define(
                             // 3. Set the permissions on the pooled content item
                             sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
 
-                            	// 4. Create the pseudoGroups
+                                // 4. Create the pseudoGroups
                                 var groupId = sakai_content.Collections.getCollectionGroupId(collectionId);
                                 var batchRequests = [];
                                 var membershipsToProcess = [];
