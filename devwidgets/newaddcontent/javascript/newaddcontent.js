@@ -527,8 +527,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                         sakai: sakai,
                         me: sakai.data.me,
                         libraryid: libraryToUploadTo,
-                        librarytitle: librarytitle,
-                        sakai: sakai
+                        librarytitle: librarytitle
                     }));
                 }
             }
