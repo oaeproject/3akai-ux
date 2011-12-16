@@ -316,7 +316,7 @@ define(
                 var path = message.path;
                 if (path.substring(0, 2) === "a:"){
                     path = "~" + path.substring(2);
-                };                 
+                }
                 var req = {url: path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
                 requests.push(req);
             });

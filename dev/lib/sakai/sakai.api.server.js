@@ -170,8 +170,8 @@ define(
                 sakaiServerAPI.initialRequests[bundleId].callback = callback;
             }
             sakaiServerAPI.initialRequests[bundleId].count++;
-            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count
-                && $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
+            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count &&
+                    $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
                 sakaiServerAPI.batch(sakaiServerAPI.initialRequests[bundleId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
