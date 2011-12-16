@@ -207,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
             $(window).trigger("sakai.entity.updateOwnCounts", {contentId:contentId,entityID:entityId});
-        }
+        };
 
         enableDisableAddButton = function(){
             var dropdownSelection = $("#savecontent_select option:selected", $rootel);
