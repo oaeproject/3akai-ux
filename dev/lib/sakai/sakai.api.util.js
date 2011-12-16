@@ -2403,6 +2403,7 @@ define(
                     revertDuration: 0,
                     scrollSensitivity: 100,
                     opacity: 0.5,
+                    helper: "clone",
                     cursor: "move",
                     zindex: 10000,
                     cursorAt: {
