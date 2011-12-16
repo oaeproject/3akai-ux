@@ -1034,6 +1034,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          */
         var renderExistingContent = function(q, pagenum){
             $(newaddcontentExistingCheckAll).removeAttr("checked");
+            disableAddToQueue();
             if (!q) {
                 q = "*";
             }
