@@ -1,14 +1,16 @@
 {macro tags(tags)}
-    <ul class="s3d-taglist">
-        {for t in tags}
-            <li>
-                <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
-                    <span class="s3d-search-result-tag">${t.tagShort}</span>
-                    <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
-                </a>
-            </li>
-        {/for}
-    </ul>
+    <div class="s3d-taglist-container">
+        <ul class="s3d-taglist">
+            {for t in tags}
+                <li>
+                    <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
+                        <span class="s3d-search-result-tag">${t.tagShort}</span>
+                        <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
+                    </a>
+                </li>
+            {/for}
+        </ul>
+    </div>
 {/macro}
 ${macros["search.tags"] = tags |eat}
 
@@ -63,13 +65,17 @@ ${macros["search.tags"] = tags |eat}
         <div class="searchcontent_result_usedin">
             {var placeCount = sakai.api.Content.getPlaceCount(i)}
             {if placeCount > 0}
-                <span class="searchcontent_result_icon searchcontent_result_usedin_icon"></span>
-                __MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
+                <span class="searchcontent_result_usedin_line">
+                    <span class="searchcontent_result_icon searchcontent_result_usedin_icon"></span>
+                    __MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
+                </span>
             {/if}
             {var commentCount = sakai.api.Content.getCommentCount(i)}
             {if commentCount > 0}
-                <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
-                ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                <span class="searchcontent_result_usedin_line">
+                    <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
+                    ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                </span>
             {/if}
         </div>
     </div>
