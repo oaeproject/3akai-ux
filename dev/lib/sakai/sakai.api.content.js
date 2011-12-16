@@ -741,6 +741,38 @@ define(
         },
 
         /**
+         * Checks for autosaved documents for a sakai doc and returns that data
+         *
+         * @param {Boolean} Indicating if the sakai doc is a new page that can't have a autosaved page yet
+         * @param {String} Path to the sakai document in the system
+         * @param {Function} Callback function to execute on finish
+         */
+         checkAutosave: function(newPage, pagePath, callback) {
+             if (newPage){
+                 // a new page won't have an autosave yet
+                 if($.isFunction(callback)){
+                     callback(true, {});
+                 }
+             } else {
+                 sakai_serv.loadJSON(pagePath + ".infinity.json", function(success, data) {
+                     if($.isFunction(callback)){
+                         // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
+                         // someone else is editing the page right now.
+                         data.safeToEdit = true;
+                         if(data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 && data.editing._lastModifiedBy !== sakai_user.data.me.user.userid){
+                             data.safeToEdit = false;
+                         }
+                         if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
+                             data.hasAutosave = true;
+                         }
+                         callback(success, data);
+                     }
+                 });
+             }
+         },
+
+
+        /**
          * Returns a preview URL for known services, empty string otherwise
          *
          * @param url The url of the content in an external service that you'd like a preview of
@@ -970,7 +1002,9 @@ define(
 
         getCommentCount : function(content){
             var count = 0;
-            if (content.hasOwnProperty("comments")) {
+            if (content.hasOwnProperty("commentCount")) {
+                count = content.commentCount;
+            } else if (content.hasOwnProperty("comments")) {
                 $.each(content.comments, function(key, val){
                     if ($.isPlainObject(val)) {
                         count++;

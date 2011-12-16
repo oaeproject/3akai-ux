@@ -85,7 +85,7 @@
                     <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
                     <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
                 </div>
-            {elseif mode === "group_managed"}
+            {elseif mode === "group_manager_member"}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
@@ -163,7 +163,7 @@
                             </div>
                         {/if}
                         {if !$.isEmptyObject(item.tagsProcessed)}
-                            <div class="mylibrary_item_tags">
+                            <div class="mylibrary_item_tags s3d-taglist-container">
                                 <ul class="mylibrary_item_tags_list s3d-taglist">
                                     {for t in item.tagsProcessed}
                                         <li>
