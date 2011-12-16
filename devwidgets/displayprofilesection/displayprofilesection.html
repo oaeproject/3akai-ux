@@ -23,7 +23,7 @@
     {/macro}
 
     {macro renderDropdown(config, field_id, data)}
-        <select id="${field_id}" name="${field_id}" {if config.required} class="required"{/if}>
+        <select id="${field_id}" name="${field_id}" {if config.required} class="required"{/if}">
             <option value=""></option>
         {for option in config.select_elements}
             <option value="${option_index}"{if data && data.value === option_index} selected="selected"{/if}>${option}</option>
@@ -53,17 +53,21 @@
                 {var field_id = unique ? field_index + "_" + unique : field_index}
                 <div class="displayprofilesection_field">
                     <label for="${field_id}" class="s3d-input-label{if field.type === "tags"} tagslabel{/if}">${field.label}:</label>
-                    {if field.type === "select"}
-                        ${renderDropdown(field, field_id, field_data)}
-                    {elseif field.type === "textarea"}
-                        ${renderTextarea(field, field_id, field_data)}
-                    {elseif field.type === "tags"}
-                        ${renderTagField(field, field_id, field_data)}
+                    {if field.editable === false}
+                        <span class="displayprofilesection_field_nonedtiable">${field_data.value}</span>
                     {else}
-                        ${renderTextInput(field, field_id, field_data)}
-                    {/if}
-                    {if field.example}
-                        <p class="displayprofilesection_generalinfo_example">${field.example}</p>
+                        {if field.type === "select"}
+                            ${renderDropdown(field, field_id, field_data)}
+                        {elseif field.type === "textarea"}
+                            ${renderTextarea(field, field_id, field_data)}
+                        {elseif field.type === "tags"}
+                            ${renderTagField(field, field_id, field_data)}
+                        {else}
+                            ${renderTextInput(field, field_id, field_data)}
+                        {/if}
+                        {if field.example}
+                            <p class="displayprofilesection_generalinfo_example">${field.example}</p>
+                        {/if}
                     {/if}
                 </div>
             {/if}
