@@ -52,6 +52,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         doInit();
     };
 
-    // inform Sakai OAE that this widget has loaded and is ready to run
     sakai.api.Widgets.widgetLoader.informOnLoad("inserter");
 });
