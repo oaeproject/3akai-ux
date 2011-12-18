@@ -517,16 +517,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 hideMessageInlay();
             });
 
-            // if a letter was pressed, search for the first menu item that starts with the letter
-            var findByChar = function($el, key){
-                $el.find("ul:first").children().each(function(index, item){
-                    var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
-                    if (key === firstChar){
-                        $(item).find("a").focus();
-                        return false;
-                    }
-                });
-            };
             // Navigation hover binding
             var closeMenu = function(e){
                 if ($openMenu.length){
@@ -629,7 +619,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     return false;
                 } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
-                    findByChar($focusElement, String.fromCharCode(e.which).toLowerCase());
+                    // if a letter was pressed, search for the first menu item that starts with the letter
+                    var key = String.fromCharCode(e.which).toLowerCase();
+                    $focusElement.find("ul:first").children().each(function(index, item){
+                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                        if (key === firstChar){
+                            $(item).find("a").focus();
+                            return false;
+                        }
+                    });
                 }
             });
 
@@ -647,7 +645,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $("html").trigger("click");
                     }
                 } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
-                    findByChar($focusElement, String.fromCharCode(e.which).toLowerCase());
+                    // if a letter was pressed, search for the first menu item that starts with the letterletter
+                    var key = String.fromCharCode(e.which).toLowerCase();
+                    $focusElement.find("ul:first").children().each(function(index, item){
+                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                        if (key === firstChar){
+                            $(item).find("a").focus();
+                            return false;
+                        }
+                    });
                 }
             });
 
