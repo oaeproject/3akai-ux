@@ -204,31 +204,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // retrieve data from the xmlobject and put it in the JSON-object
                 var channel = $(xmlobject).find("channel");
 
+                // set fields to check
+                var itemField = "item";
+                var dateField = "pubDate";
+                var contentField = "description";
+                var atomFeed = false;
+
+                // check if this is an atom feed instead of an rss feed
+                if (!channel.length) {
+                    channel = $(xmlobject).find("feed");
+                    itemField = "entry";
+                    dateField = "published";
+                    contentField = "content";
+                    atomFeed = true;
+                }
+
                 // put all the nodes in JSON-props
                 rss.title = $("title:eq(0)",channel).text();
                 rss.link = $("link:eq(0)",channel).text();
                 rss.id = feedUrl;
                 rss.description = $("description:eq(0)",channel).text();
-                $(xmlobject).find("item").each(function() {
+                $(xmlobject).find(itemField).each(function() {
                     var item = $(this);
                     var pubDate = "";
                     var pubDateObj = new Date();
-                    var dateText = $("pubDate",item).text().replace("  ", " ");
+                    var dateText = $(dateField,item).text().replace("  ", " ");
                     if (dateText.length > 0){
-                        pubDateObj = sakai.api.Util.parseRFC822Date(dateText);
+                        if (!atomFeed){
+                            pubDateObj = sakai.api.Util.parseRFC822Date(dateText);
+                        } else {
+                            pubDateObj.setTime(Date.parse(dateText));
+                        }
                         if (pubDateObj.valueOf()) {
                             // we have a valid date
                             pubDate = sakai.api.l10n.transformDateTimeShort(pubDateObj);
                         } else {
                             // invalid date
-                            pubDate = $("pubDate",item).text();
+                            pubDate = $(dateField,item).text();
                             pubDateObj = new Date();  // can't sort on date...
                         }
                     }
                     rss.items.push({
                         "title" : $("title",item).text(),
                         "link" : $("link",item).text(),
-                        "description" : $("description",item).text(),
+                        "description" : $(contentField,item).text(),
                         "pubDate" : pubDate,
                         "guid" : $("guid",item).text(),
                         "pubDateObj" : pubDateObj
@@ -259,15 +278,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             feedUrl = url;
 
             $.ajax({
-               url : sakai.config.URL.PROXY_RSS +  url,
-               type : "GET",
-               success : function(data) {
+                url : sakai.config.URL.PROXY_RSS +  url,
+                type : "GET",
+                success : function(data) {
                     $(rssTxtUrl, rootel).val("");
                     onResponse(printFeed(data));
-               },
-               error: function(xhr, textStatus, thrownError) {
-                   sakai.api.Util.notification.show($(rssUnableToConnect).html(), $(rssCannotConnectToRssFeed).html());
-               }
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    sakai.api.Util.notification.show($(rssUnableToConnect).html(), $(rssCannotConnectToRssFeed).html());
+                }
             });
         };
 

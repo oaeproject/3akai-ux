@@ -165,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }));
             if (externalAuth){
                 setExternalLoginRedirectURL();
-            };
+            }
         };
 
         var setExternalLoginRedirectURL = function(){
@@ -179,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             // Check whether we require a redirect
             if (qs.get("url")) {
-                redirectURL = qs.get("url");;
+                redirectURL = qs.get("url");
             // Go to You when you're on explore page
             } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
@@ -189,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 redirectURL = "/me";
             }
             return redirectURL;
-        }
+        };
 
        /**
          * Check if a redirect should be performed
@@ -591,19 +591,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // bind down/left/right/letter keys for explore menu
             $("#topnavigation_container .topnavigation_explore .s3d-dropdown-menu,.topnavigation_counts_container button").keydown(function(e) {
-                if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
-                    $(this).find("div a:first").focus();
+                var $focusElement = $(this);
+                if (e.which === $.ui.keyCode.DOWN && $focusElement.hasClass("hassubnav")) {
+                    $focusElement.find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
-                } else if (e.which === $.ui.keyCode.LEFT || (e.which === $.ui.keyCode.TAB && e.shiftKey) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                } else if (e.which === $.ui.keyCode.LEFT || (e.which === $.ui.keyCode.TAB && e.shiftKey) && $focusElement.attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
                     closePopover();
-                    var $focusElement = $(this);
-                    if($(this).parents(".topnavigation_counts_container").length){
-                        $focusElement = $(this).parents(".topnavigation_counts_container");
+                    if($focusElement.parents(".topnavigation_counts_container").length){
+                        $focusElement = $focusElement.parents(".topnavigation_counts_container");
                     }
                     if($focusElement.prev(".topnavigation_counts_container").length){
                         $focusElement.prev(".topnavigation_counts_container").children("button").focus()
                         return false;
+                        $focusElement.prev(".topnavigation_counts_container").children("button").focus();
                     } else if ($focusElement.prev("li:first").length){
                         $focusElement.prev("li:first").children("a").focus();
                         return false;
@@ -611,15 +612,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $focusElement.nextAll("li:last").children("a").focus();
                         return false;
                     }
-                } else if ((e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.TAB) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                } else if ((e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.TAB) && $focusElement.attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
                     closePopover();
-                    var $focusElement = $(this);
-                    if($(this).parents(".topnavigation_counts_container").length){
-                        $focusElement = $(this).parents(".topnavigation_counts_container");
+                    if($focusElement.parents(".topnavigation_counts_container").length){
+                        $focusElement = $focusElement.parents(".topnavigation_counts_container");
                     }
                     if($focusElement.next(".topnavigation_counts_container").length){
-                        $focusElement.next(".topnavigation_counts_container").children("button").focus()
+                        $focusElement.next(".topnavigation_counts_container").children("button").focus();
                     } else if ($focusElement.next("li:first").length){
                         $focusElement.next("li:first").children("a").focus();
                     } else if ($focusElement.prevAll("li:last").length && e.which === $.ui.keyCode.RIGHT){
@@ -628,25 +628,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $("#topnavigation_search_input").focus();
                     }
                     return false;
-                } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
-                    findByChar($(this), String.fromCharCode(e.which).toLowerCase());
+                } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
+                    findByChar($focusElement, String.fromCharCode(e.which).toLowerCase());
                 }
             });
 
             // bind keys for right menu
             $("#topnavigation_container .topnavigation_right .s3d-dropdown-menu").keydown(function(e) {
-                if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
-                    $(this).find("div a:first").focus();
+                var $focusElement = $(this);
+                if (e.which === $.ui.keyCode.DOWN && $focusElement.hasClass("hassubnav")) {
+                    $focusElement.find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
                 } else if (e.which === $.ui.keyCode.TAB && e.shiftKey) {
                     closeMenu();
-                    if ($(this).attr("id") === "topnavigation_user_options_login_wrapper") {
+                    if ($focusElement.attr("id") === "topnavigation_user_options_login_wrapper") {
                         mouseOverSignIn = false;
                         $(topnavUserLoginButton).trigger("mouseout");
                         $("html").trigger("click");
                     }
-                } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
-                    findByChar($(this), String.fromCharCode(e.which).toLowerCase());
+                } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
+                    findByChar($focusElement, String.fromCharCode(e.which).toLowerCase());
                 }
             });
 

@@ -468,13 +468,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectAutoTagging($(this).attr("data-sakai-autotagging") === "true" ? true : false);
             enableElements($(saveRegional));
             e.preventDefault();
-        })
+        });
 
         var hideAllPanes = function(){
             $(passChangeContainer).hide();
             $(preferContainer).hide();
             $(privacyContainer).hide();
-        }
+        };
 
         $(accountPreferencesPreferencesTab).click(function(){
             $(accountPreferencesTabsButtons).removeClass(tabSelected);

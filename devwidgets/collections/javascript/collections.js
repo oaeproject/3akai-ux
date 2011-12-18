@@ -137,7 +137,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $(collectionsNoCollections).show();
             }
-        }
+        };
 
         var carouselBinding = function(carousel){
             $("#collections_scroll_right").unbind("click");
@@ -164,6 +164,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var focusCollectionTitle = function(){
+            $('#collection_title_0').focus();
+        };
+
         var createNewCollection = function(){
             $("#collections_collection_title").attr("disabled", "disabled");
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("CREATING_YOUR_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
@@ -176,7 +180,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#collections_collection_title").val("");
                 $("#collections_collection_title").removeAttr("disabled");
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION_CREATED"), sakai.api.i18n.getValueForKey("COLLECTION_CREATED_LONG"));
-                var t = setTimeout("$('#collection_title_0').focus()", 1000);
+                var t = setTimeout(focusCollectionTitle, 1000);
             });
         };
 
@@ -211,7 +215,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("ul[data-sakai-collection-id='" + collectionIds[i] + "']").html(sakai.api.Util.TemplateRenderer("collections_collections_recentcontent_template", contentItems));
                 });
             });
-        }
+        };
 
         /////////////////////////////////////////
         // DRAG AND DROP ITEMS IN FROM DESKTOP //
@@ -355,7 +359,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var recentContentToLoad = [];
                 for (var i = 0; i < data.results.length; i = i + 4){
                     recentContentToLoad.push(data.results[i]["_path"]);
-                };
+                }
                 getRecentContent(recentContentToLoad);
             }, cache);
         };
