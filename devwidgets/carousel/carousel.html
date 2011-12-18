@@ -14,7 +14,7 @@
             <ul class="carousel_content_tags s3d-taglist">
                 {for tag in t}
                     {if tag_index < 2}
-                        <li><a href="${tag.link}" class="s3d-regular-links s3d-bold carousel_apply_threedots threedots_allow_2" title="${tag.linkTitle}">${tag.value}</a></li>
+                        <li><a href="${tag.link}" class="s3d-regular-links s3d-bold carousel_apply_threedots threedots_allow_2" title="${tag.linkTitle}">${tag.tagShorter}</a></li>
                     {/if}
                 {/for}
             </ul>
@@ -163,7 +163,9 @@
 
                                         </ul>
                                     </div>
-                                    ${tags(group.tags)}
+                                    {if tall}
+                                        ${tags(group.tags)}
+                                    {/if}
                                     <span class="carousel_bottom_buttons">
                                         <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                                             <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__ ${group.title|safeOutput}"></button>
