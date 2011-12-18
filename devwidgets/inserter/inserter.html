@@ -3,12 +3,19 @@
 
 <div class="inserter_widget" style="display:none;">
     <div id="inserter_header">
-        <button type="button" id="insert_close_icon" class="s3d-link-button fl-force-right" title="__MSG__CLOSE_INSERTER__"></button>
-        <div id="insert_header_dragbar"></div>
-        <div id="insert_header_title">__MSG__COLLECTOR__</div>
+        <button type="button" id="inserter_close_icon" class="s3d-link-button fl-force-right" title="__MSG__CLOSE_INSERTER__"></button>
+        <div id="inserter_header_dragbar"></div>
+        <div id="inserter_header_title_container">
+            <div id="inserter_header_title">__MSG__COLLECTOR__</div>
+            <div id="inserter_header_collection_title_container" style="display:none;">
+                <div class="inserter_library_icon fl-force-left inserter_header_collection_icon"></div>
+                <span id="inserter_header_collection_title">My library</span><span id="inserter_header_collection_type">Collection</span>
+                <div id="inserter_header_itemcount">29 content items</div>
+            </div>
+        </div>
     </div>
     <div id="inserter_collector">
-        <div id="inserter_no_collections" style="display:none;">
+        <div id="inserter_no_collections">
             <div class="inserter_collections_top_container">
                 <ul>
                     <li>
@@ -29,7 +36,7 @@
             </div>
             <div id="no_collections_artwork"></div>
         </div>
-        <div id="inserter_collections">
+        <div id="inserter_collections" style="display:none;">
             <div class="inserter_collections_top_container">
                 <ul>
                     <li>
@@ -72,6 +79,60 @@
                     <option value="portfolio">__MSG__PORTFOLIO__</option>
                 </select>
             </div>
+        </div>
+        <div id="inserter_collection_contents" style="display:none;">
+            <select class="fl-force-right">
+                <option value="false">__MSG__ALL_TYPES__</option>
+            </select>
+            <input type="text" class="fl-force-left"/>
+            <hr class="fl-hidden fl-push"/>
+            <div class="inserter_collections_top_container">
+                <ul>
+                    <li>
+                        <div class="inserter_library_icon fl-force-left"></div><div class="inserter_item_count_container fl-force-right">23</div><a href="javascript:;" class="s3d-regular-links s3d-bold">My library</a>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                    <li>
+                        <div class="inserter_library_icon fl-force-left"></div><div class="inserter_item_count_container fl-force-right">23</div><a href="javascript:;" class="s3d-regular-links s3d-bold">My library</a>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                    <li>
+                        <div class="inserter_library_icon fl-force-left"></div><div class="inserter_item_count_container fl-force-right">23</div><a href="javascript:;" class="s3d-regular-links s3d-bold">My library</a>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                    <li>
+                        <div class="inserter_library_icon fl-force-left"></div><div class="inserter_item_count_container fl-force-right">23</div><a href="javascript:;" class="s3d-regular-links s3d-bold">My library</a>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                    <li>
+                        <div class="inserter_library_icon fl-force-left"></div><div class="inserter_item_count_container fl-force-right">23</div><a href="javascript:;" class="s3d-regular-links s3d-bold">My library</a>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                    <li>
+                        <div class="inserter_library_icon fl-force-left"></div><div class="inserter_item_count_container fl-force-right">23</div><a href="javascript:;" class="s3d-regular-links s3d-bold">My library</a>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                    <li>
+                        <div class="inserter_library_icon fl-force-left"></div><div class="inserter_item_count_container fl-force-right">23</div><a href="javascript:;" class="s3d-regular-links s3d-bold">My library</a>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                    <li>
+                        <div class="inserter_library_icon fl-force-left"></div><div class="inserter_item_count_container fl-force-right">23</div><a href="javascript:;" class="s3d-regular-links s3d-bold">My library</a>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                </ul>
+            </div>
+            <div id="inserter_create_collection_container">
+                <div class="inserter_create_icon fl-force-left"></div>
+                <select>
+                    <option value="false">__MSG__CREATE_COLLECTION__</option>
+                    <option value="dropbox">__MSG__DROPBOX__</option>
+                    <option value="blog">__MSG__BLOG__</option>
+                    <option value="journal">__MSG__JOURNAL__</option>
+                    <option value="portfolio">__MSG__PORTFOLIO__</option>
+                </select>
+            </div>
+            <button type="button" class="s3d-button s3d-overlay-action-button" id="inserter_all_collections_button">__MSG__ALL_COLLECTIONS__</button>
         </div>
     </div>
 </div>
