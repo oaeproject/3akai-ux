@@ -309,7 +309,7 @@ a.s3d-button.s3d-overlay-button {display:inline-block;height:21px;line-height:21
 .s3d-search-container input::-webkit-input-placeholder {color:#7c7b7b;font-style:italic;font-size:11px !important;}
 .s3d-search-container input:-moz-placeholder{color:#7c7b7b;font-style:italic;font-size:11px !important;}
 .s3d-search-container .s3d-search-button {height:25px !important;width:24px;padding:3px 0 0 0 !important;margin-left:2px;background:none !important;border: none !important;box-shadow:none !important;-moz-box-shadow:none !important;-webkit-box-shadow:none !important;}
-.s3d-search-container .s3d-search-button:hover {background: url("/dev/images/searchbutton_hover_bg.png") repeat-x top left transparent !important;border:1px solid #ccc !important;}
+.s3d-search-container .s3d-search-button:hover, .s3d-search-container .s3d-search-button:focus {background: url("/dev/images/searchbutton_hover_bg.png") repeat-x top left transparent !important;border:1px solid #ccc !important;}
 .s3d-search-container .s3d-search-button img {margin:0 auto;}
 .s3d-search-container .s3d-search-button .s3d-search-button-icon{margin:0 auto;display:block;width:16px;height:19px;background: url("/dev/images/search_icon.png") no-repeat top left transparent;}
 
