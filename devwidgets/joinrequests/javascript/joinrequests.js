@@ -93,11 +93,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getJoinRequestsData = function(joinGroupID) {
             // get join requests from server
             sakai.api.Groups.getJoinRequests(joinGroupID, function (success, data) {
+                var joinrequests = [];
                 if (success) {
                     // process joinrequest data for UI
                     if (data && data.total && data.total > 0) {
                         numJoinrequests = data.total;
-                        var joinrequests = [];
                         for (var i in data.results) {
                             if (data.results.hasOwnProperty(i)) {
                                 var jr = data.results[i];
@@ -114,9 +114,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }
                         }
-                        renderJoinRequests(joinrequests);
                     }
                 }
+                renderJoinRequests(joinrequests);
             });
         };
 
@@ -164,8 +164,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     sakai.api.Util.notification.show($joinrequestsTitle.html(), name + " " + $joinrequestsSuccess.html());
 
-                    // trigger the member list on group_edit.html to refresh
-                    $(window).trigger("ready.listpeople.sakai", "members");
+                    // trigger the participants list to refresh
+                    $(window).trigger("usersselected.addpeople.sakai", [userToAdd]);
 
                     // remove join request from UI and server
                     removeJoinRequest(userid);
