@@ -162,7 +162,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 me: {
                     name: sakai.api.User.getDisplayName(sakai.api.User.data.me.profile),
                     picture: sakai.api.Util.constructProfilePicture(sakai.api.User.data.me)
-                }
+                },
+                box: widgetData.box
             }, $inbox_show_message);
             $("#sendmessage_to_autoSuggest").data(cacheAutoSuggestData);
             if (!currentMessage.read) {
