@@ -774,6 +774,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#sakaidocs_revisions").bind("click",function(ev){
+            $(this).children("span").toggle();
+            $(this).toggleClass("selected");
             $(window).trigger("init.versions.sakai", currentPageShown);
         });
 
