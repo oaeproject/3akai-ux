@@ -283,6 +283,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var switchToTwoColumnLayout = function(isSakaiDoc){
             $("#content_profile_left_column").show();
+            $("body").addClass("has_nav");
             $("#content_profile_main_container").addClass("s3d-twocolumn");
             $("#content_profile_right_container").addClass("s3d-page-column-right");
             $("#content_profile_right_container").removeClass("s3d-page-fullcolumn-padding");
@@ -299,6 +300,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var switchToOneColumnLayout = function(isSakaiDoc){
             $("#content_profile_left_column").hide();
+            $("body").removeClass("has_nav");
             $("#content_profile_main_container").removeClass("s3d-twocolumn");
             $("#content_profile_right_container").removeClass("s3d-page-column-right");
             $("#content_profile_right_container").addClass("s3d-page-fullcolumn-padding");
