@@ -497,9 +497,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("sakai.entity.updatecountcache", function(e, data){
             if(data.increment){
-                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text()) + 1);
+                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text(), 10) + 1);
             } else{
-                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text()) - 1);
+                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text(), 10) - 1);
             }
         });
 

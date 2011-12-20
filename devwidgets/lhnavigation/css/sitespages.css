@@ -107,7 +107,7 @@
 .dashboard_options{clear:none;text-align:right;}
 .dashboard_options .fixed-container{background-color:#fff;}
 .dashboard_options a{font-size:.9em;color:#454A4F;font-weight:bold;}
-.groupWrapper{overflow:hidden;}
+.groupWrapper{overflow:hidden; min-height: 40px;}
 #dashboard_addpage_dialog #dashboard_addpage_title{width:98%;margin-top:10px;}
 
 /* SPECIFIC WIDGETS */

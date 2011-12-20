@@ -54,8 +54,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Set search view //
         /////////////////////
 
-        if (config && config.tuid && view === "grid"
-            && $(".s3d-search-results-container").length){
+        if (config && config.tuid && view === "grid" &&
+                $(".s3d-search-results-container").length){
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
         $(".search_view_" + view).addClass("selected");

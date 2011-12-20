@@ -105,7 +105,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "area": currentArea._title,
                     "meRole": data.id
                 }));
-             })
+             });
          };
 
          var checkSelectedPermissionForRole = function(roleId){
@@ -154,7 +154,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else if (rolePermission === "view"){
                     newView.push("-" + roles[i].id);
                 }
-            };
+            }
 
             // Refetch docstructure information
             $.ajax({
@@ -195,9 +195,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
 
                 // Per role visibility
-                for (var i = 0; i < roles.length; i++) {
-                    var role = sakai_global.group.groupId + "-" + roles[i].id;
-                    var selectedPermission = checkSelectedPermissionForRole(roles[i].id);
+                for (var j = 0; j < roles.length; j++) {
+                    var role = sakai_global.group.groupId + "-" + roles[j].id;
+                    var selectedPermission = checkSelectedPermissionForRole(roles[j].id);
                     var parameters = {
                         ":viewer@Delete": role,
                         ":manager@Delete": role
@@ -211,23 +211,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         parameters = {
                             ":viewer@Delete": role,
                             ":manager": role
-                        }
+                        };
                         aclParameters = {
                             "principalId": role,
                             "privilege@jcr:write": "granted",
                             "privilege@jcr:read": "granted"
-                        }
+                        };
                     } else if (selectedPermission === "view"){
                         parameters = {
                             ":viewer": role,
                             ":manager@Delete": role
-                        }
+                        };
                         aclParameters = {
                             "principalId": role,
                             "privilege@jcr:write": "denied",
                             "privilege@jcr:read": "granted"
-                        }
-                    };
+                        };
+                    }
                     permissionsBatch.push({
                         "url": contextData.pageSavePath + ".members.json",
                         "method": "POST",

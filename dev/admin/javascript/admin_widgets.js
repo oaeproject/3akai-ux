@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*global $, fluid, window */
+/*global $, window */
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.admin_widgets = function(tuid, showSettings){

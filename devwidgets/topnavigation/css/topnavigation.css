@@ -23,14 +23,14 @@
 .topnavigation_explore li a, .topnavigation_user_container #topnavigation_user_options_name, .topnavigation_user_container #topnavigation_user_options_login, .topnavigation_user_container #topnavigation_user_options_login_external{display:block;padding:7px 25px 10px;color:#fff; text-decoration:none;}
 .topnavigation_explore .hassubnav:hover, .topnavigation_user_container .hassubnav:hover {-moz-border-radius:2px 2px 0 0; border-radius:2px 2px 0 0; -webkit-border-radius:2px 2px 0 0;}
 .topnavigation_explore .topnavigation_close_override, .topnavigation_user_container .topnavigation_close_override {background: none;}
-
+.topnavigation_user_container #topnavigation_user_options_login_wrapper:hover, .topnavigation_user_container #topnavigation_user_options_login_wrapper.topnavigation_force_submenu_display_title {border-radius:2px 2px 0 0;}
 .topnavigation_right {float:right;}
 
 /* SEARCH */
 .topnavigation_search {float:left;margin-top:8px;height: 20px;margin-right: 10px;}
 .topnavigation_search {width:190px;}
 .topnavigation_search input {width: 12.25em; height: 20px !important; margin-top: 1px;}
-.topnavigation_search .s3d-search-button:hover {border:none !important;}
+.topnavigation_search .s3d-search-button:hover, .topnavigation_search .s3d-search-button:focus {border:none !important;}
 .topnavigation_search #topnavigation_search_results {border: 1px solid #999999;margin: 0;width:229px;z-index: 10000;box-shadow:0 8px 15px -2px #555555;-webkit-box-shadow:0 8px 15px -2px #555555;box-shadow:0 8px 15px -2px #555555;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
 .topnavigation_search #topnavigation_search_results_container{background: url("/devwidgets/topnavigation/images/topnav_search_bg.png") repeat-x scroll left bottom #F3F3F3;padding:12px 3px 5px;}
 .topnavigation_search #topnavigation_search_results_bottom_container {background-color:#F3F3F3;height:32px;padding:4px 3px 0 12px;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
@@ -84,7 +84,11 @@
 .topnavigation_counts_container #topnavigation_user_collections_icon {background: url("/dev/images/collections_icon_20x20.png") no-repeat scroll left top transparent;height:20px;margin-top:-3px;width:20px;}
 .topnavigation_user_container #topnavigation_user_inbox_container {color:#fff;width:60px;margin-top:11px;text-decoration:none;float:left;}
 
-#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -150px;margin-top:0;position: absolute;width: 241px;z-index: 11000;}
+#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left:-151px;margin-top:0;position: absolute;width: 241px;z-index: 11000;}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+     /* put webkit CSS here*/
+     #topnavigation_user_options_login_fields {margin-left:-156px;}
+}
 #topnavigation_user_options_login_fields_container.s3d-dropdown-menu-content-container {padding:0 12px;}
 #topnavigation_user_options_login_fields_bottom_container {background-color: #F3F3F3; height: 28px; padding:0px 3px 0 12px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-bottom: 5px;margin-top: 7px;font-size: 11px;}

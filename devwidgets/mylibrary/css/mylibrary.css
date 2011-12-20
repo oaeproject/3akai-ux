@@ -48,11 +48,10 @@
 .mylibrary_item_description{margin:0px;font-size:.90em;padding:6px 0; word-wrap: break-word;}
 .mylibrary_item_share_icon{display:inline-block;float:right; margin-right: 10px;}
 .mylibrary_item_author_icon{margin-left:8px;display:inline-block;float:right;}
-.mylibrary_item_usedin{margin-top:2px;font-size:11px;}
-.mylibrary_item_icon{display: inline-block;height: 10px;width: 15px;}
+.mylibrary_item_usedin{margin-top:6px;font-size:11px;}
+.mylibrary_item_icon{display: inline-block;height: 10px;margin-right: 2px;width: 15px;}
 .mylibrary_item_usedin_icon{background: url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
 .mylibrary_item_comments_icon{margin-left:8px;background: url("/devwidgets/entity/images/entity_comment_icon.png") no-repeat scroll left top transparent;}
-.mylibrary_item_tags_list {margin:0px 0 0 20px;font-size:11px; padding-bottom: 4px;}
 .mylibrary_item:hover {background-color: #f2f9fc;}
 #mylibrary_empty{width:100%;}
 /* Used in group filter */
