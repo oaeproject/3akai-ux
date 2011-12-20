@@ -111,13 +111,18 @@
                     </div>
                     <div id="newaddcontent_existingitems_list_container">
                         <div id="newaddcontent_existingitems_list_container_actions">
-                            <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall"/>
-                            <select id="newaddcontent_existingitems_list_container_actions_sort" class="fl-force-right">
-                                <option data-sort-order="desc" data-sort-on="_lastModified">__MSG__CHANGED_RECENTLY__</option>
-                                <option data-sort-order="asc" data-sort-on="filename">__MSG__A_Z__</option>
-                                <option data-sort-order="desc" data-sort-on="filename">__MSG__Z_A__</option>
-                            </select>
-                            <label for="newaddcontent_existingitems_list_container_actions_sort" id="newaddcontent_existingitems_list_container_actions_sort_label" class="fl-force-right">__MSG__SORT_BY__</label>
+                            <div class="fl-force-left">
+                                <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall" class="fl-force-left"/>
+                                <label for="newaddcontent_existingitems_list_container_actions_checkall" id="newaddcontent_existingitems_list_container_actions_checkall_label" class="fl-force-left">__MSG__SELECT_ALL__</label>
+                            </div>
+                            <div class="fl-force-right">
+                                <select id="newaddcontent_existingitems_list_container_actions_sort" class="fl-force-right">
+                                    <option data-sort-order="desc" data-sort-on="_lastModified">__MSG__CHANGED_RECENTLY__</option>
+                                    <option data-sort-order="asc" data-sort-on="filename">__MSG__A_Z__</option>
+                                    <option data-sort-order="desc" data-sort-on="filename">__MSG__Z_A__</option>
+                                </select>
+                                <label for="newaddcontent_existingitems_list_container_actions_sort" id="newaddcontent_existingitems_list_container_actions_sort_label" class="fl-force-right">__MSG__SORT_BY__</label>
+                            </div>
                         </div>
                         <div id="newaddcontent_existingitems_list_container_list"><!-- --></div>
                     </div>

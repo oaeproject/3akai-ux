@@ -1010,6 +1010,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                         existingItems = data.results;
                     }
                     $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "query":q, "sakai":sakai, "queue":existingIDs, "context":currentExistingContext}));
+                    // Uncheck the check all checkbox
+                    $(newaddcontentExistingCheckAll).removeAttr("checked");
+                    // Disable the add button
+                    disableAddToQueue();
                     var numberOfPages = Math.ceil(data.total / 10);
                     $("#newaddcontent_existingitems_paging").pager({
                         pagenumber: pagenum,
