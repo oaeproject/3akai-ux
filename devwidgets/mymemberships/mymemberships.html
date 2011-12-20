@@ -142,10 +142,10 @@
                         {/if}
                     </div>
                     {if group.desc}<div class="mymemberships_item_description s3d-search_result-description">${group.desc}</div>{/if}
-                    {if !$.isEmptyObject(group.tagsProcessed)}
+                    {if !$.isEmptyObject(group.tags)}
                         <div class="mymemberships_item_tags">
                             <ul class="mymemberships_item_tags_list s3d-taglist">
-                                {for t in group.tagsProcessed}
+                                {for t in group.tags}
                                     <li>
                                         <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
                                             <span class="s3d-search-result-tag">${t.tagShort}</span>
