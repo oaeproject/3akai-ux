@@ -551,6 +551,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     $parentDiv.prevAll(discussionTopicRepliesContainer).append(renderedTemplate);
 
                     $parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(parseInt($parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(), 10) + 1);
+                    $parentDiv.parents(discussionTopicContainer).find(".discussion_show_replies_icon").show();
                     sakai.api.Util.renderMath(tuid);
                     disableEnableButtons(true);
                 },
