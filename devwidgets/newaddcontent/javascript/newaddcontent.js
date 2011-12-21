@@ -1086,9 +1086,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Prepare and call the function to render existing content in a list
          */
         var prepareContentSearch = function(pagenum){
-            if (pagenum.keyCode === 13 || pagenum == parseInt(pagenum, 10) || pagenum.currentTarget.id === "newaddcontent_existing_search"){
+            if (pagenum == parseInt(pagenum, 10)){
                 var query = $.trim($newaddcontentExistingItemsSearch.val());
                 renderExistingContent(query, pagenum);
+            }
+        };
+
+        /**
+         * Do a search on existing content
+         */
+        var searchExistingContent = function(ev){
+            if (ev.keyCode === 13 || ev.currentTarget.id === "newaddcontent_existing_search_button"){
+                prepareContentSearch(1);
             }
         };
 
@@ -1201,8 +1210,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $(newaddcontentSelectedItemsRemove).live("click", removeItemToAdd);
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
-            $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
-            $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
+            $newaddcontentExistingItemsSearch.keydown(searchExistingContent);
+            $(newaddcontentAddExistingSearchButton).click(searchExistingContent);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentExistingItemsListContainerActionsSort).live("change", function(){searchPaging(1);});
