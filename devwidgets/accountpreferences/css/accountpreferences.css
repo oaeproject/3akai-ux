@@ -52,9 +52,9 @@ div.accountpreferences_error{color:#9F3333;font-weight:bold;left:180px;position:
 
 /* preferences autotagging options */
 #accountpreferences_section_autotagging_radio{display:none;}
-#accountpreferences_section_autotagging_buttons{float:left;padding:0;height:22px;margin:6px 0 0 5px;border-color:#828282;background-color:#828282;}
+#accountpreferences_section_autotagging_buttons{float:left;padding:0;height:auto;margin:6px 0 0 5px;border-color:#828282;background-color:#828282;}
 #accountpreferences_section_autotagging_buttons:hover{background:none;background-color:#828282;}
-#accountpreferences_section_autotagging_buttons button{cursor:pointer;border:0;float:left;background-color:#a3a3a3;box-shadow:0 0 8px -2px #505050 inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
+#accountpreferences_section_autotagging_buttons button{cursor:pointer;border:none;margin:0;float:left;background-color:#a3a3a3;box-shadow:0 0 8px -2px #505050 inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
 #accountpreferences_section_autotagging_buttons button span{line-height: 16px; padding-top:2px;margin:0;display:block;height:18px;width:30px;font-weight:bold;}
 #accountpreferences_section_autotagging_buttons button.accountpreferences_autotagging_selected{background-color:#FAFAFA;box-shadow:0 0 8px -2px #AAAAAA inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
 #accountpreferences_section_autotagging_buttons #button_autotagging_true.accountpreferences_autotagging_selected{color:#008109;}
