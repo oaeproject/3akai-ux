@@ -851,12 +851,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     var newRef = false;
                     var checkRefPage = checkRef.split("-")[0];
                     var checkRefId = checkRef.split("-")[1];
-                    for (var i = 0; i < structure[parts[0]]._elements.length; i++) {
-                        if (checkRefId !== structure[parts[0]]._elements[i].main._ref && !newRef){
-                            newRef = structure[parts[0]]._elements[i].main._ref;
-                        }
+                    // The page ref should be the first sub page
+                    if (structure[parts[0]]._elements
+                        && structure[parts[0]]._elements[0]
+                        && structure[parts[0]]._elements[0].main
+                        && checkRefId !== structure[parts[0]]._elements[0].main._ref) {
+                        structure[parts[0]]._ref = checkRefPage + "-" + structure[parts[0]]._elements[0].main._ref;
                     }
-                    structure[parts[0]]._ref = checkRefPage + "-" + newRef;
                 }
             }
         }
