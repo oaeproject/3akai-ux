@@ -635,6 +635,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     renderSettings();
                     $embedcontent_settings.show();
+                    $(".as-selections input:visible", $rootel).focus();
                 } else if (!success) {
                     renderDefaultContent();
                     $embedcontent_main_container.show();
