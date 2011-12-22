@@ -35,33 +35,33 @@
                         {var thumbnail = sakai.api.Content.getThumbnail(item.fullresult)}
                         {if embedmethod === "thumbnail" && thumbnail}
                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                            <a href="/content#p=${item.link|safeURL}" title="${item.name}">
+                            <a href="${item.contentProfileLink}" title="${item.name}">
                                 <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                             </a>
                         {elseif sakai.api.Content.hasPreview(item.fullresult) && embedmethod !== "thumbnail"}
                             <div id="widget_documentviewer_${item.placement}" class="widget_inline"></div>
                         {elseif sakai.config.MimeTypes[mimeType]}
-                            <a href="/content#p=${item.link}">
+                            <a href="${item.contentProfileLink}">
                                 <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}"/>
                             </a>
                         {else}
-                            <a href="/content#p=${item.link}">
+                            <a href="${item.contentProfileLink}">
                                 <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
                             </a>
                         {/if}
                         <div class="embedcontent_details">
-                            {if name}<span><a href="/content#p=${item.link}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
+                            {if name}<span><a href="${item.contentProfileLink}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                             {if details}<span class="embedcontent_include_details">${item.description|safeOutput}</span>{/if}
                             {if download}
                                 <span>
                                 {if item._mimeType === "x-sakai/document"}
-                                    <a href="/content#p=${item.link}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__VIEW_DOCUMENT__</a>
+                                    <a href="${item.downloadLink}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__VIEW_DOCUMENT__</a>
                                 {elseif sakai.api.Content.Collections.isCollection(item)}
-                                    <a href="/content#p=${item.link}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__VIEW_COLLECTION__</a>
+                                    <a href="${item.downloadLink}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__VIEW_COLLECTION__</a>
                                 {elseif item._mimeType === "x-sakai/link"}
-                                    <a href="${item.link|safeOutput}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a>
+                                    <a href="${item.downloadLink}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a>
                                 {else}
-                                    <a href="/p/${item.link}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__DOWNLOAD__</a>
+                                    <a href="${item.downloadLink}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__DOWNLOAD__</a>
                                 {/if}
                                 </span>
                             {/if}
