@@ -661,50 +661,123 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Save an edited page //
         /////////////////////////
 
+        var executeDuplicateWidgetsCallback = function(widgetduplicates, content, callback){
+
+            // No duplicates were found, so we execute the callback
+            if(widgetduplicates === 0){
+                callback(content.html());
+            }
+
+        }
+
+        var updateDuplicateWidgets = function(content, callback){
+
+            var tempcontent = $("<div>").append($(content));
+            var widgetid = "";
+            var widgetids = [];
+            var widgetduplicates = 0;
+
+            $.each(tempcontent.find(".widget_inline"), function(index, value){
+
+                widgetid = value.id;
+
+                // Check whether there is a widget with the same id already
+                if($.inArray(widgetid, widgetids) > -1) {
+                    var widgetsplit = widgetid.split("_");
+                    var widgetrealid = widgetsplit[2];
+                    var widgetname = widgetsplit[1];
+                    var widgetprefix = widgetsplit[0];
+
+                    // Find the duplicates & modify those
+                    $.each(tempcontent.find("img#" + widgetid + ":gt(0)"), function(widgetindex, widgetvalue){
+
+                        widgetduplicates++;
+
+                        // Load the old widget data & perform some changes to that data
+                        sakai.api.Widgets.loadWidgetData(widgetrealid, function(loadsuccess,widgetdata){
+
+                            if(loadsuccess) {
+                                var newwidgetid = sakai.api.Util.generateWidgetId();
+                                var newpath = "/p/" + widgetdata["_path"].replace(widgetrealid, newwidgetid);
+
+                                widgetvalue.id = widgetprefix + "_" + widgetname + "_" + newwidgetid;
+
+                                sakai.api.Widgets.widgetLoader.widgets[newwidgetid] = {
+                                    placement: newpath,
+                                    name: widgetname
+                                }
+
+                                // Remove all the properties that start with _
+                                for(var i in widgetdata) {
+                                    if(widgetdata.hasOwnProperty(i) && (i.substring(0,1) === "_" || i.substring(0,6) === "sakai:" || i.substring(0,6) === "sling:") ){
+                                        delete widgetdata[i];
+                                    }
+                                }
+
+                                sakai.api.Widgets.saveWidgetData(newwidgetid, widgetdata, function(savesuccess){
+
+                                    if(savesuccess){
+                                        widgetduplicates--;
+                                        executeDuplicateWidgetsCallback(widgetduplicates, tempcontent, callback);
+                                    }
+
+                                }, true)
+                            }
+
+                        });
+                    });
+                }
+
+                // Add the widget id to the main widget id array
+                widgetids.push(widgetid);
+            })
+            executeDuplicateWidgetsCallback(widgetduplicates, tempcontent, callback)
+        }
+
         var savePage = function(){
             clearIntervals();
-            var pageContent = getTinyMCEContent();
+            updateDuplicateWidgets(getTinyMCEContent(), function(pageContent) {
+                // Store the edited content
+                var toStore = {};
+                toStore[currentPageShown.saveRef] = {
+                    page: pageContent
+                };
+                $.ajax({
+                    url: currentPageShown.pageSavePath,
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        ":operation": "import",
+                        ":contentType": "json",
+                        ":replace": true,
+                        ":replaceProperties": true,
+                        "_charset_":"utf-8",
+                        ":content": $.toJSON(toStore)
+                    },
+                    success: function(){
+                        currentPageShown.content = pageContent;
 
-            // Store the edited content
-            var toStore = {};
-            toStore[currentPageShown.saveRef] = {
-                page: pageContent
-            };
-            $.ajax({
-                url: currentPageShown.pageSavePath,
-                type: "POST",
-                dataType: "json",
-                data: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":replace": true,
-                    ":replaceProperties": true,
-                    "_charset_":"utf-8",
-                    ":content": $.toJSON(toStore)
-                },
-                success: function(){
-                    currentPageShown.content = pageContent;
+                        stopEditPage();
+                        renderPage(true);
 
-                    stopEditPage();
-                    renderPage(true);
-
-                    // add pageContent in non-replace mode to support versioning
-                    $.ajax({
-                        url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
-                        type: "POST",
-                        data: {
-                            "sling:resourceType": "sakai/pagecontent",
-                            "sakai:pagecontent": $.toJSON(toStore),
-                            "_charset_": "utf-8"
-                        }, success: function(){
-                            $(window).trigger("update.versions.sakai", currentPageShown);
-                        }
-                    });
-                },
-                error: function(xhr, textStatus, thrownError){
-                    // the content is probably too large, display an error
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
-                }
+                        // add pageContent in non-replace mode to support versioning
+                        $.ajax({
+                            url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
+                            type: "POST",
+                            data: {
+                                "sling:resourceType": "sakai/pagecontent",
+                                "sakai:pagecontent": $.toJSON(toStore),
+                                "_charset_": "utf-8"
+                            }, success: function(){
+                                $(window).trigger("update.versions.sakai", currentPageShown);
+                            }
+                        });
+                    },
+                    error: function(xhr, textStatus, thrownError){
+                        // the content is probably too large, display an error
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                    }
+                });
             });
         };
 
