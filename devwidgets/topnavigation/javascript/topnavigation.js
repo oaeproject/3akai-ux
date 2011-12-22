@@ -639,11 +639,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return false; // prevent browser page from scrolling down
                 } else if (e.which === $.ui.keyCode.TAB && e.shiftKey) {
                     closeMenu();
-                    if ($focusElement.attr("id") === "topnavigation_user_options_login_wrapper") {
-                        mouseOverSignIn = false;
-                        $(topnavUserLoginButton).trigger("mouseout");
-                        $("html").trigger("click");
-                    }
                 } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
                     // if a letter was pressed, search for the first menu item that starts with the letterletter
                     var key = String.fromCharCode(e.which).toLowerCase();
@@ -881,7 +876,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
             });
 
-            $("#topnavigation_search_input,#navigation_anon_signup_link,#topnavigation_user_inbox_container").bind("focus",function(evt){
+            $("#topnavigation_search_input,#navigation_anon_signup_link,#topnavigation_user_inbox_container,.topnavigation_search .s3d-search-button").bind("focus",function(evt){
                 mouseOverSignIn = false;
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
