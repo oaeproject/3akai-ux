@@ -188,10 +188,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "fullresult" : result
             };
+            var link = sakai.api.Util.safeURL((name || result['_path']) + "/" + result['sakai:pooled-content-file-name']);
             if (dataObj._mimeType === "x-sakai/link"){
-                dataObj.link = result["sakai:pooled-content-url"];
+                dataObj.downloadLink = result["sakai:pooled-content-url"];
+                dataObj.contentProfileLink = "/content#p=" + link;
             } else {
-                dataObj.link = sakai.api.Util.safeURL((name || result['_path'])) + "/" + sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']);
+                dataObj.downloadLink = "/p/" + link;
+                dataObj.contentProfileLink = "/content#p=" + link;
             }
 
             // if the type is application need to auto check the display name so set ispreviewexist false
