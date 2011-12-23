@@ -58,7 +58,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 newtags = _.first( newtags, 20 );
             }
             sakai.api.Util.TemplateRenderer( $tags_main_template, { tags: newtags }, $tags_main );
-            $tags_main.show();
+            $tags_main.show().find('ul').tagcloud({
+                type: "list",
+                sizemin: 10,
+                sizemax: 18,
+                colormin: "628ebc",
+                colormax: "628ebc"
+            });
         };
 
         var loadData = function(directory, callback){
