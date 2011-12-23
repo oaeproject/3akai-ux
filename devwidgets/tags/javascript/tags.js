@@ -61,9 +61,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $tags_main.show().find('ul').tagcloud({
                 type: "list",
                 sizemin: 10,
-                sizemax: 18,
-                colormin: "628ebc",
-                colormax: "628ebc"
+                sizemax: 20,
+                colormin: "2683BC",
+                colormax: "2683BC"
             });
         };
 
