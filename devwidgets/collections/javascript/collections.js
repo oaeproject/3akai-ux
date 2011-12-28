@@ -58,6 +58,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectionsSaveNewButton = "#collections_save_new_button";
         var collectionsNewCollectionPermission = "#collections_newcollection_permissions";
         var collectionCountsContentCountsNew = "#collection_counts_content_counts_new";
+        var collectionsCollectionTitle = "#collections_collection_title";
 
         // Classes
         var collectionsAddNewSteps = ".collections_add_new_steps";
@@ -96,7 +97,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(collectionsNoCollections).hide();
             $(collectionsAddNewContainer).show();
             $(collectionsNewActionButtons).show();
-            $("#collections_collection_title").focus();
             if (!$collectionsWidget.is(":visible")){
                 $collectionsWidget.animate({
                     'margin-bottom': 'toggle',
@@ -104,7 +104,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     'opacity': 'toggle',
                     'padding-top': 'toggle',
                     'padding-bottom': 'toggle'
-               }, 400);
+               }, 400, function(){
+                 $(collectionsCollectionTitle).focus();
+               });
             }
         };
 
