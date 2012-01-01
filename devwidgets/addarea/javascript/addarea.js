@@ -502,7 +502,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getTotalCount = function(structure){
             var total = 0;
             for (var i in structure){
-                total++;
+                if (structure.hasOwnProperty(i)){
+                    total++;
+                }
             }
             return total;
         };

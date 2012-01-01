@@ -680,15 +680,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             sakai.api.Server.saveJSON("/p/" + documentObj._path, content, function(){
                 var batchRequests = [];
                 for (var i in content){
-                    batchRequests.push({
-                        url: "/p/" + documentObj["_path"] + "/" + i + ".save.json",
-                        parameters: {
-                            "sling:resourceType": "sakai/pagecontent",
-                            "sakai:pagecontent": content[i],
-                            "_charset_": "utf-8"
-                        },
-                        method: "POST"
-                    });
+                    if (content.hasOwnProperty(i)){
+                        batchRequests.push({
+                            url: "/p/" + documentObj["_path"] + "/" + i + ".save.json",
+                            parameters: {
+                                "sling:resourceType": "sakai/pagecontent",
+                                "sakai:pagecontent": content[i],
+                                "_charset_": "utf-8"
+                            },
+                            method: "POST"
+                        });
+                    }
                 }
                 sakai.api.Server.batch(batchRequests, function(success, response){
                      setDataOnContent(documentObj);
