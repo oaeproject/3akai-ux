@@ -395,7 +395,7 @@ define(
             }
             var removeServerFormating = function(structure, id){
                 for (var i in structure){
-                    if (i.indexOf(id + "/") === 0){
+                    if (structure.hasOwnProperty(i) && i.indexOf(id + "/") === 0){
                         var newid = i.substring(i.lastIndexOf("/") + 1);
                         structure[newid] = structure[i];
                         delete structure[i];
