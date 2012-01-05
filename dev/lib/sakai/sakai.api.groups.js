@@ -946,6 +946,7 @@ define(
 
         getRoles : function(groupData, translate) {
             var roles = [];
+            groupData.roles = groupData.roles || groupData["sakai:roles"];
             if ( _.isString( groupData.roles ) ) {
                 groupData.roles = $.parseJSON( groupData.roles );
             }
