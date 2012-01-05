@@ -765,6 +765,25 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 // Add the selected library as a viewer to the cached results
                 contentObj["sakai:pooled-content-viewer"] = contentObj["sakai:pooled-content-viewer"] || [];
                 contentObj["sakai:pooled-content-viewer"].push(libraryToUploadTo);
+                // If we are in the context of the group, make the group managers a manager of the
+                // content as well
+                if (sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-id"] === libraryToUploadTo){
+                    // We only do this if the system is configured to support this
+                    if (sakai.config.Permissions.Groups.addcontentmanagers){
+                        var roles = sakai.api.Groups.getRoles(sakai_global.group.groupData);
+                        for (var role in roles){
+                            if (roles.hasOwnProperty(role) && roles[role].isManagerRole){
+                                batchRequests.push({
+                                    url: "/p/" + contentObj["_path"] + ".members.json",
+                                    parameters: {
+                                        ":manager": libraryToUploadTo + "-" + roles[role].id
+                                    },
+                                    method: "POST"
+                                });
+                            }
+                        }
+                    }
+                }
             }
 
             // Set initial version
