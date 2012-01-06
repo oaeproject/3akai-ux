@@ -263,8 +263,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var setManagerProperty = function(structure, value){
             for (var i in structure){
-                structure[i]._canEdit = value;
-                structure[i]._canSubedit = value;
+                if (structure.hasOwnProperty(i)){
+                    structure[i]._canEdit = value;
+                    structure[i]._canSubedit = value;
+                }
             }
             return structure;
         };

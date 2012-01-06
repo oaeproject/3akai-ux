@@ -85,8 +85,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var searchBottomTemplate = "search_bottom_template";
         var topnavUserTemplate = "topnavigation_user_template";
 
-        var shiftDown = false;
-
         var renderObj = {
             "people":"",
             "groups":"",
@@ -167,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }));
             if (externalAuth){
                 setExternalLoginRedirectURL();
-            };
+            }
         };
 
         var setExternalLoginRedirectURL = function(){
@@ -181,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             // Check whether we require a redirect
             if (qs.get("url")) {
-                redirectURL = qs.get("url");;
+                redirectURL = qs.get("url");
             // Go to You when you're on explore page
             } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
@@ -191,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 redirectURL = "/me";
             }
             return redirectURL;
-        }
+        };
 
        /**
          * Check if a redirect should be performed
@@ -581,47 +579,72 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
-            // bind down/left/right keys for top menu
-            $("#topnavigation_container .s3d-dropdown-menu,.topnavigation_counts_container button").keydown(function(e) {
-                if (e.which === $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
-                    $(this).find("div a:first").focus();
+            // bind down/left/right/letter keys for explore menu
+            $("#topnavigation_container .topnavigation_explore .s3d-dropdown-menu,.topnavigation_counts_container button").keydown(function(e) {
+                var $focusElement = $(this);
+                if (e.which === $.ui.keyCode.DOWN && $focusElement.hasClass("hassubnav")) {
+                    $focusElement.find("div a:first").focus();
                     return false; // prevent browser page from scrolling down
-                } else if (e.which === $.ui.keyCode.LEFT || (e.which === $.ui.keyCode.TAB && shiftDown) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                } else if (e.which === $.ui.keyCode.LEFT || (e.which === $.ui.keyCode.TAB && e.shiftKey) && $focusElement.attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
                     closePopover();
-                    var $focusElement = $(this);
-                    if($(this).parents(".topnavigation_counts_container").length){
-                        $focusElement = $(this).parents(".topnavigation_counts_container");
+                    if($focusElement.parents(".topnavigation_counts_container").length){
+                        $focusElement = $focusElement.parents(".topnavigation_counts_container");
                     }
                     if($focusElement.prev(".topnavigation_counts_container").length){
                         $focusElement.prev(".topnavigation_counts_container").children("button").focus()
+                        return false;
+                        $focusElement.prev(".topnavigation_counts_container").children("button").focus();
                     } else if ($focusElement.prev("li:first").length){
                         $focusElement.prev("li:first").children("a").focus();
-                    } else {
+                        return false;
+                    } else if (!(e.which === $.ui.keyCode.TAB && e.shiftKey)){
                         $focusElement.nextAll("li:last").children("a").focus();
+                        return false;
                     }
-                    return false;
-                } else if ((e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.TAB) && $(this).attr("id") !== "topnavigation_user_options_login_wrapper") {
+                } else if ((e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.TAB) && $focusElement.attr("id") !== "topnavigation_user_options_login_wrapper") {
                     closeMenu();
                     closePopover();
-                    var $focusElement = $(this);
-                    if($(this).parents(".topnavigation_counts_container").length){
-                        $focusElement = $(this).parents(".topnavigation_counts_container");
+                    if($focusElement.parents(".topnavigation_counts_container").length){
+                        $focusElement = $focusElement.parents(".topnavigation_counts_container");
                     }
                     if($focusElement.next(".topnavigation_counts_container").length){
-                        $focusElement.next(".topnavigation_counts_container").children("button").focus()
+                        $focusElement.next(".topnavigation_counts_container").children("button").focus();
                     } else if ($focusElement.next("li:first").length){
                         $focusElement.next("li:first").children("a").focus();
+                    } else if ($focusElement.prevAll("li:last").length && e.which === $.ui.keyCode.RIGHT){
+                        $focusElement.prevAll("li:last").children("a").focus();
                     } else {
                         $("#topnavigation_search_input").focus();
                     }
                     return false;
-                } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
+                } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
                     // if a letter was pressed, search for the first menu item that starts with the letter
-                    var keyPressed = String.fromCharCode(e.which).toLowerCase();
-                    $(this).find("ul:first").children().each(function(index, item){
+                    var key = String.fromCharCode(e.which).toLowerCase();
+                    $focusElement.find("ul:first").children().each(function(index, item){
                         var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
-                        if (keyPressed === firstChar){
+                        if (key === firstChar){
+                            $(item).find("a").focus();
+                            return false;
+                        }
+                    });
+                }
+            });
+
+            // bind keys for right menu
+            $("#topnavigation_container .topnavigation_right .s3d-dropdown-menu").keydown(function(e) {
+                var $focusElement = $(this);
+                if (e.which === $.ui.keyCode.DOWN && $focusElement.hasClass("hassubnav")) {
+                    $focusElement.find("div a:first").focus();
+                    return false; // prevent browser page from scrolling down
+                } else if (e.which === $.ui.keyCode.TAB && e.shiftKey) {
+                    closeMenu();
+                } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
+                    // if a letter was pressed, search for the first menu item that starts with the letterletter
+                    var key = String.fromCharCode(e.which).toLowerCase();
+                    $focusElement.find("ul:first").children().each(function(index, item){
+                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                        if (key === firstChar){
                             $(item).find("a").focus();
                             return false;
                         }
@@ -853,7 +876,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
             });
 
-            $("#topnavigation_search_input,#navigation_anon_signup_link,#topnavigation_user_inbox_container").bind("focus",function(evt){
+            $("#topnavigation_search_input,#navigation_anon_signup_link,#topnavigation_user_inbox_container,.topnavigation_search .s3d-search-button").bind("focus",function(evt){
                 mouseOverSignIn = false;
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
@@ -888,18 +911,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".topnavigation_trigger_login").live("click", forceShowLogin);
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
-
-            $(window).keydown(function(e){
-                if (e.which === $.ui.keyCode.SHIFT){
-                    shiftDown = true;
-                }
-            });
-
-            $(window).keyup(function(e){
-                if (e.which === $.ui.keyCode.SHIFT){
-                    shiftDown = false;
-                }
-            });
         };
 
 

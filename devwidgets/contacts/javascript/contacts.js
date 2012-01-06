@@ -46,8 +46,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var contactsAcceptedEmptyTemplate = "contacts_accepted_empty_template";
         var contactsInvitedTemplate = "contacts_invited_template";
         var contactsInvitedContainer = "#contacts_invited_container";
-        var contactsShowGrid = ".s3d-listview-grid"
-        var contactsShowList = ".s3d-listview-list"
+        var contactsShowGrid = ".s3d-listview-grid";
+        var contactsShowList = ".s3d-listview-list";
         var contacts = {  // global data for contacts widget
             totalItems: 0,
             sortBy: "lastName",
@@ -243,7 +243,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 success: function(data){
                     contacts.invited = data;
                     for (var i in contacts.invited.results) {
-                        contacts.invited.results[i].linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.User.getDisplayName(contacts.invited.results[i].profile)); 
+                        if (contacts.invited.results.hasOwnProperty(i)){
+                            contacts.invited.results[i].linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.User.getDisplayName(contacts.invited.results[i].profile));
+                        }
                     }
                     renderPendingContacts();
                     callback();
@@ -377,7 +379,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     contacts.query = q;
                     $.bbq.pushState({"cq": q});
                 }
-            })
+            });
         };
 
         var doInit = function(){

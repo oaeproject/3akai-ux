@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                     renderContainer();
                 } else {
-                    debug.warn("Page contents could not be fetched.")
+                    debug.warn("Page contents could not be fetched.");
                 }
             });
         };
@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 delete data[pageToAdd];
                 totalToOrder--;
-            };
+            }
             fetchPageContent();
         };
 
@@ -116,8 +116,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(this).addClass("selected");
                 $(".pageviewer_content_for_page", $rootel).hide();
                 $("#pageviewer_content_for_page_" + $(this).data("index"), $rootel).show();
-            })
-        }
+            });
+        };
 
         var doInit = function(){
             addBinding();

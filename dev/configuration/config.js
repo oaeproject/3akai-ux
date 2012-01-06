@@ -200,7 +200,9 @@ define(function(){
                     "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
-                "defaultjoin": "yes" // no, yes, or withauth (see above for descriptions)
+                "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
+                "addcontentmanagers": true // true, false. If set to yes, group managers will be added as manager for a file 
+                                           // added to a group library in context of that group
             },
             Content: {
                 /*

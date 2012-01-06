@@ -527,8 +527,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                         sakai: sakai,
                         me: sakai.data.me,
                         libraryid: libraryToUploadTo,
-                        librarytitle: librarytitle,
-                        sakai: sakai
+                        librarytitle: librarytitle
                     }));
                 }
             }
@@ -681,15 +680,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             sakai.api.Server.saveJSON("/p/" + documentObj._path, content, function(){
                 var batchRequests = [];
                 for (var i in content){
-                    batchRequests.push({
-                        url: "/p/" + documentObj["_path"] + "/" + i + ".save.json",
-                        parameters: {
-                            "sling:resourceType": "sakai/pagecontent",
-                            "sakai:pagecontent": content[i],
-                            "_charset_": "utf-8"
-                        },
-                        method: "POST"
-                    });
+                    if (content.hasOwnProperty(i)){
+                        batchRequests.push({
+                            url: "/p/" + documentObj["_path"] + "/" + i + ".save.json",
+                            parameters: {
+                                "sling:resourceType": "sakai/pagecontent",
+                                "sakai:pagecontent": content[i],
+                                "_charset_": "utf-8"
+                            },
+                            method: "POST"
+                        });
+                    }
                 }
                 sakai.api.Server.batch(batchRequests, function(success, response){
                      setDataOnContent(documentObj);
@@ -766,6 +767,25 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
                 // Add the selected library as a viewer to the cached results
                 contentObj["sakai:pooled-content-viewer"] = contentObj["sakai:pooled-content-viewer"] || [];
                 contentObj["sakai:pooled-content-viewer"].push(libraryToUploadTo);
+                // If we are in the context of the group, make the group managers a manager of the
+                // content as well
+                if (sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-id"] === libraryToUploadTo){
+                    // We only do this if the system is configured to support this
+                    if (sakai.config.Permissions.Groups.addcontentmanagers){
+                        var roles = sakai.api.Groups.getRoles(sakai_global.group.groupData);
+                        for (var role in roles){
+                            if (roles.hasOwnProperty(role) && roles[role].isManagerRole){
+                                batchRequests.push({
+                                    url: "/p/" + contentObj["_path"] + ".members.json",
+                                    parameters: {
+                                        ":manager": libraryToUploadTo + "-" + roles[role].id
+                                    },
+                                    method: "POST"
+                                });
+                            }
+                        }
+                    }
+                }
             }
 
             // Set initial version
@@ -1206,7 +1226,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
             $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
-            $(newaddcontentExistingItemsListContainerActionsSort).live("change", function(){searchPaging(1)});
+            $(newaddcontentExistingItemsListContainerActionsSort).live("change", function(){searchPaging(1);});
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit + ", #assignlocation_container");
             sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
@@ -1269,8 +1289,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
         var setCurrentlySelectedLibrary = function(){
             if (sakai_global.group && sakai_global.group.groupId){
                 currentSelectedLibrary = sakai_global.group.groupId;
-            } else if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai_global.content_profile.content_data.data
-                       && sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
+            } else if (sakai_global.content_profile && sakai_global.content_profile.content_data && sakai_global.content_profile.content_data.data &&
+                sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
                 currentSelectedLibrary = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
             }
         };

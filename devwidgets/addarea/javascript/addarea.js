@@ -502,7 +502,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getTotalCount = function(structure){
             var total = 0;
             for (var i in structure){
-                total++;
+                if (structure.hasOwnProperty(i)){
+                    total++;
+                }
             }
             return total;
         };
@@ -772,6 +774,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (!query) {
                 url = "/var/search/pool/all-all.0.json";
             }
+
             if (library) {
                 json["userid"] = sakai.data.me.user.userid;
                 url = "/var/search/pool/manager-viewer.json";

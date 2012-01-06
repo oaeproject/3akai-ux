@@ -208,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Fill in media and goodies
             for (var i in sakai.widgets){
-                if (i) {
+                if (sakai.widgets.hasOwnProperty(i) && i) {
                     var widget = sakai.widgets[i];
                     if (widget[pageEmbedProperty] && widget.showinmedia) {
                         media.items.push(widget);
@@ -774,6 +774,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#sakaidocs_revisions").bind("click",function(ev){
+            $(this).children("span").toggle();
+            $(this).toggleClass("selected");
             $(window).trigger("init.versions.sakai", currentPageShown);
         });
 
