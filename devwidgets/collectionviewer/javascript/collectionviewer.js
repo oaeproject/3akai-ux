@@ -50,6 +50,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectionData = [];
         var carouselInitialized = false;
         var fetchCollectionData = false;
+        var initialload = true;
 
         // containers
         var $collectionviewerCarouselContainer = $("#collectionviewer_carousel_container", $rootel);
@@ -338,6 +339,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var handleRealHashChange = function(){
+            var $element = $(".collectionviewer_carousel_item[data-item-id=" + $.bbq.getState("item") + "]");
+            $(".collectionviewer_carousel_item", $rootel).removeClass("selected");
+            $element.addClass("selected");
+            $(window).unbind("ready.collectionviewer.sakai");
+            $(window).unbind("start.collectioncontentpreview.sakai");
+            renderItemsForSelected(parseInt($element.attr("data-page-index"), 10), parseInt($element.attr("data-arr-index"), 10));
+        };
+
         var checkEditingEnabled = function(){
             if($(".collectionviewer_check:checked:visible").length){
                 $("#collections_remove_button").removeAttr("disabled");
@@ -423,7 +433,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 fetchCollectionData = true;
             });
 
-            $(window).bind("hashchanged.collectionviewer.sakai", handleHashChange);
+            $(window).bind("hashchange", handleRealHashChange);
 
             // Carousel bindings
             $(".collectionviewer_carousel_item", $rootel).live("click", function(){
@@ -431,11 +441,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $.bbq.pushState({"item": $(this).attr("data-item-id"), "lp": ""});
                     fetchCollectionData = false;
                 }
-                $(".collectionviewer_carousel_item", $rootel).removeClass("selected");
-                $(this).addClass("selected");
-                $(window).unbind("ready.collectionviewer.sakai");
-                $(window).unbind("start.collectioncontentpreview.sakai");
-                renderItemsForSelected(parseInt($(this).attr("data-page-index"), 10), parseInt($(this).attr("data-arr-index"), 10));
+                if(initialload){
+                    initialload = false;
+                    handleRealHashChange();
+                }
             });
 
             $(".collectionviewer_comments_button", $rootel).live("click", showComments);
