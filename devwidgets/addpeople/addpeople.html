@@ -58,8 +58,10 @@
             {/if}
             <li class="s3d-list-item">
                 <input type="checkbox" class="addpeople_selected_checkbox" id="${contact.userid}_chkselected"/>
-                <label for="${contact.userid}_chkselected"><img class="s3d-list-entity-picture" src="${contact.picture}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="/~${contact.userid|safeURL}" target="_blank" title="${contact.name|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.dottedname}</a>
+                <label for="${contact.userid}_chkselected">
+                    <img class="s3d-list-entity-picture" src="${contact.picture}" alt="__MSG__PROFILE_PICTURE__"/>
+                    <span class="s3d-entity-displayname s3d-bold contact_name">${contact.dottedname}</span>
+                </label>
                 <select class="addpeople_selected_permissions" id="${contact.userid}_permissions">
                     {for role in roles}
                         <option value="${role.id}" {if contact.permission == role.id || contact.permission == role.title} selected="selected" {/if}>${sakai.api.i18n.General.process(role.title)}</option>
@@ -78,9 +80,11 @@
             {if contact.details["sakai:state"] === "ACCEPTED"}
                 ${total++|eat}
                 <li class="s3d-list-item">
-                    <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk" data-user-firstname="${sakai.api.User.getFirstName(contact.profile)|safeOutput}"/>
-                    <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.User.getProfilePicture(contact.profile)}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                    <a href="/~${contact.profile.userid|safeURL}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 90, null, null, true)}</a>
+                    <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk" data-user-firstname="${sakai.api.User.getFirstName(contact.profile)|safeOutput}" data-entityname="${sakai.api.User.getDisplayName(contact.profile)}"/>
+                    <label for="${contact.profile.userid}_chk">
+                        <img class="s3d-list-entity-picture" src="${sakai.api.User.getProfilePicture(contact.profile)}" alt="__MSG__PROFILE_PICTURE__"/>
+                        <span class="s3d-entity-displayname s3d-bold contact_name">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 90, null, null, true)}</span>
+                    </label>
                 </li>
                 <hr/>
             {/if}
@@ -88,9 +92,11 @@
         {for group in groups}
             ${total++|eat}
             <li class="s3d-list-item">
-                <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]}_chk"/>
-                <label for="${group["sakai:group-id"]}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.Groups.getProfilePicture(group)}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="/~${group["sakai:group-id"]}" target="_blank" title="${group["sakai:group-title"]|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 90)}</a>
+                <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]}_chk" data-entityname="${group["sakai:group-title"]}"/>
+                <label for="${group["sakai:group-id"]}_chk">
+                    <img class="s3d-list-entity-picture" src="${sakai.api.Groups.getProfilePicture(group)}" alt="__MSG__PROFILE_PICTURE__"/>
+                    <span class="s3d-entity-displayname s3d-bold contact_name">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 90)}</span>
+                </label>
             </li>
             <hr/>
         {/for}

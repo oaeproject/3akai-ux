@@ -520,7 +520,7 @@ ul.as-selections textarea.as-input{padding:0;}
  */
 .s3d-list-item{list-style:none outside none;padding:5px 0 5px 10px!important;margin:0!important;clear:both;overflow:hidden;}
 .s3d-list-entity-picture{float:left;height:32px;margin-right:10px;width:32px;}
-.s3d-entity-displayname{padding-top:4px;margin:4px 0 0 8px;float:left;}
+.s3d-entity-displayname{padding-top:4px;margin:4px 0 0 8px;float:left;font-size:12px;}
 .s3d-list-link-full-space{clear:both;height:100%;}
 ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 
