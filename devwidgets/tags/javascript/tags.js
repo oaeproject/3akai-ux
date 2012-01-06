@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $tags_main.show().find('ul').tagcloud({
                 type: "list",
                 sizemin: 10,
-                sizemax: 20
+                sizemax: 16
             });
         };
 
