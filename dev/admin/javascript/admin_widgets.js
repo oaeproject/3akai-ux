@@ -92,7 +92,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // Fill in the widget types
             for (var i in sakai.widgets){
-                if (i) {
+                if (sakai.widgets.hasOwnProperty(i) && i) {
                     var widget = sakai.widgets[i];
                     if (widget.type && widget.type.toLowerCase() === "core") {
                         coreWidgets.items.push(widget);

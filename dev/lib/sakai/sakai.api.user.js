@@ -253,7 +253,7 @@ define(
             };
 
             for (var i in userArray) {
-                if (userArray.hasOwnProperty(i) && $.inArray(userArray[i], uniqueUserArray) == -1) {
+                if (userArray.hasOwnProperty(i) && $.inArray(userArray[i], uniqueUserArray) === -1) {
                     uniqueUserArray.push(userArray[i]);
                 }
             }
