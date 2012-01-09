@@ -24,7 +24,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core","/dev/lib/jquery/plugins/jquery.tagcloud.min.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core","/dev/lib/jquery/plugins/jquery.tagcloud.js"], function($, sakai) {
 
     /**
      * @name sakai_global.tags
@@ -58,12 +58,9 @@ require(["jquery", "sakai/sakai.api.core","/dev/lib/jquery/plugins/jquery.tagclo
                 newtags = _.first( newtags, 20 );
             }
             sakai.api.Util.TemplateRenderer( $tags_main_template, { tags: newtags }, $tags_main );
-            $tags_main.show().find('ul').tagcloud({
-                type: "list",
-                sizemin: 10,
-                sizemax: 16,
-                colormax:"",
-                colormin:""
+            
+            $tags_main.show().find('a').tagcloud({
+              size: {start: 9, end: 13, unit: 'pt'}
             });
         };
 

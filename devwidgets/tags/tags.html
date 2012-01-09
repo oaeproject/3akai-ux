@@ -9,7 +9,7 @@
         {if tags.length}
           <ul>
           {for tag in tags}
-              <li value="${tag.count}"><a href="${tag.link}" class="s3d-regular-links">${tag.value}</a></li>
+              <li><a rel="${tag.count}" href="${tag.link}" class="s3d-regular-links">${tag.value}</a></li>
           {forelse}
             <li class="no_tags">__MSG__NO_TAGS_FOUND__</li>
           {/for}
