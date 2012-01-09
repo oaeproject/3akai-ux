@@ -121,7 +121,7 @@ require(
                     sakai.api.Groups.getManagers(group_id, function(success, data) {
                         var found = false;
                         for (var i in data) {
-                            if (data[i]["rep:userId"] === user_random) {
+                            if (data.hasOwnProperty(i) && data[i]["rep:userId"] === user_random) {
                                 found = true;
                             }
                         }
