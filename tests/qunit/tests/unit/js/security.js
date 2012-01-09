@@ -418,5 +418,7 @@ require(
         }
     });
 
+    $(window).trigger("addlocalbinding.qunit.sakai");
+
     });
 });

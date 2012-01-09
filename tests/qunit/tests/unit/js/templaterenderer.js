@@ -113,5 +113,7 @@ require(
         equal($.trim($container.html()), data1);
     });
 
+    $(window).trigger("addlocalbinding.qunit.sakai");
+
     });
 });

@@ -266,6 +266,7 @@ require(
                  makeWidgetTest(widgetURLToCheck, widgetObject);
              }
              QUnit.start();
+             $(window).trigger("addlocalbinding.qunit.sakai");
 
          };
 

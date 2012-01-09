@@ -29,5 +29,8 @@ require(
             sakai.api.User.setProfileBasicElementValue(profile, "firstName", "Bob");
             ok(profile.basic.elements.firstName.value === "Bob", "First name properly changed");
         });
+
+        $(window).trigger("addlocalbinding.qunit.sakai");
+
     });
 });

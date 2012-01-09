@@ -204,5 +204,8 @@ require(
         });
 
         sakai_global.qunit.logout();
+
+        $(window).trigger("addlocalbinding.qunit.sakai");
+
     });
 });

@@ -225,5 +225,7 @@ require(
             // TODO: Delete the group, as we don't have a way of doing that now
         });
 
+        $(window).trigger("addlocalbinding.qunit.sakai");
+
     });
 });

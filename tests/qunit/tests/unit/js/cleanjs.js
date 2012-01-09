@@ -73,11 +73,12 @@ require(
         };
 
         var cleanJSTest = function() {
+            $(window).trigger("addlocalbinding.qunit.sakai");
+            QUnit.start();
             for (var i=0, j=sakai_global.qunit.allJSFiles.length; i<j; i++) {
                 var file = sakai_global.qunit.allJSFiles[i];
                 makeCleanJSTest(file);
             }
-            QUnit.start();
         };
 
         if (sakai_global.qunit && sakai_global.qunit.ready) {

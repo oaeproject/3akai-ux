@@ -121,6 +121,7 @@ require(
             })(urlToCheck);
         }
         QUnit.start();
+        $(window).trigger("addlocalbinding.qunit.sakai");
     };
 
     /**
