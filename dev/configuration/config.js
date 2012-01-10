@@ -1011,7 +1011,6 @@ define(function(){
          */
         requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
-        showSakai2: false,
         useLiveSakai2Feeds: false,
         /*
          * List of custom CLE Tool names. This can be used to override the translated
