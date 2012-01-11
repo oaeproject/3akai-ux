@@ -2,7 +2,7 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
     function($, sakai) {
@@ -224,6 +224,8 @@ require(
             });
             // TODO: Delete the group, as we don't have a way of doing that now
         });
+
+        $(window).trigger("addlocalbinding.qunit.sakai");
 
     });
 });

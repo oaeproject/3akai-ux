@@ -45,16 +45,18 @@ require(
          * QUnit calls this function when it has completed all of its tests
          * We simply define the function and it gets called
          */
-        QUnit.done = function(failures, total) {
+        QUnit.done = function(completed) {
             var location = window.location.href.split('/');
             location = "tests/" + location[location.length-1];
-            $(window).trigger('done.qunit.sakai', {url: location, failures:failures, total:total});
+            $(window).trigger('done.qunit.sakai', {url: location, failures:completed.failed, total:completed.total});
         };
     };
 
     // Only bind when we're not swarming
     if (window.location.host.indexOf("testswarm") === -1) {
-        doLocalBinding();
+        $(window).bind("addlocalbinding.qunit.sakai", function(){
+            doLocalBinding();
+        });
     }
 
     /**
