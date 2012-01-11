@@ -20,14 +20,16 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-.contentauthoring_widget .contentauthoring_cell {float: left; padding-bottom:100%; margin-bottom:-100%;}
+.contentauthoring_widget .contentauthoring_row {border: 3px solid transparent; min-height: 100px; margin-bottom: 10px; display:table; width: 100%;}
+.contentauthoring_widget .contentauthoring_table_row {display: table-row;}
+.contentauthoring_widget .contentauthoring_cell {height: 100% !important; display:table-cell;}
+.contentauthoring_widget .contentauthoring_cell_container {display:table; height: 100%; width: 100%;}
+.contentauthoring_widget .contentauthoring_cell_content {padding: 10px; display:table-cell; width: auto;}
 
-.contentauthoring_widget .contentauthoring_one_column .contentauthoring_cell {width: 100%;}
-.contentauthoring_widget .contentauthoring_two_column .contentauthoring_cell {width: 50%;}
-.contentauthoring_widget .contentauthoring_three_column .contentauthoring_cell {width: 33%;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_row {border: 3px solid #2d2d2d;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_table_row .contentauthoring_cell:last-child .contentauthoring_cell_handle {display:none;}
 
-.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_row {border: 3px solid black; min-height: 100px; margin-bottom: 10px; overflow:hidden;}
-.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell {border-right: 3px solid black;}
-.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell:last-child {border-right: none}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_handle {display:table-cell; width: 12px; min-width: 12px; background-image:url('/devwidgets/contentauthoring/images/fullhandle.png'); background-repeat:no-repeat; background-position:center;}
 
- 
+.ui-resizable-helper { border-right: 2px dotted #2d2d2d; }
+.ui-resizable-e { cursor: e-resize; }

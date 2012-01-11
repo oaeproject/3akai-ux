@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
      
     /**
      * @name sakai.contentauthoring
@@ -32,6 +32,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.contentauthoring = function (tuid, showSettings, widgetData) {
+         
+        $(".contentauthoring_cell").resizable({
+            handles: {'e': '.contentauthoring_cell_handle,.contentauthoring_cell_handle_grab'},
+            helper: "ui-resizable-helper"
+        });
          
     };
 
