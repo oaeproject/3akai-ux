@@ -34,9 +34,10 @@ define(
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.user",
-        "sakai/sakai.api.communication"
+        "sakai/sakai.api.communication",
+        "underscore"
     ],
-    function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm){
+    function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm, _){
 
     var sakaiGroupsAPI = {
         /**
