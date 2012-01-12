@@ -523,6 +523,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
             // Refetch docstructure information
             $.ajax({
                  url: "/~" + sakai_global.group.groupId + "/docstructure.infinity.json",
+                 cache: false,
                  success: function(data){
 
                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
