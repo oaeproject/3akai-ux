@@ -121,7 +121,7 @@
                             <div class="inbox_items_inner">
                                 <div class="inbox_left_col inbox_col">
                                     <div class="inbox_placeholder">&nbsp;</div>
-                                    <img alt="person icon" src="${message.from.picture}" class="person_icon"/>
+                                    <img alt="person icon"{if box === "outbox"} src="${message.to[0].picture}"{else} src="${message.from.picture}"{/if} class="person_icon"/>
                                 </div>
                                 <div class="inbox_middle_col inbox_col">
                                     <div class="inbox_message_data">

@@ -451,7 +451,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     if ($.isFunction(callback)) {
                         callback(ret);
-                    };
+                    }
                 });
             } else if ($.isFunction(callback)) {
                 callback(ret);

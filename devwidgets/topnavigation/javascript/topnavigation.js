@@ -593,9 +593,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $focusElement = $focusElement.parents(".topnavigation_counts_container");
                     }
                     if($focusElement.prev(".topnavigation_counts_container").length){
-                        $focusElement.prev(".topnavigation_counts_container").children("button").focus()
-                        return false;
                         $focusElement.prev(".topnavigation_counts_container").children("button").focus();
+                        return false;
                     } else if ($focusElement.prev("li:first").length){
                         $focusElement.prev("li:first").children("a").focus();
                         return false;
