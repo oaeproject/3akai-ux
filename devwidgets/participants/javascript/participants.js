@@ -136,7 +136,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (results && results.length){
                 sakai.api.User.getContacts(function() {
                     $.each(results, function(i, result){
-                        if(!$.isEmptyObject(result)){
+                        if(result["sakai:group-id"] || result["rep:userId"]){
                             var contentCount = 0;
                             var contactsCount = 0;
                             var membershipsCount = 0;
