@@ -167,6 +167,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }, sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
 
         var validateOpts = {
+            rules: {
+                newcreategroup_title: {
+                    maxlength: 255
+                },
+                newcreategroup_suggested_url: {
+                    maxlength: 255            
+                }
+            },
             submitHandler: function(form){
                 $newcreategroupContainer.find("select, input, textarea:not([class*='as-input']), button").attr("disabled", "disabled");
                 doCreateSimpleGroup();
