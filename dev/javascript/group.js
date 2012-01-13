@@ -79,6 +79,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////
 
         var filterOutUnwanted = function(){
+
+            var checkViewPermission = function(index, value){
+                if (value.substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
+                    canView = true;
+                }
+            };
+            var checkManagePermission = function(index, value){
+                if (value.substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
+                    canView = true;
+                    canSubedit = true;
+                }
+            };
+
             var roles = $.parseJSON(groupData.authprofile["sakai:roles"]);
             for (var i in pubdata.structure0){
                 if (pubdata.structure0.hasOwnProperty(i)){
@@ -102,18 +115,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
                         if (isMember) {
                             // Check whether I can view
-                            $.each(view, function(index, value){
-                                if (value.substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
-                                    canView = true;
-                                }
-                            });
+                            $.each(view, checkViewPermission);
                             // Check whether I can manage
-                            $.each(edit, function(index, value){
-                                if (value.substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
-                                    canView = true;
-                                    canSubedit = true;
-                                }
-                            });
+                            $.each(edit, checkManagePermission);
                         } else {
                             // Check whether everyone can view
                             if ($.inArray("everyone", view) !== -1) {

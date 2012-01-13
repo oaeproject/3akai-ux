@@ -42,9 +42,7 @@ require(
         var JSHintfile = function(data, callback) {
             var result = JSHINT(data, {
                 // http://www.jshint.com/options/
-                sub:true, // ignore dot notation recommendations - ie ["userid"] should be .userid
-                loopfunc:true // suppresses warnings about functions inside of loops, these errors are
-                              // incorrectly thrown when doing a jQuery.each inside of a loop
+                sub:true // ignore dot notation recommendations - ie ["userid"] should be .userid
             });
             if (result) {
                 ok(result, "JSHint clean");

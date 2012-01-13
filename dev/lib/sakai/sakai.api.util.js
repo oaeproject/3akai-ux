@@ -477,9 +477,9 @@ define(
                         } else if ($.isPlainObject(structure[i])) {
                             structure[i] = loopAndReplace(structure[i], variable, replace);
                         } else if (_.isArray(structure[i])) {
-                            $.each(structure[i], function(j, elt) {
-                                structure[i][j] = loopAndReplace(elt, variable, replace);
-                            });
+                            for (var j = 0; j < structure[i].length; j++){
+                                structure[i][j] = loopAndReplace(structure[i][j], variable, replace);
+                            }
                         }
                         if (i.indexOf(toReplace) !== -1) {
                             var newKey = i.replace(regex, replace);
