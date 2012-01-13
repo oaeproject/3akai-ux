@@ -116,6 +116,9 @@
 .topnavigation_explore .topnavigation_counts_container button:focus, .topnavigation_explore .s3d-dropdown-menu li a:focus, .topnavigation_user_container .s3d-dropdown-menu li a:focus, #topnavigation_user_options_login li a:focus, #navigation_anon_signup_link:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2; color:#fff !important;}
 #topnavigation_search_input:focus{outline:2px solid #2683BC;}
 
+/* Skip navigation link focus treatment */
+#topnavigation_container .s3d-jump-link:focus {color: #FFFFFF;display: block;top: 39px;padding: 10px 25px 10px;text-decoration: none;position: absolute;left: 0;background: #000 url("/devwidgets/topnavigation/images/topnav_skip_bg.png") top left repeat-x;-webkit-border-bottom-right-radius: 3px;-moz-border-radius-bottomright: 3px;border-bottom-right-radius: 3px;box-shadow: 0 8px 15px -2px #555555;-webkit-box-shadow: 0 8px 15px -2px #555555;box-shadow: 0 8px 15px -2px #555555;outline: none;width: auto;height: auto;clip: auto;overflow:visible;width:auto;height:auto;}
+#topnavigation_container .s3d-jump-link:after {content: ' [' attr(accesskey) ']'}
 #topnavigation_scroll_to_top_container {display:block;width:50px;height:50px;float:right;margin-right:-50px;}
 #topnavigation_scroll_to_top_container #topnavigation_scroll_to_top {background: url("/devwidgets/topnavigation/images/topnav_scrolltotop.png") no-repeat scroll left top transparent;height:49px;position:fixed;top:70%;width:46px;}
 #topnavigation_scroll_to_top_container #topnavigation_scroll_to_top:hover {background:url("/devwidgets/topnavigation/images/topnav_scrolltotop_hover.png") no-repeat scroll top left transparent;}

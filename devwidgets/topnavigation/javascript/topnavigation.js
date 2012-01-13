@@ -441,6 +441,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var obj = {};
             var menulinks = [];
 
+            $(".s3d-jump-link").click(function(){
+                var jumptarget = $(this).attr('href');
+                $(jumptarget).focus();
+            });
+
             for (var i in sakai.config.Navigation) {
                 if (sakai.config.Navigation.hasOwnProperty(i)) {
                     var temp = "";
