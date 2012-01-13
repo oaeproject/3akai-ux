@@ -79,7 +79,8 @@ require({
         "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
         "config": "../configuration",
         "mockjax": "../../tests/qunit/js/jquery.mockjax",
-        "qunitjs": "../../tests/qunit/js"
+        "qunitjs": "../../tests/qunit/js",
+        "underscore": "misc/underscore"
     },
     priority: ["jquery", "mockjax"]
 });
