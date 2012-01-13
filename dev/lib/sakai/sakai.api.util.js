@@ -32,13 +32,13 @@ define(
         "sakai/sakai.api.l10n",
         "sakai/sakai.api.i18n",
         "config/config_custom",
+        "underscore",
         "misc/trimpath.template",
-        "misc/underscore",
         "jquery-plugins/jquery.ba-bbq",
         "jquery-plugins/jquery.validate",
         "jquery-ui"
     ],
-    function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_conf) {
+    function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_conf, _) {
 
     var sakai_util = {
 
