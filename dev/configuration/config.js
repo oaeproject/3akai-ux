@@ -200,7 +200,9 @@ define(function(){
                     "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
-                "defaultjoin": "yes" // no, yes, or withauth (see above for descriptions)
+                "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
+                "addcontentmanagers": true // true, false. If set to yes, group managers will be added as manager for a file 
+                                           // added to a group library in context of that group
             },
             Content: {
                 /*
@@ -1009,7 +1011,6 @@ define(function(){
          */
         requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
-        showSakai2: false,
         useLiveSakai2Feeds: false,
         /*
          * List of custom CLE Tool names. This can be used to override the translated

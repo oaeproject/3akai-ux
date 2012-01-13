@@ -1,0 +1,4 @@
+{
+  'sling:match': '^[^/]+/[^/]+/tests/qunit/(tests/)?index.html',
+  'sling:redirect': '/tests/index.html'
+}

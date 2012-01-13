@@ -31,9 +31,10 @@ define(
     [
         "jquery",
         "config/config_custom",
-        "sakai/sakai.api.server"
+        "sakai/sakai.api.server",
+        "underscore"
     ],
-    function($, sakai_config, sakai_serv) {
+    function($, sakai_config, sakai_serv, _) {
 
     var sakaii18nAPI = {
         data : {

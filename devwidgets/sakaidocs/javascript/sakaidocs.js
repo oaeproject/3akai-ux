@@ -208,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Fill in media and goodies
             for (var i in sakai.widgets){
-                if (i) {
+                if (sakai.widgets.hasOwnProperty(i) && i) {
                     var widget = sakai.widgets[i];
                     if (widget[pageEmbedProperty] && widget.showinmedia) {
                         media.items.push(widget);
@@ -571,7 +571,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderPage = function(reloadPage){
             stopEditPage();
-            $("#versions_container").hide();
+            if($("#versions_container").is(":visible")){
+                $("#sakaidocs_revisions").trigger("click");
+            }
             sakai.api.Widgets.nofityWidgetShown("#s3d-page-container > div:visible", false);
             $("#s3d-page-container > div:visible").hide();
             var $contentEl = null,

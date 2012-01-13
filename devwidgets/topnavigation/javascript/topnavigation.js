@@ -500,6 +500,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 document.location = $(topnavSearchResultsContainer).find("li.selected a").attr("href");
             } else {
                 document.location = "/search#q=" + $.trim($("#topnavigation_search_input").val());
+                $("#topnavigation_search_results").hide();
             }
         };
 
@@ -639,11 +640,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return false; // prevent browser page from scrolling down
                 } else if (e.which === $.ui.keyCode.TAB && e.shiftKey) {
                     closeMenu();
-                    if ($focusElement.attr("id") === "topnavigation_user_options_login_wrapper") {
-                        mouseOverSignIn = false;
-                        $(topnavUserLoginButton).trigger("mouseout");
-                        $("html").trigger("click");
-                    }
                 } else if ($focusElement.hasClass("hassubnav") && $focusElement.children("a").is(":focus")) {
                     // if a letter was pressed, search for the first menu item that starts with the letterletter
                     var key = String.fromCharCode(e.which).toLowerCase();
@@ -881,7 +877,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
             });
 
-            $("#topnavigation_search_input,#navigation_anon_signup_link,#topnavigation_user_inbox_container").bind("focus",function(evt){
+            $("#topnavigation_search_input,#navigation_anon_signup_link,#topnavigation_user_inbox_container,.topnavigation_search .s3d-search-button").bind("focus",function(evt){
                 mouseOverSignIn = false;
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
@@ -909,7 +905,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(this).children(topnavigationExternalLogin).find("ul").attr("aria-hidden", "true");
                 }
             });
-            
+
             $("#topnavigation_message_reply").live("click", hideMessageInlay);
             $("#topnavigation_message_readfull").live("click", hideMessageInlay);
             $(".no_messages .s3d-no-results-container a").live("click", hideMessageInlay);
