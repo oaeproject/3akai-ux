@@ -327,7 +327,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // When you push the save button..
-            $(remotecontentSettingsInsert).click(saveRemoteContent);
+            var validateOpts = {
+                submitHandler: saveRemoteContent
+            };
+            sakai.api.Util.Forms.validate($("#ggadget_settings_form", rootel), validateOpts, true);
 
             // Cancel it
             $(remotecontentSettingsCancel).click(function(){

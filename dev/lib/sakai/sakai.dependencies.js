@@ -96,8 +96,8 @@ require(
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
             "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
-            "config": "../configuration",
-            "underscore": "misc/underscore"
+            "underscore": "misc/underscore",
+            "config": "../configuration"
         },
         priority: ["jquery", "underscore"]
     }
