@@ -500,6 +500,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 document.location = $(topnavSearchResultsContainer).find("li.selected a").attr("href");
             } else {
                 document.location = "/search#q=" + $.trim($("#topnavigation_search_input").val());
+                $("#topnavigation_search_results").hide();
             }
         };
 
@@ -592,9 +593,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $focusElement = $focusElement.parents(".topnavigation_counts_container");
                     }
                     if($focusElement.prev(".topnavigation_counts_container").length){
-                        $focusElement.prev(".topnavigation_counts_container").children("button").focus()
-                        return false;
                         $focusElement.prev(".topnavigation_counts_container").children("button").focus();
+                        return false;
                     } else if ($focusElement.prev("li:first").length){
                         $focusElement.prev("li:first").children("a").focus();
                         return false;
@@ -904,7 +904,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(this).children(topnavigationExternalLogin).find("ul").attr("aria-hidden", "true");
                 }
             });
-            
+
             $("#topnavigation_message_reply").live("click", hideMessageInlay);
             $("#topnavigation_message_readfull").live("click", hideMessageInlay);
             $(".no_messages .s3d-no-results-container a").live("click", hideMessageInlay);

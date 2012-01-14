@@ -26,7 +26,7 @@
 /*global $ */
 
 // Namespaces
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/content_profile.js"], function($, sakai, _){
 
     /**
      * @name sakai_global.contentpermissions

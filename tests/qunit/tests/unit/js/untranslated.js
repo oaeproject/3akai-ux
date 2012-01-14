@@ -2,7 +2,7 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js",
     "../../../../tests/qunit/js/dev.js",
     "../../../../tests/qunit/js/devwidgets.js"
@@ -19,7 +19,7 @@ require(
           */
          var testUntranslatedKeys = function(){
 
-            var makeCoreTest = function(url) {
+             var makeCoreTest = function(url) {
                  asyncTest(url, function() {
                      $.ajax({
                          url: url,
@@ -60,6 +60,7 @@ require(
                  makeWidgetTest(widgetURLToCheck, widgetObject);
              }
 
+             $(window).trigger("addlocalbinding.qunit.sakai");
              QUnit.start();
 
          };

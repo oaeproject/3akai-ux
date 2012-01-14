@@ -45,7 +45,7 @@
         </button>
 
         <div id="mylibrary_select" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left" title="__MSG__SELECT_ALL_LIBRARY_ITEMS__">
-            <input type="checkbox" id="mylibrary_select_checkbox"/>
+            <input type="checkbox" id="mylibrary_select_checkbox"/><label class="s3d-aural-text">__MSG__SELECT_ALL_LIBRARY_ITEMS__</label>
         </div>
 
         <button type="button" id="mylibrary_addpeople_button" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger fl-force-left" disabled="true" data-entitycontext="mylibrary" data-entityname="" data-entityid="">
@@ -115,7 +115,7 @@
                             {if !sakai.data.me.user.anon}
                                 <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item.filename|safeOutput}"/>
                                 {if isMe}
-                                    <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item.filename|safeOutput} __MSG__SELECT_REMOVE__</label>
+                                    <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item['sakai:pooled-content-file-name-short']|safeOutput} __MSG__SELECT_REMOVE__</label>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}"></button>
                                 {/if}
                             {/if}

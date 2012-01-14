@@ -25,9 +25,10 @@ define(
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.l10n",
         "sakai/sakai.api.user",
+        "underscore",
         "misc/parseuri"
     ],
-    function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_l10n, sakai_user) {
+    function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_l10n, sakai_user, _) {
 
     var sakai_content = {
         /**
@@ -751,7 +752,7 @@ define(
              if (newPage){
                  // a new page won't have an autosave yet
                  if($.isFunction(callback)){
-                     callback(true, {});
+                     callback(true, {"safeToEdit": true});
                  }
              } else {
                  sakai_serv.loadJSON(pagePath + ".infinity.json", function(success, data) {
