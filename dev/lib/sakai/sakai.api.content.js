@@ -752,7 +752,7 @@ define(
              if (newPage){
                  // a new page won't have an autosave yet
                  if($.isFunction(callback)){
-                     callback(true, {});
+                     callback(true, {"safeToEdit": true});
                  }
              } else {
                  sakai_serv.loadJSON(pagePath + ".infinity.json", function(success, data) {
