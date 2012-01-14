@@ -997,6 +997,8 @@ define(function(){
         },
 
         displayDebugInfo: true,
+        displayTimezone: true,
+        displayLanguage: true,
 
         /**
          * Section dividers can be added to the directory structure by adding in the following
