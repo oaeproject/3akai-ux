@@ -38,7 +38,7 @@
             </li>
             {if collections.length}
                 {for collection in collections}
-                    <li class="s3d-draggable-container" data-id="${collection._path}">
+                    <li class="s3d-draggable-container" data-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
                         <img src="${sakai.api.Content.getMimeTypeData("x-sakai/collection").URL}" class="fl-force-left s3d-icon-32"/>
                         <div class="inserter_item_count_container fl-force-right">${collection.counts.contentCount}</div>
                         <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 220, null, "s3d-bold")}</span>

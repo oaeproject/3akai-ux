@@ -277,7 +277,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }, sakai.config.URL.INFINITE_LOADING_ICON, handleLibraryItems, function(){
                 // post renderer
                 $inserterNoResultsContainer.hide();
-                sakai.api.Util.Draggable.setupDraggable({}, $inserterInfiniteScrollContainerList);
+                sakai.api.Util.Draggable.setupDraggable({
+                    connectToSortable: ".contentauthoring_cell_content"
+                }, $inserterInfiniteScrollContainerList);
                 if($inserterCollectionContentContainer.css("margin-left") !== "5px"){
                     animateUIElements("results");
                 } else {
@@ -302,7 +304,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Content.Collections.getMyCollections(0, 1000, function(data){
                 if(data){
                     var collections = filterCollections(data.results);
-                    sakai.api.Util.TemplateRenderer(inserterInitTemplate, {"library": data, "collections": collections, sakai: sakai}, $inserterInitContainer);
+                    $inserterInitContainer.html(sakai.api.Util.TemplateRenderer(inserterInitTemplate, {"library": data, "collections": collections, sakai: sakai}));
+                    sakai.api.Util.Draggable.setupDraggable({
+                        connectToSortable: ".contentauthoring_cell_content"
+                    }, $inserterInitContainer);
                     animateUIElements("init");
                     $.each(libraryData.results, function(i, item){
                         if(item._mimeType === "x-sakai/collection"){
