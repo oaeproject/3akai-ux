@@ -811,7 +811,7 @@ define(function(){
             },
             "x-sakai/collection": {
                 cssClass: "icon-collection-sprite",
-                URL: "/dev/images/mimetypes/collection.png",
+                URL: "/dev/images/mimetypes/collection2.png",
                 description: "COLLECTION"
             },
             "kaltura/video": {
