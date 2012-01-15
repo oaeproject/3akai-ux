@@ -26,8 +26,9 @@
 
 .contentauthoring_widget .contentauthoring_row {border: 3px solid transparent; min-height: 100px; margin-bottom: 5px; display:table; width: 100%;}
 .contentauthoring_widget .contentauthoring_table_row {display: table-row;}
-.contentauthoring_widget .contentauthoring_cell {height: 100% !important; display:table-cell;}
-.contentauthoring_widget .contentauthoring_cell_container {display:table; height: 100%; width: 100%;}
+.contentauthoring_widget .contentauthoring_minheight_container {min-height:25px;}
+.contentauthoring_widget .contentauthoring_cell {height: 100% !important; display:table-cell;vertical-align: top;}
+.contentauthoring_widget .contentauthoring_cell_container {display:table; height: 100%; width: 100%; white-space: normal !important;}
 .contentauthoring_widget .contentauthoring_cell_content {padding: 5px; display:table-cell; width: 100%;}
 .contentauthoring_widget .contentauthoring_cell_element {margin-bottom: 5px; border: 1px dotted #fff;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_element:hover {border: 1px dotted blue;}
