@@ -19,73 +19,54 @@
 
 <div id="contentauthoring_widget" class="contentauthoring_widget"></div>
 <div id="contentauthoring_widget_template"><!--
-    <ul id="contentauthoring_widget_container" class="contentauthoring_edit_mode">
-        {for row in rows}
-            <li class="contentauthoring_row_container">
-                <div class="contentauthoring_row_handle_container">
-                    <span class="contentauthoring_row_handle"></span>
-                    <span class="contentauthoring_row_edit" data-row-id="${row.id}">Edit</span>
-                </div>
-                <div class="contentauthoring_row">
-                    <div class="contentauthoring_table_row" data-row-id="${row.id}">
-                        {for column in row.columns}
-                            <div class="contentauthoring_cell" style="width: ${totalWidth * column.width}px">
-                                <div class="contentauthoring_cell_container">
-                                    <div class="contentauthoring_table_row">
-                                        <div class="contentauthoring_cell_content">
-                                            {for element in column.elements}
-                                                <div class="contentauthoring_cell_element">
-                                                    <div class="contentauthoring_cell_element_actions" data-element-id="${element.id}" data-element-type="${element.type}">
-                                                        <button class="contentauthoring_cell_element_action_x">X</button>
-                                                        <button class="contentauthoring_cell_element_action_e">E</button>
-                                                    </div>
-                                                    <div id="widget_${element.type}_${element.id}" class="widget_inline"></div>
+    {macro insertRow(id, columns)}
+        <li class="contentauthoring_row_container">
+            <div class="contentauthoring_row_handle_container">
+                <span class="contentauthoring_row_handle"></span>
+                <span class="contentauthoring_row_edit" data-row-id="${id}">Edit</span>
+            </div>
+            <div class="contentauthoring_row">
+                <div class="contentauthoring_table_row" data-row-id="${id}">
+                    {for column in columns}
+                        <div class="contentauthoring_cell" style="width: ${totalWidth * column.width}px">
+                            <div class="contentauthoring_cell_container">
+                                <div class="contentauthoring_table_row">
+                                    <div class="contentauthoring_cell_content">
+                                        {for element in column.elements}
+                                            <div class="contentauthoring_cell_element" data-element-type="${element.type}" data-element-id="${element.id}">
+                                                <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="${element.id}" data-element-type="${element.type}">
+                                                    <button class="contentauthoring_cell_element_action_x">X</button>
+                                                    <button class="contentauthoring_cell_element_action_e">E</button>
                                                 </div>
-                                            {/for}
-                                        </div>
-                                        <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
+                                                <div id="widget_${element.type}_${element.id}" class="widget_inline"></div>
+                                            </div>
+                                        {/for}
                                     </div>
+                                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
                                 </div>
-                            </div>
-                        {/for}
-                    </div>
-                </div>
-            </li>
-        {/for}
-    </ul>
---></div>
-<div id="contentauthoring_row_template"><!--
-    <li class="contentauthoring_row_container">
-        <div class="contentauthoring_row_handle_container">
-            <span class="contentauthoring_row_handle"></span>
-            <span class="contentauthoring_row_edit" data-row-id="${id}">Edit</span>
-        </div>
-        <div class="contentauthoring_row">
-            <div class="contentauthoring_table_row" data-row-id="${id}">
-                {for column in columns}
-                    <div class="contentauthoring_cell" style="width: ${totalWidth * column.width}px">
-                        <div class="contentauthoring_cell_container">
-                            <div class="contentauthoring_table_row">
-                                <div class="contentauthoring_cell_content">
-                                    {for element in column.elements}
-                                        <div class="contentauthoring_cell_element">Element ${element_index}</div>
-                                    {/for}
-                                </div>
-                                <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
                             </div>
                         </div>
-                    </div>
-                {/for}
+                    {/for}
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    {/macro}
+
+    {if rowOnly}
+        ${insertRow(id, columns)}
+    {else}
+        <ul id="contentauthoring_widget_container" class="contentauthoring_edit_mode">
+            {for row in rows}
+                ${insertRow(row.id, row.columns)}
+            {/for}
+        </ul>
+    {/if}
 --></div>
 
 <!-- Widget Settings -->
 <div id="contentauthoring_widget_settings" class="s3d-dialog s3d-dialog-container">
     <div class="s3d-dialog-close jqmClose"></div>
     <h1 class="s3d-dialog-header" id="contentauthoring_widget_settings_title"></h1>
-    <!-- DIALOG CONTENT -->
     <div id="contentauthoring_widget_settings_content"></div>
 </div>
 

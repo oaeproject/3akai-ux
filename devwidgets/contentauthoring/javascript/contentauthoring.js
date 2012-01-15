@@ -47,7 +47,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                                 },
                                 {
                                     "id": "id00002",
-                                    "type": "pagetitle"
+                                    "type": "htmlblock"
                                 }
                             ]
                         }
@@ -83,8 +83,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "width": 1,
                             "elements": [
                                 {
+                                    "id": "id00025",
+                                    "type": "pagetitle"
+                                },
+                                {
                                     "id": "id00005",
                                     "type": "htmlblock"
+                                },
+                                {
+                                    "id": "id00105",
+                                    "type": "googlemaps"
                                 }
                             ]
                         }
@@ -155,8 +163,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     "width": 1,
                     "elements": [
                         {
-                            "id": "id00001",
-                            "type": "text"
+                            "id": "id00100",
+                            "type": "htmlblock"
                         }
                     ]
                 }
@@ -277,7 +285,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             newRow.id = sakai.api.Util.generateWidgetId();
             pageStructure.rows.push(newRow);
             newRow.totalWidth = $("#contentauthoring_widget").width();
-            $("#contentauthoring_widget_container").append(sakai.api.Util.TemplateRenderer("contentauthoring_row_template", newRow, false, false));
+            newRow.rowOnly = true;
+            $("#contentauthoring_widget_container").append(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", newRow, false, false));
+            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
             setActions();
         });
 
@@ -317,6 +327,25 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         });
 
+        /////////////////////
+        // Cell action bar //
+        /////////////////////
+
+        var setCellHover = function(){
+            $(".contentauthoring_cell_element").unbind("hover");
+            $(".contentauthoring_cell_element").hover(function(){
+                if (isInEditMode()) {
+                    $(".contentauthoring_cell_element_actions", $(this)).css("left", ($(this).position().left + $(this).width() - $(".contentauthoring_cell_element_actions", $(this)).width() - 5) + "px");
+                    $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 5) + "px");
+                    $(".contentauthoring_cell_element_actions", $(this)).show();
+                    $(this).addClass("contentauthoring_cell_element_hover");
+                }
+            }, function(ev, ui){
+                $(".contentauthoring_cell_element_actions").hide();
+                $(this).removeClass("contentauthoring_cell_element_hover");
+            });
+        }
+
         ////////////////////////////
         // Change widget settings //
         ////////////////////////////
@@ -344,23 +373,31 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             modal: true,
             overlay: 20,
             toTop: true
-            //,onHide: hideSelectedWidget
         });
 
         sakai_global.contentauthoring.widgetCancel = function(tuid){
             $('#contentauthoring_widget_settings').jqmHide();
         };
         sakai_global.contentauthoring.widgetFinish = function(tuid){
-            // Add widget to the editor
-            if (!updatingExistingWidget) {
-                tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets[currentlySelectedWidget.widgetname].img + '" id="' + currentlySelectedWidget.uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
-            }
-            updatingExistingWidget = false;
+            $("#contentauthoring_widget_content").html("");
+            var $parent = $(".contentauthoring_cell_element #" + tuid).parent();
+            debug.log($parent);
+            $(".contentauthoring_cell_element #" + tuid).remove();
+            $parent.append("<div id='widget_" + $parent.attr("data-element-type") + "_" + tuid + "' class='widget_inline'></div>");
+            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
             $('#contentauthoring_widget_settings').jqmHide();
         };
 
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
         sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
+
+        ////////////////////
+        // Remove element //
+        ////////////////////
+
+        $(".contentauthoring_cell_element_action_x").live("click", function(){
+            $(this).parent().parent().remove();
+        });
 
         ////////////////////
         // Initialization //
@@ -370,10 +407,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             makeRowsReorderable();
             makeColumnsResizable();
             reorderPortlets();
+            setCellHover();
         };
 
         var renderPage = function(){
             pageStructure.totalWidth = $("#contentauthoring_widget").width();
+            pageStructure.rowOnly = false;
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
             setActions();

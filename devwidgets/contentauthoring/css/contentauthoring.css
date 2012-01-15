@@ -27,10 +27,10 @@
 .contentauthoring_widget .contentauthoring_row {border: 3px solid transparent; min-height: 100px; margin-bottom: 5px; display:table; width: 100%;}
 .contentauthoring_widget .contentauthoring_table_row {display: table-row;}
 .contentauthoring_widget .contentauthoring_cell {height: 100% !important; display:table-cell; vertical-align: top !important;}
-.contentauthoring_widget .contentauthoring_cell_container {display:table; height: 100%; width: 100%;}
+.contentauthoring_widget .contentauthoring_cell_container {display:table; height: 100%; width: 100%; table-layout: fixed;}
 .contentauthoring_widget .contentauthoring_cell_content {padding: 5px; display:table-cell; width: 100%;}
 .contentauthoring_widget .contentauthoring_cell_element {margin-bottom: 5px; border: 1px dotted #fff;}
-.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_element:hover {border: 1px dotted blue;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_element_hover {border: 1px dotted blue;}
 
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_row {border: 3px solid #2d2d2d;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_table_row .contentauthoring_cell:last-child .contentauthoring_cell_handle {display:none;}
@@ -48,12 +48,12 @@
 
 /* Element edit menu */
 
-.contentauthoring_cell_element_actions {position: relative; float: right; display: none;}
+.contentauthoring_cell_element_actions {position: absolute; display: none;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_element:hover .contentauthoring_cell_element_actions {display:block;}
 
 /* Row re-ordering */
 
 .contentauthoring_row_handle_container {width: 60px; height: 15px; background-color: #2D2D2D; visibility: hidden; color: #fff;}
 .contentauthoring_row_handle {cursor: move; background-color: yellow; width: 20px; height: 15px; display: inline-block;}
-#contentauthoring_widget_container {margin-left: 0px;}
+#contentauthoring_widget_container {margin-left: 0px; margin-top: 0px;}
 .contentauthoring_row_container {list-style-type: none;}
