@@ -220,11 +220,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Reorder portlets //
         //////////////////////
 
+        var setHeight = function(ev) {
+            if(ev.target){
+                $('.contentauthoring_cell_content', $(ev.target).parents(".contentauthoring_row")).equalHeights();
+            } else {
+                $('.contentauthoring_cell_content', $(ev).parents(".contentauthoring_row")).equalHeights();
+            }
+        };
+
         var reorderPortlets = function(){
             $( ".contentauthoring_cell_content" ).sortable({
     			connectWith: ".contentauthoring_cell_content",
                 ghost: true,
-                placeholder: "ui-state-highlight"
+                placeholder: "ui-state-highlight",
+                stop: setHeight
     		});
         }
 
@@ -264,7 +273,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             
                         }
                     }
-                    
+                    setHeight($row);
                 }
             });
         };
