@@ -43,11 +43,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "elements": [
                                 {
                                     "id": "id00001",
-                                    "type": "title"
+                                    "type": "pagetitle"
                                 },
                                 {
                                     "id": "id00002",
-                                    "type": "title"
+                                    "type": "pagetitle"
                                 }
                             ]
                         }
@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "elements": [
                                 {
                                     "id": "id00003",
-                                    "type": "image"
+                                    "type": "embedcontent"
                                 }
                             ]
                         },
@@ -70,7 +70,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "elements": [
                                 {
                                     "id": "id00004",
-                                    "type": "image"
+                                    "type": "embedcontent"
                                 }
                             ]
                         }
@@ -84,7 +84,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "elements": [
                                 {
                                     "id": "id00005",
-                                    "type": "image"
+                                    "type": "htmlblock"
                                 }
                             ]
                         }
@@ -98,15 +98,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "elements": [
                                 {
                                     "id": "id00006",
-                                    "type": "image"
+                                    "type": "embedcontent"
                                 },
                                 {
                                     "id": "id00007",
-                                    "type": "title"
+                                    "type": "pagetitle"
                                 },
                                 {
                                     "id": "id00008",
-                                    "type": "text"
+                                    "type": "htmlblock"
                                 }
                             ]
                         },
@@ -115,15 +115,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "elements": [
                                 {
                                     "id": "id00009",
-                                    "type": "image"
+                                    "type": "embedcontent"
                                 },
                                 {
                                     "id": "id00010",
-                                    "type": "title"
+                                    "type": "pagetitle"
                                 },
                                 {
                                     "id": "id00011",
-                                    "type": "text"
+                                    "type": "htmlblock"
                                 }
                             ]
                         },
@@ -132,15 +132,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "elements": [
                                 {
                                     "id": "id00012",
-                                    "type": "image"
+                                    "type": "embedcontent"
                                 },
                                 {
                                     "id": "id00013",
-                                    "type": "title"
+                                    "type": "pagetitle"
                                 },
                                 {
                                     "id": "id00014",
-                                    "type": "text"
+                                    "type": "htmlblock"
                                 }
                             ]
                         }
@@ -317,6 +317,51 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         });
 
+        ////////////////////////////
+        // Change widget settings //
+        ////////////////////////////
+
+        $(".contentauthoring_cell_element_action_e").live("click", function(){
+            var id = $(this).parent().attr("data-element-id");
+            var type = $(this).parent().attr("data-element-type");
+            $("#contentauthoring_widget_content").html("");
+            if (sakai.widgets[type]) {
+                var widgetSettingsWidth = 650;
+                if (sakai.widgets[type].settingsWidth) {
+                    widgetSettingsWidth = sakai.widgets[type].settingsWidth;
+                }
+                $("#contentauthoring_widget_settings_content").html(sakai.api.Security.saneHTML('<div id="widget_' + type + '_' + id + '" class="widget_inline"/>'));
+                $("#contentauthoring_widget_settings_title").html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
+                sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget_settings_content", true, "/~nicolaas/test/");
+                $('#contentauthoring_widget_settings').css({
+                    'width': widgetSettingsWidth + "px",
+                    'margin-left': -(widgetSettingsWidth / 2) + "px",
+                    'top': ($(window).scrollTop() + 100) + "px"
+                }).jqmShow();
+            }
+        });
+        $("#contentauthoring_widget_settings").jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+            //,onHide: hideSelectedWidget
+        });
+
+        sakai_global.contentauthoring.widgetCancel = function(tuid){
+            $('#contentauthoring_widget_settings').jqmHide();
+        };
+        sakai_global.contentauthoring.widgetFinish = function(tuid){
+            // Add widget to the editor
+            if (!updatingExistingWidget) {
+                tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets[currentlySelectedWidget.widgetname].img + '" id="' + currentlySelectedWidget.uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
+            }
+            updatingExistingWidget = false;
+            $('#contentauthoring_widget_settings').jqmHide();
+        };
+
+        sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
+        sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
+
         ////////////////////
         // Initialization //
         ////////////////////
@@ -330,6 +375,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var renderPage = function(){
             pageStructure.totalWidth = $("#contentauthoring_widget").width();
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
+            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
             setActions();
         };
 

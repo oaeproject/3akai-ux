@@ -34,7 +34,13 @@
                                     <div class="contentauthoring_table_row">
                                         <div class="contentauthoring_cell_content">
                                             {for element in column.elements}
-                                                <div class="contentauthoring_cell_element">Element ${element_index} in column ${column_index} in row ${row_index}</div>
+                                                <div class="contentauthoring_cell_element">
+                                                    <div class="contentauthoring_cell_element_actions" data-element-id="${element.id}" data-element-type="${element.type}">
+                                                        <button class="contentauthoring_cell_element_action_x">X</button>
+                                                        <button class="contentauthoring_cell_element_action_e">E</button>
+                                                    </div>
+                                                    <div id="widget_${element.type}_${element.id}" class="widget_inline"></div>
+                                                </div>
                                             {/for}
                                         </div>
                                         <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
@@ -74,6 +80,14 @@
         </div>
     </li>
 --></div>
+
+<!-- Widget Settings -->
+<div id="contentauthoring_widget_settings" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header" id="contentauthoring_widget_settings_title"></h1>
+    <!-- DIALOG CONTENT -->
+    <div id="contentauthoring_widget_settings_content"></div>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentauthoring/javascript/contentauthoring.js"></script>

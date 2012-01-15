@@ -26,7 +26,7 @@
 
 .contentauthoring_widget .contentauthoring_row {border: 3px solid transparent; min-height: 100px; margin-bottom: 5px; display:table; width: 100%;}
 .contentauthoring_widget .contentauthoring_table_row {display: table-row;}
-.contentauthoring_widget .contentauthoring_cell {height: 100% !important; display:table-cell;}
+.contentauthoring_widget .contentauthoring_cell {height: 100% !important; display:table-cell; vertical-align: top !important;}
 .contentauthoring_widget .contentauthoring_cell_container {display:table; height: 100%; width: 100%;}
 .contentauthoring_widget .contentauthoring_cell_content {padding: 5px; display:table-cell; width: 100%;}
 .contentauthoring_widget .contentauthoring_cell_element {margin-bottom: 5px; border: 1px dotted #fff;}
@@ -45,6 +45,11 @@
 /* Row menu */
 
 #contentauthoring_row_menu {position: absolute; top: 50px; left: 50px;}
+
+/* Element edit menu */
+
+.contentauthoring_cell_element_actions {position: relative; float: right; display: none;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_element:hover .contentauthoring_cell_element_actions {display:block;}
 
 /* Row re-ordering */
 
