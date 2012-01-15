@@ -20,16 +20,35 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-.contentauthoring_widget .contentauthoring_row {border: 3px solid transparent; min-height: 100px; margin-bottom: 10px; display:table; width: 100%;}
+#contentauthoring_buttons {margin-bottom: 5px;}
+
+/* Resizing */
+
+.contentauthoring_widget .contentauthoring_row {border: 3px solid transparent; min-height: 100px; margin-bottom: 5px; display:table; width: 100%;}
 .contentauthoring_widget .contentauthoring_table_row {display: table-row;}
 .contentauthoring_widget .contentauthoring_cell {height: 100% !important; display:table-cell;}
 .contentauthoring_widget .contentauthoring_cell_container {display:table; height: 100%; width: 100%;}
-.contentauthoring_widget .contentauthoring_cell_content {padding: 10px; display:table-cell; width: auto;}
+.contentauthoring_widget .contentauthoring_cell_content {padding: 5px; display:table-cell; width: 100%;}
+.contentauthoring_widget .contentauthoring_cell_element {margin-bottom: 5px; border: 1px dotted #fff;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_element:hover {border: 1px dotted blue;}
 
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_row {border: 3px solid #2d2d2d;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_table_row .contentauthoring_cell:last-child .contentauthoring_cell_handle {display:none;}
 
-.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_handle {display:table-cell; width: 12px; min-width: 12px; background-image:url('/devwidgets/contentauthoring/images/fullhandle.png'); background-repeat:no-repeat; background-position:center;}
+.contentauthoring_widget .contentauthoring_cell_handle {display:table-cell; width: 12px; min-width: 12px;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_handle {background-image:url('/devwidgets/contentauthoring/images/fullhandle.png'); background-repeat:no-repeat; background-position:center;}
 
 .ui-resizable-helper { border-right: 2px dotted #2d2d2d; }
 .ui-resizable-e { cursor: e-resize; }
+.ui-state-highlight {width: 100%; height: 20px; border: 1px dotted grey; background-color: blue;}
+
+/* Row menu */
+
+#contentauthoring_row_menu {position: absolute; top: 50px; left: 50px;}
+
+/* Row re-ordering */
+
+.contentauthoring_row_handle_container {width: 60px; height: 15px; background-color: #2D2D2D; visibility: hidden; color: #fff;}
+.contentauthoring_row_handle {cursor: move; background-color: yellow; width: 20px; height: 15px; display: inline-block;}
+#contentauthoring_widget_container {margin-left: 0px;}
+.contentauthoring_row_container {list-style-type: none;}

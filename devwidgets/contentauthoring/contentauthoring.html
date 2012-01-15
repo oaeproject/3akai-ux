@@ -1,82 +1,79 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentauthoring/css/contentauthoring.css" />
 
-<div class="contentauthoring_widget">
-    <div class="contentauthoring_edit_mode">
-        <div class="contentauthoring_row">
-            <div class="contentauthoring_table_row">
-                <div class="contentauthoring_cell">
-                    <div class="contentauthoring_cell_container">
-                        <div class="contentauthoring_table_row">
-                            <div class="contentauthoring_cell_content">
-                                Text 1
-                            </div>
-                            <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e" style="vertical-align:middle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="contentauthoring_row">
-            <div class="contentauthoring_table_row">
-                <div class="contentauthoring_cell">
-                    <div class="contentauthoring_cell_container">
-                        <div class="contentauthoring_table_row">
-                            <div class="contentauthoring_cell_content">
-                                Text 1
-                            </div>
-                            <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e" style="vertical-align:middle"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="contentauthoring_cell">
-                    <div class="contentauthoring_cell_container">
-                        <div class="contentauthoring_table_row">
-                            <div class="contentauthoring_cell_content">
-                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                            </div>
-                            <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e" style="vertical-align:middle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="contentauthoring_row">
-            <div class="contentauthoring_table_row">
-                <div class="contentauthoring_cell">
-                    <div class="contentauthoring_cell_container">
-                        <div class="contentauthoring_table_row">
-                            <div class="contentauthoring_cell_content">
-                                Text 1
-                            </div>
-                            <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e" style="vertical-align:middle"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="contentauthoring_cell">
-                    <div class="contentauthoring_cell_container">
-                        <div class="contentauthoring_table_row">
-                            <div class="contentauthoring_cell_content">
-                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                            </div>
-                            <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e" style="vertical-align:middle"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="contentauthoring_cell">
-                    <div class="contentauthoring_cell_container">
-                        <div class="contentauthoring_table_row">
-                            <div class="contentauthoring_cell_content">
-                                Text 3
-                            </div>
-                            <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e" style="vertical-align:middle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="contentauthoring_buttons">
+    <button id="contentauthoring_toggle_edit_mode">Toggle Edit Mode</button>
+    <button id="contentauthoring_add_row">Add row</button>
 </div>
+
+<div id="contentauthoring_row_menu" style="display:none;">
+    <ul>
+        <li><button id="contentauthoring_row_menu_one">1 column</button></li>
+        <li><button id="contentauthoring_row_menu_two">2 columns</button></li>
+        <li><button id="contentauthoring_row_menu_three">3 columns</button></li>
+        <li><button id="contentauthoring_row_menu_add_above">Add row above</button></li>
+        <li><button id="contentauthoring_row_menu_add_below">Add row below</button></li>
+        <li><button id="contentauthoring_row_menu_remove">Remove row</button></li>
+    </ul>
+</div>
+
+<div id="contentauthoring_widget" class="contentauthoring_widget"></div>
+<div id="contentauthoring_widget_template"><!--
+    <ul id="contentauthoring_widget_container" class="contentauthoring_edit_mode">
+        {for row in rows}
+            <li class="contentauthoring_row_container">
+                <div class="contentauthoring_row_handle_container">
+                    <span class="contentauthoring_row_handle"></span>
+                    <span class="contentauthoring_row_edit" data-row-id="${row.id}">Edit</span>
+                </div>
+                <div class="contentauthoring_row">
+                    <div class="contentauthoring_table_row" data-row-id="${row.id}">
+                        {for column in row.columns}
+                            <div class="contentauthoring_cell" style="width: ${totalWidth * column.width}px">
+                                <div class="contentauthoring_cell_container">
+                                    <div class="contentauthoring_table_row">
+                                        <div class="contentauthoring_cell_content">
+                                            {for element in column.elements}
+                                                <div class="contentauthoring_cell_element">Element ${element_index} in column ${column_index} in row ${row_index}</div>
+                                            {/for}
+                                        </div>
+                                        <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {/for}
+                    </div>
+                </div>
+            </li>
+        {/for}
+    </ul>
+--></div>
+<div id="contentauthoring_row_template"><!--
+    <li class="contentauthoring_row_container">
+        <div class="contentauthoring_row_handle_container">
+            <span class="contentauthoring_row_handle"></span>
+            <span class="contentauthoring_row_edit" data-row-id="${id}">Edit</span>
+        </div>
+        <div class="contentauthoring_row">
+            <div class="contentauthoring_table_row" data-row-id="${id}">
+                {for column in columns}
+                    <div class="contentauthoring_cell" style="width: ${totalWidth * column.width}px">
+                        <div class="contentauthoring_cell_container">
+                            <div class="contentauthoring_table_row">
+                                <div class="contentauthoring_cell_content">
+                                    {for element in column.elements}
+                                        <div class="contentauthoring_cell_element">Element ${element_index}</div>
+                                    {/for}
+                                </div>
+                                <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
+                            </div>
+                        </div>
+                    </div>
+                {/for}
+            </div>
+        </div>
+    </li>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentauthoring/javascript/contentauthoring.js"></script>
