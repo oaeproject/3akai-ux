@@ -157,20 +157,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             ]
         }
 
-        var newRow = {
-            "columns": [
-                {
-                    "width": 1,
-                    "elements": [
-                        {
-                            "id": "id00100",
-                            "type": "htmlblock"
-                        }
-                    ]
-                }
-            ]
-        }
-
         ///////////////////////
         // Utility functions //
         ///////////////////////
@@ -196,6 +182,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (isInEditMode()){
                 $("#contentauthoring_widget_container").removeClass("contentauthoring_edit_mode");
                 $(".contentauthoring_cell_content").sortable("destroy");
+                $("#contentauthoring_buttons_elements").hide();
+                $("#contentauthoring_add_row").hide();
             } else {
                 $("#contentauthoring_widget_container").addClass("contentauthoring_edit_mode");
                 setActions();
@@ -232,7 +220,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $( ".contentauthoring_cell_content" ).sortable({
     			connectWith: ".contentauthoring_cell_content",
                 ghost: true,
-                placeholder: "ui-state-highlight"
+                placeholder: "ui-state-highlight",
+                stop: addNewElement
     		});
         }
 
@@ -282,10 +271,23 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ///////////////////
 
         $("#contentauthoring_add_row").bind("click", function(){
-            newRow.id = sakai.api.Util.generateWidgetId();
-            pageStructure.rows.push(newRow);
+            var newRow = {
+                "id": sakai.api.Util.generateWidgetId(),
+                "columns": [
+                    {
+                        "width": 1,
+                        "elements": [
+                            {
+                                "id": sakai.api.Util.generateWidgetId(),
+                                "type": "htmlblock"
+                            }
+                        ]
+                    }
+                ]
+            }
             newRow.totalWidth = $("#contentauthoring_widget").width();
             newRow.rowOnly = true;
+            newRow.cellOnly = false;
             $("#contentauthoring_widget_container").append(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", newRow, false, false));
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
             setActions();
@@ -350,9 +352,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Change widget settings //
         ////////////////////////////
 
-        $(".contentauthoring_cell_element_action_e").live("click", function(){
-            var id = $(this).parent().attr("data-element-id");
-            var type = $(this).parent().attr("data-element-type");
+        var isEditingNewElement = false;
+        var currentlyEditing = false;
+
+        var editModeFullScreen = function(id, type){
+            currentlyEditing = id;
             $("#contentauthoring_widget_content").html("");
             if (sakai.widgets[type]) {
                 var widgetSettingsWidth = 650;
@@ -365,25 +369,37 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $('#contentauthoring_widget_settings').css({
                     'width': widgetSettingsWidth + "px",
                     'margin-left': -(widgetSettingsWidth / 2) + "px",
-                    'top': ($(window).scrollTop() + 100) + "px"
+                    'top': ($(window).scrollTop() + 50) + "px"
                 }).jqmShow();
             }
+        };
+
+        $(".contentauthoring_cell_element_action_e").live("click", function(){
+            var id = $(this).parent().attr("data-element-id");
+            var type = $(this).parent().attr("data-element-type");
+            isEditingNewElement = false;
+            editModeFullScreen(id, type);
         });
         $("#contentauthoring_widget_settings").jqm({
             modal: true,
             overlay: 20,
-            toTop: true
+            toTop: true,
+            onHide: sakai_global.contentauthoring.widgetCancel
         });
 
-        sakai_global.contentauthoring.widgetCancel = function(tuid){
+        sakai_global.contentauthoring.widgetCancel = function(){
+            if (isEditingNewElement){
+                $(".contentauthoring_cell_element #" + currentlyEditing).parent().remove();
+            }
+            isEditingNewElement = false;
             $('#contentauthoring_widget_settings').jqmHide();
         };
-        sakai_global.contentauthoring.widgetFinish = function(tuid){
+        sakai_global.contentauthoring.widgetFinish = function(){
+            isEditingNewElement = false;
             $("#contentauthoring_widget_content").html("");
-            var $parent = $(".contentauthoring_cell_element #" + tuid).parent();
-            debug.log($parent);
-            $(".contentauthoring_cell_element #" + tuid).remove();
-            $parent.append("<div id='widget_" + $parent.attr("data-element-type") + "_" + tuid + "' class='widget_inline'></div>");
+            var $parent = $(".contentauthoring_cell_element #" + currentlyEditing).parent();
+            $(".contentauthoring_cell_element #" + currentlyEditing).remove();
+            $parent.append("<div id='widget_" + $parent.attr("data-element-type") + "_" + currentlyEditing + "' class='widget_inline'></div>");
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
             $('#contentauthoring_widget_settings').jqmHide();
         };
@@ -399,6 +415,50 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(this).parent().parent().remove();
         });
 
+        /////////////////////
+        // Add new element //
+        /////////////////////
+
+        $("#contentauthoring_buttons_elements").append(sakai.api.Util.TemplateRenderer("contentautoring_elements_toadd_template", {"sakai": sakai}));
+        var makeElementsDraggable = function(){
+            $( "#contentauthoring_buttons_elements div" ).draggable({
+    			connectToSortable: ".contentauthoring_cell_content",
+    			helper: "clone",
+    			revert: "invalid"
+    		});
+        };
+
+        var addNewElement = function(event, ui){
+            var addedElement = $(ui.item);
+            if (addedElement.hasClass("contentauthoring_buttons_element_new")){
+                var type = addedElement.attr("data-element-type");
+                // Generate unique id
+                var id = sakai.api.Util.generateWidgetId();
+                // Replace item
+                var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                    "id": id,
+                    "type": type,
+                    "rowOnly": false,
+                    "cellOnly": true
+                });
+                addedElement.replaceWith($(element));
+                if (type !== "htmlblock" && type !== "pagetitle"){
+                    // Load edit mode
+                    isEditingNewElement = true;
+                    editModeFullScreen(id, type);
+                } else {
+                    sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
+                }
+                setActions();
+            };
+        };
+
+        ////////////////////////
+        // Movable button bar //
+        ////////////////////////
+
+        $("#contentauthoring_buttons").draggable();
+
         ////////////////////
         // Initialization //
         ////////////////////
@@ -408,11 +468,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             makeColumnsResizable();
             reorderPortlets();
             setCellHover();
+            $("#contentauthoring_add_row").show();
+            $("#contentauthoring_buttons_elements").show();
+            makeElementsDraggable();
         };
 
         var renderPage = function(){
             pageStructure.totalWidth = $("#contentauthoring_widget").width();
             pageStructure.rowOnly = false;
+            pageStructure.cellOnly = false;
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
             setActions();

@@ -20,7 +20,7 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-#contentauthoring_buttons {margin-bottom: 5px;}
+#contentauthoring_buttons {margin-bottom: 5px; position: fixed !important; background-color: #2d2d2d; width: 150px; left: 30px; top: 75px;}
 
 /* Resizing */
 
@@ -57,3 +57,7 @@
 .contentauthoring_row_handle {cursor: move; background-color: yellow; width: 20px; height: 15px; display: inline-block;}
 #contentauthoring_widget_container {margin-left: 0px; margin-top: 0px;}
 .contentauthoring_row_container {list-style-type: none;}
+
+/* Elements to add */
+#contentauthoring_buttons_elements {margin-left: 0px;}
+#contentauthoring_buttons_elements div {margin-right: 10px; background-color:#ccc; margin-bottom: 2px;}
