@@ -56,21 +56,23 @@
                 <span class="contentauthoring_row_edit" data-row-id="${id}">Edit</span>
             </div>
             <div class="contentauthoring_row">
-                <div class="contentauthoring_table_row" data-row-id="${id}">
-                    {for column in columns}
-                        <div class="contentauthoring_cell" style="width: ${totalWidth * column.width}px">
-                            <div class="contentauthoring_cell_container">
-                                <div class="contentauthoring_table_row">
-                                    <div class="contentauthoring_cell_content">
-                                        {for element in column.elements}
-                                            ${insertCell(element.id, element.type)}
-                                        {/for}
+                <div class="contentauthoring_minheight_container">
+                    <div class="contentauthoring_table_row" data-row-id="${id}">
+                        {for column in columns}
+                            <div class="contentauthoring_cell" style="width: ${totalWidth * column.width}px">
+                                <div class="contentauthoring_cell_container">
+                                    <div class="contentauthoring_table_row">
+                                        <div class="contentauthoring_cell_content">
+                                            {for element in column.elements}
+                                                ${insertCell(element.id, element.type)}
+                                            {/for}
+                                        </div>
+                                        <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
                                     </div>
-                                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
                                 </div>
                             </div>
-                        </div>
-                    {/for}
+                        {/for}
+                    </div>
                 </div>
             </div>
         </li>
