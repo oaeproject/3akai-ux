@@ -166,7 +166,7 @@ a:hover{text-decoration:underline;}
 .s3d-add_another_location_container{clear:both;display:block;padding:7px 0;width:200px;}
 .s3d-hidden,.i18nable{display:none;}
 .s3d-bold{font-weight:bold;}
-a.s3d-regular-links,.s3d-regular-links a, button.s3d-regular-links, .s3d-regular-links button{color:#2683bc;}
+a.s3d-regular-links,.s3d-regular-links a, button.s3d-regular-links, .s3d-regular-links button, span.s3d-regular-links{color:#2683bc;}
 a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-links button{color:#2683bc; font-size:0.9em;}
 .s3d-regular-light-links,.s3d-regular-light-links a,.s3d-regular-light-links button{color:#058EC4 !important;}
 .s3d-content-type-link a{color:#5FB3D2;}

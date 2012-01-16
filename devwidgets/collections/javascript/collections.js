@@ -181,6 +181,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $("#collections_collection_title").removeAttr("disabled");
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION_CREATED"), sakai.api.i18n.getValueForKey("COLLECTION_CREATED_LONG"));
                 var t = setTimeout(focusCollectionTitle, 1000);
+                $(window).trigger("sakai.collections.created");
             });
         };
 
@@ -249,6 +250,13 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             var currentAmount = parseInt($contentCountEl.text(), 10);
             $contentCountEl.text("" + (currentAmount + amount));
             $contentCountEl.attr("title", "" + (currentAmount + amount) + " " + sakai.api.i18n.getValueForKey("CONTENT_ITEMS"));
+            $.each(sakai.data.me.groups, function(index, group){
+                if(group["sakai:category"] === "collection" && group.groupid === "c-" + collectionId){
+                    sakai.data.me.groups[index].counts.contentCount += amount;
+                    sakai.data.me.user.properties.contentCount += amount;
+                }
+            });
+            $(window).trigger("sakai.collections.updated");
         };
 
         var uploadFile = function(collectionId, permissions){
