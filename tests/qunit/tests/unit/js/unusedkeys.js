@@ -22,6 +22,7 @@ require(
         var allhtml = "";
         var alljs = "";
         var totalfiles = 0;
+        var performeddevcheck = false;
 
         /**
          * Perform the actual check
@@ -65,10 +66,13 @@ require(
 
             keylist.sort();
 
-            if(totalfiles === 0) {
-                for(var i=0, j=keylist.length; i<j; i++){
-                    performCheck(allhtml, alljs, keylist[i]);
-                }
+            if(totalfiles === 0 && !performeddevcheck) {
+                performeddevcheck = true;
+                test("Dev bundle", function(){
+                    for(var i=0, j=keylist.length; i<j; i++){
+                        performCheck(allhtml, alljs, keylist[i]);
+                    }
+                });
             }
 
         };
