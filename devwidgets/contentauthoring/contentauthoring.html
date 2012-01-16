@@ -91,6 +91,33 @@
     {/if}
 --></div>
 
+<div id="create_cell_element_template" style="display:none;"><!--
+    {if data && data.content && data.content.length}
+        {for file in data.content}
+            {if file.name}
+                <div class="contentauthoring_cell_element" data-element-type="htmlblock" data-element-id="245462465">
+                    <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="245462465" data-element-type="htmlblock">
+                        <button class="contentauthoring_cell_element_action_x">X</button>
+                        <button class="contentauthoring_cell_element_action_e">E</button>
+                    </div>
+                    {var mimeType = sakai.api.Content.getMimeTypeData(file.type)}
+                    <img src="${mimeType.URL}" alt="${mimeType.description}" class="s3d-icon-40 fl-force-left"/>
+                    <span class="s3d-regular-links fl-force-left s3d-bold s3d-margin-top-15">${file.name}</span>
+                    <hr class="fl-hidden fl-push"/>
+                </div>
+            {/if}
+        {/for}
+    {else}
+        <div class="contentauthoring_cell_element" data-element-type="htmlblock" data-element-id="245462465">
+            <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="245462465" data-element-type="htmlblock">
+                <button class="contentauthoring_cell_element_action_x">X</button>
+                <button class="contentauthoring_cell_element_action_e">E</button>
+            </div>
+            ${data.content}
+        </div>
+    {/if}
+--></div>
+
 <!-- Widget Settings -->
 <div id="contentauthoring_widget_settings" class="s3d-dialog s3d-dialog-container">
     <div class="s3d-dialog-close jqmClose"></div>

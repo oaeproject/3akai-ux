@@ -301,6 +301,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             setActions();
         });
 
+        var addExternal = function(ev, data){
+            var template = sakai.api.Util.TemplateRenderer("create_cell_element_template", {data: data, sakai: sakai});
+            // We add the item after the element is dropped on if there is one
+            // If the column is empty we append
+            if($(data.target).hasClass("contentauthoring_cell_element")){
+                $(data.target).after(template);
+            } else {
+                $(data.target).append(template);
+            }
+            // Reapply the cell hovers
+            setCellHover();
+        };
+
         ///////////////////
         // Edit row menu //
         ///////////////////
@@ -490,6 +503,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, "/~nicolaas/test/");
             setActions();
         };
+
+        $(window).bind("sakai.contentauthoring.droppedexternal", addExternal);
 
         renderPage();
          

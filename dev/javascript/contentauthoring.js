@@ -20,8 +20,44 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.contentauthoring = function(){
 
-        
+        // Highlight on drag entering drop zone.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragenter', function(ev) {
+            $(".ui-state-highlight.external_content").remove();
+            if($(this).hasClass("contentauthoring_cell_element")){
+                $(this).after($("<div class='ui-state-highlight external_content'></div>"));
+            } else {
+                $(this).append($("<div class='ui-state-highlight external_content'></div>"));
+            }
+            return false;
+        });
 
+        // Un-highlight on drag leaving drop zone.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragleave', function(ev) {
+            return false;
+        });
+
+        // Decide whether the thing dragged in is welcome.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragover', function(ev) {
+            return false;
+        });
+
+        // Handle the final drop
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('drop', function(ev) {
+            ev.preventDefault();
+            $(".ui-state-highlight.external_content").remove();
+            var dt = ev.originalEvent.dataTransfer;
+            var content = "";
+            if(dt.files.length){
+                content = dt.files;
+            } else {
+                content = dt.getData("Text");
+            }
+            $(window).trigger("sakai.contentauthoring.droppedexternal", {
+                content: content,
+                target: $(this)
+            });
+            return false;
+        });
     };
 
     sakai.api.Widgets.Container.registerForLoad("contentauthoring");
