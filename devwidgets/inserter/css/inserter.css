@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.inserter_widget {position:fixed;overflow:hidden;top:50px;left:10px;width:230px;min-height:100px;background-color:#333;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;box-shadow:0 0 7px #000;-moz-box-shadow:0 0 7px #000;-webkit-box-shadow:0 0 7px #000;}
+.inserter_widget {position:fixed !important;overflow:hidden;top:50px;left:10px;width:230px;min-height:100px;background-color:#333;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;box-shadow:0 0 7px #000;-moz-box-shadow:0 0 7px #000;-webkit-box-shadow:0 0 7px #000;}
 .inserter_widget ul {margin:0;}
 .inserter_widget ul li {list-style:none;padding:5px;line-height:25px;min-width:195px;}
 .inserter_widget ul li:hover {background:url("/devwidgets/inserter/images/inserter_collection_item_hover.png") repeat-x top left #0f98d5;cursor:pointer;}
