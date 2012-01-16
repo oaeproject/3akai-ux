@@ -1086,10 +1086,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fileupload", "
          * Prepare and call the function to render existing content in a list
          */
         var prepareContentSearch = function(pagenum){
-            if (pagenum == parseInt(pagenum, 10)){
-                var query = $.trim($newaddcontentExistingItemsSearch.val());
-                renderExistingContent(query, pagenum);
-            }
+            var query = $.trim($newaddcontentExistingItemsSearch.val());
+            renderExistingContent(query, pagenum);
         };
 
         /**
