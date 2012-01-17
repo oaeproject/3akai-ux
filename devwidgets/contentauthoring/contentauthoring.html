@@ -41,7 +41,7 @@
                 <button class="contentauthoring_cell_element_action_x">X</button>
                 <button class="contentauthoring_cell_element_action_e">E</button>
             </div>
-            {if cellOnly && (type !== "htmlblock" && type !== "pagetitle")}
+            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle")}
                 <div id="${id}"></div>
             {else}
                 <div id="widget_${type}_${id}" class="widget_inline"></div>
@@ -49,28 +49,32 @@
         </div>
     {/macro}
 
+    {macro insertColumn(column)}
+        <div class="contentauthoring_cell" style="width: ${column.width * 100}%">
+            <div class="contentauthoring_cell_container">
+                <div class="contentauthoring_table_row">
+                    <div class="contentauthoring_cell_content">
+                        {for element in column.elements}
+                            ${insertCell(element.id, element.type)}
+                        {/for}
+                    </div>
+                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
+                </div>
+            </div>
+        </div>
+    {/macro}
+
     {macro insertRow(id, columns)}
-        <li class="contentauthoring_row_container">
+        <li class="contentauthoring_row_container" data-row-id="${id}">
             <div class="contentauthoring_row_handle_container">
                 <span class="contentauthoring_row_handle"></span>
                 <span class="contentauthoring_row_edit" data-row-id="${id}">Edit</span>
             </div>
             <div class="contentauthoring_row">
                 <div class="contentauthoring_minheight_container">
-                    <div class="contentauthoring_table_row" data-row-id="${id}">
+                    <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
                         {for column in columns}
-                            <div class="contentauthoring_cell" style="width: ${totalWidth * column.width}px">
-                                <div class="contentauthoring_cell_container">
-                                    <div class="contentauthoring_table_row">
-                                        <div class="contentauthoring_cell_content">
-                                            {for element in column.elements}
-                                                ${insertCell(element.id, element.type)}
-                                            {/for}
-                                        </div>
-                                        <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            ${insertColumn(column)}
                         {/for}
                     </div>
                 </div>
@@ -78,10 +82,12 @@
         </li>
     {/macro}
 
-    {if rowOnly}
+    {if template === "row"}
         ${insertRow(id, columns)}
-    {elseif cellOnly}
+    {elseif template === "cell"}
         ${insertCell(id, type)}
+    {elseif template === "column"}
+        ${insertColumn(column)}
     {else}
         <ul id="contentauthoring_widget_container" class="contentauthoring_edit_mode">
             {for row in rows}
