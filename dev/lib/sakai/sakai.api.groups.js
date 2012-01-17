@@ -834,19 +834,21 @@ define(
                         var participantCount = 0;
                         if (data.results.length) {
                             // Do a couple requests first so the group data is cached
-                            sakaiGroupsAPI.getGroupAuthorizableData(groupId, function() {
-                                $.each(data.results, function(index, user){
-                                    sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
-                                        user.role = role;
-                                        participantCount++;
-                                        if (participantCount === data.results.length) {
-                                            if ($.isFunction(callback)) {
-                                                callback(true, data);
+                            sakaiGroupsAPI.getRole(data.results[0].userid, groupId, function(success, role) {
+                                sakaiGroupsAPI.getGroupAuthorizableData(groupId, function() {
+                                    $.each(data.results, function(index, user){
+                                        sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
+                                            user.role = role;
+                                            participantCount++;
+                                            if (participantCount === data.results.length) {
+                                                if ($.isFunction(callback)) {
+                                                    callback(true, data);
+                                                }
                                             }
-                                        }
-                                    }, roleCache);
+                                        });
+                                    });
                                 });
-                            });
+                            }, roleCache);
                         } else {
                             if ($.isFunction(callback)) {
                                 callback(true, {});
