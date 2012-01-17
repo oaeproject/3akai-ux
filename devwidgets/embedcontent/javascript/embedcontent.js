@@ -188,7 +188,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "fullresult" : result
             };
-            var link = sakai.api.Util.safeURL((name || result['_path']) + "/" + result['sakai:pooled-content-file-name']);
+            var link = sakai.api.Util.safeURL(name || result['_path']) + "/" + sakai.api.Util.safeURL(result['sakai:pooled-content-file-name']);
             if (dataObj._mimeType === "x-sakai/link"){
                 dataObj.downloadLink = result["sakai:pooled-content-url"];
                 dataObj.contentProfileLink = "/content#p=" + link;
