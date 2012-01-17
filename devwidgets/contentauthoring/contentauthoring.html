@@ -49,16 +49,16 @@
         </div>
     {/macro}
 
-    {macro insertColumn(column)}
+    {macro insertColumn(column, last)}
         <div class="contentauthoring_cell" style="width: ${column.width * 100}%">
             <div class="contentauthoring_cell_container">
                 <div class="contentauthoring_table_row">
                     <div class="contentauthoring_cell_content">
                         {for element in column.elements}
-                            ${insertCell(element.id, element.type)}
+                            ${insertCell(element.id, element.type, last)}
                         {/for}
                     </div>
-                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
+                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e" {if last} style="display:none;"{else} style="display:table-cell"{/if}></div>
                 </div>
             </div>
         </div>
@@ -74,7 +74,12 @@
                 <div class="contentauthoring_minheight_container">
                     <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
                         {for column in columns}
-                            ${insertColumn(column)}
+                            {var last = false;}
+                            {if column_index == columns.length -1}
+                                {var last = true}
+                            {/if}
+                            ${insertColumn(column, last)}
+                            <hr class="fl-hidden fl-push"/>
                         {/for}
                     </div>
                 </div>

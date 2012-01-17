@@ -139,7 +139,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             ]
                         },
                         {
-                            "width": 0.33,
+                            "width": 0.34,
                             "elements": [
                                 {
                                     "id": "id00012",
@@ -410,7 +410,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             for (var i = 0; i <= lastColumn; i++) {
                 $($cells[i]).css("width", widths[i] / remainingWidth + "%");
             }
-        }
+        };
 
         var addColumns = function($row, totalColumns){
             var widths = getColumnWidths($row);
@@ -429,7 +429,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $($cells[i]).css("width", widths[i] * (1 - (newColumnWidth * (totalColumns - widths.length))) * 100 + "%");
             }
             setActions();
-        }
+        };
 
         $("#contentauthoring_row_menu_one").live("click", function(){
             var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
@@ -497,7 +497,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(".contentauthoring_cell_element_actions").hide();
                 $(this).removeClass("contentauthoring_cell_element_hover");
             });
-        }
+        };
 
         ////////////////////////////
         // Change widget settings //
@@ -625,6 +625,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $("#contentauthoring_add_row").show();
             $("#contentauthoring_buttons_elements").show();
             makeElementsDraggable();
+            var t= setTimeout(function(){
+                $.each($('.contentauthoring_table_row.contentauthoring_cell_container_row'), function(index, $row){
+                    setHeight($row);
+                });
+            }, 1300);
         };
 
         var renderPage = function(){
@@ -637,7 +642,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $(window).bind("sakai.contentauthoring.droppedexternal", addExternal);
 
         renderPage();
-         
+
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
