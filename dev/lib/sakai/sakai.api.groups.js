@@ -834,8 +834,8 @@ define(
                         var participantCount = 0;
                         if (data.results.length) {
                             // Do a couple requests first so the group data is cached
-                            sakaiGroupsAPI.getRole(data.results[0].userid, groupId, function(success, role) {
-                                sakaiGroupsAPI.getGroupAuthorizableData(groupId, function() {
+                            sakaiGroupsAPI.getGroupAuthorizableData(groupId, function() {
+                                sakaiGroupsAPI.getRole(data.results[0].userid, groupId, function(success, role) {
                                     $.each(data.results, function(index, user){
                                         sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
                                             user.role = role;
@@ -847,8 +847,8 @@ define(
                                             }
                                         });
                                     });
-                                });
-                            }, roleCache);
+                                }, roleCache);
+                            });
                         } else {
                             if ($.isFunction(callback)) {
                                 callback(true, {});
