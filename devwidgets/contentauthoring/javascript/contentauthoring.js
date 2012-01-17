@@ -210,11 +210,31 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Reorder portlets //
         //////////////////////
 
-        var setHeight = function(ev) {
-            if(ev.target){
-                $('.contentauthoring_cell_content', $(ev.target).parents(".contentauthoring_row")).equalHeights();
+        /**
+         * Sets the height of a row to the heighest column
+         * @param {Object} $row jQuery object with class ".contentauthoring_table_row.contentauthoring_cell_container_row"
+         *                      used to search for child cells that can contain content
+         */
+        var setHeight = function($row) {
+            var cells = $('.contentauthoring_cell_content', $row);
+            var setDefaultHeight = true
+            $.each(cells, function(index, cell){
+                // Default the height of the cell to auto to avoid that cells stay larger than they should
+                $('.contentauthoring_cell_content', $row).css("height", "auto");
+                // Remove whitespace since jQuery :empty selector doesn't ignore it
+                var html = $(cell).html().replace(/\s+/, "");
+                if(html.length){
+                    // There is some content in the row so no default height but the cell height should be considered
+                    setDefaultHeight = false;
+                }
+            });
+
+            if (setDefaultHeight) {
+                // No content in the row, set default height
+                $('.contentauthoring_cell_content', $row).css("height", 25);
             } else {
-                $('.contentauthoring_cell_content', $(ev).parents(".contentauthoring_row")).equalHeights();
+                // Some cells have content
+                $('.contentauthoring_cell_content', $row).equalHeights();
             }
         };
 
@@ -543,7 +563,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////
 
         $(".contentauthoring_cell_element_action_x").live("click", function(){
+            var $row = $(this).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
             $(this).parent().parent().remove();
+            setHeight($row);
         });
 
         /////////////////////
@@ -561,6 +583,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var addNewElement = function(event, ui){
             var addedElement = $(ui.item);
+            var $row = $(addedElement).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
             if (addedElement.hasClass("contentauthoring_buttons_element_new")){
                 var type = addedElement.attr("data-element-type");
                 // Generate unique id
@@ -581,7 +604,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
                 setActions();
             };
-            setHeight(addedElement);
+            setHeight($row);
         };
 
         ////////////////////////
