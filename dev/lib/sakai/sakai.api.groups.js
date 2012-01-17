@@ -805,9 +805,9 @@ define(
          * @param {String} sort The parameter to sort on (firstName or lastName)
          * @param {String} sortOrder The direction of the sort (desc or asc)
          * @param {Function} callback Function executed on success or error
-
+         * @param {Boolean} roleCache Flag to get group role data from cache if available 
          */
-        searchMembers: function(groupId, query, num, page, sort, sortOrder, callback) {
+        searchMembers: function(groupId, query, num, page, sort, sortOrder, callback, roleCache) {
             if (groupId) {
                 var url = "";
                 if (query && query !== "*") {
@@ -835,18 +835,16 @@ define(
                         if (data.results.length) {
                             // Do a couple requests first so the group data is cached
                             sakaiGroupsAPI.getGroupAuthorizableData(groupId, function() {
-                                sakaiGroupsAPI.getRole(data.results[0].userid, groupId, function(success, role) {
-                                    $.each(data.results, function(index, user){
-                                        sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
-                                            user.role = role;
-                                            participantCount++;
-                                            if (participantCount === data.results.length) {
-                                                if ($.isFunction(callback)) {
-                                                    callback(true, data);
-                                                }
+                                $.each(data.results, function(index, user){
+                                    sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
+                                        user.role = role;
+                                        participantCount++;
+                                        if (participantCount === data.results.length) {
+                                            if ($.isFunction(callback)) {
+                                                callback(true, data);
                                             }
-                                        });
-                                    });
+                                        }
+                                    }, roleCache);
                                 });
                             });
                         } else {
@@ -964,7 +962,8 @@ define(
             return roles;
         },
 
-        getRole : function(userId, groupID, callback){
+        getRole : function(userId, groupID, callback, roleCache){
+            var cache = roleCache === false ? false : true;
             var groupInfo = sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
                 if (success){
                     data = data[groupID];
@@ -1000,7 +999,7 @@ define(
                         }
                     };
 
-                    if ($.isPlainObject(sakaiGroupsAPI.groupRoleData[groupID])) {
+                    if (cache && $.isPlainObject(sakaiGroupsAPI.groupRoleData[groupID])) {
                         parseRoles(sakaiGroupsAPI.groupRoleData[groupID]);
                     } else {
                         sakai_serv.batch(batchRequests, function(success, data){
