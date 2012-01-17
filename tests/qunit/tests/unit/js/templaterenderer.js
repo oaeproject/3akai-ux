@@ -2,7 +2,7 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
     function($, sakai) {
@@ -112,6 +112,8 @@ require(
         sakai.api.Util.TemplateRenderer($template10, {data:data1}, $container);
         equal($.trim($container.html()), data1);
     });
+
+    $(window).trigger("addlocalbinding.qunit.sakai");
 
     });
 });

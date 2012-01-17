@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
 
     /**
      * @name sakai_global.addarea
@@ -502,7 +502,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getTotalCount = function(structure){
             var total = 0;
             for (var i in structure){
-                total++;
+                if (structure.hasOwnProperty(i)){
+                    total++;
+                }
             }
             return total;
         };
