@@ -20,6 +20,7 @@
 #embedcontent_header h2{margin:0;}
 #embedcontent_header{margin-bottom:10px;}
 .embedcontent_footer{height:20px;margin-top:20px;width:100%;}
+.embedcontent_overflowy {overflow-y: hidden;}
 
 /* Choose content */
 #embedcontent_choose{height:94px;}
