@@ -35,8 +35,9 @@
 
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_row {border: 3px solid #2d2d2d;}
 
-.contentauthoring_widget .contentauthoring_cell_handle {width: 12px; min-width: 12px;}
-.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_handle {background-image:url('/devwidgets/contentauthoring/images/fullhandle.png'); background-repeat:no-repeat; background-position:center;}
+.contentauthoring_widget .contentauthoring_cell_handle {width: 12px; min-width: 12px; display: table-cell;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_handle.last_handle {height:0;display:none;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_handle {background-image:url('/devwidgets/contentauthoring/images/fullhandle.png'); background-repeat:no-repeat; background-position:center;height:25px;}
 
 .ui-resizable-helper { border-right: 2px dotted #2d2d2d; }
 .ui-resizable-e { cursor: e-resize; }

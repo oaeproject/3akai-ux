@@ -33,6 +33,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
      */
     sakai_global.contentauthoring = function (tuid, showSettings, widgetData) {
 
+        var $rootel = $("#" + tuid);
+
         var MINIMUM_COLUMN_SIZE = 0.05;
         var STORE_PATH = "/~" + sakai.data.me.user.userid + "/test/";
 
@@ -565,7 +567,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $(".contentauthoring_cell_element_action_x").live("click", function(){
             var $row = $(this).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
             $(this).parent().parent().remove();
-            setHeight($row);
         });
 
         /////////////////////
@@ -604,7 +605,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
                 setActions();
             };
-            setHeight($row);
+        };
+
+        var imageLoaded = function(ev, image){
+            setHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
         };
 
         ////////////////////////
@@ -625,11 +629,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $("#contentauthoring_add_row").show();
             $("#contentauthoring_buttons_elements").show();
             makeElementsDraggable();
-            var t= setTimeout(function(){
-                $.each($('.contentauthoring_table_row.contentauthoring_cell_container_row'), function(index, $row){
-                    setHeight($row);
-                });
-            }, 1300);
         };
 
         var renderPage = function(){
@@ -640,6 +639,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         $(window).bind("sakai.contentauthoring.droppedexternal", addExternal);
+
+        $rootel.contentChange(function(changedHTML){
+            $.each($(changedHTML).find("img:visible"), function(i, item){
+                imageLoaded({}, $(item));
+                $(item).load(function(ev){
+                    imageLoaded(ev, $(ev.currentTarget));
+                });
+            });
+        });
 
         renderPage();
 

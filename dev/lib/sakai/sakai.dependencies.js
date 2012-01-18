@@ -119,6 +119,7 @@ require(
         "misc/google/html-sanitizer",
         "misc/querystring",
         "jquery-plugins/jquery.equalheights",
+        "jquery-plugins/jquery.contentchange.sakai-edited",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
