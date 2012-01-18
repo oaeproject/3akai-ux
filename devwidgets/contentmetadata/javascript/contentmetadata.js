@@ -295,21 +295,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Update the description of the content
          */
-        var updateDescription = function(){
-            var description = $("#contentmetadata_description_description").val();
-            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
-            sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
-                if (success) {
-                    sakai_global.content_profile.content_data.data["sakai:description"] = description;
-                    createActivity("UPDATED_DESCRIPTION");
-                    renderDescription(false);
-                }
-            });
-        };
-
-        /**
-         * Update the description of the content
-         */
         var updateUrl = function(){
             var url = $("#contentmetadata_url_url").val();
             var preview = sakai.api.Content.getPreviewUrl(url);
@@ -335,21 +320,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 success: function(){
                     createActivity("UPDATED_URL");
                     $(window).trigger("updated.version.content.sakai");
-                }
-            });
-        };
-
-        /**
-         * Update the copyright of the content
-         */
-        var updateCopyright = function(){
-            var copyright = $("#contentmetadata_copyright_copyright").val();
-            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
-            sakai.api.Server.saveJSON(url, {"sakai:copyright": copyright}, function(success, data) {
-                if (success) {
-                    sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
-                    renderCopyright(false);
-                    createActivity("UPDATED_COPYRIGHT");
                 }
             });
         };
@@ -398,20 +368,58 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 return;
             }
             switch ( editingElement ) {
-                case "description":
-                    updateDescription();
-                    break;
                 case "tags":
                     updateTags();
                     break;
                 case "url":
                     updateUrl();
                     break;
-                case "copyright":
-                    updateCopyright();
-                    break;
             }
             editingElement = "";
+        };
+
+        /**
+         * Updates data for a specific field
+         * @param {String} field The field to update
+         * @param {String} value The new field value
+         */
+        var updateData = function(field, value) {
+            if (value !== sakai_global.content_profile.content_data.data["sakai:" + field]){
+                switch (field) {
+                    case "description":
+                        updateDescription(value);
+                        break;
+                    case "copyright":
+                        updateCopyright(value);
+                        break;
+                }
+            }
+        };
+
+        /**
+         * Update the description of the content
+         */
+        var updateDescription = function(description){
+            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
+            sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
+                if (success) {
+                    sakai_global.content_profile.content_data.data["sakai:description"] = description;
+                    createActivity("UPDATED_DESCRIPTION");
+                }
+            });
+        };
+
+        /**
+         * Update the copyright of the content
+         */
+        var updateCopyright = function(copyright){
+            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
+            sakai.api.Server.saveJSON(url, {"sakai:copyright": copyright}, function(success, data) {
+                if (success) {
+                    sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
+                    createActivity("UPDATED_COPYRIGHT");
+                }
+            });
         };
 
         ////////////////////////
@@ -449,6 +457,41 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $(contentmetadataViewRevisions).die("click").live("click", function() {
                 $(window).trigger("initialize.filerevisions.sakai", sakai_global.content_profile.content_data);
+            });
+
+            // jeditable bindings
+            var tooltip = sakai.api.i18n.getValueForKey("CLICK_TO_EDIT", "contentmetadata");
+            var jeditableUpdate = function(value, settings){
+                var field = $(this).parents(".contentmetadata_editable_for_maintainers_new").attr("data-edit-field");
+                updateData(field, $.trim(value));
+                return value;
+            };
+            $('.contentmetadata_edit_area_textarea').editable(jeditableUpdate, {
+                type: 'textarea',
+                onblur: 'submit',
+                tooltip: tooltip
+            });
+
+            var copyrightData = {};
+            var selected = false;
+            for (var c in sakai.config.Permissions.Copyright.types){
+                if (sakai_global.content_profile.content_data.data["sakai:copyright"] === c){
+                    selected = c;
+                }
+                copyrightData[c] = sakai.api.i18n.getValueForKey(sakai.config.Permissions.Copyright.types[c].title, "contentmetadata");
+            }
+            if (selected){
+                copyrightData["selected"] = selected;
+            }
+            $('.contentmetadata_edit_area_select').editable(jeditableUpdate, {
+                data: copyrightData,
+                type: 'select',
+                onblur: 'submit',
+                callback: function(value, settings) {
+                    $(this).html(settings.data[value]);
+                    copyrightData["selected"] = value;
+                },
+                tooltip: tooltip
             });
         };
 
