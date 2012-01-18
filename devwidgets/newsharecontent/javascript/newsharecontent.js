@@ -91,7 +91,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if(tbx.find('a').length===0){
                 var svcs = {facebook: 'Facebook', twitter: 'Twitter', delicious:'Delicious', stumbleupon: 'StumbleUpon', blogger:'Blogger', wordpress:'Wordpress', google:'Google', expanded: 'More'};
                 for (var s in svcs) {
-                    tbx.append('<a class="addthis_button_'+s+'" addthis:url="'+contentObj.shareUrl+'" addthis:title="'+sakai.api.i18n.getValueForKey("SHARE_EXT_MSG1",'newsharecontent')+' ' +shareData.filename.replace(/"/gi,'')+' '+sakai.api.i18n.getValueForKey("SHARE_EXT_MSG2",'newsharecontent')+' ' + sakai.api.i18n.getValueForKey("TITLE_PREFIX_PLAIN")+'"></a>');
+                    var addThisTitle ='';
+                    if (s==='twitter'){
+                        addThisTitle = sakai.api.i18n.getValueForKey("SHARE_EXT_MSG1",'newsharecontent')+' ' +shareData.filename.replace(/"/gi,'')+' '+sakai.api.i18n.getValueForKey("SHARE_EXT_MSG2",'newsharecontent')+' ' + sakai.api.i18n.getValueForKey("TITLE_PREFIX_PLAIN");
+                    }
+                    else{
+                        addThisTitle =  shareData.filename.replace(/"/gi,'')+' '+sakai.api.i18n.getValueForKey("SHARE_EXT_MSG2",'newsharecontent')+' ' + sakai.api.i18n.getValueForKey("TITLE_PREFIX_PLAIN");
+                    }
+                    tbx.append('<a class="addthis_button_'+s+'" addthis:url="'+contentObj.shareUrl+'" addthis:title="'+addThisTitle+'"></a>');
                 }
                 addthis.toolbox("#toolbox");
             }
