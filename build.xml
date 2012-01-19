@@ -209,6 +209,8 @@
             <arg value="lib${file.separator}jquery" />
             <arg value="--no-instrument" />
             <arg value="lib${file.separator}tinymce" />
+            <arg value="--no-instrument" />
+            <arg value="lib${file.separator}MathJax" />
             <arg value="${SRC_DIR}" />
             <arg value="${INSTRUMENTED_DIR}" />
         </exec>
