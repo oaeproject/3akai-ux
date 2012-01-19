@@ -91,7 +91,7 @@ if (!(Array.indexOf || [].indexOf)) {
 
 require(
     {
-        baseUrl:"/dev/lib",
+        baseUrl:"/dev/lib/",
         paths: {
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
