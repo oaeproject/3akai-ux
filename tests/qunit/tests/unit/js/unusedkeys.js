@@ -37,7 +37,7 @@ require(
         var performCheck = function(htmldata, javascript, key) {
             var completekey = "__MSG__" + key + "__";
 
-            if (!key || key.substring(0,1) === "#" || $.inArray(key, ignoreKeys) !== -1 ) {
+            if (!key || key.substring(0,1) === "#" || $.inArray(key, ignoreKeys) !== -1) {
                 return;
             }
 
@@ -55,11 +55,11 @@ require(
          * @param {String} language The language we are checking (e.g. en_US)
          * @param {Object} keys Object containing all the keys for a widget
          */
-        var performWidgetTest = function( widgetname, language, keys ) {
+        var performWidgetTest = function(widgetname, language, keys) {
             QUnit.test("Widget - name:" + widgetname + " - language:" + language, function() {
                 // Each key in a bundle of a widget
-                for ( var i in keys ) {
-                    if ( keys.hasOwnProperty(i) ) {
+                for (var i in keys) {
+                    if (keys.hasOwnProperty(i)) {
                         var widget = widgets[widgetname];
                         performCheck(widget.html, widget.js, i);
                     }
@@ -72,10 +72,10 @@ require(
          * @param {String} language The language we are checking (e.g. en_US)
          * @param {Object} keys Object containing all the keys
          */
-        var performDevTest = function( language, keys ) {
+        var performDevTest = function(language, keys) {
             QUnit.test("Dev bundle - language:" + language, function() {
-                for ( var i in keys ) {
-                    if ( keys.hasOwnProperty(i) ) {
+                for (var i in keys) {
+                    if (keys.hasOwnProperty(i)) {
                         performCheck(allHtml, allJs, i);
                     }
                 }
@@ -87,12 +87,12 @@ require(
          */
         var checkWidgetKeysUsed = function() {
             // All widgets
-            for ( var i in keyListWidgets ) {
-                if ( keyListWidgets.hasOwnProperty( i ) ) {
+            for (var i in keyListWidgets) {
+                if (keyListWidgets.hasOwnProperty(i)) {
                     // Each bundle per widget
-                    for ( var j in keyListWidgets[i] ) {
-                        if ( keyListWidgets[i].hasOwnProperty( j ) ) {
-                            performWidgetTest( i, j, keyListWidgets[i][j] );
+                    for (var j in keyListWidgets[i]) {
+                        if (keyListWidgets[i].hasOwnProperty(j)) {
+                            performWidgetTest(i, j, keyListWidgets[i][j]);
                         }
                     }
                 }
@@ -104,9 +104,9 @@ require(
          */
         var checkDevKeysUsed = function() {
             // All the dev languages
-            for ( var i in keyList ) {
-                if ( keyList.hasOwnProperty( i ) ) {
-                    performDevTest( i, keyList[i] );
+            for (var i in keyList) {
+                if (keyList.hasOwnProperty(i)) {
+                    performDevTest(i, keyList[i]);
                 }
             }
         };
@@ -115,8 +115,8 @@ require(
          * Check if the object for a certain widget exists.
          * If it doesn't, create it
          */
-        var checkWidgetObject = function( widgetname ) {
-            if ( !widgets[widgetname] ) {
+        var checkWidgetObject = function(widgetname) {
+            if (!widgets[widgetname]) {
                 widgets[widgetname] = {};
             }
         };
@@ -125,8 +125,8 @@ require(
          * Add to the widget HTML
          * @param {String} htmldata The HTML as a string
          */
-        var addToWidgetHtml = function( widgetname, htmldata ) {
-            checkWidgetObject( widgetname );
+        var addToWidgetHtml = function(widgetname, htmldata) {
+            checkWidgetObject(widgetname);
             widgets[widgetname].html = htmldata;
         };
 
@@ -134,7 +134,7 @@ require(
          * Add to the widget JavaScript
          * @param {String} javascript The JavaScript as a string
          */
-        var addToWidgetJs = function( widgetname, javascript ) {
+        var addToWidgetJs = function(widgetname, javascript) {
             checkWidgetObject();
             widgets[widgetname].js = javascript;
         };
@@ -143,7 +143,7 @@ require(
          * Add to the complete list of all the HTML & Javascript
          * @param {String} htmldata The HTML as a string
          */
-        var addToAllHtml = function( htmldata ) {
+        var addToAllHtml = function(htmldata) {
             allHtml += htmldata;
         };
 
@@ -151,7 +151,7 @@ require(
          * Add to the complete list of all the Html & Javascript
          * @param {String} javascript The JavaScript as a string
          */
-        var addToAllJs = function( javascript ) {
+        var addToAllJs = function(javascript) {
             allJs += javascript;
         };
 
@@ -161,8 +161,8 @@ require(
          * @param {String} widgetname Name of the widget
          * @param {String} body A string containing all the keys for a widget. We'll convert this to JSON
          */
-        var addWidgetBundleToKeyList = function ( language, widgetname, body ) {
-            if ( !$.isPlainObject( keyListWidgets[widgetname] ) ) {
+        var addWidgetBundleToKeyList = function(language, widgetname, body) {
+            if (!$.isPlainObject(keyListWidgets[widgetname])) {
                 keyListWidgets[widgetname] = {};
             }
             keyListWidgets[widgetname][language] = sakai.api.i18n.changeToJSON(body);
@@ -173,7 +173,7 @@ require(
          * @param {String} language The language (e.g. en_US)
          * @param {String} body A string containing all the keys for that bundle. We'll convert this to JSON
          */
-        var addDevBundleToKeyList = function ( language, body ) {
+        var addDevBundleToKeyList = function(language, body) {
             keyList[language] = sakai.api.i18n.changeToJSON(body);
         };
 
@@ -186,10 +186,10 @@ require(
                 "url": url,
                 "method": "GET"
             });
-            if ( !batchSections[section] ) {
+            if (!batchSections[section]) {
                 batchSections[section] = [];
             }
-            batchSections[section].push( url );
+            batchSections[section].push(url);
         };
 
         /**
@@ -199,33 +199,33 @@ require(
         var processBatchRequest = function(results) {
             QUnit.start();
 
-            for ( var i = 0, j = results.length; i < j; i++ ) {
+            for (var i = 0, j = results.length; i < j; i++) {
 
                 var item = results[i];
                 var url = item.url;
                 var language = "", widgetname = "";
 
-                if ( $.inArray( url, batchSections.devbundle ) !== -1 ) {
+                if ($.inArray(url, batchSections.devbundle) !== -1) {
                     language = url.replace(devBundleURL + "/", "").replace(".properties", "");
                     addDevBundleToKeyList(language, item.body);
                 }
-                if ( $.inArray( url, batchSections.widgetbundle ) !== -1 ) {
+                if ($.inArray(url, batchSections.widgetbundle) !== -1) {
                     language = url.split("/")[4].replace(".properties", "");
                     widgetname = url.split("/")[2];
                     addWidgetBundleToKeyList(language, widgetname, item.body);
                 }
-                else if ( $.inArray( url, batchSections.devhtml ) !== -1 ) {
+                else if ($.inArray(url, batchSections.devhtml) !== -1) {
                     addToAllHtml(item.body);
                 }
-                else if ( $.inArray( url, batchSections.devjs ) !== -1 ) {
+                else if ($.inArray(url, batchSections.devjs) !== -1) {
                     addToAllJs(item.body);
                 }
-                else if ( $.inArray( url, batchSections.widgethtml ) !== -1 ) {
+                else if ($.inArray(url, batchSections.widgethtml) !== -1) {
                     widgetname = url.split("/")[2];
                     addToWidgetHtml(widgetname, item.body);
                     addToAllHtml(item.body);
                 }
-                else if ( $.inArray( url, batchSections.widgetjs ) !== -1 ) {
+                else if ($.inArray(url, batchSections.widgetjs) !== -1) {
                     widgetname = url.split("/")[2];
                     addToWidgetJs(widgetname, item.body);
                     addToAllJs(item.body);
@@ -276,11 +276,11 @@ require(
          * Add the widget bundles to the batch request
          */
         var addWidgetBundles = function() {
-            for ( var i in sakai.widgets ) {
-                if ( sakai.widgets.hasOwnProperty( i ) && sakai.widgets[i].i18n ) {
-                    for ( var j in sakai.widgets[i].i18n ) {
-                        if ( sakai.widgets[i].i18n.hasOwnProperty( j ) && sakai.widgets[i].i18n[j].bundle ) {
-                            addToBatchURLs( sakai.widgets[i].i18n[j].bundle , "widgetbundle" );
+            for (var i in sakai.widgets) {
+                if (sakai.widgets.hasOwnProperty(i) && sakai.widgets[i].i18n) {
+                    for (var j in sakai.widgets[i].i18n) {
+                        if (sakai.widgets[i].i18n.hasOwnProperty(j) && sakai.widgets[i].i18n[j].bundle) {
+                            addToBatchURLs(sakai.widgets[i].i18n[j].bundle , "widgetbundle");
                         }
                     }
                 }
@@ -291,10 +291,10 @@ require(
          * Filter the default language bundles
          * @param data {Object} The object we get back from the server
          */
-        var filterDefaultBundles = function( data ) {
-            for ( var bundle in data ) {
-                if ( data.hasOwnProperty(bundle) && bundle.substr(-11) === ".properties" ) {
-                    addToBatchURLs( devBundleURL + "/" + bundle, "devbundle" );
+        var filterDefaultBundles = function(data) {
+            for (var bundle in data) {
+                if (data.hasOwnProperty(bundle) && bundle.substr(-11) === ".properties") {
+                    addToBatchURLs(devBundleURL + "/" + bundle, "devbundle");
                 }
             }
         };
