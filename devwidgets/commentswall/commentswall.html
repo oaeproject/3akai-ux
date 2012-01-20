@@ -1,0 +1,76 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/commentswall/css/commentswall.css" />
+
+<!-- MAIN VIEW -->
+<div id="commentswall_mainContainer" class="fl-widget-content s3d-widget-content" style="display:none;">
+    <div id="commentswall_titlebar" style="display:none;">
+        <span class="commentswall_titleLeft">__MSG__COMMENTS__</span>
+    </div>
+    
+    <div id="commentswall_noComment" style="display:none;">
+    	<span>__MSG__ANON_NOT_ALLOWED__</span>
+    </div>
+    
+    <div id="commentswall_fillInComment" style="display:none;">
+        <form>
+            <div class="wallcomments_fillInCommentTopContainer s3d-form-field-wrapper">
+	            <div id="commentswall_txtNamePoster_container" style="display:none;">
+	                <label for="wallcomments_txtNamePoster">__MSG__NAME__:</label>
+	                <input type="text" class="comments_inputFields" id="commentswall_txtNamePoster"><br />
+	            </div>
+	            
+	            <div id="commentswall_txtMailPoster_container" style="display:none;">
+	                <label for="commentswall_txtMailPoster">__MSG__EMAIL__:</label>
+	                <input type="text" class="commentswall_inputFields" id="commentswall_txtMailPoster"><br />
+	            </div>
+	            
+	            <div id="commentswall_userProfileAvatar"><img class="commentswall_avatar" src=""/></div>
+
+	            <textarea id="commentswall_txtMessage" name="commentswall_txtMessage" class="required wallcomments_inputFields " rows="7" placeholder="__MSG__ENTER_YOUR_COMMENT__"></textarea>
+	
+	            <div class="fl-force-right">
+	                <button type="submit" class="s3d-button s3d-overlay-button comment_postCommentTopBottom" id="commentswall_postComment">__MSG__SUBMIT_COMMENT__</button>
+	            </div>
+	            
+	            <div class="fl-push"></div>
+            </div>
+        </form>
+    </div>
+
+    <div id="commentswall_showComments">
+        <!-- In this container all comments will be shown -->
+    </div>
+    
+    <div id="commentswall_showCommentsTemplate" style="display:none"><!--
+    <div>
+        {if comments && comments.length > 0}
+            {for i in comments}
+            	<div class="wallcomments_commentsWrapper">
+	                <div class="wallcomments_topCommentBar">
+	                    <img alt="__MSG__AVATAR__" class="commentswall_avatar" src="${i.user.pictureUrl}" />
+	                    <div class="wallcomments_posterData">
+	                        <span class="commentswall_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}">${i.user.fullName}</a></span>
+	                        <span class="commentswall_timeago">${i.timeAgo}</span>
+	                    </div>
+	                    <div id="commentswall_message_${i['sakai:id']}" class="commentswall_message">
+	                        <p>${i.message}</p>
+	                    </div>
+	                </div>
+                </div>
+            {/for}
+        {else}
+            <span id="noCommentsMessage">__MSG__THERE_ARE_NO_COMMENTS__</span>
+        {/if}
+    </div>
+    --></div>
+    <div class="comments_nextButtons">
+        <button type="button" class="s3d-button" id="commentswall_prevPage"><span class="s3d-button-inner">__MSG__PREVIOUS_PAGE__</span></button><br />
+        <div class="jq_pager comments_jqpager" style="display:none;"><!-- In this container the pager will be shown (bottom) --></div>
+    </div>
+</div>
+
+<!-- WIDGET FOOTER-->
+<div class="s3d-widget-no-options"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/commentswall/javascript/commentswall.js"></script>
