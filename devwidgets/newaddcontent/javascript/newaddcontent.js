@@ -145,6 +145,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
         var contentUploaded = false;
         var hideAfterContentUpload = false;
         var currentExistingContext = false;
+        var restrictToCurrentLibrary = false;
 
         var currentSelectedLibrary = sakai.data.me.user.userid;
 
@@ -217,7 +218,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                 "sakai": sakai,
                 "me": sakai.data.me,
                 "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
-                "currentSelectedLibrary": currentSelectedLibrary
+                "currentSelectedLibrary": currentSelectedLibrary,
+                "restrictToCurrentLibrary": restrictToCurrentLibrary
             }));
         };
 
@@ -1322,6 +1324,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             contentUploaded = false;
             hideAfterContentUpload = false;
             numberOfBrowsedFiles = 0;
+            restrictToCurrentLibrary = false;
         };
 
         /**
@@ -1341,6 +1344,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
 
         $(window).bind("init.newaddcontent.sakai", function(e, data){
             initialize();
+            if (data && data.restrictToCurrentLibrary){
+                restrictToCurrentLibrary = data.restrictToCurrentLibrary;
+            }
         });
 
     };

@@ -498,7 +498,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $uploadContentLink.bind("click", function() {
-            $(window).trigger("init.newaddcontent.sakai");
+            var restrictToCurrentLibrary = false;
+            if (sakai_global.group && sakai_global.group.groupId) {
+                restrictToCurrentLibrary = true;
+            }
+
+            $(window).trigger("init.newaddcontent.sakai", [{restrictToCurrentLibrary: restrictToCurrentLibrary}]);
             return false;
         });
 
