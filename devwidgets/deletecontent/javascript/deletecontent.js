@@ -272,9 +272,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Set up the buttons correctly
             hideButtons();
             $("#deletecontent_action_removefromsystem_confirm").show();
-            if (contextType === "collection"){
+            if (context && contextType === "collection"){
                 $("#deletecontent_action_removefromcollection_only").show();
-            } else {
+            } else if (context){
                 $("#deletecontent_action_removefromlibrary_only").show();
             }
             // Show the correct overlay title
@@ -507,7 +507,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $("#deletecontent_action_removefromlibrary_only").bind("click", removeFromLibrary);
         $("#deletecontent_action_removefromcollection_only").bind("click", removeFromLibrary);
         $("#deletecontent_action_removefromsystem_confirm").bind("click", removeFromSystem);
-        $("#deletecontent_action_removefromsystem_nocontext").bind("click", removeFromSystem);
+        $("#deletecontent_action_removefromsystem_nocontext").bind("click", checkUsedByOthers);
 
         ////////////////////////////
         // External event binding //
