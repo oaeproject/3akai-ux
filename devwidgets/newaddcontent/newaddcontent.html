@@ -220,7 +220,7 @@
     {if items.length}
         <div id="newaddcontent_saveto_container">
             <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
-            <select id="newaddcontent_saveto">
+            <select id="newaddcontent_saveto"{if restrictToCurrentLibrary === true} disabled="disabled"{/if}>
                 <option value="${me.user.userid}">__MSG__MY_LIBRARY__</option>
                 {for g in groups.entry}
                     {if sakai.api.Content.Collections.isCollection(g)}
