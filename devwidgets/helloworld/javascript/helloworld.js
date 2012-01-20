@@ -167,12 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // set the text of the usernameContainer <span> element to
                 // the current user's first name
-                $usernameContainer.text(
-                    sakai.api.Security.saneHTML(
-                        sakai.api.User.getProfileBasicElementValue(me.profile,
-                            "firstName")
-                    )
-                );
+                $usernameContainer.text(sakai.api.User.getFirstName(me.profile));
 
                 // get the preferred color and show the Main view
                 getPreferredColor(showMainView);
