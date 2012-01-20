@@ -45,6 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mainContainer = $("#helloworld_main", $rootel);
         var $settingsContainer = $("#helloworld_settings", $rootel);
         var $settingsForm = $("#helloworld_settings_form", $rootel);
+        var $cancelSettings = $("#helloworld_cancel_settings", $rootel);
         var $colorPicker = $("#helloworld_color", $rootel);
         var $usernameContainer = $("#helloworld_username", $rootel);
 
@@ -138,6 +139,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             );
             return false;
+        });
+
+        $cancelSettings.bind("click", function(){
+            sakai.api.Widgets.Container.informFinish(tuid, "helloworld");
         });
 
 
