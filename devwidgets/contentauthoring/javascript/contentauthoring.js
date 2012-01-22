@@ -203,7 +203,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var makeRowsReorderable = function(){
             $("#contentauthoring_widget_container").sortable({
-                handle: '.contentauthoring_row_handle'
+                handle: '.contentauthoring_row_handle',
+                placeholder: "contentauthoring_row_reorder_highlight",
+                opacity: 0.4
             });
             setRowReorderHover();
         }
