@@ -1,0 +1,18 @@
+{
+    "id":                 "htmlblock",
+    "type":               "contrib",
+    "enabled":            false,
+    "hasSettings":        false,
+    "url":                "/devwidgets/htmlblock/htmlblock.html",
+    "img":                "/devwidgets/htmlblock/images/htmlblock.png",
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/htmlblock/bundles/default.properties",
+            "name":       "HTML Block",
+            "description":"Block of HTML"
+        }
+    },
+    "personalportal":     false,
+    "sakaidocs":          true,
+    "showinsakaigoodies": false
+}

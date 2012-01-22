@@ -85,7 +85,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     //$("#googlemaps_iframe_map", rootel).css({"float": "right"});
                 }
                 else {
-                    $("#googlemaps_iframe_map", rootel).width("95%");
+                    $("#googlemaps_iframe_map", rootel).width("100%");
                 }
             }
             else {

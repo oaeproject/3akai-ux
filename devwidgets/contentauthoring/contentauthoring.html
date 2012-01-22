@@ -1,0 +1,140 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/contentauthoring/css/contentauthoring.css" />
+
+<div id="contentauthoring_buttons">
+    <button id="contentauthoring_toggle_edit_mode">Toggle Edit Mode</button>
+    <button id="contentauthoring_add_row" style="display:none;">Add row</button>
+    <div id="contentauthoring_buttons_elements" style="diplay:none;">
+        <div class="contentauthoring_buttons_element_new" data-element-type="pagetitle">Title</div>
+        <div class="contentauthoring_buttons_element_new" data-element-type="htmlblock">Text</div>
+        <div class="contentauthoring_buttons_element_new" data-element-type="embedcontent">Image</div>
+        <div class="contentauthoring_buttons_element_new" data-element-type="embedcontent">Video</div>
+        <div class="contentauthoring_buttons_element_new" data-element-type="embedcontent">Web Page</div>
+        <div class="contentauthoring_buttons_element_new" data-element-type="embedcontent">File List</div>
+    </div>
+    <div id="contentautoring_elements_toadd_template"><!--
+        {var alreadyThere = ["pagetitle", "htmlblock", "embedcontent"]}
+        {for widget in sakai.widgets}
+            {if widget.sakaidocs && jQuery.inArray(widget.id, alreadyThere) === -1}
+                <div class="contentauthoring_buttons_element_new" data-element-type="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</div>
+            {/if}
+        {/for}
+    --></div>
+</div>
+
+<div id="contentauthoring_row_menu" style="display:none;">
+    <ul>
+        <li><button id="contentauthoring_row_menu_one">1 column</button></li>
+        <li><button id="contentauthoring_row_menu_two">2 columns</button></li>
+        <li><button id="contentauthoring_row_menu_three">3 columns</button></li>
+        <li><button id="contentauthoring_row_menu_add_above">Add row above</button></li>
+        <li><button id="contentauthoring_row_menu_add_below">Add row below</button></li>
+        <li><button id="contentauthoring_row_menu_remove">Remove row</button></li>
+    </ul>
+</div>
+
+<div id="contentauthoring_widget" class="contentauthoring_widget"></div>
+<div id="contentauthoring_widget_template"><!--
+    {macro insertCell(id, type)}
+        <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
+            <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="${id}" data-element-type="${type}">
+                <button class="contentauthoring_cell_element_action_x">X</button>
+                <button class="contentauthoring_cell_element_action_e">E</button>
+            </div>
+            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle")}
+                <div id="${id}"></div>
+            {else}
+                <div id="widget_${type}_${id}" class="widget_inline"></div>
+            {/if}
+        </div>
+    {/macro}
+
+    {macro insertColumn(column, last)}
+        <div class="contentauthoring_cell" style="width: ${column.width * 100}%">
+            <div class="contentauthoring_cell_container">
+                <div class="contentauthoring_table_row">
+                    <div class="contentauthoring_cell_content">
+                        {for element in column.elements}
+                            ${insertCell(element.id, element.type, last)}
+                        {/for}
+                    </div>
+                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e {if last} last_handle{/if}"></div>
+                </div>
+            </div>
+        </div>
+    {/macro}
+
+    {macro insertRow(id, columns)}
+        <li class="contentauthoring_row_container" data-row-id="${id}">
+            <div class="contentauthoring_row_handle_container">
+                <span class="contentauthoring_row_handle"></span>
+                <span class="contentauthoring_row_edit" data-row-id="${id}">Edit</span>
+            </div>
+            <div class="contentauthoring_row">
+                <div class="contentauthoring_minheight_container">
+                    <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
+                        {for column in columns}
+                            {var last = false;}
+                            {if column_index == columns.length -1}
+                                {var last = true}
+                            {/if}
+                            ${insertColumn(column, last)}
+                            <hr class="fl-hidden fl-push"/>
+                        {/for}
+                    </div>
+                </div>
+            </div>
+        </li>
+    {/macro}
+
+    {if template === "row"}
+        ${insertRow(id, columns)}
+    {elseif template === "cell"}
+        ${insertCell(id, type)}
+    {elseif template === "column"}
+        ${insertColumn(column)}
+    {else}
+        <ul id="contentauthoring_widget_container" class="contentauthoring_edit_mode">
+            {for row in rows}
+                ${insertRow(row.id, row.columns)}
+            {/for}
+        </ul>
+    {/if}
+--></div>
+
+<div id="create_cell_element_template" style="display:none;"><!--
+    {if data && data.content && data.content.length}
+        {for file in data.content}
+            {if file.name}
+                <div class="contentauthoring_cell_element" data-element-type="htmlblock" data-element-id="245462465">
+                    <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="245462465" data-element-type="htmlblock">
+                        <button class="contentauthoring_cell_element_action_x">X</button>
+                        <button class="contentauthoring_cell_element_action_e">E</button>
+                    </div>
+                    {var mimeType = sakai.api.Content.getMimeTypeData(file.type)}
+                    <img src="${mimeType.URL}" alt="${mimeType.description}" class="s3d-icon-40 fl-force-left"/>
+                    <span class="s3d-regular-links fl-force-left s3d-bold s3d-margin-top-15">${file.name}</span>
+                    <hr class="fl-hidden fl-push"/>
+                </div>
+            {/if}
+        {/for}
+    {else}
+        <div class="contentauthoring_cell_element" data-element-type="htmlblock" data-element-id="245462465">
+            <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="245462465" data-element-type="htmlblock">
+                <button class="contentauthoring_cell_element_action_x">X</button>
+                <button class="contentauthoring_cell_element_action_e">E</button>
+            </div>
+            ${data.content}
+        </div>
+    {/if}
+--></div>
+
+<!-- Widget Settings -->
+<div id="contentauthoring_widget_settings" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header" id="contentauthoring_widget_settings_title"></h1>
+    <div id="contentauthoring_widget_settings_content"></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/contentauthoring/javascript/contentauthoring.js"></script>
