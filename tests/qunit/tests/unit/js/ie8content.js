@@ -15,6 +15,8 @@ require(
 
     var checkElements = function($elt, callback){
 
+        var firstNodeText = $.trim($elt.children(":first").text());
+
         // remove hidden divs
         var $html = $("<div></div>").append($elt
             .clone()
@@ -31,7 +33,7 @@ require(
         var button = $html.find("button").length;
         var placeholderIndex = $elt.text().indexOf("__MSG__IE_PLACEHOLDER__");
 
-        ok(text || img || input || button || (placeholderIndex >= 0), "Content: " + text);
+        ok(text || firstNodeText || img || input || button || (placeholderIndex >= 0), "Content: " + text);
 
         if ($.isFunction(callback)) {
             callback();
@@ -48,8 +50,8 @@ require(
             checkElements($("#qunit-fixture"));
         });
 
-        for (var j = 0; j < sakai_global.qunit.allHtmlFiles.length; j++) {
-            var urlToCheck = sakai_global.qunit.allHtmlFiles[j];
+        for (var j = 0; j < sakai_global.qunit.widgets.length; j++) {
+            var urlToCheck = sakai_global.qunit.widgets[j].html;
             (function(url){
                 asyncTest(url, function() {
                     $.ajax({
