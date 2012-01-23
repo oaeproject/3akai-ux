@@ -15,16 +15,23 @@ require(
 
     var checkElements = function($elt, callback){
 
-        var $html = $elt;
-            /*.clone()
+        // remove hidden divs
+        var $html = $("<div></div>").append($elt
+            .clone()
             .children()
             .filter(function(index){
                 return !($(this).is("div") && $(this).css("display") === "none");
             })
-            .remove();*/
-        var text = $.trim($html.text());
+            .remove());
 
-        ok(text, "Content: " + text);
+        // check for input, button, img tags or text that will render in IE8
+        var text = $.trim($html.text());
+        var img = $html.find("img").length;
+        var input = $html.find("input").length;
+        var button = $html.find("button").length;
+        var placeholderIndex = $elt.text().indexOf("__MSG__IE_PLACEHOLDER__");
+
+        ok(text || img || input || button || (placeholderIndex >= 0), "Content: " + text);
 
         if ($.isFunction(callback)) {
             callback();
@@ -32,7 +39,7 @@ require(
     };
 
     /**
-     * Check HTML pages and test for WCAG compliance
+     * Check HTML pages and test for IE8 Content
      */
     var testIE8Content = function(){
 
@@ -62,7 +69,6 @@ require(
                 });
             })(urlToCheck);
         }
-        QUnit.start();
         $(window).trigger("addlocalbinding.qunit.sakai");
     };
 
