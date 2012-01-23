@@ -21,11 +21,10 @@
  */
 
 .contentauthoring_widget {background: url("/devwidgets/contentauthoring/images/grid_bg.png") repeat scroll left top transparent;border: 1px solid #e9e9e9;}
+#contentauthoring_buttons {margin-bottom: 5px; position: fixed !important; background-color: #333; width: 150px; left: 30px; top: 75px;}
 
-#contentauthoring_buttons {margin-bottom: 5px; position: fixed !important; background-color: #2d2d2d; width: 150px; left: 30px; top: 75px;}
 
 /* Resizing */
-
 .contentauthoring_widget .contentauthoring_row {border: 3px solid transparent; min-height: 100px; margin-bottom: 5px; display:table; width: 100%;}
 .contentauthoring_widget .contentauthoring_table_row {display: table-row;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_minheight_container {min-height:25px;}
@@ -35,31 +34,42 @@
 .contentauthoring_widget .contentauthoring_cell_element {margin-bottom: 5px; border: 1px dotted #fff;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_element_hover {border: 1px dotted blue;}
 
-.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_row {border: 3px solid #2d2d2d;}
+.contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_row {border: 3px solid #333;}
 
 .contentauthoring_widget .contentauthoring_cell_handle {width: 12px; min-width: 12px; display: table-cell;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_handle.last_handle {height:0;display:none;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_handle {background-image:url('/devwidgets/contentauthoring/images/fullhandle.png'); background-repeat:no-repeat; background-position:center;height:25px;}
 
-.ui-resizable-helper { border-right: 2px dotted #2d2d2d; }
+.ui-resizable-helper { border-right: 2px dotted #333; }
 .ui-resizable-e { cursor: e-resize; }
 .ui-state-highlight {width: 100%; height: 20px; border: 1px dotted grey; background-color: blue;}
 
-/* Row menu */
 
+/* Row menu */
 #contentauthoring_row_menu {position: absolute; top: 50px; left: 50px;}
 
-/* Element edit menu */
 
+/* Element edit menu */
 .contentauthoring_cell_element_actions {position: absolute; display: none;}
 .contentauthoring_widget .contentauthoring_edit_mode .contentauthoring_cell_element:hover .contentauthoring_cell_element_actions {display:block;}
 
-/* Row re-ordering */
 
-.contentauthoring_row_handle_container {width: 60px; height: 15px; background-color: #2D2D2D; visibility: hidden; color: #fff;}
-.contentauthoring_row_handle {cursor: move; background-color: yellow; width: 20px; height: 15px; display: inline-block;}
+/* Row re-ordering */
+.contentauthoring_row_handle_container {width:55px; height: 20px; background: url("/devwidgets/contentauthoring/images/row_edit_handle_bg.png") repeat-x top left #333; visibility: hidden; color: #fff;margin-left:5px;border-radius: 3px 3px 0 0;-moz-border-radius: 3px 3px 0 0;-webkit-border-radius: 3px 3px 0 0;}
+.contentauthoring_row_handle_container .contentauthoring_row_handle {cursor: move; background: url("/devwidgets/contentauthoring/images/row_edit_handle_grabber.png") no-repeat top left transparent; width: 18px; height: 18px; display: inline-block; margin: 2px 0 0 3px;}
+.contentauthoring_row_handle_container .contentauthoring_row_edit {background: url("/devwidgets/contentauthoring/images/row_edit_handle_pencil.png") no-repeat top left transparent; width: 26px; height: 18px; display: inline-block;cursor:pointer;}
+.contentauthoring_row_handle_container .contentauthoring_row_edit:hover {background: url("/devwidgets/contentauthoring/images/row_edit_handle_pencil_hover.png") no-repeat top left transparent;}
 #contentauthoring_widget_container {margin-left: 0px; margin-top: 0px;}
 .contentauthoring_row_container {list-style-type: none;}
+.contentauthoring_row_reorder_highlight {background-color: #e3e5c7;list-style-type: none;height:20px;margin:10px 0;}
+.contentauthoring_row_reorder_highlight:before {
+    content: url("/devwidgets/contentauthoring/images/row_reorder_highlight_arrow.png");
+    height:26px;
+    width:28px;
+    margin: -13px 0 0 -10px;
+    position:absolute;
+}
+
 
 /* Elements to add */
 #contentauthoring_buttons_elements {margin-left: 0px;}
