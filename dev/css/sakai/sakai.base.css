@@ -437,7 +437,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 /*
  * AUTOSUGGEST
  */
-.requireUser ul.as-selections{box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;}
+.requireUser ul.as-selections{box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;border:1px solid #a9a9a9;}
 ul.as-selections.loading{background:#fff url(../../../dev/images/ajax_load.gif) center center no-repeat;}
 ul.as-selections li.as-original input {border:0;}
 ul.as-selections textarea.as-input, ul.as-selections input.as-input{border:0;resize:none;}
