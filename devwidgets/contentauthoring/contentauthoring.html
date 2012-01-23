@@ -94,7 +94,7 @@
     {elseif template === "column"}
         ${insertColumn(column)}
     {else}
-        <ul id="contentauthoring_widget_container" class="contentauthoring_edit_mode">
+        <ul id="contentauthoring_widget_container">
             {for row in rows}
                 ${insertRow(row.id, row.columns)}
             {/for}

@@ -167,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ///////////////////////
 
         var isInEditMode = function(){
-            return $("#contentauthoring_widget_container").hasClass("contentauthoring_edit_mode");
+            return $rootel.hasClass("contentauthoring_edit_mode");
         };
 
         //////////////////////
@@ -176,12 +176,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $("#contentauthoring_toggle_edit_mode").bind("click", function(){
             if (isInEditMode()){
-                $("#contentauthoring_widget_container").removeClass("contentauthoring_edit_mode");
+                $rootel.removeClass("contentauthoring_edit_mode");
                 $(".contentauthoring_cell_content").sortable("destroy");
                 $("#contentauthoring_buttons_elements").hide();
                 $("#contentauthoring_add_row").hide();
             } else {
-                $("#contentauthoring_widget_container").addClass("contentauthoring_edit_mode");
+                $rootel.addClass("contentauthoring_edit_mode");
                 setActions();
             }
         });
@@ -634,6 +634,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var renderPage = function(){
+            $rootel.addClass("contentauthoring_edit_mode");
             pageStructure.template = "all";
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
