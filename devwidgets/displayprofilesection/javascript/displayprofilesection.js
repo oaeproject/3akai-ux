@@ -269,7 +269,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                             var $tagfield = $displayprofilesection_body.find( "textarea[data-tag-field]" );
                             if ( $tagfield.length ) {
                                 var autoSuggestOptions = {
-                                    scrollHeight: 120
+                                    retrieveLimit:5
                                 };
                                 var initialTagsValue = sectionData["sakai:tags"] && sectionData["sakai:tags"].value ? sectionData["sakai:tags"].value : false;
                                 sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($tagfield, autoSuggestOptions, $(".list_categories", $rootel), initialTagsValue);
