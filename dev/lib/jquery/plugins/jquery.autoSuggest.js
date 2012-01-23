@@ -41,7 +41,7 @@ require([ 'jquery' ], function(jQuery) {
                 selectedValuesProp: "value", //name of object property
                 searchObjProps: "value", //comma separated list of object property names
                 queryParam: "q",
-                retrieveLimit: false, //number for 'limit' param on ajax request
+                retrieveLimit: 5, //number for 'limit' param on ajax request
                 extraParams: "",
                 matchCase: false,
                 minChars: 1,
@@ -53,7 +53,6 @@ require([ 'jquery' ], function(jQuery) {
                 showResultListWhenNoMatch: false,
                 canGenerateNewSelections: true,
                 scroll: false,
-                scrollHeight: 200,
                 start: function(){},
                 selectionClick: function( elem ){},
                 selectionAdded: function( elem ){},
@@ -424,12 +423,6 @@ require([ 'jquery' ], function(jQuery) {
                             input.data( "results_ul" ).html( "<li class='as-message'>" + input.data( "opts" ).emptyText + "</li>" );
                         }
                         input.data( "results_ul" ).css( "width", input.data( "selections_holder" ).outerWidth() );
-                        if ( input.data( "opts" ).scroll ) {
-                            input.data( "results_ul" ).css({
-                                "max-height": input.data( "opts" ).scrollHeight,
-                                "overflow-y": "scroll"
-                            });
-                        }
                         if ( matchCount > 0 || input.data( "opts" ).showResultListWhenNoMatch ) {
                             input.data( "results_holder" ).show();
                         } else if ( !input.data( "opts" ).showResultListWhenNoMatch ) {
