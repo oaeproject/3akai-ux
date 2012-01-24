@@ -18,8 +18,9 @@
      * @param {Function} postrenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
      * @param {Object} initialcontent        Initial content to be added to the list [optional]
      * @param {Function} initialCallback     Function to call with data from initial request [optional]
+     * @param {Object} $scrollContainer      Container used for infinite scrolling that is not the document [optional]
      */
-    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, postrenderer, initialcontent, initialCallback){
+    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, postrenderer, initialcontent, initialCallback, $scrollContainer){
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -27,7 +28,7 @@
         parameters.page = 0;
         // Number of items to load per call to the server
         parameters.items = parameters.items || 18;
-        var $container = $(this);
+        var $container = $scrollContainer ? $scrollContainer.children("ul") : $(this);
         var $loadingContainer = $("<div />");
 
         ////////////////////////
@@ -48,6 +49,13 @@
                     loadNextList();
                 }
             });
+            if($scrollContainer){
+                $scrollContainer.scroll(function() {
+                    if (!isDoingExtraSearch){
+                        loadNextList();
+                    }
+                });
+            }
         };
 
         /**
@@ -55,11 +63,20 @@
          * of the end of the page. If it is, we load the next set of results
          */
         var loadNextList = function(){
-            var scrollTop = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
-            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
-            if (pixelsRemainingUntilBottom < 500 && $container.is(":visible")){
-                parameters.page++;
-                loadResultList();
+            if($scrollContainer) {
+                var scrollTop = $scrollContainer.scrollTop();
+                var pixelsRemainingUntilBottom = $scrollContainer.children("ul").height() - scrollTop;
+                if (pixelsRemainingUntilBottom <= 280 && $scrollContainer.is(":visible")){
+                    parameters.page++;
+                    loadResultList();
+                }
+            } else {
+                var scrollTop = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
+                var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
+                if (pixelsRemainingUntilBottom < 500 && $container.is(":visible")){
+                    parameters.page++;
+                    loadResultList();
+                }
             }
         };
 
