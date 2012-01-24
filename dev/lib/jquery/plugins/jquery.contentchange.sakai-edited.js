@@ -35,7 +35,7 @@ require(['jquery'], function (jQuery) {
     setInterval(function(){
       if(window.watchContentChange){
         for( i in window.watchContentChange){
-          if(window.watchContentChange[i].element.data("lastContents") != window.watchContentChange[i].element.html()){
+          if(window.watchContentChange[i] && window.watchContentChange[i].element && window.watchContentChange[i].element.data("lastContents") != window.watchContentChange[i].element.html()){
             window.watchContentChange[i].callback.apply(window.watchContentChange[i].element);
             window.watchContentChange[i].element.data("lastContents", window.watchContentChange[i].element.html())
           };

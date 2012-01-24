@@ -18,7 +18,7 @@
 
 // load the master sakai object to access all Sakai OAE API methods
 require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
-     
+
     /**
      * @name sakai.contentauthoring
      *
