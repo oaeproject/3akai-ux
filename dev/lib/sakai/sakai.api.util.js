@@ -288,25 +288,30 @@ define(
             var setTags = function(tagLocation, tags, setTagsCallback) {
                 // set the tag on the entity
                 var doSetTags = function(tags, doSetTagsCallback) {
-                    var setTagsRequests = [];
+                    var tagArray = [];
                     $(tags).each(function(i,val) {
-                        setTagsRequests.push({
-                            "url": tagLocation,
-                            "method": "POST",
-                            "parameters": {
-                                "key": "/tags/" + val,
-                                ":operation": "tag"
-                            }
-                        });
+                        tagArray.push("/tags/" + val);
                     });
-                    sakai_serv.batch(setTagsRequests, function(success, data) {
-                        if (!success) {
-                            debug.error(tagLocation + " failed to be tagged as " + val);
+                    $.ajax({
+                        url: tagLocation,
+                        type: "POST",
+                        traditional: true,
+                        data: {
+                            ":operation": "tag",
+                            "key": tagArray
+                        },
+                        success: function(data) {
+                            if ($.isFunction(doSetTagsCallback)) {
+                                doSetTagsCallback(true);
+                            }
+                        },
+                        error: function(xhr){
+                            debug.error(tagLocation + " failed to be tagged as " + tagArray);
+                            if ($.isFunction(doSetTagsCallback)) {
+                                doSetTagsCallback(false);
+                            }
                         }
-                        if ($.isFunction(doSetTagsCallback)) {
-                            doSetTagsCallback(success);
-                        }
-                    }, false, true);
+                    });
                 };
 
                 if (tags.length) {
