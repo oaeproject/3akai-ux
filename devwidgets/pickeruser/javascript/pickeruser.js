@@ -240,6 +240,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         sakai.api.Util.AutoSuggest.setup($pickeruser_search_query,{
             asHtmlID: tuid,
             retrieveLimit: 10,
+            searchObjProps: "name,value",
             resultClick: function(data) {
                 $pickeruser_add_button.removeAttr("disabled");
             },

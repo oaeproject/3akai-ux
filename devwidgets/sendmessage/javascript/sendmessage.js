@@ -205,6 +205,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     keyDelay: "200",
                     retrieveLimit: 10,
                     preFill: preFill,
+                    searchObjProps: "name,value",
                     formatList: function(data, elem) {
                         // formats each line to be presented in autosuggest list
                         // add the correct image, wrap name in a class
