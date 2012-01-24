@@ -346,7 +346,7 @@ define(
                             debug.error(val + " tag failed to be removed from " + tagLocation);
                         }
                         if ($.isFunction(deleteTagsCallback)) {
-                            deleteTagsCallback();
+                            deleteTagsCallback(success);
                         }
                     }, false, true);
                 } else {
@@ -398,10 +398,10 @@ define(
                     finalTags.push(val);
                 }
             });
-            deleteTags(tagLocation, tagsToDelete, function() {
-                setTags(tagLocation, tagsToAdd, function(success) {
+            deleteTags(tagLocation, tagsToDelete, function(deleteSuccess) {
+                setTags(tagLocation, tagsToAdd, function(addSuccess) {
                     if ($.isFunction(callback)) {
-                        callback(success, finalTags);
+                        callback(addSuccess || deleteSuccess, finalTags);
                     }
                 });
             });
