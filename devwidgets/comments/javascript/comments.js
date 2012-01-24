@@ -649,7 +649,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             /** Bind the insert comment button*/
             $(commentsCommentBtn, rootel).bind("click", function(e, ui){
-                sakai.api.Util.Forms.clearValidation($("#comments_fillInComment form"));
+                sakai.api.Util.Forms.clearValidation($("#comments_fillInComment form", rootel));
                 // checks if the user is loggedIn
                 var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
                 var txtToFocus = commentsMessageTxt;
@@ -687,7 +687,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var saveValidateOpts = {
                 submitHandler: postComment
             };
-            sakai.api.Util.Forms.validate($("#comments_fillInComment form"), saveValidateOpts, true);
+            sakai.api.Util.Forms.validate($("#comments_fillInComment form", rootel), saveValidateOpts, true);
 
             /** Bind the settings cancel button */
             $(commentsCancel, rootel).bind("click", function(e, ui){
