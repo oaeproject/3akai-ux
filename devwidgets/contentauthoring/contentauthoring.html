@@ -36,7 +36,7 @@
 <div id="contentauthoring_widget" class="contentauthoring_widget"></div>
 <div id="contentauthoring_widget_template"><!--
     {macro insertCell(id, type)}
-        <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
+        <div class="contentauthoring_cell_element" title="__MSG__DRAG_ME_TO_REORDER_CONTENT__" data-element-type="${type}" data-element-id="${id}">
             <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="${id}" data-element-type="${type}">
                 <button class="contentauthoring_cell_element_action_x">X</button>
                 <button class="contentauthoring_cell_element_action_e">E</button>
@@ -67,7 +67,7 @@
     {macro insertRow(id, columns)}
         <li class="contentauthoring_row_container" data-row-id="${id}">
             <div class="contentauthoring_row_handle_container">
-                <span class="contentauthoring_row_handle"></span>
+                <span class="contentauthoring_row_handle" title="__MSG__DRAG_ME_TO_REORDER_ROWS__"></span>
                 <span class="contentauthoring_row_edit" data-row-id="${id}"></span>
             </div>
             <div class="contentauthoring_row">

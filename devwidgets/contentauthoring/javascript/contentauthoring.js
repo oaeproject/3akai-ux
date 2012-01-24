@@ -246,8 +246,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $( ".contentauthoring_cell_content" ).sortable({
     			connectWith: ".contentauthoring_cell_content",
                 ghost: true,
-                placeholder: "ui-state-highlight",
-                stop: addNewElement
+                placeholder: "contentauthoring_row_reorder_highlight",
+                stop: addNewElement,
+                opacity: 0.4
     		});
         }
 
