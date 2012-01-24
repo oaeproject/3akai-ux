@@ -68,7 +68,7 @@
         <li class="contentauthoring_row_container" data-row-id="${id}">
             <div class="contentauthoring_row_handle_container">
                 <span class="contentauthoring_row_handle"></span>
-                <span class="contentauthoring_row_edit" data-row-id="${id}">Edit</span>
+                <span class="contentauthoring_row_edit" data-row-id="${id}"></span>
             </div>
             <div class="contentauthoring_row">
                 <div class="contentauthoring_minheight_container">
@@ -94,7 +94,7 @@
     {elseif template === "column"}
         ${insertColumn(column)}
     {else}
-        <ul id="contentauthoring_widget_container" class="contentauthoring_edit_mode">
+        <ul id="contentauthoring_widget_container">
             {for row in rows}
                 ${insertRow(row.id, row.columns)}
             {/for}
