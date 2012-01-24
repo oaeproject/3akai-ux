@@ -1024,7 +1024,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                     searchURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&items=10&page=" + (pagenum - 1) + "&sortOrder=" + sortOrder + "&sortOn=" + sortOn + "&q=" + q;
                     break;
             }
-
+            uncheckCheckboxes();
             $.ajax({
                 url: searchURL,
                 type: "GET",
