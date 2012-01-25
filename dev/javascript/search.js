@@ -104,7 +104,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "cat": "",
                 "refine": $.bbq.getState("refine")
             }, 0);
-        }
+        };
 
         ///////////////////
         // Event binding //
