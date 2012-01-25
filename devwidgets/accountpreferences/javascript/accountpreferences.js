@@ -370,8 +370,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var finishSave = function(){
             if (!preferencesChanges && !privacyChanges && !passwordChanges){
-                $(accountPreferencesPasswordChange).resetForm();
-                //$(accountPreferencesPasswordChange).submit();
                 $(accountPreferencesContainer).jqmHide();
                 if (pageReload){
                     window.setTimeout(function(){
