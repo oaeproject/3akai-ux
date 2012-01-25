@@ -95,9 +95,6 @@ require(
 
                 sakai.api.Util.TemplateRenderer($template7, {data:"Sakai"}, $container);
                 QUnit.equal($.trim($container.html()), "Sakai", "Testing else");
-
-                sakai.api.Util.TemplateRenderer($template7, {data:"Sakai231"}, $container);
-                QUnit.equal($.trim($container.html()), "Sakai", "Testing else");
             });
 
             QUnit.test("Testing for and forelse", function() {
