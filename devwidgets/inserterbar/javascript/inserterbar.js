@@ -45,8 +45,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization //
         ////////////////////
 
+        var setupSortables = function(){
+            $( "#inserterbar_default_widgets_container ul li div" ).draggable({
+    			connectToSortable: ".contentauthoring_cell_content",
+    			helper: "clone",
+    			revert: "invalid"
+    		});
+        };
+
         var doInit = function(){
-            
+            setupSortables();
         };
 
         doInit();

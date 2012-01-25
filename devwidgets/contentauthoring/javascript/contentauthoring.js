@@ -624,7 +624,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var addNewElement = function(event, ui){
             var addedElement = $(ui.item);
             var $row = $(addedElement).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
-            if (addedElement.hasClass("contentauthoring_buttons_element_new")){
+            if (addedElement.hasClass("contentauthoring_buttons_element_new") || addedElement.hasClass("inserterbar_widget_draggable")){
                 var type = addedElement.attr("data-element-type");
                 // Generate unique id
                 var id = sakai.api.Util.generateWidgetId();
