@@ -27,6 +27,7 @@ define(function(){
             INBOX_URL: "/me#l=messages/inbox",
             INVITATIONS_URL: "/me#l=messages/invitations",
             LOGOUT_URL: "/logout",
+            SEARCH_URL: "/search",
             MY_DASHBOARD_URL: "/me#l=dashboard",
             PROFILE_EDIT_URL: "/me#l=profile/basic",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
