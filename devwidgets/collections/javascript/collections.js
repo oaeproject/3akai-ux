@@ -408,7 +408,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             $(collectionsSaveNewButton).live("click", createNewCollection);
             $(window).bind("create.collections.sakai", initializeNewCollectionsSetup);
             // Save the new collection when enter is pressed
-            $("#collections_collection_title").bind("keyup", function(ev, data){
+            $("#collections_collection_title").bind("keydown", function(ev, data){
                 if (ev.keyCode === 13){
                     createNewCollection();
                 }
