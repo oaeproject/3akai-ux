@@ -63,10 +63,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                                 var collectionId = $.bbq.getState("collectionId");
                                 var collectionName = $.bbq.getState("collectionName");
-                                if(collectionId && collectionName){
+                                var currentpath = $.bbq.getState("p");
+                                if(collectionId && collectionName && currentpath){
                                     // Show go back to collection link
                                     $("#back_to_collection_button #collection_title").text(collectionName);
-                                    $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + sakai.api.Util.safeURL(collectionName));
+                                    $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + sakai.api.Util.safeURL(collectionName) + "&item=" + currentpath.split("/")[0]);
                                     $("#back_to_collection_container").show("slow");
                                 } else {
                                     $("#back_to_collection_container").hide("slow");
