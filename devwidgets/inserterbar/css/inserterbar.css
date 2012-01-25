@@ -15,3 +15,119 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+/* GENERAL */
+#inserterbar_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_bg.png") no-repeat top left #1e1e1e;
+    border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
+    min-height: 34px;
+    padding: 3px;
+}
+
+/* Layout */
+#inserterbar_widget #inserterbar_grabber {
+    background: url("/devwidgets/inserterbar/images/inserterbar_grabber_bg.png") repeat-y top left transparent;
+    width: 7px;
+    min-height: 34px;
+    cursor: move;
+}
+
+#inserterbar_widget .inserterbar_widget_container {
+    background: url("/devwidgets/inserterbar/images/inserterbar_widget_container_bg.png") repeat-x top left #302f2e;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    min-height: 34px;
+    margin-right: 2px;
+}
+
+#inserterbar_widget .inserterbar_label {
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 34px;
+    margin-left: 17px;
+}
+
+#inserterbar_widget .inserterbar_arrow_right {
+    background: url("/devwidgets/inserterbar/images/inserterbar_arrow_right.png") no-repeat scroll left top transparent;
+    height: 9px;
+    margin: 13px 5px 0 3px;
+    width: 9px;
+}
+
+#inserterbar_widget ul {
+    list-style: none;
+    margin: 0;
+    padding: 4px 2px;
+}
+
+#inserterbar_widget ul li {
+    display: inline;
+    float: left;
+    margin: 0 10px;
+}
+
+/* Widget icons */
+
+.inserterbar_standard_icon {
+    height: 25px;
+}
+
+#inserterbar_widget .inserterbar_expand_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget.png") no-repeat scroll left top transparent;
+    margin: 5px 0 0 5px;
+    width: 25px;
+    cursor: pointer;
+}
+
+#inserterbar_widget .inserterbar_expand_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget_hover.png") no-repeat scroll left top transparent;
+}
+
+#inserterbar_widget .inserterbar_text_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_text_widget.png") no-repeat top left transparent;
+    width: 25px;
+}
+
+#inserterbar_widget .inserterbar_title_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_title_widget.png") no-repeat top left transparent;
+    width: 50px;
+}
+
+#inserterbar_widget .inserterbar_image_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_image_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+
+#inserterbar_widget .inserterbar_video_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_video_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+
+#inserterbar_widget .inserterbar_link_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_link_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+
+#inserterbar_widget .inserterbar_filelist_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+
+#inserterbar_widget .inserterbar_discussion_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+
+#inserterbar_widget .inserterbar_comments_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+
+#inserterbar_widget .inserterbar_googlemaps_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
