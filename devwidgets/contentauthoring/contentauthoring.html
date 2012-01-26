@@ -22,21 +22,32 @@
     --></div>
 </div>
 
-<div id="contentauthoring_row_menu" style="display:none;">
+<div class="s3d-dropdown-list" id="contentauthoring_row_menu" style="display:none;">
+    <div class="s3d-dropdown-list-arrow-up"></div>
     <ul>
-        <li><button id="contentauthoring_row_menu_one">1 column</button></li>
-        <li><button id="contentauthoring_row_menu_two">2 columns</button></li>
-        <li><button id="contentauthoring_row_menu_three">3 columns</button></li>
-        <li><button id="contentauthoring_row_menu_add_above">Add row above</button></li>
-        <li><button id="contentauthoring_row_menu_add_below">Add row below</button></li>
-        <li><button id="contentauthoring_row_menu_remove">Remove row</button></li>
+        <li data-columncount="1">
+            <button id="contentauthoring_row_menu_one"class="s3d-link-button"><div class="s3d-action-icon fl-force-left s3d-action-icon-spacing-right"></div>1 column</button>
+        </li>
+        <li data-columncount="2">
+            <button id="contentauthoring_row_menu_two"class="s3d-link-button"><div class="s3d-action-icon fl-force-left s3d-action-icon-spacing-right"></div>2 columns</button>
+        </li>
+        <li data-columncount="3">
+            <button id="contentauthoring_row_menu_three" class="s3d-link-button"><div class="s3d-action-icon fl-force-left s3d-action-icon-spacing-right"></div>3 columns</button>
+        </li>
+        <li class="s3d-dropdown-hassubnav"><button id="contentauthoring_row_menu_add_above" class="s3d-link-button">Add new row</button>
+            <ul class="s3d-dropdown-list">
+                <li><button id="contentauthoring_row_menu_add_above" class="s3d-link-button"><div class="s3d-action-icon s3d-above-icon fl-force-left s3d-action-icon-spacing-right"></div>Add row above</button></li>
+                <li><button id="contentauthoring_row_menu_add_below" class="s3d-link-button"><div class="s3d-action-icon s3d-below-icon fl-force-left s3d-action-icon-spacing-right"></div>Add row below</button></li>
+            </ul>
+        </li>
+        <li><button id="contentauthoring_row_menu_remove" class="s3d-link-button">Remove row</button></li>
     </ul>
 </div>
 
 <div id="contentauthoring_widget" class="contentauthoring_widget"></div>
 <div id="contentauthoring_widget_template"><!--
     {macro insertCell(id, type)}
-        <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
+        <div class="contentauthoring_cell_element" title="__MSG__DRAG_ME_TO_REORDER_CONTENT__" data-element-type="${type}" data-element-id="${id}">
             <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="${id}" data-element-type="${type}">
                 <button class="contentauthoring_cell_element_action_x">X</button>
                 <button class="contentauthoring_cell_element_action_e">E</button>
@@ -67,8 +78,8 @@
     {macro insertRow(id, columns)}
         <li class="contentauthoring_row_container" data-row-id="${id}">
             <div class="contentauthoring_row_handle_container">
-                <span class="contentauthoring_row_handle"></span>
-                <span class="contentauthoring_row_edit" data-row-id="${id}">Edit</span>
+                <span class="contentauthoring_row_handle" title="__MSG__DRAG_ME_TO_REORDER_ROWS__"></span>
+                <span class="contentauthoring_row_edit" data-row-id="${id}"></span>
             </div>
             <div class="contentauthoring_row">
                 <div class="contentauthoring_minheight_container">
@@ -94,7 +105,7 @@
     {elseif template === "column"}
         ${insertColumn(column)}
     {else}
-        <ul id="contentauthoring_widget_container" class="contentauthoring_edit_mode">
+        <ul id="contentauthoring_widget_container">
             {for row in rows}
                 ${insertRow(row.id, row.columns)}
             {/for}
