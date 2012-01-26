@@ -53,7 +53,7 @@ require([ 'jquery' ], function(jQuery) {
                 showResultListWhenNoMatch: false,
                 canGenerateNewSelections: true,
                 scroll: false,
-                scrollHeight: false,
+                scrollHeight: 200,
                 start: function(){},
                 selectionClick: function( elem ){},
                 selectionAdded: function( elem ){},

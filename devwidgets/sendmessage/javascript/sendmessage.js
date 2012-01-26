@@ -204,6 +204,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     startText: sakai.api.i18n.getValueForKey("ENTER_CONTACT_OR_GROUP_NAMES", "sendmessage"),
                     keyDelay: "200",
                     retrieveLimit: 10,
+                    scrollHeight:"none",
                     preFill: preFill,
                     formatList: function(data, elem) {
                         // formats each line to be presented in autosuggest list
