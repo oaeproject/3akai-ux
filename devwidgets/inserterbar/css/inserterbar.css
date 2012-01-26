@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
+
 /* GENERAL */
 #inserterbar_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_bg.png") no-repeat top left #1e1e1e;
@@ -24,15 +25,22 @@
     -webkit-border-radius: 0 0 3px 3px;
     min-height: 34px;
     padding: 3px;
+    position: fixed !important;
+    top: 40px;
     width: 710px;
 }
+
 
 /* Layout */
 #inserterbar_widget #inserterbar_grabber {
     background: url("/devwidgets/inserterbar/images/inserterbar_grabber_bg.png") repeat-y top left transparent;
-    width: 7px;
-    min-height: 34px;
     cursor: move;
+    height: 34px;
+    width: 14px;
+}
+
+#inserterbar_widget #inserterbar_grabber.expanded {
+    height: 136px;
 }
 
 #inserterbar_widget .inserterbar_widget_container {
@@ -40,8 +48,12 @@
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    min-height: 34px;
     margin-right: 2px;
+    min-height: 34px;
+}
+
+#inserterbar_widget #inserterbar_more_widgets_container .inserterbar_widget_container {
+    margin: 2px 0 0 64px;
 }
 
 #inserterbar_widget .inserterbar_label {
@@ -49,7 +61,7 @@
     font-size: 11px;
     font-weight: bold;
     line-height: 34px;
-    margin-left: 17px;
+    margin-left: 10px;
 }
 
 #inserterbar_widget .inserterbar_arrow_right {
@@ -71,19 +83,28 @@
     margin: 0 10px;
 }
 
-/* Widget icons */
+#inserterbar_widget button#inserterbar_more_widgets {
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+}
 
+#inserterbar_widget button#inserterbar_more_widgets:hover {
+    color: #fff;
+}
+
+/* Widget icons */
 .inserterbar_standard_icon {
     height: 25px;
 }
 
 #inserterbar_widget .inserterbar_expand_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget.png") no-repeat scroll left top transparent;
-    margin: 5px 0 0 5px;
-    width: 25px;
     cursor: pointer;
+    margin: -4px 0 0 7px;
+    width: 25px;
 }
-#inserterbar_widget .inserterbar_expand_widget:hover {
+#inserterbar_widget button#inserterbar_more_widgets:hover .inserterbar_expand_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget_hover.png") no-repeat scroll left top transparent;
 }
 
@@ -127,7 +148,6 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_link_widget_hover.png") no-repeat top left transparent;
 }
 
-
 #inserterbar_widget .inserterbar_filelist_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget.png") no-repeat top left transparent;
     width: 34px;
@@ -158,4 +178,58 @@
 }
 #inserterbar_widget .inserterbar_googlemaps_widget:hover {
     background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget_hover.png") no-repeat top left transparent;
+}
+
+/* Carousel */
+#inserterbar_widget .inserterbar_carousel_arrow {
+    cursor: pointer;
+    height: 100px;
+    width: 25px;
+}
+
+#inserterbar_widget #inserterbar_carousel_left, #inserterbar_widget #inserterbar_carousel_left.disabled:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_carousel_arrow_left.png") no-repeat center center transparent;
+}
+#inserterbar_widget #inserterbar_carousel_left.disabled:hover {
+    cursor: auto;
+}
+#inserterbar_widget #inserterbar_carousel_left:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_carousel_arrow_left_hover.png") no-repeat center center transparent;
+}
+
+#inserterbar_widget #inserterbar_carousel_right, #inserterbar_widget #inserterbar_carousel_right.disabled:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_carousel_arrow_right.png") no-repeat center center transparent;
+}
+#inserterbar_widget #inserterbar_carousel_right.disabled:hover {
+    cursor: auto;
+}
+#inserterbar_widget #inserterbar_carousel_right:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_carousel_arrow_right_hover.png") no-repeat center center transparent;
+}
+
+#inserterbar_widget .s3d-outer-shadow-container {
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    height: 75px;
+    margin: 2px 25px;
+    padding: 12px 0 9px;
+    width: 530px;
+}
+#inserterbar_widget .inserterbar_carousel_item span {
+    display: inline-block;
+    font-size: 12px;
+    margin: 5px 0 0 7px;
+}
+
+#inserterbar_widget .inserterbar_carousel_item {
+    width: 110px;
+}
+
+#inserterbar_more_widgets_container ul li {
+    display: inline-block;
+}
+
+#inserterbar_more_widgets_container ul li div:first-child{
+    margin-bottom: 14px;
 }

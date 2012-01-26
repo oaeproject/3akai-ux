@@ -182,8 +182,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(".contentauthoring_cell_content").sortable("destroy");
                 $("#contentauthoring_buttons_elements").hide();
                 $("#contentauthoring_add_row").hide();
+                $("#inserterbar_widget").hide();
             } else {
                 $rootel.addClass("contentauthoring_edit_mode");
+                $("#inserterbar_widget").show();
                 setActions();
             }
         });
