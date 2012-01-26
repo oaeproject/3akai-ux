@@ -2,7 +2,7 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
     function($, sakai) {
@@ -121,7 +121,7 @@ require(
                     sakai.api.Groups.getManagers(group_id, function(success, data) {
                         var found = false;
                         for (var i in data) {
-                            if (data[i]["rep:userId"] === user_random) {
+                            if (data.hasOwnProperty(i) && data[i]["rep:userId"] === user_random) {
                                 found = true;
                             }
                         }
@@ -224,6 +224,8 @@ require(
             });
             // TODO: Delete the group, as we don't have a way of doing that now
         });
+
+        $(window).trigger("addlocalbinding.qunit.sakai");
 
     });
 });

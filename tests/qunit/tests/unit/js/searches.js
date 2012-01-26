@@ -2,7 +2,7 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
     function($, sakai) {
@@ -34,5 +34,8 @@ require(
             same(sakai.api.Server.createSearchString(advancedSearch3), advancedSearch3, "Correctly left advanced search query alone");
             same(sakai.api.Server.createSearchString(advancedSearch4), advancedSearch4, "Correctly left advanced search query alone");
         });
+
+        $(window).trigger("addlocalbinding.qunit.sakai");
+
     });
 });

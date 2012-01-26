@@ -2,7 +2,7 @@ require(
     [
     "jquery", 
     "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js",
     "../../../../tests/qunit/js/dev.js",
     "../../../../tests/qunit/js/devwidgets.js",
@@ -41,6 +41,7 @@ require(
 
         var JSHintfile = function(data, callback) {
             var result = JSHINT(data, {
+                // http://www.jshint.com/options/
                 sub:true // ignore dot notation recommendations - ie ["userid"] should be .userid
             });
             if (result) {
@@ -73,11 +74,12 @@ require(
         };
 
         var cleanJSTest = function() {
+            $(window).trigger("addlocalbinding.qunit.sakai");
+            QUnit.start();
             for (var i=0, j=sakai_global.qunit.allJSFiles.length; i<j; i++) {
                 var file = sakai_global.qunit.allJSFiles[i];
                 makeCleanJSTest(file);
             }
-            QUnit.start();
         };
 
         if (sakai_global.qunit && sakai_global.qunit.ready) {

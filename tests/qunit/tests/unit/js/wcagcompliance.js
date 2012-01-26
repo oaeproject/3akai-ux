@@ -2,7 +2,7 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js",
     "../../../../tests/qunit/js/dev.js",
     "../../../../tests/qunit/js/devwidgets.js"
@@ -26,7 +26,11 @@ require(
         });
 
         $.each($elt.find("img"), function(i, elt) {
-            ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
+            var parentTitle = false;
+            if ($(elt).parent().attr("title") && $(elt).parent().attr("title").length){
+                parentTitle = true;
+            }
+            ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src") || parentTitle, "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("input[type='image']"), function(i, elt) {
@@ -121,6 +125,7 @@ require(
             })(urlToCheck);
         }
         QUnit.start();
+        $(window).trigger("addlocalbinding.qunit.sakai");
     };
 
     /**

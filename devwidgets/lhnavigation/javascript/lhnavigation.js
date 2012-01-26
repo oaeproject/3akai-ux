@@ -228,7 +228,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     structure.items = data["structure0"];
                 }
                 for (var i in structure.items) {
-                    structure.items[i] = addDocUrlIntoStructure(structure.items[i], docURL);
+                    if (structure.items.hasOwnProperty(i)){
+                        structure.items[i] = addDocUrlIntoStructure(structure.items[i], docURL);
+                    }
                 }
                 // Get a list of all Sakai Docs that have to be "added"
                 var pids = collectPoolIds(structure.items, []);
@@ -293,7 +295,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var addDocUrlIntoStructure = function(structure, url){
             structure._poolpath = url;
             for (var i in structure){
-                if (i.substring(0,1) !== "_" && typeof structure[i] !== "string"){
+                if (structure.hasOwnProperty(i) && i.substring(0,1) !== "_" && typeof structure[i] !== "string"){
                     structure[i] = addDocUrlIntoStructure(structure[i], url);
                 }
             }

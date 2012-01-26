@@ -36,9 +36,10 @@ define(
         "sakai/sakai.api.util",
         "sakai/sakai.api.server",
         "config/config_custom",
+        "underscore",
         "jquery-plugins/jquery.autolink"
     ],
-    function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_server, sakai_conf) {
+    function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_server, sakai_conf, _) {
 
     var sakaiCommunicationsAPI =  {
         /**

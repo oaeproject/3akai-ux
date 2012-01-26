@@ -302,7 +302,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     var cookieData = $.parseJSON($.cookie(tuid));
                     // loop through the posts
                     for (var i in response.results) {
-                        if (response.results[i].post && response.results[i].replies && response.results[i].replies.length) {
+                        if (response.results.hasOwnProperty(i) && response.results[i].post && response.results[i].replies && response.results[i].replies.length) {
                             var postId = "discussion_post_" + response.results[i].post["sakai:id"];
                             if (!(cookieData && cookieData[postId] && cookieData[postId].option === "hide")){
                                 // expand the thread
@@ -511,7 +511,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * @param {String} body The message in the reply
          * @param {String} $parentDiv the parent div that should be hidden on success
          */
-        var replyToTopic = function(id, body, $parentDiv){
+        var replyToTopic = function(id, body, $parentDiv, $replyParent){
             var object = {
                 "sakai:body": body,
                 "sakai:marker": marker,
@@ -551,8 +551,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     $parentDiv.prevAll(discussionTopicRepliesContainer).append(renderedTemplate);
 
                     $parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(parseInt($parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(), 10) + 1);
+                    $parentDiv.parents(discussionTopicContainer).find(".discussion_show_replies_icon").show();
                     sakai.api.Util.renderMath(tuid);
                     disableEnableButtons(true);
+
+                    var $repliesIcon = $replyParent.find(discussionRepliesIcon);
+                    if ($repliesIcon.hasClass(discussionShowRepliesIcon)) {
+                        // expand topic reply list
+                        $("#discussion_post_" + id + " " + discussionShowTopicReplies, $rootel).click();
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
@@ -579,13 +586,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     message = "[quote='" + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + "']" + $replyParent.find("#discussion_topic_quoted_text").val() + "[/quote]" + message;
                 }
 
-                replyToTopic(topicId, message, $(form).parents(discussionTopicReplyContainer));
+                replyToTopic(topicId, message, $(form).parents(discussionTopicReplyContainer), $replyParent);
 
-                var $repliesIcon = $replyParent.find(discussionRepliesIcon);
-                if ($repliesIcon.hasClass(discussionShowRepliesIcon)) {
-                    // expand topic reply list
-                    $("#discussion_post_" + topicId + " " + discussionShowTopicReplies, $rootel).click();
-                }
                 $(discussionTopicReplyQuotedUser, $rootel).text("");
             }
         };

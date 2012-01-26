@@ -175,7 +175,7 @@
             <ul>
                 {for page in data}
                     {for result in page}
-                        <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
+                        <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" data-item-id="${result._path}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
                             {var thumbnail = sakai.api.Content.getThumbnail(result)}
                             <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-scope="content" data-entityid="${result["_path"]}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
                                 {if thumbnail}
