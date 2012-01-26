@@ -163,7 +163,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (!isMe){
                     pubdata.structure0 = setManagerProperty(pubdata.structure0, false);
                     for (var i in pubdata.structure0) {
-                        pubdata.structure0[i] = determineUserAreaPermissions(pubdata.structure0[i]);
+                        if (pubdata.structure0.hasOwnProperty(i)){
+                            pubdata.structure0[i] = determineUserAreaPermissions(pubdata.structure0[i]);
+                        }
                     }
                 }
                 if ( pubdata.structure0.profile && setupProfile( pubdata, isMe ) ) {
@@ -267,7 +269,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 structure._canView = false;
             }
             for (var i in structure) {
-                if (i.substring(0, 1) !== "_") {
+                if (structure.hasOwnProperty(i) && i.substring(0, 1) !== "_") {
                     structure[i] = determineUserAreaPermissions(structure[i]);
                 }
             }
@@ -276,7 +278,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var setManagerProperty = function(structure, value){
             for (var i in structure){
-                if (i.substring(0, 1) !== "_" && typeof structure[i] === "object") {
+                if (structure.hasOwnProperty(i) && i.substring(0, 1) !== "_" && typeof structure[i] === "object") {
                     structure[i]._canEdit = value;
                     structure[i]._canSubedit = value;
                     structure[i] = setManagerProperty(structure[i], value);

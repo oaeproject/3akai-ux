@@ -2,7 +2,7 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js",
     "../../../../tests/qunit/js/dev.js",
     "../../../../tests/qunit/js/devwidgets.js"
@@ -266,6 +266,7 @@ require(
                  makeWidgetTest(widgetURLToCheck, widgetObject);
              }
              QUnit.start();
+             $(window).trigger("addlocalbinding.qunit.sakai");
 
          };
 

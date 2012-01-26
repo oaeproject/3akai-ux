@@ -30,6 +30,7 @@ define(function(){
             MY_DASHBOARD_URL: "/me#l=dashboard",
             PROFILE_EDIT_URL: "/me#l=profile/basic",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
+            SEARCH_URL: "/search",
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
@@ -200,7 +201,9 @@ define(function(){
                     "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
-                "defaultjoin": "yes" // no, yes, or withauth (see above for descriptions)
+                "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
+                "addcontentmanagers": true // true, false. If set to yes, group managers will be added as manager for a file 
+                                           // added to a group library in context of that group
             },
             Content: {
                 /*
@@ -1009,7 +1012,6 @@ define(function(){
          */
         requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
-        showSakai2: false,
         useLiveSakai2Feeds: false,
         /*
          * List of custom CLE Tool names. This can be used to override the translated

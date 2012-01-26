@@ -24,7 +24,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core","/dev/lib/jquery/plugins/jquery.tagcloud.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.tagcloud.js", "underscore"], function($, sakai, _) {
 
     /**
      * @name sakai_global.tags

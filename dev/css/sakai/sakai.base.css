@@ -294,7 +294,7 @@ a.s3d-button.s3d-overlay-button {display:inline-block;height:21px;line-height:21
 .s3d-widget .s3d-widget-no-options,.s3d-no-options{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;padding:0 5px 0 0;margin:0;}
 .s3d-widget .s3d-widget-no-options-inner,.s3d-no-options-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;margin:0;height:6px;}
 
-.fl-col-flex2 .fl-col{margin-left:5px;margin-right:0;padding-left:0;padding-right:0;width:355px;margin-right:8px;}
+.fl-col-flex2 .fl-col{margin-left:5px;margin-right:0;padding-left:0;padding-right:0;width:353px;margin-right:8px;}
 .fl-col-flex2 .fl-col:last-child {margin-right:0;}
 .fl-col-flex3 .fl-col{margin-left:5px;margin-right:0;padding-left:0;padding-right:0;width:230px;margin-right:8px;}
 .fl-col-flex3 .fl-col:last-child {margin-right:0;}
@@ -437,7 +437,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 /*
  * AUTOSUGGEST
  */
-.requireUser ul.as-selections{box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;}
+.requireUser ul.as-selections{box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;border:1px solid #a9a9a9;}
 ul.as-selections.loading{background:#fff url(../../../dev/images/ajax_load.gif) center center no-repeat;}
 ul.as-selections li.as-original input {border:0;}
 ul.as-selections textarea.as-input, ul.as-selections input.as-input{border:0;resize:none;}
