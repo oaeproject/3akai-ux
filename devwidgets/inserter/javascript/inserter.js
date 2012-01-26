@@ -34,6 +34,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.inserter = function (tuid, showSettings) {
 
+        var hasInitialised = false;
 
         /////////////////////////////
         // Configuration variables //
@@ -370,6 +371,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Initialize the inserter widget
          */
         var doInit = function(){
+            $inserterInitContainer.css({
+                "margin-left": 5,
+                "opacity": 1
+            });
+            $inserterCollectionContentContainer.css({
+                "margin-left": 240,
+                "opacity": 0
+            });
             addBinding();
             $inserterWidget.draggable({
                 cancel: "div#inserter_collector",
@@ -400,23 +409,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             renderHeader("init");
             fetchLibrary();
-            $inserterWidget.show();
         };
 
-        /**
-         * The anonymous user can't invoke this widget
-         */
-        if(!sakai.data.me.user.anon){
-            $inserterInitContainer.css({
-                "margin-left": 5,
-                "opacity": 1
-            });
-            $inserterCollectionContentContainer.css({
-                "margin-left": 240,
-                "opacity": 0
-            });
-            doInit();
-        }
+        var toggleInserter = function(){
+            $inserterWidget.fadeToggle(250);
+            if ($("#topnavigation_container .inserter_toggle").hasClass("inserter_toggle_active")){
+                $("#topnavigation_container .inserter_toggle").removeClass("inserter_toggle_active");
+            } else {
+                $("#topnavigation_container .inserter_toggle").addClass("inserter_toggle_active");
+            }
+            if (!hasInitialised) {
+                doInit();
+                hasInitialised = true;
+            }
+        };
+        $(".inserter_toggle").live("click", toggleInserter);
+
+        $(window).bind("start.drag.sakai", function(){
+            if (!$inserterWidget.is(":visible")){
+                toggleInserter();
+            }
+        });
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("inserter");
