@@ -8,8 +8,8 @@
     <div class="topnavigation_right">
         <div class="topnavigation_search s3d-search-container">
             <input type="text" tabindex_none="40" id="topnavigation_search_input" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
-            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SEARCH_FOR__">
-                <img src="/dev/images/search_icon.png" alt=""/>
+            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SUBMIT_SEARCH__">
+                <span class="s3d-search-button-icon"></span>
             </button>
             <div id="topnavigation_search_results" style="display:none;">
                 <div id="topnavigation_search_results_container" role="menu"><!----></div>
@@ -73,7 +73,7 @@
             <a href="/me#l=messages/${category}&message=${data.results[0].id}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">__MSG__REPLY__</a>
             <div class="s3d-dropdown-menu-content-container">
                 <div id="topnavigation_message_profile_pic">
-                    <img src="${data.results[0].from.picture}" alt="test"/>
+                    <img src="${data.results[0].from.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.results[0].from.name}"/>
                 </div>
                 <div id="topnavigation_message_sender" class="s3d-bold">${data.results[0].from.name} <span>(${data.results[0].timeago})</span></div>
                 <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0].subject, 120)}</div>
