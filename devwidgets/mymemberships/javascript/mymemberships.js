@@ -181,7 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             lastModified: group.lastModified,
                             contentCount: group.counts.contentCount,
                             membersCount: group.counts.membersCount,
-                            tags: group["sakai:tags-processed"],
+                            tags: group.tagsProcessed,
                             userMember: sakai.api.Groups.isCurrentUserAMember(group.groupid,sakai.data.me),
                             joinable: group["sakai:group-joinable"]
                         });

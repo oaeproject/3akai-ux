@@ -167,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} id     ID of the group we want to add as a viewer
          */
         var saveContent = function(id){
-            if(!$("#savecontent_select option:selected", $rootel).data("redirect") === true){
+            if($("#savecontent_select option:selected", $rootel).data("redirect") !== true){
                 $savecontent_save.attr("disabled", "disabled");
                 $.each(contentObj.data, function(i, content){
                     if (sakai.api.Content.Collections.isCollection(content.body)){
