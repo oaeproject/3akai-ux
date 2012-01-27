@@ -12,7 +12,7 @@
             </div>
             <div id="inbox_message_header">
                 <div class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view inbox_select_all_container">
-                    <input type="checkbox" id="inbox_select_checkbox"/>
+                    <input type="checkbox" disabled="disabled" id="inbox_select_checkbox"/>
                 </div>
 
                 <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__DELETE_SELECTED__</button>
@@ -121,7 +121,7 @@
                             <div class="inbox_items_inner">
                                 <div class="inbox_left_col inbox_col">
                                     <div class="inbox_placeholder">&nbsp;</div>
-                                    <img alt="person icon" src="${message.from.picture}" class="person_icon"/>
+                                    <img alt="person icon"{if box === "outbox"} src="${message.to[0].picture}"{else} src="${message.from.picture}"{/if} class="person_icon"/>
                                 </div>
                                 <div class="inbox_middle_col inbox_col">
                                     <div class="inbox_message_data">

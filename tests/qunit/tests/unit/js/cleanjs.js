@@ -41,6 +41,7 @@ require(
 
         var JSHintfile = function(data, callback) {
             var result = JSHINT(data, {
+                // http://www.jshint.com/options/
                 sub:true // ignore dot notation recommendations - ie ["userid"] should be .userid
             });
             if (result) {

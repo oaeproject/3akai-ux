@@ -274,10 +274,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 previewGadget();
             });
 
-            var validateOpts = {
+            var previewValidateOpts = {
                 submitHandler: previewGadget
             };
-            sakai.api.Util.Forms.validate($("#ggadget_form", rootel), validateOpts, true);
+            sakai.api.Util.Forms.validate($("#ggadget_form", rootel), previewValidateOpts, true);
 
             // Change the iframe width
             $(remotecontentSettingsWidth).change(function(){
@@ -327,7 +327,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // When you push the save button..
-            $(remotecontentSettingsInsert).click(saveRemoteContent);
+            var saveValidateOpts = {
+                submitHandler: saveRemoteContent
+            };
+            sakai.api.Util.Forms.validate($("#ggadget_settings_form", rootel), saveValidateOpts, true);
 
             // Cancel it
             $(remotecontentSettingsCancel).click(function(){

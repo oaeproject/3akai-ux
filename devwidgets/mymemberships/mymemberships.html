@@ -141,11 +141,11 @@
                             <a class="s3d-regular-light-links" href="${group.url|safeOutput}#l=participants" title="${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
                         {/if}
                     </div>
-                    {if group.desc}<div class="mymemberships_item_description s3d-search_result-description">${group.desc}</div>{/if}
-                    {if !$.isEmptyObject(group.tagsProcessed)}
+                    {if group.descShort}<div class="mymemberships_item_description s3d-search_result-description">${group.descShort}</div>{/if}
+                    {if !$.isEmptyObject(group.tags)}
                         <div class="mymemberships_item_tags">
                             <ul class="mymemberships_item_tags_list s3d-taglist">
-                                {for t in group.tagsProcessed}
+                                {for t in group.tags}
                                     <li>
                                         <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
                                             <span class="s3d-search-result-tag">${t.tagShort}</span>
