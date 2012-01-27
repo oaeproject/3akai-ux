@@ -798,7 +798,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 realPath = pagePath.split("/")[1];
             }
             updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
-            structure.orderedItems = orderItems(structure.structure0);
             storeStructure(structure.structure0, pageToDelete.savePath);
 
             // Change the main structure
@@ -865,6 +864,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         }
 
         var updateCountsAfterDelete = function(structure, pageslist, orderedItems, ref, path){
+            orderedItems = orderItems(structure);
             var oldOrder = 0;
             if (path.indexOf("/") !== -1){
                 var parts = path.split("/");
