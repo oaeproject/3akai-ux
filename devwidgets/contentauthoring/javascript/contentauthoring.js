@@ -180,10 +180,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (isInEditMode()){
                 $rootel.removeClass("contentauthoring_edit_mode");
                 $(".contentauthoring_cell_content").sortable("destroy");
-                $("#contentauthoring_buttons_elements").hide();
                 $("#contentauthoring_add_row").hide();
+                $("#inserterbar_widget").hide();
             } else {
                 $rootel.addClass("contentauthoring_edit_mode");
+                $("#inserterbar_widget").show();
                 setActions();
             }
         });
@@ -386,6 +387,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $("#contentauthoring_widget_container").append(generateNewRow());
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
             setActions();
+            updateColumnHandles();
         });
 
         var generateNewRow = function(){
@@ -404,7 +406,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 ]
             }
             newRow.template = "row";
-            updateColumnHandles();
             return sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", newRow, false, false);
         }
 
@@ -433,7 +434,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var rowToChange = false;
 
-        var hideEditRowMenu = function(show){
+        var hideEditRowMenu = function(){
             rowToChange = false;
             $("#contentauthoring_row_menu").hide();
             $(".contentauthoring_row_handle_container").removeClass("selected");
@@ -534,6 +535,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $row.before(generateNewRow());
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
             setActions();
+            updateColumnHandles();
         });
 
         $("#contentauthoring_row_menu_add_below").live("click", function(){
@@ -542,6 +544,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $row.after(generateNewRow());
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
             setActions();
+            updateColumnHandles();
         });
 
 
@@ -553,8 +556,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(".contentauthoring_cell_element").unbind("hover");
             $(".contentauthoring_cell_element").hover(function(){
                 if (isInEditMode()) {
-                    $(".contentauthoring_cell_element_actions", $(this)).css("left", ($(this).position().left + $(this).width() - $(".contentauthoring_cell_element_actions", $(this)).width() - 5) + "px");
-                    $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 5) + "px");
+                    $(".contentauthoring_cell_element_actions", $(this)).css("left", $(this).position().left + "px");
+                    $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 1) + "px");
                     $(".contentauthoring_cell_element_actions", $(this)).show();
                     $(this).addClass("contentauthoring_cell_element_hover");
                 }
@@ -592,8 +595,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         $(".contentauthoring_cell_element_action_e").live("click", function(){
-            var id = $(this).parent().attr("data-element-id");
-            var type = $(this).parent().attr("data-element-type");
+            var id = $(this).attr("data-element-id");
+            var type = $(this).attr("data-element-type");
             isEditingNewElement = false;
             editModeFullScreen(id, type);
         });
@@ -630,8 +633,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////
 
         $(".contentauthoring_cell_element_action_x").live("click", function(){
-            var $row = $(this).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
-            $(this).parent().parent().remove();
+            var $cell = $(this).parents(".contentauthoring_cell_element");
+            $cell.remove();
         });
 
 
@@ -639,20 +642,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Add new element //
         /////////////////////
 
-        $("#contentauthoring_buttons_elements").append(sakai.api.Util.TemplateRenderer("contentautoring_elements_toadd_template", {"sakai": sakai}));
-        var makeElementsDraggable = function(){
-            $( "#contentauthoring_buttons_elements div" ).draggable({
-    			connectToSortable: ".contentauthoring_cell_content",
-    			helper: "clone",
-    			revert: "invalid",
-    			start: hideEditRowMenu
-    		});
-        };
-
         var addNewElement = function(event, ui){
             var addedElement = $(ui.item);
             var $row = $(addedElement).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
-            if (addedElement.hasClass("contentauthoring_buttons_element_new")){
+            if (addedElement.hasClass("inserterbar_widget_draggable")){
                 var type = addedElement.attr("data-element-type");
                 // Generate unique id
                 var id = sakai.api.Util.generateWidgetId();
@@ -678,14 +671,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             setHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
         };
 
-
-        ////////////////////////
-        // Movable button bar //
-        ////////////////////////
-
-        $("#contentauthoring_buttons").draggable();
-
-
         ////////////////////
         // Initialization //
         ////////////////////
@@ -695,9 +680,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             makeColumnsResizable();
             reorderPortlets();
             setCellHover();
-            $("#contentauthoring_add_row").show();
-            $("#contentauthoring_buttons_elements").show();
-            makeElementsDraggable();
             sakai.api.Util.hideOnClickOut("#contentauthoring_row_menu", ".contentauthoring_row_edit", function(){
                 rowToChange = false;
                 hideEditRowMenu();

@@ -1,0 +1,246 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+
+/* GENERAL */
+#inserterbar_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_bg.png") no-repeat top left #1e1e1e;
+    border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
+    min-height: 34px;
+    padding: 3px;
+    position: fixed !important;
+    top: 40px;
+    width: 730px;
+}
+
+
+/* Layout */
+#inserterbar_widget #inserterbar_grabber {
+    background: url("/devwidgets/inserterbar/images/inserterbar_grabber_bg.png") repeat-y top left transparent;
+    cursor: move;
+    height: 34px;
+    width: 14px;
+}
+
+#inserterbar_widget #inserterbar_grabber.expanded {
+    height: 136px;
+}
+
+#inserterbar_widget .inserterbar_widget_container {
+    background: url("/devwidgets/inserterbar/images/inserterbar_widget_container_bg.png") repeat-x top left #302f2e;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-right: 2px;
+    min-height: 34px;
+}
+
+#inserterbar_widget #inserterbar_more_widgets_container .inserterbar_widget_container {
+    margin: 2px 0 0 64px;
+}
+
+#inserterbar_widget .inserterbar_label {
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 34px;
+    margin-left: 10px;
+}
+
+#inserterbar_widget .inserterbar_arrow_right {
+    background: url("/devwidgets/inserterbar/images/inserterbar_arrow_right.png") no-repeat scroll left top transparent;
+    height: 9px;
+    margin: 13px 5px 0 3px;
+    width: 9px;
+}
+
+#inserterbar_widget ul {
+    list-style: none;
+    margin: 0;
+    padding: 4px 2px;
+}
+
+#inserterbar_widget ul li {
+    display: inline;
+    float: left;
+    margin: 0 10px;
+}
+
+#inserterbar_widget button#inserterbar_more_widgets {
+    position: relative;
+    top: 4px;
+}
+
+#inserterbar_widget button#inserterbar_more_widgets:hover {
+    color: #fff;
+}
+
+/* Widget icons */
+.inserterbar_standard_icon {
+    height: 25px;
+    border: none;
+}
+
+#inserterbar_widget .inserterbar_expand_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget.png") no-repeat scroll left top transparent;
+    cursor: pointer;
+    margin: 0px 0 0 5px;
+    width: 25px;
+    height: 20px;
+}
+#inserterbar_widget button#inserterbar_more_widgets:hover .inserterbar_expand_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget_hover.png") no-repeat scroll left top transparent;
+}
+
+#inserterbar_widget .inserterbar_text_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_text_widget.png") no-repeat top left transparent;
+    width: 25px;
+}
+#inserterbar_widget .inserterbar_text_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_text_widget_hover.png") no-repeat top left transparent;
+}
+
+#inserterbar_widget .inserterbar_title_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_title_widget.png") no-repeat top left transparent;
+    width: 50px;
+}
+#inserterbar_widget .inserterbar_title_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_title_widget_hover.png") no-repeat top left transparent;
+}
+
+#inserterbar_widget .inserterbar_image_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_image_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+#inserterbar_widget .inserterbar_image_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_image_widget_hover.png") no-repeat top left transparent;
+}
+
+#inserterbar_widget .inserterbar_video_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_video_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+#inserterbar_widget .inserterbar_video_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_video_widget_hover.png") no-repeat top left transparent;
+}
+
+#inserterbar_widget .inserterbar_link_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_link_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+#inserterbar_widget .inserterbar_link_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_link_widget_hover.png") no-repeat top left transparent;
+}
+
+#inserterbar_widget .inserterbar_filelist_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+#inserterbar_widget .inserterbar_filelist_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget_hover.png") no-repeat top left transparent;
+}
+
+#inserterbar_widget .inserterbar_discussion_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+#inserterbar_widget .inserterbar_discussion_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget_hover.png") no-repeat top left transparent;
+}
+
+#inserterbar_widget .inserterbar_comments_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+#inserterbar_widget .inserterbar_comments_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget_hover.png") no-repeat top left transparent;
+}
+
+#inserterbar_widget .inserterbar_googlemaps_widget {
+    background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget.png") no-repeat top left transparent;
+    width: 34px;
+}
+#inserterbar_widget .inserterbar_googlemaps_widget:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget_hover.png") no-repeat top left transparent;
+}
+
+/* Carousel */
+#inserterbar_widget .inserterbar_carousel_arrow {
+    cursor: pointer;
+    height: 100px;
+    width: 25px;
+}
+
+#inserterbar_widget #inserterbar_carousel_left, #inserterbar_widget #inserterbar_carousel_left.disabled:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_carousel_arrow_left.png") no-repeat center center transparent;
+}
+#inserterbar_widget #inserterbar_carousel_left.disabled:hover {
+    cursor: auto;
+}
+#inserterbar_widget #inserterbar_carousel_left:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_carousel_arrow_left_hover.png") no-repeat center center transparent;
+}
+
+#inserterbar_widget #inserterbar_carousel_right, #inserterbar_widget #inserterbar_carousel_right.disabled:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_carousel_arrow_right.png") no-repeat center center transparent;
+}
+#inserterbar_widget #inserterbar_carousel_right.disabled:hover {
+    cursor: auto;
+}
+#inserterbar_widget #inserterbar_carousel_right:hover {
+    background: url("/devwidgets/inserterbar/images/inserterbar_carousel_arrow_right_hover.png") no-repeat center center transparent;
+}
+
+#inserterbar_widget .s3d-outer-shadow-container {
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    height: 75px;
+    margin: 2px 25px;
+    padding: 12px 0 9px;
+    width: 530px;
+}
+#inserterbar_widget .inserterbar_carousel_item span {
+    display: inline-block;
+    font-size: 12px;
+    margin: 5px 0 0 7px;
+}
+
+#inserterbar_widget .inserterbar_carousel_item {
+    width: 110px;
+}
+
+#inserterbar_more_widgets_container ul li {
+    display: inline-block;
+}
+
+#inserterbar_more_widgets_container ul li div:first-child{
+    margin-bottom: 14px;
+}
+
+/* Action links */
+.inserterbar_action_link {
+    color: #fff;
+    font-weight: bold;
+    margin-top: 7px;
+}
+.inserterbar_action_link:hover {
+    color: #2683BC;
+}

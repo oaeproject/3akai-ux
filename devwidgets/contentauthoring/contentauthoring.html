@@ -1,27 +1,6 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentauthoring/css/contentauthoring.css" />
 
-<div id="contentauthoring_buttons">
-    <button id="contentauthoring_toggle_edit_mode">Toggle Edit Mode</button>
-    <button id="contentauthoring_add_row" style="display:none;">Add row</button>
-    <div id="contentauthoring_buttons_elements" style="diplay:none;">
-        <div class="contentauthoring_buttons_element_new" data-element-type="pagetitle">Title</div>
-        <div class="contentauthoring_buttons_element_new" data-element-type="htmlblock">Text</div>
-        <div class="contentauthoring_buttons_element_new" data-element-type="embedcontent">Image</div>
-        <div class="contentauthoring_buttons_element_new" data-element-type="embedcontent">Video</div>
-        <div class="contentauthoring_buttons_element_new" data-element-type="embedcontent">Web Page</div>
-        <div class="contentauthoring_buttons_element_new" data-element-type="embedcontent">File List</div>
-    </div>
-    <div id="contentautoring_elements_toadd_template"><!--
-        {var alreadyThere = ["pagetitle", "htmlblock", "embedcontent"]}
-        {for widget in sakai.widgets}
-            {if widget.sakaidocs && jQuery.inArray(widget.id, alreadyThere) === -1}
-                <div class="contentauthoring_buttons_element_new" data-element-type="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</div>
-            {/if}
-        {/for}
-    --></div>
-</div>
-
 <div class="s3d-dropdown-list" id="contentauthoring_row_menu" style="display:none;">
     <div class="s3d-dropdown-list-arrow-up"></div>
     <ul>
@@ -48,9 +27,10 @@
 <div id="contentauthoring_widget_template"><!--
     {macro insertCell(id, type)}
         <div class="contentauthoring_cell_element" title="__MSG__DRAG_ME_TO_REORDER_CONTENT__" data-element-type="${type}" data-element-id="${id}">
-            <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="${id}" data-element-type="${type}">
-                <button class="contentauthoring_cell_element_action_x">X</button>
-                <button class="contentauthoring_cell_element_action_e">E</button>
+            <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
+                <span class="contentauthoring_row_handle fl-force-left" title="__MSG__DRAG_ME_TO_REORDER_ROWS__"></span>
+                <span class="contentauthoring_cell_element_action_e fl-force-left" data-element-id="${id}" data-element-type="${type}" title="__MSG__SETTINGS__"></span>
+                <span class="contentauthoring_cell_element_action_x fl-force-left" data-element-id="${id}" title="__MSG__DELETE__"></span>
             </div>
             {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle")}
                 <div id="${id}"></div>
@@ -60,13 +40,13 @@
         </div>
     {/macro}
 
-    {macro insertColumn(column, last)}
+    {macro insertColumn(column)}
         <div class="contentauthoring_cell" style="width: ${column.width * 100}%">
             <div class="contentauthoring_cell_container">
                 <div class="contentauthoring_table_row">
                     <div class="contentauthoring_cell_content">
                         {for element in column.elements}
-                            ${insertCell(element.id, element.type, last)}
+                            ${insertCell(element.id, element.type)}
                         {/for}
                     </div>
                     <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
@@ -85,11 +65,7 @@
                 <div class="contentauthoring_minheight_container">
                     <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
                         {for column in columns}
-                            {var last = false;}
-                            {if column_index == columns.length -1}
-                                {var last = true}
-                            {/if}
-                            ${insertColumn(column, last)}
+                            ${insertColumn(column)}
                             <hr class="fl-hidden fl-push"/>
                         {/for}
                     </div>
