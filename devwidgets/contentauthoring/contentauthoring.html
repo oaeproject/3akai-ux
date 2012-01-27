@@ -48,9 +48,16 @@
 <div id="contentauthoring_widget_template"><!--
     {macro insertCell(id, type)}
         <div class="contentauthoring_cell_element" title="__MSG__DRAG_ME_TO_REORDER_CONTENT__" data-element-type="${type}" data-element-id="${id}">
-            <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="${id}" data-element-type="${type}">
-                <button class="contentauthoring_cell_element_action_x">X</button>
-                <button class="contentauthoring_cell_element_action_e">E</button>
+            <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
+                <span class="contentauthoring_row_handle" title="__MSG__DRAG_ME_TO_REORDER_ROWS__"></span>
+                <span class="contentauthoring_cell_edit" data-element-id="${id}"></span>
+            </div>
+            <div class="s3d-dropdown-list contentauthoring_cell_menu" style="display:none;">
+                <div class="s3d-dropdown-list-arrow-up"></div>
+                <ul>
+                    <li><button class="s3d-link-button contentauthoring_cell_element_action_e" data-element-id="${id}" data-element-type="${type}">__MSG__SETTINGS__</button></li>
+                    <li><button class="s3d-link-button contentauthoring_cell_element_action_x" data-element-id="${id}">__MSG__DELETE__</button></li>
+                </ul>
             </div>
             {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle")}
                 <div id="${id}"></div>

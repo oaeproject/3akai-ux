@@ -414,10 +414,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var rowToChange = false;
 
-        var hideEditRowMenu = function(show){
+        var hideEditRowMenu = function(){
             rowToChange = false;
             $("#contentauthoring_row_menu").hide();
             $(".contentauthoring_row_handle_container").removeClass("selected");
+        };
+
+        var hideCellMenu = function(){
+            $(".contentauthoring_cell_element").removeClass("selected");
+            $(".contentauthoring_cell_menu").hide();
         };
 
         $(".contentauthoring_row_edit").live("click", function(){
@@ -431,6 +436,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $("#contentauthoring_row_menu").show();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents(".contentauthoring_row_container"));
+            }
+        });
+
+        $(".contentauthoring_cell_edit").live("click", function(){
+            if($(this).parents(".contentauthoring_cell_element").hasClass("selected")){
+                hideCellMenu();
+            } else {
+                $(this).parents(".contentauthoring_cell_element").addClass("selected");
+                var $dropdown = $($(this).parent().next());
+                $dropdown.show();
+                $dropdown.css("left", $(this).parent().position().left + 17);
+                $dropdown.css("top", $(this).parent().position().top + 26);
             }
         });
 
@@ -527,8 +544,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(".contentauthoring_cell_element").unbind("hover");
             $(".contentauthoring_cell_element").hover(function(){
                 if (isInEditMode()) {
-                    $(".contentauthoring_cell_element_actions", $(this)).css("left", ($(this).position().left + $(this).width() - $(".contentauthoring_cell_element_actions", $(this)).width() - 5) + "px");
-                    $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 5) + "px");
+                    $(".contentauthoring_cell_element_actions", $(this)).css("left", $(this).position().left + "px");
+                    $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 1) + "px");
                     $(".contentauthoring_cell_element_actions", $(this)).show();
                     $(this).addClass("contentauthoring_cell_element_hover");
                 }
@@ -566,8 +583,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         $(".contentauthoring_cell_element_action_e").live("click", function(){
-            var id = $(this).parent().attr("data-element-id");
-            var type = $(this).parent().attr("data-element-type");
+            var id = $(this).attr("data-element-id");
+            var type = $(this).attr("data-element-type");
             isEditingNewElement = false;
             editModeFullScreen(id, type);
         });
@@ -604,8 +621,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////
 
         $(".contentauthoring_cell_element_action_x").live("click", function(){
-            var $row = $(this).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
-            $(this).parent().parent().remove();
+            var $cell = $(this).parents(".contentauthoring_cell_element");
+            $cell.remove();
         });
 
 
@@ -675,6 +692,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             sakai.api.Util.hideOnClickOut("#contentauthoring_row_menu", ".contentauthoring_row_edit", function(){
                 rowToChange = false;
                 hideEditRowMenu();
+            });
+            sakai.api.Util.hideOnClickOut(".contentauthoring_cell_menu", ".contentauthoring_cell_edit", function(){
+                hideCellMenu();
             });
         };
 
