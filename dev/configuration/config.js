@@ -283,14 +283,14 @@ define(function(){
                                 "errorMessage": "__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "limitDisplayWidth": 335
+                                "limitDisplayWidth": 300
                             },
                             "lastName": {
                                 "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
                                 "errorMessage": "__MSG__PROFILE_BASIC_LASTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "limitDisplayWidth": 335
+                                "limitDisplayWidth": 300
                             },
                             "picture": {
                                 "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
