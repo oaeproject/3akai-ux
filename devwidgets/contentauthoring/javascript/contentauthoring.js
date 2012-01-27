@@ -420,11 +420,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(".contentauthoring_row_handle_container").removeClass("selected");
         };
 
-        var hideCellMenu = function(){
-            $(".contentauthoring_cell_element").removeClass("selected");
-            $(".contentauthoring_cell_menu").hide();
-        };
-
         $(".contentauthoring_row_edit").live("click", function(){
             var currentRow = $(this).attr("data-row-id");
             if (currentRow === rowToChange){
@@ -436,18 +431,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $("#contentauthoring_row_menu").show();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents(".contentauthoring_row_container"));
-            }
-        });
-
-        $(".contentauthoring_cell_edit").live("click", function(){
-            if($(this).parents(".contentauthoring_cell_element").hasClass("selected")){
-                hideCellMenu();
-            } else {
-                $(this).parents(".contentauthoring_cell_element").addClass("selected");
-                var $dropdown = $($(this).parent().next());
-                $dropdown.show();
-                $dropdown.css("left", $(this).parent().position().left + 17);
-                $dropdown.css("top", $(this).parent().position().top + 26);
             }
         });
 
@@ -692,9 +675,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             sakai.api.Util.hideOnClickOut("#contentauthoring_row_menu", ".contentauthoring_row_edit", function(){
                 rowToChange = false;
                 hideEditRowMenu();
-            });
-            sakai.api.Util.hideOnClickOut(".contentauthoring_cell_menu", ".contentauthoring_cell_edit", function(){
-                hideCellMenu();
             });
         };
 
