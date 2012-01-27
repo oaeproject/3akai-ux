@@ -386,7 +386,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 'padding-bottom': 'toggle'
             }, 400, function(){
                 if ($collectionsWidget.is(":visible")){
-                    getCollections();
                     $("#collections_leftcolumn").focus();
                 } else {
                     $(collectionsScrollArrow).hide();
