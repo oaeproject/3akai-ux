@@ -37,7 +37,7 @@
 .contentauthoring_edit_mode .contentauthoring_row {border: 3px solid #333;}
 
 .contentauthoring_widget .contentauthoring_cell_handle {width: 12px; min-width: 12px; display: table-cell;}
-.contentauthoring_edit_mode .contentauthoring_cell_handle.last_handle {height:0;display:none;}
+.contentauthoring_edit_mode .contentauthoring_cell_handle.last_handle {display:none;}
 .contentauthoring_edit_mode .contentauthoring_cell_handle {background-image:url('/devwidgets/contentauthoring/images/fullhandle.png'); background-repeat:no-repeat; background-position:center;height:25px;}
 
 .ui-resizable-helper { border-right: 2px dotted #333; }
@@ -53,6 +53,7 @@
     height: 14px;
     margin-top: -13px;
 }
+#contentauthoring_row_menu_three {border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 2px;}
 
 
 /* Element edit menu */
@@ -69,9 +70,17 @@
 .contentauthoring_row_handle_container.selected .contentauthoring_row_edit {background: url("/devwidgets/contentauthoring/images/row_edit_handle_pencil_hover.png") no-repeat top left transparent;}
 #contentauthoring_widget_container {margin-left: 0px; margin-top: 0px;margin-right: 5px;}
 .contentauthoring_row_container {list-style-type: none;}
-.contentauthoring_row_reorder_highlight {background-color: #e3e5c7;list-style-type: none;height:20px;}
+.contentauthoring_row_reorder_highlight {background-color: #e3e5c7;list-style-type: none;height:20px; margin-top: 20px;}
+.contentauthoring_cell_reorder_highlight {background-color: #e3e5c7;list-style-type: none;height:20px;}
 #contentauthoring_widget_container > .contentauthoring_row_reorder_highlight {margin-right:-5px;}
 .contentauthoring_row_reorder_highlight:before {
+    content: url("/devwidgets/contentauthoring/images/row_reorder_highlight_arrow.png");
+    height:30px;
+    width:30px;
+    margin: -15px 0 0 -14px;
+    position:absolute;
+}
+.contentauthoring_cell_reorder_highlight:before {
     content: url("/devwidgets/contentauthoring/images/row_reorder_highlight_arrow.png");
     height:30px;
     width:30px;

@@ -269,7 +269,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $( ".contentauthoring_cell_content" ).sortable({
     			connectWith: ".contentauthoring_cell_content",
                 ghost: true,
-                placeholder: "contentauthoring_row_reorder_highlight",
+                placeholder: "contentauthoring_cell_reorder_highlight",
                 stop: addNewElement,
                 opacity: 0.4,
                 start: hideEditRowMenu
@@ -287,8 +287,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var totalWidth = $("#contentauthoring_widget").width();
             var $cells = $(".contentauthoring_cell", $row);
             var widths = [];
+            var lastWidth = 1;
             for (var i = 0; i < $cells.length; i++){
-                widths.push($($cells[i]).width() / totalWidth); 
+                if (i === $cells.length - 1){
+                    widths.push(lastWidth); 
+                } else {
+                    lastWidth -= $($cells[i]).width() / totalWidth;
+                    widths.push($($cells[i]).width() / totalWidth);
+                }
             }
             return widths;
         };
@@ -356,7 +362,21 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             });
         };
+        
+        ////////////////////
+        // Column handles //
+        ////////////////////
 
+        var updateColumnHandles = function(){
+            $(".contentauthoring_cell_handle").show();
+            var $rows = $(".contentauthoring_row_container");
+            for (var r = 0; r < $rows.length; r++){
+                var $columns = $(".contentauthoring_cell", $($rows[r]));
+                var $lastColumn = $($columns[$columns.length - 1]);
+                $(".contentauthoring_cell_handle", $lastColumn).hide();
+                setHeight($($rows[r]));
+            }
+        };
 
         ///////////////////
         // Add a new row //
@@ -384,6 +404,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 ]
             }
             newRow.template = "row";
+            updateColumnHandles();
             return sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", newRow, false, false);
         }
 
@@ -434,8 +455,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var removeColumns = function($row, lastColumn){
             var widths = getColumnWidths($row);
+            debug.log(widths);
             var remainingWidth = 1;
             var $cells = $(".contentauthoring_cell", $row);
+            debug.log($cells.length);
             for (var i = lastColumn + 1; i < $cells.length; i++){
                 var $cell = $($cells[i]);
                 var $cellcontent = $(".contentauthoring_cell_content", $cell).children();
@@ -444,8 +467,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 remainingWidth -= widths[i];
             }
             for (var i = 0; i <= lastColumn; i++) {
-                $($cells[i]).css("width", widths[i] / remainingWidth + "%");
+                debug.log(widths[i]);
+                debug.log(remainingWidth);
+                debug.log(widths[i] / remainingWidth);
+                $($cells[i]).css("width", (widths[i] / remainingWidth) * 100 + "%");
             }
+            updateColumnHandles();
         };
 
         var addColumns = function($row, totalColumns){
@@ -465,6 +492,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $($cells[i]).css("width", widths[i] * (1 - (newColumnWidth * (totalColumns - widths.length))) * 100 + "%");
             }
             setActions();
+            updateColumnHandles();
         };
 
         $("#contentauthoring_row_menu_one").live("click", function(){
@@ -682,6 +710,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
             setActions();
+            updateColumnHandles();
         };
 
         $(window).bind("sakai.contentauthoring.droppedexternal", addExternal);

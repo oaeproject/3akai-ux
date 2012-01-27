@@ -347,8 +347,9 @@ a.s3d-button.s3d-overlay-button {display:inline-block;height:21px;line-height:21
 
 
 
-.s3d-action-icon {width:16px;height:16px;cursor:pointer;}
+.s3d-action-icon {width:16px;height:16px;cursor:pointer; margin-top: -2px;}
 .s3d-action-icon-spacing-right {margin-right:7px;}
+.s3d-action-icon-spacing-left {margin-left:7px;}
 .s3d-action-icon.disabled {display:none;}
 
 .s3d-actions-delete {background:url("/dev/images/delete_icon_default.png") no-repeat top left transparent;}
