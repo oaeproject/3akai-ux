@@ -998,6 +998,35 @@ define(function(){
 
         displayDebugInfo: true,
 
+        enabledWidgets: [
+            "embedcontent",
+            "discussion",
+            "remotecontent",
+            "googlemaps",
+            "comments",
+            "jisccontent",
+            "rss",
+            "sakai2tools",
+            "basiclti",
+            "ggadget"
+        ],
+
+        enabledDashboardWidgets: [
+            "recentmemberships",
+            "mycontent",
+            "activegroups",
+            "popularcontent",
+            "tags",
+            "jisccontent",
+            "mycontacts",
+            "accountpreferences",
+            "recentmessages",
+            "recentcontactsnew",
+            "mygroups",
+            "recentchangedcontent"
+        ],
+
+
         /**
          * Section dividers can be added to the directory structure by adding in the following
          * element at the appropriate place:
