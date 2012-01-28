@@ -358,28 +358,33 @@ define(
             var newobj = false;
             if ($.isPlainObject(obj)) {
                 newobj = $.extend(true, {}, obj);
+                notToRemove = notToRemove || [];
+                $.each(newobj, function(key,val) {
+                    for (var ns = 0; ns < namespace.length; ns++) {
+                        if (key && key.indexOf && key.indexOf(namespace[ns]) === 0) {
+                            var canRemove = true;
+                            for (var i = 0; i < notToRemove.length; i++) {
+                                if (notToRemove[i] === key) {
+                                    canRemove = false;
+                                    break;
+                                }
+                            }
+                            if (canRemove) {
+                                delete newobj[key];
+                            }
+                        } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                            newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
+                        }
+                    }
+                });
             } else if ($.isArray(obj)) {
                 newobj = $.merge([], obj);
-            }
-            notToRemove = notToRemove || [];
-            $.each(newobj, function(key,val) {
-                for (var ns = 0; ns < namespace.length; ns++) {
-                    if (key && key.indexOf && key.indexOf(namespace[ns]) === 0) {
-                        var canRemove = true;
-                        for (var i = 0; i < notToRemove.length; i++) {
-                            if (notToRemove[i] === key) {
-                                canRemove = false;
-                                break;
-                            }
-                        }
-                        if (canRemove) {
-                            delete newobj[key];
-                        }
-                    } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                $.each(newobj, function(key,val) {
+                    if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
                         newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
                     }
-                }
-            });
+                });
+            }
             return newobj;
         },
 

@@ -661,9 +661,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                 success: function(data) {
                     documentObj = $.extend({}, data["_contentItem"].item, documentObj);
                     var content = {};
-                    content[refID] = {
-                        "page": sakai.config.defaultSakaiDocContent
-                    };
+                    content[refID] = sakai.config.defaultSakaiDocContent;
                     finishSakaiDoc(documentObj, content);
                 },
                 error: function(err){

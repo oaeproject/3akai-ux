@@ -1583,7 +1583,125 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
-        defaultSakaiDocContent: "",
+        defaultSakaiDocContent: {
+            "rows": [
+                {
+                    "id": "id00015",
+                    "columns": [
+                        {
+                            "width": 1,
+                            "elements": [
+                                {
+                                    "id": "id00001",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00002",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "id00016",
+                    "columns": [
+                        {
+                            "width": 0.5,
+                            "elements": [
+                                {
+                                    "id": "id00003",
+                                    "type": "embedcontent"
+                                }
+                            ]
+                        },
+                        {
+                            "width": 0.5,
+                            "elements": [
+                                {
+                                    "id": "id00004",
+                                    "type": "embedcontent"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "id00017",
+                    "columns": [
+                        {
+                            "width": 1,
+                            "elements": [
+                                {
+                                    "id": "id00025",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00005",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "id00018",
+                    "columns": [
+                        {
+                            "width": 0.33,
+                            "elements": [
+                                {
+                                    "id": "id00006",
+                                    "type": "embedcontent"
+                                },
+                                {
+                                    "id": "id00007",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00008",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        },
+                        {
+                            "width": 0.33,
+                            "elements": [
+                                {
+                                    "id": "id00009",
+                                    "type": "embedcontent"
+                                },
+                                {
+                                    "id": "id00010",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00011",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        },
+                        {
+                            "width": 0.34,
+                            "elements": [
+                                {
+                                    "id": "id00012",
+                                    "type": "embedcontent"
+                                },
+                                {
+                                    "id": "id00013",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00014",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
 
         /*
          * _canEdit: can change the area permissions on this page

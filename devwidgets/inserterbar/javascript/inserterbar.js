@@ -146,9 +146,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addBinding = function(){
             $inserterbarMoreWidgets.click(showHideMoreWidgets);
 
-            $inserterbarWidget.draggable({
-                handle: $inserterbarGrabber,
-                stop: function(ev){
+            //$inserterbarWidget.draggable({
+            //    handle: $inserterbarGrabber,
+            //    stop: function(ev){
                     //elOffset = $(ev.target).offset();
                     //wHeight = $(window).height();
                     //wWidth = $(window).width();
@@ -171,8 +171,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     //if (elOffset.top > wHeight - iHeight){
                     //    $inserterbarWidget.css("top", wHeight - iHeight - borderMargin);
                     //}
-                }
-            });
+             //   }
+            //});
         };
 
         var doInit = function(){

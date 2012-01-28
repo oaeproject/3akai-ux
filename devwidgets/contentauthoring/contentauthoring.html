@@ -1,6 +1,11 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentauthoring/css/contentauthoring.css" />
 
+<!-- Inserter Bar Widget Container -->
+<div id="contentauthoring_inserterbar_container" style="display:none;">
+    <div id="widget_inserterbar" class="widget_inline"></div>
+</div>
+
 <div class="s3d-dropdown-list" id="contentauthoring_row_menu" style="display:none;">
     <div class="s3d-dropdown-list-arrow-up"></div>
     <ul>
@@ -23,12 +28,12 @@
     </ul>
 </div>
 
-<div id="contentauthoring_widget" class="contentauthoring_widget"></div>
+<div id="contentauthoring_widget" class="contentauthoring_widget" style="padding-right: 20px;"></div>
 <div id="contentauthoring_widget_template"><!--
     {macro insertCell(id, type)}
-        <div class="contentauthoring_cell_element" title="__MSG__DRAG_ME_TO_REORDER_CONTENT__" data-element-type="${type}" data-element-id="${id}">
+        <div class="contentauthoring_cell_element" title="Drag me to re-order" data-element-type="${type}" data-element-id="${id}">
             <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
-                <span class="contentauthoring_row_handle fl-force-left" title="__MSG__DRAG_ME_TO_REORDER_ROWS__"></span>
+                <span class="contentauthoring_row_handle fl-force-left" title="Drag me to re-order"></span>
                 <span class="contentauthoring_cell_element_action_e fl-force-left" data-element-id="${id}" data-element-type="${type}" title="__MSG__SETTINGS__"></span>
                 <span class="contentauthoring_cell_element_action_x fl-force-left" data-element-id="${id}" title="__MSG__DELETE__"></span>
             </div>

@@ -34,133 +34,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
     sakai_global.contentauthoring = function (tuid, showSettings, widgetData) {
 
         var $rootel = $("#" + tuid);
+        sakai_global.contentauthoring.isDragging = false;
 
         var MINIMUM_COLUMN_SIZE = 0.05;
+        var USE_ELEMENT_DRAG_HELPER = true;
         var STORE_PATH = "/~" + sakai.data.me.user.userid + "/test/";
-
-        var pageStructure = {
-            "rows": [
-                {
-                    "id": "id00015",
-                    "columns": [
-                        {
-                            "width": 1,
-                            "elements": [
-                                {
-                                    "id": "id00001",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00002",
-                                    "type": "htmlblock"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": "id00016",
-                    "columns": [
-                        {
-                            "width": 0.5,
-                            "elements": [
-                                {
-                                    "id": "id00003",
-                                    "type": "embedcontent"
-                                }
-                            ]
-                        },
-                        {
-                            "width": 0.5,
-                            "elements": [
-                                {
-                                    "id": "id00004",
-                                    "type": "embedcontent"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": "id00017",
-                    "columns": [
-                        {
-                            "width": 1,
-                            "elements": [
-                                {
-                                    "id": "id00025",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00005",
-                                    "type": "htmlblock"
-                                },
-                                {
-                                    "id": "id00105",
-                                    "type": "googlemaps"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": "id00018",
-                    "columns": [
-                        {
-                            "width": 0.33,
-                            "elements": [
-                                {
-                                    "id": "id00006",
-                                    "type": "embedcontent"
-                                },
-                                {
-                                    "id": "id00007",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00008",
-                                    "type": "htmlblock"
-                                }
-                            ]
-                        },
-                        {
-                            "width": 0.33,
-                            "elements": [
-                                {
-                                    "id": "id00009",
-                                    "type": "embedcontent"
-                                },
-                                {
-                                    "id": "id00010",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00011",
-                                    "type": "htmlblock"
-                                }
-                            ]
-                        },
-                        {
-                            "width": 0.34,
-                            "elements": [
-                                {
-                                    "id": "id00012",
-                                    "type": "embedcontent"
-                                },
-                                {
-                                    "id": "id00013",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00014",
-                                    "type": "htmlblock"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
 
 
         ///////////////////////
@@ -215,7 +93,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var setRowReorderHover = function(){
             $(".contentauthoring_row_container").unbind("hover");
             $(".contentauthoring_row_container").hover(function(){
-                if (isInEditMode()) {
+                if (isInEditMode() && !sakai_global.contentauthoring.isDragging) {
+                    debug.log("Showing row hover because sakai_global.contentauthoring.isDragging is " + sakai_global.contentauthoring.isDragging);
                     $(".contentauthoring_row_handle_container", $(this)).css("visibility", "visible");
                 }
             }, function(){
@@ -228,11 +107,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 handle: '.contentauthoring_row_handle',
                 placeholder: "contentauthoring_row_reorder_highlight",
                 opacity: 0.4,
-                start: hideEditRowMenu
+                start: function(){
+                    sakai_global.contentauthoring.isDragging = true;
+                    $(".contentauthoring_row_handle_container").css("visibility", "hidden");
+                    $(".contentauthoring_cell_element_actions").hide();
+                    hideEditRowMenu();
+                },
+                stop: function(event, ui){
+                    sakai_global.contentauthoring.isDragging = false;
+                }
             });
             setRowReorderHover();
         }
-
 
         //////////////////////
         // Reorder portlets //
@@ -270,10 +156,26 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $( ".contentauthoring_cell_content" ).sortable({
     			connectWith: ".contentauthoring_cell_content",
                 ghost: true,
+                handle: ".contentauthoring_row_handle",
                 placeholder: "contentauthoring_cell_reorder_highlight",
-                stop: addNewElement,
                 opacity: 0.4,
-                start: hideEditRowMenu
+                helper: !USE_ELEMENT_DRAG_HELPER ? "original" : function(ev, ui){
+                    var $el = $("<div/>");
+                    $el.css("width", ui.width() + "px");
+                    $el.css("height", ui.height() + "px");
+                    $el.css("background-color", "#2683BC");
+                    return $el;
+                },
+                start: function(){
+                    sakai_global.contentauthoring.isDragging = true;
+                    $(".contentauthoring_row_handle_container").css("visibility", "hidden");
+                    $(".contentauthoring_cell_element_actions").hide();
+                    hideEditRowMenu();
+                },
+                stop: function(event, ui){
+                    sakai_global.contentauthoring.isDragging = false;
+                    addNewElement(event, ui);
+                }
     		});
         }
 
@@ -555,7 +457,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var setCellHover = function(){
             $(".contentauthoring_cell_element").unbind("hover");
             $(".contentauthoring_cell_element").hover(function(){
-                if (isInEditMode()) {
+                if (isInEditMode() && !sakai_global.contentauthoring.isDragging) {
+                    debug.log("Showing cell hover because sakai_global.contentauthoring.isDragging is " + sakai_global.contentauthoring.isDragging);
                     $(".contentauthoring_cell_element_actions", $(this)).css("left", $(this).position().left + "px");
                     $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 1) + "px");
                     $(".contentauthoring_cell_element_actions", $(this)).show();
@@ -686,13 +589,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             });
         };
 
-        var renderPage = function(){
-            $rootel.addClass("contentauthoring_edit_mode");
+        var renderPage = function(currentPageShown){
+            var pageStructure = $.extend(true, {}, currentPageShown.content);
+            //$rootel.addClass("contentauthoring_edit_mode");
             pageStructure.template = "all";
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
-            setActions();
-            updateColumnHandles();
+            if (canEdit()){
+                //setActions();
+                //updateColumnHandles();
+                $("#contentauthoring_inserterbar_container").show();
+            } else {
+                $("#contentauthoring_inserterbar_container").hide();
+            }
         };
 
         $(window).bind("sakai.contentauthoring.droppedexternal", addExternal);
@@ -706,7 +615,24 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             });
         });
 
-        renderPage();
+        /////////////////////////////
+        /////////////////////////////
+        // Moved from sakaidocs.js //
+        /////////////////////////////
+        /////////////////////////////
+
+        var currentPageShown = {};
+        var canEdit = function() {
+            return (currentPageShown.canEdit && !currentPageShown.nonEditable);
+        };
+
+        $(window).bind("showpage.contentauthoring.sakai", function(ev, _currentPageShown){
+            currentPageShown = _currentPageShown;
+            renderPage(currentPageShown);
+        });
+
+        sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content");
+        $(window).trigger("ready.contentauthoring.sakai");
 
     };
 

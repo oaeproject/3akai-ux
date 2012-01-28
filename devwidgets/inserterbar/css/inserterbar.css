@@ -25,9 +25,11 @@
     -webkit-border-radius: 0 0 3px 3px;
     min-height: 34px;
     padding: 3px;
-    position: fixed !important;
+    float: right;
+    margin-bottom: 20px;
+    /* position: fixed !important; 
     top: 40px;
-    width: 730px;
+    width: 730px; */
 }
 
 
