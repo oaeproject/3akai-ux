@@ -40,7 +40,7 @@
             </li>
             {if collections.length}
                 {for collection in collections}
-                    <li class="s3d-draggable-container" data-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
+                    <li class="s3d-draggable-container s3d-droppable-container" data-dropevent="sakai.inserter.dropevent" data-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
                         <img src="${sakai.api.Content.getMimeTypeData("x-sakai/collection").URL}" class="fl-force-left s3d-icon-32"/>
                         <div class="inserter_item_count_container fl-force-right">${collection.counts.contentCount}</div>
                         <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 220, null, "s3d-bold")}</span>
@@ -57,8 +57,13 @@
 
 <div id="inserter_collection_content_template"><!--
     {for item in items}
-        <li class="s3d-draggable-container" id="${item._path}">
-            <img src="${sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
+        <li class="s3d-draggable-container s3d-droppable-container" id="${item._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection}">
+        ${debug.log(item)}
+            {if item.hasPreview}
+                <img src="${sakai.api.Content.getThumbnail(item)}" class="fl-force-left s3d-icon-32"/>
+            {else}
+                <img src="${sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
+            {/if}
             <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 83, null, "s3d-bold")}</span>
             <div class="inserter_collection_type s3d-draggable-hidden">${sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(item._mimeType).description)}</div>
             <hr class="fl-hidden fl-push"/>
@@ -68,12 +73,12 @@
 
 <div id="inserter_no_results_template" style="display:none;"><!--
     {if search}
-        <div class="s3d-no-results-container">
+        <div class="s3d-no-results-container s3d-droppable-container" data-id="${collection}" data-dropevent="sakai.inserter.dropevent" data-scope="content">
             <div class="s3d-no-results-icon s3d-no-results-magnifier less-margin"></div>
             <h1>Your search didn't return any results</h1>
         </div>
     {else}
-        <div class="s3d-no-results-container">
+        <div class="s3d-no-results-container s3d-droppable-container" data-collection-id="${collection}" data-dropevent="sakai.inserter.dropevent" data-scope="content">
             <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
             <h1>This collection does not contain any items</h1>
         </div>

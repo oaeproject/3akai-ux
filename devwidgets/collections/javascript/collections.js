@@ -329,7 +329,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         // DRAG AND DROP ITEMS IN FROM SYSTEM //
         ////////////////////////////////////////
 
-        $(window).bind("drop.collections.sakai", function(ev, data, target){
+        /*$(window).bind("drop.collections.sakai", function(ev, data, target){
             var collectionId = target.attr("data-sakai-collection-id");
             var collectedContent = [];
             var collectedCollections = [];
@@ -352,7 +352,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     });
                 });
             } 
-        });
+        });*/
 
         ////////////////////
         // INITIALIZATION //
