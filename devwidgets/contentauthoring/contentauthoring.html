@@ -28,13 +28,15 @@
     </ul>
 </div>
 
-<div id="contentauthoring_widget" class="contentauthoring_widget" style="padding-right: 20px;"></div>
+<div id="contentauthoring_widget" class="contentauthoring_widget" style="padding-right: 20px; padding-left: 20px; clear: both;"></div>
 <div id="contentauthoring_widget_template"><!--
     {macro insertCell(id, type)}
-        <div class="contentauthoring_cell_element" title="Drag me to re-order" data-element-type="${type}" data-element-id="${id}">
+        <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
             <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
                 <span class="contentauthoring_row_handle fl-force-left" title="Drag me to re-order"></span>
-                <span class="contentauthoring_cell_element_action_e fl-force-left" data-element-id="${id}" data-element-type="${type}" title="__MSG__SETTINGS__"></span>
+                {if type !== "htmlblock" && type !== "pagetitle"}
+                    <span class="contentauthoring_cell_element_action_e fl-force-left" data-element-id="${id}" data-element-type="${type}" title="__MSG__SETTINGS__"></span>
+                {/if}
                 <span class="contentauthoring_cell_element_action_x fl-force-left" data-element-id="${id}" title="__MSG__DELETE__"></span>
             </div>
             {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle")}

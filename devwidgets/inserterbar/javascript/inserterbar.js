@@ -175,6 +175,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //});
         };
 
+        $(window).bind("scroll", function(ev, ui){
+            var top = $("#inserterbar_widget_container").position().top;
+            var scroll = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
+            if (scroll > top){
+                var left = $("#inserterbar_widget").position()
+                $("#inserterbar_widget").css("position", "fixed");
+                $("#inserterbar_widget").css("top", "0px");
+                $("#inserterbar_widget").css("left", left + "px");
+            } else {
+                $("#inserterbar_widget").css("position", "static");
+            }
+        });
+
         var doInit = function(){
             $inserterbarWidget.css("left", $(".s3d-page-header").position().left + 3);
             addBinding();

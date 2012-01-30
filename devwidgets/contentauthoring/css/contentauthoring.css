@@ -148,11 +148,15 @@
     height: 20px;
     background: url("/devwidgets/contentauthoring/images/row_edit_handle_bg.png") repeat-x top left #333;
     visibility: hidden;
+    display:none;
     color: #fff;
     margin-left:5px;
     border-radius: 3px 3px 0 0;
     -moz-border-radius: 3px 3px 0 0;
     -webkit-border-radius: 3px 3px 0 0;
+}
+.contentauthoring_edit_mode .contentauthoring_row_handle_container {
+    display:block !important;
 }
 
 .contentauthoring_cell_element_actions {
@@ -228,7 +232,6 @@
 
 .contentauthoring_row_container {
     list-style-type: none;
-    margin-top: -20px;
 }
 
 .contentauthoring_row_reorder_highlight {

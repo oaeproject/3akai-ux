@@ -38,7 +38,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var MINIMUM_COLUMN_SIZE = 0.05;
         var USE_ELEMENT_DRAG_HELPER = true;
-        var STORE_PATH = "/~" + sakai.data.me.user.userid + "/test/";
+        var STORE_PATH = false;
 
 
         ///////////////////////
@@ -593,6 +593,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var pageStructure = $.extend(true, {}, currentPageShown.content);
             //$rootel.addClass("contentauthoring_edit_mode");
             pageStructure.template = "all";
+            STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
             if (canEdit()){
@@ -612,6 +613,88 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(item).load(function(ev){
                     imageLoaded(ev, $(ev.currentTarget));
                 });
+            });
+        });
+
+        ////////////////////////////
+        ////////////////////////////
+        // Other management stuff //
+        ////////////////////////////
+        ////////////////////////////
+
+        $("#inserterbar_action_edit_page").live("click", function(){
+            $rootel.addClass("contentauthoring_edit_mode");
+            $("#inserterbar_view_container").hide();
+            $("#inserterbar_default_widgets_container").show();
+            setActions();
+            updateColumnHandles();
+            // Make temporary copy
+            sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
+                STORE_PATH = currentPageShown.savePath + "/tmp_" + currentPageShown.ref + "/";
+                sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+            });
+        });
+        
+        $("#inserterbar_cancel_edit_page").live("click", function(){
+            $rootel.removeClass("contentauthoring_edit_mode");
+            $(".contentauthoring_cell_content").sortable("destroy");
+            $("#inserterbar_default_widgets_container").hide();
+            $("#inserterbar_view_container").show();
+            $.ajax({
+                "url": STORE_PATH,
+                "type": "POST",
+                "data": {
+                   ":operation": "delete"
+                }
+            });
+            STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+            renderPage(currentPageShown);
+        });
+
+        $("#inserterbar_save_edit_page").live("click", function(){
+            // Generate the new row / column structure
+            var rows = [];
+            $.each($(".contentauthoring_row_container"), function(rindex, $row){
+                $row = $($row);
+                var row = {};
+                row.id = $row.attr("data-row-id");
+                row.columns = [];
+                var columnWidths = getColumnWidths($row);
+                for (var i = 0; i < columnWidths.length; i++){
+                    var column = {};
+                    column.width = columnWidths[i];
+                    column.elements = [];
+                    $.each($(".contentauthoring_cell_element", $($(".contentauthoring_cell", $row).get(i))), function(eindex, $element){
+                        $element = $($element);
+                        var element = {};
+                        element.type = $element.attr("data-element-type");
+                        element.id = $element.attr("data-element-id");
+                        column.elements.push(element);
+                    });
+                    row.columns.push(column);
+                }
+                rows.push(row);
+            });
+            debug.log(rows);
+            
+            $rootel.removeClass("contentauthoring_edit_mode");
+            $(".contentauthoring_cell_content").sortable("destroy");
+            $("#inserterbar_default_widgets_container").hide();
+            $("#inserterbar_view_container").show();
+            sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
+                $.ajax({
+                    "url": STORE_PATH,
+                    "type": "POST",
+                    "data": {
+                       ":operation": "delete"
+                    },
+                    "success": function(){
+                        debug.log("Deleted temporary success");
+                    }
+                });
+                STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+                data.rows = rows;
+                sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
             });
         });
 
