@@ -217,6 +217,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
             jsonDisplay.sakai = sakai;
             $(contentcommentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(contentcommentsShowCommentsTemplate, jsonDisplay));
+            // Render Math formulas in the text
+            sakai.api.Util.renderMath(tuid);
         };
 
         /**
