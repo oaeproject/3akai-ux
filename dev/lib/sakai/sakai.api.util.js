@@ -1958,9 +1958,9 @@ define(
 
             var htmlScrollPos = $("html").scrollTop();
             var docScrollPos = $(document).scrollTop();
-            if (htmlScrollPos > 0) {
+            if (htmlScrollPos >= 0) {
                 $el.css({"top": htmlScrollPos + dialogOffset + "px"});
-            } else if (docScrollPos > 0) {
+            } else if (docScrollPos >= 0) {
                 $el.css({"top": docScrollPos + dialogOffset + "px"});
             }
         },
