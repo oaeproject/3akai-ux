@@ -198,7 +198,6 @@ require(
          */
         var processBatchRequest = function(results) {
             QUnit.start();
-
             for (var i = 0, j = results.length; i < j; i++) {
 
                 var item = results[i];
@@ -234,6 +233,7 @@ require(
 
             checkWidgetKeysUsed();
             checkDevKeysUsed();
+            $(window).trigger("addlocalbinding.qunit.sakai");
         };
 
         /**

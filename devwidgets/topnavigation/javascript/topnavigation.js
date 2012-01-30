@@ -208,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var forceShowLoginUrl = function(){
             if (qs.get("url")) {
-                forceShowLogin()
+                forceShowLogin();
             }
         };
 

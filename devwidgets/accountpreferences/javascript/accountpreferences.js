@@ -187,7 +187,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Util.notification.show($(messagePassChanged).html(), $(messagePassChangedBody).html());
                         // clear all the fields
                         clearPassFields();
-                        passwordChanges = false
+                        passwordChanges = false;
                         finishSave();
                     },
                     error: function(xhr, textStatus, thrownError) {
@@ -378,7 +378,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     },2000);
                 }
             }
-        }
+        };
 
         /**
          * Initialise form validation
