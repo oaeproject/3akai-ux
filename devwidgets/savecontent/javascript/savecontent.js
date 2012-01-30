@@ -143,6 +143,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 memberOfGroup.alreadyHasIt = true;
                 $.each(contentObj.data, function(i, selectedContent){
                     var contentItem = selectedContent.body;
+                    if (sakai_global.content_profile && sakai_global.content_profile.content_data){
+                        contentItem = sakai_global.content_profile.content_data;
+                    }
                     var isContentInGroup = sakai.api.Content.isContentInLibrary(contentItem, memberOfGroup["sakai:group-id"]);
                     if (!isContentInGroup){
                         memberOfGroup.alreadyHasIt = false;

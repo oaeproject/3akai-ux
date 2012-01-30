@@ -589,6 +589,15 @@ define(
                     }
                 }
             }
+            if (content && content.members && content.members.managers) {
+                for (var j = 0; j < content.members.managers.length; j++) {
+                    var authorizable = content.members.managers[j];
+                    // Check if this user/group library is a manager
+                    if (authorizable.groupid === meObj.user.userid || authorizable.userid === meObj.user.userid) {
+                        return true;
+                    }
+                }
+            }
             return false;
         },
 
@@ -612,6 +621,15 @@ define(
                     }
                 }
             }
+            if (content && content.members && content.members.viewers) {
+                for (var j = 0; j < content.members.viewers.length; j++) {
+                    var authorizable = content.members.viewers[j];
+                    // Check if this user/group library is a viewer
+                    if (authorizable.groupid === meObj.user.userid || authorizable.userid === meObj.user.userid) {
+                        return true;
+                    }
+                }
+            }
             return false;
         },
 
@@ -622,6 +640,17 @@ define(
          * @param {Object} userid     authorizable id for which we're checking presence in the library
          */
         isContentInLibrary: function(content, userid){
+            // check if the content is a collection and the ID is the same collection
+            var collectionId = false;
+            if (content.data && sakai_content.Collections.isCollection(content.data)) {
+                collectionId = sakai_content.Collections.getCollectionGroupId(content.data);
+            } else if (content && sakai_content.Collections.isCollection(content)) {
+                collectionId = sakai_content.Collections.getCollectionGroupId(content);
+            };
+            if (collectionId === userid) {
+                return true;
+            }
+
             var fakeMeObj = {
                 "user": {
                     "userid": userid
