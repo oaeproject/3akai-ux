@@ -1938,6 +1938,34 @@ define(
         },
 
         /**
+         * Positions the dialog box at the users scroll position
+         *
+         * @param el {String} a jquery selector or jquery object, to position
+         * @param offset {Integer} numeric value to add to the dialog position offset
+         */
+        positionDialogBox : function(el, offset) {
+            var $el;
+            if (el instanceof jQuery){
+                $el = el;
+            } else {
+                $el = $(el);
+            }
+
+            var dialogOffset = 100;
+            if (offset && _.isNumber(offset)){
+                dialogOffset = offset;
+            }
+
+            var htmlScrollPos = $("html").scrollTop();
+            var docScrollPos = $(document).scrollTop();
+            if (htmlScrollPos > 0) {
+                $el.css({"top": htmlScrollPos + dialogOffset + "px"});
+            } else if (docScrollPos > 0) {
+                $el.css({"top": docScrollPos + dialogOffset + "px"});
+            }
+        },
+
+        /**
          * Extracts the entity ID from the URL
          * also handles encoded URLs
          * Example:

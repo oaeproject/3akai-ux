@@ -124,17 +124,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true
             });
             // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
-            if (htmlScrollPos > 0) {
-                $uploadnewversionContainer.css({
-                    "top": htmlScrollPos + 100 + "px"
-                });
-            } else if (docScrollPos > 0) {
-                $uploadnewversionContainer.css({
-                    "top": docScrollPos + 100 + "px"
-                });
-            }
+            sakai.api.Util.positionDialogBox($uploadnewversionContainer);
+
             $uploadnewversionContainer.jqmShow();
 
             $uploadnewversionUploading.jqm({
