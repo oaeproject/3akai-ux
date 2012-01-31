@@ -288,7 +288,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#content_profile_left_column").show();
             $("#content_profile_main_container").addClass("s3d-twocolumn");
             $("#content_profile_right_container").addClass("s3d-page-column-right");
-            $("#content_profile_right_container").removeClass("s3d-page-fullcolumn-padding");
+            $("#content_profile_right_container").removeClass("s3d-page-fullcolumn-nopadding");
             $("#content_profile_right_metacomments").removeClass("fl-container-650");
             $("#content_profile_right_metacomments").addClass("fl-container-450");
             if (isSakaiDoc){
@@ -304,7 +304,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#content_profile_left_column").hide();
             $("#content_profile_main_container").removeClass("s3d-twocolumn");
             $("#content_profile_right_container").removeClass("s3d-page-column-right");
-            $("#content_profile_right_container").addClass("s3d-page-fullcolumn-padding");
+            $("#content_profile_right_container").addClass("s3d-page-fullcolumn-nopadding");
             $("#content_profile_right_metacomments").addClass("fl-container-650");
             $("#content_profile_right_metacomments").removeClass("fl-container-450");
             if (isSakaiDoc){

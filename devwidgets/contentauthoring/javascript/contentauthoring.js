@@ -34,133 +34,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
     sakai_global.contentauthoring = function (tuid, showSettings, widgetData) {
 
         var $rootel = $("#" + tuid);
+        sakai_global.contentauthoring.isDragging = false;
 
         var MINIMUM_COLUMN_SIZE = 0.05;
-        var STORE_PATH = "/~" + sakai.data.me.user.userid + "/test/";
-
-        var pageStructure = {
-            "rows": [
-                {
-                    "id": "id00015",
-                    "columns": [
-                        {
-                            "width": 1,
-                            "elements": [
-                                {
-                                    "id": "id00001",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00002",
-                                    "type": "htmlblock"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": "id00016",
-                    "columns": [
-                        {
-                            "width": 0.5,
-                            "elements": [
-                                {
-                                    "id": "id00003",
-                                    "type": "embedcontent"
-                                }
-                            ]
-                        },
-                        {
-                            "width": 0.5,
-                            "elements": [
-                                {
-                                    "id": "id00004",
-                                    "type": "embedcontent"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": "id00017",
-                    "columns": [
-                        {
-                            "width": 1,
-                            "elements": [
-                                {
-                                    "id": "id00025",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00005",
-                                    "type": "htmlblock"
-                                },
-                                {
-                                    "id": "id00105",
-                                    "type": "googlemaps"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "id": "id00018",
-                    "columns": [
-                        {
-                            "width": 0.33,
-                            "elements": [
-                                {
-                                    "id": "id00006",
-                                    "type": "embedcontent"
-                                },
-                                {
-                                    "id": "id00007",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00008",
-                                    "type": "htmlblock"
-                                }
-                            ]
-                        },
-                        {
-                            "width": 0.33,
-                            "elements": [
-                                {
-                                    "id": "id00009",
-                                    "type": "embedcontent"
-                                },
-                                {
-                                    "id": "id00010",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00011",
-                                    "type": "htmlblock"
-                                }
-                            ]
-                        },
-                        {
-                            "width": 0.34,
-                            "elements": [
-                                {
-                                    "id": "id00012",
-                                    "type": "embedcontent"
-                                },
-                                {
-                                    "id": "id00013",
-                                    "type": "pagetitle"
-                                },
-                                {
-                                    "id": "id00014",
-                                    "type": "htmlblock"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
+        var USE_ELEMENT_DRAG_HELPER = true;
+        var STORE_PATH = false;
 
 
         ///////////////////////
@@ -180,10 +58,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (isInEditMode()){
                 $rootel.removeClass("contentauthoring_edit_mode");
                 $(".contentauthoring_cell_content").sortable("destroy");
-                $("#contentauthoring_buttons_elements").hide();
                 $("#contentauthoring_add_row").hide();
+                $("#inserterbar_widget").hide();
             } else {
                 $rootel.addClass("contentauthoring_edit_mode");
+                $("#inserterbar_widget").show();
                 setActions();
             }
         });
@@ -214,7 +93,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var setRowReorderHover = function(){
             $(".contentauthoring_row_container").unbind("hover");
             $(".contentauthoring_row_container").hover(function(){
-                if (isInEditMode()) {
+                if (isInEditMode() && !sakai_global.contentauthoring.isDragging) {
+                    debug.log("Showing row hover because sakai_global.contentauthoring.isDragging is " + sakai_global.contentauthoring.isDragging);
                     $(".contentauthoring_row_handle_container", $(this)).css("visibility", "visible");
                 }
             }, function(){
@@ -227,11 +107,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 handle: '.contentauthoring_row_handle',
                 placeholder: "contentauthoring_row_reorder_highlight",
                 opacity: 0.4,
-                start: hideEditRowMenu
+                start: function(){
+                    sakai_global.contentauthoring.isDragging = true;
+                    $(".contentauthoring_row_handle_container").css("visibility", "hidden");
+                    $(".contentauthoring_cell_element_actions").hide();
+                    hideEditRowMenu();
+                },
+                stop: function(event, ui){
+                    sakai_global.contentauthoring.isDragging = false;
+                }
             });
             setRowReorderHover();
         }
-
 
         //////////////////////
         // Reorder portlets //
@@ -269,10 +156,26 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $( ".contentauthoring_cell_content" ).sortable({
     			connectWith: ".contentauthoring_cell_content",
                 ghost: true,
-                placeholder: "contentauthoring_row_reorder_highlight",
-                stop: addNewElement,
+                handle: ".contentauthoring_row_handle",
+                placeholder: "contentauthoring_cell_reorder_highlight",
                 opacity: 0.4,
-                start: hideEditRowMenu
+                helper: !USE_ELEMENT_DRAG_HELPER ? "original" : function(ev, ui){
+                    var $el = $("<div/>");
+                    $el.css("width", ui.width() + "px");
+                    $el.css("height", ui.height() + "px");
+                    $el.css("background-color", "#2683BC");
+                    return $el;
+                },
+                start: function(){
+                    sakai_global.contentauthoring.isDragging = true;
+                    $(".contentauthoring_row_handle_container").css("visibility", "hidden");
+                    $(".contentauthoring_cell_element_actions").hide();
+                    hideEditRowMenu();
+                },
+                stop: function(event, ui){
+                    sakai_global.contentauthoring.isDragging = false;
+                    addNewElement(event, ui);
+                }
     		});
         }
 
@@ -287,8 +190,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var totalWidth = $("#contentauthoring_widget").width();
             var $cells = $(".contentauthoring_cell", $row);
             var widths = [];
+            var lastWidth = 1;
             for (var i = 0; i < $cells.length; i++){
-                widths.push($($cells[i]).width() / totalWidth); 
+                if (i === $cells.length - 1){
+                    widths.push(lastWidth); 
+                } else {
+                    lastWidth -= $($cells[i]).width() / totalWidth;
+                    widths.push($($cells[i]).width() / totalWidth);
+                }
             }
             return widths;
         };
@@ -356,7 +265,21 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             });
         };
+        
+        ////////////////////
+        // Column handles //
+        ////////////////////
 
+        var updateColumnHandles = function(){
+            $(".contentauthoring_cell_handle").show();
+            var $rows = $(".contentauthoring_row_container");
+            for (var r = 0; r < $rows.length; r++){
+                var $columns = $(".contentauthoring_cell", $($rows[r]));
+                var $lastColumn = $($columns[$columns.length - 1]);
+                $(".contentauthoring_cell_handle", $lastColumn).hide();
+                setHeight($($rows[r]));
+            }
+        };
 
         ///////////////////
         // Add a new row //
@@ -366,6 +289,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $("#contentauthoring_widget_container").append(generateNewRow());
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
             setActions();
+            updateColumnHandles();
         });
 
         var generateNewRow = function(){
@@ -412,7 +336,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var rowToChange = false;
 
-        var hideEditRowMenu = function(show){
+        var hideEditRowMenu = function(){
             rowToChange = false;
             $("#contentauthoring_row_menu").hide();
             $(".contentauthoring_row_handle_container").removeClass("selected");
@@ -434,8 +358,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var removeColumns = function($row, lastColumn){
             var widths = getColumnWidths($row);
+            debug.log(widths);
             var remainingWidth = 1;
             var $cells = $(".contentauthoring_cell", $row);
+            debug.log($cells.length);
             for (var i = lastColumn + 1; i < $cells.length; i++){
                 var $cell = $($cells[i]);
                 var $cellcontent = $(".contentauthoring_cell_content", $cell).children();
@@ -444,8 +370,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 remainingWidth -= widths[i];
             }
             for (var i = 0; i <= lastColumn; i++) {
-                $($cells[i]).css("width", widths[i] / remainingWidth + "%");
+                debug.log(widths[i]);
+                debug.log(remainingWidth);
+                debug.log(widths[i] / remainingWidth);
+                $($cells[i]).css("width", (widths[i] / remainingWidth) * 100 + "%");
             }
+            updateColumnHandles();
         };
 
         var addColumns = function($row, totalColumns){
@@ -465,6 +395,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $($cells[i]).css("width", widths[i] * (1 - (newColumnWidth * (totalColumns - widths.length))) * 100 + "%");
             }
             setActions();
+            updateColumnHandles();
         };
 
         $("#contentauthoring_row_menu_one").live("click", function(){
@@ -506,6 +437,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $row.before(generateNewRow());
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
             setActions();
+            updateColumnHandles();
         });
 
         $("#contentauthoring_row_menu_add_below").live("click", function(){
@@ -514,6 +446,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $row.after(generateNewRow());
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
             setActions();
+            updateColumnHandles();
         });
 
 
@@ -524,9 +457,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var setCellHover = function(){
             $(".contentauthoring_cell_element").unbind("hover");
             $(".contentauthoring_cell_element").hover(function(){
-                if (isInEditMode()) {
-                    $(".contentauthoring_cell_element_actions", $(this)).css("left", ($(this).position().left + $(this).width() - $(".contentauthoring_cell_element_actions", $(this)).width() - 5) + "px");
-                    $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 5) + "px");
+                if (isInEditMode() && !sakai_global.contentauthoring.isDragging) {
+                    debug.log("Showing cell hover because sakai_global.contentauthoring.isDragging is " + sakai_global.contentauthoring.isDragging);
+                    $(".contentauthoring_cell_element_actions", $(this)).css("left", $(this).position().left + "px");
+                    $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 1) + "px");
                     $(".contentauthoring_cell_element_actions", $(this)).show();
                     $(this).addClass("contentauthoring_cell_element_hover");
                 }
@@ -564,8 +498,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         $(".contentauthoring_cell_element_action_e").live("click", function(){
-            var id = $(this).parent().attr("data-element-id");
-            var type = $(this).parent().attr("data-element-type");
+            var id = $(this).attr("data-element-id");
+            var type = $(this).attr("data-element-type");
             isEditingNewElement = false;
             editModeFullScreen(id, type);
         });
@@ -602,8 +536,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////
 
         $(".contentauthoring_cell_element_action_x").live("click", function(){
-            var $row = $(this).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
-            $(this).parent().parent().remove();
+            var $cell = $(this).parents(".contentauthoring_cell_element");
+            $cell.remove();
         });
 
 
@@ -611,20 +545,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Add new element //
         /////////////////////
 
-        $("#contentauthoring_buttons_elements").append(sakai.api.Util.TemplateRenderer("contentautoring_elements_toadd_template", {"sakai": sakai}));
-        var makeElementsDraggable = function(){
-            $( "#contentauthoring_buttons_elements div" ).draggable({
-    			connectToSortable: ".contentauthoring_cell_content",
-    			helper: "clone",
-    			revert: "invalid",
-    			start: hideEditRowMenu
-    		});
-        };
-
         var addNewElement = function(event, ui){
             var addedElement = $(ui.item);
             var $row = $(addedElement).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
-            if (addedElement.hasClass("contentauthoring_buttons_element_new")){
+            if (addedElement.hasClass("inserterbar_widget_draggable")){
                 var type = addedElement.attr("data-element-type");
                 // Generate unique id
                 var id = sakai.api.Util.generateWidgetId();
@@ -650,14 +574,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             setHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
         };
 
-
-        ////////////////////////
-        // Movable button bar //
-        ////////////////////////
-
-        $("#contentauthoring_buttons").draggable();
-
-
         ////////////////////
         // Initialization //
         ////////////////////
@@ -667,21 +583,26 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             makeColumnsResizable();
             reorderPortlets();
             setCellHover();
-            $("#contentauthoring_add_row").show();
-            $("#contentauthoring_buttons_elements").show();
-            makeElementsDraggable();
             sakai.api.Util.hideOnClickOut("#contentauthoring_row_menu", ".contentauthoring_row_edit", function(){
                 rowToChange = false;
                 hideEditRowMenu();
             });
         };
 
-        var renderPage = function(){
-            $rootel.addClass("contentauthoring_edit_mode");
+        var renderPage = function(currentPageShown){
+            var pageStructure = $.extend(true, {}, currentPageShown.content);
+            //$rootel.addClass("contentauthoring_edit_mode");
             pageStructure.template = "all";
+            STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
-            setActions();
+            if (canEdit()){
+                //setActions();
+                //updateColumnHandles();
+                $("#contentauthoring_inserterbar_container").show();
+            } else {
+                $("#contentauthoring_inserterbar_container").hide();
+            }
         };
 
         $(window).bind("sakai.contentauthoring.droppedexternal", addExternal);
@@ -695,7 +616,106 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             });
         });
 
-        renderPage();
+        ////////////////////////////
+        ////////////////////////////
+        // Other management stuff //
+        ////////////////////////////
+        ////////////////////////////
+
+        $("#inserterbar_action_edit_page").live("click", function(){
+            $rootel.addClass("contentauthoring_edit_mode");
+            $("#inserterbar_view_container").hide();
+            $("#inserterbar_default_widgets_container").show();
+            setActions();
+            updateColumnHandles();
+            // Make temporary copy
+            sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
+                STORE_PATH = currentPageShown.savePath + "/tmp_" + currentPageShown.ref + "/";
+                sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+            });
+        });
+        
+        $("#inserterbar_cancel_edit_page").live("click", function(){
+            $rootel.removeClass("contentauthoring_edit_mode");
+            $(".contentauthoring_cell_content").sortable("destroy");
+            $("#inserterbar_default_widgets_container").hide();
+            $("#inserterbar_view_container").show();
+            $.ajax({
+                "url": STORE_PATH,
+                "type": "POST",
+                "data": {
+                   ":operation": "delete"
+                }
+            });
+            STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+            renderPage(currentPageShown);
+        });
+
+        $("#inserterbar_save_edit_page").live("click", function(){
+            // Generate the new row / column structure
+            var rows = [];
+            $.each($(".contentauthoring_row_container"), function(rindex, $row){
+                $row = $($row);
+                var row = {};
+                row.id = $row.attr("data-row-id");
+                row.columns = [];
+                var columnWidths = getColumnWidths($row);
+                for (var i = 0; i < columnWidths.length; i++){
+                    var column = {};
+                    column.width = columnWidths[i];
+                    column.elements = [];
+                    $.each($(".contentauthoring_cell_element", $($(".contentauthoring_cell", $row).get(i))), function(eindex, $element){
+                        $element = $($element);
+                        var element = {};
+                        element.type = $element.attr("data-element-type");
+                        element.id = $element.attr("data-element-id");
+                        column.elements.push(element);
+                    });
+                    row.columns.push(column);
+                }
+                rows.push(row);
+            });
+            debug.log(rows);
+            
+            $rootel.removeClass("contentauthoring_edit_mode");
+            $(".contentauthoring_cell_content").sortable("destroy");
+            $("#inserterbar_default_widgets_container").hide();
+            $("#inserterbar_view_container").show();
+            sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
+                $.ajax({
+                    "url": STORE_PATH,
+                    "type": "POST",
+                    "data": {
+                       ":operation": "delete"
+                    },
+                    "success": function(){
+                        debug.log("Deleted temporary success");
+                    }
+                });
+                STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+                data.rows = rows;
+                sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+            });
+        });
+
+        /////////////////////////////
+        /////////////////////////////
+        // Moved from sakaidocs.js //
+        /////////////////////////////
+        /////////////////////////////
+
+        var currentPageShown = {};
+        var canEdit = function() {
+            return (currentPageShown.canEdit && !currentPageShown.nonEditable);
+        };
+
+        $(window).bind("showpage.contentauthoring.sakai", function(ev, _currentPageShown){
+            currentPageShown = _currentPageShown;
+            renderPage(currentPageShown);
+        });
+
+        sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content");
+        $(window).trigger("ready.contentauthoring.sakai");
 
     };
 

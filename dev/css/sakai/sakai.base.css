@@ -347,8 +347,9 @@ a.s3d-button.s3d-overlay-button {display:inline-block;height:21px;line-height:21
 
 
 
-.s3d-action-icon {width:16px;height:16px;cursor:pointer;}
+.s3d-action-icon {width:16px;height:16px;cursor:pointer; margin-top: -2px;}
 .s3d-action-icon-spacing-right {margin-right:7px;}
+.s3d-action-icon-spacing-left {margin-left:7px;}
 .s3d-action-icon.disabled {display:none;}
 
 .s3d-actions-delete {background:url("/dev/images/delete_icon_default.png") no-repeat top left transparent;}
@@ -734,6 +735,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
  * ICONS
  */
 .s3d-icon-16{width:16px; height:16px;}
+.s3d-icon-25{width:25px; height:25px;}
 .s3d-icon-32{width:32px; height:32px;}
 .s3d-icon-40{width:40px; height:40px;}
 .s3d-icon-50{width:50px; height:50px;}
