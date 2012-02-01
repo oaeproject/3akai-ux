@@ -1942,7 +1942,7 @@ define(
          *
          * @param dialogContainer {String} a jquery selector or jquery object which is the dialog container
          * @param closeFunction {function} a function to be called when the user hits the escape key
-         * @param ignoreElements {String} a jquery selector or jquery object for start/end elements to be ignored
+         * @param ignoreElements {String} a jquery selector for start/end elements to be ignored
          */
         bindDialogFocus : function(dialogContainer, closeFunction, ignoreElements) {
             var $dialogContainer;
@@ -1951,12 +1951,6 @@ define(
             } else {
                 $dialogContainer = $(dialogContainer);
             }
-            var $ignoreElements = false;
-            if (ignoreElements instanceof jQuery){
-                $ignoreElements = ignoreElements;
-            } else {
-                $ignoreElements = $(ignoreElements);
-            }
 
             var bindFunction = function(e) {
                 if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.ESCAPE && $.isFunction(closeFunction)) {
@@ -1964,8 +1958,8 @@ define(
                 } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
                     // determine which elements are keyboard navigable
                     var $focusable = $("a:visible, input:visible, button:visible:not(:disabled), textarea:visible", $dialogContainer);
-                    if ($ignoreElements){
-                        $focusable = $focusable.not($ignoreElements);
+                    if (ignoreElements){
+                        $focusable = $focusable.not(ignoreElements);
                     }
                     var $focused = $(":focus");
                     var index = $focusable.index($focused);
