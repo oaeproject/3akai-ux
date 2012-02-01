@@ -362,6 +362,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             
             if ( !$( ev.target ).is( "a, select, option, textarea" ) ) {
                 if ((ev.type == "keypress" && ev.keyCode == 13) || ev.type == "click") {
+                    ev.preventDefault();
                     $target = $(ev.target).closest(".contentmetadata_editable");
                     if ($target.length) {
                         // Need to clear out any active editingElements before creating a new one
