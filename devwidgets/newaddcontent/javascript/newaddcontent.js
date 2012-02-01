@@ -1313,6 +1313,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                 toTop: true
             });
             $newaddcontentContainer.jqmShow();
+            sakai.api.Util.bindDialogFocus($newaddcontentContainer, function(){$newaddcontentContainer.jqmHide();});
         };
 
         /**

@@ -1938,6 +1938,42 @@ define(
         },
 
         /**
+         * Sets up events to keep keyboard focus within the dialog box and close it when the escape key is pressed
+         *
+         * @param dialogContainer {String} a jquery selector or jquery object which is the dialog container
+         * @param closeFunction {function} a function to be called when the user hits the escape key
+         */
+        bindDialogFocus : function(dialogContainer, closeFunction) {
+            var $dialogContainer;
+            if (dialogContainer instanceof jQuery){
+                $dialogContainer = dialogContainer;
+            } else {
+                $dialogContainer = $(dialogContainer);
+            }
+
+            var bindFunction = function(e) {
+                if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.ESCAPE && $.isFunction(closeFunction)) {
+                    closeFunction();
+                } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
+                    // determine which elements are keyboard navigable
+                    var $focusable = $("a:visible, input:visible, button:visible:not(:disabled), textarea:visible", $dialogContainer);
+                    var $focused = $(":focus");
+                    var index = $focusable.index($focused);
+                    if (e.shiftKey && $focusable.length && (index === 0)) {
+                        // if shift tabbing from the start of the dialog box, shift focus to the last element
+                        $focusable.get($focusable.length - 1).focus();
+                        return false;
+                    } else if (!e.shiftKey && $focusable.length && (index === $focusable.length - 1)) {
+                        // if tabbing from the end of the dialog box, shift focus to the first element
+                        $focusable.get(0).focus();
+                        return false;
+                    }
+                }
+            }
+            $(document).keydown(bindFunction);
+        },
+
+        /**
          * Extracts the entity ID from the URL
          * also handles encoded URLs
          * Example:
