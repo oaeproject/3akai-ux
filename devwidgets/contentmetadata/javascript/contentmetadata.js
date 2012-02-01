@@ -195,7 +195,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
                 else {
                     $("#entity_name").show();
-                    $(".entity_editable").live("click", editData);
+                    $(".entity_editable").live("click keypress", editData);
                 }
             });
         };
@@ -359,30 +359,33 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Object} ev Trigger event
          */
         var editData = function(ev){
+            
             if ( !$( ev.target ).is( "a, select, option, textarea" ) ) {
-                $target = $( ev.target ).closest( ".contentmetadata_editable" );
-                if ( $target.length ) {
-                    // Need to clear out any active editingElements before creating a new one
-                    if (editingElement !== "") {
-                        editInputBlur(false, editingElement);
-                    }
-                    editingElement = $target.attr( "data-edit-field" );
-                    switch ( editingElement ) {
-                        case "description":
-                            renderDescription("edit");
-                            break;
-                        case "tags":
-                            renderTags("edit");
-                            break;
-                        case "url":
-                            renderUrl("edit");
-                            break;
-                        case "copyright":
-                            renderCopyright("edit");
-                            break;
-                        case "name":
-                            renderName("edit");
-                            break;
+                if ((ev.type == "keypress" && ev.keyCode == 13) || ev.type == "click") {
+                    $target = $(ev.target).closest(".contentmetadata_editable");
+                    if ($target.length) {
+                        // Need to clear out any active editingElements before creating a new one
+                        if (editingElement !== "") {
+                            editInputBlur(false, editingElement);
+                        }
+                        editingElement = $target.attr("data-edit-field");
+                        switch (editingElement) {
+                            case "description":
+                                renderDescription("edit");
+                                break;
+                            case "tags":
+                                renderTags("edit");
+                                break;
+                            case "url":
+                                renderUrl("edit");
+                                break;
+                            case "copyright":
+                                renderCopyright("edit");
+                                break;
+                            case "name":
+                                renderName("edit");
+                                break;
+                        }
                     }
                 }
             }
@@ -445,7 +448,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $contentmetadataShowMore.die("click").live("click", animateData);
 
-            $(".contentmetadata_editable").die("click").live("click", editData);
+            $(".contentmetadata_editable").die("click").live("click keypress", editData);
 
             $(contentmetadataViewRevisions).die("click").live("click", function() {
                 $(window).trigger("initialize.filerevisions.sakai", sakai_global.content_profile.content_data);
