@@ -1329,6 +1329,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                 }
             });
             $newaddcontentContainer.jqmShow();
+            sakai.api.Util.bindDialogFocus($newaddcontentContainer);
         };
 
         /**

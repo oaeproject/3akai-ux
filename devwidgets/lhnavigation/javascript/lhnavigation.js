@@ -871,6 +871,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var confirmPageDelete = function(){
             pageToDelete = jQuery.extend(true, {}, contextMenuHover);
+            sakai.api.Util.bindDialogFocus($('#lhnavigation_delete_dialog'));
             $('#lhnavigation_delete_dialog').jqmShow();
             toggleContextMenu(true);
         };

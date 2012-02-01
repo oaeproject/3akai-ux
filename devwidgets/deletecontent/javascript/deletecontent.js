@@ -481,6 +481,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#deletecontent_container").show();
             $("#deletecontent_used_by_others").hide();
             $deletecontent_dialog.css("top", (50 + $(window).scrollTop()) + "px");
+            sakai.api.Util.bindDialogFocus($deletecontent_dialog);
             $deletecontent_dialog.jqmShow();
         };
 
