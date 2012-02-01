@@ -1953,7 +1953,10 @@ define(
             }
 
             var bindFunction = function(e) {
-                if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.ESCAPE && $.isFunction(closeFunction)) {
+                if ($dialogContainer.is(":visible")
+                    && $dialogContainer.has(":focus").length
+                    && e.which === $.ui.keyCode.ESCAPE
+                    && $.isFunction(closeFunction)) {
                     closeFunction();
                 } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
                     // determine which elements are keyboard navigable

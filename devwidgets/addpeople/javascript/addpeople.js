@@ -427,6 +427,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
         var showDialog = function(){
             $addpeopleContainer.jqmShow();
+            sakai.api.Util.bindDialogFocus($addpeopleContainer, function(){$addpeopleContainer.jqmHide();});
         };
 
         var addBinding = function(){
