@@ -1944,10 +1944,8 @@ define(
          * @param offset {Integer} optional numeric value to add to the dialog position offset
          */
         positionDialogBox : function(el, offset) {
-            var $el;
-            if (el instanceof jQuery){
-                $el = el;
-            } else {
+            var $el = el;
+            if (!(el instanceof jQuery)){
                 $el = $(el);
             }
 
