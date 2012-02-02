@@ -613,6 +613,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             json.results[i].post["sakai:editedby"] = me.user.userid;
                         }
                     }
+                    // Render Math formulas in the text
+                    sakai.api.Util.renderMath(tuid);
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_EDIT"),"",sakai.api.Util.notification.type.ERROR);
