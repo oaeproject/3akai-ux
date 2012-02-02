@@ -130,6 +130,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var initialize = function(){
             doInit();
+            sakai.api.Util.positionDialogBox(accountPreferencesContainer);
             $(accountPreferencesContainer).jqmShow();
         };
 

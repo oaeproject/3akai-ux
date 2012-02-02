@@ -85,6 +85,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * Centers the overlay on the screen and handles with variable widths of the overlay
          */
         var centerOverlay = function(){
+            sakai.api.Util.positionDialogBox($addAreaContainer);
+
             $addAreaContainer.animate({
                 'margin-left': -1 * ($addAreaContainer.width() / 2 + 20)
             }, 400);

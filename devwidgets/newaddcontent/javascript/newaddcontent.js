@@ -1306,6 +1306,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
          * Initialize the modal dialog
          */
         var initializeJQM = function(){
+            sakai.api.Util.positionDialogBox($newaddcontentContainer);
+
             $newaddcontentContainer.jqm({
                 modal: true,
                 overlay: 20,
