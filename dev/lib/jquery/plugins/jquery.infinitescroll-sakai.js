@@ -178,6 +178,7 @@
          */
         var loadResultList = function(initial){
             isDoingExtraSearch = true;
+            showHideLoadingContainer(false);
             showHideLoadingContainer(true);
             // If the source is a function that will load the results for us
             if ($.isFunction(source)) {
@@ -185,6 +186,7 @@
                     if (success){
                         processList(data);
                     } else {
+                        showHideLoadingContainer(false);
                         debug.log("An error has occured while retrieving the list of results");
                     }
                 });
@@ -198,6 +200,7 @@
                         processList(data);
                     },
                     "error": function(){
+                        showHideLoadingContainer(false);
                         debug.log("An error has occured while retrieving the list of results");
                     }
                 });
