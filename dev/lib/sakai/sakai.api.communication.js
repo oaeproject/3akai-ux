@@ -36,9 +36,10 @@ define(
         "sakai/sakai.api.util",
         "sakai/sakai.api.server",
         "config/config_custom",
+        "underscore",
         "jquery-plugins/jquery.autolink"
     ],
-    function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_server, sakai_conf) {
+    function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_server, sakai_conf, _) {
 
     var sakaiCommunicationsAPI =  {
         /**
@@ -119,13 +120,6 @@ define(
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
                         toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
-                        break;
-                    case "join_request":
-                        toSend["sakai:templatePath"] = "/var/templates/email/join_request";
-                        toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|name=" + groupTitle +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid) +
-                        "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
                         break;
                     case "group_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
@@ -320,8 +314,12 @@ define(
             }
 
             $.each(messages, function(i, message) {
-               var req = {url: message.path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
-               requests.push(req);
+                var path = message.path;
+                if (path.substring(0, 2) === "a:"){
+                    path = "~" + path.substring(2);
+                }
+                var req = {url: path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
+                requests.push(req);
             });
             sakai_server.batch(requests, function(success, data) {
                 if (success) {
@@ -392,6 +390,7 @@ define(
                     newMsg.box = msg["sakai:messagebox"];
                     newMsg.category = msg["sakai:category"];
                     newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.fromEpoch(msg["_created"], sakai_user.data.me));
+                    newMsg.timeago = $.timeago(newMsg.date);
                     newMsg.id = msg.id;
                     newMsg.read = msg["sakai:read"];
                     newMsg.path = msg["_path"];
@@ -441,10 +440,8 @@ define(
             // Set the base URL for the search
             if (search) {
                 url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE;
-            } else if (category) {
-                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE;
             } else {
-                url = sakai_conf.URL.MESSAGE_BOX_SERVICE;
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE;
             }
             $.ajax({
                 url: url,

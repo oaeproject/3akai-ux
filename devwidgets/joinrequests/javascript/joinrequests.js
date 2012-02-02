@@ -22,7 +22,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
 
     /**
      * @name sakai_global.joinrequests
@@ -274,10 +274,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 ret = "";
             $.each(roles, function(i, role) {
                 if (role.id === groupData["sakai:joinRole"]) {
-                    ret = role.roleTitle;
+                    ret = role.titlePlural;
                 }
             });
-            return sakai.api.i18n.getValueForKey(ret.substr(7, ret.length - 9));
+            return sakai.api.i18n.getValueForKey(ret);
         };
 
         /**
@@ -301,6 +301,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     debug.warn("The group's authprofile node wasn't passed in to init.joinrequests.sakai");
                 }
             });
+            $(window).trigger("ready.joinrequests.sakai");
         };
 
         init();

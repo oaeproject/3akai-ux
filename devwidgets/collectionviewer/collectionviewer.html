@@ -1,0 +1,386 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/collectionviewer/css/collectionviewer.css" />
+
+<div class="collectionviewer_widget">
+    <div id="collectionviewer_header_container">
+        <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left sakai_add_content_overlay" id="collectionviewer_add_content_button" type="button" style="display:none;"><div class="s3d-button s3d-button-in-button-lighter">0</div>__MSG__ADD_CONTENT__</button>
+        <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left" id="collectionviewer_edit_collection_button" type="button" style="display:none;">__MSG__EDIT_COLLECTION__</button>
+        <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left" id="collectionviewer_finish_editing_collection_button" type="button" style="display:none;">__MSG__FINISH_EDITING__</button>
+        <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
+            <div class="s3d-listview-grid" id="collectionviewer_grid_view">
+                <div class="s3d-action-icon s3d-search-results-gridview"></div>
+            </div>
+            <div class="s3d-listview-list" id="collectionviewer_list_view">
+                <div class="s3d-action-icon s3d-search-results-listview"></div>
+            </div>
+            <div class="s3d-listview-carousel" id="collectionviewer_carousel_view">
+                <div class="s3d-action-icon s3d-search-results-carouselview"></div>
+            </div>
+        </div>
+
+        <div id="collectionviewer_sortarea" class="s3d-margin-top-5 fl-force-right">
+            <label for="collectionviewer_sortby">__MSG__SORT_BY__:</label>
+            <select id="collectionviewer_sortby" name="collectionviewer_sortby">
+                <option value="modified">__MSG__RECENTLY_CHANGED__</option>
+                <option value="asc"> __MSG__A_Z__</option>
+                <option value="desc">__MSG__Z_A__</option>
+            </select>
+        </div>
+    </div>
+    <div id="collectionviewer_carousel_container" style="display:none;"></div>
+    <div id="collectionviewer_expanded_content_container" style="display:none;"></div>
+    <div id="collectionviewer_grid_list_container" style="display:none;"></div>
+</div>
+
+<div id="collectionviewer_grid_or_list_template"><!--
+    {if items && items.length}
+        {if editMode && isManager}
+            <div class="s3d-page-header-bottom-row">
+                <input type="checkbox" id="collectionviewer_select_all"/>
+                <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger" id="collections_savecontent_button" disabled="true" data-entityname="" data-entityid="">
+                    <span class="s3d-page-header-add-to-icon"></span>
+                    __MSG__ADD_TO__...
+                </button>
+                <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button" id="collections_remove_button" disabled="true" data-entityname="" data-entityid="">
+                    __MSG__REMOVE__
+                </button>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+        {/if}
+
+        {macro listContent(i, sakai)}
+            <li id="${i.id}" class="fl-container fl-fix s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if} s3d-draggable-container" data-scope="content" data-entityid="${i["_path"]}" {if sakai.api.Content.Collections.isCollection(i)} data-collection="true" {/if}>
+                {if !editMode}
+                    <span class="s3d-search-result-user-functions s3d-draggable-hidden">
+                        {if !sakai.data.me.user.anon}
+                            <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}" title="__MSG__SAVE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+                        {/if}
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-author searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']|safeOutput}" title="__MSG__VIEW_OWNER_INFO_FOR__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}" title="__MSG__SHARE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+                    </span>
+                {else}
+                    <span class="s3d-search-result-user-functions fl-force-left collectionviewer_remove_actions">
+                        <input class="collectionviewer_check s3d-draggable-select" id="collectionviewer_check_${i.id}" type="checkbox" data-entityid="${i.id}" data-entityname="${i['sakai:pooled-content-file-name']|safeOutput}"/>
+                        <label for="collectionviewer_check_${i.id}" class="s3d-aural-text">__MSG__SELECT__ ${i['sakai:pooled-content-file-name']|safeOutput} __MSG__TO_REMOVE__</label>
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-delete collectionviewer_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${i.id}"></button>
+                    </span>
+                {/if}
+                <span class="s3d-search-result-anonuser"></span>
+                <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']}" title="${i['_path']}"{/if}>
+                    {if i.thumbnail}
+                        <img src="${i.thumbnail}" alt="${i.mimeTypeDescription}" />
+                    {elseif sakai.config.MimeTypes[i.mimeType]}
+                        <img src="${sakai.config.MimeTypes[i.mimeType].URL}" alt="${i.mimeTypeDescription}" />
+                    {else}
+                        <img src="${sakai.config.MimeTypes["other"].URL}" alt="${i.mimeTypeDescription}" />
+                    {/if}
+                </a>
+                <div class="s3d-search-result-right">
+                    <div>
+                        <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']}" title="${i['_path']}"{/if}>
+                            {if i['sakai:pooled-content-file-name']}
+                                <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']|safeOutput}</span>
+                                <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']|safeOutput}</span>
+                            {elseif i['_path']}
+                                ${i['_path']}
+                            {/if}
+                        </a>
+                        {if i.mimeTypeDescription}
+                            <span class="collectionviewer_result_mimetype">${i.mimeTypeDescription}</span>
+                        {/if}
+                    </div>
+                    <div class="searchcontent_result_by">
+                        {if i.ownerDisplayNameShort}
+                        __MSG__BY__
+                        <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeURL}">
+                            <span class="searchcontent_result_by_name">${i.ownerDisplayNameShort}</span>
+                            <span class="searchcontent_result_by_name_grid">${i.ownerDisplayNameShorter}</span>
+                        </a>
+                        <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                        {/if}
+                        __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
+                    </div>
+                    {if i["sakai:description"]}
+                        <span class="searchcontent_result_description">${i["sakai:description"]|safeOutput}</span>
+                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]|safeOutput}</span>
+                    {/if}
+                    {if i.tagsProcessed && i.tagsProcessed.length}
+                        <ul class="s3d-taglist">
+                            {for t in i.tagsProcessed}
+                                <li>
+                                    <a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">
+                                        <span class="s3d-search-result-tag">${t.tagShort}</span>
+                                        <span class="s3d-search-result-tag-grid">${t.tagShorter}</span>
+                                    </a>
+                                </li>
+                            {/for}
+                        </ul>
+                    {/if}
+                    <div class="searchcontent_result_usedin">
+                        {var placeCount = sakai.api.Content.getPlaceCount(i)}
+                        {if placeCount > 0}
+                            <span class="searchcontent_result_icon searchcontent_result_usedin_icon"></span>
+                            __MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
+                        {/if}
+                    </div>
+                    {var commentCount = i.numComments || sakai.api.Content.getCommentCount(i)}
+                    {if commentCount > 0}
+                        <br/>
+                        <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
+                        ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                    {/if}
+                </div>
+            </li>
+        {/macro}
+
+        <ul {if grid} class="s3d-search-results-grid collectionviewer_list_grid_container"{else} class="collectionviewer_list_grid_container {if editMode && isManager} collectionviewer_editable{/if}"{/if}>
+            {for i in items}
+                {if i['sakai:pooled-content-file-name']}
+                    ${listContent(i, sakai)}
+                {/if}
+            {/for}
+            <div id="collectionviewer_paging" class="jq_pager"></div>
+        </ul>
+    {else}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+            <div class="s3d-no-results-icon s3d-no-results-content"></div>
+            <h1>__MSG__THIS_COLLECTION_IS_EMPTY__ {if isManager} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</h1>
+        </div>
+    {/if}
+--></div>
+
+<div id="collectionviewer_carousel_template"><!--
+    {macro fillUpList(itemsShort)}
+        <li>
+	        <div class="collectionviewer_carousel_no_thumbnail_container"></div>
+	    </li>
+	    {var itemsShort = itemsShort - 1}
+	    {if itemsShort}
+	        ${fillUpList(itemsShort)}
+	    {/if}
+    {/macro}
+
+    <div class="collectionviewer_prev_next_container fl-force-right">
+        <button id="collectionviewer_older" class="collectionviewer_controls s3d-link-button" title="__MSG__PREVIOUS_PAGE__"></button>
+        <button id="collectionviewer_oldest" class="collectionviewer_controls s3d-link-button" title="__MSG__FIRST_PAGE__"></button>
+    </div>
+    <div class="collectionviewer_prev_next_container fl-force-left">
+        <button id="collectionviewer_newer" class="collectionviewer_controls s3d-link-button" title="__MSG__NEXT_PAGE__"></button>
+        <button id="collectionviewer_newest" class="collectionviewer_controls s3d-link-button" title="__MSG__LAST_PAGE__"></button>
+    </div>
+
+    <div id="collectionviewer_carousel" class="jcarousel-skin-tango s3d-bold">
+        {if data.length}
+            <ul>
+                {for page in data}
+                    {for result in page}
+                        <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" data-item-id="${result._path}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
+                            {var thumbnail = sakai.api.Content.getThumbnail(result)}
+                            <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-scope="content" data-entityid="${result["_path"]}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
+                                {if thumbnail}
+                                    <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result["_mimeType"]}" />
+                                {elseif sakai.config.MimeTypes[result["_mimeType"]]}
+                                    <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes[result["_mimeType"]].URL}" alt="${result["_mimeType"]}" />
+                                {else}
+                                    <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes["other"].URL}" alt="${result["_mimeType"]}" />
+                                {/if}
+                            </div>
+                            <div class="arrow-down" style="display:none;"></div>
+                        </li>
+                    {/for}
+                    {if page.length < 12}
+                        {var itemsShort = 12 - page.length}
+                        ${fillUpList(itemsShort)}
+                    {/if}
+                {/for}
+            </ul>
+        {else}
+            <div id="collectionviewer_no_content">__MSG__THIS_COLLECTION_IS_EMPTY__ {if !sakai.data.me.user.anon && isManager} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</div>
+        {/if}
+    </div>
+--></div>
+
+<div id="collectionviewer_list_item_template"><!--
+    <ul>
+        <li class="s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${data["_path"]}" {if sakai.api.Content.Collections.isCollection(data)} data-collection="true" {/if}>
+
+            {if data['sakai:pooled-content-file-name']}
+                {var path = data["_path"] + "/" + sakai.api.Util.safeURL(data["sakai:pooled-content-file-name"])}
+            {else}
+                {var path = data["_path"]}
+            {/if}
+
+            <button class="s3d-link-button s3d-button collectionviewer_comments_button s3d-draggable-hidden">
+                <span class="collectionviewer_comments_count">${data.numComments || sakai.api.Content.getCommentCount(data)}</span>
+                <div class="collectionviewer_comments_icon"></div>
+            </button>
+            <div class="collectionviewer_item_actions s3d-draggable-hidden">
+                {if !sakai.data.me.user.anon}
+                    <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right savecontent_trigger" data-entityid="${data["_path"]}">
+                        __MSG__ADD_TO__...
+                        <span class="s3d-page-header-add-to-icon"></span>
+                    </button>
+                {/if}
+                <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right share_trigger_click" data-entityname="${data['sakai:pooled-content-file-name']|safeOutput}" data-entityid="${data["_path"]}">
+                    __MSG__SHARE__
+                    <span class="s3d-page-header-add-to-icon"></span>
+                </button>
+                {if data["_mimeType"] !== "x-sakai/document"}
+                    <a target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right collectionviewer_download_button" href="/p/${path}">
+                        __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+                    </a>
+                {else}
+                    {var imspath = "/imscp/" + data._path +"/" + sakai.api.Util.safeURL(data["sakai:pooled-content-file-name"]) +".zip"}
+                    <a  target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right collectionviewer_download_button" href="${imspath}">
+                        __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+                    </a>
+                {/if}
+            </div>
+
+            <a href="/content#p={if data['sakai:pooled-content-file-name']}${data['_path']}/${data['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['sakai:pooled-content-file-name']|safeOutput}">{else}${data['_path']}" title="${data['_path']}">{/if}
+                {if sakai.config.MimeTypes[data["_mimeType"]]}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[data["_mimeType"]].description)}
+                {else}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                {/if}
+                {if data.thumbnail}
+                    <img src="${data.thumbnail}" alt="${mimeTypeDescription}" />
+                {elseif sakai.config.MimeTypes[data["_mimeType"]]}
+                    <img src="${sakai.config.MimeTypes[data["_mimeType"]].URL}" alt="${mimeTypeDescription}" />
+                {else}
+                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="mimeTypeDescription" />
+                {/if}
+            </a>
+            <div class="s3d-search-result-right">
+                <div class="collectionviewer_entity_header">
+                    <a class="s3d-bold s3d-regular-light-links collectionviewer_item_title" href="/content#p={if data['sakai:pooled-content-file-name']}${data['_path']}/${data['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['sakai:pooled-content-file-name']|safeOutput}"{else}${data['_path']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['_path']}"{/if}>{if data['sakai:pooled-content-file-name']}${data['sakai:pooled-content-file-name']|safeOutput}{elseif data['_path']}${data['_path']}{/if}</a>
+                    {if mimeTypeDescription}
+                        <span class="collectionviewer_result_mimetype">${mimeTypeDescription}</span>
+                    {/if}
+                </div>
+                <div class="collectionviewer_result_by">
+                    {if data.ownerDisplayNameShort}
+                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${data['sakai:pool-content-created-for']|safeURL}">${data.ownerDisplayNameShort}</a> 
+                    <span class="s3d-search-result-detail-separator">
+                        <span> | </span>
+                    </span>
+                    {/if}
+                    __MSG__CHANGED__ ${jQuery.timeago(new Date(data["_lastModified"]))}
+                </div>
+               <div class="collectionviewer_result_usedin">
+                   {var placeCount = sakai.api.Content.getPlaceCount(data)}
+                   {if placeCount > 0}
+                       <span class="searchcontent_result_icon searchcontent_result_usedin_icon"></span>
+                       __MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
+                   {/if}
+               </div>
+            </div>
+            <hr class="fl-push fl-hidden"/>
+        </li>
+        <div class="collectionviewer_collection_item_comments" style="display:none;">
+            <div id="widget_contentcomments" class="widget_inline"></div>
+        </div>
+        <hr class="fl-push fl-hidden"/>
+
+        {if data.hasPreview}
+            <div class="collectionviewer_collection_item_preview">
+                <div id="widget_contentpreview" class="widget_inline"></div>
+            </div>
+        {elseif data._mimeType === "x-sakai/document"}
+            <div class="collectionviewer_collection_item_preview">
+                <div id="widget_pageviewer" class="widget_inline"></div>
+            </div>
+        {elseif data._mimeType === "x-sakai/collection"}
+            {if data.collectionItems.length}
+                <ul id="collectionviewer_collection_items_list">
+                    {for item in data.collectionItems}
+                        <li class="s3d-search-result collectionviewer_collection_item_container">
+                            {if item['sakai:pooled-content-file-name']}
+                                {var path = item["_path"] + "/" + sakai.api.Util.safeURL(item["sakai:pooled-content-file-name"])}
+                            {else}
+                                {var path = item["_path"]}
+                            {/if}
+                            <div class="collectionviewer_item_actions">
+                                {if !sakai.data.me.user.anon}
+                                    <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right savecontent_trigger" data-entityid="${item["_path"]}">
+                                        __MSG__ADD_TO__...
+                                        <span class="s3d-page-header-add-to-icon"></span>
+                                    </button>
+                                {/if}
+                                <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right share_trigger_click" data-entityname="${item['sakai:pooled-content-file-name']|safeOutput}" data-entityid="${item["_path"]}">
+                                    __MSG__SHARE__
+                                    <span class="s3d-page-header-add-to-icon"></span>
+                                </button>
+                                {if item["_mimeType"] !== "x-sakai/document"}
+                                    <a target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right collectionviewer_download_button" href="/p/${path}">
+                                        __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+                                    </a>
+                                {else}
+                                    {var imspath = "/imscp/" + item._path +"/" + sakai.api.Util.safeURL(item["sakai:pooled-content-file-name"]) +".zip"}
+                                    <a  target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right collectionviewer_download_button" href="${imspath}">
+                                        __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+                                    </a>
+                                {/if}
+                            </div>
+                            <a href="/content#p={if item['sakai:pooled-content-file-name']}${item['_path']}/${item['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${item['sakai:pooled-content-file-name']|safeOutput}">{else}${item['_path']}" title="${item['_path']}">{/if}
+                                {if sakai.config.MimeTypes[item["_mimeType"]]}
+                                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item["_mimeType"]].description)}
+                                {else}
+                                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                                {/if}
+                                {if item.thumbnail}
+                                    <img src="${item.thumbnail}" alt="${mimeTypeDescription}" />
+                                {elseif sakai.config.MimeTypes[item["_mimeType"]]}
+                                    <img src="${sakai.config.MimeTypes[item["_mimeType"]].URL}" alt="${mimeTypeDescription}" />
+                                {else}
+                                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="mimeTypeDescription" />
+                                {/if}
+                            </a>
+                            <div class="s3d-search-result-right">
+                                <div>
+                                    <a class="s3d-bold s3d-regular-light-links collectionviewer_item_title" href="/content#p={if item['sakai:pooled-content-file-name']}${item['_path']}/${item['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${item['sakai:pooled-content-file-name']|safeOutput}"{else}${item['_path']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeOutput}" title="${item['_path']}"{/if}>{if item['sakai:pooled-content-file-name']}${item['sakai:pooled-content-file-name']|safeOutput}{elseif item['_path']}${item['_path']}{/if}</a>
+                                    {if mimeTypeDescription}
+                                        <span class="collectionviewer_result_mimetype">${mimeTypeDescription}</span>
+                                    {/if}
+                                </div>
+                                <div class="collectionviewer_result_by">
+                                    {if item.ownerDisplayNameShort}
+                                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${item['sakai:pool-content-created-for']|safeURL}">${item.ownerDisplayNameShort}</a> 
+                                    <span class="s3d-search-result-detail-separator">
+                                        <span> | </span>
+                                    </span>
+                                    {/if}
+                                    __MSG__CHANGED__ ${jQuery.timeago(new Date(item["_lastModified"]))}
+                                </div>
+                               <div class="collectionviewer_result_usedin">
+                                   {var placeCount = sakai.api.Content.getPlaceCount(item)}
+                                   {if placeCount > 0}
+                                       <span class="searchcontent_result_icon searchcontent_result_usedin_icon"></span>
+                                       __MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
+                                   {/if}
+                                   {var commentCount = item.numComments || sakai.api.Content.getCommentCount(item)}
+                                   {if commentCount > 0}
+                                       <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
+                                       ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                                   {/if}
+                               </div>
+                            </div>
+                            <hr class="fl-push fl-hidden"/>
+                        </li>
+                    {/for}
+                </ul>
+            {else}
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <div class="s3d-no-results-icon s3d-no-results-content"></div>
+                    <h1>__MSG__THIS_COLLECTION_IS_EMPTY__</h1>
+                </div>
+            {/if}
+        {/if}
+        <hr class="fl-push fl-hidden"/>
+    </ul>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/collectionviewer/javascript/collectionviewer.js"></script>

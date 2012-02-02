@@ -154,7 +154,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderCarousel = function(dataArr){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
-                "data": dataArr
+                "data": dataArr,
+                "sakai": sakai
             }, $(carouselContainer), false);
             applyThreeDots();
             $(carouselContainer).jcarousel({
@@ -187,59 +188,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var parseContent = function(data, dataArr){
+        var parseContent = function(data, dataArr, callback){
             var noPreviewArr = [];
             var previewArr = [];
+
             if (data && data.content && data.content.results) {
-                $.each(data.content.results, function(index, item) {
-                    var obj = {};
-                    var mimeType = sakai.api.Content.getMimeType(item);
-                    obj.preview = sakai.api.Content.getThumbnail(item);
-                    if (item["sakai:description"]) {
-                        obj.description = item["sakai:description"];
-                    }
-                    if (item["sakai:tags"]) {
-                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
-                    }
-                    if (item[item["_path"] + "/comments"]) {
-                        obj.comments = [];
-                        for (var prop in item[item["_path"] + "/comments"]) {
-                            if (item[item["_path"] + "/comments"][prop].hasOwnProperty("_id")) {
-                                obj.comments.push(item[item["_path"] + "/comments"][prop]);
-                            }
+                sakai.api.Content.prepareContentForRender(data.content.results, sakai.data.me, function(results){
+                    $.each(results, function(index, item) {
+                        if (item.thumbnail){
+                            previewArr.push(item);
+                        } else {
+                            noPreviewArr.push(item);
                         }
-                    }
-                    if(sakai.config.MimeTypes[mimeType]) {
-                        obj.icon = sakai.config.MimeTypes[mimeType].URL;
-                    }else{
-                        obj.icon = sakai.config.MimeTypes.other.URL;
-                    }
-
-                    obj.title = item["sakai:pooled-content-file-name"];
-                    obj.mimeType = mimeType || "";
-                    obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_created"]), sakai.data.me);
-                    obj.createdBy = item["sakai:pool-content-created-for"];
-                    obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
-                    obj.lastModifiedBy = item["_lastModifiedBy"];
-                    obj.url = "/content#p=" + sakai.api.Util.safeURL(item["_path"]) + "/" + sakai.api.Util.safeURL(item["sakai:pooled-content-file-name"]);
-                    obj.contentType = "content";
-                    obj.id = item["_path"];
-
-                    if (obj.preview) {
-                        previewArr.push(obj);
-                    } else {
-                        noPreviewArr.push(obj);
-                    }
+                    });
+                    // Prefer items with previews
+                    var suggested = {
+                        contentType: "suggestedContent",
+                        suggestions: previewArr.concat(noPreviewArr)
+                    };
+                    dataArr.push(suggested);
+                    callback(data, dataArr);
                 });
             }
-
-            // Prefer items with previews
-            var suggested = {
-                contentType: "suggestedContent",
-                suggestions: previewArr.concat(noPreviewArr)
-            };
-
-            dataArr.push(suggested);
         };
 
         var parseGroups = function(data, dataArr){
@@ -257,7 +227,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.description = group["sakai:group-description"];
                 }
                 if (group["sakai:tags"] && group["sakai:tags"].length) {
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
+                    obj.tags = sakai.api.Util.formatTags(group["sakai:tags"]);
                 }
                 if (group.picture){
                     obj.picture = sakai.api.Groups.getProfilePicture(group);
@@ -310,7 +280,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                     user = user.profile.basic.elements;
                     if (user["sakai:tags"] && user["sakai:tags"].value && user["sakai:tags"].value.length){
-                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"].value);
+                        obj.tags = sakai.api.Util.formatTags(user["sakai:tags"].value);
                     }
                     if (user.aboutme){
                         obj.aboutme = user.aboutme.elements.aboutme.value;
@@ -344,13 +314,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var parseData = function(data){
             var dataArr = [];
-
-            parseContent(data, dataArr);
-            parseGroups(data, dataArr);
-            parseUsers(data, dataArr);
-            if (dataArr.length) {
-                renderCarousel(dataArr);
-            }
+            parseContent(data, dataArr, function(data, dataArr){
+                parseGroups(data, dataArr);
+                parseUsers(data, dataArr);
+                if (dataArr.length) {
+                    renderCarousel(dataArr);
+                }
+            });
         };
 
         var loadFeatured = function(){

@@ -36,10 +36,10 @@
                         <div class="areapermissions_edit_role_container {if roles.length > 3} multiple{/if}">
                             <div class="s3d-bold">
                                 {if !manager && meRole === role.id}
-                                    <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_see_${role.id}_checked">
+                                    <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_see_${role.id}_checked" alt="__MSG__ROLE_INHERITS_ACCESS__">
                                     <input type="checkbox" id="areapermissions_see_${role.id}" {if role.value === "view" || role.value === "edit" || visibility === "everyone" || visibility === "loggedin"} checked="checked"{/if} style="display:none;">
                                 {else}
-                                    <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_see_${role.id}_checked" {if role.value === "view" || role.value === "hidden"} style="display:none;"{/if}>
+                                    <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_see_${role.id}_checked" alt="__MSG__ROLE_INHERITS_ACCESS__" {if role.value === "view" || role.value === "hidden"} style="display:none;"{/if}>
                                     <input type="checkbox" id="areapermissions_see_${role.id}" {if role.value === "view" || role.value === "edit" || visibility === "everyone" || visibility === "loggedin"} checked="checked"{/if}{if role.value === "edit"} style="display:none;"{/if}>
                                 {/if}
                                 <label class="areapermissions_role_label" for="areapermissions_see_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if}</label>
@@ -60,7 +60,7 @@
             <div class="s3d-outer-shadow-container areapermissions_subchoice">
                 {for role in roles}
                     <div class="areapermissions_edit_role_container {if roles.length > 3} multiple{/if}">
-                        <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_edit_${role.id}_checked" {if role.value === "view" || !role.creatorRole} style="display:none;"{/if}>
+                        <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_edit_${role.id}_checked" alt="__MSG__ROLE_INHERITS_ACCESS__" {if role.value === "view" || !role.creatorRole} style="display:none;"{/if}>
                         <input type="checkbox" class="areapermissions_role_edit_check" id="areapermissions_edit_${role.id}" {if role.value === "edit"} checked="checked" {if role.creatorRole}style="display:none;"{/if}{/if} {if !manager}disabled="true"{/if}>
                         <label class="areapermissions_role_label s3d-bold" for="areapermissions_edit_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id && manager} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if}</label>
                         <hr class="s3d-split-line small_line"/>

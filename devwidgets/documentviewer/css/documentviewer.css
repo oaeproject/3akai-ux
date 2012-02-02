@@ -18,8 +18,10 @@
  .documentviewer_preview_width { width:920px;}
  .documentviewer_preview_height { height:560px;}
 
+.contentpreview_fullsize_preview #documentviewer_externalhtml_iframe{height:560px;width:100%;}
+
  #documentviewer_image_calculatesize_container { position: absolute; left: -10000px; top: -10000px; }
 
 .documentviewer_preview pre {word-wrap:break-word; white-space: pre-wrap; max-height: 560px; overflow: auto;}
-
+#documentviewer_image_rendered {display:block;margin:0 auto;}
  .DV-docViewer { z-index: 0; }

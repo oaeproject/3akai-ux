@@ -10,14 +10,16 @@
         <div id="newcreategroup_group_data_container">
             <div class="s3d-form-field-wrapper">
               <label id="newcreategroup_title_label" for="newcreategroup_title" class="s3d-input-label s3d-input-label-above">__MSG__TITLE__:</label>
-              <input type="text" id="newcreategroup_title" name="newcreategroup_title" class="required s3d-input-full-width"/>
+              <input type="text" maxlength="255" id="newcreategroup_title" name="newcreategroup_title" class="required s3d-input-full-width"/>
               <label id="newcreategroup_suggested_url_label" for="newcreategroup_suggested_url" class="s3d-input-label s3d-input-label-above">__MSG__SUGGESTED_URL__:</label>
               <span id="newcreategroup_suggested_url_base"></span>
-              <input type="text" id="newcreategroup_suggested_url" name="newcreategroup_suggested_url" class="required uniquegroupname s3d-error-calculate"/>
+              <input type="text" maxlength="255" id="newcreategroup_suggested_url" name="newcreategroup_suggested_url" class="required uniquegroupname s3d-error-calculate"/>
               <label for="newcreategroup_description" class="s3d-input-label s3d-input-label-above">__MSG__DESCRIPTION__:</label>
               <textarea id="newcreategroup_description" name="newcreategroup_description" placeholder="__MSG__ENTER_A_DESCRIPTION__" class="s3d-input-full-width"></textarea>
-              <label for="newcreategroup_tags" class="s3d-input-label-above">__MSG__TAGS__:</label>
-              <textarea id="newcreategroup_tags" name="newcreategroup_tags" placeholder="__MSG__ENTER_TAGS__" class="s3d-input-full-width"></textarea>
+              <div class="autosuggest_wrapper">
+                  <label for="newcreategroup_tags" class="s3d-input-label-above" id="newcreategroup_tags_label">__MSG__TAGS_AND_CATEGORIES__:</label><button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
+                  <textarea id="newcreategroup_tags" name="newcreategroup_tags" placeholder="__MSG__ENTER_TAGS__" class="s3d-input-full-width"></textarea>
+              </div>
             </div>
             <div class="newcreategroup_section">
                 <label for="newcreategroup_can_be_found_in">__MSG__CAN_BE_FOUND_BY__:</label>
@@ -85,15 +87,13 @@
  __MSG__YOU_CAN_FIND_IT_HERE_URL__
     --></div>
 
-    <div id="newcreategroup_creating" class="s3d-dialog s3d-dialog-container" style="display:none;"></div>
+    <div id="newcreategroup_members_message_template_unprocessed" style="display:none">
+ __MSG__HI__
 
-    <div id="newcreategroup_creating_template" style="display:none;"><!--
-        <h1 class="s3d-dialog-header">__MSG__CREATING_YOUR_GROUP__</h1>
-        <p>__MSG__PROCESSING__</p>
-        <div class="s3d-inset-shadow-container">
-            <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING__"/>
-        </div>
-    --></div>
+ __MSG__USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME__
+
+ __MSG__YOU_CAN_FIND_IT_HERE_URL__
+    </div>
 
 </div>
 

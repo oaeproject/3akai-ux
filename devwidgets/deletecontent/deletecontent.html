@@ -5,6 +5,7 @@
 <div style="display:none">
     <div id="deletecontent_message_title">__MSG__REMOVE_CONTENT__</div>
     <div id="deletecontent_message_from_library">__MSG__CONTENT_SUCCESSFULLY_DELETED_FROM_LIBRARY__.</div>
+    <div id="deletecontent_message_from_collection">__MSG__CONTENT_SUCCESSFULLY_DELETED_FROM_COLLECTION__.</div>
     <div id="deletecontent_message_from_system">__MSG__CONTENT_SUCCESSFULLY_DELETED_FROM_SYSTEM__.</div>
     <div id="deletecontent_message_error">__MSG__AN_ERROR_HAS_OCCURED_TRY_LATER__.</div>
 </div>
@@ -27,10 +28,14 @@
                                 {var displayName = sakai.api.User.getDisplayName(profile)}
                                 <img alt="__MSG__USER_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.User.getProfilePicture(profile)}">
                                 <a title="__MSG__VIEW_PROFILE__" href="/~${profile.userid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
+                            {elseif profile.collectionid}
+                                {var displayName = profile["sakai:group-title"]}
+                                <img alt="${displayName|safeOutput}" class="s3d-icon-32 fl-force-left" src="/dev/images/mimetypes/collection.png">
+                                <a title="__MSG__VIEW_PROFILE__" href="/content#p=${profile.collectionid}/${displayName|safeURL}" class="s3d-bold" target="_blank">${displayName|safeOutput}</a>
                             {else}
-                                {var displayName = sakai.api.i18n.General.process(profile["sakai:group-title"])}
+                                {var displayName = profile["sakai:group-title"]}
                                 <img alt="__MSG__GROUP_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.Groups.getProfilePicture(profile)}">
-                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">${displayName}</a>
+                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">${displayName|safeOutput}</a>
                             {/if}
                         </li>
                     {/for} 
@@ -40,11 +45,13 @@
     </div>
     <div id="deletecontent_button_container" class="fl-force-right">
         <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromsystem">__MSG__REMOVE_FROM_SYSTEM__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromlibrary">__MSG__REMOVE_FROM_LIBRARY__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromcollection">__MSG__REMOVE_FROM_COLLECTION__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem">__MSG__REMOVE_FROM_SYSTEM__</button>
         <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem_nocontext">__MSG__REMOVE_FROM_SYSTEM__</button>
-        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromlibrary">__MSG__REMOVE_FROM_LIBRARY__</button>
-        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_apply">__MSG__APPLY__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_apply">__MSG__APPLY__</button>
         <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromlibrary_only">__MSG__REMOVE_FROM_LIBRARY_ONLY__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromcollection_only">__MSG__REMOVE_FROM_COLLECTION_ONLY__</button>
         <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem_confirm">__MSG__REMOVE_FROM_SYSTEM_ANYWAY__</button>
     </div>
     <div id="deletecontent_template_list" style="display:none"><!--
@@ -76,8 +83,14 @@
             <div class="s3d-bold deletecontent_hybrid_container_padding">
                 You manage ${contentIManage.length} __MSG__ITEMS__
                 <div class="deletecontent_hybrid_right">
-                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="libraryonly" checked> __MSG__REMOVE_FROM_LIBRARY_ONLY__</div>
-                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="system"> __MSG__REMOVE_FROM_SYSTEM__</div>
+                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="system" checked> __MSG__REMOVE_FROM_SYSTEM__</div>
+                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="libraryonly"> 
+                        {if contextType === "collection"}
+                            __MSG__REMOVE_FROM_COLLECTION_ONLY__
+                        {else}
+                            __MSG__REMOVE_FROM_LIBRARY_ONLY__
+                        {/if}
+                    </div>
                 </div>
                 <div class="deletecontent_hybrid_left">
                     <ul class="deletecontent_content_list">

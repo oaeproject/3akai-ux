@@ -25,6 +25,10 @@
                 <div class="s3d-container-shadow-left"><!----></div>
                 <div class="s3d-container-shadow-right"><!----></div>
                 <div class="s3d-page-header">
+                    <div id="widget_collections" class="widget_inline"></div>
+                    <div id="back_to_collection_container" style="display:none;">
+                        <a href="javascript:;" class="s3d-button s3d-header-button" title="__MSG__BACK__" id="back_to_collection_button"><span id="collection_title"></span>&#9664; __MSG__BACK__</a>
+                    </div>
                     <div id="widget_entity" class="widget_inline"></div>
                     <div id="widget_uploadnewversion" class="widget_inline"></div>
                 </div>
@@ -41,6 +45,7 @@
                     <div id="content_profile_sakaidoc_container" style="display:none">
                         <div id="s3d-page-main-content"></div>
                     </div>
+
                     <div id="content_profile_preview_container">
                         <div id="content_profile_preview_versions_container" style="display:none">
                             <div id="widget_versions" class="widget_inline"></div>
@@ -49,7 +54,7 @@
                     </div>
                     <div id="content_profile_right_metacomments" class="fl-container-650 fl-force-left content_profile_left_column;" style="padding-left: 5px;">
                         <div id="widget_contentmetadata" class="widget_inline"></div>
-                        <div id="widget_contentcomments_id123456789" class="widget_inline"></div>
+                        <div id="widget_contentcomments" class="widget_inline"></div>
                     </div>
                     <div class="fl-container-250 fl-force-right" style="width:245px;">
                         <div id="widget_relatedcontent" class="widget_inline"></div>
@@ -80,8 +85,6 @@
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-        <div id="widget_assignlocation" class="widget_inline"></div>
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>

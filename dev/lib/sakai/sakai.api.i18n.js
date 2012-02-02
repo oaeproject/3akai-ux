@@ -31,10 +31,10 @@ define(
     [
         "jquery",
         "config/config_custom",
-        "sakai/sakai.api.util",
-        "sakai/sakai.api.server"
+        "sakai/sakai.api.server",
+        "underscore"
     ],
-    function($, sakai_config, sakai_util, sakai_serv) {
+    function($, sakai_config, sakai_serv, _) {
 
     var sakaii18nAPI = {
         data : {
@@ -55,9 +55,9 @@ define(
             for (i in inputLine) {
                 // IE 8 i has indexof as well which breaks the page.
                 if (inputLine.hasOwnProperty(i)) {
-                    var keyValuePair = inputLine[i].split(/\s*\=\s*/);
-                    var key = keyValuePair.shift();
-                    var value = keyValuePair.join(" = ");
+                    var keyValuePair = inputLine[i].split(/\=/);
+                    var key = $.trim(keyValuePair.shift());
+                    var value = $.trim(keyValuePair.join("="));
                     json[key] = value;
                 }
             }
@@ -121,7 +121,8 @@ define(
                 }
                 if (meData && meData.user && meData.user.anon) {
                     if ($.inArray(currentPage, sakai_config.requireUser) > -1){
-                        sakai_util.Security.sendToLogin();
+                        // This is not great, but our util.Templating code needs to call i18n at the moment. TODO
+                        require("sakai/sakai.api.util").Security.sendToLogin();
                         return false;
                     }
                 } else {
@@ -132,7 +133,8 @@ define(
                 }
 
                 if ($.inArray(currentPage, sakai_config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== "/~"){
-                    sakai_util.Security.showPage();
+                    // This is not great, but our util.Templating code needs to call i18n at the moment. TODO
+                    require("sakai/sakai.api.util").Security.showPage();
                 }
                 translateJqueryPlugins();
                 translateDirectory(sakai_config.Directory);
@@ -175,10 +177,7 @@ define(
                     "next" : '<span><a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("NEXT_PAGE") + '">' + sakaii18nAPI.getValueForKey("NEXT") + '</a><div class=\"sakai_pager_next\"></div></span>',
                     "current": '<li class="page-number"><a href="javascript:;" title="' + sakaii18nAPI.getValueForKey("PAGE") + ' ${page}">${page}</a></li>'
                 };
-                // Translate the jquery.autosuggest plugin
-                $.fn.autoSuggest.defaults.startText = sakaii18nAPI.getValueForKey("ENTER_NAME_HERE");
-                $.fn.autoSuggest.defaults.emptyText = sakaii18nAPI.getValueForKey("NO_RESULTS_FOUND");
-                $.fn.autoSuggest.defaults.limitText = sakaii18nAPI.getValueForKey("NO_MORE_SELECTIONS_ALLOWED");
+
             };
 
             /**
@@ -386,6 +385,8 @@ define(
         /**
          * Get the internationalised value for a specific key.
          * We expose this function so you can do internationalisation within JavaScript.
+         * If the key isn't found in a translation bundle, the key will be returned unmodified
+         *
          * @example sakai.api.i18n.getValueForKey("CHANGE_LAYOUT", ["widgetid"]);
          * @param {String} key The key that will be used to get the translation
          * @param {String} optional widget name. This will cause the widget language
@@ -425,7 +426,7 @@ define(
                 // If none of the about found something, log an error message
                 else {
                     debug.warn("sakai.api.i18n.getValueForKey: Not found in any bundles. Key: " + key);
-                    return false;
+                    return key;
                 }
             }
         },

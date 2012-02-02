@@ -55,11 +55,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $pickeradvanced_content_search_form = $("#pickeradvanced_content_search_form", $rootel);
         var $pickeradvanced_add_button = $("#pickeradvanced_add_button", $rootel);
         var $pickeradvanced_sort_on = $("#pickeradvanced_sort_on", $rootel);
-        var $pickeradvanced_count = $("#pickeradvanced_count", $rootel);
-        var $pickeradvanced_count_person = $("#pickeradvanced_count_person", $rootel);
-        var $pickeradvanced_count_people = $("#pickeradvanced_count_people", $rootel);
-        var $pickeradvanced_count_of = $("#pickeradvanced_count_of", $rootel);
-        var $pickeradvanced_count_thousands = $("#pickeradvanced_count_thousands", $rootel);
         var $pickeradvanced_close_dialog = $(".pickeradvanced_close_dialog", $rootel);
         var $pickeradvanced_search_filter = $(".pickeradvanced_search_filter");
 
@@ -252,18 +247,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     }
 
-                    //Update known total amount of displayed elements
-                    pickerData.currentElementCount += rawData.results.length;
-                    $pickeradvanced_count_people.hide();
-                    $pickeradvanced_count_person.hide();
-                    //Set search result count
-                    $pickeradvanced_count.html(rawData.total);
-                    $pickeradvanced_count.show();
-                    if (rawData.total === 1) {
-                        $pickeradvanced_count_person.show();
-                    } else {
-                        $pickeradvanced_count_people.show();
-                    }
                     // Wire sorting select dropdown
                     $pickeradvanced_sort_on.unbind("change");
                     $pickeradvanced_sort_on.bind("change", function(e){
@@ -286,8 +269,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         // Probably it's the last page of the result set
                         $pl_pageContainer.last().remove();
-                        $pickeradvanced_count_of.hide();
-                        $pickeradvanced_count_thousands.hide();
                     }
                 }
             });
@@ -343,6 +324,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $pickeradvanced_search_filter.live("click", function() {
            $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
            $(this).parent("li").addClass("pickeradvanced_selected_list");
+           if ( $( this ).attr( "data-search" ) === "all" ) {
+               pickerData.searchIn = sakai.config.URL.SEARCH_ALL_FILES;
+           } else if ($( this ).attr( "data-search" ) === "my" ) {
+               pickerData.searchIn = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
+           }
            $pickeradvanced_sort_on.hide();
            submitSearch();
         });

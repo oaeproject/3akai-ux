@@ -2,7 +2,7 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js",
+    "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js",
     "../../../../tests/qunit/js/dev.js",
     "../../../../tests/qunit/js/devwidgets.js"
@@ -15,7 +15,9 @@ require(
 
     var checkElements = function($elt, callback){
         $.each($elt.find("a"), function(i, elt) {
-            ok($(elt).attr("title") || $(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $("<div/>").html(elt).html());
+            if ($(elt).attr("id") !== "topnavigation_user_options_name") {
+                ok($(elt).attr("title") || $(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $("<div/>").html(elt).html());
+            }
             if ($(elt).attr("title") && ($(elt).text() || $(elt).find("*").text())){
                 if ($.trim($(elt).attr("title")) === $.trim($(elt).text()) || $.trim($(elt).attr("title")) === $.trim($(elt).find("*").text())){
                     ok(false, "A tag has duplicate text and title attribute: " + $("<div/>").html(elt).html());        
@@ -24,7 +26,15 @@ require(
         });
 
         $.each($elt.find("img"), function(i, elt) {
-            ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
+            var parentTitle = false;
+            if ($(elt).parent().attr("title") && $(elt).parent().attr("title").length){
+                parentTitle = true;
+            }
+            ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src") || parentTitle, "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
+        });
+
+        $.each($elt.find("input[type='image']"), function(i, elt) {
+            ok($(elt).attr("alt"), "INPUT img type tag has ALT attribute:" + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("applet"), function(i, elt) {
@@ -60,6 +70,11 @@ require(
             }
 
             ok($(elt).attr("title") || hasLabel, "TEXTAREA tag has TITLE attribute or LABEL element: " + $("<div/>").html(elt).html());
+            ok(!$(elt).attr("alt"), "TEXTAREA tag does not have ALT attribute: " + $("<div/>").html(elt).html());
+        });
+
+        $.each($elt.find("input, select"), function(i, elt) {
+            ok(!$(elt).attr("alt"), "INPUT/SELECT tag does not have ALT attribute: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("div"), function(i, elt) {
@@ -110,6 +125,7 @@ require(
             })(urlToCheck);
         }
         QUnit.start();
+        $(window).trigger("addlocalbinding.qunit.sakai");
     };
 
     /**

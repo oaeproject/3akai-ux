@@ -55,34 +55,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 var renderedLargeFeatured = false;
                 // Only render the main featured item when it has a thumbnail image
                 if (results.length && results[0].thumbnail){
-                    $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
+                    sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
                         "item": results[0],
                         "sakai": sakai,
                         "results": false,
                         "params": {"max_rows": 2}
-                    }));
+                    }, $featuredcontentContentContainer);
                     // Remove the first item to avoid double rendering
                     results.splice(0, 1);
                     renderedLargeFeatured = true;
                 }
                 if (results.length || !renderedLargeFeatured){
-                    $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryOtherTemplate, {
+                    sakai.api.Util.TemplateRenderer(featuredcontentCategoryOtherTemplate, {
                         "results": results,
                         "sakai": sakai,
                         "total": total,
                         "category": pageData.category,
                         "title": pageData.title,
                         "showSeeAll": showSeeAll
-                    }));
+                    }, $(featuredcontentCategoryContentContainer, $rootel));
                 }
             // Landing/explore page
             } else {
                 // Render the template
-                $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
+                sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
                     "results": reshuffleOrderedList(results),
                     "sakai": sakai,
                     "params": {"max_rows": 2}
-                }));
+                }, $featuredcontentContentContainer);
             }
         };
 
@@ -140,7 +140,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     item.usedin = sakai.api.Content.getPlaceCount(item);
                     item.commentcount = sakai.api.Content.getCommentCount(item);
                     if (item["sakai:tags"]) {
-                        item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                        item["sakai:tags"] = sakai.api.Util.formatTags(item["sakai:tags"].toString());
                     }
                 });
                 data.results.sort(sortBasedOnThumbnailAndMetadata);

@@ -53,12 +53,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
 
         var carouselBinding = function(carousel){
-            $("#versions_next", $rootel).live("click",function(){
-                carousel.next();
+            $("#versions_newer", $rootel).live("click",function(){
+                carousel.prev();
             });
 
-            $("#versions_prev", $rootel).live("click",function(){
-                carousel.prev();
+            $("#versions_older", $rootel).live("click",function(){
+                if (carousel.last !== carousel.size()){
+                    carousel.next();
+                }
+            });
+
+            $("#versions_oldest", $rootel).live("click",function(){
+                carousel.scroll(carousel.size() || 0);
+            });
+
+            $("#versions_newest", $rootel).live("click",function(){
+                carousel.scroll(0);
             });
         };
 
@@ -76,8 +86,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#versions_carousel_container", $rootel).jcarousel({
                 animation: "slow",
                 easing: "swing",
-                scroll: 3,
-                start: versions.length - 1,
+                scroll: 4,
+                start: 0,
                 initCallback: carouselBinding,
                 itemFallbackDimension: 123
             });
@@ -85,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var setUsername = function(u, users) {
             $(versions, $rootel).each(function(index, val){
-               var userId = val["sakai:pool-content-created-for"] || val["_lastModifiedBy"];
+               var userId = val["_lastModifiedBy"] || val["sakai:pool-content-created-for"];
                if (userId === u){
                     val["username"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(users[u]), 80, null, "s3d-regular-links versions_updater");
                }
@@ -97,9 +107,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(data.versions, function(index, version){
                 version.versionId = index;
                 versions.push(version);
-                userIds.push(version["sakai:pool-content-created-for"] || version["_lastModifiedBy"]);
+                userIds.push(version["_lastModifiedBy"] || version["sakai:pool-content-created-for"]);
             });
-            versions.reverse();
             if (userIds.length) {
                 sakai.api.User.getMultipleUsers(userIds, function(users){
                     for (var u in users) {
@@ -107,18 +116,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             setUsername(u, users);
                         }
                     }
-                    if ($(versionsContainer, $rootel).is(":visible")) {
-                        renderVersions();
-                    } else {
-                        renderVersions();
-                    }
+                    renderVersions();
                 });
             } else {
-                if ($(versionsContainer, $rootel).is(":visible")) {
-                    renderVersions();
-                } else {
-                    renderVersions();
-                }
+                renderVersions();
             }
         };
 
@@ -160,34 +161,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var restoreVersion = function(e){
-            var toStore = {};
-            toStore[currentPageShown.saveRef] = {
-                page: versions[$(this).parent().attr("data-versionId")].page
-            }
-            $.ajax({
-                url: currentPageShown.pageSavePath,
-                type: "POST",
-                dataType: "json",
-                data: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":replace": true,
-                    ":replaceProperties": true,
-                    "_charset_":"utf-8",
-                    ":content": $.toJSON(toStore)
-                },
-                success: function(){
+            var page = versions[$(this).parent().attr("data-versionId")].page;
+            sakai.api.Content.checkAutosave(false, currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data){
+                if(success && data.safeToEdit){
+                    var toStore = {};
+                    toStore[currentPageShown.saveRef] = {
+                        page: page
+                    };
                     $.ajax({
-                        url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
+                        url: currentPageShown.pageSavePath,
                         type: "POST",
+                        dataType: "json",
                         data: {
-                            "sling:resourceType": "sakai/pagecontent",
-                            "sakai:pagecontent": $.toJSON(toStore),
-                            "_charset_": "utf-8"
-                        }, success: function(){
-                            $(window).trigger("update.versions.sakai", currentPageShown);
+                            ":operation": "import",
+                            ":contentType": "json",
+                            ":replace": true,
+                            ":replaceProperties": true,
+                            "_charset_":"utf-8",
+                            ":content": $.toJSON(toStore)
+                        },
+                        success: function(){
+                            $.ajax({
+                                url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
+                                type: "POST",
+                                data: {
+                                    "sling:resourceType": "sakai/pagecontent",
+                                    "sakai:pagecontent": $.toJSON(toStore),
+                                    "_charset_": "utf-8"
+                                }, success: function(){
+                                    $(window).trigger("update.versions.sakai", currentPageShown);
+                                }
+                            });
                         }
                     });
+                } else {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("RESTORE_VERSION", "versions"), sakai.api.i18n.getValueForKey("NEW_VERSION_COULD_NOT_BE_STORED", "versions"));
                 }
             });
         };
@@ -203,8 +211,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(versionsVersionItem, $rootel).live("click", previewVersion);
             }
 
-            $(versionsRestoreVersion, $rootel).die("click", restoreVersion)
-            $(versionsRestoreVersion, $rootel).live("click", restoreVersion)
+            $(versionsRestoreVersion, $rootel).die("click", restoreVersion);
+            $(versionsRestoreVersion, $rootel).live("click", restoreVersion);
         };
 
 
@@ -225,6 +233,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         $(window).bind("init.versions.sakai", function(ev, cps){
+            if($("#content_profile_left_column").is(":visible")){
+                // There is a left hand navigation visible, versions widget will be smaller
+                $(versionsContainer, $rootel).removeClass("versions_without_left_hand_nav");
+            } else {
+                // No left hand navigation visible, versions widget will be wider
+                $(versionsContainer, $rootel).addClass("versions_without_left_hand_nav");
+            }
             if ($(versionsContainer, $rootel).is(":visible")) {
                 $(versionsContainer, $rootel).hide();
             } else {

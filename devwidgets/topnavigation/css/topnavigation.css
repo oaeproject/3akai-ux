@@ -18,19 +18,19 @@
 #topnavigation_container {width:960px; margin-left:auto; margin-right:auto;}
 
 /* NAVIGATION */
-.topnavigation_explore {margin: 0 0 0 6px;float:left;}
+.topnavigation_explore {margin: 0 0 0 6px;}
 .topnavigation_explore > li {float:left;}
 .topnavigation_explore li a, .topnavigation_user_container #topnavigation_user_options_name, .topnavigation_user_container #topnavigation_user_options_login, .topnavigation_user_container #topnavigation_user_options_login_external{display:block;padding:7px 25px 10px;color:#fff; text-decoration:none;}
 .topnavigation_explore .hassubnav:hover, .topnavigation_user_container .hassubnav:hover {-moz-border-radius:2px 2px 0 0; border-radius:2px 2px 0 0; -webkit-border-radius:2px 2px 0 0;}
 .topnavigation_explore .topnavigation_close_override, .topnavigation_user_container .topnavigation_close_override {background: none;}
-
+.topnavigation_user_container #topnavigation_user_options_login_wrapper:hover, .topnavigation_user_container #topnavigation_user_options_login_wrapper.topnavigation_force_submenu_display_title {border-radius:2px 2px 0 0;}
 .topnavigation_right {float:right;}
 
 /* SEARCH */
 .topnavigation_search {float:left;margin-top:8px;height: 20px;margin-right: 10px;}
 .topnavigation_search {width:190px;}
 .topnavigation_search input {width: 12.25em; height: 20px !important; margin-top: 1px;}
-.topnavigation_search .s3d-search-button:hover {border:none !important;}
+.topnavigation_search .s3d-search-button:hover, .topnavigation_search .s3d-search-button:focus {border:none !important;}
 .topnavigation_search #topnavigation_search_results {border: 1px solid #999999;margin: 0;width:229px;z-index: 10000;box-shadow:0 8px 15px -2px #555555;-webkit-box-shadow:0 8px 15px -2px #555555;box-shadow:0 8px 15px -2px #555555;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
 .topnavigation_search #topnavigation_search_results_container{background: url("/devwidgets/topnavigation/images/topnav_search_bg.png") repeat-x scroll left bottom #F3F3F3;padding:12px 3px 5px;}
 .topnavigation_search #topnavigation_search_results_bottom_container {background-color:#F3F3F3;height:32px;padding:4px 3px 0 12px;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
@@ -56,13 +56,39 @@
 .s3d-dropdown-menu .topnavigation_external_login {width: auto !important;}
 .s3d-dropdown-menu #topnavigation_user_options_login_form .s3d-split-line {display: block;margin: 15px 0;}
 
-.topnavigation_user_container #topnavigation_user_options_login_external {cursor:default;}
 .topnavigation_user_container #topnavigation_user_options_list, .topnavigation_user_container #subnavigation_login_list {float:right;}
-.topnavigation_user_container #topnavigation_user_inbox_container {color:#fff;width:60px;margin-top:11px;text-decoration:none;}
-.topnavigation_user_container #topnavigation_user_inbox_container {float:left;}
-.topnavigation_user_container #topnavigation_user_inbox_icon {background: url("/devwidgets/topnavigation/images/topnav_user_inbox.png") no-repeat scroll left top transparent;display: inline;float: left;height: 15px;margin: 2px 7px 0 0;width: 15px;}
+.topnavigation_counts_container {float:left;margin:8px 15px 0 0;}
+.topnavigation_counts_container .topnavigation_menuitem_counts_container {background:none;float:left;padding:3px 5px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;cursor:pointer; border: none; font-size: 13px;}
+.topnavigation_counts_container .topnavigation_menuitem_counts_container:hover {background:url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2;}
+.topnavigation_counts_container .topnavigation_menuitem_counts_container.selected {background:url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2; }
+.topnavigation_counts_container .topnavigation_menuitem_counts {float:left;color:#fff;}
+.topnavigation_counts_container .topnavigation_menuitem_icon {display:inline;float:left;height:15px;margin:1px 5px 0 0;width:15px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu {display:block;margin-left:-71px;position:relative;top:25px;z-index:100;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .dropdown-menu-arrowup {background:url("/devwidgets/topnavigation/images/topnav_nav_list_arrow.png") no-repeat scroll left top transparent;height:14px;margin-left:87px;margin-top:-14px;position:absolute;width:28px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container {width:330px;color:#333;font-size:12px;overflow:auto;letter-spacing:0.01em;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-dropdown-menu-content-container{background:url("/devwidgets/topnavigation/images/topnav_message_bg.png") repeat-x scroll left top #F3F3F3;padding-bottom:4px;height:115px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_profile_pic {background-color:#fff;box-shadow:0 0 1px 2px #aaa;float:left;height:50px;padding:1px;width:50px;margin:3px 10px 0 0;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_profile_pic img {width:50px;height:50px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_sender > span {font-size:11px;font-weight:normal;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_subject {font-size:13px;letter-spacing:0.03em;margin:4px 0 3px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_body {overflow:auto;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_readfull {float:right;margin-right:0;position:absolute;bottom:12px;right:12px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_reply {float:left;margin-left:7px;position:absolute;bottom:12px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-no-results-container {height:50px;margin:0;padding:10px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-no-results-container h1 {font-size:12px;margin:0 !important;padding-top:5px;width:215px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-no-results-container #message_video_preview {border:3px solid #6ABFE7;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;float:right;height:49px;width:54px;margin-top:-2px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-dropdown-menu-content-container.no_messages {height:74px;padding:3px 3px 0;}
+.topnavigation_counts_container .topnavigation_usersection_splitter{float:left;margin:2px 7px 0 0;}
+.s3d-dropdown-menu:hover .topnavigation_counts_container .topnavigation_usersection_splitter {color:#6eb5d9;}
+.topnavigation_counts_container #topnavigation_user_inbox_icon {background: url("/devwidgets/topnavigation/images/topnav_user_inbox.png") no-repeat scroll left top transparent;}
+.topnavigation_counts_container #topnavigation_user_collections_icon {background: url("/dev/images/collections_icon_20x20.png") no-repeat scroll left top transparent;height:20px;margin-top:-3px;width:20px;}
+.topnavigation_user_container #topnavigation_user_inbox_container {color:#fff;width:60px;margin-top:11px;text-decoration:none;float:left;}
 
-#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -150px;margin-top:0;position: absolute;width: 241px;z-index: 11000;}
+#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left:-151px;margin-top:0;position: absolute;width: 241px;z-index: 11000;}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+     /* put webkit CSS here*/
+     #topnavigation_user_options_login_fields {margin-left:-156px;}
+}
 #topnavigation_user_options_login_fields_container.s3d-dropdown-menu-content-container {padding:0 12px;}
 #topnavigation_user_options_login_fields_bottom_container {background-color: #F3F3F3; height: 28px; padding:0px 3px 0 12px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-bottom: 5px;margin-top: 7px;font-size: 11px;}
@@ -87,5 +113,9 @@
 
 /* Accessibility styles for keyboard navigation */
 #topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
-.topnavigation_explore .s3d-dropdown-menu li a:focus, .topnavigation_user_container .s3d-dropdown-menu li a:focus, #topnavigation_user_options_login li a:focus, #navigation_anon_signup_link:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2; color:#fff !important;}
+.topnavigation_explore .topnavigation_counts_container button:focus, .topnavigation_explore .s3d-dropdown-menu li a:focus, .topnavigation_user_container .s3d-dropdown-menu li a:focus, #topnavigation_user_options_login li a:focus, #navigation_anon_signup_link:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2; color:#fff !important;}
 #topnavigation_search_input:focus{outline:2px solid #2683BC;}
+
+#topnavigation_scroll_to_top_container {display:block;width:50px;height:50px;float:right;margin-right:-50px;}
+#topnavigation_scroll_to_top_container #topnavigation_scroll_to_top {background: url("/devwidgets/topnavigation/images/topnav_scrolltotop.png") no-repeat scroll left top transparent;height:49px;position:fixed;top:70%;width:46px;}
+#topnavigation_scroll_to_top_container #topnavigation_scroll_to_top:hover {background:url("/devwidgets/topnavigation/images/topnav_scrolltotop_hover.png") no-repeat scroll top left transparent;}

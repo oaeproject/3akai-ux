@@ -131,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         json.commentCreated = new Date(item.comment._created);
                     }
 
-                    $("#recentchangedcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_comment_author_template",json));
+                    sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_comment_author_template", json, $("#recentchangedcontent_item_comment_author"));
 
                     if (item.comment){
                         $("#recentchangedcontent_item_comment_author_picture img").attr("src", json.author.authorPicture);
@@ -254,7 +254,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
 
-            var searchterm = contentData["sakai:pooled-content-file-name"] + " " + managersList + " " + viewersList;
+            var searchterm = contentData["sakai:pooled-content-file-name"].substring(0,400) + " " + managersList + " " + viewersList;
             searchquery = prepSearchTermForURL(searchterm);
 
             // get related content for contentData
@@ -287,7 +287,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     recentchangedcontentjson.items.push(item);
                     // pass the array to HTML view
                     recentchangedcontentjson.sakai = sakai;
-                    $(recentchangedcontentItem, rootel).html(sakai.api.Util.TemplateRenderer(recentchangedcontentItemTemplate,recentchangedcontentjson));
+                    sakai.api.Util.TemplateRenderer(recentchangedcontentItemTemplate, recentchangedcontentjson, $(recentchangedcontentItem, rootel));
                 }
             });
             

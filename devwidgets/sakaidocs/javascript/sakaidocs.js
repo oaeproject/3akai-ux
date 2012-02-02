@@ -24,7 +24,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bookmark = false;
 
         var AUTOSAVE_INTERVAL = 15000, // 15 seconds
-            CONCURRENT_EDITING_TIMEOUT = 10000, // 10 seconds
             CONCURRENT_EDITING_INTERVAL = 5000; // 5 seconds
 
         var isEditingPage = false,
@@ -71,36 +70,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             autosaveDialogShown = false;
             setAutosaveInterval();
             $('#autosave_dialog').jqmHide();
-        };
-
-        var checkAutosave = function(callback) {
-            var pageSavePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
-            sakai.api.Server.loadJSON(pageSavePath + ".infinity.json", function(success, data) {
-                if (success) {
-                    // update the cached copy of autosave
-                    currentPageShown.autosave = data.autosave;
-                    currentPageShown.content = data.page;
-                    // if there is an editing flag and it is less than CONCURRENT_EDITING_TIMEOUT ago, and you aren't the most recent editor, then
-                    // someone else is editing the page right now.
-                    if (data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
-                        if ($.isFunction(callback)) {
-                            callback(false);
-                            return;
-                        }
-                    } else if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
-                        $('#autosave_dialog').jqmShow();
-                        autosaveDialogShown = true;
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                            return;
-                        }
-                    }
-                }
-                if ($.isFunction(callback)) {
-                    callback(true);
-                    return;
-                }
-            });
         };
 
         var editing = function() {
@@ -239,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Fill in media and goodies
             for (var i in sakai.widgets){
-                if (i) {
+                if (sakai.widgets.hasOwnProperty(i) && i) {
                     var widget = sakai.widgets[i];
                     if (widget[pageEmbedProperty] && widget.showinmedia) {
                         media.items.push(widget);
@@ -602,7 +571,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderPage = function(reloadPage){
             stopEditPage();
-            $("#versions_container").hide();
+            if($("#versions_container").is(":visible")){
+                $("#sakaidocs_revisions").trigger("click");
+            }
             sakai.api.Widgets.nofityWidgetShown("#s3d-page-container > div:visible", false);
             $("#s3d-page-container > div:visible").hide();
             var $contentEl = null,
@@ -659,22 +630,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Rendering a page in edit mode //
         ///////////////////////////////////
 
-        var editPage = function(){
-            checkAutosave(function(safeToEdit) {
-                if (safeToEdit) {
-                    isEditingPage = true;
-                    editing();
-                    setEditInterval();
-                    if (!autosaveDialogShown) {
-                        setAutosaveInterval();
+        var editPage = function(newPage){
+            sakai.api.Content.checkAutosave(newPage, currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data){
+                if(success){
+                    // update the cached copy of autosave
+                    currentPageShown.autosave = data.autosave;
+                    currentPageShown.content = data.page;
+                    if (data.safeToEdit) {
+                        isEditingPage = true;
+                        if (data.hasAutosave) {
+                            autosaveDialogShown = true;
+                            $('#autosave_dialog').jqmShow();
+                        }
+                        editing();
+                        setEditInterval();
+                        if (!autosaveDialogShown) {
+                            setAutosaveInterval();
+                        }
+                        $("#sakaidocs-page-edit-mode").show();
+                        $("#s3d-page-container").hide();
+                        var content = currentPageShown.content || "";
+                        tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+                        lastAutosave = content;
+                    } else {
+                        sakai.api.Util.notification.show("", $("#sakaidocs_concurrent_editing_message").text());
                     }
-                    $("#sakaidocs-page-edit-mode").show();
-                    $("#s3d-page-container").hide();
-                    var content = currentPageShown.content || "";
-                    tinyMCE.get("elm1").setContent(content, {format : 'raw'});
-                    lastAutosave = content;
-                } else {
-                    sakai.api.Util.notification.show("", $("#sakaidocs_concurrent_editing_message").text());
                 }
             });
         };
@@ -796,6 +776,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#sakaidocs_revisions").bind("click",function(ev){
+            $(this).children("span").toggle();
+            $(this).toggleClass("selected");
             $(window).trigger("init.versions.sakai", currentPageShown);
         });
 
@@ -812,10 +794,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderPage();
         });
 
-        $(window).bind("editpage.sakaidocs.sakai", function(ev, _currentPageShown){
+        $(window).bind("editpage.sakaidocs.sakai", function(ev, _currentPageShown, newPage){
             currentPageShown = _currentPageShown;
             renderPage();
-            editPage();
+            editPage(newPage);
         });
 
         sakai.api.Util.hideOnClickOut("#sakaidocs_insert_dropdown","#sakaidocs_insert_dropdown_button");

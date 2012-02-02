@@ -1,0 +1,91 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/* General */
+.collectionviewer_widget {clear:both;font-size:11px;margin-bottom:15px;}
+.collectionviewer_widget #contentcomments_mainContainer {font-size: 12px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container {background-color:#ededed;width:100%;padding:10px 0;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul {margin:0 10px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result {border-bottom:none;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result:hover, .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result.hovered {border:2px solid #c4d9e1;padding:8px;border-radius:6px;background-color:#e1ecef;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right {margin-left:60px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_item_title {font-size:16px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_result_mimetype {font-size:11px;text-transform:uppercase;}
+.collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result .s3d-search-result-right .collectionviewer_result_by {line-height:20px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_download_button {height:21px;line-height:22px;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_item_actions {display:none;}
+.collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result:hover .collectionviewer_item_actions, .collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result.hovered .collectionviewer_item_actions {display:inline;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button {float:right;margin-left:10px;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon.png") no-repeat top left transparent;width:21px;height:21px;float:right;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button:hover .collectionviewer_comments_icon {background:url("/devwidgets/collectionviewer/images/collectionviewer_comments_icon_hover.png") no-repeat top left transparent;}
+.collectionviewer_widget .s3d-button.collectionviewer_comments_button .collectionviewer_comments_count {display:block;float:left;font-size:13px;margin:4px 4px 0 0;}
+.collectionviewer_widget #collectionviewer_header_container {border-bottom:5px solid #E2E2E2;min-height:40px;}
+.collectionviewer_widget #collectionviewer_sortby {border:1px solid #A9A9A9;}
+.collectionviewer_widget #collectionviewer_paging {clear:both;display:block;}
+.collectionviewer_widget #collectionviewer_sortarea {font-size:13px;}
+.collectionviewer_widget #collectionviewer_no_content {color:#999;font-size:15px;font-weight:normal;height:75px;line-height:75px;text-align:center;text-shadow:0 0 0 #ccc;width:100%;}
+.collectionviewer_widget #collectionviewer_no_content button {font-size:14px;}
+
+.collectionviewer_widget ul#collectionviewer_collection_items_list, .collectionviewer_widget .collectionviewer_list_grid_container {margin:0;}
+.collectionviewer_widget ul#collectionviewer_collection_items_list .collectionviewer_item_title {font-size:14px !important;}
+.collectionviewer_widget .collectionviewer_collection_item_container {background-color:#fff !important;border:none !important;padding:7px 12px !important;margin-bottom:4px;list-style:none;border-radius:4px !important;-moz-border-radius:4px !important;-webkit-border-radius:4px !important;box-shadow:1px 1px 1px #BABABA;-moz-box-shadow:1px 1px 1px #BABABA;-webkit-box-shadow:1px 1px 1px #BABABA;}
+.collectionviewer_widget #collectionviewer_select_all {margin-top:12px;}
+
+.collectionviewer_widget .collectionviewer_entity_header{display:block;width:580px;}
+
+/* Overrides */
+.collectionviewer_widget .documentviewer_widget {background-color:#fff;padding:15px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;width:870px;}
+.collectionviewer_widget .documentviewer_preview_width,
+.collectionviewer_widget .contentpreview_fullsize_preview embed {width:870px;}
+.collectionviewer_widget #contentpreview_fullsize_preview {padding:0 0 15px;}
+.collectionviewer_widget .s3d-search-results-grid {border:none !important;padding-top:0;}
+.collectionviewer_widget .searchcontent_result_usedin_icon {background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll center center transparent;display:block;float:left;height:15px;margin-right:5px;width:15px;}
+
+/* Carousel Specific */
+.collectionviewer_widget #collectionviewer_carousel_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin-top:10px;border-top: 5px solid #E2E2E2;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_controls {width:32px;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_prev_next_bg.png") no-repeat scroll center center transparent;width:32px;height:75px;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container > div {cursor:pointer;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_newer {background:url("/devwidgets/collectionviewer/images/collectionviewer_newer_icon.png") no-repeat scroll center center transparent;height:50px;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_newest {background:url("/devwidgets/collectionviewer/images/collectionviewer_newest_icon.png") no-repeat scroll center center transparent;height:24px;border-top:1px solid #C2C2C2;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_older {background:url("/devwidgets/collectionviewer/images/collectionviewer_older_icon.png") no-repeat scroll center center transparent;height:50px;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_oldest {background:url("/devwidgets/collectionviewer/images/collectionviewer_oldest_icon.png") no-repeat scroll center center transparent;height:24px;border-top:1px solid #C2C2C2;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_newer:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_newer_icon_hover.png") no-repeat scroll center center transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_newest:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_newest_icon_hover.png") no-repeat scroll center center transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_older:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_older_icon_hover.png") no-repeat scroll center center transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_oldest:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_oldest_icon_hover.png") no-repeat scroll center center transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container ul {margin:0;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li {cursor:pointer;display:inline;float:left;height:55px;list-style:none outside none;padding:10px;width:51px;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li div.arrow-down {width:0px;height:0px; border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #9D9C9C;font-size:0px;line-height:0px;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li.selected div.arrow-down {display:inline !important;margin-left:23px;position:absolute;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li.selected .collectionviewer_carousel_thumbnail_container {border:3px solid #9D9C9C;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;margin:-3px 0 0 -3px;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_thumbnail_container,
+.collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_no_thumbnail_container {width:50px;height:50px;background-color:#fff;padding:3px;box-shadow:0 0 4px 0 #999;-moz-box-shadow:0 0 4px 0 #999;-webkit-box-shadow:0 0 4px 0 #999;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_thumbnail_container .collectionviewer_carousel_thumbnail {width:50px;height:50px;}
+.collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_no_thumbnail_container {background:url("/devwidgets/collectionviewer/images/collectionviewer_carousel_item_bg.png") repeat-x top left transparent;}
+.collectionviewer_widget #collectionviewer_carousel_container .jcarousel-skin-tango{margin:0 31px;}
+
+/* List Specific */
+.collectionviewer_widget .collectionviewer_remove_actions {width:20px;}
+.collectionviewer_widget .collectionviewer_editable {border-top:1px solid #ccc;}
+.collectionviewer_widget .s3d-page-header-bottom-row {margin:7px 0 7px 10px;}
+.collectionviewer_widget .s3d-page-header-bottom-row > input,
+.collectionviewer_widget .s3d-page-header-bottom-row > button {margin-right:7px;float:left;}
+
+/* Grid Specific */
+
+/* Blog Specific */

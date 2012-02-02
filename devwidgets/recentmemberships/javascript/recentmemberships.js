@@ -153,6 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getMembers = function (newjson){
             sakai.api.Groups.getMembers(newjson.entry[0].groupid, "", function(success, memberList){
+                memberList = memberList[newjson.entry[0].groupid];
                 if (success) {
                     var id, name, picture;
                     for (var role in memberList) {
@@ -182,7 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     group: newjson.entry[0],
                                     sakai: sakai
                                 };
-                                $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
+                                sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item, $("#recentmemberships_item_member_container"));
                                 break;
                             }
                         }
@@ -196,7 +197,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getGroupInfo = function(newjson){
             newjson.entry[0].displayLinkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.Security.safeOutput(newjson.entry[0]["sakai:group-title"]));
-            $(recentmembershipsItem, rootel).html(sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,newjson));
+            sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,{
+                "entry": newjson.entry,
+                "sakai": sakai
+            }, $(recentmembershipsItem, rootel));
 
             // get related content for group
             var params = {
@@ -224,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 group: newjson.entry[0],
                                 sakai: sakai
                             };
-                            $("#recentmemberships_latest_content_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_latest_content_template",item));
+                            sakai.api.Util.TemplateRenderer("#recentmemberships_latest_content_template",item, $("#recentmemberships_latest_content_container"));
                         });
                     }
                 }

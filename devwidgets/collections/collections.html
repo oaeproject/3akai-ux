@@ -1,0 +1,108 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/collections/css/collections.css" />
+
+<div class="collections_widget" style="display:none;">
+    <div id="collections_leftcolumn" class="collections_maincolumn" tabindex="-1">
+        <h1>__MSG__COLLECTOR__</h1>
+        <div id="collections_descriptive_text">__MSG__COLLECTIONS_DESCRIPTIVE_TEXT__</div>
+        <div id="collections_left_action_buttons">
+            <button id="collections_scroll_left" class="collections_scroll_arrow" style="display:none;" title="__MSG__PREVIOUS_PAGE__"></button>
+            <button class="s3d-button s3d-overlay-action-button" id="collections_new_button">__MSG__NEW__ <span>+</span></button>
+            <div id="collections_new_action_buttons" style="display:none;">
+                <button class="s3d-button s3d-overlay-action-button" id="collections_save_new_button">__MSG__SAVE__</button>
+                <button type="button" class="s3d-button s3d-link-button collections_cancel_new_button" id="collections_main_cancel_new_button">__MSG__CANCEL__</button>
+            </div>
+        </div>
+    </div>
+    <div id="collections_middlecolumn" class="collections_maincolumn">
+        <div id="collections_nocollections" style="display:none;"></div>
+        <div id="collections_collections_list" style="display:none;"></div>
+        <div id="collections_collections_list_template"><!--
+            {macro fillUpList(itemsShort)}
+                <li class="collections_large_preview collapsed fixed-collapsed">
+                    <div class="collections_general_information"></div>
+                </li>
+        	    {var itemsShort = itemsShort - 1}
+        	    {if itemsShort}
+        	        ${fillUpList(itemsShort)}
+        	    {/if}
+            {/macro}
+
+            <div id="collections_carousel" class="jcarousel-skin-tango s3d-bold">
+                <ul>
+                    {var count = 0}
+                    {for collection in results}
+                        <li id="collection_drop_${collection["_path"]}" class="collections_large_preview {if count % 4 > 0} collapsed {/if} s3d-droppable-container" data-sakai-page="${Math.floor(count / 4)}" data-scope="content" data-dropevent="drop.collections.sakai" data-sakai-collection-id="${collection["_path"]}">
+                            <div class="collections_general_information">
+                                <h2>
+                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links collections_collection_title_long" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 > 0}style="display:none"{/if} tabindex="${collection_index}" id="collection_title_${collection_index}">${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 110)}</a>
+                                    <span class="s3d-regular-links collections_collection_title_short" title="${collection["sakai:pooled-content-file-name"]|safeOutput}" {if count % 4 === 0}style="display:none"{/if}>${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 47)}</span>
+                                </h2>
+                                <hr class="fl-push fl-hidden"/>
+                                <div class="collection_counts_container">
+                                    <div id="collection_counts_content_icon"></div>
+                                    <a href="/content#p=${collection["_path"]}/${collection["sakai:pooled-content-file-name"]|safeURL}" title="${"" + collection.counts.contentCount} __MSG__CONTENT_ITEMS__ __MSG__FOR__ ${collection["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links collections_collection_content_count">${"" + collection.counts.contentCount} <span class="s3d-aural-text">__MSG__CONTENT_ITEMS__ __MSG__FOR__ __MSG__FOR__ ${collection["sakai:pooled-content-file-name"]|safeOutput}</span></a>
+                                </div>
+                                <img src="/devwidgets/collections/images/collections_drag_here_icon.png" alt="__MSG__DRAG_HERE_TO_COLLECT__" class="collections_drag_here_icon"/>
+                            </div>
+                            <div class="collections_recently_added">
+                                <span>__MSG__RECENTLY_ADDED__</span>
+                                <ul data-sakai-collection-id="${collection["_path"]}">
+                                </ul>
+                            </div>
+                        </li>
+                        ${count++|eat}
+                    {/for}
+                    {if count % 4 > 0}
+                        {var toFillOut = 4 - (count % 4)}
+                        ${fillUpList(toFillOut)}
+                    {/if}
+                </ul>
+            </div>
+        --></div>
+        <div id="collections_collections_recentcontent_template"><!--
+            {for content in results}
+                <li>
+                    {var thumbnail = sakai.api.Content.getThumbnail(content)}
+                    {if thumbnail}
+                        <img src="${thumbnail}" class="collections_recently_added_icon" alt="${sakai.api.Content.getMimeTypeData(content).description}"/>
+                    {else}
+                        <img src="${sakai.api.Content.getMimeTypeData(content["_mimeType"]).URL}" class="collections_recently_added_icon" alt="${sakai.api.Content.getMimeTypeData(content).description}"/>
+                    {/if}
+                    <a href="/content#p=${content["_path"]}/${content["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links">${sakai.api.Util.applyThreeDots(content["sakai:pooled-content-file-name"], 100)}</a>
+                    <hr class="fl-push fl-hidden"/>
+                </li>
+            {forelse}
+                <li id="collections_recent_no_results" class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <h1>__MSG__WHEN_COLLECT_THINGS_SHOW_HERE__</h1>
+                </li>
+            {/for}
+        --></div>
+
+        <div id="collections_add_new" style="display:none;">
+            <div id="collections_add_new_stepone" class="collections_add_new_steps">
+                <input type="text" id="collections_collection_title" placeholder="__MSG__UNTITLED_COLLECTION__" title="__MSG__ENTER_TITLE__"/>
+                <div class="collection_counts_container">
+                    <div id="collection_counts_content_icon"></div>
+                    <span class="collection_counts" id="collection_counts_content_counts_new"></span>
+                </div>
+                <hr class="fl-push fl-hidden"/>
+                <label for="collections_newcollection_permissions">__MSG__WHO_CAN_SEE_IT__</label>
+                <select id="collections_newcollection_permissions" name="collections_newcollection_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="collections_rightcolumn" class="collections_maincolumn">
+        <button id="collections_scroll_right" class="collections_scroll_arrow" style="display:none;" title="__MSG__NEXT_PAGE__"></button>
+        <button type="button" class="s3d-link-button s3d-button" id="collections_close_button" title="__MSG__CLOSE__"></button>
+        <a href="/me#l=library" type="button" id="collections_see_all_button" class="s3d-overlay-action-button s3d-button" style="display:none;">__MSG__SEE_ALL__ <div id="collections_see_all_total_count" class="s3d-button s3d-button-in-button"></div></a>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/collections/javascript/collections.js"></script>

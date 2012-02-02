@@ -58,8 +58,14 @@ define(
                     req["parameters"]["_charset_"] = "utf-8";
                 }
             });
+            // Don't submit a request when the batch is empty
+            if (_requests.length === 0) {
+                if ($.isFunction(_callback)) {
+                    _callback(true, {"results": []});
+                }
+            }
             // Don't issue a batch request for a single, cacheable request
-            if (_requests.length === 1) {
+            else if (_requests.length === 1) {
                 $.ajax({
                     url: _requests[0].url,
                     type: _requests[0].method || "GET",
@@ -77,6 +83,15 @@ define(
                         };
                         if ($.isFunction(_callback)) {
                             _callback(true, retObj);
+                        }
+                    },
+                    error: function(status){
+                        if ($.isFunction(_callback)) {
+                            _callback(false, {"results": [{
+                                "url": _requests[0].url,
+                                "success": false,
+                                "body": "{}"
+                            }]});
                         }
                     }
                 });
@@ -155,8 +170,8 @@ define(
                 sakaiServerAPI.initialRequests[bundleId].callback = callback;
             }
             sakaiServerAPI.initialRequests[bundleId].count++;
-            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count
-                && $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
+            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count &&
+                    $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
                 sakaiServerAPI.batch(sakaiServerAPI.initialRequests[bundleId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
@@ -340,7 +355,12 @@ define(
          * @param {Array}  an array containing a string for each namespace to move
          */
         removeServerCreatedObjects : function(obj, namespace, notToRemove) {
-            var newobj = $.extend(true, {}, obj);
+            var newobj = false;
+            if ($.isPlainObject(obj)) {
+                newobj = $.extend(true, {}, obj);
+            } else if ($.isArray(obj)) {
+                newobj = $.merge([], obj);
+            }
             notToRemove = notToRemove || [];
             $.each(newobj, function(key,val) {
                 for (var ns = 0; ns < namespace.length; ns++) {
@@ -355,16 +375,13 @@ define(
                         if (canRemove) {
                             delete newobj[key];
                         }
-                    } else if ($.isPlainObject(newobj[key])) {
+                    } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
                         newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
-                    } /* else if ($.isArray(newobj[key])) {
-                        //newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
-                    } */
+                    }
                 }
             });
             return newobj;
         },
-
 
         cleanUpSakaiDocObject: function(pagestructure){
             // Convert the special objects to arrays
@@ -378,7 +395,7 @@ define(
             }
             var removeServerFormating = function(structure, id){
                 for (var i in structure){
-                    if (i.indexOf(id + "/") === 0){
+                    if (structure.hasOwnProperty(i) && i.indexOf(id + "/") === 0){
                         var newid = i.substring(i.lastIndexOf("/") + 1);
                         structure[newid] = structure[i];
                         delete structure[i];
