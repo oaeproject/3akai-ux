@@ -256,6 +256,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
 
             // Show the layover
             $(addToContactsDialog).jqmShow();
+
         };
 
         $(window).bind("initialize.addToContacts.sakai", function(e, userObj) {

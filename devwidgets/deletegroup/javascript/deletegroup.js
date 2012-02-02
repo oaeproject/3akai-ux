@@ -117,7 +117,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             currentTemplate = sakai.api.Groups.getTemplate(deletedata["sakai:category"], deletedata["sakai:templateid"]);
             $deletegroup_category.html(sakai.api.i18n.getValueForKey(currentTemplate.title));
             $deletegroup_title.html(sakai.api.Util.Security.safeOutput(data["sakai:group-title"]));
-            sakai.api.Util.bindDialogFocus($deletegroup_dialog, function(){$deletegroup_dialog.jqmHide();});
+            sakai.api.Util.bindDialogFocus($deletegroup_dialog);
             $deletegroup_dialog.jqmShow();
         };
         $(window).bind("init.deletegroup.sakai", function (e, data, callback) {
