@@ -1946,10 +1946,8 @@ define(
          */
         bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
             var origFocus = $(":focus");
-            var $dialogContainer;
-            if (dialogContainer instanceof jQuery){
-                $dialogContainer = dialogContainer;
-            } else {
+            var $dialogContainer = dialogContainer;
+            if (!(dialogContainer instanceof jQuery)){
                 $dialogContainer = $(dialogContainer);
             }
 
