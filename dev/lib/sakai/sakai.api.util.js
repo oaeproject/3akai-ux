@@ -288,25 +288,30 @@ define(
             var setTags = function(tagLocation, tags, setTagsCallback) {
                 // set the tag on the entity
                 var doSetTags = function(tags, doSetTagsCallback) {
-                    var setTagsRequests = [];
+                    var tagArray = [];
                     $(tags).each(function(i,val) {
-                        setTagsRequests.push({
-                            "url": tagLocation,
-                            "method": "POST",
-                            "parameters": {
-                                "key": "/tags/" + val,
-                                ":operation": "tag"
-                            }
-                        });
+                        tagArray.push("/tags/" + val);
                     });
-                    sakai_serv.batch(setTagsRequests, function(success, data) {
-                        if (!success) {
-                            debug.error(tagLocation + " failed to be tagged as " + val);
+                    $.ajax({
+                        url: tagLocation,
+                        type: "POST",
+                        traditional: true,
+                        data: {
+                            ":operation": "tag",
+                            "key": tagArray
+                        },
+                        success: function(data) {
+                            if ($.isFunction(doSetTagsCallback)) {
+                                doSetTagsCallback(true);
+                            }
+                        },
+                        error: function(xhr){
+                            debug.error(tagLocation + " failed to be tagged as " + tagArray);
+                            if ($.isFunction(doSetTagsCallback)) {
+                                doSetTagsCallback(false);
+                            }
                         }
-                        if ($.isFunction(doSetTagsCallback)) {
-                            doSetTagsCallback(success);
-                        }
-                    }, false, true);
+                    });
                 };
 
                 if (tags.length) {
@@ -346,7 +351,7 @@ define(
                             debug.error(val + " tag failed to be removed from " + tagLocation);
                         }
                         if ($.isFunction(deleteTagsCallback)) {
-                            deleteTagsCallback();
+                            deleteTagsCallback(success);
                         }
                     }, false, true);
                 } else {
@@ -398,10 +403,10 @@ define(
                     finalTags.push(val);
                 }
             });
-            deleteTags(tagLocation, tagsToDelete, function() {
-                setTags(tagLocation, tagsToAdd, function(success) {
+            deleteTags(tagLocation, tagsToDelete, function(deleteSuccess) {
+                setTags(tagLocation, tagsToAdd, function(addSuccess) {
                     if ($.isFunction(callback)) {
-                        callback(success, finalTags);
+                        callback(addSuccess || deleteSuccess, finalTags);
                     }
                 });
             });
