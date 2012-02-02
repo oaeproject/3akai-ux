@@ -568,8 +568,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         });
 
         $(containerTrigger).live("click", function(){
-            $(container).jqmShow();
             sakai.api.Util.bindDialogFocus(container, function(){$(container).jqmHide();});
+            $(container).jqmShow();
         });
 
         $(window).bind("setData.changepic.sakai", function(e, _mode, _id) {

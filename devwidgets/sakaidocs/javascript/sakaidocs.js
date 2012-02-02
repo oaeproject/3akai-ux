@@ -190,6 +190,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#dialog_title").html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
                     sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     $("#dialog_content").show();
+                    sakai.api.Util.bindDialogFocus($("#insert_dialog"), function(){$("#insert_dialog").jqmHide();});
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
                     window.scrollTo(0,0);
                 }
@@ -314,6 +315,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     $dialog_content.show();
                     window.scrollTo(0,0);
+                    sakai.api.Util.bindDialogFocus($("#insert_dialog"), function(){$("#insert_dialog").jqmHide();});
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
                 } else {
                     tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets[currentlySelectedWidget.widgetname].img + '" id="' + currentlySelectedWidget.uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
@@ -640,6 +642,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         isEditingPage = true;
                         if (data.hasAutosave) {
                             autosaveDialogShown = true;
+                            sakai.api.Util.bindDialogFocus($("#autosave_dialog"), function(){$("#autosave_dialog").jqmHide();});
                             $('#autosave_dialog').jqmShow();
                         }
                         editing();

@@ -839,6 +839,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                 onClose: resetWidget
             });
             centerOverlay();
+            sakai.api.Util.bindDialogFocus($addAreaContainer, function(){$addAreaContainer.jqmHide();});
             $addAreaContainer.jqmShow();
         };
 

@@ -66,8 +66,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "visibility": newVisibilityVal,
                     "group": sakai_global.group.groupData['sakai:group-title']
                 }));
-                $("#worldsettings_warning_container").jqmShow();
                 sakai.api.Util.bindDialogFocus($("#worldsettings_warning_container"), function(){$("#worldsettings_warning_container").jqmHide();});
+                $("#worldsettings_warning_container").jqmShow();
             }
         };
 
@@ -153,8 +153,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true,
                 zIndex: 4000
             });
-            $worldsettingsDialog.jqmShow();
             sakai.api.Util.bindDialogFocus($worldsettingsDialog, function(){$worldsettingsDialog.jqmHide();});
+            $worldsettingsDialog.jqmShow();
         };
 
         // run the initialization function when the widget object loads

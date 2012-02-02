@@ -1945,6 +1945,7 @@ define(
          * @param ignoreElements {String} a jquery selector for start/end elements to be ignored
          */
         bindDialogFocus : function(dialogContainer, closeFunction, ignoreElements) {
+            var origFocus = $(":focus");
             var $dialogContainer;
             if (dialogContainer instanceof jQuery){
                 $dialogContainer = dialogContainer;
@@ -1958,6 +1959,7 @@ define(
                     && e.which === $.ui.keyCode.ESCAPE
                     && $.isFunction(closeFunction)) {
                     closeFunction();
+                    origFocus.focus();
                 } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
                     // determine which elements are keyboard navigable
                     var $focusable = $("a:visible, input:visible, button:visible:not(:disabled), textarea:visible", $dialogContainer);
@@ -1977,7 +1979,8 @@ define(
                     }
                 }
             }
-            $(document).keydown(bindFunction);
+            $(dialogContainer).unbind("keydown");
+            $(dialogContainer).keydown(bindFunction);
         },
 
         /**

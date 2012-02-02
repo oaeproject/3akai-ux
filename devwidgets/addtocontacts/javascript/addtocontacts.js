@@ -252,10 +252,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
             // Render the templates
             renderTemplates();
 
+            sakai.api.Util.bindDialogFocus(addToContactsDialog, function(){$(addToContactsDialog).jqmHide();});
+
             // Show the layover
             $(addToContactsDialog).jqmShow();
-
-            sakai.api.Util.bindDialogFocus(addToContactsDialog, function(){$(addToContactsDialog).jqmHide();});
         };
 
         $(window).bind("initialize.addToContacts.sakai", function(e, userObj) {

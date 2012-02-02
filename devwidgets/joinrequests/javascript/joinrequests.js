@@ -296,6 +296,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     }
                     // get join request data
                     getJoinRequestsData(joinGroupID);
+                    sakai.api.Util.bindDialogFocus($joinrequests_container, function(){$joinrequests_container.jqmHide();});
                     $joinrequests_container.jqmShow();
                 } else {
                     debug.warn("The group's authprofile node wasn't passed in to init.joinrequests.sakai");
