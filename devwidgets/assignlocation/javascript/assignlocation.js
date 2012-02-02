@@ -218,7 +218,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     onClose: closeContainer,
                     zIndex: zIndex
                 });
-                sakai.api.Util.bindDialogFocus($assignlocationContainer, function(){$assignlocationContainer.jqmHide();});
+                sakai.api.Util.bindDialogFocus($assignlocationContainer);
                 $assignlocationContainer.jqmShow();
             });
         };

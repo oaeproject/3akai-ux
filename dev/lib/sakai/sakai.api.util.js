@@ -1941,10 +1941,10 @@ define(
          * Sets up events to keep keyboard focus within the dialog box and close it when the escape key is pressed
          *
          * @param dialogContainer {String} a jquery selector or jquery object which is the dialog container
-         * @param closeFunction {function} a function to be called when the user hits the escape key
          * @param ignoreElements {String} an optional jquery selector for start/end elements to be ignored
+         * @param closeFunction {function} an optional function to be called when the user hits the escape key
          */
-        bindDialogFocus : function(dialogContainer, closeFunction, ignoreElements) {
+        bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
             var origFocus = $(":focus");
             var $dialogContainer;
             if (dialogContainer instanceof jQuery){
@@ -1954,11 +1954,12 @@ define(
             }
 
             var bindFunction = function(e) {
-                if ($dialogContainer.is(":visible")
-                    && $dialogContainer.has(":focus").length
-                    && e.which === $.ui.keyCode.ESCAPE
-                    && $.isFunction(closeFunction)) {
-                    closeFunction();
+                if ($dialogContainer.is(":visible") && $dialogContainer.has(":focus").length && e.which === $.ui.keyCode.ESCAPE) {
+                    if ($.isFunction(closeFunction)){
+                        closeFunction();
+                    } else {
+                        $dialogContainer.jqmHide()
+                    }
                     origFocus.focus();
                 } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
                     // determine which elements are keyboard navigable

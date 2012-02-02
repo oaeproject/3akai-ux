@@ -312,7 +312,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         overlay: 20,
                         toTop: true
                     });
-                    sakai.api.Util.bindDialogFocus(messageDialogContainer, function(){$(messageDialogContainer).jqmHide();}, "a.as-close");
+                    sakai.api.Util.bindDialogFocus(messageDialogContainer, "a.as-close");
                     $(messageDialogContainer).jqmShow();
                 }
                 sakai.api.Util.Forms.clearValidation($sendmessage_form);

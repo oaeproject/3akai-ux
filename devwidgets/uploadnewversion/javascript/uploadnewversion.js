@@ -135,7 +135,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "top": docScrollPos + 100 + "px"
                 });
             }
-            sakai.api.Util.bindDialogFocus($uploadnewversionContainer, function(){$uploadnewversionContainer.jqmHide();});
+            sakai.api.Util.bindDialogFocus($uploadnewversionContainer);
             $uploadnewversionContainer.jqmShow();
 
             $uploadnewversionUploading.jqm({

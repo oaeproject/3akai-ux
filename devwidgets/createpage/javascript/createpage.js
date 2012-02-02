@@ -256,7 +256,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Load page templates
             sakai_global.sitespages.loadTemplates();
             $createpageSubmit.removeAttr("disabled");
-            sakai.api.Util.bindDialogFocus($createpageContainer, function(){$createpageContainer.jqmHide();});
+            sakai.api.Util.bindDialogFocus($createpageContainer);
             // show container
             $createpageContainer.jqmShow();
             $inputPageTitle.focus();
