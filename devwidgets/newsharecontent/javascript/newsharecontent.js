@@ -81,7 +81,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 hash.w.show();
             }
             var tbx = $('#toolbox');
-            if (tbx.find("a").length !== 0) {
+            if (tbx.find("a").length) {
                 tbx.find("a").remove();
             }
             var svcs = {facebook: 'Facebook', twitter: 'Twitter', delicious:'Delicious', stumbleupon: 'StumbleUpon', blogger:'Blogger', wordpress:'Wordpress', google:'Google', expanded: 'More'};
