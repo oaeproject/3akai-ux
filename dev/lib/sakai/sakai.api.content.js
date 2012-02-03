@@ -590,7 +590,7 @@ define(
                     }
                 }
             }
-            if (content && content.members && content[accessType + "s"].managers) {
+            if (content && content.members && content.members[accessType + "s"]) {
                 for (var j = 0; j < content.members[accessType + "s"].length; j++) {
                     var authorizable = content.members[accessType + "s"][j];
                     // Check if this user/group library is a manager/viewer
