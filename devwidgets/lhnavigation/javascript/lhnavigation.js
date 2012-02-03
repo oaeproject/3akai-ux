@@ -228,7 +228,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     structure.items = data["structure0"];
                 }
                 for (var i in structure.items) {
-                    structure.items[i] = addDocUrlIntoStructure(structure.items[i], docURL);
+                    if (structure.items.hasOwnProperty(i)){
+                        structure.items[i] = addDocUrlIntoStructure(structure.items[i], docURL);
+                    }
                 }
                 // Get a list of all Sakai Docs that have to be "added"
                 var pids = collectPoolIds(structure.items, []);
@@ -293,7 +295,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var addDocUrlIntoStructure = function(structure, url){
             structure._poolpath = url;
             for (var i in structure){
-                if (i.substring(0,1) !== "_" && typeof structure[i] !== "string"){
+                if (structure.hasOwnProperty(i) && i.substring(0,1) !== "_" && typeof structure[i] !== "string"){
                     structure[i] = addDocUrlIntoStructure(structure[i], url);
                 }
             }
@@ -761,8 +763,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             currentPageShown.title = $.trim(pageTitle.text());
             // Change main structure
             var mainPath = changingPageTitle.path;
-            if (changingPageTitle.path.indexOf("/") !== -1){
-                var parts = changingPageTitle.path.split("/");
+            if (changingPageTitle.path.toString().indexOf("/") !== -1){
+                var parts = changingPageTitle.path.toString().split("/");
                 mainPath = parts[1];
                 pubstructure.items[parts[0]][parts[1]]._title = inputArea.val();
             } else {
@@ -785,20 +787,22 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var deletePage = function(){
             // Look up appropriate doc and change that structure
             var structure = sakaiDocsInStructure[pageToDelete.savePath];
-            var realRef = pageToDelete.ref;
-            if (pageToDelete.ref.indexOf("-") !== -1){
-                realRef = pageToDelete.ref.split("-")[1];
+            var pageRef = pageToDelete.ref.toString();
+            var pagePath = pageToDelete.path.toString();
+            var realRef = pageRef;
+            if (pageRef.indexOf("-") !== -1){
+                realRef = pageRef.split("-")[1];
             }
-            var realPath = pageToDelete.path;
-            if (pageToDelete.path.indexOf("/") !== -1){
-                realPath = pageToDelete.path.split("/")[1];
+            var realPath = pagePath;
+            if (pagePath.indexOf("/") !== -1){
+                realPath = pagePath.split("/")[1];
             }
             updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
             structure.orderedItems = orderItems(structure.structure0);
             storeStructure(structure.structure0, pageToDelete.savePath);
 
             // Change the main structure
-            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pubstructure.orderedItems, pageToDelete.ref, pageToDelete.path);
+            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pubstructure.orderedItems, pageRef, pagePath);
             if (getPageCount(pubstructure.items) < 3){
                 $(window).trigger("sakai.contentauthoring.needsOneColumn");
             }
@@ -812,17 +816,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             enableSorting();
 
             // Move away from the current page
-            if (pageToDelete.path.indexOf("/") !== -1){
+            if (pagePath.indexOf("/") !== -1){
                 if (getPageCount(structure.structure0) < 3) {
                     $.bbq.pushState({
-                        "l": pageToDelete.path.split("/")[0],
+                        "l": pagePath.split("/")[0],
                         "_": Math.random(),
                         "newPageMode": ""
                     }, 0);
                 } else {
                     var selected = getFirstSelectablePage(structure);
                     $.bbq.pushState({
-                        "l": pageToDelete.path.split("/")[0] + "/" + selected,
+                        "l": pagePath.split("/")[0] + "/" + selected,
                         "_": Math.random(),
                         "newPageMode": ""
                     }, 0);
@@ -867,6 +871,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var confirmPageDelete = function(){
             pageToDelete = jQuery.extend(true, {}, contextMenuHover);
+            sakai.api.Util.bindDialogFocus($('#lhnavigation_delete_dialog'));
             $('#lhnavigation_delete_dialog').jqmShow();
             toggleContextMenu(true);
         };
@@ -1167,7 +1172,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     else if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").length){
                         // check if sub menu open
                         if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").length){
-                            $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").children("li:last").find("a").focus()
+                            $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("ul:visible").children("li:last").find("a").focus();
                             return false;
                         } else if ($el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("div").children("a").length){
                             $el.parents(".lhnavigation_menu_list").prevAll("div:first").children("li:last").children("div").children("a").focus();
@@ -1188,13 +1193,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.RIGHT
-                && $el.prev("div").hasClass("lhnavigation_has_subnav")
-                && !$el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
+            } else if (ev.which == $.ui.keyCode.RIGHT &&
+                    $el.prev("div").hasClass("lhnavigation_has_subnav") &&
+                    !$el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
                 // open sub menu
                 $el.click();
-            } else if (ev.which == $.ui.keyCode.LEFT
-                && $el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
+            } else if (ev.which == $.ui.keyCode.LEFT &&
+                    $el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
                 // close sub menu
                 $el.click();
             }

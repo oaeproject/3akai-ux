@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
 
     /**
      * @name sakai.userpermissions
@@ -105,6 +105,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /////////////////////////////////
 
         var initializeOverlay = function(){
+            sakai.api.Util.bindDialogFocus($("#userpermissions_container"));
             $("#userpermissions_container").jqmShow();
         };
 

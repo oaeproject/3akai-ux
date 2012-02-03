@@ -141,7 +141,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (typeof sakai.data.me.user.userid !== "undefined") {
                             if (data.managers.length !== 0) {
                                 for (var i in data.managers) {
-                                    if (data.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
+                                    if (data.managers.hasOwnProperty(i) && data.managers[i]["rep:userId"] === sakai.data.me.user.userid) {
                                         sakai_global.config.listpeople[listType].anon = false;
                                         break;
                                     }

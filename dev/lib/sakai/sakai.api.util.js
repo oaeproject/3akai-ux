@@ -32,13 +32,13 @@ define(
         "sakai/sakai.api.l10n",
         "sakai/sakai.api.i18n",
         "config/config_custom",
+        "underscore",
         "misc/trimpath.template",
-        "misc/underscore",
         "jquery-plugins/jquery.ba-bbq",
         "jquery-plugins/jquery.validate",
         "jquery-ui"
     ],
-    function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_conf) {
+    function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_conf, _) {
 
     var sakai_util = {
 
@@ -288,25 +288,30 @@ define(
             var setTags = function(tagLocation, tags, setTagsCallback) {
                 // set the tag on the entity
                 var doSetTags = function(tags, doSetTagsCallback) {
-                    var setTagsRequests = [];
+                    var tagArray = [];
                     $(tags).each(function(i,val) {
-                        setTagsRequests.push({
-                            "url": tagLocation,
-                            "method": "POST",
-                            "parameters": {
-                                "key": "/tags/" + val,
-                                ":operation": "tag"
-                            }
-                        });
+                        tagArray.push("/tags/" + val);
                     });
-                    sakai_serv.batch(setTagsRequests, function(success, data) {
-                        if (!success) {
-                            debug.error(tagLocation + " failed to be tagged as " + val);
+                    $.ajax({
+                        url: tagLocation,
+                        type: "POST",
+                        traditional: true,
+                        data: {
+                            ":operation": "tag",
+                            "key": tagArray
+                        },
+                        success: function(data) {
+                            if ($.isFunction(doSetTagsCallback)) {
+                                doSetTagsCallback(true);
+                            }
+                        },
+                        error: function(xhr){
+                            debug.error(tagLocation + " failed to be tagged as " + tagArray);
+                            if ($.isFunction(doSetTagsCallback)) {
+                                doSetTagsCallback(false);
+                            }
                         }
-                        if ($.isFunction(doSetTagsCallback)) {
-                            doSetTagsCallback(success);
-                        }
-                    }, false, true);
+                    });
                 };
 
                 if (tags.length) {
@@ -346,7 +351,7 @@ define(
                             debug.error(val + " tag failed to be removed from " + tagLocation);
                         }
                         if ($.isFunction(deleteTagsCallback)) {
-                            deleteTagsCallback();
+                            deleteTagsCallback(success);
                         }
                     }, false, true);
                 } else {
@@ -398,10 +403,10 @@ define(
                     finalTags.push(val);
                 }
             });
-            deleteTags(tagLocation, tagsToDelete, function() {
-                setTags(tagLocation, tagsToAdd, function(success) {
+            deleteTags(tagLocation, tagsToDelete, function(deleteSuccess) {
+                setTags(tagLocation, tagsToAdd, function(addSuccess) {
                     if ($.isFunction(callback)) {
-                        callback(success, finalTags);
+                        callback(addSuccess || deleteSuccess, finalTags);
                     }
                 });
             });
@@ -477,9 +482,9 @@ define(
                         } else if ($.isPlainObject(structure[i])) {
                             structure[i] = loopAndReplace(structure[i], variable, replace);
                         } else if (_.isArray(structure[i])) {
-                            $.each(structure[i], function(j, elt) {
-                                structure[i][j] = loopAndReplace(elt, variable, replace);
-                            });
+                            for (var j = 0; j < structure[i].length; j++){
+                                structure[i][j] = loopAndReplace(structure[i][j], variable, replace);
+                            }
                         }
                         if (i.indexOf(toReplace) !== -1) {
                             var newKey = i.replace(regex, replace);
@@ -991,8 +996,8 @@ define(
                     dre = /(^[0-9\-\.\/]{5,}$)|[0-9]+:[0-9]+|( [0-9]{4})/i,
                     ore = /^0/,
                     // convert all to strings and trim()
-                    x = a.toString().toLowerCase().replace(sre, '') || '',
-                    y = b.toString().toLowerCase().replace(sre, '') || '',
+                    x = a ? a.toString().toLowerCase().replace(sre, '') || '' : '',
+                    y = b ? b.toString().toLowerCase().replace(sre, '') || '' : '',
                     // chunk/tokenize
                     xN = x.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
                     yN = y.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
@@ -1375,6 +1380,9 @@ define(
             },
             safeOutput: function(str) {
                 return sakai_util.Security.safeOutput(str);
+            },
+            saneHTMLAttribute: function(str) {
+                return sakai_util.saneHTMLAttribute(str);
             }
         },
 
@@ -1935,6 +1943,51 @@ define(
         },
 
         /**
+         * Sets up events to keep keyboard focus within the dialog box and close it when the escape key is pressed
+         *
+         * @param dialogContainer {String} a jquery selector or jquery object which is the dialog container
+         * @param ignoreElements {String} an optional jquery selector for start/end elements to be ignored
+         * @param closeFunction {function} an optional function to be called when the user hits the escape key
+         */
+        bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
+            var origFocus = $(":focus");
+            var $dialogContainer = dialogContainer;
+            if (!(dialogContainer instanceof jQuery)){
+                $dialogContainer = $(dialogContainer);
+            }
+
+            var bindFunction = function(e) {
+                if ($dialogContainer.is(":visible") && $dialogContainer.has(":focus").length && e.which === $.ui.keyCode.ESCAPE) {
+                    if ($.isFunction(closeFunction)){
+                        closeFunction();
+                    } else {
+                        $dialogContainer.jqmHide();
+                    }
+                    origFocus.focus();
+                } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
+                    // determine which elements are keyboard navigable
+                    var $focusable = $("a:visible, input:visible, button:visible:not(:disabled), textarea:visible", $dialogContainer);
+                    if (ignoreElements){
+                        $focusable = $focusable.not(ignoreElements);
+                    }
+                    var $focused = $(":focus");
+                    var index = $focusable.index($focused);
+                    if (e.shiftKey && $focusable.length && (index === 0)) {
+                        // if shift tabbing from the start of the dialog box, shift focus to the last element
+                        $focusable.get($focusable.length - 1).focus();
+                        return false;
+                    } else if (!e.shiftKey && $focusable.length && (index === $focusable.length - 1)) {
+                        // if tabbing from the end of the dialog box, shift focus to the first element
+                        $focusable.get(0).focus();
+                        return false;
+                    }
+                }
+            };
+            $(dialogContainer).unbind("keydown");
+            $(dialogContainer).keydown(bindFunction);
+        },
+
+        /**
          * Extracts the entity ID from the URL
          * also handles encoded URLs
          * Example:
@@ -2103,6 +2156,9 @@ define(
                     startText: sakaii18nAPI.getValueForKey( "ENTER_TAGS_OR_CATEGORIES" ),
                     beforeRetrieve: function( userinput ) {
                         return $.trim(userinput);
+                    },
+                    processNewSelection: function( userinput ) {
+                        return sakai_util.Security.safeOutput(sakai_util.makeSafeTag(userinput));
                     }
                 };
 
@@ -2185,8 +2241,8 @@ define(
                             };
                         } else {
                             tagObj = {
-                                id: tag,
-                                value: tag
+                                id: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag)),
+                                value: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag))
                             };
                         }
                         preFill.push( tagObj );
@@ -2233,7 +2289,7 @@ define(
                             ret.categories.push( "directory/" + tc.path );
                         }
                     } else {
-                        ret.tags.push( tc.value );
+                        ret.tags.push( sakai_util.Security.unescapeHTML(tc.value) );
                     }
                 });
                 if ( merge ) {
@@ -2397,7 +2453,6 @@ define(
                     revertDuration: 0,
                     scrollSensitivity: 100,
                     opacity: 0.5,
-                    helper: "clone",
                     cursor: "move",
                     zindex: 10000,
                     cursorAt: {

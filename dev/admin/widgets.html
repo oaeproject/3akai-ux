@@ -3,17 +3,15 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>__MSG__WIDGET_ADMIN__</title>
+        <title></title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
         <link rel="stylesheet" type="text/css" href="/dev/admin/css/sakai.admin_widgets.css" />
 
         <!-- 3rd party CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/lib/jquery/plugins/imgareaselect/imgareaselect-default.css" />
-
-        <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
     </head>
 
@@ -33,7 +31,10 @@
         <div id="top_banner"><!-- --></div>
 
         <!-- NAVIGATION -->
-        <div id="widget_topnavigation" class="widget_inline">
+        <div class="fl-container-flex header s3d-header">
+            <div class="s3d-navigation-container">
+                <div id="widget_topnavigation" class="widget_inline"></div>
+            </div>
         </div>
 
         <!-- CONTENT -->
@@ -248,7 +249,8 @@
         <!-- CHAT -->
         <div id="widget_chat" class="widget_inline"></div>
 
-        <!-- Page JS -->
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
         <script>require(["/dev/admin/javascript/admin_widgets.js"]);</script>
 
     </body>

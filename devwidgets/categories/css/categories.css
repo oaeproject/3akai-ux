@@ -53,6 +53,6 @@
 .categories_widget .categories_spacer {visibility: hidden;}
 
 /* Carousel */
-.categories_widget #categories_items_scroll .categories_items_scroll_scrollbutton {width:11px;height:11px;margin:0 3px;float:left;cursor:pointer;background:url("/devwidgets/categories/images/categories_carousel_selected.png") repeat-x top left transparent;}
+.categories_widget #categories_items_scroll .categories_items_scroll_scrollbutton {width:11px;height:11px;margin:0 3px 3px;float:left;cursor:pointer;background:url("/devwidgets/categories/images/categories_carousel_selected.png") repeat-x top left transparent;}
 .categories_widget #categories_items_scroll .categories_items_scroll_deselected {background:url("/devwidgets/categories/images/categories_carousel_deselected.png") repeat-x top left transparent !important;}
-.categories_widget #categories_items_scroll #categories_items_scroll_buttons {position:absolute;bottom:0;margin-bottom:25px;}
+.categories_widget #categories_items_scroll #categories_items_scroll_buttons {position:absolute;bottom:0;margin-bottom:25px;width:90px;}

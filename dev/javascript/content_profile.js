@@ -63,10 +63,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                                 var collectionId = $.bbq.getState("collectionId");
                                 var collectionName = $.bbq.getState("collectionName");
-                                if(collectionId && collectionName){
+                                var currentPath = $.bbq.getState("p");
+                                if(collectionId && collectionName && currentPath){
                                     // Show go back to collection link
                                     $("#back_to_collection_button #collection_title").text(collectionName);
-                                    $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + sakai.api.Util.safeURL(collectionName));
+                                    $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + sakai.api.Util.safeURL(collectionName) + "&item=" + currentPath.split("/")[0]);
                                     $("#back_to_collection_container").show("slow");
                                 } else {
                                     $("#back_to_collection_container").hide("slow");
@@ -263,8 +264,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var setManagerProperty = function(structure, value){
             for (var i in structure){
-                structure[i]._canEdit = value;
-                structure[i]._canSubedit = value;
+                if (structure.hasOwnProperty(i)){
+                    structure[i]._canEdit = value;
+                    structure[i]._canSubedit = value;
+                }
             }
             return structure;
         };

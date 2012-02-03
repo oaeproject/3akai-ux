@@ -168,13 +168,16 @@
          *                            False when we want to append the new items to the list
          */
         var processList = function(data, prepend){
-            if ($.isFunction(postprocessor)){
-                postprocessor(data.results, function(items){
-                    data.results = items;
+            if (data) {
+                data.results = data.results || [];
+                if ($.isFunction(postprocessor)) {
+                    postprocessor(data.results, function(items){
+                        data.results = items;
+                        renderList(data, prepend);
+                    });
+                } else {
                     renderList(data, prepend);
-                });
-            } else {
-                renderList(data, prepend);
+                }
             }
         };
 

@@ -23,7 +23,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
 
-require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
     /**
      * @name sakai_global.dashboard
@@ -477,34 +477,18 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
 
                   });
 
-                  var grabHandleFinder,
-                  createAvatar,
-                  options;
+                  $('#widgetscontainer .groupWrapper', $rootel).sortable({
+                        connectWith: ".groupWrapper", // Columns where we can drag modules into
+                        cursor: "move",
+                        handle: ".widget1-head",
+                        helper: "clone",
+                        opacity: 0.5,
+                        placeholder: 'orderable-drop-marker-box',
+                        tolerance: "intersect",
+                        start: beforeWidgetDrag,
+                        stop: saveState
+                    });
 
-                  grabHandleFinder = function(item) {
-                      // the handle is the toolbar. The toolbar id is the same as the portlet id, with the
-                      // "portlet_" prefix replaced by "toolbar_".
-                      return jQuery("[id=draghandle_" + item.id + "]");
-                  };
-
-                  options = {
-                      styles: {
-                          mouseDrag: "orderable-mouse-drag",
-                          dropMarker: "orderable-drop-marker-box",
-                          avatar: "orderable-avatar-clone"
-                      },
-                      selectors: {
-                          columns: ".groupWrapper",
-                          modules: ".widget1",
-                          grabHandle: grabHandleFinder
-                      },
-                      listeners: {
-                          onBeginMove: beforeWidgetDrag,
-                          afterMove: saveState
-                      }
-                  };
-
-                  fluid.reorderLayout($('#widgetscontainer', $rootel), options);
                 } else {
                   // remove the move cursor from the title bar
                   $(".fl-widget-titlebar", $rootel).css("cursor", "default");
@@ -830,6 +814,7 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
             if (title) {
                 $("#paget_title_only", $rootel).html(" " + title);
             }
+            sakai.api.Util.bindDialogFocus(changeLayoutDialog);
             $(changeLayoutDialog, $rootel).jqmShow();
         };
 
@@ -975,6 +960,7 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
         
         var showAddWidgetDialog = function(iTuid){
             if (iTuid === tuid) {
+                sakai.api.Util.bindDialogFocus(addGoodiesDialog);
                 $(addGoodiesDialog, $rootel).jqmShow();
             }
         };
@@ -1015,13 +1001,8 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
             }
         };
 
-        if (document.location.pathname === "/dev/group.html"){
-            $(window).bind("init.dashboard.sakai", function(e, path, editmode, propertyname, fixedContainer) {
-                init(path, editmode, propertyname, fixedContainer);
-            });
-        } else {
-            init("", true, "personalportal", false);
-        }
+        // Dashboards are only used in the private space these days
+        init("/~" + sakai.data.me.user.userid + "/private/privspace/", true, "personalportal", false);
 
         /**
          * Send out an event to indicate that the dashboard widget has been

@@ -340,9 +340,9 @@ public class HashRefreshFiles {
       Set<String> keys = hashedResults.keySet();
       for (String key : keys) {
         if (key.startsWith(this.requireBaseUrl)) {
-          String newKey = key.substring(this.requireBaseUrl.length() + 1);
+          String newKey = key.substring(this.requireBaseUrl.length());
           String newValue = hashedResults.get(key).substring(
-              this.requireBaseUrl.length() + 1);
+              this.requireBaseUrl.length());
           if (newKey.lastIndexOf('.') > 0)
             newKey = newKey.substring(0, newKey.lastIndexOf('.'));
           if (newValue.lastIndexOf('.') > 0)

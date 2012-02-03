@@ -181,7 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             lastModified: group.lastModified,
                             contentCount: group.counts.contentCount,
                             membersCount: group.counts.membersCount,
-                            tags: group["sakai:tags-processed"],
+                            tags: group.tagsProcessed,
                             userMember: sakai.api.Groups.isCurrentUserAMember(group.groupid,sakai.data.me),
                             joinable: group["sakai:group-joinable"]
                         });
@@ -384,6 +384,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#mymemberships_are_you_sure").html(msg);
                     $("#mymemberships_delete_membership_confirm").attr("data-sakai-entityid", $(this).attr("data-sakai-entityid"));
                     $("#mymemberships_delete_membership_confirm").attr("data-sakai-entityname", $(this).attr("data-sakai-entityname"));
+                    sakai.api.Util.bindDialogFocus($("#mymemberships_delete_membership_dialog"));
                     $("#mymemberships_delete_membership_dialog").jqmShow();
                 }
             });

@@ -98,7 +98,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 if ( !tags ) {
                     $(contentmetadataInputEdit).blur( editInputBlur );
                 } else {
-                    sakai.api.Util.hideOnClickOut( $( ".autosuggest_wrapper", $contentmetadataTagsContainer ) , "#assignlocation_container, " + $contentmetadataTagsContainer.selector + " .autosuggest_wrapper"  , editInputBlur );
+                    sakai.api.Util.hideOnClickOut( $( ".autosuggest_wrapper", $contentmetadataTagsContainer ) , "#assignlocation_container, " + $contentmetadataTagsContainer.selector + " .autosuggest_wrapper", function() {
+                      editInputBlur(false, "tags");
+                    });
                 }
             }
         };
@@ -152,7 +154,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 var newTitle = $("#entity_name_text").val();
                 var newDottedTitle = sakai.api.Util.applyThreeDots(newTitle, 800, {
                     whole_word: false
-                }, "");
+                }, "", true);
                 if ($.trim(newTitle)) {
                     $("#entity_name").text(newDottedTitle);
                     $("#entity_name").attr("data-original-title", newTitle);
@@ -207,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             } else {
                 $("#contentpreview_download_button").attr("href", sakai_global.content_profile.content_data.smallPath + "/" + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]));
             }
-        }
+        };
 
         /**
          * Render the Tags template
@@ -285,8 +287,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
                 sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
                 renderTags(false);
-                // Create an activity
-                createActivity("UPDATED_TAGS");
+                if (success) {
+                    // Create an activity
+                    createActivity("UPDATED_TAGS");
+                }
             });
         };
 
@@ -360,6 +364,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if ( !$( ev.target ).is( "a, select, option, textarea" ) ) {
                 $target = $( ev.target ).closest( ".contentmetadata_editable" );
                 if ( $target.length ) {
+                    // Need to clear out any active editingElements before creating a new one
+                    if (editingElement !== "") {
+                        editInputBlur(false, editingElement);
+                    }
                     editingElement = $target.attr( "data-edit-field" );
                     switch ( editingElement ) {
                         case "description":
@@ -384,9 +392,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         /**
          * Handle losing of focus on an input element
-         * @param {Object} el Element that lost the focus
+         * @param {Object} e Element that lost the focus
+         * @param {String} forceElt Force the editingElement here, to indicate that only that should be blurred
          */
-        var editInputBlur = function( e ) {
+        var editInputBlur = function( e, forceElt ) {
+            if ( !e && forceElt !== editingElement ) {
+                return;
+            }
             switch ( editingElement ) {
                 case "description":
                     updateDescription();
@@ -401,6 +413,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     updateCopyright();
                     break;
             }
+            editingElement = "";
         };
 
         ////////////////////////

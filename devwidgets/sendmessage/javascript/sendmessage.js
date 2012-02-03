@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
     if (!sakai_global.sendmessage){
 
         /**
@@ -312,6 +312,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         overlay: 20,
                         toTop: true
                     });
+                    sakai.api.Util.bindDialogFocus(messageDialogContainer, "a.as-close");
                     $(messageDialogContainer).jqmShow();
                 }
                 sakai.api.Util.Forms.clearValidation($sendmessage_form);

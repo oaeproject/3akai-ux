@@ -22,7 +22,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
 
     /**
      * @name sakai_global.joinrequests
@@ -296,6 +296,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     // get join request data
                     getJoinRequestsData(joinGroupID);
+                    sakai.api.Util.bindDialogFocus($joinrequests_container);
                     $joinrequests_container.jqmShow();
                 } else {
                     debug.warn("The group's authprofile node wasn't passed in to init.joinrequests.sakai");

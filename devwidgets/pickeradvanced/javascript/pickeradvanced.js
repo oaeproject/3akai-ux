@@ -306,6 +306,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             firstTime = true;
             render(config.config);
+            sakai.api.Util.bindDialogFocus($pickeradvanced_container);
             $pickeradvanced_container.jqmShow();
             pickerlist = config.list;
         });

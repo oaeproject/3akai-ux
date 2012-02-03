@@ -170,8 +170,8 @@ define(
                 sakaiServerAPI.initialRequests[bundleId].callback = callback;
             }
             sakaiServerAPI.initialRequests[bundleId].count++;
-            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count
-                && $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
+            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count &&
+                    $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
                 sakaiServerAPI.batch(sakaiServerAPI.initialRequests[bundleId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
@@ -395,7 +395,7 @@ define(
             }
             var removeServerFormating = function(structure, id){
                 for (var i in structure){
-                    if (i.indexOf(id + "/") === 0){
+                    if (structure.hasOwnProperty(i) && i.indexOf(id + "/") === 0){
                         var newid = i.substring(i.lastIndexOf("/") + 1);
                         structure[newid] = structure[i];
                         delete structure[i];

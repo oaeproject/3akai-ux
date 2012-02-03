@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
 
     sakai_global.inbox = function(tuid, showSettings, widgetData, state) {
 
@@ -162,7 +162,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 me: {
                     name: sakai.api.User.getDisplayName(sakai.api.User.data.me.profile),
                     picture: sakai.api.Util.constructProfilePicture(sakai.api.User.data.me)
-                }
+                },
+                box: widgetData.box
             }, $inbox_show_message);
             $("#sendmessage_to_autoSuggest").data(cacheAutoSuggestData);
             if (!currentMessage.read) {
@@ -277,7 +278,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai: sakai,
                      _: _,
                     results: items,
-                    search: searchTerm
+                    search: searchTerm,
+                    box: widgetData.box
                 });
             }, function(){
                 $(".inbox_select_all_container:visible input").attr("disabled", true);
@@ -323,7 +325,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showReply = function() {
             $inbox_show_message_reply_fields = $($inbox_show_message_reply_fields.selector);
             var replyButtonText = sakai.api.i18n.getValueForKey("REPLY", "inbox");
-            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
+            var replyText = sakai.api.i18n.getValueForKey("RE", "inbox");
+            var messageSubject = currentMessage.subject;
+            // Check whether the message starts with Reply. If not, add it to the subject line
+            if(currentMessage.subject.substring(0, replyText.length) !== replyText){
+                messageSubject = replyText + " " + currentMessage.subject;
+            }
+            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, messageSubject, null, true, currentMessage.id, replyButtonText]);
             $inbox_show_message_reply_fields.show();
         };
 

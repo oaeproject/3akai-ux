@@ -67,7 +67,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(batchRequests, function(success, data) {
                 if(success){
                     $.each(data.results, function(i, pageData){
-                        var pageBody = $.parseJSON(pageData.body);
+                        var pageBody = $.parseJSON(pageData.body) || {};
+                        pageBody.page = pageBody.page || "";
                         if(sakai.api.Util.determineEmptyContent(pageBody.page)){
                             pages[i].pageContent = pageBody;
                         } else {
@@ -76,7 +77,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                     renderContainer();
                 } else {
-                    debug.warn("Page contents could not be fetched.")
+                    debug.warn("Page contents could not be fetched.");
                 }
             });
         };
@@ -87,7 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(data, function(i, page){
                 totalToOrder++;
             });
-            while (totalToOrder > 0){
+            var findNextPage = function(){
                 var lowestOrder = false;
                 var pageToAdd = false;
                 $.each(data, function(i, page){
@@ -105,8 +106,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
                 delete data[pageToAdd];
-                totalToOrder--;
             };
+            while (totalToOrder > 0){
+                findNextPage();
+                totalToOrder--;
+            }
             fetchPageContent();
         };
 
@@ -116,8 +120,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(this).addClass("selected");
                 $(".pageviewer_content_for_page", $rootel).hide();
                 $("#pageviewer_content_for_page_" + $(this).data("index"), $rootel).show();
-            })
-        }
+            });
+        };
 
         var doInit = function(){
             addBinding();

@@ -373,7 +373,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(data && data.data && data.data["sakai:pooled-content-file-name"]){
                 data.data["sakai:pooled-content-file-name-shorter"] = sakai.api.Util.applyThreeDots(data.data["sakai:pooled-content-file-name"], 800, {
                     whole_word: false
-                }, "");
+                }, "", true);
             }
             renderObj = {
                 "context": context,
@@ -495,9 +495,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("sakai.entity.updatecountcache", function(e, data){
             if(data.increment){
-                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text()) + 1);
+                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text(), 10) + 1);
             } else{
-                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text()) - 1);
+                $("#entity_comments_link > span").text(parseInt($("#entity_comments_link > span").text(), 10) - 1);
             }
         });
 

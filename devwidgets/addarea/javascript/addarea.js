@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
 
     /**
      * @name sakai_global.addarea
@@ -502,7 +502,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getTotalCount = function(structure){
             var total = 0;
             for (var i in structure){
-                total++;
+                if (structure.hasOwnProperty(i)){
+                    total++;
+                }
             }
             return total;
         };
@@ -772,6 +774,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (!query) {
                 url = "/var/search/pool/all-all.0.json";
             }
+
             if (library) {
                 json["userid"] = sakai.data.me.user.userid;
                 url = "/var/search/pool/manager-viewer.json";
@@ -836,6 +839,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 onClose: resetWidget
             });
             centerOverlay();
+            sakai.api.Util.bindDialogFocus($addAreaContainer);
             $addAreaContainer.jqmShow();
         };
 

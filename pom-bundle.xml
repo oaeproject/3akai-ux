@@ -10,110 +10,25 @@
     implied. See the License for the * specific language governing permissions and limitations under
     the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sakaiproject.nakamura</groupId>
+    <artifactId>org.sakaiproject.nakamura.uxloader-wrap</artifactId>
+    <version>1.2-SNAPSHOT</version>
+    <relativePath>./pom.xml</relativePath>
+  </parent>
   <groupId>org.sakaiproject.nakamura</groupId>
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <name>Sakai 3 UX Loader</name>
   <description>Loads the Sakai 3 UI into the JCR</description>
   <url>http://github.com/sakaiproject/3akai-ux</url>
-  <scm>
-    <connection>scm:git:git://github.com/sakaiproject/3akai-ux.git</connection>
-    <developerConnection>scm:git:git://git@github.com/sakaiproject/3akai-ux.git</developerConnection>
-    <url>http://github.com/sakaiproject/3akai-ux/</url>
-  </scm>
   <issueManagement>
     <system>jira</system>
     <url>http://jira.sakaiproject.org/jira/browse/SAKIII</url>
   </issueManagement>
-  <distributionManagement>
-        <downloadUrl>http://source.sakaiproject.org/maven2/</downloadUrl>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>sakai-maven-snapshots-scp</id>
-            <name>Sakai snapshot Repo</name>
-            <url>scp://source.sakaiproject.org/var/www/html/maven2-snapshots</url>
-            <layout>default</layout>
-        </snapshotRepository>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>sakai-maven2-scp</id>
-            <name>Sakai maven2 repository</name>
-            <url>scp://source.sakaiproject.org/var/www/html/maven2</url>
-            <layout>default</layout>
-        </repository>
-        <site>
-            <id>sakai-site</id>
-            <name>Sakai release Site</name>
-            <url>scp://source.sakaiproject.org/var/www/html/release/nakamura/${project.version}</url>
-        </site>
-  </distributionManagement>
-  <repositories>
-        <repository>
-            <id>sakai-maven2</id>
-            <name>Sakai Maven Repository</name>
-            <layout>default</layout>
-            <url>http://source.sakaiproject.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>sakai-maven2-snapshots</id>
-            <name>Sakai Maven Repo Snapshots</name>
-            <layout>default</layout>
-            <url>http://source.sakaiproject.org/maven2-snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>default</id>
-            <name>Maven Repository Switchboard</name>
-            <layout>default</layout>
-            <url>http://repo1.maven.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-           <id>apache-snapshots</id>
-            <name>Apache Snapshot Repository</name>
-           <url>http://repository.apache.org/snapshots/</url>
-          <snapshots>
-             <enabled>true</enabled>
-          </snapshots>
-         <releases>
-            <enabled>false</enabled>
-         </releases>
-       </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>default</id>
-      <name>Maven Repository Switchboard</name>
-      <layout>default</layout>
-      <url>http://repo1.maven.org/maven2</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
   <properties>
     <ant.target>dev_light</ant.target>
     <dev.content>
@@ -129,7 +44,7 @@
       <!-- Begin workaround for maven-bundle-plugin 2.0.1 ignoring processed resources. -->
       <properties>
         <ant.target>release</ant.target>
-        <dev.content></dev.content>
+        <dev.content />
       </properties>
     </profile>
     <profile>
@@ -137,7 +52,7 @@
       <!-- Begin workaround for maven-bundle-plugin 2.0.1 ignoring processed resources. -->
       <properties>
         <ant.target>development</ant.target>
-        <dev.content></dev.content>
+        <dev.content />
       </properties>
     </profile>
     <profile>
@@ -147,7 +62,7 @@
          <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>maven-sling-plugin</artifactId>
-          <version>2.0.5-SNAPSHOT</version>
+          <version>2.0.6</version>
           <executions>
             <execution>
               <id>install-bundle</id>
@@ -311,13 +226,13 @@
             <phase>initialize</phase>
             <configuration>
               <target>
-                <exec outputproperty="git.version" executable="git" failifexecutionfails="false" searchpath="true" >
+                <exec outputproperty="git.version" executable="git" failifexecutionfails="false" searchpath="true">
                   <arg line="describe" />
                 </exec>
-                <condition property="git.version.value" value="${git.version}" else="UnknownVersion" >
+                <condition property="git.version.value" value="${git.version}" else="UnknownVersion">
                   <isset property="git.version" />
                 </condition>
-                <echo file="${basedir}/target/scm-version.properties" >
+                <echo file="${basedir}/target/scm-version.properties">
                   scm.version=${git.version.value}
                 </echo>
               </target>
@@ -338,9 +253,15 @@
           <dependency>
             <groupId>org.sakaiproject.nakamura</groupId>
             <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.2-SNAPSHOT</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -348,7 +269,7 @@
     <dependency>
       <groupId>org.sakaiproject.nakamura</groupId>
       <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

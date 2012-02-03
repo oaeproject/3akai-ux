@@ -24,7 +24,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bookmark = false;
 
         var AUTOSAVE_INTERVAL = 15000, // 15 seconds
-            CONCURRENT_EDITING_TIMEOUT = 10000, // 10 seconds
             CONCURRENT_EDITING_INTERVAL = 5000; // 5 seconds
 
         var isEditingPage = false,
@@ -71,41 +70,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             autosaveDialogShown = false;
             setAutosaveInterval();
             $('#autosave_dialog').jqmHide();
-        };
-
-        var checkAutosave = function(newPage, callback) {
-            if (newPage){
-                // a new page won't have an autosave yet
-                callback(true);
-                return;
-            }
-            var pageSavePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
-            sakai.api.Server.loadJSON(pageSavePath + ".infinity.json", function(success, data) {
-                if (success) {
-                    // update the cached copy of autosave
-                    currentPageShown.autosave = data.autosave;
-                    currentPageShown.content = data.page;
-                    // if there is an editing flag and it is less than CONCURRENT_EDITING_TIMEOUT ago, and you aren't the most recent editor, then
-                    // someone else is editing the page right now.
-                    if (data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
-                        if ($.isFunction(callback)) {
-                            callback(false);
-                            return;
-                        }
-                    } else if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
-                        $('#autosave_dialog').jqmShow();
-                        autosaveDialogShown = true;
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                            return;
-                        }
-                    }
-                }
-                if ($.isFunction(callback)) {
-                    callback(true);
-                    return;
-                }
-            });
         };
 
         var editing = function() {
@@ -226,6 +190,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#dialog_title").html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
                     sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     $("#dialog_content").show();
+                    sakai.api.Util.bindDialogFocus($("#insert_dialog"));
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
                     window.scrollTo(0,0);
                 }
@@ -244,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Fill in media and goodies
             for (var i in sakai.widgets){
-                if (i) {
+                if (sakai.widgets.hasOwnProperty(i) && i) {
                     var widget = sakai.widgets[i];
                     if (widget[pageEmbedProperty] && widget.showinmedia) {
                         media.items.push(widget);
@@ -350,6 +315,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     $dialog_content.show();
                     window.scrollTo(0,0);
+                    sakai.api.Util.bindDialogFocus($("#insert_dialog"));
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
                 } else {
                     tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets[currentlySelectedWidget.widgetname].img + '" id="' + currentlySelectedWidget.uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
@@ -607,7 +573,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderPage = function(reloadPage){
             stopEditPage();
-            $("#versions_container").hide();
+            if($("#versions_container").is(":visible")){
+                $("#sakaidocs_revisions").trigger("click");
+            }
             sakai.api.Widgets.nofityWidgetShown("#s3d-page-container > div:visible", false);
             $("#s3d-page-container > div:visible").hide();
             var $contentEl = null,
@@ -665,21 +633,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////////////
 
         var editPage = function(newPage){
-            checkAutosave(newPage, function(safeToEdit) {
-                if (safeToEdit) {
-                    isEditingPage = true;
-                    editing();
-                    setEditInterval();
-                    if (!autosaveDialogShown) {
-                        setAutosaveInterval();
+            sakai.api.Content.checkAutosave(newPage, currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data){
+                if(success){
+                    // update the cached copy of autosave
+                    currentPageShown.autosave = data.autosave;
+                    currentPageShown.content = data.page;
+                    if (data.safeToEdit) {
+                        isEditingPage = true;
+                        if (data.hasAutosave) {
+                            autosaveDialogShown = true;
+                            sakai.api.Util.bindDialogFocus($("#autosave_dialog"));
+                            $('#autosave_dialog').jqmShow();
+                        }
+                        editing();
+                        setEditInterval();
+                        if (!autosaveDialogShown) {
+                            setAutosaveInterval();
+                        }
+                        $("#sakaidocs-page-edit-mode").show();
+                        $("#s3d-page-container").hide();
+                        var content = currentPageShown.content || "";
+                        tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+                        lastAutosave = content;
+                    } else {
+                        sakai.api.Util.notification.show("", $("#sakaidocs_concurrent_editing_message").text());
                     }
-                    $("#sakaidocs-page-edit-mode").show();
-                    $("#s3d-page-container").hide();
-                    var content = currentPageShown.content || "";
-                    tinyMCE.get("elm1").setContent(content, {format : 'raw'});
-                    lastAutosave = content;
-                } else {
-                    sakai.api.Util.notification.show("", $("#sakaidocs_concurrent_editing_message").text());
                 }
             });
         };
@@ -801,6 +779,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#sakaidocs_revisions").bind("click",function(ev){
+            $(this).children("span").toggle();
+            $(this).toggleClass("selected");
             $(window).trigger("init.versions.sakai", currentPageShown);
         });
 

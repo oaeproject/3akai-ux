@@ -21,7 +21,6 @@ define(["config/config"], function(config) {
     config.skinCSS = ["/dev/skins/default/skin.css"];
 
     // Hybrid
-    config.showSakai2 = true;
     config.useLiveSakai2Feeds = true;
 
     config.defaultprivstructure["${refid}5"].dashboard.columns.column1.push({

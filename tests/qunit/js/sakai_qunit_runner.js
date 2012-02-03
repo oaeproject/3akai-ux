@@ -112,7 +112,7 @@ require(
      */
     var finishTests = function() {
         // insert the results row
-        var html = "<tr><td></td><td>" + totalFailures + "</td><td>" + totalSuccesses + "</td><td>" + totalTime/1000 + "</td></tr>";
+        var html = "<tr><td><strong>All tests</strong></td><td>" + totalFailures + "</td><td>" + totalSuccesses + "</td><td>" + totalTime/1000 + "</td></tr>";
         $("#run_all_results_individual table tfoot").append(html);
         // trigger an event for anything listening that we're done with our tests
         $(window).trigger('complete.tests.qunit.sakai', {failures: totalFailures, successes: totalSuccesses});

@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
 
     /**
      * @name sakai_global.collections
@@ -58,6 +58,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var collectionsSaveNewButton = "#collections_save_new_button";
         var collectionsNewCollectionPermission = "#collections_newcollection_permissions";
         var collectionCountsContentCountsNew = "#collection_counts_content_counts_new";
+        var collectionsCollectionTitle = "#collections_collection_title";
 
         // Classes
         var collectionsAddNewSteps = ".collections_add_new_steps";
@@ -86,6 +87,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Focus the collection title input
+         */
+        var focusCollectionTitleInput = function() {
+            $(collectionsCollectionTitle).focus();
+        };
+
+        /**
         * Enable creation of collection and enable elements
         */
         var initializeNewCollectionsSetup = function(ev, _contentToAdd){
@@ -96,7 +104,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(collectionsNoCollections).hide();
             $(collectionsAddNewContainer).show();
             $(collectionsNewActionButtons).show();
-            $("#collections_collection_title").focus();
             if (!$collectionsWidget.is(":visible")){
                 $collectionsWidget.animate({
                     'margin-bottom': 'toggle',
@@ -104,7 +111,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     'opacity': 'toggle',
                     'padding-top': 'toggle',
                     'padding-bottom': 'toggle'
-               }, 400);
+                }, 400, focusCollectionTitleInput);
+            } else {
+                focusCollectionTitleInput();
             }
         };
 
@@ -137,7 +146,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $(collectionsNoCollections).show();
             }
-        }
+        };
 
         var carouselBinding = function(carousel){
             $("#collections_scroll_right").unbind("click");
@@ -164,6 +173,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var focusCollectionTitle = function(){
+            $('#collection_title_0').focus();
+        };
+
         var createNewCollection = function(){
             $("#collections_collection_title").attr("disabled", "disabled");
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("CREATING_YOUR_COLLECTION", "collections"), sakai.api.i18n.getValueForKey("WONT_BE_LONG", "collections"));
@@ -176,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#collections_collection_title").val("");
                 $("#collections_collection_title").removeAttr("disabled");
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION_CREATED"), sakai.api.i18n.getValueForKey("COLLECTION_CREATED_LONG"));
-                var t = setTimeout("$('#collection_title_0').focus()", 1000);
+                var t = setTimeout(focusCollectionTitle, 1000);
             });
         };
 
@@ -211,7 +224,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("ul[data-sakai-collection-id='" + collectionIds[i] + "']").html(sakai.api.Util.TemplateRenderer("collections_collections_recentcontent_template", contentItems));
                 });
             });
-        }
+        };
 
         /////////////////////////////////////////
         // DRAG AND DROP ITEMS IN FROM DESKTOP //
@@ -355,7 +368,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var recentContentToLoad = [];
                 for (var i = 0; i < data.results.length; i = i + 4){
                     recentContentToLoad.push(data.results[i]["_path"]);
-                };
+                }
                 getRecentContent(recentContentToLoad);
             }, cache);
         };
@@ -380,7 +393,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 'padding-bottom': 'toggle'
             }, 400, function(){
                 if ($collectionsWidget.is(":visible")){
-                    getCollections();
                     $("#collections_leftcolumn").focus();
                 } else {
                     $(collectionsScrollArrow).hide();
@@ -404,7 +416,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(collectionsSaveNewButton).live("click", createNewCollection);
             $(window).bind("create.collections.sakai", initializeNewCollectionsSetup);
             // Save the new collection when enter is pressed
-            $("#collections_collection_title").bind("keyup", function(ev, data){
+            $("#collections_collection_title").bind("keydown", function(ev, data){
                 if (ev.keyCode === 13){
                     createNewCollection();
                 }

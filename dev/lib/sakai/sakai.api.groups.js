@@ -34,9 +34,10 @@ define(
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.user",
-        "sakai/sakai.api.communication"
+        "sakai/sakai.api.communication",
+        "underscore"
     ],
-    function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm){
+    function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm, _){
 
     var sakaiGroupsAPI = {
         /**
@@ -104,7 +105,7 @@ define(
                 });
                 if ($.isFunction(callback)){
                     callback(true, toReturn);
-                };
+                }
             });
         },
 
@@ -903,7 +904,7 @@ define(
                             urlToGroupMapping[url] = {
                                 "groupid": groupid,
                                 "role": roles[i].id
-                            }
+                            };
                             batchRequests.push({
                                 "url": url,
                                 "method": "GET",
@@ -925,7 +926,7 @@ define(
                                 dataToReturn[groupid][roleid] = {"results": members};
                                 if (sakaiGroupsAPI.groupData[groupid]){
                                     sakaiGroupsAPI.groupData[groupid].membersPerRole = sakaiGroupsAPI.groupData[groupid].membersPerRole || {};
-                                    sakaiGroupsAPI.groupData[groupid].membersPerRole[roleid] = {"results": members}
+                                    sakaiGroupsAPI.groupData[groupid].membersPerRole[roleid] = {"results": members};
                                 }
                             });
                             if ($.isFunction(callback)) {
@@ -946,6 +947,7 @@ define(
 
         getRoles : function(groupData, translate) {
             var roles = [];
+            groupData.roles = groupData.roles || groupData["sakai:roles"];
             if ( _.isString( groupData.roles ) ) {
                 groupData.roles = $.parseJSON( groupData.roles );
             }

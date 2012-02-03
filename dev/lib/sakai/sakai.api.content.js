@@ -25,9 +25,10 @@ define(
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.l10n",
         "sakai/sakai.api.user",
+        "underscore",
         "misc/parseuri"
     ],
-    function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_l10n, sakai_user) {
+    function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_l10n, sakai_user, _) {
 
     var sakai_content = {
         /**
@@ -675,6 +676,12 @@ define(
             if (batchRequests.length > 0) {
                 sakai_serv.batch(batchRequests, function(success, data){
                     if (success) {
+                        // adjust content count in the UI so it accurately reflects the added content without needing a new request
+                        $.each(sakai_user.data.me.groups, function(index, group){
+                            if (group && group.counts && group.groupid === userId) {
+                                group.counts.contentCount++;
+                            }
+                        });
                         if (callBack) {
                             callBack(contentId, userId);
                         }
@@ -739,6 +746,38 @@ define(
                 }
             });
         },
+
+        /**
+         * Checks for autosaved documents for a sakai doc and returns that data
+         *
+         * @param {Boolean} Indicating if the sakai doc is a new page that can't have a autosaved page yet
+         * @param {String} Path to the sakai document in the system
+         * @param {Function} Callback function to execute on finish
+         */
+         checkAutosave: function(newPage, pagePath, callback) {
+             if (newPage){
+                 // a new page won't have an autosave yet
+                 if($.isFunction(callback)){
+                     callback(true, {"safeToEdit": true});
+                 }
+             } else {
+                 sakai_serv.loadJSON(pagePath + ".infinity.json", function(success, data) {
+                     if($.isFunction(callback)){
+                         // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
+                         // someone else is editing the page right now.
+                         data.safeToEdit = true;
+                         if(data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 && data.editing._lastModifiedBy !== sakai_user.data.me.user.userid){
+                             data.safeToEdit = false;
+                         }
+                         if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
+                             data.hasAutosave = true;
+                         }
+                         callback(success, data);
+                     }
+                 });
+             }
+         },
+
 
         /**
          * Returns a preview URL for known services, empty string otherwise
@@ -970,7 +1009,9 @@ define(
 
         getCommentCount : function(content){
             var count = 0;
-            if (content.hasOwnProperty("comments")) {
+            if (content.hasOwnProperty("commentCount")) {
+                count = content.commentCount;
+            } else if (content.hasOwnProperty("comments")) {
                 $.each(content.comments, function(key, val){
                     if ($.isPlainObject(val)) {
                         count++;
@@ -1239,7 +1280,7 @@ define(
                             // 3. Set the permissions on the pooled content item
                             sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
 
-                            	// 4. Create the pseudoGroups
+                                // 4. Create the pseudoGroups
                                 var groupId = sakai_content.Collections.getCollectionGroupId(collectionId);
                                 var batchRequests = [];
                                 var membershipsToProcess = [];
