@@ -1961,7 +1961,7 @@ define(
                     if ($.isFunction(closeFunction)){
                         closeFunction();
                     } else {
-                        $dialogContainer.jqmHide()
+                        $dialogContainer.jqmHide();
                     }
                     origFocus.focus();
                 } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
@@ -1982,7 +1982,7 @@ define(
                         return false;
                     }
                 }
-            }
+            };
             $(dialogContainer).unbind("keydown");
             $(dialogContainer).keydown(bindFunction);
         },
