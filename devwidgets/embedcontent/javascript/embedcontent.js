@@ -596,7 +596,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).unbind("done.newaddcontent.sakai");
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId === library)) {
+            if ($rootel.is(":visible") && (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
                 var obj = {};
                 for (var i = 0; i < data.length; i++){
                     obj[data[i]._path] = data[i];
