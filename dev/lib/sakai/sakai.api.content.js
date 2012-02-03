@@ -637,7 +637,7 @@ define(
                 collectionId = sakai_content.Collections.getCollectionGroupId(content.data);
             } else if (content && sakai_content.Collections.isCollection(content)) {
                 collectionId = sakai_content.Collections.getCollectionGroupId(content);
-            };
+            }
             if (collectionId === userid) {
                 return true;
             }
