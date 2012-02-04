@@ -35,6 +35,7 @@ define(function(){
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
             INFINITE_LOADING_ICON: "/dev/images/Infinite_Scrolling_Loader_v01.gif",
+            I18N_CUSTOM_BUNDLE: '/dev/configuration/custom.properties',
 
             // Services
             BATCH: "/system/batch",
