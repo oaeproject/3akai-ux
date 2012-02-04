@@ -1954,6 +1954,28 @@ define(function(){
                     "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
                 }
             }
+        },
+
+        /**
+         * Explore (landing page/index.html) configuration
+         *
+         * oneRow: indicates if there should just be one row and one widget in
+         *         that row. Requires widges.oneRowWidget to be set
+         * widgets: object that contains the widgets that should be in the
+         *          landing page configuration
+         *   rightColumn: The widget in the right column
+         *   main: The widget on the top left
+         *   bottom: The widget under the main widget
+         *   oneRowWidget: When oneRow is set to true, this widget will be the
+         *                 only widget displayed on the page
+         */
+        explore : {
+            oneRow: false,
+            widgets: {
+                rightColumn: "recentactivity",
+                main: "welcome",
+                bottom: "featuredcontent"
+            }
         }
     };
 
