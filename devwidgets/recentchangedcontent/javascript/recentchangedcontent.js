@@ -63,6 +63,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *   and item.type_img_url (URL for mimetype icon) for the given result
          */
         var parseDataResult = function(result, isRelatedContent) {
+            if (result["sling:resourceType"] !== "sakai/pooled-content"){
+                return false;
+            }
             // initialize parsed item with default values
             var mimeType = sakai.api.Content.getMimeType(result);
             var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);

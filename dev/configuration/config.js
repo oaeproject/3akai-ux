@@ -812,7 +812,7 @@ define(function(){
             },
             "x-sakai/collection": {
                 cssClass: "icon-collection-sprite",
-                URL: "/dev/images/mimetypes/collection.png",
+                URL: "/dev/images/mimetypes/collection2.png",
                 description: "COLLECTION"
             },
             "kaltura/video": {
@@ -1583,7 +1583,125 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
-        defaultSakaiDocContent: "",
+        defaultSakaiDocContent: {
+            "rows": [
+                {
+                    "id": "id00015",
+                    "columns": [
+                        {
+                            "width": 1,
+                            "elements": [
+                                {
+                                    "id": "id00001",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00002",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "id00016",
+                    "columns": [
+                        {
+                            "width": 0.5,
+                            "elements": [
+                                {
+                                    "id": "id00003",
+                                    "type": "embedcontent"
+                                }
+                            ]
+                        },
+                        {
+                            "width": 0.5,
+                            "elements": [
+                                {
+                                    "id": "id00004",
+                                    "type": "embedcontent"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "id00017",
+                    "columns": [
+                        {
+                            "width": 1,
+                            "elements": [
+                                {
+                                    "id": "id00025",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00005",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "id00018",
+                    "columns": [
+                        {
+                            "width": 0.33,
+                            "elements": [
+                                {
+                                    "id": "id00006",
+                                    "type": "embedcontent"
+                                },
+                                {
+                                    "id": "id00007",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00008",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        },
+                        {
+                            "width": 0.33,
+                            "elements": [
+                                {
+                                    "id": "id00009",
+                                    "type": "embedcontent"
+                                },
+                                {
+                                    "id": "id00010",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00011",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        },
+                        {
+                            "width": 0.34,
+                            "elements": [
+                                {
+                                    "id": "id00012",
+                                    "type": "embedcontent"
+                                },
+                                {
+                                    "id": "id00013",
+                                    "type": "pagetitle"
+                                },
+                                {
+                                    "id": "id00014",
+                                    "type": "htmlblock"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
 
         /*
          * _canEdit: can change the area permissions on this page
@@ -1642,67 +1760,152 @@ define(function(){
                 }
             },
             "${refid}0": {
-                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin"+
-                "-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' dat"+
-                "a-tuid='${refid}5'>__MSG__EDIT_LAYOUT__</button><button type='button' class='s3d-button "+
-                "s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_a"+
-                "dd_widget' data-tuid='${refid}5'>__MSG__ADD_WIDGET__</button></div><div class='s3d-conte"+
-                "ntpage-title'>__MSG__MY_DASHBOARD__</div><div id='widget_carousel' class='widget_inline'"+
-                "></div><br/><div id='widget_dashboard_${refid}5' class='widget_inline'></div>"
-            },
-            "${refid}1": {
-                "page": "<div id='widget_inbox_${refid}6' class='widget_inline'/>"
-            },
-            "${refid}2": {
-                "page": "<div id='widget_inbox_${refid}7' class='widget_inline'/>"
-            },
-            "${refid}3": {
-                "page": "<div id='widget_inbox_${refid}8' class='widget_inline'/>"
-            },
-            "${refid}4": {
-                "page": "<div id='widget_inbox_${refid}9' class='widget_inline'/>"
-            },
-            "${refid}5": {
-                "dashboard": {
-                    "layout": "threecolumn",
-                    "columns": {
-                        "column1": [{
-                            "uid": "${refid}10",
-                            "visible": "block",
-                            "name": "recentchangedcontent"
-                        }],
-                        "column2": [{
-                            "uid": "${refid}11",
-                            "visible": "block",
-                            "name": "recentmemberships"
-                        }],
-                        "column3": [{
-                            "uid": "${refid}12",
-                            "visible": "block",
-                            "name": "recentcontactsnew"
-                        }]
+                "rows": [
+                    {
+                        "id": "${refid}5",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}6",
+                                        "type": "htmlblock"
+                                    },
+                                    {
+                                        "id": "${refid}7",
+                                        "type": "carousel"
+                                    },
+                                    {
+                                        "id": "${refid}8",
+                                        "type": "dashboard"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}6": {
+                    "htmlblock": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin"+
+                                 "-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' dat"+
+                                 "a-tuid='${refid}5'>__MSG__EDIT_LAYOUT__</button><button type='button' class='s3d-button "+
+                                 "s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_a"+
+                                 "dd_widget' data-tuid='${refid}5'>__MSG__ADD_WIDGET__</button></div><div class='s3d-conte"+
+                                 "ntpage-title'>__MSG__MY_DASHBOARD__</div>"
+                },
+                "${refid}8": {
+                    "dashboard": {
+                        "layout": "threecolumn",
+                        "columns": {
+                            "column1": [{
+                                "uid": "${refid}9",
+                                "visible": "block",
+                                "name": "recentchangedcontent"
+                            }],
+                            "column2": [{
+                                "uid": "${refid}10",
+                                "visible": "block",
+                                "name": "recentmemberships"
+                            }],
+                            "column3": [{
+                                "uid": "${refid}11",
+                                "visible": "block",
+                                "name": "recentcontactsnew"
+                            }]
+                        }
                     }
                 }
             },
-            "${refid}6": {
-                "box": "inbox",
-                "category": "message",
-                "title": "__MSG__INBOX__"
+            "${refid}1": {
+                "rows": [
+                    {
+                        "id": "${refid}12",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}13",
+                                        "type": "inbox"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}13": {
+                    "box": "inbox",
+                    "category": "message",
+                    "title": "__MSG__INBOX__"
+                }
             },
-            "${refid}7": {
-                "box": "inbox",
-                "category": "invitation",
-                "title": "__MSG__INVITATIONS__"
+            "${refid}2": {
+                "rows": [
+                    {
+                        "id": "${refid}14",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}15",
+                                        "type": "inbox"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}15": {
+                    "box": "inbox",
+                    "category": "invitation",
+                    "title": "__MSG__INVITATIONS__"
+                }
             },
-            "${refid}8": {
-                "box": "outbox",
-                "category": "*",
-                "title": "__MSG__SENT__"
+            "${refid}3": {
+                "rows": [
+                    {
+                        "id": "${refid}16",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}17",
+                                        "type": "inbox"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}17": {
+                    "box": "outbox",
+                    "category": "*",
+                    "title": "__MSG__SENT__"
+                }
             },
-            "${refid}9": {
-                "box": "trash",
-                "category": "*",
-                "title": "__MSG__TRASH__"
+            "${refid}4": {
+                "rows": [
+                    {
+                        "id": "${refid}18",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}19",
+                                        "type": "inbox"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}15": {
+                    "box": "trash",
+                    "category": "*",
+                    "title": "__MSG__TRASH__"
+                }
             }
         },
 

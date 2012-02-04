@@ -45,8 +45,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var navSelectedItemArrow = ".lhnavigation_selected_item_arrow";
         var navSelectedItem = ".lhnavigation_selected_item";
 
-        var $lhnavigation_sakaidocs_declaration = $("#lhnavigation_sakaidocs_declaration"),
-            $lhnavigation_sakaidocs_declaration_template = $("#lhnavigation_sakaidocs_declaration_template");
+        var $lhnavigation_contentauthoring_declaration = $("#lhnavigation_contentauthoring_declaration"),
+            $lhnavigation_contentauthoring_declaration_template = $("#lhnavigation_contentauthoring_declaration_template");
 
         ////////////////
         // DATA CACHE //
@@ -491,7 +491,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var preparePageRender = function(ref, path, savePath, pageSavePath, nonEditable, canEdit, newPageMode){
             var content = getPageContent(ref);
-            var pageContent = content && content.page ? content.page : "";
+            var pageContent = content ? content : {"rows": []};
             var lastModified = content && content._lastModified ? content._lastModified : null;
             var autosave = content && content.autosave ? content.autosave : null;
             var pageTitle = $.trim($(".lhnavigation_selected_item .lhnavigation_page_title_value").text());
@@ -507,7 +507,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "pageSavePath": pageSavePath,
                 "saveRef": saveRef,
                 "canEdit": canEdit,
-                "widgetData": [privstructure.pages, pubstructure.pages],
+                //"widgetData": [privstructure.pages, pubstructure.pages],
                 "addArea": contextData.addArea,
                 "nonEditable": nonEditable,
                 "_lastModified": lastModified,
@@ -524,7 +524,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 };
                 editPageTitle();
             } else {
-                $(window).trigger("showpage.sakaidocs.sakai", [currentPageShown]);
+                $(window).trigger("showpage.contentauthoring.sakai", [currentPageShown]);
             }
         };
 
@@ -1032,14 +1032,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var prepareRenderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             if (!sakaiDocsInitialized){
                 sakaiDocsInitialized = true;
-                $("#s3d-page-main-content").append($("#lhnavigation_sakaidocs_declaration"));
-                $(window).bind("ready.sakaidocs.sakai", function(){
+                $("#s3d-page-main-content").append($("#lhnavigation_contentauthoring_declaration"));
+                $(window).bind("ready.contentauthoring.sakai", function(){
                     renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
                 });
                 // Don't render sakaidocs on paths in the doNotRenderSakaiDocsOnPaths array
                 // so we don't double-render it on those that already include it
                 if ($.inArray(window.location.path, doNotRenderSakaiDocsOnPaths) === -1) {
-                    sakai.api.Util.TemplateRenderer($lhnavigation_sakaidocs_declaration_template, {}, $lhnavigation_sakaidocs_declaration);
+                    sakai.api.Util.TemplateRenderer($lhnavigation_contentauthoring_declaration_template, {}, $lhnavigation_contentauthoring_declaration);
                 }
                 sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content", false);
             } else {

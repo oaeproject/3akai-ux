@@ -1,0 +1,112 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/inserter/css/inserter.css" />
+
+<div class="inserter_widget" style="display:none;">
+    <div id="inserter_header" class="defines_height">
+        <div id="inserter_header_dragbar" class="fl-force-left"></div>
+        <button type="button" id="inserter_close_icon" class="s3d-link-button inserter_toggle" title="__MSG__CLOSE_INSERTER__">&nbsp;</button>
+        <hr class="fl-push fl-hidden"/>
+        <div id="inserter_header_title_container"><!----></div>
+        <hr class="fl-push fl-hidden"/>
+    </div>
+    <div id="inserter_collector">
+        <div id="inserter_init_container"><!----></div>
+        <div id="inserter_collection_content_container">
+            <select class="fl-force-right" id="inserter_mimetype_filter">
+                <option value="">__MSG__ALL_TYPES__</option>
+                <option value="application/pdf">__MSG__PDF__</option>
+                <option value="image/png">__MSG__IMAGES__</option>
+                <option value="x-sakai/collection">__MSG__COLLECTIONS__</option>
+            </select>
+            <input type="text" class="fl-force-left" id="inserter_collection_content_search"/>
+            <hr class="fl-hidden fl-push"/>
+            <div class="inserter_collections_top_container" id="inserter_infinitescroll_container">
+                <ul id="inserter_collection_items_container"></ul>
+            </div>
+            <div id="inserter_no_results_container"><!----></div>
+            <button type="button" class="s3d-button s3d-overlay-action-button" id="inserter_all_collections_button">__MSG__ALL_COLLECTIONS__</button>
+        </div>
+    </div>
+</div>
+
+<div id="inserter_init_template" style="display:none;"><!--
+    <div class="inserter_collections_top_container">
+        <ul>
+            <li data-id="library">
+                <div class="inserter_library_icon fl-force-left"></div>
+                <div class="inserter_item_count_container fl-force-right">${sakai.data.me.user.properties.contentCount}</div>
+                <span class="s3d-regular-links s3d-bold">__MSG__MY_LIBRARY__</span>
+                <hr class="fl-hidden fl-push"/>
+            </li>
+            {if collections.length}
+                {for collection in collections}
+                    <li class="s3d-draggable-container" data-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
+                        <img src="${sakai.api.Content.getMimeTypeData("x-sakai/collection").URL}" class="fl-force-left s3d-icon-32"/>
+                        <div class="inserter_item_count_container fl-force-right">${collection.counts.contentCount}</div>
+                        <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 220, null, "s3d-bold")}</span>
+                        <hr class="fl-hidden fl-push"/>
+                    </li>
+                {/for}
+            {/if}
+        </ul>
+    </div>
+    {if !collections.length}
+        <div id="no_collections_artwork"></div>
+    {/if}
+--></div>
+
+<div id="inserter_collection_content_template"><!--
+    {for item in items}
+        <li class="s3d-draggable-container" id="${item._path}">
+            <img src="${sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
+            <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 83, null, "s3d-bold")}</span>
+            <div class="inserter_collection_type s3d-draggable-hidden">${sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(item._mimeType).description)}</div>
+            <hr class="fl-hidden fl-push"/>
+        </li>
+    {/for}
+--></div>
+
+<div id="inserter_no_results_template" style="display:none;"><!--
+    {if search}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-icon s3d-no-results-magnifier less-margin"></div>
+            <h1>Your search didn't return any results</h1>
+        </div>
+    {else}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
+            <h1>This collection does not contain any items</h1>
+        </div>
+    {/if}
+--></div>
+
+<div id="inserter_header_title_template" style="display:none;"><!--
+    {if context === "init"}
+        <div id="inserter_header_title">__MSG__COLLECTOR__</div>
+    {else}
+        <div id="inserter_header_collection_title_container" class="fl-push">
+            <div class="inserter_library_icon fl-force-left inserter_header_collection_icon"></div>
+            <div id="inserter_header_float_container">
+                <span id="inserter_header_collection_title">
+                {if item === "library"}
+                    __MSG__MY_LIBRARY__
+                {else}
+                    ${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300)}
+                {/if}
+                </span>
+                <span class="inserter_collection_type">__MSG__COLLECTION__</span>
+                <div id="inserter_header_itemcount">
+                    {if item === "library"}
+                        ${librarycount}
+                    {else}
+                        ${item.counts.contentCount}
+                    {/if}
+                    __MSG__CONTENT_ITEMS__</div>
+            </div>
+            <hr class="fl-hidden fl-push"/>
+        </div>
+    {/if}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/inserter/javascript/inserter.js"></script>
