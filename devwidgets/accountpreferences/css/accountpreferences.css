@@ -34,16 +34,16 @@
 #accountpreferences_section_regional{width:415px;}
 #accountpreferences_section_autotagging{width:275px;}
 #accountpreferences_section_autotagging div {margin-bottom:10px;}
-.accountpreferences_section_wrap_password{margin:0 10px 10px 0;padding:10px 20px;float:left;}
+.accountpreferences_section_wrap_password, .accountpreferences_section_wrap_email{margin:0 10px 10px 0;padding:10px 20px;float:left;}
 .accountpreferences_section_privacy {margin:0 10px 10px 0;padding:20px;}
-#accountpreferences_section_password{width:742px;}
+#accountpreferences_section_password, #accountpreferences_section_email{width:742px;}
 
-.accountpreferences .password-preferences-input{border:1px solid #ccc;height:25px;width:330px;}
-.accountpreferences .save-preferences{float:right;height:30px;margin-right:10px;margin-top:5px;}
+.accountpreferences .password-preferences-input, .accountpreferences .email-input{border:1px solid #ccc;height:25px;width:330px;}
+.accountpreferences .save-preferences{float:right;height:30px;margin-right:10px;margin-top:5px;width:100%;text-align:right;}
 .accountpreferences .form-item{margin-bottom:15px;}
 .accountpreferences .form-item label{float:left;margin-right:15px;text-align:right;width:70px;}
-.accountpreferences #accountpreferences_section_password .form-item input{margin-right:180px;}
-.accountpreferences #accountpreferences_section_password .form-item label{margin-top:5px;width:180px;}
+.accountpreferences #accountpreferences_section_password .form-item input, .accountpreferences #accountpreferences_section_email .form-item input{margin-right:180px;}
+.accountpreferences #accountpreferences_section_password .form-item label, .accountpreferences #accountpreferences_section_email .form-item label{margin-top:5px;width:180px;}
 .accountpreferences #accountpreferences_section_regional .form-item label{margin-top:2px;}
 .accountpreferences .preferences-form{margin-top:25px;}
 .accountpreferences .preferences-form select{border:1px solid #ccc;height:21px;width:260px;}
