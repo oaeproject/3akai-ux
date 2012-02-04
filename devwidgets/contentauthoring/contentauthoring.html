@@ -39,7 +39,7 @@
                 {/if}
                 <span class="contentauthoring_cell_element_action_x fl-force-left" data-element-id="${id}" title="__MSG__DELETE__"></span>
             </div>
-            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle")}
+            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle"  && !settingsoverridden)}
                 <div id="${id}"></div>
             {else}
                 <div id="widget_${type}_${id}" class="widget_inline"></div>
@@ -84,7 +84,7 @@
     {if template === "row"}
         ${insertRow(id, columns)}
     {elseif template === "cell"}
-        ${insertCell(id, type)}
+        ${insertCell(id, type, settingsoverridden)}
     {elseif template === "column"}
         ${insertColumn(column)}
     {else}

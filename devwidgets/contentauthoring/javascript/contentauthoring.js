@@ -316,17 +316,88 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Add a new element: external //
         /////////////////////////////////
 
-        var addExternal = function(ev, data){
-            var template = sakai.api.Util.TemplateRenderer("create_cell_element_template", {data: data, sakai: sakai});
-            // We add the item after the element is dropped on if there is one
-            // If the column is empty we append
-            if($(data.target).hasClass("contentauthoring_cell_element")){
-                $(data.target).after(template);
+        var uploadExternalFiles = function(files){
+            
+        };
+
+        /**
+        * Uploads the dropped link to the system
+        * @param link {String} Link that was dropped
+        * @param $el  {Object} jQuery object on which the link was dropped
+        */
+        var uploadExternalLink = function(link, $el){
+            var preview = sakai.api.Content.getPreviewUrl(link);
+            var link = {
+                "sakai:pooled-content-url": link,
+                "mimeType": "x-sakai/link",
+                "sakai:preview-url": preview.url,
+                "sakai:preview-type": preview.type,
+                "sakai:preview-avatar": preview.avatar,
+                "sakai:pooled-content-file-name": link
+            };
+
+            $.ajax({
+                url: "/system/pool/createfile",
+                data: link,
+                type: "POST",
+                dataType: "JSON",
+                success: function(data){
+                    // Embed the link in the page
+                    var id = sakai.api.Util.generateWidgetId();
+
+                    // Construct post for new embed content
+                    var linkData = {
+                        "layout":"single",
+                        "embedmethod":"original",
+                        "title": "",
+                        "description": "",
+                        "items": {
+                            "__array__0__":"/p/" + data._contentItem.poolId
+                        },
+                        "details":false,
+                        "download":false,
+                        "name": link,
+                        "sakai:indexed-fields":"title,description",
+                        "sling:resourceType":"sakai/widget-data"
+                    }
+                    sakai.api.Server.saveJSON(STORE_PATH + id + "/" + "embedcontent", linkData, function(){
+                        var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                            "id": id,
+                            "type": "embedcontent",
+                            "template": "cell",
+                            "settingsoverridden": true
+                        });
+                        if($el.hasClass("contentauthoring_cell_element")){
+                            $el.after($(element));
+                        } else {
+                            $el.append($(element));
+                        }
+                        sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+                        setActions();
+                    }, true);
+                },
+                error: function() {
+                    debug.log("error!");
+                }
+            });
+        };
+
+        /**
+        * @param ev  {object} Drop event
+        * @param $el {Object} jQuery object containing the element on which the external content was dropped
+        */
+        var addExternal = function(ev, $el){
+            var content = false;
+            var contentType = "link";
+            var dt = ev.originalEvent.dataTransfer;
+            if(dt.files.length){
+                contentType = "file";
+                content = dt.files;
+                uploadExternalFiles(content);
             } else {
-                $(data.target).append(template);
+                content = dt.getData("Text");
+                uploadExternalLink(content, $el);
             }
-            // Reapply the cell hovers
-            setCellHover();
         };
 
 
@@ -605,8 +676,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
-        $(window).bind("sakai.contentauthoring.droppedexternal", addExternal);
-
         $rootel.contentChange(function(changedHTML){
             $.each($(changedHTML).find("img:visible"), function(i, item){
                 imageLoaded({}, $(item));
@@ -621,6 +690,36 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Other management stuff //
         ////////////////////////////
         ////////////////////////////
+
+        // Highlight on drag entering drop zone.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragenter', function(ev) {
+            $(".ui-state-highlight.external_content").remove();
+            if($(this).hasClass("contentauthoring_cell_element")){
+                $(this).after($("<div class='ui-state-highlight external_content'></div>"));
+            } else {
+                $(this).append($("<div class='ui-state-highlight external_content'></div>"));
+            }
+            return false;
+        });
+
+        // Un-highlight on drag leaving drop zone.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragleave', function(ev) {
+            return false;
+        });
+
+        // Decide whether the thing dragged in is welcome.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragover', function(ev) {
+            return false;
+        });
+
+        // Handle the final drop
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('drop', function(ev) {
+            ev.preventDefault();
+            $(".ui-state-highlight.external_content").remove();
+            var dt = ev.originalEvent.dataTransfer;
+            addExternal(ev, $(this));
+            return false;
+        });
 
         $("#inserterbar_action_edit_page").live("click", function(){
             $rootel.addClass("contentauthoring_edit_mode");
