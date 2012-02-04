@@ -40,6 +40,7 @@ define(
         data : {
             localBundle : false,
             defaultBundle : false,
+            customBundle: false,
             widgets : {},
             culture : "default",
             meData: false
@@ -205,7 +206,7 @@ define(
              *  JSON object where the keys are the keys we expect in the HTML and the values are the translated strings
              *  in the default language
              */
-            var doI18N = function(localjson, defaultjson){
+            var doI18N = function() {
                 var newstring = sakaii18nAPI.General.process(tostring);
                 // We actually use the old innerHTML function here because the $.html() function will
                 // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
@@ -228,7 +229,7 @@ define(
             var loadLanguageBundles = function(){
                 
                 var localeSet = false;
-                var langCode, i10nCode, loadDefaultBundleRequest, loadLocalBundleRequest;
+                var langCode, i10nCode, loadDefaultBundleRequest, loadCustomBundleRequest, loadLocalBundleRequest;
 
                 if (meData && meData.user && meData.user.locale && meData.user.locale.country) {
                     langCode = meData.user.locale.language + "_" + meData.user.locale.country.replace("_", "-");
@@ -254,6 +255,11 @@ define(
                     "method": "GET"
                 };
 
+                loadCustomBundleRequest = {
+                    'url': '/dev/configuration/custom.properties',
+                    'method': 'GET'
+                };
+
                 if (localeSet) {
                     loadLocalBundleRequest = {
                         "url": sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
@@ -266,10 +272,11 @@ define(
                 // callback function for response from batch request
                 var bundleReqFunction = function(success, reqData){
                     if (success){
-                        var loadDefaultBundleSuccess, loadDefaultBundleData, loadLocalBundleSuccess, loadLocalBundleData;
+                        var loadDefaultBundleSuccess, loadDefaultBundleData,
+                            loadLocalBundleSuccess, loadLocalBundleData,
+                            loadCustomBundleSuccess, loadCustomBundleData;
                         // loop through and allocate response data to their request
-                        var i;
-                        for (i in reqData.responseId) {
+                        for (var i in reqData.responseId) {
                             if (reqData.responseId.hasOwnProperty(i) && reqData.responseData[i]) {
                                 if (reqData.responseId[i] === "loadDefaultBundle") {
                                     loadDefaultBundleSuccess = reqData.responseData[i].success;
@@ -279,34 +286,35 @@ define(
                                     loadLocalBundleSuccess = reqData.responseData[i].success;
                                     loadLocalBundleData = reqData.responseData[i].body;
                                 }
+                                if (reqData.responseId[i] === "loadCustomBundle") {
+                                    loadCustomBundleSuccess = reqData.responseData[i].success;
+                                    loadCustomBundleData = reqData.responseData[i].body;
+                                }
                             }
                         }
 
                         // process the responses
+                        if (loadCustomBundleSuccess) {
+                            loadCustomBundleData = sakaii18nAPI.changeToJSON(loadCustomBundleData);
+                            sakaii18nAPI.data.customBundle = loadCustomBundleData;
+                        }
+                        if (localeSet && loadLocalBundleSuccess) {
+                            loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
+                            sakaii18nAPI.data.localBundle = loadLocalBundleData;
+                        }
                         if (loadDefaultBundleSuccess) {
                             loadDefaultBundleData = sakaii18nAPI.changeToJSON(loadDefaultBundleData);
                             sakaii18nAPI.data.defaultBundle = loadDefaultBundleData;
-                            if (localeSet) {
-                                if (loadLocalBundleSuccess) {
-                                    loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
-                                    sakaii18nAPI.data.localBundle = loadLocalBundleData;
-                                    doI18N(sakaii18nAPI.data.localBundle, sakaii18nAPI.data.defaultBundle);
-                                } else {
-                                    doI18N(null, sakaii18nAPI.data.defaultBundle);
-                                }
-                            } else {
-                                // There is no locale set for the current user. We'll switch to using the default bundle only
-                                doI18N(null, sakaii18nAPI.data.defaultBundle);
-                            }
-                        } else {
-                            finishI18N();
                         }
+                        doI18N();
                     }
                 };
                 // add default language bundle to batch request
-                sakai_serv.bundleRequests("i18n", 2, "loadDefaultBundle", loadDefaultBundleRequest, bundleReqFunction);
+                sakai_serv.bundleRequests("i18n", 3, "loadDefaultBundle", loadDefaultBundleRequest, bundleReqFunction);
                 // add local language bundle to batch request
-                sakai_serv.bundleRequests("i18n", 2, "loadLocalBundle", loadLocalBundleRequest);
+                sakai_serv.bundleRequests("i18n", 3, "loadLocalBundle", loadLocalBundleRequest);
+                // add custom language bundle to batch request
+                sakai_serv.bundleRequests('i18n', 3, 'loadCustomBundle', loadCustomBundleRequest);
             };
 
 
@@ -402,7 +410,12 @@ define(
             if (locale === "lu_GB") {
                 return key;
             } else {
-                // First check the bundle for the widget, if provided
+                // First check if the key can be found in the custom bundle,
+                // so that those values override everything
+                if (sakaii18nAPI.data.customBundle && _.isString(sakaii18nAPI.data.customBundle[key])) {
+                    return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.customBundle[key]);
+                }
+                // Check the bundle for the widget, if provided
                 if (widgetname) {
                     if (typeof sakaii18nAPI.data.widgets[widgetname]) {
                         // First check if the key can be found in the widget's locale bundle
@@ -415,7 +428,8 @@ define(
                         }
                     }
                 }
-                // First check if the key can be found in the general locale bundle
+
+                // Check if the key can be found in the general locale bundle
                 if (sakaii18nAPI.data.localBundle && _.isString(sakaii18nAPI.data.localBundle[key])) {
                     return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.localBundle[key]);
                 }
