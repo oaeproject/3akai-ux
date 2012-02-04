@@ -348,8 +348,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             "items": {},
                             "title": "",
                             "description": "",
+                            "details": false,
+                            "download": false,
+                            "name": false,
                             "sakai:indexed-fields":"title,description",
                             "sling:resourceType":"sakai/widget-data"
+                        }
+                        if(files.length > 1){
+                            contentData.layout = "vertical";
+                            contentData.embedmethod = "thumbnail";
+                            contentData.name = true;
                         }
                         $.each(filesUploaded, function(index, item){
                             contentData["items"]["__array__" + index + "__"] = "/p/" + item._path;
