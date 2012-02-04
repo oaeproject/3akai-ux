@@ -46,7 +46,6 @@ require(
             };
 
         var startTests = function() {
-            $(window).trigger("addlocalbinding.qunit.sakai");
             QUnit.start();
 
             QUnit.test("Rendering a string in a template", function() {
@@ -118,6 +117,7 @@ require(
                 sakai.api.Util.TemplateRenderer($template10, {data:data1}, $container);
                 QUnit.equal($.trim($container.html()), data1);
             });
+            $(window).trigger("addlocalbinding.qunit.sakai");
         };
 
         if ( sakai_global.qunit && sakai_global.qunit.ready ) {

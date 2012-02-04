@@ -69,6 +69,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         $help_dont_show.removeAttr("checked");
                     }
+                    sakai.api.Util.bindDialogFocus($help_widget);
                     $help_widget.jqmShow();
                 }
             }

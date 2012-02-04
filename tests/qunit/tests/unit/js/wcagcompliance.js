@@ -81,7 +81,11 @@ require(
             var divHtml = $(elt).html();
             if (divHtml.substr(0, 5) === "<!--\n" && divHtml.substr(divHtml.length - 4, divHtml.length) === "\n-->") {
                 // this is a javascript template, check the elements in the template
-                var templateData = divHtml.substr(5, divHtml.length - 4);
+                var templateData = divHtml.substring(5, divHtml.length - 4);
+
+                // We need to empty out the SRC since otherwise we'll get unnecessary error messages
+                // These messages appear since the browser wants to load the actual image (e.g. src="{test.img}")
+                templateData = templateData.replace(/src="(.+?)"/g, 'src=""');
                 var div = document.createElement('div');
                 div.innerHTML = templateData;
                 checkElements($(div), false);

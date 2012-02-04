@@ -87,6 +87,13 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         /**
+         * Focus the collection title input
+         */
+        var focusCollectionTitleInput = function() {
+            $(collectionsCollectionTitle).focus();
+        };
+
+        /**
         * Enable creation of collection and enable elements
         */
         var initializeNewCollectionsSetup = function(ev, _contentToAdd){
@@ -104,9 +111,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     'opacity': 'toggle',
                     'padding-top': 'toggle',
                     'padding-bottom': 'toggle'
-               }, 400, function(){
-                 $(collectionsCollectionTitle).focus();
-               });
+                }, 400, focusCollectionTitleInput);
+            } else {
+                focusCollectionTitleInput();
             }
         };
 
@@ -394,7 +401,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 'padding-bottom': 'toggle'
             }, 400, function(){
                 if ($collectionsWidget.is(":visible")){
-                    getCollections();
                     $("#collections_leftcolumn").focus();
                 } else {
                     $(collectionsScrollArrow).hide();
