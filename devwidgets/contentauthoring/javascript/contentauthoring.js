@@ -342,42 +342,50 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 type: "POST",
                 dataType: "JSON",
                 success: function(data){
-                    // Embed the link in the page
-                    var id = sakai.api.Util.generateWidgetId();
+                    var files = [];
+                    $.each(data, function(index, item){
+                        files.push(item.poolId);
+                    });
+                    sakai.api.Content.setFilePermissionsAsParent(files, currentPageShown.savePath, function(success){
+                        // Embed the link in the page
+                        var id = sakai.api.Util.generateWidgetId();
 
-                    // Construct post for new embed content
-                    var linkData = {
-                        "layout":"single",
-                        "embedmethod":"original",
-                        "title": "",
-                        "description": "",
-                        "items": {
-                            "__array__0__":"/p/" + data._contentItem.poolId
-                        },
-                        "details":false,
-                        "download":false,
-                        "name": link,
-                        "sakai:indexed-fields":"title,description",
-                        "sling:resourceType":"sakai/widget-data"
-                    }
-                    sakai.api.Server.saveJSON(STORE_PATH + id + "/" + "embedcontent", linkData, function(){
-                        var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
-                            "id": id,
-                            "type": "embedcontent",
-                            "template": "cell",
-                            "settingsoverridden": true
-                        });
-                        if($el.hasClass("contentauthoring_cell_element")){
-                            $el.after($(element));
-                        } else {
-                            $el.append($(element));
+                        // Construct post for new embed content
+                        var linkData = {
+                            "layout":"single",
+                            "embedmethod":"original",
+                            "title": "",
+                            "description": "",
+                            "items": {
+                                "__array__0__":"/p/" + data._contentItem.poolId
+                            },
+                            "details":false,
+                            "download":false,
+                            "name": link,
+                            "sakai:indexed-fields":"title,description",
+                            "sling:resourceType":"sakai/widget-data"
                         }
-                        sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
-                        setActions();
-                    }, true);
+                        sakai.api.Server.saveJSON(STORE_PATH + id + "/" + "embedcontent", linkData, function(){
+                            var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                                "id": id,
+                                "type": "embedcontent",
+                                "template": "cell",
+                                "settingsoverridden": true
+                            });
+                            if($el.hasClass("contentauthoring_cell_element")){
+                                $el.after($(element));
+                            } else {
+                                $el.append($(element));
+                            }
+                            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+                            setActions();
+                            sakai.api.Util.progressIndicator.hideProgressIndicator();
+                        }, true);
+                    });
                 },
                 error: function() {
                     debug.log("error!");
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
                 }
             });
         };
@@ -387,6 +395,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         * @param $el {Object} jQuery object containing the element on which the external content was dropped
         */
         var addExternal = function(ev, $el){
+            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("INSERTING_YOUR_EXTERNAL_CONTENT", "contentauthoring"), sakai.api.i18n.getValueForKey("PROCESSING"));
             var content = false;
             var contentType = "link";
             var dt = ev.originalEvent.dataTransfer;
