@@ -160,7 +160,7 @@
 }
 
 .contentauthoring_cell_element_actions {
-    width: 63px;
+    width: auto;
 }
 
 .contentauthoring_row_handle_container.selected {
@@ -213,6 +213,7 @@
 
 .contentauthoring_cell_element_actions .contentauthoring_cell_element_action_x {
     background: url("/devwidgets/contentauthoring/images/cell_edit_handle_delete.png") no-repeat center center transparent;
+    margin-right: 7px;
 }
 .contentauthoring_cell_element_actions .contentauthoring_cell_element_action_x:hover {
     background: url("/devwidgets/contentauthoring/images/cell_edit_handle_delete_hover.png") no-repeat center center transparent;
