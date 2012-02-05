@@ -75,6 +75,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "contextData": contextData,
                 "parametersToCarryOver": parametersToCarryOver
             });
+            debug.log(pubstructure);
             $("#lhnavigation_container").html(lhnavHTML);
         };
 

@@ -545,10 +545,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var removeColumns = function($row, lastColumn){
             var widths = getColumnWidths($row);
-            debug.log(widths);
             var remainingWidth = 1;
             var $cells = $(".contentauthoring_cell", $row);
-            debug.log($cells.length);
             for (var i = lastColumn + 1; i < $cells.length; i++){
                 var $cell = $($cells[i]);
                 var $cellcontent = $(".contentauthoring_cell_content", $cell).children();
@@ -557,9 +555,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 remainingWidth -= widths[i];
             }
             for (var i = 0; i <= lastColumn; i++) {
-                debug.log(widths[i]);
-                debug.log(remainingWidth);
-                debug.log(widths[i] / remainingWidth);
                 $($cells[i]).css("width", (widths[i] / remainingWidth) * 100 + "%");
             }
             updateColumnHandles();
@@ -777,21 +772,33 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var renderPage = function(currentPageShown){
-            var pageStructure = $.extend(true, {}, currentPageShown.content);
-            //$rootel.addClass("contentauthoring_edit_mode");
-            pageStructure.template = "all";
-            STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
-            $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
-            debug.log(currentPageShown);
-            debug.log(currentPageShown.content);
-            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH, currentPageShown.content);
+            if($("#versions_container").is(":visible")){
+                $("#inserterbar_action_revision_history").trigger("click");
+            }
+            sakai.api.Widgets.nofityWidgetShown("#contentauthoring_widget > div:visible", false);
+            $("#contentauthoring_widget > div:visible").hide();
+            
+            if ($("#" + currentPageShown.ref).length === 0) {
+                // Create the new element
+                var $el = $("<div>").attr("id", currentPageShown.ref);
+                // Add element to the DOM
+                $("#contentauthoring_widget").append($el);
+                var pageStructure = $.extend(true, {}, currentPageShown.content);
+                pageStructure.template = "all";
+                STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+                $el.html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
+                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, STORE_PATH, currentPageShown.content);
+            } else {
+                $("#contentauthoring_widget #" + currentPageShown.ref).show();
+                sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
+            }
+
             if (canEdit()){
-                //setActions();
-                //updateColumnHandles();
                 $("#contentauthoring_inserterbar_container").show();
             } else {
                 $("#contentauthoring_inserterbar_container").hide();
             }
+
         };
 
         $rootel.contentChange(function(changedHTML){

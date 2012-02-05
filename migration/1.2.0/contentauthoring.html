@@ -30,10 +30,20 @@
         <!-- HEADER -->
         <div class="fl-container-flex">
             <div id="content_profile_main_container" class="fl-fix fl-centered fixed-container s3d-main-container">
-                <div id="content_profile_right_container" class="s3d-page-main-content s3d-page-fullcolumn-padding" style="clear:both; padding-top: 70px;">
+                <div id="content_profile_right_container" class="s3d-page-main-content s3d-page-fullcolumn-padding" style="clear:both; padding: 70px 20px;">
                     <div>
                         Input:<br/>
                         <input style="width: 100%" id="migration_input_url" value="http://localhost:8080/~nicolaas/private/privspace.infinity.json"/>
+                    </div>
+                    <div style="margin-top: 20px">
+                        <button type="button" class="s3d-button s3d-overlay-action-button" id="migration_convert_url">Convert from URL</button>
+                    </div>
+                    <div style="margin-top: 20px">
+                        <b>OR</b>
+                    </div>
+                    <div style="margin-top: 20px">
+                        Input:<br/>
+                        <textarea style="width: 100%" rows="10" id="migration_input_block"></textarea>
                     </div>
                     <div style="margin-top: 20px">
                         <button type="button" class="s3d-button s3d-overlay-action-button" id="migration_convert_structure">Convert structure</button>

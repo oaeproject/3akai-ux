@@ -20,7 +20,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.contentauthoring = function(){
 
-        $("#migration_convert_structure").live("click", function(){
+        $("#migration_convert_url").live("click", function(){
             var url = $("#migration_input_url").val();
             sakai.api.Server.loadJSON(url, function(success, data){
                 if (success){
@@ -29,6 +29,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     alert("No valid JSON structure was entered");
                 }
             });
+        });
+
+        $("#migration_convert_structure").live("click", function(){
+            var block = {};
+            try {
+                block = eval('(' + $("#migration_input_block").val() + ')');
+                $("#migration_output").val($.toJSON(sakai.api.Content.Migrators.migratePageStructure(block)));
+            } catch (err){
+                alert("An error has occured. Please replace variables by dummy values.\n" + err);
+            }
         });
         
     };

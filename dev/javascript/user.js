@@ -105,10 +105,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
                 // Don't need to use these from the profile, gives us more flexibility on the profile itself
-                structure[ profilestructure[ title ]._ref ] = {
-                    page: "<div id='widget_displayprofilesection_" + widgetUUID + "' class='widget_inline'/>"
+                structure[profilestructure[ title ]._ref] = {
+                    rows: [
+                        {
+                            "id": sakai.api.Util.generateWidgetId(),
+                            "columns": [
+                                {
+                                    "width": 1,
+                                    "elements": [
+                                        {
+                                            "id": widgetUUID,
+                                            "type": "displayprofilesection"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 };
-                structure[ widgetUUID ] = {
+                structure[profilestructure[ title ]._ref][widgetUUID] = {
                     sectionid: title
                 };
             });
@@ -147,8 +162,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var continueLoadSpaceData = function(userid){
-            var publicToStore = false;
-            var privateToStore = false;
+            var publicToStore = false; var requiresPublicMigration = false;
+            var privateToStore = false; var requirePrivateMigration = false;
 
             // Load public data from /~userid/private/pubspace
             sakai.api.Server.loadJSON(puburl, function(success, data){
@@ -158,7 +173,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata = sakai.api.Util.replaceTemplateParameters(refid, pubdata);
                 } else {
                     pubdata = data;
-                    pubdata = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject(pubdata));
+                    pubdata = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject(pubdata), isMe ? puburl : false);
                 }
                 if (!isMe){
                     pubdata.structure0 = setManagerProperty(pubdata.structure0, false);
@@ -180,7 +195,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;
-                            privdata = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject(privdata));
+                            privdata = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject(privdata), privurl);
                         }
                         if (publicToStore) {
                             if ($.isPlainObject(publicToStore.structure0)) {

@@ -1763,12 +1763,18 @@ define(
                                             }
                                         }
                                         currentHTMLBlock = $("<div />");
-                                        var id = $(item2).attr("id").split("_").length > 2 ? $(item2).attr("id").split("_")[2] : sakai_util.generateWidgetId();
-                                        elements.push({
-                                            "id": id,
-                                            "type": $(item2).attr("id").split("_")[1]
-                                        });
-                                        json[ref][id] = originalstructure[id];
+                                        var widgetType = $(item2).attr("id").split("_")[1];
+                                        // Filter out widgets that should not be re-included as they are already in topnavigation
+                                        if (widgetType !== "tooltip" && widgetType !== "joinrequestbuttons") {
+                                            var id = $(item2).attr("id").split("_").length > 2 ? $(item2).attr("id").split("_")[2] : sakai_util.generateWidgetId();
+                                            elements.push({
+                                                "id": id,
+                                                "type": widgetType
+                                            });
+                                            if (originalstructure[id]) {
+                                                json[ref][id] = originalstructure[id];
+                                            }
+                                        }
                                     } else {
                                         if (!$(item2).is("br")) {
                                             currentHTMLBlock.append($(item2));
@@ -1805,16 +1811,54 @@ define(
                 });
                 return json;
             },
+
+            requiresMigration: function(structure0, originalstructure, returnValue){
+                $.each(structure0, function(key, item){
+                    if (key.substring(0, 1) !== "_"){
+                        var ref = item._ref;
+                        if (originalstructure[ref]){
+                            // Has been migrated
+                            if (!originalstructure[ref].rows) {
+                                returnValue = true;
+                            }
+                        }
+                        returnValue = sakai_content.Migrators.requiresMigration(item, originalstructure, returnValue);
+                    }
+                });
+                return returnValue;
+            },
+
+            checkRequiresMigration: function(structure){
+                structure = $.extend({}, true, structure);
+                if (structure.structure0) {
+                    if (typeof structure.structure0 === "string"){
+                        structure.structure0 = $.parseJSON(structure.structure0);
+                    }
+                    return sakai_content.Migrators.requiresMigration(structure.structure0, structure, false);
+                }
+                return false;
+            },
     
-            migratePageStructure: function(structure){
+            migratePageStructure: function(structure, storeURL){
+                structure = $.extend({}, true, structure);
                 if (structure.structure0){
                     var json = {};
                     json.structure0 = structure.structure0;
                     if (typeof structure.structure0 === "string"){
                         structure.structure0 = $.parseJSON(structure.structure0);
                     }
-                    json = sakai_content.Migrators.processStructure0(structure.structure0, structure, json);
-                    return json;
+                    if (sakai_content.Migrators.requiresMigration(structure.structure0, structure, false)){
+                        debug.log("Needs a migration");
+                        json = sakai_content.Migrators.processStructure0(structure.structure0, structure, json);
+                        if (storeURL){
+                            alert("Need to store this migration");
+                            sakai_serv.saveJSON(storeURL, json);
+                        }
+                        return json;
+                    } else {
+                        debug.log("No need for migration");
+                        return structure;
+                    }
                 } else {
                     alert("No valid page structure was entered");
                     return false;
