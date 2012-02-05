@@ -287,6 +287,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  }));
                  $("#areapermissions_proceedandapply").removeAttr("disabled");
                  $("#areapermissions_apply_permissions").removeAttr("disabled");
+                 sakai.api.Util.bindDialogFocus($("#areapermissions_warning_container"));
                  $("#areapermissions_warning_container").jqmShow();
              }
          };
@@ -341,6 +342,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              });
 
              $("#areapermissions_apply_permissions").removeAttr("disabled");
+             sakai.api.Util.bindDialogFocus($("#areapermissions_container"));
              $("#areapermissions_container").jqmShow();
          };
 

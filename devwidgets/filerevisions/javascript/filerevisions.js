@@ -133,6 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             baseFileData = data;
             getRevisionInformationDetails();
+            sakai.api.Util.bindDialogFocus($fileRevisionsDialog);
             $fileRevisionsDialog.jqmShow();
         };
 

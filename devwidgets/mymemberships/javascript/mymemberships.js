@@ -385,6 +385,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#mymemberships_delete_membership_confirm").attr("data-sakai-entityid", $(this).attr("data-sakai-entityid"));
                     $("#mymemberships_delete_membership_confirm").attr("data-sakai-entityname", $(this).attr("data-sakai-entityname"));
                     sakai.api.Util.positionDialogBox($("#mymemberships_delete_membership_dialog"));
+                    sakai.api.Util.bindDialogFocus($("#mymemberships_delete_membership_dialog"));
                     $("#mymemberships_delete_membership_dialog").jqmShow();
                 }
             });

@@ -288,25 +288,30 @@ define(
             var setTags = function(tagLocation, tags, setTagsCallback) {
                 // set the tag on the entity
                 var doSetTags = function(tags, doSetTagsCallback) {
-                    var setTagsRequests = [];
+                    var tagArray = [];
                     $(tags).each(function(i,val) {
-                        setTagsRequests.push({
-                            "url": tagLocation,
-                            "method": "POST",
-                            "parameters": {
-                                "key": "/tags/" + val,
-                                ":operation": "tag"
-                            }
-                        });
+                        tagArray.push("/tags/" + val);
                     });
-                    sakai_serv.batch(setTagsRequests, function(success, data) {
-                        if (!success) {
-                            debug.error(tagLocation + " failed to be tagged as " + val);
+                    $.ajax({
+                        url: tagLocation,
+                        type: "POST",
+                        traditional: true,
+                        data: {
+                            ":operation": "tag",
+                            "key": tagArray
+                        },
+                        success: function(data) {
+                            if ($.isFunction(doSetTagsCallback)) {
+                                doSetTagsCallback(true);
+                            }
+                        },
+                        error: function(xhr){
+                            debug.error(tagLocation + " failed to be tagged as " + tagArray);
+                            if ($.isFunction(doSetTagsCallback)) {
+                                doSetTagsCallback(false);
+                            }
                         }
-                        if ($.isFunction(doSetTagsCallback)) {
-                            doSetTagsCallback(success);
-                        }
-                    }, false, true);
+                    });
                 };
 
                 if (tags.length) {
@@ -346,7 +351,7 @@ define(
                             debug.error(val + " tag failed to be removed from " + tagLocation);
                         }
                         if ($.isFunction(deleteTagsCallback)) {
-                            deleteTagsCallback();
+                            deleteTagsCallback(success);
                         }
                     }, false, true);
                 } else {
@@ -398,10 +403,10 @@ define(
                     finalTags.push(val);
                 }
             });
-            deleteTags(tagLocation, tagsToDelete, function() {
-                setTags(tagLocation, tagsToAdd, function(success) {
+            deleteTags(tagLocation, tagsToDelete, function(deleteSuccess) {
+                setTags(tagLocation, tagsToAdd, function(addSuccess) {
                     if ($.isFunction(callback)) {
-                        callback(success, finalTags);
+                        callback(addSuccess || deleteSuccess, finalTags);
                     }
                 });
             });
@@ -1961,6 +1966,51 @@ define(
             } else if (docScrollPos >= 0) {
                 $el.css({"top": docScrollPos + dialogOffset + "px"});
             }
+        },
+
+        /**
+         * Sets up events to keep keyboard focus within the dialog box and close it when the escape key is pressed
+         *
+         * @param dialogContainer {String} a jquery selector or jquery object which is the dialog container
+         * @param ignoreElements {String} an optional jquery selector for start/end elements to be ignored
+         * @param closeFunction {function} an optional function to be called when the user hits the escape key
+         */
+        bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
+            var origFocus = $(":focus");
+            var $dialogContainer = dialogContainer;
+            if (!(dialogContainer instanceof jQuery)){
+                $dialogContainer = $(dialogContainer);
+            }
+
+            var bindFunction = function(e) {
+                if ($dialogContainer.is(":visible") && $dialogContainer.has(":focus").length && e.which === $.ui.keyCode.ESCAPE) {
+                    if ($.isFunction(closeFunction)){
+                        closeFunction();
+                    } else {
+                        $dialogContainer.jqmHide();
+                    }
+                    origFocus.focus();
+                } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
+                    // determine which elements are keyboard navigable
+                    var $focusable = $("a:visible, input:visible, button:visible:not(:disabled), textarea:visible", $dialogContainer);
+                    if (ignoreElements){
+                        $focusable = $focusable.not(ignoreElements);
+                    }
+                    var $focused = $(":focus");
+                    var index = $focusable.index($focused);
+                    if (e.shiftKey && $focusable.length && (index === 0)) {
+                        // if shift tabbing from the start of the dialog box, shift focus to the last element
+                        $focusable.get($focusable.length - 1).focus();
+                        return false;
+                    } else if (!e.shiftKey && $focusable.length && (index === $focusable.length - 1)) {
+                        // if tabbing from the end of the dialog box, shift focus to the first element
+                        $focusable.get(0).focus();
+                        return false;
+                    }
+                }
+            };
+            $(dialogContainer).unbind("keydown");
+            $(dialogContainer).keydown(bindFunction);
         },
 
         /**

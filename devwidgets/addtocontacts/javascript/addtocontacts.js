@@ -254,6 +254,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
 
             // position dialog box at users scroll position
             sakai.api.Util.positionDialogBox(addToContactsDialog);
+            sakai.api.Util.bindDialogFocus(addToContactsDialog);
 
             // Show the layover
             $(addToContactsDialog).jqmShow();
