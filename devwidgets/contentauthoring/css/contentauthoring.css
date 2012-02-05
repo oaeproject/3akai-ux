@@ -205,11 +205,17 @@
 }
 
 .contentauthoring_cell_element_actions .contentauthoring_cell_element_action_e {
-    background: url("/devwidgets/contentauthoring/images/cell_edit_handle_cog.png") no-repeat top left transparent;
+    background: url("/devwidgets/contentauthoring/images/cell_edit_handle_cog.png") no-repeat center center transparent;
+}
+.contentauthoring_cell_element_actions .contentauthoring_cell_element_action_e:hover {
+    background: url("/devwidgets/contentauthoring/images/cell_edit_handle_cog_hover.png") no-repeat center center transparent;
 }
 
 .contentauthoring_cell_element_actions .contentauthoring_cell_element_action_x {
-    background: url("/devwidgets/contentauthoring/images/cell_edit_handle_delete.png") no-repeat top left transparent;
+    background: url("/devwidgets/contentauthoring/images/cell_edit_handle_delete.png") no-repeat center center transparent;
+}
+.contentauthoring_cell_element_actions .contentauthoring_cell_element_action_x:hover {
+    background: url("/devwidgets/contentauthoring/images/cell_edit_handle_delete_hover.png") no-repeat center center transparent;
 }
 
 .contentauthoring_cell_element_actions .contentauthoring_cell_edit {
