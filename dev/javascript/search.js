@@ -59,17 +59,62 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "_order": 0,
                         "_title": sakai.api.i18n.getValueForKey("PEOPLE"),
                         "_url": searchUrl
-                     }
+                    }
                 }
             },
             "id9574379429432": {
-                "page": "<div id='widget_searchall' class='widget_inline'></div>"
+                "rows": [
+                    {
+                        "id": "id4382631",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "id8403845",
+                                        "type": "searchall"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
             "id6573920372": {
-                "page": "<div id='widget_searchcontent' class='widget_inline'></div>"
+                "rows": [
+                    {
+                        "id": "id1813095",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "id9436392",
+                                        "type": "searchcontent"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
             "id49294509202": {
-                "page": "<div id='widget_searchpeople' class='widget_inline'></div>"
+                "rows": [
+                    {
+                        "id": "id152530",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "id1187051",
+                                        "type": "searchpeople"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         };
 
@@ -91,9 +136,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
             var searchWidgetId = sakai.api.Util.generateWidgetId();
             pubdata[refId] = {
-                "page": "<div id='widget_searchgroups_" + searchWidgetId + "' class='widget_inline'></div>"
+                "rows": [
+                    {
+                        "id": sakai.api.Util.generateWidgetId(),
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": searchWidgetId,
+                                        "type": "searchgroups"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             };
-            pubdata[searchWidgetId] = {
+            pubdata[refId][searchWidgetId] = {
                 "category": category.id
             };
         }

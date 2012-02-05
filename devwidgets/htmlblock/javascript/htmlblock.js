@@ -55,8 +55,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (showSettings){
                 
             } else {
-                var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
-                $("#htmlblock_view_container", $rootel).html(processedContent);
+                if (widgetData && widgetData.htmlblock) {
+                    var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
+                    $("#htmlblock_view_container", $rootel).html(processedContent);
+                    sakai.api.Util.renderMath($rootel);
+                }
             }
         };
         

@@ -1760,152 +1760,155 @@ define(function(){
                 }
             },
             "${refid}0": {
+                "id2506067": {
+                    "htmlblock": {
+                        "content": "<div class=\"fl-force-right\"><button type=\"button\" class=\"s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout\" data-tuid=\"${refid}5\">__MSG__EDIT_LAYOUT__</button><button type=\"button\" class=\"s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget\" data-tuid=\"${refid}5\">__MSG__ADD_WIDGET__</button></div><div class=\"s3d-contentpage-title\">__MSG__MY_DASHBOARD__</div>"
+                    }
+                },
+                "${refid}5": {
+                    "dashboard": {
+                        "layout": "threecolumn",
+                        "columns": {
+                            "column1": [
+                                {
+                                    "uid": "${refid}10",
+                                    "visible": "block",
+                                    "name": "recentchangedcontent"
+                                }
+                            ],
+                            "column2": [
+                                {
+                                    "uid": "${refid}11",
+                                    "visible": "block",
+                                    "name": "recentmemberships"
+                                }
+                            ],
+                            "column3": [
+                                {
+                                    "uid": "${refid}12",
+                                    "visible": "block",
+                                    "name": "recentcontactsnew"
+                                }
+                            ]
+                        }
+                    }
+                },
                 "rows": [
                     {
-                        "id": "${refid}5",
+                        "id": "id8965114",
                         "columns": [
                             {
                                 "width": 1,
                                 "elements": [
                                     {
-                                        "id": "${refid}6",
+                                        "id": "id2506067",
                                         "type": "htmlblock"
                                     },
                                     {
-                                        "id": "${refid}7",
+                                        "id": "id8321271",
                                         "type": "carousel"
                                     },
                                     {
-                                        "id": "${refid}8",
+                                        "id": "${refid}5",
                                         "type": "dashboard"
                                     }
                                 ]
                             }
                         ]
                     }
-                ],
-                "${refid}6": {
-                    "htmlblock": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin"+
-                                 "-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' dat"+
-                                 "a-tuid='${refid}5'>__MSG__EDIT_LAYOUT__</button><button type='button' class='s3d-button "+
-                                 "s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_a"+
-                                 "dd_widget' data-tuid='${refid}5'>__MSG__ADD_WIDGET__</button></div><div class='s3d-conte"+
-                                 "ntpage-title'>__MSG__MY_DASHBOARD__</div>"
-                },
-                "${refid}8": {
-                    "dashboard": {
-                        "layout": "threecolumn",
-                        "columns": {
-                            "column1": [{
-                                "uid": "${refid}9",
-                                "visible": "block",
-                                "name": "recentchangedcontent"
-                            }],
-                            "column2": [{
-                                "uid": "${refid}10",
-                                "visible": "block",
-                                "name": "recentmemberships"
-                            }],
-                            "column3": [{
-                                "uid": "${refid}11",
-                                "visible": "block",
-                                "name": "recentcontactsnew"
-                            }]
-                        }
-                    }
-                }
+                ]
             },
             "${refid}1": {
-                "rows": [
-                    {
-                        "id": "${refid}12",
-                        "columns": [
-                            {
-                                "width": 1,
-                                "elements": [
-                                    {
-                                        "id": "${refid}13",
-                                        "type": "inbox"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
-                "${refid}13": {
+                "${refid}6": {
                     "box": "inbox",
                     "category": "message",
                     "title": "__MSG__INBOX__"
-                }
-            },
-            "${refid}2": {
+                },
                 "rows": [
                     {
-                        "id": "${refid}14",
+                        "id": "id7088118",
                         "columns": [
                             {
                                 "width": 1,
                                 "elements": [
                                     {
-                                        "id": "${refid}15",
+                                        "id": "${refid}6",
                                         "type": "inbox"
                                     }
                                 ]
                             }
                         ]
                     }
-                ],
-                "${refid}15": {
+                ]
+            },
+            "${refid}2": {
+                "${refid}7": {
                     "box": "inbox",
                     "category": "invitation",
                     "title": "__MSG__INVITATIONS__"
-                }
-            },
-            "${refid}3": {
+                },
                 "rows": [
                     {
-                        "id": "${refid}16",
+                        "id": "id6156677",
                         "columns": [
                             {
                                 "width": 1,
                                 "elements": [
                                     {
-                                        "id": "${refid}17",
+                                        "id": "${refid}7",
                                         "type": "inbox"
                                     }
                                 ]
                             }
                         ]
                     }
-                ],
-                "${refid}17": {
+                ]
+            },
+            "${refid}3": {
+                "${refid}8": {
                     "box": "outbox",
                     "category": "*",
                     "title": "__MSG__SENT__"
-                }
-            },
-            "${refid}4": {
+                },
                 "rows": [
                     {
-                        "id": "${refid}18",
+                        "id": "id5268914",
                         "columns": [
                             {
                                 "width": 1,
                                 "elements": [
                                     {
-                                        "id": "${refid}19",
+                                        "id": "${refid}8",
                                         "type": "inbox"
                                     }
                                 ]
                             }
                         ]
                     }
-                ],
-                "${refid}15": {
+                ]
+            },
+            "${refid}4": {
+                "${refid}9": {
                     "box": "trash",
                     "category": "*",
                     "title": "__MSG__TRASH__"
-                }
+                },
+                "rows": [
+                    {
+                        "id": "id1281420",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}9",
+                                        "type": "inbox"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         },
 
@@ -1970,13 +1973,58 @@ define(function(){
                 }
             },
             "${refid}0": {
-                "page": "<div id='widget_mylibrary' class='widget_inline'></div>"
+                "rows": [
+                    {
+                        "id": "id89874",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "id5739346",
+                                        "type": "mylibrary"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
             "${refid}1": {
-                "page": "<div id='widget_mymemberships' class='widget_inline'></div>"
+                "rows": [
+                    {
+                        "id": "id7664610",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "id4347509",
+                                        "type": "mymemberships"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
             "${refid}2": {
-                "page": "<div id='widget_contacts' class='widget_inline'></div>"
+                "rows": [
+                    {
+                        "id": "id293415",
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "id6775571",
+                                        "type": "contacts"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         },
 
