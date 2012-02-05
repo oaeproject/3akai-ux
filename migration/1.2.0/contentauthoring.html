@@ -12,9 +12,10 @@
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.content_profile.css" />
 
     </head>
-    <body class="fl-centered me i18nable">
+    <body class="fl-centered show i18nable">
         <!-- HEADER -->
         <div class="fl-container-flex header s3d-header">
             <div class="s3d-navigation-container">
@@ -23,28 +24,28 @@
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
                 <div class="s3d-container-shadow-left"><!----></div>
                 <div class="s3d-container-shadow-right"><!----></div>
-                <div class="s3d-page-header collection_modified"></div>
             </div>
         </div>
 
         <!-- HEADER -->
         <div class="fl-container-flex">
-            <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
-                <div class="s3d-page-column-left">
-                    <div id="widget_entity" class="widget_inline"></div>
-                    <div style="padding-top: 15px"></div>
-                    <div id="widget_lhnavigation" class="widget_inline"></div>
-                </div>
-                <div class="s3d-page-column-right">
-                    <div id="s3d-page-main-content" class="s3d-page-content-lowpadding">
+            <div id="content_profile_main_container" class="fl-fix fl-centered fixed-container s3d-main-container">
+                <div id="content_profile_right_container" class="s3d-page-main-content s3d-page-fullcolumn-padding" style="clear:both; padding-top: 70px;">
+                    <div>
+                        Input:<br/>
+                        <input style="width: 100%" id="migration_input_url" value="http://localhost:8080/~nicolaas/private/privspace.infinity.json"/>
+                    </div>
+                    <div style="margin-top: 20px">
+                        <button type="button" class="s3d-button s3d-overlay-action-button" id="migration_convert_structure">Convert structure</button>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        Output:<br/>
+                        <textarea style="width: 100%" rows="10" id="migration_output"></textarea>
                     </div>
                     <div class="s3d-bottom-spacer"></div>
                 </div>
             </div>
         </div>
-
-        <!-- User Permissions overlay -->
-        <div id="widget_userpermissions" class="widget_inline"></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
@@ -52,7 +53,8 @@
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
-        <!-- GROUP JS -->
-        <script>require(["/dev/javascript/user.js", "/devwidgets/video/jwplayer/swfobject.js"]);</script>
-    </body>
+        <!-- Page JS -->
+        <script>require(["/migration/1.2.0/javascript/contentauthoring.js"]);</script>
+		
+	</body>
 </html>

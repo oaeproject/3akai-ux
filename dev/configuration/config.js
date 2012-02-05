@@ -1973,9 +1973,7 @@ define(function(){
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div>"
             },
             "${refid}1": {
-                "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
-                    "<div id='widget_tooltip' class='widget_inline'></div> " +
-                    "<div id='widget_mymemberships' class='widget_inline'></div>"
+                "page": "<div id='widget_mymemberships' class='widget_inline'></div>"
             },
             "${refid}2": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"

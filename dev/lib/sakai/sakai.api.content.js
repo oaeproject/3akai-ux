@@ -1660,8 +1660,100 @@ define(
                 return collectionGroup.substring(2);
             }
 
+        },
+        
+        Migrators : {
+        
+            processStructure0: function(structure0, originalstructure, json){
+                $.each(structure0, function(key, item){
+                    if (key.substring(0, 1) !== "_"){
+                        var ref = item._ref;
+                        if (originalstructure[ref]){
+                            // Has been migrated
+                            if (originalstructure[ref].rows) {
+                                json[ref] = originalstructure[ref];
+                            // Needs to be migrated
+                            } else {
+                                var elements = [];
+                                var page = $(originalstructure[ref].page);
+                                var currentHTMLBlock = $("<div />");
+                                json[ref] = {};
+                                $.each(page, function(key2, item2){
+                                    if ($(item2).hasClass("widget_inline")){
+                                        if ($.trim($(currentHTMLBlock).html())) {
+                                            var id = sakai_util.generateWidgetId();
+                                            elements.push({
+                                                "id": id,
+                                                "type": "htmlblock"
+                                            });
+                                            json[ref][id] = {
+                                                "htmlblock": {
+                                                    "content": currentHTMLBlock.html()
+                                                }
+                                            }
+                                        }
+                                        currentHTMLBlock = $("<div />");
+                                        var id = $(item2).attr("id").split("_").length > 2 ? $(item2).attr("id").split("_")[2] : sakai_util.generateWidgetId();
+                                        elements.push({
+                                            "id": id,
+                                            "type": $(item2).attr("id").split("_")[1]
+                                        });
+                                        json[ref][id] = originalstructure[id];
+                                    } else {
+                                        if (!$(item2).is("br")) {
+                                            currentHTMLBlock.append($(item2));
+                                        }
+                                    }
+                                });
+                                if ($.trim($(currentHTMLBlock).html())) {
+                                    var id = sakai_util.generateWidgetId();
+                                    elements.push({
+                                        "id": id,
+                                        "type": "htmlblock"
+                                    });
+                                    json[ref][id] = {
+                                        "htmlblock": {
+                                            "content": currentHTMLBlock.html()
+                                        }
+                                    }
+                                }
+                                json[ref].rows =  [
+                                    {
+                                        "id": sakai_util.generateWidgetId(),
+                                        "columns": [
+                                            {
+                                                "width": 1,
+                                                "elements": elements
+                                            }
+                                        ]
+                                    }
+                                ];
+                            }
+                        }
+                        sakai_content.Migrators.processStructure0(item, originalstructure, json);
+                    }
+                });
+                return json;
+            },
+    
+            migratePageStructure: function(structure){
+                if (structure.structure0){
+                    var json = {};
+                    json.structure0 = structure.structure0;
+                    if (typeof structure.structure0 === "string"){
+                        structure.structure0 = $.parseJSON(structure.structure0);
+                    }
+                    json = sakai_content.Migrators.processStructure0(structure.structure0, structure, json);
+                    return json;
+                } else {
+                    alert("No valid page structure was entered");
+                    return false;
+                }
+            }
+            
         }
 
     };
+    
     return sakai_content;
 });
