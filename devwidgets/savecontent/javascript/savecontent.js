@@ -142,9 +142,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var checkCollectionMembers = function(callback){
             $.each(contentObj.data, function(i, selectedContent){
                 var contentItem = selectedContent.body;
-                if (!(sakai_global.content_profile && sakai_global.content_profile.content_data
-                    && sakai_global.content_profile.content_data.content_path === "/p/" + contentItem._path)
-                    && sakai.api.Content.Collections.isCollection(contentItem)) {
+                if (!(sakai_global.content_profile && sakai_global.content_profile.content_data &&
+                    sakai_global.content_profile.content_data.content_path === "/p/" + contentItem._path) &&
+                    sakai.api.Content.Collections.isCollection(contentItem)) {
                     var collectionId = sakai.api.Content.Collections.getCollectionGroupId(contentItem);
                     if (checkCollections.indexOf(collectionId) < 0) {
                         checkCollections.push(sakai.api.Content.Collections.getCollectionGroupId(contentItem));
@@ -160,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 contentItem.body.members = {
                                     "managers": data[collectionId].managers.results,
                                     "viewers": data[collectionId].members.results
-                                }
+                                };
                             }
                         }
                     });
@@ -180,8 +180,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     memberOfGroup.alreadyHasIt = true;
                     $.each(contentObj.data, function(i, selectedContent){
                         var contentItem = selectedContent.body;
-                        if (sakai_global.content_profile && sakai_global.content_profile.content_data
-                            && sakai_global.content_profile.content_data.content_path === "/p/" + contentItem._path){
+                        if (sakai_global.content_profile && sakai_global.content_profile.content_data &&
+                            sakai_global.content_profile.content_data.content_path === "/p/" + contentItem._path){
                             contentItem = sakai_global.content_profile.content_data;
                         }
                         var isContentInGroup = sakai.api.Content.isContentInLibrary(contentItem, memberOfGroup["sakai:group-id"]);
