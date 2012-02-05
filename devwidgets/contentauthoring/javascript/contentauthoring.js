@@ -179,7 +179,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 },
                 stop: function(event, ui){
                     sakai_global.contentauthoring.isDragging = false;
-                    addNewElement(event, ui);
+                    if($(ui.item).data("collectionId")){
+                        addExistingElement(event, ui);
+                    } else if(!$(ui.item).data("contentId")){
+                        addNewElement(event, ui);
+                    } else {
+                        addExistingElement(event, ui);
+                    }
                 }
     		});
         }
@@ -738,7 +744,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
                     "id": id,
                     "type": type,
-                    "template": "cell"
+                    "template": "cell",
+                    "settingsoverridden": false
                 });
                 addedElement.replaceWith($(element));
                 if (type !== "htmlblock" && type !== "pagetitle"){
@@ -750,6 +757,45 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
                 setActions();
             };
+        };
+
+
+        //////////////////////////
+        // Add existing element //
+        //////////////////////////
+
+        var addExistingElement = function(ev, ui){
+            // Generate unique id
+            var id = sakai.api.Util.generateWidgetId();
+
+            // Construct post for new embed content
+            var contentData = {
+                "layout":"single",
+                "embedmethod":"original",
+                "items": {
+                    "__array__0__":"/p/" + ($(ui.item).data("contentId") || $(ui.item).data("collectionId"))
+                },
+                "title": "",
+                "description": "",
+                "details": false,
+                "download": false,
+                "name": false,
+                "sakai:indexed-fields":"title,description",
+                "sling:resourceType":"sakai/widget-data"
+            }
+
+            sakai.api.Server.saveJSON(STORE_PATH + id + "/" + "embedcontent", contentData, function(){
+                var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                    "id": id,
+                    "type": "embedcontent",
+                    "template": "cell",
+                    "settingsoverridden": true
+                });
+                $(ui.item).replaceWith($(element));
+                sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+                setActions();
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
+            });
         };
 
         var imageLoaded = function(ev, image){
@@ -818,11 +864,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         // Highlight on drag entering drop zone.
         $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragenter', function(ev) {
-            $(".ui-state-highlight.external_content").remove();
+            $(".contentauthoring_row_reorder_highlight.external_content").remove();
             if($(this).hasClass("contentauthoring_cell_element")){
-                $(this).after($("<div class='ui-state-highlight external_content'></div>"));
+                $(this).after($("<div class='contentauthoring_row_reorder_highlight external_content'></div>"));
             } else {
-                $(this).append($("<div class='ui-state-highlight external_content'></div>"));
+                $(this).append($("<div class='contentauthoring_row_reorder_highlight external_content'></div>"));
             }
             return false;
         });
@@ -840,9 +886,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Handle the final drop
         $(".contentauthoring_cell_element,.contentauthoring_cell_content").live('drop', function(ev) {
             ev.preventDefault();
-            $(".ui-state-highlight.external_content").remove();
-            var dt = ev.originalEvent.dataTransfer;
-            addExternal(ev, $(this));
+            $(".contentauthoring_row_reorder_highlight.external_content").remove();
+            if(!$(this).hasClass("contentauthoring_cell_element")){
+                var dt = ev.originalEvent.dataTransfer;
+                addExternal(ev, $(this));
+            }
             return false;
         });
 
