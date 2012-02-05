@@ -1731,7 +1731,10 @@ define(
             }
 
         },
-        
+
+        /**
+         * TODO: Clean up and add documentation
+         */
         Migrators : {
         
             processStructure0: function(structure0, originalstructure, json){
@@ -1817,7 +1820,6 @@ define(
                     if (key.substring(0, 1) !== "_"){
                         var ref = item._ref;
                         if (originalstructure[ref]){
-                            // Has been migrated
                             if (!originalstructure[ref].rows) {
                                 returnValue = true;
                             }
@@ -1840,24 +1842,24 @@ define(
             },
     
             migratePageStructure: function(structure, storeURL){
-                structure = $.extend({}, true, structure);
-                if (structure.structure0){
+                var newStructure = $.extend({}, true, structure);
+                if (newStructure.structure0){
                     var json = {};
-                    json.structure0 = structure.structure0;
-                    if (typeof structure.structure0 === "string"){
-                        structure.structure0 = $.parseJSON(structure.structure0);
+                    if (typeof newStructure.structure0 === "string"){
+                        newStructure.structure0 = $.parseJSON(newStructure.structure0);
                     }
-                    if (sakai_content.Migrators.requiresMigration(structure.structure0, structure, false)){
+                    if (sakai_content.Migrators.requiresMigration(newStructure.structure0, newStructure, false)){
                         debug.log("Needs a migration");
-                        json = sakai_content.Migrators.processStructure0(structure.structure0, structure, json);
+                        json = sakai_content.Migrators.processStructure0(newStructure.structure0, newStructure, json);
                         if (storeURL){
                             alert("Need to store this migration");
                             sakai_serv.saveJSON(storeURL, json);
                         }
+                        json.structure0 = structure.structure0;
                         return json;
                     } else {
                         debug.log("No need for migration");
-                        return structure;
+                        return newStructure;
                     }
                 } else {
                     alert("No valid page structure was entered");
