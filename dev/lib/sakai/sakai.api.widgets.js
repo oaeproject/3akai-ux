@@ -263,27 +263,31 @@ define(
                                 // Run the widget's main JS function
                                 var initfunction = window[widgetNameSpace][widgetname];
                                 var thisWidgetData = false;
-                                if (widgetsInternal[widgetname][i].widgetData && widgetsInternal[widgetname][i].widgetData.length > 0){
-                                    for (var data in widgetsInternal[widgetname][i].widgetData){
-                                        var widgetSaveId = widgetsInternal[widgetname][i].uid;
-                                        if (widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]){
-                                            thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]);
-                                        } else {
-                                            for (var pagetitle in widgetsInternal[widgetname][i].widgetData[data]) {
-                                                if (pagetitle.indexOf("-") != -1){
-                                                    var altPageTitle = pagetitle.substring(pagetitle.indexOf("-") + 1);
-                                                    if (altPageTitle === widgetSaveId){
-                                                        thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][pagetitle]);
-                                                    }
-                                                }
-                                            } 
-                                        }
+                                if (widgetsInternal[widgetname][i].widgetData && widgetsInternal[widgetname][i].widgetData[widgetsInternal[widgetname][i].uid]){
+                                    for (var widgetId in widgetsInternal[widgetname][i].widgetData){
+                                        //var widgetSaveId = widgetsInternal[widgetname][i].uid;
+                                        //debug.log(widgetId);
+                                       // if (widgetsInternal[widgetname][i].widgetData[widgetId]){
+                                            //alert("Identified block");
+                                        //    debug.log(widgetsInternal[widgetname][i].widgetData[widgetId]);
+                                            thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[widgetsInternal[widgetname][i].uid]);
+                                        //} //else {
+                                        //    alert("Unidentified block");
+                                        //    for (var pagetitle in widgetsInternal[widgetname][i].widgetData[data]) {
+                                        //        if (pagetitle.indexOf("-") != -1){
+                                        //            var altPageTitle = pagetitle.substring(pagetitle.indexOf("-") + 1);
+                                        //            if (altPageTitle === widgetSaveId){
+                                        //                thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][pagetitle]);
+                                        //            }
+                                        //        }
+                                        //    } 
+                                        //}
                                     }
                                 }
-                                if (widgetDataPassthrough) {
+                                //if (widgetDataPassthrough) {
                                     // need to extend or we could create a recursive reference
-                                    thisWidgetData.data = $.extend(true, {}, widgetDataPassthrough);
-                                }
+                                //    thisWidgetData.data = $.extend(true, {}, widgetDataPassthrough);
+                                //}
                                 var historyState = sakaiWidgetsAPI.handleHashChange(widgetname);
                                 initfunction(widgetsInternal[widgetname][i].uid, settings, thisWidgetData, historyState);
 

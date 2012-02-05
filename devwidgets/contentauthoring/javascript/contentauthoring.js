@@ -782,7 +782,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             pageStructure.template = "all";
             STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
             $("#contentauthoring_widget").html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
-            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+            debug.log(currentPageShown);
+            debug.log(currentPageShown.content);
+            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH, currentPageShown.content);
             if (canEdit()){
                 //setActions();
                 //updateColumnHandles();

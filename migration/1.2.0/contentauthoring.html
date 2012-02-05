@@ -24,28 +24,23 @@
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
                 <div class="s3d-container-shadow-left"><!----></div>
                 <div class="s3d-container-shadow-right"><!----></div>
-                <div class="s3d-page-header">
-                    <div id="back_to_collection_container" style="display:none;">
-                        <a href="javascript:;" class="s3d-button s3d-header-button" title="__MSG__BACK__" id="back_to_collection_button"><span id="collection_title"></span>&#9664; __MSG__BACK__</a>
-                    </div>
-                    <div id="widget_uploadnewversion" class="widget_inline"></div>
-                </div>
             </div>
         </div>
 
         <!-- HEADER -->
         <div class="fl-container-flex">
             <div id="content_profile_main_container" class="fl-fix fl-centered fixed-container s3d-main-container">
-                <div class="s3d-page-column-left" id="content_profile_left_column" style="display:none;">
-                    <div id="widget_lhnavigation" class="widget_inline"></div>
-                </div>
-                <div id="content_profile_right_container" class="s3d-page-main-content s3d-page-fullcolumn-padding" style="padding-top: 0px;">
-                    <div id="content_profile_sakaidoc_container" style="display:none">
-                        <div id="s3d-page-main-content"></div>
+                <div id="content_profile_right_container" class="s3d-page-main-content s3d-page-fullcolumn-padding" style="clear:both; padding-top: 70px;">
+                    <div>
+                        Input:<br/>
+                        <input style="width: 100%" id="migration_input_url" value="http://localhost:8080/~nicolaas/private/privspace.infinity.json"/>
                     </div>
-
-                    <div id="content_profile_preview_container">
-                        <div id="widget_contentauthoring" class="widget_inline"></div>
+                    <div style="margin-top: 20px">
+                        <button type="button" class="s3d-button s3d-overlay-action-button" id="migration_convert_structure">Convert structure</button>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        Output:<br/>
+                        <textarea style="width: 100%" rows="10" id="migration_output"></textarea>
                     </div>
                     <div class="s3d-bottom-spacer"></div>
                 </div>
@@ -57,10 +52,9 @@
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
-        <script src="/dev/lib/tinymce/tiny_mce_src.js" language="JavaScript" type="text/javascript"></script>
 
         <!-- Page JS -->
-        <script>require(["/dev/javascript/contentauthoring.js"]);</script>
+        <script>require(["/migration/1.2.0/javascript/contentauthoring.js"]);</script>
 		
 	</body>
 </html>

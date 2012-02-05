@@ -16,12 +16,10 @@
  * specific language governing permissions and limitations under the License.
  */
 .s3d-page-column-left{float:left;width:187px;min-height:500px;border-top:solid #d6dadd 1px;background:url("/devwidgets/lhnavigation/images/lhnav_bg.png") repeat-x scroll 0 0 #FEFEFE;}
-.s3d-page-column-right{float:left;width:773px;border-left:1px solid #d6dadd; border-top:1px solid #d6dadd;padding:20px;box-shadow: 3px -10px 7px 0;-moz-box-shadow: 3px -10px 7px 0;-webkit-box-shadow: 3px -10px 7px 0;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
-.s3d-page-fullcolumn-nopadding{width:960px;min-height:100px;border-top:solid #d6dadd 1px;}
-.s3d-page-fullcolumn-padding{width:920px;min-height:100px;border-top:solid #d6dadd 1px; padding: 20px 20px 30px;}
-.s3d-page-content-padding{padding: 10px 0px 20px;}
-.s3d-page-content-lowpadding{padding: 0px 0px 20px;}
-.s3d-page-full{height:100px;}
+.s3d-page-column-right{float:left;width:773px;border-left:1px solid #d6dadd; border-top:1px solid #d6dadd;padding:0px 0px 20px;box-shadow: 3px -10px 7px 0;-moz-box-shadow: 3px -10px 7px 0;-webkit-box-shadow: 3px -10px 7px 0;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
+/* .s3d-page-fullcolumn-nopadding{width:960px;min-height:100px;border-top:solid #d6dadd 1px;}
+.s3d-page-fullcolumn-padding{width:920px;min-height:100px;border-top:solid #d6dadd 1px; padding: 20px 20px 30px;} 
+.s3d-page-full{height:100px;} */
 .s3d-navigation-container{background: url("/devwidgets/topnavigation/images/topnav_bg.png") repeat-x scroll left top transparent;-moz-box-shadow:0 -5px 9px 6px #555555;-webkit-box-shadow:0 -5px 9px 6px #555555;box-shadow:0 -5px 9px 6px #555555;height: 40px;margin-left: auto;margin-right: auto;position: absolute;width: 100%;z-index: 999;}
 .s3d-page-header{background:url("/devwidgets/entity/images/entity_bottom_bordershadow.png") repeat-x scroll left bottom, url("/devwidgets/entity/images/entity_bg.png") repeat-x scroll left top #f7f7f7;border-bottom: 1px solid #B3B3B4;min-height: 45px;margin-top: 40px;width:960px;}
 .s3d-page-header.collection_modified {padding:0px;height:auto;width:960px;-moz-box-shadow:0 -5px 9px 6px #555555;-webkit-box-shadow:0 -5px 9px 6px #555555;box-shadow:0 -5px 9px 6px #555555;min-height:0;border-bottom:0;}

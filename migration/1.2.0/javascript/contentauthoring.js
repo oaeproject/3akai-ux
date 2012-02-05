@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,6 +15,23 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.jisccontent_widget {text-align: center;}
-.jisccontent_widget_content {padding: 0px !important;}
-.jisccontent_widget_content iframe {max-width: 252px;}
+
+require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+
+    sakai_global.contentauthoring = function(){
+
+        $("#migration_convert_structure").live("click", function(){
+            var url = $("#migration_input_url").val();
+            sakai.api.Server.loadJSON(url, function(success, data){
+                if (success){
+                     $("#migration_output").val($.toJSON(sakai.api.Content.Migrators.migratePageStructure(data)));
+                } else {
+                    alert("No valid JSON structure was entered");
+                }
+            });
+        });
+        
+    };
+
+    sakai.api.Widgets.Container.registerForLoad("contentauthoring");
+});

@@ -158,7 +158,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata = sakai.api.Util.replaceTemplateParameters(refid, pubdata);
                 } else {
                     pubdata = data;
-                    pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
+                    pubdata = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject(pubdata));
                 }
                 if (!isMe){
                     pubdata.structure0 = setManagerProperty(pubdata.structure0, false);
@@ -180,7 +180,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;
-                            privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
+                            privdata = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject(privdata));
                         }
                         if (publicToStore) {
                             if ($.isPlainObject(publicToStore.structure0)) {

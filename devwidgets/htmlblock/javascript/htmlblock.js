@@ -31,7 +31,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.htmlblock = function (tuid, showSettings) {
+    sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
 
         var $rootel = $("#" + tuid);
 
@@ -52,6 +52,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
               theme_advanced_statusbar_location : "none",
               theme_advanced_resizing : false
            });*/
+            if (showSettings){
+                
+            } else {
+                var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
+                $("#htmlblock_view_container", $rootel).html(processedContent);
+            }
         };
         
         // run the initialization function when the widget object loads
