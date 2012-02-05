@@ -578,7 +578,7 @@ define(
          * @param {Object} directOnly   specifies whether or not the relationship needs to be direct
          */
         isUserAManagerViewer: function(content, meObj, accessType, directOnly) {
-            var authorizable;
+            var authorizable = false;
             if (content && content["sakai:pooled-content-" + accessType]) {
                 for (var i = 0; i < content["sakai:pooled-content-" + accessType].length; i++) {
                     authorizable = content["sakai:pooled-content-" + accessType][i];
