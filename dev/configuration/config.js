@@ -835,6 +835,7 @@ define(function(){
         Authentication: {
             "allowInternalAccountCreation": true,
             "internal": true,
+            "internalAndExternal": false,
             "external": [{
                 label: "External Login System 1",
                 url: "http://external.login1.com/"

@@ -110,6 +110,8 @@
 .topnavigation_force_submenu_display_title {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;}
 
 .personinfo_trigger {color: #666 !important; border-bottom: 1px dotted #666}
+.s3d-dropdown-menu.topnavigation_dual_login .s3d-dropdown-menu-content-container{border-radius:0 0 2px 2px;}
+.s3d-dropdown-menu.topnavigation_dual_login ul{border-radius:2px 2px 0 0;}
 
 /* Accessibility styles for keyboard navigation */
 #topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
