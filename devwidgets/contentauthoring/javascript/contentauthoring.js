@@ -984,6 +984,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $("#inserterbar_save_edit_page").live("click", function(){
+            $(window).trigger("save.contentauthoring.sakai");
             // Generate the new row / column structure
             var rows = [];
             $.each($(".contentauthoring_row_container"), function(rindex, $row){
@@ -1007,8 +1008,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
                 rows.push(row);
             });
-            debug.log(rows);
-            
+
             $rootel.removeClass("contentauthoring_edit_mode");
             $(".contentauthoring_cell_content").sortable("destroy");
             $("#inserterbar_default_widgets_container").hide();
