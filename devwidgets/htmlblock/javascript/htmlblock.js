@@ -53,12 +53,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             lastData = widgetData.htmlblock.content;
         }
 
-        $(window).bind("save.contentauthoring.sakai", function(){
-            var currentText = tinyMCE.get(id).getContent();
-            $("#htmlblock_view_container", $rootel).html(currentText);
-            sakai.api.Util.renderMath($rootel);
-        });
-
         sakai_global.htmlblock.updateHeights = function(element){
             var elements = element ? [$("#" + element + "_ifr")] : $(".mceIframeContainer iframe:visible");
             $.each(elements, function(index, item){
@@ -103,8 +97,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 clearInterval(autoSavePoll);
                 autoSavePoll = false;
             }
-            autoSavePoll = setInterval(autoSave, 5000)
+            autoSavePoll = setInterval(autoSave, 5000);
+            $(window).bind("save.contentauthoring.sakai", function(){
+                var currentText = tinyMCE.get(id).getContent();
+                $("#htmlblock_view_container", $rootel).html(currentText);
+                sakai.api.Util.renderMath($rootel);
+            });
         };
+        
+        var stopAutosave = function(){
+            if (autoSavePoll){
+                clearInterval(autoSavePoll);
+                autoSavePoll = false;
+            }
+            $(window).unbind("save.contentauthoring.sakai");
+        }
         
         var autoSave = function(){
             var currentText = tinyMCE.get(id).getContent();
@@ -157,7 +164,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         theme_advanced_resizing: false,
                         editor_selector: tuid,
                         handle_event_callback: updateHeight,
-                        init_instance_callback: updateHeightInit
+                        init_instance_callback: updateHeightInit,
+                        remove_instance_callback: stopAutosave
                     });
                 }
             }

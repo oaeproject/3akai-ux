@@ -584,6 +584,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $(".contentauthoring_cell_element_action_x").live("click", function(){
             var $cell = $(this).parents(".contentauthoring_cell_element");
+            $cell.find('.tinyMCE').each(function(){
+                tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+            });
             $cell.remove();
         });
 
