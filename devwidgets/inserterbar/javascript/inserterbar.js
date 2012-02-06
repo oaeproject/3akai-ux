@@ -82,7 +82,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     			connectToSortable: ".contentauthoring_cell_content",
     			helper: "clone",
     			revert: "invalid",
-    			opacity: 0.4
+    			opacity: 0.4,
+                start: function(){
+                    sakai_global.contentauthoring.isDragging = true;
+                },
+                stop: function(){
+                    sakai_global.contentauthoring.isDragging = false;
+                }
     		});
         };
 

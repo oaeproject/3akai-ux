@@ -26,13 +26,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         for (var i = 0; i < sakai.config.worldTemplates.length; i++){
             var category = sakai.config.worldTemplates[i];
+            var rnd = sakai.api.Util.generateWidgetId();
             pubdata.structure0[category.id] = {
                 "_order": i,
                 "_title": sakai.api.i18n.getValueForKey(category.title),
-                "_ref": category.id
+                "_ref": rnd
             };
-            pubdata[category.id] = {
-                "page": "<div id='widget_selecttemplate_" + category.id + "' class='widget_inline'></div>"
+            pubdata[rnd] = {
+                "rows": [{
+                    "id": sakai.api.Util.generateWidgetId(),
+                    "columns": [{
+                        "width": 1,
+                        "elements": [
+                            {
+                                "id": category.id,
+                                "type": "selecttemplate"
+                            }
+                        ]
+                    }]
+                }]
             };
         }
 

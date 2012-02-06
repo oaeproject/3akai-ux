@@ -54,6 +54,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return $rootel.hasClass("contentauthoring_edit_mode");
         };
 
+        var getWidgetList = function(){
+            var widgetIDs = [];
+            for (var r = 0; r < currentPageShown.content.rows.length; r++){
+                for (var c = 0; c < currentPageShown.content.rows[r].columns.length; c++){
+                    for (var e = 0; e < currentPageShown.content.rows[r].columns[c].elements.length; e++){
+                        widgetIDs.push(currentPageShown.content.rows[r].columns[c].elements[e]);
+                    }
+                }
+            }
+            return widgetIDs;
+        };
 
         //////////////////////
         // Toggle edit mode //
@@ -68,6 +79,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             } else {
                 $rootel.addClass("contentauthoring_edit_mode");
                 $("#inserterbar_widget").show();
+                $(window).trigger("edit.contentauthoring.sakai");
+                sakai_global.htmlblock.updateHeights();
                 setActions();
             }
         });
@@ -99,7 +112,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(".contentauthoring_row_container").unbind("hover");
             $(".contentauthoring_row_container").hover(function(){
                 if (isInEditMode() && !sakai_global.contentauthoring.isDragging) {
-                    debug.log("Showing row hover because sakai_global.contentauthoring.isDragging is " + sakai_global.contentauthoring.isDragging);
                     $(".contentauthoring_row_handle_container", $(this)).css("visibility", "visible");
                 }
             }, function(){
@@ -112,13 +124,27 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 handle: '.contentauthoring_row_handle',
                 placeholder: "contentauthoring_row_reorder_highlight",
                 opacity: 0.4,
-                start: function(){
+                helper: !USE_ELEMENT_DRAG_HELPER ? "original" : function(ev, ui){
+                    var $el = $("<div/>");
+                    $el.css("width", ui.width() + "px");
+                    $el.css("height", ui.height() + "px");
+                    $el.css("background-color", "#2683BC");
+                    return $el;
+                },
+                start: function(ev, ui){
+                    $(ui.item).find('.tinyMCE').each(function(){
+                        tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+                    });
                     sakai_global.contentauthoring.isDragging = true;
                     $(".contentauthoring_row_handle_container").css("visibility", "hidden");
                     $(".contentauthoring_cell_element_actions").hide();
                     hideEditRowMenu();
                 },
                 stop: function(event, ui){
+                    $(ui.item).find('.tinyMCE').each(function(){
+                        tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id') );
+                    });
+                    $(this).sortable("refresh");
                     sakai_global.contentauthoring.isDragging = false;
                 }
             });
@@ -135,6 +161,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          *                      used to search for child cells that can contain content
          */
         var setHeight = function($row) {
+            $(window).trigger("edit.contentauthoring.sakai");
             var cells = $('.contentauthoring_cell_content', $row);
             var setDefaultHeight = true
             $.each(cells, function(index, cell){
@@ -171,13 +198,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     $el.css("background-color", "#2683BC");
                     return $el;
                 },
-                start: function(){
+                start: function(event, ui){
+                    $(ui.item).find('.tinyMCE').each(function(){
+                        tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+                    });
                     sakai_global.contentauthoring.isDragging = true;
                     $(".contentauthoring_row_handle_container").css("visibility", "hidden");
                     $(".contentauthoring_cell_element_actions").hide();
                     hideEditRowMenu();
                 },
                 stop: function(event, ui){
+                    $(ui.item).find('.tinyMCE').each(function(){
+                        tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id') );
+                        $(this).sortable("refresh");
+                    });
                     sakai_global.contentauthoring.isDragging = false;
                     if($(ui.item).data("collectionId")){
                         addExistingElement(event, ui);
@@ -214,16 +248,28 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var makeColumnsResizable = function(){
+            sakai_global.htmlblock.updateHeights();
             $(".contentauthoring_cell").resizable({
                 handles: {
                     'e': '.contentauthoring_cell_handle,.contentauthoring_cell_handle_grab'
                 },
                 helper: "ui-resizable-helper",
                 start: function(event, ui) {
+                    // Fix for iFrames
+                    $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
+                        width: "100%", height: "100%",
+                        position: "absolute", opacity: "0.001", zIndex: 100000
+                    }).css($(this).offset()).appendTo("body");
+
+                    sakai_global.contentauthoring.isDragging = true;
                     var $row = $(this).parent();
                     currentSizes = getColumnWidths($row);
                 },
                 stop: function(ev, ui){
+                    // Fix for iFrames
+                    $("div.ui-resizable-iframeFix").each(function() { this.parentNode.removeChild(this); }); 
+
+                    sakai_global.contentauthoring.isDragging = false;
                     var totalRowWidth = $("#contentauthoring_widget").width();
                     var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
                     var oldColumnWidth = ui.originalSize.width / totalRowWidth;
@@ -272,6 +318,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         }
                         totalWidth += currentColumnWidth;
                     }
+                    sakai_global.htmlblock.updateHeights();
                     setHeight($row);
                 }
             });
@@ -283,6 +330,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var updateColumnHandles = function(){
             $(".contentauthoring_cell_handle").show();
+            sakai_global.htmlblock.updateHeights();
             var $rows = $(".contentauthoring_row_container");
             for (var r = 0; r < $rows.length; r++){
                 var $columns = $(".contentauthoring_cell", $($rows[r]));
@@ -555,8 +603,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var $cells = $(".contentauthoring_cell", $row);
             for (var i = lastColumn + 1; i < $cells.length; i++){
                 var $cell = $($cells[i]);
+                $cell.find('.tinyMCE').each(function(){
+                    tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+                });
                 var $cellcontent = $(".contentauthoring_cell_content", $cell).children();
-                $(".contentauthoring_cell_content", $($cells[lastColumn])).append($cellcontent);
+                $(".contentauthoring_cell_content", $($cells[lastColumn])).append($cellcontent).find('.tinyMCE').each(function(){
+                    tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id') );
+                });;
                 $cell.remove();
                 remainingWidth -= widths[i];
             }
@@ -646,7 +699,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(".contentauthoring_cell_element").unbind("hover");
             $(".contentauthoring_cell_element").hover(function(){
                 if (isInEditMode() && !sakai_global.contentauthoring.isDragging) {
-                    debug.log("Showing cell hover because sakai_global.contentauthoring.isDragging is " + sakai_global.contentauthoring.isDragging);
                     $(".contentauthoring_cell_element_actions", $(this)).css("left", $(this).position().left + "px");
                     $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 1) + "px");
                     $(".contentauthoring_cell_element_actions", $(this)).show();
@@ -898,12 +950,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $rootel.addClass("contentauthoring_edit_mode");
             $("#inserterbar_view_container").hide();
             $("#inserterbar_default_widgets_container").show();
+            $(window).trigger("edit.contentauthoring.sakai");
             setActions();
             updateColumnHandles();
             // Make temporary copy
             sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
                 STORE_PATH = currentPageShown.savePath + "/tmp_" + currentPageShown.ref + "/";
                 sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+                // Get the widgets in this page and change their save URL
+                var widgets = getWidgetList();
+                for (var w in widgets){
+                    if (widgets.hasOwnProperty(w)){
+                        sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = STORE_PATH + widgets[w].id + "/" + widgets[w].type + "/";
+                    }
+                }
             });
         });
         

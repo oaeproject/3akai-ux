@@ -75,7 +75,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "contextData": contextData,
                 "parametersToCarryOver": parametersToCarryOver
             });
-            debug.log(pubstructure);
             $("#lhnavigation_container").html(lhnavHTML);
         };
 
@@ -324,7 +323,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                                 }
                             }
                         } else {
-                            var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
+                            var docInfo = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body)));
                             docInfo.orderedItems = orderItems(docInfo.structure0);
                             sakaiDocsInStructure["/p/" + pids[i]] = docInfo;
                             addDocUrlIntoStructure(docInfo.structure0, "/p/" + pids[i]);

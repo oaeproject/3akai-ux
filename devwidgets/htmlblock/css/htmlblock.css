@@ -21,3 +21,8 @@
  */
 
 .htmlblock_widget {min-height: 25px;}
+
+#htmlblock_view_container {display:block;}
+.contentauthoring_edit_mode #htmlblock_view_container {display:none !important;}
+#htmlblock_edit_container {display:none;}
+.contentauthoring_edit_mode #htmlblock_edit_container {display:block !important;}
