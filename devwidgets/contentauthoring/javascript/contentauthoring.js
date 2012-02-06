@@ -35,7 +35,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var $rootel = $("#" + tuid);
         sakai_global.contentauthoring.isDragging = false;
-        sakai_global.htmlblock = sakai_global.htmlblock || {};
 
         var MINIMUM_COLUMN_SIZE = 0.05;
         var USE_ELEMENT_DRAG_HELPER = true;
@@ -81,7 +80,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $rootel.addClass("contentauthoring_edit_mode");
                 $("#inserterbar_widget").show();
                 $(window).trigger("edit.contentauthoring.sakai");
-                sakai_global.htmlblock.updateHeights();
+                if (sakai_global.htmlblock && sakai_global.htmlblock.updateHeights) {
+                    sakai_global.htmlblock.updateHeights();
+                }
                 setActions();
             }
         });
@@ -249,7 +250,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var makeColumnsResizable = function(){
-            sakai_global.htmlblock.updateHeights();
+            if (sakai_global.htmlblock && sakai_global.htmlblock.updateHeights) {
+                sakai_global.htmlblock.updateHeights();
+            }
             $(".contentauthoring_cell").resizable({
                 handles: {
                     'e': '.contentauthoring_cell_handle,.contentauthoring_cell_handle_grab'
@@ -319,7 +322,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         }
                         totalWidth += currentColumnWidth;
                     }
-                    sakai_global.htmlblock.updateHeights();
+                    if (sakai_global.htmlblock && sakai_global.htmlblock.updateHeights) {
+                        sakai_global.htmlblock.updateHeights();
+                    }
                     setHeight($row);
                 }
             });
@@ -331,7 +336,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var updateColumnHandles = function(){
             $(".contentauthoring_cell_handle").show();
-            sakai_global.htmlblock.updateHeights();
+            if (sakai_global.htmlblock && sakai_global.htmlblock.updateHeights) {
+                sakai_global.htmlblock.updateHeights();
+            }
             var $rows = $(".contentauthoring_row_container");
             for (var r = 0; r < $rows.length; r++){
                 var $columns = $(".contentauthoring_cell", $($rows[r]));
