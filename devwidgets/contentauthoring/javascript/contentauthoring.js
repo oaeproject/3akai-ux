@@ -40,6 +40,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var USE_ELEMENT_DRAG_HELPER = true;
         var STORE_PATH = false;
 
+        // Upload external content variables
+        var externalFilesUploaded = 0;
+        var externalFilesToUpload = 0;
+        var filesUploaded = [];
+        var uploadError = false;
 
         ///////////////////////
         // Utility functions //
@@ -208,7 +213,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         $(this).sortable("refresh");
                     });
                     sakai_global.contentauthoring.isDragging = false;
-                    addNewElement(event, ui);
+                    if($(ui.item).data("collectionId")){
+                        addExistingElement(event, ui);
+                    } else if(!$(ui.item).data("contentId")){
+                        addNewElement(event, ui);
+                    } else {
+                        addExistingElement(event, ui);
+                    }
                 }
     		});
         }
@@ -364,17 +375,199 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Add a new element: external //
         /////////////////////////////////
 
-        var addExternal = function(ev, data){
-            var template = sakai.api.Util.TemplateRenderer("create_cell_element_template", {data: data, sakai: sakai});
-            // We add the item after the element is dropped on if there is one
-            // If the column is empty we append
-            if($(data.target).hasClass("contentauthoring_cell_element")){
-                $(data.target).after(template);
-            } else {
-                $(data.target).append(template);
+        /**
+         * Checks if all dropped files have been uploaded
+         * @param fileArray {Array}  Array of files that were uploaded
+         * @param $el       {Object} jQuery object on which the link was dropped
+         */
+        var checkAllExternalFilesUploaded = function(filesUploaded, $el){
+            externalFilesUploaded++;
+            if(externalFilesUploaded === externalFilesToUpload){
+                externalFilesUploaded = 0;
+                externalFilesToUpload = 0;
+                var files = [];
+                // Add paths to the array used to set permissions
+                $.each(filesUploaded, function(index, item){
+                    files.push(item._path);
+                });
+                if(files.length){
+                    sakai.api.Content.setFilePermissionsAsParent(files, currentPageShown.savePath, function(success){
+                        // Embed the link in the page
+                        var id = sakai.api.Util.generateWidgetId();
+
+                        // Construct post for new embed content
+                        var contentData = {
+                            "layout":"single",
+                            "embedmethod":"original",
+                            "items": {},
+                            "title": "",
+                            "description": "",
+                            "details": false,
+                            "download": false,
+                            "name": false,
+                            "sakai:indexed-fields":"title,description",
+                            "sling:resourceType":"sakai/widget-data"
+                        }
+                        if(files.length > 1){
+                            contentData.layout = "vertical";
+                            contentData.embedmethod = "thumbnail";
+                            contentData.name = true;
+                        }
+                        $.each(filesUploaded, function(index, item){
+                            contentData["items"]["__array__" + index + "__"] = "/p/" + item._path;
+                        });
+                        sakai.api.Server.saveJSON(STORE_PATH + id + "/" + "embedcontent", contentData, function(){
+                            filesUploaded = [];
+                            var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                                "id": id,
+                                "type": "embedcontent",
+                                "template": "cell",
+                                "settingsoverridden": true
+                            });
+                            if($el.hasClass("contentauthoring_cell_element")){
+                                $el.after($(element));
+                            } else {
+                                $el.append($(element));
+                            }
+                            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+                            setActions();
+                            sakai.api.Util.progressIndicator.hideProgressIndicator();
+                            if (uploadError){
+                                sakai.api.Util.notification.show(
+                                    sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "contentauthoring"),
+                                    sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "contentauthoring"));
+                            }
+                        }, true);
+                    });
+                } else {
+                    if (uploadError){
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "contentauthoring"),
+                            sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "contentauthoring"));
+                    }
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
+                }
             }
-            // Reapply the cell hovers
-            setCellHover();
+        };
+
+        /**
+         * Handles drag and drop from the desktop
+         * @param files {Object} Contains the drag and drop file data
+         * @param $el   {Object} Element on which the files where dropped
+         */
+        var uploadExternalFiles = function(files, $el){
+            uploadError = false;
+            filesUploaded = [];
+            externalFilesToUpload = files.length;
+            $.each(files, function(index, file){
+                if (file.size > 0){
+                    var xhReq = new XMLHttpRequest();
+                    xhReq.open("POST", "/system/pool/createfile", false);
+                    var formData = new FormData();
+                    formData.append("enctype", "multipart/form-data");
+                    formData.append("filename", file.name);
+                    formData.append("file", file);
+                    xhReq.send(formData);
+                    if (xhReq.status == 201){
+                        filesUploaded.push($.parseJSON(xhReq.responseText)[file.name].item);
+                        checkAllExternalFilesUploaded(filesUploaded, $el);
+                    } else {
+                        checkAllExternalFilesUploaded(filesUploaded, $el);
+                    }
+                } else {
+                    uploadError = true;
+                    checkAllExternalFilesUploaded(filesUploaded, $el);
+                }
+            });
+        };
+
+        /**
+        * Uploads the dropped link to the system
+        * @param link {String} Link that was dropped
+        * @param $el  {Object} jQuery object on which the link was dropped
+        */
+        var uploadExternalLink = function(link, $el){
+            var preview = sakai.api.Content.getPreviewUrl(link);
+            var link = {
+                "sakai:pooled-content-url": link,
+                "mimeType": "x-sakai/link",
+                "sakai:preview-url": preview.url,
+                "sakai:preview-type": preview.type,
+                "sakai:preview-avatar": preview.avatar,
+                "sakai:pooled-content-file-name": link
+            };
+
+            $.ajax({
+                url: "/system/pool/createfile",
+                data: link,
+                type: "POST",
+                dataType: "JSON",
+                success: function(data){
+                    var files = [];
+                    $.each(data, function(index, item){
+                        files.push(item.poolId);
+                    });
+                    sakai.api.Content.setFilePermissionsAsParent(files, currentPageShown.savePath, function(success){
+                        // Embed the link in the page
+                        var id = sakai.api.Util.generateWidgetId();
+
+                        // Construct post for new embed content
+                        var linkData = {
+                            "layout":"single",
+                            "embedmethod":"original",
+                            "title": "",
+                            "description": "",
+                            "items": {
+                                "__array__0__":"/p/" + data._contentItem.poolId
+                            },
+                            "details":false,
+                            "download":false,
+                            "name": link,
+                            "sakai:indexed-fields":"title,description",
+                            "sling:resourceType":"sakai/widget-data"
+                        }
+                        sakai.api.Server.saveJSON(STORE_PATH + id + "/" + "embedcontent", linkData, function(){
+                            var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                                "id": id,
+                                "type": "embedcontent",
+                                "template": "cell",
+                                "settingsoverridden": true
+                            });
+                            if($el.hasClass("contentauthoring_cell_element")){
+                                $el.after($(element));
+                            } else {
+                                $el.append($(element));
+                            }
+                            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+                            setActions();
+                            sakai.api.Util.progressIndicator.hideProgressIndicator();
+                        }, true);
+                    });
+                },
+                error: function() {
+                    debug.log("error!");
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
+                }
+            });
+        };
+
+        /**
+        * @param ev  {object} Drop event
+        * @param $el {Object} jQuery object containing the element on which the external content was dropped
+        */
+        var addExternal = function(ev, $el){
+            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("INSERTING_YOUR_EXTERNAL_CONTENT", "contentauthoring"), sakai.api.i18n.getValueForKey("PROCESSING"));
+            var content = false;
+            var contentType = "link";
+            var dt = ev.originalEvent.dataTransfer;
+            if(dt.files.length){
+                contentType = "file";
+                content = dt.files;
+                uploadExternalFiles(content, $el);
+            } else {
+                content = dt.getData("Text");
+                uploadExternalLink(content, $el);
+            }
         };
 
 
@@ -606,7 +799,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
                     "id": id,
                     "type": type,
-                    "template": "cell"
+                    "template": "cell",
+                    "settingsoverridden": false
                 });
                 addedElement.replaceWith($(element));
                 if (type !== "htmlblock" && type !== "pagetitle"){
@@ -618,6 +812,45 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
                 setActions();
             };
+        };
+
+
+        //////////////////////////
+        // Add existing element //
+        //////////////////////////
+
+        var addExistingElement = function(ev, ui){
+            // Generate unique id
+            var id = sakai.api.Util.generateWidgetId();
+
+            // Construct post for new embed content
+            var contentData = {
+                "layout":"single",
+                "embedmethod":"original",
+                "items": {
+                    "__array__0__":"/p/" + ($(ui.item).data("contentId") || $(ui.item).data("collectionId"))
+                },
+                "title": "",
+                "description": "",
+                "details": false,
+                "download": false,
+                "name": false,
+                "sakai:indexed-fields":"title,description",
+                "sling:resourceType":"sakai/widget-data"
+            }
+
+            sakai.api.Server.saveJSON(STORE_PATH + id + "/" + "embedcontent", contentData, function(){
+                var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                    "id": id,
+                    "type": "embedcontent",
+                    "template": "cell",
+                    "settingsoverridden": true
+                });
+                $(ui.item).replaceWith($(element));
+                sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+                setActions();
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
+            });
         };
 
         var imageLoaded = function(ev, image){
@@ -669,8 +902,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         };
 
-        $(window).bind("sakai.contentauthoring.droppedexternal", addExternal);
-
         $rootel.contentChange(function(changedHTML){
             $.each($(changedHTML).find("img:visible"), function(i, item){
                 imageLoaded({}, $(item));
@@ -685,6 +916,38 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Other management stuff //
         ////////////////////////////
         ////////////////////////////
+
+        // Highlight on drag entering drop zone.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragenter', function(ev) {
+            $(".contentauthoring_row_reorder_highlight.external_content").remove();
+            if($(this).hasClass("contentauthoring_cell_element")){
+                $(this).after($("<div class='contentauthoring_row_reorder_highlight external_content'></div>"));
+            } else {
+                $(this).append($("<div class='contentauthoring_row_reorder_highlight external_content'></div>"));
+            }
+            return false;
+        });
+
+        // Un-highlight on drag leaving drop zone.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragleave', function(ev) {
+            return false;
+        });
+
+        // Decide whether the thing dragged in is welcome.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragover', function(ev) {
+            return false;
+        });
+
+        // Handle the final drop
+        $(".contentauthoring_cell_element,.contentauthoring_cell_content").live('drop', function(ev) {
+            ev.preventDefault();
+            $(".contentauthoring_row_reorder_highlight.external_content").remove();
+            if(!$(this).hasClass("contentauthoring_cell_element")){
+                var dt = ev.originalEvent.dataTransfer;
+                addExternal(ev, $(this));
+            }
+            return false;
+        });
 
         $("#inserterbar_action_edit_page").live("click", function(){
             $rootel.addClass("contentauthoring_edit_mode");

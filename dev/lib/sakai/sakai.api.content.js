@@ -400,6 +400,76 @@ define(
         },
 
         /**
+        * Sets the permissions an Array of files to be the same as their parent
+        * Order of execution:
+        *       - Load parent permissions
+        *       - Set parent permission parameter on content nodes
+        *       - Set ACLs on content node
+        *       - Callback if present
+        * @param filesArray     {Array}    Array of files (PoolIDs)
+        * @param parentSavePath {String}   savePath of the parent
+        * @param callback       {Function} Executed on completion of the function
+        */
+        setFilePermissionsAsParent: function(filesArray, parentSavePath, callback){
+
+            /**
+             * Set parent permission parameter on content nodes
+             * @param filesToSetPermissions {Array} Array of files to set ACLs on
+             * @param batchRequests {Array} Array of requests to set permission parameter on content nodes
+             */
+            var setDataOnContent = function(filesToSetPermissions, batchRequests){
+                sakai_serv.batch(batchRequests, function(success){
+                    if (success){
+                        // Apply the same permissions to the filesArray
+                        sakai_content.setFilePermissions(filesToSetPermissions, function(success){
+                            // Execute callback
+                            if($.isFunction(callback)){
+                                callback(success);
+                            }
+                        });
+                    } else {
+                        if($.isFunction(callback)){
+                            callback(success);
+                        }
+                    }
+                });
+            };
+
+            /**
+             * Get the permissons set on the parent
+             */
+            var getParentPermissions = function(){
+                sakai_serv.loadJSON(parentSavePath, function(success, data){
+                    if (success){
+                        var permissions = data["sakai:permissions"];
+                        var filesToSetPermissions = [];
+                        var batchRequests = [];
+                        $.each(filesArray, function(index, item){
+                            filesToSetPermissions.push({
+                                hashpath: item,
+                                permissions: permissions
+                            });
+                            batchRequests.push({
+                                "url": "/p/" + item,
+                                "method": "POST",
+                                "parameters": {
+                                    "sakai:permissions": permissions
+                                }
+                            });
+                        });
+                        setDataOnContent(filesToSetPermissions, batchRequests);
+                    } else {
+                        if($.isFunction(callback)){
+                            callback(success);
+                        }
+                    }
+                });
+            };
+
+            getParentPermissions();
+        },
+
+        /**
          * Sets ACLs on a specified path and executes a callback if specified.
          * @param {String} _path The path on which the ACLs need to be set or an array of paths on which to set ACLs
          * @param {String} _permission 'anonymous', 'everyone', 'contacts' or 'private' determining what ACLs need to be set

@@ -116,90 +116,100 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var pageId, refId;
                 pageId = refId = 0;
 
-                // Create the root structure for the docs by going through each pageStructure
-                $.each(templategeneratorData.pageStructures, function(docstructureIndex, docstructureElement) {
-                    var pid = '${pid}' + pageId;
-                    var page = {};
-                    page[pid] = {};
-                    page[pid].structure0 = $.extend(true, {}, templategeneratorData.pages[pageId].structure);
-                    delete page[pid].structure0._pid;
-                    delete page[pid].structure0._poolpath;
-
-                    // Create the individual pages and add all the content
-                    $.each(page[pid].structure0, function(pageIndex, pageElement) {
-                        var oldRef = pageElement._ref;
-
-                        var newRef = '${refid}' + refId;
-                        pageElement._ref = newRef;
-                        pageElement.main._ref = newRef;
-
-                        delete pageElement._poolpath;
-                        delete pageElement._id;
-                        delete pageElement._elements;
-                        delete pageElement.main._id;
-                        delete pageElement.main._poolpath;
-                        delete pageElement.main._elements;
-
-                        page[pid][newRef] = {};
-
-                        // Extract the HTML data for each page so we can look for widgets
-                        var myPageContent = $(templategeneratorData.pages[pageId].pageData[oldRef].page);
-                        $templategeneratorExport.append(myPageContent);
-
-                        // Look for the widgets within the HTML data
-                        var widgetElements = $templategeneratorExport.find(".widget_inline");
-                        $(widgetElements).each(function(widgetIndex, widgetElement) {
-                            refId++;
-                            var widgetRef = '${refid}' + refId;
-                            var oldWidgetReference = $(widgetElement).attr('id');
-                            page[pid][widgetRef] = {};
-                            oldWidgetReference = oldWidgetReference.split('_');
-                            $(widgetElement).attr('id', 'widget_' + oldWidgetReference[1] + '_' + widgetRef);
-                            page[pid][widgetRef][oldWidgetReference[1]] = {};
-
-                            if (templategeneratorData.pages[pageId].pageData[oldWidgetReference[(oldWidgetReference.length) - 1]]) {
-                                var oldWidgetData = templategeneratorData.pages[pageId].pageData[oldWidgetReference[(oldWidgetReference.length) - 1]][oldWidgetReference[1]];
-                                var newWidgetData = page[pid][widgetRef][oldWidgetReference[1]];
-
-                                // Only copy data for certain widgets
-                                var uniqueDataWidget = $.inArray(oldWidgetReference[1], sakai.widgets.templategenerator.defaultConfiguration.templategenerator.uniqueDataWidgets);
-
-                                if (oldWidgetData && uniqueDataWidget === -1) {
-                                    $.each(oldWidgetData, function(widgetPropertyKey, widgetPropertyElement) {
-                                        var firstCharacter = widgetPropertyKey.charAt(0);
-                                        if (firstCharacter !== '_') {
-                                            newWidgetData[widgetPropertyKey] = widgetPropertyElement;
+                // Create the root structure for the group template
+                templategeneratorData.exportData.structure = {};
+                $.each(templategeneratorData.pageStructures, function(index, item){
+                    templategeneratorData.exportData.structure[item.page1._title] = {};
+                    templategeneratorData.exportData.structure[item.page1._title] = {
+                        "_title": item.page1._title,
+                        "_order": item.page1._order,
+                        "_docref": "${pid}" + index,
+                        "_nonEditable": true,
+                        "_view": [
+                            "everyone",
+                            "anonymous",
+                            "-student"
+                        ],
+                        "_edit": [
+                            "-ta",
+                            "-lecturer"
+                        ]
+                    };
+                    // Add the documents for the page
+                    templategeneratorData.exportData.docs["${pid}" + index] = {
+                        "excludeSearch": true,
+                        "structure0": {}
+                    };
+                    // Add structure0 inside of that page
+                    templategeneratorData.exportData.docs["${pid}" + index].structure0[templategeneratorData.pages[index].pageData["sakai:pooled-content-file-name"]] = {
+                        "_ref": "${refid}" + index,
+                        "_order": 0,
+                        "_nonEditable": true,
+                        "_title": templategeneratorData.pages[index].pageData["sakai:pooled-content-file-name"],
+                        "main": {
+                            "_ref": "${refid}" + index,
+                            "_order": 0,
+                            "_nonEditable": true,
+                            "_title": templategeneratorData.pages[index].pageData["sakai:pooled-content-file-name"]
+                        }
+                    };
+                    // Add the content for the page (rows, cells,...)
+                    var oldRef = item.page1._ref;
+                    templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index] = {
+                        "rows": {}
+                    };
+                    // rows on the page
+                    $.each(templategeneratorData.pages[index].pageData[oldRef].rows, function(rowIndex, row){
+                        if($.isPlainObject(row)){
+                            templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index].rows[rowIndex] = {
+                                "columns": {}
+                            };
+                            // Columns in the rows
+                            $.each(row.columns, function(columnIndex, column){
+                                if($.isPlainObject(column)){
+                                    templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index].rows[rowIndex].columns[columnIndex] = {
+                                        "width": column.width,
+                                        "elements": {}
+                                    };
+                                    // Cells in the column
+                                    $.each(column.elements, function(cellIndex, cell){
+                                        if($.isPlainObject(cell)){
+                                            templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index]["rows"][rowIndex].columns[columnIndex].elements[cellIndex] = {
+                                                "id": cell.id,
+                                                "type": cell.type
+                                            };
+                                            if(templategeneratorData.pages[index].pageData[oldRef][cell.id]){
+                                                templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index][cell.id] = {};
+                                                templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index][cell.id][cell.type] = {
+                                                    "embedmethod": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].embedmethod,
+                                                    "sakai:indexed-fields": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type]["sakai:indexed-fields"],
+                                                    "download": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].download,
+                                                    "title": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].title,
+                                                    "details": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].details,
+                                                    "description": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].description,
+                                                    "name": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].name,
+                                                    "layout": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].layout,
+                                                    "items": {
+                                                        "__array__0__": "/p/kMR5kxyyec",
+                                                    }
+                                                };
+                                                $.each(templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].items, function(itemsIndex, item){
+                                                    if(itemsIndex.indexOf("__array__") === 0){
+                                                        templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index][cell.id][cell.type].items[itemsIndex] = item;
+                                                    }
+                                                });
+                                            }
                                         }
                                     });
-                                } else {
-                                    newWidgetData.groupid = "${groupid}";
                                 }
-                            }
-                        });
-                        var generatedHTML = $templategeneratorExport.empty().append(myPageContent).html().trim().replace(/"/g, '\'').replace(/\n/g, "");
-                        page[pid][newRef].page = generatedHTML;
-                        $templategeneratorExport.empty();
-                        refId++;
+                            });
+                        }
                     });
-
-                    pageId++;
-                    $.extend(true, templategeneratorData.exportData.docs, page);
                 });
 
-                // 4. Generate the structure
-                var pageIndex = 0;
-                var structure = $.extend(true, {}, templategeneratorData.docstructure.structure);
-                $.each(structure, function(structureIndex, structureElement) {
-                    structureElement['_docref'] = '${pid}' + pageIndex;
-                    pageIndex++;
-                    delete structureElement._poolpath;
-                    delete structureElement._elements;
-                    delete structureElement._id;
-                    delete structureElement._pid;
-                });
-                templategeneratorData.exportData.structure = structure;
                 templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, 4);
                 templategeneratorData.output = templategeneratorData.output.replace(/\\/g, '');
+
                 createTemplateFile();
             }
         };
@@ -283,7 +293,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Retrieve all the data from the server and prepare for the templateGenerating process
          */
-        var getTemplateData = function( callback ) {
+        var getTemplateData = function(callback) {
             templategeneratorData.templateName = sakai_global.group.groupData.name;
             templategeneratorData.docstructureUrl = "~" + templategeneratorData.templateName + "/docstructure.infinity.json";
             templategeneratorData.rolesUrl = "/system/userManager/group/" + templategeneratorData.templateName + ".infinity.json";
@@ -352,6 +362,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /**
+         * Initializes the template generator
+         */
         var init = function() {
             $templategeneratorExportButton.removeAttr("disabled");
             templategeneratorData.templatesLoaded = false;
