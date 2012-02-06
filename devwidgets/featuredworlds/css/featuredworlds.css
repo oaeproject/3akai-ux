@@ -15,8 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.featuredworlds_widget {margin:10px 0 0;}
-
 
 /* Worlds tabs */
 .featuredworlds_widget .featuredworlds_tab {float:left;padding:0 20px;border:1px solid #e5e5e5;border-bottom:none;background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_bg.png") repeat-x scroll left top transparent;margin:3px 1px 0;cursor:pointer;height:30px;line-height:30px;font-size:12px;}

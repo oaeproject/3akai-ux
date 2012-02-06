@@ -1708,7 +1708,13 @@ define(
                                                 json[ref][id] = originalstructure[id];
                                             }
                                         }
+                                    //} else if ($(".widget_inline", $(item2)).length > 0){
+                                        // Pull out a widget
+                                    //    $.each($(".widget_inline", $(item2), function(index3, item3){
+                                    //        $($(item3), $(item2)).remove();
+                                    //    });
                                     } else {
+                                        // TODO: Instead of leaving out <br/>, only leave them out if they are the only node
                                         if (!$(item2).is("br")) {
                                             currentHTMLBlock.append($(item2));
                                         }

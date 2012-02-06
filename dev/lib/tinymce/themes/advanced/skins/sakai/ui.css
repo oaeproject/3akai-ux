@@ -15,28 +15,23 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/* Reset */
-.sakaiSkin table,.sakaiSkin tbody,.sakaiSkin a,.sakaiSkin img,.sakaiSkin tr,.sakaiSkin div,.sakaiSkin td,.sakaiSkin iframe,.sakaiSkin span,.sakaiSkin *,.sakaiSkin .mceText{border:0;margin:0;padding:0;background:transparent;white-space:nowrap;text-decoration:none;font-weight:normal;cursor:default;color:#000;vertical-align:baseline;width:auto;border-collapse:separate;text-align:left;}
-.sakaiSkin a:hover,.sakaiSkin a:link,.sakaiSkin a:visited,.sakaiSkin a:active{text-decoration:none;font-weight:normal;cursor:default;color:#000;}
-.sakaiSkin table td{vertical-align:middle;}
-
 /* Containers */
-.sakaiSkin table{direction:ltr;background:#FFF;}
-.sakaiSkin iframe{display:block;background:#FFF;}
-.sakaiSkin .mceToolbar{height:24px;}
+.sakaiSkin table{direction:ltr;}
+.sakaiSkin iframe{display:block; overflow: hidden;}
+.sakaiSkin .mceToolbar{height:24px; background-color: #eee;}
 .sakaiSkin .mceLeft{text-align:left;}
 .sakaiSkin .mceRight{text-align:right;}
 
 /* External */
-.sakaiSkin .mceExternalToolbar{position:absolute;border:1px solid #CCC;border-bottom:0;display:none;}
+.sakaiSkin .mceExternalToolbar{position:relative;border:1px solid #CCC;border-bottom:0;display:none;top:auto !important;}
 .sakaiSkin .mceExternalToolbar td.mceToolbar{padding-right:13px;}
 .sakaiSkin .mceExternalClose{position:absolute;top:3px;right:3px;width:7px;height:7px;background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif) -820px 0;}
 
 /* Layout */
-.sakaiSkin table.mceLayout{border:0;}
+.sakaiSkin table.mceLayout{border:0; height: 25px !important; margin-bottom: 0px;}
 .sakaiSkin table.mceToolbar,.sakaiSkin tr.mceFirst .mceToolbar tr td,.sakaiSkin tr.mceLast .mceToolbar tr td{border:0;margin:0;padding:0;}
 .sakaiSkin td.mceToolbar{border-bottom:1px solid #999;padding:4px;vertical-align:middle;}
-.sakaiSkin .mceIframeContainer{border:0;vertical-align:top;padding:4px 0 0 4px;}
+.sakaiSkin .mceIframeContainer{border:0;vertical-align:top;padding:0px 0 0 0px;}
 .sakaiSkin .mceStatusbar{font-family:'MS Sans Serif',sans-serif,Verdana,Arial;font-size:9pt;line-height:16px;overflow:visible;color:#000;display:block;height:20px;}
 .sakaiSkin .mceStatusbar div{float:left;margin:2px;}
 .sakaiSkin .mceStatusbar a.mceResize{display:block;float:right;background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif) -800px 0;width:20px;height:20px;cursor:se-resize;outline:0;}
