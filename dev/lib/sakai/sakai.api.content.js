@@ -1753,7 +1753,7 @@ define(
                                 json[ref] = {};
                                 $.each(page, function(key2, item2){
                                     if ($(item2).hasClass("widget_inline")){
-                                        if ($.trim($(currentHTMLBlock).html())) {
+                                        if ($(currentHTMLBlock).text()) {
                                             var id = sakai_util.generateWidgetId();
                                             elements.push({
                                                 "id": id,
@@ -1790,7 +1790,7 @@ define(
                                         }
                                     }
                                 });
-                                if ($.trim($(currentHTMLBlock).html())) {
+                                if ($(currentHTMLBlock).text()) {
                                     var id = sakai_util.generateWidgetId();
                                     elements.push({
                                         "id": id,
@@ -1858,7 +1858,8 @@ define(
                         debug.log("Needs a migration");
                         json = sakai_content.Migrators.processStructure0(newStructure.structure0, newStructure, json);
                         if (storeURL){
-                            alert("Need to store this migration");
+                            debug.log("Need to store this migration");
+                            //debug.log(json);
                             sakai_serv.saveJSON(storeURL, json);
                         }
                         json.structure0 = structure.structure0;

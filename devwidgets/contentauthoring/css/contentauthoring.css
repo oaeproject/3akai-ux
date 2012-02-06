@@ -232,9 +232,7 @@
 }
 
 #contentauthoring_widget_container {
-    margin-left: 0px;
-    margin-top: 0px;
-    margin-right: 5px;
+    margin: 0px 5px 0px 0px;
 }
 
 .contentauthoring_row_container {
