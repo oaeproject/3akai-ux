@@ -47,6 +47,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
 
+        var autoSavePoll = false;
+        var lastData = "";
+        if (widgetData && widgetData.htmlblock){
+            lastData = widgetData.htmlblock.content;
+        }
+
         sakai_global.htmlblock.updateHeights = function(element){
             var elements = element ? [$("#" + element + "_ifr")] : $(".mceIframeContainer iframe:visible");
             $.each(elements, function(index, item){
@@ -77,12 +83,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var $rootel = $("#" + tuid);
         var $toolbar = false;
+        var id = false;
 
         var updateHeightInit = function(ui){
-            $editor = $("#" + ui.id + "_ifr");
-            $toolbar = $("#" + ui.id + "_external");
+            id = ui.id;
+            $editor = $("#" + id + "_ifr");
+            $toolbar = $("#" + id + "_external");
             $("#inserterbar_widget").append($toolbar);
-            setTimeout(sakai_global.htmlblock.updateHeights, 500, ui.id);
+            setTimeout(sakai_global.htmlblock.updateHeights, 500, id);
+
+            // Start the autosave
+            if (autoSavePoll){
+                clearInterval(autoSavePoll);
+                autoSavePoll = false;
+            }
+            autoSavePoll = setInterval(autoSave, 5000)
+        };
+        
+        var autoSave = function(){
+            var currentText = tinyMCE.get(id).getContent();
+            if (currentText !== lastData){
+                lastData = currentText;
+                sakai.api.Widgets.saveWidgetData(tuid, {"content": currentText});
+            }
         };
 
         var updateHeight = function(ev, ui){
@@ -128,31 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         theme_advanced_resizing: false,
                         editor_selector: tuid,
                         handle_event_callback: updateHeight,
-                        init_instance_callback: updateHeightInit,
-                        setup: function(ed){
-                            // Display an alert onclick
-                            debug.log(ed);
-                            //ed.onClick.add(function(ed){
-                            //    alert("Focus!");
-                            //  });
-                              ed.onInit.add(function(ed){    
-                                ed.getDoc().addEventListener("focus", function(){
-                                  debug.log("Focus2!");
-                                });
-                              });
-                              ed.onInit.add(function(ed){    
-                                ed.getDoc().addEventListener("blur", function(){
-                                  debug.log("Blur!");
-                                });
-                              });//addEventListener
-                            /*ed.onFocus.add(function(ed){
-                                alert("Focus!");
-                            });
-                            ed.onBlur.add(function(ed){
-                                alert("Blur!");
-                            });*/
-                        }
-                    //onchange_callback: updateHeight
+                        init_instance_callback: updateHeightInit
                     });
                 }
             }

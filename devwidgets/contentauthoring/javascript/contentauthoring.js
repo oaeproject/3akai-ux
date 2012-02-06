@@ -49,6 +49,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return $rootel.hasClass("contentauthoring_edit_mode");
         };
 
+        var getWidgetList = function(){
+            var widgetIDs = [];
+            for (var r = 0; r < currentPageShown.content.rows.length; r++){
+                for (var c = 0; c < currentPageShown.content.rows[r].columns.length; c++){
+                    for (var e = 0; e < currentPageShown.content.rows[r].columns[c].elements.length; e++){
+                        widgetIDs.push(currentPageShown.content.rows[r].columns[c].elements[e]);
+                    }
+                }
+            }
+            return widgetIDs;
+        };
 
         //////////////////////
         // Toggle edit mode //
@@ -683,6 +694,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
                 STORE_PATH = currentPageShown.savePath + "/tmp_" + currentPageShown.ref + "/";
                 sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+                // Get the widgets in this page and change their save URL
+                var widgets = getWidgetList();
+                for (var w in widgets){
+                    if (widgets.hasOwnProperty(w)){
+                        sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = STORE_PATH + widgets[w].id + "/" + widgets[w].type + "/";
+                    }
+                }
             });
         });
         
