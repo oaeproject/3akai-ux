@@ -91,6 +91,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             id = ui.id;
             $editor = $("#" + id + "_ifr");
             $toolbar = $("#" + id + "_external");
+            $toolbar.css("display", "none");
             $("#inserterbar_widget #inserterbar_tinymce_container").append($toolbar);
             setTimeout(sakai_global.htmlblock.updateHeights, 500, id);
 
@@ -170,6 +171,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         remove_instance_callback: stopAutosave,
                         setup : function(ed) {
                             ed.onClick.add(function(ed, e) {
+                                $("#inserterbar_widget #inserterbar_tinymce_container").show();
                                 $(this.contentAreaContainer).parents(".contentauthoring_cell_element").find(".contentauthoring_cell_element_actions").hide();
                             });
                         }

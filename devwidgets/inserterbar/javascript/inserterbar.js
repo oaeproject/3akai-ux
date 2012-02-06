@@ -169,7 +169,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             $("#inserterbar_action_edit_page").live("click", function(){
                 editPosition(696);
-                $("#inserterbar_tinymce_container", $rootel).show();
             });
         };
 
