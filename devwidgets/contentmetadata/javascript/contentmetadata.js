@@ -387,37 +387,35 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if (value !== sakai_global.content_profile.content_data.data["sakai:" + field]){
                 switch (field) {
                     case "description":
-                        updateDescription(value);
+                        saveData({"sakai:description": value}, function(success){
+                            if (success) {
+                                sakai_global.content_profile.content_data.data["sakai:description"] = value;
+                                createActivity("UPDATED_DESCRIPTION");
+                            }
+                        });
                         break;
                     case "copyright":
-                        updateCopyright(value);
+                        saveData({"sakai:copyright": value}, function(success){
+                            if (success) {
+                                sakai_global.content_profile.content_data.data["sakai:copyright"] = value;
+                                createActivity("UPDATED_COPYRIGHT");
+                            }
+                        });
                         break;
                 }
             }
         };
 
         /**
-         * Update the description of the content
+         * Saves the content metadata
+         * @param {Object} dataToSave Object containing the field and data to save
+         * @param {Function} callback Function to call when the request is completed
          */
-        var updateDescription = function(description){
+        var saveData = function(dataToSave, callback){
             var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
-            sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
-                if (success) {
-                    sakai_global.content_profile.content_data.data["sakai:description"] = description;
-                    createActivity("UPDATED_DESCRIPTION");
-                }
-            });
-        };
-
-        /**
-         * Update the copyright of the content
-         */
-        var updateCopyright = function(copyright){
-            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
-            sakai.api.Server.saveJSON(url, {"sakai:copyright": copyright}, function(success, data) {
-                if (success) {
-                    sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
-                    createActivity("UPDATED_COPYRIGHT");
+            sakai.api.Server.saveJSON(url, dataToSave, function(success, data) {
+                if ($.isFunction(callback)){
+                    callback(success);
                 }
             });
         };
@@ -460,6 +458,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             // jeditable bindings
+            var placeholder = sakai.api.i18n.getValueForKey("CLICK_TO_EDIT_DESCRIPTION", "contentmetadata");
             var tooltip = sakai.api.i18n.getValueForKey("CLICK_TO_EDIT", "contentmetadata");
             var jeditableUpdate = function(value, settings){
                 var field = $(this).parents(".contentmetadata_editable_for_maintainers_new").attr("data-edit-field");
@@ -469,7 +468,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $('.contentmetadata_edit_area_textarea').editable(jeditableUpdate, {
                 type: 'textarea',
                 onblur: 'submit',
-                tooltip: tooltip
+                tooltip: tooltip,
+                placeholder: placeholder
             });
 
             var copyrightData = {};
