@@ -39,99 +39,112 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var $rootel = $("#" + tuid);
-        var contentData = {};
-        var lhnavData = {};
-        var pages = [];
+        var docPath = "";
+        var tempDocData = {};
+        var docData = {};
+        var STORE_PATH = "";
 
+        // Containers
+        var $pageViewerContentContainer = $("#pageviewer_content_container");
+
+        // Templates
+        var pageViewerContentTemplate = "pageviewer_content_template";
+
+
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
+
+        /**
+         * Renders the page in the widget
+         */
         var renderContainer = function(){
-            $("#pageviewer_lhnav_container", $rootel).html(sakai.api.Util.TemplateRenderer("pageviewer_lhnav_template", {pages: pages}));
-            $("#pageviewer_content_container", $rootel).html(sakai.api.Util.TemplateRenderer("pageviewer_content_template", {pages: pages}));
-            if(pages.length > 1){
-                $("#pageviewer_lhnav_container", $rootel).show();
-                $("#pageviewer_content_container", $rootel).addClass("hasnav");
-            }
-            if (pages.length && pages[0].ref && pages[0].poolpath) {
-                sakai.api.Widgets.widgetLoader.insertWidgets(pages[0].ref, false, pages[0].poolpath + "/");
-                sakai.api.Util.renderMath("pageviewer_content_container");
-            }
+            sakai.api.Util.TemplateRenderer(pageViewerContentTemplate, docData, $pageViewerContentContainer, false);
+            sakai.api.Widgets.widgetLoader.insertWidgets("pageviewer_content_container", false, STORE_PATH, false);
         };
 
-        var fetchPageContent = function(){
-            var batchRequests = [];
-            $.each(pages, function(i, page){
-                batchRequests.push({
-                    "url": page.poolpath + "/" + page.ref + ".json",
-                    "method": "GET"
-                });
-            });
-            sakai.api.Server.batch(batchRequests, function(success, data) {
-                if(success){
-                    $.each(data.results, function(i, pageData){
-                        var pageBody = $.parseJSON(pageData.body) || {};
-                        pageBody.page = pageBody.page || "";
-                        if(sakai.api.Util.determineEmptyContent(pageBody.page)){
-                            pages[i].pageContent = pageBody;
-                        } else {
-                            pages[i].pageContent = false;
-                        }
-                    });
-                    renderContainer();
-                } else {
-                    debug.warn("Page contents could not be fetched.");
-                }
-            });
-        };
+        /**
+         * Parses the document structure before sending it to the renderer
+         */
+        var parseStructure = function(){
+            // Parse rows
+            var json = $.parseJSON(tempDocData.structure0);
+            $.each(json, function(index, item){
+                docData["rows"] = tempDocData[item._ref].rows;
+                STORE_PATH = "p/" + docPath + "/" + item._ref + "/";
 
-        var processPages = function(data){
-            // Respect the order specified in the docstructure
-            var totalToOrder = 0;
-            $.each(data, function(i, page){
-                totalToOrder++;
-            });
-            var findNextPage = function(){
-                var lowestOrder = false;
-                var pageToAdd = false;
-                $.each(data, function(i, page){
-                    if (lowestOrder === false || page._order < lowestOrder){
-                        lowestOrder = page._order;
-                        pageToAdd = i;
+                // Go through rows, columns and cells and extract any content
+                // rows on the page
+                $.each(docData["rows"], function(rowIndex, row){
+                    if($.isPlainObject(row)){
+                        // Columns in the rows
+                        $.each(row.columns, function(columnIndex, column){
+                            if($.isPlainObject(column)){
+                                // Cells in the column
+                                $.each(column.elements, function(cellIndex, cell){
+                                    if($.isPlainObject(cell)){
+                                        if(tempDocData[item._ref][cell.id]){
+                                            docData[cell.id] = {};
+                                            docData[cell.id][cell.type] = {
+                                                "embedmethod": tempDocData[item._ref][cell.id][cell.type].embedmethod,
+                                                "sakai:indexed-fields": tempDocData[item._ref][cell.id][cell.type]["sakai:indexed-fields"],
+                                                "download": tempDocData[item._ref][cell.id][cell.type].download,
+                                                "title": tempDocData[item._ref][cell.id][cell.type].title,
+                                                "details": tempDocData[item._ref][cell.id][cell.type].details,
+                                                "description": tempDocData[item._ref][cell.id][cell.type].description,
+                                                "name": tempDocData[item._ref][cell.id][cell.type].name,
+                                                "layout": tempDocData[item._ref][cell.id][cell.type].layout,
+                                                "items": {}
+                                            }
+                                            $.each(tempDocData[item._ref][cell.id][cell.type].items, function(itemsIndex, cellItem){
+                                                if(itemsIndex.indexOf("__array__") === 0){
+                                                    docData[cell.id][cell.type].items[itemsIndex] = cellItem;
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
-                var page = data[pageToAdd];
-                if (page.hasOwnProperty("_title") && page.hasOwnProperty("_ref")) {
-                    pages.push({
-                        title: page._title,
-                        poolpath: page._poolpath || "/p/" + contentData._path,
-                        ref: page._ref
-                    });
-                }
-                delete data[pageToAdd];
-            };
-            while (totalToOrder > 0){
-                findNextPage();
-                totalToOrder--;
-            }
-            fetchPageContent();
+            });
+            docData.template = "all";
+
+            // Render the pages in the widget
+            renderContainer();
         };
 
-        var addBinding = function(){
-            $(".pageviewer_lhnav_item", $rootel).live("click", function(){
-                $(".pageviewer_lhnav_item", $rootel).removeClass("selected");
-                $(this).addClass("selected");
-                $(".pageviewer_content_for_page", $rootel).hide();
-                $("#pageviewer_content_for_page_" + $(this).data("index"), $rootel).show();
+        /**
+         * Fetches the page content
+         */
+        var fetchPages = function(){
+            $.ajax({
+                url: "/p/" + docPath + ".infinity.json",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data){
+                    tempDocData = data;
+                    parseStructure();
+                }
             });
         };
 
+
+        //////////////////////////////
+        // Initialization functions //
+        //////////////////////////////
+
+        /**
+         * Initializes the pageviewer widget
+         */
         var doInit = function(){
-            addBinding();
-            processPages($.parseJSON(contentData.structure0));
+            fetchPages();
         };
 
         $(window).unbind("start.pageviewer.sakai");
         $(window).bind("start.pageviewer.sakai", function(ev, data){
-            pages = [];
-            contentData = data;
+            docPath = data.id;
             doInit();
         });
 
