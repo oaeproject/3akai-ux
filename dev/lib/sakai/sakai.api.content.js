@@ -1752,7 +1752,9 @@ define(
                                 var currentHTMLBlock = $("<div />");
                                 json[ref] = {};
                                 $.each(page, function(key2, item2){
-                                    if ($(item2).hasClass("widget_inline")){
+                                    if ($(item2).hasClass("widget_inline")) {
+                                        debug.log($(currentHTMLBlock));
+                                        debug.log($(currentHTMLBlock).text());
                                         if ($(currentHTMLBlock).text()) {
                                             var id = sakai_util.generateWidgetId();
                                             elements.push({
@@ -1778,18 +1780,62 @@ define(
                                                 json[ref][id] = originalstructure[id];
                                             }
                                         }
-                                    //} else if ($(".widget_inline", $(item2)).length > 0){
-                                        // Pull out a widget
-                                    //    $.each($(".widget_inline", $(item2), function(index3, item3){
-                                    //        $($(item3), $(item2)).remove();
-                                    //    });
-                                    } else {
-                                        // TODO: Instead of leaving out <br/>, only leave them out if they are the only node
-                                        if (!$(item2).is("br")) {
+                                    }
+                                    else 
+                                        if ($(".widget_inline", $(item2)).length > 0) {
+                                            // Pull out a widget
+                                            $.each($(".widget_inline", $(item2)), function(index3, item3){
+                                                if ($(item3).hasClass("block_image_left")) {
+                                                
+                                                }
+                                                else 
+                                                    if ($(item3).hasClass("block_image_right")) {
+                                                    
+                                                    }
+                                                    else {
+                                                        debug.log($(currentHTMLBlock));
+                                                        debug.log($(currentHTMLBlock).text());
+                                                        if ($(currentHTMLBlock).text()) {
+                                                            var id = sakai_util.generateWidgetId();
+                                                            elements.push({
+                                                                "id": id,
+                                                                "type": "htmlblock"
+                                                            });
+                                                            json[ref][id] = {
+                                                                "htmlblock": {
+                                                                    "content": currentHTMLBlock.html()
+                                                                }
+                                                            }
+                                                        }
+                                                        currentHTMLBlock = $("<div />");
+                                                        var widgetType = $(item3).attr("id").split("_")[1];
+                                                        // Filter out widgets that should not be re-included as they are already in topnavigation
+                                                        if (widgetType !== "tooltip" && widgetType !== "joinrequestbuttons") {
+                                                            var id = $(item3).attr("id").split("_").length > 2 ? $(item3).attr("id").split("_")[2] : sakai_util.generateWidgetId();
+                                                            elements.push({
+                                                                "id": id,
+                                                                "type": widgetType
+                                                            });
+                                                            if (originalstructure[id]) {
+                                                                json[ref][id] = originalstructure[id];
+                                                            }
+                                                        }
+                                                    }
+                                                $($(item3), $(item2)).remove();
+                                            });
                                             currentHTMLBlock.append($(item2));
                                         }
-                                    }
+                                        else {
+                                            currentHTMLBlock.append($(item2));
+                                        }//else {
+                                        // TODO: Instead of leaving out <br/>, only leave them out if they are the only node
+                                        //if (!$(item2).is("br")) {
+                                        //    currentHTMLBlock.append($(item2));
+                                        //}
+                                    //}
                                 });
+                                debug.log($(currentHTMLBlock));
+                                debug.log($(currentHTMLBlock).text());
                                 if ($(currentHTMLBlock).text()) {
                                     var id = sakai_util.generateWidgetId();
                                     elements.push({
