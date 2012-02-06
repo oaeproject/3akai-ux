@@ -129,6 +129,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var url = "/var/contacts/find.infinity.json";
             if (sakai_global.profile.main.mode.value !== "view"){
                 url = sakai.config.URL.SEARCH_USERS_ACCEPTED;
+                if (contacts.query) {
+                    url = sakai.config.URL.CONTACTS_FIND;
+                }
             }else{
                 url = "/var/contacts/findbyuser.json";
             }
@@ -300,7 +303,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if ($rootel.is(":visible")){
                 // Set the sort states
                 var parameters = $.bbq.getState();
-                if (!contacts.initialized || (parameters["cq"] && contacts.query !== parameters["cq"]) || (parameters["cso"] && contacts.sortOrder !== parameters["cso"])) {
+                if (!contacts.initialized || (contacts.query !== parameters["cq"]) || (parameters["cso"] && contacts.sortOrder !== parameters["cso"])) {
                     contacts.query = parameters["cq"] || "";
                     contacts.sortOrder = parameters["cso"] || "asc";
                     $("#contacts_search_input").val(contacts.query);
