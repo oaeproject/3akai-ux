@@ -6,15 +6,15 @@
 <div id="embedcontent_main_container" style="display:none">
     <div class="fl-widget-content s3d-widget-content">
         <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
-        <div id="embedcontent_content"><!-- --></div>
+        <div id="embedcontent_content" class="embedcontent_overflowy"><!-- --></div>
         <div id="embedcontent_content_html_template"><!--
         {if showDefaultContent}
             <img src="/devwidgets/embedcontent/images/defaultcontent.png"/>
         {else}
             {if embedmethod === "original"}
-                {var embedClass="embedcontent_large_content"}
+                {var embedClass="embedcontent_large_content embedcontent_overflowy"}
             {else}
-                {var embedClass="embedcontent_thumbnail_content"}
+                {var embedClass="embedcontent_thumbnail_content embedcontent_overflowy"}
             {/if}
             {if title || description}
                 <div class="s3d-highlight_area_background embedcontent_grey_background">
@@ -57,7 +57,7 @@
                                 {if item._mimeType === "x-sakai/document"}
                                     <a href="${item.downloadLink}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__VIEW_DOCUMENT__</a>
                                 {elseif sakai.api.Content.Collections.isCollection(item)}
-                                    <a href="${item.downloadLink}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__VIEW_COLLECTION__</a>
+                                    <a href="${item.contentProfileLink}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__VIEW_COLLECTION__</a>
                                 {elseif item._mimeType === "x-sakai/link"}
                                     <a href="${item.downloadLink}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a>
                                 {else}

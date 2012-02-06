@@ -252,6 +252,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
             // Render the templates
             renderTemplates();
 
+            sakai.api.Util.bindDialogFocus(addToContactsDialog);
+
             // Show the layover
             $(addToContactsDialog).jqmShow();
 
