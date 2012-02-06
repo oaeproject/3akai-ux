@@ -53,6 +53,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             lastData = widgetData.htmlblock.content;
         }
 
+        $(window).bind("save.contentauthoring.sakai", function(){
+            var currentText = tinyMCE.get(id).getContent();
+            $("#htmlblock_view_container", $rootel).html(currentText);
+            sakai.api.Util.renderMath($rootel);
+        });
+
         sakai_global.htmlblock.updateHeights = function(element){
             var elements = element ? [$("#" + element + "_ifr")] : $(".mceIframeContainer iframe:visible");
             $.each(elements, function(index, item){
