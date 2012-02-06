@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 /* General */
-.collectionviewer_widget {clear:both;font-size:11px;margin-bottom:15px;}
+.collectionviewer_widget {clear:both;font-size:11px;}
 .collectionviewer_widget #contentcomments_mainContainer {font-size: 12px;}
 .collectionviewer_widget #collectionviewer_expanded_content_container {background-color:#ededed;width:100%;padding:10px 0;}
 .collectionviewer_widget #collectionviewer_expanded_content_container ul {margin:0 10px;}
@@ -48,7 +48,7 @@
 .collectionviewer_widget .collectionviewer_entity_header{display:block;width:580px;}
 
 /* Overrides */
-.collectionviewer_widget .documentviewer_widget {background-color:#fff;padding:15px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;width:870px;}
+.collectionviewer_widget .documentviewer_widget {background-color:#fff;padding:15px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
 .collectionviewer_widget .documentviewer_preview_width,
 .collectionviewer_widget .contentpreview_fullsize_preview embed {width:870px;}
 .collectionviewer_widget #contentpreview_fullsize_preview {padding:0 0 15px;}
