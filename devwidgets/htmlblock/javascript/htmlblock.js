@@ -155,7 +155,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         skin: "sakai",
                         content_css: "/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css",
                         plugins: "table,advlink,contextmenu,paste,directionality",
-                        theme_advanced_buttons1: "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect",
+                        theme_advanced_buttons1: "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,forecolor,|,table,code",
                         theme_advanced_buttons2: "",
                         theme_advanced_buttons3: "",
                         theme_advanced_toolbar_location: "external",

@@ -35,6 +35,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var $rootel = $("#" + tuid);
         sakai_global.contentauthoring.isDragging = false;
+        sakai_global.htmlblock = sakai_global.htmlblock || {};
 
         var MINIMUM_COLUMN_SIZE = 0.05;
         var USE_ELEMENT_DRAG_HELPER = true;
@@ -232,7 +233,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var currentSizes = [];
 
         var getColumnWidths = function($row){
-            var totalWidth = $("#contentauthoring_widget").width();
+            var totalWidth = $("#contentauthoring_widget_container").width();
             var $cells = $(".contentauthoring_cell", $row);
             var widths = [];
             var lastWidth = 1;
@@ -270,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     $("div.ui-resizable-iframeFix").each(function() { this.parentNode.removeChild(this); }); 
 
                     sakai_global.contentauthoring.isDragging = false;
-                    var totalRowWidth = $("#contentauthoring_widget").width();
+                    var totalRowWidth = $("#contentauthoring_widget_container").width();
                     var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
                     var oldColumnWidth = ui.originalSize.width / totalRowWidth;
                     
