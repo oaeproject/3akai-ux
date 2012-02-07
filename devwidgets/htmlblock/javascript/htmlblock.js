@@ -104,6 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var currentText = tinyMCE.get(id).getContent();
                 $("#htmlblock_view_container", $rootel).html(currentText);
                 sakai.api.Util.renderMath($rootel);
+                autoSave();
             });
         };
         

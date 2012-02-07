@@ -575,6 +575,10 @@ define(
                     return false;
                 }
             });
+            if (!textPresent && !containsElement){
+                debug.log("Empty");
+                debug.log(content);
+            }
             return textPresent || containsElement;
         },
 

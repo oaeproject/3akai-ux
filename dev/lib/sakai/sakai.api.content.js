@@ -1865,13 +1865,23 @@ define(
                                     // Check whether any of the child elements are widgets
                                     } else if ($(".widget_inline", $topLevelElement).length > 0) {
 
+                                        // If we have collected any text for our htmlblock widget, we add it to the page
+                                        if (sakai_util.determineEmptyContent(currentHTMLBlock.html())) {
+                                            currentPage = generateNewCell(false, "htmlblock", currentPage, currentRow, false, {
+                                                "htmlblock": {
+                                                    "content": currentHTMLBlock.html()
+                                                }
+                                            });
+                                        }
+                                        currentHTMLBlock = $("<div />");
+
                                         // Check how many columns we'll need
-                                        var columns = 1; var left = true;
+                                        var columns = 1;
                                         // If there are any left floating widgets, we'll need a left column
                                         var left = $(".widget_inline.block_image_left", $topLevelElement).length ? 1 : 0;
                                         columns += left ? 1 : 0;
                                         // If there are any right floating widgets, we'll need a right column
-                                        var right = $(".widget_inline.block_image_right", $topLevelElement).length;
+                                        var right = $(".widget_inline.block_image_right", $topLevelElement).length ? 1 : 0;
                                         columns += right ? 1 : 0;
 
                                         // Create a new row with multiple columns
@@ -1881,16 +1891,6 @@ define(
 
                                         $.each($(".widget_inline", $topLevelElement), function(index2, widgetElement){
                                             $widgetElement = $(widgetElement);
-
-                                            // If we have collected any text for our htmlblock widget, we add it to the page
-                                            if (sakai_util.determineEmptyContent(currentHTMLBlock.html())) {
-                                                currentPage = generateNewCell(false, "htmlblock", currentPage, currentRow, columns - 1, {
-                                                    "htmlblock": {
-                                                        "content": currentHTMLBlock.html()
-                                                    }
-                                                });
-                                            }
-                                            currentHTMLBlock = $("<div />");
 
                                             // Add the widget to the page
                                             var widgetId = $widgetElement.attr("id").split("_");
@@ -1909,7 +1909,12 @@ define(
                                             }
                                             $($widgetElement, $topLevelElement).remove();
                                         });
-                                        currentHTMLBlock.append($topLevelElement);
+
+                                        currentPage = generateNewCell(false, "htmlblock", currentPage, currentRow, (left ? 1 : 0), {
+                                            "htmlblock": {
+                                                "content": $topLevelElement.html()
+                                            }
+                                        });
 
                                         // Create a new row for the next top level element
                                         if (columns > 1){
@@ -1919,6 +1924,7 @@ define(
                                     // There is only text in the current top element. Just append it to the collected text
                                     } else {
                                         currentHTMLBlock.append($topLevelElement);
+                                        
                                     }
                                 });
 
@@ -1954,7 +1960,6 @@ define(
             },
 
             checkRequiresMigration: function(structure){
-                var start = new Date().getTime();
                 structure = $.extend({}, true, structure);
                 if (structure.structure0) {
                     if (typeof structure.structure0 === "string"){
@@ -1962,8 +1967,6 @@ define(
                     }
                     return sakai_content.Migrators.requiresMigration(structure.structure0, structure, false);
                 }
-                var end = new Date().getTime();
-                debug.log("checkRequiresMigration : " + (end - start));
                 return false;
             },
     
@@ -1976,19 +1979,13 @@ define(
                         newStructure.structure0 = $.parseJSON(newStructure.structure0);
                     }
                     if (sakai_content.Migrators.requiresMigration(newStructure.structure0, newStructure, false)){
-                        debug.log("Needs a migration");
                         json = sakai_content.Migrators.processStructure0(newStructure.structure0, newStructure, json);
                         if (storeURL){
-                            debug.log("Need to store this migration");
-                            debug.log(json);
-                            //sakai_serv.saveJSON(storeURL, json);
+                            sakai_serv.saveJSON(storeURL, json);
                         }
                         json.structure0 = structure.structure0;
-                        var end = new Date().getTime();
-                        debug.log("migratePageStructure : " + (end - start));
                         return json;
                     } else {
-                        debug.log("No need for migration");
                         return newStructure;
                     }
                 } else {
