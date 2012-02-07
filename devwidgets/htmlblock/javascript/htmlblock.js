@@ -46,7 +46,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
-
         var $rootel = $("#" + tuid);
 
         var autoSavePoll = false;

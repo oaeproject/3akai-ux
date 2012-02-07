@@ -177,11 +177,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var scroll = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
             if (scroll > $("#inserterbar_widget_container").position().top){
                 if (scroll >= ($("#contentauthoring_widget").height() + $("#contentauthoring_widget").position().top - ($("#inserterbar_widget").height() / 2))){
-                    debug.log("STAY PUT AT BOTTOM");
                     $(".sakaiSkin[role='listbox']").css("position", "absolute");
                     $("#inserterbar_widget").css("position", "absolute");
                 } else {
-                    debug.log("MOVE");
                     var left = $("#inserterbar_widget").position();
                     $(".sakaiSkin[role='listbox']").css("position", "fixed");
                     $("#inserterbar_widget").css("position", "fixed");
@@ -189,7 +187,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#inserterbar_widget").css("left", left + "px");
                 }
             } else {
-                debug.log("STAY");
                 $(".sakaiSkin[role='listbox']").css("position", "absolute");
                 $("#inserterbar_widget").css("position", "absolute");
                 $("#inserterbar_widget").css("top", $("#inserterbar_widget_container").position().top + "px");
