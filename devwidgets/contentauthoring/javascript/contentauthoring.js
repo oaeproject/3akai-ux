@@ -680,6 +680,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $("#contentauthoring_row_menu_remove").live("click", function(){
             var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
             hideEditRowMenu();
+            $row.find('.tinyMCE').each(function(){
+                tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+            });
             $row.remove();
         });
 
