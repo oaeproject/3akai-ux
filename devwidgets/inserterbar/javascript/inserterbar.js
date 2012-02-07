@@ -91,9 +91,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     			opacity: 0.4,
                 start: function(){
                     sakai_global.contentauthoring.isDragging = true;
+                    // Fix for iFrames
+                    $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
+                        width: "100%", height: "100%",
+                        position: "absolute", opacity: "0.001", zIndex: 100000
+                    }).css($(this).offset()).appendTo("body");
                 },
                 stop: function(){
                     sakai_global.contentauthoring.isDragging = false;
+                    $("div.ui-resizable-iframeFix").each(function() { this.parentNode.removeChild(this); }); 
                 }
     		});
         };

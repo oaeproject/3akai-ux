@@ -2451,7 +2451,7 @@ define(
              * Sets and overrides default parameters for the jQuery Droppable plugin
              * @param {Object} params Optional parameters that override defaults
              */
-            setDraggableParameters: function(){
+            setDraggableParameters: function(params){
                 return {
                     revert: true,
                     revertDuration: 0,
@@ -2501,7 +2501,7 @@ define(
                         if (!$(draggable).hasClass("ui-draggable")) {
                             // HTML overrides default, JS overrides HTML
                             // Override default parameters with attribute defined parameters
-                            var htmlParams = $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
+                            var htmlParams = $.extend(true, sakai_util.Draggable.setDraggableParameters(params), $(draggable).data());
                             // Override attribute defined parameters with JS defined ones
                             params = $.extend(true, htmlParams, params);
                             $(".s3d-draggable-container", $container || $("html")).draggable(params);
