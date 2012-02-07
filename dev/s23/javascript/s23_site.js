@@ -233,9 +233,9 @@ sakai_global.s23_site = function(){
                         // check for CLE session cookie
                         if ($.cookie('JSESSIONID')){
                             $.ajax({
-                                url: "/direct/session.json",
+                                url: "/direct/session/current.json",
                                 success: function(data){
-                                    if (data["session_collection"][0]["userId"] === null) {
+                                    if (data["userId"] === null) {
                                         doCasAuth();
                                     } else {
                                         firstFrame.attr("src", firstFrameSrcUrl);
