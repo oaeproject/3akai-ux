@@ -1943,6 +1943,32 @@ define(
         },
 
         /**
+         * Positions the dialog box at the users scroll position
+         *
+         * @param el {String} a jquery selector or jquery object, to position
+         * @param offset {Integer} optional numeric value to add to the dialog position offset
+         */
+        positionDialogBox : function(el, offset) {
+            var $el = el;
+            if (!(el instanceof jQuery)){
+                $el = $(el);
+            }
+
+            var dialogOffset = 100;
+            if (offset && _.isNumber(offset)){
+                dialogOffset = offset;
+            }
+
+            var htmlScrollPos = $("html").scrollTop();
+            var docScrollPos = $(document).scrollTop();
+            if (htmlScrollPos >= 0) {
+                $el.css({"top": htmlScrollPos + dialogOffset + "px"});
+            } else if (docScrollPos >= 0) {
+                $el.css({"top": docScrollPos + dialogOffset + "px"});
+            }
+        },
+
+        /**
          * Sets up events to keep keyboard focus within the dialog box and close it when the escape key is pressed
          *
          * @param dialogContainer {String} a jquery selector or jquery object which is the dialog container
