@@ -1860,7 +1860,7 @@ define(
                                         var widgetType = widgetId[1];
                                         widgetId = widgetId.length > 2 ? widgetId[2] : sakai_util.generateWidgetId();
                                         // Filter out widgets that should not be re-included as they are already in topnavigation
-                                        currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, false, originalstructure[id]);
+                                        currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, false, originalstructure[widgetId]);
 
                                     // Check whether any of the child elements are widgets
                                     } else if ($(".widget_inline", $topLevelElement).length > 0) {
