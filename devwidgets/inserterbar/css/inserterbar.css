@@ -18,6 +18,10 @@
 
 
 /* GENERAL */
+#inserterbar_widget_container {
+    padding-top: 50px;
+}
+
 #inserterbar_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_bg.png") no-repeat top left #1e1e1e;
     border-radius: 0 0 5px 5px;

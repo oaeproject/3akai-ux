@@ -680,6 +680,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $("#contentauthoring_row_menu_remove").live("click", function(){
             var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
             hideEditRowMenu();
+            $row.find('.tinyMCE').each(function(){
+                tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+            });
             $row.remove();
         });
 
@@ -1038,7 +1041,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             // Make temporary copy
             sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
                 STORE_PATH = currentPageShown.savePath + "/tmp_" + currentPageShown.ref + "/";
-                sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+                if (success){
+                    sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+                } else {
+                    sakai.api.Server.saveJSON(STORE_PATH, {}, null, true);
+                }
                 // Get the widgets in this page and change their save URL
                 var widgets = getWidgetList();
                 for (var w in widgets){
