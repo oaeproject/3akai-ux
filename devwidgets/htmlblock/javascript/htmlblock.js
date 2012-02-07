@@ -47,6 +47,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
 
+        var $rootel = $("#" + tuid);
+
         var autoSavePoll = false;
         var lastData = "";
         if (widgetData && widgetData.htmlblock){
@@ -89,7 +91,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             id = ui.id;
             $editor = $("#" + id + "_ifr");
             $toolbar = $("#" + id + "_external");
-            $("#inserterbar_widget").append($toolbar);
+            $toolbar.css("display", "none");
+            $("#inserterbar_widget #inserterbar_tinymce_container").append($toolbar);
             setTimeout(sakai_global.htmlblock.updateHeights, 500, id);
 
             // Start the autosave
@@ -165,7 +168,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         editor_selector: tuid,
                         handle_event_callback: updateHeight,
                         init_instance_callback: updateHeightInit,
-                        remove_instance_callback: stopAutosave
+                        remove_instance_callback: stopAutosave,
+                        setup : function(ed) {
+                            ed.onClick.add(function(ed, e) {
+                                $("#inserterbar_widget #inserterbar_tinymce_container").show();
+                                $(this.contentAreaContainer).parents(".contentauthoring_cell_element").find(".contentauthoring_cell_element_actions").hide();
+                            });
+                        }
                     });
                 }
             }

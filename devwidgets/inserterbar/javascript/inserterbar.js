@@ -55,6 +55,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Utility //
         /////////////
 
+        var editPosition = function(width){
+            //$inserterbarWidget.css("left", $(".s3d-page-header").position().left + $(".s3d-page-header").width() - $inserterbarWidget.width() - 12);
+            $inserterbarWidget.css("left", $(".s3d-page-header").position().left + $(".s3d-page-header").width() - width - 12);
+        };
+
         var showHideMoreWidgets = function(){
             $(this).children("span").toggle();
             if($("#inserterbar_more_widgets_container:visible", $rootel).length){
@@ -70,6 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 opacity: "toggle",
                 height: "toggle"
             });
+            editPosition();
         };
 
 
@@ -147,55 +153,45 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#inserterbar_carousel_right", $rootel).addClass("disabled");
             }
             setupSortables();
+            editPosition(255);
         };
 
         var addBinding = function(){
             $inserterbarMoreWidgets.click(showHideMoreWidgets);
-
-            //$inserterbarWidget.draggable({
-            //    handle: $inserterbarGrabber,
-            //    stop: function(ev){
-                    //elOffset = $(ev.target).offset();
-                    //wHeight = $(window).height();
-                    //wWidth = $(window).width();
-                    //iHeight= $inserterbarWidget.height();
-                    //iWidth = $inserterbarWidget.width()
-                    //borderMargin = 15;
-                    // Overlaps left window border
-                    //if(elOffset && elOffset.left < 0){
-                    //    $inserterbarWidget.css("left", borderMargin);
-                    //}
-                    // Overlaps right window border
-                    //if (elOffset.left > wWidth - iWidth){
-                    //    $inserterbarWidget.css("left", wWidth - iWidth - borderMargin);
-                    //}
-                    // Overlaps top window border or topnavigation
-                    //if(elOffset && elOffset.top < 0){
-                    //    $inserterbarWidget.css("top", 0);
-                    //}
-                    // Overlaps bottom window border
-                    //if (elOffset.top > wHeight - iHeight){
-                    //    $inserterbarWidget.css("top", wHeight - iHeight - borderMargin);
-                    //}
-             //   }
-            //});
+            $("#inserterbar_cancel_edit_page").live("click", function(){
+                editPosition(255);
+                $("#inserterbar_more_widgets_container:visible", $rootel).hide();
+                $("#inserterbar_tinymce_container", $rootel).hide();
+            });
+            $("#inserterbar_save_edit_page").live("click", function(){
+                editPosition(255);
+                $("#inserterbar_tinymce_container", $rootel).hide();
+            });
+            $("#inserterbar_action_edit_page").live("click", function(){
+                editPosition(696);
+            });
         };
 
         $(window).bind("scroll", function(ev, ui){
             var top = $("#inserterbar_widget_container").position().top;
             var scroll = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
-            if (scroll > top){
-                var left = $("#inserterbar_widget").position()
-                $("#inserterbar_widget").css("position", "fixed");
-                $("#inserterbar_widget").css("top", "0px");
-                $("#inserterbar_widget").css("left", left + "px");
+            if (scroll > $("#inserterbar_widget_container").position().top){
+                if (scroll >= ($("#contentauthoring_widget").height() + $("#contentauthoring_widget").position().top - ($("#inserterbar_widget").height() / 2))){
+                    debug.log("STAY PUT AT BOTTOM");
+                } else {
+                    debug.log("MOVE");
+                    var left = $("#inserterbar_widget").position()
+                    $("#inserterbar_widget").css("top", scroll + "px");
+                    $("#inserterbar_widget").css("left", left + "px");
+                }
             } else {
-                $("#inserterbar_widget").css("position", "static");
+                debug.log("STAY");
+                $("#inserterbar_widget").css("top", $("#inserterbar_widget_container").position().top + "px");
             }
         });
 
         var doInit = function(){
-            $inserterbarWidget.css("left", $(".s3d-page-header").position().left + 3);
+            $inserterbarWidget.css("left", $(".s3d-page-header").position().left + $(".s3d-page-header").width() - $inserterbarWidget.width() - 12);
             addBinding();
             renderWidgets();
         };

@@ -25,6 +25,8 @@
     -webkit-border-radius: 0 0 5px 5px;
     min-height: 30px;
     padding: 3px;
+    position: absolute;
+    top: 130px;
     float: right;
     margin-bottom: 10px;
     padding-left: 6px;
@@ -57,6 +59,10 @@
 
 #inserterbar_widget #inserterbar_more_widgets_container .inserterbar_widget_container {
     margin: 2px 0 0 64px;
+}
+
+#inserterbar_widget #inserterbar_more_widgets_container hr {
+    margin-bottom: 2px;
 }
 
 #inserterbar_widget .inserterbar_label {

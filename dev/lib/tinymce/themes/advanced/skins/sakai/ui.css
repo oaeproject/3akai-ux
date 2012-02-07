@@ -16,21 +16,21 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Containers */
-.sakaiSkin table{direction:ltr;}
+.sakaiSkin table{direction:ltr;margin:0;}
 .sakaiSkin iframe{display:block; overflow: hidden;}
-.sakaiSkin .mceToolbar{height:24px; background-color: #eee;}
+.sakaiSkin .mceToolbar{}
 .sakaiSkin .mceLeft{text-align:left;}
 .sakaiSkin .mceRight{text-align:right;}
 
 /* External */
-.sakaiSkin .mceExternalToolbar{position:relative;border:1px solid #CCC;border-bottom:0;display:none;top:auto !important;}
-.sakaiSkin .mceExternalToolbar td.mceToolbar{padding-right:13px;}
-.sakaiSkin .mceExternalClose{position:absolute;top:3px;right:3px;width:7px;height:7px;background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif) -820px 0;}
+.sakaiSkin .mceExternalToolbar{}
+.sakaiSkin .mceExternalToolbar td.mceToolbar{}
+.sakaiSkin .mceExternalClose{}
 
 /* Layout */
 .sakaiSkin table.mceLayout{border:0; height: 25px !important; margin-bottom: 0px;}
 .sakaiSkin table.mceToolbar,.sakaiSkin tr.mceFirst .mceToolbar tr td,.sakaiSkin tr.mceLast .mceToolbar tr td{border:0;margin:0;padding:0;}
-.sakaiSkin td.mceToolbar{border-bottom:1px solid #999;padding:4px;vertical-align:middle;}
+.sakaiSkin td.mceToolbar{padding:4px;vertical-align:middle;}
 .sakaiSkin .mceIframeContainer{border:0;vertical-align:top;padding:0px 0 0 0px;}
 .sakaiSkin .mceStatusbar{font-family:'MS Sans Serif',sans-serif,Verdana,Arial;font-size:9pt;line-height:16px;overflow:visible;color:#000;display:block;height:20px;}
 .sakaiSkin .mceStatusbar div{float:left;margin:2px;}
@@ -39,14 +39,16 @@
 .sakaiSkin table.mceToolbar{margin-left:3px;}
 .sakaiSkin span.mceIcon,.sakaiSkin img.mceIcon{display:block;width:20px;height:20px;}
 .sakaiSkin .mceIcon{background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif) no-repeat 20px 20px;}
+.sakaiSkin .mceIcon.mce_code{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_html.png") no-repeat center center transparent;}
+.sakaiSkin .mceIcon.mce_code:hover{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_html_hover.png") no-repeat center center transparent;}
 .sakaiSkin td.mceCenter{text-align:center;}
 .sakaiSkin td.mceCenter table{margin:0 auto;text-align:left;}
 .sakaiSkin td.mceRight table{margin:0 0 0 auto;}
 
 /* Button */
-.sakaiSkin .mceButton{display:block;border:1px solid #FFF;width:20px;height:20px;margin-right:1px;}
-.sakaiSkin a.mceButtonEnabled:hover{border:1px solid #0A246A;background-color:#B2BBD0;}
-.sakaiSkin a.mceButtonActive,.sakaiSkin a.mceButtonSelected{border:1px solid #0A246A;background-color:#C2CBE0;}
+.sakaiSkin .mceButton{display:block;width:20px;height:20px;margin-right:1px;}
+.sakaiSkin a.mceButtonEnabled:hover{}
+.sakaiSkin a.mceButtonActive,.sakaiSkin a.mceButtonSelected{}
 .sakaiSkin .mceButtonDisabled .mceIcon{opacity:0.3;-ms-filter:alpha(opacity=30);filter:alpha(opacity=30);}
 .sakaiSkin .mceButtonLabeled{width:auto;}
 .sakaiSkin .mceButtonLabeled span.mceIcon{float:left;}
@@ -54,14 +56,14 @@
 .sakaiSkin .mceButtonDisabled .mceButtonLabel{color:#888;}
 
 /* Separator */
-.sakaiSkin .mceSeparator{display:block;background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif) -180px 0;width:2px;height:20px;margin:2px 2px 0 4px;}
+.sakaiSkin .mceSeparator{display:block;width:2px;margin:2px 2px 0 4px;}
 
 /* ListBox */
 .sakaiSkin .mceListBox,.sakaiSkin .mceListBox a{display:block;}
 .sakaiSkin .mceListBox .mceText{padding-left:4px;width:70px;text-align:left;border:1px solid #CCC;border-right:0;background:#FFF;font-family:Tahoma,Verdana,Arial,Helvetica;font-size:11px;height:20px;line-height:20px;overflow:hidden;}
-.sakaiSkin .mceListBox .mceOpen{width:9px;height:20px;background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif) -741px 0;margin-right:2px;border:1px solid #CCC;}
+.sakaiSkin .mceListBox .mceOpen{width:9px;height:20px;background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_arrow_down.png") no-repeat center center transparent;margin-right:2px;}
 .sakaiSkin table.mceListBoxEnabled:hover .mceText,.sakaiSkin .mceListBoxHover .mceText,.sakaiSkin .mceListBoxSelected .mceText{border:1px solid #A2ABC0;border-right:0;background:#FFF;}
-.sakaiSkin table.mceListBoxEnabled:hover .mceOpen,.sakaiSkin .mceListBoxHover .mceOpen,.sakaiSkin .mceListBoxSelected .mceOpen{background-color:#FFF;border:1px solid #A2ABC0;}
+.sakaiSkin table.mceListBoxEnabled:hover .mceOpen,.sakaiSkin .mceListBoxHover .mceOpen,.sakaiSkin .mceListBoxSelected .mceOpen{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_arrow_down_hover.png") no-repeat center center transparent;}
 .sakaiSkin .mceListBoxDisabled a.mceText{color:gray;background-color:transparent;}
 .sakaiSkin .mceListBoxMenu{overflow:auto;overflow-x:hidden;}
 .sakaiSkin .mceOldBoxModel .mceListBox .mceText{height:22px;}
@@ -72,12 +74,12 @@
 /* SplitButton */
 .sakaiSkin .mceSplitButton{width:32px;height:20px;direction:ltr;}
 .sakaiSkin .mceSplitButton a,.sakaiSkin .mceSplitButton span{height:20px;display:block;}
-.sakaiSkin .mceSplitButton a.mceAction{width:20px;border:1px solid #FFF;border-right:0;}
+.sakaiSkin .mceSplitButton a.mceAction{width:20px;}
 .sakaiSkin .mceSplitButton span.mceAction{width:20px;background-image:url(/dev/lib/tinymce/themes/advanced/img/icons.gif);}
-.sakaiSkin .mceSplitButton a.mceOpen{width:9px;background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif) -741px 0;border:1px solid #FFF;}
+.sakaiSkin .mceSplitButton a.mceOpen{width:9px;background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_arrow_down.png") no-repeat center center transparent;}
 .sakaiSkin .mceSplitButton span.mceOpen{display:none;}
-.sakaiSkin table.mceSplitButtonEnabled:hover a.mceAction,.sakaiSkin .mceSplitButtonHover a.mceAction,.sakaiSkin .mceSplitButtonSelected a.mceAction{border:1px solid #0A246A;border-right:0;background-color:#B2BBD0;}
-.sakaiSkin table.mceSplitButtonEnabled:hover a.mceOpen,.sakaiSkin .mceSplitButtonHover a.mceOpen,.sakaiSkin .mceSplitButtonSelected a.mceOpen{background-color:#B2BBD0;border:1px solid #0A246A;}
+.sakaiSkin table.mceSplitButtonEnabled:hover a.mceAction,.sakaiSkin .mceSplitButtonHover a.mceAction,.sakaiSkin .mceSplitButtonSelected a.mceAction{}
+.sakaiSkin table.mceSplitButtonEnabled:hover a.mceOpen,.sakaiSkin .mceSplitButtonHover a.mceOpen,.sakaiSkin .mceSplitButtonSelected a.mceOpen{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_arrow_down_hover.png") no-repeat center center transparent;}
 .sakaiSkin .mceSplitButtonDisabled .mceAction,.sakaiSkin .mceSplitButtonDisabled a.mceOpen{opacity:0.3;-ms-filter:alpha(opacity=30);filter:alpha(opacity=30);}
 .sakaiSkin .mceSplitButtonActive a.mceAction{border:1px solid #0A246A;background-color:#C2CBE0;}
 .sakaiSkin .mceSplitButtonActive a.mceOpen{border-left:0;}
@@ -132,19 +134,46 @@
 .sakaiSkin .mce_h6 span.mceText{font-weight:bolder;font-size:.75em;}
 
 /* Theme */
-.sakaiSkin span.mce_bold{background-position:0 0;}
-.sakaiSkin span.mce_italic{background-position:-60px 0;}
-.sakaiSkin span.mce_underline{background-position:-140px 0;}
+.sakaiSkin span.mce_bold{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_bold.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_bold:hover,
+.sakaiSkin a.mceButtonActive span.mce_bold,
+.sakaiSkin a.mceButtonSelected span.mce_bold{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_bold_hover.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_italic{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_italic.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_italic:hover,
+.sakaiSkin a.mceButtonActive span.mce_italic,
+.sakaiSkin a.mceButtonSelected span.mce_italic{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_italic_hover.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_underline{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_underline.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_underline:hover,
+.sakaiSkin a.mceButtonActive span.mce_underline,
+.sakaiSkin a.mceButtonSelected span.mce_underline{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_underline_hover.png") no-repeat scroll left top transparent;}
 .sakaiSkin span.mce_strikethrough{background-position:-120px 0;}
 .sakaiSkin span.mce_undo{background-position:-160px 0;}
 .sakaiSkin span.mce_redo{background-position:-100px 0;}
 .sakaiSkin span.mce_cleanup{background-position:-40px 0;}
-.sakaiSkin span.mce_bullist{background-position:-20px 0;}
-.sakaiSkin span.mce_numlist{background-position:-80px 0;}
-.sakaiSkin span.mce_justifyleft{background-position:-460px 0;}
-.sakaiSkin span.mce_justifyright{background-position:-480px 0;}
-.sakaiSkin span.mce_justifycenter{background-position:-420px 0;}
-.sakaiSkin span.mce_justifyfull{background-position:-440px 0;}
+.sakaiSkin span.mce_bullist{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_list.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_bullist:hover,
+.sakaiSkin a.mceButtonActive span.mce_bullist,
+.sakaiSkin a.mceButtonSelected span.mce_bullist{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_list_hover.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_numlist{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_numbered_list.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_numlist:hover,
+.sakaiSkin a.mceButtonActive span.mce_numlist,
+.sakaiSkin a.mceButtonSelected span.mce_numlist{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_numbered_list_hover.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_justifyleft{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_left_align.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_justifyleft:hover,
+.sakaiSkin a.mceButtonActive span.mce_justifyleft,
+.sakaiSkin a.mceButtonSelected span.mce_justifyleft{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_left_align_hover.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_justifyright{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_right_align.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_justifyright:hover,
+.sakaiSkin a.mceButtonActive span.mce_justifyright,
+.sakaiSkin a.mceButtonSelected span.mce_justifyright{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_right_align_hover.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_justifycenter{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_center_align.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_justifycenter:hover,
+.sakaiSkin a.mceButtonActive span.mce_justifycenter,
+.sakaiSkin a.mceButtonSelected span.mce_justifycenter{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_center_align_hover.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_justifyfull{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_fill_align.png") no-repeat scroll left top transparent;}
+.sakaiSkin span.mce_justifyfull:hover,
+.sakaiSkin a.mceButtonActive span.mce_justifyfull,
+.sakaiSkin a.mceButtonSelected span.mce_justifyfull{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_fill_align_hover.png") no-repeat scroll left top transparent;}
 .sakaiSkin span.mce_anchor{background-position:-200px 0;}
 .sakaiSkin span.mce_indent{background-position:-400px 0;}
 .sakaiSkin span.mce_outdent{background-position:-540px 0;}
@@ -164,7 +193,7 @@
 .sakaiSkin span.mce_copy{background-position:-700px 0;}
 .sakaiSkin span.mce_cut{background-position:-680px 0;}
 .sakaiSkin span.mce_blockquote{background-position:-220px 0;}
-.sakaiSkin .mce_forecolor span.mceAction{background-position:-720px 0;}
+.sakaiSkin .mce_forecolor span.mceAction{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_font_color.png") no-repeat scroll left top transparent;}
 .sakaiSkin .mce_backcolor span.mceAction{background-position:-760px 0;}
 .sakaiSkin span.mce_forecolorpicker{background-position:-720px 0;}
 .sakaiSkin span.mce_backcolorpicker{background-position:-760px 0;}

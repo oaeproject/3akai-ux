@@ -182,7 +182,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $('.contentauthoring_cell_content', $row).css("height", 25);
             } else {
                 // Some cells have content
-                $('.contentauthoring_cell_content', $row).equalHeights();
+                // if row is part of the pageviewer than equalheights doesn't need to be set
+                if (!$('.contentauthoring_cell_content', $row).parents(".pageviewer_widget").length){
+                    $('.contentauthoring_cell_content', $row).equalHeights();
+                }
             }
         };
 
