@@ -95,7 +95,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         var renderSelectedContacts = function(){
+            var currentUserDetails = selectedUsers[sakai.data.me.user.userid];
+            var currentUserRoleData = false;
+            $.each(currentTemplate.roles, function(i, roleData){
+                if (currentUserDetails && currentUserDetails.permission === roleData.id){
+                    currentUserRoleData = roleData;
+                    return false;
+                }
+            });
             $addpeopleSelectedContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleSelectedContactsTemplate, {
+                "currentUserRoleData":currentUserRoleData,
                 "contacts":selectedUsers,
                 "roles": currentTemplate.roles,
                 "sakai": sakai
