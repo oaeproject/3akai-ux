@@ -125,6 +125,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var $li = $(this);
                         $li.children(".s3d-dropdown-container").hide();
                     });
+                    $(window).bind("basic.profile.updated.sakai", function(){
+                        $('.entity_name_me').text(sakai.api.User.getDisplayName(sakai.data.me.profile));
+                    });
                     break;
                 case "user_other":
                     $(entityUserMessage).bind("click", function(){

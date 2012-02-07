@@ -152,12 +152,24 @@ define(
                 }
 
             });
+
+            var savedFunction = function(success, data) {
+                if (success) {
+                    // Update the users profile to reflect changed data
+                    $.extend(true, sakaiUserAPI.data.me.profile[section], postData);
+                    $(window).trigger(section + ".profile.updated.sakai");
+                }
+                if ($.isFunction(callback)) {
+                    callback(success, data);
+                }
+            };
+
             var existingTags = sectionData["sakai:tags"] ? sectionData["sakai:tags"].value : false;
             sakai_util.tagEntity( url, tags, existingTags, function( success, final_tags ) {
                 sectionData["sakai:tags"] = {
                     value: final_tags
                 };
-                sakai_serv.saveJSON( saveJSONURL, postData, callback, true );
+                sakai_serv.saveJSON( saveJSONURL, postData, savedFunction, true );
             });
 
         },
