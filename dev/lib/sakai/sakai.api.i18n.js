@@ -32,7 +32,9 @@ define(
         "jquery",
         "config/config_custom",
         "sakai/sakai.api.server",
-        "underscore"
+        "underscore",
+        "jquery-plugins/jquery.timeago",
+        "jquery-plugins/jquery.pager.sakai-edited"
     ],
     function($, sakai_config, sakai_serv, _) {
 
