@@ -327,7 +327,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var handleHashChange = function(){
+        /**
+         * Switch the listview when necessary and load the items within that listview
+         */
+        var switchListView = function() {
             var hash = collectionviewer.contextId.substring(2);
             var currHash = $.bbq.getState("p").split("/")[0];
             if (hash === currHash && fetchCollectionData) {
@@ -339,7 +342,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var handleRealHashChange = function(){
+        /**
+         * Handle what you need to do when the hash has changed
+         */
+        var handleHashChange = function() {
+            // This will be empty when you switch a listview, so we should trigger that function instead
+            if (!$.bbq.getState('item')) {
+                switchListView();
+                return;
+            }
             var $element = $(".collectionviewer_carousel_item[data-item-id=" + $.bbq.getState("item") + "]");
             $(".collectionviewer_carousel_item", $rootel).removeClass("selected");
             $element.addClass("selected");
@@ -433,7 +444,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 fetchCollectionData = true;
             });
 
-            $(window).bind("hashchange", handleRealHashChange);
+            $(window).bind('hashchange', handleHashChange);
 
             // Carousel bindings
             $(".collectionviewer_carousel_item", $rootel).live("click", function(){
@@ -443,7 +454,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if(initialload){
                     initialload = false;
-                    handleRealHashChange();
+                    handleHashChange();
                 }
             });
 
@@ -524,7 +535,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(window).bind("done.newaddcontent.sakai", function(ev, data){
-                handleHashChange();
+                switchListView();
             });
 
             $(".collectionviewer_widget", $rootel).on("click", "#collectionviewer_expanded_content_container .s3d-search-result .share_trigger_click, #collectionviewer_expanded_content_container .s3d-search-result .savecontent_trigger", function() {
@@ -564,7 +575,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (sakai_global.content_profile && sakai_global.content_profile.content_data){
                 collectionviewer.contextName = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
-                handleHashChange();
+                switchListView();
                 addBinding();
             // Retrieve the name of the collection as we're not in a content profile page
             } else {
@@ -572,7 +583,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     url: "/p/" + sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId) + ".json",
                     success: function(data){
                         collectionviewer.contextName = data["sakai:pooled-content-file-name"];
-                        handleHashChange();
+                        switchListView();
                         addBinding();
                     }
                 });
