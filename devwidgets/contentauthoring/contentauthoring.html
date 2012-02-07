@@ -29,7 +29,7 @@
 </div>
 
 <div id="contentauthoring_widget" class="contentauthoring_widget" style="padding: 10px; clear: both;"></div>
-<div id="contentauthoring_widget_template"><!--
+<div id="contentauthoring_widget_template" style="display:none;"><!--
     {macro insertCell(id, type)}
         <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
             <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
@@ -93,6 +93,7 @@
                 ${insertRow(row.id, row.columns)}
             {/for}
         </ul>
+        <div id="contentauthoring_no_content_container" style="display:none;"></div>
     {/if}
 --></div>
 
@@ -120,6 +121,14 @@
             </div>
             ${data.content}
         </div>
+    {/if}
+--></div>
+
+<div id="contentauthoring_no_content_template" style="display:none;"><!--
+    {if canEdit}
+        <div class="contentauthoring_empty_content contentauthoring_default_editable_content_imagecontainer"></div>
+    {else}
+        <div class="contentauthoring_empty_content contentauthoring_default_viewable_content_imagecontainer"></div>
     {/if}
 --></div>
 

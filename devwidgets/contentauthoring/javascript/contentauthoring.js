@@ -868,6 +868,70 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             setHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
         };
 
+        /**
+         * Checks for empty htmlblock widgets and returns a Boolean
+         *
+         * @return {Boolean} false if the htmlblock widget is not empty
+         *                   true if the htmlblock widget is empty
+         */
+        var checkHTMLBlockEmpty = function(currentPageShown, element){
+            if (currentPageShown.content[element.id] &&
+                currentPageShown.content[element.id].htmlblock &&
+                $.trim($(currentPageShown.content[element.id].htmlblock.content).text())){
+                return false;
+            }
+            return true;
+        };
+
+        /**
+         * Determines if a page is empty by checking its content
+         * Shows a default image when no content is present in the page
+         * Empty content = empty rows and rows with empty html blocks
+         *
+         * @param currentPageShown {Object} Object containing data for the current page
+         */
+        var determineEmptyPage = function(currentPageShown){
+            // emptyPageElements checks for empty rows
+            var emptyPageElements = true;
+            // emptyPageElementContents checks for empty tinyMCe instances
+            var emptyPageElementContents = true;
+
+            // Check for empty rows, if a row with content or (empty) tinyMCe is detected emptyPageElements will be set to false
+            // emptyPageElements will later be overridden if the tinymce instances don't have any content after all
+            $.each(currentPageShown.content.rows, function(rowIndex, row){
+                $.each(row.columns, function(columnIndex, column){
+                    if(column.elements.length){
+                        $.each(column.elements, function(elIndex, element){
+                            // Check designed to look at specific storage types
+                            if(element.type === "htmlblock"){
+                                // Returns false if not empty, true if empty
+                                emptyPageElements = checkHTMLBlockEmpty(currentPageShown, element);
+                            } else {
+                                emptyPageElements = false;
+                            }
+                            // If false returned there must be content and the page should be rendered
+                            return emptyPageElements;
+                        });
+                        return emptyPageElements;
+                    }
+                    return emptyPageElements;
+                });
+                return emptyPageElements;
+            });
+
+            // If the page is empty show the illustration
+            if (emptyPageElements){
+                $("#contentauthoring_widget_container").hide();
+                sakai.api.Util.TemplateRenderer("contentauthoring_no_content_template", {
+                    "canEdit": currentPageShown.canEdit
+                }, $("#contentauthoring_no_content_container"));
+                $("#contentauthoring_no_content_container").show();
+            } else {
+                $("#contentauthoring_no_content_container").hide();
+                $("#contentauthoring_widget_container").show();
+            }
+        };
+
         ////////////////////
         // Initialization //
         ////////////////////
@@ -904,6 +968,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $("#contentauthoring_widget #" + currentPageShown.ref).show();
                 sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
             }
+
+            determineEmptyPage(currentPageShown);
 
             if (canEdit()){
                 $("#contentauthoring_inserterbar_container").show();
@@ -961,6 +1027,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $("#inserterbar_action_edit_page").live("click", function(){
+            $(".contentauthoring_empty_content").remove();
+            $("#contentauthoring_widget_container").show();
             $rootel.addClass("contentauthoring_edit_mode");
             $("#inserterbar_view_container").hide();
             $("#inserterbar_default_widgets_container").show();
@@ -1042,6 +1110,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 data.rows = rows;
                 sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
             });
+            determineEmptyPage(currentPageShown);
         });
 
         /////////////////////////////
