@@ -174,6 +174,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 $("#inserterbar_widget #inserterbar_tinymce_container").show();
                                 $(this.contentAreaContainer).parents(".contentauthoring_cell_element").find(".contentauthoring_cell_element_actions").hide();
                             });
+                            ed.onInit.add(function(ed) {
+                                ed.focus();
+                            });
                         }
                     });
                 }

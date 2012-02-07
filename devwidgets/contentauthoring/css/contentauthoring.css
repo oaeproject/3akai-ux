@@ -268,6 +268,24 @@
     width: 120px;
 }
 
+.contentauthoring_dummy_element {
+    display: none;
+}
+
+.contentauthoring_edit_mode .contentauthoring_dummy_element {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    color: #999999;
+    display: block !important;
+    cursor: pointer;
+    font-size: 12px;
+}
+
 /* Elements to add */
 #contentauthoring_buttons_elements {
     margin-left: 0px;

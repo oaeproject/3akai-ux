@@ -53,7 +53,13 @@
                 <div class="contentauthoring_table_row">
                     <div class="contentauthoring_cell_content">
                         {for element in column.elements}
-                            ${insertCell(element.id, element.type)}
+                            {if element.dummytext}
+                                <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
+                            {else}
+                                ${insertCell(element.id, element.type)}
+                            {/if}
+                        {forelse}
+                            <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
                         {/for}
                     </div>
                     <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
@@ -138,6 +144,8 @@
     <h1 class="s3d-dialog-header" id="contentauthoring_widget_settings_title"></h1>
     <div id="contentauthoring_widget_settings_content"></div>
 </div>
+
+<div id="contentauthoring_dummy_element_template"><!--<div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentauthoring/javascript/contentauthoring.js"></script>
