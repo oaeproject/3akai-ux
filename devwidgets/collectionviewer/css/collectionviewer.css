@@ -50,7 +50,7 @@
 /* Overrides */
 .collectionviewer_widget .documentviewer_widget {background-color:#fff;padding:15px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
 .collectionviewer_widget .documentviewer_preview_width,
-.collectionviewer_widget .contentpreview_fullsize_preview embed {width:870px;}
+.collectionviewer_widget .contentpreview_fullsize_preview embed {width:850px; max-width:850px;}
 .collectionviewer_widget #contentpreview_fullsize_preview {padding:0 0 15px;}
 .collectionviewer_widget .s3d-search-results-grid {border:none !important;padding-top:0;}
 .collectionviewer_widget .searchcontent_result_usedin_icon {background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll center center transparent;display:block;float:left;height:15px;margin-right:5px;width:15px;}

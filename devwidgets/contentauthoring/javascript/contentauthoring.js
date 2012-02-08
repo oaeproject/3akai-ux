@@ -1063,8 +1063,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $(".contentauthoring_empty_content").remove();
             $("#contentauthoring_widget_container").show();
             $rootel.addClass("contentauthoring_edit_mode");
-            $("#inserterbar_view_container").hide();
-            $("#inserterbar_default_widgets_container").show();
             $(window).trigger("edit.contentauthoring.sakai");
             setActions();
             updateColumnHandles();
@@ -1089,8 +1087,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $("#inserterbar_cancel_edit_page").live("click", function(){
             $rootel.removeClass("contentauthoring_edit_mode");
             $(".contentauthoring_cell_content").sortable("destroy");
-            $("#inserterbar_default_widgets_container").hide();
-            $("#inserterbar_view_container").show();
             $.ajax({
                 "url": STORE_PATH,
                 "type": "POST",
@@ -1130,8 +1126,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             $rootel.removeClass("contentauthoring_edit_mode");
             $(".contentauthoring_cell_content").sortable("destroy");
-            $("#inserterbar_default_widgets_container").hide();
-            $("#inserterbar_view_container").show();
             sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
                 $.ajax({
                     "url": STORE_PATH,
