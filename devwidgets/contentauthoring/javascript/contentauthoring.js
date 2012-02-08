@@ -74,7 +74,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (isInEditMode()){
                 $rootel.removeClass("contentauthoring_edit_mode");
                 $(".contentauthoring_cell_content").sortable("destroy");
-                $("#contentauthoring_add_row").hide();
                 $("#inserterbar_widget").hide();
             } else {
                 $rootel.addClass("contentauthoring_edit_mode");
@@ -121,6 +120,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             });
         };
 
+        /**
+        * Fix for https://jira.sakaiproject.org/browse/SAKIII-4878
+        */
+        var tinyMCEInstanceFix = function(){
+            $(".htmlblock_widget").find(".mceExternalToolbar").hide();
+            $.each($("#inserterbar_widget .mceAction").children(".mceColorPreview"), function(i, color){
+                if(i > 0){
+                    $(color).hide();
+                }
+            });
+        };
+
         var makeRowsReorderable = function(){
             $("#contentauthoring_widget_container").sortable({
                 handle: '.contentauthoring_row_handle',
@@ -135,7 +146,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 },
                 start: function(ev, ui){
                     $(ui.item).find('.tinyMCE').each(function(){
-                        tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+                        tinyMCE.execCommand('mceRemoveControl', false, $(this).attr('id'));
                     });
                     sakai_global.contentauthoring.isDragging = true;
                     $(".contentauthoring_row_handle_container").css("visibility", "hidden");
@@ -144,7 +155,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 },
                 stop: function(event, ui){
                     $(ui.item).find('.tinyMCE').each(function(){
-                        tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id') );
+                        tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id'));
+                        tinyMCEInstanceFix();
                     });
                     $(this).sortable("refresh");
                     sakai_global.contentauthoring.isDragging = false;
@@ -215,13 +227,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 stop: function(event, ui){
                     $(ui.item).find('.tinyMCE').each(function(){
                         tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id') );
+                        tinyMCEInstanceFix();
                         $(this).sortable("refresh");
                     });
                     sakai_global.contentauthoring.isDragging = false;
+                    $(".contentauthoring_dummy_element", $(this)).hide();
+                    checkColumnsEmpty();
                     if($(ui.item).data("collectionId")){
                         addExistingElement(event, ui);
                     } else if(!$(ui.item).data("contentId")){
-                        addNewElement(event, ui);
+                        addNewElement(event, $(ui.item));
                     } else {
                         addExistingElement(event, ui);
                     }
@@ -355,13 +370,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Add a new row //
         ///////////////////
 
-        $("#contentauthoring_add_row").bind("click", function(){
-            $("#contentauthoring_widget_container").append(generateNewRow());
-            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
-            setActions();
-            updateColumnHandles();
-        });
-
         var generateNewRow = function(){
             var newRow = {
                 "id": sakai.api.Util.generateWidgetId(),
@@ -370,8 +378,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         "width": 1,
                         "elements": [
                             {
-                                "id": sakai.api.Util.generateWidgetId(),
-                                "type": "htmlblock"
+                                "dummytext": true
                             }
                         ]
                     }
@@ -440,6 +447,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             } else {
                                 $el.append($(element));
                             }
+                            checkColumnsEmpty();
                             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
                             setActions();
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
@@ -549,6 +557,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             } else {
                                 $el.append($(element));
                             }
+                            checkColumnsEmpty();
                             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
                             setActions();
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
@@ -608,10 +617,24 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         });
 
+        var checkColumnsEmpty = function(){
+            $.each($(".contentauthoring_cell_content", $("#contentauthoring_widget")), function(i, cellcontainer){
+                if(!$(cellcontainer).find(".contentauthoring_cell_element").length){
+                    if(!$(cellcontainer).find(".contentauthoring_dummy_element").length){
+                        var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
+                        $(cellcontainer).append(dummy);
+                    }
+                } else {
+                    $(cellcontainer).find(".contentauthoring_dummy_element").remove();
+                }
+            });
+        };
+
         var removeColumns = function($row, lastColumn){
             var widths = getColumnWidths($row);
             var remainingWidth = 1;
             var $cells = $(".contentauthoring_cell", $row);
+            $row.find(".contentauthoring_dummy_element").remove();
             for (var i = lastColumn + 1; i < $cells.length; i++){
                 var $cell = $($cells[i]);
                 $cell.find('.tinyMCE').each(function(){
@@ -627,6 +650,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             for (var i = 0; i <= lastColumn; i++) {
                 $($cells[i]).css("width", (widths[i] / remainingWidth) * 100 + "%");
             }
+            checkColumnsEmpty();
             updateColumnHandles();
         };
 
@@ -794,7 +818,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $cell.find('.tinyMCE').each(function(){
                 tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
             });
-            $cell.remove();
+            if($(this).parents(".contentauthoring_cell_content").children(".contentauthoring_cell_element").length > 1){
+                $cell.remove();
+            } else {
+                var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
+                $cell.replaceWith(dummy);
+                setHeight(dummy.parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
+            }
         });
 
 
@@ -802,8 +832,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Add new element //
         /////////////////////
 
-        var addNewElement = function(event, ui){
-            var addedElement = $(ui.item);
+        var addNewElement = function(event, addedElement){
             var $row = $(addedElement).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
             if (addedElement.hasClass("inserterbar_widget_draggable")){
                 var type = addedElement.attr("data-element-type");
@@ -861,6 +890,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     "settingsoverridden": true
                 });
                 $(ui.item).replaceWith($(element));
+                checkColumnsEmpty();
                 sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
                 setActions();
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
@@ -869,6 +899,70 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var imageLoaded = function(ev, image){
             setHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
+        };
+
+        /**
+         * Checks for empty htmlblock widgets and returns a Boolean
+         *
+         * @return {Boolean} false if the htmlblock widget is not empty
+         *                   true if the htmlblock widget is empty
+         */
+        var checkHTMLBlockEmpty = function(currentPageShown, element){
+            if (currentPageShown.content[element.id] &&
+                currentPageShown.content[element.id].htmlblock &&
+                $.trim($(currentPageShown.content[element.id].htmlblock.content).text())){
+                return false;
+            }
+            return true;
+        };
+
+        /**
+         * Determines if a page is empty by checking its content
+         * Shows a default image when no content is present in the page
+         * Empty content = empty rows and rows with empty html blocks
+         *
+         * @param currentPageShown {Object} Object containing data for the current page
+         */
+        var determineEmptyPage = function(currentPageShown){
+            // emptyPageElements checks for empty rows
+            var emptyPageElements = true;
+            // emptyPageElementContents checks for empty tinyMCe instances
+            var emptyPageElementContents = true;
+
+            // Check for empty rows, if a row with content or (empty) tinyMCe is detected emptyPageElements will be set to false
+            // emptyPageElements will later be overridden if the tinymce instances don't have any content after all
+            $.each(currentPageShown.content.rows, function(rowIndex, row){
+                $.each(row.columns, function(columnIndex, column){
+                    if(column.elements.length){
+                        $.each(column.elements, function(elIndex, element){
+                            // Check designed to look at specific storage types
+                            if(element.type === "htmlblock"){
+                                // Returns false if not empty, true if empty
+                                emptyPageElements = checkHTMLBlockEmpty(currentPageShown, element);
+                            } else {
+                                emptyPageElements = false;
+                            }
+                            // If false returned there must be content and the page should be rendered
+                            return emptyPageElements;
+                        });
+                        return emptyPageElements;
+                    }
+                    return emptyPageElements;
+                });
+                return emptyPageElements;
+            });
+
+            // If the page is empty show the illustration
+            if (emptyPageElements){
+                $("#contentauthoring_widget_container").hide();
+                sakai.api.Util.TemplateRenderer("contentauthoring_no_content_template", {
+                    "canEdit": currentPageShown.canEdit
+                }, $("#contentauthoring_no_content_container"));
+                $("#contentauthoring_no_content_container").show();
+            } else {
+                $("#contentauthoring_no_content_container").hide();
+                $("#contentauthoring_widget_container").show();
+            }
         };
 
         ////////////////////
@@ -914,6 +1008,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $("#contentauthoring_widget #" + currentPageShown.ref).show();
                 sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
             }
+
+            determineEmptyPage(currentPageShown);
 
             if (canEdit()){
                 $("#contentauthoring_inserterbar_container").show();
@@ -971,6 +1067,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $("#inserterbar_action_edit_page").live("click", function(){
+            $(".contentauthoring_empty_content").remove();
+            $("#contentauthoring_widget_container").show();
             $rootel.addClass("contentauthoring_edit_mode");
             $(window).trigger("edit.contentauthoring.sakai");
             setActions();
@@ -1050,7 +1148,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 data.rows = rows;
                 sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
             });
+            determineEmptyPage(currentPageShown);
         });
+
+        $(".contentauthoring_dummy_element").live("dblclick", function(ev){
+            var $el = $(this);
+            $el.attr("data-element-type", "htmlblock");
+            $el.addClass("inserterbar_widget_draggable");
+            addNewElement(ev, $el);
+        });
+
 
         /////////////////////////////
         /////////////////////////////

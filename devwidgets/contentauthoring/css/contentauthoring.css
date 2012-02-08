@@ -270,6 +270,24 @@
     width: 120px;
 }
 
+.contentauthoring_dummy_element {
+    display: none;
+}
+
+.contentauthoring_edit_mode .contentauthoring_dummy_element {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    color: #999999;
+    display: block !important;
+    cursor: pointer;
+    font-size: 12px;
+}
+
 /* Elements to add */
 #contentauthoring_buttons_elements {
     margin-left: 0px;
@@ -279,4 +297,23 @@
     margin-right: 10px;
     background-color:#ccc;
     margin-bottom: 2px;
+}
+
+/* No content */
+.contentauthoring_empty_content.contentauthoring_default_editable_content_imagecontainer {
+    background:url("/dev/images/emptydocument_editor_placeholder.jpg") no-repeat scroll left top transparent;
+    display:block;
+    height:228px;
+    margin:4px auto;
+    width:462px;
+}
+
+.contentauthoring_empty_content.contentauthoring_default_viewable_content_imagecontainer {
+    background:url("/dev/images/emptydocument_viewer_placeholder.jpg") no-repeat scroll left top transparent !important;
+    height:154px !important;
+    margin:4px auto;
+    margin-bottom: 90px;
+    position: relative;
+    top: 70px;
+    width:156px !important;
 }

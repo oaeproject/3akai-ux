@@ -156,8 +156,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         mode: "textareas",
                         theme: "advanced",
                         skin: "sakai",
+                        formats: {
+                              "caption": {
+                                  "inline": 'span',
+                                  "classes": 'caption'
+                              }
+                        },
                         content_css: "/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css",
                         plugins: "table,advlink,contextmenu,paste,directionality",
+                        theme_advanced_blockformats: "h1,h2,h3,h4,h5,h6,p,blockquote,caption",
                         theme_advanced_buttons1: "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,forecolor,|,table,code",
                         theme_advanced_buttons2: "",
                         theme_advanced_buttons3: "",
@@ -173,6 +180,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             ed.onClick.add(function(ed, e) {
                                 $("#inserterbar_widget #inserterbar_tinymce_container").show();
                                 $(this.contentAreaContainer).parents(".contentauthoring_cell_element").find(".contentauthoring_cell_element_actions").hide();
+                            });
+                            ed.onInit.add(function(ed) {
+                                ed.focus();
                             });
                         }
                     });
