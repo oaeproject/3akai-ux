@@ -140,8 +140,8 @@
 				m.add({title : 'advanced.unlink_desc', icon : 'unlink', cmd : 'UnLink'});
 			}
 
-			m.addSeparator();
-			m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
+			//m.addSeparator();
+			//m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
 
 			m.addSeparator();
 			am = m.addMenu({title : 'contextmenu.align'});

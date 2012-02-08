@@ -16,3 +16,5 @@
  * specific language governing permissions and limitations under the License.
  */
 html {background-color: transparent !important; overflow: hidden !important;}
+.mceItemTable {min-width: 200px;}
+.mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceItemVisualAid {border: 1px dashed #BBB;}
