@@ -886,14 +886,21 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             });
         };
 
-        var renderPage = function(currentPageShown){
+        var renderPage = function(currentPageShown, requiresRefresh){
             if($("#versions_container").is(":visible")){
                 $("#inserterbar_action_revision_history").trigger("click");
             }
             sakai.api.Widgets.nofityWidgetShown("#contentauthoring_widget > div:visible", false);
             $("#contentauthoring_widget > div:visible").hide();
             
-            if ($("#" + currentPageShown.ref).length === 0) {
+            if ($("#" + currentPageShown.ref).length === 0 || requiresRefresh) {
+                if (requiresRefresh){
+                    $("#" + currentPageShown.ref).find('.tinyMCE').each(function(){
+                        tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+                    });
+                    // Remove the old one in case this is caused by a cancel changes option
+                    $("#" + currentPageShown.ref).remove();
+                }
                 // Create the new element
                 var $el = $("<div>").attr("id", currentPageShown.ref);
                 // Add element to the DOM
@@ -997,7 +1004,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             });
             STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
-            renderPage(currentPageShown);
+            renderPage(currentPageShown, true);
         });
 
         $("#inserterbar_save_edit_page").live("click", function(){

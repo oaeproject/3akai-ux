@@ -23,6 +23,8 @@
 .htmlblock_widget {min-height: 25px;}
 
 #htmlblock_view_container {display:block;}
+#htmlblock_view_container table {min-width: 200px;}
+#htmlblock_view_container td {min-width: 100px;}
 .contentauthoring_edit_mode #htmlblock_view_container {display:none !important;}
 #htmlblock_edit_container {display:none;}
 .contentauthoring_edit_mode #htmlblock_edit_container {display:block !important;}
