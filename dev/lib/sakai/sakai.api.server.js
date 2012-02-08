@@ -44,10 +44,10 @@ define(
          * @param {Boolean} async If we should do an async request or not
          */
         batch : function(_requests, _callback, _cache, _forcePOST, _async) {
-            var method = _forcePOST === true ? "POST" : "GET",
-                cache = _cache === false ? false : true,
-                async = _async === false ? false : true;
-                url = sakai_conf.URL.BATCH;
+            var method = _forcePOST === true ? "POST" : "GET";
+            var cache = _cache === false ? false : true;
+            var async = _async === false ? false : true;
+            var url = sakai_conf.URL.BATCH;
 
             // Append a charset to each request
             $.each(_requests, function(i,req) {
@@ -385,7 +385,7 @@ define(
 
         cleanUpSakaiDocObject: function(pagestructure){
             // Convert the special objects to arrays
-            data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
+            var data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
             var id = pagestructure["_path"];
             var toFilter = ["_", "jcr:", "sakai:", "sling:"];
             var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_canView", "_canEdit", "_canSubedit", "_nonEditable", "_lastModified", "_lastModifiedBy"];
