@@ -61,11 +61,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             json = $("#googlemaps_iframe_map", rootel)[0].contentWindow.getJSON();
 
             // Set the value of mapsize according to the radio button selection status
+            json.mapsize = "SMALL";
             if ($("#googlemaps_radio_large", rootel).is(":checked")) {
                 json.mapsize = "LARGE";
-            }
-            else {
-                json.mapsize = "SMALL";
             }
 
             // Store the corresponded map data into backend server
@@ -77,58 +75,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var setMapSize = function(callback) {
             if(!showSettings) {
-                $("#googlemaps_size_options").hide();
                 if (json && json.mapsize == "SMALL") {
-
                     // Set the size of map according to the data stored on the backend server
                     $("#googlemaps_iframe_map", rootel).width("50%");
-                    //$("#googlemaps_iframe_map", rootel).css({"float": "right"});
-                }
-                else {
+                } else {
                     $("#googlemaps_iframe_map", rootel).width("100%");
                 }
-            }
-            else {
-            
-                $("#googlemaps_size_options").show();
-        
-                // Show the search input textfield and save, search, cancel buttons
-                $("#googlemaps_form_search", rootel).show();
-                $("#googlemaps_save_cancel_container", rootel).show();
-
-                // Add a submit listener so that the search function can be executed
-                $("#googlemaps_form_search", rootel).submit(function() {
-                    var input = $("#googlemaps_input_text_location", rootel).val();
-                    if (input) {
-                        iframeContentWindow.search(input, "", sakai, $);
-                    }
-                    return false;
-                });
-
-                // Add listener to save button
-                $("#googlemaps_save", rootel).bind("click", function(e, ui) {
-                    saveToJCR();
-                });
-
-                // Add listerner to cancel button
-                $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
-                    sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
-                });
-
+            } else {
                 if (json) {
-                    if (json.mapsize == "SMALL") {
-
-                        // If the reserved mapsize is "SMALL", the "small" radio button should be checked
-                        $("#googlemaps_radio_small", rootel).attr("checked", "checked");
-                    }
-                    else if (json.mapsize == "LARGE") {
-
+                    $("#googlemaps_radio_small", rootel).attr("checked", "checked");
+                    if (json.mapsize == "LARGE") {
                         // If the reserved mapsize is "LARGE", the "large" radio button should be checked
                         $("#googlemaps_radio_large", rootel).attr("checked", "checked");
                     }
                 }
             }
-
             callback();  // Set the map center, zoom and infowindow in the map iframe
         };
 
@@ -157,58 +118,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderMap = function(success, data){
             if (success) {
+            
+                // Get data from the backend server
+                json = data;
+                
+                // Set the size of the map's iframe
+                setMapSize(setMap);
+                
+                // Set the initial value of search keyword input textbox
+                $("#googlemaps_input_text_location", rootel).val(json.mapinput);
+                
+            } else {
+                var tempJson = {
+                    "lat": sakai.widgets.googlemaps.defaultLat,
+                    "lng": sakai.widgets.googlemaps.defaultLng,
+                    "mapzoom": sakai.widgets.googlemaps.defaultZoom
+                };
+                iframeContentWindow.setMap(tempJson);
+            }
 
-                    // Get data from the backend server
-                    json = data;
-
-                    // Set the size of the map's iframe
-                    setMapSize(setMap);
-
-                    // Set the initial value of search keyword input textbox
-                    $("#googlemaps_input_text_location", rootel).val(json.mapinput);
-                    
-                } else {
-                    var tempJson = {
-                        "lat": sakai.widgets.googlemaps.defaultLat,
-                        "lng": sakai.widgets.googlemaps.defaultLng,
-                        "mapzoom": sakai.widgets.googlemaps.defaultZoom
-                    };
-                    iframeContentWindow.setMap(tempJson);
-                    if (showSettings) {
-                        // Show the search input textfield and save, search, cancel buttons
-                        $("#googlemaps_form_search", rootel).show();
-                        $("#googlemaps_save_cancel_container", rootel).show();
-
-
-                        // If the googlemaps is opened for the first time, the "large" radio button should be default checked
-                        $("#googlemaps_radio_large", rootel).attr("checked", "checked");
-
-
-                        // Add a submit listener so that the search function can be executed
-                        $("#googlemaps_form_search", rootel).submit(function() {
-                            var input = $("#googlemaps_input_text_location", rootel).val();
-                            if (input) {
-                                iframeContentWindow.search(input, "", sakai, $);
-                            }
-                            return false;
-                        });
-
-                        // Add listener to save button
-                        $("#googlemaps_save", rootel).bind("click", function(e, ui) {
-                            saveToJCR();
-                        });
-
-                        // Add listerner to cancel button
-                        $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
-                            sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
-                        });
-                    }
-
-                }
-                // show main div
-                $("#main-content-div").show();
-                // Set focus in location text box
-                $("#googlemaps_input_text_location").focus();
+            // Set focus in location text box
+            $("#googlemaps_input_text_location", rootel).focus();
 
         };
 
@@ -216,8 +146,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This is to init the google map and other controls
          */
         var init = function() {
+            if (showSettings) {
+                // Show the search input textfield and save, search, cancel buttons
+                $("#googlemaps_form_search", rootel).show();
+                $("#googlemaps_save_cancel_container", rootel).show();
+                $("#googlemaps_size_options", rootel).show();
+
+                // Add a submit listener so that the search function can be executed
+                $("#googlemaps_form_search", rootel).submit(function() {
+                    var input = $("#googlemaps_input_text_location", rootel).val();
+                    if (input) {
+                        iframeContentWindow.search(input, "", sakai, $);
+                    }
+                    return false;
+                });
+
+                // Add listener to save button
+                $("#googlemaps_save", rootel).bind("click", function(e, ui) {
+                    saveToJCR();
+                });
+
+                // Add listerner to cancel button
+                $("#googlemaps_cancel", rootel).bind("click", function(e, ui) {
+                    sakai.api.Widgets.Container.informCancel(tuid, "googlemaps");
+                });
+            }
+
             // hide main div to prevent showing default cambridge location while loading
-            $("#main-content-div").hide();
             $("#googlemaps_iframe_map", rootel).load(function() {
 
                 // To set the map iframe's content as the iframeContentWindow (var)
@@ -226,6 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Get the map zoom and center property data from backend server
                 getFromJCR();
             });
+
         };
 
         init();
