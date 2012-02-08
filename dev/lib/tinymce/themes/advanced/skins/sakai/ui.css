@@ -96,12 +96,12 @@
 .sakaiSkin .mce_forecolor span.mceAction,.sakaiSkin .mce_backcolor span.mceAction{overflow:hidden;height:16px;}
 
 /* Menu */
-.sakaiSkin .mceMenu{position:absolute;left:0;top:0;z-index:1000;border:1px solid #D4D0C8;}
+.sakaiSkin .mceMenu{position:absolute;left:0;top:0;z-index:1000;border:1px solid #D4D0C8;width:160px !important;}
 .sakaiSkin .mceNoIcons span.mceIcon{width:0;}
 .sakaiSkin .mceNoIcons a .mceText{padding-left:10px;}
 .sakaiSkin .mceMenu table{background:#FFF;}
 .sakaiSkin .mceMenu a,.sakaiSkin .mceMenu span,.sakaiSkin .mceMenu{display:block;}
-.sakaiSkin .mceMenu td{height:20px;}
+.sakaiSkin .mceMenu td{height:20px;width:160px;}
 .sakaiSkin .mceMenu a{position:relative;padding:3px 0 4px;}
 .sakaiSkin .mceMenu .mceText{position:relative;display:block;font-family:Tahoma,Verdana,Arial,Helvetica;color:#000;cursor:default;margin:0;padding:0 25px;display:block;}
 .sakaiSkin .mceMenu span.mceText,.sakaiSkin .mceMenu .mcePreview{font-size:11px;}
@@ -126,12 +126,16 @@
 .sakaiSkin .mce_p span.mceText{}
 .sakaiSkin .mce_address span.mceText{font-style:italic;}
 .sakaiSkin .mce_pre span.mceText{font-family:monospace;}
-.sakaiSkin .mce_h1 span.mceText{font-weight:bolder;font-size:2em;}
-.sakaiSkin .mce_h2 span.mceText{font-weight:bolder;font-size:1.5em;}
-.sakaiSkin .mce_h3 span.mceText{font-weight:bolder;font-size:1.17em;}
-.sakaiSkin .mce_h4 span.mceText{font-weight:bolder;font-size:1em;}
-.sakaiSkin .mce_h5 span.mceText{font-weight:bolder;font-size:.83em;}
-.sakaiSkin .mce_h6 span.mceText{font-weight:bolder;font-size:.75em;}
+.sakaiSkin .mce_h1 span.mceText{font-family:Arial;font-size:18px;color:#333;font-weight:bold;}
+.sakaiSkin .mce_h2 span.mceText{font-family:Arial;font-size:20px;color:#666;}
+.sakaiSkin .mce_h3 span.mceText{font-family:Arial;font-size:18px;color:#666;font-weight:bold;}
+.sakaiSkin .mce_h4 span.mceText{font-family:Arial;font-size:13px;color:#aaa;text-transform:uppercase;}
+.sakaiSkin .mce_h5 span.mceText{font-family:Arial;font-size:18px;color:#aaa;font-weight:bold;}
+.sakaiSkin .mce_h6 span.mceText{font-family:Arial;font-size:18px;color:#aaa;}
+.sakaiSkin .mce_blockquote span.mceText{font-family:Arial;font-size:14px;color:#666;}
+.sakaiSkin .mce_blockquote span.mceText:before{content:"\"";}
+.sakaiSkin .mce_blockquote span.mceText:after{content:"\"";}
+.sakaiSkin .mce_caption span.mceText{font-family:Arial;font-size:11px;color:#666;}
 
 /* Theme */
 .sakaiSkin span.mce_bold{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_bold.png") no-repeat scroll left top transparent;}
