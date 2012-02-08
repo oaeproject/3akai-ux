@@ -234,8 +234,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         $(this).sortable("refresh");
                     });
                     sakai_global.contentauthoring.isDragging = false;
-                    $(".contentauthoring_dummy_element", $(this)).hide();
-                    checkColumnsEmpty();
+                    $(".contentauthoring_dummy_element", $(this)).remove();
                     if($(ui.item).data("collectionId")){
                         addExistingElement(event, ui);
                     } else if(!$(ui.item).data("contentId")){
