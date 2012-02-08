@@ -611,6 +611,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (currentRow === rowToChange){
                 hideEditRowMenu();
             } else {
+                if($(".contentauthoring_row").length > 1){
+                    $("#contentauthoring_row_menu_remove", $rootel).parent("li").show();
+                } else {
+                    $("#contentauthoring_row_menu_remove", $rootel).parent("li").hide();
+                }
                 $($(this).parents(".contentauthoring_row_handle_container")).addClass("selected");
                 $("#contentauthoring_row_menu").css("left", ($(this).position().left - ($("#contentauthoring_row_menu").width() / 2)) + "px");
                 $("#contentauthoring_row_menu").css("top", ($(this).position().top + 27) + "px");
@@ -705,18 +710,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $("#contentauthoring_row_menu_remove").live("click", function(){
-            if($(".contentauthoring_row").length > 1){
-                var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
-                hideEditRowMenu();
-                $row.find('.tinyMCE').each(function(){
-                    tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
-                });
-                $row.remove();
-            } else {
-                sakai.api.Util.notification.show(
-                    sakai.api.i18n.getValueForKey("ROW_CANNOT_BE_DELETED","contentauthoring"),
-                    sakai.api.i18n.getValueForKey("AT_LEAST_ONE_ROW_IN_DOCUMENT","contentauthoring"));
-            }
+            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
+            hideEditRowMenu();
+            $row.find('.tinyMCE').each(function(){
+                tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+            });
+            $row.remove();
         });
 
         $("#contentauthoring_row_menu_add_above").live("click", function(){

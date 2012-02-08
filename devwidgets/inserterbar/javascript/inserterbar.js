@@ -206,6 +206,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
+        $(window).resize(function(){
+            var left = $("#contentauthoring_widget").position().left + $("#contentauthoring_widget").width() - $("#inserterbar_widget").width() + 8;
+            $("#inserterbar_widget").css("left", left + "px");
+        });
+
         var doInit = function(){
             $inserterbarWidget.css("left", $(".s3d-page-header").position().left + $(".s3d-page-header").width() - $inserterbarWidget.width() - 12);
             addBinding();
