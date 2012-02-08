@@ -1586,16 +1586,11 @@ define(function(){
         defaultSakaiDocContent: {
             "rows": [
                 {
-                    "id": "id00023",
+                    "id": "id" + Math.round(Math.random() * 100000000),
                     "columns": [
                         {
                             "width": 1,
-                            "elements": [
-                                {
-                                    "id": "id00001",
-                                    "type": "htmlblock"
-                                }
-                            ]
+                            "elements": []
                         }
                     ]
                 }
