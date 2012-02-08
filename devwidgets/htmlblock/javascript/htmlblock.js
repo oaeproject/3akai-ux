@@ -183,6 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             });
                             ed.onInit.add(function(ed) {
                                 ed.focus();
+                                $(".contentauthoring_cell_element_actions").hide();
                             });
                         }
                     });

@@ -53,6 +53,7 @@
     height: 100% !important;
     display:table-cell;
     vertical-align: top !important;
+    overflow: hidden;
 }
 
 .contentauthoring_widget .contentauthoring_cell_container {
