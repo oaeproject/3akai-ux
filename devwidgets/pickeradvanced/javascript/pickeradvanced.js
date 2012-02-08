@@ -296,16 +296,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).unbind("init.pickeradvanced.sakai");
         $(window).bind("init.pickeradvanced.sakai", function(e, config) {
             // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
-            if (htmlScrollPos > 0) {
-                $pickeradvanced_container.css({"top": htmlScrollPos + 130 + "px"});
-            } else if (docScrollPos > 0) {
-                $pickeradvanced_container.css({"top": docScrollPos + 130 + "px"});
-            }
+            sakai.api.Util.positionDialogBox($pickeradvanced_container);
 
             firstTime = true;
             render(config.config);
+            sakai.api.Util.bindDialogFocus($pickeradvanced_container);
             $pickeradvanced_container.jqmShow();
             pickerlist = config.list;
         });

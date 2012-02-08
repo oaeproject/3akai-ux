@@ -93,6 +93,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
         var newaddcontentAddDocumentTags = "#newaddcontent_add_document_tags";
         var newaddcontentExistingItemsListContainerListItemIcon = ".newaddcontent_existingitems_list_container_list_item_icon";
         var newaddcontentExistingItemsListContainerActionsSort = "#newaddcontent_existingitems_list_container_actions_sort";
+        var newaddcontentExistingItemsListContainerCheckboxes = '#newaddcontent_existingitems_list_container input[type="checkbox"]';
         var newaddcontentSelectedItemsEditDataTitle = "#newaddcontent_selecteditems_edit_data_title";
         var newaddcontentSelectedItemsEditDataDescription = " #newaddcontent_selecteditems_edit_data_description";
         var newaddcontentSelectedItemsEditDataTags = " #newaddcontent_selecteditems_edit_data_tags";
@@ -491,6 +492,13 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             }
             $(this).parent().parent().hide();
             renderQueue();
+        };
+
+        var uncheckCheckboxes = function(){
+            // We need to remove all the other checkboxes first in order to avoid a lag
+            $(newaddcontentExistingItemsListContainerCheckboxes).removeAttr("checked");
+            // Uncheck the check all checkbox
+            $(newaddcontentExistingCheckAll).removeAttr("checked");
         };
 
 
@@ -1016,7 +1024,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                     searchURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&items=10&page=" + (pagenum - 1) + "&sortOrder=" + sortOrder + "&sortOn=" + sortOn + "&q=" + q;
                     break;
             }
-
+            uncheckCheckboxes();
             $.ajax({
                 url: searchURL,
                 type: "GET",
@@ -1031,6 +1039,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                         existingItems = data.results;
                     }
                     $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "query":q, "sakai":sakai, "queue":existingIDs, "context":currentExistingContext}));
+                    uncheckCheckboxes();
+                    // Disable the add button
+                    disableAddToQueue();
                     var numberOfPages = Math.ceil(data.total / 10);
                     $("#newaddcontent_existingitems_paging").pager({
                         pagenumber: pagenum,
@@ -1306,13 +1317,21 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
          * Initialize the modal dialog
          */
         var initializeJQM = function(){
+            sakai.api.Util.positionDialogBox($newaddcontentContainer);
+
             $newaddcontentContainer.jqm({
                 modal: true,
                 overlay: 20,
                 zIndex: 4001,
-                toTop: true
+                toTop: true,
+                onHide: function(hash){
+                    uncheckCheckboxes();
+                    hash.o.remove();
+                    hash.w.hide();
+                }
             });
             $newaddcontentContainer.jqmShow();
+            sakai.api.Util.bindDialogFocus($newaddcontentContainer);
         };
 
         /**

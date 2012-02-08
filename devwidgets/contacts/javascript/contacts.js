@@ -49,9 +49,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var contactsShowGrid = ".s3d-listview-grid";
         var contactsShowList = ".s3d-listview-list";
         var contacts = {  // global data for contacts widget
+            initialized: false,
             totalItems: 0,
             sortBy: "lastName",
-            sortOrder: "desc",
+            sortOrder: "asc",
             accepted: false,
             invited: false,
             listStyle: "list",
@@ -295,6 +296,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(contactsShowGrid, $rootel).addClass("selected");
                 $(contactsShowGrid, $rootel).children().addClass("selected");
             }
+
+            if ($rootel.is(":visible")){
+                // Set the sort states
+                var parameters = $.bbq.getState();
+                if (!contacts.initialized || (parameters["cq"] && contacts.query !== parameters["cq"]) || (parameters["cso"] && contacts.sortOrder !== parameters["cso"])) {
+                    contacts.query = parameters["cq"] || "";
+                    contacts.sortOrder = parameters["cso"] || "asc";
+                    $("#contacts_search_input").val(contacts.query);
+                    $("#contacts_sortby").val(contacts.sortOrder);
+                    getContacts();
+                }
+            }
         };
 
         var bindEvents = function(){
@@ -313,6 +326,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(".s3d-actions-delete", $rootel).live("click", function(){
                 $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
                 $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
+                sakai.api.Util.bindDialogFocus($("#contacts_delete_contacts_dialog"));
                 $("#contacts_delete_contacts_dialog").jqmShow();
             });
 
@@ -347,10 +361,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#contacts_sortby").change(function () {
                 var sortSelection = this.options[this.selectedIndex].value;
                 if (sortSelection === "desc") {
-                    contacts.sortOrder = "desc";
                     $.bbq.pushState({"cso": "desc"});
                 } else {
-                    contacts.sortOrder = "asc";
                     $.bbq.pushState({"cso": "asc"});
                 }
             });
@@ -368,7 +380,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#contacts_search_input").live("keyup", function(ev){
                 var q = $.trim($(this).val());
                 if (q !== contacts.query && ev.keyCode === 13) {
-                    contacts.query = q;
                     $.bbq.pushState({"cq": q});
                 }
             });
@@ -376,20 +387,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#contacts_search_button").live("click", function(ev){
                 var q = $.trim($("#contacts_search_input").val());
                 if (q !== contacts.query) {
-                    contacts.query = q;
                     $.bbq.pushState({"cq": q});
                 }
             });
         };
 
         var doInit = function(){
-            contacts.sortOrder = $.bbq.getState("cso") || "asc";
-            $("#contacts_sortby").val(contacts.sortOrder);
-            contacts.query = $.bbq.getState("cq") || "";
-            $("#contacts_search_input").val(contacts.query);
-            getContacts();
             handleHashChange();
             bindEvents();
+            contacts.initialized = true;
         };
 
         doInit();
