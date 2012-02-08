@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var filesUploaded = [];
         var uploadError = false;
 
+
         ///////////////////////
         // Utility functions //
         ///////////////////////
@@ -65,6 +66,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
             return widgetIDs;
         };
+
 
         //////////////////////
         // Toggle edit mode //
@@ -164,6 +166,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             });
             setRowReorderHover();
         }
+
 
         //////////////////////
         // Reorder portlets //
@@ -702,12 +705,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $("#contentauthoring_row_menu_remove").live("click", function(){
-            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
-            hideEditRowMenu();
-            $row.find('.tinyMCE').each(function(){
-                tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
-            });
-            $row.remove();
+            if($(".contentauthoring_row").length > 1){
+                var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
+                hideEditRowMenu();
+                $row.find('.tinyMCE').each(function(){
+                    tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+                });
+                $row.remove();
+            } else {
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.getValueForKey("ROW_CANNOT_BE_DELETED","contentauthoring"),
+                    sakai.api.i18n.getValueForKey("AT_LEAST_ONE_ROW_IN_DOCUMENT","contentauthoring"));
+            }
         });
 
         $("#contentauthoring_row_menu_add_above").live("click", function(){
