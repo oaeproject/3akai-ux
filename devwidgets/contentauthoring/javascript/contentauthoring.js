@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var $rootel = $("#" + tuid);
         sakai_global.contentauthoring.isDragging = false;
 
-        var MINIMUM_COLUMN_SIZE = 0.05;
+        var MINIMUM_COLUMN_SIZE = 0.10;
         var USE_ELEMENT_DRAG_HELPER = true;
         var STORE_PATH = false;
 
@@ -901,6 +901,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             setHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
         };
 
+        ////////////////////////////////////////////////
+        // Checking whether the current page is empty //
+        ////////////////////////////////////////////////
+
         /**
          * Checks for empty htmlblock widgets and returns a Boolean
          *
@@ -954,6 +958,26 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             // If the page is empty show the illustration
             if (emptyPageElements){
+                $("#contentauthoring_widget_container").hide();
+                sakai.api.Util.TemplateRenderer("contentauthoring_no_content_template", {
+                    "canEdit": currentPageShown.canEdit
+                }, $("#contentauthoring_no_content_container"));
+                $("#contentauthoring_no_content_container").show();
+            } else {
+                $("#contentauthoring_no_content_container").hide();
+                $("#contentauthoring_widget_container").show();
+            }
+        };
+
+        var determineEmptyAfterSave = function(){
+            var cellElements = $("#" + currentPageShown.ref + " .contentauthoring_cell_element");
+            var containsText = false;
+            $.each(cellElements, function(index, el){
+                if (sakai.api.Util.determineEmptyContent($(el).html())){
+                    containsText = true;
+                }
+            });
+            if (!containsText){
                 $("#contentauthoring_widget_container").hide();
                 sakai.api.Util.TemplateRenderer("contentauthoring_no_content_template", {
                     "canEdit": currentPageShown.canEdit
@@ -1148,7 +1172,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 data.rows = rows;
                 sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
             });
-            determineEmptyPage(currentPageShown);
+            determineEmptyAfterSave();
         });
 
         $(".contentauthoring_dummy_element").live("dblclick", function(ev){

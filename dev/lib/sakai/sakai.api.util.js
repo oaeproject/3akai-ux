@@ -566,19 +566,20 @@ define(
          * @return{Boolean} True indicates that content is present, False indicates that there is no content
          */
         determineEmptyContent: function(content){
-            var textPresent = $.trim($("<div>").html(content).text());
-            var elementArr = ["img", "ol", "ul", "li", "hr", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "em", "strong", "code", "dl", "dt", "dd", "table", "tr", "th", "td", "iframe", "frame", "form", "input", "select", "option", "blockquote", "address"];
+            var $el = $("<div>").html(content);
+            // Filter out tinyMCE instances
+            $(".mceEditor", $el).each(function(index, item){
+                $(item).remove();
+            });
+            var textPresent = $.trim($el.text());
+            var elementArr = ["img", "iframe", "frame", "input", "select", "option"];
             var containsElement = false;
             $.each(elementArr, function(i, el){
-                if(content.indexOf(el) != -1){
+                if($(el, $el).length){
                     containsElement = true;
                     return false;
                 }
             });
-            if (!textPresent && !containsElement){
-                debug.log("Empty");
-                debug.log(content);
-            }
             return textPresent || containsElement;
         },
 
