@@ -26,6 +26,7 @@
 
 require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.tagcloud.js", "underscore"], function($, sakai, _) {
 
+    console.log(_)
     /**
      * @name sakai_global.tags
      *
@@ -60,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.tagcl
             sakai.api.Util.TemplateRenderer( $tags_main_template, { tags: newtags }, $tags_main );
             
             $tags_main.show().find('a').tagcloud({
-              size: {start: 9, end: 13, unit: 'pt'}
+              size: {start: 9, end: 13, unit: 'px'}
             });
         };
 
