@@ -320,7 +320,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("usersselected.addpeople.sakai", function(e, _newlyAdded){
             newlyAdded = _newlyAdded;
-            setTimeout(function(){loadParticipants(false)}, 1000);
+            setTimeout(function() {
+                loadParticipants(false);
+            }, 1000);
         });
 
         init();
