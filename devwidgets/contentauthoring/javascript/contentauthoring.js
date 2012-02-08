@@ -120,6 +120,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             });
         };
 
+        /**
+        * Fix for https://jira.sakaiproject.org/browse/SAKIII-4878
+        */
+        var tinyMCEInstanceFix = function(){
+            $(".htmlblock_widget").find(".mceExternalToolbar").hide();
+            $.each($("#inserterbar_widget .mceAction").children(".mceColorPreview"), function(i, color){
+                if(i > 0){
+                    $(color).hide();
+                }
+            });
+        };
+
         var makeRowsReorderable = function(){
             $("#contentauthoring_widget_container").sortable({
                 handle: '.contentauthoring_row_handle',
@@ -134,7 +146,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 },
                 start: function(ev, ui){
                     $(ui.item).find('.tinyMCE').each(function(){
-                        tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+                        tinyMCE.execCommand('mceRemoveControl', false, $(this).attr('id'));
                     });
                     sakai_global.contentauthoring.isDragging = true;
                     $(".contentauthoring_row_handle_container").css("visibility", "hidden");
@@ -143,7 +155,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 },
                 stop: function(event, ui){
                     $(ui.item).find('.tinyMCE').each(function(){
-                        tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id') );
+                        tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id'));
+                        tinyMCEInstanceFix();
                     });
                     $(this).sortable("refresh");
                     sakai_global.contentauthoring.isDragging = false;
@@ -214,6 +227,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 stop: function(event, ui){
                     $(ui.item).find('.tinyMCE').each(function(){
                         tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id') );
+                        tinyMCEInstanceFix();
                         $(this).sortable("refresh");
                     });
                     sakai_global.contentauthoring.isDragging = false;
