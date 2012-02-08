@@ -858,26 +858,6 @@ define(
 
         },
 
-        /**
-         * Shorten a string and add 3 dots if the string is too long
-         *
-         * @param {String} input The string you want to shorten
-         * @param {Int} maxlength Maximum length of the string
-         * @returns {String} The shortened string with 3 dots
-         */
-        shortenString : function(input, maxlength){
-
-            var return_string = "";
-
-            if ((typeof input === "string") && (input.length > maxlength)) {
-                return_string = input.substr(0, maxlength) + "...";
-            } else {
-                return_string = input;
-            }
-
-            return return_string;
-        },
-
         include : {
             /**
              * Generic function that will insert an HTML tag into the head of the document. This
