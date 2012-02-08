@@ -352,7 +352,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // post renderer
                 $inserterNoResultsContainer.hide();
                 sakai.api.Util.Draggable.setupDraggable({
-                    connectToSortable: ".contentauthoring_cell_content"
+                    connectToSortable: ".contentauthoring_cell_content",
+                    start: function(){
+                        $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
+                            width: "100%", height: "100%",
+                            position: "absolute", opacity: "0.001", zIndex: 100000
+                        }).css($(this).offset()).appendTo("body");
+                        debug.log("HERE");
+                    },
+                    stop: function(){
+                        $("div.ui-resizable-iframeFix").each(function() { this.parentNode.removeChild(this); });
+                        debug.log("HERE");
+                    }
                 }, $inserterContentInfiniteScrollContainerList);
                 sakai.api.Util.Droppable.setupDroppable({
                     scope: "content"

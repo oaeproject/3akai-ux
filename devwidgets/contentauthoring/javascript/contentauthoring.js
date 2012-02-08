@@ -1065,7 +1065,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 // Get the widgets in this page and change their save URL
                 var widgets = getWidgetList();
                 for (var w in widgets){
-                    if (widgets.hasOwnProperty(w)){
+                    if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
                         sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = STORE_PATH + widgets[w].id + "/" + widgets[w].type + "/";
                     }
                 }

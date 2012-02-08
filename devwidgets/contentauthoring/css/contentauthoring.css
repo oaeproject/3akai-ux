@@ -244,12 +244,14 @@
     list-style-type: none;
     height:20px;
     margin-top: 20px;
+    cursor: move;
 }
 
 .contentauthoring_cell_reorder_highlight {
     background-color: #e3e5c7;
     list-style-type: none;
     height:20px;
+    cursor: move;
 }
 
 #contentauthoring_widget_container > .contentauthoring_row_reorder_highlight {

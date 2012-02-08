@@ -46,7 +46,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
-
         var $rootel = $("#" + tuid);
 
         var autoSavePoll = false;
@@ -105,6 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var currentText = tinyMCE.get(id).getContent();
                 $("#htmlblock_view_container", $rootel).html(currentText);
                 sakai.api.Util.renderMath($rootel);
+                autoSave();
             });
         };
         
