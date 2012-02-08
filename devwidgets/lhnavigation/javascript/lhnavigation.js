@@ -797,11 +797,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (pagePath.indexOf("/") !== -1){
                 realPath = pagePath.split("/")[1];
             }
-            updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
+            updateCountsAfterDelete(structure.structure0, structure, realRef, realPath);
             storeStructure(structure.structure0, pageToDelete.savePath);
 
             // Change the main structure
-            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pubstructure.orderedItems, pageRef, pagePath);
+            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pageRef, pagePath);
             updatePageReference(pubstructure.items, pagePath);
             if (getPageCount(pubstructure.items) < 3){
                 $(window).trigger("sakai.contentauthoring.needsOneColumn");
@@ -853,17 +853,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     var checkRefPage = checkRef.split("-")[0];
                     var checkRefId = checkRef.split("-")[1];
                     // The page ref should be the first sub page
-                    if (structure[parts[0]]._elements
-                        && structure[parts[0]]._elements[0]
-                        && structure[parts[0]]._elements[0].main
-                        && checkRefId !== structure[parts[0]]._elements[0].main._ref) {
+                    if (structure[parts[0]]._elements &&
+                        structure[parts[0]]._elements[0] &&
+                        structure[parts[0]]._elements[0].main &&
+                        checkRefId !== structure[parts[0]]._elements[0].main._ref) {
                         structure[parts[0]]._ref = checkRefPage + "-" + structure[parts[0]]._elements[0].main._ref;
                     }
                 }
             }
-        }
+        };
 
-        var updateCountsAfterDelete = function(structure, pageslist, orderedItems, ref, path){
+        var updateCountsAfterDelete = function(structure, pageslist, ref, path){
             orderedItems = orderItems(structure);
             var oldOrder = 0;
             if (path.indexOf("/") !== -1){
