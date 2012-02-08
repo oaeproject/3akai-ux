@@ -123,20 +123,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addTreeBinding();
             addWidgetBinding();
             // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
-
-            if (htmlScrollPos > 0) {
-                $assignlocationContainer.css({
-                    "top": htmlScrollPos + 100 + "px"
-                });
-            } else {
-                if (docScrollPos > 0) {
-                    $assignlocationContainer.css({
-                        "top": docScrollPos + 100 + "px"
-                    });
-                }
-            }
+            sakai.api.Util.positionDialogBox($assignlocationContainer);
             hash.w.show();
             renderSelected(true);
         };
@@ -218,6 +205,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     onClose: closeContainer,
                     zIndex: zIndex
                 });
+                sakai.api.Util.bindDialogFocus($assignlocationContainer);
                 $assignlocationContainer.jqmShow();
             });
         };

@@ -676,6 +676,12 @@ define(
             if (batchRequests.length > 0) {
                 sakai_serv.batch(batchRequests, function(success, data){
                     if (success) {
+                        // adjust content count in the UI so it accurately reflects the added content without needing a new request
+                        $.each(sakai_user.data.me.groups, function(index, group){
+                            if (group && group.counts && group.groupid === userId) {
+                                group.counts.contentCount++;
+                            }
+                        });
                         if (callBack) {
                             callBack(contentId, userId);
                         }
