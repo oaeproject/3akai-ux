@@ -66,7 +66,9 @@
     word-wrap: break-word;
     outline:none;
 }
-
+.s23_site #s23_site_menu_container ul li a:focus {
+    color:#000
+}
 .s23_site #s23_site_menu_container ul li.s23_site_menu_item_active {
     background: url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left top #22AAE7;
     color: #FFFFFF;
