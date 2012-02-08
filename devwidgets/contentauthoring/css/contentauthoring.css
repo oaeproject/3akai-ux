@@ -80,6 +80,10 @@
     border: 1px dotted #fff;
 }
 
+.contentauthoring_edit_mode .contentauthoring_widget {
+    min-height: 300px;
+}
+
 .contentauthoring_edit_mode .contentauthoring_minheight_container {
     min-height:25px;
 }
@@ -305,7 +309,7 @@
     background:url("/dev/images/emptydocument_editor_placeholder.jpg") no-repeat scroll left top transparent;
     display:block;
     height:228px;
-    margin:4px auto;
+    margin:30px auto;
     width:462px;
 }
 
