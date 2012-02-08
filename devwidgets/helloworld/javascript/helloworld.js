@@ -45,6 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mainContainer = $("#helloworld_main", $rootel);
         var $settingsContainer = $("#helloworld_settings", $rootel);
         var $settingsForm = $("#helloworld_settings_form", $rootel);
+        var $cancelSettings = $("#helloworld_cancel_settings", $rootel);
         var $colorPicker = $("#helloworld_color", $rootel);
         var $usernameContainer = $("#helloworld_username", $rootel);
 
@@ -140,6 +141,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
+        $cancelSettings.bind("click", function(){
+            sakai.api.Widgets.Container.informFinish(tuid, "helloworld");
+        });
+
 
         /////////////////////////////
         // Initialization function //
@@ -167,12 +172,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // set the text of the usernameContainer <span> element to
                 // the current user's first name
-                $usernameContainer.text(
-                    sakai.api.Security.saneHTML(
-                        sakai.api.User.getProfileBasicElementValue(me.profile,
-                            "firstName")
-                    )
-                );
+                $usernameContainer.text(sakai.api.User.getFirstName(me.profile));
 
                 // get the preferred color and show the Main view
                 getPreferredColor(showMainView);
