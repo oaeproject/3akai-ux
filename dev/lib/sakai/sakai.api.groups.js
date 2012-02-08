@@ -1026,11 +1026,11 @@ define(
          * @param {Object} parentRole The role we want to check if it has management rights on the other
          * @param {String} roleToCheck The role to check if it can be managed by
          */
-        determineIfManagesRole : function(parentRole, roleToCheck){
+        determineIfManagesRole : function(parentRole, roleToCheck) {
             var manages = false;
-            if (parentRole.manages){
-                $.each(parentRole.manages, function(i, childRole){
-                    if (childRole === roleToCheck){
+            if (parentRole.manages) {
+                $.each(parentRole.manages, function(i, childRole) {
+                    if (childRole === roleToCheck) {
                         manages = true;
                         return false;
                     }

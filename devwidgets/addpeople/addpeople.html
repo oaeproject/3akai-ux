@@ -58,10 +58,10 @@
                 <hr/>
             {/if}
             <li class="s3d-list-item">
-                {if currentUserRoleData && sakai.api.Groups.determineIfManagesRole(currentUserRoleData, contact.permission) || currentUserRoleData.id === contact.permission}
-                    {eval} managesUser = true {/eval}
+                {if !existingGroup || (currentUserRoleData && sakai.api.Groups.determineIfManagesRole(currentUserRoleData, contact.permission) || currentUserRoleData.id === contact.permission)}
+                    {var managesUser = true}
                 {else}
-                    {eval} managesUser = false {/eval}
+                    {var managesUser = false}
                 {/if}
                 <input type="checkbox" class="addpeople_selected_checkbox" id="${contact.userid|safeOutput}_chkselected" data-userid="${contact.userid|safeOutput}"{if !managesUser} disabled="disabled"{/if}/>
                 <label for="${contact.userid}_chkselected"><img class="s3d-list-entity-picture" src="${contact.picture}" alt="__MSG__PROFILE_PICTURE__"/></label>
@@ -72,10 +72,9 @@
                             {if contact.permission === role.id || contact.permission === role.title}
                                 selected="selected"
                             {/if}
-                            {if currentUserRoleData && !sakai.api.Groups.determineIfManagesRole(currentUserRoleData, role.id) && currentUserRoleData.id !== role.id && contact.permission !== role.id}
+                            {if existingGroup && currentUserRoleData && !sakai.api.Groups.determineIfManagesRole(currentUserRoleData, role.id) && currentUserRoleData.id !== role.id && contact.permission !== role.id}
                                 disabled="disabled"
-                            {/if}
-                        >
+                            {/if}>
                             ${sakai.api.i18n.General.process(role.title)}
                         </option>
                     {/for}
