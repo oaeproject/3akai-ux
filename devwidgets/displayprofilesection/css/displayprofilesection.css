@@ -37,5 +37,7 @@
 #displayprofilesection_container .autosuggest_wrapper{width:55%;}
 #displayprofilesection_container .s3d-form-field-wrapper ul.as-selections{width:100%;}
 
+#displayprofilesection_container .displayprofilesection_field_nonedtiable{float:left;padding:3px 0px;}
+
 /* Validation */
 #displayprofilesection_container .s3d-form-field-wrapper span.s3d-error{margin-left:132px;}
