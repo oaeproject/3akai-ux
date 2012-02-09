@@ -26,7 +26,6 @@
 
 require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.tagcloud.js", "underscore"], function($, sakai, _) {
 
-    console.log(_)
     /**
      * @name sakai_global.tags
      *
