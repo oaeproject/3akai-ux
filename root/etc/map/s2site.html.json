@@ -1,4 +1,4 @@
 {
-  'sling:match': '^[^/]+/[^/]+/s2site',
+  'sling:match': '^[^/]+/[^/]+/s2site(\.html)?',
   'sling:internalRedirect': '/dev/s23/s23_site.html'
 }

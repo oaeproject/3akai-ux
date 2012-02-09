@@ -1,4 +1,4 @@
 {
-  'sling:match': '^[^/]+/[^/]+/500',
+  'sling:match': '^[^/]+/[^/]+/500(\.html)?',
   'sling:internalRedirect': '/dev/500.html'
 }
