@@ -178,7 +178,6 @@
          */
         var loadResultList = function(initial){
             isDoingExtraSearch = true;
-            showHideLoadingContainer(false);
             showHideLoadingContainer(true);
             // If the source is a function that will load the results for us
             if ($.isFunction(source)) {
@@ -232,6 +231,7 @@
          */
         var showHideLoadingContainer = function(show){
             if (show){
+                $loadingContainer.hide();
                 $loadingContainer.show();
             } else {
                 $loadingContainer.hide();
