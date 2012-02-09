@@ -458,20 +458,32 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             // jeditable bindings
+            $(".contentmetadata_editable_for_maintainers_jedit").click(function(e) {
+                if (!$(".contentmetadata_edit_input", $(this)).find("textarea").length && !$(".contentmetadata_edit_area_select", $(this)).find("select").length) {
+                    $(this).addClass("contentmetadata_editing");
+                    $(".contentmetadata_edit_input, .contentmetadata_edit_area_select", $(this)).trigger("openjedit.contentmetadata.sakai");
+                }
+            })
+
+            // setup jeditable for the description textarea
             var placeholder = sakai.api.i18n.getValueForKey("CLICK_TO_EDIT_DESCRIPTION", "contentmetadata");
             var tooltip = sakai.api.i18n.getValueForKey("CLICK_TO_EDIT", "contentmetadata");
             var jeditableUpdate = function(value, settings){
-                var field = $(this).parents(".contentmetadata_editable_for_maintainers_new").attr("data-edit-field");
+                var $editingContainer = $(this).parents(".contentmetadata_editable_for_maintainers_jedit");
+                $editingContainer.removeClass("contentmetadata_editing");
+                var field = $editingContainer.attr("data-edit-field");
                 updateData(field, $.trim(value));
                 return value;
             };
             $('.contentmetadata_edit_area_textarea').editable(jeditableUpdate, {
                 type: 'textarea',
                 onblur: 'submit',
+                event: 'openjedit.contentmetadata.sakai',
                 tooltip: tooltip,
                 placeholder: placeholder
             });
 
+            // setup jeditable for the copyright selection
             var copyrightData = {};
             var selected = false;
             for (var c in sakai.config.Permissions.Copyright.types){
@@ -487,6 +499,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: copyrightData,
                 type: 'select',
                 onblur: 'submit',
+                event: 'openjedit.contentmetadata.sakai',
                 callback: function(value, settings) {
                     $(this).html(settings.data[value]);
                     copyrightData["selected"] = value;
