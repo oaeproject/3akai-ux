@@ -428,7 +428,7 @@ require([ 'jquery' ], function(jQuery) {
                         if ( input.data( "opts" ).scroll ) {
                             input.data( "results_ul" ).css({
                                 "max-height": input.data( "opts" ).scrollHeight,
-                                "overflow-y": "scroll"
+                                "overflow-y": "auto"
                             });
                         }
                         if ( matchCount > 0 || input.data( "opts" ).showResultListWhenNoMatch ) {

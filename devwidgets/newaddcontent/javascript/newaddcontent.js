@@ -982,7 +982,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             }
             $autoSuggestElt = autoSuggestElts[ "new_content" ];
             $autoSuggestListCatElt = $( ".list_categories", "#newaddcontent_upload_content_fields" );
-            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, null, $autoSuggestListCatElt );
+            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, {retrieveLimit:5,scrollHeight:"none"}, $autoSuggestListCatElt );
             $("#newaddcontent_container_lhchoice").find("a:first").focus();
         };
 
@@ -1000,7 +1000,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             }
             $autoSuggestElt = autoSuggestElts[ "new_document" ];
             $autoSuggestListCatElt = $( ".list_categories", "#newaddcontent_add_document_form" );
-            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, null, $autoSuggestListCatElt );
+            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, {retrieveLimit:5,scrollHeight:"none"}, $autoSuggestListCatElt );
         };
 
         var searchPaging = function(pagenum){
@@ -1095,7 +1095,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
 
             $autoSuggestElt = autoSuggestElts[ "new_link" ];
             $autoSuggestListCatElt = $( ".list_categories", "#newaddcontent_add_link_form" );
-            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, null, $autoSuggestListCatElt );
+            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, {retrieveLimit:5,scrollHeight:"none"}, $autoSuggestListCatElt );
         };
 
         ////////////////////

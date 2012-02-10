@@ -131,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }));
             var initialTagsValue = profile[ "sakai:tags" ] ? profile[ "sakai:tags" ] : false;
             $worldsettingsTags = $( worldsettingsTags );
-            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $worldsettingsTags, null, $(".list_categories", $rootel), initialTagsValue );
+            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $worldsettingsTags,{retrieveLimit:5,scrollHeight:"none"}, $(".list_categories", $rootel), initialTagsValue );
         };
 
         /**

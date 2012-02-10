@@ -220,7 +220,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
             }
             $autoSuggestElt = autoSuggestElts[ containerToShow ];
             $autoSuggestListCatElt = $( "#" + containerToShow ).find( ".list_categories" );
-            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, null, $autoSuggestListCatElt );
+            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $autoSuggestElt, {retrieveLimit:5,scrollHeight:"none"}, $autoSuggestListCatElt );
         };
 
         /*

@@ -541,6 +541,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     addBinding();
                     var autoSuggestOpts = {
                         "asHtmlID": tuid,
+                        "retrieveLimit":10,
+                        "scrollHeight":"none",
                         "resultClick":createAutoSuggestedUser
                     };
                     sakai.api.Util.AutoSuggest.setup($addpeopleMembersAutoSuggestField, autoSuggestOpts, function() {
