@@ -242,6 +242,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     } else {
                         addExistingElement(event, ui);
                     }
+                    checkColumnsEmpty();
                 }
     		});
         }
