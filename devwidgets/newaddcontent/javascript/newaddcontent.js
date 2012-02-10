@@ -1252,7 +1252,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             // Initialize the validate plug-in
             var linkValidateOpts = {
                 onclick: true,
-                onkeyup: true,
                 onfocusout: true,
                 success: enableAddToQueue,
                 error: disableAddToQueue
