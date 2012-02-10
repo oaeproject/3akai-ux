@@ -1023,8 +1023,8 @@ define(
         /**
          * Checks if one role managers the other, returns true if the role has management rights
          *
-         * @param {Object} parentRole The role we want to check if it has management rights on the other
-         * @param {String} roleToCheck The role to check if it can be managed by
+         * @param {Object} parentRoleObject The role we want to check if it has management rights on the other
+         * @param {String} roleIdToCheck The role to check if it can be managed by
          */
         hasManagementRights : function(parentRoleObject, roleIdToCheck) {
             var manages = false;
