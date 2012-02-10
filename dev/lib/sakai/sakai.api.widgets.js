@@ -40,6 +40,7 @@ define(
     var sakai = {
         widgets: sakai_widgets_config
     };
+    var oldState = false;
     var sakaiWidgetsAPI = {
         /**
          * @class Container
@@ -736,8 +737,6 @@ define(
                 $(window).trigger(tuid + ".shown.sakai", [showing]);
             });
         },
-
-        oldState : false,
 
         /**
          * This binds to any links with a hash URL and handles the

@@ -44,10 +44,10 @@ define(
          * @param {Boolean} async If we should do an async request or not
          */
         batch : function(_requests, _callback, _cache, _forcePOST, _async) {
-            var method = _forcePOST === true ? "POST" : "GET",
-                cache = _cache === false ? false : true,
-                async = _async === false ? false : true;
-                url = sakai_conf.URL.BATCH;
+            var method = _forcePOST === true ? "POST" : "GET";
+            var cache = _cache === false ? false : true;
+            var async = _async === false ? false : true;
+            var url = sakai_conf.URL.BATCH;
 
             // Append a charset to each request
             $.each(_requests, function(i,req) {
@@ -390,7 +390,7 @@ define(
 
         cleanUpSakaiDocObject: function(pagestructure){
             // Convert the special objects to arrays
-            data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
+            var data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
             var id = pagestructure["_path"];
             var toFilter = ["_", "jcr:", "sakai:", "sling:"];
             var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_canView", "_canEdit", "_canSubedit", "_nonEditable", "_reorderOnly", "_lastModified", "_lastModifiedBy"];
@@ -634,13 +634,34 @@ define(
         createSearchString : function(searchString) {
             var ret = "";
             var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
+            var removeArray = [" AND", " OR"];
+            var truncateLength = 1500;
 
-            if (advancedSearchRegex.test(searchString)) {
-                ret = searchString;
-            } else {
-                ret = $.trim(searchString).split(" ").join(" AND ");
+            ret = $.trim(searchString);
+
+            // We only join every single word with "AND" when
+            // we are sure there it isn't an advanced search query
+            if (!advancedSearchRegex.test(searchString)) {
+                ret = ret.split(" ").join(" AND ");
             }
 
+            if (ret.length > truncateLength) {
+                // Truncate the string just until the maximum length allowed
+                ret = ret.substring(0, truncateLength);
+                // Go back to the end of the previous word, so we don't
+                // truncate in the middle of a word
+                ret = ret.replace(/\w+$/, '');
+            }
+
+            // We need to remove AND & OR if they are the last words
+            // of the querystring. Otherwise we get a 500 exception
+            ret = $.trim(ret);
+            for (var i = 0, j = removeArray.length; i < j; i++) {
+                var item = removeArray[i];
+                if (ret.substr(-item.length) === item) {
+                    ret = ret.substring(0, ret.length - item.length);
+                }
+            }
             return ret;
         }
     };
