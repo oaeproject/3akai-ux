@@ -839,29 +839,55 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Add new element //
         /////////////////////
 
-        var addNewElement = function(event, addedElement){
-            var $row = $(addedElement).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
-            if (addedElement.hasClass("inserterbar_widget_draggable")){
-                var type = addedElement.attr("data-element-type");
-                // Generate unique id
-                var id = sakai.api.Util.generateWidgetId();
-                // Replace item
-                var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
-                    "id": id,
-                    "type": type,
-                    "template": "cell",
-                    "settingsoverridden": false
-                });
-                addedElement.replaceWith($(element));
-                if (type !== "htmlblock" && type !== "pagetitle"){
-                    // Load edit mode
-                    isEditingNewElement = true;
-                    editModeFullScreen(id, type);
-                } else {
-                    sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
-                }
-                setActions();
-            };
+        var addNewElement = function(event, addedElement, clickedElement){
+            if(!clickedElement){
+                var $row = $(addedElement).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
+                if (addedElement.hasClass("inserterbar_widget_draggable")){
+                    var type = addedElement.attr("data-element-type");
+                    // Generate unique id
+                    var id = sakai.api.Util.generateWidgetId();
+                    // Replace item
+                    var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                        "id": id,
+                        "type": type,
+                        "template": "cell",
+                        "settingsoverridden": false
+                    });
+                    addedElement.replaceWith($(element));
+                    if (type !== "htmlblock" && type !== "pagetitle"){
+                        // Load edit mode
+                        isEditingNewElement = true;
+                        editModeFullScreen(id, type);
+                    } else {
+                        sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+                    }
+                    setActions();
+                };
+            } else {
+                var $row = $(addedElement);
+                if (clickedElement.hasClass("inserterbar_widget_draggable")){
+                    var type = clickedElement.attr("data-element-type");
+                    // Generate unique id
+                    var id = sakai.api.Util.generateWidgetId();
+                    // Replace item
+                    var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                        "id": id,
+                        "type": type,
+                        "template": "cell",
+                        "settingsoverridden": false
+                    });
+                    $row.find(".contentauthoring_cell_content:last").append($(element));
+                    if (type !== "htmlblock" && type !== "pagetitle"){
+                        // Load edit mode
+                        isEditingNewElement = true;
+                        editModeFullScreen(id, type);
+                    } else {
+                        sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
+                    }
+                    checkColumnsEmpty();
+                    setActions();
+                };
+            }
         };
 
 
@@ -1189,6 +1215,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             addNewElement(ev, $el);
         });
 
+        $(".inserterbar_widget_draggable").live("keyup", function(ev){
+            if(ev.which === $.ui.keyCode.ENTER){
+                var lastRow = $(".contentauthoring_row").last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
+                addNewElement(ev, lastRow, $(this));
+            }
+        });
+
+        $(".inserterbar_widget_draggable").live("dblclick", function(ev){
+            var lastRow = $(".contentauthoring_row").last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
+            addNewElement(ev, lastRow, $(this));
+        });
 
         /////////////////////////////
         /////////////////////////////

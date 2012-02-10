@@ -254,6 +254,7 @@
 
 .contentauthoring_edit_mode .contentauthoring_cell_reorder_highlight {
     background-color: #e3e5c7;
+    display: block;
     list-style-type: none;
     height:20px;
     cursor: move;
