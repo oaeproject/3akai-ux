@@ -822,6 +822,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $(".contentauthoring_cell_element_action_x").live("click", function(){
             var $cell = $(this).parents(".contentauthoring_cell_element");
+            var $row = $cell.parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
             $cell.find('.tinyMCE').each(function(){
                 tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
             });
@@ -830,8 +831,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             } else {
                 var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
                 $cell.replaceWith(dummy);
-                setHeight(dummy.parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
             }
+            setHeight($row);
         });
 
 
