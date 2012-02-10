@@ -920,7 +920,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".topnavigation_trigger_login").live("click", forceShowLogin);
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
-            $(window).bind("basic.profile.updated.sakai", setUserName);
+            $(window).bind("displayName.profile.updated.sakai", setUserName);
         };
 
 
