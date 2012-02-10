@@ -88,6 +88,16 @@
     min-height:25px;
 }
 
+.contentauthoring_edit_mode *{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
 .contentauthoring_edit_mode .contentauthoring_cell_element_hover,
 .contentauthoring_edit_mode .contentauthoring_cell_element.selected {
     border: 1px solid #4c4c4c;
