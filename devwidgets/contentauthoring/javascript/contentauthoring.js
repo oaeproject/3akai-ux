@@ -1011,6 +1011,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
             sakai.api.Widgets.nofityWidgetShown("#contentauthoring_widget > div:visible", false);
             $("#contentauthoring_widget > div:visible").hide();
+            STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
             if ($("#" + currentPageShown.ref).length === 0 || requiresRefresh) {
                 if (requiresRefresh){
                     $("#" + currentPageShown.ref).find('.tinyMCE').each(function(){
@@ -1026,7 +1027,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 var pageStructure = $.extend(true, {}, currentPageShown.content);
                 pageStructure.template = "all";
                 pageStructure.sakai = sakai;
-                STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
                 $el.html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, STORE_PATH, currentPageShown.content);
             } else {
@@ -1201,7 +1201,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             });
             if (isStillStoringWidgetData){
-                setTimeout(finishSavePage, 100, [rows, widgetIds]);
+                setTimeout(finishSavePage, 100, rows, widgetIds);
             } else {
                 debug.log("Stopped storing widget data");
                 sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
