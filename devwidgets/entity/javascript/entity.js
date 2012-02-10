@@ -375,7 +375,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(data && data.data && data.data["sakai:pooled-content-file-name"]){
                 data.data["sakai:pooled-content-file-name-shorter"] = sakai.api.Util.applyThreeDots(data.data["sakai:pooled-content-file-name"], 800, {
                     whole_word: false
-                }, "", true);
+                }, "");
             }
             renderObj = {
                 "context": context,
