@@ -1939,7 +1939,7 @@ define(
                 $el = $(el);
             }
 
-            var dialogOffset = 100;
+            var dialogOffset = 50;
             if (offset && _.isNumber(offset)){
                 dialogOffset = offset;
             }

@@ -72,22 +72,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Toggle edit mode //
         //////////////////////
 
-        $("#contentauthoring_toggle_edit_mode").bind("click", function(){
-            if (isInEditMode()){
-                $rootel.removeClass("contentauthoring_edit_mode");
-                $(".contentauthoring_cell_content").sortable("destroy");
-                $("#inserterbar_widget").hide();
-            } else {
-                $rootel.addClass("contentauthoring_edit_mode");
-                $("#inserterbar_widget").show();
-                $(window).trigger("edit.contentauthoring.sakai");
-                if (sakai_global.htmlblock && sakai_global.htmlblock.updateHeights) {
-                    sakai_global.htmlblock.updateHeights();
-                }
-                setActions();
-            }
-        });
-
         /**
         * Matches the number of columns to the "columncount" data attribute on list items 
         * that indicates how many are used and puts a black check icon in front of the list item
@@ -178,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          *                      used to search for child cells that can contain content
          */
         var setHeight = function($row) {
-            $(window).trigger("edit.contentauthoring.sakai");
+            //$(window).trigger("edit.contentauthoring.sakai");
             var cells = $('.contentauthoring_cell_content', $row);
             var setDefaultHeight = true
             $.each(cells, function(index, cell){
@@ -1013,6 +997,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var renderPage = function(currentPageShown, requiresRefresh){
+            $rootel.removeClass("contentauthoring_edit_mode");
+            $(window).trigger("render.contentauthoring.sakai");
             if($("#versions_container").is(":visible")){
                 $("#inserterbar_action_revision_history").trigger("click");
             }
@@ -1097,11 +1083,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return false;
         });
 
-        $("#inserterbar_action_edit_page").live("click", function(){
+        var editPage = function(){
+            $(window).trigger("edit.contentauthoring.sakai");
             $(".contentauthoring_empty_content").remove();
             $("#contentauthoring_widget_container").show();
             $rootel.addClass("contentauthoring_edit_mode");
-            $(window).trigger("edit.contentauthoring.sakai");
             setActions();
             updateColumnHandles();
             // Make temporary copy
@@ -1120,9 +1106,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     }
                 }
             });
-        });
+        };
+        $("#inserterbar_action_edit_page").live("click", editPage);
         
         $("#inserterbar_cancel_edit_page").live("click", function(){
+            $(window).trigger("render.contentauthoring.sakai");
             $rootel.removeClass("contentauthoring_edit_mode");
             $(".contentauthoring_cell_content").sortable("destroy");
             $.ajax({
@@ -1140,16 +1128,24 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     sakai.api.Widgets.widgetLoader.widgets[key].widgetData = item;
                 }
             });
+            // Get the widgets in this page and change their save URL
+            var widgets = getWidgetList();
+            for (var w in widgets){
+                if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
+                    sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = STORE_PATH + widgets[w].id + "/" + widgets[w].type + "/";
+                }
+            }
             renderPage(currentPageShown, true);
 
         });
 
         $("#inserterbar_save_edit_page").live("click", function(){
             $(window).trigger("save.contentauthoring.sakai");
+            $(window).trigger("render.contentauthoring.sakai");
             // Generate the new row / column structure
             var rows = [];
             var widgetIds = [];
-            $.each($(".contentauthoring_row_container"), function(rindex, $row){
+            $(".contentauthoring_row_container", $("#" + currentPageShown.ref)).each(function(rindex, $row){
                 $row = $($row);
                 var row = {};
                 row.id = $row.attr("data-row-id");
@@ -1186,6 +1182,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     }
                 });
                 STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+                // Get the widgets in this page and change their save URL
+                var widgets = getWidgetList();
+                for (var w in widgets){
+                    if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
+                        sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = STORE_PATH + widgets[w].id + "/" + widgets[w].type + "/";
+                    }
+                }
                 data.rows = rows;
                 sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
             });
@@ -1223,6 +1226,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $(window).bind("showpage.contentauthoring.sakai", function(ev, _currentPageShown){
             currentPageShown = _currentPageShown;
             renderPage(currentPageShown);
+        });
+
+        $(window).bind("editpage.contentauthoring.sakai", function(ev, _currentPageShown){
+            currentPageShown = _currentPageShown;
+            renderPage(currentPageShown);
+            editPage();
         });
 
         sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content");

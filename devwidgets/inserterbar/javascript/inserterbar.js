@@ -164,24 +164,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var addBinding = function(){
             $inserterbarMoreWidgets.click(showHideMoreWidgets);
-            $("#inserterbar_cancel_edit_page").live("click", function(){
-                $("#inserterbar_more_widgets_container:visible", $rootel).hide();
-                $("#inserterbar_tinymce_container", $rootel).hide();
-                $("#inserterbar_default_widgets_container").hide();
-                editPosition(255);
-                $("#inserterbar_view_container", $rootel).show();
-            });
-            $("#inserterbar_save_edit_page").live("click", function(){
-                $("#inserterbar_more_widgets_container:visible", $rootel).hide();
-                $("#inserterbar_tinymce_container", $rootel).hide();
-                $("#inserterbar_default_widgets_container").hide();
-                editPosition(255);
-                $("#inserterbar_view_container", $rootel).show();
-            });
-            $("#inserterbar_action_edit_page").live("click", function(){
+            $(window).bind("edit.contentauthoring.sakai", function(){
                 $("#inserterbar_view_container", $rootel).hide();
                 editPosition(696);
                 $("#inserterbar_default_widgets_container", $rootel).show();
+            });
+            $(window).bind("render.contentauthoring.sakai", function(){
+                $("#inserterbar_more_widgets_container:visible", $rootel).hide();
+                $("#inserterbar_tinymce_container", $rootel).hide();
+                $("#inserterbar_default_widgets_container").hide();
+                editPosition(255);
+                $("#inserterbar_view_container", $rootel).show();
             });
         };
 
