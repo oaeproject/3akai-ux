@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             if (existingGroup) {
                 $.each($addpeopleSelectedAllPermissions.children(), function(){
                     var roleId = $(this).val();
-                    if (!sakai.api.Groups.determineIfManagesRole(currentUserRoleData, roleId) && currentUserRoleData.id !== roleId) {
+                    if (!sakai.api.Groups.hasManagementRights(currentUserRoleData, roleId) && currentUserRoleData.id !== roleId) {
                         $(this).attr("disabled", "disabled");
                     }
                 });
