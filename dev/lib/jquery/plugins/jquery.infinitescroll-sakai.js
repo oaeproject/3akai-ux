@@ -231,8 +231,7 @@
          */
         var showHideLoadingContainer = function(show){
             if (show){
-                $loadingContainer.hide();
-                $loadingContainer.show();
+                $loadingContainer.hide().show();
             } else {
                 $loadingContainer.hide();
             }
