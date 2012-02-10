@@ -118,10 +118,10 @@ sakai_global.s23_site = function(){
         if (pageid) {
 
             // Remove the active class from the previous selected item
-            $(s23SiteMenuItems).closest("li").removeClass(s23SiteMenuActive);
+            $(s23SiteMenuItems).closest('li').removeClass(s23SiteMenuActive);
             
             // Set the active class to the item you just clicked on
-            $('#' + s23SiteMenuItemTag + pageid.replace(/([~!])/g, '_')).closest("li").addClass(s23SiteMenuActive);
+            $('#' + s23SiteMenuItemTag + pageid.replace(/([~!])/g, '_')).closest('li').addClass(s23SiteMenuActive);
             // Get the page info for a certain page and store it in a variable
             var page = getPageInfo(pageid);
             
