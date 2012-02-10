@@ -95,7 +95,25 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         var renderSelectedContacts = function(){
+            var currentUserDetails = selectedUsers[sakai.data.me.user.userid];
+            var currentUserRoleData = false;
+            $.each(currentTemplate.roles, function(i, roleData) {
+                if (currentUserDetails && currentUserDetails.permission === roleData.id) {
+                    currentUserRoleData = roleData;
+                    return false;
+                }
+            });
+            if (existingGroup) {
+                $.each($addpeopleSelectedAllPermissions.children(), function() {
+                    var roleId = $(this).val();
+                    if (!sakai.api.Groups.hasManagementRights(currentUserRoleData, roleId) && currentUserRoleData.id !== roleId) {
+                        $(this).attr('disabled', 'disabled');
+                    }
+                });
+            }
             $addpeopleSelectedContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleSelectedContactsTemplate, {
+                "currentUserRoleData":currentUserRoleData,
+                "existingGroup":existingGroup,
                 "contacts":selectedUsers,
                 "roles": currentTemplate.roles,
                 "sakai": sakai
@@ -219,7 +237,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var checkAll = function(el, peopleContainer){
             if($(el).is(":checked")){
-                $(peopleContainer).attr("checked","checked");
+                $(peopleContainer + ':not(:disabled)').attr("checked","checked");
                 if (peopleContainer !== addpeopleSelectedCheckbox) {
                     $(peopleContainer).change();
                     renderSelectedContacts();

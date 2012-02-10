@@ -1021,6 +1021,25 @@ define(
             });
         },
 
+        /**
+         * Checks if one role managers the other, returns true if the role has management rights
+         *
+         * @param {Object} parentRoleObject The role we want to check if it has management rights on the other
+         * @param {String} roleIdToCheck The role to check if it can be managed by
+         */
+        hasManagementRights : function(parentRoleObject, roleIdToCheck) {
+            var manages = false;
+            if (parentRoleObject.manages) {
+                $.each(parentRoleObject.manages, function(i, childRole) {
+                    if (childRole === roleIdToCheck) {
+                        manages = true;
+                        return false;
+                    }
+                });
+            }
+            return manages;
+        },
+
         leave : function(groupId, role, meData, callback){
             var reqs = [
                 {
