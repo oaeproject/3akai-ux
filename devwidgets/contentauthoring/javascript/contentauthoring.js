@@ -1017,7 +1017,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
             sakai.api.Widgets.nofityWidgetShown("#contentauthoring_widget > div:visible", false);
             $("#contentauthoring_widget > div:visible").hide();
-            
             if ($("#" + currentPageShown.ref).length === 0 || requiresRefresh) {
                 if (requiresRefresh){
                     $("#" + currentPageShown.ref).find('.tinyMCE').each(function(){
@@ -1133,13 +1132,22 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             });
             STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+
+            // Reset the widget data in the widgetloader
+            $.each(currentPageShown.content, function(key, item){
+                if (key.substring(0,1) !== "_" && key !== "rows" && sakai.api.Widgets.widgetLoader.widgets[key]){
+                    sakai.api.Widgets.widgetLoader.widgets[key].widgetData = item;
+                }
+            });
             renderPage(currentPageShown, true);
+
         });
 
         $("#inserterbar_save_edit_page").live("click", function(){
             $(window).trigger("save.contentauthoring.sakai");
             // Generate the new row / column structure
             var rows = [];
+            var widgetIds = [];
             $.each($(".contentauthoring_row_container"), function(rindex, $row){
                 $row = $($row);
                 var row = {};
@@ -1156,6 +1164,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         element.type = $element.attr("data-element-type");
                         element.id = $element.attr("data-element-id");
                         column.elements.push(element);
+                        widgetIds.push(element.id);
                     });
                     row.columns.push(column);
                 }
@@ -1180,6 +1189,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
             });
             determineEmptyAfterSave();
+
+            // Update the currentPage variable
+            currentPageShown.content = {};
+            currentPageShown.content.rows = rows;
+            $.each(widgetIds, function(key, item){
+                var widgetInfo = sakai.api.Widgets.widgetLoader.widgets[item];
+                currentPageShown.content[item] = (widgetInfo && widgetInfo.widgetData) ? $.extend({}, true, widgetInfo.widgetData) : false;
+            });
+
         });
 
         $(".contentauthoring_dummy_element").live("dblclick", function(ev){
