@@ -1022,7 +1022,7 @@ define(
         },
 
         isJwPlayerSupportedVideo : function(mimeType) {
-            supported = false;
+            var supported = false;
             if (mimeType && mimeType.substring(0, 6) === "video/"){
                 var mimeSuffix = mimeType.substring(6);
                 if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
@@ -1033,7 +1033,7 @@ define(
         },
 
         isJwPlayerSupportedAudio : function(mimeType) {
-            supported = false;
+            var supported = false;
             if (mimeType && mimeType.substring(0, 6) === "audio/"){
                 supported = true;
             }

@@ -258,7 +258,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             var searchterm = contentData["sakai:pooled-content-file-name"].substring(0,400) + " " + managersList + " " + viewersList;
-            searchquery = prepSearchTermForURL(searchterm);
+            var searchquery = prepSearchTermForURL(searchterm);
 
             // get related content for contentData
             // return some search results for now

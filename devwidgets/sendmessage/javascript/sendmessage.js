@@ -307,6 +307,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
                 // show popup
                 if (layover) {
+                    // position dialog box at users scroll position
+                    sakai.api.Util.positionDialogBox(messageDialogContainer);
                     $(messageDialogContainer).jqm({
                         modal: true,
                         overlay: 20,
