@@ -1972,7 +1972,7 @@ define(
     
             migratePageStructure: function(structure, storeURL){
                 var start = new Date().getTime();
-                var newStructure = $.extend({}, true, structure);
+                var newStructure = $.extend(true, {}, structure);
                 if (newStructure.structure0){
                     var json = {};
                     if (typeof newStructure.structure0 === "string"){
