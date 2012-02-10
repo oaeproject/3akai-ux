@@ -1817,6 +1817,17 @@ define(
                     return currentPage;
                 };
 
+                /**
+                 * Make sure that the page has at least one row available, otherwise the user
+                 * won't be able to edit the page
+                 * @param {Object} currentPage    Object representing the migrated Sakai Doc page so far
+                 */
+                var ensureRowPresent = function(currentPage){
+                    if (currentPage.rows.length === 0){
+                        currentPage.rows.push(generateEmptyRow(1));
+                    }
+                };
+
                 $.each(structure0, function(key, item){
                     // Keys with an underscore are system properties. Only keys that
                     // don't start with an _ indicate a page
@@ -1930,6 +1941,7 @@ define(
 
                                 // Add the remaining collected text as the last element of the page
                                 addRowToPage(currentRow, currentPage, 1, currentHTMLBlock);
+                                ensureRowPresent(currentPage);
 
                                 // Add the converted page to the migrated Sakai Doc
                                 json[ref] = currentPage;
@@ -1981,8 +1993,7 @@ define(
                     if (sakai_content.Migrators.requiresMigration(newStructure.structure0, newStructure, false)){
                         json = sakai_content.Migrators.processStructure0(newStructure.structure0, newStructure, json);
                         if (storeURL){
-                            debug.log(json);
-                        //    sakai_serv.saveJSON(storeURL, json);
+                            sakai_serv.saveJSON(storeURL, json);
                         }
                         json.structure0 = structure.structure0;
                         return json;

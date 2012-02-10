@@ -665,7 +665,9 @@ define(
             sakaiWidgetsAPI.widgetLoader.widgets[id].isStoringWidgetData = true;
             // Send a POST request to update/save the data for the widget
             sakai_serv.saveJSON(url, content, function(success, data){
-                callback(success, data);
+                if ($.isFunction(callback)) {
+                    callback(success, data);
+                }
                 sakaiWidgetsAPI.widgetLoader.widgets[id].isStoringWidgetData = false;
             }, removeTree, indexFields);
         },
