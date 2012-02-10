@@ -570,16 +570,18 @@ define(
         },
 
         /**
-         * Check whether a user can manage a piece of content, either by being a direct or
-         * indirect (through group membership) manager
+         * Check whether a user has specific access to a piece of content, either by being a direct or
+         * indirect (through group membership) manager/viewer
          * @param {Object} content      content profile data as defined in loadContentProfile()
-         * @param {Object} meObj        me object of the user you are checking manager permissions for
-         * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
+         * @param {Object} meObj        me object of the user you are checking permissions for
+         * @param {String} permission   specifies the type of access to check (manager or viewer)
+         * @param {Object} directOnly   specifies whether or not the relationship needs to be direct
          */
-        isUserAManager: function(content, meObj, directOnly) {
-            if (content && content["sakai:pooled-content-manager"]) {
-                for (var i = 0; i < content["sakai:pooled-content-manager"].length; i++) {
-                    var authorizable = content["sakai:pooled-content-manager"][i];
+        checkPermissions: function(content, meObj, permission, directOnly) {
+            var authorizable = false;
+            if (content && content['sakai:pooled-content-' + permission]) {
+                for (var i = 0; i < content['sakai:pooled-content-' + permission].length; i++) {
+                    authorizable = content['sakai:pooled-content-' + permission][i];
                     // Direct association
                     if (authorizable === meObj.user.userid) {
                         return true;
@@ -589,7 +591,27 @@ define(
                     }
                 }
             }
+            if (content && content.members && content.members[permission + "s"]) {
+                for (var j = 0; j < content.members[permission + 's'].length; j++) {
+                    authorizable = content.members[permission + 's'][j];
+                    // Check if this user/group library is a manager/viewer
+                    if (authorizable.groupid === meObj.user.userid || authorizable.userid === meObj.user.userid) {
+                        return true;
+                    }
+                }
+            }
             return false;
+        },
+
+        /**
+         * Check whether a user can manage a piece of content, either by being a direct or
+         * indirect (through group membership) manager
+         * @param {Object} content      content profile data as defined in loadContentProfile()
+         * @param {Object} meObj        me object of the user you are checking manager permissions for
+         * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
+         */
+        isUserAManager: function(content, meObj, directOnly) {
+            return sakai_content.checkPermissions(content, meObj, 'manager', directOnly);
         },
 
         /**
@@ -600,19 +622,7 @@ define(
          * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
         isUserAViewer: function(content, meObj, directOnly) {
-            if (content && content["sakai:pooled-content-viewer"]) {
-                for (var i = 0; i < content["sakai:pooled-content-viewer"].length; i++) {
-                    var authorizable = content["sakai:pooled-content-viewer"][i];
-                    // Direct association
-                    if (authorizable === meObj.user.userid) {
-                        return true;
-                    // Indirect association
-                    } else if (!directOnly && sakai_groups.isCurrentUserAMember(authorizable, meObj)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return sakai_content.checkPermissions(content, meObj, 'viewer', directOnly);
         },
 
         /**
@@ -622,9 +632,20 @@ define(
          * @param {Object} userid     authorizable id for which we're checking presence in the library
          */
         isContentInLibrary: function(content, userid){
+            // check if the content is a collection and the ID is the same collection
+            var collectionId = false;
+            if (content.data && sakai_content.Collections.isCollection(content.data)) {
+                collectionId = sakai_content.Collections.getCollectionGroupId(content.data);
+            } else if (content && sakai_content.Collections.isCollection(content)) {
+                collectionId = sakai_content.Collections.getCollectionGroupId(content);
+            }
+            if (collectionId === userid) {
+                return true;
+            }
+
             var fakeMeObj = {
-                "user": {
-                    "userid": userid
+                'user': {
+                    'userid': userid
                 }
             };
             return sakai_content.isUserAViewer(content, fakeMeObj, true) || sakai_content.isUserAManager(content, fakeMeObj, true);
