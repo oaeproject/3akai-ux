@@ -1140,7 +1140,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $("#inserterbar_save_edit_page").live("click", function(){
-            $(window).trigger("save.contentauthoring.sakai");
             $(window).trigger("render.contentauthoring.sakai");
             // Generate the new row / column structure
             var rows = [];
@@ -1190,7 +1189,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     }
                 }
                 data.rows = rows;
-                sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+                sakai.api.Server.saveJSON(STORE_PATH, data, function(){
+                    $(window).trigger("save.contentauthoring.sakai");
+                }, true);
             });
             determineEmptyAfterSave();
 
