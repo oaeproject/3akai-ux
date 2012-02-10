@@ -87,10 +87,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             autoSavePoll = setInterval(autoSave, 5000);
             $(window).bind("save.contentauthoring.sakai", function(){
-                autoSave();
-                var currentText = tinyMCE.get(id).getContent();
-                $("#htmlblock_view_container", $rootel).html(currentText);
-                sakai.api.Util.renderMath($rootel);
+                if ($rootel.is(":visible")) {
+                    autoSave();
+                    var currentText = tinyMCE.get(id).getContent();
+                    $("#htmlblock_view_container", $rootel).html(currentText);
+                    sakai.api.Util.renderMath($rootel);
+                }
             });
         };
         

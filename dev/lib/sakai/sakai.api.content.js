@@ -1981,7 +1981,8 @@ define(
                     if (sakai_content.Migrators.requiresMigration(newStructure.structure0, newStructure, false)){
                         json = sakai_content.Migrators.processStructure0(newStructure.structure0, newStructure, json);
                         if (storeURL){
-                            sakai_serv.saveJSON(storeURL, json);
+                            debug.log(json);
+                        //    sakai_serv.saveJSON(storeURL, json);
                         }
                         json.structure0 = structure.structure0;
                         return json;

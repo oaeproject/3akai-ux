@@ -34,12 +34,12 @@
         <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
             <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
                 <span class="contentauthoring_row_handle fl-force-left" title="Drag me to re-order"></span>
-                {if type !== "htmlblock" && type !== "pagetitle"}
+                {if sakai.widgets[type].hasSettings}
                     <span class="contentauthoring_cell_element_action_e fl-force-left" data-element-id="${id}" data-element-type="${type}" title="__MSG__SETTINGS__"></span>
                 {/if}
                 <span class="contentauthoring_cell_element_action_x fl-force-left" data-element-id="${id}" title="__MSG__DELETE__"></span>
             </div>
-            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle"  && !settingsoverridden)}
+            {if template === "cell" && (sakai.widgets[type].hasSettings && !settingsoverridden)}
                 <div id="${id}"></div>
             {else}
                 <div id="widget_${type}_${id}" class="widget_inline"></div>

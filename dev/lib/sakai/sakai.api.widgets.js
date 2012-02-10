@@ -662,8 +662,12 @@ define(
             }
             sakaiWidgetsAPI.widgetLoader.widgets[id].widgetData = {};
             sakaiWidgetsAPI.widgetLoader.widgets[id].widgetData[sakaiWidgetsAPI.widgetLoader.widgets[id].name] = $.extend(true, {}, content);
+            sakaiWidgetsAPI.widgetLoader.widgets[id].isStoringWidgetData = true;
             // Send a POST request to update/save the data for the widget
-            sakai_serv.saveJSON(url, content, callback, removeTree, indexFields);
+            sakai_serv.saveJSON(url, content, function(success, data){
+                callback(success, data);
+                sakaiWidgetsAPI.widgetLoader.widgets[id].isStoringWidgetData = false;
+            }, removeTree, indexFields);
         },
 
         /**
