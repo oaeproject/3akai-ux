@@ -311,21 +311,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {String} value The new field value
          */
         var updateData = function(field, value) {
-            if (value !== sakai_global.content_profile.content_data.data["sakai:" + field]){
+            if (value !== sakai_global.content_profile.content_data.data['sakai:' + field]) {
                 switch (field) {
-                    case "description":
-                        saveData({"sakai:description": value}, function(success){
+                    case 'description':
+                        saveData({'sakai:description': value}, function(success) {
                             if (success) {
-                                sakai_global.content_profile.content_data.data["sakai:description"] = value;
-                                createActivity("UPDATED_DESCRIPTION");
+                                sakai_global.content_profile.content_data.data['sakai:description'] = value;
+                                createActivity('UPDATED_DESCRIPTION');
                             }
                         });
                         break;
-                    case "copyright":
-                        saveData({"sakai:copyright": value}, function(success){
+                    case 'copyright':
+                        saveData({'sakai:copyright': value}, function(success) {
                             if (success) {
-                                sakai_global.content_profile.content_data.data["sakai:copyright"] = value;
-                                createActivity("UPDATED_COPYRIGHT");
+                                sakai_global.content_profile.content_data.data['sakai:copyright'] = value;
+                                createActivity('UPDATED_COPYRIGHT');
                             }
                         });
                         break;
@@ -338,10 +338,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Object} dataToSave Object containing the field and data to save
          * @param {Function} callback Function to call when the request is completed
          */
-        var saveData = function(dataToSave, callback){
-            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
+        var saveData = function(dataToSave, callback) {
+            var url = '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.json';
             sakai.api.Server.saveJSON(url, dataToSave, function(success, data) {
-                if ($.isFunction(callback)){
+                if ($.isFunction(callback)) {
                     callback(success);
                 }
             });
@@ -385,23 +385,23 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             // jeditable bindings
-            $(".contentmetadata_editable_for_maintainers_jedit").click(function(e) {
-                if (!$(".contentmetadata_edit_input", $(this)).find("textarea").length && !$(".contentmetadata_edit_area_select", $(this)).find("select").length) {
-                    $(this).addClass("contentmetadata_editing");
-                    $(".contentmetadata_edit_input, .contentmetadata_edit_area_select", $(this)).trigger("openjedit.contentmetadata.sakai");
+            $('.contentmetadata_editable_for_maintainers_jedit').click(function(e) {
+                if (!$('.contentmetadata_edit_input', $(this)).find('textarea').length && !$('.contentmetadata_edit_area_select', $(this)).find('select').length) {
+                    $(this).addClass('contentmetadata_editing');
+                    $('.contentmetadata_edit_input, .contentmetadata_edit_area_select', $(this)).trigger('openjedit.contentmetadata.sakai');
                 }
             });
 
             // setup jeditable for the description textarea
-            var placeholder = sakai.api.i18n.getValueForKey("CLICK_TO_EDIT_DESCRIPTION", "contentmetadata");
-            var tooltip = sakai.api.i18n.getValueForKey("CLICK_TO_EDIT", "contentmetadata");
-            var jeditableUpdate = function(value, settings){
-                var $editingContainer = $(this).parents(".contentmetadata_editable_for_maintainers_jedit");
+            var placeholder = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT_DESCRIPTION', 'contentmetadata');
+            var tooltip = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT', 'contentmetadata');
+            var jeditableUpdate = function(value, settings) {
+                var $editingContainer = $(this).parents('.contentmetadata_editable_for_maintainers_jedit');
                 if (!$editingContainer.length) {
                     $editingContainer = $(this);
                 }
-                $editingContainer.removeClass("contentmetadata_editing");
-                var field = $editingContainer.attr("data-edit-field");
+                $editingContainer.removeClass('contentmetadata_editing');
+                var field = $editingContainer.attr('data-edit-field');
                 updateData(field, $.trim(value));
                 return value;
             };
@@ -416,24 +416,25 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // setup jeditable for the copyright selection
             var copyrightData = {};
             var selected = false;
-            for (var c in sakai.config.Permissions.Copyright.types){
-                if (sakai_global.content_profile.content_data.data["sakai:copyright"] === c){
+            for (var c in sakai.config.Permissions.Copyright.types) {
+                if (sakai_global.content_profile.content_data.data['sakai:copyright'] === c) {
                     selected = c;
                 }
-                copyrightData[c] = sakai.api.i18n.getValueForKey(sakai.config.Permissions.Copyright.types[c].title, "contentmetadata");
+                copyrightData[c] = sakai.api.i18n.getValueForKey(sakai.config.Permissions.Copyright.types[c].title, 'contentmetadata');
             }
-            if (selected){
-                copyrightData["selected"] = selected;
+            if (selected) {
+                copyrightData['selected'] = selected;
             }
+            var copyrightCallback = function(value, settings) {
+                $(this).html(settings.data[value]);
+                copyrightData['selected'] = value;
+            };
             $('.contentmetadata_edit_area_select').editable(jeditableUpdate, {
                 data: copyrightData,
                 type: 'select',
                 onblur: 'submit',
                 event: 'openjedit.contentmetadata.sakai',
-                callback: function(value, settings) {
-                    $(this).html(settings.data[value]);
-                    copyrightData["selected"] = value;
-                },
+                callback: copyrightCallback,
                 tooltip: tooltip
             });
         };

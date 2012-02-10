@@ -97,33 +97,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Saves the content/collection name
          * @param {String} newTitle The new content/collection title to save
          */
-        var saveName = function(newTitle){
-            var oldTitle = $.trim($("#entity_name").attr("data-original-title"));
-            $("#entity_name").attr("data-original-title", newTitle);
+        var saveName = function(newTitle) {
+            var oldTitle = $.trim($('#entity_name').attr('data-original-title'));
+            $('#entity_name').attr('data-original-title', newTitle);
             if (newTitle && newTitle !== oldTitle) {
                 $.ajax({
-                    url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
-                    type: "POST",
+                    url: '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.html',
+                    type: 'POST',
                     cache: false,
                     data: {
-                        "sakai:pooled-content-file-name": newTitle
+                        'sakai:pooled-content-file-name': newTitle
                     },
-                    success: function(){
-                        if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
+                    success: function() {
+                        if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)) {
                             // Change the group title as well
                             var groupId = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
                             $.ajax({
-                                "url": "/system/userManager/group/" + groupId + ".update.json",
-                                "type": "POST",
-                                "data": {
-                                    "sakai:group-title": newTitle
+                                'url': '/system/userManager/group/' + groupId + '.update.json',
+                                'type': 'POST',
+                                'data': {
+                                    'sakai:group-title': newTitle
                                 },
-                                "success": function(){
+                                'success': function(){
                                     // Update the me object
                                     var memberships = sakai.api.Groups.getMemberships(sakai.data.me.groups, true);
                                     $.each(memberships.entry, function(index, membership){
-                                        if (membership["sakai:group-id"] === groupId){
-                                            membership["sakai:group-title"] = newTitle;
+                                        if (membership['sakai:group-id'] === groupId){
+                                            membership['sakai:group-title'] = newTitle;
                                         }
                                     });
                                     finishChangeTitle(newTitle);
@@ -137,14 +137,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var finishChangeTitle = function(newTitle){
-            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.safeOutput(newTitle);
+        var finishChangeTitle = function(newTitle) {
+            sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'] = sakai.api.Security.safeOutput(newTitle);
             // Export as IMS Package
-            if (sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data) === "x-sakai/document"){
-                $("#contentpreview_download_button").attr("href", "/imscp/" + sakai_global.content_profile.content_data.data["_path"] + "/" + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]) + ".zip");
+            if (sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data) === 'x-sakai/document') {
+                $('#contentpreview_download_button').attr('href', '/imscp/' + sakai_global.content_profile.content_data.data['_path'] + '/' + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']) + '.zip');
             // Download as a normal file
             } else {
-                $("#contentpreview_download_button").attr("href", sakai_global.content_profile.content_data.smallPath + "/" + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]));
+                $('#contentpreview_download_button').attr('href', sakai_global.content_profile.content_data.smallPath + '/' + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']));
             }
         };
 
@@ -286,27 +286,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var entityNameEditable = "#entity_name.entity_name_editable";
 
                     $(entityNameEditable).click(function(e) {
-                        if (!$(this).find("input").length) {
-                            $(this).addClass("entity_name_editing");
-                            $(this).text($.trim($("#entity_name").attr("data-original-title")));
-                            $(this).trigger("openjedit.entity.sakai");
+                        if (!$(this).find('input').length) {
+                            $(this).addClass('entity_name_editing');
+                            $(this).text($.trim($('#entity_name').attr('data-original-title')));
+                            $(this).trigger('openjedit.entity.sakai');
                         }
                     });
                     // setup jeditable for the content name field
-                    $(entityNameEditable).editable(function(value, settings){
-                            $(this).removeClass("entity_name_editing");
-                            saveName($.trim(value));
-                            return value;
-                        }, {
+                    var nameUpdate = function(value, settings){
+                        $(this).removeClass('entity_name_editing');
+                        saveName($.trim(value));
+                        return value;
+                    };
+                    var nameCallback = function(value, settings) {
+                        var newDottedTitle = sakai.api.Util.applyThreeDots($.trim(value), 800, {
+                            whole_word: false
+                        }, '');
+                        $(this).text(newDottedTitle);
+                    };
+                    $(entityNameEditable).editable(nameUpdate, {
                         type: 'text',
                         onblur: 'submit',
                         event: 'openjedit.entity.sakai',
-                        callback: function(value, settings) {
-                            var newDottedTitle = sakai.api.Util.applyThreeDots($.trim(value), 800, {
-                                whole_word: false
-                            }, "");
-                            $(this).text(newDottedTitle);
-                        }
+                        callback: nameCallback
                     });
 
                     $entityContentUsersDialog.jqm({
