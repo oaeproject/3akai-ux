@@ -104,10 +104,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 }
             });
             if (existingGroup) {
-                $.each($addpeopleSelectedAllPermissions.children(), function(){
+                $.each($addpeopleSelectedAllPermissions.children(), function() {
                     var roleId = $(this).val();
                     if (!sakai.api.Groups.hasManagementRights(currentUserRoleData, roleId) && currentUserRoleData.id !== roleId) {
-                        $(this).attr("disabled", "disabled");
+                        $(this).attr('disabled', 'disabled');
                     }
                 });
             }
@@ -237,7 +237,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var checkAll = function(el, peopleContainer){
             if($(el).is(":checked")){
-                $(peopleContainer + ":not(:disabled)").attr("checked","checked");
+                $(peopleContainer + ':not(:disabled)').attr("checked","checked");
                 if (peopleContainer !== addpeopleSelectedCheckbox) {
                     $(peopleContainer).change();
                     renderSelectedContacts();
