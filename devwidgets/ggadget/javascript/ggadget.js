@@ -229,11 +229,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var previewGadget = function() {
             // get the src attribute of the embed script tag, and define a html render rather than JS
             var urlValue = false;
-            if ($($(remotecontentSettingsUrl).val()).length && $($(remotecontentSettingsUrl).val()).attr("src")){
+            if ($($(remotecontentSettingsUrl).val()).length && $($(remotecontentSettingsUrl).val()).attr("src")) {
                 urlValue = $($(remotecontentSettingsUrl).val()).attr("src").replace("output=js", "output=html");
             }
 
-            if (urlValue && urlValue !== "") {
+            if (urlValue && urlValue !== '') {
                 // Get size of the gadget from the embed code
                 var rawParams = urlValue.split("&");
                 for (var i = 0, il = rawParams.length; i < il; i++) {
