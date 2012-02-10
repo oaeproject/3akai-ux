@@ -20,7 +20,7 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-.htmlblock_widget {min-height: 25px;}
+.htmlblock_widget {min-height: 25px; word-wrap: break-word;}
 
 #htmlblock_view_container {display:block;}
 #htmlblock_view_container table {min-width: 200px;}
