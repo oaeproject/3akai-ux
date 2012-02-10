@@ -799,6 +799,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         sakai_global.contentauthoring.widgetCancel = function(){
             if (isEditingNewElement){
                 $(".contentauthoring_cell_element #" + currentlyEditing).parent().remove();
+                checkColumnsEmpty();
             }
             isEditingNewElement = false;
             $('#contentauthoring_widget_settings').jqmHide();
