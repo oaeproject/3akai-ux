@@ -46,7 +46,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (sakai.config.enableCategories) {
                 var catcount = 0;
                 for (var i in sakai.config.Directory) {
-                    if (sakai.config.Directory.hasOwnProperty(i)) {
+                    if (sakai.config.Directory.hasOwnProperty(i) && !sakai.config.Directory[i].divider) {
                         catcount+=1;
                     }
                 }
@@ -60,7 +60,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var obj = {};
             for (var c = 0; c < sakai.config.worldTemplates.length; c++){
                 var world = sakai.config.worldTemplates[c];
-                world.label = sakai.api.i18n.getValueForKey(world.title);
+                world.label = sakai.api.i18n.getValueForKey(world.titlePlural);
                 if(c===sakai.config.worldTemplates.length-1){
                     world.last = true;
                 }
@@ -76,7 +76,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
             if (sakai.data.me.user.anon){
                 $signinbuttonwrapper.show();
-                $signinbutton.live("click", forceLoginOverlay);
 
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
@@ -110,11 +109,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             $searchButton.click(doSearch);
-        };
-
-        var forceLoginOverlay = function(){
-            $("#topnavigation_user_options_login_fields").addClass("topnavigation_force_submenu_display");
-            $("#topnavigation_user_options_login_wrapper").addClass("topnavigation_force_submenu_display_title");
         };
 
         doInit();

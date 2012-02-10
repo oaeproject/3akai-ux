@@ -23,6 +23,7 @@
 .inbox_title_bar span,.inbox_items span{color:#878A8C;font-size:0.9em;}
 #inbox_search_term{margin:10px 0px;}
 #inbox_search_term span{font-weight:bold;}
+.inbox_select_all_container {float:left;height:19px !important;margin:5px 8px 0 1px;padding:2px 0 0 !important;width:22px;}
 /* Message Header */
 #inbox_message_header{float:left;width:100%;padding:5px 0 18px;}
 #inbox_select span{font-size:9px;}
@@ -47,9 +48,12 @@
 .inbox_items_inner img.person_icon,#inbox_show_message_reply img.person_icon{float:left;padding:0 10px 5px 0;width:30px;}
 .inbox_items_inner.hover{background-color:#C4E4FB;}
 .inbox_name{width:69%;overflow:hidden;display:inline-block;}
+.inbox_name button{margin-right:3px;}
 .inbox_name span,.inbox_name a,.inbox_name button{float:left;}
+.inbox_name span button{float:none;margin:0;}
+.inbox_name span button.inbox_to_group{color:#666666;}
 .inbox_name span{min-width:30%;}
-.inbox_to_list{font-size:11px;margin-left:3px;display:inline-block;}
+.inbox_to_list{font-size:11px;display:inline-block;}
 .inbox_date{width:25%;text-align:right;overflow:hidden;display:inline-block;float:right;}
 .inbox_subject{width:100%;display:inline-block;vertical-align:top;}
 .inbox_excerpt{height:32px;display:inline-block;width:100%;overflow:hidden;margin-top:11px;}

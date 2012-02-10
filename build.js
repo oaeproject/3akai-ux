@@ -24,10 +24,13 @@
     baseUrl: "./dev/lib",
 
     //Set paths for modules. If relative paths, set relative to baseUrl above.
+    //If you change these paths, please check out
+    //https://confluence.sakaiproject.org/x/sq_CB
     paths: {
         "jquery-plugins": "jquery/plugins",
         "jquery": "jquery/jquery-1.7.0",
         "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
+        "underscore": "misc/underscore",
         "config": "../configuration"
     },
 

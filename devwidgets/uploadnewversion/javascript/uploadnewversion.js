@@ -24,7 +24,7 @@
  * /dev/lib/jquery/plugins/jquery.form.js (ajaxForm)
  */
 
-/*global, fluid, window, $ */
+/*global, window, $ */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
@@ -123,18 +123,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 overlay: 20,
                 toTop: true
             });
+
             // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
-            if (htmlScrollPos > 0) {
-                $uploadnewversionContainer.css({
-                    "top": htmlScrollPos + 100 + "px"
-                });
-            } else if (docScrollPos > 0) {
-                $uploadnewversionContainer.css({
-                    "top": docScrollPos + 100 + "px"
-                });
-            }
+            sakai.api.Util.positionDialogBox($uploadnewversionContainer);
+
+            sakai.api.Util.bindDialogFocus($uploadnewversionContainer);
+
             $uploadnewversionContainer.jqmShow();
 
             $uploadnewversionUploading.jqm({

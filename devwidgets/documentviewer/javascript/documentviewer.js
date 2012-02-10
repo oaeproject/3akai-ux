@@ -39,9 +39,10 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.documentviewer = function(tuid,showSettings,widgetData){
-        
-        var documentviewerPreview = "#" + tuid + " #documentviewer_preview";
-        var $documentviewerPreview = $(documentviewerPreview);
+
+        var $rootel = $("#" + tuid);
+        var $documentviewerPreview = $("#documentviewer_preview", $rootel);
+        var documentviewerPreviewSelector = "#" + tuid + " .documentviewer_preview";
         var templateObject = {};
 
         var getPath = function(data) {
@@ -61,7 +62,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     }
                 }
             };
-            var container = documentviewerPreview;
+            var container = documentviewerPreviewSelector;
             DV.load(pdfDoc, {
                 container: container,
                 width: "100%",
@@ -78,8 +79,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             if (date){
                 templateObject.contentURL += "?_=" + date.getTime();
             }
-            sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#" + tuid + " #documentviewer_image_calculatesize"));
-            var $imageRendered = $("#"+tuid+" #documentviewer_image_rendered");
+            sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#documentviewer_image_calculatesize", $rootel));
+            var $imageRendered = $("#documentviewer_image_rendered", $rootel);
             $imageRendered.bind('load', function(ev){
                 var width = $imageRendered.width();
                 var height = $imageRendered.height();
@@ -101,23 +102,14 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
 
         var renderHTMLPreview = function(data){
             sakai.api.Util.TemplateRenderer("documentviewer_html_template", templateObject, $documentviewerPreview);
-            $("#documentviewer_html_iframe").attr("src", getPath(data));
-            $("#documentviewer_html_iframe").attr("frameborder", "0");
-        };
-
-        var renderPlainTextPreview = function(data){
-            $.ajax({
-                url: getPath(data),
-                success: function(txt){
-                    sakai.api.Util.TemplateRenderer("documentviewer_plaintext_template", {plaintext: txt}, $documentviewerPreview);
-                }
-            });
+            $("#documentviewer_html_iframe", $rootel).attr("src", getPath(data));
+            $("#documentviewer_html_iframe", $rootel).attr("frameborder", "0");
         };
 
         var renderExternalHTMLPreview = function(url){
             sakai.api.Util.TemplateRenderer("documentviewer_externalhtml_template", templateObject, $documentviewerPreview);
-            $("#documentviewer_externalhtml_iframe").attr("src", url);
-            $("#documentviewer_externalhtml_iframe").attr("frameborder", "0");
+            $("#documentviewer_externalhtml_iframe", $rootel).attr("src", url);
+            $("#documentviewer_externalhtml_iframe", $rootel).attr("frameborder", "0");
         };
 
          var renderKalturaPlayer = function(data){
@@ -263,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 renderAudioPlayer(data);
             } else if (mimeType === "application/x-shockwave-flash") {
                 renderFlashPlayer(data);
-            } else if (mimeType === "text/html") {
+            } else if (mimeType === "text/html" || mimeType === "text/plain" || mimeType ==="text/tab-separated-values" ) {
                 renderHTMLPreview(data);
             } else if (mimeType === "x-sakai/link"){
                 var pUrl = data["sakai:preview-url"];
@@ -284,8 +276,6 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     pUrl = widgetData["sakai:pooled-content-url"];
                     renderExternalHTMLPreview(pUrl);
                 }
-            } else if (mimeType.substring(0, 5) === "text/") {
-                renderPlainTextPreview(data);
             } else  if (mimeType.substring(0, 6) === "image/") {
                 renderImagePreview(getPath(data), data["_bodyLastModified"]);
             } else if (data["sakai:pagecount"]){

@@ -73,6 +73,8 @@ if(Array.hasOwnProperty("indexOf") === false){
 
 require({
     baseUrl:"../../../../dev/lib/",
+    //If you change these paths, please check out
+    //https://confluence.sakaiproject.org/x/sq_CB
     paths: {
         "jquery-plugins": "jquery/plugins",
         "jquery": "jquery/jquery-1.7.0",
@@ -93,13 +95,12 @@ require(
         "config/config_custom",
         "jquery-ui",
         "jquery-plugins/jquery.validate",
-        "jquery-plugins/jquery.autoSuggest.sakai-edited",
+        "jquery-plugins/jquery.autoSuggest",
         "misc/l10n/globalize",
         "misc/underscore",
         "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
         "misc/querystring",
-        "fluid/3akai_Infusion",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",

@@ -1,0 +1,29 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/templategenerator/css/templategenerator.css" />
+
+<div id="templategenerator_container" class="templategenerator_widget s3d-widget-content templategenerator_dialog s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__EXPORT_AS_TEMPLATE__</h1>
+    <!-- FORM -->
+    <form id="templategenerator_form">
+        <div class="s3d-form-field-wrapper">
+            <p>__MSG__TEMPLATEGENERATOR_EXPORT_INFO__</p>
+            <label class="s3d-input-label s3d-input-label-above" for="templategenerator_title">__MSG__TITLE__:</label>
+            <input type="text" id="templategenerator_title" name="templategenerator_title" class="required s3d-input-full-width"/>
+            <label class="s3d-input-label s3d-input-label-above" for="templategenerator_used_for">__MSG__TEMPLATEGENERATOR_USED_FOR__:</label>
+            <textarea id="templategenerator_used_for" class="s3d-input-full-width"></textarea>
+            <!-- BUTTONS -->
+            <div class="dialog_buttons fl-force-right">
+                <button type="button" class="s3d-link-button s3d-bold jqmClose cr">__MSG__CANCEL__</button>
+                <button type="submit" class="s3d-button s3d-overlay-button" id="templategenerator_export_button">__MSG__EXPORT_AS_TEMPLATE__</button>
+            </div>
+        </div>
+        <hr class="fl-push fl-hidden"/>
+    </form>
+    <div id="templategenerator_export"></div>
+</div>
+
+<div id="templategenerator_admin_message_template" style="display:none;"><!--__MSG__TEMPLATEGENERATOR_ADMIN_MESSAGE__--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/templategenerator/javascript/templategenerator.js"/>

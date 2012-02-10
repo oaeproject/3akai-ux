@@ -15,14 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*
- * Dependencies
- *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
- * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js (autoSuggest)
- */
-/*global $ */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
@@ -118,8 +110,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $embedcontent_primary_display.hide();
                 $embedcontent_alt_display.show();
             }
-            $("#as-values-" + tuid).val("");
-            $(".as-selection-item").remove();
             if (wData && wData.items && wData.items.length) {
                 setCurrentFiles();
             }
@@ -130,6 +120,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             wData.showDefaultContent = false;
             var docData = {};
             $.each(wData.items, function(index, value) {
+                if (value.description){
+                    value.description = sakai.api.Util.applyThreeDots(value.description, 680, {max_rows: 3});
+                }
+                
                 if (value.fullresult) {
                     var placement = "ecDocViewer" + tuid + value["_path"] + index;
                     wData.items[index].placement = placement;
@@ -138,6 +132,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         url: window.location.protocol + '//' + window.location.host + "/p/" + value.fullresult['jrc:name']
                     };
                 }
+            });
+            // Sort the items alphabetically for now
+            wData.items.sort(function( a, b ) {
+                return sakai.api.Util.Sorting.naturalSort( a.name, b.name );
             });
             // boolean are return as string from ajax call so change back to boolean value
             wData.download = wData.download === "true" || wData.download === true;
@@ -151,10 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Do a reset of the embed screen
          */
         var doReset = function() {
-            $("#as-values-" + tuid).val("");
-            $(".as-selection-item").remove();
-            // $embedcontent_alternative_display_name_value.val('');
-            //         $embedcontent_description_value.val('');
+            sakai.api.Util.AutoSuggest.reset( $embedcontent_content_input );
         };
 
         var toggleButtons = function(doDisable) {
@@ -189,11 +184,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "description": result["sakai:description"] || "",
                 "path": "/p/" + (name || result['_path']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
-                "link": sakai.api.Util.safeURL((name || result['_path'])) + "/" + sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']),
                 "_path": result['_path'],
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "fullresult" : result
             };
+            var link = sakai.api.Util.safeURL(name || result['_path']) + "/" + sakai.api.Util.safeURL(result['sakai:pooled-content-file-name']);
+            if (dataObj._mimeType === "x-sakai/link"){
+                dataObj.downloadLink = result["sakai:pooled-content-url"];
+                dataObj.contentProfileLink = "/content#p=" + link;
+            } else {
+                dataObj.downloadLink = "/p/" + link;
+                dataObj.contentProfileLink = "/content#p=" + link;
+            }
 
             // if the type is application need to auto check the display name so set ispreviewexist false
             if(dataObj.filetype === "application") {
@@ -226,7 +228,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * When typing in the suggest box this function is executed to provide the user with a list of possible autocompletions
          */
         var setupAutoSuggest = function() {
-            sakai.api.Util.AutoSuggest.setup($embedcontent_content_input,{
+            var dataFn = function( query, add ) {
+                var q = sakai.api.Server.createSearchString(query);
+                var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
+                searchUrl = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
+                sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+                    if (success) {
+                        var suggestions = [];
+                        $.each(data.results, function(i) {
+                            var dataObj = createDataObject(data.results[i]);
+                            var doAdd = true;
+                            if (embedConfig.filter) {
+                                if (dataObj.filetype !== embedConfig.filter) {
+                                    doAdd = false;
+                                }
+                            }
+                            if (doAdd) {
+                                suggestions.push(dataObj);
+                            }
+                        });
+                        add( suggestions, query );
+                    }
+                }, options);
+            };
+            sakai.api.Util.AutoSuggest.setup($embedcontent_content_input, {
                 asHtmlID: tuid,
                 retrieveLimit: 10,
                 selectionLimit: embedConfig.limit,
@@ -235,36 +260,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 selectionRemoved: function(elem) {
                     autosuggestSelectionRemoved(elem);
-                },
-                selectionAdded: function(elem) {
-                    if (elem.attr("id").indexOf("as-selection-notfound") > -1) {
-                        elem.addClass("embedcontent_selection_notfound");
-                    }
-                },
-                source: function(query, add) {
-                    var q = sakai.api.Server.createSearchString(query);
-                    var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
-                    searchUrl = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
-                    sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                        if (success) {
-                            var suggestions = [];
-                            $.each(data.results, function(i) {
-                                var dataObj = createDataObject(data.results[i]);
-                                var doAdd = true;
-                                if (embedConfig.filter) {
-                                    if (dataObj.filetype !== embedConfig.filter) {
-                                        doAdd = false;
-                                    }
-                                }
-                                if (doAdd) {
-                                    suggestions.push(dataObj);
-                                }
-                            });
-                            add(suggestions);
-                        }
-                    }, options);
                 }
-            });
+            }, false, dataFn);
         };
 
         /**
@@ -285,9 +282,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(wData.items, function(i,val) {
                 autosuggestSelectionAdded(val);
                 if (val.value) {
-                    $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
+                    $embedcontent_content_input.autoSuggest( "add_selected_item", val, val.value);
                 } else {
-                    $embedcontent_content_input.autoSuggest.add_selected_item({name:$embedcontent_item_unavailable_text.text(), value:"notfound"+Math.ceil(Math.random() * 9999)}, "notfound");
+                    $embedcontent_content_input.autoSuggest( "add_selected_item", {name:$embedcontent_item_unavailable_text.text(), value:"notfound"+Math.ceil(Math.random() * 9999)}, "notfound");
                 }
             });
             $(".as-original input.as-input").val('').focus();
@@ -332,14 +329,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 filesPicked++;
             });
             // revisit this next conditional -- right now it'll clear out all selections, not just add up to the limit
-            if (embedConfig.limit && filesPicked && ($(".as-selection-item").length + filesPicked) > embedConfig.limit) {
-                $("#as-values-" + tuid).val('');
-                $(".as-selection-item").remove();
+            if (embedConfig.limit && filesPicked && ($(".as-selection-item", "#embedcontent_settings").length + filesPicked) > embedConfig.limit) {
+                doReset();
             }
             $.each(files, function(i,val) {
                 var newObj = createDataObject(val, val["_path"]);
                 autosuggestSelectionAdded(newObj);
-                $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
+                $embedcontent_content_input.autoSuggest( "add_selected_item", newObj, newObj.value);
             });
             $("input[id='" + tuid + "']").val('').focus();
         };
@@ -355,7 +351,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  success: function(data) {
                      var newObj = createDataObject(data, val.url.split("/p/")[1]);
                      autosuggestSelectionAdded(newObj);
-                     $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
+                     $embedcontent_content_input.autoSuggest( "add_selected_item", newObj, newObj.value);
                  }
               });
           });
@@ -421,36 +417,53 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var newItems = [];
-        var processWidget = function(item, items) {
+        var processWidget = function(data, callback) {
             var ret = false;
-            if (item.notfound) {
-                newItems.push({type:"notfound"});
-                if (newItems.length === items.length) {
-                    wData.items = newItems;
-                    ret = true;
+            var batchRequests = [];
+            for (var i = 0, j = data.items.length; i < j; i++) {
+                if (data.items[i].notfound) {
+                    newItems.push({
+                        type: "notfound",
+                        name: $embedcontent_item_unavailable_text.text(),
+                        value: "notfound1" + i
+                    });
+                    if (newItems.length === data.items.length) {
+                        wData.items = newItems;
+                        ret = true;
+                    }
+                } else {
+                    batchRequests.push({
+                        url: data.items[i] + ".2.json",
+                        method: "GET"
+                    });
                 }
-            } else {
-               $.ajax({
-                    url: sakai.config.SakaiDomain + item + ".2.json",
-                    // we have to wait for them all to return anyway, so
-                    // no need to make them async calls
-                    async:false,
-                    success: function(data) {
-                        var newItem = createDataObject(data);
-                        newItems.push(newItem);
-                    },
-                    error: function(data) {
-                        newItems.push({type:"notfound"});
-                    },
-                    complete: function() {
-                        if (newItems.length === items.length) {
-                            wData.items = newItems;
-                            ret = true;
-                        }
+            }
+
+            if (batchRequests.length > 0) {
+                sakai.api.Server.batch(batchRequests, function(success, response){
+                    if (success) {
+                        $.each(response.results, function(index, item){
+                            if (item.success && item.body){
+                                var newItem = createDataObject($.parseJSON(item.body));
+                                newItems.push(newItem);
+                            } else {
+                                newItems.push({
+                                    type: "notfound",
+                                    name: $embedcontent_item_unavailable_text.text(),
+                                    value: "notfound2" + index
+                                });
+                            }
+                        });
+                        wData.items = newItems;
+                        ret = true;
+                    }
+                    if ($.isFunction(callback)) {
+                        callback(ret);
                     }
                 });
+            } else if ($.isFunction(callback)) {
+                callback(ret);
             }
-            return ret;
         };
 
         var getWidgetData = function(callback) {
@@ -469,13 +482,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 firstLoad = false;
                 newItems = [];
                 // get the item profile data
-                for (var i = 0, j = data.items.length; i < j; i++) {
-                    if (processWidget(data.items[i], data.items)) {
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                        }
-                    }
-                }
+                processWidget(data, callback);
             } else {
                 if ($.isFunction(callback)) {
                     callback(false);
@@ -582,18 +589,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
-        $(window).unbind("finished.pickeradvanced.sakai"); 	
+        $(window).unbind("finished.pickeradvanced.sakai");
         $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
 
         $(window).unbind("done.newaddcontent.sakai");
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            var obj = {};
-            for (var i = 0; i < data.length; i++){
-                obj[data[i]._path] = data[i];
+            if ($rootel.is(":visible") && (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
+                var obj = {};
+                for (var i = 0; i < data.length; i++){
+                    obj[data[i]._path] = data[i];
+                }
+                addChoicesFromPickeradvanced(obj);
             }
-            addChoicesFromPickeradvanced(obj);
         });
 
         $(window).unbind("ready.pickeradvanced.sakai");
@@ -611,9 +620,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
         
         var renderDefaultContent = function(){
-            $("#embedcontent_content", $rootel).html(sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
+            sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
                 "showDefaultContent": true
-            }));
+            }, $("#embedcontent_content", $rootel));
         };
 
         var doInit = function() {
@@ -634,6 +643,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     renderSettings();
                     $embedcontent_settings.show();
+                    $(".as-selections input:visible", $rootel).focus();
                 } else if (!success) {
                     renderDefaultContent();
                     $embedcontent_main_container.show();

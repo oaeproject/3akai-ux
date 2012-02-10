@@ -3,22 +3,19 @@
 
 <div class="s3d-widget-container" id="contentmetadata_container">
     <div class="s3d-contentpage-title metadata">__MSG__DETAILS__</div>
-    <div id="contentmetadata_description_container" class="contentmetadata_editable_for_maintainers">
+    <div id="contentmetadata_description_container" class="contentmetadata_editable_for_maintainers" data-edit-field="description">
         <!-- -->
     </div>
-    <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers last">
+    <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers last" data-edit-field="tags">
         <!-- -->
     </div>
-    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers last" style="display:none;">
+    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers last" style="display:none;" data-edit-field="url">
         <!-- -->
     </div>
-    <div id="contentmetadata_copyright_container" class="collapsible_container contentmetadata_editable_for_maintainers" style="display:none;">
+    <div id="contentmetadata_copyright_container" class="collapsible_container contentmetadata_editable_for_maintainers" style="display:none;" data-edit-field="copyright">
         <!-- -->
     </div>
-    <div id="contentmetadata_locations_container" class="collapsible_container contentmetadata_editable_for_maintainers" style="display:none;">
-        <!-- -->
-    </div>
-    <div id="contentmetadata_details_container" class="collapsible_container last" style="display:none;">
+    <div id="contentmetadata_details_container" class="collapsible_container last" style="display:none;" data-edit-field="details">
         <!-- -->
     </div>
     <div class="s3d-widget-footer">
@@ -33,26 +30,32 @@
     {if data.mode === "edit"}
         <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input" title="__MSG__EDIT_DESCRIPTION__">${data.data["sakai:description"]}</textarea>
     {else}
-        <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data.data["sakai:description"]) != ""}${data.data["sakai:description"]|safeOutput}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_DESCRIPTION__</span>{else}__MSG__NO_DESCRIPTION__{/if}{/if}</span>
+        <span id="contentmetadata_description_display">{if $.trim(data.data["sakai:description"]) != ""}${data.data["sakai:description"]|safeOutput}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_DESCRIPTION__</span>{else}__MSG__NO_DESCRIPTION__{/if}{/if}</span>
     {/if}
 --></div>
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
         {if data.mode === "edit"}
-            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input" title="__MSG__EDIT_TAGS__">{if tags && tags.length > 0}{for tag in tags}{if tag_index > 0},&nbsp;{/if}${tag}{/for}{/if}</textarea>
+            <div class="autosuggest_wrapper">
+                <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
+                <textarea id="contentmetadata_tags_tags" title="__MSG__EDIT_TAGS_AND_CATEGORIES__"></textarea>
+            </div>
         {else}
-            <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
+            <span class="contentmetadata_first_column">__MSG__TAGS_AND_CATEGORIES__:</span>
             {if tags && tags.length > 0}
                 <span class="contentmetadata_second_column">
                     {for tag in tags}
-                        {if tag_index > 0},{/if} 
-                        <a href="/search#q=${tag|safeURL}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag|safeOutput}'"">${tag|safeOutput}</a>
+                        {if tag_index > 0},{/if}
+                        <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>
                     {/for}
                 </span>
             {else}
-                <span class="contentmetadata_click">
-                {if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_TAGS__</span>{else}__MSG__NO_TAGS__{/if}
-                </span>
+                {if data.isManager}
+                   <label class="contentmetadata_manager_edit content_profile_basic_info_form_anon_label">__MSG__CLICK_TO_EDIT_TAGS__
+                {else}
+                    <label class="content_profile_basic_info_form_anon_label">__MSG__NO_TAGS__
+                {/if}
+                </label>
             {/if}
         {/if}
 --></div>
@@ -62,7 +65,7 @@
         <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input" title="__MSG__EDIT_URL__">${data.data["sakai:pooled-content-url"]}</textarea>
     {else}
         <span class="contentmetadata_first_column">__MSG__URL__:</span>
-        <span id="contentmetadata_url_display" {if data.isManager}class="contentmetadata_click"{/if}>{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${data.data["sakai:pooled-content-url"]}">${data.data["sakai:pooled-content-url"]}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
+        <span class="contentmetadata_second_column" id="contentmetadata_url_display">{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${data.data["sakai:pooled-content-url"]}">${data.data["sakai:pooled-content-url"]}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
     {/if}
 --></div>
 
@@ -85,34 +88,22 @@
         {/if}
 --></div>
 
-<div id="contentmetadata_locations_template" style="display:none;"><!--
-        <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
-        {if directorylocations.length != 0}
-            <ul>
-                {for dir in directorylocations}
-                    <li>
-                        <a href="/category#l=${data.saveddirectory[dir_index].toString().replace(",", "-")}" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
-                            ${dir|safeOutput}
-                        </a>
-                    </li>
-                {/for}
-            </ul>
-        {else}
-            {if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_LOCATIONS__</span>{else}__MSG__NO_LOCATIONS__{/if}
-        {/if}
---></div>
-
 <div id="contentmetadata_details_template" style="display:none;"><!--
         {var mimeType = sakai.api.Content.getMimeType(data.data)}
         {if mimeType === "x-sakai/link"}
             <div class="contentmetadata_content_row">
                 <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
-                <span>Link</span>
+                <span>__MSG__LINK__</span>
             </div>
         {elseif mimeType === "x-sakai/document"}
             <div class="contentmetadata_content_row">
                 <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
-                <span>Document</span>
+                <span>__MSG__DOCUMENT__</span>
+            </div>
+        {elseif mimeType === "x-sakai/collection"}
+            <div class="contentmetadata_content_row">
+                <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
+                <span>__MSG__COLLECTION__</span>
             </div>
         {else}
             <div class="contentmetadata_content_row">
@@ -124,14 +115,16 @@
                 <span>${data.data["_mimeType"]}</span>
             </div>
         {/if}
-        <div class="contentmetadata_content_row">
-            <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
-            <span>
-                <a href="${creator.homePath}" class="s3d-regular-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(creator)}'s __MSG__PROFILE__">
-                    ${sakai.api.User.getDisplayName(creator)}
-                </a>
-            </span>
-        </div>
+        {if sakai.api.User.getDisplayName(creator)}
+            <div class="contentmetadata_content_row">
+                <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
+                <span>
+                    <a href="${creator.homePath}" class="s3d-regular-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(creator)}'s __MSG__PROFILE__">
+                        ${sakai.api.User.getDisplayName(creator)}
+                    </a>
+                </span>
+            </div>
+        {/if}
         <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
             <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_created"], sakai.data.me))}</span>

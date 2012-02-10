@@ -221,6 +221,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         };
 
         /**
+         * Enables or disables buttons in the widget
+         * @param {Boolean} enable Flag for whether to enable or disable the buttons
+         */
+        var disableEnableButtons = function(enable){
+            if (enable) {
+                $("#discussion_container button", $rootel).removeAttr("disabled");
+            } else {
+                $("#discussion_container button", $rootel).attr("disabled", "disabled");
+            }
+        };
+
+        /**
          * Callback function to sort replies based on created timestamp
          */
         var sortReplies = function(a, b){
@@ -290,7 +302,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     var cookieData = $.parseJSON($.cookie(tuid));
                     // loop through the posts
                     for (var i in response.results) {
-                        if (response.results[i].post && response.results[i].replies && response.results[i].replies.length) {
+                        if (response.results.hasOwnProperty(i) && response.results[i].post && response.results[i].replies && response.results[i].replies.length) {
                             var postId = "discussion_post_" + response.results[i].post["sakai:id"];
                             if (!(cookieData && cookieData[postId] && cookieData[postId].option === "hide")){
                                 // expand the thread
@@ -452,6 +464,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * Creates a new topic
          */
         var createTopic = function(){
+            disableEnableButtons(false);
             var postData = {
                 "sakai:type": "discussion",
                 "sling:resourceType": "sakai/message",
@@ -484,6 +497,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     showPosts(topicData, true);
 
                     getWidgetSettings();
+                    disableEnableButtons(true);
+                },
+                error: function(){
+                    disableEnableButtons(true);
                 }
             });
         };
@@ -494,7 +511,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * @param {String} body The message in the reply
          * @param {String} $parentDiv the parent div that should be hidden on success
          */
-        var replyToTopic = function(id, body, $parentDiv){
+        var replyToTopic = function(id, body, $parentDiv, $replyParent){
             var object = {
                 "sakai:body": body,
                 "sakai:marker": marker,
@@ -534,7 +551,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     $parentDiv.prevAll(discussionTopicRepliesContainer).append(renderedTemplate);
 
                     $parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(parseInt($parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(), 10) + 1);
+                    $parentDiv.parents(discussionTopicContainer).find(".discussion_show_replies_icon").show();
                     sakai.api.Util.renderMath(tuid);
+                    disableEnableButtons(true);
+
+                    var $repliesIcon = $replyParent.find(discussionRepliesIcon);
+                    if ($repliesIcon.hasClass(discussionShowRepliesIcon)) {
+                        // expand topic reply list
+                        $("#discussion_post_" + id + " " + discussionShowTopicReplies, $rootel).click();
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
@@ -544,12 +569,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     else {
                         sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_ADD_REPLY"), "", sakai.api.Util.notification.type.ERROR);
                     }
+                    disableEnableButtons(true);
                 },
                 data: object
             });
         };
 
         var doAddReply = function(form){
+            disableEnableButtons(false);
             var $replyParent = $(form).parents(discussionTopicContainer);
             var topicId = $replyParent.attr("id").split("discussion_post_")[1];
             var message = $.trim($replyParent.find("#discussion_topic_reply_text").val());
@@ -559,13 +586,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     message = "[quote='" + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + "']" + $replyParent.find("#discussion_topic_quoted_text").val() + "[/quote]" + message;
                 }
 
-                replyToTopic(topicId, message, $(form).parents(discussionTopicReplyContainer));
+                replyToTopic(topicId, message, $(form).parents(discussionTopicReplyContainer), $replyParent);
 
-                var $repliesIcon = $replyParent.find(discussionRepliesIcon);
-                if ($repliesIcon.hasClass(discussionShowRepliesIcon)) {
-                    // expand topic reply list
-                    $("#discussion_post_" + topicId + " " + discussionShowTopicReplies, $rootel).click();
-                }
                 $(discussionTopicReplyQuotedUser, $rootel).text("");
             }
         };
@@ -593,7 +615,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var data = {
                 "sakai:deleted": deleteValue,
                 "sakai:deletedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                "sakai:deletedOn": sakai.api.Util.createSakaiDate(new Date())
+                "sakai:deletedOn": Date.now()
             };
             $.ajax({
                 url: url,
@@ -611,8 +633,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         post.find(discussionPostMessage).nextAll().remove();
                         post.find(discussionPostMessage).after(sakai.api.Util.TemplateRenderer(discussionDeletedPostActionsTemplate, {}));
                         post.find(discussionPostingDate).after(sakai.api.Util.TemplateRenderer(discussionDeletedPostEntityInfoTemplate, {
-                            "deletedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                            "deletedOn": sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date())))
+                            "deletedBy": data["sakai:deletedBy"],
+                            "deletedOn": sakai.api.l10n.transformDateTimeShort(parseDate(data["sakai:deletedOn"]))
                         }));
                     }else{
                         // Apply grey class
@@ -639,7 +661,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var data = {
                 "sakai:edited": true,
                 "sakai:editedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                "sakai:editedOn": sakai.api.Util.createSakaiDate(new Date()),
+                "sakai:editedOn": Date.now(),
                 "sakai:body": body
             };
             if(quote){
@@ -662,7 +684,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     sakai.api.Util.renderMath(tuid);
 
                     // Set entity data
-                    post.children(discussionEntityContainer).find(discussionUpdatingDate).children("span").text(sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date()))));
+                    post.children(discussionEntityContainer).find(discussionUpdatingDate).children("span").text(sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.l10n.transformDateTimeShort(parseDate(data["sakai:editedOn"])));
                     post.children(discussionEntityContainer).children(discussionPostingDate).children().show();
 
                     // Show all

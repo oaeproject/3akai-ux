@@ -21,7 +21,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.acknowledgements = function() {
         
         var pubdata = {	
-        	"structure0": {
+            "structure0": {
                 "featured": {
                     "_ref": "id1", 
                     "_title": "Featured",
@@ -53,24 +53,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             },
-        	"id1": {
-        		"page": $("#acknowledgements_featured").html()
-        	},
-        	"id2": {
-        		"page": $("#acknowledgements_uitech").html()
-        	},
-        	"id3": {
-        		"page": $("#acknowledgements_backendtech").html()
-        	}
-        }
+            "id1": {
+                "page": $("#acknowledgements_featured").html()
+            },
+            "id2": {
+                "page": $("#acknowledgements_uitech").html()
+            },
+            "id3": {
+                "page": $("#acknowledgements_backendtech").html()
+            }
+        };
 
         var generateNav = function(){
             $(window).trigger("lhnav.init", [pubdata, {}, {}]);
-        }
+        };
         
         var renderEntity = function(){
             $(window).trigger("sakai.entity.init", ["acknowledgements"]);
-        }
+        };
 
         $(window).bind("lhnav.ready", function(){
             generateNav();

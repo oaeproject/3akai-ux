@@ -79,7 +79,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         var filterSearch = function(searchterm, category , resultJson) {
             resultJson.sites = resultJson.sites || [];
-            searchtermlower = searchterm.toLowerCase()
+            searchtermlower = searchterm.toLowerCase();
             for(var j=0;j<category.sites.length;j++){ 
                 var site = category.sites[j];  
                 if(searchterm === "*" ) {
@@ -111,7 +111,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     };
                 }
             }
-        }
+        };
 
         /**
          * Get sites list group with categories from back end.
@@ -153,6 +153,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var qparams = sakai_global.data.search.getQueryParams();
             finaljson = {};
             finaljson.sakai = sakai;
+            var resultstotal;
 
             if (searchConfig.facetedConfig.facets[0]) {
                 $(".searchsakai2_selects", rootel).show();
@@ -161,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     categoryName = searchConfig.facetedConfig.facets[qparams.facet].category;
                 }
 
-                var categorydata = {}
+                var categorydata = {};
                 for (var i = 0; i < jsondata.categories.length; i++) {
                     if (categoryName === jsondata.categories[i].category) {
                         categorydata = jsondata.categories[i];
@@ -176,7 +177,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     finaljson.sites[s].url = url.split("/")[url.split("/").length - 1];
                 }
     
-                var resultstotal = finaljson.sites.length;
+                resultstotal = finaljson.sites.length;
                 $(searchConfig.global.numberFound, rootel).text("" + resultstotal);
                 
                 if (resultstotal > resultsToDisplay && qparams.page) {

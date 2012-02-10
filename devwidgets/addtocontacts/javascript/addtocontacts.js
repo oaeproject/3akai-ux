@@ -43,6 +43,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         // Configuration variables //
         /////////////////////////////
 
+        var $rootel = $("#" + tuid);
+
         // Help variables
         var contactToAdd = false;
 
@@ -80,6 +82,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         ///////////////////
 
         /**
+         * Disables or enables the invite button on the widget
+         * @param {Boolean} disable Flag to disable or enable the button
+         */
+        var enableDisableInviteButton = function(disable){
+            if(disable){
+                $(addToContactsFormButtonInvite).attr("disabled","disabled");
+            }else{
+                $(addToContactsFormButtonInvite).removeAttr("disabled");
+            }
+        };
+
+        /**
          * Render the templates that are needed for the add contacts widget.
          * It renders the contacts types and the personal note
          */
@@ -101,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          */
         var fillInUserInfo = function(user){
             if (user) {
-                $(addToContactsInfoDisplayName).text(user.displayName);
+                $(addToContactsInfoDisplayName, $rootel).text(user.displayName);
                 if (!user.pictureLink) {
                     user.pictureLink = sakai.api.Util.constructProfilePicture(user);
                 }
@@ -133,6 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          * @param {String} userid
          */
         var doInvite = function(userid){
+            enableDisableInviteButton(true);
             var formValues = $(addToContactsForm).serializeObject();
             var types = formValues[addToContactsFormType.replace(/#/gi, "")];
             if (!$.isArray(types)) {
@@ -173,12 +188,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                         "targetUserId": userid
                     },
                     success: function(data){
+                        enableDisableInviteButton(false);
                         $(addToContactsDialog).jqmHide();
                         sakai.api.Communication.sendMessage(userid, sakai.data.me, title, message, "invitation", false,false,true,"contact_invitation");
                         $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();
-                        sakai.api.Util.notification.show("", $(addToContactsDone).html());
+                        sakai.api.Util.notification.show("", $(addToContactsDone, $rootel).html());
                         // record that user made contact request
                         sakai.api.User.addUserProgress("madeContactRequest");
                         // display tooltip
@@ -193,12 +209,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                         $(window).trigger("update.tooltip.sakai", tooltipData);
                     },
                     error: function(xhr, textStatus, thrownError){
+                        enableDisableInviteButton(false);
                         $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
                     }
                 });
 
             }
             else {
+                enableDisableInviteButton(false);
                 $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorNoTypeSelected).text()));
             }
         };
@@ -233,6 +251,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
 
             // Render the templates
             renderTemplates();
+
+            // position dialog box at users scroll position
+            sakai.api.Util.positionDialogBox(addToContactsDialog);
+            sakai.api.Util.bindDialogFocus(addToContactsDialog);
 
             // Show the layover
             $(addToContactsDialog).jqmShow();

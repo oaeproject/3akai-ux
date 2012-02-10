@@ -15,9 +15,11 @@
      * @param {String} loadingImage          Path to the loading image that should be shown when 
      * @param {Function} postprocessor       Function used to transform the search results before rendering
      *                                       the template [optional]
+     * @param {Function} postrenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
      * @param {Object} initialcontent        Initial content to be added to the list [optional]
+     * @param {Function} initialCallback     Function to call with data from initial request [optional]
      */
-    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, initialcontent){
+    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, postrenderer, initialcontent, initialCallback){
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -117,6 +119,7 @@
             // Filter out items that are already in the list
             var filteredresults = [];
             var doAnotherOne = data.results.length > 0;
+            showHideLoadingContainer(false);
             $.each(data.results, function(i, result){
                 if (result.id){
                     // Determine whether this item is already in the list
@@ -135,20 +138,23 @@
                 } else {
                     $container.append(templateOutput);
                 }
-            }
-            isDoingExtraSearch = false;
-            showHideLoadingContainer(false);
-            // If there are more results and we're still close to the bottom of the page,
-            // do another one
-            if (doAnotherOne) {
-                loadNextList();
-            } else {
-                isDoingExtraSearch = true;
-                if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
-                    if ($.isFunction(emptylistprocessor)) {
-                        emptylistprocessor();
-                    };
-                };
+                if ($.isFunction(postrenderer)){
+                    postrenderer();
+                }
+
+                isDoingExtraSearch = false;
+                // If there are more results and we're still close to the bottom of the page,
+                // do another one
+                if (doAnotherOne) {
+                    loadNextList();
+                } else {
+                    isDoingExtraSearch = true;
+                    if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
+                        if ($.isFunction(emptylistprocessor)) {
+                            emptylistprocessor();
+                        }
+                    }
+                }
             }
         };
 
@@ -162,13 +168,16 @@
          *                            False when we want to append the new items to the list
          */
         var processList = function(data, prepend){
-            if ($.isFunction(postprocessor)){
-                postprocessor(data.results, function(items){
-                    data.results = items;
+            if (data) {
+                data.results = data.results || [];
+                if ($.isFunction(postprocessor)) {
+                    postprocessor(data.results, function(items){
+                        data.results = items;
+                        renderList(data, prepend);
+                    });
+                } else {
                     renderList(data, prepend);
-                });
-            } else {
-                renderList(data, prepend);
+                }
             }
         };
 
@@ -184,6 +193,9 @@
                 source(parameters, function(success, data){
                     if (success){
                         processList(data);
+                        if (initial && $.isFunction(initialCallback)){
+                            initialCallback(data);
+                        }
                     } else {
                         debug.log("An error has occured while retrieving the list of results");
                     }
@@ -196,6 +208,9 @@
                     "cache": false,
                     "success": function(data){
                         processList(data);
+                        if (initial && $.isFunction(initialCallback)){
+                            initialCallback(data);
+                        }
                     },
                     "error": function(){
                         debug.log("An error has occured while retrieving the list of results");
@@ -274,7 +289,7 @@
             "removeItems": removeItems,
             "prependItems": prependItems,
             "kill": kill
-        }
+        };
 
     };
 

@@ -49,7 +49,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var $contentmetadataUrlContainer = $("#contentmetadata_url_container");
         var $contentmetadataCopyrightContainer = $("#contentmetadata_copyright_container");
         var $contentmetadataDetailsContainer = $("#contentmetadata_details_container");
-        var $contentmetadataLocationsContainer = $("#contentmetadata_locations_container");
 
         // Elements
         var contentmetadataDescriptionDisplay = "#contentmetadata_description_display";
@@ -59,6 +58,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentmetadataCancelSave = ".contentmetadata_cancel_save";
         var contentmetadataSave = ".contentmetadata_save";
         var contentmetadataInputEdit = ".contentmetadata_edit_input";
+
+        // Autosuggest
+        var $contentmetadataAutosuggestElt = false;
 
         // See more
         var $contentmetadataShowMore = $("#contentmetadata_show_more");
@@ -71,17 +73,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentmetadataUrlTemplate = "contentmetadata_url_template";
         var contentmetadataCopyrightTemplate = "contentmetadata_copyright_template";
         var contentmetadataDetailsTemplate = "contentmetadata_details_template";
-        var contentmetadataLocationsTemplate = "contentmetadata_locations_template";
 
         // i18n
         var $contentmetadataUpdatedCopyright = $("#contentmetadata_updated_copyright");
 
         // Edit vars
-        // Parent DIV that handles the hover and click to edit
-        var editTarget = "";
         // ID of Input element that's focused, defines what to update
-        var edittingElement = "";
-        var directoryJSON = {};
+        var editingElement = "";
         var contentType = "";
 
         ////////////////////////
@@ -92,13 +90,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Add binding to the input elements that allow editting
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var addEditBinding = function(mode){
+        var addEditBinding = function( mode, tags ) {
             if (mode === "edit") {
-                if ($(".contentmetadata_edit_input")[0] !== undefined) {
-                    $(".contentmetadata_edit_input")[0].focus();
+                if ($(".contentmetadata_edit_input").length) {
+                    $(".contentmetadata_edit_input").focus();
                 }
-
-                $(contentmetadataInputEdit).blur(editInputBlur);
+                if ( !tags ) {
+                    $(contentmetadataInputEdit).blur( editInputBlur );
+                } else {
+                    sakai.api.Util.hideOnClickOut( $( ".autosuggest_wrapper", $contentmetadataTagsContainer ) , "#assignlocation_container, " + $contentmetadataTagsContainer.selector + " .autosuggest_wrapper", function() {
+                      editInputBlur(false, "tags");
+                    });
+                }
             }
         };
 
@@ -112,11 +115,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
-            if (mode === "edit") {
-                $contentmetadataDescriptionContainer.addClass("contentmetadata_editing");
-            } else {
-                $contentmetadataDescriptionContainer.removeClass("contentmetadata_editing");
-            }
+            $contentmetadataDescriptionContainer.toggleClass("contentmetadata_editing", mode === "edit");
             $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
             addEditBinding(mode);
         };
@@ -145,7 +144,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var renderName = function(mode){
             if (mode === "edit") {
                 $("#entity_name").hide();
-                $("#entity_name_text").val($.trim($("#entity_name").text()));
+                $("#entity_name_text").val($.trim($("#entity_name").attr("data-original-title") || $("#entity_name").text()));
                 $("#entity_name_edit").show();
                 $("#entity_name_text").focus();
             }
@@ -153,8 +152,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $("#entity_name_text").bind("blur", function(){
                 $("#entity_name_edit").hide();
                 var newTitle = $("#entity_name_text").val();
+                var newDottedTitle = sakai.api.Util.applyThreeDots(newTitle, 800, {
+                    whole_word: false
+                }, "", true);
                 if ($.trim(newTitle)) {
-                    $("#entity_name").text(newTitle);
+                    $("#entity_name").text(newDottedTitle);
+                    $("#entity_name").attr("data-original-title", newTitle);
                     $("#entity_name").show();
                     $.ajax({
                         url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
@@ -164,13 +167,28 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             "sakai:pooled-content-file-name": newTitle
                         },
                         success: function(){
-                            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML(newTitle);
-                            // Export as IMS Package
-                            if (sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data) === "x-sakai/document"){
-                                $("#contentpreview_download_button").attr("href", "/imscp/" + sakai_global.content_profile.content_data.data["_path"] + "/" + encodeURIComponent(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]) + ".zip");
-                            // Download as a normal file
+                            if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
+                                // Change the group title as well
+                                var groupId = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
+                                $.ajax({
+                                    "url": "/system/userManager/group/" + groupId + ".update.json",
+                                    "type": "POST",
+                                    "data": {
+                                        "sakai:group-title": newTitle
+                                    },
+                                    "success": function(){
+                                        // Update the me object
+                                        var memberships = sakai.api.Groups.getMemberships(sakai.data.me.groups, true);
+                                        $.each(memberships.entry, function(index, membership){
+                                            if (membership["sakai:group-id"] === groupId){
+                                                membership["sakai:group-title"] = newTitle;
+                                            }
+                                        });
+                                        finishChangeTitle(newTitle);
+                                    }
+                                });
                             } else {
-                                $("#contentpreview_download_button").attr("href", sakai_global.content_profile.content_data.smallPath + "/" + encodeURIComponent(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]));
+                                finishChangeTitle(newTitle);
                             }
                         }
                     });
@@ -182,6 +200,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
         };
 
+        var finishChangeTitle = function(newTitle){
+            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.safeOutput(newTitle);
+            // Export as IMS Package
+            if (sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data) === "x-sakai/document"){
+                $("#contentpreview_download_button").attr("href", "/imscp/" + sakai_global.content_profile.content_data.data["_path"] + "/" + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]) + ".zip");
+            // Download as a normal file
+            } else {
+                $("#contentpreview_download_button").attr("href", sakai_global.content_profile.content_data.smallPath + "/" + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]));
+            }
+        };
+
         /**
          * Render the Tags template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
@@ -191,15 +220,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var json = {
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai,
-                tags: sakai.api.Util.formatTagsExcludeLocation(sakai_global.content_profile.content_data.data["sakai:tags"])
+                tags: sakai.api.Util.formatTags(sakai_global.content_profile.content_data.data["sakai:tags"])
             };
-            if (mode === "edit") {
-                $contentmetadataTagsContainer.addClass("contentmetadata_editing");
-            } else {
-                $contentmetadataTagsContainer.removeClass("contentmetadata_editing");
-            }
             $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, json));
-            addEditBinding(mode);
+            $contentmetadataTagsContainer.toggleClass("contentmetadata_editing", mode === "edit");
+            $contentmetadataTagsContainer.toggleClass("contentmetadata_editable", mode !== "edit");
+            if (mode === "edit") {
+                $contentmetadataAutosuggestElt = $( "#contentmetadata_tags_tags" );
+                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( ".list_categories", $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.data["sakai:tags"] );
+                $( ".as-selections", $contentmetadataTagsContainer ).addClass( "contentmetadata_edit_input" );
+                $contentmetadataAutosuggestElt.focus();
+            }
+            addEditBinding( mode, true );
         };
 
         /**
@@ -212,11 +244,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
-            if (mode === "edit") {
-                $contentmetadataCopyrightContainer.addClass("contentmetadata_editing");
-            } else {
-                $contentmetadataCopyrightContainer.removeClass("contentmetadata_editing");
-            }
+            $contentmetadataCopyrightContainer.toggleClass("contentmetadata_editing", mode === "edit");
             $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, json));
             addEditBinding(mode);
         };
@@ -250,78 +278,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
         };
 
-        //////////////////////////////////
-        /////// DIRECTORY EDITTING ///////
-
-        var renderLocationsEdit = function(){
-            $("#assignlocation_container").jqmShow();
-        };
-
-        /**
-         * Render the Locations template
-         * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
-         */
-        var renderLocations = function(mode){
-            if (!sakai.config.enableCategories) {
-                $contentmetadataLocationsContainer.remove();
-                return;
-            }
-            if (mode === "edit") {
-                renderLocationsEdit();
-            }
-            else {
-                $contentmetadataLocationsContainer.html("");
-                sakai_global.content_profile.content_data.mode = mode;
-                var json = {
-                    data: sakai_global.content_profile.content_data,
-                    sakai: sakai
-                };
-
-                var directorylocations = [];
-                for(var dir in json.data.saveddirectory){
-                    if(json.data.saveddirectory.hasOwnProperty(dir)){
-                        var dirString = "";
-                        for (var dirPiece in json.data.saveddirectory[dir]){
-                            if(json.data.saveddirectory[dir].hasOwnProperty(dirPiece)){
-                                dirString += sakai.api.Util.getValueForDirectoryKey(json.data.saveddirectory[dir][dirPiece]);
-                                if(dirPiece < json.data.saveddirectory[dir].length - 1){
-                                    dirString += " » ";
-                                }
-                            }
-                        }
-                        directorylocations.push(sakai.api.Util.applyThreeDots(dirString, $("#contentmetadata_locations_container").width() - 120, {max_rows: 1,whole_word: false}, "s3d-bold"));
-                    }
-                }
-                json["directorylocations"] = directorylocations;
-
-                $contentmetadataLocationsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataLocationsTemplate, json));
-            }
-        };
-
         ////////////////////////
         /////// EDITTING ///////
         ////////////////////////
 
         var updateTags = function(){
-            var tags = sakai.api.Util.formatTags($("#contentmetadata_tags_tags").val());
-            // Since directory tags are filtered out of the textarea we should put them back to save them
-            $(sakai_global.content_profile.content_data.data["sakai:tags"]).each(function(index, tag){
-                if (tag.split("/")[0] === "directory") {
-                    tags.push(tag);
-                }
-            });
-
-            for(var tag in tags){
-                if (tags.hasOwnProperty(tag)) {
-                    tags[tag] = tags[tag].replace(/\s+/g, " ");
-                }
-            }
-
+            var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $contentmetadataAutosuggestElt, true );
             sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
                 sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
                 renderTags(false);
-                // Create an activity
-                createActivity("UPDATED_TAGS");
+                if (success) {
+                    // Create an activity
+                    createActivity("UPDATED_TAGS");
+                }
             });
         };
 
@@ -392,14 +361,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Object} ev Trigger event
          */
         var editData = function(ev){
-            var dataToEdit = "";
-            if (ev.target.nodeName.toLowerCase() !== "a" && ev.target.nodeName.toLowerCase() !== "select" && ev.target.nodeName.toLowerCase() !== "option" && ev.target.nodeName.toLowerCase() !== "textarea") {
-                target = $(ev.target).closest(".contentmetadata_editable");
-                if (target[0] !== undefined) {
-                    editTarget = target;
-                    dataToEdit = editTarget[0].id.split("_")[1];
-
-                    switch (dataToEdit) {
+            if ( !$( ev.target ).is( "a, select, option, textarea" ) ) {
+                $target = $( ev.target ).closest( ".contentmetadata_editable" );
+                if ( $target.length ) {
+                    // Need to clear out any active editingElements before creating a new one
+                    if (editingElement !== "") {
+                        editInputBlur(false, editingElement);
+                    }
+                    editingElement = $target.attr( "data-edit-field" );
+                    switch ( editingElement ) {
                         case "description":
                             renderDescription("edit");
                             break;
@@ -408,9 +378,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             break;
                         case "url":
                             renderUrl("edit");
-                            break;
-                        case "locations":
-                            renderLocations("edit");
                             break;
                         case "copyright":
                             renderCopyright("edit");
@@ -425,11 +392,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         /**
          * Handle losing of focus on an input element
-         * @param {Object} el Element that lost the focus
+         * @param {Object} e Element that lost the focus
+         * @param {String} forceElt Force the editingElement here, to indicate that only that should be blurred
          */
-        var editInputBlur = function(el){
-            edittingElement = $(el.target)[0].id.split("_")[2];
-            switch (edittingElement) {
+        var editInputBlur = function( e, forceElt ) {
+            if ( !e && forceElt !== editingElement ) {
+                return;
+            }
+            switch ( editingElement ) {
                 case "description":
                     updateDescription();
                     break;
@@ -443,6 +413,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     updateCopyright();
                     break;
             }
+            editingElement = "";
         };
 
         ////////////////////////
@@ -472,19 +443,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Add binding/events to the elements in the widget
          */
         var addBinding = function(){
-            $(".contentmetadata_editable_for_maintainers").removeClass("contentmetadata_editable");
-            if (sakai_global.content_profile.content_data.isManager) {
-                $(".contentmetadata_editable_for_maintainers").addClass("contentmetadata_editable");
-            }
+            $(".contentmetadata_editable_for_maintainers").toggleClass("contentmetadata_editable", sakai_global.content_profile.content_data.isManager);
 
-            $contentmetadataShowMore.unbind("click", animateData);
-            $contentmetadataShowMore.bind("click", animateData);
+            $contentmetadataShowMore.die("click").live("click", animateData);
 
-            $(".contentmetadata_editable").die("click", editData);
-            $(".contentmetadata_editable").live("click", editData);
+            $(".contentmetadata_editable").die("click").live("click", editData);
 
-            $(contentmetadataViewRevisions).die("click");
-            $(contentmetadataViewRevisions).live("click", function(){
+            $(contentmetadataViewRevisions).die("click").live("click", function() {
                 $(window).trigger("initialize.filerevisions.sakai", sakai_global.content_profile.content_data);
             });
         };
@@ -498,16 +463,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             renderTags(false);
             renderUrl(false);
             renderCopyright(false);
-            renderLocations(false);
             renderDetails(false);
 
             // Add binding
             addBinding();
         };
-
-        $(window).bind("renderlocations.contentmetadata.sakai", function(ev){
-            renderLocations(false);
-        });
 
         // Bind Enter key to input fields to save on keyup
         $("input").bind("keyup", function(ev){

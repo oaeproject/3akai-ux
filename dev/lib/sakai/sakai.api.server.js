@@ -44,10 +44,10 @@ define(
          * @param {Boolean} async If we should do an async request or not
          */
         batch : function(_requests, _callback, _cache, _forcePOST, _async) {
-            var method = _forcePOST === true ? "POST" : "GET",
-                cache = _cache === false ? false : true,
-                async = _async === false ? false : true;
-                url = sakai_conf.URL.BATCH;
+            var method = _forcePOST === true ? "POST" : "GET";
+            var cache = _cache === false ? false : true;
+            var async = _async === false ? false : true;
+            var url = sakai_conf.URL.BATCH;
 
             // Append a charset to each request
             $.each(_requests, function(i,req) {
@@ -58,8 +58,14 @@ define(
                     req["parameters"]["_charset_"] = "utf-8";
                 }
             });
+            // Don't submit a request when the batch is empty
+            if (_requests.length === 0) {
+                if ($.isFunction(_callback)) {
+                    _callback(true, {"results": []});
+                }
+            }
             // Don't issue a batch request for a single, cacheable request
-            if (_requests.length === 1) {
+            else if (_requests.length === 1) {
                 $.ajax({
                     url: _requests[0].url,
                     type: _requests[0].method || "GET",
@@ -77,6 +83,15 @@ define(
                         };
                         if ($.isFunction(_callback)) {
                             _callback(true, retObj);
+                        }
+                    },
+                    error: function(status){
+                        if ($.isFunction(_callback)) {
+                            _callback(false, {"results": [{
+                                "url": _requests[0].url,
+                                "success": false,
+                                "body": "{}"
+                            }]});
                         }
                     }
                 });
@@ -155,8 +170,8 @@ define(
                 sakaiServerAPI.initialRequests[bundleId].callback = callback;
             }
             sakaiServerAPI.initialRequests[bundleId].count++;
-            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count
-                && $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
+            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count &&
+                    $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
                 sakaiServerAPI.batch(sakaiServerAPI.initialRequests[bundleId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
@@ -340,7 +355,12 @@ define(
          * @param {Array}  an array containing a string for each namespace to move
          */
         removeServerCreatedObjects : function(obj, namespace, notToRemove) {
-            var newobj = $.extend(true, {}, obj);
+            var newobj = false;
+            if ($.isPlainObject(obj)) {
+                newobj = $.extend(true, {}, obj);
+            } else if ($.isArray(obj)) {
+                newobj = $.merge([], obj);
+            }
             notToRemove = notToRemove || [];
             $.each(newobj, function(key,val) {
                 for (var ns = 0; ns < namespace.length; ns++) {
@@ -355,20 +375,17 @@ define(
                         if (canRemove) {
                             delete newobj[key];
                         }
-                    } else if ($.isPlainObject(newobj[key])) {
+                    } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
                         newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
-                    } /* else if ($.isArray(newobj[key])) {
-                        //newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
-                    } */
+                    }
                 }
             });
             return newobj;
         },
 
-
         cleanUpSakaiDocObject: function(pagestructure){
             // Convert the special objects to arrays
-            data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
+            var data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
             var id = pagestructure["_path"];
             var toFilter = ["_", "jcr:", "sakai:", "sling:"];
             var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_canView", "_canEdit", "_canSubedit", "_nonEditable", "_lastModified", "_lastModifiedBy"];
@@ -378,7 +395,7 @@ define(
             }
             var removeServerFormating = function(structure, id){
                 for (var i in structure){
-                    if (i.indexOf(id + "/") === 0){
+                    if (structure.hasOwnProperty(i) && i.indexOf(id + "/") === 0){
                         var newid = i.substring(i.lastIndexOf("/") + 1);
                         structure[newid] = structure[i];
                         delete structure[i];
@@ -612,13 +629,34 @@ define(
         createSearchString : function(searchString) {
             var ret = "";
             var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
+            var removeArray = [" AND", " OR"];
+            var truncateLength = 1500;
 
-            if (advancedSearchRegex.test(searchString)) {
-                ret = searchString;
-            } else {
-                ret = $.trim(searchString).split(" ").join(" AND ");
+            ret = $.trim(searchString);
+
+            // We only join every single word with "AND" when
+            // we are sure there it isn't an advanced search query
+            if (!advancedSearchRegex.test(searchString)) {
+                ret = ret.split(" ").join(" AND ");
             }
 
+            if (ret.length > truncateLength) {
+                // Truncate the string just until the maximum length allowed
+                ret = ret.substring(0, truncateLength);
+                // Go back to the end of the previous word, so we don't
+                // truncate in the middle of a word
+                ret = ret.replace(/\w+$/, '');
+            }
+
+            // We need to remove AND & OR if they are the last words
+            // of the querystring. Otherwise we get a 500 exception
+            ret = $.trim(ret);
+            for (var i = 0, j = removeArray.length; i < j; i++) {
+                var item = removeArray[i];
+                if (ret.substr(-item.length) === item) {
+                    ret = ret.substring(0, ret.length - item.length);
+                }
+            }
             return ret;
         }
     };

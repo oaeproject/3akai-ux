@@ -6,8 +6,11 @@
     <div class="s3d-contentpage-title">__MSG__COMMENTS__</div>
 
     <div id="contentcomments_userCommentContainer">
+    </div>
+
+    <div id="contentcomments_userCommentContainer_template" style="display:none"><!--
         <div id="contentcomments_userProfileAvatar">
-            <img id="contentcomments_userProfileAvatarPicture" alt="__MSG__AVATAR__" class="contentcomments_avatar" src="/dev/images/default_profile_picture_64.png" />
+            <img id="contentcomments_userProfileAvatarPicture" alt="__MSG__AVATAR__" class="contentcomments_avatar" src="${picture}" />
         </div>
         <div class="contentcomments_fillInCommentTopContainer s3d-form-field-wrapper">
             <form>
@@ -18,7 +21,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    --></div>
 
     <div class="contentcomments_nextButtons">
         <div class="jq_pager contentcomments_jqpager" style="display:none;"><!-- In this container the pager on top will be shown --></div>
@@ -42,7 +45,11 @@
             </div>
             <div class="contentcomments_topCommentBar">
                 <div class="contentcomments_posterData s3d-regular-links">
-                    <span class="contentcomments_posterDataName s3d-regular-links"><a href="/~${i.user.uid}" target="_blank">${i.user.fullName}</a></span>
+                    {if i.user.fullName}
+                        <span class="contentcomments_posterDataName s3d-regular-links"><a href="/~${i.user.uid}" target="_blank">${i.user.fullName}</a></span>
+                    {else}
+                        <span class="contentcomments_posterDataName s3d-gray s3d-regular-links">__MSG__UNDISCLOSED_USER__</span>
+                    {/if}
                     <span class="contentcomments_dateComment">${i.timeAgo}</span>
                 </div>
                 {if i.canDelete && i.canDelete === true || i.userid === sakai.data.me.user.userid}

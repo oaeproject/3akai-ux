@@ -1,31 +1,29 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/helloworld/css/helloworld.css" />
 
+<!-- WIDGET CONTENT CONTAINER -->
 <div class="helloworld_widget">
-    <!-- WIDGET CONTENT CONTAINER -->
-    <div class="s3d-widget-content">
-        <!-- MAIN VIEW -->
-        <div id="helloworld_main" style="display:none;">
-            <p>__MSG__HELLO_WORLD__, <span id="helloworld_username"></span></p>
-        </div>
-        <!-- SETTINGS VIEW -->
-        <div id="helloworld_settings" style="display:none;">
-            <form id="helloworld_settings_form" action="#">
-                <p>__MSG__COLOR_TO_USE__:
-                    <select id="helloworld_color">
-                        <option value="#000000">__MSG__BLACK__</option>
-                        <option value="#FF0000">__MSG__RED__</option>
-                        <option value="#00FF00">__MSG__GREEN__</option>
-                        <option value="#0000FF">__MSG__BLUE__</option>
-                    </select>
-                </p>
-                <p><button type="submit">__MSG__SAVE__</button></p>
-            </form>
-        </div>
+    <!-- MAIN VIEW -->
+    <div id="helloworld_main" style="display:none;">
+        <p>__MSG__HELLO_WORLD__, <span id="helloworld_username"></span></p>
     </div>
-    <!-- WIDGET FOOTER WITH NO OPTIONS -->
-    <div class="s3d-widget-no-options">
-        <div class="s3d-widget-no-options-inner"></div>
+    <!-- SETTINGS VIEW -->
+    <div id="helloworld_settings" style="display:none;">
+        <form id="helloworld_settings_form" action="#">
+            <p>__MSG__COLOR_TO_USE__:
+                <select id="helloworld_color">
+                    <option value="#000000">__MSG__BLACK__</option>
+                    <option value="#FF0000">__MSG__RED__</option>
+                    <option value="#00FF00">__MSG__GREEN__</option>
+                    <option value="#0000FF">__MSG__BLUE__</option>
+                </select>
+            </p>
+            <div class="fl-force-right">
+                <button type="button" class="s3d-button s3d-link-button" id="helloworld_cancel_settings">__MSG__CANCEL__</button>
+                <button type="submit" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
+            </div>
+            <hr class="fl-hidden fl-push"/>
+        </form>
     </div>
 </div>
 

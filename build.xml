@@ -43,6 +43,7 @@
         <property name="YUI_COMPRESSOR" value="tools/yuicompressor/yuicompressor-2.4.2.jar" description="YUI Compressor 2.4.2" />
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
         <property name="ANT_CONTRIB" value="tools/ant-contrib/ant-contrib-1.0b3.jar" description="Ant-contrib 1.0b3" />
+        <property name="HASHTOOL_DIR" value="tools/hashfiles" description="hash js and css files" />
 
         <!-- SETUP - Set Ant-contrib dependency -->
         <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -91,11 +92,14 @@
         </copy>
 
         <echo message="Making a copy of var content files..." />
-        <copy todir="${TARGET_DIR_VAR}" filtering="true">
+        <copy todir="${TARGET_DIR_VAR}">
+            <fileset dir="${SRC_DIR_VAR}" />
+        </copy>
+        <copy todir="${TARGET_DIR_VAR}/ux-version" filtering="true" overwrite="true">
             <filterset begintoken="@" endtoken="@">
               <filtersfile file="${TARGET}/scm-version.properties" />
             </filterset>
-            <fileset dir="${SRC_DIR_VAR}" />
+            <fileset dir="${SRC_DIR_VAR}/ux-version" />
         </copy>
 
         <echo message="Making a copy of apps content files..." />
@@ -202,8 +206,6 @@
             <arg value="--no-instrument" />
             <arg value="lib${file.separator}misc" />
             <arg value="--no-instrument" />
-            <arg value="lib${file.separator}fluid" />
-            <arg value="--no-instrument" />
             <arg value="lib${file.separator}jquery" />
             <arg value="--no-instrument" />
             <arg value="lib${file.separator}tinymce" />
@@ -248,8 +250,17 @@
         <delete file="${MATH_DIR}/config/local/imageFonts.js"/>
     </target>
 
+    <!-- Target: Hash files-->
+    <target name="hash_files" depends="copy_optimized">
+      <!-- hashfiles jar gets put here by maven -->
+      <java jar="${settings.localRepository}/org/sakaiproject/nakamura/org.sakaiproject.nakamura.hashfiles/1.2-SNAPSHOT/org.sakaiproject.nakamura.hashfiles-1.2-SNAPSHOT.jar"
+        fork="true">
+            <arg value="${HASHTOOL_DIR}/config.properties" />
+        </java>
+    </target>
+
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize">
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, hash_files">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 

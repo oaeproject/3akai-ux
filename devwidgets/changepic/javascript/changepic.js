@@ -428,8 +428,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var savePicture = function(){
             // The parameters for the cropit service.
             var data = {
-                img: "/~" + sakai.api.Util.safeURL(id) + "/public/profile/" + picture._name,
-                save: "/~" + sakai.api.Util.safeURL(id) + "/public/profile",
+                img: "/~" + id + "/public/profile/" + picture._name,
+                save: "/~" + id + "/public/profile",
                 x: Math.floor(userSelection.x1 * ratio),
                 y: Math.floor(userSelection.y1 * ratio),
                 width: Math.floor(userSelection.width * ratio),
@@ -567,11 +567,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             onShow: showArea
         });
 
-        sakai.api.Util.hideOnClickOut("#changepic_container", "#changepic_container, #changepic_container_trigger, .imgareaselect-selection, .imgareaselect-border1, .imgareaselect-border2, .imgareaselect-border3, .imgareaselect-border4, .imgareaselect-outer", function(){
-           $("#changepic_container .jqmClose").click();
-        });
-
         $(containerTrigger).live("click", function(){
+            sakai.api.Util.bindDialogFocus(container);
             $(container).jqmShow();
         });
 

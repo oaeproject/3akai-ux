@@ -39,7 +39,7 @@ response.setStatus(404);
             <div id="error_content">
                 <div id="error_content_second_column">
                     <div id="error_sign_in_button">
-                        <p class="error_signin_button"><button>__MSG__SIGN_IN__</button></p>
+                        <p class="error_signin_button topnavigation_trigger_login"><button>__MSG__SIGN_IN__</button></p>
                         <p id="error_sign_up">__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/register">__MSG__SIGN_UP__</a></p>
                     </div>
                     <div class="error_content_second_column_box">
@@ -100,7 +100,7 @@ response.setStatus(404);
                                 <li>__MSG__LINKED_FROM_AN_OUTDATED_BOOKMARK__</li>
                                 <li>__MSG__A_MISTYPED_ADDRESS_URL_WAS_ENTERED__</li>
                                 <li>__MSG__AN_INCORRECT_LINK_WAS_FOLLOWED_FROM_SOMEWHERE__</li>
-                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__<button id="signin_from_content" class="s3d-link-button">__MSG__SIGN_IN__</button>__MSG__AND_TRY_AGAIN__</li>
+                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__. <button id="signin_from_content" class="s3d-link-button topnavigation_trigger_login">__MSG__SIGN_IN__</button> __MSG__AND_TRY_AGAIN__</li>
                             </ol>
                         --></div>
                         <div id="page_not_found_error_logged_in_template" style="display:none;"><!--

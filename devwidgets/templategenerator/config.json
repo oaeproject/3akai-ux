@@ -1,0 +1,26 @@
+{
+    "description":        "Export sites to templates",
+    "enabled":            true,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/templategenerator/bundles/default.properties",
+            "name": "Template generator",
+            "description": "Export sites to templates"
+        }
+    },
+    "id":                 "templategenerator",
+    "name":               "Templategenerator Widget",
+    "type":               "core",
+    "url":                "/devwidgets/templategenerator/templategenerator.html",
+    "defaultConfiguration": {
+        "templategenerator": {
+            "targetUser": "admin",
+            "uniqueDataWidgets": [
+                "participants",
+                "mylibrary",
+                "discussion",
+                "comments"
+            ]
+        }
+    }
+}

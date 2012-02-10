@@ -16,16 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*
- * Dependencies
- *
- * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js (autoSuggest)
- */
-
-/*global $, opensocial, Config */
-
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
     if (!sakai_global.sendmessage){
 
         /**
@@ -148,10 +139,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // remove autoSuggest if it exists
                 sakai.api.Util.AutoSuggest.destroy($("#sendmessage_to_autoSuggest"));
-
-                // Remove error status styling classes
-                $(messageFieldSubject).removeClass(invalidClass);
-                $(messageFieldBody).removeClass(invalidClass);
             };
 
             /**
@@ -214,7 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 sakai.api.Util.AutoSuggest.setup($("#sendmessage_to_autoSuggest"), {
                     "asHtmlID": "sendmessage_to_autoSuggest",
-                    startText: "Enter contact or group names",
+                    startText: sakai.api.i18n.getValueForKey("ENTER_CONTACT_OR_GROUP_NAMES", "sendmessage"),
                     keyDelay: "200",
                     retrieveLimit: 10,
                     preFill: preFill,
@@ -303,10 +290,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Altough this isnt strictly nescecary it is cleaner.
                         $rootel = $insertInId;
                         $rootel.append($(messageDialogContainer));
+                        $sendmessage_form = $("#sendmessage_form", $rootel);
                         bindEvents();
                     }
                 } else {
                     $rootel = $("#"+tuid);
+                    $sendmessage_form = $("#sendmessage_form", $rootel);
                     bindEvents();
                 }
 
@@ -318,14 +307,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // show popup
                 if (layover) {
+                    // position dialog box at users scroll position
+                    sakai.api.Util.positionDialogBox(messageDialogContainer);
                     $(messageDialogContainer).jqm({
                         modal: true,
                         overlay: 20,
                         toTop: true
                     });
+                    sakai.api.Util.bindDialogFocus(messageDialogContainer, "a.as-close");
                     $(messageDialogContainer).jqmShow();
                 }
-
+                sakai.api.Util.Forms.clearValidation($sendmessage_form);
             };
 
 
@@ -367,7 +359,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             var bindEvents = function() {
                 $.validator.addMethod("requiredsuggest", function(value, element){
-                    return value.indexOf("Enter contact or group names") === -1 && $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
+                    return value.indexOf(sakai.api.i18n.getValueForKey("ENTER_CONTACT_OR_GROUP_NAMES", "sendmessage")) === -1 && $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
                 }, sakai.api.i18n.getValueForKey("AUTOSUGGEST_REQUIRED_ERROR", "sendmessage"));
 
                 var validateOpts = {

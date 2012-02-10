@@ -11,25 +11,23 @@
     <h1>__MSG__SUGGESTED__:</h1>
     {macro tags(t)}
         {if t && t.length}
-            <div class="carousel_content_tags">
-                <img src="/devwidgets/entity/images/entity_tags_icon.png" class="carousel_tag_icon" alt="__MSG__TAGS__:">
+            <ul class="carousel_content_tags s3d-taglist">
                 {for tag in t}
                     {if tag_index < 2}
-                        <a href="/search#q=${tag}" class="s3d-regular-links s3d-bold">${tag|safeOutput}</a>
-                        {if tag_index < 1}<div class="carousel_middot_divider">&#183;</div>{/if}
+                        <li><a href="${tag.link}" class="s3d-regular-links s3d-bold carousel_apply_threedots threedots_allow_2" title="${tag.linkTitle}">${tag.tagShorter}</a></li>
                     {/if}
                 {/for}
-            </div>
+            </ul>
         {/if}
     {/macro}
 
     {macro contentButtons(id, uploader,title,type)}
-        <span class="carousel_bottom_buttons">
-            <fieldset><legend class="s3d-aural-text">${type}: ${title}</legend>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE_CONTENT__"></button>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE_CONTENT__"></button>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__"></button>
-            </fieldset>    
+        <span class="carousel_bottom_buttons s3d-draggable-hidden">
+            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__ ${title}</legend>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE__ ${title}"></button>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE__ ${title}"></button>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__ __MSG__FOR__ ${title}"></button>
+            </fieldset>
         </span>
     {/macro}
 
@@ -37,144 +35,148 @@
         <ul>
             {for item in data}
                 <li>
-                        {if item.contentType == "suggestedContent"}
-                            <div class="carousel_three_column_container">
-                                <div class="carousel_three_column_left">
-                                    {var content0 = item.suggestions[0]}
-                                    {if content0}
-                                        {if content0.preview}
-                                            <a href="${content0.url}">
-                                               <img class="carousel_item_preview_img" src="${content0.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
-                                            </a>
-                                        {/if}
-                                        <h2>
-                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.url}">
-                                                ${content0.title|safeOutput}
-                                            </a>
-                                        </h2>
-                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content0.description|safeOutput}</p>
-                                        ${tags(content0.tags)}
-                                        ${contentButtons(content0.id, content0.createdBy,content0.title,content0.mimeType)}
-                                    {/if}
-                                </div>
-                                <div class="carousel_three_column_middle">
-                                    {var content1 = item.suggestions[1]}
-                                    {if content1}
-                                        {if content1.preview}
-                                            <a href="${content1.url}">
-                                                <img class="carousel_item_preview_img" src="${content1.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
-                                            </a>
-                                        {/if}
-                                        <h2>
-                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.url}">
-                                                ${content1.title|safeOutput}
-                                            </a>
-                                        </h2>
-                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content1.description|safeOutput}</p>
-                                        ${tags(content1.tags)}
-                                        ${contentButtons(content1.id, content1.createdBy,content1.title,content1.mimeType)}
-                                    {/if}
-                                </div>
-                                <div class="carousel_three_column_right">
-                                    <div class="carousel_two_high_top">
-                                        {var content2 = item.suggestions[2]}
-                                        {if content2}
-                                            <h2>
-                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}">
-                                                    ${content2.title|safeOutput}
-                                                </a>
-                                            </h2>
-                                            ${tags(content2.tags)}
-                                            ${contentButtons(content2.id, content2.createdBy,content2.title,content2.mimeType)}
-                                        {/if}
-                                    </div>
-                                    <div class="carousel_two_high_bottom">
-                                        {var content3 = item.suggestions[3]}
-                                        {if content3}
-                                            <h2>
-                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}">
-                                                    ${content3.title|safeOutput}
-                                                </a>
-                                            </h2>
-                                            ${tags(content3.tags)}
-                                            ${contentButtons(content3.id, content3.createdBy,content3.title,content0.mimeType)}
-                                        {/if}
-                                    </div>
-                                </div>
-                            </div>
-                        {elseif item.contentType == "suggestedUsers"}
-                            <div class="carousel_4x2_grid_container">
-                                {for user in item.suggestions}
-                                    <div>
-                                        {if user.picture}
-                                            <img src="/~${user.userid|safeURL}/public/profile/${user.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
+                    {if item.contentType == "suggestedContent"}
+                        <div class="carousel_three_column_container">
+                            {var content0 = item.suggestions[0]}
+                            {if content0}
+                                <div class="carousel_three_column_left s3d-draggable-container" data-scope="content" data-entityid="${content0.id}" {if sakai.api.Content.Collections.isCollection(content0)} data-collection="true" {/if}>
+                                    <a href="${content0.link}">
+                                        {if content0.thumbnail}
+                                            <img class="carousel_item_preview_img carousel_item_large_preview" src="${content0.thumbnail}" alt="__MSG__CONTENT_PREVIEW__"/>
                                         {else}
-                                            <img src="/dev/images/default_User_icon_50x50.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
+                                            <img class="carousel_item_preview_img carousel_item_large_mimetype" src="${content0.mimeTypeURL}" alt="__MSG__CONTENT_PREVIEW__"/>
                                         {/if}
-                                        <h2><a href="/~${user.userid|safeURL}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName|safeOutput}</a></h2>
-                                        <div class="carousel_counts">
-                                            <ul>
-                                                <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=library">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
-                                                </li>
-                                                <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts">${user.counts.contactsCount} __MSG__CONTACTS__</a>
-                                                </li>
-                                                <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="carousel_bottom_buttons">
+                                     </a>
+                                    <h2>
+                                        <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.link}">
+                                            ${content0["sakai:pooled-content-file-name"]|safeOutput}
+                                        </a>
+                                    </h2>
+                                    ${contentButtons(content0.id, content0["sakai:pool-content-created-for"],content0["sakai:pooled-content-file-name"],content0.mimeType)}
+                                </div>
+                            {/if}
+                            {var content1 = item.suggestions[1]}
+                            {if content1}
+                                <div class="carousel_three_column_middle s3d-draggable-container" data-scope="content" data-entityid="${content1.id}" {if sakai.api.Content.Collections.isCollection(content1)} data-collection="true" {/if}>
+                                    <a href="${content1.link}">
+                                        {if content1.thumbnail}
+                                            <img class="carousel_item_preview_img carousel_item_medium_preview" src="${content1.thumbnail}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                        {else}
+                                            <img class="carousel_item_preview_img carousel_item_medium_mimetype" src="${content1.mimeTypeURL}" alt="__MSG__CONTENT_PREVIEW__"/>
+                                        {/if}
+                                    </a>
+                                    <h2>
+                                        <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.link}">
+                                            ${content1["sakai:pooled-content-file-name"]|safeOutput}
+                                        </a>
+                                    </h2>
+                                    ${contentButtons(content1.id, content1["sakai:pool-content-created-for"],content1["sakai:pooled-content-file-name"],content1.mimeType)}
+                                </div>
+                            {/if}
+                            <div class="carousel_three_column_right">
+                                {var content2 = item.suggestions[2]}
+                                {if content2}
+                                    <div class="carousel_two_high_top s3d-draggable-container" data-scope="content" data-entityid="${content2.id}" {if sakai.api.Content.Collections.isCollection(content2)} data-collection="true" {/if}>
+                                        <h2>
+                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.link}">
+                                                ${content2["sakai:pooled-content-file-name"]|safeOutput}
+                                            </a>
+                                        </h2>
+                                        ${contentButtons(content2.id, content2["sakai:pool-content-created-for"],content2["sakai:pooled-content-file-name"],content2.mimeType)}
+                                    {/if}
+                                </div>
+                                {var content3 = item.suggestions[3]}
+                                {if content3}
+                                    <div class="carousel_two_high_bottom s3d-draggable-container" data-scope="content" data-entityid="${content3.id}" {if sakai.api.Content.Collections.isCollection(content3)} data-collection="true" {/if}>
+                                            <h2>
+                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.link}">
+                                                    ${content3["sakai:pooled-content-file-name"]|safeOutput}
+                                                </a>
+                                            </h2>
+                                            ${contentButtons(content3.id, content3["sakai:pool-content-created-for"],content3["sakai:pooled-content-file-name"],content3.mimeType)}
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
+                    {elseif item.contentType == "suggestedUsers"}
+                        <div class="carousel_4x2_grid_container">
+                            {for user in item.suggestions}
+                                <div>
+                                    {if user.picture}
+                                        <img src="/~${user.userid|safeURL}/public/profile/${user.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
+                                    {else}
+                                        <img src="/dev/images/default_User_icon_50x50.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
+                                    {/if}
+                                    <h2><a href="/~${user.userid|safeURL}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName|safeOutput}</a></h2>
+                                    <div class="carousel_counts">
+                                        <ul>
+                                            <li>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=library">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                            </li>
+                                            <li>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts">${user.counts.contactsCount} __MSG__CONTACTS__</a>
+                                            </li>
+                                            <li>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <span class="carousel_bottom_buttons">
+                                        <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                                             {if !user.connected}
-                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS__"></button>
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS1__ ${user.displayName|safeOutput} __MSG__ADD_TO_CONTACTS2__"></button>
                                             {/if}
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE__"></button>
-                                        </div>
-                                    </div>
-                                {/for}
-                            </div>
-                        {elseif item.contentType == "suggestedGroups"}
-                            <div class="carousel_4x2_grid_container">
-                                {for group in item.suggestions}
-                                    {var tall = group_index < 2}
-                                    <div class="carousel_4x2_{if tall}tall{else}short{/if}">
-                                        {if group.picture}
-                                            <img src="${group.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${group.title|safeOutput}"/>
-                                        {else}
-                                            <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${group.title|safeOutput}"/>
-                                        {/if}
-                                        <h2>
-                                            <a href="/~${group.groupid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">
-                                                ${group.title|safeOutput}
-                                            </a>
-                                        </h2>
-                                        {if tall}
-                                            <p class="carousel_item_desc carousel_apply_threedots threedots_allow_5">
-                                                ${group.description|safeOutput}
-                                            </p>
-                                        {/if}
-                                        <div class="carousel_counts">
-                                            <ul>
-                                                <li>
-                                                    <a class="s3d-regular-light-links" href="/~${group.groupid}#l=library">${group.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
-                                                </li>
-                                                <li>
-                                                    <a class="s3d-regular-light-links" href="/~${group.groupid}#l=participants">${group.counts.membersCount} __MSG__PARTICIPANTS__</a>
-                                                </li>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE_TO__ ${user.displayName|safeOutput}"></button>
+                                        </fieldset>
+                                    </span>
+                                </div>
+                            {/for}
+                        </div>
+                    {elseif item.contentType == "suggestedGroups"}
+                        <div class="carousel_4x2_grid_container">
+                            {for group in item.suggestions}
+                                {var tall = group_index < 2}
+                                <div class="carousel_4x2_{if tall}tall{else}short{/if}">
+                                    {if group.picture}
+                                        <img src="${group.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${group.title|safeOutput}"/>
+                                    {else}
+                                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${group.title|safeOutput}"/>
+                                    {/if}
+                                    <h2>
+                                        <a href="/~${group.groupid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">
+                                            ${group.title|safeOutput}
+                                        </a>
+                                    </h2>
+                                    {if tall}
+                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_3">
+                                            ${group.description|safeOutput}
+                                        </p>
+                                    {/if}
+                                    <div class="carousel_counts">
+                                        <ul>
+                                            <li>
+                                                <a class="s3d-regular-light-links" href="/~${group.groupid}#l=library">${group.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                            </li>
+                                            <li>
+                                                <a class="s3d-regular-light-links" href="/~${group.groupid}#l=participants">${group.counts.membersCount} __MSG__PARTICIPANTS__</a>
+                                            </li>
 
-                                            </ul>
-                                        </div>
+                                        </ul>
+                                    </div>
+                                    {if tall}
                                         ${tags(group.tags)}
-                                        <span class="carousel_bottom_buttons">
-                                            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__"></button>
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group" title="__MSG__SEND_A_MESSAGE__"></button>
-                                        </span>
+                                    {/if}
+                                    <span class="carousel_bottom_buttons">
+                                        <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
+                                            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__ ${group.title|safeOutput}"></button>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group" title="__MSG__SEND_A_MESSAGE_TO__ ${group.title|safeOutput}"></button>
+                                        </fieldset>
+                                    </span>
 
-                                    </div>
-                                {/for}
-                            </div>
-                        {/if}
+                                </div>
+                            {/for}
+                        </div>
+                    {/if}
                 </li>
             {/for}
         </ul>

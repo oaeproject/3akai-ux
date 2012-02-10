@@ -1,0 +1,21 @@
+{
+    "enabled":            true,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/collectionviewer/bundles/default.properties",
+            "name":       "Collections Viewer",
+            "description":"Displays a collection through different views"
+        }
+    },
+    "id":                 "collectionviewer",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/collectionviewer/collectionviewer.html",
+    "userdashboard":      false,
+    "userpages":          false,
+    "hashParams": ["ls", "so"]
+}
