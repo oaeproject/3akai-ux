@@ -239,12 +239,15 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
         /**
          * Add an item to the queue
          * @param {Object} contentToAdd Object containing data about the object to be added to the queue
+         * @param {Boolean} disableRender Disable rendering of the queue.
          */
-        var addContentToQueue = function(contentToAdd){
+        var addContentToQueue = function(contentToAdd, disableRender) {
             itemsToUpload.push(contentToAdd);
             disableAddToQueue();
             enableStartUpload();
-            renderQueue();
+            if (!disableRender) {
+                renderQueue();
+            }
         };
 
         /**
@@ -420,7 +423,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                 "type": "dropped",
                 "fileReader": file
             };
-            addContentToQueue(contentObj);
+            // SAKIII-4264 - we need to disable the renderQueue function in here
+            // so we don't get an unresponsive script error in Firefox
+            addContentToQueue(contentObj, true);
         };
 
         ////////////////////////////////////////////////
@@ -1292,6 +1297,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                                 sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "newaddcontent"),
                                 sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "newaddcontent"));
                         }
+                        renderQueue();
                     }
                 }
             });
