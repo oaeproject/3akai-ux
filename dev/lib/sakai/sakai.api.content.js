@@ -574,14 +574,14 @@ define(
          * indirect (through group membership) manager/viewer
          * @param {Object} content      content profile data as defined in loadContentProfile()
          * @param {Object} meObj        me object of the user you are checking permissions for
-         * @param {String} accessType   specifies the type of access to check (manager or viewer)
+         * @param {String} permission   specifies the type of access to check (manager or viewer)
          * @param {Object} directOnly   specifies whether or not the relationship needs to be direct
          */
-        isUserAManagerViewer: function(content, meObj, accessType, directOnly) {
+        checkPermissions: function(content, meObj, permission, directOnly) {
             var authorizable = false;
-            if (content && content["sakai:pooled-content-" + accessType]) {
-                for (var i = 0; i < content["sakai:pooled-content-" + accessType].length; i++) {
-                    authorizable = content["sakai:pooled-content-" + accessType][i];
+            if (content && content["sakai:pooled-content-" + permission]) {
+                for (var i = 0; i < content["sakai:pooled-content-" + permission].length; i++) {
+                    authorizable = content["sakai:pooled-content-" + permission][i];
                     // Direct association
                     if (authorizable === meObj.user.userid) {
                         return true;
@@ -591,9 +591,9 @@ define(
                     }
                 }
             }
-            if (content && content.members && content.members[accessType + "s"]) {
-                for (var j = 0; j < content.members[accessType + "s"].length; j++) {
-                    authorizable = content.members[accessType + "s"][j];
+            if (content && content.members && content.members[permission + "s"]) {
+                for (var j = 0; j < content.members[permission + "s"].length; j++) {
+                    authorizable = content.members[permission + "s"][j];
                     // Check if this user/group library is a manager/viewer
                     if (authorizable.groupid === meObj.user.userid || authorizable.userid === meObj.user.userid) {
                         return true;
@@ -611,7 +611,7 @@ define(
          * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
         isUserAManager: function(content, meObj, directOnly) {
-            return sakai_content.isUserAManagerViewer(content, meObj, "manager", directOnly);
+            return sakai_content.checkPermissions(content, meObj, "manager", directOnly);
         },
 
         /**
@@ -622,7 +622,7 @@ define(
          * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
         isUserAViewer: function(content, meObj, directOnly) {
-            return sakai_content.isUserAManagerViewer(content, meObj, "viewer", directOnly);
+            return sakai_content.checkPermissions(content, meObj, "viewer", directOnly);
         },
 
         /**
