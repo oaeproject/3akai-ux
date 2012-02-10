@@ -579,9 +579,9 @@ define(
          */
         checkPermissions: function(content, meObj, permission, directOnly) {
             var authorizable = false;
-            if (content && content["sakai:pooled-content-" + permission]) {
-                for (var i = 0; i < content["sakai:pooled-content-" + permission].length; i++) {
-                    authorizable = content["sakai:pooled-content-" + permission][i];
+            if (content && content['sakai:pooled-content-' + permission]) {
+                for (var i = 0; i < content['sakai:pooled-content-' + permission].length; i++) {
+                    authorizable = content['sakai:pooled-content-' + permission][i];
                     // Direct association
                     if (authorizable === meObj.user.userid) {
                         return true;
@@ -592,8 +592,8 @@ define(
                 }
             }
             if (content && content.members && content.members[permission + "s"]) {
-                for (var j = 0; j < content.members[permission + "s"].length; j++) {
-                    authorizable = content.members[permission + "s"][j];
+                for (var j = 0; j < content.members[permission + 's'].length; j++) {
+                    authorizable = content.members[permission + 's'][j];
                     // Check if this user/group library is a manager/viewer
                     if (authorizable.groupid === meObj.user.userid || authorizable.userid === meObj.user.userid) {
                         return true;
@@ -611,7 +611,7 @@ define(
          * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
         isUserAManager: function(content, meObj, directOnly) {
-            return sakai_content.checkPermissions(content, meObj, "manager", directOnly);
+            return sakai_content.checkPermissions(content, meObj, 'manager', directOnly);
         },
 
         /**
@@ -622,7 +622,7 @@ define(
          * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
         isUserAViewer: function(content, meObj, directOnly) {
-            return sakai_content.checkPermissions(content, meObj, "viewer", directOnly);
+            return sakai_content.checkPermissions(content, meObj, 'viewer', directOnly);
         },
 
         /**
@@ -644,8 +644,8 @@ define(
             }
 
             var fakeMeObj = {
-                "user": {
-                    "userid": userid
+                'user': {
+                    'userid': userid
                 }
             };
             return sakai_content.isUserAViewer(content, fakeMeObj, true) || sakai_content.isUserAManager(content, fakeMeObj, true);
