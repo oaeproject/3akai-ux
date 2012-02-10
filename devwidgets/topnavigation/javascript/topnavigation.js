@@ -994,6 +994,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
+        $(window).bind("sakai.mylibrary.deletedCollections", function(ev, data){
+            $.each(data.items, function(i, item){
+                $(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(parseInt($(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text()) - 1);
+            });
+        });
+
+        $(window).bind("sakai.mylibrary.createdCollections", function(ev, data){
+            $.each(data.items, function(i, item){
+                $(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(parseInt($(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text()) + 1);
+            });
+        });
 
         $("#topnavigation_messages_container").live("click", function(){
             if($("#topnavigation_user_messages_container .s3d-dropdown-menu").is(":hidden")){
