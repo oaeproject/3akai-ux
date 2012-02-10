@@ -154,7 +154,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 var newTitle = $("#entity_name_text").val();
                 var newDottedTitle = sakai.api.Util.applyThreeDots(newTitle, 800, {
                     whole_word: false
-                }, "", true);
+                }, "");
                 if ($.trim(newTitle)) {
                     $("#entity_name").text(newDottedTitle);
                     $("#entity_name").attr("data-original-title", newTitle);
