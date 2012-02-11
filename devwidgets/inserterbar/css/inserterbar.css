@@ -108,8 +108,9 @@
 
 /* Widget icons */
 .inserterbar_standard_icon {
-    height: 25px;
     border: none;
+    display: block;
+    height: 25px;
 }
 
 #inserterbar_widget .inserterbar_expand_widget {
@@ -238,6 +239,8 @@
 }
 
 #inserterbar_widget .inserterbar_carousel_item {
+    display: block;
+    height: 30px;
     width: 110px;
 }
 
@@ -245,7 +248,7 @@
     display: inline-block;
 }
 
-#inserterbar_more_widgets_container ul li div:first-child{
+#inserterbar_more_widgets_container ul li a:first-child{
     margin-bottom: 14px;
 }
 

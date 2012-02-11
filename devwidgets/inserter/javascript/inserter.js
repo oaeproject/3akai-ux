@@ -279,6 +279,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COLLECTION_CREATED"), sakai.api.i18n.getValueForKey("COLLECTION_CREATED_LONG"));
                 $(inserterCreateCollectionInput, $rootel).val("");
+                $(window).trigger("sakai.mylibrary.createdCollections", {
+                    items: ["newcollection"]
+                });
             });
         };
 
@@ -735,6 +738,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 animateUIElements("reset");
                 inCollection = false;
                 $(inserterCreateCollectionInput).focus();
+            }
+        });
+
+        $(window).bind("sakai.mylibrary.deletedCollections", function(ev, data){
+            if(infinityCollectionScroll){
+                infinityCollectionScroll.removeItems(data.items);
             }
         });
 

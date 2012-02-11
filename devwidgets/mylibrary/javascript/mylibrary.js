@@ -328,8 +328,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $checked = $(".mylibrary_check:checked:visible", $rootel);
                 if ($checked.length) {
                     var paths = [];
+                    var collectionPaths = [];
                     $checked.each(function () {
                         paths.push($(this).data("entityid"));
+                        if($checked.attr("data-type") === "x-sakai/collection"){
+                            collectionPaths.push($(this).data("entityid"));
+                        }
                     });
                     $(window).trigger('init.deletecontent.sakai', [{
                         paths: paths,
@@ -339,6 +343,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             resetView();
                             $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
                             mylibrary.infinityScroll.removeItems(paths);
+                            if(collectionPaths.length){
+                                $(window).trigger("sakai.mylibrary.deletedCollections", {
+                                    items: collectionPaths
+                                });
+                            }
                         }
                     }]);
                 }
@@ -351,6 +360,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $mylibrary_remove_icon.live("click", function(ev) {
                 if ($(this).attr("data-entityid")){
                     var paths = [];
+                    var collection = false;
+                    if($(this).attr("data-type") === "x-sakai/collection"){
+                        collection = true;
+                    }
                     paths.push($(this).attr("data-entityid"));
                     $(window).trigger('init.deletecontent.sakai', [{
                         paths: paths,
@@ -359,6 +372,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (success) {
                             resetView();
                             $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
+                            if(collection){
+                                $(window).trigger("sakai.mylibrary.deletedCollections", {
+                                    items: paths
+                                });
+                            }
                             mylibrary.infinityScroll.removeItems(paths);
                         }
                     }]);
