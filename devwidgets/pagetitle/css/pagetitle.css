@@ -20,27 +20,10 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-/*
- * Widget Container CSS
- */
+.pagetitle_widget, .pagetitle_widget textarea {min-height: 28px; word-wrap: break-word;}
+.pagetitle_widget textarea {overflow: hidden; resize: none; background-color: transparent; color: #333333; font-family: Arial; font-size: 18px; font-weight: bold; line-height: 28px; border: none;}
 
-/* padding around all your widget's content */
-.WIDGET_ID_widget .s3d-widget-content {padding: 10px 20px;}
-
-/* widget icon (for widgets that may appear on a dashboard) 
-   icons are usually around 18 x 18 pixels */
-.WIDGET_ID.s3d-widget .s3d-widget-titlebar .widget_title {
-    background: url('/devwidgets/WIDGET_ID/images/WIDGET_ID_icon.png') 
-        17px 18px no-repeat;
-}
-
-
-/*
- * Main View CSS
- */
-
-
-/*
- * Settings View CSS
- */
- 
+#pagetitle_view_container {display:block;}
+.contentauthoring_edit_mode #pagetitle_view_container {display:none !important;}
+#pagetitle_edit_container {display:none;}
+.contentauthoring_edit_mode #pagetitle_edit_container {display:block !important;}

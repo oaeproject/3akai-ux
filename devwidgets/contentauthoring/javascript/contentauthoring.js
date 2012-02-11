@@ -256,9 +256,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var makeColumnsResizable = function(){
-            if (sakai_global.htmlblock && sakai_global.htmlblock.updateHeights) {
-                sakai_global.htmlblock.updateHeights();
-            }
+            $(window).trigger("resize.contentauthoring.sakai");
             $(".contentauthoring_cell").resizable({
                 handles: {
                     'e': '.contentauthoring_cell_handle,.contentauthoring_cell_handle_grab'
@@ -328,9 +326,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         }
                         totalWidth += currentColumnWidth;
                     }
-                    if (sakai_global.htmlblock && sakai_global.htmlblock.updateHeights) {
-                        sakai_global.htmlblock.updateHeights();
-                    }
+                    $(window).trigger("resize.contentauthoring.sakai");
                     setHeight($row);
                 }
             });
@@ -342,9 +338,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var updateColumnHandles = function(){
             $(".contentauthoring_cell_handle").show();
-            if (sakai_global.htmlblock && sakai_global.htmlblock.updateHeights) {
-                sakai_global.htmlblock.updateHeights();
-            }
+            $(window).trigger("resize.contentauthoring.sakai");
             var $rows = $(".contentauthoring_row_container");
             for (var r = 0; r < $rows.length; r++){
                 var $columns = $(".contentauthoring_cell", $($rows[r]));

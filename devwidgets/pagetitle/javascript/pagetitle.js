@@ -31,17 +31,73 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.pagetitle = function (tuid, showSettings) {
+    sakai_global.pagetitle = function (tuid, showSettings, widgetData) {
+
+        var $rootel = $("#" + tuid);
+        var $textarea = $("textarea", $rootel).attr("name", tuid);
+
+        var autoSavePoll = false;
+        var lastData = "";
+        if (widgetData && widgetData.pagetitle){
+            lastData = widgetData.pagetitle.content;
+        }
+
+        var startAutosave = function(){
+            // Start the autosave
+            if (autoSavePoll){
+                clearInterval(autoSavePoll);
+                autoSavePoll = false;
+            }
+            autoSavePoll = setInterval(autoSave, 5000);
+            $(window).bind("save.contentauthoring.sakai", function(){
+                if ($rootel.is(":visible")) {
+                    autoSave();
+                    var currentText = $textarea.val();
+                    $("#pagetitle_view_container", $rootel).text(currentText);
+                }
+            });
+        };
         
+        var autoSave = function(){
+            var currentText = $textarea.val();
+            if (currentText !== lastData){
+                lastData = currentText;
+                sakai.api.Widgets.saveWidgetData(tuid, {"content": currentText});
+            }
+        };
+
+        $textarea.bind("focus", function(){
+            $(".contentauthoring_cell_element_actions").hide();
+            $("#inserterbar_tinymce_container").hide();
+        });
+
+        var updateHeight = function(){
+            $textarea.height("28px");
+            $textarea.height($textarea[0].scrollHeight);
+        };
+        $textarea.bind("keyup", updateHeight);
+        $(window).bind("resize.contentauthoring.sakai", updateHeight);
+
         /**
-         * Initialization function DOCUMENTATION
+         * Initialization function
          */
         var doInit = function () {
-            // your widget initialization code here
+            if (widgetData && widgetData.pagetitle) {
+                var processedContent = sakai.api.i18n.General.process(widgetData.pagetitle.content);
+                $("#pagetitle_view_container", $rootel).text(processedContent);
+                // Fill up the textarea
+                $textarea.val(widgetData.pagetitle.content);
+            }
+            $textarea.css("height", $("#pagetitle_view_container", $rootel).height());
+            if ($textarea.is(":visible")){
+                $textarea.focus()
+            };
+            startAutosave();
         };
         
         // run the initialization function when the widget object loads
         doInit();
+
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run

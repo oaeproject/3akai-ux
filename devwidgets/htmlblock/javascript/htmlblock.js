@@ -35,23 +35,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $rootel = $("#" + tuid);
 
         var autoSavePoll = false;
+        var $toolbar = false;
+        var id = false;
         var lastData = "";
         if (widgetData && widgetData.htmlblock){
             lastData = widgetData.htmlblock.content;
         }
 
-        sakai_global.htmlblock.updateHeights = function(element){
-            var elements = element ? [$("#" + element + "_ifr")] : $(".mceIframeContainer iframe:visible");
-            $.each(elements, function(index, item){
+        $(window).bind("resize.contentauthoring.sakai", function(){
+            updateHeight();
+        });
+        var updateHeight = function(){
+            var $element = $("#" + id + "_ifr");
+            if ($element.length){
                 try {
                     var docHt = 0, sh, oh;
-                    var frame = $(item)[0];
-                    $(item).contents().scrollTop(0);
+                    var frame = $element[0];
+                    $element.contents().scrollTop(0);
                     var innerDoc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
-                    $(item).css("height", "25px");
+                    $element.css("height", "25px");
                     docHt = sh = innerDoc.body.scrollHeight; docHt = oh = innerDoc.body.offsetHeight;
                     if (sh && oh) {
-                        //docHt = Math.max(sh, oh);
                         docHt = oh;
                     } else {
                         docHt = sh;
@@ -59,26 +63,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (docHt < 25){
                         docHt = 25;
                     }
-                    if ($(item).height() !== docHt) {
-                        $(item).css("height", docHt + "px");
+                    if ($element.height() !== docHt) {
+                        $element.css("height", docHt + "px");
                     }
                 } catch (err){
                     return false;
                 }
-            });
-        };
+            }
+        }
 
-        var $rootel = $("#" + tuid);
-        var $toolbar = false;
-        var id = false;
-
-        var updateHeightInit = function(ui){
+        var initTinyMCE = function(ui){
             id = ui.id;
             $editor = $("#" + id + "_ifr");
             $toolbar = $("#" + id + "_external");
             $toolbar.css("display", "none");
             $("#inserterbar_widget #inserterbar_tinymce_container").append($toolbar);
-            setTimeout(sakai_global.htmlblock.updateHeights, 500, id);
+            setTimeout(updateHeight, 500);
 
             // Start the autosave
             if (autoSavePoll){
@@ -112,13 +112,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var updateHeight = function(ev, ui){
+        var tinyMCEEvent = function(ev, ui){
             if ($editor && (!ev || !ev.type || ev.type === "click" || ev.type === "keyup" || ev.type === "mouseup" || ev.type === "paste")) {
-                if (ui && ui.id){
-                    sakai_global.htmlblock.updateHeights(ui.id);
-                } else {
-                    sakai_global.htmlblock.updateHeights();
-                }
+                updateHeight();
             }
             return true;
         };
@@ -161,13 +157,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         theme_advanced_statusbar_location: "none",
                         theme_advanced_resizing: false,
                         editor_selector: tuid,
-                        handle_event_callback: updateHeight,
-                        init_instance_callback: updateHeightInit,
+                        handle_event_callback: tinyMCEEvent,
+                        init_instance_callback: initTinyMCE,
                         remove_instance_callback: stopAutosave,
                         setup : function(ed) {
                             ed.onClick.add(function(ed, e) {
                                 $("#inserterbar_widget #inserterbar_tinymce_container").show();
-                                $(this.contentAreaContainer).parents(".contentauthoring_cell_element").find(".contentauthoring_cell_element_actions").hide();
+                                $(".contentauthoring_cell_element_actions").hide();
                             });
                             ed.onInit.add(function(ed) {
                                 ed.focus();
