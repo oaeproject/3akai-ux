@@ -293,10 +293,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#content_profile_right_metacomments").addClass("fl-container-450");
             if (isSakaiDoc){
                 $("#content_profile_preview_container").hide();
-                $("#content_profile_sakaidoc_container").show();
+                $("#content_profile_contentauthoring_container").show();
             } else {
                 $("#content_profile_preview_container").show();
-                $("#content_profile_sakaidoc_container").hide();
+                $("#content_profile_contentauthoring_container").hide();
             }
         };
 
@@ -309,10 +309,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#content_profile_right_metacomments").removeClass("fl-container-450");
             if (isSakaiDoc){
                 $("#content_profile_preview_container").hide();
-                $("#content_profile_sakaidoc_container").show();
+                $("#content_profile_contentauthoring_container").show();
             } else {
                 $("#content_profile_preview_container").show();
-                $("#content_profile_sakaidoc_container").hide();
+                $("#content_profile_contentauthoring_container").hide();
             }
         };
 
