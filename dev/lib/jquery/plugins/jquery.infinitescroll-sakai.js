@@ -214,6 +214,7 @@
                             initialCallback(data);
                         }
                     } else {
+                        showHideLoadingContainer(false);
                         debug.log("An error has occured while retrieving the list of results");
                     }
                 });
@@ -230,6 +231,7 @@
                         }
                     },
                     "error": function(){
+                        showHideLoadingContainer(false);
                         debug.log("An error has occured while retrieving the list of results");
                     }
                 });
@@ -261,7 +263,7 @@
          */
         var showHideLoadingContainer = function(show){
             if (show){
-                $loadingContainer.show();
+                $loadingContainer.hide().show();
             } else {
                 $loadingContainer.hide();
             }

@@ -154,7 +154,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 var newTitle = $("#entity_name_text").val();
                 var newDottedTitle = sakai.api.Util.applyThreeDots(newTitle, 800, {
                     whole_word: false
-                }, "", true);
+                }, "");
                 if ($.trim(newTitle)) {
                     $("#entity_name").text(newDottedTitle);
                     $("#entity_name").attr("data-original-title", newTitle);
@@ -283,10 +283,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ////////////////////////
 
         var updateTags = function(){
-            var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $contentmetadataAutosuggestElt, true );
-            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
-                sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
-                renderTags(false);
+            var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($contentmetadataAutosuggestElt, true);
+            var path = sakai_global.content_profile.content_data.data["_path"];
+            sakai.api.Util.tagEntity("/p/" + path, tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
+                // We need this check because it's possible that this is called after new content is shown.
+                // If that is the case, we still need to send the update tags activity, but not render the actual tags.
+                if(path === sakai_global.content_profile.content_data.data["_path"]){
+                    sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
+                    renderTags(false);
+                }
                 if (success) {
                     // Create an activity
                     createActivity("UPDATED_TAGS");

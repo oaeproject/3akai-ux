@@ -133,8 +133,8 @@
                     <div class="mylibrary_item_right s3d-regular-links s3d-search-result-right">
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
-                                <span class="s3d-search-result-name">${item['sakai:pooled-content-file-name-short']|safeOutput}</span>
-                                <span class="s3d-search-result-name-grid">${item['sakai:pooled-content-file-name-shorter']|safeOutput}</span>
+                                <span class="s3d-search-result-name">${item['sakai:pooled-content-file-name-short']}</span>
+                                <span class="s3d-search-result-name-grid">${item['sakai:pooled-content-file-name-shorter']}</span>
                             </a>
                             {if item.mimeTypeDescription}
                                 <span class="mylibrary_item_mimetype">${item.mimeTypeDescription|safeOutput}</span>
