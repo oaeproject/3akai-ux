@@ -79,8 +79,8 @@
                     <div>
                         <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']}" title="${i['_path']}"{/if}>
                             {if i['sakai:pooled-content-file-name']}
-                                <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']|safeOutput}</span>
-                                <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']|safeOutput}</span>
+                                <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']}</span>
+                                <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']}</span>
                             {elseif i['_path']}
                                 ${i['_path']}
                             {/if}
@@ -175,7 +175,7 @@
             <ul>
                 {for page in data}
                     {for result in page}
-                        <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
+                        <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" data-item-id="${result._path}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
                             {var thumbnail = sakai.api.Content.getThumbnail(result)}
                             <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-scope="content" data-entityid="${result["_path"]}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
                                 {if thumbnail}

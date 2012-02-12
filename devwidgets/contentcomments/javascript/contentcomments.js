@@ -173,21 +173,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             for (var i = 0; i < json.comments.length; i++) {
                 jsonDisplay.comments[i] = {};
                 var comment = json.comments[i];
-                // Checks if the date is already parsed to a date object
-                var tempDate = comment._created;
-                try {
-                    // if the date is not a string this should generate en exception
-                    comment.date = sakai.api.l10n.fromEpoch(tempDate, sakai.data.me);
-                }
-                catch (ex) {
-                    if (comment.date instanceof Date) {
-                        comment.date = tempDate;
-                    } else {
-                        comment.date = new Date(comment.date);
-                    }
-                }
 
-                comment.timeAgo = $.timeago(comment.date);
+                comment.timeAgo = $.timeago(new Date(comment._created));
                 comment.messageTxt = comment.comment;
                 comment.message = tidyInput(comment.comment);
                 comment.canEdit = false;
@@ -217,6 +204,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
             jsonDisplay.sakai = sakai;
             $(contentcommentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(contentcommentsShowCommentsTemplate, jsonDisplay));
+            // Render Math formulas in the text
+            sakai.api.Util.renderMath(tuid);
         };
 
         /**

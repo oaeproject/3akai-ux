@@ -52,17 +52,31 @@
 <div id="addpeople_selected_contacts_template"><!--
     <ul>
         {var index = 0}
+        {var managesUser = false}
         {for contact in contacts}
             {if index != 0}
                 <hr/>
             {/if}
             <li class="s3d-list-item">
-                <input type="checkbox" class="addpeople_selected_checkbox" id="${contact.userid}_chkselected"/>
+                {if !existingGroup || (currentUserRoleData && sakai.api.Groups.hasManagementRights(currentUserRoleData, contact.permission) || currentUserRoleData.id === contact.permission)}
+                    {var managesUser = true}
+                {else}
+                    {var managesUser = false}
+                {/if}
+                <input type="checkbox" class="addpeople_selected_checkbox" id="${contact.userid|safeOutput}_chkselected" data-userid="${contact.userid|safeOutput}"{if !managesUser} disabled="disabled"{/if}/>
                 <label for="${contact.userid}_chkselected"><img class="s3d-list-entity-picture" src="${contact.picture}" alt="__MSG__PROFILE_PICTURE__"/></label>
                 <a href="/~${contact.userid|safeURL}" target="_blank" title="${contact.name|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.dottedname}</a>
-                <select class="addpeople_selected_permissions" id="${contact.userid}_permissions">
+                <select class="addpeople_selected_permissions" data-userid="${contact.userid|safeOutput}"{if !managesUser} disabled="disabled"{/if}>
                     {for role in roles}
-                        <option value="${role.id}" {if contact.permission == role.id || contact.permission == role.title} selected="selected" {/if}>${sakai.api.i18n.General.process(role.title)}</option>
+                        <option value="${role.id}"
+                            {if contact.permission === role.id || contact.permission === role.title}
+                                selected="selected"
+                            {/if}
+                            {if existingGroup && currentUserRoleData && !sakai.api.Groups.hasManagementRights(currentUserRoleData, role.id) && currentUserRoleData.id !== role.id && contact.permission !== role.id}
+                                disabled="disabled"
+                            {/if}>
+                            ${sakai.api.i18n.General.process(role.title)}
+                        </option>
                     {/for}
                 </select>
             </li>
@@ -78,8 +92,8 @@
             {if contact.details["sakai:state"] === "ACCEPTED"}
                 ${total++|eat}
                 <li class="s3d-list-item">
-                    <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk" data-user-firstname="${sakai.api.User.getFirstName(contact.profile)|safeOutput}"/>
-                    <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.User.getProfilePicture(contact.profile)}" alt="__MSG__PROFILE_PICTURE__"/></label>
+                    <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid|safeOutput}_chk" data-userid="${contact.profile.userid|safeOutput}" data-user-firstname="${sakai.api.User.getFirstName(contact.profile)|safeOutput}"/>
+                    <label for="${contact.profile.userid|safeOutput}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.User.getProfilePicture(contact.profile)}" alt="__MSG__PROFILE_PICTURE__"/></label>
                     <a href="/~${contact.profile.userid|safeURL}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 90, null, null, true)}</a>
                 </li>
                 <hr/>
@@ -88,9 +102,9 @@
         {for group in groups}
             ${total++|eat}
             <li class="s3d-list-item">
-                <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]}_chk"/>
-                <label for="${group["sakai:group-id"]}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.Groups.getProfilePicture(group)}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="/~${group["sakai:group-id"]}" target="_blank" title="${group["sakai:group-title"]|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 90)}</a>
+                <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]|safeOutput}_chk" data-userid="${group["sakai:group-id"]|safeOutput}"/>
+                <label for="${group["sakai:group-id"]|safeOutput}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.Groups.getProfilePicture(group)}" alt="__MSG__PROFILE_PICTURE__"/></label>
+                <a href="/~${group["sakai:group-id"]|safeOutput}" target="_blank" title="${group["sakai:group-title"]|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 90)}</a>
             </li>
             <hr/>
         {/for}
