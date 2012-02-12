@@ -128,7 +128,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(contactsContainerListEmpty).hide();
             var url = sakai.config.URL.CONTACTS_FIND;
             if (!contacts.query) {
-                contacts.query = "*";
+                if (sakai_global.profile.main.mode.value !== 'view') {
+                    url = sakai.config.URL.SEARCH_USERS_ACCEPTED;
+                }
+                contacts.query = '*';
             }
             var data = {
                 "q": contacts.query,
@@ -198,10 +201,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(contactsContainerList).hide();
                 $(contactsContainerListEmpty).show();
                 var searching = false;
-                if (contacts.query && contacts.query !== "*") {
+                if (contacts.query && contacts.query !== '*') {
                     searching = true;
                 }
-                $(contactsContainerListEmpty).html(sakai.api.Util.TemplateRenderer(contactsAcceptedEmptyTemplate, {"sakai": sakai, "searching": searching}));
+                $(contactsContainerListEmpty).html(sakai.api.Util.TemplateRenderer(contactsAcceptedEmptyTemplate, {'sakai': sakai, 'searching': searching}));
             }, sakai.config.URL.INFINITE_LOADING_ICON, resultsPostProcessor);
         };
 
