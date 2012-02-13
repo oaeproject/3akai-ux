@@ -325,7 +325,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                         "_nonEditable": nonEditable
                     }
                 };
-
                 toCreate[refID] = docStructure[i];
             }
 
@@ -352,7 +351,12 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                     $.each(struct, function(i, obj){
                         batchRequests.push({
                             url: "/p/" + poolId + "/" + obj._ref + ".save.json",
-                            method: "POST"
+                            method: "POST",
+                            parameters: {
+                                "sling:resourceType": "sakai/pagecontent",
+                                "sakai:pagecontent": $.toJSON(toCreate[obj._ref]),
+                                "_charset_": "utf-8"
+                            }
                         });
                     });
                     var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $autoSuggestElt, true );

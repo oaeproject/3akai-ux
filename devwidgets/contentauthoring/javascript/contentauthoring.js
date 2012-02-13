@@ -1311,7 +1311,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         }
                     }
                     data.rows = rows;
-                    sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
+                    sakai.api.Server.saveJSON(STORE_PATH, data, function(){
+                        var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ["_"]);
+                        debug.log(versionToStore);
+                        $.ajax({
+                            url: STORE_PATH + ".save.json",
+                            type: "POST",
+                            data: {
+                                "sling:resourceType": "sakai/pagecontent",
+                                "sakai:pagecontent": $.toJSON(versionToStore),
+                                "_charset_": "utf-8"
+                            }
+                        });
+                    }, true);
                 });
             }
         };

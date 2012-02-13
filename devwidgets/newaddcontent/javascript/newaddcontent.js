@@ -603,7 +603,24 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             var resourceIds = {};
             for (var i = 0; i < resources.length; i++) {
                 resourceIds[i] = resources[i]._id;
-                content[resourceIds[i]] = {"page" : resources[i].page};
+                var widgetId = sakai.api.Util.generateWidgetId();
+                content[resourceIds[i]] = {
+                    "rows": [{
+                        "id": sakai.api.Util.generateWidgetId(),
+                        "columns": [{
+                            "width": 1,
+                            "elements": [{
+                                "id": widgetId,
+                                "type": htmlblock
+                            }]
+                        }]
+                    }]
+                }
+                content[resourceIds[i]][widgetId] = {
+                    "htmlblock": {
+                        "content": resources[i].page
+                    }
+                }
             }
             finishSakaiDoc(documentObj, content);
         };
@@ -697,7 +714,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                             url: "/p/" + documentObj["_path"] + "/" + i + ".save.json",
                             parameters: {
                                 "sling:resourceType": "sakai/pagecontent",
-                                "sakai:pagecontent": content[i],
+                                "sakai:pagecontent": $.toJSON(content[i]),
                                 "_charset_": "utf-8"
                             },
                             method: "POST"
