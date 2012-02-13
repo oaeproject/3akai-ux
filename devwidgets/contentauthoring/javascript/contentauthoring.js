@@ -1029,12 +1029,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var renderPage = function(currentPageShown, requiresRefresh){
             $rootel.removeClass("contentauthoring_edit_mode");
             $(window).trigger("render.contentauthoring.sakai");
+            showPageEditControls(currentPageShown.addArea);
             if($("#versions_container").is(":visible")){
                 $("#inserterbar_action_revision_history").trigger("click");
             }
             sakai.api.Widgets.nofityWidgetShown("#contentauthoring_widget > div:visible", false);
             $("#contentauthoring_widget > div:visible").hide();
-            STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+            STORE_PATH = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + "/";
             if ($("#" + currentPageShown.ref).length === 0 || requiresRefresh) {
                 if (requiresRefresh){
                     $("#" + currentPageShown.ref).find('.tinyMCE').each(function(){
@@ -1123,7 +1124,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             updateColumnHandles();
             // Make temporary copy
             sakai.api.Server.loadJSON(STORE_PATH, function(success, data){
-                STORE_PATH = currentPageShown.savePath + "/tmp_" + currentPageShown.ref + "/";
+                STORE_PATH = currentPageShown.pageSavePath + "/tmp_" + currentPageShown.saveRef + "/";
                 if (success){
                     sakai.api.Server.saveJSON(STORE_PATH, data, null, true);
                 } else {
@@ -1151,7 +1152,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                    ":operation": "delete"
                 }
             });
-            STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+            STORE_PATH = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
 
             // Reset the widget data in the widgetloader
             $.each(currentPageShown.content, function(key, item){
@@ -1238,7 +1239,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             debug.log("Deleted temporary success");
                         }
                     });
-                    STORE_PATH = currentPageShown.savePath + "/" + currentPageShown.ref + "/";
+                    STORE_PATH = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
                     // Get the widgets in this page and change their save URL
                     var widgets = getWidgetList();
                     for (var w in widgets){
@@ -1304,6 +1305,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             renderPage(currentPageShown);
             editPage();
         });
+
+        var showPageEditControls = function(addArea){
+            if (addArea){
+                $("#inserterbar_action_add_page_container").hide();
+                $("#inserterbar_action_add_area_page_container").show();
+            } else {
+                $("#inserterbar_action_add_area_page_container").hide();
+                $("#inserterbar_action_add_page_container").show();
+            }
+        };
 
         sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content");
         $(window).trigger("ready.contentauthoring.sakai");

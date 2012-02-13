@@ -1753,9 +1753,6 @@ define(
 
         },
 
-        /**
-         * TODO: Clean up and add documentation
-         */
         Migrators : {
 
             /**

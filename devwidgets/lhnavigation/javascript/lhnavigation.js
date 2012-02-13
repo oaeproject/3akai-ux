@@ -613,17 +613,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var neworder = pubstructure.orderedItems.length;
 
             var pageContent = {
-                "rows": [
-                    {
-                        "id": "id" + Math.round(Math.random() * 100000000),
-                        "columns": [
-                            {
-                                "width": 1,
-                                "elements": []
-                            }
-                        ]
-                    }
-                ]
+                "rows": [{
+                    "id": "id" + Math.round(Math.random() * 100000000),
+                    "columns": [{
+                        "width": 1,
+                        "elements": []
+                    }]
+                }]
             };
             var pageToCreate = {
                 "_ref": newpageid,
@@ -643,9 +639,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 },
                 "_childCount":1
             };
-
-            pubstructure.pages[newpageid] = {};
-            sakaiDocsInStructure[contextData.puburl][newpageid] = {};
 
             pubstructure.pages[newpageid] = pageContent;
             sakaiDocsInStructure[contextData.puburl][newpageid] = pageContent;
@@ -674,7 +667,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var fullRef = currentPageShown.pageSavePath.split("/p/")[1] + "-" + newpageid;
             var basePath = currentPageShown.path.split("/")[0];
 
-            var pageContent = "";
+            var pageContent = {
+                "rows": [{
+                    "id": "id" + Math.round(Math.random() * 100000000),
+                    "columns": [{
+                        "width": 1,
+                        "elements": []
+                    }]
+                }]
+            }
             var pageToCreate = {
                 "_ref": fullRef,
                 "_title": "Untitled Page",
@@ -712,11 +713,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "_childCount":1
             };
 
-            pubstructure.pages[fullRef] = {};
-            sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = {};
-
-            pubstructure.pages[fullRef].page = pageContent;
-            sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid].page = pageContent;
+            pubstructure.pages[fullRef] = pageContent;
+            sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = pageContent;
 
             pubstructure.items[basePath][newpageid] = pageToCreate;
             pubstructure.items[basePath]._childCount++;
@@ -727,11 +725,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             renderData();
             addParametersToNavigation();
             $(window).trigger("sakai.contentauthoring.needsTwoColumns");
-            $.bbq.pushState({
-                "l": currentPageShown.path.split("/")[0] + "/" + newpageid,
-                "newPageMode": "true"
-            }, 0);
-            enableSorting();
+            sakai.api.Server.saveJSON(currentPageShown.pageSavePath + "/" + newpageid + "/", pageContent, function(){
+                $.bbq.pushState({
+                    "l": currentPageShown.path.split("/")[0] + "/" + newpageid,
+                    "newPageMode": "true"
+                }, 0);
+                enableSorting();
+            }, true);
         };
 
         /////////////////////
@@ -1082,7 +1082,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             addTopPage();
         });
 
-        $("#sakaidocs_addpage_area").live("click", function(){
+        $("#inserterbar_action_add_area_page").live("click", function(){
             addSubPage();
         });
 
