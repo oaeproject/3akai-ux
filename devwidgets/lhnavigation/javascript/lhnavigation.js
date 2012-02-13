@@ -274,9 +274,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             structure0[level][sublevel]._ref = pid + "-" + structure0[level][sublevel]._ref;
                         }
                     }
-                    for (var subpage in docStructure){
-                        if (docStructure[subpage]._ref){
-                            structure0[level]._ref = pid + "-" + docStructure[subpage]._ref;
+                    for (var subpage in docStructure) {
+                        if (docStructure[subpage]._ref) {
+                            structure0[level]._ref = pid + '-' + docStructure[subpage]._ref;
                             break;
                         }
                     }
@@ -866,9 +866,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         structure[parts[0]]._elements[0].main._ref &&
                         checkRefId !== structure[parts[0]]._elements[0].main._ref) {
                         if (structure[parts[0]]._elements[0].main._ref.indexOf(checkRefPage) !== -1) {
-                            checkRefPage = "";
+                            checkRefPage = '';
                         } else {
-                            checkRefPage = checkRefPage + "-";
+                            checkRefPage = checkRefPage + '-';
                         }
                         structure[parts[0]]._ref = checkRefPage + structure[parts[0]]._elements[0].main._ref;
                     }
