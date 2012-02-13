@@ -852,13 +852,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          * Update the page reference if it belonged to a subpage that was just deleted
          */
         var updatePageReference = function(structure, path){
-            if (path.indexOf("/") !== -1) {
-                var parts = path.split("/");
+            if (path.indexOf('/') !== -1) {
+                var parts = path.split('/');
                 var checkRef = structure[parts[0]]._ref;
-                if (checkRef.indexOf("-") !== -1) {
+                if (checkRef.indexOf('-') !== -1) {
                     var newRef = false;
-                    var checkRefPage = checkRef.split("-")[0];
-                    var checkRefId = checkRef.split("-")[1];
+                    var checkRefPage = checkRef.split('-')[0];
+                    var checkRefId = checkRef.split('-')[1];
                     // The page ref should be the first sub page
                     if (structure[parts[0]]._elements &&
                         structure[parts[0]]._elements[0] &&
