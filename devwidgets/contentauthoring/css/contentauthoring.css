@@ -39,7 +39,6 @@
 /* Resizing */
 .contentauthoring_widget .contentauthoring_row {
     border: 3px solid transparent;
-    min-height: 100px;
     margin-bottom: 5px;
     display:table;
     width: 100%;
