@@ -150,6 +150,7 @@
     position: absolute;
     top: 50px;
     left: 50px;
+    z-index: 1;
 }
 
 #contentauthoring_row_menu.s3d-dropdown-list .s3d-dropdown-list-arrow-up {
@@ -186,6 +187,7 @@
 
 .contentauthoring_cell_element_actions {
     width: auto;
+    z-index: 1;
 }
 
 .contentauthoring_row_handle_container.selected {
