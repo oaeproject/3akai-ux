@@ -160,6 +160,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 } else if (!total) {
                     if(!contacts.query){
                         $(".s3d-page-header-top-row", $rootel).hide();
+                    } else {
+                        $('.s3d-page-header-top-row', $rootel).show();
                     }
                     $(".s3d-page-header-bottom-row", $rootel).hide();
                 // The user is not anonymous and there are results.
