@@ -987,7 +987,7 @@ define(
                         for (var i = 0; i < roles.length; i++) {
                             if (data.results.hasOwnProperty(i)) {
                                 var members = $.parseJSON(data.results[i].body);
-                                if ( members === null ) {
+                                if (members === null) {
                                   continue;
                                 }
                                 if ($.grep(members, isMatch).length > 0){
