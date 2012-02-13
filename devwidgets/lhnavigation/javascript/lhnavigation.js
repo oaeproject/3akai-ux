@@ -275,8 +275,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         }
                     }
                     for (var subpage in docStructure){
-                        structure0[level]._ref = pid + "-" + docStructure[subpage]._ref;
-                        break;
+                        if (docStructure[subpage]._ref){
+                            structure0[level]._ref = pid + "-" + docStructure[subpage]._ref;
+                            break;
+                        }
                     }
                 }
             }
@@ -808,7 +810,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
 
             // Delete the page
-            sakai.api.Server.removeJSON(pageToDelete.savePath + "/" + pageToDelete.ref); 
+            var deletePath = pageToDelete.pageSavePath;
+            if (pageToDelete.savePath.indexOf('/~') === -1) {
+                // probably a sub page to delete
+                deletePath = pageToDelete.pageSavePath + '/' + pageToDelete.ref.substr(pageToDelete.ref.indexOf('-') + 1);
+            }
+            sakai.api.Server.removeJSON(deletePath);
 
             // Re-render the navigation
             renderData();
@@ -856,8 +863,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     if (structure[parts[0]]._elements &&
                         structure[parts[0]]._elements[0] &&
                         structure[parts[0]]._elements[0].main &&
+                        structure[parts[0]]._elements[0].main._ref &&
                         checkRefId !== structure[parts[0]]._elements[0].main._ref) {
-                        structure[parts[0]]._ref = checkRefPage + "-" + structure[parts[0]]._elements[0].main._ref;
+                        if (structure[parts[0]]._elements[0].main._ref.indexOf(checkRefPage) !== -1) {
+                            checkRefPage = "";
+                        } else {
+                            checkRefPage = checkRefPage + "-";
+                        }
+                        structure[parts[0]]._ref = checkRefPage + structure[parts[0]]._elements[0].main._ref;
                     }
                 }
             }
