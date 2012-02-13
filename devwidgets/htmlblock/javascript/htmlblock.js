@@ -78,7 +78,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $toolbar = $("#" + id + "_external");
             $toolbar.css("display", "none");
             $("#inserterbar_widget #inserterbar_tinymce_container").append($toolbar);
-            setTimeout(updateHeight, 500);
+            setTimeout(function(){
+                updateHeight();
+            }, 1000);
 
             // Start the autosave
             if (autoSavePoll){
