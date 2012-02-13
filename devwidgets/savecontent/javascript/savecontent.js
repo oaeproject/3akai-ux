@@ -165,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                     callback();
-                });
+                }, false, true);
             } else {
                 callback();
             }
