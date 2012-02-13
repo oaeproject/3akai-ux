@@ -54,12 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $element.contents().scrollTop(0);
                     var innerDoc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
                     $element.css("height", "25px");
-                    docHt = sh = innerDoc.body.scrollHeight; docHt = oh = innerDoc.body.offsetHeight;
-                    if (sh && oh) {
-                        docHt = oh;
-                    } else {
-                        docHt = sh;
-                    }
+                    docHt = innerDoc.body.scrollHeight;
                     if (docHt < 25){
                         docHt = 25;
                     }
