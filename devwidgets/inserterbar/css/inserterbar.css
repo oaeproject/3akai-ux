@@ -120,7 +120,7 @@
     width: 25px;
     height: 20px;
 }
-#inserterbar_widget button#inserterbar_more_widgets:hover .inserterbar_expand_widget {
+#inserterbar_widget button#inserterbar_more_widgets:hover .inserterbar_expand_widget, #inserterbar_widget button#inserterbar_more_widgets:focus .inserterbar_expand_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget_hover.png") no-repeat scroll left top transparent;
 }
 
@@ -128,7 +128,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_text_widget.png") no-repeat top left transparent;
     width: 25px;
 }
-#inserterbar_widget .inserterbar_text_widget:hover {
+#inserterbar_widget .inserterbar_text_widget:hover, #inserterbar_widget .inserterbar_text_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_text_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -136,7 +136,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_title_widget.png") no-repeat top left transparent;
     width: 50px;
 }
-#inserterbar_widget .inserterbar_title_widget:hover {
+#inserterbar_widget .inserterbar_title_widget:hover, #inserterbar_widget .inserterbar_title_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_title_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -144,7 +144,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_image_widget.png") no-repeat top left transparent;
     width: 34px;
 }
-#inserterbar_widget .inserterbar_image_widget:hover {
+#inserterbar_widget .inserterbar_image_widget:hover, #inserterbar_widget .inserterbar_image_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_image_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -152,7 +152,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_video_widget.png") no-repeat top left transparent;
     width: 34px;
 }
-#inserterbar_widget .inserterbar_video_widget:hover {
+#inserterbar_widget .inserterbar_video_widget:hover, #inserterbar_widget .inserterbar_video_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_video_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -160,7 +160,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_link_widget.png") no-repeat top left transparent;
     width: 34px;
 }
-#inserterbar_widget .inserterbar_link_widget:hover {
+#inserterbar_widget .inserterbar_link_widget:hover, #inserterbar_widget .inserterbar_link_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_link_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -168,7 +168,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget.png") no-repeat top left transparent;
     width: 34px;
 }
-#inserterbar_widget .inserterbar_filelist_widget:hover {
+#inserterbar_widget .inserterbar_filelist_widget:hover, #inserterbar_widget .inserterbar_filelist_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -176,7 +176,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget.png") no-repeat top left transparent;
     width: 34px;
 }
-#inserterbar_widget .inserterbar_discussion_widget:hover {
+#inserterbar_widget .inserterbar_discussion_widget:hover, #inserterbar_widget .inserterbar_discussion_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -184,7 +184,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget.png") no-repeat top left transparent;
     width: 34px;
 }
-#inserterbar_widget .inserterbar_comments_widget:hover {
+#inserterbar_widget .inserterbar_comments_widget:hover, #inserterbar_widget .inserterbar_comments_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -192,7 +192,7 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget.png") no-repeat top left transparent;
     width: 34px;
 }
-#inserterbar_widget .inserterbar_googlemaps_widget:hover {
+#inserterbar_widget .inserterbar_googlemaps_widget:hover, #inserterbar_widget .inserterbar_googlemaps_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -258,6 +258,6 @@
     font-weight: bold;
     margin-top: 7px;
 }
-.inserterbar_action_link:hover {
+.inserterbar_action_link:hover, .inserterbar_action_link:focus {
     color: #2683BC;
 }
