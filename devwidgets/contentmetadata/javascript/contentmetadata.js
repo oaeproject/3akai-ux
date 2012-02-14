@@ -273,10 +273,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         editInputBlur(false, editingElement);
                     }
                     editingElement = $target.attr( "data-edit-field" );
-                    switch ( editingElement ) {
-                        case "tags":
-                            renderTags("edit");
-                            break;
+                    if (editingElement === 'tags') {
+                        renderTags('edit');
                     }
                 }
             }
@@ -291,10 +289,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if ( !e && forceElt !== editingElement ) {
                 return;
             }
-            switch ( editingElement ) {
-                case "tags":
-                    updateTags();
-                    break;
+            if (editingElement === 'tags') {
+                updateTags();
             }
             editingElement = "";
         };
