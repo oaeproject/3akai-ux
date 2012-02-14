@@ -274,9 +274,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             structure0[level][sublevel]._ref = pid + "-" + structure0[level][sublevel]._ref;
                         }
                     }
-                    for (var subpage in docStructure){
-                        structure0[level]._ref = pid + "-" + docStructure[subpage]._ref;
-                        break;
+                    for (var subpage in docStructure) {
+                        if (docStructure[subpage]._ref) {
+                            structure0[level]._ref = pid + '-' + docStructure[subpage]._ref;
+                            break;
+                        }
                     }
                 }
             }
@@ -812,18 +814,23 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (pagePath.indexOf("/") !== -1){
                 realPath = pagePath.split("/")[1];
             }
-            updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
-            structure.orderedItems = orderItems(structure.structure0);
+            updateCountsAfterDelete(structure.structure0, structure, realRef, realPath);
             storeStructure(structure.structure0, pageToDelete.savePath);
 
             // Change the main structure
-            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pubstructure.orderedItems, pageRef, pagePath);
+            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pageRef, pagePath);
+            updatePageReference(pubstructure.items, pagePath);
             if (getPageCount(pubstructure.items) < 3){
                 $(window).trigger("sakai.contentauthoring.needsOneColumn");
             }
 
             // Delete the page
-            sakai.api.Server.removeJSON(pageToDelete.savePath + "/" + pageToDelete.ref); 
+            var deletePath = pageToDelete.pageSavePath;
+            if (pageToDelete.savePath.indexOf('/~') === -1) {
+                // probably a sub page to delete
+                deletePath = pageToDelete.pageSavePath + '/' + pageToDelete.ref.substr(pageToDelete.ref.indexOf('-') + 1);
+            }
+            sakai.api.Server.removeJSON(deletePath);
 
             // Re-render the navigation
             renderData();
@@ -856,7 +863,36 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $('#lhnavigation_delete_dialog').jqmHide();
         };
 
-        var updateCountsAfterDelete = function(structure, pageslist, orderedItems, ref, path){
+        /*
+         * Update the page reference if it belonged to a subpage that was just deleted
+         */
+        var updatePageReference = function(structure, path){
+            if (path.indexOf('/') !== -1) {
+                var parts = path.split('/');
+                var checkRef = structure[parts[0]]._ref;
+                if (checkRef.indexOf('-') !== -1) {
+                    var newRef = false;
+                    var checkRefPage = checkRef.split('-')[0];
+                    var checkRefId = checkRef.split('-')[1];
+                    // The page ref should be the first sub page
+                    if (structure[parts[0]]._elements &&
+                        structure[parts[0]]._elements[0] &&
+                        structure[parts[0]]._elements[0].main &&
+                        structure[parts[0]]._elements[0].main._ref &&
+                        checkRefId !== structure[parts[0]]._elements[0].main._ref) {
+                        if (structure[parts[0]]._elements[0].main._ref.indexOf(checkRefPage) !== -1) {
+                            checkRefPage = '';
+                        } else {
+                            checkRefPage = checkRefPage + '-';
+                        }
+                        structure[parts[0]]._ref = checkRefPage + structure[parts[0]]._elements[0].main._ref;
+                    }
+                }
+            }
+        };
+
+        var updateCountsAfterDelete = function(structure, pageslist, ref, path){
+            orderedItems = orderItems(structure);
             var oldOrder = 0;
             if (path.indexOf("/") !== -1){
                 var parts = path.split("/");

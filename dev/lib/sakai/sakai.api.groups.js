@@ -436,13 +436,11 @@ define(
 
                     // determine visibility state
                     if (visible === sakai_conf.Permissions.Groups.visible.members) {
-                        // visible to members only
-                        // also remove everyone & anonymous, as they're not a member
+                        // visible to members only, so remove everyone & anonymous, as they're not a member
                         batchRequests.push({
                             "url": groupUpdateURL,
                             "method": "POST",
                             "parameters": {
-                                ":viewer": groupid,
                                 ":viewer@Delete":
                                 [
                                     "everyone",
@@ -990,6 +988,9 @@ define(
                         for (var i = 0; i < roles.length; i++) {
                             if (data.results.hasOwnProperty(i)) {
                                 var members = $.parseJSON(data.results[i].body);
+                                if (members === null) {
+                                  continue;
+                                }
                                 if ($.grep(members, isMatch).length > 0){
                                     role = roles[i];
                                     break;
