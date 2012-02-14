@@ -81,7 +81,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         */
         var checkColumnsUsed = function(element){
             var numColumns = $(element).find(".contentauthoring_cell.ui-resizable").length;
-            var $menuItems = $("#contentauthoring_row_menu ul li");
+            var $menuItems = $("#contentauthoring_row_menu ul li", $rootel);
             $.each($menuItems, function(i, item){
                 var $item = $(item);
                 $item.find(".s3d-action-icon").removeClass("s3d-black-check-icon");
@@ -97,8 +97,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         //////////////////
 
         var setRowReorderHover = function(){
-            $(".contentauthoring_row_container").unbind("hover");
-            $(".contentauthoring_row_container").hover(function(){
+            $(".contentauthoring_row_container", $rootel).unbind("hover");
+            $(".contentauthoring_row_container", $rootel).hover(function(){
                 if (isInEditMode() && !sakai_global.contentauthoring.isDragging) {
                     $(".contentauthoring_row_handle_container", $(this)).css("visibility", "visible");
                 }
@@ -111,8 +111,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         * Fix for https://jira.sakaiproject.org/browse/SAKIII-4878
         */
         var tinyMCEInstanceFix = function(){
-            $(".htmlblock_widget").find(".mceExternalToolbar").hide();
-            $.each($("#inserterbar_widget .mceAction").children(".mceColorPreview"), function(i, color){
+            $(".htmlblock_widget", $rootel).find(".mceExternalToolbar").hide();
+            $.each($("#inserterbar_widget .mceAction", $rootel).children(".mceColorPreview"), function(i, color){
                 if(i > 0){
                     $(color).hide();
                 }
@@ -120,7 +120,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var makeRowsReorderable = function(){
-            $("#contentauthoring_widget_container").sortable({
+            $("#contentauthoring_widget_container", $rootel).sortable({
                 handle: '.contentauthoring_row_handle',
                 placeholder: "contentauthoring_row_reorder_highlight",
                 opacity: 0.4,
@@ -136,8 +136,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         tinyMCE.execCommand('mceRemoveControl', false, $(this).attr('id'));
                     });
                     sakai_global.contentauthoring.isDragging = true;
-                    $(".contentauthoring_row_handle_container").css("visibility", "hidden");
-                    $(".contentauthoring_cell_element_actions").hide();
+                    $(".contentauthoring_row_handle_container", $rootel).css("visibility", "hidden");
+                    $(".contentauthoring_cell_element_actions", $rootel).hide();
                     hideEditRowMenu();
                 },
                 stop: function(event, ui){
@@ -164,7 +164,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          *                      used to search for child cells that can contain content
          */
         var setHeight = function($row) {
-            //$(window).trigger("edit.contentauthoring.sakai");
             var cells = $('.contentauthoring_cell_content', $row);
             var setDefaultHeight = true
             $.each(cells, function(index, cell){
@@ -191,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var reorderPortlets = function(){
-            $( ".contentauthoring_cell_content" ).sortable({
+            $(".contentauthoring_cell_content", $rootel).sortable({
     			connectWith: ".contentauthoring_cell_content",
                 ghost: true,
                 handle: ".contentauthoring_row_handle",
@@ -209,8 +208,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
                     });
                     sakai_global.contentauthoring.isDragging = true;
-                    $(".contentauthoring_row_handle_container").css("visibility", "hidden");
-                    $(".contentauthoring_cell_element_actions").hide();
+                    $(".contentauthoring_row_handle_container", $rootel).css("visibility", "hidden");
+                    $(".contentauthoring_cell_element_actions", $rootel).hide();
                     hideEditRowMenu();
                 },
                 stop: function(event, ui){
@@ -242,7 +241,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var currentSizes = [];
 
         var getColumnWidths = function($row){
-            var totalWidth = $("#contentauthoring_widget_container").width();
+            var totalWidth = $("#contentauthoring_widget_container", $rootel).width();
             var $cells = $(".contentauthoring_cell", $row);
             var widths = [];
             var lastWidth = 1;
@@ -259,7 +258,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var makeColumnsResizable = function(){
             $(window).trigger("resize.contentauthoring.sakai");
-            $(".contentauthoring_cell").resizable({
+            $(".contentauthoring_cell", $rootel).resizable({
                 handles: {
                     'e': '.contentauthoring_cell_handle,.contentauthoring_cell_handle_grab'
                 },
@@ -277,10 +276,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 },
                 stop: function(ev, ui){
                     // Fix for iFrames
-                    $("div.ui-resizable-iframeFix").each(function() { this.parentNode.removeChild(this); }); 
+                    $("div.ui-resizable-iframeFix", $rootel).each(function(){
+                        this.parentNode.removeChild(this);
+                    });
 
                     sakai_global.contentauthoring.isDragging = false;
-                    var totalRowWidth = $("#contentauthoring_widget_container").width();
+                    var totalRowWidth = $("#contentauthoring_widget_container", $rootel).width();
                     var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
                     var oldColumnWidth = ui.originalSize.width / totalRowWidth;
                     
@@ -340,7 +341,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////
 
         var updateColumnHandles = function(){
-            $(".contentauthoring_cell_handle").show();
+            $(".contentauthoring_cell_handle", $rootel).show();
             $(window).trigger("resize.contentauthoring.sakai");
             var $rows = $(".contentauthoring_row_container");
             for (var r = 0; r < $rows.length; r++){
@@ -587,31 +588,31 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var hideEditRowMenu = function(){
             rowToChange = false;
-            $("#contentauthoring_row_menu").hide();
-            $(".contentauthoring_row_handle_container").removeClass("selected");
+            $("#contentauthoring_row_menu", $rootel).hide();
+            $(".contentauthoring_row_handle_container", $rootel).removeClass("selected");
         };
 
-        $(".contentauthoring_row_edit").live("click", function(){
+        $(".contentauthoring_row_edit", $rootel).live("click", function(){
             var currentRow = $(this).attr("data-row-id");
             if (currentRow === rowToChange){
                 hideEditRowMenu();
             } else {
-                if($(".contentauthoring_row").length > 1){
+                if($(".contentauthoring_row", $rootel).length > 1){
                     $("#contentauthoring_row_menu_remove", $rootel).parent("li").show();
                 } else {
                     $("#contentauthoring_row_menu_remove", $rootel).parent("li").hide();
                 }
                 $($(this).parents(".contentauthoring_row_handle_container")).addClass("selected");
-                $("#contentauthoring_row_menu").css("left", ($(this).position().left - ($("#contentauthoring_row_menu").width() / 2)) + "px");
-                $("#contentauthoring_row_menu").css("top", ($(this).position().top + 27) + "px");
-                $("#contentauthoring_row_menu").show();
+                $("#contentauthoring_row_menu", $rootel).css("left", ($(this).position().left - ($("#contentauthoring_row_menu", $rootel).width() / 2)) + "px");
+                $("#contentauthoring_row_menu", $rootel).css("top", ($(this).position().top + 27) + "px");
+                $("#contentauthoring_row_menu", $rootel).show();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents(".contentauthoring_row_container"));
             }
         });
 
         var checkColumnsEmpty = function(){
-            $.each($(".contentauthoring_cell_content", $("#contentauthoring_widget")), function(i, cellcontainer){
+            $.each($(".contentauthoring_cell_content", $("#contentauthoring_widget", $rootel)), function(i, cellcontainer){
                 if(!$(cellcontainer).find(".contentauthoring_cell_element").length){
                     if(!$(cellcontainer).find(".contentauthoring_dummy_element").length){
                         var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
@@ -670,16 +671,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             storeCurrentPageLayout();
         };
 
-        $("#contentauthoring_row_menu_one").live("click", function(){
-            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
+        $("#contentauthoring_row_menu_one", $rootel).live("click", function(){
+            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']", $rootel);
             removeColumns($row, 0);
             hideEditRowMenu();
             setActions();
             setHeight($row);
         });
 
-        $("#contentauthoring_row_menu_two").live("click", function(){
-            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
+        $("#contentauthoring_row_menu_two", $rootel).live("click", function(){
+            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']", $rootel);
             var $cells = $(".contentauthoring_cell", $row);
             if ($cells.length > 2){
                 removeColumns($row, 1);
@@ -690,8 +691,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             setHeight($row);
         });
 
-        $("#contentauthoring_row_menu_three").live("click", function(){
-            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
+        $("#contentauthoring_row_menu_three", $rootel).live("click", function(){
+            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']", $rootel);
             var $cells = $(".contentauthoring_cell", $row);
             if ($cells.length < 3){
                 addColumns($row, 3);
@@ -700,8 +701,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             setHeight($row);
         });
 
-        $("#contentauthoring_row_menu_remove").live("click", function(){
-            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
+        $("#contentauthoring_row_menu_remove", $rootel).live("click", function(){
+            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']", $rootel);
             hideEditRowMenu();
             $row.find('.tinyMCE').each(function(){
                 tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
@@ -710,8 +711,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             storeCurrentPageLayout();
         });
 
-        $("#contentauthoring_row_menu_add_above").live("click", function(){
-            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
+        $("#contentauthoring_row_menu_add_above", $rootel).live("click", function(){
+            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']", $rootel);
             hideEditRowMenu();
             $row.before(generateNewRow());
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
@@ -720,8 +721,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             storeCurrentPageLayout();
         });
 
-        $("#contentauthoring_row_menu_add_below").live("click", function(){
-            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']");
+        $("#contentauthoring_row_menu_add_below", $rootel).live("click", function(){
+            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']", $rootel);
             hideEditRowMenu();
             $row.after(generateNewRow());
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
@@ -736,8 +737,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         /////////////////////
 
         var setCellHover = function(){
-            $(".contentauthoring_cell_element").unbind("hover");
-            $(".contentauthoring_cell_element").hover(function(){
+            $(".contentauthoring_cell_element", $rootel).unbind("hover");
+            $(".contentauthoring_cell_element", $rootel).hover(function(){
                 if (isInEditMode() && !sakai_global.contentauthoring.isDragging) {
                     $(".contentauthoring_cell_element_actions", $(this)).css("left", $(this).position().left + "px");
                     $(".contentauthoring_cell_element_actions", $(this)).css("top", ($(this).position().top + 1) + "px");
@@ -745,7 +746,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     $(this).addClass("contentauthoring_cell_element_hover");
                 }
             }, function(ev, ui){
-                $(".contentauthoring_cell_element_actions").hide();
+                $(".contentauthoring_cell_element_actions", $rootel).hide();
                 $(this).removeClass("contentauthoring_cell_element_hover");
             });
         };
@@ -760,16 +761,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var editModeFullScreen = function(id, type){
             currentlyEditing = id;
-            $("#contentauthoring_widget_content").html("");
+            $("#contentauthoring_widget_content", $rootel).html("");
             if (sakai.widgets[type]) {
                 var widgetSettingsWidth = 650;
                 if (sakai.widgets[type].settingsWidth) {
                     widgetSettingsWidth = sakai.widgets[type].settingsWidth;
                 }
-                $("#contentauthoring_widget_settings_content").html(sakai.api.Security.saneHTML('<div id="widget_' + type + '_' + id + '" class="widget_inline"/>'));
-                $("#contentauthoring_widget_settings_title").html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
+                $("#contentauthoring_widget_settings_content", $rootel).html(sakai.api.Security.saneHTML('<div id="widget_' + type + '_' + id + '" class="widget_inline"/>'));
+                $("#contentauthoring_widget_settings_title", $rootel).html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
                 sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget_settings_content", true, STORE_PATH);
-                $('#contentauthoring_widget_settings').css({
+                $('#contentauthoring_widget_settings', $rootel).css({
                     'width': widgetSettingsWidth + "px",
                     'margin-left': -(widgetSettingsWidth / 2) + "px",
                     'top': ($(window).scrollTop() + 50) + "px"
@@ -777,13 +778,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
-        $(".contentauthoring_cell_element_action_e").live("click", function(){
+        $(".contentauthoring_cell_element_action_e", $rootel).live("click", function(){
             var id = $(this).attr("data-element-id");
             var type = $(this).attr("data-element-type");
             isEditingNewElement = false;
             editModeFullScreen(id, type);
         });
-        $("#contentauthoring_widget_settings").jqm({
+        $("#contentauthoring_widget_settings", $rootel).jqm({
             modal: true,
             overlay: 20,
             toTop: true,
@@ -792,20 +793,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         sakai_global.contentauthoring.widgetCancel = function(){
             if (isEditingNewElement){
-                $(".contentauthoring_cell_element #" + currentlyEditing).parent().remove();
+                $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).parent().remove();
                 checkColumnsEmpty();
             }
             isEditingNewElement = false;
-            $('#contentauthoring_widget_settings').jqmHide();
+            $('#contentauthoring_widget_settings', $rootel).jqmHide();
         };
         sakai_global.contentauthoring.widgetFinish = function(){
             isEditingNewElement = false;
-            $("#contentauthoring_widget_content").html("");
-            var $parent = $(".contentauthoring_cell_element #" + currentlyEditing).parent();
-            $(".contentauthoring_cell_element #" + currentlyEditing).remove();
+            $("#contentauthoring_widget_content", $rootel).html("");
+            var $parent = $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).parent();
+            $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).remove();
             $parent.append("<div id='widget_" + $parent.attr("data-element-type") + "_" + currentlyEditing + "' class='widget_inline'></div>");
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
-            $('#contentauthoring_widget_settings').jqmHide();
+            $('#contentauthoring_widget_settings', $rootel).jqmHide();
         };
 
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
@@ -816,7 +817,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Remove element //
         ////////////////////
 
-        $(".contentauthoring_cell_element_action_x").live("click", function(){
+        $(".contentauthoring_cell_element_action_x", $rootel).live("click", function(){
             var $cell = $(this).parents(".contentauthoring_cell_element");
             var $row = $cell.parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
             $cell.find('.tinyMCE').each(function(){
@@ -993,19 +994,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             // If the page is empty show the illustration
             if (emptyPageElements){
-                $("#contentauthoring_widget_container").hide();
+                $("#contentauthoring_widget_container", $rootel).hide();
                 sakai.api.Util.TemplateRenderer("contentauthoring_no_content_template", {
                     "canEdit": currentPageShown.canEdit
-                }, $("#contentauthoring_no_content_container"));
-                $("#contentauthoring_no_content_container").show();
+                }, $("#contentauthoring_no_content_container", $rootel));
+                $("#contentauthoring_no_content_container", $rootel).show();
             } else {
-                $("#contentauthoring_no_content_container").hide();
-                $("#contentauthoring_widget_container").show();
+                $("#contentauthoring_no_content_container", $rootel).hide();
+                $("#contentauthoring_widget_container", $rootel).show();
             }
         };
 
         var determineEmptyAfterSave = function(){
-            var cellElements = $("#" + currentPageShown.ref + " .contentauthoring_cell_element");
+            var cellElements = $("#" + currentPageShown.ref + " .contentauthoring_cell_element", $rootel);
             var containsText = false;
             $.each(cellElements, function(index, el){
                 if (sakai.api.Util.determineEmptyContent($(el).html())){
@@ -1013,14 +1014,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             });
             if (!containsText){
-                $("#contentauthoring_widget_container").hide();
+                $("#contentauthoring_widget_container", $rootel).hide();
                 sakai.api.Util.TemplateRenderer("contentauthoring_no_content_template", {
                     "canEdit": currentPageShown.canEdit
-                }, $("#contentauthoring_no_content_container"));
-                $("#contentauthoring_no_content_container").show();
+                }, $("#contentauthoring_no_content_container", $rootel));
+                $("#contentauthoring_no_content_container", $rootel).show();
             } else {
-                $("#contentauthoring_no_content_container").hide();
-                $("#contentauthoring_widget_container").show();
+                $("#contentauthoring_no_content_container", $rootel).hide();
+                $("#contentauthoring_widget_container", $rootel).show();
             }
         };
 
@@ -1047,7 +1048,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $("#inserterbar_action_revision_history").trigger("click");
             }
             sakai.api.Widgets.nofityWidgetShown("#contentauthoring_widget > div:visible", false);
-            $("#contentauthoring_widget > div:visible").hide();
+            $("#contentauthoring_widget > div:visible", $rootel).hide();
             STORE_PATH = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + "/";
             if ($("#" + currentPageShown.ref).length === 0 || requiresRefresh) {
                 if (requiresRefresh){
@@ -1060,23 +1061,23 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 // Create the new element
                 var $el = $("<div>").attr("id", currentPageShown.ref);
                 // Add element to the DOM
-                $("#contentauthoring_widget").append($el);
+                $("#contentauthoring_widget", $rootel).append($el);
                 var pageStructure = $.extend(true, {}, currentPageShown.content);
                 pageStructure.template = "all";
                 pageStructure.sakai = sakai;
                 $el.html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, STORE_PATH, currentPageShown.content);
             } else {
-                $("#contentauthoring_widget #" + currentPageShown.ref).show();
+                $("#contentauthoring_widget #" + currentPageShown.ref, $rootel).show();
                 sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
             }
 
             determineEmptyPage(currentPageShown);
 
             if (canEdit()){
-                $("#contentauthoring_inserterbar_container").show();
+                $("#contentauthoring_inserterbar_container", $rootel).show();
             } else {
-                $("#contentauthoring_inserterbar_container").hide();
+                $("#contentauthoring_inserterbar_container", $rootel).hide();
             }
 
         };
@@ -1107,8 +1108,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////////////
 
         // Highlight on drag entering drop zone.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragenter', function(ev) {
-            $(".contentauthoring_row_reorder_highlight.external_content").remove();
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragenter', function(ev) {
+            $(".contentauthoring_row_reorder_highlight.external_content", $rootel).remove();
             if($(this).hasClass("contentauthoring_cell_element")){
                 $(this).after($("<div class='contentauthoring_row_reorder_highlight external_content'></div>"));
             } else {
@@ -1118,19 +1119,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         // Un-highlight on drag leaving drop zone.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragleave', function(ev) {
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragleave', function(ev) {
             return false;
         });
 
         // Decide whether the thing dragged in is welcome.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content").live('dragover', function(ev) {
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragover', function(ev) {
             return false;
         });
 
         // Handle the final drop
-        $(".contentauthoring_cell_element,.contentauthoring_cell_content").live('drop', function(ev) {
+        $(".contentauthoring_cell_element,.contentauthoring_cell_content", $rootel).live('drop', function(ev) {
             ev.preventDefault();
-            $(".contentauthoring_row_reorder_highlight.external_content").remove();
+            $(".contentauthoring_row_reorder_highlight.external_content", $rootel).remove();
             if(!$(this).hasClass("contentauthoring_cell_element")){
                 var dt = ev.originalEvent.dataTransfer;
                 addExternal(ev, $(this));
@@ -1152,8 +1153,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var editPage = function(){
             $(window).trigger("edit.contentauthoring.sakai");
-            $(".contentauthoring_empty_content").remove();
-            $("#contentauthoring_widget_container").show();
+            $(".contentauthoring_empty_content", $rootel).remove();
+            $("#contentauthoring_widget_container", $rootel).show();
             $rootel.addClass("contentauthoring_edit_mode");
             setActions();
             updateColumnHandles();
@@ -1192,12 +1193,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 });
             });
         };
-        $("#inserterbar_action_edit_page").live("click", editPage);
+        $("#inserterbar_action_edit_page", $rootel).live("click", editPage);
 
         var cancelEditPage = function(){
             $(window).trigger("render.contentauthoring.sakai");
             $rootel.removeClass("contentauthoring_edit_mode");
-            $(".contentauthoring_cell_content").sortable("destroy");
+            $(".contentauthoring_cell_content", $rootel).sortable("destroy");
             $.ajax({
                 "url": STORE_PATH,
                 "type": "POST",
@@ -1222,7 +1223,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
             renderPage(currentPageShown, true);
         }
-        $("#inserterbar_cancel_edit_page").live("click", cancelEditPage);
+        $("#inserterbar_cancel_edit_page", $rootel).live("click", cancelEditPage);
 
         var storeCurrentPageLayout = function(){
             var pageLayout = getCurrentPageLayout().rows;
@@ -1260,14 +1261,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
-        $("#inserterbar_save_edit_page").live("click", function(){
+        $("#inserterbar_save_edit_page", $rootel).live("click", function(){
             $(window).trigger("save.contentauthoring.sakai");
             $(window).trigger("render.contentauthoring.sakai");
             // Generate the new row / column structure
             var pageLayout = getCurrentPageLayout();
 
             $rootel.removeClass("contentauthoring_edit_mode");
-            $(".contentauthoring_cell_content").sortable("destroy");
+            $(".contentauthoring_cell_content", $rootel).sortable("destroy");
             determineEmptyAfterSave();
 
             finishSavePage(pageLayout.rows, pageLayout.widgetIds);
@@ -1331,22 +1332,22 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
-        $(".contentauthoring_dummy_element").live("dblclick", function(ev){
+        $(".contentauthoring_dummy_element", $rootel).live("dblclick", function(ev){
             var $el = $(this);
             $el.attr("data-element-type", "htmlblock");
             $el.addClass("inserterbar_widget_draggable");
             addNewElement(ev, $el);
         });
 
-        $(".inserterbar_widget_draggable").live("keyup", function(ev){
+        $(".inserterbar_widget_draggable", $rootel).live("keyup", function(ev){
             if(ev.which === $.ui.keyCode.ENTER){
-                var lastRow = $(".contentauthoring_row").last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
+                var lastRow = $(".contentauthoring_row", $rootel).last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
                 addNewElement(ev, lastRow, $(this));
             }
         });
 
-        $(".inserterbar_widget_draggable").live("dblclick", function(ev){
-            var lastRow = $(".contentauthoring_row").last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
+        $(".inserterbar_widget_draggable", $rootel).live("dblclick", function(ev){
+            var lastRow = $(".contentauthoring_row", $rootel).last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
             addNewElement(ev, lastRow, $(this));
         });
 
@@ -1386,11 +1387,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var showPageEditControls = function(addArea){
             if (addArea){
-                $("#inserterbar_action_add_page_container").hide();
-                $("#inserterbar_action_add_area_page_container").show();
+                $("#inserterbar_action_add_page_container", $rootel).hide();
+                $("#inserterbar_action_add_area_page_container", $rootel).show();
             } else {
-                $("#inserterbar_action_add_area_page_container").hide();
-                $("#inserterbar_action_add_page_container").show();
+                $("#inserterbar_action_add_area_page_container", $rootel).hide();
+                $("#inserterbar_action_add_page_container", $rootel).show();
             }
         };
 
