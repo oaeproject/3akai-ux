@@ -230,7 +230,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         /**
-         * Update the description of the content
+         * Updates the url
+         * @param {String} updateUrl The new URL to update with
          */
         var updateUrl = function(url){
             var preview = sakai.api.Content.getPreviewUrl(url);
