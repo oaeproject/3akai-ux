@@ -20,6 +20,7 @@
 #entity_container {padding:20px 15px 10px 20px;}
 #entity_container .entity_number {display:inline-block;color:#424242;}
 #entity_container #entity_name {word-wrap:break-word;font-size:18px;margin-bottom:0;padding:0 0 2px !important;color:#454A4F;}
+#entity_container #entity_name.entity_group {margin-top:10px;}
 #entity_container #entity_name.contentmetadata_noneditable {margin-top:8px;overflow:hidden;}
 #entity_container #entity_owns {font-size:11px; margin-top:5px;}
 #entity_container #entity_owns.entity_owns_viewer {margin-top:0;}
@@ -27,6 +28,7 @@
 #entity_container .entity_comments {float:left;margin-top:11px;}
 #entity_container #entity_owns.entity_owns_viewer .entity_comments {margin-top:5px;}
 #entity_container #entity_actions .s3d-button {float:right;margin-left:5px;color:#666;line-height:17px;}
+#entity_container #entity_actions.entity_group .s3d-button {margin-top: 14px;}
 #entity_container #entity_owns.entity_owns_viewer .s3d-margin-top-5 {margin-top:0 !important;}
 #entity_container #entity_comments_link {text-transform:lowercase;}
 #entity_container .entity_plaintitle {font-size: 18px; margin-top: 8px; margin-left: 10px;}
