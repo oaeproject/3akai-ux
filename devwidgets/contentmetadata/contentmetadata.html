@@ -9,7 +9,7 @@
     <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers last" data-edit-field="tags">
         <!-- -->
     </div>
-    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers last" style="display:none;" data-edit-field="url">
+    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers_jedit last" style="display:none;" data-edit-field="url">
         <!-- -->
     </div>
     <div id="contentmetadata_copyright_container" class="collapsible_container contentmetadata_editable_for_maintainers_jedit" style="display:none;" data-edit-field="copyright">
@@ -31,13 +31,13 @@
     <span class="contentmetadata_second_column">
         {if $.trim(data.data["sakai:description"])}
             {if data.isManager}
-                <div class="contentmetadata_edit_area_textarea contentmetadata_edit_input">${data.data["sakai:description"]|safeOutput}</div>
+                <div class="contentmetadata_description_textarea contentmetadata_edit_input">${data.data["sakai:description"]|safeOutput}</div>
             {else}
                 ${data.data["sakai:description"]|safeOutput}
             {/if}
         {else}
             {if data.isManager}
-                <div class="contentmetadata_edit_area_textarea contentmetadata_edit_input"></div>
+                <div class="contentmetadata_description_textarea contentmetadata_edit_input"></div>
             {else}
                 __MSG__NO_DESCRIPTION__
             {/if}
@@ -72,12 +72,28 @@
 --></div>
 
 <div id="contentmetadata_url_template" style="display:none;"><!--
-    {if data.mode === "edit"}
-        <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input" title="__MSG__EDIT_URL__">${data.data["sakai:pooled-content-url"]}</textarea>
-    {else}
-        <span class="contentmetadata_first_column">__MSG__URL__:</span>
-        <span class="contentmetadata_second_column" id="contentmetadata_url_display">{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${data.data["sakai:pooled-content-url"]}">${data.data["sakai:pooled-content-url"]}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
-    {/if}
+    <span class="contentmetadata_first_column">__MSG__URL__:</span>
+    <span class="contentmetadata_second_column">
+        {if $.trim(data.data["sakai:pooled-content-url"])}
+            {if data.isManager}
+                <div class="contentmetadata_url_textarea contentmetadata_edit_input">
+                    <a class="s3d-action" target="_blank" href="${data.data["sakai:pooled-content-url"]}">
+                        ${data.data["sakai:pooled-content-url"]}
+                    </a>
+                </div>
+            {else}
+                <a class="s3d-action" target="_blank" href="${data.data["sakai:pooled-content-url"]}">
+                    ${data.data["sakai:pooled-content-url"]|safeOutput}
+                </a>
+            {/if}
+        {else}
+            {if data.isManager}
+                <div class="contentmetadata_url_textarea contentmetadata_edit_input"></div>
+            {else}
+                __MSG__NO_URL__
+            {/if}
+        {/if}
+    </span>
 --></div>
 
 <div id="contentmetadata_copyright_template" style="display:none;"><!--

@@ -232,8 +232,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Update the description of the content
          */
-        var updateUrl = function(){
-            var url = $("#contentmetadata_url_url").val();
+        var updateUrl = function(url){
             var preview = sakai.api.Content.getPreviewUrl(url);
             sakai_global.content_profile.content_data.data["sakai:pooled-content-url"] = url;
             sakai_global.content_profile.content_data.data["sakai:pooled-content-revurl"] = url;
@@ -241,7 +240,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai_global.content_profile.content_data.data["sakai:preview-type"] = preview.type;
             sakai_global.content_profile.content_data.data["sakai:preview-avatar"] = preview.avatar;
             sakai_global.content_profile.content_data.data["length"] = url.length;
-            renderUrl(false);
             $.ajax({
                 url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
                 type: "POST",
@@ -275,17 +273,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                     editingElement = $target.attr( "data-edit-field" );
                     switch ( editingElement ) {
-                        case "description":
-                            renderDescription("edit");
-                            break;
                         case "tags":
                             renderTags("edit");
-                            break;
-                        case "url":
-                            renderUrl("edit");
-                            break;
-                        case "copyright":
-                            renderCopyright("edit");
                             break;
                     }
                 }
@@ -304,9 +293,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             switch ( editingElement ) {
                 case "tags":
                     updateTags();
-                    break;
-                case "url":
-                    updateUrl();
                     break;
             }
             editingElement = "";
@@ -335,6 +321,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                                 createActivity('UPDATED_COPYRIGHT');
                             }
                         });
+                        break;
+                    case 'url':
+                        updateUrl(value);
                         break;
                 }
             }
@@ -394,6 +383,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // jeditable bindings
             $('.contentmetadata_editable_for_maintainers_jedit').click(function(e) {
                 if (!$('.contentmetadata_edit_input', $(this)).find('textarea').length && !$('.contentmetadata_edit_area_select', $(this)).find('select').length) {
+                    if ($(this).attr('data-edit-field') === 'url') {
+                        // if the url hyperlink was clicked, we don't wait to edit the field
+                        if ($(e.target).is('a')) {
+                            return;
+                        }
+                        var $input = $(this).find('.contentmetadata_edit_input');
+                        $input.html($.trim($input.text()));
+                    }
                     $(this).addClass('contentmetadata_editing');
                     $('.contentmetadata_edit_input, .contentmetadata_edit_area_select', $(this)).trigger('openjedit.contentmetadata.sakai');
                 }
@@ -412,7 +409,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 updateData(field, $.trim(value));
                 return value;
             };
-            $('.contentmetadata_edit_area_textarea').editable(jeditableUpdate, {
+            $('.contentmetadata_description_textarea').editable(jeditableUpdate, {
                 type: 'textarea',
                 onblur: 'submit',
                 event: 'openjedit.contentmetadata.sakai',
@@ -443,6 +440,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 event: 'openjedit.contentmetadata.sakai',
                 callback: copyrightCallback,
                 tooltip: tooltip
+            });
+
+            // setup jeditable for the url textarea
+            var urlPlaceholder = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT_URL', 'contentmetadata');
+            var urlCallback = function(value, settings) {
+                // add a hyperlink that can be clicked
+                if ($(this).text()){
+                    $(this).html('<a class="s3d-action" target="_blank" href="' + $(this).text() + '">' + $(this).text() + '</a>');
+                }
+            };
+            $('.contentmetadata_url_textarea').editable(jeditableUpdate, {
+                type: 'textarea',
+                onblur: 'submit',
+                event: 'openjedit.contentmetadata.sakai',
+                callback: urlCallback,
+                placeholder: urlPlaceholder
             });
         };
 
