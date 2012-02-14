@@ -366,7 +366,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('.ew_permissions').unbind("click").bind("click", function(e){
                 e.preventDefault();
-                $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).data("permissionvalue") || false});
+                $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).attr("data-permissionvalue") || false});
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
