@@ -79,8 +79,8 @@
                     <div>
                         <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']}" title="${i['_path']}"{/if}>
                             {if i['sakai:pooled-content-file-name']}
-                                <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']|safeOutput}</span>
-                                <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']|safeOutput}</span>
+                                <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']}</span>
+                                <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']}</span>
                             {elseif i['_path']}
                                 ${i['_path']}
                             {/if}

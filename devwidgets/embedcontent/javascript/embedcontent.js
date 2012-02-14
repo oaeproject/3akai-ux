@@ -422,7 +422,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var batchRequests = [];
             for (var i = 0, j = data.items.length; i < j; i++) {
                 if (data.items[i].notfound) {
-                    newItems.push({type:"notfound"});
+                    newItems.push({
+                        type: "notfound",
+                        name: $embedcontent_item_unavailable_text.text(),
+                        value: "notfound1" + i
+                    });
                     if (newItems.length === data.items.length) {
                         wData.items = newItems;
                         ret = true;
@@ -439,11 +443,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Server.batch(batchRequests, function(success, response){
                     if (success) {
                         $.each(response.results, function(index, item){
-                            if (item.success){
+                            if (item.success && item.body){
                                 var newItem = createDataObject($.parseJSON(item.body));
                                 newItems.push(newItem);
                             } else {
-                                newItems.push({type:"notfound"});
+                                newItems.push({
+                                    type: "notfound",
+                                    name: $embedcontent_item_unavailable_text.text(),
+                                    value: "notfound2" + index
+                                });
                             }
                         });
                         wData.items = newItems;
@@ -588,7 +596,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).unbind("done.newaddcontent.sakai");
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId === library)) {
+            if ($rootel.is(":visible") && (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
                 var obj = {};
                 for (var i = 0; i < data.length; i++){
                     obj[data[i]._path] = data[i];
