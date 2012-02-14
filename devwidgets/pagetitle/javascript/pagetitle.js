@@ -48,16 +48,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 clearInterval(autoSavePoll);
                 autoSavePoll = false;
             }
-            autoSavePoll = setInterval(autoSave, 5000);
-            $(window).bind("save.contentauthoring.sakai", function(){
-                if ($rootel.is(":visible")) {
-                    autoSave();
-                    var currentText = $textarea.val();
-                    $("#pagetitle_view_container", $rootel).text(currentText);
-                }
-            });
+            autoSavePoll = setInterval(function(){
+                autoSave();
+            }, 5000);
         };
-        
+
+        $(window).bind("save.contentauthoring.sakai", function(){
+            if ($rootel.is(":visible")) {
+                autoSave();
+                var currentText = $textarea.val();
+                $("#pagetitle_view_container", $rootel).text(currentText);
+            }
+        });
+
         var autoSave = function(){
             var currentText = $textarea.val();
             if (currentText !== lastData){
@@ -76,7 +79,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $textarea.height($textarea[0].scrollHeight);
         };
         $textarea.bind("keyup", updateHeight);
-        $(window).bind("resize.contentauthoring.sakai", updateHeight);
+        $(window).bind("resize.contentauthoring.sakai", function(){
+            updateHeight();
+        });
 
         /**
          * Initialization function
