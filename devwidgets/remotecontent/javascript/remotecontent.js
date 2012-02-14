@@ -362,8 +362,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var displaySettings = function(parameters, exists){
             /**
-             * We also blank the URL field if it starts with "/",
-             * i.e. if it's the root-relative default path to user instructions.
+             * We also blank the URL field if it matches the default URL in widget config,
+             * i.e. if it's the default path to user instructions.
              */
             if (exists && parameters.url && parameters.url !== sakai.widgets.remotecontent.defaultConfiguration.remotecontent.url) {               
                 json = parameters;
