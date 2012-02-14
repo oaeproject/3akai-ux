@@ -567,7 +567,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
-        var showContextMenu = function($clickedItem,x,y){
+        var showContextMenu = function($clickedItem, x, y) {
             var contextMenu = $("#lhnavigation_submenu");
             $clickedItem.children(".lhnavigation_selected_submenu_image").addClass("clicked");
             contextMenu.css("left", x - 70 + "px");
@@ -1056,7 +1056,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////////////
 
         $(".lhnavigation_selected_submenu").live("click", function(ev){
-            showContextMenu($(this),ev.pageX, ev.pageY);
+            showContextMenu($(this), ev.pageX, ev.pageY);
         });
 
         $(".lhnavigation_item_content, .lhnavigation_subnav_item_content").live("mouseenter", function(){
