@@ -113,7 +113,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     count._count = value;
                 }
                 if (listitem.length) {
-                    $(element, listitem).attr('title',count._count);
+                    $(element, listitem).attr('title', count._count);
                     if (count._count > 999) {
                         $(element, listitem).text("999+");
                     } else {
