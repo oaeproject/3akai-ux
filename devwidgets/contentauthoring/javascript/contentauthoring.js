@@ -596,7 +596,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (currentRow === rowToChange){
                 hideEditRowMenu();
             } else {
-                if($(".contentauthoring_row", $rootel).length > 1){
+                if($(".contentauthoring_row", $("#" + currentPageShown.ref)).length > 1){
                     $("#contentauthoring_row_menu_remove", $rootel).parent("li").show();
                 } else {
                     $("#contentauthoring_row_menu_remove", $rootel).parent("li").hide();
