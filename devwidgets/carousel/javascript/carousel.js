@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var isJwPlayerSupportedVideo = function(mimeType){
-            supported = false;
+            var supported = false;
             if (mimeType.substring(0, 6) === "video/") {
                 var mimeSuffix = mimeType.substring(6);
                 if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {

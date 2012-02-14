@@ -175,7 +175,7 @@
     {if !data.isManager}
         <hr class="s3d-margin-top-5 fl-hidden"/>
     {/if}
-    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{else} contentmetadata_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]|safeOutput}</span>
+    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{else} contentmetadata_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]}</span>
     <span id="entity_name_edit" style="display:none">
         <input id="entity_name_text" type="text"/>
     </span>

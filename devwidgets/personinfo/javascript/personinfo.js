@@ -39,14 +39,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.personinfo = function(tuid, showSettings) {
 
         var $rootel = $("#" + tuid);
-        var $personinfo_widget = $("#personinfo_widget", $rootel),
-            $personinfo_container = $("#personinfo_container", $rootel),
-            $personinfo_template = $("#personinfo_template", $rootel),
-            $personinfo_close = $(".personinfo_close", $rootel),
-            $personinfo_message = $("#personinfo_message", $rootel),
-            $personinfo_invite = $("#personinfo_invite", $rootel);
-            $personinfo_invited = $("#personinfo_invited", $rootel);
-            $personinfo_pending = $("#personinfo_pending", $rootel);
+        var $personinfo_widget = $("#personinfo_widget", $rootel);
+        var $personinfo_container = $("#personinfo_container", $rootel);
+        var $personinfo_template = $("#personinfo_template", $rootel);
+        var $personinfo_close = $(".personinfo_close", $rootel);
+        var $personinfo_message = $("#personinfo_message", $rootel);
+        var $personinfo_invite = $("#personinfo_invite", $rootel);
+        var $personinfo_invited = $("#personinfo_invited", $rootel);
+        var $personinfo_pending = $("#personinfo_pending", $rootel);
         var dataCache = {};
         var open = false;
         var userId;

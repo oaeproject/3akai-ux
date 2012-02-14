@@ -24,7 +24,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
+require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.tagcloud"], function($, sakai, _) {
 
     /**
      * @name sakai_global.tags
@@ -58,7 +58,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 newtags = _.first( newtags, 20 );
             }
             sakai.api.Util.TemplateRenderer( $tags_main_template, { tags: newtags }, $tags_main );
-            $tags_main.show();
+            
+            $tags_main.show().find('a').tagcloud({
+              size: {start: 10, end: 16, unit: 'px'}
+            });
         };
 
         var loadData = function(directory, callback){

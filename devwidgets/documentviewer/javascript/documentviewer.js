@@ -255,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 renderAudioPlayer(data);
             } else if (mimeType === "application/x-shockwave-flash") {
                 renderFlashPlayer(data);
-            } else if (mimeType === "text/html" || mimeType.substring(0, 5) === "text/") {
+            } else if (mimeType === "text/html" || mimeType === "text/plain" || mimeType ==="text/tab-separated-values" ) {
                 renderHTMLPreview(data);
             } else if (mimeType === "x-sakai/link"){
                 var pUrl = data["sakai:preview-url"];

@@ -125,6 +125,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var $li = $(this);
                         $li.children(".s3d-dropdown-container").hide();
                     });
+                    $(window).bind("displayName.profile.updated.sakai", function(){
+                        $('.entity_name_me').text(sakai.api.User.getDisplayName(sakai.data.me.profile));
+                    });
                     break;
                 case "user_other":
                     $(entityUserMessage).bind("click", function(){
@@ -375,7 +378,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(data && data.data && data.data["sakai:pooled-content-file-name"]){
                 data.data["sakai:pooled-content-file-name-shorter"] = sakai.api.Util.applyThreeDots(data.data["sakai:pooled-content-file-name"], 800, {
                     whole_word: false
-                }, "", true);
+                }, "");
             }
             renderObj = {
                 "context": context,

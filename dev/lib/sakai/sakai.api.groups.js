@@ -436,13 +436,11 @@ define(
 
                     // determine visibility state
                     if (visible === sakai_conf.Permissions.Groups.visible.members) {
-                        // visible to members only
-                        // also remove everyone & anonymous, as they're not a member
+                        // visible to members only, so remove everyone & anonymous, as they're not a member
                         batchRequests.push({
                             "url": groupUpdateURL,
                             "method": "POST",
                             "parameters": {
-                                ":viewer": groupid,
                                 ":viewer@Delete":
                                 [
                                     "everyone",
@@ -805,9 +803,9 @@ define(
          * @param {String} sort The parameter to sort on (firstName or lastName)
          * @param {String} sortOrder The direction of the sort (desc or asc)
          * @param {Function} callback Function executed on success or error
-
+         * @param {Boolean} roleCache Flag to get group role data from cache if available 
          */
-        searchMembers: function(groupId, query, num, page, sort, sortOrder, callback) {
+        searchMembers: function(groupId, query, num, page, sort, sortOrder, callback, roleCache) {
             if (groupId) {
                 var url = "";
                 if (query && query !== "*") {
@@ -847,7 +845,7 @@ define(
                                             }
                                         });
                                     });
-                                });
+                                }, roleCache);
                             });
                         } else {
                             if ($.isFunction(callback)) {
@@ -964,7 +962,8 @@ define(
             return roles;
         },
 
-        getRole : function(userId, groupID, callback){
+        getRole : function(userId, groupID, callback, roleCache){
+            var cache = roleCache === false ? false : true;
             var groupInfo = sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
                 if (success){
                     data = data[groupID];
@@ -989,6 +988,9 @@ define(
                         for (var i = 0; i < roles.length; i++) {
                             if (data.results.hasOwnProperty(i)) {
                                 var members = $.parseJSON(data.results[i].body);
+                                if (members === null) {
+                                  continue;
+                                }
                                 if ($.grep(members, isMatch).length > 0){
                                     role = roles[i];
                                     break;
@@ -1000,7 +1002,7 @@ define(
                         }
                     };
 
-                    if ($.isPlainObject(sakaiGroupsAPI.groupRoleData[groupID])) {
+                    if (cache && $.isPlainObject(sakaiGroupsAPI.groupRoleData[groupID])) {
                         parseRoles(sakaiGroupsAPI.groupRoleData[groupID]);
                     } else {
                         sakai_serv.batch(batchRequests, function(success, data){
@@ -1018,6 +1020,25 @@ define(
                     }
                 }
             });
+        },
+
+        /**
+         * Checks if one role managers the other, returns true if the role has management rights
+         *
+         * @param {Object} parentRoleObject The role we want to check if it has management rights on the other
+         * @param {String} roleIdToCheck The role to check if it can be managed by
+         */
+        hasManagementRights : function(parentRoleObject, roleIdToCheck) {
+            var manages = false;
+            if (parentRoleObject.manages) {
+                $.each(parentRoleObject.manages, function(i, childRole) {
+                    if (childRole === roleIdToCheck) {
+                        manages = true;
+                        return false;
+                    }
+                });
+            }
+            return manages;
         },
 
         leave : function(groupId, role, meData, callback){

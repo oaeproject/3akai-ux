@@ -112,8 +112,8 @@
     {macro renderField(config, field_id, field_data)}
         {var value = config.type === "select" ? sakai.api.i18n.General.process(config.select_elements[field_data.value]) : field_data.value}
         <span class="field_value">
-        {if config.limitDisplayLength}
-            ${sakai.api.Util.shortenString(value, config.limitDisplayLength)|safeOutput}
+        {if config.limitDisplayWidth}
+            ${sakai.api.Util.applyThreeDots(value, config.limitDisplayWidth)}
         {elseif config.type === "tags"}
             {var tags = sakai.api.Util.formatTags(value)}
             {for tag in tags}{if tag_index > 0},{/if} <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>{/for}
