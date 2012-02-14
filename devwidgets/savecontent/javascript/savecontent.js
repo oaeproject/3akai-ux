@@ -46,7 +46,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $savecontent_save = $("#savecontent_save", $rootel);
         var newlyShared = {},
             allNewlyShared = [],
-            checkCollections = [],
             contentObj = {},
             clickedEl = null;
 
@@ -140,6 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Check if collections are in the content data set, and fetch their members
          */
         var checkCollectionMembers = function(callback) {
+            var checkCollections = [];
             $.each(contentObj.data, function(i, selectedContent) {
                 var contentItem = selectedContent.body;
                 if (!(sakai_global.content_profile && sakai_global.content_profile.content_data &&
