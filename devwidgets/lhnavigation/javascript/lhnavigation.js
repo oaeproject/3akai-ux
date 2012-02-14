@@ -567,11 +567,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
-        var showContextMenu = function($clickedItem){
+        var showContextMenu = function($clickedItem,x,y){
             var contextMenu = $("#lhnavigation_submenu");
             $clickedItem.children(".lhnavigation_selected_submenu_image").addClass("clicked");
-            contextMenu.css("left", $clickedItem.position().left + 130 - 50 + "px");
-            contextMenu.css("top", $clickedItem.position().top + 6 + "px");
+            contextMenu.css("left", x - 70 + "px");
+            contextMenu.css("top", y + 15 +"px");
             toggleContextMenu();
         };
 
@@ -1056,7 +1056,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////////////
 
         $(".lhnavigation_selected_submenu").live("click", function(ev){
-            showContextMenu($(this));
+            showContextMenu($(this),ev.pageX, ev.pageY);
         });
 
         $(".lhnavigation_item_content, .lhnavigation_subnav_item_content").live("mouseenter", function(){
