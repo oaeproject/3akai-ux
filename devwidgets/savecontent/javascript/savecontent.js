@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $savecontent_save = $("#savecontent_save", $rootel);
         var newlyShared = {},
             allNewlyShared = [],
+            checkCollections = [],
             contentObj = {},
             clickedEl = null;
 
@@ -136,20 +137,61 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Check if collections are in the content data set, and fetch their members
+         */
+        var checkCollectionMembers = function(callback) {
+            $.each(contentObj.data, function(i, selectedContent) {
+                var contentItem = selectedContent.body;
+                if (!(sakai_global.content_profile && sakai_global.content_profile.content_data &&
+                    sakai_global.content_profile.content_data.content_path === '/p/' + contentItem._path) &&
+                    sakai.api.Content.Collections.isCollection(contentItem)) {
+                    var collectionId = sakai.api.Content.Collections.getCollectionGroupId(contentItem);
+                    if (checkCollections.indexOf(collectionId) < 0) {
+                        checkCollections.push(sakai.api.Content.Collections.getCollectionGroupId(contentItem));
+                    }
+                }
+            });
+            if (checkCollections.length > 0) {
+                sakai.api.Groups.getMembers(checkCollections, function(success, data) {
+                    $.each(contentObj.data, function(i, contentItem) {
+                        if (sakai.api.Content.Collections.isCollection(contentItem.body)) {
+                            var collectionId = sakai.api.Content.Collections.getCollectionGroupId(contentItem.body);
+                            if (data[collectionId]) {
+                                contentItem.body.members = {
+                                    'managers': data[collectionId].managers.results,
+                                    'viewers': data[collectionId].members.results
+                                };
+                            }
+                        }
+                    });
+                    callback();
+                });
+            } else {
+                callback();
+            }
+        };
+
+        /**
          * Determines if the selected content items are a part of any groups
          */
         var selectAlreadyInGroup = function(){
-            $.each(contentObj.memberOfGroups.entry, function(j, memberOfGroup){
-                memberOfGroup.alreadyHasIt = true;
-                $.each(contentObj.data, function(i, selectedContent){
-                    var contentItem = selectedContent.body;
-                    var isContentInGroup = sakai.api.Content.isContentInLibrary(contentItem, memberOfGroup["sakai:group-id"]);
-                    if (!isContentInGroup){
-                        memberOfGroup.alreadyHasIt = false;
-                    }
+            checkCollectionMembers(function() {
+                $.each(contentObj.memberOfGroups.entry, function(j, memberOfGroup) {
+                    memberOfGroup.alreadyHasIt = true;
+                    $.each(contentObj.data, function(i, selectedContent) {
+                        var contentItem = selectedContent.body;
+                        if (sakai_global.content_profile && sakai_global.content_profile.content_data &&
+                            sakai_global.content_profile.content_data.content_path === '/p/' + contentItem._path) {
+                            contentItem = sakai_global.content_profile.content_data;
+                        }
+                        var isContentInGroup = sakai.api.Content.isContentInLibrary(contentItem, memberOfGroup['sakai:group-id']);
+                        if (!isContentInGroup){
+                            memberOfGroup.alreadyHasIt = false;
+                        }
+                    });
                 });
+                selectedAlreadyMyLibraryMember();
             });
-            selectedAlreadyMyLibraryMember();
         };
 
         /**

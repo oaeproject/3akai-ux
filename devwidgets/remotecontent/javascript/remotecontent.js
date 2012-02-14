@@ -21,7 +21,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
-/*global $,  get_cookie, Config */
+/*global $, get_cookie, Config */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 

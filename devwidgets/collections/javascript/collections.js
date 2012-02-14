@@ -58,6 +58,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var collectionsSaveNewButton = "#collections_save_new_button";
         var collectionsNewCollectionPermission = "#collections_newcollection_permissions";
         var collectionCountsContentCountsNew = "#collection_counts_content_counts_new";
+        var collectionsCollectionTitle = "#collections_collection_title";
 
         // Classes
         var collectionsAddNewSteps = ".collections_add_new_steps";
@@ -86,6 +87,13 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         /**
+         * Focus the collection title input
+         */
+        var focusCollectionTitleInput = function() {
+            $(collectionsCollectionTitle).focus();
+        };
+
+        /**
         * Enable creation of collection and enable elements
         */
         var initializeNewCollectionsSetup = function(ev, _contentToAdd){
@@ -96,7 +104,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             $(collectionsNoCollections).hide();
             $(collectionsAddNewContainer).show();
             $(collectionsNewActionButtons).show();
-            $("#collections_collection_title").focus();
             if (!$collectionsWidget.is(":visible")){
                 $collectionsWidget.animate({
                     'margin-bottom': 'toggle',
@@ -104,7 +111,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     'opacity': 'toggle',
                     'padding-top': 'toggle',
                     'padding-bottom': 'toggle'
-               }, 400);
+                }, 400, focusCollectionTitleInput);
+            } else {
+                focusCollectionTitleInput();
             }
         };
 
@@ -384,7 +393,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 'padding-bottom': 'toggle'
             }, 400, function(){
                 if ($collectionsWidget.is(":visible")){
-                    getCollections();
                     $("#collections_leftcolumn").focus();
                 } else {
                     $(collectionsScrollArrow).hide();
@@ -408,7 +416,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             $(collectionsSaveNewButton).live("click", createNewCollection);
             $(window).bind("create.collections.sakai", initializeNewCollectionsSetup);
             // Save the new collection when enter is pressed
-            $("#collections_collection_title").bind("keyup", function(ev, data){
+            $("#collections_collection_title").bind("keydown", function(ev, data){
                 if (ev.keyCode === 13){
                     createNewCollection();
                 }

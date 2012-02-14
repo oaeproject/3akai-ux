@@ -66,6 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "visibility": newVisibilityVal,
                     "group": sakai_global.group.groupData['sakai:group-title']
                 }));
+                sakai.api.Util.bindDialogFocus($("#worldsettings_warning_container"));
                 $("#worldsettings_warning_container").jqmShow();
             }
         };
@@ -152,6 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true,
                 zIndex: 4000
             });
+            sakai.api.Util.bindDialogFocus($worldsettingsDialog);
             $worldsettingsDialog.jqmShow();
         };
 

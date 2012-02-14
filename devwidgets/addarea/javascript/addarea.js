@@ -85,6 +85,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * Centers the overlay on the screen and handles with variable widths of the overlay
          */
         var centerOverlay = function(){
+            sakai.api.Util.positionDialogBox($addAreaContainer);
+
             $addAreaContainer.animate({
                 'margin-left': -1 * ($addAreaContainer.width() / 2 + 20)
             }, 400);
@@ -497,19 +499,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         };
 
         /*
-         * Returns an item count for a structure
-         */
-        var getTotalCount = function(structure){
-            var total = 0;
-            for (var i in structure){
-                if (structure.hasOwnProperty(i)){
-                    total++;
-                }
-            }
-            return total;
-        };
-
-        /*
          * Add a Sakai Doc to a world
          * @param {String} urlName Safe title of the Sakai Document as it's stored inside of the system
          * @param {String} poolId ID of the document saved in the pool
@@ -552,7 +541,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
 
                     pubdata.structure0[urlName] = {
                         "_title": docTitle,
-                        "_order": getTotalCount(pubdata.structure0),
+                        "_order": _.size(pubdata.structure0),
                         "_pid": poolId,
                         "_view": $.toJSON(newView),
                         "_edit": $.toJSON(newEdit),
@@ -839,6 +828,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                 onClose: resetWidget
             });
             centerOverlay();
+            sakai.api.Util.bindDialogFocus($addAreaContainer);
             $addAreaContainer.jqmShow();
         };
 

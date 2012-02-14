@@ -129,22 +129,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var initialize = function(data){
             // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
+            sakai.api.Util.positionDialogBox($fileRevisionsDialog);
 
-            if (htmlScrollPos > 0) {
-                $fileRevisionsDialog.css({
-                    "top": htmlScrollPos + 100 + "px"
-                });
-            }
-            else if (docScrollPos > 0) {
-                $fileRevisionsDialog.css({
-                    "top": docScrollPos + 100 + "px"
-                });
-            }
-     
             baseFileData = data;
             getRevisionInformationDetails();
+            sakai.api.Util.bindDialogFocus($fileRevisionsDialog);
             $fileRevisionsDialog.jqmShow();
         };
 
