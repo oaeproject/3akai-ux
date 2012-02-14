@@ -796,16 +796,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 checkColumnsEmpty();
             }
             isEditingNewElement = false;
-            $('#contentauthoring_widget_settings', $rootel).jqmHide();
+            $('#contentauthoring_widget_settings').jqmHide();
         };
         sakai_global.contentauthoring.widgetFinish = function(){
             isEditingNewElement = false;
-            $("#contentauthoring_widget_content", $rootel).html("");
+            $("#contentauthoring_widget_content").html("");
             var $parent = $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).parent();
             $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).remove();
             $parent.append("<div id='widget_" + $parent.attr("data-element-type") + "_" + currentlyEditing + "' class='widget_inline'></div>");
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, STORE_PATH);
-            $('#contentauthoring_widget_settings', $rootel).jqmHide();
+            $('#contentauthoring_widget_settings').jqmHide();
         };
 
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
