@@ -360,14 +360,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     connectToSortable: ".contentauthoring_cell_content",
                     start: function(){
                         $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
-                            width: "100%", height: "100%",
+                            width: $(document).width() + "px", height: $(document).height() + "px",
+                            top: "0px", left: "0px",
                             position: "absolute", opacity: "0.001", zIndex: 100000
-                        }).css($(this).offset()).appendTo("body");
-                        debug.log("HERE");
+                        }).appendTo("body");
                     },
                     stop: function(){
-                        $("div.ui-resizable-iframeFix").each(function() { this.parentNode.removeChild(this); });
-                        debug.log("HERE");
+                        $("div.ui-resizable-iframeFix").remove();
                     }
                 }, $inserterContentInfiniteScrollContainerList);
                 sakai.api.Util.Droppable.setupDroppable({

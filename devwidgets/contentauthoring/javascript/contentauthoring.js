@@ -266,9 +266,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 start: function(event, ui) {
                     // Fix for iFrames
                     $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
-                        width: "100%", height: "100%",
+                        width: $(document).width() + "px", height: $(document).height() + "px",
+                        top: "0px", left: "0px",
                         position: "absolute", opacity: "0.001", zIndex: 100000
-                    }).css($(this).offset()).appendTo("body");
+                    }).appendTo("body");
 
                     sakai_global.contentauthoring.isDragging = true;
                     var $row = $(this).parent();
@@ -276,9 +277,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 },
                 stop: function(ev, ui){
                     // Fix for iFrames
-                    $("div.ui-resizable-iframeFix", $rootel).each(function(){
-                        this.parentNode.removeChild(this);
-                    });
+                    $("div.ui-resizable-iframeFix").remove();
 
                     sakai_global.contentauthoring.isDragging = false;
                     var totalRowWidth = $("#contentauthoring_widget_container", $rootel).width();
