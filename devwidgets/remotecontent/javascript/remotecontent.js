@@ -361,7 +361,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} exists Does there exist a previous remotecontent
          */
         var displaySettings = function(parameters, exists){
-            if (exists && parameters.url) {
+            /**
+             * We also blank the URL field if it starts with "/",
+             * i.e. if it's the root-relative default path to user instructions.
+             */
+            if (exists && parameters.url && parameters.url.substring(0,1) !== '/') {
                 json = parameters;
             }
             else {
