@@ -389,12 +389,10 @@ sakai_global.s23_site = function(){
             $(window).trigger("sakai.entity.init", ["s23site", "", {
                 "title": sakai.api.Security.saneHTML(completeJSON.site.title)
             }]);
-            $('.icon-sakai-help').click(function(ev){
+            $('.icon-sakai-help').click(function(ev) {
                 ev.preventDefault();
-                var helpWindow=window.open('/portal/help/main', 'help','resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=800,height=600');
-                if (window.focus) {
-                    helpWindow.focus();
-                }
+                var helpWindow = window.open('/portal/help/main', 'help','resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=800,height=600');
+                helpWindow.focus();
             });
         }
     };
