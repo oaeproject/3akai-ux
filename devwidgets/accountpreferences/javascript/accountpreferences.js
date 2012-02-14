@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var accountPreferencesClass = ".accountpreferences";
 
         // Containers
-        var accountPreferencesTabsButtons = "#accountpreferences_tabs div";
+        var accountPreferencesTabsButtons = "#accountpreferences_tabs button";
         var accountPreferencesPreferencesTab = "#accountpreferences_preferences_tab";
         var accountPreferencesPrivacyTab = "#accountpreferences_privacy_tab";
         var accountPasswordTab = "#accountpreferences_password_tab";
