@@ -28,12 +28,12 @@ body, button{font-family:Arial, Helvetica, sans-serif !important;line-height:120
 .s3d-aural-text {position: absolute;clip: rect(1px 1px 1px 1px); /* IE6, IE7 */clip: rect(1px, 1px, 1px, 1px);overflow:hidden;width:1px;height:1px;} 
 
 /* HTML TAG OVERRIDES - on top of the FSS reset */
-h1{font-family:Arial;font-size:18px;color:#333;font-weight:bold;line-height:28px;}
-h2{font-family:Arial;font-size:20px;color:#666;}
-h3{font-family:Arial;font-size:18px;color:#666;font-weight:bold;}
-h4{font-family:Arial;font-size:13px;color:#aaa;text-transform:uppercase;}
-h5{font-family:Arial;font-size:18px;color:#aaa;font-weight:bold;}
-h6{font-family:Arial;font-size:18px;color:#aaa;}
+h1{font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#333;font-weight:bold;line-height:normal;}
+h2{font-family:Arial,Helvetica,sans-serif;font-size:20px;color:#666;}
+h3{font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#666;font-weight:bold;}
+h4{font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#aaa;text-transform:uppercase;}
+h5{font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#aaa;font-weight:bold;}
+h6{font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#aaa;}
 blockquote{font-family:Arial;font-size:14px;color:#666;}
 .caption{font-family:Arial;font-size:11px;color:#666;}
 
@@ -52,27 +52,6 @@ blockquote{font-family:Arial;font-size:14px;color:#666;}
 .block_image_right {float: right;}
 
 /* GENERAL WIDGET CSS */
-/*.fl-widget {padding: 0;}
-.fl-widget .fl-widget-titlebar h2 {padding-left:3px}
-.fl-widget .fl-widget-titlebar {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -473px transparent; padding: 0 4px 0 0; width: auto; min-height: 39px;}
-.fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -544px transparent; min-height: 39px;}
-.fl-widget .fl-widget-options ul {margin: 0; padding: 0; width:100%;}
-.fl-widget .fl-widget-titlebar .widget_title {color: #878a8c; font-size: 1.0em; padding: 13px 30px 10px 40px; vertical-align: text-top; word-wrap:break-word;}
-.fl-widget .fl-widget-titlebar .widget_title_icon {display: block; float: left; height: 17px; left: 16px; position: relative; top: 14px; width: 17px;}
-.fl-widget .fl-widget-titlebar .settings {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent; position: relative; height: 18px; margin: 15px 8px 0 0;}
-.fl-widget .fl-widget-options ul li {float: left; margin: 0; padding: 0 6px 0;}
-.fl-widget .fl-widget-options ul li a, .fl-widget .fl-widget-options ul li .s3d-link-button {color: #666; font-size: .85em; font-weight: bold;}
-.fl-widget .fl-widget-options .pipe_divider {font-size: .85em;}
-.fl-widget .fl-widget-content {background-color: #fff; }
-.fl-widget .fl-widget-content ul {margin: 0;}
-.fl-widget .widget-options-inner {padding: 0px 10px 0; min-height:16px; overflow:hidden; *overflow:auto;}
-.hiddenwidget {border-bottom: 3px solid #D5DBDF;}*/
-
-/*
-.fl-widget .widget-titlebar-end {margin-top: -2px;background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -616px transparent;height: 4px;}
-.fl-widget .widget-titlebar-end-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -518px transparent;height: 4px;}
-*/
-
 /* Widget settings */
 #widget_settings_menu {position:absolute;top:0;left:0;margin-top:10px;}
 
@@ -84,7 +63,7 @@ blockquote{font-family:Arial;font-size:14px;color:#666;}
 .s3d-dropdown-list .s3d-dropdown-list-arrow-up {background:url("/dev/images/dropdown_list_arrow_up.png") no-repeat scroll left top transparent;height:20px;margin-top:-20px;position:absolute;right:8px;width:25px;}
 .s3d-dropdown-list .s3d-dropdown-hassubnav {background: url("/dev/images/arrow_right.png") no-repeat right 7px transparent;padding-right: 12px;}
 .s3d-dropdown-list .s3d-dropdown-hassubnav:hover ul {display:block; !important;}
-.s3d-dropdown-list .s3d-dropdown-hassubnav ul {padding:5px; display:none;box-shadow: 2px 0 7px -2px #666;left: 92px;margin-top: -18px;position: absolute;}
+.s3d-dropdown-list .s3d-dropdown-hassubnav ul {padding:5px; display:none;box-shadow: 2px 0 7px -2px #666;left: 87px;margin-top: -18px;position: absolute;}
 .s3d-dropdown-list .s3d-dropdown-hassubnav ul li {white-space: nowrap;}
 
 /* NEW WIDGETS */
@@ -270,7 +249,7 @@ a.s3d-button.s3d-large-button {line-height:31px;}
 .s3d-button.s3d-overlay-button {background:url("/dev/images/button_overlay_default.png") repeat-x scroll left top transparent;border:1px solid #E0E3E5;font-size:11px;font-weight:bold;height:24px;margin-left:15px;box-shadow:0 1px 1px 0 #999;text-shadow:0 2px 3px #fff;color:#2683bc;}
 .s3d-button.s3d-overlay-button:hover {background:url("/dev/images/button_overlay_hover.png") repeat-x scroll left top transparent;}
 .s3d-button.s3d-overlay-button:disabled {color:#ccc;}
-.s3d-button.s3d-overlay-button:disabled:hover {background:url("/dev/images/button_overlay_default.png") repeat-x scroll left top transparent;cursor:auto;}
+.s3d-button.s3d-overlay-button:disabled:hover {background:none !important;border:none !important;cursor:auto;}
 a.s3d-button.s3d-overlay-button {display:inline-block;height:21px;line-height:21px;}
 
 /* Overlay Action buttons */

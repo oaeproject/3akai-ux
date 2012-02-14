@@ -39,7 +39,6 @@
 /* Resizing */
 .contentauthoring_widget .contentauthoring_row {
     border: 3px solid transparent;
-    min-height: 100px;
     margin-bottom: 5px;
     display:table;
     width: 100%;
@@ -88,6 +87,16 @@
     min-height:25px;
 }
 
+.contentauthoring_edit_mode * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+.contentauthoring_edit_mode .pagetitle_widget * {
+    -webkit-touch-callout: auto;
+    -webkit-user-select: auto;
+}
+
 .contentauthoring_edit_mode .contentauthoring_cell_element_hover,
 .contentauthoring_edit_mode .contentauthoring_cell_element.selected {
     border: 1px solid #4c4c4c;
@@ -130,6 +139,7 @@
     position: absolute;
     top: 50px;
     left: 50px;
+    z-index: 1;
 }
 
 #contentauthoring_row_menu.s3d-dropdown-list .s3d-dropdown-list-arrow-up {
@@ -166,6 +176,7 @@
 
 .contentauthoring_cell_element_actions {
     width: auto;
+    z-index: 1;
 }
 
 .contentauthoring_row_handle_container.selected {

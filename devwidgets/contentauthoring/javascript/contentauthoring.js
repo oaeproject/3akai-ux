@@ -675,6 +675,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             removeColumns($row, 0);
             hideEditRowMenu();
             setActions();
+            setHeight($row);
         });
 
         $("#contentauthoring_row_menu_two").live("click", function(){
@@ -686,6 +687,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 addColumns($row, 2);
             }
             hideEditRowMenu();
+            setHeight($row);
         });
 
         $("#contentauthoring_row_menu_three").live("click", function(){
@@ -695,6 +697,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 addColumns($row, 3);
             }
             hideEditRowMenu();
+            setHeight($row);
         });
 
         $("#contentauthoring_row_menu_remove").live("click", function(){

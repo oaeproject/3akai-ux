@@ -104,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} ev Event object from search input field keyup action
          */
         var searchCollection = function(ev){
-            if (ev.keyCode === $.ui.keyCode.ENTER && prevQ !== $.trim($(inserterCollectionContentSearch, $rootel).val())) {
+            if ((ev.keyCode === $.ui.keyCode.ENTER || $(ev.target).hasClass("s3d-search-button")) && prevQ !== $.trim($(inserterCollectionContentSearch, $rootel).val())) {
                 prevQ = $.trim($(inserterCollectionContentSearch, $rootel).val());
                 showCollection(contentListDisplayed);
             }
@@ -117,9 +117,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var disableEnableHeader = function(disable){
             if(disable){
                 $(inserterCollectionContentSearch, $rootel).attr("disabled", "true");
+                $(inserterCollectionContentSearch).next().attr("disabled", "true");
                 $inserterMimetypeFilter.attr("disabled", "true");
             } else {
                 $(inserterCollectionContentSearch, $rootel).removeAttr("disabled");
+                $(inserterCollectionContentSearch).next().removeAttr("disabled");
                 $inserterMimetypeFilter.removeAttr("disabled");
             }
         };
@@ -668,6 +670,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $inserterCollectionItemsListItem.live("click", collectionClicked);
             $inserterAllCollectionsButton.live("click", resetUI);
             $(inserterCollectionContentSearch, $rootel).live("keyup", searchCollection);
+            $(".s3d-search-button", $rootel).live("click", searchCollection);
             $inserterMimetypeFilter.live("change", function(){
                 showCollection(contentListDisplayed);
             });
