@@ -2460,6 +2460,7 @@ define(
              */
             setDraggableParameters: function(params){
                 return {
+                    distance: 30,
                     revert: true,
                     revertDuration: 0,
                     scrollSensitivity: 100,
