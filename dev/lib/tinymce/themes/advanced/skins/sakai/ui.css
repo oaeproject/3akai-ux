@@ -101,7 +101,7 @@
 .sakaiSkin .mceNoIcons a .mceText{padding-left:10px;}
 .sakaiSkin .mceMenu table{background:#FFF;}
 .sakaiSkin .mceMenu a,.sakaiSkin .mceMenu span,.sakaiSkin .mceMenu{display:block;background:#fff;}
-.sakaiSkin .mceMenu td{height:20px;width:160px;}
+.sakaiSkin .mceMenu td{height:20px;width:160px;line-height:normal;}
 .sakaiSkin .mceMenu a{position:relative;padding:3px 0 4px;}
 .sakaiSkin .mceMenu .mceText{position:relative;display:block;font-family:Tahoma,Verdana,Arial,Helvetica;color:#000;cursor:default;margin:0;padding:0 25px;display:block;}
 .sakaiSkin .mceMenu span.mceText,.sakaiSkin .mceMenu .mcePreview{font-size:11px;}
