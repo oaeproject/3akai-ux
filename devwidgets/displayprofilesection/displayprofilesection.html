@@ -15,7 +15,7 @@
 
 <div id="displayprofilesection_edit_template" style="display:none"><!--
     {macro renderTextInput(config, field_id, data)}
-        <input type="text" id="${field_id}" name="${field_id}" {if data && data.value}value="${data.value}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
+        <input type="text" id="${field_id}" name="${field_id}" {if data && data.value}value="${data.value|safeOutput}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
     {/macro}
 
     {macro renderTextarea(config, field_id, data)}
