@@ -44,8 +44,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Global variables //
         //////////////////////
 
-        var $rootel = $("#" + tuid);
-
         var pathsToDelete = false;
         var contentIManage = false;
         var contentIView = false;
@@ -57,7 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CSS Selectors //
         ///////////////////
 
-        var $deletecontent_dialog = $("#deletecontent_dialog", $rootel);
+        var $deletecontent_dialog = $("#deletecontent_dialog");
 
         ////////////////////////////
         // Batch request handling //
@@ -514,7 +512,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // External event binding //
         ////////////////////////////
 
-        $(window).bind("init.deletecontent.sakai", load);
+        $(window).unbind("init.deletecontent.sakai").bind("init.deletecontent.sakai", load);
 
         init();
     };
