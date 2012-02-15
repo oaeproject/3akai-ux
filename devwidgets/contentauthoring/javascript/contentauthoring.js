@@ -675,6 +675,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             removeColumns($row, 0);
             hideEditRowMenu();
             setActions();
+            tinyMCEInstanceFix();
             setHeight($row);
         });
 
@@ -687,6 +688,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 addColumns($row, 2);
             }
             hideEditRowMenu();
+            tinyMCEInstanceFix();
             setHeight($row);
         });
 
@@ -697,6 +699,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 addColumns($row, 3);
             }
             hideEditRowMenu();
+            tinyMCEInstanceFix();
             setHeight($row);
         });
 
