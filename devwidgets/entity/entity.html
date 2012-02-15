@@ -431,7 +431,7 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
     {if type && type == "group_managed"}
         <div id="entity_group_image" class="entity_change_avatar">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]|safeOutput}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
             <div class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></div>
             <div class="s3d-dropdown-list" style="display:none;">
