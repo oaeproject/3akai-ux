@@ -60,7 +60,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var toggleGlobalButtons = function(enable) {
             if (enable) {
-                $inbox_mark_as_read.removeAttr("disabled");
+                var $unreadMessages = $inbox_message_list.find('input[type="checkbox"]:visible:checked').parents('.inbox_items_container.unread');
+                if ($unreadMessages.length) {
+                    $inbox_mark_as_read.removeAttr('disabled');
+                }
                 $inbox_delete_selected.removeAttr("disabled");
             } else {
                 $inbox_mark_as_read.attr("disabled", "disabled");
