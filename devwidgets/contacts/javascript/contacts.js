@@ -307,7 +307,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if ($rootel.is(":visible")){
                 // Set the sort states
                 var parameters = $.bbq.getState();
-                if (!contacts.initialized || (contacts.query !== parameters["cq"]) || (parameters["cso"] && contacts.sortOrder !== parameters["cso"])) {
+                if (contacts.query === '*') {
+                    contacts.query = '';
+                }
+                if (!contacts.initialized || ((contacts.query && !parameters["cq"]) || (parameters["cq"] && contacts.query !== parameters["cq"])) || (parameters["cso"] && contacts.sortOrder !== parameters["cso"])) {
                     contacts.query = parameters["cq"] || "";
                     contacts.sortOrder = parameters["cso"] || "asc";
                     $("#contacts_search_input").val(contacts.query);
