@@ -49,9 +49,13 @@
 
 /* Overrides */
 .collectionviewer_widget .documentviewer_widget {background-color:#fff;padding:15px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;width:870px;}
+.has_nav .collectionviewer_widget .documentviewer_widget {width:682px;}
+.collectionviewer_widget .documentviewer_widget #documentviewer_preview {overflow:hidden;}
 .collectionviewer_widget .documentviewer_preview_width,
 .collectionviewer_widget .contentpreview_fullsize_preview embed {width:870px;}
+.has_nav .collectionviewer_widget .contentpreview_fullsize_preview embed {width:682px;}
 .collectionviewer_widget #contentpreview_fullsize_preview {padding:0 0 15px;}
+.has_nav .collectionviewer_widget #contentpreview_fullsize_preview {width:712px;}
 .collectionviewer_widget .s3d-search-results-grid {border:none !important;padding-top:0;}
 .collectionviewer_widget .searchcontent_result_usedin_icon {background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll center center transparent;display:block;float:left;height:15px;margin-right:5px;width:15px;}
 
@@ -70,6 +74,7 @@
 .collectionviewer_widget #collectionviewer_carousel_container .collectionviewer_prev_next_container #collectionviewer_oldest:hover {background:url("/devwidgets/collectionviewer/images/collectionviewer_oldest_icon_hover.png") no-repeat scroll center center transparent;}
 .collectionviewer_widget #collectionviewer_carousel_container ul {margin:0;}
 .collectionviewer_widget #collectionviewer_carousel_container ul li {cursor:pointer;display:inline;float:left;height:55px;list-style:none outside none;padding:10px;width:51px;}
+.has_nav .collectionviewer_widget #collectionviewer_carousel_container ul li {padding:10px 11px 10px 12px;}
 .collectionviewer_widget #collectionviewer_carousel_container ul li div.arrow-down {width:0px;height:0px; border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #9D9C9C;font-size:0px;line-height:0px;}
 .collectionviewer_widget #collectionviewer_carousel_container ul li.selected div.arrow-down {display:inline !important;margin-left:23px;position:absolute;}
 .collectionviewer_widget #collectionviewer_carousel_container ul li.selected .collectionviewer_carousel_thumbnail_container {border:3px solid #9D9C9C;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;margin:-3px 0 0 -3px;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
