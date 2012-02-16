@@ -135,7 +135,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 sectionid: widgetData.sectionid,
                 section: section,
                 unique: unique,
-                order: multipleSectionLength
+                order: multipleSectionLength,
+                data: {}
             });
             $displayprofilesection_sections_multiple.append( sakai.api.i18n.General.process( sectionHTML ) );
             $( "button.profile-section-save-button", $rootel ).show();
@@ -192,7 +193,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             }
 
             // If there is some data, render each section
-            if ( data[ widgetData.sectionid ].elements ) {
+            if (data[widgetData.sectionid] && data[widgetData.sectionid].elements) {
                 var subSections = [];
                 // Convert the sectionData into an array so we can order it
                 $.each( data[ widgetData.sectionid ].elements, function( uid, sectionData ) {
@@ -256,7 +257,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     if ( section.multiple ) {
                         renderMultiSection( template, section, data );
                     } else {
-                        if ( editing || sectionHasElements( data[ widgetData.sectionid ].elements ) ) {
+                        // data[widgetData.sectionid] won't exist when the user hasn't logged in before
+                        if (editing || (data[widgetData.sectionid] && sectionHasElements(data[widgetData.sectionid].elements))) {
                             sectionData = data[ widgetData.sectionid ] && data[ widgetData.sectionid ].elements ? data[ widgetData.sectionid ].elements : false;
                             var bodyHTML = sakai.api.Util.TemplateRenderer( template, {
                                 sectionid: widgetData.sectionid,
@@ -300,13 +302,17 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             }
         };
 
-        var getData = function( callback ) {
-            if ( editing && sakai.data.me.profile && $.isFunction( callback ) ) {
-                callback( true, sakai.data.me.profile );
+        var getData = function(callback) {
+            if (editing && sakai.data.me.profile && $.isFunction(callback) && sakai.data.me.profile._fullProfileLoaded) {
+                callback(true, sakai.data.me.profile);
             } else {
-                sakai.api.User.getUser( userid, function( success, data ) {
-                    if ( $.isFunction( callback ) ) {
-                        callback( success, data );
+                sakai.api.User.getUser(userid, function(success, data) {
+                    if (sakai.data.me.user.userid === data.userid) {
+                        sakai.data.me.profile = data;
+                        sakai.data.me.profile._fullProfileLoaded = true;
+                    }
+                    if ($.isFunction(callback)) {
+                        callback(success, data);
                     }
                 });
             }
