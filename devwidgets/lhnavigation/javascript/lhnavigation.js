@@ -728,7 +728,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var changingPageTitle = false;
 
         var checkSaveEditPageTitle = function(ev){
-            $(window).unbind("click", checkSaveEditPageTitle);
+            $(document).off('click', checkSaveEditPageTitle);
             if (!$(ev.target).is("input") && changingPageTitle) {
                 savePageTitle();
             }
@@ -750,6 +750,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             toggleContextMenu(true);
             inputArea.focus();
             inputArea.select();
+            $(document).on('click', checkSaveEditPageTitle);
         };
 
         var savePageTitle = function(){
@@ -1110,7 +1111,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
             ev.stopPropagation();
-            $(window).bind("click", checkSaveEditPageTitle);
         });
 
         $("#lhnavigation_submenu_permissions").live("click", function(ev){
