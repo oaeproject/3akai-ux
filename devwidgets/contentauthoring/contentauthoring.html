@@ -31,7 +31,7 @@
 <div id="contentauthoring_widget" class="contentauthoring_widget" style="padding: 10px; clear: both;"></div>
 <div id="contentauthoring_widget_template" style="display:none;"><!--
     {macro insertCell(id, type)}
-        <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
+        <div class="contentauthoring_cell_element {if type === "htmlblock"} contentauthoring_init{/if}" data-element-type="${type}" data-element-id="${id}">
             <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
                 <span class="contentauthoring_row_handle fl-force-left" title="Drag me to re-order"></span>
                 {if sakai.widgets[type].hasSettings}
@@ -107,7 +107,7 @@
     {if data && data.content && data.content.length}
         {for file in data.content}
             {if file.name}
-                <div class="contentauthoring_cell_element" data-element-type="htmlblock" data-element-id="245462465">
+                <div class="contentauthoring_cell_element {if type === "htmlblock"} contentauthoring_init{/if}" data-element-type="htmlblock" data-element-id="245462465">
                     <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="245462465" data-element-type="htmlblock">
                         <button class="contentauthoring_cell_element_action_x">X</button>
                         <button class="contentauthoring_cell_element_action_e">E</button>
@@ -120,7 +120,7 @@
             {/if}
         {/for}
     {else}
-        <div class="contentauthoring_cell_element" data-element-type="htmlblock" data-element-id="245462465">
+        <div class="contentauthoring_cell_element {if type === "htmlblock"} contentauthoring_init{/if}" data-element-type="htmlblock" data-element-id="245462465">
             <div class="contentauthoring_cell_element_actions" style="display:none;" data-element-id="245462465" data-element-type="htmlblock">
                 <button class="contentauthoring_cell_element_action_x">X</button>
                 <button class="contentauthoring_cell_element_action_e">E</button>

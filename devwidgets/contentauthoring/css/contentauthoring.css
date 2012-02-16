@@ -79,6 +79,10 @@
     border: 1px dotted #fff;
 }
 
+.contentauthoring_edit_mode .contentauthoring_widget .contentauthoring_cell_element.contentauthoring_init {
+    height: 28px !important;
+}
+
 .contentauthoring_widget {
     min-height: 300px;
 }

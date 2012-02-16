@@ -168,6 +168,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             ed.onInit.add(function(ed) {
                                 ed.focus();
                                 $(".contentauthoring_cell_element_actions").hide();
+                                var t = setTimeout(function(){
+                                    $(".htmlblock_widget", $rootel).parents(".contentauthoring_cell_element").removeClass("contentauthoring_init");
+                                }, 1000);
                             });
                         }
                     });
