@@ -109,20 +109,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         'sakai:pooled-content-file-name': newTitle
                     },
                     success: function() {
-                        if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)) {
+                        var contentData = sakai_global.content_profile.content_data.data;
+                        if (sakai.api.Content.Collections.isCollection(contentData)) {
                             // Change the group title as well
-                            var groupId = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
+                            var groupId = sakai.api.Content.Collections.getCollectionGroupId(contentData);
                             $.ajax({
                                 'url': '/system/userManager/group/' + groupId + '.update.json',
                                 'type': 'POST',
                                 'data': {
                                     'sakai:group-title': newTitle
                                 },
-                                'success': function(){
+                                'success': function() {
                                     // Update the me object
                                     var memberships = sakai.api.Groups.getMemberships(sakai.data.me.groups, true);
-                                    $.each(memberships.entry, function(index, membership){
-                                        if (membership['sakai:group-id'] === groupId){
+                                    $.each(memberships.entry, function(index, membership) {
+                                        if (membership['sakai:group-id'] === groupId) {
                                             membership['sakai:group-title'] = newTitle;
                                         }
                                     });
@@ -138,13 +139,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var finishChangeTitle = function(newTitle) {
-            sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'] = sakai.api.Security.safeOutput(newTitle);
+            var title = sakai.api.Security.safeOutput(newTitle);
+            var link;
+            sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'] = title;
             // Export as IMS Package
             if (sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data) === 'x-sakai/document') {
-                $('#contentpreview_download_button').attr('href', '/imscp/' + sakai_global.content_profile.content_data.data['_path'] + '/' + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']) + '.zip');
+                link = '/imscp/' + sakai_global.content_profile.content_data.data['_path'] + '/' +
+                sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']) + '.zip';
+                $('#contentpreview_download_button').attr('href', link);
             // Download as a normal file
             } else {
-                $('#contentpreview_download_button').attr('href', sakai_global.content_profile.content_data.smallPath + '/' + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']));
+                link = sakai_global.content_profile.content_data.smallPath + '/' +
+                sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']);
+                $('#contentpreview_download_button').attr('href', link);
             }
         };
 
@@ -296,7 +303,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                     // setup jeditable for the content name field
-                    var nameUpdate = function(value, settings){
+                    var nameUpdate = function(value, settings) {
                         $(this).removeClass('entity_name_editing');
                         saveName($.trim(value));
                         return value;

@@ -77,6 +77,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // i18n
         var $contentmetadataUpdatedCopyright = $("#contentmetadata_updated_copyright");
 
+        // jEditable
+        var contentmetadataJEditTrigger = 'openjedit.contentmetadata.sakai';
+
         // Edit vars
         // ID of Input element that's focused, defines what to update
         var editingElement = "";
@@ -379,7 +382,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             // jeditable bindings
             $('.contentmetadata_editable_for_maintainers_jedit').click(function(e) {
-                if (!$('.contentmetadata_edit_input', $(this)).find('textarea').length && !$('.contentmetadata_edit_area_select', $(this)).find('select').length) {
+                if (!$('.contentmetadata_edit_input', $(this)).find('textarea').length &&
+                    !$('.contentmetadata_edit_area_select', $(this)).find('select').length) {
                     if ($(this).attr('data-edit-field') === 'url') {
                         // if the url hyperlink was clicked, we don't wait to edit the field
                         if ($(e.target).is('a')) {
@@ -389,7 +393,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         $input.html($.trim($input.text()));
                     }
                     $(this).addClass('contentmetadata_editing');
-                    $('.contentmetadata_edit_input, .contentmetadata_edit_area_select', $(this)).trigger('openjedit.contentmetadata.sakai');
+                    $('.contentmetadata_edit_input, .contentmetadata_edit_area_select', $(this))
+                    .trigger(contentmetadataJEditTrigger);
                 }
             });
 
@@ -409,7 +414,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $('.contentmetadata_description_textarea').editable(jeditableUpdate, {
                 type: 'textarea',
                 onblur: 'submit',
-                event: 'openjedit.contentmetadata.sakai',
+                event: contentmetadataJEditTrigger,
                 tooltip: tooltip,
                 placeholder: placeholder
             });
@@ -417,12 +422,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // setup jeditable for the copyright selection
             var copyrightData = {};
             var selected = false;
-            for (var c in sakai.config.Permissions.Copyright.types) {
-                if (sakai_global.content_profile.content_data.data['sakai:copyright'] === c) {
-                    selected = c;
+            $.each(sakai.config.Permissions.Copyright.types, function(key, val) {
+                if (sakai_global.content_profile.content_data.data['sakai:copyright'] === key) {
+                    selected = key;
                 }
-                copyrightData[c] = sakai.api.i18n.getValueForKey(sakai.config.Permissions.Copyright.types[c].title, 'contentmetadata');
-            }
+                copyrightData[key] = sakai.api.i18n.getValueForKey(val.title, 'contentmetadata');
+            });
             if (selected) {
                 copyrightData['selected'] = selected;
             }
@@ -434,7 +439,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: copyrightData,
                 type: 'select',
                 onblur: 'submit',
-                event: 'openjedit.contentmetadata.sakai',
+                event: contentmetadataJEditTrigger,
                 callback: copyrightCallback,
                 tooltip: tooltip
             });
@@ -443,14 +448,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var urlPlaceholder = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT_URL', 'contentmetadata');
             var urlCallback = function(value, settings) {
                 // add a hyperlink that can be clicked
-                if ($(this).text()){
-                    $(this).html('<a class="s3d-action" target="_blank" href="' + $(this).text() + '">' + $(this).text() + '</a>');
+                if ($(this).text()) {
+                    var link = '<a class="s3d-action" target="_blank" href="' +
+                    $(this).text() + '">' + $(this).text() + '</a>';
+                    $(this).html(link);
                 }
             };
             $('.contentmetadata_url_textarea').editable(jeditableUpdate, {
                 type: 'textarea',
                 onblur: 'submit',
-                event: 'openjedit.contentmetadata.sakai',
+                event: contentmetadataJEditTrigger,
                 callback: urlCallback,
                 placeholder: urlPlaceholder
             });
