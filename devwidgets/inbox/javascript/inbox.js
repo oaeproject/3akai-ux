@@ -110,8 +110,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             selectMessages($inbox_select_checkbox.is(":checked"));
         });
 
-        $(".inbox_items_container input[type='checkbox']").live("change", function() {
-            if ($(".inbox_items_container input[type='checkbox']:checked").length > 0) {
+        $('.inbox_items_container input[type="checkbox"]', $rootel).live('change', function() {
+            if ($('.inbox_items_container input[type="checkbox"]:checked', $rootel).length > 0) {
                 toggleGlobalButtons(true);
             } else {
                 toggleGlobalButtons(false);
@@ -260,6 +260,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $inbox_search_term = $($inbox_search_term.selector);
                 $inbox_search_term.remove();
             }
+            toggleGlobalButtons(false);
+            $inbox_select_checkbox.removeAttr('checked');
             $inbox_search_messages.removeAttr("disabled");
             // Disable the previous infinite scroll
             if (infinityScroll){
@@ -276,9 +278,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     callback(true, data);
                 });
             }, {}, function(items, total){
-                $(".inbox_select_all_container:visible input").removeAttr("disabled");
-                $("#inbox_delete_selected").removeAttr("disabled");
-                $("#inbox_mark_as_read").removeAttr("disabled");
+                $('.inbox_select_all_container:visible input', $rootel).removeAttr('disabled');
                 return sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
                     sakai: sakai,
                      _: _,
@@ -287,9 +287,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     box: widgetData.box
                 });
             }, function(){
-                $(".inbox_select_all_container:visible input").attr("disabled", true);
-                $("#inbox_delete_selected").attr("disabled", true);
-                $("#inbox_mark_as_read").attr("disabled", true);
+                $('.inbox_select_all_container:visible input', $rootel).attr('disabled', true);
+                $inbox_delete_selected.attr('disabled', true);
+                $inbox_mark_as_read.attr('disabled', true);
                 $inbox_message_list.html(sakai.api.Util.TemplateRenderer($inbox_message_list_item_empty_template, {
                     "widgetData": widgetData,
                     "search": searchTerm
