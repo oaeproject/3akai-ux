@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.branding
@@ -26,11 +26,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.branding = function(tuid, showSettings) {
 
-        var $rootel = $("#" + tuid);
-        var $brandingWidget = $(".branding_widget", $rootel);
+        var $rootel = $('#' + tuid);
+        var $brandingWidget = $('.branding_widget', $rootel);
 
-        var doInit = function(){
-            if (sakai.config.enableBranding){
+        var doInit = function() {
+            if (sakai.config.enableBranding) {
                 $brandingWidget.show();
             }
         };
@@ -39,5 +39,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("branding");
+    sakai.api.Widgets.widgetLoader.informOnLoad('branding');
 });
