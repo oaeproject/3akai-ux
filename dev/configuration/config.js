@@ -1750,7 +1750,6 @@ define(function(){
         },
 
         widgets: {
-            "groups": ["Administrators", "Lecturers & Supervisors", "Researchers", "Students"],
             "layouts": {
                 "onecolumn": {
                     "name": "One column",
