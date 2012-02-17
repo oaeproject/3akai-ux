@@ -52,9 +52,6 @@ require(
             "name": "scrolling",
             "type": "boolean"
         }, {
-            "name": "siteportal",
-            "type": "boolean"
-        }, {
             "name": "url",
             "required": true,
             "type": "string"

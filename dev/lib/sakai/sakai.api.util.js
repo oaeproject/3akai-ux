@@ -694,6 +694,8 @@ define(
                     htmlCode += '<div class="s3d-inset-shadow-container"><img src="/dev/images/progress_bar.gif"/></div></div>';
                     var notification = $(htmlCode);
                     $('body').append(notification);
+                    // position progress indicator at users scroll position
+                    sakai_util.positionDialogBox($('#sakai_progressindicator'));
                     $("#sakai_progressindicator").jqm({
                         modal: true,
                         overlay: 20,
