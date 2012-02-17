@@ -166,7 +166,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 $(".contentauthoring_cell_element_actions").hide();
                             });
                             ed.onInit.add(function(ed) {
-                                ed.focus();
+                                if(!$(".s3d-dialog:visible").length){
+                                    ed.focus();
+                                }
                                 $(".contentauthoring_cell_element_actions").hide();
                                 var t = setTimeout(function(){
                                     $(".htmlblock_widget", $rootel).parents(".contentauthoring_cell_element").removeClass("contentauthoring_init");
