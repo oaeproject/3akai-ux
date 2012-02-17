@@ -1109,8 +1109,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////////////
         ////////////////////////////
 
-        // Highlight on drag entering drop zone.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragenter', function(ev) {
+
+        // Un-highlight on drag leaving drop zone.
+        $(".contentauthoring_cell_element", $rootel).live('dragleave', function(ev) {
+            $(".contentauthoring_row_reorder_highlight.external_content", $rootel).remove();
+            return false;
+        });
+
+        // Decide whether the thing dragged in is welcome.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content, .contentauthoring_row_reorder_highlight", $rootel).live('dragover', function(ev) {
             $(".contentauthoring_row_reorder_highlight.external_content", $rootel).remove();
             if($(this).hasClass("contentauthoring_cell_element")){
                 $(this).after($("<div class='contentauthoring_row_reorder_highlight external_content'></div>"));
@@ -1120,24 +1127,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return false;
         });
 
-        // Un-highlight on drag leaving drop zone.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragleave', function(ev) {
-            return false;
-        });
-
-        // Decide whether the thing dragged in is welcome.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragover', function(ev) {
-            return false;
-        });
-
         // Handle the final drop
-        $(".contentauthoring_cell_element,.contentauthoring_cell_content", $rootel).live('drop', function(ev) {
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('drop', function(ev) {
             ev.preventDefault();
             $(".contentauthoring_row_reorder_highlight.external_content", $rootel).remove();
-            if(!$(this).hasClass("contentauthoring_cell_element")){
                 var dt = ev.originalEvent.dataTransfer;
                 addExternal(ev, $(this));
-            }
             return false;
         });
 
