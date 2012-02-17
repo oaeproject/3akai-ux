@@ -176,10 +176,6 @@ define(function(){
             }
         },
 
-        Search: {
-            MAX_CORRECT_SEARCH_RESULT_COUNT: 100
-        },
-
         SakaiDomain: window.location.protocol + "//" + window.location.host,
 
         Permissions: {
@@ -479,13 +475,6 @@ define(function(){
             userNameDefaultDisplay: "firstName lastName",
 
             /*
-             * Set the user's short description to appear underneath their name
-             * in search results
-             */
-            userShortDescription: "${role} in ${department} at ${college}",
-            groupShortDescription: "asdf",
-
-            /*
              * Set the default user settings in account preferences for automatic tagging
              * and auto-tagged notifications
              */
@@ -547,22 +536,6 @@ define(function(){
                 "definition": "__MSG__SHARES_INTEREST_WITH_ME__",
                 "selected": false
             }]
-        },
-
-        Site: {
-            Styles: {
-                original: {
-                    name: "Original sakai theme",
-                    image: "/dev/images/sakai_grey.png",
-                    URL: "/dev/skins/original/original.html"
-                },
-                camuniversity: {
-                    name: "Cambridge University theme",
-                    image: "/dev/skins/camuniversity/images/camuniversity.png",
-                    URL: "/dev/skins/camuniversity/camuniversity.html"
-                }
-            },
-            DefaultMember: "viewers"
         },
 
         SystemTour: {
@@ -1570,9 +1543,6 @@ define(function(){
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
 
-        defaultUserTemplate: "defaultuser",
-        defaultGroupTemplate: "defaultgroup",
-
         enableChat: false,
         enableCategories: true,
 
@@ -1780,7 +1750,6 @@ define(function(){
         },
 
         widgets: {
-            "groups": ["Administrators", "Lecturers & Supervisors", "Researchers", "Students"],
             "layouts": {
                 "onecolumn": {
                     "name": "One column",
@@ -1802,10 +1771,6 @@ define(function(){
                 "personalportal": {
                     "layout": "dev",
                     "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
-                },
-                "siteportal": {
-                    "layout": "dev",
-                    "columns": [["sitemembers"], []]
                 }
             }
         }
