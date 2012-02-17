@@ -236,7 +236,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Updates the url
          * @param {String} updateUrl The new URL to update with
          */
-        var updateUrl = function(url){
+        var updateUrl = function(url) {
             var preview = sakai.api.Content.getPreviewUrl(url);
             sakai_global.content_profile.content_data.data["sakai:pooled-content-url"] = url;
             sakai_global.content_profile.content_data.data["sakai:pooled-content-revurl"] = url;
@@ -399,6 +399,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             // setup jeditable for the description textarea
+            var placeholderStart = '<span class="contentmetadata_placeholder">';
+            var placeholderEnd = '</span>';
             var placeholder = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT_DESCRIPTION', 'contentmetadata');
             var tooltip = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT', 'contentmetadata');
             var jeditableUpdate = function(value, settings) {
@@ -416,7 +418,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 onblur: 'submit',
                 event: contentmetadataJEditTrigger,
                 tooltip: tooltip,
-                placeholder: placeholder
+                placeholder: placeholderStart + placeholder + placeholderEnd
             });
 
             // setup jeditable for the copyright selection
@@ -459,7 +461,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 onblur: 'submit',
                 event: contentmetadataJEditTrigger,
                 callback: urlCallback,
-                placeholder: urlPlaceholder
+                placeholder: placeholderStart + urlPlaceholder + placeholderEnd
             });
         };
 
