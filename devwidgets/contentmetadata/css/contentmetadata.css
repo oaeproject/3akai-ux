@@ -46,7 +46,7 @@
 .contentmetadata_edit_input{width:100%;margin:7px 0;}
 .contentmetadata_jedit.contentmetadata_editable .contentmetadata_edit_input {margin: 0;}
 .contentmetadata_edit_input:hover{background-color:#fcecb2!important;cursor:pointer;}
-.contentmetadata_edit_input.as-selections, .contentmetadata_edit_input.as-selections textarea, .contentmetadata_jedit select {background-color: #fcecb2;}
+.contentmetadata_edit_input.as-selections, .contentmetadata_edit_input.as-selections textarea, .contentmetadata_jedit.contentmetadata_editable select {background-color: #fcecb2;}
 .contentmetadata_edit_input textarea{min-height: 75px; resize:vertical; background-color: #fcecb2;}
 .contentmetadata_edit_area_select:hover{background-color:#fcecb2!important;cursor:pointer;}
 #contentmetadata_container ul{margin:0;overflow:hidden;}

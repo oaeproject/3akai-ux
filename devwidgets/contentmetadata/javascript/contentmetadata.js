@@ -381,7 +381,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             // jeditable bindings
-            $('.contentmetadata_jedit').click(function(e) {
+            $('.contentmetadata_jedit.contentmetadata_editable').click(function(e) {
                 if (!$('.contentmetadata_edit_input', $(this)).find('textarea').length &&
                     !$('.contentmetadata_edit_area_select', $(this)).find('select').length) {
                     if ($(this).attr('data-edit-field') === 'url') {
