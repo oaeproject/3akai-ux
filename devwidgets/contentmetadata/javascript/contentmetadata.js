@@ -381,7 +381,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             // jeditable bindings
-            $('.contentmetadata_editable_for_maintainers_jedit').click(function(e) {
+            $('.contentmetadata_jedit').click(function(e) {
                 if (!$('.contentmetadata_edit_input', $(this)).find('textarea').length &&
                     !$('.contentmetadata_edit_area_select', $(this)).find('select').length) {
                     if ($(this).attr('data-edit-field') === 'url') {
@@ -404,7 +404,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var placeholder = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT_DESCRIPTION', 'contentmetadata');
             var tooltip = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT', 'contentmetadata');
             var jeditableUpdate = function(value, settings) {
-                var $editingContainer = $(this).parents('.contentmetadata_editable_for_maintainers_jedit');
+                var $editingContainer = $(this).parents('.contentmetadata_jedit');
                 if (!$editingContainer.length) {
                     $editingContainer = $(this);
                 }
