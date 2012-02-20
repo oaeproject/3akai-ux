@@ -25,8 +25,8 @@
         "remotecontent": {
             "border_color": "cccccc",
             "border_size": 0,
-            "height": "800",
-            "url": "http://sakaiproject.org",
+            "height": "400",
+            "url": "/devwidgets/remotecontent/default_remote.html",
             "width": "100",
             "width_unit": "%"
         }
