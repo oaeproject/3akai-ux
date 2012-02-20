@@ -95,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $savecontent_save.removeAttr("disabled");
 
             var adjustHeight = 0;
-            if ($('.branding_widget').is(':visible')) {
+            if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
                 adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
             }
 

@@ -184,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             getGroup(groupid, function(group) {
                 group.sakai = sakai;
                 var adjustHeight = 0;
-                if ($('.branding_widget').is(':visible')) {
+                if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
                     adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
                 }
                 $(window).trigger("init.tooltip.sakai", {
