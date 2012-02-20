@@ -1279,7 +1279,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $(window).unload(function() {
-            $.bbq.removeState("newPageMode");
+            if($.bbq.getState("newPageMode")){
+                $.bbq.removeState("newPageMode");
+            }
         });
 
         ///////////////////////
