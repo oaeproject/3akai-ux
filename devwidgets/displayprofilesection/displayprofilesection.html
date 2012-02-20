@@ -15,7 +15,7 @@
 
 <div id="displayprofilesection_edit_template" style="display:none"><!--
     {macro renderTextInput(config, field_id, data)}
-        <input type="text" id="${field_id}" name="${field_id}" {if data && data.value}value="${data.value}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
+        <input type="text" id="${field_id}" name="${field_id}" {if data && data.value}value="${data.value|safeOutput}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
     {/macro}
 
     {macro renderTextarea(config, field_id, data)}
@@ -53,17 +53,21 @@
                 {var field_id = unique ? field_index + "_" + unique : field_index}
                 <div class="displayprofilesection_field">
                     <label for="${field_id}" class="s3d-input-label{if field.type === "tags"} tagslabel{/if}">${field.label}:</label>
-                    {if field.type === "select"}
-                        ${renderDropdown(field, field_id, field_data)}
-                    {elseif field.type === "textarea"}
-                        ${renderTextarea(field, field_id, field_data)}
-                    {elseif field.type === "tags"}
-                        ${renderTagField(field, field_id, field_data)}
+                    {if field.editable === false}
+                        <span class="displayprofilesection_field_nonedtiable">${field_data.value}</span>
                     {else}
-                        ${renderTextInput(field, field_id, field_data)}
-                    {/if}
-                    {if field.example}
-                        <p class="displayprofilesection_generalinfo_example">${field.example}</p>
+                        {if field.type === "select"}
+                            ${renderDropdown(field, field_id, field_data)}
+                        {elseif field.type === "textarea"}
+                            ${renderTextarea(field, field_id, field_data)}
+                        {elseif field.type === "tags"}
+                            ${renderTagField(field, field_id, field_data)}
+                        {else}
+                            ${renderTextInput(field, field_id, field_data)}
+                        {/if}
+                        {if field.example}
+                            <p class="displayprofilesection_generalinfo_example">${field.example}</p>
+                        {/if}
                     {/if}
                 </div>
             {/if}
@@ -108,8 +112,8 @@
     {macro renderField(config, field_id, field_data)}
         {var value = config.type === "select" ? sakai.api.i18n.General.process(config.select_elements[field_data.value]) : field_data.value}
         <span class="field_value">
-        {if config.limitDisplayLength}
-            ${sakai.api.Util.shortenString(value, config.limitDisplayLength)|safeOutput}
+        {if config.limitDisplayWidth}
+            ${sakai.api.Util.applyThreeDots(value, config.limitDisplayWidth)}
         {elseif config.type === "tags"}
             {var tags = sakai.api.Util.formatTags(value)}
             {for tag in tags}{if tag_index > 0},{/if} <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>{/for}

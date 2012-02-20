@@ -30,6 +30,7 @@ define(function(){
             MY_DASHBOARD_URL: "/me#l=dashboard",
             PROFILE_EDIT_URL: "/me#l=profile/basic",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
+            SEARCH_URL: "/search",
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
@@ -175,10 +176,6 @@ define(function(){
             }
         },
 
-        Search: {
-            MAX_CORRECT_SEARCH_RESULT_COUNT: 100
-        },
-
         SakaiDomain: window.location.protocol + "//" + window.location.host,
 
         Permissions: {
@@ -282,14 +279,14 @@ define(function(){
                                 "errorMessage": "__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "limitDisplayLength": 50
+                                "limitDisplayWidth": 300
                             },
                             "lastName": {
                                 "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
                                 "errorMessage": "__MSG__PROFILE_BASIC_LASTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "limitDisplayLength": 50
+                                "limitDisplayWidth": 300
                             },
                             "picture": {
                                 "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
@@ -478,13 +475,6 @@ define(function(){
             userNameDefaultDisplay: "firstName lastName",
 
             /*
-             * Set the user's short description to appear underneath their name
-             * in search results
-             */
-            userShortDescription: "${role} in ${department} at ${college}",
-            groupShortDescription: "asdf",
-
-            /*
              * Set the default user settings in account preferences for automatic tagging
              * and auto-tagged notifications
              */
@@ -548,26 +538,12 @@ define(function(){
             }]
         },
 
-        Site: {
-            Styles: {
-                original: {
-                    name: "Original sakai theme",
-                    image: "/dev/images/sakai_grey.png",
-                    URL: "/dev/skins/original/original.html"
-                },
-                camuniversity: {
-                    name: "Cambridge University theme",
-                    image: "/dev/skins/camuniversity/images/camuniversity.png",
-                    URL: "/dev/skins/camuniversity/camuniversity.html"
-                }
-            },
-            DefaultMember: "viewers"
-        },
-
         SystemTour: {
             "enableReminders": true,
             "reminderIntervalHours": "168"
         },
+
+        enableBranding: true,
 
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
@@ -1569,9 +1545,6 @@ define(function(){
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
 
-        defaultUserTemplate: "defaultuser",
-        defaultGroupTemplate: "defaultgroup",
-
         enableChat: false,
         enableCategories: true,
 
@@ -1779,7 +1752,6 @@ define(function(){
         },
 
         widgets: {
-            "groups": ["Administrators", "Lecturers & Supervisors", "Researchers", "Students"],
             "layouts": {
                 "onecolumn": {
                     "name": "One column",
@@ -1801,10 +1773,6 @@ define(function(){
                 "personalportal": {
                     "layout": "dev",
                     "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
-                },
-                "siteportal": {
-                    "layout": "dev",
-                    "columns": [["sitemembers"], []]
                 }
             }
         }

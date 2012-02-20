@@ -70,7 +70,9 @@
 
 /* Display content */
 #embedcontent_content div.embedcontent_large_content img{max-width:634px;}
+#embedcontent_content div.embedcontent_large_content #documentviewer_preview img{max-width:100%;}
 #embedcontent_content div.embedcontent_large_content div.embedcontent_details span{display:block;}
+#embedcontent_content div.embedcontent_large_content #documentviewer_externalhtml_iframe{height:560px;width:100%;}
 #embedcontent_content div.embedcontent_thumbnail_content img{height:40px;width:40px;}
 #embedcontent_content div.embedcontent_thumbnail_content img.not_found{width:29px;height:36px;}
 #embedcontent_content div.embedcontent_thumbnail_content img,#embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details{ margin: 0 8px 0 0;}

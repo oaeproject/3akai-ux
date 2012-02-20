@@ -204,6 +204,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var loadSpaceData = function(){
+            var userid;
             if (!entityID || entityID == sakai.data.me.user.userid) {
                 isMe = true;
                 userid = sakai.data.me.user.userid;

@@ -21,7 +21,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
-/*global $,  get_cookie, Config */
+/*global $, get_cookie, Config */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
@@ -361,7 +361,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} exists Does there exist a previous remotecontent
          */
         var displaySettings = function(parameters, exists){
-            if (exists && parameters.url) {
+            /**
+             * We also blank the URL field if it matches the default URL in widget config,
+             * i.e. if it's the default path to user instructions.
+             */
+            if (exists && parameters.url && parameters.url !== sakai.widgets.remotecontent.defaultConfiguration.remotecontent.url) {               
                 json = parameters;
             }
             else {

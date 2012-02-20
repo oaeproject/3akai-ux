@@ -15,6 +15,10 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.jisccontent_widget {text-align: center;}
-.jisccontent_widget_content {padding: 0px !important;}
-.jisccontent_widget_content iframe {max-width: 252px;}
+/* Widget Container CSS */
+.branding_widget {
+    background:     url("/devwidgets/branding/images/default_branding.png") no-repeat center center #11557c;
+    height:         42px;
+    position:       relative;
+    z-index:        1000;
+}

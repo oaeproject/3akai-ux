@@ -152,12 +152,28 @@ define(
                 }
 
             });
+
+            var savedFunction = function(success, data) {
+                if (success) {
+                    var oldDisplayName = sakaiUserAPI.getDisplayName(sakaiUserAPI.data.me.profile);
+                    // Update the users profile to reflect changed data
+                    $.extend(true, sakaiUserAPI.data.me.profile[section], postData);
+                    var newDisplayName = sakaiUserAPI.getDisplayName(sakaiUserAPI.data.me.profile);
+                    if (oldDisplayName !== newDisplayName) {
+                        $(window).trigger("displayName.profile.updated.sakai");
+                    }
+                }
+                if ($.isFunction(callback)) {
+                    callback(success, data);
+                }
+            };
+
             var existingTags = sectionData["sakai:tags"] ? sectionData["sakai:tags"].value : false;
             sakai_util.tagEntity( url, tags, existingTags, function( success, final_tags ) {
                 sectionData["sakai:tags"] = {
                     value: final_tags
                 };
-                sakai_serv.saveJSON( saveJSONURL, postData, callback, true );
+                sakai_serv.saveJSON( saveJSONURL, postData, savedFunction, true );
             });
 
         },

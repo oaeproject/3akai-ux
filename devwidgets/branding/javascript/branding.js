@@ -15,41 +15,29 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/*
- * Dependencies
- *
- * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- */
 
-/*global $, Config, addBinding */
-
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
-     * @name sakai_global.jisccontent
+     * @name sakai_global.branding
      *
-     * @class jisccontent
-     *
-     * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.jisccontent = function(tuid, showSettings){
+    sakai_global.branding = function(tuid, showSettings) {
 
-        var rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
+        var $brandingWidget = $('.branding_widget', $rootel);
 
-        $("#jisccontent_cancel", rootel).bind("click", function(){
-             sakai.api.Widgets.Container.informCancel(tuid, "jisccontent");
-        });
-        $("#jisccontent_save", rootel).bind("click", function(){
-             sakai.api.Widgets.Container.informFinish(tuid, "jisccontent");
-        });
+        var doInit = function() {
+            if (sakai.config.enableBranding) {
+                $brandingWidget.show();
+            }
+        };
 
-        if (showSettings){
-             $("#jisccontent_widget_settings").show();
-        }        
+        doInit();
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("jisccontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad('branding');
 });

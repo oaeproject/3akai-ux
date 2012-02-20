@@ -93,6 +93,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
         var newaddcontentAddDocumentTags = "#newaddcontent_add_document_tags";
         var newaddcontentExistingItemsListContainerListItemIcon = ".newaddcontent_existingitems_list_container_list_item_icon";
         var newaddcontentExistingItemsListContainerActionsSort = "#newaddcontent_existingitems_list_container_actions_sort";
+        var newaddcontentExistingItemsListContainerCheckboxes = '#newaddcontent_existingitems_list_container input[type="checkbox"]';
         var newaddcontentSelectedItemsEditDataTitle = "#newaddcontent_selecteditems_edit_data_title";
         var newaddcontentSelectedItemsEditDataDescription = " #newaddcontent_selecteditems_edit_data_description";
         var newaddcontentSelectedItemsEditDataTags = " #newaddcontent_selecteditems_edit_data_tags";
@@ -238,12 +239,15 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
         /**
          * Add an item to the queue
          * @param {Object} contentToAdd Object containing data about the object to be added to the queue
+         * @param {Boolean} disableRender Disable rendering of the queue.
          */
-        var addContentToQueue = function(contentToAdd){
+        var addContentToQueue = function(contentToAdd, disableRender) {
             itemsToUpload.push(contentToAdd);
             disableAddToQueue();
             enableStartUpload();
-            renderQueue();
+            if (!disableRender) {
+                renderQueue();
+            }
         };
 
         /**
@@ -419,7 +423,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                 "type": "dropped",
                 "fileReader": file
             };
-            addContentToQueue(contentObj);
+            // SAKIII-4264 - we need to disable the renderQueue function in here
+            // so we don't get an unresponsive script error in Firefox
+            addContentToQueue(contentObj, true);
         };
 
         ////////////////////////////////////////////////
@@ -491,6 +497,13 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             }
             $(this).parent().parent().hide();
             renderQueue();
+        };
+
+        var uncheckCheckboxes = function(){
+            // We need to remove all the other checkboxes first in order to avoid a lag
+            $(newaddcontentExistingItemsListContainerCheckboxes).removeAttr("checked");
+            // Uncheck the check all checkbox
+            $(newaddcontentExistingCheckAll).removeAttr("checked");
         };
 
 
@@ -1016,7 +1029,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                     searchURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&items=10&page=" + (pagenum - 1) + "&sortOrder=" + sortOrder + "&sortOn=" + sortOn + "&q=" + q;
                     break;
             }
-
+            uncheckCheckboxes();
             $.ajax({
                 url: searchURL,
                 type: "GET",
@@ -1031,6 +1044,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                         existingItems = data.results;
                     }
                     $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "query":q, "sakai":sakai, "queue":existingIDs, "context":currentExistingContext}));
+                    uncheckCheckboxes();
+                    // Disable the add button
+                    disableAddToQueue();
                     var numberOfPages = Math.ceil(data.total / 10);
                     $("#newaddcontent_existingitems_paging").pager({
                         pagenumber: pagenum,
@@ -1107,9 +1123,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
          * Prepare and call the function to render existing content in a list
          */
         var prepareContentSearch = function(pagenum){
-            if (pagenum.keyCode === 13 || pagenum == parseInt(pagenum, 10) || pagenum.currentTarget.id === "newaddcontent_existing_search"){
-                var query = $.trim($newaddcontentExistingItemsSearch.val());
-                renderExistingContent(query, pagenum);
+            var query = $.trim($newaddcontentExistingItemsSearch.val());
+            renderExistingContent(query, pagenum);
+        };
+
+        /**
+         * Do a search on existing content
+         */
+        var searchExistingContent = function(ev){
+            if (ev.keyCode === 13 || ev.currentTarget.id === "newaddcontent_existing_search_button"){
+                prepareContentSearch(1);
             }
         };
 
@@ -1222,8 +1245,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             $(newaddcontentSelectedItemsRemove).live("click", removeItemToAdd);
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
-            $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
-            $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
+            $newaddcontentExistingItemsSearch.keydown(searchExistingContent);
+            $(newaddcontentAddExistingSearchButton).click(searchExistingContent);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentExistingItemsListContainerActionsSort).live("change", function(){searchPaging(1);});
@@ -1234,7 +1257,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             // Initialize the validate plug-in
             var linkValidateOpts = {
                 onclick: true,
-                onkeyup: true,
                 onfocusout: true,
                 success: enableAddToQueue,
                 error: disableAddToQueue
@@ -1275,6 +1297,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                                 sakai.api.i18n.getValueForKey("DRAG_AND_DROP_ERROR", "newaddcontent"),
                                 sakai.api.i18n.getValueForKey("ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR", "newaddcontent"));
                         }
+                        renderQueue();
                     }
                 }
             });
@@ -1299,13 +1322,21 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
          * Initialize the modal dialog
          */
         var initializeJQM = function(){
+            sakai.api.Util.positionDialogBox($newaddcontentContainer);
+
             $newaddcontentContainer.jqm({
                 modal: true,
                 overlay: 20,
                 zIndex: 4001,
-                toTop: true
+                toTop: true,
+                onHide: function(hash){
+                    uncheckCheckboxes();
+                    hash.o.remove();
+                    hash.w.hide();
+                }
             });
             $newaddcontentContainer.jqmShow();
+            sakai.api.Util.bindDialogFocus($newaddcontentContainer);
         };
 
         /**
