@@ -183,13 +183,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var openTooltip = function (groupid, $item, leaveAllowed) {
             getGroup(groupid, function(group) {
                 group.sakai = sakai;
+                var adjustHeight = 0;
+                if ($('.branding_widget').is(':visible')) {
+                    adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
+                }
                 $(window).trigger("init.tooltip.sakai", {
                     tooltipHTML: sakai.api.Util.TemplateRenderer(
                         $joingroup_hover_template, group),
                     tooltipAutoClose: true,
                     tooltipArrow: "top",
-                    tooltipTop: $item.offset().top + $item.height(),
-                    tooltipLeft: $item.offset().left + $item.width(),
+                    tooltipTop: $item.offset().top + $item.height() + adjustHeight,
+                    tooltipLeft: $item.offset().left + $item.width() + 3,
                     onShow: function () {
                         $(window).trigger("init.joinrequestbuttons.sakai", [
                             {
