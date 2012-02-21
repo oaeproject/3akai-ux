@@ -152,7 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             });
             var toFillOutExtra = 4 - (categoriesToRender.length % 4);
-            if (toFillOutExtra % 4 !== 0) {
+            if (toFillOutExtra % 4) {
                 for (var i = 0; i < toFillOutExtra; i++) {
                     categoriesToRender.push({'spacer': true});
                 }
