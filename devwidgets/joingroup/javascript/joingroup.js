@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     method: "GET"
                 },
                 {
-                    url: "/~" + groupid + "/public.1.json",
+                    url: '/system/userManager/group/' + groupid + '.json',
                     method: "GET"
                 }
             ];
@@ -134,14 +134,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // joinability info
                     if (data.results[1].body) {
                         var groupdata = $.parseJSON(data.results[1].body);
-                        group.groupProfile =
-                            groupdata.authprofile;
-                        group.joinability =
-                            groupdata.authprofile["sakai:group-joinable"];
-                        group.title =
-                            groupdata.authprofile["sakai:group-title"];
-                        group.id =
-                            groupid;
+                        group.groupProfile = groupdata.properties;
+                        group.joinability = groupdata.properties['sakai:group-joinable'];
+                        group.title = groupdata.properties['sakai:group-title'];
+                        group.id = groupid;
                     }
                     sakai.api.Groups.getMembers(groupid, function(success, members) {
                         members = members[groupid];

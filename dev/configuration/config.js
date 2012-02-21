@@ -176,10 +176,6 @@ define(function(){
             }
         },
 
-        Search: {
-            MAX_CORRECT_SEARCH_RESULT_COUNT: 100
-        },
-
         SakaiDomain: window.location.protocol + "//" + window.location.host,
 
         Permissions: {
@@ -283,14 +279,14 @@ define(function(){
                                 "errorMessage": "__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "limitDisplayLength": 50
+                                "limitDisplayWidth": 300
                             },
                             "lastName": {
                                 "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
                                 "errorMessage": "__MSG__PROFILE_BASIC_LASTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "limitDisplayLength": 50
+                                "limitDisplayWidth": 300
                             },
                             "picture": {
                                 "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
@@ -479,13 +475,6 @@ define(function(){
             userNameDefaultDisplay: "firstName lastName",
 
             /*
-             * Set the user's short description to appear underneath their name
-             * in search results
-             */
-            userShortDescription: "${role} in ${department} at ${college}",
-            groupShortDescription: "asdf",
-
-            /*
              * Set the default user settings in account preferences for automatic tagging
              * and auto-tagged notifications
              */
@@ -549,26 +538,12 @@ define(function(){
             }]
         },
 
-        Site: {
-            Styles: {
-                original: {
-                    name: "Original sakai theme",
-                    image: "/dev/images/sakai_grey.png",
-                    URL: "/dev/skins/original/original.html"
-                },
-                camuniversity: {
-                    name: "Cambridge University theme",
-                    image: "/dev/skins/camuniversity/images/camuniversity.png",
-                    URL: "/dev/skins/camuniversity/camuniversity.html"
-                }
-            },
-            DefaultMember: "viewers"
-        },
-
         SystemTour: {
             "enableReminders": true,
             "reminderIntervalHours": "168"
         },
+
+        enableBranding: true,
 
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
@@ -1571,9 +1546,6 @@ define(function(){
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
 
-        defaultUserTemplate: "defaultuser",
-        defaultGroupTemplate: "defaultgroup",
-
         enableChat: false,
         enableCategories: true,
 
@@ -1781,7 +1753,6 @@ define(function(){
         },
 
         widgets: {
-            "groups": ["Administrators", "Lecturers & Supervisors", "Researchers", "Students"],
             "layouts": {
                 "onecolumn": {
                     "name": "One column",
@@ -1803,10 +1774,6 @@ define(function(){
                 "personalportal": {
                     "layout": "dev",
                     "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
-                },
-                "siteportal": {
-                    "layout": "dev",
-                    "columns": [["sitemembers"], []]
                 }
             }
         }

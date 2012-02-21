@@ -13,7 +13,6 @@
         }
     },
     "showinsakaigoodies":false,
-    "siteportal":false,
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/systemtour/systemtour.html"

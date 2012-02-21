@@ -69,9 +69,8 @@ define(
         },
 
         getUserDefaultTimezone : function() {
-            var tz = determine_timezone().timezone;
-            tz.ambiguity_check();
-            return tz.olson_tz;
+            var tz = jstz.determine_timezone();
+            return tz.name();
         },
 
         /**
