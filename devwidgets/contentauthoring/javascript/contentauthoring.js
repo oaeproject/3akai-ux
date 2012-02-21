@@ -1359,6 +1359,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return (currentPageShown.canEdit && !currentPageShown.nonEditable);
         };
 
+        var checkCorrectData = function(_currentPageShown) {
+            $.each(_currentPageShown.content.rows, function(index, row){
+                if(!$.isPlainObject(row)){
+                    _currentPageShown.content.rows[index] = $.parseJSON(row);
+                }
+            });
+            return _currentPageShown;
+        };
+
         $(window).bind("showpage.contentauthoring.sakai", function(ev, _currentPageShown){
             if (isInEditMode() && currentPageShown){
                 cancelEditPage();

@@ -412,6 +412,15 @@ define(
             if (id){
                 pagestructure = removeServerFormating(pagestructure, id);
             }
+            $.each(pagestructure, function(i, obj){
+                if (obj && obj.rows && obj.rows.length){
+                    $.each(obj.rows, function(ii, row){
+                        if(!$.isPlainObject(row)){
+                            pagestructure[i].rows[ii] = $.parseJSON(row);
+                        }
+                    });
+                }
+            });
             return pagestructure;
         },
 
