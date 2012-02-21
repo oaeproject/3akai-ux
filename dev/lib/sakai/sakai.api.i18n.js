@@ -258,7 +258,7 @@ define(
                 };
 
                 loadCustomBundleRequest = {
-                    'url': '/dev/configuration/custom.properties',
+                    'url': sakai_config.URL.I18N_CUSTOM_BUNDLE,
                     'method': 'GET'
                 };
 
@@ -272,23 +272,27 @@ define(
                 }
 
                 // callback function for response from batch request
-                var bundleReqFunction = function(success, reqData){
-                    if (success){
-                        var loadDefaultBundleSuccess, loadDefaultBundleData,
-                            loadLocalBundleSuccess, loadLocalBundleData,
-                            loadCustomBundleSuccess, loadCustomBundleData;
+                var bundleReqFunction = function(success, reqData) {
+                    if (success) {
+                        var loadDefaultBundleSucces;
+                        var loadDefaultBundleData;
+                        var loadLocalBundleSuccess;
+                        var loadLocalBundleData;
+                        var loadCustomBundleSuccess;
+                        var loadCustomBundleData;
+
                         // loop through and allocate response data to their request
                         for (var i in reqData.responseId) {
                             if (reqData.responseId.hasOwnProperty(i) && reqData.responseData[i]) {
-                                if (reqData.responseId[i] === "loadDefaultBundle") {
+                                if (reqData.responseId[i] === 'loadDefaultBundle') {
                                     loadDefaultBundleSuccess = reqData.responseData[i].success;
                                     loadDefaultBundleData = reqData.responseData[i].body;
                                 }
-                                if (reqData.responseId[i] === "loadLocalBundle") {
+                                if (reqData.responseId[i] === 'loadLocalBundle') {
                                     loadLocalBundleSuccess = reqData.responseData[i].success;
                                     loadLocalBundleData = reqData.responseData[i].body;
                                 }
-                                if (reqData.responseId[i] === "loadCustomBundle") {
+                                if (reqData.responseId[i] === 'loadCustomBundle') {
                                     loadCustomBundleSuccess = reqData.responseData[i].success;
                                     loadCustomBundleData = reqData.responseData[i].body;
                                 }
@@ -312,9 +316,9 @@ define(
                     }
                 };
                 // add default language bundle to batch request
-                sakai_serv.bundleRequests("i18n", 3, "loadDefaultBundle", loadDefaultBundleRequest, bundleReqFunction);
+                sakai_serv.bundleRequests('i18n', 3, 'loadDefaultBundle', loadDefaultBundleRequest, bundleReqFunction);
                 // add local language bundle to batch request
-                sakai_serv.bundleRequests("i18n", 3, "loadLocalBundle", loadLocalBundleRequest);
+                sakai_serv.bundleRequests('i18n', 3, 'loadLocalBundle', loadLocalBundleRequest);
                 // add custom language bundle to batch request
                 sakai_serv.bundleRequests('i18n', 3, 'loadCustomBundle', loadCustomBundleRequest);
             };
