@@ -901,7 +901,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             $(addGoodiesListContainer, $rootelClass).html("");
 
-            $.each(sakai.config.enabledDashboardWidgets, function addWidget(i) {
+            $.each(sakai.config.enabledDashboardWidgets,
+                function addWidgetToList(i) {
+
                 var widgetName = sakai.config.enabledDashboardWidgets[i];
                 var widget = sakai.widgets[widgetName];
                 var alreadyIn = false;
@@ -909,7 +911,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 // whether the current widget is already on the dashboard (so show the Remove row),
                 // or whether the current widget is not on the dashboard (and thus show the Add row)
                 $.each(settings.columns, function checkAlreadyIn(c) {
-                    if (c.indexOf("column") > -1) {
+                    if (c.indexOf('column') > -1) {
                         for (var i = 0, l = settings.columns[c].length; i < l; i++) {
                             if (settings.columns[c][i].name === widgetName) {
                                 alreadyIn = true;
