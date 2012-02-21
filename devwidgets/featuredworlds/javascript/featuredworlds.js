@@ -107,13 +107,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var addBinding = function(){
-            $(".s3d-tab", $rootel).live("click", function(){
-                if(!$(this).hasClass(".s3d-tab.selected")){
-                    var worldId = $(this).data("sakai-worldid");
-                    $(".featuredworlds_content_container", $rootel).hide();
-                    $("#featuredworlds_" + worldId, $rootel).show();
-                    $(".s3d-tab.selected", $rootel).removeClass("selected");
-                    $(this).addClass("selected");
+            $('.s3d-tab', $rootel).live('click', function() {
+                if(!$(this).hasClass('.s3d-tab.selected')){
+                    var worldId = $(this).data('sakai-worldid');
+                    $('.featuredworlds_content_container', $rootel).hide();
+                    $('#featuredworlds_' + worldId, $rootel).show();
+                    $('.s3d-tab.selected', $rootel).removeClass('selected');
+                    $(this).addClass('selected');
                 }
             });
         };
