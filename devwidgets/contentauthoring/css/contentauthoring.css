@@ -176,6 +176,8 @@
 }
 .contentauthoring_edit_mode .contentauthoring_row_handle_container {
     display:block !important;
+    margin-top: -20px;
+    position: absolute;
 }
 
 .contentauthoring_cell_element_actions {
@@ -263,7 +265,7 @@
     background-color: #e3e5c7;
     list-style-type: none;
     height:20px;
-    margin-top: 20px;
+    margin-bottom:5px;
     cursor: move;
 }
 

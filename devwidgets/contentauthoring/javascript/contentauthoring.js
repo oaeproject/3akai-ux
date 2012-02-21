@@ -602,8 +602,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     $("#contentauthoring_row_menu_remove", $rootel).parent("li").hide();
                 }
                 $($(this).parents(".contentauthoring_row_handle_container")).addClass("selected");
-                $("#contentauthoring_row_menu", $rootel).css("left", ($(this).position().left - ($("#contentauthoring_row_menu", $rootel).width() / 2)) + "px");
-                $("#contentauthoring_row_menu", $rootel).css("top", ($(this).position().top + 27) + "px");
+                $("#contentauthoring_row_menu", $rootel).css("left", $(this).parent().position().left + "px");
+                $("#contentauthoring_row_menu", $rootel).css("top", ($(this).parent().position().top + 7) + "px");
                 $("#contentauthoring_row_menu", $rootel).show();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents(".contentauthoring_row_container"));
