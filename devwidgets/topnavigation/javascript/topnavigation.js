@@ -52,8 +52,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var navLinkDropdown = ".s3d-dropdown-container";
         var hasSubnav = ".hassubnav";
         var topnavExplore = ".topnavigation_explore";
-        var topnavExploreLeft = "#topnavigation_explore_left";
-        var topnavExploreRight = "#topnavigation_explore_right";
+        var topnavExploreLeft = '#topnavigation_explore_left';
+        var topnavExploreRight = '#topnavigation_explore_right';
         var topnavUserOptions = ".topnavigation_user_options";
         var topnavUserDropdown = ".topnavigation_user_dropdown";
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
@@ -456,8 +456,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var i in sakai.config.Navigation) {
                 if (sakai.config.Navigation.hasOwnProperty(i)) {
                     var temp = "";
-                    var shouldPush = (
-                        sakai.data.me.user.anon &&
+                    /* Check that the ser is anon, the nav link is for anon
+                     * users, and if the link is the account create link,
+                     * that internal account creation is allowed
+                     */
+                    var anonAndAllowed = sakai.data.me.user.anon &&
                         sakai.config.Navigation[i].anonymous &&
                         (
                             sakai.config.Navigation[i].id !== 'navigation_anon_signup_link' ||
@@ -465,12 +468,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 sakai.config.Navigation[i].id === 'navigation_anon_signup_link' &&
                                 sakai.config.Authentication.allowInternalAccountCreation
                             )
-                        )) ||
-                        (
-                            !sakai.data.me.user.anon &&
-                            !sakai.config.Navigation[i].anonymous
                         );
-
+                    var isNotAnon = !sakai.data.me.user.anon &&
+                        !sakai.config.Navigation[i].anonymous;
+                    var shouldPush = anonAndAllowed || isNotAnon;
                     if (shouldPush) {
                         temp = createMenuList(i);
                         if (sakai.config.Navigation[i].rightLink) {
