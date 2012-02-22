@@ -30,6 +30,8 @@
  */
 require(["jquery", "jquery-plugins/jquery.validate"], function(jQuery) {
 
+var msie = $.browser.msie;
+
 (function($){
 
     /**
@@ -121,7 +123,7 @@ require(["jquery", "jquery-plugins/jquery.validate"], function(jQuery) {
                 }
                 o.url += "_charset_=utf-8";
             }
-            if ($.browser.msie) {
+            if (msie) {
                 var str = "" + o.url;
                 o.url = "";
                 for (var i = 0; i < str.length; i++) {
