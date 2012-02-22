@@ -230,7 +230,9 @@ define(
                 } else {
                     if (obj["sakai:indexed-fields"]) {
                         obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].split(",");
-                        obj["sakai:indexed-fields"].push(path[0]);
+                        if ($.inArray(path[0], obj['sakai:indexed-fields']) === -1) {
+                            obj['sakai:indexed-fields'].push(path[0]);
+                        }
                         obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].join(",");
                     } else {
                         obj["sakai:indexed-fields"] = path[0];
