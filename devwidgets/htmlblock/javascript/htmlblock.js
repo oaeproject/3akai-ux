@@ -83,6 +83,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 autoSavePoll = false;
             }
             autoSavePoll = setInterval(autoSave, 5000);
+            $(".mceButton").live("click", updateHeight);
         };
 
         $(window).bind("save.contentauthoring.sakai", function(){
