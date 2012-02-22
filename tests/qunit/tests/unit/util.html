@@ -30,7 +30,7 @@
                 <textarea rows="10" cols="30" name="description">Demo text area</textarea>
             </form>
         </div>
-        <a id="coveragereport" class="s3d-action" href="/dev/jscoverage.html" target="_blank">Coverage report</a>
+        <a id="coveragereport" class="s3d-action" href="/dev/jscoverage.html" target="_blank" style="display:none">Coverage report</a>
         <script>
           require(
                   [
@@ -40,7 +40,7 @@
                     "./js/remove_jcr_objects.js",
                     "./js/sort.js",
                     "./js/searches.js",
-                    "./qunit/js/jscoverage.js"
+                    "../../js/jscoverage.js"
                     ]
                   );
         </script>
