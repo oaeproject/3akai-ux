@@ -55,7 +55,7 @@
                         {for element in column.elements}
                             {if element.dummytext}
                                 <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
-                            {else}
+                            {elseif element.type}
                                 ${insertCell(element.id, element.type)}
                             {/if}
                         {forelse}
@@ -89,7 +89,7 @@
 
     {if template === "row"}
         ${insertRow(id, columns)}
-    {elseif template === "cell"}
+    {elseif template === "cell" && type}
         ${insertCell(id, type, settingsoverridden)}
     {elseif template === "column"}
         ${insertColumn(column)}

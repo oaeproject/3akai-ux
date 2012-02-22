@@ -266,34 +266,32 @@ define(
              */
             var convertArrayToObject = function(obj) {
 
-                var i,j,jl;
-                // Since the native createTree method doesn't support an array of objects natively,
-                // we need to write extra functionality for this.
-                for(i in obj){
+                if ($.isArray(obj) && obj.length > 0) {
 
-                    // Check if the element is an array, whether it is empty and if it contains any elements
-                    if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0) {
+                    var j,jl;
 
-                        // Deep copy the array
-                        var arrayCopy = $.extend(true, [], obj[i]);
+                    // Deep copy the array
+                    var arrayCopy = $.extend(true, [], obj);
 
-                        // Set the original array to an empty object
-                        obj[i] = {};
+                    // Set the original array to an empty object
+                    obj = {};
 
-                        // Add all the elements that were in the original array to the object with a unique id
-                        for (j = 0, jl = arrayCopy.length; j < jl; j++) {
+                    // Add all the elements that were in the original array to the object with a unique id
+                    for (var j = 0, jl = arrayCopy.length; j < jl; j++) {
 
-                            // Copy each object from the array and add it to the object
-                            obj[i]["__array__" + j + "__"] = arrayCopy[j];
+                        // Copy each object from the array and add it to the object
+                        obj["__array__" + j + "__"] = arrayCopy[j];
 
-                            // Run recursively
-                            convertArrayToObject(arrayCopy[j]);
-                        }
-                    // If there are array elements inside
-                    } else if ($.isPlainObject(obj[i])) {
-                        convertArrayToObject(obj[i]);
+                        // Run recursively
+                        convertArrayToObject(arrayCopy[j]);
                     }
 
+                } else if ($.isArray(obj) && obj.length === 0) {
+                    obj = "";
+                } else if ($.isPlainObject(obj)) {
+                    for (var k in obj) {
+                        obj[k] = convertArrayToObject(obj[k]);
+                    }
                 }
 
                 return obj;
@@ -301,7 +299,11 @@ define(
 
             // Convert the array of objects to only objects
             // We also need to deep copy the object so we don't modify the input parameter
-            i_data = convertArrayToObject($.extend(true, {}, i_data));
+            if ($.isArray(i_data)){
+                i_data = convertArrayToObject($.extend(true, [], i_data));
+            } else {
+                i_data = convertArrayToObject($.extend(true, {}, i_data));
+            }
             var postData = {
                 ":operation": "import",
                 ":contentType": "json",
