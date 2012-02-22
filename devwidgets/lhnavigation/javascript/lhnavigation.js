@@ -1102,7 +1102,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             showContextMenu($(this));
         });
 
-        $($rootel).on('mouseenter focus', '.lhnavigation_item_content, .lhnavigation_subnav_item_content', function(){
+        $rootel.on('mouseenter focus', '.lhnavigation_item_content, .lhnavigation_subnav_item_content', function(){
             onContextMenuHover($(this), $(this).parent('li'));
         });
 
@@ -1127,7 +1127,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             showUserPermissions();
         });
 
-        $($rootel).on('keydown', '.lhnavigation_change_title', function(ev){
+        $rootel.on('keydown', '.lhnavigation_change_title', function(ev){
             if (ev.keyCode === 13 && changingPageTitle) {
                 savePageTitle();
             }
