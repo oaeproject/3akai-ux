@@ -211,7 +211,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     idArr = idArr.split(",");
                 }
                 var $this = $(this);
-                $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 119});
+                var adjustHeight = 0;
+                if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
+                    adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
+                }
+                $newsharecontentContainer.css({
+                    'top':$this.offset().top + $this.height() + adjustHeight,
+                    'left':$this.offset().left + $this.width() / 2 - 119
+                });
                 // Fetch data for content items
                 var batchRequests = [];
                 $.each(idArr, function(i, id){
