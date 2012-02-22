@@ -80,17 +80,17 @@
         {/if}
     </div>
     {if type && type == "user_me"}
-        <div id="entity_user_image" class="entity_change_avatar">
-            <div class="entity_profilepic_internal">
+        <button id="entity_user_image" class="entity_change_avatar">
+            <span class="entity_profilepic_internal">
                 <img id="entity_profile_picture" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.displayName}" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
-            </div>
-            <div class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></div>
-            <div class="s3d-dropdown-list" style="display:none;">
-                <div class="s3d-dropdown-list-arrow-up"></div>
-                <ul>
-                    <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
-                </ul>
-            </div>
+            </span>
+            <span class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></span>
+        </button>
+        <div class="s3d-dropdown-list entity_user_avatar_menu" style="display:none;">
+            <div class="s3d-dropdown-list-arrow-up"></div>
+            <ul>
+                <li><button id="changepic_container_trigger" class="s3d-link-button s3d-bold">__MSG__CHANGE_PICTURE__</button></li>
+            </ul>
         </div>
         <div class="s3d-bold entity_name_me">${data.displayName}</div>
     {else}
@@ -426,17 +426,17 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
         {/if}
     </div>
     {if type && type == "group_managed"}
-        <div id="entity_group_image" class="entity_change_avatar">
-            <div class="entity_profilepic_internal">
+        <button id="entity_group_image" class="entity_change_avatar">
+            <span class="entity_profilepic_internal">
                 <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]|safeOutput}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
-            </div>
-            <div class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></div>
-            <div class="s3d-dropdown-list" style="display:none;">
-                <div class="s3d-dropdown-list-arrow-up"></div>
-                <ul>
-                    <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
-                </ul>
-            </div>
+            </span>
+            <span class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></span>
+        </button>
+        <div class="s3d-dropdown-list entity_group_avatar_menu" style="display:none;">
+            <div class="s3d-dropdown-list-arrow-up"></div>
+            <ul>
+                <li><button id="changepic_container_trigger" class="s3d-link-button s3d-bold">__MSG__CHANGE_PICTURE__</button></li>
+            </ul>
         </div>
     {else}
         <div id="entity_group_image" class="entity_other_profilepic">

@@ -37,6 +37,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // CONFIGURATION //
         ///////////////////
 
+        var $rootel = $('#' + tuid);
+
         // Classes
         var navSelectedItemClass = 'lhnavigation_selected_item';
         var navHoverableItemClass = 'lhnavigation_hoverable_item';
@@ -613,10 +615,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         };
 
-        var showContextMenu = function($clickedItem) {
+        var showContextMenu = function($clickedItem){
             var contextMenu = $('#lhnavigation_submenu');
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
-            contextMenu.css('left', $clickedItem.position().left + 130 - 50 + 'px');
+            contextMenu.css('left', $clickedItem.position().left + 65 + 'px');
             contextMenu.css('top', $clickedItem.position().top + 6 + 'px');
             toggleContextMenu();
         };
@@ -624,10 +626,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var toggleContextMenu = function(forceHide) {
             var contextMenu = $('#lhnavigation_submenu');
             if (forceHide) {
+                $('.lhnavigation_selected_submenu_image.clicked')
+                    .parents('.lhnavigation_item_content, .lhnavigation_subnav_item_content')
+                    .find('a:first').focus();
                 $('.lhnavigation_selected_submenu_image').removeClass('clicked');
                 contextMenu.hide();
             } else {
                 contextMenu.toggle();
+                contextMenu.find('a:visible:first').focus();
             }
         };
 
@@ -1016,9 +1022,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var confirmPageDelete = function() {
             pageToDelete = jQuery.extend(true, {}, contextMenuHover);
+            toggleContextMenu(true);
             sakai.api.Util.bindDialogFocus($('#lhnavigation_delete_dialog'));
             $('#lhnavigation_delete_dialog').jqmShow();
-            toggleContextMenu(true);
         };
 
         // Init delete dialog
@@ -1204,7 +1210,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             showContextMenu($(this));
         });
 
-        $('.lhnavigation_item_content, .lhnavigation_subnav_item_content').live('mouseenter', function() {
+        $rootel.on('mouseenter focus', '.lhnavigation_item_content, .lhnavigation_subnav_item_content', function() {
             onContextMenuHover($(this), $(this).parent('li'));
         });
 
@@ -1225,7 +1231,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             showUserPermissions();
         });
 
-        $('.lhnavigation_change_title').live('keyup', function(ev) {
+        $rootel.on('keydown', '.lhnavigation_change_title', function(ev) {
             if (ev.keyCode === 13 && changingPageTitle) {
                 savePageTitle();
             }
