@@ -38,7 +38,7 @@
 #entity_container .entity_owns_actions_container .entity_owns_actions .s3d-link-button {height:21px;width:26px;}
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary {margin:3px 5px 0 0;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > button + .s3d-dropdown-list,
-#entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list {color:#333;font-size:11px;font-weight:normal;line-height:13px;padding:8px;text-align:left;cursor:auto;display:none;z-index:10000;}
+#entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list {color:#333;font-size:11px;font-weight:normal;line-height:13px;padding:8px;text-align:left;cursor:auto;z-index:10000;display:none;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > button + .s3d-dropdown-list .s3d-dropdown-list-arrow-up,
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin:-24px 0 0 50px;cursor:pointer;}
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list {margin-left:-63px;}
@@ -46,8 +46,9 @@
 #entity_container .entity_owns_actions_container .entity_owns_actions > button + .s3d-dropdown-list .s3d-link-button.ew_permissions,
 #entity_container .entity_owns_actions_container .s3d-actions-addtolibrary .s3d-dropdown-list .s3d-link-button.ew_permissions {display:block;margin-top:7px;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > button:hover + .s3d-dropdown-list,
+#entity_container .entity_owns_actions_container .entity_owns_actions > button:focus + .s3d-dropdown-list,
 #entity_container .entity_owns_actions_container .entity_owns_actions > button + .s3d-dropdown-list:hover,
-#entity_container .entity_owns_actions_container .s3d-actions-addtolibrary:hover .s3d-dropdown-list {display:inline;}
+#entity_container .entity_owns_actions_container .s3d-actions-addtolibrary:hover .s3d-dropdown-list {display:inline !important;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > button {width:30px;height:21px;float:left;}
 #entity_container .entity_owns_actions_container .entity_owns_actions button.share_trigger_click {padding:0 7px;width:42px;}
 #entity_container .entity_owns_actions_container .entity_owns_actions > button.selected {background-color:#eee !important;box-shadow: 0 0 2px #D0D0D0 inset;}

@@ -567,11 +567,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#entity_groupsettings_dropdown").jqmHide();
             });
 
-            $(".entity_owns_actions_container .ew_permissions").live("hover", function(){
+            var positionContentHeaderDropdown = function(){
                 var $dropdown = $(this).next(".s3d-dropdown-list");
                 $dropdown.css("left", $(this).position().left - $dropdown.width() / 2 + 5  );
                 $dropdown.css("margin-top", $(this).height() + 7 + "px");
-            });
+            };
+
+            $(".entity_owns_actions_container .ew_permissions").live("hover", positionContentHeaderDropdown);
+            $(".entity_owns_actions_container .ew_permissions").live("focus", positionContentHeaderDropdown);
 
             $(entityChangeImage).click(toggleDropdownList);
 
