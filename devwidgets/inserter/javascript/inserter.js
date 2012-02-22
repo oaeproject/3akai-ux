@@ -148,13 +148,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Reset the UI to the initial state
+         * Kills off the infinite scroll instances on the page
          */
-        var resetUI = function(){
-            if (infinityContentScroll){
+        var killInfiniteScroll = function() {
+            libraryData = [];
+            if (infinityContentScroll) {
                 infinityContentScroll.kill();
                 infinityContentScroll = false;
             }
+            if (infinityCollectionScroll) {
+                infinityCollectionScroll.kill();
+                infinityCollectionScroll = false;
+            }
+        };
+
+        /**
+         * Reset the UI to the initial state
+         */
+        var refreshWidget = function() {
+            killInfiniteScroll();
             inCollection = false;
             disableEnableHeader(false);
             renderHeader("init");
@@ -162,13 +174,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(inserterCollectionContentSearch, $rootel).val("");
             $inserterMimetypeFilter.val($('options:first', $inserterMimetypeFilter).val());
             animateUIElements("reset");
-        };
-
-        /**
-         * Refreshes the widget by resetting the UI to the initial screen and fetching the collections
-         */
-        var refreshWidget = function(){
-            resetUI();
             doInit();
         };
 
@@ -318,10 +323,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Disable the previous infinite scroll
-            if (infinityContentScroll){
-                infinityContentScroll.kill();
-                infinityContentScroll = false;
-            }
+            killInfiniteScroll();
             infinityContentScroll = $inserterCollectionItemsList.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER, params, function(items, total){
                 disableEnableHeader(false);
                 // render
@@ -629,10 +631,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 mimetype: "x-sakai/collection"
             };
             // Disable the previous infinite scroll
-            if (infinityCollectionScroll){
-                infinityCollectionScroll.kill();
-                infinityCollectionScroll = false;
-            }
+            killInfiniteScroll();
             infinityCollectionScroll = $inserterCollectionInfiniteScrollContainerList.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER, params, function(items, total){
                 // render
                 return sakai.api.Util.TemplateRenderer(inserterInitTemplate, {
@@ -659,15 +658,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Add binding to various elements of the widget
          */
-        var addBinding = function(){
-            $inserterCollectionItemsListItem.die("click", collectionClicked);
-            $inserterAllCollectionsButton.die("click", resetUI);
-            $(inserterCollectionContentSearch, $rootel).die("keyup", searchCollection);
-            $(window).unbind("sakai.collections.created", refreshWidget);
-            $(window).unbind("sakai.inserter.dropevent", addDroppedToCollection);
-
+        var addBinding = function() {
             $inserterCollectionItemsListItem.live("click", collectionClicked);
-            $inserterAllCollectionsButton.live("click", resetUI);
+            $inserterAllCollectionsButton.live("click", refreshWidget);
             $(inserterCollectionContentSearch, $rootel).live("keyup", searchCollection);
             $(".s3d-search-button", $rootel).live("click", searchCollection);
             $inserterMimetypeFilter.live("change", function(){
@@ -680,7 +673,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Initialize the inserter widget
          */
-        var doInit = function(){
+        var doInit = function() {
             $inserterInitContainer.css({
                 "margin-left": 5,
                 "opacity": 1
@@ -689,7 +682,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "margin-left": 240,
                 "opacity": 0
             });
-            addBinding();
             $inserterWidget.draggable({
                 cancel: "div#inserter_collector",
                 stop: function(ev){
@@ -728,6 +720,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(inserterCreateCollectionInput).focus();
             }
         };
+
+        addBinding();
 
         $(".inserter_toggle").live("click", toggleInserter);
 
