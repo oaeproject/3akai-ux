@@ -80,7 +80,7 @@
 
 /* Avatar */
 #entity_container #entity_profile_picture {width: 50px; height: 50px;}
-#entity_container .entity_change_avatar{display:inline-block;cursor:pointer;padding:3px 0 3px 3px;margin-right:10px;float:left;}
+#entity_container .entity_change_avatar{display:inline-block;cursor:pointer;padding:3px 0 3px 3px;margin-right:10px;float:left;background:0;border:0;}
 #entity_container .entity_change_avatar .s3d-dropdown-list{cursor:default;}
 #entity_container .entity_change_avatar:hover, #entity_container .entity_change_avatar.clicked{background-color:#32b3ec;}
 #entity_container .entity_change_avatar:hover .entity_profilepic_internal, #entity_container .entity_change_avatar.clicked .entity_profilepic_internal {box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;}
