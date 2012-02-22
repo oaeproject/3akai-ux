@@ -602,8 +602,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     $("#contentauthoring_row_menu_remove", $rootel).parent("li").hide();
                 }
                 $($(this).parents(".contentauthoring_row_handle_container")).addClass("selected");
-                $("#contentauthoring_row_menu", $rootel).css("left", ($(this).position().left - ($("#contentauthoring_row_menu", $rootel).width() / 2)) + "px");
-                $("#contentauthoring_row_menu", $rootel).css("top", ($(this).position().top + 27) + "px");
+                $("#contentauthoring_row_menu", $rootel).css("left", $(this).parent().position().left + "px");
+                $("#contentauthoring_row_menu", $rootel).css("top", ($(this).parent().position().top + 7) + "px");
                 $("#contentauthoring_row_menu", $rootel).show();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents(".contentauthoring_row_container"));
@@ -675,6 +675,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             removeColumns($row, 0);
             hideEditRowMenu();
             setActions();
+            tinyMCEInstanceFix();
             setHeight($row);
         });
 
@@ -687,6 +688,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 addColumns($row, 2);
             }
             hideEditRowMenu();
+            tinyMCEInstanceFix();
             setHeight($row);
         });
 
@@ -697,6 +699,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 addColumns($row, 3);
             }
             hideEditRowMenu();
+            tinyMCEInstanceFix();
             setHeight($row);
         });
 
@@ -1106,8 +1109,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////////////
         ////////////////////////////
 
-        // Highlight on drag entering drop zone.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragenter', function(ev) {
+
+        // Un-highlight on drag leaving drop zone.
+        $(".contentauthoring_cell_element", $rootel).live('dragleave', function(ev) {
+            $(".contentauthoring_row_reorder_highlight.external_content", $rootel).remove();
+            return false;
+        });
+
+        // Decide whether the thing dragged in is welcome.
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content, .contentauthoring_row_reorder_highlight", $rootel).live('dragover', function(ev) {
             $(".contentauthoring_row_reorder_highlight.external_content", $rootel).remove();
             if($(this).hasClass("contentauthoring_cell_element")){
                 $(this).after($("<div class='contentauthoring_row_reorder_highlight external_content'></div>"));
@@ -1117,24 +1127,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return false;
         });
 
-        // Un-highlight on drag leaving drop zone.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragleave', function(ev) {
-            return false;
-        });
-
-        // Decide whether the thing dragged in is welcome.
-        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('dragover', function(ev) {
-            return false;
-        });
-
         // Handle the final drop
-        $(".contentauthoring_cell_element,.contentauthoring_cell_content", $rootel).live('drop', function(ev) {
+        $(".contentauthoring_cell_element, .contentauthoring_cell_content", $rootel).live('drop', function(ev) {
             ev.preventDefault();
             $(".contentauthoring_row_reorder_highlight.external_content", $rootel).remove();
-            if(!$(this).hasClass("contentauthoring_cell_element")){
                 var dt = ev.originalEvent.dataTransfer;
                 addExternal(ev, $(this));
-            }
             return false;
         });
 
@@ -1359,6 +1357,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var currentPageShown = {};
         var canEdit = function() {
             return (currentPageShown.canEdit && !currentPageShown.nonEditable);
+        };
+
+        var checkCorrectData = function(_currentPageShown) {
+            $.each(_currentPageShown.content.rows, function(index, row){
+                if(!$.isPlainObject(row)){
+                    _currentPageShown.content.rows[index] = $.parseJSON(row);
+                }
+            });
+            return _currentPageShown;
         };
 
         $(window).bind("showpage.contentauthoring.sakai", function(ev, _currentPageShown){

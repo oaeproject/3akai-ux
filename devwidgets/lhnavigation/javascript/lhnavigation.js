@@ -1278,6 +1278,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             updateCounts(pageid, value, add);
         });
 
+        $(window).unload(function() {
+            if($.bbq.getState("newPageMode")){
+                $.bbq.removeState("newPageMode");
+            }
+        });
+
         ///////////////////////
         // Widget has loaded //
         ///////////////////////

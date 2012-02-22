@@ -1812,7 +1812,11 @@ define(
                 // Put the title inside the page
                 var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
                 if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    pageTitle += " " + require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                    if(sakai_conf.PageTitles.pages[window.location.pathname] === "CONTENT_PROFILE"){
+                        pageTitle += " " + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
+                    } else {
+                        pageTitle += " " + require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                    }
                 }
                 document.title = pageTitle;
                 // Show the actual page content
@@ -2462,6 +2466,7 @@ define(
              */
             setDraggableParameters: function(params){
                 return {
+                    distance: 30,
                     revert: true,
                     revertDuration: 0,
                     scrollSensitivity: 100,

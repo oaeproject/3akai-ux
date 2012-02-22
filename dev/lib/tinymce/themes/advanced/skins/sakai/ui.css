@@ -39,8 +39,15 @@
 .sakaiSkin table.mceToolbar{margin-left:3px;}
 .sakaiSkin span.mceIcon,.sakaiSkin img.mceIcon{display:block;width:20px;height:20px;}
 .sakaiSkin .mceIcon{background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif) no-repeat 20px 20px;}
-.sakaiSkin .mceIcon.mce_code{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_html.png") no-repeat center center transparent;}
+.sakaiSkin .mceButton.mce_code {width: 37px;}
+.sakaiSkin .mceIcon.mce_code{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_html.png") no-repeat center center transparent;width:37px;}
 .sakaiSkin .mceIcon.mce_code:hover{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_html_hover.png") no-repeat center center transparent;}
+.sakaiSkin .mceButton.mce_link {width: 37px;}
+.sakaiSkin .mceIcon.mce_link{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_link.png") no-repeat center center transparent;width:37px;}
+.sakaiSkin .mceButtonEnabled .mceIcon.mce_link:hover{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_link_hover.png") no-repeat center center transparent;}
+.sakaiSkin .mceButton.mce_table {width: 37px;}
+.sakaiSkin .mceIcon.mce_table{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_table.png") no-repeat center center transparent;width:37px;}
+.sakaiSkin .mceIcon.mce_table:hover{background:url("/dev/lib/tinymce/themes/advanced/skins/sakai/img/tinymce_table_hover.png") no-repeat center center transparent;}
 .sakaiSkin td.mceCenter{text-align:center;}
 .sakaiSkin td.mceCenter table{margin:0 auto;text-align:left;}
 .sakaiSkin td.mceRight table{margin:0 0 0 auto;}
@@ -100,17 +107,17 @@
 .sakaiSkin .mceNoIcons span.mceIcon{width:0;}
 .sakaiSkin .mceNoIcons a .mceText{padding-left:10px;}
 .sakaiSkin .mceMenu table{background:#FFF;}
-.sakaiSkin .mceMenu a,.sakaiSkin .mceMenu span,.sakaiSkin .mceMenu{display:block;}
-.sakaiSkin .mceMenu td{height:20px;width:160px;}
+.sakaiSkin .mceMenu a,.sakaiSkin .mceMenu span,.sakaiSkin .mceMenu{display:block;background:#fff;}
+.sakaiSkin .mceMenu td{height:20px;width:160px;line-height:normal;}
 .sakaiSkin .mceMenu a{position:relative;padding:3px 0 4px;}
 .sakaiSkin .mceMenu .mceText{position:relative;display:block;font-family:Tahoma,Verdana,Arial,Helvetica;color:#000;cursor:default;margin:0;padding:0 25px;display:block;}
 .sakaiSkin .mceMenu span.mceText,.sakaiSkin .mceMenu .mcePreview{font-size:11px;}
 .sakaiSkin .mceMenu pre.mceText{font-family:Monospace;}
 .sakaiSkin .mceMenu .mceIcon{position:absolute;top:0;left:0;width:22px;}
-.sakaiSkin .mceMenu .mceMenuItemEnabled a:hover,.sakaiSkin .mceMenu .mceMenuItemActive{background-color:#dbecf3;}
+.sakaiSkin .mceMenu .mceMenuItemEnabled a:hover,.sakaiSkin .mceMenu .mceMenuItemActive, .sakaiSkin .mceMenu .mceMenuItemEnabled a:hover .mceText{background-color:#dbecf3;}
 .sakaiSkin td.mceMenuItemSeparator{background:#DDD;height:1px;}
 .sakaiSkin .mceMenuItemTitle a{border:0;background:#EEE;border-bottom:1px solid #DDD;}
-.sakaiSkin .mceMenuItemTitle span.mceText{color:#000;font-weight:bold;padding-left:4px;}
+.sakaiSkin .mceMenuItemTitle span.mceText{color:#000;font-weight:bold;padding-left:4px;background:#eee;}
 .sakaiSkin .mceMenuItemDisabled .mceText{color:#888;}
 .sakaiSkin .mceMenuItemSelected .mceIcon{background:url(/dev/lib/tinymce/themes/advanced/skins/default/img/menu_check.gif);}
 .sakaiSkin .mceNoIcons .mceMenuItemSelected a{background:url(/dev/lib/tinymce/themes/advanced/skins/default/img/menu_arrow.gif) no-repeat -6px center;}

@@ -206,7 +206,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var doInit = function(){
-            $inserterbarWidget.css("left", $(".s3d-page-header").position().left + $(".s3d-page-header").width() - $inserterbarWidget.width() - 12);
+            var top = 130;
+            if(sakai.config.enableBranding){
+                top = top + $(".branding_widget").height();
+            }
+            $inserterbarWidget.css({
+                "left": $(".s3d-page-header").position().left + $(".s3d-page-header").width() - $inserterbarWidget.width() - 12,
+                "top": top
+            });
             addBinding();
             renderWidgets();
         };

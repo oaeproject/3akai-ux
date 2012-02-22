@@ -80,7 +80,7 @@
             {else}
                 <img src="${sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
             {/if}
-            <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 83, null, "s3d-bold")}</span>
+            <a href="/content#p=${item._path}/${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 83, null, "s3d-bold")}</a>
             <div class="inserter_collection_type s3d-draggable-hidden">${sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(item._mimeType).description)}</div>
             <hr class="fl-hidden fl-push"/>
         </li>
