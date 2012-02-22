@@ -240,6 +240,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         sakai.api.Util.AutoSuggest.setup($pickeruser_search_query,{
             asHtmlID: tuid,
             retrieveLimit: 10,
+            searchObjProps: "name,value",
             resultClick: function(data) {
                 $pickeruser_add_button.removeAttr("disabled");
             },
@@ -291,13 +292,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("init.pickeruser.sakai", function(e, config, callbackFn) {
 
             // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
-            if (htmlScrollPos > 0) {
-                $pickeruser_container.css({"top": htmlScrollPos + 50 + "px"});
-            } else if (docScrollPos > 0) {
-                $pickeruser_container.css({"top": docScrollPos + 50 + "px"});
-            }
+            sakai.api.Util.positionDialogBox($pickeruser_container, 50);
 
             $pickeruser_container.jqmShow();
             render(config);

@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "_path": result["_path"]
             };
             // set the mimetype and corresponding image
-            if(item._mimeType) {
+            if(item._mimeType && sakai.config.MimeTypes[item._mimeType]) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
@@ -160,7 +160,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0; i < data.groups.length; i++){
                     if (!data.groups[i]["sakai:excludeSearch"] && data.groups[i]["sakai:group-title"]) {
                         var connection = data.groups[i];
-                        var id, name, picture, namePossessive;
+                        var id;
+                        var linkTitle;
+                        var name;
+                        var namePossessive;
+                        var picture;
                         if (connection.userid) {
                             id = connection.userid;
                             name = sakai.api.User.getDisplayName(connection);

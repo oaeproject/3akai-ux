@@ -30,14 +30,7 @@
                 <textarea rows="10" cols="30" name="description">Demo text area</textarea>
             </form>
         </div>
-        <button id="coveragebutton" onclick='window.open("/dev/jscoverage.html")'>
-          Coverage report
-        </button>
-        <script>
-          if (typeof(_$jscoverage)=='undefined'){
-            document.getElementById("coveragebutton").style.display="none";
-          }
-        </script>
+        <a id="coveragereport" class="s3d-action" href="/dev/jscoverage.html" target="_blank" style="display:none">Coverage report</a>
         <script>
           require(
                   [
@@ -45,9 +38,9 @@
                     "./js/date.js",
                     "./js/formtojson.js",
                     "./js/remove_jcr_objects.js",
-                    "./js/shortenstring.js",
                     "./js/sort.js",
-                    "./js/searches.js"
+                    "./js/searches.js",
+                    "../../js/jscoverage.js"
                     ]
                   );
         </script>
