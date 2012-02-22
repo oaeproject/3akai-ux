@@ -118,13 +118,20 @@
                 <span class="inserter_collection_type">__MSG__COLLECTION__</span>
                 <div id="inserter_header_itemcount">
                     <span>
+                        {var count = 0}
                         {if item === "library"}
                             ${librarycount}
+                            ${count = librarycount|eat}
                         {else}
                             ${item.counts.contentCount}
+                            ${count = item.counts.contentCount|eat}
                         {/if}
                     </span>
-                    __MSG__CONTENT_ITEMS__</div>
+                    {if count === 1}
+                        __MSG__CONTENT_ITEM__
+                    {else}
+                        __MSG__CONTENT_ITEMS__
+                    {/if}</div>
             </div>
             <hr class="fl-hidden fl-push"/>
         </div>
