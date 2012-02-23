@@ -176,6 +176,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             hideInputError();
             $(uploadProcessing).hide();
             $(uploadNewButtons).show();
+            $('#profile_upload').attr('disabled', 'disabled');
         };
 
         // Add click event to all cancel buttons in the overlay
@@ -392,6 +393,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         // Remove error notification when a new file is chosen
         $(picInput).bind("change", function(){
             hideInputError();
+            $('#profile_upload').removeAttr('disabled');
             // display help tooltip
             var tooltipData = {
                 "tooltipSelector":"#profile_upload",
