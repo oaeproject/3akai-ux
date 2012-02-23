@@ -109,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ( saveCallback ) {
                 saveCallback( initiallyRendered );
             }
-            $assignlocationContainer.jqmHide();
+            sakai.api.Util.Modal.close($assignlocationContainer);
         };
 
         var addWidgetBinding = function(){
@@ -123,8 +123,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             initTree();
             addTreeBinding();
             addWidgetBinding();
-            // position dialog box at users scroll position
-            sakai.api.Util.positionDialogBox($assignlocationContainer);
             hash.w.show();
             renderSelected(true);
         };
@@ -199,15 +197,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ( $target.parents( ".s3d-dialog" ).length ) {
                     zIndex = 5000;
                 }
-                $assignlocationContainer.jqm({
+                sakai.api.Util.Modal.setup($assignlocationContainer, {
                     modal: true,
                     toTop: true,
                     onShow: showContainer,
                     onClose: closeContainer,
                     zIndex: zIndex
                 });
-                sakai.api.Util.bindDialogFocus($assignlocationContainer);
-                $assignlocationContainer.jqmShow();
+                sakai.api.Util.Modal.open($assignlocationContainer);
                 $assignlocationSaveButton.attr('disabled', 'disabled');
             });
         };

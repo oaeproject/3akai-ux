@@ -531,7 +531,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 _.uniq($.merge(brandNewContent[libraryToUploadTo], lastUpload));
                 _.uniq($.merge(allNewContent, lastUpload));
                 lastUpload = [];
-                $newaddcontentContainer.jqmHide();
+                sakai.api.Util.Modal.close($newaddcontentContainer);
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 var librarytitle = $(newaddcontentSaveTo + ' option:selected').text();
                 if (sakai.api.Content.Collections.isCollection(libraryToUploadTo)) {
@@ -1347,10 +1347,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         /**
          * Initialize the modal dialog
          */
-        var initializeJQM = function() {
-            sakai.api.Util.positionDialogBox($newaddcontentContainer);
-
-            $newaddcontentContainer.jqm({
+        var initializeJQM = function(){
+            sakai.api.Util.Modal.setup($newaddcontentContainer, {
                 modal: true,
                 overlay: 20,
                 zIndex: 4001,
@@ -1361,8 +1359,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     hash.w.hide();
                 }
             });
-            $newaddcontentContainer.jqmShow();
-            sakai.api.Util.bindDialogFocus($newaddcontentContainer);
+            sakai.api.Util.Modal.open($newaddcontentContainer);
         };
 
         /**
