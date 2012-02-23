@@ -66,7 +66,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param width {} The width of the widget to take into account while animating
          */
         var editPosition = function(width) {
-            $inserterbarWidget.css('left', $('.s3d-page-header').position().left + $('.s3d-page-header').width() - width - 12);
+            $inserterbarWidget.css('left', $('.s3d-page-header,.s3d-page-noheader').position().left + $('.s3d-page-header').width() - width - 12);
         };
 
         /**
@@ -230,7 +230,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 top = top + $('.branding_widget').height();
             }
             $inserterbarWidget.css({
-                'left': $('.s3d-page-header').position().left + $('.s3d-page-header').width() - $inserterbarWidget.width() - 12,
+                'left': $('.s3d-page-header,.s3d-page-noheader').position().left + $('.s3d-page-header').width() - $inserterbarWidget.width() - 12,
                 'top': top
             });
             addBinding();

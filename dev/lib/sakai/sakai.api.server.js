@@ -208,11 +208,11 @@ define(
             if (!i_url || !i_data) {
 
                 // Log the error message
-                debug.warn("sakai.api.Server.saveJSON: Not enough or empty arguments!");
+                debug.warn('sakai.api.Server.saveJSON: Not enough or empty arguments!');
 
                 // Still invoke the callback function
                 if ($.isFunction(callback)) {
-                    callback(false, "The supplied arguments were incorrect.");
+                    callback(false, 'The supplied arguments were incorrect.');
                 }
 
                 // Make sure none of the other code in this function is executed
@@ -228,17 +228,17 @@ define(
                     obj = obj[path.shift()];
                     addIndexedFields(path, obj);
                 } else {
-                    if (obj["sakai:indexed-fields"]) {
-                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].split(",");
+                    if (obj['sakai:indexed-fields']) {
+                        obj['sakai:indexed-fields'] = obj['sakai:indexed-fields'].split(',');
                         if ($.inArray(path[0], obj['sakai:indexed-fields']) === -1) {
                             obj['sakai:indexed-fields'].push(path[0]);
                         }
-                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].join(",");
+                        obj['sakai:indexed-fields'] = obj['sakai:indexed-fields'].join(',');
                     } else {
-                        obj["sakai:indexed-fields"] = path[0];
+                        obj['sakai:indexed-fields'] = path[0];
                     }
-                    if (!obj["sling:resourceType"]) {
-                        obj["sling:resourceType"] = "sakai/widget-data";
+                    if (!obj['sling:resourceType']) {
+                        obj['sling:resourceType'] = 'sakai/widget-data';
                     }
                 }
             };
@@ -249,17 +249,17 @@ define(
              * </p>
              * <code>
              * {
-             *     "boolean": true,
-             *     "array_object": [{ "key1": "value1", "key2": "value2"}, { "key1": "value1", "key2": "value2"}]
+             *     'boolean': true,
+             *     'array_object': [{ 'key1': 'value1', 'key2': 'value2'}, { 'key1': 'value1', 'key2': 'value2'}]
              * }
              * </code>
              * to
              * <code>
              * {
-             *     "boolean": true,
-             *     "array_object": {
-             *         "__array__0__": { "key1": "value1", "key2": "value2"},
-             *         "__array__1__": { "key1": "value1", "key2": "value2"}
+             *     'boolean': true,
+             *     'array_object': {
+             *         '__array__0__': { 'key1': 'value1', 'key2': 'value2'},
+             *         '__array__1__': { 'key1': 'value1', 'key2': 'value2'}
              *     }
              * }
              * </code>
@@ -268,6 +268,8 @@ define(
              */
             var convertArrayToObject = function(obj) {
 
+				// If the current object is an array with elements, we convert it into
+				// an object
                 if ($.isArray(obj) && obj.length > 0) {
 
                     var j,jl;
@@ -282,14 +284,19 @@ define(
                     for (var j = 0, jl = arrayCopy.length; j < jl; j++) {
 
                         // Copy each object from the array and add it to the object
-                        obj["__array__" + j + "__"] = arrayCopy[j];
+                        obj['__array__' + j + '__'] = arrayCopy[j];
 
                         // Run recursively
                         convertArrayToObject(arrayCopy[j]);
                     }
 
+				// If the current object is an empty array, we convert it into an empty
+				// string
                 } else if ($.isArray(obj) && obj.length === 0) {
-                    obj = "";
+                    obj = '';
+
+                // If the current object is a real object, we loop over its children and
+                // check for additional arrays
                 } else if ($.isPlainObject(obj)) {
                     for (var k in obj) {
                         obj[k] = convertArrayToObject(obj[k]);
@@ -301,48 +308,43 @@ define(
 
             // Convert the array of objects to only objects
             // We also need to deep copy the object so we don't modify the input parameter
-            if ($.isArray(i_data)){
+            if ($.isArray(i_data)) {
                 i_data = convertArrayToObject($.extend(true, [], i_data));
             } else {
                 i_data = convertArrayToObject($.extend(true, {}, i_data));
             }
             var postData = {
-                ":operation": "import",
-                ":contentType": "json",
-                ":replace": true,
-                ":replaceProperties": true,
-                "_charset_":"utf-8"
+                ':operation': 'import',
+                ':contentType': 'json',
+                ':replace': true,
+                ':replaceProperties': true,
+                '_charset_':'utf-8'
             };
             if (removeTree) {
-                postData[":removeTree"] = removeTree;
+                postData[':removeTree'] = removeTree;
             }
             if (indexFields) {
                 $.each(indexFields, function(i,val) {
-                    addIndexedFields(val.split("/"), i_data);
+                    addIndexedFields(val.split('/'), i_data);
                 });
             }
-            sakaiServerAPI.removeServerCreatedObjects(i_data, ["_"]);
-            postData[":content"] = $.toJSON(i_data);
+            sakaiServerAPI.removeServerCreatedObjects(i_data, ['_']);
+            postData[':content'] = $.toJSON(i_data);
             // Send request
             $.ajax({
                 url: i_url,
-                type: "POST",
+                type: 'POST',
                 data: postData,
-                dataType: "text",
-
-                success: function(data){
-
+                dataType: 'text',
+                success: function(data) {
                     // If a callback function is specified in argument, call it
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
                 },
-
-                error: function(xhr, status, e){
-
+                error: function(xhr, status, e) {
                     // Log error
-                    debug.error("sakai.api.Server.saveJSON: There was an error saving JSON data to: " + this.url);
-
+                    debug.error('sakai.api.Server.saveJSON: There was an error saving JSON data to: ' + this.url);
                     // If a callback function is specified in argument, call it
                     if ($.isFunction(callback)) {
                         callback(false, xhr);
@@ -392,20 +394,26 @@ define(
             return newobj;
         },
 
-        cleanUpSakaiDocObject: function(pagestructure){
+		/**
+		 * Take a Sakai Doc object retrieved from the server and clean it so it only has
+		 * the real data. This function will filter out properties that have been added
+		 * on the server side during saving
+		 * @param {Object} the object to clean
+		 */
+        cleanUpSakaiDocObject: function(pagestructure) {
             // Convert the special objects to arrays
             var data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
-            var id = pagestructure["_path"];
-            var toFilter = ["_", "jcr:", "sakai:", "sling:"];
-            var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_canView", "_canEdit", "_canSubedit", "_nonEditable", "_reorderOnly", "_lastModified", "_lastModifiedBy"];
+            var id = pagestructure['_path'];
+            var toFilter = ['_', 'jcr:', 'sakai:', 'sling:'];
+            var toExclude = ['_ref', '_title', '_altTitle', '_order', '_pid', '_count', '_view', '_edit', '_canView', '_canEdit', '_canSubedit', '_nonEditable', '_reorderOnly', '_lastModified', '_lastModifiedBy'];
             pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
-            if (pagestructure["structure0"] && typeof pagestructure["structure0"] === "string"){
-                pagestructure["structure0"] = $.parseJSON(pagestructure["structure0"]);
+            if (pagestructure['structure0'] && typeof pagestructure['structure0'] === 'string') {
+                pagestructure['structure0'] = $.parseJSON(pagestructure['structure0']);
             }
-            var removeServerFormating = function(structure, id){
-                for (var i in structure){
-                    if (structure.hasOwnProperty(i) && i.indexOf(id + "/") === 0){
-                        var newid = i.substring(i.lastIndexOf("/") + 1);
+            var removeServerFormating = function(structure, id) {
+                for (var i in structure) {
+                    if (structure.hasOwnProperty(i) && i.indexOf(id + '/') === 0) {
+                        var newid = i.substring(i.lastIndexOf('/') + 1);
                         structure[newid] = structure[i];
                         delete structure[i];
                         structure[newid] = removeServerFormating(structure[newid], id);
@@ -413,12 +421,12 @@ define(
                 }
                 return structure;
             };
-            if (id){
+            if (id) {
                 pagestructure = removeServerFormating(pagestructure, id);
             }
-            $.each(pagestructure, function(i, obj){
-                if (obj && obj.rows && obj.rows.length){
-                    $.each(obj.rows, function(ii, row){
+            $.each(pagestructure, function(i, obj) {
+                if (obj && obj.rows && obj.rows.length) {
+                    $.each(obj.rows, function(ii, row) {
                         if(!$.isPlainObject(row)){
                             pagestructure[i].rows[ii] = $.parseJSON(row);
                         }
@@ -520,7 +528,7 @@ define(
          * @param {Object} [objIndex] The index of the parent object
          * @return {Object} An object where all the objects with the special format are converted into arrays
          */
-        convertObjectToArray : function(specficObj, globalObj, objIndex){
+        convertObjectToArray : function(specficObj, globalObj, objIndex) {
 
             var i,j,k,kl;
             // Run over all the items in the object
@@ -542,7 +550,7 @@ define(
                         }
 
                         // Construct array of objects
-                        for(k = 0, kl = count; k < kl; k ++){
+                        for(k = 0, kl = count; k < kl; k ++) {
                             arr.push(specficObj["__array__"+k+"__"]);
                         }
 
