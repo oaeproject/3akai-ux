@@ -664,13 +664,11 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-search-results-grid .s3d-search-result a img{float:left !important;padding:0 !important;margin-left:24px;width:100px !important;height:100px !important;position:absolute;}
 .s3d-search-results-grid .s3d-search-result-anonuser{display:none !important;}
 .s3d-search-results-grid .s3d-search-result-right{margin:135px 0 0 7px;}
-.s3d-search-results-grid .s3d-search-result-user-functions{position:absolute;float:left !important;margin:110px 0 0 21px !important;}
+.s3d-search-results-grid .s3d-search-result-user-functions{position:absolute;float:left !important;margin:110px 0 0 21px !important; left: 10px;}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-addtolibrary{margin-right:8px;}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-author{margin-right:20px;}
 .s3d-search-results-grid .s3d-search-result-content .searchcontent_result_usedin_line{display:block;margin-bottom:2px;}
-.s3d-search-results-grid .s3d-search-result-group .s3d-actions-message{margin-left:60px;}
-.s3d-search-results-grid .s3d-search-result-group .searchgroups_result_plus{margin-top:-1px;}
-.s3d-search-results-grid .s3d-search-result-person .searchpeople_result_left_filler{margin: 0 70px 0 -50px;}
+.s3d-search-results-grid .s3d-search-result-person .s3d-actions-message, .s3d-search-results-grid .s3d-search-result-group .s3d-actions-message{margin-left:60px;}
 .s3d-search-results-grid .s3d-search-result-detail-separator{display:block;}
 .s3d-search-results-grid .s3d-search-result-detail-separator span{display:none;}
 .s3d-search-results-grid .searchpeople_result_description, .s3d-search-results-grid .searchgroups_result_description, .s3d-search-results-grid .searchcontent_result_description,

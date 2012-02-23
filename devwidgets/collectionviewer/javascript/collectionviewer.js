@@ -440,7 +440,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $("#collectionviewer_edit_collection_button", $rootel).live("click", function(){
-                $.bbq.pushState({"ls":"edit"});
+                $.bbq.pushState({'ls':'edit', 'item': ''});
                 fetchCollectionData = true;
             });
 
