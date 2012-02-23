@@ -79,6 +79,9 @@
 a {
 	color: #2683bc;
 }
+p {
+    line-height: 140%;
+}
 /* CSS THAT OVERWRITES MAIN CSS */
 .s3d-main-container {
 	padding: 0px !important;
