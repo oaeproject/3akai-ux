@@ -27,17 +27,13 @@
     border-radius: 0 0 5px 5px;
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
-    min-height: 30px;
-    padding: 3px;
-    position: absolute;
-    top: 130px;
     float: right;
     margin-bottom: 10px;
-    padding-left: 6px;
+    min-height: 30px;
+    padding: 3px 3px 3px 6px;
+    position: absolute;
+    top: 130px;
     z-index: 990;
-    /* position: fixed !important; 
-    top: 40px;
-    width: 730px; */
 }
 
 
@@ -97,6 +93,10 @@
     margin: 0 10px;
 }
 
+#inserterbar_widget #inserterbar_default_widgets_container ul li a.ui-draggable {
+    width: 34px;
+}
+
 #inserterbar_widget button#inserterbar_more_widgets {
     position: relative;
     top: 4px;
@@ -116,9 +116,9 @@
 #inserterbar_widget .inserterbar_expand_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget.png") no-repeat scroll left top transparent;
     cursor: pointer;
-    margin: 0px 0 0 5px;
-    width: 25px;
     height: 20px;
+    margin: 0px 0 0 5px;
+    width: 25px !important;
 }
 #inserterbar_widget button#inserterbar_more_widgets:hover .inserterbar_expand_widget, #inserterbar_widget button#inserterbar_more_widgets:focus .inserterbar_expand_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget_hover.png") no-repeat scroll left top transparent;
@@ -126,7 +126,7 @@
 
 #inserterbar_widget .inserterbar_text_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_text_widget.png") no-repeat top left transparent;
-    width: 25px;
+    width: 25px !important;
 }
 #inserterbar_widget .inserterbar_text_widget:hover, #inserterbar_widget .inserterbar_text_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_text_widget_hover.png") no-repeat top left transparent;
@@ -134,7 +134,7 @@
 
 #inserterbar_widget .inserterbar_title_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_title_widget.png") no-repeat top left transparent;
-    width: 50px;
+    width: 50px !important;
 }
 #inserterbar_widget .inserterbar_title_widget:hover, #inserterbar_widget .inserterbar_title_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_title_widget_hover.png") no-repeat top left transparent;
@@ -142,7 +142,6 @@
 
 #inserterbar_widget .inserterbar_image_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_image_widget.png") no-repeat top left transparent;
-    width: 34px;
 }
 #inserterbar_widget .inserterbar_image_widget:hover, #inserterbar_widget .inserterbar_image_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_image_widget_hover.png") no-repeat top left transparent;
@@ -150,7 +149,6 @@
 
 #inserterbar_widget .inserterbar_video_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_video_widget.png") no-repeat top left transparent;
-    width: 34px;
 }
 #inserterbar_widget .inserterbar_video_widget:hover, #inserterbar_widget .inserterbar_video_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_video_widget_hover.png") no-repeat top left transparent;
@@ -158,7 +156,6 @@
 
 #inserterbar_widget .inserterbar_link_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_link_widget.png") no-repeat top left transparent;
-    width: 34px;
 }
 #inserterbar_widget .inserterbar_link_widget:hover, #inserterbar_widget .inserterbar_link_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_link_widget_hover.png") no-repeat top left transparent;
@@ -166,7 +163,6 @@
 
 #inserterbar_widget .inserterbar_filelist_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget.png") no-repeat top left transparent;
-    width: 34px;
 }
 #inserterbar_widget .inserterbar_filelist_widget:hover, #inserterbar_widget .inserterbar_filelist_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget_hover.png") no-repeat top left transparent;
@@ -174,7 +170,6 @@
 
 #inserterbar_widget .inserterbar_discussion_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget.png") no-repeat top left transparent;
-    width: 34px;
 }
 #inserterbar_widget .inserterbar_discussion_widget:hover, #inserterbar_widget .inserterbar_discussion_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget_hover.png") no-repeat top left transparent;
@@ -182,7 +177,6 @@
 
 #inserterbar_widget .inserterbar_comments_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget.png") no-repeat top left transparent;
-    width: 34px;
 }
 #inserterbar_widget .inserterbar_comments_widget:hover, #inserterbar_widget .inserterbar_comments_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget_hover.png") no-repeat top left transparent;
@@ -190,7 +184,6 @@
 
 #inserterbar_widget .inserterbar_googlemaps_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget.png") no-repeat top left transparent;
-    width: 34px;
 }
 #inserterbar_widget .inserterbar_googlemaps_widget:hover, #inserterbar_widget .inserterbar_googlemaps_widget:focus {
     background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget_hover.png") no-repeat top left transparent;

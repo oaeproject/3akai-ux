@@ -16,12 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 .inserter_widget {
-    position: fixed !important;
-    overflow: hidden;
-    top: 50px;
-    left: 10px;
-    width: 230px;
-    min-height: 100px;
     background-color: #333;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -29,6 +23,12 @@
     box-shadow: 0 0 7px #000;
     -moz-box-shadow: 0 0 7px #000;
     -webkit-box-shadow: 0 0 7px #000;
+    overflow: hidden;
+    left: 10px;
+    min-height: 100px;
+    position: fixed !important;
+    top: 50px;
+    width: 230px;
 }
 .inserter_widget #inserter_init_container ul li:first-child {
     border-bottom: 1px solid #ccc
@@ -49,21 +49,21 @@
 }
 .inserter_widget .inserter_library_icon {
     background: url("/devwidgets/inserter/images/inserter_library_icon_27x25.png") no-repeat top left transparent;
-    width: 27px;
     height: 25px;
     padding-right: 7px;
+    width: 27px;
 }
 .inserter_widget .s3d-error + button {
     margin-top: 22px
 }
 .inserter_widget #inserter_collector {
-    width: 100%;
-    cursor: default;
     background: url("/devwidgets/inserter/images/inserter_collections_bg.png") repeat-x top left #1f1e1e;
     border-radius: 0 0 3px 3px;
     -moz-border-radius: 0 0 3px 3px;
     -webkit-border-radius: 0 0 3px 3px;
+    cursor: default;
     padding-bottom: 5px;
+    width: 100%;
 }
 .inserter_widget #inserter_collector #inserter_collection_items_container li {
     line-height: 12px
@@ -81,8 +81,8 @@
     padding: 1px 5px 0;
 }
 .inserter_widget #inserter_collector #inserter_create_collection_container input {
-    width: 92px !important;
     clear: none !important;
+    width: 92px !important;
 }
 .inserter_widget #inserter_collector .inserter_collections_top_container {
     background-color: #fff;
@@ -97,8 +97,8 @@
 .inserter_widget #inserter_collector #inserter_collections,
 .inserter_widget #inserter_collector #inserter_collection_content_container {
     margin: 5px 5px 0;
-    width: 220px;
     position: absolute;
+    width: 220px;
 }
 .inserter_widget #inserter_collector #inserter_collection_content_container .inserter_collections_top_container,
 .inserter_widget #inserter_collector #inserter_collections .inserter_collections_top_container {
@@ -121,15 +121,15 @@
     background: url("/devwidgets/inserter/images/inserter_no_collections_bg.png") no-repeat top left transparent;
     height: 179px;
     margin-top: 7px;
-    width: 226px;
     padding-bottom: 7px;
+    width: 226px;
 }
 .inserter_widget #inserter_collector .inserter_create_icon {
     background: url("/devwidgets/inserter/images/inserter_create_icon_17x17.png") repeat-x scroll left bottom transparent;
-    height: 17px;
-    width: 17px;
-    margin: 1px 7px 0 0;
     clear: left;
+    height: 17px;
+    margin: 1px 7px 0 0;
+    width: 17px;
 }
 .inserter_widget #inserter_collector input {
     border: 1px solid #ccc;
@@ -140,18 +140,18 @@
     width: 179px;
 }
 .inserter_widget #inserter_header {
-    width: 100%;
     background: url("/devwidgets/inserter/images/inserter_header_bg.png") repeat-x top left #1f1e1e;
     border-radius: 3px 3px 0 0;
     -moz-border-radius: 3px 3px 0 0;
     -webkit-border-radius: 3px 3px 0 0;
+    width: 100%;
 }
 .inserter_widget #inserter_header #inserter_header_collection_title {
     color: #fff;
+    display: inline-block;
     font-size: 12px;
     letter-spacing: 0.04em;
     margin: 5px 5px 0 0;
-    display: inline-block;
 }
 .inserter_widget #inserter_header .inserter_header_collection_icon {
     margin: 0 7px
@@ -179,8 +179,8 @@
 .inserter_widget #inserter_header #inserter_close_icon {
     background: url("/devwidgets/inserter/images/inserter_close_icon_10x10.png") no-repeat top left transparent;
     height: 10px;
-    width: 10px;
     margin: 8px 8px 0 0;
+    width: 10px;
 }
 .inserter_widget #inserter_header #inserter_close_icon:hover {
     background: url("/devwidgets/inserter/images/inserter_close_icon_10x10_hover.png") no-repeat top left transparent
@@ -194,13 +194,13 @@
     width: 80px;
 }
 .inserter_widget ul {
-    margin: 0
+    margin: 0;
 }
 .inserter_widget ul li {
-    list-style: none;
-    padding: 5px;
     line-height: 25px;
+    list-style: none;
     min-width: 195px;
+    padding: 5px;
 }
 .inserter_widget ul li .inserter_item_count_container {
     background: url("/devwidgets/inserter/images/inserter_count_bg.png") repeat-x scroll left top transparent;
@@ -229,18 +229,18 @@
 .inserter_widget ul li:hover .inserter_item_count_container,
 .inserter_widget ul li.dragover .inserter_item_count_container {
     background: url("/devwidgets/inserter/images/inserter_count_bg_hover.png") repeat-x scroll left top transparent;
-    text-shadow: 0 1px 1px #000;
     color: #fff;
+    text-shadow: 0 1px 1px #000;
 }
 .inserter_widget ul li:hover .inserter_collection_type,
 .inserter_widget ul li.dragover .inserter_collection_type {
-    color: #fff
+    color: #fff;
 }
 .inserter_widget ul li:hover .s3d-regular-links,
 .inserter_widget ul li.dragover .s3d-regular-links {
     color: #fff !important;
-    text-shadow: 0 1px 1px #000;
     text-decoration: none;
+    text-shadow: 0 1px 1px #000;
 }
 #inserter_create_collection_input_error {
     margin-left: 24px;
@@ -248,5 +248,5 @@
 }
 /* overrides */
 .inserter_toggle_active {
-    background-color: #000 !important
+    background-color: #000 !important;
 }
