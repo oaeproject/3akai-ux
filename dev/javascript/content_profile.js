@@ -173,6 +173,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         });
                     }                   
                     sakai.api.Security.showPage();
+                    document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
 
                     if(sakai_global.content_profile.content_data.data._mimeType === "x-sakai/collection"){
                         $(".collectionviewer_carousel_item.selected").click();

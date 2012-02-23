@@ -410,25 +410,25 @@ define(
         * @param parentSavePath {String}   savePath of the parent
         * @param callback       {Function} Executed on completion of the function
         */
-        setFilePermissionsAsParent: function(filesArray, parentSavePath, callback){
+        setFilePermissionsAsParent: function(filesArray, parentSavePath, callback) {
 
             /**
              * Set parent permission parameter on content nodes
              * @param filesToSetPermissions {Array} Array of files to set ACLs on
              * @param batchRequests {Array} Array of requests to set permission parameter on content nodes
              */
-            var setDataOnContent = function(filesToSetPermissions, batchRequests){
-                sakai_serv.batch(batchRequests, function(success){
-                    if (success){
+            var setDataOnContent = function(filesToSetPermissions, batchRequests) {
+                sakai_serv.batch(batchRequests, function(success) {
+                    if (success) {
                         // Apply the same permissions to the filesArray
-                        sakai_content.setFilePermissions(filesToSetPermissions, function(success){
+                        sakai_content.setFilePermissions(filesToSetPermissions, function(success) {
                             // Execute callback
-                            if($.isFunction(callback)){
+                            if($.isFunction(callback)) {
                                 callback(success);
                             }
                         });
                     } else {
-                        if($.isFunction(callback)){
+                        if($.isFunction(callback)) {
                             callback(success);
                         }
                     }
@@ -438,10 +438,10 @@ define(
             /**
              * Get the permissons set on the parent
              */
-            var getParentPermissions = function(){
-                sakai_serv.loadJSON(parentSavePath, function(success, data){
-                    if (success){
-                        var permissions = data["sakai:permissions"];
+            var getParentPermissions = function() {
+                sakai_serv.loadJSON(parentSavePath, function(success, data) {
+                    if (success) {
+                        var permissions = data['sakai:permissions'];
                         var filesToSetPermissions = [];
                         var batchRequests = [];
                         $.each(filesArray, function(index, item){
@@ -450,16 +450,16 @@ define(
                                 permissions: permissions
                             });
                             batchRequests.push({
-                                "url": "/p/" + item,
-                                "method": "POST",
-                                "parameters": {
-                                    "sakai:permissions": permissions
+                                'url': '/p/' + item,
+                                'method': 'POST',
+                                'parameters': {
+                                    'sakai:permissions': permissions
                                 }
                             });
                         });
                         setDataOnContent(filesToSetPermissions, batchRequests);
                     } else {
-                        if($.isFunction(callback)){
+                        if($.isFunction(callback)) {
                             callback(success);
                         }
                     }
@@ -1764,7 +1764,7 @@ define(
              *                                       full structure0 object and page objects
              * @param {Object} json                  Migrated object that will be returned
              */
-            processStructure0: function(structure0, originalstructure, json){
+            processStructure0: function(structure0, originalstructure, json) {
 
                 /**
                  * Finish a row and add the row to the page
@@ -1773,22 +1773,22 @@ define(
                  * @param {Object} columnsForNextRow     How many columns the next row should have
                  * @param {Object} currentHTMLBlock      The collected text so far
                  */
-                var addRowToPage = function(currentRow, currentPage, columnsForNextRow, currentHTMLBlock){
-                    if (currentHTMLBlock && sakai_util.determineEmptyContent(currentHTMLBlock.html())){
-                        currentPage = generateNewCell(false, "htmlblock", currentPage, currentRow, false, {
-                            "htmlblock": {
-                                "content": currentHTMLBlock.html()
+                var addRowToPage = function(currentRow, currentPage, columnsForNextRow, currentHTMLBlock) {
+                    if (currentHTMLBlock && sakai_util.determineEmptyContent(currentHTMLBlock.html())) {
+                        currentPage = generateNewCell(false, 'htmlblock', currentPage, currentRow, false, {
+                            'htmlblock': {
+                                'content': currentHTMLBlock.html()
                             }
                         });
                     }
-                    currentHTMLBlock = $("<div />");
+                    currentHTMLBlock = $('<div />');
                     var rowHasContent = false;
-                    for (var c = 0; c < currentRow.columns.length; c++){
-                        if (currentRow.columns[c].elements.length){
+                    for (var c = 0; c < currentRow.columns.length; c++) {
+                        if (currentRow.columns[c].elements.length) {
                             rowHasContent = true;
                         }
                     }
-                    if (rowHasContent){
+                    if (rowHasContent) {
                         currentPage.rows.push(currentRow);
                     }
                     // Generate the first empty row
@@ -1799,15 +1799,15 @@ define(
                  * Generate a new empty row to addd to the page
                  * @param {Object} columnCount    Number of columns in this row
                  */
-                var generateEmptyRow = function(columnCount){
+                var generateEmptyRow = function(columnCount) {
                     var row = {
-                        "id": sakai_util.generateWidgetId(),
-                        "columns": []
+                        'id': sakai_util.generateWidgetId(),
+                        'columns': []
                     };
-                    for (var c = 0; c < columnCount; c++){
+                    for (var c = 0; c < columnCount; c++) {
                         row.columns.push({
-                            "width": 1 / columnCount,
-                            "elements": []
+                            'width': 1 / columnCount,
+                            'elements': []
                         })
                     };
                     return row;
@@ -1821,12 +1821,12 @@ define(
                  * @param {Object} column        The index of the column in which to insert the widget
                  * @param {Object} data          The widget's data
                  */
-                var generateNewCell= function(id, type, currentPage, currentRow, column, data){
-                    if (type !== "tooltip" && type !== "joinrequestbuttons") {
+                var generateNewCell= function(id, type, currentPage, currentRow, column, data) {
+                    if (type !== 'tooltip' && type !== 'joinrequestbuttons') {
                         id = id || sakai_util.generateWidgetId();
                         currentRow.columns[column || 0].elements.push({
-                            "id": id,
-                            "type": type
+                            'id': id,
+                            'type': type
                         });
                         if (data) {
                             currentPage[id] = data;
@@ -1840,18 +1840,18 @@ define(
                  * won't be able to edit the page
                  * @param {Object} currentPage    Object representing the migrated Sakai Doc page so far
                  */
-                var ensureRowPresent = function(currentPage){
-                    if (currentPage.rows.length === 0){
+                var ensureRowPresent = function(currentPage) {
+                    if (currentPage.rows.length === 0) {
                         currentPage.rows.push(generateEmptyRow(1));
                     }
                 };
 
-                $.each(structure0, function(key, item){
+                $.each(structure0, function(key, item) {
                     // Keys with an underscore are system properties. Only keys that
                     // don't start with an _ indicate a page
-                    if (key.substring(0, 1) !== "_"){
+                    if (key.substring(0, 1) !== '_') {
                         var ref = item._ref;
-                        if (originalstructure[ref]){
+                        if (originalstructure[ref]) {
                             // The page has been migrated if there is a rows property
                             if (originalstructure[ref].rows) {
                                 json[ref] = originalstructure[ref];
@@ -1863,74 +1863,74 @@ define(
                                 // Array that will hold all the rows for this page
                                 var currentPage = {};
                                 currentPage.rows = [];
-                                var currentHTMLBlock = $("<div />");
+                                var currentHTMLBlock = $('<div />');
                                 // Generate the first empty row
                                 var currentRow = generateEmptyRow(1);
 
                                 // Run through all of the top-level elements in the page
-                                $.each(page, function(index, topLevelElement){
+                                $.each(page, function(index, topLevelElement) {
                                     var $topLevelElement = $(topLevelElement);
 
                                     // Check whether the top level element is a widget
-                                    if ($topLevelElement.hasClass("widget_inline")) {
+                                    if ($topLevelElement.hasClass('widget_inline')) {
 
                                         // If we have collected any text for our htmlblock widget, we add it to the page
                                         if (sakai_util.determineEmptyContent(currentHTMLBlock.html())) {
-                                            currentPage = generateNewCell(false, "htmlblock", currentPage, currentRow, false, {
-                                                "htmlblock": {
-                                                    "content": currentHTMLBlock.html()
+                                            currentPage = generateNewCell(false, 'htmlblock', currentPage, currentRow, false, {
+                                                'htmlblock': {
+                                                    'content': currentHTMLBlock.html()
                                                 }
                                             });
                                         }
-                                        currentHTMLBlock = $("<div />");
+                                        currentHTMLBlock = $('<div />');
 
                                         // Add the widget to the page
-                                        var widgetId = $topLevelElement.attr("id").split("_");
+                                        var widgetId = $topLevelElement.attr('id').split('_');
                                         var widgetType = widgetId[1];
                                         widgetId = widgetId.length > 2 ? widgetId[2] : sakai_util.generateWidgetId();
                                         // Filter out widgets that should not be re-included as they are already in topnavigation
                                         currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, false, originalstructure[widgetId]);
 
                                     // Check whether any of the child elements are widgets
-                                    } else if ($(".widget_inline", $topLevelElement).length > 0) {
+                                    } else if ($('.widget_inline', $topLevelElement).length > 0) {
 
                                         // If we have collected any text for our htmlblock widget, we add it to the page
                                         if (sakai_util.determineEmptyContent(currentHTMLBlock.html())) {
-                                            currentPage = generateNewCell(false, "htmlblock", currentPage, currentRow, false, {
-                                                "htmlblock": {
-                                                    "content": currentHTMLBlock.html()
+                                            currentPage = generateNewCell(false, 'htmlblock', currentPage, currentRow, false, {
+                                                'htmlblock': {
+                                                    'content': currentHTMLBlock.html()
                                                 }
                                             });
                                         }
-                                        currentHTMLBlock = $("<div />");
+                                        currentHTMLBlock = $('<div />');
 
                                         // Check how many columns we'll need
                                         var columns = 1;
                                         // If there are any left floating widgets, we'll need a left column
-                                        var left = $(".widget_inline.block_image_left", $topLevelElement).length ? 1 : 0;
+                                        var left = $('.widget_inline.block_image_left', $topLevelElement).length ? 1 : 0;
                                         columns += left ? 1 : 0;
                                         // If there are any right floating widgets, we'll need a right column
-                                        var right = $(".widget_inline.block_image_right", $topLevelElement).length ? 1 : 0;
+                                        var right = $('.widget_inline.block_image_right', $topLevelElement).length ? 1 : 0;
                                         columns += right ? 1 : 0;
 
                                         // Create a new row with multiple columns
-                                        if (columns > 1){
+                                        if (columns > 1) {
                                             currentRow = addRowToPage(currentRow, currentPage, columns, currentHTMLBlock);
                                         }
 
-                                        $.each($(".widget_inline", $topLevelElement), function(index2, widgetElement){
+                                        $.each($('.widget_inline', $topLevelElement), function(index2, widgetElement) {
                                             $widgetElement = $(widgetElement);
 
                                             // Add the widget to the page
-                                            var widgetId = $widgetElement.attr("id").split("_");
+                                            var widgetId = $widgetElement.attr('id').split('_');
                                             var widgetType = widgetId[1];
                                             widgetId = widgetId.length > 2 ? widgetId[2] : sakai_util.generateWidgetId();
 
                                             // If the widget was floating left, add it to the left column
-                                            if ($widgetElement.hasClass("block_image_left")) {
+                                            if ($widgetElement.hasClass('block_image_left')) {
                                                 currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, 0, originalstructure[widgetId]);
                                             // If the widget was floating left, add it to the right column
-                                            } else if ($widgetElement.hasClass("block_image_right")) {
+                                            } else if ($widgetElement.hasClass('block_image_right')) {
                                                 currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, (left ? 2 : 1), originalstructure[widgetId]);
                                             // If the widget was not floating at all, add it to the central (text) column
                                             } else {
@@ -1939,14 +1939,14 @@ define(
                                             $($widgetElement, $topLevelElement).remove();
                                         });
 
-                                        currentPage = generateNewCell(false, "htmlblock", currentPage, currentRow, (left ? 1 : 0), {
-                                            "htmlblock": {
-                                                "content": $topLevelElement.html()
+                                        currentPage = generateNewCell(false, 'htmlblock', currentPage, currentRow, (left ? 1 : 0), {
+                                            'htmlblock': {
+                                                'content': $topLevelElement.html()
                                             }
                                         });
 
                                         // Create a new row for the next top level element
-                                        if (columns > 1){
+                                        if (columns > 1) {
                                             currentRow = addRowToPage(currentRow, currentPage, 1, currentHTMLBlock);
                                         }
 
@@ -1974,11 +1974,11 @@ define(
                 return json;
             },
 
-            requiresMigration: function(structure0, originalstructure, returnValue){
-                $.each(structure0, function(key, item){
-                    if (key.substring(0, 1) !== "_"){
+            requiresMigration: function(structure0, originalstructure, returnValue) {
+                $.each(structure0, function(key, item) {
+                    if (key.substring(0, 1) !== '_') {
                         var ref = item._ref;
-                        if (originalstructure[ref]){
+                        if (originalstructure[ref]) {
                             if (!originalstructure[ref].rows) {
                                 returnValue = true;
                             }
@@ -1989,10 +1989,10 @@ define(
                 return returnValue;
             },
 
-            checkRequiresMigration: function(structure){
+            checkRequiresMigration: function(structure) {
                 structure = $.extend({}, true, structure);
                 if (structure.structure0) {
-                    if (typeof structure.structure0 === "string"){
+                    if (typeof structure.structure0 === 'string') {
                         structure.structure0 = $.parseJSON(structure.structure0);
                     }
                     return sakai_content.Migrators.requiresMigration(structure.structure0, structure, false);
@@ -2000,17 +2000,17 @@ define(
                 return false;
             },
     
-            migratePageStructure: function(structure, storeURL){
+            migratePageStructure: function(structure, storeURL) {
                 var start = new Date().getTime();
                 var newStructure = $.extend(true, {}, structure);
-                if (newStructure.structure0){
+                if (newStructure.structure0) {
                     var json = {};
-                    if (typeof newStructure.structure0 === "string"){
+                    if (typeof newStructure.structure0 === 'string') {
                         newStructure.structure0 = $.parseJSON(newStructure.structure0);
                     }
-                    if (sakai_content.Migrators.requiresMigration(newStructure.structure0, newStructure, false)){
+                    if (sakai_content.Migrators.requiresMigration(newStructure.structure0, newStructure, false)) {
                         json = sakai_content.Migrators.processStructure0(newStructure.structure0, newStructure, json);
-                        if (storeURL){
+                        if (storeURL) {
                             sakai_serv.saveJSON(storeURL, json);
                         }
                         json.structure0 = structure.structure0;
@@ -2019,7 +2019,7 @@ define(
                         return newStructure;
                     }
                 } else {
-                    alert("No valid page structure was entered");
+                    alert('No valid page structure was entered');
                     return false;
                 }
             }

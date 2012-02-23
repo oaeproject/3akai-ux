@@ -15,8 +15,19 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-html {background-color: transparent !important; overflow: hidden !important;}
-body {word-wrap: break-word;}
-.mceItemTable td {min-width: 100px;}
-.mceItemTable {min-width: 200px;}
-.mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceItemVisualAid {border: 1px dashed #BBB;}
+html {
+    background-color: transparent !important;
+    overflow: hidden !important;
+}
+body {
+    word-wrap: break-word;
+}
+.mceItemTable td {
+    min-width: 100px;
+}
+.mceItemTable {
+    min-width: 200px;
+}
+.mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceItemVisualAid {
+    border: 1px dashed #BBB;
+}

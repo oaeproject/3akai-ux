@@ -44,7 +44,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "carousel",
         "categories",
         "changepic",
-        "collections",
         "collectionviewer",
         "comments",
         "contacts",
