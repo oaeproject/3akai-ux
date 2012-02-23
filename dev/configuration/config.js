@@ -787,7 +787,7 @@ define(function(){
             },
             "x-sakai/collection": {
                 cssClass: "icon-collection-sprite",
-                URL: "/dev/images/mimetypes/collection2.png",
+                URL: "/dev/images/mimetypes/collection.png",
                 description: "COLLECTION"
             },
             "kaltura/video": {
@@ -1555,14 +1555,19 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
+        /*
+         * Default structure and content that should be given to a newly created
+         * Sakai Documented. If no default content is specified, an empty page placeholder
+         * will be shown to the user
+         */
         defaultSakaiDocContent: {
-            "rows": [
+            'rows': [
                 {
-                    "id": "id" + Math.round(Math.random() * 100000000),
-                    "columns": [
+                    'id': 'id' + Math.round(Math.random() * 100000000),
+                    'columns': [
                         {
-                            "width": 1,
-                            "elements": []
+                            'width': 1,
+                            'elements': []
                         }
                     ]
                 }
@@ -1575,108 +1580,107 @@ define(function(){
          * _nonEditable: cannot edit the contents of this page
          * _canSubedit:
          */
-
         defaultprivstructure: {
-            "structure0": {
-                "dashboard": {
-                    "_ref": "${refid}0",
-                    "_title": "__MSG__MY_DASHBOARD__",
-                    "_order": 0,
-                    "_canEdit": true,
-                    "_reorderOnly": true,
-                    "_nonEditable": true,
-                    "main": {
-                        "_ref": "${refid}0",
-                        "_order": 0,
-                        "_title": "__MSG__MY_DASHBOARD__"
+            'structure0': {
+                'dashboard': {
+                    '_ref': '${refid}0',
+                    '_title': '__MSG__MY_DASHBOARD__',
+                    '_order': 0,
+                    '_canEdit': true,
+                    '_reorderOnly': true,
+                    '_nonEditable': true,
+                    'main': {
+                        '_ref': '${refid}0',
+                        '_order': 0,
+                        '_title': '__MSG__MY_DASHBOARD__'
                     }
                 },
-                "messages": {
-                    "_title": "__MSG__MY_MESSAGES__",
-                    "_ref": "${refid}1",
-                    "_order": 1,
-                    "_canEdit": true,
-                    "_reorderOnly": true,
-                    "_canSubedit": true,
-                    "_nonEditable": true,
-                    "inbox": {
-                        "_ref": "${refid}1",
-                        "_order": 0,
-                        "_title": "__MSG__INBOX__",
-                        "_nonEditable": true
+                'messages': {
+                    '_title': '__MSG__MY_MESSAGES__',
+                    '_ref': '${refid}1',
+                    '_order': 1,
+                    '_canEdit': true,
+                    '_reorderOnly': true,
+                    '_canSubedit': true,
+                    '_nonEditable': true,
+                    'inbox': {
+                        '_ref': '${refid}1',
+                        '_order': 0,
+                        '_title': '__MSG__INBOX__',
+                        '_nonEditable': true
                     },
-                    "invitations": {
-                        "_ref": "${refid}2",
-                        "_order": 1,
-                        "_title": "__MSG__INVITATIONS__",
-                        "_nonEditable": true
+                    'invitations': {
+                        '_ref': '${refid}2',
+                        '_order': 1,
+                        '_title': '__MSG__INVITATIONS__',
+                        '_nonEditable': true
                     },
-                    "sent": {
-                        "_ref": "${refid}3",
-                        "_order": 2,
-                        "_title": "__MSG__SENT__",
-                        "_nonEditable": true
+                    'sent': {
+                        '_ref': '${refid}3',
+                        '_order': 2,
+                        '_title': '__MSG__SENT__',
+                        '_nonEditable': true
                     },
-                    "trash": {
-                        "_ref": "${refid}4",
-                        "_order": 3,
-                        "_title": "__MSG__TRASH__",
-                        "_nonEditable": true
+                    'trash': {
+                        '_ref': '${refid}4',
+                        '_order': 3,
+                        '_title': '__MSG__TRASH__',
+                        '_nonEditable': true
                     }
                 }
             },
-            "${refid}0": {
-                "id2506067": {
-                    "htmlblock": {
-                        "content": "<div class=\"fl-force-right\"><button type=\"button\" class=\"s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout\" data-tuid=\"${refid}5\">__MSG__EDIT_LAYOUT__</button><button type=\"button\" class=\"s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget\" data-tuid=\"${refid}5\">__MSG__ADD_WIDGET__</button></div><div class=\"s3d-contentpage-title\">__MSG__MY_DASHBOARD__</div>"
+            '${refid}0': {
+                'id2506067': {
+                    'htmlblock': {
+                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
                     }
                 },
-                "${refid}5": {
-                    "dashboard": {
-                        "layout": "threecolumn",
-                        "columns": {
-                            "column1": [
+                '${refid}5': {
+                    'dashboard': {
+                        'layout': 'threecolumn',
+                        'columns': {
+                            'column1': [
                                 {
-                                    "uid": "${refid}10",
-                                    "visible": "block",
-                                    "name": "recentchangedcontent"
+                                    'uid': '${refid}10',
+                                    'visible': 'block',
+                                    'name': 'recentchangedcontent'
                                 }
                             ],
-                            "column2": [
+                            'column2': [
                                 {
-                                    "uid": "${refid}11",
-                                    "visible": "block",
-                                    "name": "recentmemberships"
+                                    'uid': '${refid}11',
+                                    'visible': 'block',
+                                    'name': 'recentmemberships'
                                 }
                             ],
-                            "column3": [
+                            'column3': [
                                 {
-                                    "uid": "${refid}12",
-                                    "visible": "block",
-                                    "name": "recentcontactsnew"
+                                    'uid': '${refid}12',
+                                    'visible': 'block',
+                                    'name': 'recentcontactsnew'
                                 }
                             ]
                         }
                     }
                 },
-                "rows": [
+                'rows': [
                     {
-                        "id": "id8965114",
-                        "columns": [
+                        'id': 'id8965114',
+                        'columns': [
                             {
-                                "width": 1,
-                                "elements": [
+                                'width': 1,
+                                'elements': [
                                     {
-                                        "id": "id2506067",
-                                        "type": "htmlblock"
+                                        'id': 'id2506067',
+                                        'type': 'htmlblock'
                                     },
                                     {
-                                        "id": "id8321271",
-                                        "type": "carousel"
+                                        'id': 'id8321271',
+                                        'type': 'carousel'
                                     },
                                     {
-                                        "id": "${refid}5",
-                                        "type": "dashboard"
+                                        'id': '${refid}5',
+                                        'type': 'dashboard'
                                     }
                                 ]
                             }
@@ -1684,22 +1688,22 @@ define(function(){
                     }
                 ]
             },
-            "${refid}1": {
-                "${refid}6": {
-                    "box": "inbox",
-                    "category": "message",
-                    "title": "__MSG__INBOX__"
+            '${refid}1': {
+                '${refid}6': {
+                    'box': 'inbox',
+                    'category': 'message',
+                    'title': '__MSG__INBOX__'
                 },
-                "rows": [
+                'rows': [
                     {
-                        "id": "id7088118",
-                        "columns": [
+                        'id': 'id7088118',
+                        'columns': [
                             {
-                                "width": 1,
-                                "elements": [
+                                'width': 1,
+                                'elements': [
                                     {
-                                        "id": "${refid}6",
-                                        "type": "inbox"
+                                        'id': '${refid}6',
+                                        'type': 'inbox'
                                     }
                                 ]
                             }
@@ -1707,22 +1711,22 @@ define(function(){
                     }
                 ]
             },
-            "${refid}2": {
-                "${refid}7": {
-                    "box": "inbox",
-                    "category": "invitation",
-                    "title": "__MSG__INVITATIONS__"
+            '${refid}2': {
+                '${refid}7': {
+                    'box': 'inbox',
+                    'category': 'invitation',
+                    'title': '__MSG__INVITATIONS__'
                 },
-                "rows": [
+                'rows': [
                     {
-                        "id": "id6156677",
-                        "columns": [
+                        'id': 'id6156677',
+                        'columns': [
                             {
-                                "width": 1,
-                                "elements": [
+                                'width': 1,
+                                'elements': [
                                     {
-                                        "id": "${refid}7",
-                                        "type": "inbox"
+                                        'id': '${refid}7',
+                                        'type': 'inbox'
                                     }
                                 ]
                             }
@@ -1730,22 +1734,22 @@ define(function(){
                     }
                 ]
             },
-            "${refid}3": {
-                "${refid}8": {
-                    "box": "outbox",
-                    "category": "*",
-                    "title": "__MSG__SENT__"
+            '${refid}3': {
+                '${refid}8': {
+                    'box': 'outbox',
+                    'category': '*',
+                    'title': '__MSG__SENT__'
                 },
-                "rows": [
+                'rows': [
                     {
-                        "id": "id5268914",
-                        "columns": [
+                        'id': 'id5268914',
+                        'columns': [
                             {
-                                "width": 1,
-                                "elements": [
+                                'width': 1,
+                                'elements': [
                                     {
-                                        "id": "${refid}8",
-                                        "type": "inbox"
+                                        'id': '${refid}8',
+                                        'type': 'inbox'
                                     }
                                 ]
                             }
@@ -1753,22 +1757,22 @@ define(function(){
                     }
                 ]
             },
-            "${refid}4": {
-                "${refid}9": {
-                    "box": "trash",
-                    "category": "*",
-                    "title": "__MSG__TRASH__"
+            '${refid}4': {
+                '${refid}9': {
+                    'box': 'trash',
+                    'category': '*',
+                    'title': '__MSG__TRASH__'
                 },
-                "rows": [
+                'rows': [
                     {
-                        "id": "id1281420",
-                        "columns": [
+                        'id': 'id1281420',
+                        'columns': [
                             {
-                                "width": 1,
-                                "elements": [
+                                'width': 1,
+                                'elements': [
                                     {
-                                        "id": "${refid}9",
-                                        "type": "inbox"
+                                        'id': '${refid}9',
+                                        'type': 'inbox'
                                     }
                                 ]
                             }
@@ -1786,69 +1790,69 @@ define(function(){
          *   _view: "private" // Area is not visible to other users by default
          */
         defaultpubstructure: {
-            "structure0": {
-                "profile": {
-                    "_title": "__MSG__MY_PROFILE__",
-                    "_altTitle": "__MSG__MY_PROFILE_OTHER__",
-                    "_order": 0,
-                    "_view": "anonymous",
-                    "_reorderOnly": true,
-                    "_nonEditable": true
+            'structure0': {
+                'profile': {
+                    '_title': '__MSG__MY_PROFILE__',
+                    '_altTitle': '__MSG__MY_PROFILE_OTHER__',
+                    '_order': 0,
+                    '_view': 'anonymous',
+                    '_reorderOnly': true,
+                    '_nonEditable': true
                 },
-                "library": {
-                    "_ref": "${refid}0",
-                    "_order": 1,
-                    "_title": "__MSG__MY_LIBRARY__",
-                    "_altTitle": "__MSG__MY_LIBRARY_OTHER__",
-                    "_reorderOnly": true,
-                    "_nonEditable": true,
-                    "_view": "anonymous",
-                    "main": {
-                        "_ref": "${refid}0",
-                        "_order": 0,
-                        "_title": "__MSG__MY_LIBRARY__"
+                'library': {
+                    '_ref': '${refid}0',
+                    '_order': 1,
+                    '_title': '__MSG__MY_LIBRARY__',
+                    '_altTitle': '__MSG__MY_LIBRARY_OTHER__',
+                    '_reorderOnly': true,
+                    '_nonEditable': true,
+                    '_view': 'anonymous',
+                    'main': {
+                        '_ref': '${refid}0',
+                        '_order': 0,
+                        '_title': '__MSG__MY_LIBRARY__'
                     }
                 },
-                "memberships": {
-                    "_title": "__MSG__MY_MEMBERSHIPS__",
-                    "_order": 2,
-                    "_ref": "${refid}1",
-                    "_altTitle": "__MSG__MY_MEMBERSHIPS_OTHER__",
-                    "_reorderOnly": true,
-                    "_nonEditable": true,
-                    "_view": "anonymous",
-                    "main": {
-                        "_ref": "${refid}1",
-                        "_order": 0,
-                        "_title": "__MSG__MY_MEMBERSHIPS__"
+                'memberships': {
+                    '_title': '__MSG__MY_MEMBERSHIPS__',
+                    '_order': 2,
+                    '_ref': '${refid}1',
+                    '_altTitle': '__MSG__MY_MEMBERSHIPS_OTHER__',
+                    '_reorderOnly': true,
+                    '_nonEditable': true,
+                    '_view': 'anonymous',
+                    'main': {
+                        '_ref': '${refid}1',
+                        '_order': 0,
+                        '_title': '__MSG__MY_MEMBERSHIPS__'
                     }
                 },
-                "contacts": {
-                    "_title": "__MSG__MY_CONTACTS__",
-                    "_order": 3,
-                    "_ref": "${refid}2",
-                    "_altTitle": "__MSG__MY_CONTACTS_OTHER__",
-                    "_reorderOnly": true,
-                    "_nonEditable": true,
-                    "_view": "anonymous",
-                    "main": {
-                        "_ref": "${refid}2",
-                        "_order": 0,
-                        "_title": "__MSG__MY_CONTACTS__"
+                'contacts': {
+                    '_title': '__MSG__MY_CONTACTS__',
+                    '_order': 3,
+                    '_ref': '${refid}2',
+                    '_altTitle': '__MSG__MY_CONTACTS_OTHER__',
+                    '_reorderOnly': true,
+                    '_nonEditable': true,
+                    '_view': 'anonymous',
+                    'main': {
+                        '_ref': '${refid}2',
+                        '_order': 0,
+                        '_title': '__MSG__MY_CONTACTS__'
                     }
                 }
             },
-            "${refid}0": {
-                "rows": [
+            '${refid}0': {
+                'rows': [
                     {
-                        "id": "id89874",
-                        "columns": [
+                        'id': 'id89874',
+                        'columns': [
                             {
-                                "width": 1,
-                                "elements": [
+                                'width': 1,
+                                'elements': [
                                     {
-                                        "id": "id5739346",
-                                        "type": "mylibrary"
+                                        'id': 'id5739346',
+                                        'type': 'mylibrary'
                                     }
                                 ]
                             }
@@ -1856,17 +1860,17 @@ define(function(){
                     }
                 ]
             },
-            "${refid}1": {
-                "rows": [
+            '${refid}1': {
+                'rows': [
                     {
-                        "id": "id7664610",
-                        "columns": [
+                        'id': 'id7664610',
+                        'columns': [
                             {
-                                "width": 1,
-                                "elements": [
+                                'width': 1,
+                                'elements': [
                                     {
-                                        "id": "id4347509",
-                                        "type": "mymemberships"
+                                        'id': 'id4347509',
+                                        'type': 'mymemberships'
                                     }
                                 ]
                             }
@@ -1874,17 +1878,17 @@ define(function(){
                     }
                 ]
             },
-            "${refid}2": {
-                "rows": [
+            '${refid}2': {
+                'rows': [
                     {
-                        "id": "id293415",
-                        "columns": [
+                        'id': 'id293415',
+                        'columns': [
                             {
-                                "width": 1,
-                                "elements": [
+                                'width': 1,
+                                'elements': [
                                     {
-                                        "id": "id6775571",
-                                        "type": "contacts"
+                                        'id': 'id6775571',
+                                        'type': 'contacts'
                                     }
                                 ]
                             }
