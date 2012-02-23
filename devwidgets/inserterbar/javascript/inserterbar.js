@@ -56,8 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////
 
         var editPosition = function(width){
-            //$inserterbarWidget.css("left", $(".s3d-page-header").position().left + $(".s3d-page-header").width() - $inserterbarWidget.width() - 12);
-            $inserterbarWidget.css("left", $(".s3d-page-header").position().left + $(".s3d-page-header").width() - width - 12);
+            $inserterbarWidget.css("left", $(".s3d-page-header,.s3d-page-noheader").position().left + $(".s3d-page-header").width() - width - 12);
         };
 
         var showHideMoreWidgets = function(){
@@ -211,7 +210,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 top = top + $(".branding_widget").height();
             }
             $inserterbarWidget.css({
-                "left": $(".s3d-page-header").position().left + $(".s3d-page-header").width() - $inserterbarWidget.width() - 12,
+                "left": $(".s3d-page-header,.s3d-page-noheader").position().left + $(".s3d-page-header").width() - $inserterbarWidget.width() - 12,
                 "top": top
             });
             addBinding();
