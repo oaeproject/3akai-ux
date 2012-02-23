@@ -290,10 +290,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).unbind("init.pickeruser.sakai");
         $(window).bind("init.pickeruser.sakai", function(e, config, callbackFn) {
-
-            // position dialog box at users scroll position
-            sakai.api.Util.positionDialogBox($pickeruser_container, 50);
-
             $pickeruser_container.jqmShow();
             render(config);
             $(window).unbind("finished.pickeradvanced.sakai");

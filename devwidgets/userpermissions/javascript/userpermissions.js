@@ -105,7 +105,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /////////////////////////////////
 
         var initializeOverlay = function(){
-            sakai.api.Util.bindDialogFocus($("#userpermissions_container"));
             $("#userpermissions_container").jqmShow();
         };
 

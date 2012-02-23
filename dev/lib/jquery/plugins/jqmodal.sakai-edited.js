@@ -40,6 +40,18 @@ $.fn.jqmHide=function(t){return this.each(function(){t=t||window.event;$.jqm.clo
 $.jqm = {
 hash:{},
 open:function(s,t){var h=H[s],c=h.c,cc='.'+c.closeClass,z=(parseInt(h.w.css('z-index'))),z=(z>0)?z:4000,z=c.zIndex||z,o=$('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:c.overlay/100});if(h.a)return F;h.t=t;h.a=true;h.w.css('z-index',z);
+
+ if(!c.dontPositionDialog) {
+     positionDialogBox(h.w, c.positionOffset);
+ }
+ if(!c.dontBindKeyboardFocus) {
+     if (c.bindKeyboardFocusOptions) {
+         bindDialogFocus(h.w, c.bindKeyboardFocusOptions.ignoreElements);
+     } else {
+         bindDialogFocus(h.w);
+     }
+ }
+
  if(c.modal) {if(!A[0])L('bind');A.push(s);}
  else if(c.overlay > 0)h.w.jqmAddClose(o);
  else o=F;
@@ -66,6 +78,53 @@ e=function(h){if(ie6)if(h.o)h.o.html('<p style="width:100%;height:100%"/>').prep
 f=function(h){try{$(':input:visible',h.w)[0].focus();}catch(_){}},
 L=function(t){$()[t]("keypress",m)[t]("keydown",m)[t]("mousedown",m);},
 m=function(e){var h=H[A[A.length-1]],r=(!$(e.target).parents('.jqmID'+h.s)[0]);if(r)f(h);return !r;},
+
+positionDialogBox=function($el, offset) {
+    var dialogOffset = 100;
+    if (offset && _.isNumber(offset)){
+        dialogOffset = offset;
+    }
+    var htmlScrollPos = $('html').scrollTop();
+    var docScrollPos = $(document).scrollTop();
+    if (htmlScrollPos >= 0) {
+        $el.css({'top': htmlScrollPos + dialogOffset + 'px'});
+    } else if (docScrollPos >= 0) {
+        $el.css({'top': docScrollPos + dialogOffset + 'px'});
+    }
+},
+bindDialogFocus=function($dialogContainer, ignoreElements, closeFunction) {
+    var origFocus = $(':focus');
+    var bindFunction = function(e) {
+        if ($dialogContainer.is(':visible') && $dialogContainer.has(':focus').length && e.which === $.ui.keyCode.ESCAPE) {
+            if ($.isFunction(closeFunction)){
+                closeFunction();
+            } else {
+                $dialogContainer.jqmHide();
+            }
+            origFocus.focus();
+        } else if ($dialogContainer.is(':visible') && e.which === $.ui.keyCode.TAB) {
+            // determine which elements are keyboard navigable
+            var $focusable = $('a:visible, input:visible, button:visible:not(:disabled), textarea:visible', $dialogContainer);
+            if (ignoreElements){
+                $focusable = $focusable.not(ignoreElements);
+            }
+            var $focused = $(':focus');
+            var index = $focusable.index($focused);
+            if (e.shiftKey && $focusable.length && (index === 0)) {
+                 // if shift tabbing from the start of the dialog box, shift focus to the last element
+                 $focusable.get($focusable.length - 1).focus();
+                 return false;
+            } else if (!e.shiftKey && $focusable.length && (index === $focusable.length - 1)) {
+                // if tabbing from the end of the dialog box, shift focus to the first element
+                $focusable.get(0).focus();
+                return false;
+            }
+        }
+    };
+    $dialogContainer.unbind('keydown');
+    $dialogContainer.keydown(bindFunction);
+},
+
 hs=function(w,t,c){return w.each(function(){var s=this._jqm;$(t).each(function() {
  if(!this[c]){this[c]=[];$(this).click(function(){for(var i in {jqmShow:1,jqmHide:1})for(var s in this[i])if(H[this[i][s]])H[this[i][s]].w[i](this);return F;});}this[c].push(s);});});};
 })(jQuery);

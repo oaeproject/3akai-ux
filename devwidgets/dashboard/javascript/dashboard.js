@@ -814,7 +814,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (title) {
                 $("#paget_title_only", $rootel).html(" " + title);
             }
-            sakai.api.Util.bindDialogFocus(changeLayoutDialog);
             $(changeLayoutDialog, $rootel).jqmShow();
         };
 
@@ -960,7 +959,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         
         var showAddWidgetDialog = function(iTuid){
             if (iTuid === tuid) {
-                sakai.api.Util.bindDialogFocus(addGoodiesDialog);
                 $(addGoodiesDialog, $rootel).jqmShow();
             }
         };

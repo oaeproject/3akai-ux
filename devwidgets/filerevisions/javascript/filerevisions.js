@@ -128,12 +128,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} data Contains data needed to call all revisions for the file
          */
         var initialize = function(data){
-            // position dialog box at users scroll position
-            sakai.api.Util.positionDialogBox($fileRevisionsDialog);
-
             baseFileData = data;
             getRevisionInformationDetails();
-            sakai.api.Util.bindDialogFocus($fileRevisionsDialog);
             $fileRevisionsDialog.jqmShow();
         };
 

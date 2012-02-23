@@ -124,11 +124,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true
             });
 
-            // position dialog box at users scroll position
-            sakai.api.Util.positionDialogBox($uploadnewversionContainer);
-
-            sakai.api.Util.bindDialogFocus($uploadnewversionContainer);
-
             $uploadnewversionContainer.jqmShow();
 
             $uploadnewversionUploading.jqm({

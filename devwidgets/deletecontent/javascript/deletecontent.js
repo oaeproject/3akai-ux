@@ -478,8 +478,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#deletecontent_container").html("");
             $("#deletecontent_container").show();
             $("#deletecontent_used_by_others").hide();
-            sakai.api.Util.positionDialogBox($deletecontent_dialog);
-            sakai.api.Util.bindDialogFocus($deletecontent_dialog);
             $deletecontent_dialog.jqmShow();
         };
 

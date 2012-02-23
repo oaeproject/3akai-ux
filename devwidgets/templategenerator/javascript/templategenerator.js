@@ -358,7 +358,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             getTemplateData(function(success) {
                 templategeneratorData.templatesLoaded = true;
             });
-            sakai.api.Util.bindDialogFocus($templategeneratorDialog);
             $templategeneratorDialog.jqmShow();
         };
         bindEvents();

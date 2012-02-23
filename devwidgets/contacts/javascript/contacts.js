@@ -336,7 +336,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(".s3d-actions-delete", $rootel).live("click", function(){
                 $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
                 $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
-                sakai.api.Util.bindDialogFocus($("#contacts_delete_contacts_dialog"));
                 $("#contacts_delete_contacts_dialog").jqmShow();
             });
 
