@@ -28,6 +28,7 @@
 .s3d-container-shadow-right{background: url("/dev/images/container_shadow_right.png") no-repeat scroll 0 0 transparent;float: right;margin-left:960px;}
 
 a {color:#2683bc;}
+.mceToolbar a {color:#333;}
 
 /* CSS THAT OVERWRITES MAIN CSS */
 .s3d-main-container {padding: 0px !important;}
