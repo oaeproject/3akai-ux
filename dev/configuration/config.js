@@ -104,10 +104,6 @@ define(function(){
                 /**  allcategories.html  **/
                 "/categories": "BROWSE_ALL_CATEGORIES",
                 "/dev/allcategories.html": "BROWSE_ALL_CATEGORIES",
-                /**  category.html  **/
-                /**  content_profile.html  **/
-                "/dev/content_profile.html": "CONTENT_PROFILE",
-                "/content": "CONTENT_PROFILE",
                 /**  create_new_account.html  **/
                 "/dev/create_new_account.html": "CREATE_A_NEW_ACCOUNT",
                 "/register": "CREATE_A_NEW_ACCOUNT",

@@ -108,14 +108,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 structure[profilestructure[ title ]._ref] = {
                     rows: [
                         {
-                            "id": sakai.api.Util.generateWidgetId(),
-                            "columns": [
+                            'id': sakai.api.Util.generateWidgetId(),
+                            'columns': [
                                 {
-                                    "width": 1,
-                                    "elements": [
+                                    'width': 1,
+                                    'elements': [
                                         {
-                                            "id": widgetUUID,
-                                            "type": "displayprofilesection"
+                                            'id': widgetUUID,
+                                            'type': 'displayprofilesection'
                                         }
                                     ]
                                 }

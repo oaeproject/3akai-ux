@@ -102,22 +102,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var fpRnd = sakai.api.Util.generateWidgetId();
             var fwRnd = sakai.api.Util.generateWidgetId();
             privdata[rnd] = {
-                "rows": [{
-                    "id": sakai.api.Util.generateWidgetId(),
-                    "columns": [{
-                        "width": 1,
-                        "elements": [
+                'rows': [{
+                    'id': sakai.api.Util.generateWidgetId(),
+                    'columns': [{
+                        'width': 1,
+                        'elements': [
                             {
-                                "id": fcRnd,
-                                "type": "featuredcontent"
+                                'id': fcRnd,
+                                'type': 'featuredcontent'
                             },
                             {
-                                "id": fpRnd,
-                                "type": "featuredpeople"
+                                'id': fpRnd,
+                                'type': 'featuredpeople'
                             },
                             {
-                                "id": fwRnd,
-                                "type": "featuredworlds"
+                                'id': fwRnd,
+                                'type': 'featuredworlds'
                             }
                         ]
                     }]
@@ -155,22 +155,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var fpRnd = sakai.api.Util.generateWidgetId();
                 var fwRnd = sakai.api.Util.generateWidgetId();
                 pubdata[rnd] = {
-                    "rows": [{
-                        "id": sakai.api.Util.generateWidgetId(),
-                        "columns": [{
-                            "width": 1,
-                            "elements": [
+                    'rows': [{
+                        'id': sakai.api.Util.generateWidgetId(),
+                        'columns': [{
+                            'width': 1,
+                            'elements': [
                                 {
-                                    "id": fcRnd,
-                                    "type": "featuredcontent"
+                                    'id': fcRnd,
+                                    'type': 'featuredcontent'
                                 },
                                 {
-                                    "id": fpRnd,
-                                    "type": "featuredpeople"
+                                    'id': fpRnd,
+                                    'type': 'featuredpeople'
                                 },
                                 {
-                                    "id": fwRnd,
-                                    "type": "featuredworlds"
+                                    'id': fwRnd,
+                                    'type': 'featuredworlds'
                                 }
                             ]
                         }]

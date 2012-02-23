@@ -66,7 +66,7 @@ help_shortcut:'. Press ALT F10 for toolbar. Press ALT 0 for help.',
 rich_text_area:"Rich Text Area",
 toolbar:"Toolbar",
 
-// Custom for Sakai
+// Custom Sakai styles
 h1: "Heading 1",
 h2: "Heading 2",
 h3: "Heading 3",

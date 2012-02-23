@@ -565,17 +565,17 @@ define(
          * @param {String} content Content in the form of a string
          * @return{Boolean} True indicates that content is present, False indicates that there is no content
          */
-        determineEmptyContent: function(content){
-            var $el = $("<div>").html(content);
+        determineEmptyContent: function(content) {
+            var $el = $('<div>').html(content);
             // Filter out tinyMCE instances
-            $(".mceEditor", $el).each(function(index, item){
+            $('.mceEditor', $el).each(function(index, item) {
                 $(item).remove();
             });
             var textPresent = $.trim($el.text());
-            var elementArr = ["img", "iframe", "frame", "input", "select", "option"];
+            var elementArr = ['img', 'iframe', 'frame', 'input', 'select', 'option'];
             var containsElement = false;
-            $.each(elementArr, function(i, el){
-                if($(el, $el).length){
+            $.each(elementArr, function(i, el) {
+                if($(el, $el).length) {
                     containsElement = true;
                     return false;
                 }
@@ -1799,24 +1799,20 @@ define(
                 return false;
             },
 
-            showPage : function(callback){
+            showPage : function(callback) {
                 // Show the background images used on anonymous user pages
-                if ($.inArray(window.location.pathname, sakai_conf.requireAnonymous) > -1){
-                    $('html').addClass("requireAnon");
+                if ($.inArray(window.location.pathname, sakai_conf.requireAnonymous) > -1) {
+                    $('html').addClass('requireAnon');
                 // Show the normal background
                 } else {
-                    $('html').addClass("requireUser");
+                    $('html').addClass('requireUser');
                 }
                 sakai_util.loadSkinsFromConfig();
 
                 // Put the title inside the page
-                var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
-                if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    if(sakai_conf.PageTitles.pages[window.location.pathname] === "CONTENT_PROFILE"){
-                        pageTitle += " " + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
-                    } else {
-                        pageTitle += " " + require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
-                    }
+                var pageTitle = require('sakai/sakai.api.i18n').getValueForKey(sakai_conf.PageTitles.prefix);
+                if (sakai_conf.PageTitles.pages[window.location.pathname]) {
+                    pageTitle += ' ' + require('sakai/sakai.api.i18n').getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content
@@ -2464,30 +2460,30 @@ define(
              * Sets and overrides default parameters for the jQuery Droppable plugin
              * @param {Object} params Optional parameters that override defaults
              */
-            setDraggableParameters: function(params){
+            setDraggableParameters: function(params) {
                 return {
                     distance: 30,
                     revert: true,
                     revertDuration: 0,
                     scrollSensitivity: 100,
                     opacity: 0.5,
-                    cursor: "move",
+                    cursor: 'move',
                     zindex: 10000,
                     cursorAt: {
                         top: 10,
                         left: 5
                     },
                     stop: function(event, ui) {
-                        $(".s3d-draggable-draggingitems").remove();
-                        if($(this).data("stopdragevent")){
-                            $(window).trigger($(this).data("stopdragevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        $('.s3d-draggable-draggingitems').remove();
+                        if($(this).data('stopdragevent')){
+                            $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
                     start: function(event, ui){
-                        $("body").append("<div class='s3d-draggable-draggingitems' style='z-index:9999990;'>" + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + "</div>");
-                        $(window).trigger("start.drag.sakai");
-                        if($(this).data("startdragevent")){
-                            $(window).trigger($(this).data("startdragevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
+                        $(window).trigger('start.drag.sakai');
+                        if($(this).data('startdragevent')){
+                            $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
                     helper: function(){
@@ -2500,7 +2496,7 @@ define(
                         return container;
                     },
                     drag: function(ev, data){
-                        $(".s3d-draggable-draggingitems").offset({left:data.offset.left - 10,top:data.offset.top - 12});
+                        $('.s3d-draggable-draggingitems').offset({left:data.offset.left - 10,top:data.offset.top - 12});
                     }
                 };
             },
