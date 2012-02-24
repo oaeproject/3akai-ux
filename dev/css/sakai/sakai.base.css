@@ -164,7 +164,7 @@ a{color:#333;text-decoration:none;}
 a:hover{text-decoration:underline;}
 .s3d-add_another_location{clear:both;color:#39C;font-size:13px;font-weight:bold;background:url(/dev/images/icons_sprite.png) no-repeat scroll left -21px transparent;float:left;width:16px;height:16px;display:block;margin-right:6px;}
 .s3d-add_another_location_container{clear:both;display:block;padding:7px 0;width:200px;}
-.s3d-hidden,.i18nable{display:none;}
+.s3d-hidden,.i18nable > div{display:none;}
 .s3d-bold{font-weight:bold;}
 a.s3d-regular-links,.s3d-regular-links a, button.s3d-regular-links, .s3d-regular-links button{color:#2683bc;}
 a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-links button{color:#2683bc; font-size:0.9em;}

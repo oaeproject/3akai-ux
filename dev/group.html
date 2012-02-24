@@ -15,64 +15,64 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.group.css" />
 
     </head>
-    <body class="fl-centered show">
-        <div class="i18nable">
-            <!-- HEADER -->
-            <div id="widget_branding" class="widget_inline"></div>
-            <div class="fl-container-flex header s3d-header">
-                <div class="s3d-navigation-container">
-                    <div id="widget_topnavigation" class="widget_inline"></div>
-                </div>
-                <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
-                    <div class="s3d-container-shadow-left"><!----></div>
-                    <div class="s3d-container-shadow-right"><!----></div>
-                    <div class="s3d-page-header">
-                        <div id="widget_collections" class="widget_inline"></div>
-                        <div id="widget_entity" class="widget_inline"></div>
-                    </div>
+    <body class="fl-centered show i18nable">
+
+        <!-- HEADER -->
+        <div id="widget_branding" class="widget_inline"></div>
+        <div class="fl-container-flex header s3d-header">
+            <div class="s3d-navigation-container">
+                <div id="widget_topnavigation" class="widget_inline"></div>
+            </div>
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-container-shadow-left"><!----></div>
+                <div class="s3d-container-shadow-right"><!----></div>
+                <div class="s3d-page-header">
+                    <div id="widget_collections" class="widget_inline"></div>
+                    <div id="widget_entity" class="widget_inline"></div>
                 </div>
             </div>
-
-            <!-- HEADER -->
-            <div class="fl-container-flex">
-                <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
-                    <div class="s3d-page-column-left">
-                        <div id="widget_addarea" class="widget_inline"></div>
-                        <div id="widget_lhnavigation" class="widget_inline"></div>
-                        <div id="group_create_new_area_container" style="display:none;">
-                            <div class="s3d-popout-button-shadow"></div>
-                            <button type="button" id="group_create_new_area" class="s3d-button s3d-header-button s3d-popout-button"><span>+</span>__MSG__ADD__</button>
-                        </div>
-                    </div>
-                    <div class="s3d-page-column-right">
-                        <div id="group_sakaidoc_container" class="s3d-page-content-lowpadding">
-                            <div id="s3d-page-main-content"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Area Permissions overlay -->
-            <div id="widget_areapermissions" class="widget_inline"></div>
-
-            <div id="widget_worldsettings" class="widget_inline"></div>
-
-            <div id='widget_addpeople' class='widget_inline'></div>
-
-            <div id='widget_joinrequests' class='widget_inline'></div>
-
-            <div id="widget_deletegroup" class="widget_inline"></div>
-
-            <!-- FOOTER WIDGET -->
-            <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-            <!-- Dependency JS -->
-            <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
-            <script src="/dev/lib/tinymce/tiny_mce_src.js" language="JavaScript" type="text/javascript"></script>
-
-            <!-- GROUP JS -->
-            <script>require(["/dev/javascript/group.js"]);</script>
         </div>
+
+        <!-- HEADER -->
+        <div class="fl-container-flex">
+            <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
+                <div class="s3d-page-column-left">
+                    <div id="widget_addarea" class="widget_inline"></div>
+                    <div id="widget_lhnavigation" class="widget_inline"></div>
+                    <div id="group_create_new_area_container" style="display:none;">
+                        <div class="s3d-popout-button-shadow"></div>
+                        <button type="button" id="group_create_new_area" class="s3d-button s3d-header-button s3d-popout-button"><span>+</span>__MSG__ADD__</button>
+                    </div>
+                </div>
+                <div class="s3d-page-column-right">
+                    <div id="group_sakaidoc_container" class="s3d-page-content-lowpadding">
+                        <div id="s3d-page-main-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Area Permissions overlay -->
+        <div id="widget_areapermissions" class="widget_inline"></div>
+
+        <div id="widget_worldsettings" class="widget_inline"></div>
+
+        <div id='widget_addpeople' class='widget_inline'></div>
+
+        <div id='widget_joinrequests' class='widget_inline'></div>
+
+        <div id="widget_deletegroup" class="widget_inline"></div>
+
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
+        <script src="/dev/lib/tinymce/tiny_mce_src.js" language="JavaScript" type="text/javascript"></script>
+
+        <!-- GROUP JS -->
+        <script>require(["/dev/javascript/group.js"]);</script>
+
         <noscript>
             <h1>Sorry!</h1>
             <p>
