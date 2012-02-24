@@ -1923,6 +1923,133 @@ define(
         },
 
         /**
+         * Sets jqmodal options and opens the dialog
+         *
+         * @param dialogContainer {String} a jquery selector or jquery object, that is the dialog container
+         * @param options {Object} optional object containing options to pass to the jqmodal plugin
+         *                          Additional options:
+         *                          dontPositionDialog (Boolean} set to true not position the dialog at the scroll position
+         *                          positionOffset (Integer} dialog height position offset
+         *                          dontBindKeyboardFocus (Boolean} set to true not trap keyboard focus
+         *                          bindKeyboardFocusIgnoreElements (String} optional jquery selector for start/end elements to be ignored
+         *                          closeFunction (function} optional function to be called when the user hits the escape key
+         */
+        modalDialogOpen : function(dialogContainer, options) {
+            var $dialogContainer = dialogContainer;
+            if (!(dialogContainer instanceof jQuery)) {
+                $dialogContainer = $(dialogContainer);
+            }
+
+            var dontPositionDialog = false;;
+            var positionOffset = false;;
+            var dontBindKeyboardFocus = false;
+            var bindKeyboardFocusIgnoreElements = false;
+            var closeFunction = false;
+
+            if (options) {
+                dontPositionDialog = options.dontPositionDialog;
+                positionOffset = options.positionOffset;
+                dontBindKeyboardFocus = options.dontBindKeyboardFocus;
+                bindKeyboardFocusIgnoreElements = options.bindKeyboardFocusIgnoreElements;
+                closeFunction = options.closeFunction;
+            }
+
+            if (!dontPositionDialog) {
+                sakai_util.positionDialogBox($dialogContainer, positionOffset);
+            }
+            if (!dontBindKeyboardFocus) {
+                sakai_util.bindDialogFocus($dialogContainer, bindKeyboardFocusIgnoreElements, closeFunction);
+            }
+
+            $dialogContainer.jqm(options);
+            $dialogContainer.jqmShow();
+        },
+
+        /**
+         * Closes the dialog box
+         *
+         * @param dialogContainer {String} a jquery selector or jquery object, that is the dialog container
+         */
+        modalDialogClose : function(dialogContainer) {
+            var $dialogContainer = dialogContainer;
+            if (!(dialogContainer instanceof jQuery)) {
+                $dialogContainer = $(dialogContainer);
+            }
+            $dialogContainer.jqmHide();
+        },
+
+        /**
+         * Positions the dialog box at the users scroll position
+         *
+         * @param el {String} a jquery selector or jquery object, to position
+         * @param offset {Integer} optional numeric value to add to the dialog position offset
+         */
+        positionDialogBox : function(el, offset) {
+            var $el = el;
+            if (!(el instanceof jQuery)){
+                $el = $(el);
+            }
+
+            var dialogOffset = 100;
+            if (offset && _.isNumber(offset)){
+                dialogOffset = offset;
+            }
+
+            var htmlScrollPos = $("html").scrollTop();
+            var docScrollPos = $(document).scrollTop();
+            if (htmlScrollPos >= 0) {
+                $el.css({"top": htmlScrollPos + dialogOffset + "px"});
+            } else if (docScrollPos >= 0) {
+                $el.css({"top": docScrollPos + dialogOffset + "px"});
+            }
+        },
+
+        /**
+         * Sets up events to keep keyboard focus within the dialog box and close it when the escape key is pressed
+         *
+         * @param dialogContainer {String} a jquery selector or jquery object which is the dialog container
+         * @param ignoreElements {String} an optional jquery selector for start/end elements to be ignored
+         * @param closeFunction {function} an optional function to be called when the user hits the escape key
+         */
+        bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
+            var origFocus = $(":focus");
+            var $dialogContainer = dialogContainer;
+            if (!(dialogContainer instanceof jQuery)){
+                $dialogContainer = $(dialogContainer);
+            }
+
+            var bindFunction = function(e) {
+                if ($dialogContainer.is(":visible") && $dialogContainer.has(":focus").length && e.which === $.ui.keyCode.ESCAPE) {
+                    if ($.isFunction(closeFunction)){
+                        closeFunction();
+                    } else {
+                        $dialogContainer.jqmHide();
+                    }
+                    origFocus.focus();
+                } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
+                    // determine which elements are keyboard navigable
+                    var $focusable = $("a:visible, input:visible, button:visible:not(:disabled), textarea:visible", $dialogContainer);
+                    if (ignoreElements){
+                        $focusable = $focusable.not(ignoreElements);
+                    }
+                    var $focused = $(":focus");
+                    var index = $focusable.index($focused);
+                    if (e.shiftKey && $focusable.length && (index === 0)) {
+                        // if shift tabbing from the start of the dialog box, shift focus to the last element
+                        $focusable.get($focusable.length - 1).focus();
+                        return false;
+                    } else if (!e.shiftKey && $focusable.length && (index === $focusable.length - 1)) {
+                        // if tabbing from the end of the dialog box, shift focus to the first element
+                        $focusable.get(0).focus();
+                        return false;
+                    }
+                }
+            };
+            $(dialogContainer).unbind("keydown");
+            $(dialogContainer).keydown(bindFunction);
+        },
+
+        /**
          * Extracts the entity ID from the URL
          * also handles encoded URLs
          * Example:

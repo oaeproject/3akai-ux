@@ -156,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     sakai.api.Util.notification.show("", errorMsg, sakai.api.Util.notification.type.ERROR);
                 }
                 if ($(messageDialogContainer).hasClass('s3d-dialog')) {
-                    $(messageDialogContainer).jqmHide();
+                    sakai.api.Util.modalDialogClose(messageDialogContainer);
                 }
 
                 // If we have a valid callback function we call that
@@ -308,15 +308,13 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
                 // show popup
                 if (layover) {
-                    $(messageDialogContainer).jqm({
+                    dialogOptions = {
                         modal: true,
                         overlay: 20,
                         toTop: true,
-                        bindKeyboardFocusOptions: {
-                            "ignoreElements": "a.as-close"
-                        }
-                    });
-                    $(messageDialogContainer).jqmShow();
+                        bindKeyboardFocusIgnoreElements: 'a.as-close'
+                    };
+                    sakai.api.Util.modalDialogOpen(messageDialogContainer, dialogOptions);
                 }
                 sakai.api.Util.Forms.clearValidation($sendmessage_form);
             };
@@ -375,7 +373,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $(send_message_cancel).die("click");
                 $(send_message_cancel).live("click", function() {
                     if ($(messageDialogContainer).hasClass('s3d-dialog')) {
-                        $(messageDialogContainer).jqmHide();
+                        sakai.api.Util.modalDialogClose(messageDialogContainer);
                     }
                     if ($.isFunction(callbackWhenDone)) {
                         callbackWhenDone(false);
