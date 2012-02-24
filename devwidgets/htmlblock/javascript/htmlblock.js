@@ -165,6 +165,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     // Only update the editor height if it has changed
                     if ($editor.height() !== docHt) {
                         $editor.css('height', docHt + 'px');
+                        $(window).trigger("updateheight.contentauthoring.sakai");
                     }
                 } catch (err) {
                     return false;
