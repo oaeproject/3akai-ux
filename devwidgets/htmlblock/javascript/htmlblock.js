@@ -17,49 +17,69 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      
     /**
      * @name sakai.htmlblock
      *
      * @class htmlblock
      *
-     * @description
-     * WIDGET DESCRIPTION
-     *
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
-        var $rootel = $("#" + tuid);
 
-        var autoSavePoll = false;
+        // Element cache
+        var $rootel = $('#' + tuid);
         var $toolbar = false;
-        var id = false;
-        var lastData = "";
-        if (widgetData && widgetData.htmlblock){
+
+        // Help variables
+        var editorId = false;
+        var autoSavePoll = false;
+        var lastData = '';
+        if (widgetData && widgetData.htmlblock) {
             lastData = widgetData.htmlblock.content;
         }
 
-        $(window).bind("resize.contentauthoring.sakai", function(){
+        ///////////////////////////
+        // tinyMCE Functionality //
+        ///////////////////////////
+        
+        /////////////////////
+        // Editor resizing //
+        /////////////////////
+
+        /////////////////////////
+        // Autosave and saving //
+        /////////////////////////
+
+        ///////////////////
+        // Event binding //
+        ///////////////////
+
+        ////////////////////
+        // Initialization //
+        ////////////////////
+
+        $(window).bind('resize.contentauthoring.sakai', function(){
             updateHeight();
         });
         var updateHeight = function(){
-            var $element = $("#" + id + "_ifr");
+            var $element = $('#' + editorId + '_ifr');
             if ($element.length){
                 try {
                     var docHt = 0, sh, oh;
                     var frame = $element[0];
                     $element.contents().scrollTop(0);
                     var innerDoc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
-                    $element.css("height", "25px");
+                    $element.css('height', '25px');
                     docHt = innerDoc.body.scrollHeight;
                     if (docHt < 25){
                         docHt = 25;
                     }
                     if ($element.height() !== docHt) {
-                        $element.css("height", docHt + "px");
+                        $element.css('height', docHt + 'px');
                     }
                 } catch (err){
                     return false;
@@ -67,12 +87,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         }
 
-        var initTinyMCE = function(ui){
-            id = ui.id;
-            $editor = $("#" + id + "_ifr");
-            $toolbar = $("#" + id + "_external");
-            $toolbar.css("display", "none");
-            $("#inserterbar_widget #inserterbar_tinymce_container").append($toolbar);
+        var initTinyMCE = function(ui) {
+            editorId = ui.id;
+            $editor = $('#' + editorId + '_ifr');
+            $toolbar = $('#' + editorId + '_external');
+            $toolbar.css('display', 'none');
+            $('#inserterbar_widget #inserterbar_tinymce_container').append($toolbar);
             setTimeout(function(){
                 updateHeight();
             }, 1000);
@@ -85,102 +105,98 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             autoSavePoll = setInterval(autoSave, 5000);
         };
 
-        $(window).bind("save.contentauthoring.sakai", function(){
-            if ($rootel.is(":visible")) {
+        $(window).bind('save.contentauthoring.sakai', function() {
+            if ($rootel.is(':visible')) {
                 autoSave();
-                if (id && tinyMCE.get(id)) {
-                    var currentText = tinyMCE.get(id).getContent();
-                    $("#htmlblock_view_container", $rootel).html(currentText);
+                if (editorId && tinyMCE.get(editorId)) {
+                    var currentText = tinyMCE.get(editorId).getContent();
+                    $('#htmlblock_view_container', $rootel).html(currentText);
                     sakai.api.Util.renderMath($rootel);
                 }
             }
         });
         
-        var stopAutosave = function(){
-            if (autoSavePoll){
+        var stopAutosave = function() {
+            if (autoSavePoll) {
                 clearInterval(autoSavePoll);
                 autoSavePoll = false;
             }
-            $(window).unbind("save.contentauthoring.sakai");
+            $(window).unbind('save.contentauthoring.sakai');
         }
         
-        var autoSave = function(){
-            var currentText = tinyMCE.get(id).getContent();
-            if (currentText !== lastData){
+        var autoSave = function() {
+            var currentText = tinyMCE.get(editorId).getContent();
+            if (currentText !== lastData) {
                 lastData = currentText;
-                sakai.api.Widgets.saveWidgetData(tuid, {"content": currentText});
+                sakai.api.Widgets.saveWidgetData(tuid, {'content': currentText});
             }
         };
 
-        var tinyMCEEvent = function(ev, ui){
-            if ($editor && (!ev || !ev.type || ev.type === "click" || ev.type === "keyup" || ev.type === "mouseup" || ev.type === "paste")) {
+        var tinyMCEEvent = function(ev, ui) {
+            if ($editor && (!ev || !ev.type || ev.type === 'click' || ev.type === 'keyup' || ev.type === 'mouseup' || ev.type === 'paste')) {
                 updateHeight();
             }
             return true;
         };
 
         /**
-         * Initialization function DOCUMENTATION
+         * Load the HTMLBlock widget
          */
         var doInit = function () {
-            if (showSettings){
-                
-            } else {
-                var $textarea = $("textarea", $rootel).attr("name", tuid).addClass(tuid);
-                if (widgetData && widgetData.htmlblock) {
-                    var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
-                    $("#htmlblock_view_container", $rootel).html(processedContent);
-                    sakai.api.Util.renderMath($rootel);
-                    // Fill up the textarea
-                    $textarea.val(widgetData.htmlblock.content);
-                }
-                $textarea.css("height", $("#htmlblock_view_container", $rootel).height());
-                if (window["tinyMCE"]) {
-                    tinyMCE.init({
-                        mode: "textareas",
-                        theme: "advanced",
-                        skin: "sakai",
-                        formats: {
-                              "caption": {
-                                  "inline": 'span',
-                                  "classes": 'caption'
-                              }
-                        },
-                        content_css: "/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css",
-                        plugins: "table,advlink,contextmenu,paste,directionality",
-                        theme_advanced_blockformats: "h1,h2,h3,h4,h5,h6,p,blockquote,caption",
-                        theme_advanced_buttons1: "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,forecolor,|,link,table,code",
-                        theme_advanced_buttons2: "",
-                        theme_advanced_buttons3: "",
-                        table_styles: "Default=default",
-                        table_cell_styles: "Default=default",
-                        table_row_styles: "Default=default",
-                        theme_advanced_toolbar_location: "external",
-                        theme_advanced_toolbar_align: "left",
-                        theme_advanced_statusbar_location: "none",
-                        theme_advanced_resizing: false,
-                        editor_selector: tuid,
-                        handle_event_callback: tinyMCEEvent,
-                        onchange_callback: tinyMCEEvent,
-                        init_instance_callback: initTinyMCE,
-                        remove_instance_callback: stopAutosave,
-                        setup : function(ed) {
-                            ed.onClick.add(function(ed, e) {
-                                $("#inserterbar_widget #inserterbar_tinymce_container").show();
-                                $(".contentauthoring_cell_element_actions").hide();
-                            });
-                            ed.onInit.add(function(ed) {
-                                if(!$(".s3d-dialog:visible").length){
-                                    ed.focus();
-                                }
-                                $(".contentauthoring_cell_element_actions").hide();
-                                var t = setTimeout(function(){
-                                    $(".htmlblock_widget", $rootel).parents(".contentauthoring_cell_element").removeClass("contentauthoring_init");
-                                }, 1000);
-                            });
-                        }
-                    });
-                }
+            var $textarea = $('textarea', $rootel).attr('name', tuid).addClass(tuid);
+            if (widgetData && widgetData.htmlblock) {
+                var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
+                $('#htmlblock_view_container', $rootel).html(processedContent);
+                sakai.api.Util.renderMath($rootel);
+                // Fill up the textarea
+                $textarea.val(widgetData.htmlblock.content);
+            }
+            $textarea.css('height', $('#htmlblock_view_container', $rootel).height());
+            if (window['tinyMCE']) {
+                tinyMCE.init({
+                    mode: 'textareas',
+                    theme: 'advanced',
+                    skin: 'sakai',
+                    formats: {
+                          'caption': {
+                              'inline': 'span',
+                              'classes': 'caption'
+                          }
+                    },
+                    content_css: '/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css',
+                    plugins: 'table,advlink,contextmenu,paste,directionality',
+                    theme_advanced_blockformats: 'h1,h2,h3,h4,h5,h6,p,blockquote,caption',
+                    theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,forecolor,|,link,table,code',
+                    theme_advanced_buttons2: '',
+                    theme_advanced_buttons3: '',
+                    table_styles: 'Default=default',
+                    table_cell_styles: 'Default=default',
+                    table_row_styles: 'Default=default',
+                    theme_advanced_toolbar_location: 'external',
+                    theme_advanced_toolbar_align: 'left',
+                    theme_advanced_statusbar_location: 'none',
+                    theme_advanced_resizing: false,
+                    editor_selector: tuid,
+                    handle_event_callback: tinyMCEEvent,
+                    onchange_callback: tinyMCEEvent,
+                    init_instance_callback: initTinyMCE,
+                    remove_instance_callback: stopAutosave,
+                    setup : function(ed) {
+                        ed.onClick.add(function(ed, e) {
+                            $('#inserterbar_widget #inserterbar_tinymce_container').show();
+                            $('.contentauthoring_cell_element_actions').hide();
+                        });
+                        ed.onInit.add(function(ed) {
+                            if(!$('.s3d-dialog:visible').length) {
+                                ed.focus();
+                            }
+                            $('.contentauthoring_cell_element_actions').hide();
+                            var t = setTimeout(function() {
+                                $('.htmlblock_widget', $rootel).parents('.contentauthoring_cell_element').removeClass('contentauthoring_init');
+                            }, 1000);
+                        });
+                    }
+                });
             }
         };
         
@@ -189,5 +205,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("htmlblock");
+    sakai.api.Widgets.widgetLoader.informOnLoad('htmlblock');
 });
