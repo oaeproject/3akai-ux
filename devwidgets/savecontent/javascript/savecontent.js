@@ -46,7 +46,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $savecontent_save = $("#savecontent_save", $rootel);
         var newlyShared = {},
             allNewlyShared = [],
-            checkCollections = [],
             contentObj = {},
             clickedEl = null;
 
@@ -95,8 +94,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $savecontent_save.removeAttr("disabled");
 
-            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 3;
-            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 115;
+            var adjustHeight = 0;
+            if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
+                adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
+            }
+
+            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 3 + adjustHeight;
+            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 122;
 
             $savecontent_widget.css({
                 top: savecontentTop,
@@ -140,6 +144,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Check if collections are in the content data set, and fetch their members
          */
         var checkCollectionMembers = function(callback) {
+            var checkCollections = [];
             $.each(contentObj.data, function(i, selectedContent) {
                 var contentItem = selectedContent.body;
                 if (!(sakai_global.content_profile && sakai_global.content_profile.content_data &&
@@ -165,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                     callback();
-                });
+                }, false, true);
             } else {
                 callback();
             }

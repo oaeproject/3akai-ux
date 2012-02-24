@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     method: "GET"
                 },
                 {
-                    url: "/~" + groupid + "/public.1.json",
+                    url: '/system/userManager/group/' + groupid + '.json',
                     method: "GET"
                 }
             ];
@@ -134,14 +134,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // joinability info
                     if (data.results[1].body) {
                         var groupdata = $.parseJSON(data.results[1].body);
-                        group.groupProfile =
-                            groupdata.authprofile;
-                        group.joinability =
-                            groupdata.authprofile["sakai:group-joinable"];
-                        group.title =
-                            groupdata.authprofile["sakai:group-title"];
-                        group.id =
-                            groupid;
+                        group.groupProfile = groupdata.properties;
+                        group.joinability = groupdata.properties['sakai:group-joinable'];
+                        group.title = groupdata.properties['sakai:group-title'];
+                        group.id = groupid;
                     }
                     sakai.api.Groups.getMembers(groupid, function(success, members) {
                         members = members[groupid];
@@ -183,13 +179,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var openTooltip = function (groupid, $item, leaveAllowed) {
             getGroup(groupid, function(group) {
                 group.sakai = sakai;
+                var adjustHeight = 0;
+                if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
+                    adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
+                }
                 $(window).trigger("init.tooltip.sakai", {
                     tooltipHTML: sakai.api.Util.TemplateRenderer(
                         $joingroup_hover_template, group),
                     tooltipAutoClose: true,
                     tooltipArrow: "top",
-                    tooltipTop: $item.offset().top + $item.height(),
-                    tooltipLeft: $item.offset().left + $item.width(),
+                    tooltipTop: $item.offset().top + $item.height() + adjustHeight,
+                    tooltipLeft: $item.offset().left + $item.width() + 3,
                     onShow: function () {
                         $(window).trigger("init.joinrequestbuttons.sakai", [
                             {
