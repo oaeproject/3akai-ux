@@ -15,44 +15,53 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.createnew.css" />
 
     </head>
-    <body class="fl-centered show i18nable">
-        <!-- HEADER -->
-        <div id="widget_branding" class="widget_inline"></div>
-        <div class="fl-container-flex header s3d-header">
-            <div class="s3d-navigation-container">
-                <div id="widget_topnavigation" class="widget_inline"></div>
-            </div>
-            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
-                <div class="s3d-container-shadow-left"><!----></div>
-                <div class="s3d-container-shadow-right"><!----></div>
-                <div class="s3d-page-header collection_modified">
-                    <div id="widget_collections" class="widget_inline"></div>
+    <body class="fl-centered show">
+        <div class="i18nable">
+            <!-- HEADER -->
+            <div id="widget_branding" class="widget_inline"></div>
+            <div class="fl-container-flex header s3d-header">
+                <div class="s3d-navigation-container">
+                    <div id="widget_topnavigation" class="widget_inline"></div>
+                </div>
+                <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                    <div class="s3d-container-shadow-left"><!----></div>
+                    <div class="s3d-container-shadow-right"><!----></div>
+                    <div class="s3d-page-header collection_modified">
+                        <div id="widget_collections" class="widget_inline"></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- HEADER -->
-        <div class="fl-container-flex">
-            <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
-                <div class="s3d-page-column-left">
-                    <div id="widget_lhnavigation" class="widget_inline"></div>
+            <!-- HEADER -->
+            <div class="fl-container-flex">
+                <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
+                    <div class="s3d-page-column-left">
+                        <div id="widget_lhnavigation" class="widget_inline"></div>
+                    </div>
+                    <div class="s3d-page-column-right">
+                        <div id="s3d-page-main-content" class="s3d-page-content-padding">
+                    </div>
+                    <div class="s3d-bottom-spacer"></div>
                 </div>
-                <div class="s3d-page-column-right">
-                    <div id="s3d-page-main-content" class="s3d-page-content-padding">
-                </div>
-                <div class="s3d-bottom-spacer"></div>
             </div>
-        </div>
 
-        <!-- FOOTER WIDGET -->
-        <div id="widget_footer" class="widget_inline footercontainer"></div>
+            <!-- FOOTER WIDGET -->
+            <div id="widget_footer" class="widget_inline footercontainer"></div>
 
 
-        <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
+            <!-- Dependency JS -->
+            <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
         
-        <!-- GROUP JS -->
-        <script>require(["/dev/javascript/createnew.js"]);</script>
-        
+            <!-- GROUP JS -->
+            <script>require(["/dev/javascript/createnew.js"]);</script>
+        </div>
+        <noscript>
+            <h1>Sorry!</h1>
+            <p>
+                JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
+                If you need assistance, please visit
+                <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
+            </p>
+        </noscript>
     </body>
 </html>
