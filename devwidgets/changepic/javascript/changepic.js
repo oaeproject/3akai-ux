@@ -176,6 +176,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             hideInputError();
             $(uploadProcessing).hide();
             $(uploadNewButtons).show();
+            $('#profile_upload').attr('disabled', 'disabled');
         };
 
         // Add click event to all cancel buttons in the overlay
@@ -289,7 +290,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             thumbnailHeight  = (prefThumbHeight > 0) ? prefThumbHeight : thumbnailHeight;
 
             if (showPicture && picture && picture._name) {
-                resetUploadField();
                 // The user has already uploaded a picture.
                 // Show the image select area
                 existingPicture = true;
@@ -299,6 +299,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
                 // Check the current picture's size
                 $(pictureMeasurerImage).bind("load", function(ev){
+                    resetUploadField();
 
                     // save the image size in global var.
                     realw = $(pictureMeasurerImage).width();
@@ -392,6 +393,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         // Remove error notification when a new file is chosen
         $(picInput).bind("change", function(){
             hideInputError();
+            $('#profile_upload').removeAttr('disabled');
             // display help tooltip
             var tooltipData = {
                 "tooltipSelector":"#profile_upload",
