@@ -426,9 +426,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var toggleDropdownList = function(){
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
+            $(entityChangeImage).nextAll(".s3d-dropdown-list").toggle();
             $(entityChangeImage).toggleClass("clicked");
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
+            $(entityChangeImage).nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
         };
 
         var checkHash = function(context){
@@ -577,7 +577,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(entityChangeImage).click(toggleDropdownList);
 
-            sakai.api.Util.hideOnClickOut(entityChangeImage + " .s3d-dropdown-list", entityChangeImage, toggleDropdownList);
+            sakai.api.Util.hideOnClickOut(".entity_user_avatar_menu.s3d-dropdown-list,.entity_group_avatar_menu.s3d-dropdown-list", entityChangeImage, toggleDropdownList);
 
         });
 

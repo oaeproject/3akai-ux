@@ -583,8 +583,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var contextMenu = $("#lhnavigation_submenu");
             if (forceHide) {
                 $('.lhnavigation_selected_submenu_image.clicked')
-                .parents('.lhnavigation_item_content, .lhnavigation_subnav_item_content')
-                .find('a:first').focus();
+                    .parents('.lhnavigation_item_content, .lhnavigation_subnav_item_content')
+                    .find('a:first').focus();
                 $(".lhnavigation_selected_submenu_image").removeClass("clicked");
                 contextMenu.hide();
             } else {

@@ -73,6 +73,7 @@
 #entity_container .entity_owns_actions_container .s3d-dropdown-list-arrow-up {background-position:center center;margin-left:37px !important;width:46px;height:32px !important;}
 #contentpreview_download_button {line-height:23px !important;}
 #entity_container .entity_content_usedby {margin-right: 10px;}
+#entity_container .s3d-dropdown-list {position:absolute;width:120px;}
 
 /* Directory */
 #entity_container #entity_directory_image {width:45px;float:left;margin-right:15px;margin-top:-14px;}
@@ -86,21 +87,19 @@
 #entity_container .entity_change_avatar:hover .entity_profilepic_internal, #entity_container .entity_change_avatar.clicked .entity_profilepic_internal {box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;}
 #entity_container .entity_change_avatar .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 6px;margin: 45px 1px 0 4px;width: 12px;float:right;}
 #entity_container .entity_change_avatar:hover .s3d-dropdown-menu-arrow, #entity_container .entity_change_avatar.clicked .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:6px;}
-#entity_container .s3d-dropdown-list {position:absolute;width:120px;}
-#entity_container .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:31px;right:auto;}
 #entity_container #entity_user_image.entity_change_avatar{margin-left:18px;}
-#entity_container #entity_user_image.entity_change_avatar .s3d-dropdown-list {margin-left:16px;}
-#entity_container #entity_group_image.entity_change_avatar .s3d-dropdown-list {margin-left:-2px;}
-#entity_container #entity_group_image .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:49px;}
+#entity_container .entity_user_avatar_menu.s3d-dropdown-list {margin-left:16px;}
+#entity_container .entity_user_avatar_menu.s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:52px;right:auto;}
+#entity_container .entity_group_avatar_menu.s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:50px;right:auto;}
+#entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
+#entity_container #entity_group_image {margin-top:-11px;}
+#entity_container #entity_group_image.s3d-dropdown-menu {float: left; padding:5px 6px;margin: -10px 15px 0px 5px;}
+#entity_container #entity_group_image.s3d-dropdown-menu .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 8px;margin-left: 7px;margin-top: 40px;width: 12px;float:right;}
+#entity_container #entity_group_image.s3d-dropdown-menu:hover .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:8px;}
 #entity_container .entity_user_image_pointer {cursor:pointer;width:93px; margin-left: 15px !important;}
 #entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
 #entity_container .entity_other_profilepic {float: left; margin: -10px 15px 0px 5px; width:52px; height: 54px; background-color:#fff; padding: 2px 2px 2px 1px;}
 #entity_container .entity_profilepic_internal {background-color:#FFFFFF;box-shadow:0 0 1px 2px #AAAAAA;-webkit-box-shadow:0 0 1px 2px #AAAAAA;float:left;height:50px;padding:1px;width:50px;}
-#entity_container #entity_group_image.s3d-dropdown-menu {float: left; padding:5px 6px;margin: -10px 15px 0px 5px;}
-#entity_container #entity_group_image.s3d-dropdown-menu .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 8px;margin-left: 7px;margin-top: 40px;width: 12px;float:right;}
-#entity_container #entity_group_image.s3d-dropdown-menu:hover .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:8px;}
-#entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
-#entity_container #entity_group_image {margin-top:-11px;}
 
 /* User */
 #entity_container .entity_user_action_icon {margin-left: 5px;padding-right: 20px;}
