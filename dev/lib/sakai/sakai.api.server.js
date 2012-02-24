@@ -268,8 +268,8 @@ define(
              */
             var convertArrayToObject = function(obj) {
 
-				// If the current object is an array with elements, we convert it into
-				// an object
+                // If the current object is an array with elements, we convert it into
+                // an object
                 if ($.isArray(obj) && obj.length > 0) {
 
                     var j,jl;
@@ -290,8 +290,8 @@ define(
                         convertArrayToObject(arrayCopy[j]);
                     }
 
-				// If the current object is an empty array, we convert it into an empty
-				// string
+                // If the current object is an empty array, we convert it into an empty
+                // string
                 } else if ($.isArray(obj) && obj.length === 0) {
                     obj = '';
 
@@ -385,7 +385,7 @@ define(
                 });
             } else if ($.isArray(obj)) {
                 newobj = $.merge([], obj);
-                $.each(newobj, function(key,val) {
+                $.each(newobj, function(key, val) {
                     if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
                         newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
                     }
@@ -407,7 +407,7 @@ define(
             var toFilter = ['_', 'jcr:', 'sakai:', 'sling:'];
             var toExclude = ['_ref', '_title', '_altTitle', '_order', '_pid', '_count', '_view', '_edit', '_canView', '_canEdit', '_canSubedit', '_nonEditable', '_reorderOnly', '_lastModified', '_lastModifiedBy'];
             pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
-            if (pagestructure['structure0'] && typeof pagestructure['structure0'] === 'string') {
+            if (pagestructure['structure0'] && _.isString(pagestructure['structure0'])) {
                 pagestructure['structure0'] = $.parseJSON(pagestructure['structure0']);
             }
             var removeServerFormating = function(structure, id) {

@@ -400,7 +400,7 @@ define(
         },
 
         /**
-        * Sets the permissions an Array of files to be the same as their parent
+        * Sets the permissions of an Array of files to be the same as their parent
         * Order of execution:
         *       - Load parent permissions
         *       - Set parent permission parameter on content nodes
@@ -423,12 +423,12 @@ define(
                         // Apply the same permissions to the filesArray
                         sakai_content.setFilePermissions(filesToSetPermissions, function(success) {
                             // Execute callback
-                            if($.isFunction(callback)) {
+                            if ($.isFunction(callback)) {
                                 callback(success);
                             }
                         });
                     } else {
-                        if($.isFunction(callback)) {
+                        if ($.isFunction(callback)) {
                             callback(success);
                         }
                     }
@@ -444,7 +444,7 @@ define(
                         var permissions = data['sakai:permissions'];
                         var filesToSetPermissions = [];
                         var batchRequests = [];
-                        $.each(filesArray, function(index, item){
+                        $.each(filesArray, function(index, item) {
                             filesToSetPermissions.push({
                                 hashpath: item,
                                 permissions: permissions
