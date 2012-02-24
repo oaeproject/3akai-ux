@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $toolbar = false;
 
         // Configuration variables
-        AUTOSAVE_INTERVAL = 5000;
+        var AUTOSAVE_INTERVAL = 5000;
 
         // Help variables
         var editorId = false;
@@ -104,7 +104,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
-         * This is execute when the tinyMCE editor has been initialized
+         * This is executed when the tinyMCE editor has been initialized
          */
         var initTinyMCE = function(ui) {
             editorId = ui.id;
@@ -159,7 +159,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $editor.css('height', '25px');
                     docHt = innerDoc.body.scrollHeight;
                     // Set a minimum internal height of 25px
-                    if (docHt < 25){
+                    if (docHt < 25) {
                         docHt = 25;
                     }
                     // Only update the editor height if it has changed
@@ -209,7 +209,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Start auto saving the widget data
          */
-        var startAutoSave = function(){
+        var startAutoSave = function() {
             // Kill the current autosave interval
             stopAutoSave();
             // Start the autosave
@@ -220,7 +220,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Stop the auto save interval for the current widget
          */
         var stopAutoSave = function() {
-            if (autoSavePoll){
+            if (autoSavePoll) {
                 clearInterval(autoSavePoll);
                 autoSavePoll = false;
             }
