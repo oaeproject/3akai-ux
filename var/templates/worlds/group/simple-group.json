@@ -4,6 +4,7 @@
     "img": "",
     "fullImg": "",
     "perfectFor": "SIMPLE_GROUP_PERFECT_FOR",
+    "customStyle": "/dev/skins/topnav/skin.css",
     "order": 0,
     "roles": [
         {
