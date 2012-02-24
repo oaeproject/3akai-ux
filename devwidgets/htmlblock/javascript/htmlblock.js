@@ -153,7 +153,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if ($editor.length) {
                 try {
                     var docHt = 0;
-                    var frame = $element[0];
+                    var frame = $editor[0];
                     $editor.contents().scrollTop(0);
                     var innerDoc = frame.contentDocument ? frame.contentDocument : frame.contentWindow.document;
                     $editor.css('height', '25px');
@@ -218,7 +218,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Stop the auto save interval for the current widget
          */
-        var stopAutosave = function() {
+        var stopAutoSave = function() {
             if (autoSavePoll){
                 clearInterval(autoSavePoll);
                 autoSavePoll = false;
