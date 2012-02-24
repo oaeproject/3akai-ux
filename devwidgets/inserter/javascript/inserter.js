@@ -715,28 +715,33 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
             $inserterWidget.draggable({
                 cancel: 'div#inserter_collector',
-                stop: function(ev){
+                stop: function(ev) {
                     elOffset = $(ev.target).offset();
                     wHeight = $(window).height();
                     wWidth = $(window).width();
                     iHeight= $inserterWidget.height();
                     iWidth = $inserterWidget.width()
                     borderMargin = 15;
-                    // Overlaps left window border
-                    if (elOffset && elOffset.left < 0){
-                        $inserterWidget.css('left', borderMargin);
-                    }
-                    // Overlaps right window border
-                    if (elOffset.left > wWidth - iWidth){
-                        $inserterWidget.css('left', wWidth - iWidth - borderMargin);
-                    }
-                    // Overlaps top window border or topnavigation
-                    if (elOffset && elOffset.top < 50){
+                    if(elOffset) {
+                        // Overlaps left window border
+                        if (elOffset && elOffset.left < 0) {
+                            $inserterWidget.css('left', borderMargin);
+                        }
+                        // Overlaps right window border
+                        if (elOffset.left > wWidth - iWidth) {
+                            $inserterWidget.css('left', wWidth - iWidth - borderMargin);
+                        }
+                        // Overlaps top window border or topnavigation
+                        if (elOffset && elOffset.top < 50) {
+                            $inserterWidget.css('top', 50);
+                        }
+                        // Overlaps bottom window border
+                        if (elOffset.top > wHeight - iHeight) {
+                            $inserterWidget.css('top', wHeight - iHeight - borderMargin);
+                        }
+                    } else {
                         $inserterWidget.css('top', 50);
-                    }
-                    // Overlaps bottom window border
-                    if (elOffset.top > wHeight - iHeight){
-                        $inserterWidget.css('top', wHeight - iHeight - borderMargin);
+                        $inserterWidget.css('left', borderMargin);
                     }
                 }
             });
@@ -747,7 +752,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $inserterCollectionInfiniteScrollContainerList = $($inserterCollectionInfiniteScrollContainerList, $rootel);
             validateNewCollectionForm();
             fetchLibrary();
-            if (focusCreateNew){
+            if (focusCreateNew) {
                 $(inserterCreateCollectionInput).focus();
             }
         };
