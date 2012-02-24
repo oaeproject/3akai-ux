@@ -1811,7 +1811,7 @@ define(
                 }
                 document.title = pageTitle;
                 // Show the actual page content
-                $('body').show();
+                $('.i18nable').show();
                 if ($.isFunction(callback)) {
                     callback();
                 }

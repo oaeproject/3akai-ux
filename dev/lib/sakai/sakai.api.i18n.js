@@ -89,7 +89,7 @@ define(
              * it on other pages.
              * <body class="i18nable">
              */
-            var $i18nable = $("body.i18nable");
+            var $i18nable = $(".i18nable");
 
             /*
              * We take the HTML that is inside the body tag. We will use this to find string we want to
