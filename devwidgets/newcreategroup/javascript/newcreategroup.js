@@ -242,8 +242,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectedUsers = $.extend(true, {}, users);
             $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
                 "users": selectedUsers,
-                "roles": currentTemplate.roles,
-                "sakai": sakai
+                "roles": currentTemplate.roles
             }));
             var count = 0;
             for (var item in selectedUsers) {

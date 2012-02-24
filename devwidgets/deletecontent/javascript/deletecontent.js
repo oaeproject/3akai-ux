@@ -305,8 +305,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 $("#deletecontent_used_by_others_container").html(sakai.api.Util.TemplateRenderer("deletecontent_used_by_others_template", {
-                    "profiles": profileInfo,
-                    "sakai": sakai
+                    "profiles": profileInfo
                 }));
             });
         };
@@ -394,8 +393,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#deletecontent_container").html(sakai.api.Util.TemplateRenderer(template, {
                 "contentIManage": contentIManage,
                 "contentIView": contentIView,
-                "contextType": contextType,
-                "sakai": sakai
+                "contextType": contextType
             }));
         };
 

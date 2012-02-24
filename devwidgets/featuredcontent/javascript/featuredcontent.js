@@ -57,7 +57,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (results.length && results[0].thumbnail){
                     sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
                         "item": results[0],
-                        "sakai": sakai,
                         "results": false,
                         "params": {"max_rows": 2}
                     }, $featuredcontentContentContainer);
@@ -68,7 +67,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (results.length || !renderedLargeFeatured){
                     sakai.api.Util.TemplateRenderer(featuredcontentCategoryOtherTemplate, {
                         "results": results,
-                        "sakai": sakai,
                         "total": total,
                         "category": pageData.category,
                         "title": pageData.title,
@@ -80,7 +78,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 // Render the template
                 sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
                     "results": reshuffleOrderedList(results),
-                    "sakai": sakai,
                     "params": {"max_rows": 2}
                 }, $featuredcontentContentContainer);
             }

@@ -176,7 +176,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         rawData.results = rawData;
                     }
                     rawData.total = rawData.results.length;
-                    rawData.sakai = sakai;
 
                     // Render the results data template
                     var pageHTML = sakai.api.Util.TemplateRenderer($pickeradvanced_content_search_pagetemplate, rawData);

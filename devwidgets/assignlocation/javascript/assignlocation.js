@@ -68,8 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderSelected = function() {
             var locations = {
-                "selections" : initiallyRendered,
-                sakai: sakai
+                "selections" : initiallyRendered
             };
             $assignlocationJSTreeSelectedContainer.html(sakai.api.Util.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
 

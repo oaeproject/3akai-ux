@@ -88,8 +88,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 }
                 $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {
                     "contacts": sakai.data.me.mycontacts,
-                    "groups": groups,
-                    "sakai": sakai
+                    "groups": groups
                 }));
             }
         };
@@ -115,8 +114,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 "currentUserRoleData":currentUserRoleData,
                 "existingGroup":existingGroup,
                 "contacts":selectedUsers,
-                "roles": currentTemplate.roles,
-                "sakai": sakai
+                "roles": currentTemplate.roles
             }));
             enableDisableControls(true);
         };

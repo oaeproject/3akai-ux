@@ -115,8 +115,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var renderDescription = function(mode){
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
-                data: sakai_global.content_profile.content_data,
-                sakai: sakai
+                data: sakai_global.content_profile.content_data
             };
             $contentmetadataDescriptionContainer.toggleClass("contentmetadata_editing", mode === "edit");
             $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
@@ -132,8 +131,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             contentType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
             if(contentType === "x-sakai/link") {
                 var json = {
-                    data: sakai_global.content_profile.content_data,
-                    sakai: sakai
+                    data: sakai_global.content_profile.content_data
                 };
                 sakai.api.Util.TemplateRenderer(contentmetadataUrlTemplate, json, $contentmetadataUrlContainer);
                 $contentmetadataUrlContainer.show();
@@ -152,7 +150,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
                 data: sakai_global.content_profile.content_data,
-                sakai: sakai,
                 tags: sakai.api.Util.formatTags(sakai_global.content_profile.content_data.data["sakai:tags"])
             };
             $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, json));
@@ -174,8 +171,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var renderCopyright = function(mode){
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
-                data: sakai_global.content_profile.content_data,
-                sakai: sakai
+                data: sakai_global.content_profile.content_data
             };
             $contentmetadataCopyrightContainer.toggleClass("contentmetadata_editing", mode === "edit");
             $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, json));
@@ -191,7 +187,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai.api.Content.getCreatorProfile(sakai_global.content_profile.content_data.data, function(success, profile) {
                 var json = {
                     data: sakai_global.content_profile.content_data,
-                    sakai: sakai,
                     creator: profile
                 };
                 sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, json, $contentmetadataDetailsContainer);

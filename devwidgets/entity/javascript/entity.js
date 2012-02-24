@@ -333,8 +333,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
                         var json = {
                             "userList": userList,
-                            "type": "people",
-                            sakai: sakai
+                            "type": "people"
                         };
 
                         // render dialog template
@@ -352,8 +351,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         var json = {
                             "userList": parentGroups,
-                            "type": "groups",
-                            sakai: sakai
+                            "type": "groups"
                         };
 
                         // render users dialog template
@@ -369,8 +367,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $entityContentUsersDialog.jqmShow();
 
                         var json = {
-                            "userList": userList,
-                            sakai: sakai
+                            "userList": userList
                         };
 
                         // render users dialog template
@@ -416,7 +413,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             }
-            context.sakai = sakai;
             context.entitymacros = sakai.api.Util.processLocalMacros($("#entity_macros_template"));
         };
 

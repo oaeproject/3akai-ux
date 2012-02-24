@@ -362,7 +362,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             sakai.api.Util.TemplateRenderer("contentpermissions_content_template", {
                 title: sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                 contentData: removeDuplicateUsersGroups(contentData),
-                sakai: sakai,
                 defaultPermission: defaultPermissionPassed
             }, $("#contentpermissions_content_container"));
         };

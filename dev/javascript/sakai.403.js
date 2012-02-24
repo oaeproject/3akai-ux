@@ -69,8 +69,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // display the error page links
             var linkObj = {
-                links: sakai.config.ErrorPage.Links,
-                sakai: sakai
+                links: sakai.config.ErrorPage.Links
             };
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
 

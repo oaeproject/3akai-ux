@@ -121,8 +121,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             var json = {
                 "user": dataCache[userId],
-                "me": sakai.data.me,
-                "sakai": sakai
+                "me": sakai.data.me
             };
 
             $($personinfo_container).html(sakai.api.Util.TemplateRenderer("#personinfo_template", json));

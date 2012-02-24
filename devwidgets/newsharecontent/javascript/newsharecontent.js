@@ -68,7 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var fillShareData = function(hash){
             $newsharecontentLinkURL.val(contentObj.shareUrl);
             var filenames = sakai.api.Util.TemplateRenderer("newsharecontent_filenames_template", {"files": contentObj.data});
-            var shareURLs = sakai.api.Util.TemplateRenderer("newsharecontent_fileURLs_template", {"files": contentObj.data, sakai: sakai});
+            var shareURLs = sakai.api.Util.TemplateRenderer("newsharecontent_fileURLs_template", {"files": contentObj.data});
             var shareData = {
                 "filename": filenames,
                 "data": contentObj.data,

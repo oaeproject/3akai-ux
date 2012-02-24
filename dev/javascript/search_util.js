@@ -89,8 +89,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Renders the tag lists
          */
         renderRefineTags = function() {
-            sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags, "sakai": sakai}, $("#search_tags_active_container"));
-            sakai.api.Util.TemplateRenderer($("#search_tags_refine_template"), {"tags": refineTags, "sakai": sakai}, $(".search_tags_refine_container"));
+            sakai.api.Util.TemplateRenderer($("#search_tags_active_template"), {"tags": activeTags}, $("#search_tags_active_container"));
+            sakai.api.Util.TemplateRenderer($("#search_tags_refine_template"), {"tags": refineTags}, $(".search_tags_refine_container"));
         };
 
         /**
@@ -294,7 +294,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON('/p/'+context.contentId+'.infinity.json',function(success,data) {
                 sakai.api.Content.prepareContentForRender([data],sakai.data.me,function(results) {
                     if (results[0]) {
-                        sakai.api.Util.TemplateRenderer($("#search_content_item_template"),{item:results[0],sakai:sakai},$("#"+context.contentId));
+                        sakai.api.Util.TemplateRenderer($("#search_content_item_template"),{item:results[0]},$("#"+context.contentId));
                     }
                 });
             });

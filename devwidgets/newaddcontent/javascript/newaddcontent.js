@@ -215,7 +215,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
         var renderQueue = function(){
             $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
                 "items": itemsToUpload,
-                "sakai": sakai,
                 "me": sakai.data.me,
                 "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
                 "currentSelectedLibrary": currentSelectedLibrary
@@ -537,7 +536,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                     }));
                 } else {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
-                        sakai: sakai,
                         me: sakai.data.me,
                         libraryid: libraryToUploadTo,
                         librarytitle: librarytitle
@@ -979,8 +977,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             });
             $("#newaddcontent_upload_content_copyright_container").html(sakai.api.Util.TemplateRenderer("newaddcontent_copyright_template", {
                 copyright: sakai.config.Permissions.Copyright,
-                copyright_default: sakai.config.Permissions.Copyright.defaults["content"],
-                sakai: sakai
+                copyright_default: sakai.config.Permissions.Copyright.defaults["content"]
             }));
             if ( !autoSuggestElts[ "new_content" ] ) {
                 autoSuggestElts[ "new_content" ] = $( newaddcontentUploadContentTags );

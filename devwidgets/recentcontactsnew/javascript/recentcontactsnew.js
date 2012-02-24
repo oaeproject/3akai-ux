@@ -225,8 +225,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 authorId: newjson.profile.userid,
                                 authorName: newjson.firstName
                             },
-                            content: newjson.latestContent,
-                            sakai: sakai
+                            content: newjson.latestContent
                         };
 
                         sakai.api.Util.TemplateRenderer("#recentcontactsnew_latest_content_template",item, $("#recentcontactsnew_latest_content_container"));

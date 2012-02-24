@@ -113,8 +113,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderPendingContacts = function(){
             $(contactsInvitedContainer).html(sakai.api.Util.TemplateRenderer(contactsInvitedTemplate, {
-                "invited": contacts.invited,
-                "sakai": sakai
+                "invited": contacts.invited
             }));
         };
 
@@ -196,8 +195,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
 
                 return sakai.api.Util.TemplateRenderer(contactsAcceptedTemplate, {
-                    "results": items,
-                    "sakai": sakai
+                    "results": items
                 });
             }, function(){
                 $(contactsContainerList).hide();

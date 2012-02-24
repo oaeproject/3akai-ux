@@ -72,7 +72,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     obj.type = "default";
                 }
-                obj.sakai = sakai;
                 obj.contentData = contentData;
                 if(sakai_global.content_profile.content_data.data.mimeType !== "x-sakai/collection"){
                     $(".collectionviewer_widget .collectionviewer_collection_item_preview").remove();

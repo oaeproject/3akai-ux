@@ -154,8 +154,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderCarousel = function(dataArr){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
-                "data": dataArr,
-                "sakai": sakai
+                "data": dataArr
             }, $(carouselContainer), false);
             applyThreeDots();
             $(carouselContainer).jcarousel({

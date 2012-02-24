@@ -378,8 +378,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // set up the template with data from current group's context
             var json = {
                 groupname: sakai_global.currentgroup.data.authprofile["sakai:group-title"],
-                visible: sakai_global.currentgroup.data.authprofile["sakai:pages-visible"],
-                sakai: sakai
+                visible: sakai_global.currentgroup.data.authprofile["sakai:pages-visible"]
             };
             $settingsView.html(sakai.api.Util.TemplateRenderer($navigationSettingsTemplate, json));
             $mainView.hide();

@@ -106,7 +106,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderCarousel = function(){
             sakai.api.Util.TemplateRenderer("collectionviewer_carousel_template", {
                 data: collectionData,
-                sakai: sakai,
                 collectionName: getCollectionName(),
                 collectionId: sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId),
                 isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
@@ -149,8 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 getCollectionData("c-" + selectedData._path, false, function(data){
                     selectedData.collectionItems = data.results;
                     sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
-                        data: selectedData,
-                        sakai: sakai,
+                        data: selectedData
                         collectionName: getCollectionName(),
                         collectionId: sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId),
                         isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
@@ -160,7 +158,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 sakai.api.Util.TemplateRenderer("collectionviewer_list_item_template", {
                     data: selectedData,
-                    sakai: sakai,
                     collectionName: getCollectionName(),
                     collectionId: sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId),
                     isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
@@ -188,7 +185,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var pageNumber = collectionviewer.page - 1;
             sakai.api.Util.TemplateRenderer("collectionviewer_grid_or_list_template", {
                 items: collectionData[pageNumber],
-                sakai: sakai,
                 grid: grid,
                 editMode: editMode,
                 collectionName: getCollectionName(),

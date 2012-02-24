@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         var handleEmptyResultList = function(){
             $(searchConfig.global.numberFound).text("0");
-            $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
+            $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {}));
         };
 
         /**
@@ -182,8 +182,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 // Adjust display global total
                 $(searchConfig.global.numberFound, $rootel).text("" + total);
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
-                    "items": items,
-                    "sakai": sakai
+                    "items": items
                 });
             }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
                 // Initialize content draggable

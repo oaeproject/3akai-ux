@@ -67,7 +67,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderTemplate = function(relatedcontentData){
             // Render the relatedcontent
-            relatedcontentData.sakai = sakai;
             if (relatedcontentData.hasOwnProperty("relatedContent") && relatedcontentData.relatedContent.hasOwnProperty("results")) {
                 for (var item in relatedcontentData.relatedContent.results) {
                     if(relatedcontentData.relatedContent.results.hasOwnProperty(item)){

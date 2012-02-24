@@ -847,7 +847,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                     widgets.push(sakai.widgets[widget]);
                 }
             }
-            $("#addarea_widgets_widget").html(sakai.api.Util.TemplateRenderer("addarea_widgets_widget_container", {data: widgets, sakai: sakai}));
+            $("#addarea_widgets_widget").html(sakai.api.Util.TemplateRenderer("addarea_widgets_widget_container", {data: widgets}));
         };
 
         /*

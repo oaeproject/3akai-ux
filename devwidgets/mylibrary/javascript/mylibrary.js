@@ -207,7 +207,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 return sakai.api.Util.TemplateRenderer("mylibrary_items_template", {
                     "items": items,
-                    "sakai": sakai,
                     "isMe": mylibrary.isOwnerViewing
                 });
             }, handleEmptyLibrary, sakai.config.URL.INFINITE_LOADING_ICON, handleLibraryItems, function(){

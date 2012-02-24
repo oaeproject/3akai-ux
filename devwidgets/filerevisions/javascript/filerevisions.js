@@ -61,7 +61,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             baseFileData.created = sakai.api.l10n.transformDate(new Date(baseFileData.data["_created"]));
             data.data = baseFileData;
             data.linkrevision = $("#content_profile_details_view_revisions").hasClass("link_revision");
-            data.sakai = sakai;
             sakai.api.Util.TemplateRenderer(filerevisionsTemplate, data, $(filerevisionsTemplateContainer));
 
             sakai.api.Util.TemplateRenderer("#filerevision_header_text_template", data, $("#filerevision_header_text"));

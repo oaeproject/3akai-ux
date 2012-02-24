@@ -124,8 +124,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             authorId: data.userid,
                             authorName: sakai.api.User.getDisplayName(data),
                             authorPicture: sakai.api.Util.constructProfilePicture(data)
-                        },
-                        sakai: sakai
+                        }
                     };
                     if (item.comment){
                         json.commentCreated = new Date(item.comment._created);
@@ -286,7 +285,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     recentchangedcontentjson.items.push(item);
                     // pass the array to HTML view
-                    recentchangedcontentjson.sakai = sakai;
                     sakai.api.Util.TemplateRenderer(recentchangedcontentItemTemplate, recentchangedcontentjson, $(recentchangedcontentItem, rootel));
                 }
             });

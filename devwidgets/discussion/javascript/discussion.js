@@ -268,8 +268,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             // Render formatted posts
             sakai.api.Util.TemplateRenderer(discussionListTopicsTemplate, {
                 "postData":arrPosts,
-                "settings":parsedSettings,
-                "sakai": sakai
+                "settings":parsedSettings
             }, $(discussionListTopicsContainer, $rootel));
             sakai.api.Util.renderMath(tuid);
         };
@@ -315,8 +314,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             } else {
                 // No topics yet
                 sakai.api.Util.TemplateRenderer(discussionNoInitialTopicTemplate, {
-                    "settings": parsedSettings,
-                    "sakai": sakai
+                    "settings": parsedSettings
                 }, $(discussionNoInitialTopic, $rootel));
                 $(discussionNoInitialTopic, $rootel).show();
             }
@@ -328,8 +326,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var displaySettings = function(){
             // Render settings
             sakai.api.Util.TemplateRenderer(discussionTabContentSettingsTemplate, {
-                "settings":widgetSettings,
-                "sakai": sakai
+                "settings":widgetSettings
             }, $(discussionTabContentSettingsContainer, $rootel));
             // Hide/Show elements
             $discussionMainContainer.hide();
@@ -544,8 +541,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
                     var renderedTemplate = sakai.api.Util.TemplateRenderer(discussionTopicNewlyPostedReplyTemplate, {
                         "post":data,
-                        "settings": parsedSettings,
-                        sakai: sakai
+                        "settings": parsedSettings
                     });
 
                     $parentDiv.prevAll(discussionTopicRepliesContainer).append(renderedTemplate);

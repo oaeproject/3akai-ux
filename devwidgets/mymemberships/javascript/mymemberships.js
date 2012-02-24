@@ -193,8 +193,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     user_manages: function (group) {
                         if (!group) { return false; }
                         return sakai.api.Groups.isCurrentUserAManager(group.id, sakai.data.me);
-                    },
-                    sakai: sakai
+                    }
                 };
                 $mymemberships_nodata.hide();
                 $mymemberships_nogroups.hide();

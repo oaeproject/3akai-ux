@@ -41,8 +41,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {
                 "data": data,
                 "category": pageData.category,
-                "title": pageData.title,
-                "sakai": sakai
+                "title": pageData.title
             }));
             if (data.total > data.results.length){
                 $("#featuredpeople_showall", $rootel).show();

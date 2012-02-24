@@ -111,8 +111,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "files": contentObj.data,
                 "context": contentObj.context,
                 "libraryHasIt": contentObj.libraryHasIt,
-                "groups": contentObj.memberOfGroups,
-                "sakai": sakai
+                "groups": contentObj.memberOfGroups
             };
             $savecontent_container.html(sakai.api.Util.TemplateRenderer("#savecontent_template", json));
             enableDisableAddButton();

@@ -101,7 +101,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "visibility": visibility,
                     "manager": contextData.isManager,
                     "groupPermissions": sakai_global.group.groupData["sakai:group-visible"],
-                    "sakai": sakai,
                     "area": currentArea._title,
                     "meRole": data.id
                 }));
