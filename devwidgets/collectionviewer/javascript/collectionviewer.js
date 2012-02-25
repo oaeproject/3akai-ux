@@ -418,8 +418,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var $element = $(".collectionviewer_carousel_item[data-item-id=" + $.bbq.getState("item") + "]");
             $(".collectionviewer_carousel_item", $rootel).removeClass("selected");
             $element.addClass("selected");
-            $(window).unbind("ready.collectionviewer.sakai");
-            $(window).unbind("start.collectioncontentpreview.sakai");
+            $('.collectionviewer_widget', $rootel).unbind("start.collectioncontentpreview.sakai");
             renderItemsForSelected(parseInt($element.attr("data-page-index"), 10), parseInt($element.attr("data-arr-index"), 10));
         };
 
@@ -499,7 +498,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Carousel bindings
             $(".collectionviewer_carousel_item", $rootel).live("click", function(){
                 if(collectionviewer.listStyle === "carousel"){
-                    $.bbq.pushState({"item": $(this).attr("data-item-id"), "lp": ""});
+                    $.bbq.pushState({"item": $(this).attr("data-item-id")});
                     fetchCollectionData = false;
                 }
                 if(initialload){
@@ -606,10 +605,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var getCollectionName = function(){
-            if (sakai_global && sakai_global.content_profile && sakai_global.content_profile.content_data) {
-                return sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
-            }
-            return collectionviewer.contextName;
+            return collectionviewer.collectionName;
         };
 
         /**
@@ -629,7 +625,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $('#collectionviewer_sortby', $rootel).val(collectionviewer.sortOrder);
 
             if (sakai_global && sakai_global.content_profile && sakai_global.content_profile.content_data) {
-                collectionviewer.contextName = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
+                collectionviewer.collectionName = widgetData.data["sakai:pooled-content-file-name"] || sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
                 switchListView();
                 addBinding();
             // Retrieve the name of the collection as we're not in a content profile page
@@ -637,7 +633,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $.ajax({
                     url: "/p/" + collectionviewer.contextId + ".json",
                     success: function(data){
-                        collectionviewer.contextName = data["sakai:pooled-content-file-name"];
+                        collectionviewer.collectionName = data["sakai:pooled-content-file-name"];
                         switchListView();
                         addBinding();
                     }
