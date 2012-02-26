@@ -156,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     sakai.api.Util.notification.show("", errorMsg, sakai.api.Util.notification.type.ERROR);
                 }
                 if ($(messageDialogContainer).hasClass('s3d-dialog')) {
-                    sakai.api.Util.modalDialogClose(messageDialogContainer);
+                    sakai.api.Util.Modal.close(messageDialogContainer);
                 }
 
                 // If we have a valid callback function we call that
@@ -308,13 +308,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
                 // show popup
                 if (layover) {
-                    dialogOptions = {
+                    var dialogOptions = {
                         modal: true,
                         overlay: 20,
-                        toTop: true,
+                        toTop: true
+                    };
+                    var openOptions = {
                         bindKeyboardFocusIgnoreElements: 'a.as-close'
                     };
-                    sakai.api.Util.modalDialogOpen(messageDialogContainer, dialogOptions);
+                    sakai.api.Util.Modal.setup(messageDialogContainer, dialogOptions);
+                    sakai.api.Util.Modal.open(messageDialogContainer, openOptions);
                 }
                 sakai.api.Util.Forms.clearValidation($sendmessage_form);
             };
@@ -373,7 +376,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $(send_message_cancel).die("click");
                 $(send_message_cancel).live("click", function() {
                     if ($(messageDialogContainer).hasClass('s3d-dialog')) {
-                        sakai.api.Util.modalDialogClose(messageDialogContainer);
+                        sakai.api.Util.Modal.close(messageDialogContainer);
                     }
                     if ($.isFunction(callbackWhenDone)) {
                         callbackWhenDone(false);
