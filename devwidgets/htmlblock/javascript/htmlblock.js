@@ -37,6 +37,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         // Configuration variables
         var AUTOSAVE_INTERVAL = 5000;
+        var EVENTS_TO_RESPOND_TO = ['click', 'keyup', 'mouseup', 'paste'];
 
         // Help variables
         var editorId = false;
@@ -54,6 +55,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var editorFocus = function() {
             $('#inserterbar_widget #inserterbar_tinymce_container').show();
             $('.contentauthoring_cell_element_actions').hide();
+        };
+
+        var editorSetup = function(ed) {
+            ed.onClick.add(editorFocus);
         };
 
         /**
@@ -96,9 +101,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     init_instance_callback: initTinyMCE,
                     remove_instance_callback: stopAutoSave,
                     // Additional event handlers
-                    setup : function(ed) {
-                        ed.onClick.add(editorFocus);
-                    }
+                    setup : editorSetup
                 });
             }
         };
@@ -116,11 +119,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
             // Cache the editor elements
             $editor = $('#' + editorId + '_ifr');
-            $toolbar = $('#' + editorId + '_external').css('display', 'none');
+            $toolbar = $('#' + editorId + '_external').hide();
             // Hide the widget controls
             $('.contentauthoring_cell_element_actions').hide();
             // Move the toolbar to the inserterbar widget
             $('#inserterbar_widget #inserterbar_tinymce_container').append($toolbar);
+            // Set timeOut as tinyMCE seems to need a little bit of additional time before we see all
+            // of the content in the editor
             setTimeout(function() {
                 updateHeight();
                 $('.htmlblock_widget', $rootel).parents('.contentauthoring_cell_element').removeClass('contentauthoring_init');
@@ -133,11 +138,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * amount of events (i.e., the ones that can cause the height of the editor to change)
          */
         var tinyMCEEvent = function(ev, ui) {
-            var eventsToRespondTo = ['click', 'keyup', 'mouseup', 'paste'];
-            if ($editor && (!ev || !ev.type || $.inArray(ev.type, eventsToRespondTo) !== -1)) {
+            if ($editor && (!ev || !ev.type || $.inArray(ev.type, EVENTS_TO_RESPOND_TO) !== -1)) {
                 updateHeight();
             }
-            return true;
         };
 
         /////////////////////
@@ -171,7 +174,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     return false;
                 }
             }
-        }
+        };
 
         /////////////////////////
         // Autosave and saving //
@@ -199,10 +202,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * do this when the widget content has changed
          */
         var autoSave = function() {
-            var currentText = tinyMCE.get(editorId).getContent();
-            if (currentText !== lastData) {
-                lastData = currentText;
-                sakai.api.Widgets.saveWidgetData(tuid, {'content': currentText});
+            // Only save when the widget is on the current page
+            if ($rootel.is(':visible')) {
+                var currentText = tinyMCE.get(editorId).getContent();
+                if (currentText !== lastData) {
+                    lastData = currentText;
+                    sakai.api.Widgets.saveWidgetData(tuid, {'content': currentText});
+                }
             }
         };
 
@@ -214,7 +220,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             stopAutoSave();
             // Start the autosave
             autoSavePoll = setInterval(autoSave, AUTOSAVE_INTERVAL);
-        }
+        };
 
         /**
          * Stop the auto save interval for the current widget
@@ -234,18 +240,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Every time the contentauthoring widget thinks a resize might be
          * necessary, this event will be thrown
          */
-        $(window).bind('resize.contentauthoring.sakai', function(){
-            updateHeight();
-        });
+        $(window).bind('resize.contentauthoring.sakai', updateHeight);
 
         /**
          * This event will be sent out by the contentauthoring widget when
          * the user is trying to save the page. At this point, the htmlblock
          * widget needs to store its changes as well
          */
-        $(window).bind('save.contentauthoring.sakai', function() {
-            fullSave();
-        });
+        $(window).bind('save.contentauthoring.sakai', fullSave);
 
         ////////////////////
         // Initialization //

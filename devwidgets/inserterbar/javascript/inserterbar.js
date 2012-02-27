@@ -136,17 +136,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 revert: 'invalid',
                 opacity: 0.4,
                 start: function() {
-                    sakai_global.contentauthoring.isDragging = true;
-                    // Fix for iFrames
-                    $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
-                        width: $(document).width() + 'px', height: $(document).height() + 'px',
-                        top: '0px', left: '0px',
-                        position: 'absolute', opacity: '0.001', zIndex: 100000
-                    }).appendTo('body');
+                    $(window).trigger("start.drag.sakai");
+                    sakai.api.Util.Draggable.setIFrameFix();
                 },
                 stop: function() {
-                    sakai_global.contentauthoring.isDragging = false;
-                    $('div.ui-resizable-iframeFix').remove();
+                    $(window).trigger("stop.drag.sakai");
+                    sakai.api.Util.Draggable.removeIFrameFix();
                 }
             });
         };

@@ -53,7 +53,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var focusTextArea = function() {
             $('.contentauthoring_cell_element_actions').hide();
             $('#inserterbar_tinymce_container').hide();
-        }
+        };
 
         ///////////////////////
         // Textarea resizing //
@@ -168,8 +168,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Set focus inside of the textarea if it is visible. This means that the current
             // pagetitle is a new one and focus can be set
             if ($textarea.is(':visible')) {
-                $textarea.focus()
-            };
+                $textarea.focus();
+            }
             startAutoSave();
         };
 

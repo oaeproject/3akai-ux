@@ -615,12 +615,12 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
                             }]
                         }]
                     }]
-                }
+                };
                 content[resourceIds[i]][widgetId] = {
                     "htmlblock": {
                         "content": resources[i].page
                     }
-                }
+                };
             }
             finishSakaiDoc(documentObj, content);
         };
