@@ -19,7 +19,7 @@
 /*
  * GLOBAL RULES
  */
-body, button{font-family:Arial, Helvetica, sans-serif;line-height:120%;}
+body, button {font-family:Arial, Helvetica, sans-serif;line-height:120%;}
 .section_header{font-weight:bold;border-bottom:1px solid #ebebeb;font-size:17px;padding-bottom:3px;}
 
 /* adding a visible outline on focus for accessibility */
@@ -164,7 +164,7 @@ a{color:#333;text-decoration:none;}
 a:hover{text-decoration:underline;}
 .s3d-add_another_location{clear:both;color:#39C;font-size:13px;font-weight:bold;background:url(/dev/images/icons_sprite.png) no-repeat scroll left -21px transparent;float:left;width:16px;height:16px;display:block;margin-right:6px;}
 .s3d-add_another_location_container{clear:both;display:block;padding:7px 0;width:200px;}
-.s3d-hidden,.i18nable{display:none;}
+.s3d-hidden,.i18nable > div{display:none;}
 .s3d-bold{font-weight:bold;}
 a.s3d-regular-links,.s3d-regular-links a, button.s3d-regular-links, .s3d-regular-links button{color:#2683bc;}
 a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-links button{color:#2683bc; font-size:0.9em;}
@@ -771,3 +771,10 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-draggable-draggingitems {background-color:#1098d5;color:#fff;padding:4px 7px;display:inline-block;font-size:11px;box-shadow:0px 1px 3px 0 #999;-moz-box-shadow:0px 1px 3px 0 #999;-webkit-box-shadow:0px 1px 3px 0 #999;}
 #s3d-draggeditems-container li {background:#e9f4f8;border:2px solid #d5e9f3;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;margin-bottom:2px;}
 #s3d-draggeditems-container .s3d-draggable-hidden{display:none;}
+
+/*
+ * No Javascript message
+ */
+noscript{display:block;padding:10px 20px;margin:20px;border:1px solid #999;background-color:#F8FFC7;}
+noscript p{font-size:1.2em;font-family:Arial,Helvetica,sans-serif;line-height:140%;}
+noscript a:link{text-decoration:underline;}
