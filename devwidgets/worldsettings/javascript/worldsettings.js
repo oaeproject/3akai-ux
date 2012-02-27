@@ -67,7 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "group": sakai_global.group.groupData['sakai:group-title']
                 }));
 
-                sakai.api.Util.Modal.open("#worldsettings_warning_container");
+                sakai.api.Util.Modal.open('#worldsettings_warning_container');
             }
         };
 
@@ -97,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("sakai.entity.updateTitle", worldTitle);
                 sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
                 sakai.api.Util.Modal.close($worldsettingsDialog);
-                sakai.api.Util.Modal.close("#worldsettings_warning_container");
+                sakai.api.Util.Modal.close('#worldsettings_warning_container');
             });
         };
 
@@ -147,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true,
                 zIndex: 3000
             });
-            sakai.api.Util.Modal.setup("#worldsettings_warning_container", {
+            sakai.api.Util.Modal.setup('#worldsettings_warning_container', {
                 modal: true,
                 overlay: 20,
                 toTop: true,

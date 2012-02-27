@@ -2009,21 +2009,21 @@ define(
              */
             positionDialogBox : function(el, offset) {
                 var $el = el;
-                if (!(el instanceof jQuery)){
+                if (!(el instanceof jQuery)) {
                     $el = $(el);
                 }
 
                 var dialogOffset = 100;
-                if (offset && _.isNumber(offset)){
+                if (offset && _.isNumber(offset)) {
                     dialogOffset = offset;
                 }
 
-                var htmlScrollPos = $("html").scrollTop();
+                var htmlScrollPos = $('html').scrollTop();
                 var docScrollPos = $(document).scrollTop();
                 if (htmlScrollPos >= 0) {
-                    $el.css({"top": htmlScrollPos + dialogOffset + "px"});
+                    $el.css({'top': htmlScrollPos + dialogOffset + 'px'});
                 } else if (docScrollPos >= 0) {
-                    $el.css({"top": docScrollPos + dialogOffset + "px"});
+                    $el.css({'top': docScrollPos + dialogOffset + 'px'});
                 }
             },
 
@@ -2035,27 +2035,27 @@ define(
              * @param closeFunction {function} an optional function to be called when the user hits the escape key
              */
             bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
-                var origFocus = $(":focus");
+                var origFocus = $(':focus');
                 var $dialogContainer = dialogContainer;
-                if (!(dialogContainer instanceof jQuery)){
+                if (!(dialogContainer instanceof jQuery)) {
                     $dialogContainer = $(dialogContainer);
                 }
 
                 var bindFunction = function(e) {
-                    if ($dialogContainer.is(":visible") && $dialogContainer.has(":focus").length && e.which === $.ui.keyCode.ESCAPE) {
-                        if ($.isFunction(closeFunction)){
+                    if ($dialogContainer.is(':visible') && $dialogContainer.has(':focus').length && e.which === $.ui.keyCode.ESCAPE) {
+                        if ($.isFunction(closeFunction)) {
                             closeFunction();
                         } else {
                             $dialogContainer.jqmHide();
                         }
                         origFocus.focus();
-                    } else if ($dialogContainer.is(":visible") && e.which === $.ui.keyCode.TAB) {
+                    } else if ($dialogContainer.is(':visible') && e.which === $.ui.keyCode.TAB) {
                         // determine which elements are keyboard navigable
-                        var $focusable = $("a:visible, input:visible, button:visible:not(:disabled), textarea:visible", $dialogContainer);
-                        if (ignoreElements){
+                        var $focusable = $('a:visible, input:visible, button:visible:not(:disabled), textarea:visible', $dialogContainer);
+                        if (ignoreElements) {
                             $focusable = $focusable.not(ignoreElements);
                         }
-                        var $focused = $(":focus");
+                        var $focused = $(':focus');
                         var index = $focusable.index($focused);
                         if (e.shiftKey && $focusable.length && (index === 0)) {
                             // if shift tabbing from the start of the dialog box, shift focus to the last element
@@ -2068,7 +2068,7 @@ define(
                         }
                     }
                 };
-                $(dialogContainer).unbind("keydown");
+                $(dialogContainer).unbind('keydown');
                 $(dialogContainer).keydown(bindFunction);
             }
         },

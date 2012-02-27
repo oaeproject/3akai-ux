@@ -248,8 +248,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "permissions": generalPermission
                         }]);
                     }
-                    sakai.api.Util.Modal.close("#areapermissions_warning_container");
-                    sakai.api.Util.Modal.close("#areapermissions_container");
+                    sakai.api.Util.Modal.close('#areapermissions_warning_container');
+                    sakai.api.Util.Modal.close('#areapermissions_container');
                     sakai.api.Util.notification.show($("#areapermissions_notification_title").text(), $("#areapermissions_notification_body").text());
                 });
             //}
@@ -287,7 +287,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  }));
                  $("#areapermissions_proceedandapply").removeAttr("disabled");
                  $("#areapermissions_apply_permissions").removeAttr("disabled");
-                 sakai.api.Util.Modal.open("#areapermissions_warning_container");
+                 sakai.api.Util.Modal.open('#areapermissions_warning_container');
              }
          };
 
@@ -326,14 +326,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          };
 
          var initializeOverlay = function(){
-             sakai.api.Util.Modal.setup("#areapermissions_container", {
+             sakai.api.Util.Modal.setup('#areapermissions_container', {
                  modal: true,
                  overlay: 20,
                  toTop: true,
                  zIndex: 3000
              });
 
-             sakai.api.Util.Modal.setup("#areapermissions_warning_container", {
+             sakai.api.Util.Modal.setup('#areapermissions_warning_container', {
                  modal: true,
                  overlay: 20,
                  toTop: true,
@@ -341,7 +341,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              });
 
              $("#areapermissions_apply_permissions").removeAttr("disabled");
-             sakai.api.Util.Modal.open("#areapermissions_container");
+             sakai.api.Util.Modal.open('#areapermissions_container');
          };
 
 
