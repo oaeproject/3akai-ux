@@ -58,6 +58,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return (currentPageShown.canEdit && !currentPageShown.nonEditable);
         };
 
+        var getWidgetList = function() {
+            var widgetIDs = [];
+            for (var r = 0; r < currentPageShown.content.rows.length; r++) {
+                for (var c = 0; c < currentPageShown.content.rows[r].columns.length; c++) {
+                    for (var e = 0; e < currentPageShown.content.rows[r].columns[c].elements.length; e++) {
+                        widgetIDs.push(currentPageShown.content.rows[r].columns[c].elements[e]);
+                    }
+                }
+            }
+            return widgetIDs;
+        };
+
         /////////////////////
         // TINYMCE RELATED //
         /////////////////////
@@ -348,7 +360,156 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             hideEditRowMenu();
             setActions();
             tinyMCEInstanceFix();
-            setHeight($row);
+            setRowHeight($row);
+        };
+
+        //////////////////////////////
+        // EMPTY COLUMN PLACEHOLDER //
+        //////////////////////////////
+
+        var checkColumnsEmpty = function(){
+            $.each($(".contentauthoring_cell_content", $("#contentauthoring_widget", $rootel)), function(i, cellcontainer) {
+                if (!$(cellcontainer).find(".contentauthoring_cell_element").length) {
+                    if (!$(cellcontainer).find(".contentauthoring_dummy_element").length) {
+                        var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
+                        $(cellcontainer).append(dummy);
+                    }
+                } else {
+                    $(cellcontainer).find(".contentauthoring_dummy_element").remove();
+                }
+            });
+        };
+
+        /////////////////////
+        // COLUMN RESIZING //
+        /////////////////////
+
+        var makeColumnsResizable = function(){
+            $(window).trigger("resize.contentauthoring.sakai");
+            $(".contentauthoring_cell", $rootel).resizable({
+                handles: {
+                    'e': '.contentauthoring_cell_handle,.contentauthoring_cell_handle_grab'
+                },
+                helper: "ui-resizable-helper",
+                start: function(event, ui) {
+                    sakai.api.Util.Draggable.setIFrameFix();
+                    sakai_global.contentauthoring.isDragging = true;
+                    var $row = $(this).parent();
+                    currentSizes = getColumnWidths($row);
+                },
+                stop: function(ev, ui){
+                    sakai.api.Util.Draggable.removeIFrameFix();
+                    sakai_global.contentauthoring.isDragging = false;
+                    recalculateColumnWidths(ui, $(this).parent(), currentSizes);
+                    $(window).trigger("resize.contentauthoring.sakai");
+                    setRowHeight($row);
+                    storeCurrentPageLayout();
+                }
+            });
+        };
+
+        var recalculateColumnWidths = function(ui, $row, currentSizes) {
+            var totalRowWidth = $("#contentauthoring_widget_container", $pageRootEl).width();
+            var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
+            var oldColumnWidth = ui.originalSize.width / totalRowWidth;
+            
+            var rowId = $row.attr("data-row-id");
+            var $cells = $(".contentauthoring_cell", $row);
+
+            var hasFoundResizedCell = false;
+
+            var totalWidth = 0;
+            var numberOfColumns = $cells.length;
+            for (var i = 0; i < $cells.length; i++){
+                var currentColumnWidth = 0;
+                if ($($cells[i]).is($(this))){
+                    // New percentage based width
+                    if (newColumnWidth < MINIMUM_COLUMN_SIZE){
+                        currentColumnWidth = MINIMUM_COLUMN_SIZE;
+                    } else if (totalWidth + newColumnWidth + ((numberOfColumns - i - 1) * MINIMUM_COLUMN_SIZE) > 1){
+                        currentColumnWidth = 1 - totalWidth - ((numberOfColumns - i - 1) * MINIMUM_COLUMN_SIZE);
+                    } else {
+                        currentColumnWidth = newColumnWidth;
+                    }
+                    $($cells[i]).css("width", currentColumnWidth * 100 + "%");
+                    hasFoundResizedCell = true;
+                } else if (hasFoundResizedCell){
+                    // New percentage based width
+                    if (numberOfColumns - i === 1){
+                        // This is the final cell, fill it up
+                        currentColumnWidth = 1 - totalWidth;
+                    } else {
+                        // There are 2 more cells
+                        // Does the 2nd have enough space after pulling in the 1st?
+                        if (1 - (totalWidth + currentSizes[i]) > MINIMUM_COLUMN_SIZE){
+                            currentColumnWidth = currentSizes[i];
+                            $($cells[i + 1]).css("width", (1 - totalWidth - currentSizes[i]) * 100 + "%");
+                        // Shrink the fist to its maximum size
+                        // Make the second its minumum size
+                        } else {
+                            currentColumnWidth = 1 - totalWidth - MINIMUM_COLUMN_SIZE;
+                            $($cells[i + 1]).css("width", MINIMUM_COLUMN_SIZE * 100 + "%");
+                        }
+                    }
+                    $($cells[i]).css("width", currentColumnWidth * 100 + "%");
+                    hasFoundResizedCell = false;
+                }
+                totalWidth += currentColumnWidth;
+            }
+        };
+
+        /**
+         * Sets the height of a row to the heighest column
+         * @param {Object} $row jQuery object with class ".contentauthoring_table_row.contentauthoring_cell_container_row"
+         *                      used to search for child cells that can contain content
+         */
+        var setRowHeight = function($row) {
+            var cells = $('.contentauthoring_cell_content', $row);
+            var setDefaultHeight = true
+            $.each(cells, function(index, cell) {
+                // Default the height of the cell to auto to avoid that cells stay larger than they should
+                $('.contentauthoring_cell_content', $row).css("height", "auto");
+                // Remove whitespace since jQuery :empty selector doesn't ignore it
+                var html = $(cell).html().replace(/\s+/, "");
+                if (html.length) {
+                    // There is some content in the row so no default height but the cell height should be considered
+                    setDefaultHeight = false;
+                }
+            });
+
+            if (setDefaultHeight) {
+                // No content in the row, set default height
+                $('.contentauthoring_cell_content', $row).css("height", 25);
+            } else {
+                // Some cells have content
+                // if row is part of the pageviewer than equalheights doesn't need to be set
+                if (!$('.contentauthoring_cell_content', $row).parents(".pageviewer_widget").length) {
+                    $('.contentauthoring_cell_content', $row).equalHeights();
+                }
+            }
+        };
+
+        /**
+         * Update the height of all column drag handles in all columns of
+         * all rows
+         */
+        var updateColumnHeights = function() {
+            var $rows = $(".contentauthoring_row_container");
+            for (var r = 0; r < $rows.length; r++) {
+                var $columns = $(".contentauthoring_cell", $($rows[r]));
+                var $lastColumn = $($columns[$columns.length - 1]);
+                $(".contentauthoring_cell_handle", $lastColumn).hide();
+                setRowHeight($($rows[r]));
+            }
+        };
+
+        /**
+         * Updates column handles and sends out a resize event
+         */
+        var updateColumnHandles = function() {
+            $(".contentauthoring_cell_handle", $rootel).show();
+            $(window).trigger("resize.contentauthoring.sakai");
+            updateColumnHeights();
         };
 
         ///////////////////////
@@ -404,7 +565,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // WIDGET HOVER //
         //////////////////
 
-        var showEditCellMenu = function(){
+        var showEditCellMenu = function() {
             $(".contentauthoring_cell_element", $rootel).unbind("hover");
             $(".contentauthoring_cell_element", $rootel).hover(function() {
                 // Only show the hover state when we are in edit mode and we are not dragging an element
@@ -434,7 +595,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
                 $cell.replaceWith(dummy);
             }
-            setHeight($row);
+            setRowHeight($row);
             storeCurrentPageLayout();
         };
 
@@ -442,60 +603,34 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // ADD NEW WIDGET //
         ////////////////////
 
-        var addNewWidget = function(event, addedElement, clickedElement) {
-            if (clickedElement) {
-                
-            }
-            /* if (!clickedElement) {
-                var $row = $(addedElement).parents(".contentauthoring_table_row.contentauthoring_cell_container_row");
-                if (addedElement.hasClass("inserterbar_widget_draggable")) {
-                    var type = addedElement.attr("data-element-type");
-                    // Generate unique id
-                    var id = sakai.api.Util.generateWidgetId();
-                    // Replace item
-                    var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
-                        "id": id,
-                        "type": type,
-                        "template": "cell",
-                        "settingsoverridden": false,
-                        "sakai": sakai
-                    });
-                    addedElement.replaceWith($(element));
-                    if (sakai.widgets[type].hasSettings) {
-                        // Load edit mode
-                        isEditingNewElement = true;
-                        editModeFullScreen(id, type);
-                    } else {
-                        sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
-                    }
-                    setActions();
-                };
+        var addNewWidgetPlaceholder = function(type) {
+            var $lastRow = $(".contentauthoring_row", $rootel).last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
+            var $element = $("<div />").attr("data-element-type", type);
+            $lastRow.find(".contentauthoring_cell_content:last").append($element);
+            addNewWidget(ev, $element);
+        };
+
+        var addNewWidget = function(event, $addedElement) {
+            var type = $addedElement.attr("data-element-type");
+            // Generate unique id
+            var id = sakai.api.Util.generateWidgetId();
+            // Replace item
+            var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                "id": id,
+                "type": type,
+                "template": "cell",
+                "settingsoverridden": false,
+                "sakai": sakai
+            });
+            $addedElement.replaceWith($(element));
+            if (sakai.widgets[type].hasSettings) {
+                // Load edit mode
+                isEditingNewElement = true;
+                editModeFullScreen(id, type);
             } else {
-                var $row = $(addedElement);
-                if (clickedElement.hasClass("inserterbar_widget_draggable")) {
-                    var type = clickedElement.attr("data-element-type");
-                    // Generate unique id
-                    var id = sakai.api.Util.generateWidgetId();
-                    // Replace item
-                    var element = sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
-                        "id": id,
-                        "type": type,
-                        "template": "cell",
-                        "settingsoverridden": false,
-                        "sakai": sakai
-                    });
-                    $row.find(".contentauthoring_cell_content:last").append($(element));
-                    if (sakai.widgets[type].hasSettings) {
-                        // Load edit mode
-                        isEditingNewElement = true;
-                        editModeFullScreen(id, type);
-                    } else {
-                        sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
-                    }
-                    checkColumnsEmpty();
-                    setActions();
-                }
-            } */
+                sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
+            }
+            setActions();
             storeCurrentPageLayout();
         };
 
@@ -537,6 +672,81 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         /////////////////////
         /////////////////////
 
+        ///////////////
+        // SAVE PAGE //
+        ///////////////
+
+        var savePage = function() {
+            // Alert the widgets that they should be storing their widget data
+            $(window).trigger("save.contentauthoring.sakai");
+            // Alert the inserter bar that it should go back into view mode
+            $(window).trigger("render.contentauthoring.sakai");
+            // Generate the new row / column structure
+            var pageLayout = getCurrentPageLayout();
+
+            // Take the widget back into view mode
+            $rootel.removeClass("contentauthoring_edit_mode");
+            $(".contentauthoring_cell_content", $rootel).sortable("destroy");
+            // Determine whether or not to show the empty page placeholder
+            determineEmptyAfterSave();
+
+            checkPageReadyToSave(pageLayout.rows, pageLayout.widgetIds);
+
+            // Update the currentPage variable
+            currentPageShown.content = {};
+            currentPageShown.content.rows = pageLayout.rows;
+            $.each(pageLayout.widgetIds, function(key, item){
+                var widgetInfo = sakai.api.Widgets.widgetLoader.widgets[item];
+                currentPageShown.content[item] = (widgetInfo && widgetInfo.widgetData) ? $.extend({}, true, widgetInfo.widgetData) : false;
+            });
+        };
+
+        var checkPageReadyToSave = function(rows, widgetIds) {
+            var isStillStoringWidgetData = false;
+            $.each(widgetIds, function(index, widgetId){
+                if (sakai.api.Widgets.widgetLoader.widgets[widgetId] && sakai.api.Widgets.widgetLoader.widgets[widgetId].isStoringWidgetData){
+                    isStillStoringWidgetData = true;
+                }
+            });
+            if (isStillStoringWidgetData){
+                setTimeout(checkPageReadyToSave, 100, rows, widgetIds);
+            } else {
+                savePageData(rows, widgetIds);
+            }
+        };
+
+        var savePageData = function(rows, widgetIds){
+            // Get the current saved data
+            sakai.api.Server.loadJSON(storePath, function(success, data){
+                $.ajax({
+                    "url": storePath,
+                    "type": "POST",
+                    "data": {
+                       ":operation": "delete"
+                    }
+                });
+                // Store the page in the main location
+                storePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
+                // Get the widgets in this page and change their widget storing URL
+                var widgets = getWidgetList();
+                for (var w in widgets){
+                    if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
+                        sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = storePath + widgets[w].id + "/" + widgets[w].type + "/";
+                    }
+                }
+                data.rows = rows;
+                // Save the page data
+                sakai.api.Server.saveJSON(storePath, data, function(){
+                    // Create a new version of the page
+                    var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ["_"]);
+                    $.ajax({
+                        url: storePath + ".save.json",
+                        type: "POST"
+                    });
+                }, true);
+            });
+        };
+
         //////////////
         // AUTOSAVE //
         //////////////
@@ -576,6 +786,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ///////////////////
         ///////////////////
 
+        ////////////////////
+        // PAGE RENDERING //
+        ////////////////////
+
         $(window).bind("showpage.contentauthoring.sakai", function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, false);
         });
@@ -583,6 +797,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $(window).bind("editpage.contentauthoring.sakai", function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, true);
         });
+
+        ///////////////////
+        // EDIT ROW MENU //
+        ///////////////////
 
         $(".contentauthoring_row_edit", $rootel).live("click", showEditRowMenu);
 
@@ -608,7 +826,38 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             changeNumberOfColumns(3);
         });
 
+        //////////////////////
+        // EDIT WIDGET MENU //
+        //////////////////////
+
         $(".contentauthoring_cell_element_action_x", $rootel).live("click", removeWidget);
+
+        $(".contentauthoring_dummy_element", $rootel).live("dblclick", function(ev) {
+            var $el = $(this).attr("data-element-type", "htmlblock");
+            addNewWidget(null, $el);
+        });
+
+        /////////////////////////
+        // INSERTERBAR ACTIONS //
+        /////////////////////////
+
+        $(".inserterbar_widget_draggable", $rootel).live("keyup", function(ev) {
+            if (ev.which === $.ui.keyCode.ENTER) {
+                addNewWidgetPlaceholder(ev, $(this).attr("data-element-type"));
+            }
+        });
+
+        $(".inserterbar_widget_draggable", $rootel).live("dblclick", function(ev) {
+            addNewWidget(ev, $(this).attr("data-element-type"));
+        });
+
+        $("#inserterbar_save_edit_page", $rootel).live("click", savePage);
+
+        /////////////
+        // HEIGHTS //
+        /////////////
+
+        $(window).bind("updateheight.contentauthoring.sakai", updateColumnHeights);
 
         ////////////////////
         ////////////////////
@@ -655,189 +904,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
 
         sakai_global.contentauthoring.isDragging = false;
-
-
-        var getWidgetList = function(){
-            var widgetIDs = [];
-            for (var r = 0; r < currentPageShown.content.rows.length; r++){
-                for (var c = 0; c < currentPageShown.content.rows[r].columns.length; c++){
-                    for (var e = 0; e < currentPageShown.content.rows[r].columns[c].elements.length; e++){
-                        widgetIDs.push(currentPageShown.content.rows[r].columns[c].elements[e]);
-                    }
-                }
-            }
-            return widgetIDs;
-        };
-
-        //////////////////////
-        // Reorder portlets //
-        //////////////////////
-
-        /**
-         * Sets the height of a row to the heighest column
-         * @param {Object} $row jQuery object with class ".contentauthoring_table_row.contentauthoring_cell_container_row"
-         *                      used to search for child cells that can contain content
-         */
-        var setHeight = function($row) {
-            var cells = $('.contentauthoring_cell_content', $row);
-            var setDefaultHeight = true
-            $.each(cells, function(index, cell){
-                // Default the height of the cell to auto to avoid that cells stay larger than they should
-                $('.contentauthoring_cell_content', $row).css("height", "auto");
-                // Remove whitespace since jQuery :empty selector doesn't ignore it
-                var html = $(cell).html().replace(/\s+/, "");
-                if(html.length){
-                    // There is some content in the row so no default height but the cell height should be considered
-                    setDefaultHeight = false;
-                }
-            });
-
-            if (setDefaultHeight) {
-                // No content in the row, set default height
-                $('.contentauthoring_cell_content', $row).css("height", 25);
-            } else {
-                // Some cells have content
-                // if row is part of the pageviewer than equalheights doesn't need to be set
-                if (!$('.contentauthoring_cell_content', $row).parents(".pageviewer_widget").length){
-                    $('.contentauthoring_cell_content', $row).equalHeights();
-                }
-            }
-        };
-
-
-        ////////////////////
-        // Resize columns //
-        ////////////////////
-
         
-
-        var makeColumnsResizable = function(){
-            $(window).trigger("resize.contentauthoring.sakai");
-            $(".contentauthoring_cell", $rootel).resizable({
-                handles: {
-                    'e': '.contentauthoring_cell_handle,.contentauthoring_cell_handle_grab'
-                },
-                helper: "ui-resizable-helper",
-                start: function(event, ui) {
-                    // Fix for iFrames
-                    $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
-                        width: $(document).width() + "px", height: $(document).height() + "px",
-                        top: "0px", left: "0px",
-                        position: "absolute", opacity: "0.001", zIndex: 100000
-                    }).appendTo("body");
-
-                    sakai_global.contentauthoring.isDragging = true;
-                    var $row = $(this).parent();
-                    currentSizes = getColumnWidths($row);
-                },
-                stop: function(ev, ui){
-                    // Fix for iFrames
-                    $("div.ui-resizable-iframeFix").remove();
-
-                    sakai_global.contentauthoring.isDragging = false;
-                    var totalRowWidth = $("#contentauthoring_widget_container", $pageRootEl).width();
-                    var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
-                    var oldColumnWidth = ui.originalSize.width / totalRowWidth;
-                    
-                    var $row = $(this).parent();
-                    var rowId = $row.attr("data-row-id");
-                    var $cells = $(".contentauthoring_cell", $row);
-                    
-                    var hasFoundResizedCell = false;
-                    
-                    var totalWidth = 0;
-                    var numberOfColumns = $cells.length;
-                    for (var i = 0; i < $cells.length; i++){
-                        var currentColumnWidth = 0;
-                        if ($($cells[i]).is($(this))){
-                            // New percentage based width
-                            if (newColumnWidth < MINIMUM_COLUMN_SIZE){
-                                currentColumnWidth = MINIMUM_COLUMN_SIZE;
-                            } else if (totalWidth + newColumnWidth + ((numberOfColumns - i - 1) * MINIMUM_COLUMN_SIZE) > 1){
-                                currentColumnWidth = 1 - totalWidth - ((numberOfColumns - i - 1) * MINIMUM_COLUMN_SIZE);
-                            } else {
-                                currentColumnWidth = newColumnWidth;
-                            }
-                            $($cells[i]).css("width", currentColumnWidth * 100 + "%");
-                            hasFoundResizedCell = true;
-                        } else if (hasFoundResizedCell){
-                            // New percentage based width
-                            if (numberOfColumns - i === 1){
-                                // This is the final cell, fill it up
-                                currentColumnWidth = 1 - totalWidth;
-                            } else {
-                                // There are 2 more cells
-                                // Does the 2nd have enough space after pulling in the 1st?
-                                if (1 - (totalWidth + currentSizes[i]) > MINIMUM_COLUMN_SIZE){
-                                    currentColumnWidth = currentSizes[i];
-                                    $($cells[i + 1]).css("width", (1 - totalWidth - currentSizes[i]) * 100 + "%");
-                                // Shrink the fist to its maximum size
-                                // Make the second its minumum size
-                                } else {
-                                    currentColumnWidth = 1 - totalWidth - MINIMUM_COLUMN_SIZE;
-                                    $($cells[i + 1]).css("width", MINIMUM_COLUMN_SIZE * 100 + "%");
-                                }
-                            }
-                            $($cells[i]).css("width", currentColumnWidth * 100 + "%");
-                            hasFoundResizedCell = false;
-                        }
-                        totalWidth += currentColumnWidth;
-                    }
-                    $(window).trigger("resize.contentauthoring.sakai");
-                    setHeight($row);
-                    storeCurrentPageLayout();
-                }
-            });
-        };
-        
-        ////////////////////
-        // Column handles //
-        ////////////////////
-
-        /**
-         * Updates all handles on in the content authoring widget
-         */
-        var updateAllHandles = function() {
-            var $rows = $(".contentauthoring_row_container");
-            for (var r = 0; r < $rows.length; r++) {
-                var $columns = $(".contentauthoring_cell", $($rows[r]));
-                var $lastColumn = $($columns[$columns.length - 1]);
-                $(".contentauthoring_cell_handle", $lastColumn).hide();
-                setHeight($($rows[r]));
-            }
-        };
-
-        /**
-         * Updates column handles and sends out a resize event
-         */
-        var updateColumnHandles = function() {
-            $(".contentauthoring_cell_handle", $rootel).show();
-            $(window).trigger("resize.contentauthoring.sakai");
-            updateAllHandles();
-        };
-
-        $(window).bind("updateheight.contentauthoring.sakai", updateAllHandles);
-
-
-        ///////////////////
-        // Edit row menu //
-        ///////////////////
-
-        
-        var checkColumnsEmpty = function(){
-            $.each($(".contentauthoring_cell_content", $("#contentauthoring_widget", $rootel)), function(i, cellcontainer){
-                if(!$(cellcontainer).find(".contentauthoring_cell_element").length){
-                    if(!$(cellcontainer).find(".contentauthoring_dummy_element").length){
-                        var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
-                        $(cellcontainer).append(dummy);
-                    }
-                } else {
-                    $(cellcontainer).find(".contentauthoring_dummy_element").remove();
-                }
-            });
-        };
-
-        ////////////////////////////
+        /////////////
         // Change widget settings //
         ////////////////////////////
 
@@ -899,7 +967,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
 
         var imageLoaded = function(ev, image){
-            setHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
+            setRowHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
         };
 
         ////////////////////////////////////////////////
@@ -1185,96 +1253,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "widgetIds": widgetIds
             }
         };
-
-        $("#inserterbar_save_edit_page", $rootel).live("click", function(){
-            $(window).trigger("save.contentauthoring.sakai");
-            $(window).trigger("render.contentauthoring.sakai");
-            // Generate the new row / column structure
-            var pageLayout = getCurrentPageLayout();
-
-            $rootel.removeClass("contentauthoring_edit_mode");
-            $(".contentauthoring_cell_content", $rootel).sortable("destroy");
-            determineEmptyAfterSave();
-
-            finishSavePage(pageLayout.rows, pageLayout.widgetIds);
-
-            // Update the currentPage variable
-            currentPageShown.content = {};
-            currentPageShown.content.rows = pageLayout.rows;
-            $.each(pageLayout.widgetIds, function(key, item){
-                var widgetInfo = sakai.api.Widgets.widgetLoader.widgets[item];
-                currentPageShown.content[item] = (widgetInfo && widgetInfo.widgetData) ? $.extend({}, true, widgetInfo.widgetData) : false;
-            });
-
-        });
-
-        var finishSavePage = function(rows, widgetIds){
-            var isStillStoringWidgetData = false;
-            $.each(widgetIds, function(index, widgetId){
-                if (sakai.api.Widgets.widgetLoader.widgets[widgetId] && sakai.api.Widgets.widgetLoader.widgets[widgetId].isStoringWidgetData){
-                    debug.log("Is still storing widget data for " + widgetId);
-                    isStillStoringWidgetData = true;
-                }
-            });
-            if (isStillStoringWidgetData){
-                setTimeout(finishSavePage, 100, rows, widgetIds);
-            } else {
-                debug.log("Stopped storing widget data");
-                sakai.api.Server.loadJSON(storePath, function(success, data){
-                    $.ajax({
-                        "url": storePath,
-                        "type": "POST",
-                        "data": {
-                           ":operation": "delete"
-                        },
-                        "success": function(){
-                            debug.log("Deleted temporary success");
-                        }
-                    });
-                    storePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
-                    // Get the widgets in this page and change their save URL
-                    var widgets = getWidgetList();
-                    for (var w in widgets){
-                        if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
-                            sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = storePath + widgets[w].id + "/" + widgets[w].type + "/";
-                        }
-                    }
-                    data.rows = rows;
-                    sakai.api.Server.saveJSON(storePath, data, function(){
-                        var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ["_"]);
-                        debug.log(versionToStore);
-                        $.ajax({
-                            url: storePath + ".save.json",
-                            type: "POST",
-                            data: {
-                                "sling:resourceType": "sakai/pagecontent",
-                                "sakai:pagecontent": $.toJSON(versionToStore),
-                                "_charset_": "utf-8"
-                            }
-                        });
-                    }, true);
-                });
-            }
-        };
-
-        $(".contentauthoring_dummy_element", $rootel).live("dblclick", function(ev){
-            var $el = $(this);
-            $el.attr("data-element-type", "htmlblock");
-            $el.addClass("inserterbar_widget_draggable");
-            addNewWidget(ev, $el);
-        });
-
-        $(".inserterbar_widget_draggable", $rootel).live("keyup", function(ev){
-            if(ev.which === $.ui.keyCode.ENTER){
-                var lastRow = $(".contentauthoring_row", $rootel).last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
-                addNewWidget(ev, lastRow, $(this));
-            }
-        });
-
-        $(".inserterbar_widget_draggable", $rootel).live("dblclick", function(ev){
-            var lastRow = $(".contentauthoring_row", $rootel).last().find(".contentauthoring_table_row.contentauthoring_cell_container_row");
-            addNewWidget(ev, lastRow, $(this));
-        });
 
         var checkCorrectData = function(_currentPageShown) {
             $.each(_currentPageShown.content.rows, function(index, row){
