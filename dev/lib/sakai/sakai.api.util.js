@@ -2518,7 +2518,19 @@ define(
                         }
                     });
                 }
+            },
+
+            setIFrameFix: function() {
+                $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
+                    width: $(document).width() + 'px', height: $(document).height() + 'px',
+                    top: '0px', left: '0px',
+                    position: 'absolute', opacity: '0.001', zIndex: 100000
+                }).appendTo('body');
+            },
+            removeIFrameFix: function() {
+                $('div.ui-resizable-iframeFix').remove();
             }
+
         },
         Droppable: {
             /**

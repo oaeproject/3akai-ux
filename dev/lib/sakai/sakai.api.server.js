@@ -273,8 +273,6 @@ define(
                 // an object
                 if ($.isArray(obj) && obj.length > 0) {
 
-                    var j,jl;
-
                     // Deep copy the array
                     var arrayCopy = $.extend(true, [], obj);
 

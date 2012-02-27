@@ -1793,7 +1793,7 @@ define(
                     }
                     // Generate the first empty row
                     return generateEmptyRow(columnsForNextRow || 1);
-                }
+                };
 
                 /**
                  * Generate a new empty row to addd to the page
@@ -1808,8 +1808,8 @@ define(
                         row.columns.push({
                             'width': 1 / columnCount,
                             'elements': []
-                        })
-                    };
+                        });
+                    }
                     return row;
                 };
 
@@ -2019,7 +2019,7 @@ define(
                         return newStructure;
                     }
                 } else {
-                    alert('No valid page structure was entered');
+                    debug.error('No valid page structure was entered');
                     return false;
                 }
             }
