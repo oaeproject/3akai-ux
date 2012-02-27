@@ -15,39 +15,54 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-define(["config/config"], function(config) {
+define(['config/config'], function(config) {
 
     // Custom CSS Files to load in
-    config.skinCSS = ["/dev/skins/default/skin.css"];
+    config.skinCSS = ['/dev/skins/default/skin.css'];
 
     // Hybrid
-    config.useLiveSakai2Feeds = true;
+    config.useLiveSakai2Feeds = false;
 
-    config.defaultprivstructure["${refid}5"].dashboard.columns.column1.push({
-        "uid": "${refid}1234",
-        "visible": "block",
-        "name": "mysakai2"
+    config.defaultprivstructure['${refid}0']['${refid}5'].dashboard.columns.column1.push({
+        'uid': '${refid}1234',
+        'visible': 'block',
+        'name': 'mysakai2'
     });
-    config.defaultprivstructure.structure0["sakai2sites"] =  {
-        "_ref": "${refid}2345",
-        "_title": "My Sakai 2 sites",
-        "_order": 2,
-        "_canEdit": true,
-        "_reorderOnly": true,
-        "_nonEditable": true,
-        "main": {
-            "_ref": "${refid}2345",
-            "_order": 0,
-            "_title": "My Sakai 2 sites"
+    config.defaultprivstructure.structure0['sakai2sites'] =  {
+        '_ref': '${refid}2345',
+        '_title': 'My Sakai 2 sites',
+        '_order': 2,
+        '_canEdit': true,
+        '_reorderOnly': true,
+        '_nonEditable': true,
+        'main': {
+            '_ref': '${refid}2345',
+            '_order': 0,
+            '_title': 'My Sakai 2 sites'
         }
     };
-    config.defaultprivstructure["${refid}2345"] = {
-        "page": "<div id='widget_searchsakai2_${refid}2346' class='widget_inline'></div>"
+    config.defaultprivstructure['${refid}2345'] = {
+        'rows': [
+            {
+                'id': 'id8965114',
+                'columns': [
+                    {
+                        'width': 1,
+                        'elements': [
+                            {
+                                'id': '${refid}2346',
+                                'type': 'searchsakai2'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     };
     config.Navigation[0].subnav.splice(2,0, {
-        "url": "/me#l=sakai2sites",
-        "id": "subnavigation_sakai2_link",
-        "label": "MY_SAKAI2_SITES"
+        'url': '/me#l=sakai2sites',
+        'id': 'subnavigation_sakai2_link',
+        'label': 'MY_SAKAI2_SITES'
     });
 
     return config;
