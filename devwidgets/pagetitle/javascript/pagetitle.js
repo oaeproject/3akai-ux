@@ -90,10 +90,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * do this when the widget content has changed
          */
         var autoSave = function() {
-            var currentText = $textarea.val();
-            if (currentText !== lastData) {
-                lastData = currentText;
-                sakai.api.Widgets.saveWidgetData(tuid, {'content': currentText});
+            if ($rootel.is(':visible')) {
+                var currentText = $textarea.val();
+                if (currentText !== lastData) {
+                    lastData = currentText;
+                    sakai.api.Widgets.saveWidgetData(tuid, {'content': currentText});
+                }
             }
         };
 
@@ -124,18 +126,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Every time the contentauthoring widget thinks a resize might be
          * necessary, this event will be thrown
          */
-        $(window).bind('resize.contentauthoring.sakai', function() {
-            updateHeight();
-        });
+        $(window).bind('resize.contentauthoring.sakai', updateHeight);
 
         /**
          * This event will be sent out by the contentauthoring widget when
          * the user is trying to save the page. At this point, the htmlblock
          * widget needs to store its changes as well
          */
-        $(window).bind('save.contentauthoring.sakai', function() {
-            fullSave();
-        });
+        $(window).bind('save.contentauthoring.sakai', fullSave);
 
         /**
          * Function to execute every time the textarea is given focus

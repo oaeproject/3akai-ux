@@ -1797,7 +1797,7 @@ define(
 
                 /**
                  * Generate a new empty row to addd to the page
-                 * @param {Object} columnCount    Number of columns in this row
+                 * @param {Integer} columnCount    Number of columns in this row
                  */
                 var generateEmptyRow = function(columnCount) {
                     var row = {
@@ -1815,10 +1815,10 @@ define(
 
                 /**
                  * Generate a new widget cell in the last row
-                 * @param {Object} id            Widget id
-                 * @param {Object} type          Widget type
+                 * @param {String} id            Widget id
+                 * @param {String} type          Widget type
                  * @param {Object} currentPage   Object representing the migrated Sakai Doc page so far
-                 * @param {Object} column        The index of the column in which to insert the widget
+                 * @param {Integer} column       The index of the column in which to insert the widget
                  * @param {Object} data          The widget's data
                  */
                 var generateNewCell= function(id, type, currentPage, currentRow, column, data) {
