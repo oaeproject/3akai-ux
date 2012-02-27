@@ -34,6 +34,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         // Configuration variables
         var MINIMUM_COLUMN_SIZE = 0.10;
+        var DEFAULT_WIDGET_SETTINGS_WIDTH = 650;
 
         // Help variables
         var pagesCache = {};
@@ -253,7 +254,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $row.after(generateNewRow());
             }
             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
-            setActions();
+            setPageEditActions();
             updateColumnHandles();
             storeCurrentPageLayout();
         };
@@ -290,101 +291,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return widths;
         };
 
-        ////////////////////
-        // ADDING COLUMNS //
-        ////////////////////
-
-        var addColumns = function($row, totalColumns) {
-            var widths = getColumnWidths($row);
-            var $cells = $(".contentauthoring_cell", $row);
-            var newColumnWidth = 1 / totalColumns;
-            for (var i = widths.length; i < totalColumns; i++) {
-                $(".contentauthoring_cell_container_row", $row).append(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
-                    "template": "column",
-                    "column": {
-                        "width": newColumnWidth,
-                        "elements": []
-                    },
-                    "sakai": sakai
-                }, false, false));
-            }
-            // Assign each of the columns their new width
-            for (var i = 0; i < widths.length; i++) {
-                $($cells[i]).css("width", widths[i] * (1 - (newColumnWidth * (totalColumns - widths.length))) * 100 + "%");
-            }
-            setActions();
-            updateColumnHandles();
-            storeCurrentPageLayout();
-        };
-
-        //////////////////////
-        // REMOVING COLUMNS //
-        //////////////////////
-
-        var removeColumns = function($row, lastColumn) {
-            var widths = getColumnWidths($row);
-            var remainingWidth = 1;
-            var $cells = $(".contentauthoring_cell", $row);
-            $row.find(".contentauthoring_dummy_element").remove();
-            // Append the content of the columns that will be removed to the last
-            // column that will be retained
-            for (var i = lastColumn + 1; i < $cells.length; i++) {
-                var $cell = $($cells[i]);
-                // De- and re-initialize tinyMCE to avoid errors
-                killTinyMCEInstances($cell);
-                var $cellcontent = $(".contentauthoring_cell_content", $cell).children();
-                initializeTinyMCEInstances($(".contentauthoring_cell_content", $($cells[lastColumn])).append($cellcontent));
-                $cell.remove();
-                remainingWidth -= widths[i];
-            }
-            for (var i = 0; i <= lastColumn; i++) {
-                $($cells[i]).css("width", (widths[i] / remainingWidth) * 100 + "%");
-            }
-            checkColumnsEmpty();
-            updateColumnHandles();
-            storeCurrentPageLayout();
-        };
-
-        //////////////////////////////
-        // CHANGE NUMBER OF COLUMNS //
-        //////////////////////////////
-
-        var changeNumberOfColumns = function(number) {
-            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']", $rootel);
-            var $cells = $(".contentauthoring_cell", $row);
-            if ($cells.length > number) {
-                removeColumns($row, number);
-            } else if ($cells.length < number) {
-                addColumns($row, number);
-            }
-            hideEditRowMenu();
-            setActions();
-            tinyMCEInstanceFix();
-            setRowHeight($row);
-        };
-
-        //////////////////////////////
-        // EMPTY COLUMN PLACEHOLDER //
-        //////////////////////////////
-
-        var checkColumnsEmpty = function(){
-            $.each($(".contentauthoring_cell_content", $("#contentauthoring_widget", $rootel)), function(i, cellcontainer) {
-                if (!$(cellcontainer).find(".contentauthoring_cell_element").length) {
-                    if (!$(cellcontainer).find(".contentauthoring_dummy_element").length) {
-                        var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
-                        $(cellcontainer).append(dummy);
-                    }
-                } else {
-                    $(cellcontainer).find(".contentauthoring_dummy_element").remove();
-                }
-            });
-        };
-
-        /////////////////////
-        // COLUMN RESIZING //
-        /////////////////////
-
-        var makeColumnsResizable = function(){
+        var makeColumnsResizable = function() {
             $(window).trigger("resize.contentauthoring.sakai");
             $(".contentauthoring_cell", $rootel).resizable({
                 handles: {
@@ -512,6 +419,110 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             updateColumnHeights();
         };
 
+        var imageLoaded = function(ev, image){
+            setRowHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
+        };
+
+        $rootel.contentChange(function(changedHTML){
+            $.each($(changedHTML).find("img:visible"), function(i, item){
+                imageLoaded({}, $(item));
+                $(item).load(function(ev){
+                    imageLoaded(ev, $(ev.currentTarget));
+                });
+            });
+        });
+
+        ////////////////////
+        // ADDING COLUMNS //
+        ////////////////////
+
+        var addColumns = function($row, totalColumns) {
+            var widths = getColumnWidths($row);
+            var $cells = $(".contentauthoring_cell", $row);
+            var newColumnWidth = 1 / totalColumns;
+            for (var i = widths.length; i < totalColumns; i++) {
+                $(".contentauthoring_cell_container_row", $row).append(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", {
+                    "template": "column",
+                    "column": {
+                        "width": newColumnWidth,
+                        "elements": []
+                    },
+                    "sakai": sakai
+                }, false, false));
+            }
+            // Assign each of the columns their new width
+            for (var i = 0; i < widths.length; i++) {
+                $($cells[i]).css("width", widths[i] * (1 - (newColumnWidth * (totalColumns - widths.length))) * 100 + "%");
+            }
+            setPageEditActions();
+            updateColumnHandles();
+            storeCurrentPageLayout();
+        };
+
+        //////////////////////
+        // REMOVING COLUMNS //
+        //////////////////////
+
+        var removeColumns = function($row, lastColumn) {
+            var widths = getColumnWidths($row);
+            var remainingWidth = 1;
+            var $cells = $(".contentauthoring_cell", $row);
+            $row.find(".contentauthoring_dummy_element").remove();
+            // Append the content of the columns that will be removed to the last
+            // column that will be retained
+            for (var i = lastColumn + 1; i < $cells.length; i++) {
+                var $cell = $($cells[i]);
+                // De- and re-initialize tinyMCE to avoid errors
+                killTinyMCEInstances($cell);
+                var $cellcontent = $(".contentauthoring_cell_content", $cell).children();
+                initializeTinyMCEInstances($(".contentauthoring_cell_content", $($cells[lastColumn])).append($cellcontent));
+                $cell.remove();
+                remainingWidth -= widths[i];
+            }
+            for (var i = 0; i <= lastColumn; i++) {
+                $($cells[i]).css("width", (widths[i] / remainingWidth) * 100 + "%");
+            }
+            checkColumnsEmpty();
+            updateColumnHandles();
+            storeCurrentPageLayout();
+        };
+
+        //////////////////////////////
+        // CHANGE NUMBER OF COLUMNS //
+        //////////////////////////////
+
+        var changeNumberOfColumns = function(number) {
+            var $row = $(".contentauthoring_row_container[data-row-id='" + rowToChange + "']", $rootel);
+            var $cells = $(".contentauthoring_cell", $row);
+            if ($cells.length > number) {
+                removeColumns($row, number);
+            } else if ($cells.length < number) {
+                addColumns($row, number);
+            }
+            hideEditRowMenu();
+            setPageEditActions();
+            tinyMCEInstanceFix();
+            setRowHeight($row);
+        };
+
+        //////////////////////////////
+        // EMPTY COLUMN PLACEHOLDER //
+        //////////////////////////////
+
+        var checkColumnsEmpty = function(){
+            $.each($(".contentauthoring_cell_content", $("#contentauthoring_widget", $rootel)), function(i, cellcontainer) {
+                if (!$(cellcontainer).find(".contentauthoring_cell_element").length) {
+                    if (!$(cellcontainer).find(".contentauthoring_dummy_element").length) {
+                        var dummy = $(sakai.api.Util.TemplateRenderer("contentauthoring_dummy_element_template", {}));
+                        $(cellcontainer).append(dummy);
+                    }
+                } else {
+                    $(cellcontainer).find(".contentauthoring_dummy_element").remove();
+                }
+            });
+        };
+        
+
         ///////////////////////
         ///////////////////////
         // WIDGET MANAGEMENT //
@@ -626,13 +637,78 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (sakai.widgets[type].hasSettings) {
                 // Load edit mode
                 isEditingNewElement = true;
-                editModeFullScreen(id, type);
+                showEditWidgetMode(id, type);
             } else {
                 sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
             }
-            setActions();
+            setPageEditActions();
             storeCurrentPageLayout();
         };
+
+        //////////////////////////
+        // WIDGET SETTINGS VIEW //
+        //////////////////////////
+
+        var isEditingNewElement = false;
+        var currentlyEditing = false;
+
+        $("#contentauthoring_widget_settings", $rootel).jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true,
+            onHide: sakai_global.contentauthoring.widgetCancel
+        });
+
+        var showEditWidgetMode = function(id, type) {
+            currentlyEditing = id;
+            $("#contentauthoring_widget_content", $rootel).html("");
+            // If the widget exists
+            if (sakai.widgets[type]) {
+                var widgetSettingsWidth = sakai.widgets[type].settingsWidth || DEFAULT_WIDGET_SETTINGS_WIDTH;
+                $("#contentauthoring_widget_settings_content", $rootel).html('<div id="widget_' + type + '_' + id + '" class="widget_inline"/>');
+                $("#contentauthoring_widget_settings_title", $rootel).html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
+                sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget_settings_content", true, storePath);
+                $('#contentauthoring_widget_settings', $rootel).css({
+                    'width': widgetSettingsWidth + "px",
+                    'margin-left': -(widgetSettingsWidth / 2) + "px",
+                    'top': ($(window).scrollTop() + 50) + "px"
+                }).jqmShow();
+            }
+        };
+
+        var editWidgetMode = function(ev) {
+            var id = $(this).attr("data-element-id");
+            var type = $(this).attr("data-element-type");
+            isEditingNewElement = false;
+            showEditWidgetMode(id, type);
+        };
+
+        sakai_global.contentauthoring.widgetCancel = function(){
+            if (isEditingNewElement){
+                $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).parent().remove();
+                checkColumnsEmpty();
+            }
+            isEditingNewElement = false;
+            $('#contentauthoring_widget_settings').jqmHide();
+            // Remove the widget from the settings overlay
+            $("#contentauthoring_widget_content").html("");
+        };
+
+        sakai_global.contentauthoring.widgetFinish = function(){
+            isEditingNewElement = false;
+            // Remove the widget from the settings overlay
+            $("#contentauthoring_widget_content").html("");
+            var $parent = $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).parent();
+            $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).remove();
+            // Construct the widget
+            $parent.append("<div id='widget_" + $parent.attr("data-element-type") + "_" + currentlyEditing + "' class='widget_inline'></div>");
+            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
+            $('#contentauthoring_widget_settings').jqmHide();
+            updateAllColumnHandles();
+        };
+
+        sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
+        sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
 
         //////////////////
         //////////////////
@@ -662,15 +738,139 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
+        var renderPage = function(currentPageShown, requiresRefresh) {
+            // Bring the page back to view mode
+            exitEditMode();
+            $pageRootEl = $("#" + currentPageShown.ref, $rootel);
+            showAddPageControls(currentPageShown.addArea);
+            // Hide the revision history dialog
+            if($("#versions_container").is(":visible")){
+                $("#inserterbar_action_revision_history").trigger("click");
+            }
+            sakai.api.Widgets.nofityWidgetShown("#contentauthoring_widget > div:visible", false);
+            $("#contentauthoring_widget > div:visible", $rootel).hide();
+            // Set the path where widgets should be storing their widget data
+            storePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + "/";
+            // If the page hasn't been loaded before, or we need a refresh after cancelling the
+            // page edit, we create a div container for the page
+            if ($pageRootEl.length === 0 || requiresRefresh) {
+                if (requiresRefresh){
+                    killTinyMCEInstances($pageRootEl);
+                    // Remove the old one in case this is caused by a cancel changes option
+                    $pageRootEl.remove();
+                }
+                // Create the new element
+                $pageRootEl = $("<div>").attr("id", currentPageShown.ref);
+                // Add element to the DOM
+                $("#contentauthoring_widget", $rootel).append($pageRootEl);
+                var pageStructure = $.extend(true, {}, currentPageShown.content);
+                pageStructure.template = "all";
+                pageStructure.sakai = sakai;
+                $pageRootEl.html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
+                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, storePath, currentPageShown.content);
+            // If the page has been loaded before, we can just show it again
+            } else {
+                $pageRootEl.show();
+                sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
+            }
+
+            // Determine whether or not to show the empty page placeholder
+            determineEmptyPage(currentPageShown);
+
+            // Shwow the edit page bar if I have edit permissions on this page
+            if (canEditCurrentPage()){
+                $("#contentauthoring_inserterbar_container", $rootel).show();
+            } else {
+                $("#contentauthoring_inserterbar_container", $rootel).hide();
+            }
+        };
+
         ///////////////////
         // PAGE EDITTING //
         ///////////////////
+
+        var setPageEditActions = function(){
+            makeRowsReorderable();
+            makeColumnsResizable();
+            reorderWidgets();
+            showEditCellMenu();
+            sakai.api.Util.hideOnClickOut("#contentauthoring_row_menu", ".contentauthoring_row_edit", function(){
+                rowToChange = false;
+                hideEditRowMenu();
+            });
+        };
+
+        var editPage = function() {
+            $(window).trigger("edit.contentauthoring.sakai");
+            $(".contentauthoring_empty_content", $rootel).remove();
+            $("#contentauthoring_widget_container", $pageRootEl).show();
+            $rootel.addClass("contentauthoring_edit_mode");
+            setPageEditActions();
+            updateColumnHandles();
+            checkAutoSave();
+        };
+
+        //////////////////////
+        // PAGE SERIALIZING //
+        //////////////////////
+
+        var getCurrentPageLayout = function(){
+            var rows = [];
+            var widgetIds = [];
+            // Loop through all of the rows on the page
+            $(".contentauthoring_row_container", $pageRootEl).each(function(rindex, $row) {
+                $row = $($row);
+                var row = {};
+                row.id = $row.attr("data-row-id");
+                row.columns = [];
+                var columnWidths = getColumnWidths($row);
+                // Loop through all of the columns in the row
+                for (var i = 0; i < columnWidths.length; i++){
+                    var column = {};
+                    column.width = columnWidths[i];
+                    column.elements = [];
+                    // Loop through all of the widgets in the column
+                    $.each($(".contentauthoring_cell_element", $($(".contentauthoring_cell", $row).get(i))), function(eindex, $element) {
+                        $element = $($element);
+                        var element = {};
+                        element.type = $element.attr("data-element-type");
+                        element.id = $element.attr("data-element-id");
+                        column.elements.push(element);
+                        widgetIds.push(element.id);
+                    });
+                    row.columns.push(column);
+                }
+                rows.push(row);
+            });
+            return {
+                "rows": rows,
+                "widgetIds": widgetIds
+            }
+        };
 
         /////////////////////
         /////////////////////
         // PAGE MANAGEMENT //
         /////////////////////
         /////////////////////
+
+        var exitEditMode = function() {
+            // Alert the inserter bar that it should go back into view mode
+            $(window).trigger("render.contentauthoring.sakai");
+            // Take the widget back into view mode
+            $rootel.removeClass("contentauthoring_edit_mode");
+            $(".contentauthoring_cell_content", $rootel).sortable("destroy");
+        };
+
+        var updateWidgetURLs = function() {
+            // Get the widgets in this page and change their widget storing URL
+            var widgets = getWidgetList();
+            for (var w in widgets){
+                if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
+                    sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = storePath + widgets[w].id + "/" + widgets[w].type + "/";
+                }
+            }
+        };
 
         ///////////////
         // SAVE PAGE //
@@ -679,14 +879,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var savePage = function() {
             // Alert the widgets that they should be storing their widget data
             $(window).trigger("save.contentauthoring.sakai");
-            // Alert the inserter bar that it should go back into view mode
-            $(window).trigger("render.contentauthoring.sakai");
             // Generate the new row / column structure
             var pageLayout = getCurrentPageLayout();
 
-            // Take the widget back into view mode
-            $rootel.removeClass("contentauthoring_edit_mode");
-            $(".contentauthoring_cell_content", $rootel).sortable("destroy");
+            exitEditMode();
             // Determine whether or not to show the empty page placeholder
             determineEmptyAfterSave();
 
@@ -727,13 +923,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 });
                 // Store the page in the main location
                 storePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
-                // Get the widgets in this page and change their widget storing URL
-                var widgets = getWidgetList();
-                for (var w in widgets){
-                    if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
-                        sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = storePath + widgets[w].id + "/" + widgets[w].type + "/";
-                    }
-                }
+                updateWidgetURLs();
                 data.rows = rows;
                 // Save the page data
                 sakai.api.Server.saveJSON(storePath, data, function(){
@@ -745,6 +935,38 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     });
                 }, true);
             });
+        };
+
+        var storeCurrentPageLayout = function() {
+            var pageLayout = getCurrentPageLayout().rows;
+            sakai.api.Server.saveJSON(storePath + "rows/", pageLayout, null, true);
+        };
+
+        /////////////////
+        // CANCEL PAGE //
+        /////////////////
+
+        var cancelEditPage = function() {
+            exitEditMode();
+            // Delete the autosaved current page
+            $.ajax({
+                "url": storePath,
+                "type": "POST",
+                "data": {
+                   ":operation": "delete"
+                }
+            });
+            // Store the page in the main location
+            storePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
+
+            // Reset the widget data in the widgetloader
+            $.each(currentPageShown.content, function(key, item) {
+                if (key.substring(0,1) !== "_" && key !== "rows" && sakai.api.Widgets.widgetLoader.widgets[key]) {
+                    sakai.api.Widgets.widgetLoader.widgets[key].widgetData = item;
+                }
+            });
+            updateWidgetURLs();
+            renderPage(currentPageShown, true);
         };
 
         //////////////
@@ -759,6 +981,63 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             overlay: 20,
             toTop: true
         });
+
+        var checkAutoSave = function() {
+            // Cache the current page
+            sakai.api.Server.loadJSON(storePath, function(success, pageData) {
+                // Check whether there is an autosaved version
+                storePath = currentPageShown.pageSavePath + "/tmp_" + currentPageShown.saveRef + "/";
+                sakai.api.Server.loadJSON(storePath, function(success2, autoSaveData) {
+                    // Clean up both versions
+                    pageData = sakai.api.Server.removeServerCreatedObjects(pageData, ["_"]);
+                    autoSaveData = sakai.api.Server.removeServerCreatedObjects(autoSaveData, ["_"]);
+                    // Only show the restore overlay if there is an autosave version and the
+                    // page content has changed
+                    if (!success2 || $.toJSON(pageData) === $.toJSON(autoSaveData)) {
+                        makeTempCopy(pageData);
+                    } else {
+                        showRestoreAutoSaveDialog(pageData);
+                    }
+                });
+            });
+        };
+
+        var showRestoreAutoSaveDialog = function(pageData) {
+            sakai.api.Util.bindDialogFocus($("#autosave_dialog"));
+            $('#autosave_dialog').jqmShow();
+            $("#autosave_keep").unbind("click");
+            $("#autosave_keep").bind("click", function(){
+                cancelRestoreAutoSave(pageData);
+            });
+            $("#autosave_revert").unbind("click");
+            $("#autosave_revert").bind("click", function(){
+                restoreAutoSave(pageData);
+            });
+        };
+
+        var cancelRestoreAutoSave = function(pageData) {
+            makeTempCopy(pageData);
+            $('#autosave_dialog').jqmHide();
+        };
+
+        var restoreAutoSave = function(pageData) {
+            killTinyMCEInstances($pageRootEl);
+            var pageStructure = $.extend(true, {}, autoSaveData);
+            pageStructure.template = "all";
+            pageStructure.sakai = sakai;
+            $pageRootEl.html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
+            sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, storePath, autoSaveData);
+            setPageEditActions();
+            updateColumnHandles();
+            $('#autosave_dialog').jqmHide();
+        };
+
+        var makeTempCopy = function(data){
+            // Make temporary copy 
+            sakai.api.Server.saveJSON(storePath, data, null, true);
+            // Get the widgets in this page and change their save URL
+            updateWidgetURLs();
+        };
 
         /////////////////////////
         /////////////////////////
@@ -798,6 +1077,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             processNewPage(_currentPageShown, true);
         });
 
+        $("#inserterbar_action_edit_page", $rootel).live("click", editPage);
+
         ///////////////////
         // EDIT ROW MENU //
         ///////////////////
@@ -826,9 +1107,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             changeNumberOfColumns(3);
         });
 
-        //////////////////////
-        // EDIT WIDGET MENU //
-        //////////////////////
+        /////////////////
+        // EDIT WIDGET //
+        /////////////////
 
         $(".contentauthoring_cell_element_action_x", $rootel).live("click", removeWidget);
 
@@ -836,6 +1117,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var $el = $(this).attr("data-element-type", "htmlblock");
             addNewWidget(null, $el);
         });
+
+        $(".contentauthoring_cell_element_action_e", $rootel).live("click", editWidgetMode);
 
         /////////////////////////
         // INSERTERBAR ACTIONS //
@@ -852,6 +1135,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $("#inserterbar_save_edit_page", $rootel).live("click", savePage);
+
+        $("#inserterbar_cancel_edit_page", $rootel).live("click", cancelEditPage);
 
         /////////////
         // HEIGHTS //
@@ -904,355 +1189,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
 
         sakai_global.contentauthoring.isDragging = false;
-        
-        /////////////
-        // Change widget settings //
-        ////////////////////////////
-
-        var isEditingNewElement = false;
-        var currentlyEditing = false;
-
-        var editModeFullScreen = function(id, type){
-            currentlyEditing = id;
-            $("#contentauthoring_widget_content", $rootel).html("");
-            if (sakai.widgets[type]) {
-                var widgetSettingsWidth = 650;
-                if (sakai.widgets[type].settingsWidth) {
-                    widgetSettingsWidth = sakai.widgets[type].settingsWidth;
-                }
-                $("#contentauthoring_widget_settings_content", $rootel).html(sakai.api.Security.saneHTML('<div id="widget_' + type + '_' + id + '" class="widget_inline"/>'));
-                $("#contentauthoring_widget_settings_title", $rootel).html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
-                sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget_settings_content", true, storePath);
-                $('#contentauthoring_widget_settings', $rootel).css({
-                    'width': widgetSettingsWidth + "px",
-                    'margin-left': -(widgetSettingsWidth / 2) + "px",
-                    'top': ($(window).scrollTop() + 50) + "px"
-                }).jqmShow();
-            }
-        };
-
-        $(".contentauthoring_cell_element_action_e", $rootel).live("click", function(){
-            var id = $(this).attr("data-element-id");
-            var type = $(this).attr("data-element-type");
-            isEditingNewElement = false;
-            editModeFullScreen(id, type);
-        });
-        $("#contentauthoring_widget_settings", $rootel).jqm({
-            modal: true,
-            overlay: 20,
-            toTop: true,
-            onHide: sakai_global.contentauthoring.widgetCancel
-        });
-
-        sakai_global.contentauthoring.widgetCancel = function(){
-            if (isEditingNewElement){
-                $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).parent().remove();
-                checkColumnsEmpty();
-            }
-            isEditingNewElement = false;
-            $('#contentauthoring_widget_settings').jqmHide();
-        };
-        sakai_global.contentauthoring.widgetFinish = function(){
-            isEditingNewElement = false;
-            $("#contentauthoring_widget_content").html("");
-            var $parent = $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).parent();
-            $(".contentauthoring_cell_element #" + currentlyEditing, $rootel).remove();
-            $parent.append("<div id='widget_" + $parent.attr("data-element-type") + "_" + currentlyEditing + "' class='widget_inline'></div>");
-            sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
-            $('#contentauthoring_widget_settings').jqmHide();
-            updateAllColumnHandles();
-        };
-
-        sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
-        sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
-
-        var imageLoaded = function(ev, image){
-            setRowHeight($(image).parents(".contentauthoring_table_row.contentauthoring_cell_container_row"));
-        };
-
-        ////////////////////////////////////////////////
-        // Checking whether the current page is empty //
-        ////////////////////////////////////////////////
-
-        /**
-         * Checks for empty htmlblock widgets and returns a Boolean
-         *
-         * @return {Boolean} false if the htmlblock widget is not empty
-         *                   true if the htmlblock widget is empty
-         */
-        var checkHTMLBlockEmpty = function(currentPageShown, element){
-            if (currentPageShown.content[element.id] &&
-                currentPageShown.content[element.id].htmlblock &&
-                $.trim($(currentPageShown.content[element.id].htmlblock.content).text())){
-                return false;
-            }
-            return true;
-        };
-
-        /**
-         * Determines if a page is empty by checking its content
-         * Shows a default image when no content is present in the page
-         * Empty content = empty rows and rows with empty html blocks
-         *
-         * @param currentPageShown {Object} Object containing data for the current page
-         */
-        var determineEmptyPage = function(currentPageShown){
-            // emptyPageElements checks for empty rows
-            var emptyPageElements = true;
-            // emptyPageElementContents checks for empty tinyMCe instances
-            var emptyPageElementContents = true;
-
-            // Check for empty rows, if a row with content or (empty) tinyMCE is detected emptyPageElements will be set to false
-            // emptyPageElements will later be overridden if the tinymce instances don't have any content after all
-            $.each(currentPageShown.content.rows, function(rowIndex, row){
-                $.each(row.columns, function(columnIndex, column){
-                    if(column.elements.length){
-                        $.each(column.elements, function(elIndex, element){
-                            // Check designed to look at specific storage types
-                            if(element.type === "htmlblock"){
-                                // Returns false if not empty, true if empty
-                                emptyPageElements = checkHTMLBlockEmpty(currentPageShown, element);
-                            } else {
-                                emptyPageElements = false;
-                            }
-                            // If false returned there must be content and the page should be rendered
-                            return emptyPageElements;
-                        });
-                        return emptyPageElements;
-                    }
-                    return emptyPageElements;
-                });
-                return emptyPageElements;
-            });
-
-            // If the page is empty show the illustration
-            if (emptyPageElements){
-                $("#contentauthoring_widget_container", $pageRootEl).hide();
-                sakai.api.Util.TemplateRenderer("contentauthoring_no_content_template", {
-                    "canEdit": currentPageShown.canEdit
-                }, $("#contentauthoring_no_content_container", $rootel));
-                $("#contentauthoring_no_content_container", $rootel).show();
-            } else {
-                $("#contentauthoring_no_content_container", $rootel).hide();
-                $("#contentauthoring_widget_container", $pageRootEl).show();
-            }
-        };
-
-        var determineEmptyAfterSave = function(){
-            var cellElements = $("#" + currentPageShown.ref + " .contentauthoring_cell_element", $rootel);
-            var containsText = false;
-            $.each(cellElements, function(index, el){
-                if (sakai.api.Util.determineEmptyContent($(el).html())){
-                    containsText = true;
-                }
-            });
-            if (!containsText){
-                $("#contentauthoring_widget_container", $pageRootEl).hide();
-                sakai.api.Util.TemplateRenderer("contentauthoring_no_content_template", {
-                    "canEdit": currentPageShown.canEdit
-                }, $("#contentauthoring_no_content_container", $rootel));
-                $("#contentauthoring_no_content_container", $rootel).show();
-            } else {
-                $("#contentauthoring_no_content_container", $rootel).hide();
-                $("#contentauthoring_widget_container", $pageRootEl).show();
-            }
-        };
-
-        ////////////////////
-        // Initialization //
-        ////////////////////
-
-        var setActions = function(){
-            makeRowsReorderable();
-            makeColumnsResizable();
-            reorderWidgets();
-            showEditCellMenu();
-            sakai.api.Util.hideOnClickOut("#contentauthoring_row_menu", ".contentauthoring_row_edit", function(){
-                rowToChange = false;
-                hideEditRowMenu();
-            });
-        };
-
-        var renderPage = function(currentPageShown, requiresRefresh){
-            $rootel.removeClass("contentauthoring_edit_mode");
-            $(window).trigger("render.contentauthoring.sakai");
-            $pageRootEl = $("#" + currentPageShown.ref, $rootel);
-            showAddPageControls(currentPageShown.addArea);
-            if($("#versions_container").is(":visible")){
-                $("#inserterbar_action_revision_history").trigger("click");
-            }
-            sakai.api.Widgets.nofityWidgetShown("#contentauthoring_widget > div:visible", false);
-            $("#contentauthoring_widget > div:visible", $rootel).hide();
-            storePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + "/";
-            if ($pageRootEl.length === 0 || requiresRefresh) {
-                if (requiresRefresh){
-                    $pageRootEl.find('.tinyMCE').each(function(){
-                        tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
-                    });
-                    // Remove the old one in case this is caused by a cancel changes option
-                    $pageRootEl.remove();
-                }
-                // Create the new element
-                $pageRootEl = $("<div>").attr("id", currentPageShown.ref);
-                // Add element to the DOM
-                $("#contentauthoring_widget", $rootel).append($pageRootEl);
-                var pageStructure = $.extend(true, {}, currentPageShown.content);
-                pageStructure.template = "all";
-                pageStructure.sakai = sakai;
-                $pageRootEl.html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
-                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, storePath, currentPageShown.content);
-            } else {
-                $pageRootEl.show();
-                sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
-            }
-
-            determineEmptyPage(currentPageShown);
-
-            if (canEditCurrentPage()){
-                $("#contentauthoring_inserterbar_container", $rootel).show();
-            } else {
-                $("#contentauthoring_inserterbar_container", $rootel).hide();
-            }
-
-        };
-
-        $rootel.contentChange(function(changedHTML){
-            $.each($(changedHTML).find("img:visible"), function(i, item){
-                imageLoaded({}, $(item));
-                $(item).load(function(ev){
-                    imageLoaded(ev, $(ev.currentTarget));
-                });
-            });
-        });
 
         ////////////////////////////
         ////////////////////////////
         // Other management stuff //
         ////////////////////////////
         ////////////////////////////
-
-
-        var makeTempCopy = function(data){
-            // Make temporary copy 
-            sakai.api.Server.saveJSON(storePath, data, null, true);
-            // Get the widgets in this page and change their save URL
-            var widgets = getWidgetList();
-            for (var w in widgets){
-                if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
-                    sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = storePath + widgets[w].id + "/" + widgets[w].type + "/";
-                }
-            }
-        };
-
-        var editPage = function(){
-            $(window).trigger("edit.contentauthoring.sakai");
-            $(".contentauthoring_empty_content", $rootel).remove();
-            $("#contentauthoring_widget_container", $pageRootEl).show();
-            $rootel.addClass("contentauthoring_edit_mode");
-            setActions();
-            updateColumnHandles();
-            // Check whether there is an autosaved version
-            sakai.api.Server.loadJSON(storePath, function(success, pageData){
-                storePath = currentPageShown.pageSavePath + "/tmp_" + currentPageShown.saveRef + "/";
-                sakai.api.Server.loadJSON(storePath, function(success2, autoSaveData){
-                    pageData = sakai.api.Server.removeServerCreatedObjects(pageData, ["_"]);
-                    autoSaveData = sakai.api.Server.removeServerCreatedObjects(autoSaveData, ["_"]);
-                    if (!success2 || $.toJSON(pageData) === $.toJSON(autoSaveData)){
-                        makeTempCopy(pageData);
-                    } else {
-                        sakai.api.Util.bindDialogFocus($("#autosave_dialog"));
-                        $('#autosave_dialog').jqmShow();
-                        $("#autosave_keep").unbind("click");
-                        $("#autosave_keep").bind("click", function(){
-                            makeTempCopy(pageData);
-                            $('#autosave_dialog').jqmHide();
-                        });
-                        $("#autosave_revert").unbind("click");
-                        $("#autosave_revert").bind("click", function(){
-                            $("#" + currentPageShown.ref).find('.tinyMCE').each(function(){
-                                tinyMCE.execCommand('mceRemoveControl', false, $(this).attr('id'));
-                            });
-                            var $el = $("#" + currentPageShown.ref);
-                            var pageStructure = $.extend(true, {}, autoSaveData);
-                            pageStructure.template = "all";
-                            pageStructure.sakai = sakai;
-                            $el.html(sakai.api.Util.TemplateRenderer("contentauthoring_widget_template", pageStructure, false, false));
-                            sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, storePath, autoSaveData);
-                            setActions();
-                            updateColumnHandles();
-                            $('#autosave_dialog').jqmHide();
-                        });
-                    }
-                });
-            });
-        };
-        $("#inserterbar_action_edit_page", $rootel).live("click", editPage);
-
-        var cancelEditPage = function(){
-            $(window).trigger("render.contentauthoring.sakai");
-            $rootel.removeClass("contentauthoring_edit_mode");
-            $(".contentauthoring_cell_content", $rootel).sortable("destroy");
-            $.ajax({
-                "url": storePath,
-                "type": "POST",
-                "data": {
-                   ":operation": "delete"
-                }
-            });
-            storePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
-
-            // Reset the widget data in the widgetloader
-            $.each(currentPageShown.content, function(key, item){
-                if (key.substring(0,1) !== "_" && key !== "rows" && sakai.api.Widgets.widgetLoader.widgets[key]){
-                    sakai.api.Widgets.widgetLoader.widgets[key].widgetData = item;
-                }
-            });
-            // Get the widgets in this page and change their save URL
-            var widgets = getWidgetList();
-            for (var w in widgets){
-                if (widgets.hasOwnProperty(w) && sakai.api.Widgets.widgetLoader.widgets[widgets[w].id]){
-                    sakai.api.Widgets.widgetLoader.widgets[widgets[w].id].placement = storePath + widgets[w].id + "/" + widgets[w].type + "/";
-                }
-            }
-            renderPage(currentPageShown, true);
-        }
-        $("#inserterbar_cancel_edit_page", $rootel).live("click", cancelEditPage);
-
-        var storeCurrentPageLayout = function(){
-            var pageLayout = getCurrentPageLayout().rows;
-            sakai.api.Server.saveJSON(storePath + "rows/", pageLayout, null, true);
-        };
-
-        var getCurrentPageLayout = function(){
-            var rows = [];
-            var widgetIds = [];
-            $(".contentauthoring_row_container", $("#" + currentPageShown.ref)).each(function(rindex, $row){
-                $row = $($row);
-                var row = {};
-                row.id = $row.attr("data-row-id");
-                row.columns = [];
-                var columnWidths = getColumnWidths($row);
-                for (var i = 0; i < columnWidths.length; i++){
-                    var column = {};
-                    column.width = columnWidths[i];
-                    column.elements = [];
-                    $.each($(".contentauthoring_cell_element", $($(".contentauthoring_cell", $row).get(i))), function(eindex, $element){
-                        $element = $($element);
-                        var element = {};
-                        element.type = $element.attr("data-element-type");
-                        element.id = $element.attr("data-element-id");
-                        column.elements.push(element);
-                        widgetIds.push(element.id);
-                    });
-                    row.columns.push(column);
-                }
-                rows.push(row);
-            });
-            return {
-                "rows": rows,
-                "widgetIds": widgetIds
-            }
-        };
 
         var checkCorrectData = function(_currentPageShown) {
             $.each(_currentPageShown.content.rows, function(index, row){
@@ -1357,7 +1299,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(ui.item).replaceWith($(element));
                 checkColumnsEmpty();
                 sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
-                setActions();
+                setPageEditActions();
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
             });
         };
@@ -1423,7 +1365,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             }
                             checkColumnsEmpty();
                             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
-                            setActions();
+                            setPageEditActions();
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
                             if (uploadError){
                                 sakai.api.Util.notification.show(
@@ -1534,7 +1476,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             }
                             checkColumnsEmpty();
                             sakai.api.Widgets.widgetLoader.insertWidgets("contentauthoring_widget", false, storePath);
-                            setActions();
+                            setPageEditActions();
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
                         }, true);
                     });
