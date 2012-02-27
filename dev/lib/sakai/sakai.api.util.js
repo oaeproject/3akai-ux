@@ -689,7 +689,7 @@ define(
                     htmlCode += '<div class="s3d-inset-shadow-container"><img src="/dev/images/progress_bar.gif"/></div></div>';
                     var notification = $(htmlCode);
                     $('body').append(notification);
-                    sakai_util.Modal.setup("#sakai_progressindicator", {
+                    sakai_util.Modal.setup('#sakai_progressindicator', {
                         modal: true,
                         overlay: 20,
                         zIndex: 40003,
@@ -700,14 +700,14 @@ define(
                 $("#sakai_progressindicator_title").html(title);
                 $("#sakai_progressindicator_body").html(body);
                 // Show the indicator
-                sakai_util.Modal.open("#sakai_progressindicator");
+                sakai_util.Modal.open('#sakai_progressindicator');
             },
 
             /**
              * Hide the existing progress indicator (if there is one)
              */
             hideProgressIndicator: function(){
-                sakai_util.Modal.close("#sakai_progressindicator");
+                sakai_util.Modal.close('#sakai_progressindicator');
             }            
 
         },
