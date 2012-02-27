@@ -66,38 +66,39 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Parses the document structure before sending it to the renderer
          */
-        var parseStructure = function(){
+        var parseStructure = function() {
             // Parse rows
             var json = $.parseJSON(tempDocData.structure0);
             $.each(json, function(index, item){
-                docData["rows"] = tempDocData[item._ref].rows;
+                docData.rows = tempDocData[item._ref].rows;
                 STORE_PATH = "p/" + docPath + "/" + item._ref + "/";
 
                 // Go through rows, columns and cells and extract any content
                 // rows on the page
-                $.each(docData["rows"], function(rowIndex, row){
-                    if($.isPlainObject(row)){
+                $.each(docData["rows"], function(rowIndex, row) {
+                    if($.isPlainObject(row)) {
                         // Columns in the rows
-                        $.each(row.columns, function(columnIndex, column){
-                            if($.isPlainObject(column)){
+                        $.each(row.columns, function(columnIndex, column) {
+                            if($.isPlainObject(column)) {
                                 // Cells in the column
-                                $.each(column.elements, function(cellIndex, cell){
-                                    if($.isPlainObject(cell)){
-                                        if(tempDocData[item._ref][cell.id]){
+                                $.each(column.elements, function(cellIndex, cell) {
+                                    if($.isPlainObject(cell)) {
+                                        if(tempDocData[item._ref][cell.id]) {
+                                            var cellData = tempDocData[item._ref][cell.id][cell.type];
                                             docData[cell.id] = {};
                                             docData[cell.id][cell.type] = {
-                                                "embedmethod": tempDocData[item._ref][cell.id][cell.type].embedmethod,
-                                                "sakai:indexed-fields": tempDocData[item._ref][cell.id][cell.type]["sakai:indexed-fields"],
-                                                "download": tempDocData[item._ref][cell.id][cell.type].download,
-                                                "title": tempDocData[item._ref][cell.id][cell.type].title,
-                                                "details": tempDocData[item._ref][cell.id][cell.type].details,
-                                                "description": tempDocData[item._ref][cell.id][cell.type].description,
-                                                "name": tempDocData[item._ref][cell.id][cell.type].name,
-                                                "layout": tempDocData[item._ref][cell.id][cell.type].layout,
+                                                "embedmethod": cellData.embedmethod,
+                                                "sakai:indexed-fields": cellData["sakai:indexed-fields"],
+                                                "download": cellData.download,
+                                                "title": cellData.title,
+                                                "details": cellData.details,
+                                                "description": cellData.description,
+                                                "name": cellData.name,
+                                                "layout": cellData.layout,
                                                 "items": {}
                                             };
-                                            $.each(tempDocData[item._ref][cell.id][cell.type].items, function(itemsIndex, cellItem){
-                                                if(itemsIndex.indexOf("__array__") === 0){
+                                            $.each(tempDocData[item._ref][cell.id][cell.type].items, function(itemsIndex, cellItem) {
+                                                if(itemsIndex.indexOf("__array__") === 0) {
                                                     docData[cell.id][cell.type].items[itemsIndex] = cellItem;
                                                 }
                                             });
@@ -121,8 +122,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var fetchPages = function(){
             $.ajax({
                 url: "/p/" + docPath + ".infinity.json",
-                type: "GET",
-                dataType: "JSON",
                 success: function(data){
                     tempDocData = data;
                     parseStructure();

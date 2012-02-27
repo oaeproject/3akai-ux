@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.search = function() {
         var worldsOrderIncrement = 3;
@@ -158,11 +158,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
         }
 
-        var fireSearch = function(){
+        var fireSearch = function() {
             $.bbq.pushState({
-                "q": $(searchInput).val(),
-                "cat": "",
-                "refine": $.bbq.getState("refine")
+                'q': $(searchInput).val(),
+                'cat': '',
+                'refine': $.bbq.getState('refine')
             }, 0);
         };
 
@@ -171,30 +171,30 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ///////////////////
 
         var eventBinding = function() {
-            $(searchInput).on("keydown", function(ev) {
+            $(searchInput).on('keydown', function(ev) {
                 if (ev.keyCode === 13) {
                     fireSearch();
                 }
             });
 
-            $(searchButton).on("click", function(ev) {
+            $(searchButton).on('click', function(ev) {
                 fireSearch();
             });
         };
 
         var generateNav = function() {
-            $(window).trigger("lhnav.init", [pubdata, {}, {}]);
+            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
         };
 
         var renderEntity = function() {
-            $(window).trigger("sakai.entity.init", ["search"]);
+            $(window).trigger('sakai.entity.init', ['search']);
         };
 
-        $(window).bind("sakai.entity.ready", function() {
+        $(window).bind('sakai.entity.ready', function() {
             renderEntity();
         });
 
-        $(window).bind("lhnav.ready", function() {
+        $(window).bind('lhnav.ready', function() {
             generateNav();
         });
 
@@ -204,5 +204,5 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.Container.registerForLoad("search");
+    sakai.api.Widgets.Container.registerForLoad('search');
 });

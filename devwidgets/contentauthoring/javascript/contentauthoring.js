@@ -425,7 +425,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         $rootel.contentChange(function(changedHTML) {
-            $.each($(changedHTML).find('img:visible'), function(i, item){
+            $.each($(changedHTML).find('img:visible'), function(i, item) {
                 imageLoaded({}, $(item));
                 $(item).load(function(ev) {
                     imageLoaded(ev, $(ev.currentTarget));
@@ -795,7 +795,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             makeColumnsResizable();
             reorderWidgets();
             showEditCellMenu();
-            sakai.api.Util.hideOnClickOut('#contentauthoring_row_menu', '.contentauthoring_row_edit', function(){
+            sakai.api.Util.hideOnClickOut('#contentauthoring_row_menu', '.contentauthoring_row_edit', function() {
                 rowToChange = false;
                 hideEditRowMenu();
             });
@@ -848,6 +848,89 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 'widgetIds': widgetIds
             };
         };
+
+        ////////////////////////////
+        // EMPTY PAGE PLACEHOLDER //
+        ////////////////////////////
+
+        /**
+         * Checks for empty htmlblock widgets and returns a Boolean
+         *
+         * @return {Boolean} false if the htmlblock widget is not empty
+         *                   true if the htmlblock widget is empty
+         */
+        var checkHTMLBlockEmpty = function(currentPageShown, element) {
+            if (currentPageShown.content[element.id] &&
+                currentPageShown.content[element.id].htmlblock &&
+                $.trim($(currentPageShown.content[element.id].htmlblock.content).text())) {
+                return false;
+            }
+            return true;
+        };
+
+        /**
+         * Determines if a page is empty by checking its content
+         * Shows a default image when no content is present in the page
+         * Empty content = empty rows and rows with empty html blocks
+         *
+         * @param currentPageShown {Object} Object containing data for the current page
+         */
+        var determineEmptyPage = function(currentPageShown) {
+            // emptyPageElements checks for empty rows
+            var emptyPageElements = true;
+            // emptyPageElementContents checks for empty tinyMCe instances
+            var emptyPageElementContents = true;
+
+            // Check for empty rows, if a row with content or (empty) tinyMCE is detected emptyPageElements will be set to false
+            // emptyPageElements will later be overridden if the tinymce instances don't have any content after all
+            $.each(currentPageShown.content.rows, function(rowIndex, row) {
+                $.each(row.columns, function(columnIndex, column) {
+                    if(column.elements.length) {
+                        $.each(column.elements, function(elIndex, element) {
+                            // Check designed to look at specific storage types
+                            if(element.type === 'htmlblock') {
+                                // Returns false if not empty, true if empty
+                                emptyPageElements = checkHTMLBlockEmpty(currentPageShown, element);
+                            } else {
+                                emptyPageElements = false;
+                            }
+                            // If false returned there must be content and the page should be rendered
+                            return emptyPageElements;
+                        });
+                        return emptyPageElements;
+                    }
+                    return emptyPageElements;
+                });
+                return emptyPageElements;
+            });
+
+            // If the page is empty show the illustration
+            showPlaceholder(emptyPageElements);
+        };
+
+        var determineEmptyAfterSave = function() {
+            var cellElements = $('#' + currentPageShown.ref + ' .contentauthoring_cell_element', $rootel);
+            var containsText = false;
+            $.each(cellElements, function(index, el) {
+                if (sakai.api.Util.determineEmptyContent($(el).html())) {
+                    containsText = true;
+                }
+            });
+            showPlaceholder(!containsText);
+        };
+
+        var showPlaceholder = function(show) {
+            if (show) {
+                $('#contentauthoring_widget_container', $pageRootEl).hide();
+                sakai.api.Util.TemplateRenderer('contentauthoring_no_content_template', {
+                    'canEdit': currentPageShown.canEdit
+                }, $('#contentauthoring_no_content_container', $rootel));
+                $('#contentauthoring_no_content_container', $rootel).show();
+            } else {
+                $('#contentauthoring_no_content_container', $rootel).hide();
+                $('#contentauthoring_widget_container', $pageRootEl).show();
+            }
+        }
 
         /////////////////////
         /////////////////////
@@ -1007,11 +1090,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             sakai.api.Util.bindDialogFocus($('#autosave_dialog'));
             $('#autosave_dialog').jqmShow();
             $('#autosave_keep').unbind('click');
-            $('#autosave_keep').bind('click', function(){
+            $('#autosave_keep').bind('click', function() {
                 cancelRestoreAutoSave(pageData);
             });
             $('#autosave_revert').unbind('click');
-            $('#autosave_revert').bind('click', function(){
+            $('#autosave_revert').bind('click', function() {
                 restoreAutoSave(pageData);
             });
         };
