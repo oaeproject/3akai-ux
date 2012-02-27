@@ -21,7 +21,7 @@ define(['config/config'], function(config) {
     config.skinCSS = ['/dev/skins/default/skin.css'];
 
     // Hybrid
-    config.useLiveSakai2Feeds = false;
+    config.useLiveSakai2Feeds = true;
 
     config.defaultprivstructure['${refid}0']['${refid}5'].dashboard.columns.column1.push({
         'uid': '${refid}1234',
