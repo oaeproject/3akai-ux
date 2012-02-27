@@ -6,7 +6,7 @@
  * Version 1.0
  * Updated 12/10/2008
  *
- * Copyright (c) 2008 Rob Glazebrook (cssnewbie.com) 
+ * Copyright (c) 2008 Rob Glazebrook (http://www.cssnewbie.com/equalheights-jquery-plugin/) 
  *
  * Usage: $(object).equalHeights([minHeight], [maxHeight]);
  * 
