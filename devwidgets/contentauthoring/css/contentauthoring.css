@@ -285,6 +285,10 @@
     margin-right:-5px;
 }
 
+.contentauthoring_edit_mode .contentauthoring_reorder_placeholder {
+    background-color: #2683BC;
+}
+
 .contentauthoring_edit_mode .contentauthoring_row_reorder_highlight:before, .contentauthoring_cell_reorder_highlight:before {
     content: url("/devwidgets/contentauthoring/images/row_reorder_highlight_arrow.png");
     height:30px;
