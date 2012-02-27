@@ -78,11 +78,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_EXPORT_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
             }
-            $templategeneratorDialog.jqmHide();
+            sakai.api.Util.Modal.close($templategeneratorDialog);
         };
 
         var bindEvents = function() {
-            $templategeneratorDialog.jqm({
+            sakai.api.Util.Modal.setup($templategeneratorDialog, {
                 modal : true,
                 overlay : 20,
                 toTop : true
@@ -262,20 +262,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     },
                                     error : function() {
                                         sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_DELETE_FILE_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
-                                        $templategeneratorDialog.jqmHide();
+                                        sakai.api.Util.Modal.close($templategeneratorDialog);
                                     }
                                 });
                             },
                             error : function() {
                                 sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_PERMISSION_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
-                                $templategeneratorDialog.jqmHide();
+                                sakai.api.Util.Modal.close($templategeneratorDialog);
                             }
                         });
                     });
                 },
                 error : function(error) {
                     sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_FILE_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
-                    $templategeneratorDialog.jqmHide();
+                    sakai.api.Util.Modal.close($templategeneratorDialog);
                 }
             });
         };
@@ -358,7 +358,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             getTemplateData(function(success) {
                 templategeneratorData.templatesLoaded = true;
             });
-            $templategeneratorDialog.jqmShow();
+            sakai.api.Util.Modal.open($templategeneratorDialog);
         };
         bindEvents();
 

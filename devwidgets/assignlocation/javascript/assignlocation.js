@@ -108,7 +108,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ( saveCallback ) {
                 saveCallback( initiallyRendered );
             }
-            $assignlocationContainer.jqmHide();
+            sakai.api.Util.Modal.close($assignlocationContainer);
         };
 
         var addWidgetBinding = function(){
@@ -196,14 +196,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ( $target.parents( ".s3d-dialog" ).length ) {
                     zIndex = 5000;
                 }
-                $assignlocationContainer.jqm({
+                sakai.api.Util.Modal.setup($assignlocationContainer, {
                     modal: true,
                     toTop: true,
                     onShow: showContainer,
                     onClose: closeContainer,
                     zIndex: zIndex
                 });
-                $assignlocationContainer.jqmShow();
+                sakai.api.Util.Modal.open($assignlocationContainer);
             });
         };
         doInit();

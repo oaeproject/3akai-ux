@@ -846,7 +846,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     "newPageMode": ""
                 }, 0);
             }
-            $('#lhnavigation_delete_dialog').jqmHide();
+            sakai.api.Util.Modal.close('#lhnavigation_delete_dialog');
         };
 
         /*
@@ -908,12 +908,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var confirmPageDelete = function(){
             pageToDelete = jQuery.extend(true, {}, contextMenuHover);
-            $('#lhnavigation_delete_dialog').jqmShow();
+            sakai.api.Util.Modal.open('#lhnavigation_delete_dialog');
             toggleContextMenu(true);
         };
 
         // Init delete dialog
-        $('#lhnavigation_delete_dialog').jqm({
+        sakai.api.Util.Modal.setup('#lhnavigation_delete_dialog', {
             modal: true,
             overlay: 20,
             toTop: true

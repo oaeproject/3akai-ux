@@ -72,8 +72,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          * Closes the widget overlay
          */
         var closeOverlay= function(){
-            $("#contentpermissions_container").jqmHide();
-            $("#contentpermissions_warning_container").jqmHide();
+            sakai.api.Util.Modal.close("#contentpermissions_container");
+            sakai.api.Util.Modal.close("#contentpermissions_warning_container");
         };
 
         var showWarning = function(){
@@ -85,7 +85,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                     "visibility": newVisibilityVal,
                     "content": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
                 }));
-                $("#contentpermissions_warning_container").jqmShow();
+                sakai.api.Util.Modal.open("#contentpermissions_warning_container");
             }
         };
 
@@ -421,19 +421,19 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          * Show the content permissions overlay
          */
         var initializeOverlay = function(){
-            $("#contentpermissions_container").jqm({
+            sakai.api.Util.Modal.setup("#contentpermissions_container", {
                 modal: true,
                 overlay: 20,
                 toTop: true,
                 zIndex: 11000
             });
-            $("#contentpermissions_warning_container").jqm({
+            sakai.api.Util.Modal.setup("#contentpermissions_warning_container", {
                 modal: true,
                 overlay: 20,
                 toTop: true,
                 zIndex: 12000
             });
-            $("#contentpermissions_container").jqmShow();
+            sakai.api.Util.Modal.open("#contentpermissions_container");
         };
 
         /**

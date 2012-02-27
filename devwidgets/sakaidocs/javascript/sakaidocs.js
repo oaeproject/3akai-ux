@@ -38,7 +38,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Autosave //
         //////////////
 
-        $('#autosave_dialog').jqm({
+        sakai.api.Util.Modal.setup('#autosave_dialog', {
             modal: true,
             overlay: 20,
             toTop: true
@@ -62,14 +62,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($rootel.is(":visible")) {
                 setAutosaveInterval();
                 tinyMCE.get("elm1").setContent(currentPageShown.autosave.page, {format : 'raw'});
-                $('#autosave_dialog').jqmHide();
+                sakai.api.Util.Modal.close('#autosave_dialog');
             }
         };
 
         var keepAutosave = function() {
             autosaveDialogShown = false;
             setAutosaveInterval();
-            $('#autosave_dialog').jqmHide();
+            sakai.api.Util.Modal.close('#autosave_dialog');
         };
 
         var editing = function() {
@@ -129,7 +129,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var $selected = $(ed.selection.getNode());
             $selected.removeClass("block_image").removeClass("block_image_right").removeClass("block_image_left");
             $selected.addClass(classToAdd);
-            $('#wrapping_dialog').jqmHide();
+            sakai.api.Util.Modal.close('#wrapping_dialog');
         };
 
         var showWrappingDialog = function(hash){
@@ -138,7 +138,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             hash.w.show();
         };
 
-        $('#wrapping_dialog').jqm({
+        sakai.api.Util.Modal.setup('#wrapping_dialog', {
             modal: true,
             trigger: $('#context_appearance_trigger'),
             overlay: 20,
@@ -190,7 +190,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#dialog_title").html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
                     sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     $("#dialog_content").show();
-                    $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
+                    sakai.api.Util.Modal.open('#insert_dialog');
+                    $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"});
                 }
             }
             $("#context_menu").hide();
@@ -228,7 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.TemplateRenderer($("#sakaidocs_insert_dropdown_template"), jsonData, $("#sakaidocs_insert_dropdown_container"));
 
             // Event handler
-            $('#insert_dialog').jqm({
+            sakai.api.Util.Modal.setup('#insert_dialog', {
                 modal: true,
                 overlay: 20,
                 toTop: true,
@@ -250,7 +251,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             var id = $el.attr("id");
             if (id==="link") {
-                $('#link_dialog').jqmShow();
+                sakai.api.Util.Modal.open('#link_dialog');
             } else if (id==="hr") {
                 tinyMCE.get("elm1").execCommand('InsertHorizontalRule');
             } else {
@@ -312,7 +313,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
                     }
                     $dialog_content.show();
-                    $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
+                    sakai.api.Util.Modal.open('#insert_dialog');
+                    $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"});
                 } else {
                     tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets[currentlySelectedWidget.widgetname].img + '" id="' + currentlySelectedWidget.uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
                 }
@@ -324,7 +326,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////////////////////////////////////////////////
 
         sakai_global.sakaidocs.widgetCancel = function(tuid){
-            $('#insert_dialog').jqmHide();
+            sakai.api.Util.Modal.close('#insert_dialog');
         };
 
         sakai_global.sakaidocs.widgetFinish = function(tuid){
@@ -333,7 +335,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets[currentlySelectedWidget.widgetname].img + '" id="' + currentlySelectedWidget.uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
             }
             updatingExistingWidget = false;
-            $('#insert_dialog').jqmHide();
+            sakai.api.Util.Modal.close('#insert_dialog');
         };
 
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.sakaidocs.widgetFinish);
@@ -638,7 +640,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         isEditingPage = true;
                         if (data.hasAutosave) {
                             autosaveDialogShown = true;
-                            $('#autosave_dialog').jqmShow();
+                            sakai.api.Util.Modal.open('#autosave_dialog');
                         }
                         editing();
                         setEditInterval();

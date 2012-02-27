@@ -130,14 +130,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var initialize = function(data){
             baseFileData = data;
             getRevisionInformationDetails();
-            $fileRevisionsDialog.jqmShow();
+            sakai.api.Util.Modal.open($fileRevisionsDialog);
         };
 
         $(window).bind("initialize.filerevisions.sakai", function(e, data) {
             initialize(data);
         });
 
-        $fileRevisionsDialog.jqm({
+        sakai.api.Util.Modal.setup($fileRevisionsDialog, {
             modal: true,
             overlay: 20,
             toTop: true
@@ -145,7 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(filerevisionsCloseButton).live("click", function(){
             $(filerevisionsTemplateContainer).html("");
-            $fileRevisionsDialog.jqmHide();
+            sakai.api.Util.Modal.close($fileRevisionsDialog);
         });
 
     };

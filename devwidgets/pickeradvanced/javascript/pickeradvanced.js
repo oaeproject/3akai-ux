@@ -274,7 +274,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        $pickeradvanced_container.jqm({
+        sakai.api.Util.Modal.setup($pickeradvanced_container, {
             modal: true,
             overlay: 20,
             zIndex: 5000,
@@ -282,10 +282,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var addPeople = function() {
-          // this value is a comma-delimited list
-          // split it and get rid of any empty values in the array
-          $pickeradvanced_container.jqmHide();
-          $(window).trigger("finished.pickeradvanced.sakai", {"toAdd":pickerData["selected"]});
+            // this value is a comma-delimited list
+            // split it and get rid of any empty values in the array
+            sakai.api.Util.Modal.close($pickeradvanced_container);
+            $(window).trigger("finished.pickeradvanced.sakai", {"toAdd":pickerData["selected"]});
         };
 
 
@@ -297,18 +297,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("init.pickeradvanced.sakai", function(e, config) {
             firstTime = true;
             render(config.config);
-            $pickeradvanced_container.jqmShow();
+            sakai.api.Util.Modal.open($pickeradvanced_container);
             pickerlist = config.list;
         });
 
         $pickeradvanced_close_dialog.unbind("click");
         $pickeradvanced_close_dialog.bind("click", function() {
-            $pickeradvanced_container.jqmHide();
+            sakai.api.Util.Modal.close($pickeradvanced_container);
         });
 
         $pickeradvanced_close_button.unbind("click");
         $pickeradvanced_close_button.bind("click", function() {
-            $pickeradvanced_container.jqmHide();
+            sakai.api.Util.Modal.close($pickeradvanced_container);
         });
 
         $pickeradvanced_search_filter.die("click");

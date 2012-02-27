@@ -78,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ($.isFunction(callback)) {
                     callback(success);
                 }
-                $deletecontent_dialog.jqmHide();
+                sakai.api.Util.Modal.close($deletecontent_dialog);
             });
         };
 
@@ -478,7 +478,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#deletecontent_container").html("");
             $("#deletecontent_container").show();
             $("#deletecontent_used_by_others").hide();
-            $deletecontent_dialog.jqmShow();
+            sakai.api.Util.Modal.open($deletecontent_dialog);
         };
 
         /**
@@ -487,7 +487,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var init = function(){
             // This will make the widget popup as a layover.
-            $deletecontent_dialog.jqm({
+            sakai.api.Util.Modal.setup($deletecontent_dialog, {
                 modal: true,
                 toTop: true
             });

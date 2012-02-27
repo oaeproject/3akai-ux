@@ -189,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                     },
                     success: function(data){
                         enableDisableInviteButton(false);
-                        $(addToContactsDialog).jqmHide();
+                        sakai.api.Util.Modal.close(addToContactsDialog);
                         sakai.api.Communication.sendMessage(userid, sakai.data.me, title, message, "invitation", false,false,true,"contact_invitation");
                         $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
                         //reset the form to set original note
@@ -253,7 +253,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
             renderTemplates();
 
             // Show the layover
-            $(addToContactsDialog).jqmShow();
+            sakai.api.Util.Modal.open(addToContactsDialog);
 
         };
 
@@ -300,7 +300,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         });
 
         // Bind the jqModal
-        $(addToContactsDialog).jqm({
+        sakai.api.Util.Modal.setup(addToContactsDialog, {
             modal: true,
             overlay: 20,
             toTop: true,

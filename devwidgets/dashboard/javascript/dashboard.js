@@ -719,13 +719,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var beforeFinishAddWidgets = function() {
             showDashboard();
-            $(changeLayoutDialog + rootelClass).jqmHide();
+            sakai.api.Util.Modal.close(changeLayoutDialog + rootelClass);
         };
 
         $("#select-layout-finished", $rootel).bind("click",
         function(ev) {
             if (currentlySelectedLayout === settings.layout) {
-                $(changeLayoutDialog + rootelClass).jqmHide();
+                sakai.api.Util.Modal.close(changeLayoutDialog + rootelClass);
             } else {
 
                 var selectedlayout = currentlySelectedLayout;
@@ -803,7 +803,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             hash.w.show();
         };
 
-        $(changeLayoutDialog, $rootel).jqm({
+        sakai.api.Util.Modal.setup($(changeLayoutDialog, $rootel), {
             modal: true,
             overlay: 20,
             toTop: true,
@@ -814,7 +814,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if (title) {
                 $("#paget_title_only", $rootel).html(" " + title);
             }
-            $(changeLayoutDialog, $rootel).jqmShow();
+            sakai.api.Util.Modal.open($(changeLayoutDialog, $rootel));
         };
 
         /**
@@ -888,7 +888,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             $(".close_goodies_dialog", $rootelClass).unbind("click");
             $(".close_goodies_dialog", $rootelClass).bind("click", function(e) {
-                $(addGoodiesDialog + rootelClass).jqmHide();
+                sakai.api.Util.Modal.close(addGoodiesDialog + rootelClass);
             });
 
         };
@@ -940,7 +940,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         * to my dashboard. Before it shows on the screen, we'll render the list of
         * widgets through a TrimPath template
         */
-        $(addGoodiesDialog, $rootel).jqm({
+        sakai.api.Util.Modal.setup($(addGoodiesDialog, $rootel), {
             modal: true,
             overlay: 20,
             toTop: true,
@@ -959,7 +959,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         
         var showAddWidgetDialog = function(iTuid){
             if (iTuid === tuid) {
-                $(addGoodiesDialog, $rootel).jqmShow();
+                sakai.api.Util.Modal.open($(addGoodiesDialog, $rootel));
             }
         };
 
