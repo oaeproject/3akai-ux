@@ -238,7 +238,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + item._path){
                             item.counts = {
                                 contentCount: group.counts.contentCount
-                            }
+                            };
                             libraryData.push(item);
                         }
                     });
@@ -272,7 +272,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
             if (inCollection){
-                var count = parseInt($('#inserter_header_itemcount > span', $rootel).text());
+                var count = parseInt($('#inserter_header_itemcount > span', $rootel).text(), 10);
                 $('#inserter_header_itemcount > span', $rootel).text(count + amount);
             }
         };
@@ -283,7 +283,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var createNewCollection = function(title) {
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('CREATING_YOUR_COLLECTION', 'inserter'), sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
-            var title = title || sakai.api.i18n.getValueForKey('UNTITLED_COLLECTION', 'inserter');
+            title = title || sakai.api.i18n.getValueForKey('UNTITLED_COLLECTION', 'inserter');
             var permissions = 'public';
             sakai.api.Content.Collections.createCollection(title, '', permissions, [], [], [], function() {
                 $(window).trigger('sakai.collections.created');
@@ -578,7 +578,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     }, $inserterNoResultsContainer);
                     $inserterNoResultsContainer.show();
                 } else {
-                    var query = $.trim($(inserterCollectionContentSearch, $rootel).val());
+                    query = $.trim($(inserterCollectionContentSearch, $rootel).val());
                     sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
                         'search': 'mimetypesearch',
                         collection: sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
@@ -653,7 +653,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }, $inserterInitContainer);
                 addDnDToElements();
             }, function() {
-                sakai.api.Content.getNewList(contentListDisplayed)
+                sakai.api.Content.getNewList(contentListDisplayed);
             }, function() {
                 // initial callback
             }, $inserterCollectionInfiniteScrollContainer);
@@ -720,7 +720,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     wHeight = $(window).height();
                     wWidth = $(window).width();
                     iHeight= $inserterWidget.height();
-                    iWidth = $inserterWidget.width()
+                    iWidth = $inserterWidget.width();
                     borderMargin = 15;
                     if(elOffset) {
                         // Overlaps left window border

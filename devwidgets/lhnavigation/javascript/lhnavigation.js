@@ -676,7 +676,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         "elements": []
                     }]
                 }]
-            }
+            };
             var pageToCreate = {
                 "_ref": fullRef,
                 "_title": "Untitled Page",

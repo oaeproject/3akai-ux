@@ -54,7 +54,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Elements
         var $inserterbarCarouselLeft = $('#inserterbar_carousel_left', $rootel);
         var $inserterbarCarouselRight = $('#inserterbar_carousel_right', $rootel);
-        var $inserterbarMoreWidgetsContainer = $('#inserterbar_more_widgets_container', $rootel)
+        var $inserterbarMoreWidgetsContainer = $('#inserterbar_more_widgets_container', $rootel);
 
 
         ///////////////////////
@@ -130,10 +130,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var setupSortables = function() {
             $( '#inserterbar_widget .inserterbar_widget_draggable', $rootel ).draggable({
-    			connectToSortable: '.contentauthoring_cell_content',
-    			helper: 'clone',
-    			revert: 'invalid',
-    			opacity: 0.4,
+                connectToSortable: '.contentauthoring_cell_content',
+                helper: 'clone',
+                revert: 'invalid',
+                opacity: 0.4,
                 start: function() {
                     $(window).trigger("start.drag.sakai");
                     sakai.api.Util.Draggable.setIFrameFix();
@@ -142,7 +142,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $(window).trigger("stop.drag.sakai");
                     sakai.api.Util.Draggable.removeIFrameFix();
                 }
-    		});
+            });
         };
 
         /**

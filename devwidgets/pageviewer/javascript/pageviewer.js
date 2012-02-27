@@ -95,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                                 "name": tempDocData[item._ref][cell.id][cell.type].name,
                                                 "layout": tempDocData[item._ref][cell.id][cell.type].layout,
                                                 "items": {}
-                                            }
+                                            };
                                             $.each(tempDocData[item._ref][cell.id][cell.type].items, function(itemsIndex, cellItem){
                                                 if(itemsIndex.indexOf("__array__") === 0){
                                                     docData[cell.id][cell.type].items[itemsIndex] = cellItem;

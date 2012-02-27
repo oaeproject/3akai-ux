@@ -997,13 +997,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("sakai.mylibrary.deletedCollections", function(ev, data){
             $.each(data.items, function(i, item){
-                $(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(parseInt($(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text()) - 1);
+                $(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(parseInt($(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(), 10) - 1);
             });
         });
 
         $(window).bind("sakai.mylibrary.createdCollections", function(ev, data){
             $.each(data.items, function(i, item){
-                $(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(parseInt($(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text()) + 1);
+                $(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(parseInt($(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(), 10) + 1);
             });
         });
 

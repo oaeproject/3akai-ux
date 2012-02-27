@@ -171,7 +171,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     return false;
                 }
             }
-        }
+        };
 
         /////////////////////////
         // Autosave and saving //
@@ -214,7 +214,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             stopAutoSave();
             // Start the autosave
             autoSavePoll = setInterval(autoSave, AUTOSAVE_INTERVAL);
-        }
+        };
 
         /**
          * Stop the auto save interval for the current widget
