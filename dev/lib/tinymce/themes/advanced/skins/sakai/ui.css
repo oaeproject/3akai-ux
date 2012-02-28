@@ -139,7 +139,7 @@
 .sakaiSkin td.mceRight table {
     margin: 0 0 0 auto;
 }
-.mceToolbar a {
+.sakaiSkin .mceToolbar a {
     color:#333;
 }
 
