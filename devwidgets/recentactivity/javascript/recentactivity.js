@@ -79,8 +79,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
                 });
                 var json = {
-                    "data": results,
-                    "sakai": sakai
+                    "data": results
                 };
                 sakai.api.Util.TemplateRenderer(recentactivityActivityItemTemplate, json, $recentactivityActivityContainer);
                 applyThreeDots();

@@ -41,7 +41,7 @@ define(
             sakai_conf,
             sakai_widget_config) {
     
-    var sakai = {
+    sakai = {
         api : {
             Activity : sakai_util.Activity,
             Communication : sakai_comm,

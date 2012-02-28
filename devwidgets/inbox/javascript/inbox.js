@@ -281,7 +281,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             }, {}, function(items, total){
                 $('.inbox_select_all_container:visible input', $rootel).removeAttr('disabled');
                 return sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
-                    sakai: sakai,
                      _: _,
                     results: items,
                     search: searchTerm,

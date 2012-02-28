@@ -148,8 +148,7 @@ sakai_global.s23_site = function(){
                     // the first column.
                     var renderData = {
                         xid: page.xid,
-                        columnTools: [[]],
-                        sakai: sakai
+                        columnTools: [[]]
                     };
                     for (var i = 0; i < page.tools.length; i++) {
                         if (page.tools[i].layouthint) {

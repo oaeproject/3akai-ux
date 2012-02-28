@@ -152,7 +152,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var renderResults = function(jsondata) {
             var qparams = sakai_global.data.search.getQueryParams();
             finaljson = {};
-            finaljson.sakai = sakai;
             var resultstotal;
 
             if (searchConfig.facetedConfig.facets[0]) {

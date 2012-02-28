@@ -122,7 +122,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 // pass the array to HTML view
-                contentjson.sakai = sakai;
                 $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
 
                 $(".add_content_button", rootel).click(function (ev) {

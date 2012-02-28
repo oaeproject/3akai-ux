@@ -264,8 +264,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                                 sectionid: widgetData.sectionid,
                                 section: section,
                                 data: sectionData,
-                                unique: false,
-                                sakai: sakai
+                                unique: false
                             });
                             $displayprofilesection_body.html( sakai.api.i18n.General.process( bodyHTML ) );
                             var $tagfield = $displayprofilesection_body.find( "textarea[data-tag-field]" );

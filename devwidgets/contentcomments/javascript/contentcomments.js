@@ -202,7 +202,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
                 jsonDisplay.comments[i] = comment;
             }
-            jsonDisplay.sakai = sakai;
             $(contentcommentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(contentcommentsShowCommentsTemplate, jsonDisplay));
             // Render Math formulas in the text
             sakai.api.Util.renderMath(tuid);

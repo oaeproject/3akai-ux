@@ -70,8 +70,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
             // display the error page links
             var linkObj = {
-                links: sakai.config.ErrorPage.Links,
-                sakai: sakai
+                links: sakai.config.ErrorPage.Links
             };
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
             if (sakai.data.me.user.anon){

@@ -80,7 +80,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var renderVersions = function(){
             $(versionsContainer, $rootel).html(sakai.api.Util.TemplateRenderer(versionsTemplate, {
                 "data": versions,
-                "sakai": sakai,
                 "currentPage": currentPageShown
             }));
             $("#versions_carousel_container", $rootel).jcarousel({

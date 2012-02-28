@@ -160,8 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
                 "anon" : sakai.data.me.user.anon,
                 "auth": auth,
-                "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                "sakai": sakai
+                "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile)
             }));
             if (externalAuth){
                 setExternalLoginRedirectURL();
@@ -235,7 +234,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderResults = function(){
-            renderObj.sakai = sakai;
             $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
             $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
             $("#topnavigation_search_results").show();
@@ -473,7 +471,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             obj.links = menulinks;
             obj.selectedpage = true;
-            obj.sakai = sakai;
             // Get navigation and render menu template
             $(topnavExplore).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
         };
@@ -1006,7 +1003,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#topnavigation_messages_container").addClass("selected");
                     var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
                     $openPopover = $messageContainer;
-                    $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
+                    $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, dataPresent: dataPresent}));
                     $messageContainer.show();
                 });
             }

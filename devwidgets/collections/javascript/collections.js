@@ -123,7 +123,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var switchDisplay = function(collections){
             resetGUI();
             if(collections.total){
-                collections.sakai = sakai;
                 sakai.api.Util.TemplateRenderer("collections_collections_list_template", collections, $(collectionsCollectionsList));
                 $(collectionsCollectionsList).show();
                 $("#collections_carousel").jcarousel({
@@ -220,7 +219,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             sakai.api.Server.batch(batchRequest, function(success, response){
                 $.each(response.results, function(i, dataItem){
                     var contentItems = $.parseJSON(dataItem.body);
-                    contentItems.sakai = sakai;
                     $("ul[data-sakai-collection-id='" + collectionIds[i] + "']").html(sakai.api.Util.TemplateRenderer("collections_collections_recentcontent_template", contentItems));
                 });
             });

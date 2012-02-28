@@ -66,7 +66,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderTemplateList = function(templates){
             $("#selecttemplate_container", $rootel).show();
-            templates.sakai = sakai;
             templates.templates = templates.templates.sort(function(a,b) {
                 return a.order - b.order;
             });
@@ -123,8 +122,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             $selecttemplatePreviewDialog.jqmShow();
             var json = {
-                "template": template,
-                "sakai": sakai
+                "template": template
             };
             sakai.api.Util.TemplateRenderer(selecttemplatePreviewDialogTemplate, json, $selecttemplatePreviewDialogContainer);
             $(".selecttemplate_use_button", "#selecttemplate_preview_dialog").live("click", function(){

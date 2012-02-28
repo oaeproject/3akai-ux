@@ -116,7 +116,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderWidget = function() {
-            wData.sakai = sakai;
             wData.showDefaultContent = false;
             var docData = {};
             $.each(wData.items, function(index, value) {

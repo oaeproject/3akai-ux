@@ -234,8 +234,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $participantsSelectAll.removeAttr("checked");
                 setSendSelectedMessageAttributes();
                 return sakai.api.Util.TemplateRenderer(participantsListTemplate, {
-                    "participants": items,
-                    "sakai": sakai
+                    "participants": items
                 });
             }, function(){
                 $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplateEmpty, {}));

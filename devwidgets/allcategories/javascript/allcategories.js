@@ -44,8 +44,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderallcategories = function(){
             sakai.api.Util.TemplateRenderer(allcategoriesItemsTemplate, {
-                "directory": allcategoriesToRender,
-                "sakai": sakai
+                "directory": allcategoriesToRender
             }, $allcategoriesItemsContainer);
         };
 
