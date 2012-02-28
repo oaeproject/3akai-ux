@@ -57,14 +57,17 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
+         * Check whether the current user can edit the current page. The user
+         * can't edit the page if he doesn't have permission or if the page
+         * is non-editable
          */
         var canEditCurrentPage = function() {
             return (currentPageShown.canEdit && !currentPageShown.nonEditable);
         };
 
         /**
-         * 
+         * Returns an array of widget ids for all of the widgets that are
+         * embedded in the current page
          */
         var getWidgetList = function() {
             var widgetIDs = [];
@@ -83,8 +86,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         /////////////////////
 
         /**
-         * 
-         * @param {Object} $container
+         * De-initialize all of the tinyMCE editors in a given container. This is necessary
+         * when dragging or moving an element that contains a tinyMCE editor
+         * @param {jQuery} $container   Container in which to de-initialize tinyMCE
          */
         var killTinyMCEInstances = function($container) {
             $container.find('.tinyMCE').each(function() {
@@ -93,8 +97,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} $container
+         * Initialize all of the tinyMCE declarations inside of a given container. This
+         * needs to be called after dragging or moving an element containing a tinyMCE editor.
+         * @param {jQuery} $container   Container in which to initialize tinyMCE
          */
         var initializeTinyMCEInstances = function($container) {
             $container.find('.tinyMCE').each(function() {
@@ -128,7 +133,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ////////////////////
 
         /**
-         * 
+         * Make the rows inside of the current page re-orderable
          */
         var makeRowsReorderable = function() {
             $('#contentauthoring_widget_container', $pageRootEl).sortable({
@@ -164,7 +169,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ///////////////
 
         /**
-         * 
+         * Set the onhover and onhoverout functions for each row. When hovering over a
+         * row, the edit row menu will be shown. When hovering out of it, it will be
+         * hidden
          */
         var setRowHover = function() {
             $('.contentauthoring_row_container', $rootel).unbind('hover');
@@ -183,7 +190,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////////
 
         /**
-         * 
+         * Returns the HTML for a new and empty row
          */
         var generateNewRow = function() {
             // Create an empty row
@@ -215,7 +222,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var rowToChange = false;
 
         /**
-         * 
+         * Hide the edit row dropdown
          */
         var hideEditRowMenu = function() {
             rowToChange = false;
@@ -224,8 +231,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} ev
+         * Show the edit row dropdown (if it is not already open).
+         * @param {Object} ev   jQuery event object
          */
         var showEditRowMenu = function(ev) {
             var currentRow = $(this).attr('data-row-id');
@@ -253,7 +260,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         /**
          * Matches the number of columns to the 'columncount' data attribute on list items 
          * that indicates how many are used and puts a black check icon in front of the list item
-         * @param {Object} element jQuery object with classname 'contentauthoring_row_container'
+         * @param {jQuery} element jQuery object with classname 'contentauthoring_row_container'
          *                         that is the parent element of all columns
          */
         var checkColumnsUsed = function(element) {
@@ -269,8 +276,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} ev
+         * Remove the currently selected row
+         * @param {Object} ev   jQuery event object
          */
         var removeRow = function(ev) {
             var $row = $('.contentauthoring_row_container[data-row-id=\'' + rowToChange + '\']', $rootel);
@@ -281,8 +288,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} insertBefore
+         * Insert a new row into the current page
+         * @param {Boolean} insertBefore     Whether or not to insert the new row before the current one or
+         *                                   after the current one
          */
         var addRow = function(insertBefore) {
             var $row = $('.contentauthoring_row_container[data-row-id=\'' + rowToChange + '\']', $rootel);
@@ -1244,7 +1252,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     if (!success2 || $.toJSON(pageData) === $.toJSON(autoSaveData)) {
                         makeTempCopy(pageData);
                     } else {
-                        showRestoreAutoSaveDialog(pageData);
+                        showRestoreAutoSaveDialog(pageData, autoSaveData);
                     }
                 });
             });
@@ -1254,7 +1262,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * 
          * @param {Object} pageData
          */
-        var showRestoreAutoSaveDialog = function(pageData) {
+        var showRestoreAutoSaveDialog = function(pageData, autoSaveData) {
             sakai.api.Util.bindDialogFocus($('#autosave_dialog'));
             $('#autosave_dialog').jqmShow();
             $('#autosave_keep').unbind('click');
@@ -1263,7 +1271,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
             $('#autosave_revert').unbind('click');
             $('#autosave_revert').bind('click', function() {
-                restoreAutoSave(pageData);
+                restoreAutoSave(autoSaveData);
             });
         };
 
@@ -1280,7 +1288,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * 
          * @param {Object} pageData
          */
-        var restoreAutoSave = function(pageData) {
+        var restoreAutoSave = function(autoSaveData) {
             killTinyMCEInstances($pageRootEl);
             var pageStructure = $.extend(true, {}, autoSaveData);
             pageStructure.template = 'all';
