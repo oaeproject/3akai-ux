@@ -16,7 +16,7 @@
 * specific language governing permissions and limitations under the License.
 */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai.templategenerator
@@ -32,11 +32,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.templategenerator = function(tuid, showSettings) {
 
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
         var $templategeneratorContainer = $('#templategenerator_container', $rootel);
         var $templategeneratorDialog = $('.templategenerator_dialog', $rootel);
-        var $templategeneratorForm = $("#templategenerator_form", $rootel);
-        var $templategeneratorExportButton = $("#templategenerator_export_button");
+        var $templategeneratorForm = $('#templategenerator_form', $rootel);
+        var $templategeneratorExportButton = $('#templategenerator_export_button');
         var $templategeneratorTitle = $('#templategenerator_title');
         var $templategeneratorUsedFor = $('#templategenerator_used_for');
         var $templategeneratorExport = $('#templategenerator_export');
@@ -46,24 +46,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             roles : {},
             docstructure : {},
             pages : [],
-            output : "",
+            output : '',
             generatingTemplate : false
         };
 
         // Main template structure
         var templategeneratorDataTemplate = {
-            id : "",
-            title : "",
-            img : "",
-            fullImg : "",
-            perfectFor : "",
+            id : '',
+            title : '',
+            img : '',
+            fullImg : '',
+            perfectFor : '',
             roles : [],
             docs : {},
             structure : [],
-            joinRole : "",
-            creatorRole : "",
-            defaultaccess: "public",
-            defaultjoin: "yes",
+            joinRole : '',
+            creatorRole : '',
+            defaultaccess: 'public',
+            defaultjoin: 'yes',
             excludeSearch: true
         };
 
@@ -73,10 +73,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleSentMessage = function(success) {
             if (success) {
-                sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_EXPORT_SUCCES", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_EXPORT_SUCCES', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                 templategeneratorData.generatingTemplate = false;
             } else {
-                sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_EXPORT_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_EXPORT_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
             }
             $templategeneratorDialog.jqmHide();
         };
@@ -90,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             var validateOpts = {
                 submitHandler: function() {
-                    $templategeneratorExportButton.attr( "disabled", "disabled" );
+                    $templategeneratorExportButton.attr( 'disabled', 'disabled' );
                     generateTemplateFromData();
                 }
             };
@@ -118,84 +118,84 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Create the root structure for the group template
                 templategeneratorData.exportData.structure = {};
-                $.each(templategeneratorData.pageStructures, function(index, item){
+                $.each(templategeneratorData.pageStructures, function(index, item) {
                     templategeneratorData.exportData.structure[item.page1._title] = {};
                     templategeneratorData.exportData.structure[item.page1._title] = {
-                        "_title": item.page1._title,
-                        "_order": item.page1._order,
-                        "_docref": "${pid}" + index,
-                        "_nonEditable": true,
-                        "_view": [
-                            "everyone",
-                            "anonymous",
-                            "-student"
+                        '_title': item.page1._title,
+                        '_order': item.page1._order,
+                        '_docref': '${pid}' + index,
+                        '_nonEditable': true,
+                        '_view': [
+                            'everyone',
+                            'anonymous',
+                            '-student'
                         ],
-                        "_edit": [
-                            "-ta",
-                            "-lecturer"
+                        '_edit': [
+                            '-ta',
+                            '-lecturer'
                         ]
                     };
                     // Add the documents for the page
-                    templategeneratorData.exportData.docs["${pid}" + index] = {
-                        "excludeSearch": true,
-                        "structure0": {}
+                    templategeneratorData.exportData.docs['${pid}' + index] = {
+                        'excludeSearch': true,
+                        'structure0': {}
                     };
                     // Add structure0 inside of that page
-                    templategeneratorData.exportData.docs["${pid}" + index].structure0[templategeneratorData.pages[index].pageData["sakai:pooled-content-file-name"]] = {
-                        "_ref": "${refid}" + index,
-                        "_order": 0,
-                        "_nonEditable": true,
-                        "_title": templategeneratorData.pages[index].pageData["sakai:pooled-content-file-name"],
-                        "main": {
-                            "_ref": "${refid}" + index,
-                            "_order": 0,
-                            "_nonEditable": true,
-                            "_title": templategeneratorData.pages[index].pageData["sakai:pooled-content-file-name"]
+                    templategeneratorData.exportData.docs['${pid}' + index].structure0[templategeneratorData.pages[index].pageData['sakai:pooled-content-file-name']] = {
+                        '_ref': '${refid}' + index,
+                        '_order': 0,
+                        '_nonEditable': true,
+                        '_title': templategeneratorData.pages[index].pageData['sakai:pooled-content-file-name'],
+                        'main': {
+                            '_ref': '${refid}' + index,
+                            '_order': 0,
+                            '_nonEditable': true,
+                            '_title': templategeneratorData.pages[index].pageData['sakai:pooled-content-file-name']
                         }
                     };
                     // Add the content for the page (rows, cells,...)
                     var oldRef = item.page1._ref;
-                    templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index] = {
-                        "rows": {}
+                    templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index] = {
+                        'rows': {}
                     };
                     // rows on the page
-                    $.each(templategeneratorData.pages[index].pageData[oldRef].rows, function(rowIndex, row){
-                        if($.isPlainObject(row)){
-                            templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index].rows[rowIndex] = {
-                                "columns": {}
+                    $.each(templategeneratorData.pages[index].pageData[oldRef].rows, function(rowIndex, row) {
+                        if($.isPlainObject(row)) {
+                            templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index].rows[rowIndex] = {
+                                'columns': {}
                             };
                             // Columns in the rows
-                            $.each(row.columns, function(columnIndex, column){
-                                if($.isPlainObject(column)){
-                                    templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index].rows[rowIndex].columns[columnIndex] = {
-                                        "width": column.width,
-                                        "elements": {}
+                            $.each(row.columns, function(columnIndex, column) {
+                                if($.isPlainObject(column)) {
+                                    templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index].rows[rowIndex].columns[columnIndex] = {
+                                        'width': column.width,
+                                        'elements': {}
                                     };
                                     // Cells in the column
-                                    $.each(column.elements, function(cellIndex, cell){
-                                        if($.isPlainObject(cell)){
-                                            templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index]["rows"][rowIndex].columns[columnIndex].elements[cellIndex] = {
-                                                "id": cell.id,
-                                                "type": cell.type
+                                    $.each(column.elements, function(cellIndex, cell) {
+                                        if($.isPlainObject(cell)) {
+                                            templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index]['rows'][rowIndex].columns[columnIndex].elements[cellIndex] = {
+                                                'id': cell.id,
+                                                'type': cell.type
                                             };
-                                            if(templategeneratorData.pages[index].pageData[oldRef][cell.id]){
-                                                templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index][cell.id] = {};
-                                                templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index][cell.id][cell.type] = {
-                                                    "embedmethod": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].embedmethod,
-                                                    "sakai:indexed-fields": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type]["sakai:indexed-fields"],
-                                                    "download": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].download,
-                                                    "title": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].title,
-                                                    "details": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].details,
-                                                    "description": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].description,
-                                                    "name": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].name,
-                                                    "layout": templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].layout,
-                                                    "items": {
-                                                        "__array__0__": "/p/kMR5kxyyec",
+                                            if(templategeneratorData.pages[index].pageData[oldRef][cell.id]) {
+                                                templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index][cell.id] = {};
+                                                templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index][cell.id][cell.type] = {
+                                                    'embedmethod': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].embedmethod,
+                                                    'sakai:indexed-fields': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type]['sakai:indexed-fields'],
+                                                    'download': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].download,
+                                                    'title': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].title,
+                                                    'details': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].details,
+                                                    'description': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].description,
+                                                    'name': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].name,
+                                                    'layout': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].layout,
+                                                    'items': {
+                                                        '__array__0__': '/p/kMR5kxyyec',
                                                     }
                                                 };
-                                                $.each(templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].items, function(itemsIndex, item){
-                                                    if(itemsIndex.indexOf("__array__") === 0){
-                                                        templategeneratorData.exportData.docs["${pid}" + index]["${refid}" + index][cell.id][cell.type].items[itemsIndex] = item;
+                                                $.each(templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].items, function(itemsIndex, item) {
+                                                    if(itemsIndex.indexOf('__array__') === 0) {
+                                                        templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index][cell.id][cell.type].items[itemsIndex] = item;
                                                     }
                                                 });
                                             }
@@ -215,19 +215,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var createTemplateFile = function() {
-            var body = "--AAAAA\r\n";
-            body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + templategeneratorData.exportData.id + ".txt\" \r\n";
-            body = body + "Content-Type: text/plain \r\n";
-            body = body + "Content-Transfer-Encoding: binary\r\n\r\n";
-            body = body + templategeneratorData.output + "\r\n";
-            body = body + "--AAAAA--\r\n";
+            var body = '--AAAAA\r\n';
+            body = body + 'Content-Disposition: form-data; name=\'*\'; filename=\'' + templategeneratorData.exportData.id + '.txt\' \r\n';
+            body = body + 'Content-Type: text/plain \r\n';
+            body = body + 'Content-Transfer-Encoding: binary\r\n\r\n';
+            body = body + templategeneratorData.output + '\r\n';
+            body = body + '--AAAAA--\r\n';
 
             $.ajax({
-                url : "/system/pool/createfile",
+                url : '/system/pool/createfile',
                 data : body,
-                type : "POST",
+                type : 'POST',
                 beforeSend : function(xmlReq) {
-                    xmlReq.setRequestHeader("Content-type", "multipart/form-data; boundary=AAAAA");
+                    xmlReq.setRequestHeader('Content-type', 'multipart/form-data; boundary=AAAAA');
                 },
                 success : function(data) {
                     var fileData = $.parseJSON(data);
@@ -235,22 +235,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     // Set the permissions of the file to private
                     sakai.api.Content.setFilePermissions([{
-                        "hashpath" : fileData.poolId,
-                        "permissions" : "private"
+                        'hashpath' : fileData.poolId,
+                        'permissions' : 'private'
                     }], function() {
                         // Remove the file from the user's library and move it to the admin user
                         $.ajax({
-                            url : "/p/" + fileData.poolId + ".members.json",
-                            type : "POST",
+                            url : '/p/' + fileData.poolId + '.members.json',
+                            type : 'POST',
                             data : {
-                                ":manager" : sakai.widgets.templategenerator.defaultConfiguration.templategenerator.targetUser
+                                ':manager' : sakai.widgets.templategenerator.defaultConfiguration.templategenerator.targetUser
                             },
                             success : function() {
                                 $.ajax({
-                                    url : "/p/" + fileData.poolId + ".members.json",
-                                    type : "POST",
+                                    url : '/p/' + fileData.poolId + '.members.json',
+                                    type : 'POST',
                                     data : {
-                                        ":manager@Delete" : sakai.data.me.user.userid
+                                        ':manager@Delete' : sakai.data.me.user.userid
                                     },
                                     success : function() {
 
@@ -259,32 +259,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                                         // Sends a link with the template file to the admin user
                                         var userDisplayName = sakai.api.User.getDisplayName(sakai.data.me.profile);
-                                        var msg = sakai.api.Util.TemplateRenderer("templategenerator_admin_message_template", {
-                                            "system": sakai.api.i18n.getValueForKey("SAKAI"),
-                                            "user": userDisplayName
+                                        var msg = sakai.api.Util.TemplateRenderer('templategenerator_admin_message_template', {
+                                            'system': sakai.api.i18n.getValueForKey('SAKAI'),
+                                            'user': userDisplayName
                                         });
                                         sakai.api.Communication.sendMessage(sakai.widgets.templategenerator.defaultConfiguration.templategenerator.targetUser,
                                             sakai.data.me,
-                                            userDisplayName + " " + sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_ADMIN_MESSAGE_SUBJECT", "templategenerator"), msg + "\n\n" + filePath, "message", false, handleSentMessage, true, "new_message");
+                                            userDisplayName + ' ' + sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_ADMIN_MESSAGE_SUBJECT', 'templategenerator'), msg + '\n\n' + filePath, 'message', false, handleSentMessage, true, 'new_message');
 
                                         // Sends a message to the user that created the template
-                                        sakai.api.Communication.sendMessage(sakai.data.me.user.userid, sakai.data.me, sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_USER_MESSAGE_SUBJECT", "templategenerator"), sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_USER_MESSAGE", "templategenerator"), "message", false, null, true, "new_message");
+                                        sakai.api.Communication.sendMessage(sakai.data.me.user.userid, sakai.data.me, sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_USER_MESSAGE_SUBJECT', 'templategenerator'), sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_USER_MESSAGE', 'templategenerator'), 'message', false, null, true, 'new_message');
                                     },
                                     error : function() {
-                                        sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_DELETE_FILE_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                                        sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_DELETE_FILE_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                                         $templategeneratorDialog.jqmHide();
                                     }
                                 });
                             },
                             error : function() {
-                                sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_PERMISSION_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                                sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_PERMISSION_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                                 $templategeneratorDialog.jqmHide();
                             }
                         });
                     });
                 },
                 error : function(error) {
-                    sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_FILE_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                    sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_FILE_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                     $templategeneratorDialog.jqmHide();
                 }
             });
@@ -295,18 +295,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getTemplateData = function(callback) {
             templategeneratorData.templateName = sakai_global.group.groupData.name;
-            templategeneratorData.docstructureUrl = "~" + templategeneratorData.templateName + "/docstructure.infinity.json";
-            templategeneratorData.rolesUrl = "/system/userManager/group/" + templategeneratorData.templateName + ".infinity.json";
+            templategeneratorData.docstructureUrl = '~' + templategeneratorData.templateName + '/docstructure.infinity.json';
+            templategeneratorData.rolesUrl = '/system/userManager/group/' + templategeneratorData.templateName + '.infinity.json';
             $templategeneratorTitle.val(templategeneratorData.templateName);
 
             var batchRequests = [];
             batchRequests.push({
-                "url" : templategeneratorData.docstructureUrl,
-                "method" : "GET"
+                'url' : templategeneratorData.docstructureUrl,
+                'method' : 'GET'
             });
             batchRequests.push({
-                "url" : templategeneratorData.rolesUrl,
-                "method" : "GET"
+                'url' : templategeneratorData.rolesUrl,
+                'method' : 'GET'
             });
             sakai.api.Server.batch(batchRequests, function(success, data) {
 
@@ -320,8 +320,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         docstructureElement._view = $.parseJSON(docstructureElement._view);
                         docstructureElement._edit = $.parseJSON(docstructureElement._edit);
                         templategeneratorData.pageUrls.push({
-                            "url" : "/p/" + docstructureElement._pid + ".infinity.json",
-                            "method" : "GET"
+                            'url' : '/p/' + docstructureElement._pid + '.infinity.json',
+                            'method' : 'GET'
                         });
 
                     });
@@ -349,15 +349,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                     // 2. Roles
                     var roleData = $.parseJSON(data.results[1].body);
-                    templategeneratorData.roles.roleData = $.parseJSON(roleData.properties["sakai:roles"]);
-                    templategeneratorData.roles.joinRole = roleData.properties["sakai:joinRole"];
-                    templategeneratorData.roles.creatorRole = roleData.properties["sakai:creatorRole"];
+                    templategeneratorData.roles.roleData = $.parseJSON(roleData.properties['sakai:roles']);
+                    templategeneratorData.roles.joinRole = roleData.properties['sakai:joinRole'];
+                    templategeneratorData.roles.creatorRole = roleData.properties['sakai:creatorRole'];
 
                 } else {
                     if ( $.isFunction( callback ) ) {
                         callback( false );
                     }
-                    sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_LOAD_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                    sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_LOAD_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                 }
             });
         };
@@ -366,7 +366,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Initializes the template generator
          */
         var init = function() {
-            $templategeneratorExportButton.removeAttr("disabled");
+            $templategeneratorExportButton.removeAttr('disabled');
             templategeneratorData.templatesLoaded = false;
             getTemplateData(function(success) {
                 templategeneratorData.templatesLoaded = true;
@@ -376,10 +376,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
         bindEvents();
 
-        $(window).bind("init.templategenerator.sakai", function(e) {
+        $(window).bind('init.templategenerator.sakai', function(e) {
             init();
         });
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("templategenerator");
+    sakai.api.Widgets.widgetLoader.informOnLoad('templategenerator');
 });

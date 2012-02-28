@@ -12,7 +12,7 @@
 <div id="pageviewer_content_template"><!--
     {macro insertCell(id, type)}
         <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
-            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle"  && !settingsoverridden)}
+            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle" && !settingsoverridden)}
                 <div id="${id}"></div>
             {else}
                 <div id="widget_${type}_${id}" class="widget_inline"></div>
