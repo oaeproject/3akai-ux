@@ -63,20 +63,18 @@
          * of the end of the page. If it is, we load the next set of results
          */
         var loadNextList = function(){
-            if($scrollContainer) {
-                var scrollTop = $scrollContainer.scrollTop();
-                var pixelsRemainingUntilBottom = $scrollContainer.children("ul").height() - scrollTop;
-                if (pixelsRemainingUntilBottom <= 280 && $scrollContainer.is(":visible")){
-                    parameters.page++;
-                    loadResultList();
-                }
-            } else {
-                var scrollTop = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
-                var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
-                if (pixelsRemainingUntilBottom < 500 && $container.is(":visible")){
-                    parameters.page++;
-                    loadResultList();
-                }
+            var threshold = 500;
+            var scrollTop = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
+            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
+            var $finalContainer = $scrollContainer || $container;
+            if ($scrollContainer) {
+                threshold = 280;
+                scrollTop = $scrollContainer.scrollTop();
+                pixelsRemainingUntilBottom = $scrollContainer.children("ul").height() - scrollTop;
+            }
+            if (pixelsRemainingUntilBottom <= threshold && $finalContainer.is(":visible")){
+                parameters.page++;
+                loadResultList();
             }
         };
 
