@@ -2525,6 +2525,9 @@ define(
                 }
             },
 
+            /**
+             * 
+             */
             setIFrameFix: function() {
                 $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
                     width: $(document).width() + 'px', height: $(document).height() + 'px',
@@ -2532,6 +2535,10 @@ define(
                     position: 'absolute', opacity: '0.001', zIndex: 100000
                 }).appendTo('body');
             },
+
+            /**
+             * 
+             */
             removeIFrameFix: function() {
                 $('div.ui-resizable-iframeFix').remove();
             }
