@@ -79,7 +79,7 @@
 a {
 	color: #2683bc;
 }
-p {
+.mceContentBody p {
     line-height: 140%;
 }
 /* CSS THAT OVERWRITES MAIN CSS */
