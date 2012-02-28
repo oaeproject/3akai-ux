@@ -369,7 +369,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var doInit = function(){
-            loadFeatured();
+            if (sakai.config.enabledCarousel) {
+                loadFeatured();
+            }
         };
 
         doInit();
