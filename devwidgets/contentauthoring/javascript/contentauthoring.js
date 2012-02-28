@@ -81,6 +81,15 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             return widgetIDs;
         };
 
+        /**
+         * Removes highlight zones when not dragging in edit mode
+         */
+        var checkRemoveHighlight = function() {
+            if (isInEditMode() && !isDragging) {
+                $(".contentauthoring_row_reorder_highlight,.contentauthoring_cell_reorder_highlight").remove();
+            }
+        };
+
         /////////////////////
         // TINYMCE RELATED //
         /////////////////////
@@ -1406,6 +1415,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             addNewWidget(null, $el);
         });
 
+        $(window).on("mouseover", checkRemoveHighlight);
+
         //
         $('.contentauthoring_cell_element_action_e', $rootel).live('click', editWidgetMode);
 
@@ -1482,7 +1493,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var uploadError = false;
 
         // Un-highlight on drag leaving drop zone.
-        $('.contentauthoring_cell_element', $rootel).live('dragleave', function(ev) {
+        $('.contentauthoring_cell_element', $rootel).live('dragleave dragexit', function(ev) {
             $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
             return false;
         });
