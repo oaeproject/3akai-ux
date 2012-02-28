@@ -56,6 +56,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $inserterbarCarouselRight = $('#inserterbar_carousel_right', $rootel);
         var $inserterbarMoreWidgetsContainer = $('#inserterbar_more_widgets_container', $rootel);
 
+        // Width of the widget, used to handle window resize events
+        var resizeWidth = 0;
+
 
         ///////////////////////
         // Utility Functions //
@@ -66,6 +69,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param width {} The width of the widget to take into account while animating
          */
         var editPosition = function(width) {
+            resizeWidth = width;
             $inserterbarWidget.css('left', $('.s3d-page-header,.s3d-page-noheader').position().left + $('.s3d-page-header').width() - width - 12);
         };
 
@@ -174,6 +178,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+         * Handles the window resize event and repositions the inserterbar widget
+         */
+        var handleWindowResize = function() {
+            var left = $contentauthoringWidget.position().left + $contentauthoringWidget.width() - resizeWidth + 8;
+            if ($(window).width() > 960) {
+                $inserterbarWidget.css('left', left + 'px');
+            } else {
+                left = $(window).width() - resizeWidth - 12;
+                $inserterbarWidget.css('left', left + 'px');
+            }
+        };
+
+        /**
          * Adds bindings to the widget elements
          */
         var addBinding = function() {
@@ -210,10 +227,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $inserterbarWidget.css('top', $inserterbarWidgetContainer.position().top + 'px');
                 }
             });
-            $(window).resize(function() {
-                var left = $contentauthoringWidget.position().left + $contentauthoringWidget.width() - $inserterbarWidget.width() + 8;
-                $inserterbarWidget.css('left', left + 'px');
-            });
+            $(window).on('resize', handleWindowResize);
         };
 
         /**
@@ -225,11 +239,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 top = top + $('.branding_widget').height();
             }
             $inserterbarWidget.css({
-                'left': $('.s3d-page-header,.s3d-page-noheader').position().left + $('.s3d-page-header').width() - $inserterbarWidget.width() - 12,
                 'top': top
             });
+            resizeWidth = $inserterbarWidget.width();
             addBinding();
             renderWidgets();
+            handleWindowResize();
         };
 
         doInit();
