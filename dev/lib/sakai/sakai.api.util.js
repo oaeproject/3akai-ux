@@ -2521,7 +2521,10 @@ define(
             },
 
             /**
-             * 
+             * When dragging elements over the screen, there are issues with iframes as they can make the
+             * drag action hang when hovering over them. Therefore, we apply an almost transparent div on
+             * top of the screen. This avoids the iframe events to be triggered and allows for smooth
+             * dragging and dropping
              */
             setIFrameFix: function() {
                 $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
@@ -2532,7 +2535,8 @@ define(
             },
 
             /**
-             * 
+             * Remove the transparant div that makes sure that dragging is smooth despite iFrames
+             * being present on the screen
              */
             removeIFrameFix: function() {
                 $('div.ui-resizable-iframeFix').remove();

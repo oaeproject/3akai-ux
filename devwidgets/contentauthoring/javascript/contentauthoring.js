@@ -634,6 +634,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 },
                 start: function(event, ui) {
                     killTinyMCEInstances($(ui.item));
+                    sakai.api.Util.Draggable.setIFrameFix();
                     isDragging = true;
                     $('.contentauthoring_row_handle_container', $rootel).css('visibility', 'hidden');
                     $('.contentauthoring_cell_element_actions', $rootel).hide();
@@ -641,15 +642,16 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 },
                 stop: function(event, ui) {
                     initializeTinyMCEInstances($(ui.item));
+                    sakai.api.Util.Draggable.removeIFrameFix();
                     $(this).sortable('refresh');
                     isDragging = false;
                     $('.contentauthoring_dummy_element', $(this)).remove();
-                    // If we've dragged in a widget
-                    if (!$(ui.item).data('contentId') && !$(ui.item).data('collectionId')) {
-                        addNewWidget(event, $(ui.item));
                     // If we've dragged in a piece of content
-                    } else {
-                        addExistingElement(event, ui);
+                    if ($(ui.item).data('contentId') || $(ui.item).data('collectionId')) {
+                        addExistingElement(event, ui);  
+                    // If we've dragged in a widget
+                    } else if ($(ui.item).hasClass("inserterbar_widget_draggable")) {
+                        addNewWidget(event, $(ui.item));
                     }
                     storeCurrentPageLayout();
                 }
@@ -1500,7 +1502,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         // Handle the final drop
         $('.contentauthoring_cell_element, .contentauthoring_cell_content', $rootel).live('drop', function(ev) {
-            if (isInEditMode()){
+            if (isInEditMode()) {
                 ev.preventDefault();
                 $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
                 var dt = ev.originalEvent.dataTransfer;
