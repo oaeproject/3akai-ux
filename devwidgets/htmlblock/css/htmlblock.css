@@ -47,3 +47,6 @@
 .contentauthoring_edit_mode #htmlblock_edit_container {
     display: block !important;
 }
+#htmlblock_view_container p {
+    line-height: 140%;
+}
