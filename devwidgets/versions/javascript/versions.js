@@ -140,21 +140,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             event.stopPropagation();
             if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
                 $(".versions_selected", $rootel).removeClass("versions_selected");
-                $(this).addClass("versions_selected");
-                if (!$("#" + currentPageShown.ref + "_previewversion").length) {
-                    $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
-                }
-                if(sakai.api.Util.determineEmptyContent(versions[$(this).attr("data-versionId")].page)) {
-                    $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
-                } else {
-                    $("#" + currentPageShown.ref + "_previewversion").html(sakai.api.Util.TemplateRenderer("versions_empty_document_template", {
-                        "currentversion": $(this).attr("data-versionId") === versions.length - 1
-                    }));
-                }
                 $("#" + currentPageShown.ref).remove();
-                $("#" + currentPageShown.ref + "_previewversion").show();
-                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref + "_previewversion", false, currentPageShown.pageSavePath + "/");
-                sakai.api.Util.renderMath(currentPageShown.ref + "_previewversion");
+                $(this).addClass("versions_selected");
+                //if (!$("#" + currentPageShown.ref + "_previewversion").length) {
+                //    $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
+                //}
+                var version = $(this).attr("data-version");
+                var path = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef + '.infinity.json?v=' + version;
+                sakai.api.Server.loadJSON(path, function(success, pageData) {
+                    var newPageShown = $.extend(true, {}, currentPageShown);
+                    newPageShown.content = pageData;
+                    newPageShown.isVersionHistory = true;
+                    newPageShown.ref = currentPageShown.ref + "_previewversion_" + version;
+                    $(window).trigger('showpage.contentauthoring.sakai', newPageShown);
+                });
+                //if(sakai.api.Util.determineEmptyContent(versions[$(this).attr("data-versionId")].page)) {
+                //    $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
+                //} else {
+                //    $("#" + currentPageShown.ref + "_previewversion").html(sakai.api.Util.TemplateRenderer("versions_empty_document_template", {
+                //        "currentversion": $(this).attr("data-versionId") === versions.length - 1
+                //    }));
+                //}
+                //$("#" + currentPageShown.ref + "_previewversion").show();
+                //sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref + "_previewversion", false, currentPageShown.pageSavePath + "/");
+                //sakai.api.Util.renderMath(currentPageShown.ref + "_previewversion");
             } else{
                 window.open(currentPageShown.pageSavePath + ".version.," + $(this).attr("data-version") + ",/" + $(this).attr("data-pooleditemname"), "_blank");
             }
@@ -233,6 +242,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         $(window).bind("init.versions.sakai", function(ev, cps){
+            alert("init.versions.sakai");
             if($("#content_profile_left_column").is(":visible")){
                 // There is a left hand navigation visible, versions widget will be smaller
                 $(versionsContainer, $rootel).removeClass("versions_without_left_hand_nav");
@@ -240,17 +250,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 // No left hand navigation visible, versions widget will be wider
                 $(versionsContainer, $rootel).addClass("versions_without_left_hand_nav");
             }
-            if ($(versionsContainer, $rootel).is(":visible")) {
-                $(versionsContainer, $rootel).hide();
+            if ($('.versions_widget', $rootel).is(':visible')) {
+                $('.versions_widget', $rootel).hide();
             } else {
                 currentPageShown = cps;
-                $(versionsContainer, $rootel).show();
+                $('.versions_widget', $rootel).show();
                 doInit();
             }
         });
 
         $(window).bind("update.versions.sakai", function(ev, cps){
-            if ($(versionsContainer, $rootel).is(":visible")) {
+            if ($('.versions_widget', $rootel).is(":visible")) {
                 currentPageShown = cps;
                 doInit();
             }

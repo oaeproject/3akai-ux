@@ -845,7 +845,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             $parent.append('<div id="widget_' + $parent.attr('data-element-type') + '_' + currentlyEditing + '" class="widget_inline"></div>');
             sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath);
             $('#contentauthoring_widget_settings').jqmHide();
-            updateAllColumnHandles();
+            updateColumnHandles();
         };
 
         // Register the global functions
@@ -900,7 +900,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             $pageRootEl = $('#' + currentPageShown.ref, $rootel);
             showAddPageControls(currentPageShown.addArea);
             // Hide the revision history dialog
-            if($('#versions_container').is(':visible')) {
+            if($('#versions_container').is(':visible') && !currentPageShown.isVersionHistory) {
                 $('#inserterbar_action_revision_history').trigger('click');
             }
             sakai.api.Widgets.nofityWidgetShown('#contentauthoring_widget > div:visible', false);
@@ -1209,7 +1209,15 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
                     $.ajax({
                         url: storePath + '.save.json',
-                        type: 'POST'
+                        type: 'POST',
+                        data: {
+                            "sling:resourceType": "sakai/pagecontent",
+                            "sakai:pagecontent": $.toJSON(versionToStore),
+                            "_charset_": "utf-8"
+                        },
+                        success: function() {
+                            $(window).trigger("update.versions.sakai", currentPageShown);
+                        }
                     });
                 }, true);
             });
@@ -1391,6 +1399,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // Render a page and put it in edit mode
         $(window).bind('editpage.contentauthoring.sakai', function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, true);
+        });
+
+        // Revision history
+        $('#inserterbar_action_revision_history').live('click', function() {
+            alert("Here");
+            $(window).trigger("init.versions.sakai", currentPageShown);
         });
 
         // Edit page button
