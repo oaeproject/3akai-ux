@@ -44,6 +44,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
         var $documentviewerPreview = $("#documentviewer_preview", $rootel);
         var documentviewerPreviewSelector = "#" + tuid + " .documentviewer_preview";
         var templateObject = {};
+        var docType = false;
+        var data = false;
 
         var getPath = function(data) {
             return "/p/" + data["_path"];
@@ -243,8 +245,15 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             return so;
         };
 
+        var handleShown = function(e, showing) {
+            if (showing && docType === 'document') {
+                // For some reason, the document view doesn't handle hide/show very well
+                renderDocumentPreview(data);
+            }
+        };
+
         if (sakai.api.Content.hasPreview(widgetData.data)){
-            var data = widgetData.data;
+            data = widgetData.data;
             var mimeType = sakai.api.Content.getMimeType(widgetData.data);
 
             if (sakai.api.Content.isKalturaPlayerSupported(mimeType)) {
@@ -279,6 +288,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             } else  if (mimeType.substring(0, 6) === "image/") {
                 renderImagePreview(getPath(data), data["_bodyLastModified"]);
             } else if (data["sakai:pagecount"]){
+                docType = 'document';
                 renderDocumentPreview(data);
             }
         }
@@ -286,6 +296,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
         // Indicate that the widget has finished loading
         sakai_global.documentviewer.isReady = true;
         $(window).trigger("ready.documentviewer.sakai", {});
+        $(window).bind(tuid + '.shown.sakai', handleShown);
 
     };
     sakai.api.Widgets.widgetLoader.informOnLoad("documentviewer");

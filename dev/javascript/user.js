@@ -249,12 +249,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (isMe) {
                         var contactCount = 0;
                         // determine the count of contacts to list in lhnav
-                        if (sakai.data.me.contacts.ACCEPTED && sakai.data.me.contacts.INVITED) {
-                            contactCount = sakai.data.me.contacts.ACCEPTED + sakai.data.me.contacts.INVITED;
-                        } else if (sakai.data.me.contacts.ACCEPTED) {
-                            contactCount = sakai.data.me.contacts.ACCEPTED;
-                        } else if (sakai.data.me.contacts.INVITED) {
-                            contactCount = sakai.data.me.contacts.INVITED;
+                        if (sakai.data.me.contacts.accepted && sakai.data.me.contacts.invited) {
+                            contactCount = sakai.data.me.contacts.accepted + sakai.data.me.contacts.invited;
+                        } else if (sakai.data.me.contacts.accepted) {
+                            contactCount = sakai.data.me.contacts.accepted;
+                        } else if (sakai.data.me.contacts.invited) {
+                            contactCount = sakai.data.me.contacts.invited;
                         }
                         addCount(pubdata, "contacts", contactCount);
                         addCount(privdata, "messages", sakai.data.me.messages.unread);
