@@ -252,7 +252,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             } else {
                 // If there is more than 1 row on the screen, we can show the 'Remove row' option
                 // If there is only 1 row, we should hide that option
-                if($('.contentauthoring_row', $('#' + currentPageShown.ref)).length > 1) {
+                if ($('.contentauthoring_row', $('#' + currentPageShown.ref)).length > 1) {
                     $('#contentauthoring_row_menu_remove', $rootel).parent('li').show();
                 } else {
                     $('#contentauthoring_row_menu_remove', $rootel).parent('li').hide();
@@ -278,7 +278,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             $.each($menuItems, function(i, item) {
                 var $item = $(item);
                 $item.find('.s3d-action-icon').removeClass('s3d-black-check-icon');
-                if($item.data('columncount') === numColumns) {
+                if ($item.data('columncount') === numColumns) {
                     $item.find('.s3d-action-icon').addClass('s3d-black-check-icon');
                 }
             });
@@ -714,7 +714,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             var $cell = $(this).parents('.contentauthoring_cell_element');
             var $row = $cell.parents('.contentauthoring_table_row.contentauthoring_cell_container_row');
             killTinyMCEInstances($cell);
-            if($(this).parents('.contentauthoring_cell_content').children('.contentauthoring_cell_element').length > 1) {
+            if ($(this).parents('.contentauthoring_cell_content').children('.contentauthoring_cell_element').length > 1) {
                 $cell.remove();
             } else {
                 var dummy = $(sakai.api.Util.TemplateRenderer('contentauthoring_dummy_element_template', {}));
@@ -909,7 +909,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             $pageRootEl = $('#' + currentPageShown.ref, $rootel);
             showAddPageControls(currentPageShown.addArea);
             // Hide the revision history dialog
-            if($('#versions_container').is(':visible')) {
+            if ($('#versions_container').is(':visible')) {
                 $('#inserterbar_action_revision_history').trigger('click');
             }
             sakai.api.Widgets.nofityWidgetShown('#contentauthoring_widget > div:visible', false);
@@ -1058,10 +1058,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             // emptyPageElements will later be overridden if the tinymce instances don't have any content after all
             $.each(currentPageShown.content.rows, function(rowIndex, row) {
                 $.each(row.columns, function(columnIndex, column) {
-                    if(column.elements.length) {
+                    if (column.elements.length) {
                         $.each(column.elements, function(elIndex, element) {
                             // Check designed to look at specific storage types
-                            if(element.type === 'htmlblock') {
+                            if (element.type === 'htmlblock') {
                                 // Returns false if not empty, true if empty
                                 emptyPageElements = checkHTMLBlockEmpty(currentPageShown, element);
                             } else {
@@ -1112,7 +1112,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 $('#contentauthoring_no_content_container', $rootel).hide();
                 $('#contentauthoring_widget_container', $pageRootEl).show();
             }
-        }
+        };
 
         /////////////////////
         /////////////////////
@@ -1542,7 +1542,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // Decide whether the thing dragged in is welcome.
         $('.contentauthoring_cell_element, .contentauthoring_cell_content, .contentauthoring_row_reorder_highlight', $rootel).live('dragover', function(ev) {
             $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
-            if($(this).hasClass('contentauthoring_cell_element')) {
+            if ($(this).hasClass('contentauthoring_cell_element')) {
                 $(this).after($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
             } else {
                 $(this).append($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
@@ -1613,7 +1613,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          */
         var checkAllExternalFilesUploaded = function(filesUploaded, $el) {
             externalFilesUploaded++;
-            if(externalFilesUploaded === externalFilesToUpload) {
+            if (externalFilesUploaded === externalFilesToUpload) {
                 externalFilesUploaded = 0;
                 externalFilesToUpload = 0;
                 var files = [];
@@ -1621,7 +1621,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 $.each(filesUploaded, function(index, item) {
                     files.push(item._path);
                 });
-                if(files.length) {
+                if (files.length) {
                     sakai.api.Content.setFilePermissionsAsParent(files, currentPageShown.savePath, function(success) {
                         // Embed the link in the page
                         var id = sakai.api.Util.generateWidgetId();
@@ -1639,7 +1639,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                             'sakai:indexed-fields':'title,description',
                             'sling:resourceType':'sakai/widget-data'
                         };
-                        if(files.length > 1) {
+                        if (files.length > 1) {
                             contentData.layout = 'vertical';
                             contentData.embedmethod = 'thumbnail';
                             contentData.name = true;
@@ -1656,7 +1656,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                                 'settingsoverridden': true,
                                 'sakai': sakai
                             });
-                            if($el.hasClass('contentauthoring_cell_element')) {
+                            if ($el.hasClass('contentauthoring_cell_element')) {
                                 $el.after($(element));
                             } else {
                                 $el.append($(element));
@@ -1767,7 +1767,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                                 'settingsoverridden': true,
                                 'sakai': sakai
                             });
-                            if($el.hasClass('contentauthoring_cell_element')) {
+                            if ($el.hasClass('contentauthoring_cell_element')) {
                                 $el.after($(element));
                             } else {
                                 $el.append($(element));
@@ -1791,15 +1791,22 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         * @param $el {Object} jQuery object containing the element on which the external content was dropped
         */
         var addExternal = function(ev, $el) {
-            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'), sakai.api.i18n.getValueForKey('PROCESSING'));
             var content = false;
             var contentType = 'link';
             var dt = ev.originalEvent.dataTransfer;
-            if(dt.files.length) {
+            var sameDomain = dt.getData('Text').indexOf(sakai.config.SakaiDomain.substring(7, sakai.config.SakaiDomain.length)) >= 0 ||
+                             dt.getData('Text').indexOf(sakai.config.SakaiDomain) >= 0;
+            if (dt.files.length) {
+                sakai.api.Util.progressIndicator.showProgressIndicator(
+                    sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
+                    sakai.api.i18n.getValueForKey('PROCESSING'));
                 contentType = 'file';
                 content = dt.files;
                 uploadExternalFiles(content, $el);
-            } else {
+            } else if (!sameDomain) {
+                sakai.api.Util.progressIndicator.showProgressIndicator(
+                    sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
+                    sakai.api.i18n.getValueForKey('PROCESSING'));
                 content = dt.getData('Text');
                 uploadExternalLink(content, $el);
             }

@@ -106,7 +106,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             'name': tempDocData[tempItem._ref][cell.id][cell.type].name,
                             'layout': tempDocData[tempItem._ref][cell.id][cell.type].layout,
                             'items': {}
-                        }
+                        };
                         if (tempDocData[tempItem._ref][cell.id][cell.type].items) {
                             $.each(tempDocData[tempItem._ref][cell.id][cell.type].items, function(itemsIndex, cellItem) {
                                 if (itemsIndex.indexOf('__array__') === 0) {
@@ -117,7 +117,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     } else {
                         docData[tempItem._ref][cell.id][cell.type] = {
                             'content': tempDocData[tempItem._ref][cell.id][cell.type].content
-                        }
+                        };
                     }
                 }
             }
