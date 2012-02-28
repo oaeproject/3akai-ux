@@ -295,9 +295,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Animates the UI after validation
          */
         var validationComplete = function() {
-            setTimeout(function() {
-                animateUIElements('init');
-            }, 10);
+            animateUIElements('init');
         };
 
         /**
@@ -315,7 +313,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     validationComplete();
                     return false;
                 },
-                invalidCallback : validationComplete
+                errorsShown: validationComplete
             };
             sakai.api.Util.Forms.validate($('#inserter_create_collection_form', $rootel), validateOpts, false);
         };

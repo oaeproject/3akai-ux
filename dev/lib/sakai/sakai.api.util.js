@@ -2322,6 +2322,8 @@ define(
              * @param {Object} opts options to pass through to jquery.validate
              *    NOTE: There is one additional option you can pass in -- an error callback function
              *    When there is an error in validation detected, it will be called
+             *    NOTE: Additional option 'errorsShown' can hold a function that is executed after
+             *    the error labels have been displayed on screen.
              * @param {Function} [invalidCallback] The function to call when an error is detected
              * @param {Boolean} [insertAfterLabel] Insert the error span after the label, not before
              */
@@ -2417,6 +2419,9 @@ define(
                         }
                     });
                     this.defaultShowErrors();
+                    if ($.isFunction(options.errorsShown)) {
+                        options.errorsShown();
+                    }
                 };
 
                 // Set up the form with these options in jquery.validate
