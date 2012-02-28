@@ -48,8 +48,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var selectedPage = '';
 
         // Containers
-        var $pageViewerContentContainer = $('#pageviewer_content_container');
-        var $pageViewerLHNavContainer = $("#pageviewer_lhnav_container");
+        var $pageViewerContentContainer = $('#pageviewer_content_container', $rootel);
+        var $pageViewerLHNavContainer = $("#pageviewer_lhnav_container", $rootel);
 
         // Templates
         var pageViewerContentTemplate = 'pageviewer_content_template';
@@ -82,7 +82,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             $pageViewerLHNavContainer.show();
 
-            $(".pageviewer_lhnav_item button").bind('click', selectPage);
+            $(".pageviewer_lhnav_item button", $rootel).on('click', selectPage);
             $(".pageviewer_lhnav_item:first button", $rootel).click();
         };
 
@@ -95,7 +95,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if ($.isPlainObject(cell)) {
                 if (tempDocData[tempItem._ref][cell.id]) {
                     docData[tempItem._ref][cell.id] = {};
-                    if(cell.type !== "htmlblock" && cell.type !== "pagetitle"){
+                    if (cell.type !== "htmlblock" && cell.type !== "pagetitle") {
                         docData[tempItem._ref][cell.id][cell.type] = {
                             'embedmethod': tempDocData[tempItem._ref][cell.id][cell.type].embedmethod,
                             'sakai:indexed-fields': tempDocData[tempItem._ref][cell.id][cell.type]['sakai:indexed-fields'],
@@ -107,11 +107,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             'layout': tempDocData[tempItem._ref][cell.id][cell.type].layout,
                             'items': {}
                         }
-                        $.each(tempDocData[tempItem._ref][cell.id][cell.type].items, function(itemsIndex, cellItem) {
-                            if (itemsIndex.indexOf('__array__') === 0) {
-                                docData[tempItem._ref][cell.id][cell.type].items[itemsIndex] = cellItem;
-                            }
-                        });
+                        if (tempDocData[tempItem._ref][cell.id][cell.type].items) {
+                            $.each(tempDocData[tempItem._ref][cell.id][cell.type].items, function(itemsIndex, cellItem) {
+                                if (itemsIndex.indexOf('__array__') === 0) {
+                                    docData[tempItem._ref][cell.id][cell.type].items[itemsIndex] = cellItem;
+                                }
+                            });
+                        }
                     } else {
                         docData[tempItem._ref][cell.id][cell.type] = {
                             'content': tempDocData[tempItem._ref][cell.id][cell.type].content
@@ -150,9 +152,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var json = $.parseJSON(tempDocData.structure0);
             var pageCount = 0;
             $.each(json, function(index, item) {
-                if($.isPlainObject(item)){
+                if ($.isPlainObject(item)) {
                     tempItem = item;
-                    if(!selectedPage){
+                    if (!selectedPage) {
                         selectedPage = tempItem._ref;
                     }
                     docData[tempItem._ref] = {};
@@ -169,7 +171,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             docData.template = 'all';
 
             // Render the pages and navigation in the widget
-            if(pageCount > 1){
+            if (pageCount > 1) {
                 renderNavigation();
             } else {
                 renderContainer();
@@ -180,11 +182,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Selects a page from the left hand navigation
          */
         var selectPage = function() {
-            $rootel.find('.tinyMCE').each(function(){
+            $rootel.find('.tinyMCE').each(function() {
                 tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
             });
             var $li = $(this).parent();
-            $(".pageviewer_lhnav_item").removeClass("selected");
+            $(".pageviewer_lhnav_item", $rootel).removeClass("selected");
             $li.addClass("selected");
             selectedPage = $li.attr("data-index");
             storePath = 'p/' + docPath + '/' + selectedPage + '/';
@@ -197,7 +199,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var fetchPages = function() {
             $.ajax({
                 url: "/p/" + docPath + ".infinity.json",
-                success: function(data){
+                success: function(data) {
                     tempDocData = data;
                     parseStructure();
                 }
@@ -216,8 +218,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             fetchPages();
         };
 
-        $(window).unbind('start.pageviewer.sakai');
-        $(window).bind('start.pageviewer.sakai', function(ev, data) {
+        $(window).off('start.pageviewer.sakai');
+        $(window).on('start.pageviewer.sakai', function(ev, data) {
             docPath = data.id;
             doInit();
         });
