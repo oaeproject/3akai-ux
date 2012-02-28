@@ -256,7 +256,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
             $contentCountEl.text(collectionCount);
-            if(collectionId !== "library"){
+            if (collectionId !== "library") {
                 var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
                 $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
             } else {
