@@ -566,7 +566,7 @@ define(
          * @return{Boolean} True indicates that content is present, False indicates that there is no content
          */
         determineEmptyContent: function(content) {
-            var $el = $('<div>').html(content);
+            var $el = $('<div/>').html(content);
             // Filter out tinyMCE instances
             $('.mceEditor', $el).each(function(index, item) {
                 $(item).remove();
@@ -575,7 +575,7 @@ define(
             var elementArr = ['img', 'iframe', 'frame', 'input', 'select', 'option'];
             var containsElement = false;
             $.each(elementArr, function(i, el) {
-                if($(el, $el).length) {
+                if ($(el, $el).length) {
                     containsElement = true;
                     return false;
                 }
@@ -2475,14 +2475,14 @@ define(
                     },
                     stop: function(event, ui) {
                         $('.s3d-draggable-draggingitems').remove();
-                        if($(this).data('stopdragevent')){
+                        if ($(this).data('stopdragevent')) {
                             $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
                     start: function(event, ui){
                         $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
                         $(window).trigger('start.drag.sakai');
-                        if($(this).data('startdragevent')){
+                        if ($(this).data('startdragevent')) {
                             $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
@@ -2518,7 +2518,26 @@ define(
                         }
                     });
                 }
+            },
+
+            /**
+             * 
+             */
+            setIFrameFix: function() {
+                $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
+                    width: $(document).width() + 'px', height: $(document).height() + 'px',
+                    top: '0px', left: '0px',
+                    position: 'absolute', opacity: '0.001', zIndex: 100000
+                }).appendTo('body');
+            },
+
+            /**
+             * 
+             */
+            removeIFrameFix: function() {
+                $('div.ui-resizable-iframeFix').remove();
             }
+
         },
         Droppable: {
             /**

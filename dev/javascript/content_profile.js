@@ -285,12 +285,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             generateNav(pagestructure);
         };
 
-        var switchToTwoColumnLayout = function(isSakaiDoc) {
-            $('#content_profile_left_column').show();
-            $('#content_profile_main_container').addClass('s3d-twocolumn');
-            $('#content_profile_right_container').addClass('s3d-page-column-right');
-            $('#content_profile_right_metacomments').removeClass('fl-container-650');
-            $('#content_profile_right_metacomments').addClass('fl-container-470');
+        var showContentContainer = function(isSakaiDoc) {
             if (isSakaiDoc) {
                 $('#content_profile_preview_container').hide();
                 $('#content_profile_contentauthoring_container').show();
@@ -300,19 +295,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var switchToTwoColumnLayout = function(isSakaiDoc) {
+            $('#content_profile_left_column').show();
+            $('#content_profile_main_container').addClass('s3d-twocolumn');
+            $('#content_profile_right_container').addClass('s3d-page-column-right');
+            $('#content_profile_right_metacomments').removeClass('fl-container-650').addClass('fl-container-470');
+            showContentContainer(isSakaiDoc);
+        };
+
         var switchToOneColumnLayout = function(isSakaiDoc) {
             $('#content_profile_left_column').hide();
             $('#content_profile_main_container').removeClass('s3d-twocolumn');
             $('#content_profile_right_container').removeClass('s3d-page-column-right');
-            $('#content_profile_right_metacomments').addClass('fl-container-650');
-            $('#content_profile_right_metacomments').removeClass('fl-container-470');
-            if (isSakaiDoc) {
-                $('#content_profile_preview_container').hide();
-                $('#content_profile_contentauthoring_container').show();
-            } else {
-                $('#content_profile_preview_container').show();
-                $('#content_profile_contentauthoring_container').hide();
-            }
+            $('#content_profile_right_metacomments').addClass('fl-container-650').removeClass('fl-container-470');
+            showContentContainer(isSakaiDoc);
         };
 
         // Initialise the content profile page

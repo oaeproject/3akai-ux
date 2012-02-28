@@ -17,171 +17,260 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      
     /**
      * @name sakai.htmlblock
      *
      * @class htmlblock
      *
-     * @description
-     * WIDGET DESCRIPTION
-     *
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
-        var $rootel = $("#" + tuid);
 
-        var autoSavePoll = false;
+        // Element cache
+        var $rootel = $('#' + tuid);
+        var $editor = false;
         var $toolbar = false;
-        var id = false;
-        var lastData = "";
-        if (widgetData && widgetData.htmlblock){
-            lastData = widgetData.htmlblock.content;
-        }
 
-        $(window).bind("resize.contentauthoring.sakai", function(){
-            updateHeight();
-        });
-        var updateHeight = function(){
-            var $element = $("#" + id + "_ifr");
-            if ($element.length){
-                try {
-                    var docHt = 0, sh, oh;
-                    var frame = $element[0];
-                    $element.contents().scrollTop(0);
-                    var innerDoc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
-                    $element.css("height", "25px");
-                    docHt = innerDoc.body.scrollHeight;
-                    if (docHt < 25){
-                        docHt = 25;
-                    }
-                    if ($element.height() !== docHt) {
-                        $element.css("height", docHt + "px");
-                    }
-                } catch (err){
-                    return false;
-                }
-            }
-        }
+        // Configuration variables
+        var AUTOSAVE_INTERVAL = 5000;
+        var EVENTS_TO_RESPOND_TO = ['click', 'keyup', 'mouseup', 'paste'];
 
-        var initTinyMCE = function(ui){
-            id = ui.id;
-            $editor = $("#" + id + "_ifr");
-            $toolbar = $("#" + id + "_external");
-            $toolbar.css("display", "none");
-            $("#inserterbar_widget #inserterbar_tinymce_container").append($toolbar);
-            setTimeout(function(){
-                updateHeight();
-            }, 1000);
+        // Help variables
+        var editorId = false;
+        var autoSavePoll = false;
+        var lastData = (widgetData && widgetData.htmlblock) ? widgetData.htmlblock.content : '';
 
-            // Start the autosave
-            if (autoSavePoll){
-                clearInterval(autoSavePoll);
-                autoSavePoll = false;
-            }
-            autoSavePoll = setInterval(autoSave, 5000);
+        ///////////////////////////
+        // tinyMCE Functionality //
+        ///////////////////////////
+
+        /**
+         * When focus is set on the editor (by clicking inside of it), we hide the draghandle/remove
+         * button bar, so all the text is visible
+         */
+        var editorFocus = function() {
+            $('#inserterbar_widget #inserterbar_tinymce_container').show();
+            $('.contentauthoring_cell_element_actions').hide();
         };
 
-        $(window).bind("save.contentauthoring.sakai", function(){
-            if ($rootel.is(":visible")) {
-                autoSave();
-                if (id && tinyMCE.get(id)) {
-                    var currentText = tinyMCE.get(id).getContent();
-                    $("#htmlblock_view_container", $rootel).html(currentText);
-                    sakai.api.Util.renderMath($rootel);
-                }
-            }
-        });
-        
-        var stopAutosave = function(){
-            if (autoSavePoll){
-                clearInterval(autoSavePoll);
-                autoSavePoll = false;
-            }
-            $(window).unbind("save.contentauthoring.sakai");
-        }
-        
-        var autoSave = function(){
-            var currentText = tinyMCE.get(id).getContent();
-            if (currentText !== lastData){
-                lastData = currentText;
-                sakai.api.Widgets.saveWidgetData(tuid, {"content": currentText});
-            }
-        };
-
-        var tinyMCEEvent = function(ev, ui){
-            if ($editor && (!ev || !ev.type || ev.type === "click" || ev.type === "keyup" || ev.type === "mouseup" || ev.type === "paste")) {
-                updateHeight();
-            }
-            return true;
+        var editorSetup = function(ed) {
+            ed.onClick.add(editorFocus);
         };
 
         /**
-         * Initialization function DOCUMENTATION
+         * Convert the textarea in this widget into a tinyMCE editor
          */
-        var doInit = function () {
-            if (showSettings){
-                
-            } else {
-                var $textarea = $("textarea", $rootel).attr("name", tuid).addClass(tuid);
-                if (widgetData && widgetData.htmlblock) {
-                    var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
-                    $("#htmlblock_view_container", $rootel).html(processedContent);
-                    sakai.api.Util.renderMath($rootel);
-                    // Fill up the textarea
-                    $textarea.val(widgetData.htmlblock.content);
-                }
-                $textarea.css("height", $("#htmlblock_view_container", $rootel).height());
-                if (window["tinyMCE"]) {
-                    tinyMCE.init({
-                        mode: "textareas",
-                        theme: "advanced",
-                        skin: "sakai",
-                        formats: {
-                              "caption": {
-                                  "inline": 'span',
-                                  "classes": 'caption'
-                              }
-                        },
-                        content_css: "/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css",
-                        plugins: "table,advlink,contextmenu,paste,directionality",
-                        theme_advanced_blockformats: "h1,h2,h3,h4,h5,h6,p,blockquote,caption",
-                        theme_advanced_buttons1: "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,forecolor,|,link,table,code",
-                        theme_advanced_buttons2: "",
-                        theme_advanced_buttons3: "",
-                        table_styles: "Default=default",
-                        table_cell_styles: "Default=default",
-                        table_row_styles: "Default=default",
-                        theme_advanced_toolbar_location: "external",
-                        theme_advanced_toolbar_align: "left",
-                        theme_advanced_statusbar_location: "none",
-                        theme_advanced_resizing: false,
-                        editor_selector: tuid,
-                        handle_event_callback: tinyMCEEvent,
-                        onchange_callback: tinyMCEEvent,
-                        init_instance_callback: initTinyMCE,
-                        remove_instance_callback: stopAutosave,
-                        setup : function(ed) {
-                            ed.onClick.add(function(ed, e) {
-                                $("#inserterbar_widget #inserterbar_tinymce_container").show();
-                                $(".contentauthoring_cell_element_actions").hide();
-                            });
-                            ed.onInit.add(function(ed) {
-                                if(!$(".s3d-dialog:visible").length){
-                                    ed.focus();
-                                }
-                                $(".contentauthoring_cell_element_actions").hide();
-                                var t = setTimeout(function(){
-                                    $(".htmlblock_widget", $rootel).parents(".contentauthoring_cell_element").removeClass("contentauthoring_init");
-                                }, 1000);
-                            });
-                        }
-                    });
+        var loadTinyMCE = function() {
+            if (window['tinyMCE']) {
+                tinyMCE.init({
+                    mode: 'textareas',
+                    theme: 'advanced',
+                    skin: 'sakai',
+                    formats: {
+                          'caption': {
+                              'inline': 'span',
+                              'classes': 'caption'
+                          }
+                    },
+                    // CSS Files to load in the editor
+                    content_css: '/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css',
+                    // Plugins and toolbar buttons to show
+                    plugins: 'table,advlink,contextmenu,paste,directionality',
+                    theme_advanced_blockformats: 'h1,h2,h3,h4,h5,h6,p,blockquote,caption',
+                    theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,forecolor,|,link,table,code',
+                    theme_advanced_buttons2: '',
+                    theme_advanced_buttons3: '',
+                    // Styles to be shown for tables
+                    table_styles: 'Default=default',
+                    table_cell_styles: 'Default=default',
+                    table_row_styles: 'Default=default',
+                    // Specify a toolbar that is not attached to the editor
+                    theme_advanced_toolbar_location: 'external',
+                    theme_advanced_toolbar_align: 'left',
+                    theme_advanced_statusbar_location: 'none',
+                    theme_advanced_resizing: false,
+                    // Constrain the editor loading to the current widget
+                    editor_selector: tuid,
+                    // Resize the editor when a significant change is made
+                    handle_event_callback: tinyMCEEvent,
+                    onchange_callback: tinyMCEEvent,
+                    init_instance_callback: initTinyMCE,
+                    remove_instance_callback: stopAutoSave,
+                    // Additional event handlers
+                    setup : editorSetup
+                });
+            }
+        };
+
+        /**
+         * This is executed when the tinyMCE editor has been initialized
+         */
+        var initTinyMCE = function(ui) {
+            editorId = ui.id;
+            // Set focus if there is no "An unsaved version has been found" overlay
+            // showing
+            var ed = tinyMCE.get(editorId);
+            if (!$('.s3d-dialog:visible').length) {
+                ed.focus();
+            }
+            // Cache the editor elements
+            $editor = $('#' + editorId + '_ifr');
+            $toolbar = $('#' + editorId + '_external').hide();
+            // Hide the widget controls
+            $('.contentauthoring_cell_element_actions').hide();
+            // Move the toolbar to the inserterbar widget
+            $('#inserterbar_widget #inserterbar_tinymce_container').append($toolbar);
+            // Set timeOut as tinyMCE seems to need a little bit of additional time before we see all
+            // of the content in the editor
+            setTimeout(function() {
+                updateHeight();
+                $('.htmlblock_widget', $rootel).parents('.contentauthoring_cell_element').removeClass('contentauthoring_init');
+            }, 1000);
+            startAutoSave();
+        };
+
+        /**
+         * Function executed every time an event is fired in the tinyMCE editor. We only respond to a limited
+         * amount of events (i.e., the ones that can cause the height of the editor to change)
+         */
+        var tinyMCEEvent = function(ev, ui) {
+            if ($editor && (!ev || !ev.type || $.inArray(ev.type, EVENTS_TO_RESPOND_TO) !== -1)) {
+                updateHeight();
+            }
+        };
+
+        /////////////////////
+        // Editor resizing //
+        /////////////////////
+
+        /**
+         * Update the height of the editor iframe so it's the same as its internal
+         * content. In other words, the editor should be the same height as the text,
+         * avoiding a scrollbar to be shown
+         */
+        var updateHeight = function() {
+            if ($editor.length) {
+                try {
+                    var docHt = 0;
+                    var frame = $editor[0];
+                    $editor.contents().scrollTop(0);
+                    var innerDoc = frame.contentDocument ? frame.contentDocument : frame.contentWindow.document;
+                    $editor.css('height', '25px');
+                    docHt = innerDoc.body.scrollHeight;
+                    // Set a minimum internal height of 25px
+                    if (docHt < 25) {
+                        docHt = 25;
+                    }
+                    // Only update the editor height if it has changed
+                    if ($editor.height() !== docHt) {
+                        $editor.css('height', docHt + 'px');
+                        $(window).trigger("updateheight.contentauthoring.sakai");
+                    }
+                } catch (err) {
+                    return false;
                 }
             }
+        };
+
+        /////////////////////////
+        // Autosave and saving //
+        /////////////////////////
+
+        /**
+         * When the page is being saved, we have to save the widget's content
+         * and also render the current text in view mode
+         */
+        var fullSave = function() {
+            // Only save when the widget is on the current page
+            if ($rootel.is(':visible')) {
+                autoSave();
+                if (editorId && tinyMCE.get(editorId)) {
+                    // Render the page in view mode
+                    var currentText = tinyMCE.get(editorId).getContent();
+                    $('#htmlblock_view_container', $rootel).html(currentText);
+                    sakai.api.Util.renderMath($rootel);
+                }
+            }
+        };
+
+        /**
+         * Automatically save the widget's content from time to time, but only
+         * do this when the widget content has changed
+         */
+        var autoSave = function() {
+            // Only save when the widget is on the current page
+            if ($rootel.is(':visible')) {
+                var currentText = tinyMCE.get(editorId).getContent();
+                if (currentText !== lastData) {
+                    lastData = currentText;
+                    sakai.api.Widgets.saveWidgetData(tuid, {'content': currentText});
+                }
+            }
+        };
+
+        /**
+         * Start auto saving the widget data
+         */
+        var startAutoSave = function() {
+            // Kill the current autosave interval
+            stopAutoSave();
+            // Start the autosave
+            autoSavePoll = setInterval(autoSave, AUTOSAVE_INTERVAL);
+        };
+
+        /**
+         * Stop the auto save interval for the current widget
+         */
+        var stopAutoSave = function() {
+            if (autoSavePoll) {
+                clearInterval(autoSavePoll);
+                autoSavePoll = false;
+            }
+        };
+
+        ///////////////////
+        // Event binding //
+        ///////////////////
+
+        /**
+         * Every time the contentauthoring widget thinks a resize might be
+         * necessary, this event will be thrown
+         */
+        $(window).bind('resize.contentauthoring.sakai', updateHeight);
+
+        /**
+         * This event will be sent out by the contentauthoring widget when
+         * the user is trying to save the page. At this point, the htmlblock
+         * widget needs to store its changes as well
+         */
+        $(window).bind('save.contentauthoring.sakai', fullSave);
+
+        ////////////////////
+        // Initialization //
+        ////////////////////
+
+        /**
+         * Load the HTMLBlock widget
+         */
+        var doInit = function () {
+            // Set the name attribute of the textarea to the widget id, so we can restrict
+            // tinyMCE loading to this widget
+            var $textarea = $('textarea', $rootel).attr('name', tuid).addClass(tuid);
+            // Fill up the textarea
+            if (widgetData && widgetData.htmlblock) {
+                var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
+                $('#htmlblock_view_container', $rootel).html(processedContent);
+                sakai.api.Util.renderMath($rootel);
+                $textarea.val(widgetData.htmlblock.content);
+            }
+            // Set the height of the textarea to be the same as the height of the view mode,
+            // so tinyMCE picks up on this initial height
+            $textarea.css('height', $('#htmlblock_view_container', $rootel).height());
+            loadTinyMCE();
         };
         
         // run the initialization function when the widget object loads
@@ -189,5 +278,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("htmlblock");
+    sakai.api.Widgets.widgetLoader.informOnLoad('htmlblock');
 });

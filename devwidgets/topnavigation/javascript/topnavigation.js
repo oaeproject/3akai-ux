@@ -981,29 +981,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
             }
         });
-        $("#topnavigation_scroll_to_top").live("click", function(ev){
+        $("#topnavigation_scroll_to_top").live("click", function(ev) {
             $("html:not(:animated),body:not(:animated)").animate({
                 scrollTop: $("html").offset().top
             }, 500 );
         });
 
-        $(window).scroll(function(ev){
-            if($(window).scrollTop() > 800){
-                $("#topnavigation_scroll_to_top").show("slow");
+        $(window).scroll(function(ev) {
+            if($(window).scrollTop() > 800) {
+                $('#topnavigation_scroll_to_top').show('slow');
             } else {
-                $("#topnavigation_scroll_to_top").hide("slow");
+                $('#topnavigation_scroll_to_top').hide('slow');
             }
         });
 
-        $(window).bind("sakai.mylibrary.deletedCollections", function(ev, data){
-            $.each(data.items, function(i, item){
-                $(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(parseInt($(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text()) - 1);
+        $(window).bind('sakai.mylibrary.deletedCollections', function(ev, data) {
+            $.each(data.items, function(i, item) {
+                $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) - 1);
             });
         });
 
-        $(window).bind("sakai.mylibrary.createdCollections", function(ev, data){
-            $.each(data.items, function(i, item){
-                $(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text(parseInt($(".topnavigation_menuitem_counts_container #topnavigation_user_collections_total").text()) + 1);
+        $(window).bind('sakai.mylibrary.createdCollections', function(ev, data) {
+            $.each(data.items, function(i, item) {
+                $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) + 1);
             });
         });
 

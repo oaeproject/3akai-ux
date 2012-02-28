@@ -20,10 +20,32 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-.pagetitle_widget, .pagetitle_widget textarea {min-height: 28px; word-wrap: break-word;}
-.pagetitle_widget textarea {overflow: hidden; resize: none; background-color: transparent; color: #333333; font-family: Arial; font-size: 18px; font-weight: bold; line-height: 28px; border: none;}
-
-#pagetitle_view_container {display:block;}
-.contentauthoring_edit_mode #pagetitle_view_container {display:none !important;}
-#pagetitle_edit_container {display:none;}
-.contentauthoring_edit_mode #pagetitle_edit_container {display:block !important;}
+.pagetitle_widget, .pagetitle_widget textarea {
+    min-height: 28px;
+    word-wrap: break-word;
+}
+.pagetitle_widget textarea {
+    overflow: hidden;
+    resize: none;
+    background-color: transparent;
+    color: #333333;
+    font-family: Arial;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 28px;
+    border: none;
+    width:100%; 
+    height: 28px;
+}
+#pagetitle_view_container {
+    display: block;
+}
+.contentauthoring_edit_mode #pagetitle_view_container {
+    display: none !important;
+}
+#pagetitle_edit_container {
+    display: none;
+}
+.contentauthoring_edit_mode #pagetitle_edit_container {
+    display: block !important;
+}

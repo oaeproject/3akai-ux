@@ -400,7 +400,7 @@ define(
         },
 
         /**
-        * Sets the permissions an Array of files to be the same as their parent
+        * Sets the permissions of an Array of files to be the same as their parent
         * Order of execution:
         *       - Load parent permissions
         *       - Set parent permission parameter on content nodes
@@ -423,12 +423,12 @@ define(
                         // Apply the same permissions to the filesArray
                         sakai_content.setFilePermissions(filesToSetPermissions, function(success) {
                             // Execute callback
-                            if($.isFunction(callback)) {
+                            if ($.isFunction(callback)) {
                                 callback(success);
                             }
                         });
                     } else {
-                        if($.isFunction(callback)) {
+                        if ($.isFunction(callback)) {
                             callback(success);
                         }
                     }
@@ -444,7 +444,7 @@ define(
                         var permissions = data['sakai:permissions'];
                         var filesToSetPermissions = [];
                         var batchRequests = [];
-                        $.each(filesArray, function(index, item){
+                        $.each(filesArray, function(index, item) {
                             filesToSetPermissions.push({
                                 hashpath: item,
                                 permissions: permissions
@@ -1793,11 +1793,11 @@ define(
                     }
                     // Generate the first empty row
                     return generateEmptyRow(columnsForNextRow || 1);
-                }
+                };
 
                 /**
                  * Generate a new empty row to addd to the page
-                 * @param {Object} columnCount    Number of columns in this row
+                 * @param {Integer} columnCount    Number of columns in this row
                  */
                 var generateEmptyRow = function(columnCount) {
                     var row = {
@@ -1808,17 +1808,17 @@ define(
                         row.columns.push({
                             'width': 1 / columnCount,
                             'elements': []
-                        })
-                    };
+                        });
+                    }
                     return row;
                 };
 
                 /**
                  * Generate a new widget cell in the last row
-                 * @param {Object} id            Widget id
-                 * @param {Object} type          Widget type
+                 * @param {String} id            Widget id
+                 * @param {String} type          Widget type
                  * @param {Object} currentPage   Object representing the migrated Sakai Doc page so far
-                 * @param {Object} column        The index of the column in which to insert the widget
+                 * @param {Integer} column       The index of the column in which to insert the widget
                  * @param {Object} data          The widget's data
                  */
                 var generateNewCell= function(id, type, currentPage, currentRow, column, data) {
@@ -2019,7 +2019,7 @@ define(
                         return newStructure;
                     }
                 } else {
-                    alert('No valid page structure was entered');
+                    debug.error('No valid page structure was entered');
                     return false;
                 }
             }

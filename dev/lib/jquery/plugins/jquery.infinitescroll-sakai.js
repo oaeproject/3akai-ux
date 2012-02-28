@@ -11,16 +11,16 @@
      *                                       The "items" property will be used to determine how many results are loaded per call [optional]
      * @param {Function} render              Render callback function called when the plugin is ready to render the list
      *                                       using a specific template
-     * @param {Function} emptylistprocessor  Function used to deal with an empty result list [optional]
+     * @param {Function} emptyListProcessor  Function used to deal with an empty result list [optional]
      * @param {String} loadingImage          Path to the loading image that should be shown when 
-     * @param {Function} postprocessor       Function used to transform the search results before rendering
+     * @param {Function} postProcessor       Function used to transform the search results before rendering
      *                                       the template [optional]
-     * @param {Function} postrenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
-     * @param {Object} initialcontent        Initial content to be added to the list [optional]
+     * @param {Function} postRenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
+     * @param {Object} initialContent        Initial content to be added to the list [optional]
      * @param {Function} initialCallback     Function to call with data from initial request [optional]
      * @param {Object} $scrollContainer      Container used for infinite scrolling that is not the document [optional]
      */
-    $.fn.infinitescroll = function(source, parameters, render, emptylistprocessor, loadingImage, postprocessor, postrenderer, initialcontent, initialCallback, $scrollContainer){
+    $.fn.infinitescroll = function(source, parameters, render, emptyListProcessor, loadingImage, postProcessor, postRenderer, initialContent, initialCallback, $scrollContainer){
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -63,20 +63,18 @@
          * of the end of the page. If it is, we load the next set of results
          */
         var loadNextList = function(){
-            if($scrollContainer) {
-                var scrollTop = $scrollContainer.scrollTop();
-                var pixelsRemainingUntilBottom = $scrollContainer.children("ul").height() - scrollTop;
-                if (pixelsRemainingUntilBottom <= 280 && $scrollContainer.is(":visible")){
-                    parameters.page++;
-                    loadResultList();
-                }
-            } else {
-                var scrollTop = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
-                var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
-                if (pixelsRemainingUntilBottom < 500 && $container.is(":visible")){
-                    parameters.page++;
-                    loadResultList();
-                }
+            var threshold = 500;
+            var scrollTop = $.browser.msie ? $("html").scrollTop() : $(window).scrollTop();
+            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
+            var $finalContainer = $scrollContainer || $container;
+            if ($scrollContainer) {
+                threshold = 280;
+                scrollTop = $scrollContainer.scrollTop();
+                pixelsRemainingUntilBottom = $scrollContainer.children("ul").height() - scrollTop;
+            }
+            if (pixelsRemainingUntilBottom <= threshold && $finalContainer.is(":visible")){
+                parameters.page++;
+                loadResultList();
             }
         };
 
@@ -155,8 +153,8 @@
                 } else {
                     $container.append(templateOutput);
                 }
-                if ($.isFunction(postrenderer)){
-                    postrenderer();
+                if ($.isFunction(postRenderer)){
+                    postRenderer();
                 }
 
                 isDoingExtraSearch = false;
@@ -167,8 +165,8 @@
                 } else {
                     isDoingExtraSearch = true;
                     if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
-                        if ($.isFunction(emptylistprocessor)) {
-                            emptylistprocessor();
+                        if ($.isFunction(emptyListProcessor)) {
+                            emptyListProcessor();
                         }
                     }
                 }
@@ -177,9 +175,9 @@
 
         /**
          * Run the list of items to be added to a processor before pushing them through
-         * a template. The postprocessor will be given an array of items to be added to
+         * a template. The postProcessor will be given an array of items to be added to
          * the infinite scroll. The plugin expects an array of items to come back from
-         * the postprocessor as well.
+         * the postProcessor as well.
          * @param {Object} data       List of items to add to the infinite scroll list
          * @param {Object} prepend    True when we want to prepend the new items to the list
          *                            False when we want to append the new items to the list
@@ -187,8 +185,8 @@
         var processList = function(data, prepend){
             if (data) {
                 data.results = data.results || [];
-                if ($.isFunction(postprocessor)) {
-                    postprocessor(data.results, function(items){
+                if ($.isFunction(postProcessor)) {
+                    postProcessor(data.results, function(items){
                         data.results = items;
                         renderList(data, prepend);
                     });
@@ -292,10 +290,10 @@
         var loadInitialList = function(){
             var initial = true;
             setUpLoadingIcon();
-            if (initialcontent && initialcontent.length > 0){
+            if (initialContent && initialContent.length > 0){
                 initial = false;
                 processList({
-                    "results": initialcontent
+                    "results": initialContent
                 });
             }
             loadResultList(initial);

@@ -46,6 +46,7 @@
 .sakaiSkin table.mceLayout {
     border: 0;
     height: 25px !important;
+    width: 100% !important;
     margin-bottom: 0px;
 }
 .sakaiSkin table.mceToolbar, .sakaiSkin tr.mceFirst .mceToolbar tr td, .sakaiSkin tr.mceLast .mceToolbar tr td {
