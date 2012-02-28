@@ -61,21 +61,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var url = "/system/userManager/group/" + groupId + ".update.json";
 
             if(theme == "LEFT"){
-            	var data = {
+                var data = {
                 "sakai:customStyle": "\""
-            	};
-                sakai.api.Server.saveJSON(url, data, closeThemeChanger(), false);
+                };
+            
+                 $.post(url, data,closeThemeChanger());
+                //sakai.api.Server.saveJSON(url, data, closeThemeChanger(), false);
             }else if(theme == "TOP"){
                 var data = {
                 "sakai:customStyle": "/dev/skins/topnav/skin.css"
                 };
-                sakai.api.Server.saveJSON(url, data, closeThemeChanger(), false);
+                $.post(url, data,closeThemeChanger());
+                //sakai.api.Server.saveJSON(url, data, closeThemeChanger(), false);
             };
             
         };
 
             function closeThemeChanger(){
             	$themechangerDialog.jqmHide();
+            	window.location.reload();
             }
 
         ////////////////////
