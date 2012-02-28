@@ -285,7 +285,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             generateNav(pagestructure);
         };
 
-        var showContentContainer = function() {
+        var showContentContainer = function(isSakaiDoc) {
             if (isSakaiDoc) {
                 $('#content_profile_preview_container').hide();
                 $('#content_profile_contentauthoring_container').show();

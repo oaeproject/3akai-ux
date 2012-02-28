@@ -56,10 +56,16 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             return $rootel.hasClass('contentauthoring_edit_mode');
         };
 
+        /**
+         * 
+         */
         var canEditCurrentPage = function() {
             return (currentPageShown.canEdit && !currentPageShown.nonEditable);
         };
 
+        /**
+         * 
+         */
         var getWidgetList = function() {
             var widgetIDs = [];
             for (var r = 0; r < currentPageShown.content.rows.length; r++) {
@@ -76,12 +82,20 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // TINYMCE RELATED //
         /////////////////////
 
+        /**
+         * 
+         * @param {Object} $container
+         */
         var killTinyMCEInstances = function($container) {
             $container.find('.tinyMCE').each(function() {
                 tinyMCE.execCommand('mceRemoveControl', false, $(this).attr('id'));
             });
         };
 
+        /**
+         * 
+         * @param {Object} $container
+         */
         var initializeTinyMCEInstances = function($container) {
             $container.find('.tinyMCE').each(function() {
                 tinyMCE.execCommand( 'mceAddControl', true, $(this).attr('id'));
@@ -113,6 +127,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // ROW REORDERING //
         ////////////////////
 
+        /**
+         * 
+         */
         var makeRowsReorderable = function() {
             $('#contentauthoring_widget_container', $pageRootEl).sortable({
                 handle: '.contentauthoring_row_handle',
@@ -146,6 +163,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // ROW HOVER //
         ///////////////
 
+        /**
+         * 
+         */
         var setRowHover = function() {
             $('.contentauthoring_row_container', $rootel).unbind('hover');
             $('.contentauthoring_row_container', $rootel).hover(function() {
@@ -162,6 +182,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // ADDING A NEW ROW //
         //////////////////////
 
+        /**
+         * 
+         */
         var generateNewRow = function() {
             // Create an empty row
             var newRow = {
@@ -191,12 +214,19 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // is currently displaying
         var rowToChange = false;
 
+        /**
+         * 
+         */
         var hideEditRowMenu = function() {
             rowToChange = false;
             $('#contentauthoring_row_menu', $rootel).hide();
             $('.contentauthoring_row_handle_container', $rootel).removeClass('selected');
         };
 
+        /**
+         * 
+         * @param {Object} ev
+         */
         var showEditRowMenu = function(ev) {
             var currentRow = $(this).attr('data-row-id');
             // If the clicked row is the same as the row that is already open, we
@@ -238,6 +268,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        /**
+         * 
+         * @param {Object} ev
+         */
         var removeRow = function(ev) {
             var $row = $('.contentauthoring_row_container[data-row-id=\'' + rowToChange + '\']', $rootel);
             hideEditRowMenu();
@@ -246,6 +280,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             storeCurrentPageLayout();
         };
 
+        /**
+         * 
+         * @param {Object} insertBefore
+         */
         var addRow = function(insertBefore) {
             var $row = $('.contentauthoring_row_container[data-row-id=\'' + rowToChange + '\']', $rootel);
             hideEditRowMenu();
@@ -270,8 +308,13 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // COLUMN RESIZING //
         /////////////////////
 
+        //
         var currentSizes = [];
 
+        /**
+         * 
+         * @param {Object} $row
+         */
         var getColumnWidths = function($row) {
             var totalWidth = $('#contentauthoring_widget_container', $pageRootEl).width();
             var $cells = $('.contentauthoring_cell', $row);
@@ -292,6 +335,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             return widths;
         };
 
+        /**
+         * 
+         */
         var makeColumnsResizable = function() {
             $(window).trigger('resize.contentauthoring.sakai');
             $('.contentauthoring_cell', $rootel).resizable({
@@ -316,6 +362,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        /**
+         * 
+         * @param {Object} ui
+         * @param {Object} $row
+         * @param {Object} currentSizes
+         */
         var recalculateColumnWidths = function(ui, $row, currentSizes) {
             var totalRowWidth = $('#contentauthoring_widget_container', $pageRootEl).width();
             var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
@@ -424,6 +476,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             setRowHeight($(image).parents('.contentauthoring_table_row.contentauthoring_cell_container_row'));
         };
 
+        /**
+         * 
+         * @param {Object} changedHTML
+         */
         $rootel.contentChange(function(changedHTML) {
             $.each($(changedHTML).find('img:visible'), function(i, item) {
                 imageLoaded({}, $(item));
@@ -437,6 +493,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // ADDING COLUMNS //
         ////////////////////
 
+        /**
+         * 
+         * @param {Object} $row
+         * @param {Object} totalColumns
+         */
         var addColumns = function($row, totalColumns) {
             var widths = getColumnWidths($row);
             var $cells = $('.contentauthoring_cell', $row);
@@ -464,6 +525,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // REMOVING COLUMNS //
         //////////////////////
 
+        /**
+         * 
+         * @param {Object} $row
+         * @param {Object} lastColumn
+         */
         var removeColumns = function($row, lastColumn) {
             var widths = getColumnWidths($row);
             var remainingWidth = 1;
@@ -492,6 +558,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // CHANGE NUMBER OF COLUMNS //
         //////////////////////////////
 
+        /**
+         * 
+         * @param {Object} number
+         */
         var changeNumberOfColumns = function(number) {
             var $row = $('.contentauthoring_row_container[data-row-id=\'' + rowToChange + '\']', $rootel);
             var $cells = $('.contentauthoring_cell', $row);
@@ -510,6 +580,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // EMPTY COLUMN PLACEHOLDER //
         //////////////////////////////
 
+        /**
+         * 
+         */
         var checkColumnsEmpty = function() {
             $.each($('.contentauthoring_cell_content', $('#contentauthoring_widget', $rootel)), function(i, cellcontainer) {
                 if (!$(cellcontainer).find('.contentauthoring_cell_element').length) {
@@ -534,6 +607,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // WIDGET REORDERING //
         ///////////////////////
 
+        /**
+         * 
+         */
         var reorderWidgets = function() {
             $('.contentauthoring_cell_content', $rootel).sortable({
                 connectWith: '.contentauthoring_cell_content',
@@ -577,6 +653,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // WIDGET HOVER //
         //////////////////
 
+        /**
+         * 
+         */
         var showEditCellMenu = function() {
             $('.contentauthoring_cell_element', $rootel).unbind('hover');
             $('.contentauthoring_cell_element', $rootel).hover(function() {
@@ -597,6 +676,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // REMOVE WIDGET //
         ///////////////////
 
+        /**
+         * 
+         * @param {Object} ev
+         */
         var removeWidget = function(ev) {
             var $cell = $(this).parents('.contentauthoring_cell_element');
             var $row = $cell.parents('.contentauthoring_table_row.contentauthoring_cell_container_row');
@@ -615,6 +698,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // ADD NEW WIDGET //
         ////////////////////
 
+        /**
+         * 
+         * @param {Object} type
+         */
         var addNewWidgetPlaceholder = function(type) {
             var $lastRow = $('.contentauthoring_row', $rootel).last().find('.contentauthoring_table_row.contentauthoring_cell_container_row');
             var $element = $('<div />').attr('data-element-type', type);
@@ -622,6 +709,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             addNewWidget(ev, $element);
         };
 
+        /**
+         * 
+         * @param {Object} event
+         * @param {Object} $addedElement
+         */
         var addNewWidget = function(event, $addedElement) {
             var type = $addedElement.attr('data-element-type');
             // Generate unique id
@@ -653,6 +745,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var isEditingNewElement = false;
         var currentlyEditing = false;
 
+        /**
+         * 
+         */
         $('#contentauthoring_widget_settings', $rootel).jqm({
             modal: true,
             overlay: 20,
@@ -660,6 +755,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             onHide: sakai_global.contentauthoring.widgetCancel
         });
 
+        /**
+         * 
+         * @param {Object} id
+         * @param {Object} type
+         */
         var showEditWidgetMode = function(id, type) {
             currentlyEditing = id;
             $('#contentauthoring_widget_content', $rootel).html('');
@@ -677,6 +777,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             }
         };
 
+        /**
+         * 
+         * @param {Object} ev
+         */
         var editWidgetMode = function(ev) {
             var id = $(this).attr('data-element-id');
             var type = $(this).attr('data-element-type');
@@ -684,6 +788,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             showEditWidgetMode(id, type);
         };
 
+        /**
+         * 
+         */
         sakai_global.contentauthoring.widgetCancel = function() {
             if (isEditingNewElement) {
                 $('.contentauthoring_cell_element #' + currentlyEditing, $rootel).parent().remove();
@@ -695,6 +802,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             $('#contentauthoring_widget_content').html('');
         };
 
+        /**
+         * 
+         */
         sakai_global.contentauthoring.widgetFinish = function() {
             isEditingNewElement = false;
             // Remove the widget from the settings overlay
@@ -721,6 +831,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // PAGE LOADING //
         //////////////////
 
+        /**
+         * 
+         * @param {Object} _currentPageShown
+         * @param {Object} putInEditMode
+         */
         var processNewPage = function(_currentPageShown, putInEditMode) {
             // If the current page is in edit mode, we take it back
             // into view mode
@@ -739,6 +854,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             }
         };
 
+        /**
+         * 
+         * @param {Object} currentPageShown
+         * @param {Object} requiresRefresh
+         */
         var renderPage = function(currentPageShown, requiresRefresh) {
             // Bring the page back to view mode
             exitEditMode();
@@ -790,6 +910,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // PAGE EDITTING //
         ///////////////////
 
+        /**
+         * 
+         */
         var setPageEditActions = function() {
             makeRowsReorderable();
             makeColumnsResizable();
@@ -801,6 +924,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        /**
+         * 
+         */
         var editPage = function() {
             $(window).trigger('edit.contentauthoring.sakai');
             $('.contentauthoring_empty_content', $rootel).remove();
@@ -815,6 +941,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // PAGE SERIALIZING //
         //////////////////////
 
+        /**
+         * 
+         */
         var getCurrentPageLayout = function() {
             var rows = [];
             var widgetIds = [];
@@ -908,6 +1037,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             showPlaceholder(emptyPageElements);
         };
 
+        /**
+         * 
+         */
         var determineEmptyAfterSave = function() {
             var cellElements = $('#' + currentPageShown.ref + ' .contentauthoring_cell_element', $rootel);
             var containsText = false;
@@ -919,6 +1051,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             showPlaceholder(!containsText);
         };
 
+        /**
+         * 
+         * @param {Object} show
+         */
         var showPlaceholder = function(show) {
             if (show) {
                 $('#contentauthoring_widget_container', $pageRootEl).hide();
@@ -938,6 +1074,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         /////////////////////
         /////////////////////
 
+        /**
+         * 
+         */
         var exitEditMode = function() {
             // Alert the inserter bar that it should go back into view mode
             $(window).trigger('render.contentauthoring.sakai');
@@ -946,6 +1085,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             $('.contentauthoring_cell_content', $rootel).sortable('destroy');
         };
 
+        /**
+         * 
+         */
         var updateWidgetURLs = function() {
             // Get the widgets in this page and change their widget storing URL
             var widgets = getWidgetList();
@@ -960,6 +1102,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // SAVE PAGE //
         ///////////////
 
+        /**
+         * 
+         */
         var savePage = function() {
             // Alert the widgets that they should be storing their widget data
             $(window).trigger('save.contentauthoring.sakai');
@@ -981,6 +1126,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        /**
+         * 
+         * @param {Object} rows
+         * @param {Object} widgetIds
+         */
         var checkPageReadyToSave = function(rows, widgetIds) {
             var isStillStoringWidgetData = false;
             $.each(widgetIds, function(index, widgetId) {
@@ -995,6 +1145,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             }
         };
 
+        /**
+         * 
+         * @param {Object} rows
+         * @param {Object} widgetIds
+         */
         var savePageData = function(rows, widgetIds) {
             // Get the current saved data
             sakai.api.Server.loadJSON(storePath, function(success, data) {
@@ -1021,6 +1176,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        /**
+         * 
+         */
         var storeCurrentPageLayout = function() {
             var pageLayout = getCurrentPageLayout().rows;
             sakai.api.Server.saveJSON(storePath + 'rows/', pageLayout, null, true);
@@ -1030,6 +1188,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // CANCEL PAGE //
         /////////////////
 
+        /**
+         * 
+         */
         var cancelEditPage = function() {
             exitEditMode();
             // Delete the autosaved current page
@@ -1066,6 +1227,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             toTop: true
         });
 
+        /**
+         * 
+         */
         var checkAutoSave = function() {
             // Cache the current page
             sakai.api.Server.loadJSON(storePath, function(success, pageData) {
@@ -1086,6 +1250,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        /**
+         * 
+         * @param {Object} pageData
+         */
         var showRestoreAutoSaveDialog = function(pageData) {
             sakai.api.Util.bindDialogFocus($('#autosave_dialog'));
             $('#autosave_dialog').jqmShow();
@@ -1099,11 +1267,19 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        /**
+         * 
+         * @param {Object} pageData
+         */
         var cancelRestoreAutoSave = function(pageData) {
             makeTempCopy(pageData);
             $('#autosave_dialog').jqmHide();
         };
 
+        /**
+         * 
+         * @param {Object} pageData
+         */
         var restoreAutoSave = function(pageData) {
             killTinyMCEInstances($pageRootEl);
             var pageStructure = $.extend(true, {}, autoSaveData);
@@ -1116,6 +1292,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             $('#autosave_dialog').jqmHide();
         };
 
+        /**
+         * 
+         * @param {Object} data
+         */
         var makeTempCopy = function(data) {
             // Make temporary copy 
             sakai.api.Server.saveJSON(storePath, data, null, true);
@@ -1133,6 +1313,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // ADDING NEW PAGES //
         //////////////////////
 
+        /**
+         * 
+         * @param {Object} isWorld
+         */
         var showAddPageControls = function(isWorld) {
             if (isWorld) {
                 $('#inserterbar_action_add_page_container', $rootel).hide();
@@ -1153,40 +1337,50 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // PAGE RENDERING //
         ////////////////////
 
+        //
         $(window).bind('showpage.contentauthoring.sakai', function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, false);
         });
 
+        //
         $(window).bind('editpage.contentauthoring.sakai', function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, true);
         });
 
+        //
         $('#inserterbar_action_edit_page', $rootel).live('click', editPage);
 
         ///////////////////
         // EDIT ROW MENU //
         ///////////////////
 
+        //
         $('.contentauthoring_row_edit', $rootel).live('click', showEditRowMenu);
 
+        //
         $('#contentauthoring_row_menu_remove', $rootel).live('click', removeRow);
 
+        //
         $('#contentauthoring_row_menu_add_above', $rootel).live('click', function() {
             addRow(true);
         });
 
+        //
         $('#contentauthoring_row_menu_add_below', $rootel).live('click', function() {
             addRow(false);
         });
 
+        //
         $('#contentauthoring_row_menu_one', $rootel).live('click', function() {
             changeNumberOfColumns(1);
         });
 
+        //
         $('#contentauthoring_row_menu_two', $rootel).live('click', function() {
             changeNumberOfColumns(2);
         });
 
+        //
         $('#contentauthoring_row_menu_three', $rootel).live('click', function() {
             changeNumberOfColumns(3);
         });
@@ -1195,37 +1389,46 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // EDIT WIDGET //
         /////////////////
 
+        //
         $('.contentauthoring_cell_element_action_x', $rootel).live('click', removeWidget);
 
+        //
         $('.contentauthoring_dummy_element', $rootel).live('dblclick', function(ev) {
             var $el = $(this).attr('data-element-type', 'htmlblock');
             addNewWidget(null, $el);
         });
 
+        //
         $('.contentauthoring_cell_element_action_e', $rootel).live('click', editWidgetMode);
 
         /////////////////////////
         // INSERTERBAR ACTIONS //
         /////////////////////////
 
+        //
         $('.inserterbar_widget_draggable', $rootel).live('keyup', function(ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
                 addNewWidgetPlaceholder(ev, $(this).attr('data-element-type'));
             }
         });
 
+        //
         $('.inserterbar_widget_draggable', $rootel).live('dblclick', function(ev) {
             addNewWidget(ev, $(this).attr('data-element-type'));
         });
 
+        //
         $('#inserterbar_save_edit_page', $rootel).live('click', savePage);
 
+        //
         $('#inserterbar_cancel_edit_page', $rootel).live('click', cancelEditPage);
 
+        //
         $(window).bind('start.drag.sakai', function() {
             isDragging = true;
         });
 
+        //
         $(window).bind('stop.drag.sakai', function() {
             isDragging = false;
         });
@@ -1234,6 +1437,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // HEIGHTS //
         /////////////
 
+        //
         $(window).bind('updateheight.contentauthoring.sakai', updateColumnHeights);
 
         ////////////////////
