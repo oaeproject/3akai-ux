@@ -1,0 +1,23 @@
+{
+    "id":                 "themechanger",
+    "name":               "ThemeChanger",
+    "description":        "Allows the user to switch between skins/themes",
+    "type":               "contrib",
+    "enabled":            true,
+    "hasSettings":        true,
+    "url":                "/devwidgets/themechanger/themechanger.html",
+    "i18n": {
+        "default": {
+            "bundle":        "/devwidgets/themechanger/bundles/default.properties",
+            "name":           "ThemeChanger",
+            "description":    "Allows the user to switch between skins/themes"
+        }
+    },
+    "personalportal":     false,
+    "sakaidocs":          false,
+    "showinsakaigoodies": false,
+    "groupdashboard":     true,
+    "grouppages":         true,
+    "userdashboard":      false,
+    "userpages":          false
+}
