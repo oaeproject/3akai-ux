@@ -135,11 +135,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 revert: 'invalid',
                 opacity: 0.4,
                 start: function() {
-                    $(window).trigger("start.drag.sakai");
+                    $(window).trigger("startdrag.contentauthoring.sakai");
                     sakai.api.Util.Draggable.setIFrameFix();
                 },
                 stop: function() {
-                    $(window).trigger("stop.drag.sakai");
+                    $(window).trigger("stopdrag.contentauthoring.sakai");
                     sakai.api.Util.Draggable.removeIFrameFix();
                 }
             });

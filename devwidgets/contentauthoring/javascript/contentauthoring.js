@@ -651,7 +651,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     } else {
                         addExistingElement(event, ui);
                     }
-                    checkColumnsEmpty();
                     storeCurrentPageLayout();
                 }
             });
@@ -714,7 +713,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             var $lastRow = $('.contentauthoring_row', $rootel).last().find('.contentauthoring_table_row.contentauthoring_cell_container_row');
             var $element = $('<div />').attr('data-element-type', type);
             $lastRow.find('.contentauthoring_cell_content:last').append($element);
-            addNewWidget(ev, $element);
+            addNewWidget(null, $element);
         };
 
         /**
@@ -742,6 +741,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             } else {
                 sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath);
             }
+            checkColumnsEmpty();
             setPageEditActions();
             storeCurrentPageLayout();
         };
@@ -1422,7 +1422,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         //
         $('.inserterbar_widget_draggable', $rootel).live('dblclick', function(ev) {
-            addNewWidget(ev, $(this).attr('data-element-type'));
+            addNewWidgetPlaceholder($(this).attr('data-element-type'));
         });
 
         //
@@ -1432,12 +1432,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         $('#inserterbar_cancel_edit_page', $rootel).live('click', cancelEditPage);
 
         //
-        $(window).bind('start.drag.sakai', function() {
+        $(window).bind('startdrag.contentauthoring.sakai', function() {
             isDragging = true;
         });
 
         //
-        $(window).bind('stop.drag.sakai', function() {
+        $(window).bind('stopdrag.contentauthoring.sakai', function() {
             isDragging = false;
         });
 
@@ -1500,10 +1500,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         // Handle the final drop
         $('.contentauthoring_cell_element, .contentauthoring_cell_content', $rootel).live('drop', function(ev) {
-            ev.preventDefault();
-            $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
+            if (isInEditMode()){
+                ev.preventDefault();
+                $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
                 var dt = ev.originalEvent.dataTransfer;
                 addExternal(ev, $(this));
+            }
             return false;
         });
         
@@ -1542,6 +1544,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 $(ui.item).replaceWith($(element));
                 checkColumnsEmpty();
                 sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath);
+                checkColumnsEmpty();
                 setPageEditActions();
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
             });
