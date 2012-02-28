@@ -79,9 +79,6 @@
 a {
 	color: #2683bc;
 }
-.mceToolbar a {
-    color:#333;
-}
 /* CSS THAT OVERWRITES MAIN CSS */
 .s3d-main-container {
 	padding: 0px !important;
