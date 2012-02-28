@@ -320,8 +320,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var currentSizes = [];
 
         /**
-         * 
-         * @param {Object} $row
+         * Returns an array of relative widths for all of the columns in a given row
+         * @param {jQuery} $row     jQuery element representing row for which to get the widths
+         *                          of its columns
          */
         var getColumnWidths = function($row) {
             var totalWidth = $('#contentauthoring_widget_container', $pageRootEl).width();
@@ -344,7 +345,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
+         * Make all of the columns in the current page resizable
          */
         var makeColumnsResizable = function() {
             $(window).trigger('resize.contentauthoring.sakai');
@@ -371,10 +372,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} ui
-         * @param {Object} $row
-         * @param {Object} currentSizes
+         * Recalculate the widths of all the columns in a row after having resized a column. This
+         * makes sure that each of the columns has sufficient width, ratios between the non-dragged
+         * columns are preserved, etc.
+         * @param {Object} ui             jQuery ui object
+         * @param {jQuery} $row           jQuery element representing the row we're calculating
+         *                                widths for
+         * @param {Array} currentSizes    The arrray containing the current column widths, used
+         *                                to preserve the column width ratios
          */
         var recalculateColumnWidths = function(ui, $row, currentSizes) {
             var totalRowWidth = $('#contentauthoring_widget_container', $pageRootEl).width();
@@ -428,7 +433,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         /**
          * Sets the height of a row to the heighest column
-         * @param {Object} $row jQuery object with class '.contentauthoring_table_row.contentauthoring_cell_container_row'
+         * @param {jQuery} $row jQuery object with class '.contentauthoring_table_row.contentauthoring_cell_container_row'
          *                      used to search for child cells that can contain content
          */
         var setRowHeight = function($row) {
@@ -480,13 +485,17 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             updateColumnHeights();
         };
 
+        /**
+         * Every time an image is loaded, we adjust the height of the columns of the row
+         */
         var imageLoaded = function(ev, image) {
             setRowHeight($(image).parents('.contentauthoring_table_row.contentauthoring_cell_container_row'));
         };
 
         /**
-         * 
-         * @param {Object} changedHTML
+         * We listen for HTML changes in the page to catch new iamges being
+         * loaded, as we need to adjust the row height when this happens
+         * @param {Object} changedHTML      The HTML that has been added or removed
          */
         $rootel.contentChange(function(changedHTML) {
             $.each($(changedHTML).find('img:visible'), function(i, item) {
@@ -502,9 +511,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ////////////////////
 
         /**
-         * 
-         * @param {Object} $row
-         * @param {Object} totalColumns
+         * Given a row, add one or more columns to it, preserving the original ratios
+         * @param {jQuery} $row             Row in which we're adding columns
+         * @param {Integer} totalColumns    Total of columns we need in the row
          */
         var addColumns = function($row, totalColumns) {
             var widths = getColumnWidths($row);
@@ -534,27 +543,27 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////////
 
         /**
-         * 
-         * @param {Object} $row
-         * @param {Object} lastColumn
+         * Given a row, remove one or more columns from it, preserving the original ratios
+         * @param {jQuery} $row             Row in which we're adding columns
+         * @param {Integer} totalColumns    Total of columns we need in the row
          */
-        var removeColumns = function($row, lastColumn) {
+        var removeColumns = function($row, totalColumns) {
             var widths = getColumnWidths($row);
             var remainingWidth = 1;
             var $cells = $('.contentauthoring_cell', $row);
             $row.find('.contentauthoring_dummy_element').remove();
             // Append the content of the columns that will be removed to the last
             // column that will be retained
-            for (var i = lastColumn + 1; i < $cells.length; i++) {
+            for (var i = totalColumns; i < $cells.length; i++) {
                 var $cell = $($cells[i]);
                 // De- and re-initialize tinyMCE to avoid errors
                 killTinyMCEInstances($cell);
                 var $cellcontent = $('.contentauthoring_cell_content', $cell).children();
-                initializeTinyMCEInstances($('.contentauthoring_cell_content', $($cells[lastColumn])).append($cellcontent));
+                initializeTinyMCEInstances($('.contentauthoring_cell_content', $($cells[totalColumns - 1])).append($cellcontent));
                 $cell.remove();
                 remainingWidth -= widths[i];
             }
-            for (var l = 0; l <= lastColumn; l++) {
+            for (var l = 0; l < totalColumns; l++) {
                 $($cells[l]).css('width', (widths[l] / remainingWidth) * 100 + '%');
             }
             checkColumnsEmpty();
@@ -567,8 +576,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////////////////
 
         /**
-         * 
-         * @param {Object} number
+         * Change the number of columns in the currently selected row
+         * @param {Integer} number   Number of columns the row should get (1-3)
          */
         var changeNumberOfColumns = function(number) {
             var $row = $('.contentauthoring_row_container[data-row-id=\'' + rowToChange + '\']', $rootel);
@@ -589,7 +598,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////////////////
 
         /**
-         * 
+         * Check whether any of the columns in the current page are empty (i.e., they have no widgets
+         * inside of them). If so, we add the placeholder widget
          */
         var checkColumnsEmpty = function() {
             $.each($('.contentauthoring_cell_content', $('#contentauthoring_widget', $rootel)), function(i, cellcontainer) {
@@ -616,7 +626,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ///////////////////////
 
         /**
-         * 
+         * Make the widgets reorderable across all rows and columns
          */
         var reorderWidgets = function() {
             $('.contentauthoring_cell_content', $rootel).sortable({
@@ -653,6 +663,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     } else if ($(ui.item).hasClass("inserterbar_widget_draggable")) {
                         addNewWidget(event, $(ui.item));
                     }
+                    checkColumnsEmpty();
                     storeCurrentPageLayout();
                 }
             });
@@ -663,7 +674,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////
 
         /**
-         * 
+         * Show the widget context menu when hovering over the widget and hide it when
+         * hovering out of the widget
          */
         var showEditCellMenu = function() {
             $('.contentauthoring_cell_element', $rootel).unbind('hover');
@@ -686,8 +698,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ///////////////////
 
         /**
-         * 
-         * @param {Object} ev
+         * Remove a widget from the page
+         * @param {Object} ev   jQuery event object
          */
         var removeWidget = function(ev) {
             var $cell = $(this).parents('.contentauthoring_cell_element');
@@ -708,8 +720,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ////////////////////
 
         /**
-         * 
-         * @param {Object} type
+         * When double clicking or entering in the inserterbar, we add in a temporary
+         * placeholder in the last row of the page, which will then be picked up by the
+         * addNewWidget function
+         * @param {String} type     Name of the widget we are adding
          */
         var addNewWidgetPlaceholder = function(type) {
             var $lastRow = $('.contentauthoring_row', $rootel).last().find('.contentauthoring_table_row.contentauthoring_cell_container_row');
@@ -719,9 +733,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} event
-         * @param {Object} $addedElement
+         * Add a new widget to the page after dropping it into its place
+         * @param {Object} event            jQuery event object
+         * @param {jQuery} $addedElement    Element that was dragged into the page
          */
         var addNewWidget = function(event, $addedElement) {
             var type = $addedElement.attr('data-element-type');
@@ -756,7 +770,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var currentlyEditing = false;
 
         /**
-         * 
+         * Initialize the widget settings overlay, which will be used
+         * for the settings view of the widgets that have a settings
+         * view
          */
         $('#contentauthoring_widget_settings', $rootel).jqm({
             modal: true,
@@ -766,9 +782,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         });
 
         /**
-         * 
-         * @param {Object} id
-         * @param {Object} type
+         * Show the modal dialog edit mode for a widget
+         * @param {String} id       Unique id of the widget
+         * @param {String} type     Name of the widget
          */
         var showEditWidgetMode = function(id, type) {
             currentlyEditing = id;
@@ -788,8 +804,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} ev
+         * Handle the click on the settings button for a widget
+         * @param {Object} ev   jQuery event object
          */
         var editWidgetMode = function(ev) {
             var id = $(this).attr('data-element-id');
@@ -799,7 +815,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
+         * Global function that will be executed when the Cancel button is
+         * clicked in one of the widgets. This will remove the settings
+         * overlay.
          */
         sakai_global.contentauthoring.widgetCancel = function() {
             if (isEditingNewElement) {
@@ -813,7 +831,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
+         * Global function that will be executed when the Save button is
+         * clicked in one of the widgets. This will remove the settings
+         * overlay and insert/update the widget's view mode
          */
         sakai_global.contentauthoring.widgetFinish = function() {
             isEditingNewElement = false;
@@ -828,6 +848,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             updateAllColumnHandles();
         };
 
+        // Register the global functions
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
         sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
 
@@ -842,9 +863,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////
 
         /**
-         * 
-         * @param {Object} _currentPageShown
-         * @param {Object} putInEditMode
+         * When the left hand navigation asks for a new page to be rendered, this function will
+         * be called
+         * @param {Object} _currentPageShown    Object representing the current page
+         * @param {Boolean} putInEditMode       Whether or not to put the page into edit mode after
+         *                                      rendering. This will be used for new pages
          */
         var processNewPage = function(_currentPageShown, putInEditMode) {
             // If the current page is in edit mode, we take it back
@@ -865,9 +888,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} currentPageShown
-         * @param {Object} requiresRefresh
+         * Render a page, including its full layout and all of the widgets that live inside of it
+         * @param {Object} currentPageShown     Object representing the current page
+         * @param {Boolean} requiresRefresh     Whether or not the page should be fully reloaded (if it
+         *                                      has already been loaded), or whether it can be served
+         *                                      from cache
          */
         var renderPage = function(currentPageShown, requiresRefresh) {
             // Bring the page back to view mode
@@ -921,7 +946,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ///////////////////
 
         /**
-         * 
+         * Set up the page so rows are re-orderable, columns are resizable,
+         * widgets can be re-ordered and all hover states
          */
         var setPageEditActions = function() {
             makeRowsReorderable();
@@ -935,7 +961,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
+         * Put the page into edit mode
          */
         var editPage = function() {
             $(window).trigger('edit.contentauthoring.sakai');
@@ -952,7 +978,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////////
 
         /**
-         * 
+         * Serialize the current page layout (rows, columns, widgets), so it can
+         * be stored back
          */
         var getCurrentPageLayout = function() {
             var rows = [];
@@ -994,7 +1021,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         /**
          * Checks for empty htmlblock widgets and returns a Boolean
-         *
          * @return {Boolean} false if the htmlblock widget is not empty
          *                   true if the htmlblock widget is empty
          */
@@ -1011,7 +1037,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Determines if a page is empty by checking its content
          * Shows a default image when no content is present in the page
          * Empty content = empty rows and rows with empty html blocks
-         *
          * @param currentPageShown {Object} Object containing data for the current page
          */
         var determineEmptyPage = function(currentPageShown) {
@@ -1048,7 +1073,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
+         * Determine whether the current page is completely empty after editting
+         * it. If so, the empty page placeholder will be shown
          */
         var determineEmptyAfterSave = function() {
             var cellElements = $('#' + currentPageShown.ref + ' .contentauthoring_cell_element', $rootel);
@@ -1062,8 +1088,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} show
+         * Show or hide the empty page placeholder
+         * @param {Boolean} show    True if the placeholder needs to be shown, false
+         *                          if it needs to be hidden
          */
         var showPlaceholder = function(show) {
             if (show) {
@@ -1085,7 +1112,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         /////////////////////
 
         /**
-         * 
+         * Put the page into view mode
          */
         var exitEditMode = function() {
             // Alert the inserter bar that it should go back into view mode
@@ -1096,7 +1123,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
+         * After changing between view mode (permanent URL) and edit mode (autosave URL),
+         * we need to update these URLs in the widget loader
          */
         var updateWidgetURLs = function() {
             // Get the widgets in this page and change their widget storing URL
@@ -1113,7 +1141,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ///////////////
 
         /**
-         * 
+         * Store an editted page
          */
         var savePage = function() {
             // Alert the widgets that they should be storing their widget data
@@ -1137,9 +1165,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} rows
-         * @param {Object} widgetIds
+         * Check all of the widgets in the current page to see whether they have finished their
+         * widget data saving. If so, we can continue to saving the entire page
+         * @param {Array} rows          Array of rows in the page with its layout and widgets
+         * @param {Array} widgetIds     Array of widget ids for all the widgets in the current page
          */
         var checkPageReadyToSave = function(rows, widgetIds) {
             var isStillStoringWidgetData = false;
@@ -1156,9 +1185,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} rows
-         * @param {Object} widgetIds
+         * Save the page by moving the autosaved page to the main page. We also version the page
+         * @param {Array} rows          Array of rows in the page with its layout and widgets
+         * @param {Array} widgetIds     Array of widget ids for all the widgets in the current page
          */
         var savePageData = function(rows, widgetIds) {
             // Get the current saved data
@@ -1187,7 +1216,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
+         * Save the current page
          */
         var storeCurrentPageLayout = function() {
             var pageLayout = getCurrentPageLayout().rows;
@@ -1199,7 +1228,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         /////////////////
 
         /**
-         * 
+         * This is called when the cancel button is clicked in the inserterbar. At that
+         * point, the page is reset to its initial point.
          */
         var cancelEditPage = function() {
             exitEditMode();
@@ -1238,7 +1268,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         });
 
         /**
-         * 
+         * Check whether an autosaved version is present. This would happen when
+         * a user left the page during editing
          */
         var checkAutoSave = function() {
             // Cache the current page
@@ -1261,8 +1292,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} pageData
+         * Show the overlay that offers the user the ability to restore
+         * an autosaved version
+         * @param {Object} pageData         Object containing the current page
+         * @param {Object} autoSaveData     Object containing the autosaved page
          */
         var showRestoreAutoSaveDialog = function(pageData, autoSaveData) {
             sakai.api.Util.bindDialogFocus($('#autosave_dialog'));
@@ -1278,8 +1311,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} pageData
+         * This is executed when a user decides not to restore
+         * an autosaved version
+         * @param {Object} pageData     Object containing the current page
          */
         var cancelRestoreAutoSave = function(pageData) {
             makeTempCopy(pageData);
@@ -1287,8 +1321,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} pageData
+         * Put the autosaved version into the current page edit mode
+         * @param {Object} autoSaveData     Object containing the autosaved page
          */
         var restoreAutoSave = function(autoSaveData) {
             killTinyMCEInstances($pageRootEl);
@@ -1303,8 +1337,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
-         * 
-         * @param {Object} data
+         * Make a temporary copy of the current page. This temporary copy will be
+         * used to autosave into.
+         * @param {Object} data     Page object to make a temporary copy of
          */
         var makeTempCopy = function(data) {
             // Make temporary copy 
@@ -1324,8 +1359,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////////
 
         /**
-         * 
-         * @param {Object} isWorld
+         * Show the addsubpage button when we are in a world, and the addpage button
+         * if we are in a content profile
+         * @param {Object} isWorld      Whether or not we are currently in a world
          */
         var showAddPageControls = function(isWorld) {
             if (isWorld) {
@@ -1347,50 +1383,50 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // PAGE RENDERING //
         ////////////////////
 
-        //
+        // Render a page
         $(window).bind('showpage.contentauthoring.sakai', function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, false);
         });
 
-        //
+        // Render a page and put it in edit mode
         $(window).bind('editpage.contentauthoring.sakai', function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, true);
         });
 
-        //
+        // Edit page button
         $('#inserterbar_action_edit_page', $rootel).live('click', editPage);
 
         ///////////////////
         // EDIT ROW MENU //
         ///////////////////
 
-        //
+        // Edit row button
         $('.contentauthoring_row_edit', $rootel).live('click', showEditRowMenu);
 
-        //
+        // Remove row button
         $('#contentauthoring_row_menu_remove', $rootel).live('click', removeRow);
 
-        //
+        // Add row above button
         $('#contentauthoring_row_menu_add_above', $rootel).live('click', function() {
             addRow(true);
         });
 
-        //
+        // Add row below button
         $('#contentauthoring_row_menu_add_below', $rootel).live('click', function() {
             addRow(false);
         });
 
-        //
+        // Change the number of columns to 1
         $('#contentauthoring_row_menu_one', $rootel).live('click', function() {
             changeNumberOfColumns(1);
         });
 
-        //
+        // Change the number of columns to 2
         $('#contentauthoring_row_menu_two', $rootel).live('click', function() {
             changeNumberOfColumns(2);
         });
 
-        //
+        // Change the number of columns to 3
         $('#contentauthoring_row_menu_three', $rootel).live('click', function() {
             changeNumberOfColumns(3);
         });
@@ -1399,46 +1435,48 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // EDIT WIDGET //
         /////////////////
 
-        //
+        // Remove a widget
         $('.contentauthoring_cell_element_action_x', $rootel).live('click', removeWidget);
 
-        //
+        // Doubleclick on the empty row element
         $('.contentauthoring_dummy_element', $rootel).live('dblclick', function(ev) {
             var $el = $(this).attr('data-element-type', 'htmlblock');
             addNewWidget(null, $el);
         });
 
-        //
+        // Edit a widget
         $('.contentauthoring_cell_element_action_e', $rootel).live('click', editWidgetMode);
 
         /////////////////////////
         // INSERTERBAR ACTIONS //
         /////////////////////////
 
-        //
+        // Hitting enter after tabbing to the inserterbar
         $('.inserterbar_widget_draggable', $rootel).live('keyup', function(ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
                 addNewWidgetPlaceholder(ev, $(this).attr('data-element-type'));
             }
         });
 
-        //
+        // Double clicking on the inserterbar
         $('.inserterbar_widget_draggable', $rootel).live('dblclick', function(ev) {
             addNewWidgetPlaceholder($(this).attr('data-element-type'));
         });
 
-        //
+        // Save the page
         $('#inserterbar_save_edit_page', $rootel).live('click', savePage);
 
-        //
+        // Cancel editing the page
         $('#inserterbar_cancel_edit_page', $rootel).live('click', cancelEditPage);
 
-        //
+        // Called when the inserterbar starts dragging an element, at this point
+        // no hovers should be shown
         $(window).bind('startdrag.contentauthoring.sakai', function() {
             isDragging = true;
         });
 
-        //
+        // Called when the inserterbar stops dragging an element, at this point
+        // the hovers should be shown again
         $(window).bind('stopdrag.contentauthoring.sakai', function() {
             isDragging = false;
         });
@@ -1447,7 +1485,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // HEIGHTS //
         /////////////
 
-        //
+        // Called when an element on the page has the potential of changing the
+        // height of the column handles
         $(window).bind('updateheight.contentauthoring.sakai', updateColumnHeights);
 
         ////////////////////
