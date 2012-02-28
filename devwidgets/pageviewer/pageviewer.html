@@ -10,10 +10,16 @@
 </div>
 
 <div id="pageviewer_content_template"><!--
-    {macro insertCell(id, type)}
+    {macro insertCell(id, type, element)}
         <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
-            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle" && !settingsoverridden)}
-                <div id="${id}"></div>
+            {if type === "htmlblock" || type === "pagetitle"}
+                {if type === "pagetitle"}
+                    <h1>
+                {/if}
+                    ${data[selectedPage][id][type].content}
+                {if type === "pagetitle"}
+                    </h1>
+                {/if}
             {else}
                 <div id="widget_${type}_${id}" class="widget_inline"></div>
             {/if}
@@ -27,7 +33,7 @@
                     <div class="contentauthoring_cell_content">
                         {for element in column.elements}
                             {if $.isPlainObject(element)}
-                                ${insertCell(element.id, element.type)}
+                                ${insertCell(element.id, element.type, element)}
                             {/if}
                         {/for}
                     </div>
@@ -54,21 +60,25 @@
         </li>
     {/macro}
 
-    {if template === "row"}
-        ${insertRow(id, columns)}
-    {elseif template === "cell"}
-        ${insertCell(id, type, settingsoverridden)}
-    {elseif template === "column"}
-        ${insertColumn(column)}
-    {else}
-        <ul id="contentauthoring_widget_container">
-            {for row in rows}
-                {if $.isPlainObject(row)}
-                    ${insertRow(row.id, row.columns)}
-                {/if}
-            {/for}
-        </ul>
-    {/if}
+    <ul id="contentauthoring_widget_container">
+        {for row in data[selectedPage].rows}
+            {if $.isPlainObject(row)}
+                ${insertRow(row.id, row.columns)}
+            {/if}
+        {/for}
+    </ul>
+--></div>
+
+<div id="pageviewer_lhnav_template"><!--
+<ul>
+    {for page in data}
+        {if page.pageTitle}
+            <li class="pageviewer_lhnav_item {if page_index === "0"} selected{/if}" data-index="${page_index}">
+                <button type="button" class="s3d-link-button">${page.pageTitle}</button>
+            </li>
+        {/if}
+    {/for}
+</ul>
 --></div>
 
 
