@@ -59,38 +59,90 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         function changeTheme(theme) {
             var groupId = sakai.api.Util.extractEntity(window.location.pathname);
             var url = "/system/userManager/group/" + groupId + ".update.json";
-
-            if(theme == "LEFT"){
-                var data = {
-                "sakai:customStyle": "\""
-                };
-            
-                 $.post(url, data,closeThemeChanger());
-                //sakai.api.Server.saveJSON(url, data, closeThemeChanger(), false);
-            }else if(theme == "TOP"){
-                var data = {
-                "sakai:customStyle": "/dev/skins/topnav/skin.css"
-                };
-                $.post(url, data,closeThemeChanger());
-                //sakai.api.Server.saveJSON(url, data, closeThemeChanger(), false);
+            var cssURL = getURL(theme);
+            var data = {
+                "sakai:customStyle": cssURL
             };
             
-        };
-
-            function closeThemeChanger(){
-            	$themechangerDialog.jqmHide();
-            	window.location.reload();
+            if(theme == "LEFT")
+            {
+                 $.post(url, data);
+                 removeCSS();
             }
+            else
+            {
+                $.post(url, data);
+                removeCSS();
+                addCSS(cssURL);
+            };
+            closeThemeChanger();
+        };
+        
+        function closeThemeChanger(){
+            $('option').remove();
+            $themechangerDialog.jqmHide();
+        }
+        
+        function getURL(theme){
+            for (var i = 0, len = sakai.config.skinStore.length; i < len; i++) 
+            {
+                if(theme == sakai.config.skinStore[i].title) 
+                {
+                    return sakai.config.skinStore[i].url;
+                }
+            }
+        }
+        
+        function addCSS(cssURL){
+            if(cssURL != "/")
+            {
+                $('head').append('<link href="' + cssURL + '" type="text/css" rel="stylesheet" />');
+                    /*var fileref= document.createElement("link")
+                    fileref.setAttribute("rel", "stylesheet")
+                    fileref.setAttribute("type", "text/css")
+                    fileref.setAttribute("href", cssURL)
+                    if (typeof fileref!="undefined")
+                    {*/
+                        //$('head').append(fileref)
+                    //}
+            }
+        }
+        
+        function removeCSS(){
+            for (var i = 0, len = $("link").length; i < len; i++)
+            {
+                var string = $("link")[i].href.substr(-8, 8);
+                if(string == "skin.css")
+                {
+                    $("link")[i].removeAttribute("href");
+                }
+            };
+        }
+        
+        function loadThemes(){
+            for (var i = 0, len = sakai.config.skinStore.length; i < len; i++) 
+            {
+                $('#change_theme_to').append('<option value="' + sakai.config.skinStore[i].title + '">' + sakai.config.skinStore[i].text + '</option>');
+            }
+        }
+        
+        /*function changeCSS(url){
+            var attributes = {"type": "text/css"};
+            alert(url);
+            alert(sakai.api.Util.include.checkForTag("link", attributes));
+            sakai.api.Util.include.checkForTag("link", attributes);
+       }*/
 
         ////////////////////
         // Event Handlers //
         ////////////////////
 
         /** Binds Settings form */
-             $('#themechanger_apply_button').live("click", function(ev) {
-                var selectedTheme = $themePicker.val();
-                changeTheme(selectedTheme);
-             });
+         $('#themechanger_apply_button').live("click", function(ev) {
+             
+            var selectedTheme = $themePicker.val();
+            changeTheme(selectedTheme);
+         });
 
 
         $cancelSettings.bind("click", function(){
@@ -108,6 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function (_worldId) {
             worldId = _worldId;
+                            loadThemes();
             $themechangerDialog.jqm({
                 modal: true,
                 overlay: 20,
@@ -120,10 +173,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // run the initialization function when the widget object loads
         $(window).bind("init.themechanger.sakai", function(e, _worldId){
-        	doInit(_worldId);
+            doInit(_worldId);
         });
     };
-
     // inform Sakai OAE that this widget has loaded and is ready to run
     sakai.api.Widgets.widgetLoader.informOnLoad("themechanger");
 });

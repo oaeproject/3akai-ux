@@ -1509,6 +1509,23 @@ define(function(){
             }
         },
 
+        skinStore: [{
+                title: "LEFT",
+                text: "Left navigation",
+                url: "/"
+            },
+            {
+                title: "TOP",
+                text: "Top navigation",
+                url: "/dev/skins/topnav/skin.css"
+            },
+            {
+                title: "NOLEFT",
+                text: "No left navigation",
+                url: "/dev/skins/noleft/skin.css"
+            }
+        ],
+
         // Array of css files to load in each page
         skinCSS: [],
 
