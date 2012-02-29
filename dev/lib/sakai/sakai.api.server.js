@@ -395,12 +395,12 @@ define(
             return newobj;
         },
 
-		/**
-		 * Take a Sakai Doc object retrieved from the server and clean it so it only has
-		 * the real data. This function will filter out properties that have been added
-		 * on the server side during saving
-		 * @param {Object} the object to clean
-		 */
+        /**
+         * Take a Sakai Doc object retrieved from the server and clean it so it only has
+         * the real data. This function will filter out properties that have been added
+         * on the server side during saving
+         * @param {Object} the object to clean
+         */
         cleanUpSakaiDocObject: function(pagestructure) {
             // Convert the special objects to arrays
             var data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
