@@ -146,7 +146,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 //    $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
                 //}
                 var version = $(this).attr("data-version");
-                var path = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef + '.infinity.json?v=' + version;
+                var path = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef + '.version.,' + version + ',.infinity.json' ;
                 sakai.api.Server.loadJSON(path, function(success, pageData) {
                     var newPageShown = $.extend(true, {}, currentPageShown);
                     newPageShown.content = pageData;
