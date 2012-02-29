@@ -9,26 +9,66 @@
     <hr class="fl-push fl-hidden"/>
 </div>
 
-<div id="pageviewer_lhnav_template"><!--
-    <ul>
-        {for page in pages}
-            <li class="pageviewer_lhnav_item {if page_index === "0"} selected{/if}" data-index="${page_index}">
-                <button type="button" class="s3d-link-button">${page.title}</button>
-            </li>
-        {/for}
-    </ul>
---></div>
-
 <div id="pageviewer_content_template"><!--
-    {for page in pages}
-        <div id="pageviewer_content_for_page_${page_index}" class="pageviewer_content_for_page" {if page_index !== "0"} style="display:none;"{/if}>
-            {if page.pageContent && page.pageContent.page}
-                ${page.pageContent.page}
+    {macro insertCell(id, type)}
+        <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
+            {if template === "cell" && (type !== "htmlblock" && type !== "pagetitle" && !settingsoverridden)}
+                <div id="${id}"></div>
             {else}
-                <div class="sakaidocs_default_viewable_content_imagecontainer"></div>
+                <div id="widget_${type}_${id}" class="widget_inline"></div>
             {/if}
         </div>
-    {/for}
+    {/macro}
+
+    {macro insertColumn(column)}
+        <div class="contentauthoring_cell" style="width: ${column.width * 100}%">
+            <div class="contentauthoring_cell_container">
+                <div class="contentauthoring_table_row">
+                    <div class="contentauthoring_cell_content">
+                        {for element in column.elements}
+                            {if $.isPlainObject(element)}
+                                ${insertCell(element.id, element.type)}
+                            {/if}
+                        {/for}
+                    </div>
+                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
+                </div>
+            </div>
+        </div>
+    {/macro}
+
+    {macro insertRow(id, columns)}
+        <li class="contentauthoring_row_container" data-row-id="${id}">
+            <div class="contentauthoring_row">
+                <div class="contentauthoring_minheight_container">
+                    <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
+                        {for column in columns}
+                            {if $.isPlainObject(column)}
+                                ${insertColumn(column)}
+                                <hr class="fl-hidden fl-push"/>
+                            {/if}
+                        {/for}
+                    </div>
+                </div>
+            </div>
+        </li>
+    {/macro}
+
+    {if template === "row"}
+        ${insertRow(id, columns)}
+    {elseif template === "cell"}
+        ${insertCell(id, type, settingsoverridden)}
+    {elseif template === "column"}
+        ${insertColumn(column)}
+    {else}
+        <ul id="contentauthoring_widget_container">
+            {for row in rows}
+                {if $.isPlainObject(row)}
+                    ${insertRow(row.id, row.columns)}
+                {/if}
+            {/for}
+        </ul>
+    {/if}
 --></div>
 
 

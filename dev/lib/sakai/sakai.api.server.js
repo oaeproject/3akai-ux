@@ -29,9 +29,10 @@
 define(
     [
         "jquery",
+        "underscore",
         "config/config_custom"
     ],
-    function($, sakai_conf) {
+    function($, _, sakai_conf) {
 
     var sakaiServerAPI = {
         /**
@@ -208,11 +209,11 @@ define(
             if (!i_url || !i_data) {
 
                 // Log the error message
-                debug.warn("sakai.api.Server.saveJSON: Not enough or empty arguments!");
+                debug.warn('sakai.api.Server.saveJSON: Not enough or empty arguments!');
 
                 // Still invoke the callback function
                 if ($.isFunction(callback)) {
-                    callback(false, "The supplied arguments were incorrect.");
+                    callback(false, 'The supplied arguments were incorrect.');
                 }
 
                 // Make sure none of the other code in this function is executed
@@ -228,17 +229,17 @@ define(
                     obj = obj[path.shift()];
                     addIndexedFields(path, obj);
                 } else {
-                    if (obj["sakai:indexed-fields"]) {
-                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].split(",");
+                    if (obj['sakai:indexed-fields']) {
+                        obj['sakai:indexed-fields'] = obj['sakai:indexed-fields'].split(',');
                         if ($.inArray(path[0], obj['sakai:indexed-fields']) === -1) {
                             obj['sakai:indexed-fields'].push(path[0]);
                         }
-                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].join(",");
+                        obj['sakai:indexed-fields'] = obj['sakai:indexed-fields'].join(',');
                     } else {
-                        obj["sakai:indexed-fields"] = path[0];
+                        obj['sakai:indexed-fields'] = path[0];
                     }
-                    if (!obj["sling:resourceType"]) {
-                        obj["sling:resourceType"] = "sakai/widget-data";
+                    if (!obj['sling:resourceType']) {
+                        obj['sling:resourceType'] = 'sakai/widget-data';
                     }
                 }
             };
@@ -249,17 +250,17 @@ define(
              * </p>
              * <code>
              * {
-             *     "boolean": true,
-             *     "array_object": [{ "key1": "value1", "key2": "value2"}, { "key1": "value1", "key2": "value2"}]
+             *     'boolean': true,
+             *     'array_object': [{ 'key1': 'value1', 'key2': 'value2'}, { 'key1': 'value1', 'key2': 'value2'}]
              * }
              * </code>
              * to
              * <code>
              * {
-             *     "boolean": true,
-             *     "array_object": {
-             *         "__array__0__": { "key1": "value1", "key2": "value2"},
-             *         "__array__1__": { "key1": "value1", "key2": "value2"}
+             *     'boolean': true,
+             *     'array_object': {
+             *         '__array__0__': { 'key1': 'value1', 'key2': 'value2'},
+             *         '__array__1__': { 'key1': 'value1', 'key2': 'value2'}
              *     }
              * }
              * </code>
@@ -268,34 +269,37 @@ define(
              */
             var convertArrayToObject = function(obj) {
 
-                var i,j,jl;
-                // Since the native createTree method doesn't support an array of objects natively,
-                // we need to write extra functionality for this.
-                for(i in obj){
+                // If the current object is an array with elements, we convert it into
+                // an object
+                if ($.isArray(obj) && obj.length > 0) {
 
-                    // Check if the element is an array, whether it is empty and if it contains any elements
-                    if (obj.hasOwnProperty(i) && $.isArray(obj[i]) && obj[i].length > 0) {
+                    // Deep copy the array
+                    var arrayCopy = $.extend(true, [], obj);
 
-                        // Deep copy the array
-                        var arrayCopy = $.extend(true, [], obj[i]);
+                    // Set the original array to an empty object
+                    obj = {};
 
-                        // Set the original array to an empty object
-                        obj[i] = {};
+                    // Add all the elements that were in the original array to the object with a unique id
+                    for (var j = 0, jl = arrayCopy.length; j < jl; j++) {
 
-                        // Add all the elements that were in the original array to the object with a unique id
-                        for (j = 0, jl = arrayCopy.length; j < jl; j++) {
+                        // Copy each object from the array and add it to the object
+                        obj['__array__' + j + '__'] = arrayCopy[j];
 
-                            // Copy each object from the array and add it to the object
-                            obj[i]["__array__" + j + "__"] = arrayCopy[j];
-
-                            // Run recursively
-                            convertArrayToObject(arrayCopy[j]);
-                        }
-                    // If there are array elements inside
-                    } else if ($.isPlainObject(obj[i])) {
-                        convertArrayToObject(obj[i]);
+                        // Run recursively
+                        convertArrayToObject(arrayCopy[j]);
                     }
 
+                // If the current object is an empty array, we convert it into an empty
+                // string
+                } else if ($.isArray(obj) && obj.length === 0) {
+                    obj = '';
+
+                // If the current object is a real object, we loop over its children and
+                // check for additional arrays
+                } else if ($.isPlainObject(obj)) {
+                    for (var k in obj) {
+                        obj[k] = convertArrayToObject(obj[k]);
+                    }
                 }
 
                 return obj;
@@ -303,44 +307,43 @@ define(
 
             // Convert the array of objects to only objects
             // We also need to deep copy the object so we don't modify the input parameter
-            i_data = convertArrayToObject($.extend(true, {}, i_data));
+            if ($.isArray(i_data)) {
+                i_data = convertArrayToObject($.extend(true, [], i_data));
+            } else {
+                i_data = convertArrayToObject($.extend(true, {}, i_data));
+            }
             var postData = {
-                ":operation": "import",
-                ":contentType": "json",
-                ":replace": true,
-                ":replaceProperties": true,
-                "_charset_":"utf-8"
+                ':operation': 'import',
+                ':contentType': 'json',
+                ':replace': true,
+                ':replaceProperties': true,
+                '_charset_':'utf-8'
             };
             if (removeTree) {
-                postData[":removeTree"] = removeTree;
+                postData[':removeTree'] = removeTree;
             }
             if (indexFields) {
                 $.each(indexFields, function(i,val) {
-                    addIndexedFields(val.split("/"), i_data);
+                    addIndexedFields(val.split('/'), i_data);
                 });
             }
-            sakaiServerAPI.removeServerCreatedObjects(i_data, ["_"]);
-            postData[":content"] = $.toJSON(i_data);
+            sakaiServerAPI.removeServerCreatedObjects(i_data, ['_']);
+            postData[':content'] = $.toJSON(i_data);
             // Send request
             $.ajax({
                 url: i_url,
-                type: "POST",
+                type: 'POST',
                 data: postData,
-                dataType: "text",
-
-                success: function(data){
-
+                dataType: 'text',
+                success: function(data) {
                     // If a callback function is specified in argument, call it
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
                 },
-
-                error: function(xhr, status, e){
-
+                error: function(xhr, status, e) {
                     // Log error
-                    debug.error("sakai.api.Server.saveJSON: There was an error saving JSON data to: " + this.url);
-
+                    debug.error('sakai.api.Server.saveJSON: There was an error saving JSON data to: ' + this.url);
                     // If a callback function is specified in argument, call it
                     if ($.isFunction(callback)) {
                         callback(false, xhr);
@@ -360,45 +363,56 @@ define(
             var newobj = false;
             if ($.isPlainObject(obj)) {
                 newobj = $.extend(true, {}, obj);
+                notToRemove = notToRemove || [];
+                $.each(newobj, function(key,val) {
+                    for (var ns = 0; ns < namespace.length; ns++) {
+                        if (key && key.indexOf && key.indexOf(namespace[ns]) === 0) {
+                            var canRemove = true;
+                            for (var i = 0; i < notToRemove.length; i++) {
+                                if (notToRemove[i] === key) {
+                                    canRemove = false;
+                                    break;
+                                }
+                            }
+                            if (canRemove) {
+                                delete newobj[key];
+                            }
+                        } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                            newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
+                        }
+                    }
+                });
             } else if ($.isArray(obj)) {
                 newobj = $.merge([], obj);
-            }
-            notToRemove = notToRemove || [];
-            $.each(newobj, function(key,val) {
-                for (var ns = 0; ns < namespace.length; ns++) {
-                    if (key && key.indexOf && key.indexOf(namespace[ns]) === 0) {
-                        var canRemove = true;
-                        for (var i = 0; i < notToRemove.length; i++) {
-                            if (notToRemove[i] === key) {
-                                canRemove = false;
-                                break;
-                            }
-                        }
-                        if (canRemove) {
-                            delete newobj[key];
-                        }
-                    } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                $.each(newobj, function(key, val) {
+                    if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
                         newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
                     }
-                }
-            });
+                });
+            }
             return newobj;
         },
 
-        cleanUpSakaiDocObject: function(pagestructure){
+		/**
+		 * Take a Sakai Doc object retrieved from the server and clean it so it only has
+		 * the real data. This function will filter out properties that have been added
+		 * on the server side during saving
+		 * @param {Object} the object to clean
+		 */
+        cleanUpSakaiDocObject: function(pagestructure) {
             // Convert the special objects to arrays
             var data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
-            var id = pagestructure["_path"];
-            var toFilter = ["_", "jcr:", "sakai:", "sling:"];
-            var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_canView", "_canEdit", "_canSubedit", "_nonEditable", "_lastModified", "_lastModifiedBy"];
+            var id = pagestructure['_path'];
+            var toFilter = ['_', 'jcr:', 'sakai:', 'sling:'];
+            var toExclude = ['_ref', '_title', '_altTitle', '_order', '_pid', '_count', '_view', '_edit', '_canView', '_canEdit', '_canSubedit', '_nonEditable', '_reorderOnly', '_lastModified', '_lastModifiedBy'];
             pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
-            if (pagestructure["structure0"] && typeof pagestructure["structure0"] === "string"){
-                pagestructure["structure0"] = $.parseJSON(pagestructure["structure0"]);
+            if (pagestructure['structure0'] && _.isString(pagestructure['structure0'])) {
+                pagestructure['structure0'] = $.parseJSON(pagestructure['structure0']);
             }
-            var removeServerFormating = function(structure, id){
-                for (var i in structure){
-                    if (structure.hasOwnProperty(i) && i.indexOf(id + "/") === 0){
-                        var newid = i.substring(i.lastIndexOf("/") + 1);
+            var removeServerFormating = function(structure, id) {
+                for (var i in structure) {
+                    if (structure.hasOwnProperty(i) && i.indexOf(id + '/') === 0) {
+                        var newid = i.substring(i.lastIndexOf('/') + 1);
                         structure[newid] = structure[i];
                         delete structure[i];
                         structure[newid] = removeServerFormating(structure[newid], id);
@@ -406,9 +420,18 @@ define(
                 }
                 return structure;
             };
-            if (id){
+            if (id) {
                 pagestructure = removeServerFormating(pagestructure, id);
             }
+            $.each(pagestructure, function(i, obj) {
+                if (obj && obj.rows && obj.rows.length) {
+                    $.each(obj.rows, function(ii, row) {
+                        if(!$.isPlainObject(row)){
+                            pagestructure[i].rows[ii] = $.parseJSON(row);
+                        }
+                    });
+                }
+            });
             return pagestructure;
         },
 
@@ -504,7 +527,7 @@ define(
          * @param {Object} [objIndex] The index of the parent object
          * @return {Object} An object where all the objects with the special format are converted into arrays
          */
-        convertObjectToArray : function(specficObj, globalObj, objIndex){
+        convertObjectToArray : function(specficObj, globalObj, objIndex) {
 
             var i,j,k,kl;
             // Run over all the items in the object
@@ -526,7 +549,7 @@ define(
                         }
 
                         // Construct array of objects
-                        for(k = 0, kl = count; k < kl; k ++){
+                        for(k = 0, kl = count; k < kl; k ++) {
                             arr.push(specficObj["__array__"+k+"__"]);
                         }
 

@@ -15,87 +15,308 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 /* General */
-#carousel_container {padding:5px 12px;}
-#carousel_container h1{color: #424242;font-size: 13px; margin-bottom:10px;}
-#carousel_container h2{margin-top: 0px;display:inline;}
-#carousel_container .carousel_item_title {display:block;font-size:12px;overflow:hidden;}
-#carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
-#carousel_container .carousel_three_column_left .carousel_content_tags{text-indent:0}
-#carousel_container .carousel_content_tags .s3d-action {font-size: 11px; font-weight: normal;}
-#carousel_container .carousel_counts {font-size: 11px;}
-#carousel_container .carousel_counts ul {margin:0;overflow:hidden;}
-#carousel_container .carousel_counts ul li {list-style: none;}
-#carousel_container .carousel_result_detail_separator {color: #ccc;}
-#carousel_container .carousel_content_description {color:#797979;margin-bottom: 10px;}
-#carousel_container .carousel_content_metadata {color:#424242;margin-bottom: 10px;}
-#carousel_container .carousel_content_text {color:#424242;}
-#carousel_container #carousel_next_button, #carousel_container #carousel_prev_button {width:22px;height:22px;cursor:pointer;float:right;margin-top: 8px;}
-#carousel_container #carousel_next_button{background:url("/devwidgets/carousel/images/carousel_next_button.png") no-repeat scroll left top transparent;}
-#carousel_container #carousel_prev_button{background:url("/devwidgets/carousel/images/carousel_prev_button.png") no-repeat scroll left top transparent;}
-#carousel_container .carousel_view_toggle li{display: inline-block;list-style: none outside none;background:url("/devwidgets/carousel/images/carousel_view_toggle.png") no-repeat scroll -12px top transparent;width:12px;height:12px;cursor:pointer;margin:0 2px;}
-#carousel_container li.carousel_view_toggle_selected{background:url("/devwidgets/carousel/images/carousel_view_toggle.png") no-repeat scroll left top transparent;}
-#carousel_container .carousel_view_toggle {margin-left:auto;margin-right:auto;text-align:center;margin-bottom:0;padding-top:2px;}
-#carousel_container .carousel_user_icon {width:50px; height:50px; background:url('/devwidgets/carousel/images/carousel_user_icon.png') no-repeat top left transparent;float:left;margin:0 8px 8px 0;}
-#carousel_container .carousel_no_preview_icon {float:left;width: 60px;}
-.jcarousel-item-horizontal{width:796px;}
-#carousel_container .carousel_tag_icon {position: relative;top: 5px;}
-#carousel_container fieldset{margin:0;padding:0;}
-.carousel_middot_divider {color:#424242;display:inline;margin:0 5px;}
+#carousel_container {
+    padding: 0px 8px 5px;
+}
+#carousel_container h1 {
+    color: #424242;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+#carousel_container h2 {
+    margin-top: 0px;
+    display: inline;
+}
+#carousel_container .carousel_item_title {
+    display: block;
+    font-size: 12px;
+    overflow: hidden;
+}
+#carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {
+    font-size: 11px;
+}
+#carousel_container .carousel_three_column_left .carousel_content_tags {
+    text-indent: 0
+}
+#carousel_container .carousel_content_tags .s3d-action {
+    font-size: 11px;
+    font-weight: normal;
+}
+#carousel_container .carousel_counts {
+    font-size: 11px;
+}
+#carousel_container .carousel_counts ul {
+    margin: 0;
+    overflow: hidden;
+}
+#carousel_container .carousel_counts ul li {
+    list-style: none;
+}
+#carousel_container .carousel_result_detail_separator {
+    color: #ccc;
+}
+#carousel_container .carousel_content_description {
+    color: #797979;
+    margin-bottom: 10px;
+}
+#carousel_container .carousel_content_metadata {
+    color: #424242;
+    margin-bottom: 10px;
+}
+#carousel_container .carousel_content_text {
+    color: #424242;
+}
+#carousel_container #carousel_next_button, #carousel_container #carousel_prev_button {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    float: right;
+    margin-top: 8px;
+}
+#carousel_container #carousel_next_button {
+    background: url("/devwidgets/carousel/images/carousel_next_button.png") no-repeat scroll left top transparent;
+}
+#carousel_container #carousel_prev_button {
+    background: url("/devwidgets/carousel/images/carousel_prev_button.png") no-repeat scroll left top transparent;
+}
+#carousel_container .carousel_view_toggle li {
+    display: inline-block;
+    list-style: none outside none;
+    background: url("/devwidgets/carousel/images/carousel_view_toggle.png") no-repeat scroll -12px top transparent;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    margin: 0 2px;
+}
+#carousel_container li.carousel_view_toggle_selected {
+    background: url("/devwidgets/carousel/images/carousel_view_toggle.png") no-repeat scroll left top transparent;
+}
+#carousel_container .carousel_view_toggle {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 0;
+    padding-top: 2px;
+}
+#carousel_container .carousel_user_icon {
+    width: 50px;
+    height: 50px;
+    background: url('/devwidgets/carousel/images/carousel_user_icon.png') no-repeat top left transparent;
+    float: left;
+    margin: 0 8px 8px 0;
+}
+#carousel_container .carousel_no_preview_icon {
+    float: left;
+    width: 60px;
+}
+.jcarousel-item-horizontal {
+    width: 796px;
+}
+#carousel_container .carousel_tag_icon {
+    position: relative;
+    top: 5px;
+}
+#carousel_container fieldset {
+    margin: 0;
+    padding: 0;
+}
+.carousel_middot_divider {
+    color: #424242;
+    display: inline;
+    margin: 0 5px;
+}
 
 /* Single column */
-#carousel_container #carousel_single_column_content_preview{width:350px; height:197px; margin-right:12px; margin-top: -15px;float:left;text-align: center;overflow:hidden}
-#carousel_container #carousel_single_column_content_preview img{max-width:350px;}
-#carousel_container .carousel_single_column_content_container {width:696px;clear:both;}
+#carousel_container #carousel_single_column_content_preview {
+    width: 350px;
+    height: 197px;
+    margin-right: 12px;
+    margin-top: -15px;
+    float: left;
+    text-align: center;
+    overflow: hidden
+}
+#carousel_container #carousel_single_column_content_preview img {
+    max-width: 350px;
+}
+#carousel_container .carousel_single_column_content_container {
+    width: 696px;
+    clear: both;
+}
 
 /* Two column */
-#carousel_container .carousel_two_column_content_container {width:348px;float:left;}
-#carousel_container .carousel_two_column_content_container_rh {overflow:hidden;padding:0 7px;}
-#carousel_container .carousel_two_column_content_container_lh {background:url('/devwidgets/carousel/images/carousel_group_icon.png') left top no-repeat transparent; width:50px; height:50px; float:left; margin-top: 5x;}
-#carousel_container .carousel_group_lh {width:458px !important;}
-#carousel_container .carousel_group_rh {width:238px !important;}
+#carousel_container .carousel_two_column_content_container {
+    width: 348px;
+    float: left;
+}
+#carousel_container .carousel_two_column_content_container_rh {
+    overflow: hidden;
+    padding: 0 7px;
+}
+#carousel_container .carousel_two_column_content_container_lh {
+    background: url('/devwidgets/carousel/images/carousel_group_icon.png') left top no-repeat transparent;
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-top: 5 x;
+}
+#carousel_container .carousel_group_lh {
+    width: 458px !important;
+}
+#carousel_container .carousel_group_rh {
+    width: 238px !important;
+}
 
 /* Three column */
-#carousel_container p {font-size:12px;color:#424242;margin-bottom:5px;word-wrap:break-word;}
-
-#carousel_container .carousel_bottom_buttons {position:absolute;bottom:7px;width:100%;right:0;}
-#carousel_container .carousel_bottom_buttons img {width:auto;height:auto;}
-#carousel_container .carousel_savecontent {float:left; margin:0 0 0 10px;}
-#carousel_container .s3d-actions-author {margin:0 auto;display:block;}
-#carousel_container .carousel_sharecontent {float:right; margin-right:10px;}
-
-#carousel_container .carousel_three_column_left {width: 312px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float:left; position:relative;}
-#carousel_container .carousel_three_column_left img.carousel_item_preview_img {float:left; margin-right: 10px; overflow:hidden;}
-
-#carousel_container .carousel_three_column_middle {width: 160px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; margin-left: 7px; float:left; position:relative;}
-#carousel_container .carousel_three_column_middle img.carousel_item_preview_img {float:left;margin-right:10px;overflow:hidden;}
-
-#carousel_container .carousel_three_column_right {width: 160px; height: 192px; margin-left: 7px; float:left;}
-#carousel_container .carousel_three_column_right > div {width: 160px; height: 83px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px;}
-#carousel_container .carousel_three_column_right .carousel_two_high_top {margin-bottom: 6px; position:relative;}
-#carousel_container .carousel_three_column_right .carousel_two_high_bottom {position:relative;}
+#carousel_container p {
+    font-size: 12px;
+    color: #424242;
+    margin-bottom: 5px;
+    word-wrap: break-word;
+}
+#carousel_container .carousel_bottom_buttons {
+    position: absolute;
+    bottom: 7px;
+    width: 100%;
+    right: 0;
+}
+#carousel_container .carousel_bottom_buttons img {
+    width: auto;
+    height: auto;
+}
+#carousel_container .carousel_savecontent {
+    float: left;
+    margin: 0 0 0 10px;
+}
+#carousel_container .s3d-actions-author {
+    margin: 0 auto;
+    display: block;
+}
+#carousel_container .carousel_sharecontent {
+    float: right;
+    margin-right: 10px;
+}
+#carousel_container .carousel_three_column_left {
+    width: 312px;
+    height: 192px;
+    background-color: #efefef;
+    padding: 10px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    float: left;
+    position: relative;
+}
+#carousel_container .carousel_three_column_left img.carousel_item_preview_img {
+    float: left;
+    margin-right: 10px;
+    overflow: hidden;
+}
+#carousel_container .carousel_three_column_middle {
+    width: 160px;
+    height: 192px;
+    background-color: #efefef;
+    padding: 10px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    margin-left: 7px;
+    float: left;
+    position: relative;
+}
+#carousel_container .carousel_three_column_middle img.carousel_item_preview_img {
+    float: left;
+    margin-right: 10px;
+    overflow: hidden;
+}
+#carousel_container .carousel_three_column_right {
+    width: 160px;
+    height: 192px;
+    margin-left: 7px;
+    float: left;
+}
+#carousel_container .carousel_three_column_right > div {
+    width: 160px;
+    height: 83px;
+    background-color: #efefef;
+    padding: 10px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+}
+#carousel_container .carousel_three_column_right .carousel_two_high_top {
+    margin-bottom: 6px;
+    position: relative;
+}
+#carousel_container .carousel_three_column_right .carousel_two_high_bottom {
+    position: relative;
+}
 
 /* Thumnail sizes */
-#carousel_container .carousel_item_large_preview {max-width: 140px; max-height: 160px;}
-#carousel_container .carousel_item_large_mimetype {max-width: 50px;}
-#carousel_container .carousel_item_medium_preview {min-width:42px;max-width:42px;max-height:42px;}
-#carousel_container .carousel_item_medium_mimetype {max-width:30px;}
-
+#carousel_container .carousel_item_large_preview {
+    max-width: 140px;
+    max-height: 160px;
+}
+#carousel_container .carousel_item_large_mimetype {
+    max-width: 50px;
+}
+#carousel_container .carousel_item_medium_preview {
+    min-width: 42px;
+    max-width: 42px;
+    max-height: 42px;
+}
+#carousel_container .carousel_item_medium_mimetype {
+    max-width: 30px;
+}
 /* 4x2 grid */
 
-#carousel_container .carousel_4x2_grid_container > div {width: 149px; height: 83px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float: left; margin: 0 0 7px 6px; position: relative;}
-#carousel_container .carousel_4x2_grid_container > div > img {height: 48px; float:left; margin-right: 10px;}
-#carousel_container .carousel_4x2_grid_container h2 {margin:0;display:inline;}
-#carousel_container .sakai_joingroup_overlay, #carousel_container .sakai_addtocontacts_overlay {float:left; padding-left: 10px;margin-left: 7px;}
-#carousel_container .sakai_sendmessage_overlay {float:right; margin-right: 10px;margin-top: 3px;}
-
-#carousel_container .carousel_4x2_grid_container .carousel_4x2_tall {height: 192px;}
+#carousel_container .carousel_4x2_grid_container > div {
+    width: 149px;
+    height: 83px;
+    background-color: #efefef;
+    padding: 10px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    float: left;
+    margin: 0 0 7px 6px;
+    position: relative;
+}
+#carousel_container .carousel_4x2_grid_container > div > img {
+    height: 48px;
+    float: left;
+    margin-right: 10px;
+}
+#carousel_container .carousel_4x2_grid_container h2 {
+    margin: 0;
+    display: inline;
+}
+#carousel_container .sakai_joingroup_overlay, #carousel_container .sakai_addtocontacts_overlay {
+    float: left;
+    padding-left: 10px;
+    margin-left: 7px;
+}
+#carousel_container .sakai_sendmessage_overlay {
+    float: right;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+#carousel_container .carousel_4x2_grid_container .carousel_4x2_tall {
+    height: 192px;
+}
 
 /* User Specific */
-#carousel_container .carousel_user_image {width:100px; height:100px;float:left;margin:0 12px 12px 0;}
+#carousel_container .carousel_user_image {
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin: 0 12px 12px 0;
+}
 
 /* Contact Invitations */
-#carousel_container .carousel_add_to_contacts {}
+#carousel_container .carousel_add_to_contacts {
+}
 
 /* Make the savecontent arrow line up with the link */
-.savecontent_dialog {position:relative; top:8px;}
+.savecontent_dialog {
+    position: relative;
+    top: 8px;
+}
