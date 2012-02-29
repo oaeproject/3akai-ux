@@ -87,7 +87,10 @@
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_profile_pic img {width:50px;height:50px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_sender > span {font-size:11px;font-weight:normal;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_subject {font-size:13px;letter-spacing:0.03em;margin:4px 0 3px;}
-#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_body {overflow:auto;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_body {
+    overflow: auto;
+    word-wrap: break-word;
+}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_readfull {float:right;margin-right:0;position:absolute;bottom:12px;right:12px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_reply {float:left;margin-left:7px;position:absolute;bottom:12px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-no-results-container {height:50px;margin:0;padding:10px;}
