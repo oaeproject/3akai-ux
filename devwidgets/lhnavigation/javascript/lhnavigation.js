@@ -763,6 +763,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         
                     pubstructure.pages[fullRef] = pageContent;
                     sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = pageContent;
+        
+                    pubstructure.items[basePath][newpageid] = pageToCreate;
+                    pubstructure.items[basePath]._childCount++;
+        
+                    sakaiDocsInStructure[currentPageShown.pageSavePath].structure0[newpageid] = pageToCreate1;
+                    sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.pageSavePath].structure0);
 
                     renderData();
                     addParametersToNavigation();
