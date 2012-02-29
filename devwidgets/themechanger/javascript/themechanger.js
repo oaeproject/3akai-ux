@@ -36,119 +36,104 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Configuration variables //
         /////////////////////////////
 
-        var DEFAULT_THEME = "LEFT";  // default text theme is left
-
         // DOM jQuery Objects
         var $rootel = $("#" + tuid);  // unique container for each widget instance
-        var $mainContainer = $("#themechanger_container", $rootel);
-        var $settingsContainer = $("#themechanger_settings", $rootel);
-        var $settingsForm = $("#themechanger_settings_form", $rootel);
-        var $cancelSettings = $("#themechanger_cancel_settings", $rootel);
+        var $applyThemeChanger = $("#themechanger_apply_button", $rootel);
+        var $closeThemeChanger = $("#themechanger_close_button", $rootel);
         var $themePicker = $("#change_theme_to", $rootel);
-        var $widget = $("#themechanger_widget", $rootel);
-        var $widgetContainer = $("#themechanger_widget_container", $rootel);
         var $themechangerDialog = $(".themechanger_dialog", $rootel);
+        var themePickerTemplate = $("#themechanger_form_template", $rootel);
+        var themes = {};
+
+        ////////////////////
+        // View functions //
+        ////////////////////
+
+        /**
+        * Renders the themes using template
+        */
+        var renderThemes = function(){
+            var themes = {themes:$.extend(sakai.config.skinStore, {}, true)};
+            sakai.api.Util.TemplateRenderer(themePickerTemplate, themes, $themePicker);
+        }
 
         ///////////////////////
         // Utility functions //
         ///////////////////////
 
-        /////////////////////////
-        // Main View functions //
-        /////////////////////////
-        function changeTheme(theme) {
-            var groupId = sakai.api.Util.extractEntity(window.location.pathname);
-            var url = "/system/userManager/group/" + groupId + ".update.json";
+        /**
+        * Removes current skin and adds new one if necessary.
+        * @param {String} theme The name of the theme
+        */
+        var changeTheme = function(theme) {
             var cssURL = getURL(theme);
-            var data = {
-                "sakai:customStyle": cssURL
-            };
-            
-            if(theme == "LEFT")
-            {
-                 $.post(url, data);
+            $.ajax({
+                url: "/system/userManager/group/" + sakai_global.group.groupId + ".update.json",
+                data: {
+                    "sakai:customStyle": cssURL
+                },
+                type: "POST"
+            });
+            if(cssURL.substr(-8, 8) == "skin.css"){
                  removeCSS();
+                 addCSS(cssURL);
             }
-            else
-            {
-                $.post(url, data);
+            else{
                 removeCSS();
-                addCSS(cssURL);
             };
-            closeThemeChanger();
         };
-        
-        function closeThemeChanger(){
-            $('option').remove();
-            $themechangerDialog.jqmHide();
-        }
-        
-        function getURL(theme){
-            for (var i = 0, len = sakai.config.skinStore.length; i < len; i++) 
-            {
-                if(theme == sakai.config.skinStore[i].title) 
-                {
-                    return sakai.config.skinStore[i].url;
+
+        /**
+        * Gets and returns the url of the css based on the theme name
+        * @param {String} theme The name of the theme
+        */
+        var getURL = function(theme){
+            var url = "";
+            $.each(sakai.config.skinStore, function(key, value){
+                if(theme == value.title) { 
+                   url = value.url;
                 }
-            }
+            });
+            return url
         }
-        
-        function addCSS(cssURL){
-            if(cssURL != "/")
-            {
+
+        /**
+        * Adds the link into the html head
+        * @param {String} cssURL The url of the skin to which the user wants to change to
+        */
+        var addCSS = function(cssURL){
+            if(cssURL != "/"){
                 $('head').append('<link href="' + cssURL + '" type="text/css" rel="stylesheet" />');
-                    /*var fileref= document.createElement("link")
-                    fileref.setAttribute("rel", "stylesheet")
-                    fileref.setAttribute("type", "text/css")
-                    fileref.setAttribute("href", cssURL)
-                    if (typeof fileref!="undefined")
-                    {*/
-                        //$('head').append(fileref)
-                    //}
             }
         }
-        
-        function removeCSS(){
-            for (var i = 0, len = $("link").length; i < len; i++)
-            {
-                var string = $("link")[i].href.substr(-8, 8);
-                if(string == "skin.css")
-                {
-                    $("link")[i].removeAttribute("href");
+
+        /**
+        * Removes the href from the head if the href ends with 'skin.css'
+        */
+        var removeCSS = function() {
+            $("link").each(function() {
+                var string = this.href.substr(-8, 8);
+                if(string == "skin.css"){
+                    this.removeAttribute("href");
                 }
-            };
-        }
-        
-        function loadThemes(){
-            for (var i = 0, len = sakai.config.skinStore.length; i < len; i++) 
-            {
-                $('#change_theme_to').append('<option value="' + sakai.config.skinStore[i].title + '">' + sakai.config.skinStore[i].text + '</option>');
-            }
-        }
-        
-        /*function changeCSS(url){
-            var attributes = {"type": "text/css"};
-            alert(url);
-            alert(sakai.api.Util.include.checkForTag("link", attributes));
-            sakai.api.Util.include.checkForTag("link", attributes);
-       }*/
+            });
+        };
 
         ////////////////////
         // Event Handlers //
         ////////////////////
+        /** Binds apply & close button */
+       var addBinding = function(){
+            $applyThemeChanger.on("click", function(ev) {
+                var selectedTheme = $themePicker.val();
+                changeTheme(selectedTheme);
+                $themechangerDialog.jqmHide();
+            });
 
-        /** Binds Settings form */
-         $('#themechanger_apply_button').live("click", function(ev) {
-             
-            var selectedTheme = $themePicker.val();
-            changeTheme(selectedTheme);
-         });
-
-
-        $cancelSettings.bind("click", function(){
-            sakai.api.Widgets.Container.informFinish(tuid, "themechanger");
-        });
-
+            $closeThemeChanger.on("click", function(){
+                $themechangerDialog.jqmHide();
+            });
+        }
         /////////////////////////////
         // Initialization function //
         /////////////////////////////
@@ -160,7 +145,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function (_worldId) {
             worldId = _worldId;
-                            loadThemes();
+            renderThemes();
+            addBinding();
             $themechangerDialog.jqm({
                 modal: true,
                 overlay: 20,
@@ -170,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.bindDialogFocus($themechangerDialog);
             $themechangerDialog.jqmShow();
         };
-
+        
         // run the initialization function when the widget object loads
         $(window).bind("init.themechanger.sakai", function(e, _worldId){
             doInit(_worldId);

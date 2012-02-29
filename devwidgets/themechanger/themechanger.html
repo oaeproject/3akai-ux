@@ -8,27 +8,30 @@
 
 
 <!--FORM -->
-<form id="themechanger_widget">
-<div id="themechanger_widget_container">
-        <div class="s3d-form-field-wrapper">
-            <h4>__MSG__CHOOSE_A_THEME__</h4>
-   	        <div class="themechanger_section">
-            <label for="change_theme_to" class="s3d-input-label">__MSG__THEME__:</label>
-            <select id="change_theme_to">
-                <!--<option value="LEFT">__MSG__LEFT_NAV__</option>
-                <option value="TOP">__MSG__TOP_NAV__</option>-->
-            </select>
+<form id="themechanger_form">
+    <h4>__MSG__CHOOSE_A_THEME__</h4>
+            <div class="s3d-form-field-wrapper">
+            <div class="themechanger_section">
+                <label for="change_theme_to" class="s3d-input-label">__MSG__THEME__:</label>
+                <select id="change_theme_to">
+                </select>
+            </div>
         </div>
-        
         <!-- BUTTONS -->
         <div class="themechanger_dropdown dialog_buttons fl-force-right">
-            <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
+            <button type="button" class="s3d-link-button s3d-bold" id="themechanger_close_button">__MSG__CANCEL__</button>
             <button type="button" class="s3d-button s3d-overlay-action-button" id="themechanger_apply_button">__MSG__APPLY__</button>
         </div>
         <hr class="fl-push fl-hidden"/>
-    </form>
-   </div>	
- 
+</form>
+
+<div id="themechanger_form_template" display: none><!--
+        
+                    <{for i in themes}
+                    <option value="${i.title}">${i.text}</option>
+                {/for}
+
+--></div>
 
 
 <!-- JAVASCRIPT -->
