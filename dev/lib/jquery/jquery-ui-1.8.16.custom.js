@@ -7,6 +7,8 @@
  *
  * http://docs.jquery.com/UI
  */
+require(['jquery'], function (jQuery) {
+
 (function( $, undefined ) {
 
 // prevent duplicate loading
@@ -4048,3 +4050,5 @@ $.extend($.ui.sortable, {
 });
 
 })(jQuery);
+
+});
