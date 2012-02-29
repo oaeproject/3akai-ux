@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
 
     /**
      * @name sakai_global.versions
@@ -94,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var setUsername = function(u, users) {
-            $(versions, $rootel).each(function(index, val){
+            $(versions).each(function(index, val){
                var userId = val["_lastModifiedBy"] || val["sakai:pool-content-created-for"];
                if (userId === u){
                     val["username"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(users[u]), 80, null, "s3d-regular-links versions_updater");
@@ -136,76 +136,54 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             contentPath = $.bbq.getState("content_path");
         };
 
+        var getVersionContent = function(versionId) {
+            var version = versions[versionId];
+            if (!version.version) {
+                version.version = {
+                    "rows": [{
+                        "id": sakai.api.Util.generateWidgetId(),
+                        "columns": [{
+                            "width": 1,
+                            "elements": []
+                        }]
+                    }]
+                }
+            } else if (_.isString(version.version)) {
+                version.version = $.parseJSON(version.version);
+            }
+            return version;
+        };
+
         var previewVersion = function(event){
             event.stopPropagation();
             if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
                 $(".versions_selected", $rootel).removeClass("versions_selected");
                 $("#" + currentPageShown.ref).remove();
                 $(this).addClass("versions_selected");
-                //if (!$("#" + currentPageShown.ref + "_previewversion").length) {
-                //    $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
-                //}
-                var version = $(this).attr("data-version");
-                var path = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef + '.version.,' + version + ',.infinity.json' ;
-                sakai.api.Server.loadJSON(path, function(success, pageData) {
-                    var newPageShown = $.extend(true, {}, currentPageShown);
-                    newPageShown.content = pageData;
-                    newPageShown.isVersionHistory = true;
-                    newPageShown.ref = currentPageShown.ref + "_previewversion_" + version;
-                    $(window).trigger('showpage.contentauthoring.sakai', newPageShown);
-                });
-                //if(sakai.api.Util.determineEmptyContent(versions[$(this).attr("data-versionId")].page)) {
-                //    $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
-                //} else {
-                //    $("#" + currentPageShown.ref + "_previewversion").html(sakai.api.Util.TemplateRenderer("versions_empty_document_template", {
-                //        "currentversion": $(this).attr("data-versionId") === versions.length - 1
-                //    }));
-                //}
-                //$("#" + currentPageShown.ref + "_previewversion").show();
-                //sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref + "_previewversion", false, currentPageShown.pageSavePath + "/");
-                //sakai.api.Util.renderMath(currentPageShown.ref + "_previewversion");
+                var version = getVersionContent($(this).attr("data-versionId"));
+                var newPageShown = $.extend(true, {}, currentPageShown);
+                newPageShown.content = version.version;
+                newPageShown.isVersionHistory = true;
+                newPageShown.ref = currentPageShown.ref + "_previewversion";
+                $(window).trigger('showpage.contentauthoring.sakai', newPageShown);
             } else{
                 window.open(currentPageShown.pageSavePath + ".version.," + $(this).attr("data-version") + ",/" + $(this).attr("data-pooleditemname"), "_blank");
             }
         };
 
-        var restoreVersion = function(e){
-            var page = versions[$(this).parent().attr("data-versionId")].page;
-            sakai.api.Content.checkAutosave(false, currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data){
-                if(success && data.safeToEdit){
-                    var toStore = {};
-                    toStore[currentPageShown.saveRef] = {
-                        page: page
-                    };
-                    $.ajax({
-                        url: currentPageShown.pageSavePath,
-                        type: "POST",
-                        dataType: "json",
-                        data: {
-                            ":operation": "import",
-                            ":contentType": "json",
-                            ":replace": true,
-                            ":replaceProperties": true,
-                            "_charset_":"utf-8",
-                            ":content": $.toJSON(toStore)
-                        },
-                        success: function(){
-                            $.ajax({
-                                url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
-                                type: "POST",
-                                data: {
-                                    "sling:resourceType": "sakai/pagecontent",
-                                    "sakai:pagecontent": $.toJSON(toStore),
-                                    "_charset_": "utf-8"
-                                }, success: function(){
-                                    $(window).trigger("update.versions.sakai", currentPageShown);
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("RESTORE_VERSION", "versions"), sakai.api.i18n.getValueForKey("NEW_VERSION_COULD_NOT_BE_STORED", "versions"));
-                }
+        var restoreVersion = function(e) {
+            var version = getVersionContent($(this).parent().attr("data-versionId"));
+            var toStore = version.version;
+            currentPageShown.content = toStore;
+            toStore.version = $.toJSON(version.version);
+            sakai.api.Server.saveJSON(currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, toStore, function(success) {
+                $.ajax({
+                    url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
+                    type: "POST",
+                    success: function(){
+                        $(window).trigger("update.versions.sakai", currentPageShown);
+                    }
+                });
             });
         };
 
@@ -231,18 +209,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var doInit = function(){
             versions = [];
-            if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType != "x-sakai/document") {
-                $("#content_profile_preview_versions_container").show();
-            }else {
-                $("#content_profile_preview_versions_container").remove();
-            }
             addBinding();
             getContext();
             getVersions();
         };
 
         $(window).bind("init.versions.sakai", function(ev, cps){
-            alert("init.versions.sakai");
             if($("#content_profile_left_column").is(":visible")){
                 // There is a left hand navigation visible, versions widget will be smaller
                 $(versionsContainer, $rootel).removeClass("versions_without_left_hand_nav");
@@ -250,16 +222,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 // No left hand navigation visible, versions widget will be wider
                 $(versionsContainer, $rootel).addClass("versions_without_left_hand_nav");
             }
-            if ($('.versions_widget', $rootel).is(':visible')) {
-                $('.versions_widget', $rootel).hide();
-            } else {
-                currentPageShown = cps;
-                $('.versions_widget', $rootel).show();
-                doInit();
-            }
+            currentPageShown = cps;
+            $('.versions_widget', $rootel).show();
+            doInit();
+        });
+        $(window).bind("close.versions.sakai", function(ev, cps) {
+            $('.versions_widget', $rootel).hide();
+            $(window).trigger('showpage.contentauthoring.sakai', currentPageShown);
         });
 
-        $(window).bind("update.versions.sakai", function(ev, cps){
+        $(window).bind("update.versions.sakai", function(ev, cps) {
             if ($('.versions_widget', $rootel).is(":visible")) {
                 currentPageShown = cps;
                 doInit();

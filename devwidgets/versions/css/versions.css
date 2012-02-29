@@ -19,7 +19,7 @@
 .versions_widget {
     clear: both;
     font-size: 11px;
-    margin: 20px 20px 10px;
+    margin: 10px 20px;
     border-bottom: 5px solid #E2E2E2;
 }
 .versions_widget #versions_container {

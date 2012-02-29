@@ -876,10 +876,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 cancelEditPage();
             }
             // Check whether this page has already been loaded
-            if (currentPageShown) {
+            if (currentPageShown && !_currentPageShown.isVersionHistory) {
                 pagesCache[currentPageShown.ref] = $.extend(true, {}, currentPageShown);
             }
             currentPageShown = pagesCache[_currentPageShown.ref] || _currentPageShown;
+            // Don't cache in version history mode
+            if (currentPageShown.isVersionHistory) {
+                currentPageShown = _currentPageShown;
+            }
             renderPage(currentPageShown);
             // Put the page into edit mode
             if (putInEditMode) {
@@ -895,13 +899,16 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          *                                      from cache
          */
         var renderPage = function(currentPageShown, requiresRefresh) {
-            // Bring the page back to view mode
-            exitEditMode();
             $pageRootEl = $('#' + currentPageShown.ref, $rootel);
-            showAddPageControls(currentPageShown.addArea);
+            $('#' + currentPageShown.ref + "_previewversion").remove();
+            if (!currentPageShown.isVersionHistory) {
+                // Bring the page back to view mode
+                exitEditMode();
+                $(window).trigger('render.contentauthoring.sakai');
+            }
             // Hide the revision history dialog
-            if($('#versions_container').is(':visible') && !currentPageShown.isVersionHistory) {
-                $('#inserterbar_action_revision_history').trigger('click');
+            if ($('#versions_container').is(':visible') && !currentPageShown.isVersionHistory) {
+                $('.versions_widget').hide();
             }
             sakai.api.Widgets.nofityWidgetShown('#contentauthoring_widget > div:visible', false);
             $('#contentauthoring_widget > div:visible', $rootel).hide();
@@ -909,8 +916,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef + '/';
             // If the page hasn't been loaded before, or we need a refresh after cancelling the
             // page edit, we create a div container for the page
-            if ($pageRootEl.length === 0 || requiresRefresh) {
-                if (requiresRefresh) {
+            if ($pageRootEl.length === 0 || requiresRefresh || currentPageShown.isVersionHistory) {
+                if (requiresRefresh || currentPageShown.isVersionHistory) {
                     killTinyMCEInstances($pageRootEl);
                     // Remove the old one in case this is caused by a cancel changes option
                     $pageRootEl.remove();
@@ -1203,6 +1210,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
                 updateWidgetURLs();
                 data.rows = rows;
+                // Set the version history variable
+                delete data.version;
+                data.version = $.toJSON(data);
                 // Save the page data
                 sakai.api.Server.saveJSON(storePath, data, function() {
                     // Create a new version of the page
@@ -1210,11 +1220,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     $.ajax({
                         url: storePath + '.save.json',
                         type: 'POST',
-                        data: {
-                            "sling:resourceType": "sakai/pagecontent",
-                            "sakai:pagecontent": $.toJSON(versionToStore),
-                            "_charset_": "utf-8"
-                        },
                         success: function() {
                             $(window).trigger("update.versions.sakai", currentPageShown);
                         }
@@ -1356,31 +1361,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             updateWidgetURLs();
         };
 
-        /////////////////////////
-        /////////////////////////
-        // DOCUMENT MANAGEMENT //
-        /////////////////////////
-        /////////////////////////
-
-        //////////////////////
-        // ADDING NEW PAGES //
-        //////////////////////
-
-        /**
-         * Show the addsubpage button when we are in a world, and the addpage button
-         * if we are in a content profile
-         * @param {Object} isWorld      Whether or not we are currently in a world
-         */
-        var showAddPageControls = function(isWorld) {
-            if (isWorld) {
-                $('#inserterbar_action_add_page_container', $rootel).hide();
-                $('#inserterbar_action_add_area_page_container', $rootel).show();
-            } else {
-                $('#inserterbar_action_add_area_page_container', $rootel).hide();
-                $('#inserterbar_action_add_page_container', $rootel).show();
-            }
-        };
-
         ///////////////////
         ///////////////////
         // EVENT BINDING //
@@ -1403,7 +1383,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         // Revision history
         $('#inserterbar_action_revision_history').live('click', function() {
-            alert("Here");
             $(window).trigger("init.versions.sakai", currentPageShown);
         });
 
@@ -1783,7 +1762,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     });
                 },
                 error: function() {
-                    debug.log('error!');
+                    debug.error('An error has occured whilst trying to save the link');
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                 }
             });

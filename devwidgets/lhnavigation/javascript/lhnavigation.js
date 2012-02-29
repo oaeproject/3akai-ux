@@ -508,7 +508,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 'pageSavePath': pageSavePath,
                 'saveRef': saveRef,
                 'canEdit': canEdit,
-                'addArea': contextData.addArea,
                 'nonEditable': nonEditable,
                 '_lastModified': lastModified,
                 'autosave': autosave,
@@ -607,6 +606,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         //////////////////////////////////
         // Adding a new page or subpage //
         //////////////////////////////////
+
+        var addNewPage = function() {
+            if (contextData.addArea) {
+                addSubPage();
+            } else {
+                addTopPage();
+            }
+        };
 
         var addTopPage = function() {
             var newpageid = sakai.api.Util.generateWidgetId();
@@ -1114,11 +1121,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         });
 
         $('#inserterbar_action_add_page').live('click', function() {
-            addTopPage();
-        });
-
-        $('#inserterbar_action_add_area_page').live('click', function() {
-            addSubPage();
+            addNewPage();
         });
 
         $('#lhavigation_submenu_edittitle').live('click', function(ev) {
