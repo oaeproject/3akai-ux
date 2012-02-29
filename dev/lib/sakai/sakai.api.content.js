@@ -368,16 +368,16 @@ define(
         *       - Set parent permission parameter on content nodes
         *       - Set ACLs on content node
         *       - Callback if present
-        * @param filesArray     {Array}    Array of files (PoolIDs)
-        * @param parentSavePath {String}   savePath of the parent
-        * @param callback       {Function} Executed on completion of the function
+        * @param {Array} filesArray        Array of files (PoolIDs)
+        * @param {String} parentSavePath   savePath of the parent
+        * @param {Function} callback       Executed on completion of the function
         */
         setFilePermissionsAsParent: function(filesArray, parentSavePath, callback) {
 
             /**
              * Set parent permission parameter on content nodes
-             * @param filesToSetPermissions {Array} Array of files to set ACLs on
-             * @param batchRequests {Array} Array of requests to set permission parameter on content nodes
+             * @param {Array} filesToSetPermissions     Array of files to set ACLs on
+             * @param {Array} batchRequests             Array of requests to set permission parameter on content nodes
              */
             var setDataOnContent = function(filesToSetPermissions, batchRequests) {
                 sakai_serv.batch(batchRequests, function(success) {
@@ -408,8 +408,8 @@ define(
                         var batchRequests = [];
                         $.each(filesArray, function(index, item) {
                             filesToSetPermissions.push({
-                                hashpath: item,
-                                permissions: permissions
+                                'hashpath': item,
+                                'permissions': permissions
                             });
                             batchRequests.push({
                                 'url': '/p/' + item,

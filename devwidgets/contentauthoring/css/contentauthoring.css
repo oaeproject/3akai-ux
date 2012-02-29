@@ -74,6 +74,10 @@
     vertical-align: top !important;
 }
 
+.contentauthoring_widget .contentauthoring_table_row.contentauthoring_cell_container_row {
+    overflow: auto;
+}
+
 .contentauthoring_widget .contentauthoring_table_row.contentauthoring_cell_container_row .contentauthoring_cell:first-child {
     padding-left:5px;
 }

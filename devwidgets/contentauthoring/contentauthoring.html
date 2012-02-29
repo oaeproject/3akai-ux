@@ -82,7 +82,6 @@
                     <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
                         {for column in columns}
                             ${insertColumn(column)}
-                            <hr class="fl-hidden fl-push"/>
                         {/for}
                     </div>
                 </div>
@@ -130,8 +129,8 @@
         <h3 style="margin-top:0px">__MSG__AN_UNSAVED_VERSION_OF_PAGE_HAS_BEEN_FOUND__.</h3>
         <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
         <div class="fl-force-right">
-            <button type="button" class="s3d-button s3d-link-button" id="autosave_keep">__MSG__NO__</button>
-            <button type="button" class="s3d-button s3d-overlay-action-button" id="autosave_revert">__MSG__YES__</button>
+            <button class="s3d-button s3d-link-button" id="autosave_keep">__MSG__NO__</button>
+            <button class="s3d-button s3d-overlay-action-button" id="autosave_revert">__MSG__YES__</button>
         </div>
     </div>
 </div>
