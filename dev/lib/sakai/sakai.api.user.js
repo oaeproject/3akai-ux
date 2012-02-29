@@ -516,7 +516,7 @@ define(
                 nameToReturn += profile.basic.elements[configFirstName].value;
             }
 
-            return sakai_util.Security.saneHTML($.trim(nameToReturn));
+            return sakai_util.Security.safeOutput($.trim(nameToReturn));
         },
 
         /**
