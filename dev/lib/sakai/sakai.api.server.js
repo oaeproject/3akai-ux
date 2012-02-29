@@ -298,7 +298,9 @@ define(
                 // check for additional arrays
                 } else if ($.isPlainObject(obj)) {
                     for (var k in obj) {
-                        obj[k] = convertArrayToObject(obj[k]);
+                        if (obj.hasOwnProperty(k)){
+                            obj[k] = convertArrayToObject(obj[k]);
+                        }
                     }
                 }
 
