@@ -709,8 +709,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                                        [currentPageShown.pageSavePath]
                                            .orderedItems.length;
 
-                    var fullRef = currentPageShown.pageSavePath.split('/p/')[1]
-                                    + '-' + newpageid;
+                    var fullRef = currentPageShown.pageSavePath
+                                      .split('/p/')[1] + '-' + newpageid;
                     var basePath = currentPageShown.path.split('/')[0];
 
                     var pageContent = '';
@@ -774,8 +774,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     addParametersToNavigation();
                     $(window).trigger('sakai.contentauthoring.needsTwoColumns');
                     $.bbq.pushState({
-                        'l': currentPageShown.path.split('/')[0]
-                            + '/' + newpageid,
+                        'l': currentPageShown.path.split('/')[0] +
+                                '/' + newpageid,
                         'newPageMode': 'true'
                     }, 0);
                     enableSorting();
