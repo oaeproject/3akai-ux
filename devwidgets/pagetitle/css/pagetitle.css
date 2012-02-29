@@ -38,6 +38,7 @@
     height: 28px;
 }
 .pagetitle_widget h1 {
+    margin-top: 0;
     line-height: 28px;
 }
 #pagetitle_view_container {
