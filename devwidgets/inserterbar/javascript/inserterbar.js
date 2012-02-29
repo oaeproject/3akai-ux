@@ -182,8 +182,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Handles the edit context of the widget by showing the widgets that are available
          */
         var handleEditContentAuthoring = function() {
-            $('#inserterbar_view_container', $rootel).hide();
             $('#inserterbar_default_widgets_container', $rootel).show();
+            $('#inserterbar_view_container', $rootel).hide();
             $inserterbarWidget.css('left', 0);
             editPosition();
         };
@@ -238,6 +238,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 left = $(window).width() - resizeWidth - 12;
                 $inserterbarWidget.css('left', left + 'px');
             }
+            $inserterbarWidget.append($('<div class="temp_div"/>'));;
+            setTimeout(function(){
+                $('.temp_div').remove();
+            }, 1000);
         };
 
         /**
