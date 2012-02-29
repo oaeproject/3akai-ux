@@ -6,12 +6,12 @@
         <div id="inserter_header_dragbar" class="fl-force-left"></div>
         <button type="button" id="inserter_close_icon" class="s3d-link-button inserter_toggle" title="__MSG__CLOSE_INSERTER__">&nbsp;</button>
         <hr class="fl-push fl-hidden"/>
-        <div id="inserter_header_title_container"><!----></div>
+        <div id="inserter_header_title_container"><!-- --></div>
         <hr class="fl-push fl-hidden"/>
     </div>
     <div id="inserter_collector">
         <div id="inserter_init_container">
-            <div class="inserter_collections_top_container" id="inserter_collection_infinitescroll_container"><!----></div>
+            <div class="inserter_collections_top_container" id="inserter_collection_infinitescroll_container"><!-- --></div>
             <div id="inserter_create_collection_container">
                 <form id="inserter_create_collection_form" novalidate="novalidate">
                     <div class="s3d-form-field-wrapper">
@@ -40,9 +40,9 @@
             </div>
             <hr class="fl-hidden fl-push"/>
             <div class="inserter_collections_top_container" id="inserter_content_infinitescroll_container">
-                <ul id="inserter_collection_items_container"></ul>
+                <ul id="inserter_collection_items_container"><!-- --></ul>
             </div>
-            <div id="inserter_no_results_container"><!----></div>
+            <div id="inserter_no_results_container"><!-- --></div>
             <button type="button" class="s3d-button s3d-overlay-action-button" id="inserter_all_collections_button">__MSG__ALL_COLLECTIONS__</button>
         </div>
     </div>
@@ -54,22 +54,18 @@
             <div class="inserter_library_icon fl-force-left"></div>
             <div class="inserter_item_count_container fl-force-right">${sakai.data.me.user.properties.contentCount}</div>
             <span class="s3d-regular-links s3d-bold">__MSG__MY_LIBRARY__</span>
-            <hr class="fl-hidden fl-push"/>
         </li>
     </ul>
 --></div>
 
 <div id="inserter_init_template" style="display:none;"><!--
-    {if collections.length}
-        {for collection in collections}
-            <li class="s3d-draggable-container s3d-droppable-container" id="${collection._path}"  data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
-                <img src="${sakai.api.Content.getMimeTypeData("x-sakai/collection").URL}" class="fl-force-left s3d-icon-32"/>
-                <div class="inserter_item_count_container fl-force-right">${collection.counts.contentCount}</div>
-                <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(collection["sakai:pooled-content-file-name"], 220, null, "s3d-bold")}</span>
-                <hr class="fl-hidden fl-push"/>
-            </li>
-        {/for}
-    {/if}
+    {for collection in collections}
+        <li class="s3d-draggable-container s3d-droppable-container" id="${collection._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
+            <img src="${sakai.api.Content.getMimeTypeData('x-sakai/collection').URL}" class="fl-force-left s3d-icon-32"/>
+            <div class="inserter_item_count_container fl-force-right">${collection.counts.contentCount}</div>
+            <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(collection['sakai:pooled-content-file-name'], 220, null, "s3d-bold")}</span>
+        </li>
+    {/for}
 --></div>
 
 <div id="inserter_collection_content_template"><!--
@@ -80,9 +76,8 @@
             {else}
                 <img src="${sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
             {/if}
-            <a href="/content#p=${item._path}/${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 83, null, "s3d-bold")}</a>
+            <a href="/content#p=${item._path}/${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 83, null, "s3d-bold")}</a>
             <div class="inserter_collection_type s3d-draggable-hidden">${sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(item._mimeType).description)}</div>
-            <hr class="fl-hidden fl-push"/>
         </li>
     {/for}
 --></div>
@@ -91,12 +86,12 @@
     {if search}
         <div class="s3d-no-results-container s3d-droppable-container" data-collection-id="${collection}" data-dropevent="sakai.inserter.dropevent" data-scope="content">
             <div class="s3d-no-results-icon s3d-no-results-magnifier less-margin"></div>
-            <h1>Your search didn't return any results</h1>
+            <h1>__MSG__SEARCH_DIDNT_RETURN_RESULTS__</h1>
         </div>
     {else}
         <div class="s3d-no-results-container s3d-droppable-container" data-collection-id="${collection}" data-dropevent="sakai.inserter.dropevent" data-scope="content">
             <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
-            <h1>This collection does not contain any items</h1>
+            <h1>__MSG__COLLECTION_DOESNT_CONTAIN_ITEMS__</h1>
         </div>
     {/if}
 --></div>
@@ -112,12 +107,12 @@
                 {if item === "library"}
                     __MSG__MY_LIBRARY__
                 {else}
-                    ${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300)}
+                    ${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 300)}
                 {/if}
                 </span>
                 <span class="inserter_collection_type">__MSG__COLLECTION__</span>
                 <div id="inserter_header_itemcount">
-                    <span>
+                    <span id="inserter_header_itemcount_count">
                         {var count = 0}
                         {if item === "library"}
                             ${librarycount}
@@ -131,9 +126,9 @@
                         __MSG__CONTENT_ITEM__
                     {else}
                         __MSG__CONTENT_ITEMS__
-                    {/if}</div>
+                    {/if}
+                </div>
             </div>
-            <hr class="fl-hidden fl-push"/>
         </div>
     {/if}
 --></div>

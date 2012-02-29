@@ -61,7 +61,7 @@
 	margin-top: 40px;
 }
 .s3d-page-main-content {
-	padding: 0px; 
+	padding: 0px;
 	margin-bottom: 10px;
 }
 .s3d-fixed-container .s3d-container-shadow-left, .s3d-container-shadow-right {
@@ -79,6 +79,7 @@
 a {
 	color: #2683bc;
 }
+
 /* CSS THAT OVERWRITES MAIN CSS */
 .s3d-main-container {
 	padding: 0px !important;
