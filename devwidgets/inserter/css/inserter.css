@@ -66,7 +66,7 @@
     width: 100%;
 }
 .inserter_widget #inserter_collector #inserter_collection_items_container li {
-    line-height: 12px
+    line-height: 12px;
 }
 .inserter_widget #inserter_collector #inserter_create_collection_container {
     border: 2px dashed #4b4b4b;
@@ -114,6 +114,7 @@
     width: 100px;
 }
 .inserter_widget #inserter_collector #inserter_init_container ul li span {
+    cursor: pointer;
     display: block;
     overflow: auto;
 }
@@ -197,6 +198,7 @@
     margin: 0;
 }
 .inserter_widget ul li {
+    cursor: move !important;
     line-height: 25px;
     list-style: none;
     min-width: 195px;
