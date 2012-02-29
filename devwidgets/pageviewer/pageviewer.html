@@ -74,7 +74,7 @@
     {for page in data}
         {if page.pageTitle}
             <li class="pageviewer_lhnav_item {if page_index === "0"} selected{/if}" data-index="${page_index}">
-                <button type="button" class="s3d-link-button">${page.pageTitle}</button>
+                <button class="s3d-link-button">${page.pageTitle}</button>
             </li>
         {/if}
     {/for}

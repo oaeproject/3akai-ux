@@ -1453,7 +1453,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             addNewWidget(null, $el);
         });
 
-        $(window).on("mouseover", checkRemoveHighlight);
+        $(window).on('mouseover', checkRemoveHighlight);
 
         // Edit a widget
         $('.contentauthoring_cell_element_action_e', $rootel).live('click', editWidgetMode);

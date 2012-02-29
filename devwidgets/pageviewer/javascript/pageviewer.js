@@ -95,20 +95,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if ($.isPlainObject(cell)) {
                 if (tempDocData[tempItem._ref][cell.id]) {
                     docData[tempItem._ref][cell.id] = {};
+                    var cellData = tempDocData[tempItem._ref][cell.id][cell.type];
                     if (cell.type !== "htmlblock" && cell.type !== "pagetitle") {
                         docData[tempItem._ref][cell.id][cell.type] = {
-                            'embedmethod': tempDocData[tempItem._ref][cell.id][cell.type].embedmethod,
-                            'sakai:indexed-fields': tempDocData[tempItem._ref][cell.id][cell.type]['sakai:indexed-fields'],
-                            'download': tempDocData[tempItem._ref][cell.id][cell.type].download,
-                            'title': tempDocData[tempItem._ref][cell.id][cell.type].title,
-                            'details': tempDocData[tempItem._ref][cell.id][cell.type].details,
-                            'description': tempDocData[tempItem._ref][cell.id][cell.type].description,
-                            'name': tempDocData[tempItem._ref][cell.id][cell.type].name,
-                            'layout': tempDocData[tempItem._ref][cell.id][cell.type].layout,
+                            'embedmethod': cellData.embedmethod,
+                            'sakai:indexed-fields': cellData['sakai:indexed-fields'],
+                            'download': cellData.download,
+                            'title': cellData.title,
+                            'details': cellData.details,
+                            'description': cellData.description,
+                            'name': cellData.name,
+                            'layout': cellData.layout,
                             'items': {}
                         };
-                        if (tempDocData[tempItem._ref][cell.id][cell.type].items) {
-                            $.each(tempDocData[tempItem._ref][cell.id][cell.type].items, function(itemsIndex, cellItem) {
+                        if (cellData.items) {
+                            $.each(cellData.items, function(itemsIndex, cellItem) {
                                 if (itemsIndex.indexOf('__array__') === 0) {
                                     docData[tempItem._ref][cell.id][cell.type].items[itemsIndex] = cellItem;
                                 }
@@ -116,7 +117,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         }
                     } else {
                         docData[tempItem._ref][cell.id][cell.type] = {
-                            'content': tempDocData[tempItem._ref][cell.id][cell.type].content
+                            'content': cellData.content
                         };
                     }
                 }
@@ -218,8 +219,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             fetchPages();
         };
 
-        $(window).off('start.pageviewer.sakai');
-        $(window).on('start.pageviewer.sakai', function(ev, data) {
+        $(window).off('start.pageviewer.sakai').on('start.pageviewer.sakai', function(ev, data) {
             docPath = data.id;
             doInit();
         });

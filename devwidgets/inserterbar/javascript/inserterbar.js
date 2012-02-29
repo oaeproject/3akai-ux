@@ -66,7 +66,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /**
          * Animates the widget in place when the width changes
-         * @param width {int} The width of the widget to take into account while animating
+         * @param width {Number} The width of the widget to take into account while animating
          */
         var editPosition = function() {
             resizeWidth = $inserterbarWidget.width();

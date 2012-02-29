@@ -256,7 +256,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
             $contentCountEl.text(collectionCount);
-            if (collectionId !== "library") {
+            if (collectionId !== 'library') {
                 var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
                 $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
             } else {
@@ -570,19 +570,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (!$inserterMimetypeFilter.val() || query) {
                 sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
                     'search': query,
-                    collection: sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
+                    'collection': sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
                 }, $inserterNoResultsContainer);
                 $inserterNoResultsContainer.show();
             } else {
                 query = $.trim($(inserterCollectionContentSearch, $rootel).val());
                 sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
                     'search': 'mimetypesearch',
-                    collection: sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
+                    'collection': sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
                 }, $inserterNoResultsContainer);
                 $inserterNoResultsContainer.show();
             }
             sakai.api.Util.Droppable.setupDroppable({
-                scope: 'content'
+                'scope': 'content'
             }, $inserterNoResultsContainer);
             addDnDToElements();
             animateUIElements('noresults');
@@ -598,14 +598,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.Draggable.setupDraggable({
                 connectToSortable: '.contentauthoring_cell_content',
                 start: function() {
-                    $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
-                        width: $(document).width() + 'px', height: $(document).height() + 'px',
-                        top: '0px', left: '0px',
-                        position: 'absolute', opacity: '0.001', zIndex: 100000
-                    }).appendTo('body');
+                    sakai.api.Util.Draggable.setIFrameFix();
                 },
                 stop: function() {
-                    $('div.ui-resizable-iframeFix').remove();
+                    sakai.api.Util.Draggable.removeIFrameFix();
                 }
             }, $inserterContentInfiniteScrollContainerList);
             sakai.api.Util.Droppable.setupDroppable({
