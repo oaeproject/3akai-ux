@@ -61,6 +61,22 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ///////////////////////
 
         /**
+         * Check whether any of the columns in the current page are empty (i.e., they have no widgets
+         * inside of them). If so, we add the placeholder widget
+         */
+        var checkColumnsEmpty = function() {
+            var hasContent = false;
+            $.each($('.contentauthoring_cell_content:visible', $rootel), function(i, cellcontainer) {
+                if ($(cellcontainer).find('.contentauthoring_cell_element').length) {
+                    hasContent = true;
+                }
+            });
+            if (!hasContent) {
+                $(sakai.api.Util.TemplateRenderer('pageviewer_dummy_element_template', {}, $pageViewerContentContainer));
+            }
+        };
+
+        /**
          * Renders the page in the widget
          */
         var renderContainer = function() {
@@ -69,6 +85,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 selectedPage: selectedPage
             }, $pageViewerContentContainer, false);
             sakai.api.Widgets.widgetLoader.insertWidgets('pageviewer_content_container', false, storePath, false);
+            checkColumnsEmpty();
         };
 
         /**
