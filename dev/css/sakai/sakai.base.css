@@ -242,7 +242,7 @@ a.s3d-button.s3d-header-button {height:24px;line-height:24px;}
 /* Header buttons, smaller */
 .s3d-button.s3d-header-button.s3d-header-smaller-button,
 a.s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:10px;height:23px;padding:0 5px;line-height:19px;}
-a.s3d-button.s3d-header-button.s3d-header-smaller-button {display:inline-block;height:22px;padding:0 8px;}
+a.s3d-button.s3d-header-button.s3d-header-smaller-button {height:22px;padding:5px 8px;}
 
 /* Regular in-page buttons */
 .s3d-button.s3d-regular-button{background:url("/dev/images/button_regular_default.png") repeat-x scroll left top transparent;height:24px;padding:0 7px;border:1px solid #e0e3e5;color:#666;box-shadow:0 1px 1px 0 #999;text-shadow:0 2px 3px #fff;}

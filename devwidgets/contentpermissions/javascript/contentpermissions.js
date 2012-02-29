@@ -61,6 +61,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         var visibilityindex = {
             "public": 1,
             "everyone": 2,
+            "selected": 2,
             "private": 3
         };
 
@@ -436,6 +437,11 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             });
             sakai.api.Util.bindDialogFocus($("#contentpermissions_container"));
             $("#contentpermissions_container").jqmShow();
+            if (defaultPermissionPassed) {
+                $("#contentpermissions_see_container input")[visibilityindex[defaultPermissionPassed] - 1].focus();
+            } else {
+                $("#contentpermissions_see_container input[checked]").focus();
+            }
         };
 
         /**
