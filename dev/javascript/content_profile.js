@@ -286,6 +286,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var setColumnLayout = function(isSakaiDoc, isTwoColumn) {
+            $('body').toggleClass('has_nav', isTwoColumn);
             $('#content_profile_preview_container').toggle(!isSakaiDoc);
             $('#content_profile_contentauthoring_container').toggle(isSakaiDoc);
             $('#content_profile_left_column').toggle(isTwoColumn);
