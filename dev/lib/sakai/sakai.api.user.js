@@ -253,6 +253,7 @@ define(
          * @param {Function} callback Callback function to call when the request is complete
          */
         getMultipleUsers: function(userArray, callback){
+            var requestBundleId = 'sakai.api.User.getMultipleUsers' + Math.random();
             var uniqueUserArray = [];
 
             // callback function for response from batch request
@@ -275,7 +276,7 @@ define(
             }
             for (var ii in uniqueUserArray) {
                 if (uniqueUserArray.hasOwnProperty(ii)) {
-                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers?_=" + Math.random(), uniqueUserArray.length, uniqueUserArray[ii], {
+                    sakai_serv.bundleRequests(requestBundleId, uniqueUserArray.length, uniqueUserArray[ii], {
                         "url": "/~" + uniqueUserArray[ii] + "/public/authprofile.profile.json",
                         "method": "GET"
                     }, bundleReqFunction);
