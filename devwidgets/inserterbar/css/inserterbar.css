@@ -54,8 +54,6 @@
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    display: inline-block;
-    float: left;
     margin-right: 2px;
     min-height: 30px;
 }
