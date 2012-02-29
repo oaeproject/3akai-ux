@@ -80,12 +80,12 @@
         {/if}
     </div>
     {if type && type == "user_me"}
-        <a href="#" id="entity_user_image" class="entity_change_avatar">
-            <div class="entity_profilepic_internal">
+        <button id="entity_user_image" class="entity_change_avatar">
+            <span class="entity_profilepic_internal">
                 <img id="entity_profile_picture" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.displayName}" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
-            </div>
-            <div class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></div>
-        </a>
+            </span>
+            <span class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></span>
+        </button>
         <div class="s3d-dropdown-list entity_user_avatar_menu" style="display:none;">
             <div class="s3d-dropdown-list-arrow-up"></div>
             <ul>
@@ -426,12 +426,12 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
         {/if}
     </div>
     {if type && type == "group_managed"}
-        <a href="#" id="entity_group_image" class="entity_change_avatar">
-            <div class="entity_profilepic_internal">
+        <button id="entity_group_image" class="entity_change_avatar">
+            <span class="entity_profilepic_internal">
                 <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
-            </div>
-            <div class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></div>
-        </a>
+            </span>
+            <span class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></span>
+        </button>
         <div class="s3d-dropdown-list entity_group_avatar_menu" style="display:none;">
             <div class="s3d-dropdown-list-arrow-up"></div>
             <ul>
