@@ -543,6 +543,17 @@ define(function(){
             "reminderIntervalHours": "168"
         },
 
+        EmbedContent: {
+            /*
+             * Default options for the Embed Content widget
+             * embedmethod options: original or thumbnail
+             */
+            'embedmethod': 'original',
+            'showName': false,
+            'showDetails': false,
+            'showDownload': false
+        },
+
         enableBranding: true,
 
         // Set this to true if you have an authentication system such as CAS
