@@ -1794,6 +1794,19 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         /**
+         * Test if a string is a URL
+         * @param {String} text A string of text to test
+         * @return {Boolean} returns true if the string of text is a url
+         */
+        var isUrl = function(text) {
+            if(text.indexOf("\n") < 0) {
+            	var regEx = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&/\/=]*)?/gi;
+            	return regEx.test(text);
+        	}
+        	return false;
+        };
+
+        /**
         * @param {object} ev    Drop event
         * @param {Object} $el   jQuery object containing the element on which the external content was dropped
         */
@@ -1801,8 +1814,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             var content = false;
             var contentType = 'link';
             var dt = ev.originalEvent.dataTransfer;
-            var sameDomain = dt.getData('Text').indexOf(sakai.config.SakaiDomain.substring(7, sakai.config.SakaiDomain.length)) >= 0 ||
-                             dt.getData('Text').indexOf(sakai.config.SakaiDomain) >= 0;
+            var validURL = false;
+            var text = dt.getData('Text');
+            if(text && isUrl(text)){
+                validURL = text.indexOf(sakai.config.SakaiDomain.substring(7, sakai.config.SakaiDomain.length)) < 0 ||
+                           text.indexOf(sakai.config.SakaiDomain) < 0;
+            }
             if (dt.files.length) {
                 sakai.api.Util.progressIndicator.showProgressIndicator(
                     sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
@@ -1810,11 +1827,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 contentType = 'file';
                 content = dt.files;
                 uploadExternalFiles(content, $el);
-            } else if (!sameDomain) {
+            } else if (validURL) {
                 sakai.api.Util.progressIndicator.showProgressIndicator(
                     sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
                     sakai.api.i18n.getValueForKey('PROCESSING'));
-                content = dt.getData('Text');
+                content = text;
                 uploadExternalLink(content, $el);
             }
         };
