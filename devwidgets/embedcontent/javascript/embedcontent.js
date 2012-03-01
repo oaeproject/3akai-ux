@@ -142,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             wData.name = wData.name === "true" || wData.name === true;
             wData.details = wData.details === "true" || wData.details === true;
             sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, wData, $embedcontent_content);
-            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, [docData]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, docData);
         };
 
         /**
@@ -596,7 +596,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).unbind("done.newaddcontent.sakai");
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if ($rootel.is(":visible") && (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
+            if ($("#embedcontent_settings", $rootel).is(":visible") && (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
                 var obj = {};
                 for (var i = 0; i < data.length; i++){
                     obj[data[i]._path] = data[i];
