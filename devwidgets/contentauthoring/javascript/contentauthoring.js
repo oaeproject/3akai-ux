@@ -254,9 +254,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 var show = ($('.contentauthoring_row', $('#' + currentPageShown.ref)).length > 1);
                 $('#contentauthoring_row_menu_remove', $rootel).parent('li').toggle(show);
                 $(this).parents('.contentauthoring_row_handle_container').addClass('selected');
-                $('#contentauthoring_row_menu', $rootel).css('left', $(this).parent().position().left + 'px')
-                                                        .css('top', ($(this).parent().position().top + 7) + 'px')
-                                                        .show();
+                $('#contentauthoring_row_menu', $rootel).css({
+                    'left': $(this).parent().position().left + 'px',
+                    'top': ($(this).parent().position().top + 7) + 'px'
+                }).show();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents('.contentauthoring_row_container'));
             }
