@@ -140,7 +140,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /**
          * Adds binding to the carousel that contains more widgets
-         * @param carousel {Object} Carousel object (jcarousel)
+         * @param {Object} carousel Carousel object (jcarousel)
          */
         var carouselBinding = function(carousel) {
             $inserterbarCarouselLeft.live('click',function() {

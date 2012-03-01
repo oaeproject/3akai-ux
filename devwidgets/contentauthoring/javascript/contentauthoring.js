@@ -81,6 +81,19 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             return widgetIDs;
         };
 
+        /**
+         * Removes highlight zones when not dragging in edit mode
+         */
+        var checkRemoveHighlight = function() {
+            if (isInEditMode() && !isDragging) {
+                $(".contentauthoring_row_reorder_highlight,.contentauthoring_cell_reorder_highlight").remove();
+            }
+        };
+
+        /*
+         * Generate a drag helper that will be used to drag around when dragging a row or
+         * a widget (instead of the actual element). Using a drag helper prevents 
+         */
         var generateDragHelper = function(ev, ui) {
             var $el = $('<div/>');
             $el.css('width', ui.width() + 'px');
@@ -1054,7 +1067,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Determines if a page is empty by checking its content
          * Shows a default image when no content is present in the page
          * Empty content = empty rows and rows with empty html blocks
-         * @param currentPageShown {Object} Object containing data for the current page
+         * @param {Object} currentPageShown Object containing data for the current page
          */
         var determineEmptyPage = function(currentPageShown) {
             // emptyPageElements checks for empty rows
@@ -1446,6 +1459,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             addNewWidget(null, $el);
         });
 
+        // Remove stuck hover highlights
+        $rootel.on('mouseout', checkRemoveHighlight);
+
         // Edit a widget
         $rootel.on('click', '.contentauthoring_cell_element_action_e', editWidgetMode);
 
@@ -1525,7 +1541,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var uploadError = false;
 
         // Un-highlight on drag leaving drop zone.
-        $rootel.on('dragleave', '.contentauthoring_cell_element', function(ev) {
+        $rootel.on('dragleave dragexit', '.contentauthoring_cell_element', function(ev) {
             $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
             return false;
         });
@@ -1782,15 +1798,22 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         * @param {Object} $el   jQuery object containing the element on which the external content was dropped
         */
         var addExternal = function(ev, $el) {
-            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'), sakai.api.i18n.getValueForKey('PROCESSING'));
             var content = false;
             var contentType = 'link';
             var dt = ev.originalEvent.dataTransfer;
+            var sameDomain = dt.getData('Text').indexOf(sakai.config.SakaiDomain.substring(7, sakai.config.SakaiDomain.length)) >= 0 ||
+                             dt.getData('Text').indexOf(sakai.config.SakaiDomain) >= 0;
             if (dt.files.length) {
+                sakai.api.Util.progressIndicator.showProgressIndicator(
+                    sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
+                    sakai.api.i18n.getValueForKey('PROCESSING'));
                 contentType = 'file';
                 content = dt.files;
                 uploadExternalFiles(content, $el);
-            } else {
+            } else if (!sameDomain) {
+                sakai.api.Util.progressIndicator.showProgressIndicator(
+                    sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
+                    sakai.api.i18n.getValueForKey('PROCESSING'));
                 content = dt.getData('Text');
                 uploadExternalLink(content, $el);
             }
