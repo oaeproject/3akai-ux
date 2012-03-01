@@ -273,8 +273,10 @@ define(
                         loadDefaultBundleSuccess = reqData.results[0].success;
                         loadDefaultBundleData = reqData.results[0].body;
                         // Local bundle
-                        loadLocalBundleSuccess = reqData.results[1].success;
-                        loadLocalBundleData = reqData.results[1].body;
+                        if (reqData.results[1]) {
+                            loadLocalBundleSuccess = reqData.results[1].success;
+                            loadLocalBundleData = reqData.results[1].body;
+                        }
 
                         // process the responses
                         if (loadDefaultBundleSuccess) {
@@ -298,8 +300,12 @@ define(
                     }
                 };
 
-                var batchRequest = [loadDefaultBundleRequest, loadLocalBundleRequest];
-                sakai_serv.batch(batchRequest, bundleReqFunction);            };
+                var batchRequest = [loadDefaultBundleRequest];
+                if (loadLocalBundleRequest){
+                    batchRequest.push(loadLocalBundleRequest);
+                }
+                sakai_serv.batch(batchRequest, bundleReqFunction);     
+            };
 
 
             /////////////////////////////
