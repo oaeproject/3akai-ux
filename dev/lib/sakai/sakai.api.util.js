@@ -2057,11 +2057,11 @@ define(
                         var index = $focusable.index($focused);
                         if (e.shiftKey && $focusable.length && (index === 0)) {
                             // if shift tabbing from the start of the dialog box, shift focus to the last element
-                            $focusable.get($focusable.length - 1).focus();
+                            $focusable.last().focus();
                             return false;
                         } else if (!e.shiftKey && $focusable.length && (index === $focusable.length - 1)) {
                             // if tabbing from the end of the dialog box, shift focus to the first element
-                            $focusable.get(0).focus();
+                            $focusable.first().focus();
                             return false;
                         }
                     }
