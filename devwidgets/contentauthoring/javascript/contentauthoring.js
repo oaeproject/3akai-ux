@@ -375,9 +375,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 stop: function(ev, ui) {
                     sakai.api.Util.Draggable.removeIFrameFix();
                     isDragging = false;
-                    recalculateColumnWidths(ui, $(this).parent(), currentSizes);
-                    $(window).trigger('resize.contentauthoring.sakai');
+                    var $row = $(this).parent();
+                    recalculateColumnWidths(ui, $row, $(this), currentSizes);
                     setRowHeight($row);
+                    $(window).trigger('resize.contentauthoring.sakai');
                     storeCurrentPageLayout();
                 }
             });
@@ -390,10 +391,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @param {Object} ui             jQuery ui object
          * @param {jQuery} $row           jQuery element representing the row we're calculating
          *                                widths for
+         * @param {jQuery} $resizedCell   jQuery element representing the column that's being resized
          * @param {Array} currentSizes    The arrray containing the current column widths, used
          *                                to preserve the column width ratios
          */
-        var recalculateColumnWidths = function(ui, $row, currentSizes) {
+        var recalculateColumnWidths = function(ui, $row, $resizedCell, currentSizes) {
             var totalRowWidth = $('#contentauthoring_widget_container', $pageRootEl).width();
             var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
             var oldColumnWidth = ui.originalSize.width / totalRowWidth;
@@ -407,7 +409,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             var numberOfColumns = $cells.length;
             for (var i = 0; i < $cells.length; i++) {
                 var currentColumnWidth = 0;
-                if ($($cells[i]).is($(this))) {
+                if ($($cells[i]).is($resizedCell)) {
                     // New percentage based width
                     if (newColumnWidth < MINIMUM_COLUMN_SIZE) {
                         currentColumnWidth = MINIMUM_COLUMN_SIZE;
