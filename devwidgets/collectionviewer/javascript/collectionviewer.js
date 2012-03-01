@@ -39,18 +39,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var $rootel = $("#" + tuid);
+        var $body = $('body');
         var collectionviewer = {
             listStyle: "carousel",
             sortOn: "_lastModified",
             sortOrder: "desc",
             total: 0,
             page: 1,
-            contextId : false
+            contextId : false,
+            tuidls: tuid + '-ls',
+            tuidso: tuid + '-so'
         };
         var collectionData = [];
         var carouselInitialized = false;
         var fetchCollectionData = false;
         var initialload = true;
+        var carouselSize = $body.hasClass('has_nav') ? 9 : 12;
 
         // containers
         var $collectionviewerCarouselContainer = $("#collectionviewer_carousel_container", $rootel);
@@ -61,6 +65,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////
         // RENDERING FUNCTIONS //
         /////////////////////////
+
+        var getCollectionId = function(collectionId) {
+            if (collectionId.substring(0,2) === 'c-') {
+                return sakai.api.Content.Collections.getCollectionPoolId(collectionId);
+            } else {
+                return collectionId;
+            }
+        };
 
         // CAROUSEL //
         /**
@@ -108,15 +120,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 data: collectionData,
                 sakai: sakai,
                 collectionName: getCollectionName(),
-                collectionId: sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId),
+                collectionId: getCollectionId(collectionviewer.contextId),
                 isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
             }, $collectionviewerCarouselContainer);
-            $("#collectionviewer_finish_editing_collection_button").hide();
+            $('#collectionviewer_finish_editing_collection_button', $rootel).hide();
             if(sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)){
-                $("#collectionviewer_edit_collection_button").show();
+                $('#collectionviewer_edit_collection_button', $rootel).show();
             }
-            $collectionviewerCarouselContainer.show();
-            $collectionviewerExpandedContentContainer.show();
+            $collectionviewerCarouselContainer.animate({
+                height: 'toggle',
+                opacity: 'toggle'
+            }, 500);
+            $collectionviewerExpandedContentContainer.animate({
+                height: 'toggle',
+                opacity: 'toggle'
+            }, 500);
             $(".collectionviewer_controls", $rootel).hide();
             if(collectionData.length){
                 var totalItems = 0;
@@ -125,18 +143,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         totalItems += item.length;
                     }
                 });
-                if (totalItems > 12) {
+                if (totalItems > carouselSize) {
                     $(".collectionviewer_controls", $rootel).show();
                 }
                 $("#collectionviewer_carousel", $rootel).jcarousel({
                     animation: "slow",
                     easing: "swing",
-                    scroll: 12,
+                    scroll: carouselSize,
                     start: 0,
                     initCallback: carouselBinding,
                     itemFallbackDimension: 123
                 });
-                $("#collectionviewer_carousel", $rootel).data("jcarousel").scroll($(".collectionviewer_carousel_item[data-item-id=" + $.bbq.getState("item") + "]", $rootel).attr("data-arr-index"));
+
+                if (totalItems > carouselSize) {
+                    $("#collectionviewer_carousel", $rootel).data("jcarousel").scroll($(".collectionviewer_carousel_item[data-item-id=" + $.bbq.getState("item") + "]", $rootel).attr("data-arr-index"));
+                }
             }
         };
 
@@ -152,7 +173,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         data: selectedData,
                         sakai: sakai,
                         collectionName: getCollectionName(),
-                        collectionId: sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId),
+                        collectionId: getCollectionId(collectionviewer.contextId),
                         isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
                     }, $("#collectionviewer_expanded_content_container", $rootel));
                     sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
@@ -162,7 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     data: selectedData,
                     sakai: sakai,
                     collectionName: getCollectionName(),
-                    collectionId: sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId),
+                    collectionId: getCollectionId(collectionviewer.contextId),
                     isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
                 }, $("#collectionviewer_expanded_content_container", $rootel));
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
@@ -178,11 +199,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderGridOrList = function(grid, editMode){
             if (sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)) {
                 if (editMode) {
-                    $("#collectionviewer_edit_collection_button").hide();
-                    $("#collectionviewer_finish_editing_collection_button").show();
+                    $('#collectionviewer_edit_collection_button', $rootel).hide();
+                    $('#collectionviewer_finish_editing_collection_button', $rootel).show();
                 } else {
-                    $("#collectionviewer_finish_editing_collection_button").hide();
-                    $("#collectionviewer_edit_collection_button").show();
+                    $('#collectionviewer_finish_editing_collection_button', $rootel).hide();
+                    $('#collectionviewer_edit_collection_button', $rootel).show();
                 }
             }
             var pageNumber = collectionviewer.page - 1;
@@ -192,16 +213,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 grid: grid,
                 editMode: editMode,
                 collectionName: getCollectionName(),
-                collectionId: sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId),
+                collectionId: getCollectionId(collectionviewer.contextId),
                 isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
             }, $collectionviewerGridListContainer);
             $collectionviewerGridListContainer.show();
-            var pageCount = Math.ceil(collectionviewer.total / 12);
+            var pageCount = Math.ceil(collectionviewer.total / carouselSize);
             if (pageCount > 1){
                 $("#collectionviewer_paging", $rootel).show();
                 $("#collectionviewer_paging", $rootel).pager({
                     pagenumber: parseInt(collectionviewer.page, 10),
-                    pagecount: Math.ceil(collectionviewer.total / 12),
+                    pagecount: Math.ceil(collectionviewer.total / carouselSize),
                     buttonClickCallback: function(page){
                         fetchCollectionData = false;
                         collectionviewer.page = parseInt(page, 10);
@@ -262,6 +283,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var getMultipleUserData = function(data, callback) {
+            var batchRequests = [];
+            $.each(data.results, function(i, user) {
+                if (user['sakai:pool-content-created-for']) {
+                    batchRequests.push({
+                        'url': '/~' + user['sakai:pool-content-created-for'] + '/public/authprofile.profile.json',
+                        'method':'GET'
+                    });
+                }
+            });
+            sakai.api.Server.batch(batchRequests, function(success, results) {
+                if (success) {
+                    $.each(results.results, function(index, item) {
+                        item = $.parseJSON(item.body);
+                        var userid = item['rep:userId'];
+                        var displayName = sakai.api.User.getDisplayName(item);
+                        data.results[index].ownerId = userid;
+                        data.results[index].ownerDisplayName = displayName;
+                        data.results[index].ownerDisplayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {max_rows: 1, whole_word: false}, 's3d-bold', true);
+                        data.results[index].ownerDisplayNameShorter = sakai.api.Util.applyThreeDots(displayName, 180, {max_rows: 1, whole_word: false}, 's3d-bold', true);
+                    });
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
+                }
+            });
+        };
+
         /**
          * Retrieves the basic data for items in a collection
          */
@@ -271,10 +320,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 collectionviewer.page = $.bbq.getState("lp") || 1;
                 collectionData = [];
             }
+            var id;
+            if (userid) {
+                id = userid;
+            } else if (collectionviewer.contextId.substring(0, 2) === 'c-') {
+                id = collectionviewer.contextId;
+            } else {
+                id = 'c-' + collectionviewer.contextId;
+            }
             var data = {
                 sortOn: "filename",
                 sortOrder: collectionviewer.sortOrder,
-                userid: userid || widgetData.collectionviewer.groupid,
+                userid: id,
                 items: 15,
                 page: (collectionviewer.page - 1)
             };
@@ -291,17 +348,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 data: data,
                 success: function(data){
                     if($.isFunction(callback)){
-                        sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
-                            callback(data);
+                        getMultipleUserData(data, function() {
+                            data.results.fetchMultipleUserDataInWidget = true;
+                            sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent) {
+                                callback(data);
+                            });
                         });
                     } else {
                         $("#collectionviewer_add_content_button > div", $rootel).text(data.total);
                         collectionviewer.total = data.total;
                         if(data.results && data.results.length){
-                            sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent){
-                                collectionData[(collectionviewer.page - 1)] = parsedContent;
-                                // Get the full profiles for these items
-                                showData();
+                            getMultipleUserData(data, function() {
+                                data.results.fetchMultipleUserDataInWidget = true;
+                                sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent) {
+                                    collectionData[(collectionviewer.page - 1)] = parsedContent;
+                                    showData();
+                                });
                             });
                         } else {
                             showData();
@@ -316,14 +378,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var showComments = function(){
             if($(".collectionviewer_collection_item_comments", $rootel).is(":visible")){
-                $(".collectionviewer_collection_item_comments", $rootel).toggle();
+                $('.collectionviewer_collection_item_comments', $rootel).animate({
+                    height: 'toggle',
+                    opacity: 'toggle'
+                }, 500);
             } else if ($rootel.is(":visible")) {
                 var $selectedItem = $(".collectionviewer_carousel_item.selected", $rootel);
                 var contentProfile = {
                     data: collectionData[parseInt($selectedItem.attr("data-page-index"), 10)][parseInt($selectedItem.attr("data-arr-index"),10)]
                 };
                 $(window).trigger("start.collectioncomments.sakai", contentProfile);
-                $(".collectionviewer_collection_item_comments", $rootel).toggle();
+                $('.collectionviewer_collection_item_comments', $rootel).animate({
+                    height: 'toggle',
+                    opacity: 'toggle'
+                }, 500);
             }
         };
 
@@ -331,15 +399,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Switch the listview when necessary and load the items within that listview
          */
         var switchListView = function() {
-            var hash = collectionviewer.contextId.substring(2);
-            var currHash = $.bbq.getState("p").split("/")[0];
-            if (hash === currHash && fetchCollectionData) {
-                collectionviewer.listStyle = $.bbq.getState("ls") || "carousel";
-                $(".s3d-listview-options", $rootel).children(".selected").children().removeClass("selected");
-                $(".s3d-listview-options", $rootel).children(".selected").removeClass("selected");
-                collectionviewer.page = $.bbq.getState("lp") || 1;
-                getCollectionData();
-            }
+            collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
+            $('.s3d-listview-options', $rootel).children('.selected').children().removeClass('selected');
+            $('.s3d-listview-options', $rootel).children('.selected').removeClass('selected');
+            collectionviewer.page = 1;
+            getCollectionData();
         };
 
         /**
@@ -354,19 +418,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var $element = $(".collectionviewer_carousel_item[data-item-id=" + $.bbq.getState("item") + "]");
             $(".collectionviewer_carousel_item", $rootel).removeClass("selected");
             $element.addClass("selected");
-            $(window).unbind("ready.collectionviewer.sakai");
-            $(window).unbind("start.collectioncontentpreview.sakai");
+            $('.collectionviewer_widget', $rootel).unbind("start.collectioncontentpreview.sakai");
             renderItemsForSelected(parseInt($element.attr("data-page-index"), 10), parseInt($element.attr("data-arr-index"), 10));
         };
 
         var checkEditingEnabled = function(){
-            if($(".collectionviewer_check:checked:visible").length){
-                $("#collections_remove_button").removeAttr("disabled");
-                $("#collections_savecontent_button").removeAttr("disabled");
+            if ($('.collectionviewer_check:checked:visible', $rootel).length) {
+                $('#collections_remove_button', $rootel).removeAttr('disabled');
+                $('#collections_savecontent_button', $rootel).removeAttr('disabled');
             } else {
-                $("#collections_remove_button").attr("disabled", true);
-                $("#collections_savecontent_button").attr("disabled", true);
-                $("#collectionviewer_select_all").removeAttr("checked");
+                $('#collections_remove_button', $rootel).attr('disabled', true);
+                $('#collections_savecontent_button', $rootel).attr('disabled', true);
+                $('#collectionviewer_select_all', $rootel).removeAttr('checked');
             }
             updateButtonData();
         };
@@ -374,19 +437,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var updateButtonData = function(){
             var idArr = [];
             var titleArr = [];
-            $(".collectionviewer_check:checked:visible").each(function(i, item){
+            $('.collectionviewer_check:checked:visible', $rootel).each(function(i, item) {
                 idArr.push($(item).attr("data-entityid"));
                 titleArr.push($(item).attr("data-entityname"));
             });
-            $("#collections_savecontent_button").attr("data-entityid", idArr);
-            $("#collections_savecontent_button").attr("data-entityname", titleArr);
+            $('#collections_savecontent_button', $rootel).attr('data-entityid', idArr);
+            $('#collections_savecontent_button', $rootel).attr('data-entityname', titleArr);
         };
 
         var refreshCollection = function(){
             var pageNumber = collectionviewer.page - 1;
             getCollectionData("", true, function(data){
-                collectionviewer.listStyle = $.bbq.getState("ls") || "list";
-                $("#collectionviewer_add_content_button > div").text(data.total);
+                collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'list';
+                $('#collectionviewer_add_content_button > div', $rootel).text(data.total);
                 collectionviewer.total = data.total;
                 collectionData[pageNumber] = data.results;
                 renderGridOrList(false, true);
@@ -405,7 +468,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     arrIndex2 = parseInt($(".collectionviewer_carousel_item.selected", $rootel).attr("data-arr-index"), 10);
                 }
                 if (which === "collectioncontentpreview" && collectionviewer.listStyle === "carousel") {
-                    $(window).trigger("start.collectioncontentpreview.sakai", collectionData[arrIndex1][arrIndex2]);
+                    $('.collectionviewer_widget', $rootel).trigger('start.collectioncontentpreview.sakai', collectionData[arrIndex1][arrIndex2]);
                     $(".collectionviewer_collection_item_preview", $rootel).show();
                 } else if (which === "pageviewer") {
                     $(window).trigger("start.pageviewer.sakai", collectionData[arrIndex1][arrIndex2]);
@@ -423,25 +486,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
 
-            // Header bindings
-            $("#collectionviewer_carousel_view", $rootel).live("click", function(){
-                $.bbq.pushState({"ls":"carousel"});
-                fetchCollectionData = true;
-            });
-
-            $("#collectionviewer_grid_view", $rootel).live("click", function(){
-                $.bbq.pushState({"ls":"grid", "lp": collectionviewer.page, "item": ""});
-                fetchCollectionData = true;
-            });
-
-            $("#collectionviewer_list_view", $rootel).live("click", function(){
-                $.bbq.pushState({"ls":"list", "lp": collectionviewer.page, "item": ""});
-                fetchCollectionData = true;
-            });
-
-            $("#collectionviewer_edit_collection_button", $rootel).live("click", function(){
-                $.bbq.pushState({"ls":"edit"});
-                fetchCollectionData = true;
+            $('#collectionviewer_carousel_view, #collectionviewer_grid_view, #collectionviewer_list_view, #collectionviewer_edit_collection_button', $rootel).bind('click', function() {
+                var state = {};
+                state[collectionviewer.tuidls] = $(this).data('liststyle') || 'carousel';
+                state.item = '';
+                $.bbq.pushState(state);
             });
 
             $(window).bind('hashchange', handleHashChange);
@@ -449,7 +498,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Carousel bindings
             $(".collectionviewer_carousel_item", $rootel).live("click", function(){
                 if(collectionviewer.listStyle === "carousel"){
-                    $.bbq.pushState({"item": $(this).attr("data-item-id"), "lp": ""});
+                    $.bbq.pushState({"item": $(this).attr("data-item-id")});
                     fetchCollectionData = false;
                 }
                 if(initialload){
@@ -464,40 +513,47 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 doStart("pageviewer");
             });
 
-            $(window).bind("ready.collectioncontentpreview.sakai", function() {
+            $('.collectionviewer_widget', $rootel).bind("ready.collectioncontentpreview.sakai", function() {
                 doStart("collectioncontentpreview");
             });
 
             $("#collectionviewer_sortby", $rootel).change(function(){
                 var sortSelection = $(this).val();
+                var state = {};
                 if (sortSelection === "desc") {
                     collectionviewer.sortOrder = "desc";
-                    $.bbq.pushState({"so": "desc"});
+                    state[collectionviewer.tuidso] = 'desc';
+                    $.bbq.pushState(state);
                 } else if (sortSelection === "asc") {
                     collectionviewer.sortOrder = "asc";
-                    $.bbq.pushState({"so": "asc"});
+                    state[collectionviewer.tuidso] = 'asc';
+                    $.bbq.pushState(state);
                 } else {
                     collectionviewer.sortOrder = "modified";
-                    $.bbq.pushState({"so": "modified"});
+                    state[collectionviewer.tuidso] = 'modified';
+                    $.bbq.pushState(state);
                 }
             });
 
             $(".collectionviewer_collection_item_comments #contentcomments_postComment", $rootel).live("click", function(){
-                collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"),10)][parseInt($(".collectionviewer_carousel_item.selected").attr("data-arr-index"), 10)].numComments++;
-                $(".collectionviewer_comments_count").text(collectionData[parseInt($(".collectionviewer_carousel_item.selected").attr("data-page-index"), 10)][parseInt($(".collectionviewer_carousel_item.selected").attr("data-arr-index"), 10)].numComments);
+                collectionData[parseInt($('.collectionviewer_carousel_item.selected', $rootel).attr('data-page-index'),10)][parseInt($('.collectionviewer_carousel_item.selected', $rootel).attr('data-arr-index'), 10)].numComments++;
+                $('.collectionviewer_comments_count', $rootel).text(collectionData[parseInt($('.collectionviewer_carousel_item.selected', $rootel).attr('data-page-index'), 10)][parseInt($('.collectionviewer_carousel_item.selected', $rootel).attr('data-arr-index'), 10)].numComments);
             });
 
             $("#collectionviewer_finish_editing_collection_button", $rootel).click(function(){
                 $(this).hide();
                 $("#collectionviewer_edit_collection_button", $rootel).show();
-                $.bbq.pushState({"ls":"carousel"});
+                var state = {};
+                state[collectionviewer.tuidls] = 'carousel';
+                $.bbq.pushState(state);
+                handleHashChange();
             });
 
             $("#collectionviewer_select_all", $rootel).live("click", function(){
                 if($(this).is(":checked")){
-                    $(".collectionviewer_check:visible").attr("checked", true);
+                    $(".collectionviewer_check:visible", $rootel).attr('checked', true);
                 } else{
-                    $(".collectionviewer_check:visible").removeAttr("checked");
+                    $(".collectionviewer_check:visible", $rootel).removeAttr('checked');
                 }
                 checkEditingEnabled();
             });
@@ -516,7 +572,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         context: collectionviewer.contextId
                     }, function (success) {
                         sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("REMOVING_CONTENT_FROM_COLLECTION", "collectionviewer"), sakai.api.i18n.getValueForKey("PROCESSING", "collectionviewer"));
-                        $(".collectionviewer_check:checked:visible").parents("li").hide("slow");
+                        $(".collectionviewer_check:checked:visible", $rootel).parents("li").hide("slow");
                         setTimeout(refreshCollection, 1500);
                     }]);
                 }
@@ -543,46 +599,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(window).bind("hiding.newsharecontent.sakai hiding.savecontent.sakai", function() {
-                $("#collectionviewer_expanded_content_container .s3d-search-result.hovered").removeClass("hovered");
+                $("#collectionviewer_expanded_content_container .s3d-search-result.hovered", $rootel).removeClass("hovered");
             });
 
         };
 
         var getCollectionName = function(){
-            if (sakai_global.content_profile && sakai_global.content_profile.content_data){
-                return sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
-            }
-            return collectionviewer.contextName;
+            return collectionviewer.collectionName;
         };
 
         /**
          * Initialize the widget by adding bindings to elements and gathering collection information
          */
         var doInit = function(){
-            fetchCollectionData = true;
-            collectionviewer.listStyle = $.bbq.getState("ls") || "carousel";
-            collectionviewer.sortOrder = $.bbq.getState("so") || "modified";
-            collectionviewer.contextId = widgetData.collectionviewer.groupid;
-            collectionviewer.page = $.bbq.getState("lp") || 1;
+            collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
+            collectionviewer.sortOrder = $.bbq.getState(collectionviewer.tuidso) || 'modified';
+            collectionviewer.contextId = widgetData.data._path || widgetData.collectionviewer.groupid;
             if(sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)){
-                $("#collectionviewer_header_container #collectionviewer_add_content_button").show();
-                $("#collectionviewer_header_container #collectionviewer_edit_collection_button").show();
-                $("#collectionviewer_finish_editing_collection_button").hide();
+                $('#collectionviewer_header_container #collectionviewer_add_content_button', $rootel).show();
+                $('#collectionviewer_header_container #collectionviewer_edit_collection_button', $rootel).show();
+                $('#collectionviewer_finish_editing_collection_button', $rootel).hide();
             }
 
-            $("#content_profile_sakaidoc_container").addClass("collections");
-            $("#collectionviewer_sortby").val(collectionviewer.sortOrder);
+            $('#content_profile_sakaidoc_container', $rootel).addClass('collections');
+            $('#collectionviewer_sortby', $rootel).val(collectionviewer.sortOrder);
 
-            if (sakai_global.content_profile && sakai_global.content_profile.content_data){
-                collectionviewer.contextName = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
+            if (sakai_global && sakai_global.content_profile && sakai_global.content_profile.content_data) {
+                collectionviewer.collectionName = widgetData.data["sakai:pooled-content-file-name"] || sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
                 switchListView();
                 addBinding();
             // Retrieve the name of the collection as we're not in a content profile page
             } else {
                 $.ajax({
-                    url: "/p/" + sakai.api.Content.Collections.getCollectionPoolId(collectionviewer.contextId) + ".json",
+                    url: "/p/" + collectionviewer.contextId + ".json",
                     success: function(data){
-                        collectionviewer.contextName = data["sakai:pooled-content-file-name"];
+                        collectionviewer.collectionName = data["sakai:pooled-content-file-name"];
                         switchListView();
                         addBinding();
                     }
