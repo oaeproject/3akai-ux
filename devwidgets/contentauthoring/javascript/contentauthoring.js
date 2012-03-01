@@ -995,6 +995,24 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // PAGE SERIALIZING //
         //////////////////////
 
+        var parseColumn = function($elts, column) {
+            var widgetIds = [];
+            // Loop through all of the widgets in the column
+            $.each($elts, function(i, elt) {
+                var $element = $(elt);
+                var element = {
+                    type: $element.attr('data-element-type'),
+                    id: $element.attr('data-element-id')
+                };
+                column.elements.push(element);
+                widgetIds.push(element.id);
+            });
+            return {
+                'widgetIds': widgetIds,
+                'column': column
+            };
+        };
+
         /**
          * Serialize the current page layout (rows, columns, widgets), so it can
          * be stored back
@@ -1012,21 +1030,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 var columnWidths = getColumnWidths($row);
                 // Loop through all of the columns in the row
                 for (var i = 0; i < columnWidths.length; i++) {
+                    var $elts = $('.contentauthoring_cell_element', $('.contentauthoring_cell', $row).get(i));
                     var column = {
                         width: columnWidths[i],
                         elements: []
                     };
-                    // Loop through all of the widgets in the column
-                    $.each($('.contentauthoring_cell_element', $('.contentauthoring_cell', $row).get(i)), function(eindex, $element) {
-                        $element = $($element);
-                        var element = {
-                            type: $element.attr('data-element-type'),
-                            id: $element.attr('data-element-id')
-                        };
-                        column.elements.push(element);
-                        widgetIds.push(element.id);
-                    });
-                    row.columns.push(column);
+                    var parsed = parseColumn($elts, column);
+                    row.columns.push(parsed.column);
+                    widgetIds.concat(parsed.widgetIds);
                 }
                 rows.push(row);
             });
