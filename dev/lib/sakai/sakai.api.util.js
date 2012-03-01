@@ -173,6 +173,19 @@ define(
         },
 
         /**
+         * Takes a jquery selector or object, and returns the jquery object
+         * @param {String} selector A jquery selector or jquery object
+         * @return (Object) jQuery object
+         */
+        getJqueryObject : function(selector) {
+            var $object = selector;
+            if (!(selector instanceof jQuery)) {
+                $object = $(selector);
+            }
+            return $object;
+        },
+
+        /**
          * Convert a file's size to a human readable size
          * example: 2301 = 2.301kB
          *
@@ -1931,10 +1944,7 @@ define(
              * @param addClose {String} a jquery selector or jquery object used in the jqmAddClose function
              */
             setup : function(dialogContainer, options, addClose) {
-                var $dialogContainer = dialogContainer;
-                if (!(dialogContainer instanceof jQuery)) {
-                    $dialogContainer = $(dialogContainer);
-                }
+                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
 
                 if (addClose) {
                     $dialogContainer.jqm(options).jqmAddClose(addClose);
@@ -1946,19 +1956,16 @@ define(
             /**
              * Opens the dialog box
              *
-             * @param dialogContainer {String} a jquery selector or jquery object, that is the dialog container
-             * @param openOptions {Object} optional object containing options to apply when opening the dialog:
-             *                              positionDialog (Boolean} true to position the dialog at the scroll position
-             *                              positionOffset (Integer} dialog height position offset
-             *                              bindKeyboardFocus (Boolean} true to trap keyboard focus inside the dialog
-             *                              bindKeyboardFocusIgnoreElements (String} optional jquery selector for start/end elements to be ignored
-             *                              bindKeyboardCloseFunction (function} optional function to be called when the user hits the escape key
+             * @param {String} dialogContainer a jquery selector or jquery object, that is the dialog container
+             * @param {Object} openOptions optional object containing options to apply when opening the dialog:
+             *                              positionDialog {Boolean} true to position the dialog at the scroll position
+             *                              positionOffset {Integer} dialog height position offset
+             *                              bindKeyboardFocus {Boolean} true to trap keyboard focus inside the dialog
+             *                              bindKeyboardFocusIgnoreElements {String} optional jquery selector for start/end elements to be ignored
+             *                              bindKeyboardCloseFunction {Function} optional function to be called when the user hits the escape key
              */
             open : function(dialogContainer, openOptions) {
-                var $dialogContainer = dialogContainer;
-                if (!(dialogContainer instanceof jQuery)) {
-                    $dialogContainer = $(dialogContainer);
-                }
+                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
 
                 var positionDialog = true;
                 var positionOffset = false;
@@ -1991,27 +1998,21 @@ define(
             /**
              * Closes the dialog box
              *
-             * @param dialogContainer {String} a jquery selector or jquery object, that is the dialog container
+             * @param {String} dialogContainer a jquery selector or jquery object, that is the dialog container
              */
             close : function(dialogContainer) {
-                var $dialogContainer = dialogContainer;
-                if (!(dialogContainer instanceof jQuery)) {
-                    $dialogContainer = $(dialogContainer);
-                }
+                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
                 $dialogContainer.jqmHide();
             },
 
             /**
              * Positions the dialog box at the users scroll position
              *
-             * @param el {String} a jquery selector or jquery object, to position
-             * @param offset {Integer} optional numeric value to add to the dialog position offset
+             * @param {String} el a jquery selector or jquery object, to position
+             * @param {Integer} offset optional numeric value to add to the dialog position offset
              */
             positionDialogBox : function(el, offset) {
-                var $el = el;
-                if (!(el instanceof jQuery)) {
-                    $el = $(el);
-                }
+                var $el = sakai_util.getJqueryObject(el);
 
                 var dialogOffset = 100;
                 if (offset && _.isNumber(offset)) {
@@ -2030,16 +2031,13 @@ define(
             /**
              * Sets up events to keep keyboard focus within the dialog box and close it when the escape key is pressed
              *
-             * @param dialogContainer {String} a jquery selector or jquery object which is the dialog container
-             * @param ignoreElements {String} an optional jquery selector for start/end elements to be ignored
-             * @param closeFunction {function} an optional function to be called when the user hits the escape key
+             * @param {String} dialogContainer a jquery selector or jquery object which is the dialog container
+             * @param {String} ignoreElements an optional jquery selector for start/end elements to be ignored
+             * @param {Function} closeFunction an optional function to be called when the user hits the escape key
              */
             bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
                 var origFocus = $(':focus');
-                var $dialogContainer = dialogContainer;
-                if (!(dialogContainer instanceof jQuery)) {
-                    $dialogContainer = $(dialogContainer);
-                }
+                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
 
                 var bindFunction = function(e) {
                     if ($dialogContainer.is(':visible') && $dialogContainer.has(':focus').length && e.which === $.ui.keyCode.ESCAPE) {
@@ -2068,7 +2066,7 @@ define(
                         }
                     }
                 };
-                $(dialogContainer).unbind('keydown');
+                $(dialogContainer).off('keydown');
                 $(dialogContainer).keydown(bindFunction);
             }
         },
