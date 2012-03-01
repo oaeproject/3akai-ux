@@ -10,7 +10,7 @@
 <div id="featuredworlds_template"><!--
     <div class="s3d-tab-container">
         {for tab in tabs}
-            <button type="button" class="s3d-tab {if tab_index == 0} selected{/if}" data-sakai-worldid="${tab.id}">
+            <button type="button" class="s3d-tab {if tab_index === "0"} selected{/if}" data-sakai-worldid="${tab.id}">
                 ${tab.title}
                 <span class="s3d-counts-outer">
                     <span class="s3d-counts-inner">${data[tab.id].total}</span>
@@ -29,7 +29,7 @@
 
 <div id="featuredworlds_worlds_content_template"><!--
     {for tab in tabs}
-        <div id="featuredworlds_${tab.id}" class="featuredworlds_content_container" {if tab_index != 0} style="display:none;"{/if}>
+        <div id="featuredworlds_${tab.id}" class="featuredworlds_content_container" {if tab_index !== "0"} style="display:none;"{/if}>
             {if data[tab.id].total}
                 {for item in data[tab.id].results}
                     <div class="featuredworlds_content">
