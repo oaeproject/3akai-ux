@@ -62,23 +62,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ///////////////////////
 
         /**
-         * Animates the widget in place when the width changes
-         * @param width {} The width of the widget to take into account while animating
-         */
-        var editPosition = function(width) {
-            $inserterbarWidget.css('left', $('.s3d-page-header,.s3d-page-noheader').position().left + $('.s3d-page-header').width() - width - 12);
-        };
-
-        /**
          * Shows/Hides more widgets that can be inserted into the page
          */
         var showHideMoreWidgets = function() {
             $(this).children('span').toggle();
-            $('#inserterbar_more_widgets_container', $rootel).animate({
-                opacity: 'toggle',
-                height: 'toggle'
-            });
-            editPosition();
+            $('#inserterbar_more_widgets_container', $rootel).toggle();
+            resetPosition();
         };
 
         /**
@@ -86,11 +75,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var renderWidgets = function() {
             // Vars for media and goodies
-            var media = {}; media.items = [];
-            var goodies = {}; goodies.items = [];
+            var media = {
+                'items': []
+            };
+            var goodies = {
+                'items': []
+            };
 
             // Fill in media and goodies
-            for (var i in sakai.widgets){
+            for (var i in sakai.widgets) {
                 if (sakai.widgets.hasOwnProperty(i) && i) {
                     var widget = sakai.widgets[i];
                     if (widget['sakaidocs'] && widget.showinmedia) {
@@ -111,13 +104,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (goodies.items.length > 8){
                 setupCarousel();
             } else {
-                $('#inserterbar_more_widgets_container', $rootel).css('display', 'none');
+                $('#inserterbar_more_widgets_container', $rootel).hide();
                 $('#inserterbar_carousel_left', $rootel).addClass('disabled');
                 $('#inserterbar_carousel_right', $rootel).addClass('disabled');
             }
 
             setupSortables();
-            editPosition(255);
+            resetPosition();
         };
 
 
@@ -129,17 +122,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Sets the widgets up as sortables so they can be dragged into the page
          */
         var setupSortables = function() {
-            $( '#inserterbar_widget .inserterbar_widget_draggable', $rootel ).draggable({
+            $('#inserterbar_widget .inserterbar_widget_draggable', $rootel).draggable({
                 connectToSortable: '.contentauthoring_cell_content',
                 helper: 'clone',
                 revert: 'invalid',
                 opacity: 0.4,
                 start: function() {
-                    $(window).trigger("startdrag.contentauthoring.sakai");
+                    $(window).trigger('startdrag.contentauthoring.sakai');
                     sakai.api.Util.Draggable.setIFrameFix();
                 },
                 stop: function() {
-                    $(window).trigger("stopdrag.contentauthoring.sakai");
+                    $(window).trigger('stopdrag.contentauthoring.sakai');
                     sakai.api.Util.Draggable.removeIFrameFix();
                 }
             });
@@ -170,7 +163,53 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 itemFallbackDimension: 4
             });
 
-            $inserterbarMoreWidgetsContainer.css('display', 'none');
+            $inserterbarMoreWidgetsContainer.hide();
+        };
+
+        /**
+         * Re-position the bar based on its current width
+         */
+        var resetPosition = function() {
+            var right = $(window).width() - ($contentauthoringWidget.position().left + $contentauthoringWidget.width()) - 15;
+            $inserterbarWidget.css('right', right + 'px');
+        };
+
+        /**
+         * Hide all of the panes in the inserterbar. This will be executed
+         * before the right panel is shown.
+         */
+        var hideAllModes = function() {
+            $('#inserterbar_view_container', $rootel).hide();
+            $('#inserterbar_default_widgets_container', $rootel).hide();
+            $('#inserterbar_tinymce_container', $rootel).hide();
+            $('#inserterbar_revision_history_container', $rootel).hide();
+        };
+
+        /**
+         * Put the inserter bar into page edit mode
+         */
+        var setInserterForEditMode = function() {
+            hideAllModes();
+            $('#inserterbar_default_widgets_container', $rootel).show();
+            resetPosition();
+        };
+
+        /**
+         * Put the inserter bar into view mode
+         */
+        var setInserterForViewMode = function() {
+            hideAllModes();
+            $('#inserterbar_view_container', $rootel).show();
+            resetPosition();
+        };
+
+        /**
+         * Put the inserter bar into revision history mode
+         */
+        var setInserterForRevisionHistoryMode = function() {
+            hideAllModes();
+            $('#inserterbar_revision_history_container', $rootel).show();
+            resetPosition();
         };
 
         /**
@@ -178,31 +217,28 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var addBinding = function() {
             $inserterbarMoreWidgets.click(showHideMoreWidgets);
-            $(window).bind('edit.contentauthoring.sakai', function() {
-                $('#inserterbar_view_container', $rootel).hide();
-                editPosition(696);
-                $('#inserterbar_default_widgets_container', $rootel).show();
+
+            $('#inserterbar_action_close_revision_history').live('click', function() {
+                $(window).trigger("close.versions.sakai");
             });
-            $(window).bind('render.contentauthoring.sakai', function() {
-                $('#inserterbar_more_widgets_container:visible', $rootel).hide();
-                $('#inserterbar_tinymce_container', $rootel).hide();
-                $('#inserterbar_default_widgets_container').hide();
-                editPosition(255);
-                $('#inserterbar_view_container', $rootel).show();
-            });
-            $(window).bind('scroll', function(ev, ui){
+
+
+            $('#inserterbar_action_revision_history').live('click', setInserterForRevisionHistoryMode);
+            $('#inserterbar_action_close_revision_history').live('click', setInserterForViewMode);
+            $(window).bind('edit.contentauthoring.sakai', setInserterForEditMode);
+            $(window).bind('render.contentauthoring.sakai', setInserterForViewMode);
+
+            $(window).bind('scroll', function(ev, ui) {
                 var top = $inserterbarWidgetContainer.position().top;
                 var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
-                if (scroll > $inserterbarWidgetContainer.position().top){
-                    if (scroll >= ($contentauthoringWidget.height() + $contentauthoringWidget.position().top - ($inserterbarWidget.height() / 2))){
+                if (scroll > $inserterbarWidgetContainer.position().top) {
+                    if (scroll >= ($contentauthoringWidget.height() + $contentauthoringWidget.position().top - ($inserterbarWidget.height() / 2))) {
                         $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
                         $inserterbarWidget.css('position', 'absolute');
                     } else {
-                        var left = $inserterbarWidget.position();
                         $('.sakaiSkin[role="listbox"]').css('position', 'fixed');
                         $inserterbarWidget.css('position', 'fixed');
                         $inserterbarWidget.css('top', '0px');
-                        $inserterbarWidget.css('left', left + 'px');
                     }
                 } else {
                     $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
@@ -210,10 +246,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $inserterbarWidget.css('top', $inserterbarWidgetContainer.position().top + 'px');
                 }
             });
-            $(window).resize(function() {
-                var left = $contentauthoringWidget.position().left + $contentauthoringWidget.width() - $inserterbarWidget.width() + 8;
-                $inserterbarWidget.css('left', left + 'px');
-            });
+            $(window).resize(resetPosition);
         };
 
         /**
@@ -221,11 +254,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var doInit = function() {
             var top = 130;
-            if (sakai.config.enableBranding){
+            if (sakai.config.enableBranding) {
                 top = top + $('.branding_widget').height();
             }
             $inserterbarWidget.css({
-                'left': $('.s3d-page-header,.s3d-page-noheader').position().left + $('.s3d-page-header').width() - $inserterbarWidget.width() - 12,
+                'right': $(window).width() - ($contentauthoringWidget.position().left + $contentauthoringWidget.width()) - 15,
                 'top': top
             });
             addBinding();

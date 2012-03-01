@@ -122,50 +122,28 @@ define(
                         parseMembers($.parseJSON(dataItem.body), contentItem);
                     }
 
-                } else if(dataItem.url.indexOf(".versions.json") > -1){
-
-                    // results for versions.json
-                    // Parses all information related to versions and stores them on tempItem
-                    var versionInfo =$.parseJSON(dataItem.body);
-                    var versions = [];
-                    for (var j in versionInfo.versions) {
-                        if(versionInfo.versions.hasOwnProperty(j)){
-                            var splitDate = versionInfo.versions[j]["_created"];
-                            versionInfo.versions[j]["_created"] = sakai_l10n.transformDate(new Date(splitDate));
-                            versions.push(versionInfo.versions[j]);
-                        }
-                    }
-                    versionInfo.versions = versions.reverse();
-                    // Add the versions to the tempItem object
-                    contentItem.versions = versionInfo;
-
-                }else if (dataItem.url.indexOf("activityfeed.json") > -1){
-
-                    // results for activity.json
-                    contentItem.activity = $.parseJSON(dataItem.body);
-
-                    // Add in some extra data on the object about the content
-                    // Is current user manager/viewer
-                    contentItem.isManager = sakai_content.isUserAManager(contentItem.data, sakai_user.data.me);
-                    contentItem.isViewer = sakai_content.isUserAViewer(contentItem.data, sakai_user.data.me);
-
-                    // Set the mimetype of the content
-                    var mimeType = sakai_content.getMimeType(contentItem.data);
-                    contentItem.data.mimeType = mimeType;
-                    if (sakai_conf.MimeTypes[mimeType]) {
-                        contentItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
-                    } else {
-                        contentItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
-                    }
-
-                    // Add paths to the content item
-                    contentItem.content_path = "/p/" + contentItem.data._path;
-                    contentItem.smallPath = "/p/" + contentItem.data._path;
-                    contentItem.url = sakai_conf.SakaiDomain + "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
-                    contentItem.path = "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
-
                 }
             });
+
+            // Add in some extra data on the object about the content
+            // Is current user manager/viewer
+            contentItem.isManager = sakai_content.isUserAManager(contentItem.data, sakai_user.data.me);
+            contentItem.isViewer = sakai_content.isUserAViewer(contentItem.data, sakai_user.data.me);
+
+            // Set the mimetype of the content
+            var mimeType = sakai_content.getMimeType(contentItem.data);
+            contentItem.data.mimeType = mimeType;
+            if (sakai_conf.MimeTypes[mimeType]) {
+                contentItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
+            } else {
+                contentItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
+            }
+
+            // Add paths to the content item
+            contentItem.content_path = "/p/" + contentItem.data._path;
+            contentItem.smallPath = "/p/" + contentItem.data._path;
+            contentItem.url = sakai_conf.SakaiDomain + "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
+            contentItem.path = "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
 
             if (collectionGroup){
                 sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), function(success, members){
@@ -211,22 +189,6 @@ define(
                     "method":"GET",
                     "cache":false,
                     "dataType":"json"
-                },
-                {
-                    "url": poolid + ".versions.json",
-                    "method":"GET",
-                    "cache":false,
-                    "dataType":"json"
-                },
-                {
-                    "url": sakai_conf.URL.POOLED_CONTENT_ACTIVITY_FEED,
-                    "method":"GET",
-                    "cache":false,
-                    "dataType":"json",
-                    "parameters":{
-                        "p":poolid,
-                        "items":"1000"
-                    }
                 }
             ];
 
@@ -406,16 +368,16 @@ define(
         *       - Set parent permission parameter on content nodes
         *       - Set ACLs on content node
         *       - Callback if present
-        * @param filesArray     {Array}    Array of files (PoolIDs)
-        * @param parentSavePath {String}   savePath of the parent
-        * @param callback       {Function} Executed on completion of the function
+        * @param {Array} filesArray        Array of files (PoolIDs)
+        * @param {String} parentSavePath   savePath of the parent
+        * @param {Function} callback       Executed on completion of the function
         */
         setFilePermissionsAsParent: function(filesArray, parentSavePath, callback) {
 
             /**
              * Set parent permission parameter on content nodes
-             * @param filesToSetPermissions {Array} Array of files to set ACLs on
-             * @param batchRequests {Array} Array of requests to set permission parameter on content nodes
+             * @param {Array} filesToSetPermissions     Array of files to set ACLs on
+             * @param {Array} batchRequests             Array of requests to set permission parameter on content nodes
              */
             var setDataOnContent = function(filesToSetPermissions, batchRequests) {
                 sakai_serv.batch(batchRequests, function(success) {
@@ -446,8 +408,8 @@ define(
                         var batchRequests = [];
                         $.each(filesArray, function(index, item) {
                             filesToSetPermissions.push({
-                                hashpath: item,
-                                permissions: permissions
+                                'hashpath': item,
+                                'permissions': permissions
                             });
                             batchRequests.push({
                                 'url': '/p/' + item,
@@ -1215,7 +1177,7 @@ define(
                     contentItem.thumbnail = sakai_content.getThumbnail(results[i]);
                     // if the content has an owner we need to add their ID to an array,
                     // so we can lookup the users display name in a batch req
-                    if (contentItem["sakai:pool-content-created-for"]) {
+                    if (contentItem['sakai:pool-content-created-for'] && !results.fetchMultipleUserDataInWidget) {
                         userArray.push(contentItem["sakai:pool-content-created-for"]);
                     }
                     contentItem.hasPreview = sakai_content.hasPreview(contentItem);
@@ -1770,18 +1732,18 @@ define(
                  * Finish a row and add the row to the page
                  * @param {Object} currentRow            Object that represents the current row, and its columns and cells
                  * @param {Object} currentPage           Object representing the migrated Sakai Doc page so far
-                 * @param {Object} columnsForNextRow     How many columns the next row should have
-                 * @param {Object} currentHTMLBlock      The collected text so far
+                 * @param {Number} columnsForNextRow     How many columns the next row should have
+                 * @param {jQuery} $currentHTMLBlock     The collected text so far
                  */
-                var addRowToPage = function(currentRow, currentPage, columnsForNextRow, currentHTMLBlock) {
-                    if (currentHTMLBlock && sakai_util.determineEmptyContent(currentHTMLBlock.html())) {
+                var addRowToPage = function(currentRow, currentPage, columnsForNextRow, $currentHTMLBlock) {
+                    if ($currentHTMLBlock && sakai_util.determineEmptyContent($currentHTMLBlock.html())) {
                         currentPage = generateNewCell(false, 'htmlblock', currentPage, currentRow, false, {
                             'htmlblock': {
-                                'content': currentHTMLBlock.html()
+                                'content': $currentHTMLBlock.html()
                             }
                         });
                     }
-                    currentHTMLBlock = $('<div />');
+                    $currentHTMLBlock = $('<div />');
                     var rowHasContent = false;
                     for (var c = 0; c < currentRow.columns.length; c++) {
                         if (currentRow.columns[c].elements.length) {
@@ -1797,7 +1759,7 @@ define(
 
                 /**
                  * Generate a new empty row to addd to the page
-                 * @param {Integer} columnCount    Number of columns in this row
+                 * @param {Number} columnCount    Number of columns in this row
                  */
                 var generateEmptyRow = function(columnCount) {
                     var row = {
@@ -1818,7 +1780,7 @@ define(
                  * @param {String} id            Widget id
                  * @param {String} type          Widget type
                  * @param {Object} currentPage   Object representing the migrated Sakai Doc page so far
-                 * @param {Integer} column       The index of the column in which to insert the widget
+                 * @param {Number} column       The index of the column in which to insert the widget
                  * @param {Object} data          The widget's data
                  */
                 var generateNewCell= function(id, type, currentPage, currentRow, column, data) {
@@ -1908,10 +1870,10 @@ define(
                                         var columns = 1;
                                         // If there are any left floating widgets, we'll need a left column
                                         var left = $('.widget_inline.block_image_left', $topLevelElement).length ? 1 : 0;
-                                        columns += left ? 1 : 0;
+                                        columns += left;
                                         // If there are any right floating widgets, we'll need a right column
                                         var right = $('.widget_inline.block_image_right', $topLevelElement).length ? 1 : 0;
-                                        columns += right ? 1 : 0;
+                                        columns += right;
 
                                         // Create a new row with multiple columns
                                         if (columns > 1) {
@@ -1929,7 +1891,7 @@ define(
                                             // If the widget was floating left, add it to the left column
                                             if ($widgetElement.hasClass('block_image_left')) {
                                                 currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, 0, originalstructure[widgetId]);
-                                            // If the widget was floating left, add it to the right column
+                                            // If the widget was floating right, add it to the right column
                                             } else if ($widgetElement.hasClass('block_image_right')) {
                                                 currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, (left ? 2 : 1), originalstructure[widgetId]);
                                             // If the widget was not floating at all, add it to the central (text) column

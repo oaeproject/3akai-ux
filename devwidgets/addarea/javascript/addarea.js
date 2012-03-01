@@ -360,7 +360,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                         });
                     });
                     var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($autoSuggestElt, true);
-                    sakai.api.Util.tagEntity( '/p/' + poolId, tags, [], function() {
+                    sakai.api.Util.tagEntity('/p/' + poolId, tags, [], function() {
                         sakai.api.Server.saveJSON('/p/' + poolId, toCreate, function(success2, data2) {
                             sakai.api.Server.batch(batchRequests, function(success3, data3) {
                                 if (success3) {

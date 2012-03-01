@@ -275,7 +275,7 @@ define(
             }
             for (var ii in uniqueUserArray) {
                 if (uniqueUserArray.hasOwnProperty(ii)) {
-                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", uniqueUserArray.length, uniqueUserArray[ii], {
+                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers?_=" + Math.random(), uniqueUserArray.length, uniqueUserArray[ii], {
                         "url": "/~" + uniqueUserArray[ii] + "/public/authprofile.profile.json",
                         "method": "GET"
                     }, bundleReqFunction);
@@ -516,7 +516,7 @@ define(
                 nameToReturn += profile.basic.elements[configFirstName].value;
             }
 
-            return sakai_util.Security.saneHTML($.trim(nameToReturn));
+            return sakai_util.Security.safeOutput($.trim(nameToReturn));
         },
 
         /**
