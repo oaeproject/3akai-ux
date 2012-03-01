@@ -1067,7 +1067,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Determines if a page is empty by checking its content
          * Shows a default image when no content is present in the page
          * Empty content = empty rows and rows with empty html blocks
-         * @param currentPageShown {Object} Object containing data for the current page
+         * @param {Object} currentPageShown Object containing data for the current page
          */
         var determineEmptyPage = function(currentPageShown) {
             // emptyPageElements checks for empty rows
@@ -1459,7 +1459,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             addNewWidget(null, $el);
         });
 
-        $(window).on('mouseover', checkRemoveHighlight);
+        // Remove stuck hover highlights
+        $rootel.on('mouseout', checkRemoveHighlight);
 
         // Edit a widget
         $rootel.on('click', '.contentauthoring_cell_element_action_e', editWidgetMode);

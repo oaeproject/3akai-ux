@@ -105,8 +105,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /**
          * Parse cells in a column in a row on a page
-         * @param cellIndex {Object} Index of the cell
-         * @param cell {Object} data for a cell in a column
+         * @param {Object} cellIndex Index of the cell
+         * @param {Object} cell data for a cell in a column
          */
         var parseCells = function(cellIndex, cell) {
             if ($.isPlainObject(cell)) {
@@ -143,8 +143,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /**
          * Parse columns in a row on a page
-         * @param columnIndex {Object} Index of the column
-         * @param column {Object} data for a column
+         * @param {Object} columnIndex Index of the column
+         * @param {Object} column data for a column
          */
         var parseColumns = function(columnIndex, column) {
             if ($.isPlainObject(column)) {
@@ -154,8 +154,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /**
          * Parse rows on a page
-         * @param rowIndex {Object} Index of the row
-         * @param row {Object} data for a row
+         * @param {Object} rowIndex Index of the row
+         * @param {Object} row data for a row
          */
         var parseRows = function(rowIndex, row) {
             if ($.isPlainObject(row)) {
