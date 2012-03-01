@@ -301,7 +301,7 @@ define(
                 };
 
                 var batchRequest = [loadDefaultBundleRequest];
-                if (loadLocalBundleRequest){
+                if (loadLocalBundleRequest) {
                     batchRequest.push(loadLocalBundleRequest);
                 }
                 sakai_serv.batch(batchRequest, bundleReqFunction);     
