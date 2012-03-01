@@ -4,7 +4,6 @@
     "enabled":            true,
     "hasSettings":        false,
     "url":                "/devwidgets/contentauthoring/contentauthoring.html",
-    "img":                "/devwidgets/contentauthoring/images/contentauthoring.png",
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/contentauthoring/bundles/default.properties",

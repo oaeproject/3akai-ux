@@ -265,7 +265,8 @@ define(
                 if (uniqueUserArray.hasOwnProperty(ii)) {
                     batchRequests.push({
                         "url": "/~" + uniqueUserArray[ii] + "/public/authprofile.profile.json",
-                        "method": "GET"
+                        "method": "GET",
+                        "dataType": "json"
                     });
                 }
             }

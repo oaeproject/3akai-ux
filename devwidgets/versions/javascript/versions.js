@@ -147,7 +147,7 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
                             "elements": []
                         }]
                     }]
-                }
+                };
             } else if (_.isString(version.version)) {
                 version.version = $.parseJSON(version.version);
             }

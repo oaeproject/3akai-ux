@@ -228,17 +228,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else {
                 userid = entityID;
             }
-            privurl = "/~" + sakai.api.Util.safeURL(userid) + "/private/privspace";
-            puburl = "/~" + sakai.api.Util.safeURL(userid) + "/public/pubspace";
+            privurl = '/~' + sakai.api.Util.safeURL(userid) + '/private/privspace';
+            puburl = '/~' + sakai.api.Util.safeURL(userid) + '/public/pubspace';
             if (isMe) {
-                sakai.api.Communication.getUnreadMessagesCountOverview("inbox", function(success, counts) {
+                sakai.api.Communication.getUnreadMessagesCountOverview('inbox', function(success, counts) {
                     messageCounts = counts;
                     continueLoadSpaceData(userid);
                 });
             } else {
                 continueLoadSpaceData(userid);
             }
-
         };
 
         var addCounts = function() {
@@ -378,23 +377,23 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var isContactPending = false;
             for (var i = 0; i < contacts.length; i++) {
                 if (contacts[i].profile.userid === entityID) {
-                    if (contacts[i].details["sakai:state"] === "ACCEPTED") {
+                    if (contacts[i].details['sakai:state'] === 'ACCEPTED') {
                         isContact = true;
-                    } else if (contacts[i].details["sakai:state"] === "INVITED") {
+                    } else if (contacts[i].details['sakai:state'] === 'INVITED') {
                         isContactInvited = true;
-                    } else if (contacts[i].details["sakai:state"] === "PENDING") {
+                    } else if (contacts[i].details['sakai:state'] === 'PENDING') {
                         isContactPending = true;
                     }
                 }
             }
             if (isContact) {
-                contextType = "contact";
+                contextType = 'contact';
             } else if (isContactInvited) {
-                contextType = "contact_invited";
+                contextType = 'contact_invited';
             } else if (isContactPending) {
-                contextType = "contact_pending";
+                contextType = 'contact_pending';
             } else {
-                contextType = "user_other";
+                contextType = 'user_other';
             }
             renderEntity();
             loadSpaceData();

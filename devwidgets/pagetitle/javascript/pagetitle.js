@@ -81,7 +81,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if ($rootel.is(':visible')) {
                 autoSave();
                 lastData = $textarea.val();
-                $('#pagetitle_view_container', $rootel).text(lastData);
+                $('#pagetitle_view_container', $rootel).html(sakai.api.Util.Security.saneHTML(lastData.replace(/\n/g, '<br/>')));
             }
         };
 
@@ -157,7 +157,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Fill up the textarea
             if (widgetData && widgetData.pagetitle) {
                 var processedContent = sakai.api.i18n.General.process(widgetData.pagetitle.content);
-                $('#pagetitle_view_container', $rootel).text(processedContent);
+                $('#pagetitle_view_container', $rootel).html(sakai.api.Util.Security.saneHTML(processedContent.replace(/\n/g, '<br/>')));
                 $textarea.val(widgetData.pagetitle.content);
             }
             // Set the height of the textarea to be the same as the height of the view mode,

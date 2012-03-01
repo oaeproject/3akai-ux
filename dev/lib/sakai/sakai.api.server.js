@@ -144,52 +144,6 @@ define(
         },
 
         /**
-         * Performs a batch request for a number of specified requests.
-         *
-         * @param {String} bundleId Identifier for the bundle of requests so we can keep the requests grouped separatly
-         * @param {Integer} numRequests The number of requests for the group, so we know when to fire off the batch request
-         * @param {String} requestId Identifier for the request so we can map it
-         * @param {Object} request Request object for the batch request. If this is false the request is not added to the queue.
-         * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
-         */
-        bundleRequests : function(bundleId, numRequests, requestId, request, callback){
-            if (!sakaiServerAPI.initialRequests) {
-                sakaiServerAPI.initialRequests = sakaiServerAPI.initialRequests || {};
-            }
-            if (!sakaiServerAPI.initialRequests[bundleId]){
-                sakaiServerAPI.initialRequests[bundleId] = {};
-                sakaiServerAPI.initialRequests[bundleId].count = 0;
-                sakaiServerAPI.initialRequests[bundleId].requests = [];
-                sakaiServerAPI.initialRequests[bundleId].requestId = [];
-            }
-            if (request) {
-                sakaiServerAPI.initialRequests[bundleId].requests.push(request);
-                sakaiServerAPI.initialRequests[bundleId].requestId.push(requestId);
-            }
-            if ($.isFunction(callback)) {
-                // store the callback function for the request bundle
-                sakaiServerAPI.initialRequests[bundleId].callback = callback;
-            }
-            sakaiServerAPI.initialRequests[bundleId].count++;
-            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count &&
-                    $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
-                sakaiServerAPI.batch(sakaiServerAPI.initialRequests[bundleId].requests, function(success, data) {
-                    if (success) {
-                        var jsonData = {
-                            "groupId": bundleId,
-                            "responseId": sakaiServerAPI.initialRequests[bundleId].requestId,
-                            "responseData": data.results
-                        };
-                        sakaiServerAPI.initialRequests[bundleId].callback(true, jsonData);
-                    } else {
-                        sakaiServerAPI.initialRequests[bundleId].callback(false);
-                    }
-                    delete sakaiServerAPI.initialRequests[bundleId];
-                });
-            }
-        },
-
-        /**
          * Saves a specified JSON object to a specified URL in JCR. The structure of JSON data will be re-created in JCR as a node hierarchy.
          *
          * @param {String} i_url The path to the preference where it needs to be
@@ -298,7 +252,9 @@ define(
                 // check for additional arrays
                 } else if ($.isPlainObject(obj)) {
                     for (var k in obj) {
-                        obj[k] = convertArrayToObject(obj[k]);
+                        if (obj.hasOwnProperty(k)){
+                            obj[k] = convertArrayToObject(obj[k]);
+                        }
                     }
                 }
 
@@ -393,12 +349,12 @@ define(
             return newobj;
         },
 
-		/**
-		 * Take a Sakai Doc object retrieved from the server and clean it so it only has
-		 * the real data. This function will filter out properties that have been added
-		 * on the server side during saving
-		 * @param {Object} the object to clean
-		 */
+        /**
+         * Take a Sakai Doc object retrieved from the server and clean it so it only has
+         * the real data. This function will filter out properties that have been added
+         * on the server side during saving
+         * @param {Object} the object to clean
+         */
         cleanUpSakaiDocObject: function(pagestructure) {
             // Convert the special objects to arrays
             var data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);

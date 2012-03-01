@@ -240,14 +240,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Every time the contentauthoring widget thinks a resize might be
          * necessary, this event will be thrown
          */
-        $(window).bind('resize.contentauthoring.sakai', updateHeight);
+        $(window).on('resize.contentauthoring.sakai', updateHeight);
 
         /**
          * This event will be sent out by the contentauthoring widget when
          * the user is trying to save the page. At this point, the htmlblock
          * widget needs to store its changes as well
          */
-        $(window).bind('save.contentauthoring.sakai', fullSave);
+        $(window).on('save.contentauthoring.sakai', fullSave);
 
         ////////////////////
         // Initialization //
