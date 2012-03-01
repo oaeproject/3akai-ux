@@ -1813,13 +1813,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @param {String} text A string of text to test
          * @return {Boolean} returns true if the string of text is a url
          */
-        var isUrl = function(text) {
-            if(text.indexOf("\n") < 0) {
-            	var regEx = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&/\/=]*)?/gi;
-            	return regEx.test(text);
-        	}
-        	return false;
-        };
+         var isUrl = function(text) {
+             if (text.indexOf("\n") < 0) {
+                 // Contributed by Scott Gonzalez: http://projects.scottsplayground.com/iri/
+             	var regEx = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:|@)|\/|\?)*)?$/i;
+             	return regEx.test(text);
+         	}
+         	return false;
+         };
 
         /**
         * @param {object} ev    Drop event
@@ -1831,7 +1832,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             var dt = ev.originalEvent.dataTransfer;
             var validURL = false;
             var text = dt.getData('Text');
-            if(text && isUrl(text)){
+            if (text && isUrl(text)) {
                 validURL = text.indexOf(sakai.config.SakaiDomain.substring(7, sakai.config.SakaiDomain.length)) < 0 ||
                            text.indexOf(sakai.config.SakaiDomain) < 0;
             }
