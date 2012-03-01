@@ -81,6 +81,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             return widgetIDs;
         };
 
+        /**
+         * Generate a drag helper that will be used to drag around when dragging a row or
+         * a widget (instead of the actual element). Using a drag helper prevents 
+         */
         var generateDragHelper = function(ev, ui) {
             var $el = $('<div/>');
             $el.css('width', ui.width() + 'px');
