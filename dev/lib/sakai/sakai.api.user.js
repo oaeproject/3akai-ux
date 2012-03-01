@@ -270,12 +270,14 @@ define(
                 }
             }
 
-            sakai_serv.batch(batchRequests, function(success, reqData){
+            sakai_serv.batch(batchRequests, function(success, reqData) {
                 var users = {};
                 if (success) {
-                    $.each(reqData.results, function(index, val){
+                    $.each(reqData.results, function(index, val) {
                         var data = $.parseJSON(val.body);
-                        users[data.userid] = data;
+                        if (data.userid) {
+                            users[data.userid] = data;
+                        }
                     });
                 }
                 callback(users);
