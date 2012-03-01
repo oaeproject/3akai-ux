@@ -519,7 +519,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#collectionviewer_sortby", $rootel).change(function(){
                 var sortSelection = $(this).val();
-                var state = {};
+                var state = {
+                    item: ''
+                };
                 if (sortSelection === "desc") {
                     collectionviewer.sortOrder = "desc";
                     state[collectionviewer.tuidso] = 'desc';
