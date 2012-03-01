@@ -1558,12 +1558,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         });
 
         // Decide whether the thing dragged in is welcome.
-        $rootel.on('dragover', '.contentauthoring_cell_element, .contentauthoring_cell_content, .contentauthoring_row_reorder_highlight', function(ev) {
-            $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
-            if ($(this).hasClass('contentauthoring_cell_element')) {
-                $(this).after($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
-            } else {
-                $(this).append($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
+        $rootel.on('dragover', '.contentauthoring_cell_element, .contentauthoring_cell_content, .contentauthoring_row_reorder_highlight, .contentauthoring_row_reorder_highlight', function(ev) {
+            if (!$(this).hasClass('contentauthoring_row_reorder_highlight')) {
+                $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
+                if ($(this).hasClass('contentauthoring_cell_element')) {
+                    $(this).after($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
+                } else {
+                    $(this).append($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
+                }
             }
             return false;
         });
