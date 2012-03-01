@@ -15,18 +15,59 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 /* Listpeople widget headings */
-.content_profile_list_header{border-bottom:1px solid #ebebeb;color:#5a6a7c;font-size:16px;font-weight:normal;margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0;padding-top:0;padding-right:0;padding-bottom:5px;padding-left:5px;}
+.content_profile_list_header {
+    border-bottom: 1px solid #ebebeb;
+    color: #5a6a7c;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 20px 0px;
+    padding: 0px 0px 5px 5px;
+}
 
 /* Listpeople widget save or cancel buttons */
-.content_profile_list_buttons{padding:20px 0;}
-.content_profile_left_column{margin-left:10px;margin-bottom:15px;}
+.content_profile_list_buttons {
+    padding: 20px 0;
+}
 
 /* Sakai docs */
-#content_profile_sakaidoc_container{min-height: 300px; padding-bottom: 20px; border-bottom: 5px solid #E2E2E2; margin-bottom: 20px;}
-#content_profile_sakaidoc_container.collections {min-height:195px;padding-bottom:0;}
+#content_profile_sakaidoc_container {
+    min-height: 300px;
+    padding-bottom: 20px;
+    border-bottom: 5px solid #E2E2E2;
+    margin-bottom: 20px;
+}
+#content_profile_sakaidoc_container.collections {
+    min-height: 195px;
+    padding-bottom: 0;
+}
 
 /* Go back to collection button */
-#back_to_collection_container {overflow:hidden;border-bottom:1px solid #c6c6c6;height:35px;background:url("/dev/images/back_to_collection_bg.png") repeat-x scroll left bottom #f8f8f9;}
-#back_to_collection_container #back_to_collection_button {display:inline-block;line-height:25px;margin-left:15px;margin-top:10px;border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;-webkit-border-radius:5px 5px 0 0;}
-#back_to_collection_container #collection_title{margin-right:15px;color:#2683BC;}
+#back_to_collection_container {
+    overflow: hidden;
+    border-bottom: 1px solid #c6c6c6;
+    height: 35px;
+    background: url("/dev/images/back_to_collection_bg.png") repeat-x scroll left bottom #f8f8f9;
+}
+#back_to_collection_container #back_to_collection_button {
+    display: inline-block;
+    line-height: 25px;
+    margin-left: 15px;
+    margin-top: 10px;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+}
+#back_to_collection_container #collection_title {
+    margin-right: 15px;
+    color: #2683BC;
+}
+
+/* Container for metadata, comments and related */
+#content_profile_bottom_container {
+    border-top: 5px solid #E2E2E2;
+    padding-top: 15px;
+    margin-right: 20px;
+    margin-left: 20px;
+}

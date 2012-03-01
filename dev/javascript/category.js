@@ -102,17 +102,36 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var fpRnd = sakai.api.Util.generateWidgetId();
             var fwRnd = sakai.api.Util.generateWidgetId();
             privdata[rnd] = {
-                page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
+                'rows': [{
+                    'id': sakai.api.Util.generateWidgetId(),
+                    'columns': [{
+                        'width': 1,
+                        'elements': [
+                            {
+                                'id': fcRnd,
+                                'type': 'featuredcontent'
+                            },
+                            {
+                                'id': fpRnd,
+                                'type': 'featuredpeople'
+                            },
+                            {
+                                'id': fwRnd,
+                                'type': 'featuredworlds'
+                            }
+                        ]
+                    }]
+                }]
             };
-            privdata[fcRnd] = {
+            privdata[rnd][fcRnd] = {
                 category: navData.id,
                 title: navData.title
             };
-            privdata[fpRnd] = {
+            privdata[rnd][fpRnd] = {
                 category: navData.id,
                 title: navData.title
             };
-            privdata[fwRnd] = {
+            privdata[rnd][fwRnd] = {
                 category: navData.id,
                 title: navData.title
             };
@@ -136,17 +155,36 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var fpRnd = sakai.api.Util.generateWidgetId();
                 var fwRnd = sakai.api.Util.generateWidgetId();
                 pubdata[rnd] = {
-                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
+                    'rows': [{
+                        'id': sakai.api.Util.generateWidgetId(),
+                        'columns': [{
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': fcRnd,
+                                    'type': 'featuredcontent'
+                                },
+                                {
+                                    'id': fpRnd,
+                                    'type': 'featuredpeople'
+                                },
+                                {
+                                    'id': fwRnd,
+                                    'type': 'featuredworlds'
+                                }
+                            ]
+                        }]
+                    }]
                 };
-                pubdata[fcRnd] = {
+                pubdata[rnd][fcRnd] = {
                     category: navData.id + "-" + index,
                     title: navData.title + " » " + item.title
                 };
-                pubdata[fpRnd] = {
+                pubdata[rnd][fpRnd] = {
                     category: navData.id + "-" + index,
                     title: navData.title + " » " + item.title
                 };
-                pubdata[fwRnd] = {
+                pubdata[rnd][fwRnd] = {
                     category: navData.id + "-" + index,
                     title: navData.title + " » " + item.title
                 };
