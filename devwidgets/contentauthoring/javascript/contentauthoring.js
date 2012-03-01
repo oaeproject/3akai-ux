@@ -1485,7 +1485,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // Hitting enter after tabbing to the inserterbar
         $rootel.on('keyup', '.inserterbar_widget_draggable', function(ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
-                addNewWidgetPlaceholder(ev, $(this).attr('data-element-type'));
+                addNewWidgetPlaceholder($(this).attr('data-element-type'));
             }
         });
 
