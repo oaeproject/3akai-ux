@@ -89,11 +89,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var toggleInserter = function() {
             $inserterWidget.fadeToggle(250);
-            if ($(topnavToggle).hasClass('inserter_toggle_active')){
-                $(topnavToggle).removeClass('inserter_toggle_active');
-            } else {
-                $(topnavToggle).addClass('inserter_toggle_active');
-            }
+            $(topnavToggle).toggleClass('inserter_toggle_active');
             if (!hasInitialised) {
                 doInit();
                 hasInitialised = true;

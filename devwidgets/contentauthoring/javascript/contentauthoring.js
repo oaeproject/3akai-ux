@@ -202,6 +202,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             // Create an empty row
             var newRow = {
                 'id': sakai.api.Util.generateWidgetId(),
+                'template': 'row',
+                'sakai': sakai,
                 'columns': [
                     {
                         'width': 1,
@@ -252,9 +254,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 var show = ($('.contentauthoring_row', $('#' + currentPageShown.ref)).length > 1);
                 $('#contentauthoring_row_menu_remove', $rootel).parent('li').toggle(show);
                 $(this).parents('.contentauthoring_row_handle_container').addClass('selected');
-                $('#contentauthoring_row_menu', $rootel).css('left', $(this).parent().position().left + 'px');
-                $('#contentauthoring_row_menu', $rootel).css('top', ($(this).parent().position().top + 7) + 'px');
-                $('#contentauthoring_row_menu', $rootel).show();
+                $('#contentauthoring_row_menu', $rootel).css('left', $(this).parent().position().left + 'px')
+                                                        .css('top', ($(this).parent().position().top + 7) + 'px')
+                                                        .show();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents('.contentauthoring_row_container'));
             }
@@ -695,8 +697,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * hovering out of the widget
          */
         var showEditCellMenu = function() {
-            $('.contentauthoring_cell_element', $rootel).off('hover');
-            $('.contentauthoring_cell_element', $rootel).hover(function() {
+            $('.contentauthoring_cell_element', $rootel).off('hover').hover(function() {
                 // Only show the hover state when we are in edit mode and we are not dragging an element
                 if (isInEditMode() && !isDragging) {
                     $('.contentauthoring_cell_element_actions', $(this)).css('left', $(this).position().left + 'px');
@@ -1339,12 +1340,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var showRestoreAutoSaveDialog = function(pageData, autoSaveData) {
             sakai.api.Util.bindDialogFocus($('#autosave_dialog'));
             $('#autosave_dialog').jqmShow();
-            $('#autosave_keep').off('click');
-            $('#autosave_keep').on('click', function() {
+            $('#autosave_keep').off('click').on('click', function() {
                 cancelRestoreAutoSave(pageData);
             });
-            $('#autosave_revert').off('click');
-            $('#autosave_revert').on('click', function() {
+            $('#autosave_revert').off('click').on('click', function() {
                 restoreAutoSave(autoSaveData);
             });
         };
