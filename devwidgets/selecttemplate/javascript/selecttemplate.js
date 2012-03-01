@@ -96,7 +96,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "id": id
             };
             $("#selecttemplate_createworld_container", $rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_createworld_template", {"tuid" : tuid}));
-            sakai.api.Widgets.widgetLoader.insertWidgets("selecttemplate_createworld_" + tuid, false, false,[toPassOn]);
+            sakai.api.Widgets.widgetLoader.insertWidgets("selecttemplate_createworld_" + tuid, false, false, toPassOn);
             $("#selecttemplate_createworld_container", $rootel).show();
         };
 
