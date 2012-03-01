@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
+require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function($, _, sakai) {
 
     /**
      * @name sakai_global.lhnavigation
@@ -607,6 +607,38 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // Adding a new page or subpage //
         //////////////////////////////////
 
+        /**
+         * Update the docstructure in memory
+         *
+         * @param {String} contentUrl The URL for the piece of content
+         * @param {Function} callback The callback function upon completion
+         */
+        var updateDocStructure = function(contentUrl, callback) {
+            // grab new structure0 in case it has been modified
+            // add the new page to it
+            // save structure0
+            $.ajax({
+                url: contentUrl + '.infinity.json',
+                cache: false,
+                success: function(data) {
+                    if (data && _.isString(data.structure0)) {
+                        data.structure0 = $.parseJSON(data.structure0);
+                    }
+                    sakaiDocsInStructure[contentUrl] = data;
+                    sakaiDocsInStructure[contentUrl].orderedItems =
+                        orderItems(sakaiDocsInStructure[contentUrl].structure0);
+                    if ($.isFunction(callback)) {
+                        callback(true);
+                    }
+                },
+                error: function() {
+                    if ($.isFunction(callback)) {
+                        callback(false);
+                    }
+                }
+            });
+        };
+
         var addNewPage = function() {
             if (contextData.addArea) {
                 addSubPage();
@@ -616,129 +648,139 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         var addTopPage = function() {
-            var newpageid = sakai.api.Util.generateWidgetId();
-            var neworder = pubstructure.orderedItems.length;
-
-            var pageContent = {
-                'rows': [{
-                    'id': 'id' + Math.round(Math.random() * 100000000),
-                    'columns': [{
-                        'width': 1,
-                        'elements': []
-                    }]
-                }]
-            };
-            var pageToCreate = {
-                '_ref': newpageid,
-                '_title': 'Untitled Page',
-                '_order': neworder,
-                '_canSubedit': true,
-                '_canEdit': true,
-                '_poolpath': currentPageShown.savePath,
-                'main': {
-                    '_ref': newpageid,
-                    '_order': 0,
-                    '_title': 'Untitled Page',
-                    '_childCount': 0,
-                    '_canSubedit': true,
-                    '_canEdit': true,
-                    '_poolpath': currentPageShown.savePath
-                },
-                '_childCount':1
-            };
-
-            pubstructure.pages[newpageid] = pageContent;
-            sakaiDocsInStructure[contextData.puburl][newpageid] = pageContent;
-
-            pubstructure.items[newpageid] = pageToCreate;
-            pubstructure.items._childCount++;
-            sakaiDocsInStructure[currentPageShown.savePath].structure0[newpageid] = pageToCreate;
-            sakaiDocsInStructure[currentPageShown.savePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.savePath].structure0);
-
-            renderData();
-            addParametersToNavigation();
-            $(window).trigger('sakai.contentauthoring.needsTwoColumns');
-            sakai.api.Server.saveJSON(currentPageShown.savePath + '/' + newpageid + '/', pageContent, function() {
-                $.bbq.pushState({
-                    'l': newpageid,
-                    'newPageMode': 'true'
-                }, 0);
-                enableSorting();
-            }, true);
+            updateDocStructure(contextData.puburl, function(success) {
+                if (success) {
+                    var newpageid = sakai.api.Util.generateWidgetId();
+                    var neworder = pubstructure.orderedItems.length;
+        
+                    var pageContent = {
+                        'rows': [{
+                            'id': 'id' + Math.round(Math.random() * 100000000),
+                            'columns': [{
+                                'width': 1,
+                                'elements': []
+                            }]
+                        }]
+                    };
+                    var pageToCreate = {
+                        '_ref': newpageid,
+                        '_title': 'Untitled Page',
+                        '_order': neworder,
+                        '_canSubedit': true,
+                        '_canEdit': true,
+                        '_poolpath': currentPageShown.savePath,
+                        'main': {
+                            '_ref': newpageid,
+                            '_order': 0,
+                            '_title': 'Untitled Page',
+                            '_childCount': 0,
+                            '_canSubedit': true,
+                            '_canEdit': true,
+                            '_poolpath': currentPageShown.savePath
+                        },
+                        '_childCount':1
+                    };
+        
+                    pubstructure.pages[newpageid] = pageContent;
+                    sakaiDocsInStructure[contextData.puburl][newpageid] = pageContent;
+        
+                    pubstructure.items[newpageid] = pageToCreate;
+                    pubstructure.items._childCount++;
+                    sakaiDocsInStructure[currentPageShown.savePath].structure0[newpageid] = pageToCreate;
+                    sakaiDocsInStructure[currentPageShown.savePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.savePath].structure0);
+        
+                    renderData();
+                    addParametersToNavigation();
+                    $(window).trigger('sakai.contentauthoring.needsTwoColumns');
+                    sakai.api.Server.saveJSON(currentPageShown.savePath + '/' + newpageid + '/', pageContent, function() {
+                        $.bbq.pushState({
+                            'l': newpageid,
+                            'newPageMode': 'true'
+                        }, 0);
+                        enableSorting();
+                    }, true);
+                }
+            });
         };
 
         var addSubPage = function() {
-            var newpageid = sakai.api.Util.generateWidgetId();
-            var neworder = sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems.length;
+            // grab new structure0 in case it has been modified
+            // add the new page to it
+            // save structure0
+            updateDocStructure(currentPageShown.pageSavePath, function(success) {
+                if (success) {
+                    var newpageid = sakai.api.Util.generateWidgetId();
+                    var neworder = sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems.length;
+        
+                    var fullRef = currentPageShown.pageSavePath.split('/p/')[1] + '-' + newpageid;
+                    var basePath = currentPageShown.path.split('/')[0];
+        
+                    var pageContent = {
+                        'rows': [{
+                            'id': sakai.api.Util.generateWidgetId(),
+                            'columns': [{
+                                'width': 1,
+                                'elements': []
+                            }]
+                        }]
+                    };
+                    var pageToCreate = {
+                        '_ref': fullRef,
+                        '_title': 'Untitled Page',
+                        '_order': neworder,
+                        '_canSubedit': true,
+                        '_canEdit': true,
+                        '_poolpath': currentPageShown.pageSavePath,
+                        'main': {
+                            '_ref': fullRef,
+                            '_order': 0,
+                            '_title': 'Untitled Page',
+                            '_childCount': 0,
+                            '_canSubedit': true,
+                            '_canEdit': true,
+                            '_poolpath': currentPageShown.pageSavePath
+                        },
+                        '_childCount':1
+                    };
+                    var pageToCreate1 = {
+                        '_ref': newpageid,
+                        '_title': 'Untitled Page',
+                        '_order': neworder,
+                        '_canSubedit': true,
+                        '_canEdit': true,
+                        '_poolpath': currentPageShown.pageSavePath,
+                        'main': {
+                            '_ref': newpageid,
+                            '_order': 0,
+                            '_title': 'Untitled Page',
+                            '_childCount': 0,
+                            '_canSubedit': true,
+                            '_canEdit': true,
+                            '_poolpath': currentPageShown.pageSavePath
+                        },
+                        '_childCount':1
+                    };
+        
+                    pubstructure.pages[fullRef] = pageContent;
+                    sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = pageContent;
+        
+                    pubstructure.items[basePath][newpageid] = pageToCreate;
+                    pubstructure.items[basePath]._childCount++;
+        
+                    sakaiDocsInStructure[currentPageShown.pageSavePath].structure0[newpageid] = pageToCreate1;
+                    sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.pageSavePath].structure0);
 
-            var fullRef = currentPageShown.pageSavePath.split('/p/')[1] + '-' + newpageid;
-            var basePath = currentPageShown.path.split('/')[0];
-
-            var pageContent = {
-                'rows': [{
-                    'id': 'id' + Math.round(Math.random() * 100000000),
-                    'columns': [{
-                        'width': 1,
-                        'elements': []
-                    }]
-                }]
-            };
-            var pageToCreate = {
-                '_ref': fullRef,
-                '_title': 'Untitled Page',
-                '_order': neworder,
-                '_canSubedit': true,
-                '_canEdit': true,
-                '_poolpath': currentPageShown.pageSavePath,
-                'main': {
-                    '_ref': fullRef,
-                    '_order': 0,
-                    '_title': 'Untitled Page',
-                    '_childCount': 0,
-                    '_canSubedit': true,
-                    '_canEdit': true,
-                    '_poolpath': currentPageShown.pageSavePath
-                },
-                '_childCount':1
-            };
-            var pageToCreate1 = {
-                '_ref': newpageid,
-                '_title': 'Untitled Page',
-                '_order': neworder,
-                '_canSubedit': true,
-                '_canEdit': true,
-                '_poolpath': currentPageShown.pageSavePath,
-                'main': {
-                    '_ref': newpageid,
-                    '_order': 0,
-                    '_title': 'Untitled Page',
-                    '_childCount': 0,
-                    '_canSubedit': true,
-                    '_canEdit': true,
-                    '_poolpath': currentPageShown.pageSavePath
-                },
-                '_childCount':1
-            };
-
-            pubstructure.pages[fullRef] = pageContent;
-            sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = pageContent;
-
-            pubstructure.items[basePath][newpageid] = pageToCreate;
-            pubstructure.items[basePath]._childCount++;
-
-            sakaiDocsInStructure[currentPageShown.pageSavePath].structure0[newpageid] = pageToCreate1;
-            sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.pageSavePath].structure0);
-
-            renderData();
-            addParametersToNavigation();
-            $(window).trigger('sakai.contentauthoring.needsTwoColumns');
-            sakai.api.Server.saveJSON(currentPageShown.pageSavePath + '/' + newpageid + '/', pageContent, function() {
-                $.bbq.pushState({
-                    'l': currentPageShown.path.split('/')[0] + '/' + newpageid,
-                    'newPageMode': 'true'
-                }, 0);
-                enableSorting();
-            }, true);
+                    renderData();
+                    addParametersToNavigation();
+                    $(window).trigger('sakai.contentauthoring.needsTwoColumns');
+                    $.bbq.pushState({
+                        'l': currentPageShown.path.split('/')[0] +
+                                '/' + newpageid,
+                        'newPageMode': 'true'
+                    }, 0);
+                    enableSorting();
+                }
+            });
         };
 
         /////////////////////

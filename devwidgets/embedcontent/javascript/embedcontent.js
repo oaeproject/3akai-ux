@@ -129,7 +129,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     wData.items[index].placement = placement;
                     docData[placement] = {
                         data: value.fullresult,
-                        url: window.location.protocol + '//' + window.location.host + "/p/" + value.fullresult['jrc:name']
+                        url: window.location.protocol + '//' + window.location.host + '/p/' + (value.fullresult['jrc:name'] || value.fullresult._path)
                     };
                 }
             });

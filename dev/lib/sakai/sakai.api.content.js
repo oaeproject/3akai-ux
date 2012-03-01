@@ -368,16 +368,16 @@ define(
         *       - Set parent permission parameter on content nodes
         *       - Set ACLs on content node
         *       - Callback if present
-        * @param filesArray     {Array}    Array of files (PoolIDs)
-        * @param parentSavePath {String}   savePath of the parent
-        * @param callback       {Function} Executed on completion of the function
+        * @param {Array} filesArray        Array of files (PoolIDs)
+        * @param {String} parentSavePath   savePath of the parent
+        * @param {Function} callback       Executed on completion of the function
         */
         setFilePermissionsAsParent: function(filesArray, parentSavePath, callback) {
 
             /**
              * Set parent permission parameter on content nodes
-             * @param filesToSetPermissions {Array} Array of files to set ACLs on
-             * @param batchRequests {Array} Array of requests to set permission parameter on content nodes
+             * @param {Array} filesToSetPermissions     Array of files to set ACLs on
+             * @param {Array} batchRequests             Array of requests to set permission parameter on content nodes
              */
             var setDataOnContent = function(filesToSetPermissions, batchRequests) {
                 sakai_serv.batch(batchRequests, function(success) {
@@ -408,8 +408,8 @@ define(
                         var batchRequests = [];
                         $.each(filesArray, function(index, item) {
                             filesToSetPermissions.push({
-                                hashpath: item,
-                                permissions: permissions
+                                'hashpath': item,
+                                'permissions': permissions
                             });
                             batchRequests.push({
                                 'url': '/p/' + item,
@@ -1177,7 +1177,7 @@ define(
                     contentItem.thumbnail = sakai_content.getThumbnail(results[i]);
                     // if the content has an owner we need to add their ID to an array,
                     // so we can lookup the users display name in a batch req
-                    if (contentItem["sakai:pool-content-created-for"]) {
+                    if (contentItem['sakai:pool-content-created-for'] && !results.fetchMultipleUserDataInWidget) {
                         userArray.push(contentItem["sakai:pool-content-created-for"]);
                     }
                     contentItem.hasPreview = sakai_content.hasPreview(contentItem);
@@ -1732,18 +1732,18 @@ define(
                  * Finish a row and add the row to the page
                  * @param {Object} currentRow            Object that represents the current row, and its columns and cells
                  * @param {Object} currentPage           Object representing the migrated Sakai Doc page so far
-                 * @param {Object} columnsForNextRow     How many columns the next row should have
-                 * @param {Object} currentHTMLBlock      The collected text so far
+                 * @param {Number} columnsForNextRow     How many columns the next row should have
+                 * @param {jQuery} $currentHTMLBlock     The collected text so far
                  */
-                var addRowToPage = function(currentRow, currentPage, columnsForNextRow, currentHTMLBlock) {
-                    if (currentHTMLBlock && sakai_util.determineEmptyContent(currentHTMLBlock.html())) {
+                var addRowToPage = function(currentRow, currentPage, columnsForNextRow, $currentHTMLBlock) {
+                    if ($currentHTMLBlock && sakai_util.determineEmptyContent($currentHTMLBlock.html())) {
                         currentPage = generateNewCell(false, 'htmlblock', currentPage, currentRow, false, {
                             'htmlblock': {
-                                'content': currentHTMLBlock.html()
+                                'content': $currentHTMLBlock.html()
                             }
                         });
                     }
-                    currentHTMLBlock = $('<div />');
+                    $currentHTMLBlock = $('<div />');
                     var rowHasContent = false;
                     for (var c = 0; c < currentRow.columns.length; c++) {
                         if (currentRow.columns[c].elements.length) {
@@ -1759,7 +1759,7 @@ define(
 
                 /**
                  * Generate a new empty row to addd to the page
-                 * @param {Integer} columnCount    Number of columns in this row
+                 * @param {Number} columnCount    Number of columns in this row
                  */
                 var generateEmptyRow = function(columnCount) {
                     var row = {
@@ -1780,7 +1780,7 @@ define(
                  * @param {String} id            Widget id
                  * @param {String} type          Widget type
                  * @param {Object} currentPage   Object representing the migrated Sakai Doc page so far
-                 * @param {Integer} column       The index of the column in which to insert the widget
+                 * @param {Number} column       The index of the column in which to insert the widget
                  * @param {Object} data          The widget's data
                  */
                 var generateNewCell= function(id, type, currentPage, currentRow, column, data) {
@@ -1870,10 +1870,10 @@ define(
                                         var columns = 1;
                                         // If there are any left floating widgets, we'll need a left column
                                         var left = $('.widget_inline.block_image_left', $topLevelElement).length ? 1 : 0;
-                                        columns += left ? 1 : 0;
+                                        columns += left;
                                         // If there are any right floating widgets, we'll need a right column
                                         var right = $('.widget_inline.block_image_right', $topLevelElement).length ? 1 : 0;
-                                        columns += right ? 1 : 0;
+                                        columns += right;
 
                                         // Create a new row with multiple columns
                                         if (columns > 1) {
@@ -1891,7 +1891,7 @@ define(
                                             // If the widget was floating left, add it to the left column
                                             if ($widgetElement.hasClass('block_image_left')) {
                                                 currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, 0, originalstructure[widgetId]);
-                                            // If the widget was floating left, add it to the right column
+                                            // If the widget was floating right, add it to the right column
                                             } else if ($widgetElement.hasClass('block_image_right')) {
                                                 currentPage = generateNewCell(widgetId, widgetType, currentPage, currentRow, (left ? 2 : 1), originalstructure[widgetId]);
                                             // If the widget was not floating at all, add it to the central (text) column

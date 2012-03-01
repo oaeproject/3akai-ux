@@ -4,7 +4,9 @@
 <div class="inserter_widget" style="display:none;">
     <div id="inserter_header" class="defines_height">
         <div id="inserter_header_dragbar" class="fl-force-left"></div>
-        <button type="button" id="inserter_close_icon" class="s3d-link-button inserter_toggle" title="__MSG__CLOSE_INSERTER__">&nbsp;</button>
+        <button type="button" id="inserter_close_icon" class="s3d-link-button inserter_toggle" title="__MSG__CLOSE_INSERTER__">
+            <span class="s3d-aural-text">__MSG__CLOSE_INSERTER__</span>&nbsp;
+        </button>
         <hr class="fl-push fl-hidden"/>
         <div id="inserter_header_title_container"><!-- --></div>
         <hr class="fl-push fl-hidden"/>
@@ -35,6 +37,7 @@
             <div class="s3d-search-container">
                 <input type="text" class="s3d-search-inputfield" id="inserter_collection_content_search" title="__MSG__SEARCH_THROUGH_COLLECTION__">
                 <button title="__MSG__SUBMIT_SEARCH__" class="s3d-button s3d-overlay-button s3d-search-button" type="button">
+                    <span class="s3d-aural-text">__MSG__SUBMIT_SEARCH__</span>
                     <span class="s3d-search-button-icon"></span>
                 </button>
             </div>
@@ -61,7 +64,7 @@
 <div id="inserter_init_template" style="display:none;"><!--
     {for collection in collections}
         <li class="s3d-draggable-container s3d-droppable-container" id="${collection._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
-            <img src="${sakai.api.Content.getMimeTypeData('x-sakai/collection').URL}" class="fl-force-left s3d-icon-32"/>
+            <img alt="${sakai.api.Content.getMimeTypeData("x-sakai/collection").description}" src="${sakai.api.Content.getMimeTypeData("x-sakai/collection").URL}" class="fl-force-left s3d-icon-32"/>
             <div class="inserter_item_count_container fl-force-right">${collection.counts.contentCount}</div>
             <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(collection['sakai:pooled-content-file-name'], 220, null, "s3d-bold")}</span>
         </li>
@@ -72,9 +75,9 @@
     {for item in items}
         <li class="s3d-draggable-container s3d-droppable-container" id="${item._path}" data-content-id="${item._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection}">
             {if item.hasPreview}
-                <img src="${sakai.api.Content.getThumbnail(item) || sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
+                <img alt="${sakai.api.Content.getMimeTypeData(item._mimeType).description}" src="${sakai.api.Content.getThumbnail(item) || sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
             {else}
-                <img src="${sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
+                <img alt="${sakai.api.Content.getMimeTypeData(item._mimeType).description}" src="${sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
             {/if}
             <a href="/content#p=${item._path}/${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 83, null, "s3d-bold")}</a>
             <div class="inserter_collection_type s3d-draggable-hidden">${sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(item._mimeType).description)}</div>
