@@ -1018,7 +1018,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                         var element = {
                             type: $element.attr('data-element-type'),
                             id: $element.attr('data-element-id')
-                        };;
+                        };
                         column.elements.push(element);
                         widgetIds.push(element.id);
                     });
@@ -1117,7 +1117,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             }
             $('#contentauthoring_widget_container', $pageRootEl).toggle(!show);
             $('#contentauthoring_no_content_container', $rootel).toggle(show);
-        }
+        };
 
         /////////////////////
         /////////////////////
@@ -1193,7 +1193,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
             if (isStillStoringWidgetData) {
                 setTimeout(function() {
-                    checkPageReadyToSave(rows, widgetIds)
+                    checkPageReadyToSave(rows, widgetIds);
                 }, 100);
             } else {
                 savePageData(rows, widgetIds);

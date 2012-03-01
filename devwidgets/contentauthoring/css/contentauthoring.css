@@ -27,8 +27,8 @@
 .contentauthoring_edit_mode {
     background: url("/devwidgets/contentauthoring/images/grid_bg.png") repeat scroll left top transparent;
     border: 1px solid #e9e9e9;
-    border-left:none;
-    border-top:none;
+    border-left: none;
+    border-top: none;
 }
 
 #contentauthoring_buttons {
@@ -44,7 +44,7 @@
 .contentauthoring_widget .contentauthoring_row {
     border: 3px solid transparent;
     margin-bottom: 5px;
-    display:table;
+    display: table;
     width: 100%;
 }
 
@@ -54,13 +54,13 @@
 
 .contentauthoring_widget .contentauthoring_cell {
     height: 100% !important;
-    display:table-cell;
+    display: table-cell;
     vertical-align: top !important;
     overflow: hidden;
 }
 
 .contentauthoring_widget .contentauthoring_cell_container {
-    display:table;
+    display: table;
     height: 100%;
     width: 100%;
     table-layout: fixed;
@@ -79,7 +79,7 @@
 }
 
 .contentauthoring_widget .contentauthoring_table_row.contentauthoring_cell_container_row .contentauthoring_cell:first-child {
-    padding-left:5px;
+    padding-left: 5px;
 }
 
 .contentauthoring_widget .contentauthoring_cell_element {
@@ -96,7 +96,7 @@
 }
 
 .contentauthoring_edit_mode .contentauthoring_minheight_container {
-    min-height:25px;
+    min-height: 25px;
 }
 
 .contentauthoring_edit_mode * {
@@ -125,10 +125,8 @@
 }
 
 .contentauthoring_edit_mode .contentauthoring_cell_handle {
-    background-image:url('/devwidgets/contentauthoring/images/fullhandle.png');
-    background-repeat:no-repeat;
-    background-position:center;
-    height:25px;
+    background: url('/devwidgets/contentauthoring/images/fullhandle.png') no-repeat center;
+    height: 25px;
 }
 
 .ui-resizable-helper {
@@ -143,7 +141,7 @@
     width: 100%;
     height: 20px;
     border: 1px dotted #ccc;
-    background-color: blue;
+    background-color: #0000ff;
 }
 
 /* Row menu */
@@ -156,11 +154,15 @@
 
 #contentauthoring_row_menu.s3d-dropdown-list .s3d-dropdown-list-arrow-up {
     right: 35px;
-    background-position:left -7px;
+    background-position: left -7px;
     height: 14px;
     margin-top: -13px;
 }
-#contentauthoring_row_menu_three {border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 2px;}
+#contentauthoring_row_menu_three {
+    border-bottom: 1px solid #ccc; 
+    padding-bottom: 5px; 
+    margin-bottom: 2px;
+}
 
 /* Element edit menu */
 .contentauthoring_cell_element_actions {
@@ -171,19 +173,19 @@
 /* Row re-ordering */
 .contentauthoring_row_handle_container,
 .contentauthoring_cell_element_actions {
-    width:55px;
+    width: 55px;
     height: 20px;
     background: url("/devwidgets/contentauthoring/images/row_edit_handle_bg.png") repeat-x top left #333;
     visibility: hidden;
-    display:none;
+    display: none;
     color: #fff;
-    margin-left:5px;
+    margin-left: 5px;
     border-radius: 3px 3px 0 0;
     -moz-border-radius: 3px 3px 0 0;
     -webkit-border-radius: 3px 3px 0 0;
 }
 .contentauthoring_edit_mode .contentauthoring_row_handle_container {
-    display:block !important;
+    display: block !important;
     margin-top: -20px;
     position: absolute;
 }
@@ -194,7 +196,7 @@
 }
 
 .contentauthoring_row_handle_container.selected {
-    visibility:visible !important;
+    visibility: visible !important;
 }
 
 .contentauthoring_cell_element_actions {
@@ -231,7 +233,7 @@
     width: 26px;
     height: 18px;
     display: inline-block;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .contentauthoring_cell_element_actions .contentauthoring_cell_element_action_e {
@@ -272,8 +274,8 @@
 .contentauthoring_edit_mode .contentauthoring_row_reorder_highlight {
     background-color: #e3e5c7;
     list-style-type: none;
-    height:20px;
-    margin-bottom:5px;
+    height: 20px;
+    margin-bottom: 5px;
     cursor: move;
 }
 
@@ -281,12 +283,12 @@
     background-color: #e3e5c7;
     display: block;
     list-style-type: none;
-    height:20px;
+    height: 20px;
     cursor: move;
 }
 
 .contentauthoring_edit_mode #contentauthoring_widget_container > .contentauthoring_row_reorder_highlight {
-    margin-right:-5px;
+    margin-right: -5px;
 }
 
 .contentauthoring_edit_mode .contentauthoring_reorder_placeholder {
@@ -295,10 +297,10 @@
 
 .contentauthoring_edit_mode .contentauthoring_row_reorder_highlight:before, .contentauthoring_cell_reorder_highlight:before {
     content: url("/devwidgets/contentauthoring/images/row_reorder_highlight_arrow.png");
-    height:30px;
-    width:30px;
+    height: 30px;
+    width: 30px;
     margin: -15px 0 0 -14px;
-    position:absolute;
+    position: absolute;
 }
 
 .contentauthoring_edit_mode .s3d-dropdown-list .s3d-dropdown-hassubnav ul {
@@ -325,36 +327,39 @@
 
 /* Elements to add */
 #contentauthoring_buttons_elements {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 #contentauthoring_buttons_elements div {
     margin-right: 10px;
-    background-color:#ccc;
+    background-color: #ccc;
     margin-bottom: 2px;
 }
 
 /* No content */
 .contentauthoring_empty_content.contentauthoring_default_editable_content_imagecontainer {
-    background:url("/dev/images/emptydocument_editor_placeholder.jpg") no-repeat scroll left top transparent;
-    display:block;
-    height:228px;
-    margin:30px auto;
-    width:462px;
+    background: url("/dev/images/emptydocument_editor_placeholder.jpg") no-repeat scroll left top transparent;
+    display: block;
+    height: 228px;
+    margin: 30px auto;
+    width: 462px;
 }
 
 .contentauthoring_empty_content.contentauthoring_default_viewable_content_imagecontainer {
-    background:url("/dev/images/emptydocument_viewer_placeholder.jpg") no-repeat scroll left top transparent !important;
-    height:154px !important;
-    margin:4px auto;
+    background: url("/dev/images/emptydocument_viewer_placeholder.jpg") no-repeat scroll left top transparent !important;
+    height: 154px !important;
+    margin: 4px auto;
     margin-bottom: 90px;
     position: relative;
     top: 70px;
-    width:156px !important;
+    width: 156px !important;
 }
 
 /* Autosave */
 #autosave_dialog {
-    width:450px; 
+    width: 450px; 
     margin-left: -225px;
+}
+#autosave_title {
+    margin-top: 0px;
 }
