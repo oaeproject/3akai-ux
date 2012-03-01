@@ -368,9 +368,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 stop: function(ev, ui) {
                     sakai.api.Util.Draggable.removeIFrameFix();
                     isDragging = false;
-                    recalculateColumnWidths(ui, $(this).parent(), currentSizes);
-                    $(window).trigger('resize.contentauthoring.sakai');
+                    var $row = $(this).parent();
+                    recalculateColumnWidths(ui, $row, $(this), currentSizes);
                     setRowHeight($row);
+                    $(window).trigger('resize.contentauthoring.sakai');
                     storeCurrentPageLayout();
                 }
             });
@@ -383,10 +384,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @param {Object} ui             jQuery ui object
          * @param {jQuery} $row           jQuery element representing the row we're calculating
          *                                widths for
+         * @param {jQuery} $resizedCell   jQuery element representing the column that's being resized
          * @param {Array} currentSizes    The arrray containing the current column widths, used
          *                                to preserve the column width ratios
          */
-        var recalculateColumnWidths = function(ui, $row, currentSizes) {
+        var recalculateColumnWidths = function(ui, $row, $resizedCell, currentSizes) {
             var totalRowWidth = $('#contentauthoring_widget_container', $pageRootEl).width();
             var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
             var oldColumnWidth = ui.originalSize.width / totalRowWidth;
@@ -400,7 +402,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             var numberOfColumns = $cells.length;
             for (var i = 0; i < $cells.length; i++) {
                 var currentColumnWidth = 0;
-                if ($($cells[i]).is($(this))) {
+                if ($($cells[i]).is($resizedCell)) {
                     // New percentage based width
                     if (newColumnWidth < MINIMUM_COLUMN_SIZE) {
                         currentColumnWidth = MINIMUM_COLUMN_SIZE;
@@ -1030,6 +1032,24 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // PAGE SERIALIZING //
         //////////////////////
 
+        var parseColumn = function($elts, column) {
+            var widgetIds = [];
+            // Loop through all of the widgets in the column
+            $.each($elts, function(i, elt) {
+                var $element = $(elt);
+                var element = {
+                    type: $element.attr('data-element-type'),
+                    id: $element.attr('data-element-id')
+                };
+                column.elements.push(element);
+                widgetIds.push(element.id);
+            });
+            return {
+                'widgetIds': widgetIds,
+                'column': column
+            };
+        };
+
         /**
          * Serialize the current page layout (rows, columns, widgets), so it can
          * be stored back
@@ -1047,21 +1067,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 var columnWidths = getColumnWidths($row);
                 // Loop through all of the columns in the row
                 for (var i = 0; i < columnWidths.length; i++) {
+                    var $elts = $('.contentauthoring_cell_element', $('.contentauthoring_cell', $row).get(i));
                     var column = {
                         width: columnWidths[i],
                         elements: []
                     };
-                    // Loop through all of the widgets in the column
-                    $.each($('.contentauthoring_cell_element', $('.contentauthoring_cell', $row).get(i)), function(eindex, $element) {
-                        $element = $($element);
-                        var element = {
-                            type: $element.attr('data-element-type'),
-                            id: $element.attr('data-element-id')
-                        };
-                        column.elements.push(element);
-                        widgetIds.push(element.id);
-                    });
-                    row.columns.push(column);
+                    var parsed = parseColumn($elts, column);
+                    row.columns.push(parsed.column);
+                    widgetIds.concat(parsed.widgetIds);
                 }
                 rows.push(row);
             });
@@ -1496,7 +1509,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // Hitting enter after tabbing to the inserterbar
         $rootel.on('keyup', '.inserterbar_widget_draggable', function(ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
-                addNewWidgetPlaceholder(ev, $(this).attr('data-element-type'));
+                addNewWidgetPlaceholder($(this).attr('data-element-type'));
             }
         });
 
