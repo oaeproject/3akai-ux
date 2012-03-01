@@ -329,6 +329,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else if (sakai.config.EmbedContent.embedmethod === 'original') {
                 $('.embedcontent_option #original_size', $rootel).click();
             }
+            if (sakai.config.EmbedContent.layout === 'vertical') {
+                $('#embedcontent_layout_vertical', $rootel).click();
+            } else if (sakai.config.EmbedContent.layout === 'horizontal') {
+                $('#embedcontent_layout_horizontal', $rootel).click();
+            }
             if (sakai.config.EmbedContent.showName) {
                 $('#embedcontent_name_checkbox', $rootel).click();
             }

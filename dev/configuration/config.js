@@ -547,8 +547,10 @@ define(function(){
             /*
              * Default options for the Embed Content widget
              * embedmethod options: original or thumbnail
+             * layout options: vertical or horizontal
              */
             'embedmethod': 'original',
+            'layout': 'vertical',
             'showName': false,
             'showDetails': false,
             'showDownload': false
