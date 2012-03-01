@@ -35,9 +35,12 @@
                     {else}
                         <div class="${embedClass} ${layout} {if embedmethod === 'thumbnail'} s3d-draggable-container {/if}" data-scope="content" data-entityid="${item.fullresult._path}" {if sakai.api.Content.Collections.isCollection(item.fullresult)} data-collection="true" {/if}>
                             {var mimeType = sakai.api.Content.getMimeType(item.fullresult)}
+                            {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                            {if sakai.config.MimeTypes[mimeType]}
+                                {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                            {/if}
                             {var thumbnail = sakai.api.Content.getThumbnail(item.fullresult)}
                             {if embedmethod === 'thumbnail' && thumbnail}
-                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                 <a href="${item.contentProfileLink}" title="${item.name}">
                                     <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                                 </a>
@@ -45,11 +48,11 @@
                                 <div id="widget_documentviewer_${item.placement}" class="widget_inline"></div>
                             {elseif sakai.config.MimeTypes[mimeType]}
                                 <a href="${item.contentProfileLink}">
-                                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}"/>
+                                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}"/>
                                 </a>
                             {else}
                                 <a href="${item.contentProfileLink}">
-                                    <img src="${sakai.config.MimeTypes.other.URL}" alt="${sakai.config.MimeTypes.other.description}"/>
+                                    <img src="${sakai.config.MimeTypes.other.URL}" alt="${mimeTypeDescription}"/>
                                 </a>
                             {/if}
                             <div class="embedcontent_details">
