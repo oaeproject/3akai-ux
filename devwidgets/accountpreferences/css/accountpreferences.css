@@ -22,7 +22,7 @@
 /* widget header and tabs */
 .accountpreferences_header{margin-top:10px;height:35px;border-bottom:1px dotted #d4d4d4;}
 #accountpreferences_title{display:inline;vertical-align:top;border:0;}
-#accountpreferences_tabs{display:inline-block;margin-left:50px;margin-top: 1px;}
+#accountpreferences_tabs{display:inline-block;margin-left:50px;margin-top: 2px;}
 
 .accountpreferences form h2{margin:0 0 5px 0;color:#666666;font-size:14px;font-weight:bold;}
 .accountpreferences_section_wrap{float:left;}
