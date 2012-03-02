@@ -12,7 +12,6 @@
     },
     "id":                 "inserter",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/inserter/inserter.html",
     "userdashboard":      false,
