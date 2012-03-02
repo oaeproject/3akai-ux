@@ -55,14 +55,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderThemes = function(){
             var themes = {themes:$.extend(sakai.config.skinStore, {}, true)};
             sakai.api.Util.TemplateRenderer(themePickerTemplate, themes, $themePicker);
-        }
+        };
 
         ///////////////////////
         // Utility functions //
         ///////////////////////
 
         /**
-        * Removes current skin and adds new one if necessary.
+        * Gets and returns the url of the css based on the theme name
+        * @param {String} theme The name of the theme
+        * @return {String} url Returns the url of the theme's cssfile
+        */
+        var getURL = function(theme){
+            var url = "";
+            $.each(sakai.config.skinStore, function(key, value){
+                if(theme == value.title) { 
+                   url = value.url;
+                }
+            });
+            return url;
+        };
+
+        /**
+        * Removes the current skin and adds the new one in head
+        * @param {String} cssURL The url of the skin to which the user wants to change to
+        */
+        var changeCSS = function(cssURL){
+            $('link[href*="skin"]').each(function() {
+                this.removeAttribute("href");
+            });
+            $('head').append('<link href="' + cssURL + '" type="text/css" rel="stylesheet" />');
+        };
+
+        /**
+        * POST to JSON file with new customStyle and calls changeCSS
         * @param {String} theme The name of the theme
         */
         var changeTheme = function(theme) {
@@ -74,49 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 type: "POST"
             });
-            if(cssURL.substr(-8, 8) == "skin.css"){
-                 removeCSS();
-                 addCSS(cssURL);
-            }
-            else{
-                removeCSS();
-            };
-        };
-
-        /**
-        * Gets and returns the url of the css based on the theme name
-        * @param {String} theme The name of the theme
-        */
-        var getURL = function(theme){
-            var url = "";
-            $.each(sakai.config.skinStore, function(key, value){
-                if(theme == value.title) { 
-                   url = value.url;
-                }
-            });
-            return url
-        }
-
-        /**
-        * Adds the link into the html head
-        * @param {String} cssURL The url of the skin to which the user wants to change to
-        */
-        var addCSS = function(cssURL){
-            if(cssURL != "/"){
-                $('head').append('<link href="' + cssURL + '" type="text/css" rel="stylesheet" />');
-            }
-        }
-
-        /**
-        * Removes the href from the head if the href ends with 'skin.css'
-        */
-        var removeCSS = function() {
-            $("link").each(function() {
-                var string = this.href.substr(-8, 8);
-                if(string == "skin.css"){
-                    this.removeAttribute("href");
-                }
-            });
+            changeCSS(cssURL);
         };
 
         ////////////////////
@@ -133,7 +117,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $closeThemeChanger.on("click", function(){
                 $themechangerDialog.jqmHide();
             });
-        }
+        };
         /////////////////////////////
         // Initialization function //
         /////////////////////////////
@@ -143,8 +127,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * which mode the widget is in (settings or main), loads the necessary data
          * and shows the correct view.
          */
-        var doInit = function (_worldId) {
-            worldId = _worldId;
+        var doInit = function (Id) {
+            worldId = Id;
             renderThemes();
             addBinding();
             $themechangerDialog.jqm({
@@ -158,8 +142,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
         
         // run the initialization function when the widget object loads
-        $(window).bind("init.themechanger.sakai", function(e, _worldId){
-            doInit(_worldId);
+        $(window).bind("init.themechanger.sakai", function(e, worldId){
+            doInit(worldId);
         });
     };
     // inform Sakai OAE that this widget has loaded and is ready to run

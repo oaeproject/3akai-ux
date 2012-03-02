@@ -1510,9 +1510,9 @@ define(function(){
         },
 
         skinStore: [{
-                "title": "LEFT",
-                "text": "Left navigation",
-                "url": "/"
+                "title": "DEFAULT",
+                "text": "Default",
+                "url": "/dev/skins/default/skin.css"
             },
             {
                 "title": "TOP",
@@ -1523,6 +1523,11 @@ define(function(){
                 "title": "NOLEFT",
                 "text": "No left navigation",
                 "url": "/dev/skins/noleft/skin.css"
+            },
+            {
+                "title": "CAMBRIDGE",
+                "text": "Cambridge",
+                "url": "/dev/skins/cambridge/skin.css"
             }
         ],
 
