@@ -139,6 +139,9 @@
 .sakaiSkin td.mceRight table {
     margin: 0 0 0 auto;
 }
+.sakaiSkin .mceToolbar a {
+    color:#333;
+}
 
 /* Button */
 .sakaiSkin .mceButton {

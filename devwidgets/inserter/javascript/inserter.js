@@ -52,12 +52,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var focusCreateNew = false;
 
         // UI Elements
-        var $inserterTogle = $('.inserter_toggle');
-        var $inserterAllCollectionsButton = $('#inserter_all_collections_button', $rootel);
+        var inserterToggle = '.inserter_toggle';
         var inserterCollectionContentSearch = '#inserter_collection_content_search';
         var $inserterMimetypeFilter = $('#inserter_mimetype_filter', $rootel);
         var inserterCreateCollectionInput = '#inserter_create_collection_input';
         var topnavToggle = '#topnavigation_container .inserter_toggle';
+        var inserterAllCollectionsButton = '#inserter_all_collections_button';
+        var inserterMimetypeFilter = '#inserter_mimetype_filter';
 
         // Containers
         var $inserterWidget = $('.inserter_widget', $rootel);
@@ -93,7 +94,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (!hasInitialised) {
                 doInit();
                 hasInitialised = true;
-            } else if (focusCreateNew){
+            } else if (focusCreateNew) {
                 $(inserterCreateCollectionInput).focus();
             }
         };
@@ -114,7 +115,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Boolean} disable True or false depending on if the search should be enabled or not
          */
         var disableEnableHeader = function(disable) {
-            if (disable){
+            if (disable) {
                 $(inserterCollectionContentSearch, $rootel).attr('disabled', 'true');
                 $(inserterCollectionContentSearch).next().attr('disabled', 'true');
                 $inserterMimetypeFilter.attr('disabled', 'true');
@@ -131,19 +132,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} item Object containing the data of the collection to be shown
          */
         var renderHeader = function(context, item) {
+            $inserterHeaderTitleContainer.css('opacity', 0);
+            sakai.api.Util.TemplateRenderer(inserterHeaderTemplate, {
+                'context': context,
+                'item': item,
+                'librarycount': sakai.data.me.user.properties.contentCount,
+                'sakai': sakai
+            }, $inserterHeaderTitleContainer);
             $inserterHeaderTitleContainer.animate({
-                'opacity': 0
-            }, 0, function() {
-                sakai.api.Util.TemplateRenderer(inserterHeaderTemplate, {
-                    'context': context,
-                    'item': item,
-                    'librarycount': sakai.data.me.user.properties.contentCount,
-                    sakai: sakai
-                }, $inserterHeaderTitleContainer);
-                $inserterHeaderTitleContainer.animate({
-                    'opacity': 1
-                }, 400);
-            });
+                'opacity': 1
+            }, 400);
         };
 
         /**
@@ -181,7 +179,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} context Context the widget is in
          */
         var animateUIElements = function(context) {
-            switch (context){
+            switch (context) {
                 case 'init':
                     $inserterWidget.animate({
                         'height': $inserterInitContainer.height() + $inserterHeader.height() + 10
@@ -224,14 +222,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /**
          * Process library item results from the server
-         * @param results {Object} Results fetched by the infinite scroller
-         * @param callback {Function} callback executed in the infinite scroller
+         * @param {Object} results Results fetched by the infinite scroller
+         * @param {Function} callback callback executed in the infinite scroller
          */
         var handleLibraryItems = function (results, callback) {
-            sakai.api.Content.prepareContentForRender(results, sakai.data.me, function(contentResults){
-                $.each(sakai.data.me.groups, function(index, group){
-                    $.each(contentResults, function(i, item){
-                        if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + item._path){
+            sakai.api.Content.prepareContentForRender(results, sakai.data.me, function(contentResults) {
+                $.each(sakai.data.me.groups, function(index, group) {
+                    $.each(contentResults, function(i, item) {
+                        if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + item._path) {
                             item.counts = {
                                 contentCount: group.counts.contentCount
                             };
@@ -239,43 +237,44 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         }
                     });
                 });
-                if (contentResults.length > 0){
-                    callback(contentResults);
-                } else {
-                    callback([]);
-                }
+                callback(contentResults);
             });
         };
 
         /**
          * Adds to the count of items in the collection's library
-         * @param collectionId {Object} The id of the collection to increase the count of (cached variable)
-         * @param amount {int} Total amount of dropped items to add to the count
+         * @param {String} collectionId The id of the collection to increase the count of (cached variable)
+         * @param {int} amount Total amount of dropped items to add to the count
          */
         var addToCollectionCount = function(collectionId, amount) {
             var $contentCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
-            var currentAmount = parseInt($contentCountEl.text(), 10);
-            $contentCountEl.text('' + (currentAmount + amount));
-            $.each(sakai.data.me.groups, function(index, group){
-                if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId){
-                    sakai.data.me.groups[index].counts.contentCount += amount;
+            var collectionCount = sakai.data.me.user.properties.contentCount + amount;
+            $.each(sakai.data.me.groups, function(index, group) {
+                if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
                     sakai.data.me.user.properties.contentCount += amount;
+                    collectionCount = sakai.data.me.groups[index].counts.contentCount;
                 }
             });
-            $.each(libraryData, function(i, item){
-                if (item._path === collectionId){
+            $contentCountEl.text(collectionCount);
+            if (collectionId !== 'library') {
+                var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
+                $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
+            } else {
+                $contentCountEl.text(sakai.data.me.user.properties.contentCount += amount);
+            }
+            $.each(libraryData, function(i, item) {
+                if (item._path === collectionId) {
                     item.counts.contentCount += amount;
                 }
             });
-            if (inCollection){
-                var count = parseInt($('#inserter_header_itemcount > span', $rootel).text(), 10);
-                $('#inserter_header_itemcount > span', $rootel).text(count + amount);
+            if (inCollection) {
+                $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(collectionCount);
             }
         };
 
         /**
          * Creates a new, empty, collections with the given name and opens it in the inserter
-         * @param title {String} Title to give to the new collection
+         * @param {String} title Title to give to the new collection
          */
         var createNewCollection = function(title) {
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('CREATING_YOUR_COLLECTION', 'inserter'), sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
@@ -296,9 +295,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Animates the UI after validation
          */
         var validationComplete = function() {
-            var t = setTimeout(function() {
-                animateUIElements('init');
-            }, 10);
+            animateUIElements('init');
         };
 
         /**
@@ -311,11 +308,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         required: sakai.api.i18n.getValueForKey('PROVIDE_A_TITLE_FOR_THE_NEW_COLLECTION', 'inserter')
                     }
                 },
-                submitHandler: function(form, validator){
+                submitHandler: function(form, validator) {
                     createNewCollection($.trim($(inserterCreateCollectionInput, $rootel).val()));
                     validationComplete();
                     return false;
-                }, invalidCallback : validationComplete
+                },
+                errorsShown: validationComplete
             };
             sakai.api.Util.Forms.validate($('#inserter_create_collection_form', $rootel), validateOpts, false);
         };
@@ -323,20 +321,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Executed when a collection is clicked in the list
          * Shows that collection (library or other collection)
+         * @param {Object} ev Click event generated by clicking a collection list item
          */
-        var collectionClicked = function() {
-            if (!inCollection){
+        var collectionClicked = function(ev) {
+            if (!inCollection) {
                 $inserterInitContainer.animate({
                     'opacity': 0,
                     'margin-left': -240
                 }, 400 );
                 var idToShow = $(this).attr('data-collection-id');
-                if (idToShow === 'library'){
+                if (idToShow === 'library') {
                     renderHeader('items', idToShow);
                     showCollection(idToShow);
                 } else {
-                    $.each(libraryData, function(i, item){
-                        if (item._path === idToShow){
+                    $.each(libraryData, function(i, item) {
+                        if (item._path === idToShow) {
                             renderHeader('items', item);
                             showCollection(item);
                         }
@@ -351,70 +350,99 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ////////////////////////////
 
         /**
+         * Add a batch of dropped items to a given collection
+         * @param {String} collectionId ID of the collection to add the items to
+         * @param {Array} collectedCollections Array of collected collection IDs
+         * @param {Array} collectedContent Array of collected content IDs
+         */
+        var addDroppedToIndependentCollection = function(collectionId, collectedCollections, collectedContent) {
+            // Add dropped content to the collection
+            sakai.api.Content.Collections.addToCollection(collectionId, collectedContent, function() {
+                // Share the collections that were dropped
+                sakai.api.Content.Collections.shareCollection(collectedCollections,
+                    sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function() {
+                    // Update the collection counts and list of content in the collection
+                    addToCollectionCount(collectionId, 1);
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
+                    if (inCollection) {
+                        $.each(sakai.data.me.groups, function(index, item) {
+                            if (item['sakai:category'] === 'collection' &&
+                                !item['sakai:pseudoGroup'] &&
+                                item['sakai:group-id'] === 'c-' + collectionId) {
+                                contentListDisplayed = item;
+                                contentListDisplayed._path = collectionId;
+                            }
+                        });
+                        showCollection(contentListDisplayed);
+                    } else {
+                        animateUIElements('reset');
+                    }
+                });
+            });
+        };
+
+        /**
+         * Add a batch of dropped items to my library
+         * @param {String} collectionId ID of the collection to add the items to
+         * @param {Array} collectedCollections Array of collected collection IDs
+         * @param {Array} collectedContent Array of collected content IDs
+         */
+        var addDroppedToMyLibrary = function(collectionId, collectedCollections, collectedContent) {
+            $.each(collectedCollections, function(i, collection) {
+                sakai.api.Content.addToLibrary(collection, sakai.data.me.user.userid, false, function() {
+                    addToCollectionCount(collectionId, 1);
+                });
+            });
+            $.each(collectedContent, function(i, content) {
+                sakai.api.Content.addToLibrary(content, sakai.data.me.user.userid, false, function() {
+                    addToCollectionCount(collectionId, 1);
+                });
+            });
+            if (inCollection) {
+                showCollection(contentListDisplayed);
+            }
+            sakai.api.Util.progressIndicator.hideProgressIndicator();
+        };
+
+        /**
          * Add a dropped content item to the collection (used for drag and drop inside of window, not from desktop)
-         * @param ev {Object} Event fired by dropping a content item onto the list
-         * @param data {Object} The data received from the event
-         * @param target {Object} jQuery object indicating the drop target
+         * @param {Object} ev Event fired by dropping a content item onto the list
+         * @param {Object} data The data received from the event
+         * @param {Object} target jQuery object indicating the drop target
          */
         var addDroppedToCollection = function(ev, data, target) {
             var collectionId = target.attr('data-collection-id');
             var collectedContent = [];
             var collectedCollections = [];
-            $.each(data, function(index, item){
-                if (item.collection){
+            $.each(data, function(index, item) {
+                if (item.collection) {
                     collectedCollections.push(item.entityid);
                 } else {
                     collectedContent.push(item.entityid);
                 }
             });
             if (collectedContent.length + collectedCollections.length > 0) {
-                sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('UPLOADING_CONTENT_ADDING_TO_COLLECTION', 'inserter'), sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
-                if (collectionId !== 'library' && collectionId !== sakai.data.me.user.userid){
-                    sakai.api.Content.Collections.addToCollection(collectionId, collectedContent, function() {
-                        sakai.api.Content.Collections.shareCollection(collectedCollections, sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function() {
-                            setTimeout(function() {
-                                addToCollectionCount(collectionId, 1);
-                                sakai.api.Util.progressIndicator.hideProgressIndicator();
-                                if (inCollection){
-                                    $.each(sakai.data.me.groups, function(index, item){
-                                        if (item['sakai:category'] === 'collection' && !item['sakai:pseudoGroup'] && item['sakai:group-id'] === 'c-' + collectionId){
-                                            contentListDisplayed = item;
-                                            contentListDisplayed._path = collectionId;
-                                        }
-                                    });
-                                    showCollection(contentListDisplayed);
-                                } else {
-                                    animateUIElements('reset');
-                                }
-                            }, 1000);
-                        });
-                    });
+                sakai.api.Util.progressIndicator.showProgressIndicator(
+                    sakai.api.i18n.getValueForKey('UPLOADING_CONTENT_ADDING_TO_COLLECTION', 'inserter'),
+                    sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
+                // If the collection the content was added to is not the user's library
+                // share the content with that collection
+                // If it is the library execute different API functions
+                if (collectionId !== 'library' && collectionId !== sakai.data.me.user.userid) {
+                    addDroppedToIndependentCollection(collectionId, collectedCollections, collectedContent);
                 } else {
-                    $.each(collectedCollections, function(i, collection){
-                        sakai.api.Content.addToLibrary(collection, sakai.data.me.user.userid, false, function() {
-                            addToCollectionCount(collectionId, 1);
-                        });
-                    });
-                    $.each(collectedContent, function(i, content){
-                        sakai.api.Content.addToLibrary(content, sakai.data.me.user.userid, false, function() {
-                            addToCollectionCount(collectionId, 1);
-                        });
-                    });
-                    if (inCollection){
-                        showCollection(contentListDisplayed);
-                    }
-                    sakai.api.Util.progressIndicator.hideProgressIndicator();
+                    addDroppedToMyLibrary(collectionId, collectedCollections, collectedContent);
                 }
             }
         };
 
         /**
          * Upload a set of files dropped onto the inserter lists
-         * @param collectionId {String} the ID of the collection to associate the content with
-         * @param permissions {String} Permissions for the newly uploaded content (default to public)
+         * @param {String} collectionId the ID of the collection to associate the content with
+         * @param {String} permissions Permissions for the newly uploaded content (default to public)
          */
         var uploadFile = function(collectionId, permissions) {
-            if (filesToUpload.length){
+            if (filesToUpload.length) {
                 var fileToUpload = filesToUpload[0];
                 var splitOnDot = fileToUpload.name.split('.');
                 var xhReq = new XMLHttpRequest();
@@ -425,7 +453,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 formData.append('file', fileToUpload);
                 formData.append('_charset_', 'utf-8');
                 xhReq.send(formData);
-                if (xhReq.status === 201){
+                if (xhReq.status === 201) {
                     var data = $.parseJSON(xhReq.responseText);
                     var poolid = data[fileToUpload.name].poolId;
                     var batchRequests = [];
@@ -448,11 +476,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         'method': 'POST'
                     });
 
-                    sakai.api.Server.batch(batchRequests, function(success, response){
+                    sakai.api.Server.batch(batchRequests, function(success, response) {
                         // Set the correct file permissions
                         sakai.api.Content.setFilePermissions([{'hashpath': poolid, 'permissions': permissions}], function() {
                             // Add it to the collection
-                            if (collectionId !== 'library'){
+                            if (collectionId !== 'library') {
                                 sakai.api.Content.Collections.addToCollection(collectionId, poolid, function() {
                                     addToCollectionCount(collectionId, 1);
                                     filesToUpload.splice(0, 1);
@@ -471,7 +499,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             } else {
                 setTimeout(function() {
-                    if (inCollection){
+                    if (inCollection) {
                         showCollection(contentListDisplayed);
                     }
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
@@ -482,31 +510,34 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Handler for the drop event. Checks files for folders, gives appropriate messages and
          * sends files through to the 'uploadFile' function that uploads and associates them to collections.
-         * @param ev {Object} Event fired by dropping content on the inserter list
-         * @param data {Object} Object containing data associated to the dropped files
+         * @param {Object} ev Event fired by dropping content on the inserter list
+         * @param {Object} data Object containing data associated to the dropped files
          */
         var droppedDesktopItem = function(ev, data) {
-            ev.stopPropagation();
-            ev.preventDefault();
-            if (data.files.length){
+            if (data.files.length) {
                 $('.s3d-droppable-container', $rootel).removeClass('dragover');
                 var collectionid = '';
-                if ($(ev.target).attr('data-collection-id') || $(ev.target).parents('.s3d-droppable-container').attr('data-collection-id')){
-                    collectionid = $(ev.target).attr('data-collection-id') || $(ev.target).parents('.s3d-droppable-container').attr('data-collection-id');
+                if ($(ev.target).attr('data-collection-id') ||
+                    $(ev.target).parents('.s3d-droppable-container').attr('data-collection-id')) {
+                    collectionid = $(ev.target).attr('data-collection-id') ||
+                                   $(ev.target).parents('.s3d-droppable-container').attr('data-collection-id');
                 }
                 var error = false;
                 $.each(data.files, function (index, file) {
-                    if (file.size > 0){
+                    if (file.size > 0) {
                         filesToUpload.push(file);
                     } else {
                         error = true;
                     }
                 });
                 if (error) {
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('DRAG_AND_DROP_ERROR', 'inserter'), sakai.api.i18n.getValueForKey('ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR', 'inserter'));
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('DRAG_AND_DROP_ERROR', 'inserter'),
+                                                     sakai.api.i18n.getValueForKey('ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR', 'inserter'));
                 }
-                if (filesToUpload.length){
-                    sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('UPLOADING_CONTENT_ADDING_TO_COLLECTION', 'inserter'), sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
+                if (filesToUpload.length) {
+                    sakai.api.Util.progressIndicator.showProgressIndicator(
+                        sakai.api.i18n.getValueForKey('UPLOADING_CONTENT_ADDING_TO_COLLECTION', 'inserter'),
+                        sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
                     uploadFile(collectionid, 'public');
                 }
             }
@@ -531,8 +562,65 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ////////////////////////
 
         /**
+         * Processes an empty infinite scroll list and displays the appropriate message
+         */
+        var emptyCollectionList = function() {
+            var mimetype = $inserterMimetypeFilter.val() || '';
+            disableEnableHeader(!$.trim($(inserterCollectionContentSearch, $rootel).val()) && !mimetype);
+            var query = $.trim($(inserterCollectionContentSearch, $rootel).val());
+            if (!$inserterMimetypeFilter.val() || query) {
+                sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
+                    'search': query,
+                    'collection': sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
+                }, $inserterNoResultsContainer);
+                $inserterNoResultsContainer.show();
+            } else {
+                query = $.trim($(inserterCollectionContentSearch, $rootel).val());
+                sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
+                    'search': 'mimetypesearch',
+                    'collection': sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
+                }, $inserterNoResultsContainer);
+                $inserterNoResultsContainer.show();
+            }
+            sakai.api.Util.Droppable.setupDroppable({
+                'scope': 'content'
+            }, $inserterNoResultsContainer);
+            addDnDToElements();
+            animateUIElements('noresults');
+        };
+
+        /**
+         * Function executed after the infinite scroll list has been rendered
+         * Makes list elements drag and droppable
+         */
+        var collectionListPostRender = function() {
+            // post renderer
+            $inserterNoResultsContainer.hide();
+            sakai.api.Util.Draggable.setupDraggable({
+                connectToSortable: '.contentauthoring_cell_content',
+                start: function() {
+                    sakai.api.Util.Draggable.setIFrameFix();
+                },
+                stop: function() {
+                    sakai.api.Util.Draggable.removeIFrameFix();
+                }
+            }, $inserterContentInfiniteScrollContainerList);
+            sakai.api.Util.Droppable.setupDroppable({
+                scope: 'content'
+            }, $inserterContentInfiniteScrollContainerList);
+            addDnDToElements();
+            if ($inserterCollectionContentContainer.css('margin-left') !== '5px') {
+                animateUIElements('results');
+            } else {
+                $inserterWidget.css({
+                    'height': $inserterCollectionContentContainer.height() + $inserterHeader.height() + 10
+                });
+            }
+        };
+
+        /**
          * Show the collection of items
-         * @param item {Object} Contains data about the collection to be loaded
+         * @param {Object} item Contains data about the collection to be loaded
          */
         var showCollection = function(item) {
             inCollection = true;
@@ -556,67 +644,25 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             // Disable the previous infinite scroll
             killInfiniteScroll();
-            infinityContentScroll = $inserterCollectionItemsList.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER, params, function(items, total){
-                disableEnableHeader(false);
-                // render
-                return sakai.api.Util.TemplateRenderer(inserterCollectionContentTemplate, {
-                    items: items,
-                    collection: params.userid.replace('c-', ''),
-                    sakai: sakai
-                });
-            }, function() {
-                // empty list processor
-                disableEnableHeader(!$.trim($(inserterCollectionContentSearch, $rootel).val()) && !mimetype);
-                var query = $.trim($(inserterCollectionContentSearch, $rootel).val());
-                if (!$inserterMimetypeFilter.val() || query){
-                    sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
-                        'search': query,
-                        collection: sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
-                    }, $inserterNoResultsContainer);
-                    $inserterNoResultsContainer.show();
-                } else {
-                    query = $.trim($(inserterCollectionContentSearch, $rootel).val());
-                    sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
-                        'search': 'mimetypesearch',
-                        collection: sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
-                    }, $inserterNoResultsContainer);
-                    $inserterNoResultsContainer.show();
-                }
-                sakai.api.Util.Droppable.setupDroppable({
-                    scope: 'content'
-                }, $inserterNoResultsContainer);
-                addDnDToElements();
-                animateUIElements('noresults');
-            }, sakai.config.URL.INFINITE_LOADING_ICON, handleLibraryItems, function() {
-                // post renderer
-                $inserterNoResultsContainer.hide();
-                sakai.api.Util.Draggable.setupDraggable({
-                    connectToSortable: '.contentauthoring_cell_content',
-                    start: function() {
-                        $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
-                            width: $(document).width() + 'px', height: $(document).height() + 'px',
-                            top: '0px', left: '0px',
-                            position: 'absolute', opacity: '0.001', zIndex: 100000
-                        }).appendTo('body');
-                    },
-                    stop: function() {
-                        $('div.ui-resizable-iframeFix').remove();
-                    }
-                }, $inserterContentInfiniteScrollContainerList);
-                sakai.api.Util.Droppable.setupDroppable({
-                    scope: 'content'
-                }, $inserterContentInfiniteScrollContainerList);
-                addDnDToElements();
-                if ($inserterCollectionContentContainer.css('margin-left') !== '5px'){
-                    animateUIElements('results');
-                } else {
-                    $inserterWidget.css({
-                        'height': $inserterCollectionContentContainer.height() + $inserterHeader.height() + 10
+            infinityContentScroll = $inserterCollectionItemsList.infinitescroll(
+                sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
+                params,
+                function(items, total) {
+                    disableEnableHeader(false);
+                    return sakai.api.Util.TemplateRenderer(inserterCollectionContentTemplate, {
+                        items: items,
+                        collection: params.userid.replace('c-', ''),
+                        sakai: sakai
                     });
-                }
-            }, sakai.api.Content.getNewList(contentListDisplayed), function() {
-                // initial callback
-            }, $inserterContentInfiniteScrollContainer);
+                },
+                emptyCollectionList,
+                sakai.config.URL.INFINITE_LOADING_ICON,
+                handleLibraryItems,
+                collectionListPostRender,
+                sakai.api.Content.getNewList(contentListDisplayed),
+                false,
+                $inserterContentInfiniteScrollContainer
+            );
         };
 
         /**
@@ -631,7 +677,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             };
             // Disable the previous infinite scroll
             killInfiniteScroll();
-            infinityCollectionScroll = $inserterCollectionInfiniteScrollContainerList.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER, params, function(items, total){
+            infinityCollectionScroll = $inserterCollectionInfiniteScrollContainerList.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER, params, function(items, total) {
                 // render
                 return sakai.api.Util.TemplateRenderer(inserterInitTemplate, {
                     collections: items,
@@ -665,7 +711,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Add binding to various elements of the widget
          */
         var addBinding = function() {
-            $('#subnavigation_add_collection_link').live('click', function() {
+            $(window).on('click', '#subnavigation_add_collection_link', function() {
                 focusCreateNew = true;
                 if (!$inserterWidget.is(':visible')) {
                     toggleInserter();
@@ -676,26 +722,26 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $(inserterCreateCollectionInput).focus();
                 }
             });
-            $(window).bind('sakai.mylibrary.deletedCollections', function(ev, data){
-                if (infinityCollectionScroll){
+            $(window).on('sakai.mylibrary.deletedCollections', function(ev, data) {
+                if (infinityCollectionScroll) {
                     infinityCollectionScroll.removeItems(data.items);
                 }
             });
-            $(window).bind('start.drag.sakai', function() {
+            $(window).on('start.drag.sakai', function() {
                 if (!$inserterWidget.is(':visible')) {
                     toggleInserter();
                 }
             });
-            $inserterTogle.live('click', toggleInserter);
-            $inserterCollectionItemsListItem.live('click', collectionClicked);
-            $inserterAllCollectionsButton.live('click', refreshWidget);
-            $(inserterCollectionContentSearch, $rootel).live('keyup', searchCollection);
-            $('.s3d-search-button', $rootel).live('click', searchCollection);
-            $inserterMimetypeFilter.live('change', function() {
+            $(window).on('click', inserterToggle, toggleInserter);
+            $inserterCollectionInfiniteScrollContainer.on('click', 'li', collectionClicked);
+            $inserterCollectionContentContainer.on('click', inserterAllCollectionsButton, refreshWidget);
+            $inserterCollectionContentContainer.on('keyup', inserterCollectionContentSearch, searchCollection);
+            $inserterCollectionContentContainer.on('click', '.s3d-search-button', searchCollection);
+            $inserterCollectionContentContainer.on('change', inserterMimetypeFilter, function() {
                 showCollection(contentListDisplayed);
             });
-            $(window).bind('sakai.collections.created', refreshWidget);
-            $(window).bind('sakai.inserter.dropevent', addDroppedToCollection);
+            $(window).on('sakai.collections.created', refreshWidget);
+            $(window).on('sakai.inserter.dropevent', addDroppedToCollection);
         };
 
         /**
@@ -713,13 +759,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $inserterWidget.draggable({
                 cancel: 'div#inserter_collector',
                 stop: function(ev) {
-                    elOffset = $(ev.target).offset();
-                    wHeight = $(window).height();
-                    wWidth = $(window).width();
-                    iHeight= $inserterWidget.height();
-                    iWidth = $inserterWidget.width();
-                    borderMargin = 15;
-                    if(elOffset) {
+                    // Calculate the position of the widget and reset its position when
+                    // it goes out of bounds
+                    var elOffset = $(ev.target).offset();
+                    var wHeight = $(window).height();
+                    var wWidth = $(window).width();
+                    var iHeight= $inserterWidget.height();
+                    var iWidth = $inserterWidget.width();
+                    var borderMargin = 15;
+                    if (elOffset) {
                         // Overlaps left window border
                         if (elOffset && elOffset.left < 0) {
                             $inserterWidget.css('left', borderMargin);
