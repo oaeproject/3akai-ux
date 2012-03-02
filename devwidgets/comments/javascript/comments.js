@@ -749,6 +749,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             addBindings();
             widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
+            alert(widgeturl);
             if (widgeturl) {
                 store = widgeturl + "/message";
                 $.ajax({
