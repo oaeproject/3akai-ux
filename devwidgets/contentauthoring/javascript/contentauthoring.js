@@ -86,7 +86,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          */
         var checkRemoveHighlight = function() {
             if (isInEditMode() && !isDragging) {
-                $(".contentauthoring_row_reorder_highlight,.contentauthoring_cell_reorder_highlight").remove();
+                $('.contentauthoring_row_reorder_highlight,.contentauthoring_cell_reorder_highlight').remove();
             }
         };
 
@@ -688,7 +688,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             if ($(ui.item).data('contentId') || $(ui.item).data('collectionId')) {
                 addExistingElement(event, ui);  
             // If we've dragged in a widget
-            } else if ($(ui.item).hasClass("inserterbar_widget_draggable")) {
+            } else if ($(ui.item).hasClass('inserterbar_widget_draggable')) {
                 addNewWidget(event, $(ui.item));
             }
             checkColumnsEmpty();
@@ -926,7 +926,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          */
         var renderPage = function(currentPageShown, requiresRefresh) {
             $pageRootEl = $('#' + currentPageShown.ref, $rootel);
-            $('#' + currentPageShown.ref + "_previewversion").remove();
+            $('#' + currentPageShown.ref + '_previewversion').remove();
             if (!currentPageShown.isVersionHistory) {
                 // Bring the page back to view mode
                 exitEditMode();
@@ -1256,7 +1256,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                         url: storePath + '.save.json',
                         type: 'POST',
                         success: function() {
-                            $(window).trigger("update.versions.sakai", currentPageShown);
+                            $(window).trigger('update.versions.sakai', currentPageShown);
                         }
                     });
                 }, true);
@@ -1418,7 +1418,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         // Revision history
         $(window).on('click', '#inserterbar_action_revision_history', function() {
-            $(window).trigger("init.versions.sakai", currentPageShown);
+            $(window).trigger('init.versions.sakai', currentPageShown);
         });
 
         // Edit page button
@@ -1555,17 +1555,16 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         // Un-highlight on drag leaving drop zone.
         $rootel.on('dragleave dragexit', '.contentauthoring_cell_element', function(ev) {
+            debug.log("remove highlight");
             $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
             return false;
         });
 
         // Decide whether the thing dragged in is welcome.
-        $rootel.on('dragover', '.contentauthoring_cell_element, .contentauthoring_cell_content, .contentauthoring_row_reorder_highlight, .contentauthoring_row_reorder_highlight', function(ev) {
+        $rootel.on('dragover', '.contentauthoring_cell_element, .contentauthoring_cell_content, .contentauthoring_row_reorder_highlight', function(ev) {
             if (!$(this).hasClass('contentauthoring_row_reorder_highlight')) {
-                $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
-                if ($(this).hasClass('contentauthoring_cell_element')) {
-                    $(this).after($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
-                } else {
+                if (!$('.contentauthoring_row_reorder_highlight.external_content').length) {
+                    $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
                     $(this).append($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
                 }
             }
@@ -1814,7 +1813,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @return {Boolean} returns true if the string of text is a url
          */
          var isUrl = function(text) {
-             if (text.indexOf("\n") < 0) {
+             if (text.indexOf('\n') < 0) {
                  // Contributed by Scott Gonzalez: http://projects.scottsplayground.com/iri/
              	var regEx = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+\|,;=]|:|@)|\/|\?)*)?$/i;
              	return regEx.test(text);
