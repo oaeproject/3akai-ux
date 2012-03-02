@@ -1555,7 +1555,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         // Un-highlight on drag leaving drop zone.
         $rootel.on('dragleave dragexit', '.contentauthoring_cell_element', function(ev) {
-            debug.log("remove highlight");
             $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
             return false;
         });
