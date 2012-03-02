@@ -77,8 +77,7 @@ function geocodePosition(position) {
             if (responses && responses.length > 0) {
                 var html = responses[0].formatted_address;
                 updateInfoWindow(html);
-            }
-            else {
+            } else {
                 $(window).trigger('show.mapsnotification.sakai', {
                     subject: sakai.api.i18n.Widgets.getValueForKey('googlemaps', 'NO_ADDRESS'),
                     body: sakai.api.i18n.Widgets.getValueForKey('googlemaps', 'CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION')
@@ -106,7 +105,8 @@ function geocodeAddress(address) {
                 var html = results[0].formatted_address;
                 updateInfoWindow(html);
             } else {
-                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey('googlemaps', sakai.api.User.data.me.user.locale, 'NO_ADDRESS'), sakai.api.i18n.Widgets.getValueForKey('googlemaps', sakai.api.User.data.me.user.locale, 'CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION'));
+                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey('googlemaps', sakai.api.User.data.me.user.locale, 'NO_ADDRESS'), 
+                                                 sakai.api.i18n.Widgets.getValueForKey('googlemaps', sakai.api.User.data.me.user.locale, 'CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION'));
             }
         });
     }
