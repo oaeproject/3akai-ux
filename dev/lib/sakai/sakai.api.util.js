@@ -2484,7 +2484,7 @@ define(
                             $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
-                    start: function(event, ui){
+                    start: function(event, ui) {
                         $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
                         $(window).trigger('start.drag.sakai');
                         if ($(this).data('startdragevent')) {
@@ -2501,8 +2501,11 @@ define(
                         $container.append($selected.clone());
                         return $container;
                     },
-                    drag: function(ev, data){
-                        $('.s3d-draggable-draggingitems').offset({left:data.offset.left - 10,top:data.offset.top - 12});
+                    drag: function(ev, data) {
+                        $('.s3d-draggable-draggingitems').offset({
+                            left: data.offset.left - 10,
+                            top: data.offset.top - 12
+                        });
                     }
                 };
             },
