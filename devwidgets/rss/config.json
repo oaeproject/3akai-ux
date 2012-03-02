@@ -7,14 +7,13 @@
     "hasSettings":true,
     "id":"rss",
     "img":"/devwidgets/rss/images/rss.png",
-    "showinsakaigoodies":true,
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/rss/rss.html",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/rss/bundles/default.properties",
-            "name": "RSS feed reader",
+            "name": "RSS reader",
             "description":"RSS feed reader"
         },
         "en_US": {

@@ -12,7 +12,6 @@
     },
     "id":                 "carousel",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/carousel/carousel.html",
     "userdashboard":      false,
