@@ -13,5 +13,6 @@
     },
     "personalportal":     false,
     "sakaidocs":          true,
-    "showinsakaigoodies": false
+    "showinsakaigoodies": false,
+    "indexFields": ["content"]
 }
