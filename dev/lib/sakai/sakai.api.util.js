@@ -2491,14 +2491,15 @@ define(
                             $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
-                    helper: function(){
-                        var selected = $('.s3d-draggable-select:checked').parents('li');
-                        if (selected.length === 0) {
-                          selected = $(this);
+                    helper: function() {
+                        var $selected = $('.s3d-draggable-select:checked')
+                            .parents('li:not(.contentauthoring_row_container)');
+                        if ($selected.length === 0) {
+                          $selected = $(this);
                         }
-                        var container = $('<div/>').attr('id', 's3d-draggeditems-container');
-                        container.append(selected.clone());
-                        return container;
+                        var $container = $('<div/>').attr('id', 's3d-draggeditems-container');
+                        $container.append($selected.clone());
+                        return $container;
                     },
                     drag: function(ev, data){
                         $('.s3d-draggable-draggingitems').offset({left:data.offset.left - 10,top:data.offset.top - 12});
