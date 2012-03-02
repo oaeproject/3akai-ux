@@ -21,6 +21,7 @@
 .discussion_pipe_divider {margin:0 5px;}
 
 /* Create new topic */
+#discussion_create_new_topic {overflow:auto;}
 #discussion_create_new_topic label {display:block; margin:5px 0px;}
 
 /* Topic list */
