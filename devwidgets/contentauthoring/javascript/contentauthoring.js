@@ -1473,7 +1473,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // Hitting enter after tabbing to the inserterbar
         $rootel.on('keyup', '.inserterbar_widget_draggable', function(ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
-                addNewWidgetPlaceholder(ev, $(this).attr('data-element-type'));
+                addNewWidgetPlaceholder($(this).attr('data-element-type'));
             }
         });
 
@@ -1708,6 +1708,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     formData.append('enctype', 'multipart/form-data');
                     formData.append('filename', file.name);
                     formData.append('file', file);
+                    formData.append('_charset_', 'utf-8');
                     xhReq.send(formData);
                     if (xhReq.status == 201) {
                         filesUploaded.push($.parseJSON(xhReq.responseText)[file.name].item);

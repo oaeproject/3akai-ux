@@ -641,6 +641,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             formData.append('enctype', 'multipart/form-data');
             formData.append('filename', documentObj.title);
             formData.append('file', documentObj.fileReader);
+            formData.append('_charset_', 'utf-8');
             xhReq.send(formData);
             if (xhReq.status == 201) {
                 var data = $.parseJSON(xhReq.responseText);

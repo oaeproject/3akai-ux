@@ -519,7 +519,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#collectionviewer_sortby", $rootel).change(function(){
                 var sortSelection = $(this).val();
-                var state = {};
+                var state = {
+                    item: ''
+                };
                 if (sortSelection === "desc") {
                     collectionviewer.sortOrder = "desc";
                     state[collectionviewer.tuidso] = 'desc';
@@ -614,7 +616,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
             collectionviewer.sortOrder = $.bbq.getState(collectionviewer.tuidso) || 'modified';
-            collectionviewer.contextId = widgetData.data._path || widgetData.collectionviewer.groupid;
+            if (widgetData.data && widgetData.data._path) {
+                collectionviewer.contextId = widgetData.data._path;
+            } else {
+                collectionviewer.contextId = widgetData.collectionviewer.groupid
+            }
             if(sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)){
                 $('#collectionviewer_header_container #collectionviewer_add_content_button', $rootel).show();
                 $('#collectionviewer_header_container #collectionviewer_edit_collection_button', $rootel).show();
@@ -625,7 +631,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $('#collectionviewer_sortby', $rootel).val(collectionviewer.sortOrder);
 
             if (sakai_global && sakai_global.content_profile && sakai_global.content_profile.content_data) {
-                collectionviewer.collectionName = widgetData.data["sakai:pooled-content-file-name"] || sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
+                if (widgetData.data && widgetData.data['sakai:pooled-content-file-name']) {
+                    collectionviewer.collectionName = widgetData.data['sakai:pooled-content-file-name'];
+                } else {
+                    collectionviewer.collectionName = sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'];
+                }
                 switchListView();
                 addBinding();
             // Retrieve the name of the collection as we're not in a content profile page
