@@ -737,6 +737,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
+        /**
+         * Checks the position of the inserter on scroll and adjusts if necessary
+         */
+        var checkInserterPosition = function() {
+            if ($(window).scrollTop() <= topMargin && $inserterWidget.offset().top < topMargin) {
+                $inserterWidget.animate({
+                    'top': topMargin
+                }, 200);
+            }
+        };
+
 
         ////////////////////
         // Initialization //
@@ -769,6 +780,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
             $(window).on('sakai.collections.created', refreshWidget);
             $(window).on('sakai.inserter.dropevent', addDroppedToCollection);
+            $(window).on('scroll', checkInserterPosition);
         };
 
         /**
@@ -800,7 +812,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     var borderMargin = 15;
                     if (elOffset) {
                         // Overlaps left window border
-                        if (elOffset && elOffset.left < 0) {
+                        if (elOffset.left < 0) {
                             $inserterWidget.css('left', borderMargin);
                         }
                         // Overlaps right window border
@@ -808,11 +820,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             $inserterWidget.css('left', wWidth - iWidth - borderMargin);
                         }
                         // Overlaps top window border or topnavigation
-                        if (elOffset && elOffset.top < topMargin) {
+                        if (elOffset.top < topMargin) {
                             $inserterWidget.css('top', topMargin);
                         }
                         // Overlaps bottom window border
-                        if (elOffset.top > wHeight - iHeight) {
+                        if (elOffset.top > $(window).scrollTop() + wHeight - iHeight) {
                             $inserterWidget.css('top', wHeight - iHeight - borderMargin);
                         }
                     } else {
