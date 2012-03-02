@@ -51,6 +51,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var filesToUpload = [];
         var focusCreateNew = false;
         var contentToAdd = [];
+        var topMargin = 50;
 
         // UI Elements
         var inserterToggle = '.inserter_toggle';
@@ -782,6 +783,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'margin-left': 240,
                 'opacity': 0
             });
+            if (sakai.config.enableBranding) {
+                topMargin = 50 + $('.branding_widget').height();
+                $inserterWidget.css('top', topMargin);
+            }
             $inserterWidget.draggable({
                 cancel: 'div#inserter_collector',
                 stop: function(ev) {
@@ -803,15 +808,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             $inserterWidget.css('left', wWidth - iWidth - borderMargin);
                         }
                         // Overlaps top window border or topnavigation
-                        if (elOffset && elOffset.top < 50) {
-                            $inserterWidget.css('top', 50);
+                        if (elOffset && elOffset.top < topMargin) {
+                            $inserterWidget.css('top', topMargin);
                         }
                         // Overlaps bottom window border
                         if (elOffset.top > wHeight - iHeight) {
                             $inserterWidget.css('top', wHeight - iHeight - borderMargin);
                         }
                     } else {
-                        $inserterWidget.css('top', 50);
+                        $inserterWidget.css('top', topMargin);
                         $inserterWidget.css('left', borderMargin);
                     }
                 }
