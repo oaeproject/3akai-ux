@@ -41,12 +41,6 @@
     border: none;
     margin: 0;
 }
-#googlemaps_radio_large {
-    margin: 0 5px 5px;
-}
-#googlemaps_radio_small {
-    margin: 0 5px 5px 37px;
-}
 #googlemaps_search_container {
     margin: 0px;
     text-align: right;
