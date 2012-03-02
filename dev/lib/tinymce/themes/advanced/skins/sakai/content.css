@@ -31,3 +31,6 @@ body {
 .mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceItemVisualAid {
     border: 1px dashed #BBB;
 }
+.mceContentBody p {
+    line-height: 140%;
+}
