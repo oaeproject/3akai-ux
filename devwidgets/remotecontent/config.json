@@ -16,7 +16,6 @@
     },
     "id":"remotecontent",
     "img":"/devwidgets/remotecontent/images/remotecontent.png",
-    "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",
     "enabled":true,

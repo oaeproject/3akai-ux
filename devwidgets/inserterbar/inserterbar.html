@@ -46,13 +46,24 @@
                         <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_link_widget inserterbar_standard_icon" data-element-type="remotecontent" title="__MSG__INSERT_WEB_PAGE__"></a></li>
                     </ul>
                 </div>
-                <div class="inserterbar_widget_container fl-force-left">
+                <div id="inserterbar_widget_container_exposed" class="inserterbar_widget_container fl-force-left"><!-- --></div>
+                <div id="inserterbar_widget_container_exposed_template" style="display:none;"><!--
                     <ul>
-                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_discussion_widget inserterbar_standard_icon" data-element-type="discussion" title="__MSG__INSERT_DISCUSSION_FORUM__"></a></li>
-                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_comments_widget inserterbar_standard_icon" data-element-type="comments" title="__MSG__INSERT_COMMENT_STREAM__"></a></li>
-                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_googlemaps_widget inserterbar_standard_icon" data-element-type="googlemaps" title="__MSG__INSERT_MAP__"></a></li>
-                    </ul>
-                </div>
+                        {for widgetid in widgets}
+                            {var widget = sakai.api.Widgets.getWidget(widgetid)}
+                            {if widget}
+                                <li>
+                                    <a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_widget_exposed" data-element-type="${widgetid}" title="__MSG__INSERT__ ${sakai.api.Widgets.getWidgetTitle(widgetid)}">
+                                        <img src="${widget.img}" class="inserterbar_standard_icon inserterbar_standard_icon_out" />
+                                        {if widget.imghover}
+                                            <img src="${widget.imghover}" class="inserterbar_standard_icon inserterbar_standard_icon_hover" style="display:none;" />
+                                        {/if}
+                                    </a>
+                                </li>
+                            {/if}
+                        {/for}
+                     </ul>
+                --></div>
                 <div class="inserterbar_widget_container fl-force-left">
                     <ul>
                         <li><a href="#" tabindex="0" id="inserterbar_cancel_edit_page" class="s3d-link-button inserterbar_action_link">__MSG__CANCEL__</a></li>
@@ -83,22 +94,14 @@
 </div>
 
 <div id="inserterbar_dynamic_widget_list_template"><!--
-{macro insertWidget(widget)}
-    <a href="#" class="inserterbar_carousel_item inserterbar_widget_draggable" data-element-type="${widget.id}" tabindex="0">
-        <img src="${widget.img}" alt="${widget.id}" class="s3d-icon-25 fl-force-left"/>
-        <span class="s3d-regular-links s3d-bold">${widget.id}</span>
-        <hr class="fl-push fl-hidden"/>
-    </a>
-{/macro}
-
-{for widget in goodies.items}
-    {if !(widget_index % 2)}
-        <li>
-    {/if}
-        ${insertWidget(widget)}
-    {if !widget_index % 2}
-        <li>
-    {/if}
+{for widget in widgets}
+    <li>
+        <a href="#" class="inserterbar_carousel_item inserterbar_widget_draggable" data-element-type="${widget.id}" tabindex="0">
+            <img src="${widget.img}" alt="${widget.id}" class="s3d-icon-25 fl-force-left"/>
+            <span class="s3d-regular-links s3d-bold">${sakai.api.Widgets.getWidgetTitle(widget.id)}</span>
+            <hr class="fl-push fl-hidden"/>
+        </a>
+    </li>
 {/for}
 --></div>
 

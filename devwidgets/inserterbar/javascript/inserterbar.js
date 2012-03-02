@@ -45,12 +45,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $contentauthoringWidget = $('#contentauthoring_widget');
         var $inserterbarWidget = $('#inserterbar_widget', $rootel);
         var $inserterbarMoreWidgets = $('#inserterbar_more_widgets', $rootel);
-        var $inserterbarDynamicWidgetList = $('#inserterbar_dynamic_widget_list', $rootel);
         var $inserterbarWidgetContainer = $('#inserterbar_widget_container', $rootel);
-
-        // Templates
-        var inserterbarDynamicWidgetListTemplate = 'inserterbar_dynamic_widget_list_template';
-
+        
         // Elements
         var $inserterbarCarouselLeft = $('#inserterbar_carousel_left', $rootel);
         var $inserterbarCarouselRight = $('#inserterbar_carousel_right', $rootel);
@@ -74,39 +70,43 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Renders more widgets that can be inserted into the page
          */
         var renderWidgets = function() {
-            // Vars for media and goodies
-            var media = {
-                'items': []
-            };
-            var goodies = {
-                'items': []
-            };
-
-            // Fill in media and goodies
-            for (var i in sakai.widgets) {
-                if (sakai.widgets.hasOwnProperty(i) && i) {
-                    var widget = sakai.widgets[i];
-                    if (widget['sakaidocs'] && widget.showinmedia) {
-                        media.items.push(widget);
+            // Render the list of exposed widgets
+            sakai.api.Util.TemplateRenderer('inserterbar_widget_container_exposed_template', {
+                'sakai': sakai, 
+                'widgets': sakai.config.exposedSakaiDocWidgets
+            }, $('#inserterbar_widget_container_exposed', $rootel));
+            // Bind the hover
+            $('#inserterbar_widget_container_exposed .inserterbar_widget_exposed', $rootel).hover(function() {
+                    var $container = $(this);
+                    if ($('.inserterbar_standard_icon_hover', $container).length) {
+                        $('.inserterbar_standard_icon_out', $container).hide();
+                        $('.inserterbar_standard_icon_hover', $container).show();
                     }
-                    if (widget['sakaidocs'] && widget.showinsakaigoodies) {
-                        goodies.items.push(widget);
-                    }
+                }, function() {
+                    var $container = $(this);
+                    $('.inserterbar_standard_icon_out', $container).show();
+                    $('.inserterbar_standard_icon_hover', $container).hide();
                 }
-            }
+            );
 
-            sakai.api.Util.TemplateRenderer(inserterbarDynamicWidgetListTemplate, {
+            // Render the more widgets list
+            var moreWidgets = [];
+            $.each(sakai.widgets, function(widgetid, widget) {
+                if (widget.sakaidocs && $.inArray(widgetid, sakai.config.exposedSakaiDocWidgets) === -1) {
+                    moreWidgets.push(widget);
+                }
+            });
+            sakai.api.Util.TemplateRenderer('inserterbar_dynamic_widget_list_template', {
                 'sakai': sakai,
-                'media': media,
-                'goodies': goodies
-            }, $inserterbarDynamicWidgetList);
+                'widgets': moreWidgets
+            }, $('#inserterbar_dynamic_widget_list', $rootel));
 
-            if (goodies.items.length > 8){
+            if (moreWidgets.length > 4) {
                 setupCarousel();
             } else {
-                $('#inserterbar_more_widgets_container', $rootel).hide();
-                $('#inserterbar_carousel_left', $rootel).addClass('disabled');
-                $('#inserterbar_carousel_right', $rootel).addClass('disabled');
+            //    $('#inserterbar_more_widgets_container', $rootel).hide();
+            //    $('#inserterbar_carousel_left', $rootel).addClass('disabled');
+            //    $('#inserterbar_carousel_right', $rootel).addClass('disabled');
             }
 
             setupSortables();

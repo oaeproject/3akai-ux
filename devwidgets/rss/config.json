@@ -7,7 +7,6 @@
     "hasSettings":true,
     "id":"rss",
     "img":"/devwidgets/rss/images/rss.png",
-    "showinsakaigoodies":true,
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/rss/rss.html",

@@ -12,6 +12,5 @@
         }
     },
     "personalportal":     false,
-    "sakaidocs":          true,
-    "showinsakaigoodies": false
+    "sakaidocs":          true
 }

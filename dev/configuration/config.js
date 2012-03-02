@@ -1551,6 +1551,7 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
+        exposedSakaiDocWidgets: ["discussion", "comments", "googlemaps"],
         /*
          * Default structure and content that should be given to a newly created
          * Sakai Documented. If no default content is specified, an empty page placeholder

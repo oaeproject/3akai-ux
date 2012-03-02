@@ -12,7 +12,6 @@
     },
     "id":                 "featuredcontent",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/featuredcontent/featuredcontent.html",
     "userdashboard":      false,
