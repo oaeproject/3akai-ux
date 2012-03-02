@@ -515,6 +515,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var droppedDesktopItem = function(ev, data) {
             if (data.files.length) {
+                // We only support browsers that have XMLHttpRequest Level 2
+                if (!window.FormData) {
+                    return false;
+                }
                 $('.s3d-droppable-container', $rootel).removeClass('dragover');
                 var collectionid = '';
                 if ($(ev.target).attr('data-collection-id') ||

@@ -1837,6 +1837,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                            text.indexOf(sakai.config.SakaiDomain) < 0;
             }
             if (dt.files.length) {
+                // We only support browsers that have XMLHttpRequest Level 2
+                if (!window.FormData) {
+                    return false;
+                }
                 sakai.api.Util.progressIndicator.showProgressIndicator(
                     sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
                     sakai.api.i18n.getValueForKey('PROCESSING'));
