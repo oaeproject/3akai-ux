@@ -1544,6 +1544,8 @@ define(function(){
         enableChat: false,
         enableCategories: true,
 
+        schemaVersion: '2',
+
         Editor: {
             tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',
                 'sc','ta','ur','be','cs','es','he','it','lv','nn','se','te','vi','bg','cy','et','hi','ja','mk','no','si',

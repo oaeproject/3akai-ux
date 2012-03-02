@@ -203,12 +203,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             if ($.isPlainObject(publicToStore.structure0)) {
                                 publicToStore.structure0 = $.toJSON(publicToStore.structure0);
                             }
+                            publicToStore['sakai:schemaversion'] = sakai.config.schemaVersion;
                             sakai.api.Server.saveJSON(puburl, publicToStore);
                         }
                         if (privateToStore) {
                             if ($.isPlainObject(privateToStore.structure0)) {
                                 privateToStore.structure0 = $.toJSON(privateToStore.structure0);
                             }
+                            privateToStore['sakai:schemaversion'] = sakai.config.schemaVersion;
                             sakai.api.Server.saveJSON(privurl, privateToStore);
                         }
                         pubdata.structure0 = setManagerProperty(pubdata.structure0, true);

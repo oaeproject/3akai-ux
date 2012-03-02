@@ -716,6 +716,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             parameters: {
                                 'sling:resourceType': 'sakai/pagecontent',
                                 'sakai:pagecontent': $.toJSON(content[i]),
+                                'sakai:schemaversion': sakai.config.schemaVersion,
                                 '_charset_': 'utf-8'
                             },
                             method: 'POST'
