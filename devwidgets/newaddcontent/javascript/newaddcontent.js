@@ -611,7 +611,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             'width': 1,
                             'elements': [{
                                 'id': widgetId,
-                                'type': htmlblock
+                                'type': 'htmlblock'
                             }]
                         }]
                     }]
