@@ -243,6 +243,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+         * Reduces the count of items in the library, depends on amount of deleted items
+         * @param {Object} ev Event sent out by the deletecontent widget after deletion of content is completed
+         * @param {Array} deletedContent Array of IDs that were deleted from the library
+         */
+        var removeFromCollectionCount = function(ev, deletedContent) {
+            sakai.data.me.user.properties.contentCount -= deletedContent.length;
+            var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
+            $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
+        };
+
+        /**
          * Adds to the count of items in the collection's library
          * @param {String} collectionId The id of the collection to increase the count of (cached variable)
          * @param {int} amount Total amount of dropped items to add to the count
@@ -736,6 +747,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var addBinding = function() {
             $(window).on('click', '#subnavigation_add_collection_link', openAddNewCollection);
             $(window).on('create.collections.sakai', openAddNewCollection);
+            $(window).on('done.deletecontent.sakai', removeFromCollectionCount);
             $(window).on('sakai.mylibrary.deletedCollections', function(ev, data) {
                 if (infinityCollectionScroll) {
                     infinityCollectionScroll.removeItems(data.items);
