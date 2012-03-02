@@ -246,13 +246,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Adds to the count of items in the collection's library
          * @param {String} collectionId The id of the collection to increase the count of (cached variable)
          * @param {int} amount Total amount of dropped items to add to the count
+         * @param {Boolean} inLibrary Indicates if the dropped content is already in the personal library
          */
-        var addToCollectionCount = function(collectionId, amount) {
+        var addToCollectionCount = function(collectionId, amount, inLibrary) {
             var $contentCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
             var collectionCount = sakai.data.me.user.properties.contentCount + amount;
             $.each(sakai.data.me.groups, function(index, group) {
                 if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
-                    sakai.data.me.user.properties.contentCount += amount;
+                    if (!inLibrary) {
+                        sakai.data.me.user.properties.contentCount += amount;
+                    }
                     collectionCount = sakai.data.me.groups[index].counts.contentCount;
                 }
             });
@@ -364,7 +367,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sakai.api.Content.Collections.shareCollection(collectedCollections,
                     sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function() {
                     // Update the collection counts and list of content in the collection
-                    addToCollectionCount(collectionId, 1);
+                    addToCollectionCount(collectionId, 1, true);
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                     if (inCollection) {
                         $.each(sakai.data.me.groups, function(index, item) {
@@ -392,12 +395,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var addDroppedToMyLibrary = function(collectionId, collectedCollections, collectedContent) {
             $.each(collectedCollections, function(i, collection) {
                 sakai.api.Content.addToLibrary(collection, sakai.data.me.user.userid, false, function() {
-                    addToCollectionCount(collectionId, 1);
+                    addToCollectionCount(collectionId, 1, true);
                 });
             });
             $.each(collectedContent, function(i, content) {
                 sakai.api.Content.addToLibrary(content, sakai.data.me.user.userid, false, function() {
-                    addToCollectionCount(collectionId, 1);
+                    addToCollectionCount(collectionId, 1, true);
                 });
             });
             if (inCollection) {
@@ -484,12 +487,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             // Add it to the collection
                             if (collectionId !== 'library') {
                                 sakai.api.Content.Collections.addToCollection(collectionId, poolid, function() {
-                                    addToCollectionCount(collectionId, 1);
+                                    addToCollectionCount(collectionId, 1, false);
                                     filesToUpload.splice(0, 1);
                                     uploadFile(collectionId, permissions);
                                 });
                             } else {
-                                addToCollectionCount(collectionId, 1);
+                                addToCollectionCount(collectionId, 1, false);
                                 filesToUpload.splice(0, 1);
                                 uploadFile(collectionId, permissions);
                             }
