@@ -1551,6 +1551,10 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
+        /**
+         * The list of widgets (other than the fixed set) that should be shown inside
+         * of the inserterbar for content authoring.
+         */
         exposedSakaiDocWidgets: ["discussion", "comments", "googlemaps"],
         /*
          * Default structure and content that should be given to a newly created
