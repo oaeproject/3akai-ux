@@ -16,54 +16,172 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Main Container */
-#discussion_main_container .fl-widget-content{padding:10px;}
-.discussion_horizontal_rule {border:1px solid #DDD; margin:10px 0;}
-.discussion_pipe_divider {margin:0 5px;}
+#discussion_main_container .fl-widget-content {
+    padding: 10px;
+}
+.discussion_horizontal_rule {
+    border: 1px solid #DDD;
+    margin: 10px 0;
+}
+.discussion_pipe_divider {
+    margin: 0 5px;
+}
+
 
 /* Create new topic */
-#discussion_create_new_topic {overflow:auto;}
-#discussion_create_new_topic label {display:block; margin:5px 0px;}
+#discussion_create_new_topic {
+    overflow: auto;
+}
+#discussion_create_new_topic label {
+    display: block;
+    margin: 5px 0px;
+}
+
 
 /* Topic list */
-.discussion_topic_subject{font-size:16px; color:#444; margin-bottom:2px; font-weight:normal;}
-.discussion_topic_number_of_replies, .discussion_poster_name, .discussion_posting_date{color:#878A8C; display: block; margin-bottom: 4px;}
-.discussion_topic_number_of_replies{display:inline-block;}
-.discussion_reply_topic, .discussion_hide_reply{float:right;margin-bottom:10px;}
-.discussion_poster_name {font-size:15px; color:#666;}
-.discussion_post_message{margin-bottom:10px;white-space: pre-line;}
-.discussion_topic_replies_container .discussion_post_message{display:block;}
-.discussion_reply_contents_text{white-space:pre-line;}
-.discussion_hide_replies_icon, .discussion_show_replies_icon{height: 9px;width: 9px;margin:4px 4px 0 0; float:left;}
-.discussion_show_replies_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -24px -21px transparent;}
-.discussion_hide_replies_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -745px -21px transparent;}
-.discussion_entity_container {margin-bottom:10px;}
-.discussion_entity_container .discussion_entity_picture{width:40px; height:40px; float:left; margin-right:6px;}
-.discussion_quoted_text_container{background-color:#fff;}
-.discussion_ellipsis_text {word-wrap: break-word;}
-.discussion_show_all_ellipsis_text{display:block;}
-.discussion_quote{display: inline-block;margin-top: 10px;}
-.discussion_topic_replies_container .discussion_quote{margin-top:0px;}
-.discussion_show_all_ellipsis_text {margin-top: 2px;}
+.discussion_topic_subject {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 2px;
+    font-weight: normal;
+}
+.discussion_topic_number_of_replies, .discussion_poster_name, .discussion_posting_date {
+    color: #878A8C;
+    display: block;
+    margin-bottom: 4px;
+}
+.discussion_topic_number_of_replies {
+    display: inline-block;
+}
+.discussion_reply_topic, .discussion_hide_reply {
+    float: right;
+    margin-bottom: 10px;
+}
+.discussion_poster_name {
+    font-size: 15px;
+    color: #666;
+}
+.discussion_post_message {
+    margin-bottom: 10px;
+    white-space: pre-line;
+}
+.discussion_topic_replies_container .discussion_post_message {
+    display: block;
+}
+.discussion_reply_contents_text {
+    white-space: pre-line;
+}
+.discussion_hide_replies_icon, .discussion_show_replies_icon {
+    height: 9px;
+    width: 9px;
+    margin: 4px 4px 0 0;
+    float: left;
+}
+.discussion_show_replies_icon {
+    background: url("/dev/images/icons_sprite.png") no-repeat scroll -24px -21px transparent;
+}
+.discussion_hide_replies_icon {
+    background: url("/dev/images/icons_sprite.png") no-repeat scroll -745px -21px transparent;
+}
+.discussion_entity_container {
+    margin-bottom: 10px;
+}
+.discussion_entity_container .discussion_entity_picture {
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin-right: 6px;
+}
+.discussion_quoted_text_container {
+    background-color: #fff;
+}
+.discussion_ellipsis_text {
+    word-wrap: break-word;
+}
+.discussion_show_all_ellipsis_text {
+    display: block;
+}
+.discussion_quote {
+    display: inline-block;
+    margin-top: 10px;
+}
+.discussion_topic_replies_container .discussion_quote {
+    margin-top: 0px;
+}
+.discussion_show_all_ellipsis_text {
+    margin-top: 2px;
+}
+
 
 /* Deleted posts */
-.discussion_deleted_reply{color:#878A8C !important;}
-.discussion_deleted_reply_info, .discussion_delete_date{font-style:italic;}
+.discussion_deleted_reply {
+    color: #878A8C !important;
+}
+.discussion_deleted_reply_info, .discussion_delete_date {
+    font-style: italic;
+}
+
 
 /* Settings */
-#discussion_settings .fl-widget-content{font-size:.95em;padding:10px;}
-#discussion_settings h1{color: #5A6A7C;font-size: 16px;font-weight: normal;margin: 10px 0;}
-#discussion_settings_display_options_container input{margin-right:10px;}
-#discussion_settings label{padding-left:8px;}
-#discussion_settings #discussion_tab_content ul {margin:4px 0 10px;}
-#discussion_settings #discussion_tab_content ul li {list-style-type:none; margin-bottom:5px;}
+#discussion_settings .fl-widget-content {
+    font-size: .95em;
+    padding: 10px;
+}
+#discussion_settings h1 {
+    color: #5A6A7C;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 10px 0;
+}
+#discussion_settings_display_options_container input {
+    margin-right: 10px;
+}
+#discussion_settings label {
+    padding-left: 8px;
+}
+#discussion_settings #discussion_tab_content ul {
+    margin: 4px 0 10px;
+}
+#discussion_settings #discussion_tab_content ul li {
+    list-style-type: none;
+    margin-bottom: 5px;
+}
+
 
 /* Settings List */
-.discussion_settings_list{background-color:#fbfbfb;border:1px solid #dfdfdf;width:100%;height:140px;overflow:scroll;overflow-x:hidden;overflow:auto;}
-.discussion_settings_list_item{background-color:#fbfbfb;padding-left:10px;}
-.discussion_settings_list_item_selected,.discussion_settings_list_item:hover{background-color:#dfdfdf;padding-left:10px;}
+.discussion_settings_list {
+    background-color: #fbfbfb;
+    border: 1px solid #dfdfdf;
+    width: 100%;
+    height: 140px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow: auto;
+}
+.discussion_settings_list_item {
+    background-color: #fbfbfb;
+    padding-left: 10px;
+}
+.discussion_settings_list_item_selected,.discussion_settings_list_item:hover {
+    background-color: #dfdfdf;
+    padding-left: 10px;
+}
+
 
 /* Tabs */
-#discussion_tab_content_top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1567px transparent;margin:0;padding:0 5px 0 0;}
-#discussion_tab_content_top_inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1393px transparent;height:6px;margin:0;}
-#discussion_tab_content{padding:0px 5px 10px;}
-#discussion_tab_content_bottom{margin:0 0 20px;}
+#discussion_tab_content_top {
+    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1567px transparent;
+    margin: 0;
+    padding: 0 5px 0 0;
+}
+#discussion_tab_content_top_inner {
+    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1393px transparent;
+    height: 6px;
+    margin: 0;
+}
+#discussion_tab_content {
+    padding: 0px 5px 10px;
+}
+#discussion_tab_content_bottom {
+    margin: 0 0 20px;
+}
