@@ -50,6 +50,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var inCollection = false;
         var filesToUpload = [];
         var focusCreateNew = false;
+        var contentToAdd = [];
 
         // UI Elements
         var inserterToggle = '.inserter_toggle';
@@ -280,7 +281,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('CREATING_YOUR_COLLECTION', 'inserter'), sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
             title = title || sakai.api.i18n.getValueForKey('UNTITLED_COLLECTION', 'inserter');
             var permissions = 'public';
-            sakai.api.Content.Collections.createCollection(title, '', permissions, [], [], [], function() {
+            sakai.api.Content.Collections.createCollection(title, '', permissions, [], contentToAdd, [], function() {
+                contentToAdd = [];
                 $(window).trigger('sakai.collections.created');
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('COLLECTION_CREATED'), sakai.api.i18n.getValueForKey('COLLECTION_CREATED_LONG'));
@@ -702,6 +704,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }, $inserterCollectionInfiniteScrollContainer);
         };
 
+        /**
+         * Opens the inserter and focuses the new collection input
+         * @param {ev} ev Event catched that opens the inserter
+         * @param {data} data Contains content items to be associated with the new collection
+         */
+        var openAddNewCollection = function(ev, data) {
+            focusCreateNew = true;
+            contentToAdd = data;
+            if (!$inserterWidget.is(':visible')) {
+                toggleInserter();
+            } else {
+                renderHeader('init');
+                animateUIElements('reset');
+                inCollection = false;
+                $(inserterCreateCollectionInput).focus();
+            }
+        };
+
 
         ////////////////////
         // Initialization //
@@ -711,17 +731,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Add binding to various elements of the widget
          */
         var addBinding = function() {
-            $(window).on('click', '#subnavigation_add_collection_link', function() {
-                focusCreateNew = true;
-                if (!$inserterWidget.is(':visible')) {
-                    toggleInserter();
-                } else {
-                    renderHeader('init');
-                    animateUIElements('reset');
-                    inCollection = false;
-                    $(inserterCreateCollectionInput).focus();
-                }
-            });
+            $(window).on('click', '#subnavigation_add_collection_link', openAddNewCollection);
+            $(window).on('create.collections.sakai', openAddNewCollection);
             $(window).on('sakai.mylibrary.deletedCollections', function(ev, data) {
                 if (infinityCollectionScroll) {
                     infinityCollectionScroll.removeItems(data.items);
