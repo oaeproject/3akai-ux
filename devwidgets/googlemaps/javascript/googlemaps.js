@@ -37,7 +37,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.googlemaps = function(tuid, showSettings, widgetData){
+    sakai_global.googlemaps = function(tuid, showSettings, widgetData) {
 
         /////////////////////////////
         // Configuration variables //
@@ -59,42 +59,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var saveToJCR = function() {
             json = $('#googlemaps_iframe_map', rootel)[0].contentWindow.getJSON();
-
-            // Set the value of mapsize according to the radio button selection status
-            json.mapsize = 'SMALL';
-            if ($('#googlemaps_radio_large', rootel).is(':checked')) {
-                json.mapsize = 'LARGE';
-            }
-
             // Store the corresponded map data into backend server
             sakai.api.Widgets.saveWidgetData(tuid, json, finish);
         };
 
         /**
-         * To set the map initial size in the show panel
-         */
-        var setMapSize = function(callback) {
-            if(!showSettings) {
-                if (json && json.mapsize === 'SMALL') {
-                    // Set the size of map according to the data stored on the backend server
-                    $('#googlemaps_iframe_map', rootel).width('50%');
-                } else {
-                    $('#googlemaps_iframe_map', rootel).width('100%');
-                }
-            } else {
-                if (json) {
-                    $('#googlemaps_radio_small', rootel).attr('checked', 'checked');
-                    if (json.mapsize === 'LARGE') {
-                        // If the reserved mapsize is 'LARGE', the 'large' radio button should be checked
-                        $('#googlemaps_radio_large', rootel).attr('checked', 'checked');
-                    }
-                }
-            }
-            callback();  // Set the map center, zoom and infowindow in the map iframe
-        };
-
-        /**
-         * To set the map's center, zoom, size, info window content properties
+         * To set the map's center, zoom, info window content properties
          */
         var setMap = function() {
             if (json) {
@@ -109,7 +79,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (widgetData && widgetData.googlemaps) {
                 renderMap(true, widgetData.googlemaps);
             } else {
-                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                     renderMap(success, data);
                 });
             }
@@ -119,10 +89,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (success) {
                 // Get data from the backend server
                 json = data;
-
-                // Set the size of the map's iframe
-                setMapSize(setMap);
-
+                setMap();
                 // Set the initial value of search keyword input textbox
                 $('#googlemaps_input_text_location', rootel).val(json.mapinput);
             } else {
@@ -147,7 +114,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // Show the search input textfield and save, search, cancel buttons
                 $('#googlemaps_form_search', rootel).show();
                 $('#googlemaps_save_cancel_container', rootel).show();
-                $('#googlemaps_size_options', rootel).show();
 
                 // Add a submit listener so that the search function can be executed
                 $('#googlemaps_form_search', rootel).submit(function() {
