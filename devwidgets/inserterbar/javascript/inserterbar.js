@@ -104,9 +104,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (moreWidgets.length > 4) {
                 setupCarousel();
             } else {
-            //    $('#inserterbar_more_widgets_container', $rootel).hide();
-            //    $('#inserterbar_carousel_left', $rootel).addClass('disabled');
-            //    $('#inserterbar_carousel_right', $rootel).addClass('disabled');
+                $('#inserterbar_carousel_left', $rootel).hide();
+                $('#inserterbar_carousel_right', $rootel).hide();
             }
 
             setupSortables();
@@ -183,6 +182,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('#inserterbar_default_widgets_container', $rootel).hide();
             $('#inserterbar_tinymce_container', $rootel).hide();
             $('#inserterbar_revision_history_container', $rootel).hide();
+            $('#inserterbar_more_widgets_container', $rootel).hide();
         };
 
         /**

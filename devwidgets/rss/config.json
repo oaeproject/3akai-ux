@@ -13,7 +13,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/rss/bundles/default.properties",
-            "name": "RSS feed reader",
+            "name": "RSS reader",
             "description":"RSS feed reader"
         },
         "en_US": {
