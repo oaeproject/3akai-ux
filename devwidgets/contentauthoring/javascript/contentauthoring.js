@@ -1478,6 +1478,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // Edit a widget
         $rootel.on('click', '.contentauthoring_cell_element_action_e', editWidgetMode);
 
+        // Close widget settings
+        $('#contentauthoring_widget_settings', $rootel).on('click', '.s3d-dialog-close', sakai_global.contentauthoring.widgetCancel);
+
         /////////////////////////
         // INSERTERBAR ACTIONS //
         /////////////////////////
