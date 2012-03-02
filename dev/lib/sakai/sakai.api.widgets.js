@@ -861,11 +861,11 @@ define(
          * This function will return widget configuration for a specific widget
          * @param {Object} widgetid  id of the widget as specified in the widget's config file
          */
-        getWidget: function(widgetid){
-            if (sakai.widgets[widgetid]){
+        getWidget: function(widgetid) {
+            if (sakai.widgets[widgetid]) {
                 return sakai.widgets[widgetid];
             } else {
-                debug.error("A config file was not found for the following widget: " + widgetid);
+                debug.error('A config file was not found for the following widget: ' + widgetid);
                 return false;
             }
         },
