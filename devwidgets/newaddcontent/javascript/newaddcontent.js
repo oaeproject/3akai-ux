@@ -120,6 +120,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         var brandNewContent = {};
         var allNewContent = [];
         var lastUpload = [];
+        var existingAdded = [];
         var libraryToUploadTo = '';
         // Keep track of number of files in the upload list selected by browsing the OS
         // This number will later be used to check against the multifile list of uploads to avoid bug (https://jira.sakaiproject.org/browse/SAKIII-3269)
@@ -518,7 +519,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             itemsUploaded++;
             if(itemsToUpload.length === itemsUploaded) {
                 sakai.data.me.user.properties.contentCount += itemsUploaded;
-                $(window).trigger('done.newaddcontent.sakai', [lastUpload, libraryToUploadTo]);
+                var itemsAdded = $.extend(true, [], existingAdded);
+                itemsAdded = $.merge(itemsAdded, lastUpload);
+                $(window).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
                 // If adding to a group library or collection, these will also still be added to my library
                 if (libraryToUploadTo !== sakai.data.me.user.userid) {
                     brandNewContent[sakai.data.me.user.userid] = brandNewContent[sakai.data.me.user.userid] || [];
@@ -864,6 +867,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                                 checkUploadCompleted();
                             });
                         } else {
+                            existingAdded.push(item);
                             checkUploadCompleted();
                         }
                     }
