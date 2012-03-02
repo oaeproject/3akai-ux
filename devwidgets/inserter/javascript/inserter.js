@@ -812,7 +812,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     var borderMargin = 15;
                     if (elOffset) {
                         // Overlaps left window border
-                        if (elOffset.left < 0) {
+                        if (elOffset.left <= 0) {
                             $inserterWidget.css('left', borderMargin);
                         }
                         // Overlaps right window border
