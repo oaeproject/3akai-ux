@@ -1515,14 +1515,9 @@ define(function(){
                 "url": "/dev/skins/default/skin.css"
             },
             {
-                "title": "TOP",
+                "title": "TOPNAV",
                 "text": "Top navigation",
                 "url": "/dev/skins/topnav/skin.css"
-            },
-            {
-                "title": "NOLEFT",
-                "text": "No left navigation",
-                "url": "/dev/skins/noleft/skin.css"
             },
             {
                 "title": "CAMBRIDGE",

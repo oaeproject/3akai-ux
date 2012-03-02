@@ -234,11 +234,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
-                    $('#ew_group_change_theme_link').live("click", function(ev) {
-                        $(window).trigger("init.themechanger.sakai", context.data.authprofile['sakai:group-id']);
-                        $('#entity_groupsettings_dropdown').jqmHide();
-                    });
-
                     $('#ew_group_join_requests_link').live("click", function(ev) {
                         $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
                         $('#entity_groupsettings_dropdown').jqmHide();

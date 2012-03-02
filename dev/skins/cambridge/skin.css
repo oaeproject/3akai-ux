@@ -23,6 +23,14 @@ body {
     background-color: #669999 !important;
 }
 
+.branding_widget {
+    background-image: url("/dev/skins/cambridge/header.png") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-color: #FFFFFF !important;
+    height: 60px !important;
+}
+
 /* COLUMNS */
 .s3d-page-column-left{
     background:url("/devwidgets/lhnavigation/images/lhnav_bg.png") repeat-x scroll 0 0 #FEFEFE;
@@ -168,9 +176,6 @@ body {
 
 .s3d-page-header #entity_container {
     background-color: #9c9;
-    background-image: url("/dev/skins/cambridge/header.png");
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .s3d-page-header-bottom-row .s3d-button.s3d-large-button{

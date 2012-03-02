@@ -9,7 +9,7 @@
         <div id="worldsettings_form_container"></div>
         <!-- BUTTONS -->
         <div class="dialog_buttons fl-force-right">
-            <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
+            <button type="button" class="s3d-link-button s3d-bold jqmClose"  id="worldsettings_close_button">__MSG__CANCEL__</button>
             <button type="button" class="s3d-button s3d-overlay-action-button" id="worldsettings_apply_button">__MSG__APPLY_SETTINGS__</button>
         </div>
         <hr class="fl-push fl-hidden"/>
@@ -57,7 +57,18 @@
                 <option {if membership === "no"} selected="selected"{/if} value="no">__MSG__JOIN_MANAGER_ADD__</option>
             </select>
         </div>
-    </div>
+        
+        <div class="worldsettings_section">
+                        <label for="worldsettings_theme" class="s3d-input-label">__MSG__THEME__:</label>
+                        <select id="worldsettings_change_theme_to">
+                                <{for i in themes.themes}
+                                    <option {if selectedTheme === i.title} selected="selected"{/if} value="${i.title}">${i.text}</option>
+                                {/for}
+                        </select>
+        </div>
+        
+        
+        </div>
 --></div>
 
 <div id="worldsettings_warning_container_text_template" style="display:none;"><!--

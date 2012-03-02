@@ -4,14 +4,14 @@
  * distributed with this work for additional information
  * regarding copyright ownership. The SF licenses this file
  * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
+ * 'License'); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
@@ -36,38 +36,114 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
 
         // Data Items in the Form
-        var worldsettingsTitle = "#worldsettings_title";
-        var worldsettingsDescription = "#worldsettings_description";
-        var worldsettingsTags =  "#worldsettings_tags";
+        var worldsettingsTitle = '#worldsettings_title';
+        var worldsettingsDescription = '#worldsettings_description';
+        var worldsettingsTags =  '#worldsettings_tags';
         var $worldsettingsTags = false;
-        var worldsettingsCanBeFoundIn = "#worldsettings_can_be_found_in";
-        var worldsettingsMembership = "#worldsettings_membership";
+        var worldsettingsCanBeFoundIn = '#worldsettings_can_be_found_in';
+        var worldsettingsMembership = '#worldsettings_membership';
 
         // Page Structure Elements
-        var $worldsettingsContainer = $("#worldsettings_container", $rootel);
-        var $worldsettingsDialog = $(".worldsettings_dialog", $rootel);
-        var $worldsettingsForm = $("#worldsettings_form", $rootel);
-        var $worldsettingsApplyButton = $("#worldsettings_apply_button");
+        var $worldsettingsContainer = $('#worldsettings_container', $rootel);
+        var $worldsettingsDialog = $('.worldsettings_dialog', $rootel);
+        var $worldsettingsForm = $('#worldsettings_form', $rootel);
+        var $worldsettingsApplyButton = $('#worldsettings_apply_button');
+        var $worldsettingsClosebButton = $('#worldsettings_close_button', $rootel);
+        var $worldsettingsWarning = $('#worldsettings_warning_container', $rootel);
 
-        var visibility = "",
-            worldId = "";
+        //Themechanger
+        var themePicker = '#worldsettings_change_theme_to';
+        var themePickerTemplate = $('#themechanger_form_template', $rootel);
+        var themes = {};
+
+        var visibility = '',
+            worldId = '';
+
+
+
+        /**
+        * Gets and returns the url of the css based on the theme name
+        * @param {String} theme The name of the theme
+        * @return {String} url Returns the url of the theme's cssfile
+        */
+        var getURL = function(theme){
+            var url = '';
+            $.each(sakai.config.skinStore, function(key, value){
+                if(theme == value.title) { 
+                   url = value.url;
+                }
+            });
+            return url;
+        };
+
+        /**
+        * Removes the current skin and adds the new one in head
+        * @param {String} cssURL The url of the skin to which the user wants to change to
+        */
+        var changeCSS = function(cssURL){
+            
+            $('link[href*="skin"]').each(function(){
+                this.removeAttribute('href');
+            });
+            $('head').append('<link href=' + cssURL + ' type="text/css" rel="stylesheet" />');
+        };
+
+        var getCurrentTheme = function(){
+            var href = '';
+            var currentTheme = '';
+            $('link[href*="skin"]').each(function() {
+                href = this.href;
+            });
+            
+            $.each(themes, function(i, v){
+                $.each(v, function (j, w) {
+                        if (href.indexOf(w.url) >= 0){
+                            currentTheme = w.title;
+                        }
+                });
+            });
+            return currentTheme;
+        }
+
+        /**
+        * POST to JSON file with new customStyle and calls changeCSS
+        * @param {String} theme The name of the theme
+        */
+        var changeTheme = function(theme) {
+            var isAlreadyUsed = '';
+            var cssURL = getURL(theme);
+            $('link[href*="' + cssURL + '"]').each(function() {
+               isAlreadyUsed = theme;
+            });
+            if(!isAlreadyUsed){
+                $.ajax({
+                    url: '/system/userManager/group/' + sakai_global.group.groupId + '.update.json',
+                    data: {
+                        'sakai:customStyle': cssURL
+                    },
+                    type: 'POST' 
+                });
+                changeCSS(cssURL);
+            }
+        };
+
 
         var showWarning = function(){
             var newVisibility = $(worldsettingsCanBeFoundIn);
             var newVisibilityVal = $.trim(newVisibility.val());
             var oldVisibilityIndex = parseInt(newVisibility.find("option[value='" + sakai_global.group.groupData["sakai:group-visible"] + "']").attr("index"), 10);
-            if (sakai_global.group.groupData["sakai:group-visible"] === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex"), 10) > oldVisibilityIndex || newVisibilityVal === "members-only"){
+            if (sakai_global.group.groupData['sakai:group-visible'] === newVisibilityVal || parseInt(newVisibility.attr('selectedIndex'), 10) > oldVisibilityIndex || newVisibilityVal === 'members-only'){
                 $worldsettingsForm.submit();
             } else {
-                $("#worldsettings_warning_container_text").html(sakai.api.Util.TemplateRenderer("worldsettings_warning_container_text_template", {
-                    "visibility": newVisibilityVal,
-                    "group": sakai_global.group.groupData['sakai:group-title']
+                $('#worldsettings_warning_container_text').html(sakai.api.Util.TemplateRenderer('worldsettings_warning_container_text_template', {
+                    'visibility': newVisibilityVal,
+                    'group': sakai_global.group.groupData['sakai:group-title']
                 }));
-                sakai.api.Util.bindDialogFocus($("#worldsettings_warning_container"));
-                $("#worldsettings_warning_container").jqmShow();
+                sakai.api.Util.bindDialogFocus($('#worldsettings_warning_container'));
+                $('#worldsettings_warning_container').jqmShow();
             }
         };
 
@@ -76,7 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         var handleSubmit = function(form) {
-            $worldsettingsContainer.find("select, input").attr("disabled","disabled");
+            $worldsettingsContainer.find('select, input').attr('disabled','disabled');
             var worldTitle = $.trim($(worldsettingsTitle).val());
             var worldDescription = $.trim($(worldsettingsDescription).val());
             var foundIn = $.trim($(worldsettingsCanBeFoundIn).val());
@@ -85,28 +161,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var worldTags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $worldsettingsTags, true );
 
             var worldData = {
-                "sakai:group-title":  worldTitle,
-                "sakai:group-description": worldDescription,
-                "sakai:group-visible": foundIn,
-                "sakai:group-joinable": membership
+                'sakai:group-title':  worldTitle,
+                'sakai:group-description': worldDescription,
+                'sakai:group-visible': foundIn,
+                'sakai:group-joinable': membership
             };
 
             sakai.api.Groups.updateGroupProfile(worldId, worldData, worldTags, sakai_global.group.groupData, function( success ) {
-                 $worldsettingsContainer.find("select, input").removeAttr("disabled");
+                 $worldsettingsContainer.find('select, input').removeAttr('disabled');
 
-                 $(window).trigger("sakai.entity.updateTitle", worldTitle);
-                 sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
+                 $(window).trigger('sakai.entity.updateTitle', worldTitle);
+                 sakai.api.Util.notification.show($('#worldsettings_success_title').html(), $('#worldsettings_success_body').html());
                  $worldsettingsDialog.jqmHide();
-                 $("#worldsettings_warning_container").jqmHide();
+                 $('#worldsettings_warning_container').jqmHide();
             });
         };
 
         var bindEvents = function(worldId) {
-            $worldsettingsApplyButton.die("click").live("click", function() {
+            $worldsettingsApplyButton.off('click').on('click', function() {
+                var selectedTheme = $.trim($(themePicker).val());
+                changeTheme(selectedTheme);
                 showWarning();
             });
-            $("#worldsettings_proceedandapply").die("click");
-            $("#worldsettings_proceedandapply").live("click", function(){
+            $('#worldsettings_proceedandapply').off('click');
+            $('#worldsettings_proceedandapply').on('click', function(){
                 $worldsettingsForm.submit();
             });
 
@@ -123,15 +201,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderWorldSettings = function(){
             var profile = sakai_global.group.groupData;
-            $("#worldsettings_form_container").html(sakai.api.Util.TemplateRenderer("worldsettings_form_template",{
-                "title": profile['sakai:group-title'],
-                "description": profile['sakai:group-description'],
-                "foundin": profile['sakai:group-visible'],
-                "membership": profile['sakai:group-joinable']
+            themes = {themes:$.extend(sakai.config.skinStore, {}, true)};
+            $('#worldsettings_form_container').html(sakai.api.Util.TemplateRenderer('worldsettings_form_template',{
+                'title': profile['sakai:group-title'],
+                'description': profile['sakai:group-description'],
+                'foundin': profile['sakai:group-visible'],
+                'membership': profile['sakai:group-joinable'],
+                'themes': themes,
+                'selectedTheme': getCurrentTheme()
             }));
-            var initialTagsValue = profile[ "sakai:tags" ] ? profile[ "sakai:tags" ] : false;
+            var initialTagsValue = profile[ 'sakai:tags' ] ? profile[ 'sakai:tags' ] : false;
             $worldsettingsTags = $( worldsettingsTags );
-            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $worldsettingsTags, null, $(".list_categories", $rootel), initialTagsValue );
+            sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $worldsettingsTags, null, $('.list_categories', $rootel), initialTagsValue );
         };
 
         /**
@@ -147,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true,
                 zIndex: 3000
             });
-            $("#worldsettings_warning_container").jqm({
+            $('#worldsettings_warning_container').jqm({
                 modal: true,
                 overlay: 20,
                 toTop: true,
@@ -158,11 +239,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         // run the initialization function when the widget object loads
-        $(window).bind("init.worldsettings.sakai", function(e, _worldId) {
-            doInit(_worldId);
+        $(window).bind('init.worldsettings.sakai', function(e, worldId) {
+            doInit(worldId);
         });
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("worldsettings");
+    sakai.api.Widgets.widgetLoader.informOnLoad('worldsettings');
 });
