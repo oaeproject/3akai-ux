@@ -15,6 +15,11 @@
  */
 
 /**
+ * Sakai edit - replace .html() with .text()
+ * https://github.com/davidchambers/jquery_jeditable/commit/3b65bc6df097dde79ca9f40f55babdbf9882c7a3
+ */
+
+/**
   * Version 1.7.1
   *
   * ** means there is basic unit tests for this parameter. 
@@ -174,7 +179,7 @@ require(['jquery'], function (jQuery) {
                 }
                                 
                 self.editing    = true;
-                self.revert     = $(self).html();
+                self.revert     = $(self).text();
                 $(self).html('');
 
                 /* create the form object */
@@ -313,7 +318,7 @@ require(['jquery'], function (jQuery) {
                           /* check if given target is function */
                           if ($.isFunction(settings.target)) {
                               var str = settings.target.apply(self, [input.val(), settings]);
-                              $(self).html(str);
+                              $(self).text(str);
                               self.editing = false;
                               callback.apply(self, [self.innerHTML, settings]);
                               /* TODO: this is not dry */                              
@@ -382,7 +387,7 @@ require(['jquery'], function (jQuery) {
                 if (this.editing) {
                     /* before reset hook, if it returns false abort reseting */
                     if (false !== onreset.apply(form, [settings, self])) { 
-                        $(self).html(self.revert);
+                        $(self).text(self.revert);
                         self.editing   = false;
                         if (!$.trim($(self).html())) {
                             $(self).html(settings.placeholder);
