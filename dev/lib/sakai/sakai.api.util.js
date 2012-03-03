@@ -50,7 +50,7 @@ define(
                 script.src = "/dev/lib/MathJax/MathJax.js";
 
                 var config = 'MathJax.Hub.Config({ messageStyle: "none" }); ' +
-                             'MathJax.Hub.Config({ config: "MathJax.js" }); ' +
+                             'MathJax.Hub.Config({ config: "default.js" }); ' +
                              'MathJax.Hub.Startup.onload();';
 
                 if (window.opera) {script.innerHTML = config;}
