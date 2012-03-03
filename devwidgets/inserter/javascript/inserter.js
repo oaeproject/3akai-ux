@@ -416,7 +416,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var collectedCollections = [];
             $.each(data, function(index, item) {
                 if (item.collection) {
-                    collectedCollections.push(item.entityid);
+                    // We don't need to send an extra POST since we can't add a collection to itself
+                    if (collectionId !== item.entityid) {
+                        collectedCollections.push(item.entityid);
+                    }
                 } else {
                     collectedContent.push(item.entityid);
                 }
