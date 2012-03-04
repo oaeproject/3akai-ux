@@ -105,6 +105,11 @@
     -webkit-user-select: auto;
 }
 
+.contentauthoring_edit_mode textarea, .contentauthoring_edit_mode input  {
+    -webkit-touch-callout: auto;
+    -webkit-user-select: auto;
+}
+
 .contentauthoring_edit_mode .contentauthoring_cell_element_hover,
 .contentauthoring_edit_mode .contentauthoring_cell_element.selected {
     border: 1px solid #4c4c4c;

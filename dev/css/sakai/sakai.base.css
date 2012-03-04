@@ -2593,7 +2593,7 @@ ul li.s3d-list-item:hover {
 	padding: 5px;
 }
 .s3d-form-field-wrapper input.s3d-input-full-width, .s3d-form-field-wrapper textarea.s3d-input-full-width {
-	width: 98%;
+	width: 96%;
 	clear: both;
 }
 .s3d-form-field-wrapper ul.as-selections {
