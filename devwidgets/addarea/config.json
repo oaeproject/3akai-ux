@@ -12,7 +12,6 @@
     },
     "id":                 "addarea",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/addarea/addarea.html",
     "userdashboard":      false,
