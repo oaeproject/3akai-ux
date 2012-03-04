@@ -2663,6 +2663,7 @@ ul li.s3d-list-item:hover {
 	padding: 4px 7px;
 	display: inline-block;
 	font-size: 11px;
+	z-index: 10001;
 	box-shadow: 0px 1px 3px 0 #999;
 	-moz-box-shadow: 0px 1px 3px 0 #999;
 	-webkit-box-shadow: 0px 1px 3px 0 #999;
