@@ -35,10 +35,7 @@
                     {else}
                         <div class="${embedClass} ${layout} {if embedmethod === 'thumbnail'} s3d-draggable-container {/if}" data-scope="content" data-entityid="${item.fullresult._path}" {if sakai.api.Content.Collections.isCollection(item.fullresult)} data-collection="true" {/if}>
                             {var mimeType = sakai.api.Content.getMimeType(item.fullresult)}
-                            {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description)}
-                            {if sakai.config.MimeTypes[mimeType]}
-                                {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
-                            {/if}
+                            {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(mimeType).description)}
                             {var thumbnail = sakai.api.Content.getThumbnail(item.fullresult)}
                             {if embedmethod === 'thumbnail' && thumbnail}
                                 <a href="${item.contentProfileLink}" title="${item.name}">

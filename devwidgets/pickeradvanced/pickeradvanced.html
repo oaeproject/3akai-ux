@@ -53,10 +53,7 @@
                     <li id="${i["_path"]}">
                         <input type="checkbox" name="selected" value="${i["_path"]}" />
                         {var mimetype = sakai.api.Content.getMimeType(i)}
-                        {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description)}
-                        {if sakai.config.MimeTypes[mimetype]}
-                            {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimetype].description)}
-                        {/if}
+                        {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(mimetype).description)}
                         {var thumbnail = sakai.api.Content.getThumbnail(i)}
                         {if thumbnail}
                             <img src="${thumbnail}" alt="${mimeTypeDescription}" class="pickeradvanced_ppicture"/>
