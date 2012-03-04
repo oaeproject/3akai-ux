@@ -99,6 +99,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             } else if (focusCreateNew) {
                 $(inserterCreateCollectionInput).focus();
             }
+            refreshWidget();
         };
 
         /**
