@@ -12,7 +12,6 @@
     },
     "id":                 "institutionalskinning",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/institutionalskinning/institutionalskinning.html",
     "userdashboard":      false,

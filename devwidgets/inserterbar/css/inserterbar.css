@@ -59,11 +59,7 @@
 }
 
 #inserterbar_widget #inserterbar_more_widgets_container .inserterbar_widget_container {
-    margin: 2px 0 0 64px;
-}
-
-#inserterbar_widget #inserterbar_more_widgets_container hr {
-    margin-bottom: 2px;
+    margin: 2px 0 0;
 }
 
 #inserterbar_widget .inserterbar_label {
@@ -168,31 +164,10 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget_hover.png") no-repeat top left transparent;
 }
 
-#inserterbar_widget .inserterbar_discussion_widget {
-    background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget.png") no-repeat top left transparent;
-}
-#inserterbar_widget .inserterbar_discussion_widget:hover, #inserterbar_widget .inserterbar_discussion_widget:focus {
-    background: url("/devwidgets/inserterbar/images/inserterbar_discussion_widget_hover.png") no-repeat top left transparent;
-}
-
-#inserterbar_widget .inserterbar_comments_widget {
-    background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget.png") no-repeat top left transparent;
-}
-#inserterbar_widget .inserterbar_comments_widget:hover, #inserterbar_widget .inserterbar_comments_widget:focus {
-    background: url("/devwidgets/inserterbar/images/inserterbar_comments_widget_hover.png") no-repeat top left transparent;
-}
-
-#inserterbar_widget .inserterbar_googlemaps_widget {
-    background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget.png") no-repeat top left transparent;
-}
-#inserterbar_widget .inserterbar_googlemaps_widget:hover, #inserterbar_widget .inserterbar_googlemaps_widget:focus {
-    background: url("/devwidgets/inserterbar/images/inserterbar_googlemaps_widget_hover.png") no-repeat top left transparent;
-}
-
 /* Carousel */
 #inserterbar_widget .inserterbar_carousel_arrow {
     cursor: pointer;
-    height: 100px;
+    height: 35px;
     width: 25px;
 }
 
@@ -220,29 +195,30 @@
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
-    height: 75px;
+    height: 30px;
     margin: 2px 25px;
-    padding: 12px 0 9px;
-    width: 530px;
+    padding: 2px 0;
+    width: 615px;
 }
 #inserterbar_widget .inserterbar_carousel_item span {
     display: inline-block;
     font-size: 12px;
-    margin: 5px 0 0 7px;
+    margin: 3px 0 0 7px;
 }
 
 #inserterbar_widget .inserterbar_carousel_item {
     display: block;
-    height: 30px;
-    width: 110px;
+    width: 130px;
+    margin-top: 3px;
 }
 
 #inserterbar_more_widgets_container ul li {
     display: inline-block;
 }
 
-#inserterbar_more_widgets_container ul li a:first-child{
-    margin-bottom: 14px;
+#inserterbar_dynamic_widget_list img {
+    max-width: 25px;
+    max-height: 20px;
 }
 
 /* Action links */

@@ -3,7 +3,7 @@
     "userdashboard": true,
     "grouppages": true,
     "groupdashboard": true,
-    "sakaidocs": true,
+    "sakaidocs": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/remotecontent/bundles/default.properties",
@@ -16,7 +16,6 @@
     },
     "id":"remotecontent",
     "img":"/devwidgets/remotecontent/images/remotecontent.png",
-    "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",
     "enabled":true,

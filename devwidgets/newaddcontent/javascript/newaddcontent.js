@@ -611,7 +611,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             'width': 1,
                             'elements': [{
                                 'id': widgetId,
-                                'type': htmlblock
+                                'type': 'htmlblock'
                             }]
                         }]
                     }]
@@ -1300,6 +1300,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 drop: function (ev, data) {
                     ev.stopPropagation();
                     ev.preventDefault();
+                    // We only support browsers that have XMLHttpRequest Level 2
+                    if (!window.FormData) {
+                        return false;
+                    }
                     if ($(ev.target).is($('#newaddcontent_container_selecteditems')) || $(ev.target).parents('#newaddcontent_container_selecteditems').length) {
                         var error = false;
                         $.each(data.files, function (index, file) {
