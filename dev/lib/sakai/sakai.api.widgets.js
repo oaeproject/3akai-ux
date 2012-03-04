@@ -173,6 +173,20 @@ define(
         },
 
         /**
+         * Get the URL from which a widget should load its widget data and to which
+         * it should store its widget data
+         * @param {String} id   The unique id of the widget
+         */
+        getWidgetDataStorageURL : function(id) {
+            if (id && sakaiWidgetsAPI.widgetLoader.widgets[id] && sakaiWidgetsAPI.widgetLoader.widgets[id].placement) {
+                return sakaiWidgetsAPI.widgetLoader.widgets[id].placement;
+            } else {
+                debug.error("The widget with unique id " + id + " could not be found");
+                return false;
+            }
+        },
+
+        /**
          * Will be used for detecting widget declerations inside the page and load those
          * widgets into the page
          */
