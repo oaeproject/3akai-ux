@@ -130,6 +130,9 @@ blockquote {
 .block_image_right {
 	float: right;
 }
+.s3d-force-hidden {
+    display: none !important;
+}
 
 /* GENERAL WIDGET CSS */
 /* Widget settings */
