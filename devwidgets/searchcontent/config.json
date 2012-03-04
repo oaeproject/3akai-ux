@@ -12,7 +12,6 @@
     },
     "id":                 "searchcontent",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/searchcontent/searchcontent.html",
     "userdashboard":      false,

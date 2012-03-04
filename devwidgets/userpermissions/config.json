@@ -12,7 +12,6 @@
     },
     "id":                 "userpermissions",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/userpermissions/userpermissions.html",
     "userdashboard":      false,
