@@ -103,6 +103,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     // Additional event handlers
                     setup : editorSetup
                 });
+                // Hide the widget controls
+                var $containingCell = $('.htmlblock_widget', $rootel).parents('.contentauthoring_cell_element');
+                $('.contentauthoring_cell_element_actions', $containingCell).addClass('s3d-force-hidden');
             }
         };
 
@@ -120,15 +123,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Cache the editor elements
             $editor = $('#' + editorId + '_ifr');
             $toolbar = $('#' + editorId + '_external').hide();
-            // Hide the widget controls
-            $('.contentauthoring_cell_element_actions').hide();
             // Move the toolbar to the inserterbar widget
             $('#inserterbar_widget #inserterbar_tinymce_container').append($toolbar);
             // Set timeOut as tinyMCE seems to need a little bit of additional time before we see all
             // of the content in the editor
             setTimeout(function() {
+                var $containingCell = $('.htmlblock_widget', $rootel).parents('.contentauthoring_cell_element');
+                $containingCell.removeClass('contentauthoring_init');
                 updateHeight();
-                $('.htmlblock_widget', $rootel).parents('.contentauthoring_cell_element').removeClass('contentauthoring_init');
+                $('.contentauthoring_cell_element_actions', $containingCell).removeClass('s3d-force-hidden').hide();
             }, 1000);
             startAutoSave();
         };
