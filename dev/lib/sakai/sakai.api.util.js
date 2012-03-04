@@ -2473,18 +2473,21 @@ define(
                     scrollSensitivity: 100,
                     opacity: 0.5,
                     cursor: 'move',
-                    zindex: 10000,
+                    zIndex: 100000,
                     cursorAt: {
                         top: 10,
                         left: 5
                     },
                     stop: function(event, ui) {
+                        sakai_util.Draggable.removeIFrameFix();
                         $('.s3d-draggable-draggingitems').remove();
+                        $(window).trigger('stop.drag.sakai');
                         if ($(this).data('stopdragevent')) {
                             $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
                     start: function(event, ui) {
+                        sakai_util.Draggable.setIFrameFix();
                         $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
                         $(window).trigger('start.drag.sakai');
                         if ($(this).data('startdragevent')) {

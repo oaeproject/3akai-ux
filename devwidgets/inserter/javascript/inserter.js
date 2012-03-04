@@ -602,12 +602,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $inserterNoResultsContainer.hide();
             sakai.api.Util.Draggable.setupDraggable({
                 connectToSortable: '.contentauthoring_cell_content',
-                start: function() {
-                    sakai.api.Util.Draggable.setIFrameFix();
-                },
-                stop: function() {
-                    sakai.api.Util.Draggable.removeIFrameFix();
-                }
             }, $inserterContentInfiniteScrollContainerList);
             sakai.api.Util.Droppable.setupDroppable({
                 scope: 'content'
