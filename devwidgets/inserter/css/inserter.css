@@ -23,7 +23,6 @@
     box-shadow: 0 0 7px #000;
     -moz-box-shadow: 0 0 7px #000;
     -webkit-box-shadow: 0 0 7px #000;
-    overflow: hidden;
     left: 10px;
     min-height: 100px;
     position: fixed !important;
