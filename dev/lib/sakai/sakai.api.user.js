@@ -276,7 +276,7 @@ define(
                 if (success) {
                     $.each(reqData.results, function(index, val) {
                         var data = $.parseJSON(val.body);
-                        if (data.userid) {
+                        if (data && data.userid) {
                             users[data.userid] = data;
                         }
                     });
