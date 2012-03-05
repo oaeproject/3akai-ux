@@ -75,7 +75,10 @@
 #entity_container .entity_owns_actions_container .s3d-dropdown-list-arrow-up {background-position:center center;margin-left:37px !important;width:46px;height:32px !important;}
 #contentpreview_download_button {line-height:23px !important;}
 #entity_container .entity_content_usedby {margin-right: 10px;}
-#entity_container .s3d-dropdown-list {position:absolute;width:120px;}
+#entity_container .s3d-dropdown-list {
+    position:   absolute;
+    width:      120px;
+}
 
 /* Directory */
 #entity_container #entity_directory_image {width:45px;float:left;margin-right:15px;margin-top:-14px;}
