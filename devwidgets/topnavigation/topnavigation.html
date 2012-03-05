@@ -35,9 +35,9 @@
         {elseif type === "collections"}
             <div id="topnavigation_user_collections_container" class="topnavigation_counts_container">
                 <div class="topnavigation_usersection_splitter">|</div>
-                <button class="topnavigation_menuitem_counts_container collector_toggle" title="__MSG__MY_COLLECTIONS__">
+                <button class="topnavigation_menuitem_counts_container inserter_toggle" title="__MSG__MY_COLLECTIONS__">
                     <div id="topnavigation_user_collections_icon" class="topnavigation_menuitem_icon"><span class="s3d-aural-text">__MSG__MY_COLLECTIONS__</span></div>
-                    <div id="topnavigation_user_collections_total" class="topnavigation_menuitem_counts s3d-bold">${"" + sakai.api.Content.Collections.getMyCollectionsCount()}</div>
+                    <div id="topnavigation_user_collections_total" class="topnavigation_menuitem_counts s3d-bold">${"" + (sakai.api.Content.Collections.getMyCollectionsCount() + 1)}</div>
                 </button>
             </div>
         {/if}
@@ -266,6 +266,9 @@
 
 <!-- Personinfo Widget Container -->
 <div id="widget_personinfo" class="widget_inline"></div>
+
+<!-- Inserter Widget Container -->
+<div id="widget_inserter" class="widget_inline"></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/topnavigation/javascript/topnavigation.js"></script>

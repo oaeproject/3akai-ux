@@ -91,7 +91,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var data = {};
             data[tuid] = contentData;
             sakai.api.Util.TemplateRenderer($("#contentpreview_fullsize_template", $rootel), {tuid: tuid}, fullSizeContainer);
-            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [data]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, data);
         };
 
         var hidePreview = function(){

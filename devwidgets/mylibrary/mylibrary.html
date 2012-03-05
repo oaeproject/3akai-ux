@@ -3,8 +3,6 @@
 
 <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
 
-<div id="widget_deletecontent" class="widget_inline"></div>
-
 <div class="mylibrary_widget">
     <div id="mylibrary_title_container"></div>
     <div id="mylibrary_title_template"><!--
@@ -113,10 +111,10 @@
                     <div class="s3d-search-result-user-functions s3d-draggable-hidden">
                         <div class="mylibrary_item_left_filler">
                             {if !sakai.data.me.user.anon}
-                                <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item.filename|safeOutput}"/>
+                                <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item.filename|safeOutput}" data-type="${item.mimeType}"/>
                                 {if isMe}
-                                    <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item['sakai:pooled-content-file-name-short']} __MSG__SELECT_REMOVE__</label>
-                                    <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}"></button>
+                                    <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item['sakai:pooled-content-file-name-short']|safeOutput} __MSG__SELECT_REMOVE__</label>
+                                    <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}" data-type="${item.mimeType}"></button>
                                 {/if}
                             {/if}
                         </div>
