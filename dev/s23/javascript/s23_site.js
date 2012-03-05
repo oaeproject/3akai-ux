@@ -233,12 +233,12 @@ sakai_global.s23_site = function(){
                         // check for CLE session cookie
                         if ($.cookie('JSESSIONID')){
                             $.ajax({
-                                url: "/direct/session/current.json",
+                                url: '/direct/session/current.json',
                                 success: function(data){
-                                    if (data["userId"] === null) {
+                                    if (data['userId'] === null) {
                                         doCasAuth();
                                     } else {
-                                        firstFrame.attr("src", firstFrameSrcUrl);
+                                        firstFrame.attr('src', firstFrameSrcUrl);
                                     }
                                 },
                                 error: doCasAuth
@@ -256,12 +256,12 @@ sakai_global.s23_site = function(){
 
     var doCasAuth = function() {
         $.ajax({
-            url: "/system/sling/cas/proxy?t=https://" + sakai.config.hybridCasHost + "/sakai-login-tool/container",
+            url: '/system/sling/cas/proxy?t=https://' + sakai.config.hybridCasHost + '/sakai-login-tool/container',
             success: function(data){
                 $.ajax({
-                    url: "/sakai-login-tool/container?ticket=" + data["proxyticket"],
+                    url: '/sakai-login-tool/container?ticket=' + data['proxyticket'],
                     success: function(){
-                        firstFrame.attr("src", firstFrameSrcUrl);
+                        firstFrame.attr('src', firstFrameSrcUrl);
                     }
                 });
             }
