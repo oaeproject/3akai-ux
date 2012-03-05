@@ -1252,7 +1252,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 // Set the version history variable
                 delete data.version;
                 data.version = $.toJSON(data);
-                data['sakai:schemaversion'] = sakai.config.schemaVersion;
                 // Save the page data
                 sakai.api.Server.saveJSON(storePath, data, function() {
                     // Create a new version of the page

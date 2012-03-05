@@ -1544,6 +1544,7 @@ define(function(){
         enableChat: false,
         enableCategories: true,
 
+        // The data schema version. Version 2 as of the 1.2 release in March 2012
         schemaVersion: '2',
 
         Editor: {
