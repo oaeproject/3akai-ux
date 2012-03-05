@@ -229,21 +229,27 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(window).bind('render.contentauthoring.sakai', setInserterForViewMode);
 
             $(window).bind('scroll', function(ev, ui) {
-                var top = $inserterbarWidgetContainer.position().top;
-                var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
-                if (scroll > $inserterbarWidgetContainer.position().top) {
-                    if (scroll >= ($contentauthoringWidget.height() + $contentauthoringWidget.position().top - ($inserterbarWidget.height() / 2))) {
-                        $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
-                        $inserterbarWidget.css('position', 'absolute');
+                if ($inserterbarWidgetContainer.is(":visible")) {
+                    var top = $inserterbarWidgetContainer.position().top;
+                    var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
+                    if (scroll > top) {
+                        if (scroll >= ($contentauthoringWidget.height() + top - ($inserterbarWidget.height() / 2))) {
+                            $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
+                            $inserterbarWidget.css('position', 'absolute');
+                        } else {
+                            $('.sakaiSkin[role="listbox"]').css('position', 'fixed');
+                            $inserterbarWidget.css({
+                                'position': 'fixed',
+                                'top': '0px'
+                            });
+                        }
                     } else {
-                        $('.sakaiSkin[role="listbox"]').css('position', 'fixed');
-                        $inserterbarWidget.css('position', 'fixed');
-                        $inserterbarWidget.css('top', '0px');
+                        $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
+                        $inserterbarWidget.css({
+                            'position': 'absolute',
+                            'top': top + 'px'
+                        });
                     }
-                } else {
-                    $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
-                    $inserterbarWidget.css('position', 'absolute');
-                    $inserterbarWidget.css('top', $inserterbarWidgetContainer.position().top + 'px');
                 }
             });
             $(window).resize(resetPosition);
