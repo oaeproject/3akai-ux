@@ -1518,11 +1518,6 @@ define(function(){
                 "title": "TOPNAV",
                 "text": "Top navigation",
                 "url": "/dev/skins/topnav/skin.css"
-            },
-            {
-                "title": "CAMBRIDGE",
-                "text": "Cambridge",
-                "url": "/dev/skins/cambridge/skin.css"
             }
         ],
 
