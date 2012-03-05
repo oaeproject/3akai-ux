@@ -12,7 +12,6 @@
     },
     "id":                 "welcome",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/welcome/welcome.html",
     "userdashboard":      false,

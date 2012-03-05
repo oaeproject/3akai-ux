@@ -12,7 +12,6 @@
     },
     "id":                 "collectionviewer",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/collectionviewer/collectionviewer.html",
     "userdashboard":      false,
