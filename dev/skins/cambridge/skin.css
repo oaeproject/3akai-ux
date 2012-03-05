@@ -27,11 +27,12 @@ body {
     background-image: url("/dev/skins/cambridge/header.png") !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
-    background-color: #FFFFFF !important;
+    background-color: #669999 !important;
     height: 60px !important;
 }
 
 /* COLUMNS */
+
 .s3d-page-column-left{
     background:url("/devwidgets/lhnavigation/images/lhnav_bg.png") repeat-x scroll 0 0 #FEFEFE;
     float:left !important;
@@ -85,7 +86,8 @@ body {
 /* GROUP */
 
 #group_create_new_area_container {
-    margin: 8px 0 -18px 20px !important;
+    margin: 9px 15px -42px 0px !important;
+    float: right;
 }
 
 #group_create_new_area.s3d-button.s3d-header-button{
@@ -101,8 +103,6 @@ body {
 #group_create_new_area_container .s3d-popout-button-shadow, .s3d-container-shadow-left, .s3d-container-shadow-right, .s3d-bottom-spacer {
     display: none !important;
 }
-
-
 
 /* MYLIBRARY */
 

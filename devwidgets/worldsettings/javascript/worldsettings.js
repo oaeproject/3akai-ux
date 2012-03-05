@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai.worldsettings
@@ -33,9 +33,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.worldsettings = function (tuid, showSettings) {
 
+
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
+
         var $rootel = $('#' + tuid);
 
         // Data Items in the Form
@@ -62,8 +64,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var visibility = '',
             worldId = '';
 
-
-
         /**
         * Gets and returns the url of the css based on the theme name
         * @param {String} theme The name of the theme
@@ -84,20 +84,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         * @param {String} cssURL The url of the skin to which the user wants to change to
         */
         var changeCSS = function(cssURL){
-            
             $('link[href*="skin"]').each(function(){
                 this.removeAttribute('href');
             });
             $('head').append('<link href=' + cssURL + ' type="text/css" rel="stylesheet" />');
         };
 
+        /* 
+         * Gets the current theme and returns it
+         */
         var getCurrentTheme = function(){
             var href = '';
             var currentTheme = '';
             $('link[href*="skin"]').each(function() {
                 href = this.href;
             });
-            
             $.each(themes, function(i, v){
                 $.each(v, function (j, w) {
                         if (href.indexOf(w.url) >= 0){
@@ -130,7 +131,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-
+        /* * 
+         * Generates warning
+         */ 
         var showWarning = function(){
             var newVisibility = $(worldsettingsCanBeFoundIn);
             var newVisibilityVal = $.trim(newVisibility.val());
@@ -218,8 +221,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Initialization function DOCUMENTATION
          */
-        var doInit = function (_worldId) {
-            worldId = _worldId;
+        var doInit = function (id) {
+            worldId = id;
             renderWorldSettings();
             bindEvents();
             $worldsettingsDialog.jqm({

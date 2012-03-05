@@ -491,8 +491,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 zIndex: 3000
             });
 
-			
-
             setupCountAreaBindings();
 
             $(window).bind("updateParticipantCount.entity.sakai", function(ev, val){

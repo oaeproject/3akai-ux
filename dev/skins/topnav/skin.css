@@ -20,7 +20,8 @@
 #explore_content {background:url("/dev/images/explore_top_dropshadow.png") no-repeat top center transparent;}
 
 
-/* Changes to the bottom-spacer + the left and right column -- sakai.corev1.css */
+/* Columns */
+
 .s3d-page-column-left{
 	float:left !important;
 	width:960px !important;
@@ -46,8 +47,7 @@
 	display: none !important;
 }
 
-
-/* Changes to lhnavigation -- lhnavigation.css */
+/* lhnavigation */
 
 #lhnavigation_container ul {
 	margin: -2px 0 0 !important;
@@ -142,8 +142,11 @@
 	border: none !important;
 }
 
-
-/* Changes to the position of the add button --  sakai.group.css */
+/* Add button */
 #group_create_new_area_container {
-	margin:18px 0 18px 21px !important;
+    margin: 9px 15px -42px 0px !important;
+    float: right;
+}
+#group_create_new_area_container .s3d-popout-button-shadow {
+    display: none;
 }
