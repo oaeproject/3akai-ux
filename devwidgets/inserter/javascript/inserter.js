@@ -601,7 +601,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // post renderer
             $inserterNoResultsContainer.hide();
             sakai.api.Util.Draggable.setupDraggable({
-                connectToSortable: '.contentauthoring_cell_content',
+                connectToSortable: '.contentauthoring_cell_content'
             }, $inserterContentInfiniteScrollContainerList);
             sakai.api.Util.Droppable.setupDroppable({
                 scope: 'content'
