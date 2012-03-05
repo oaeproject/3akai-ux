@@ -43,13 +43,9 @@
                                 </a>
                             {elseif sakai.api.Content.hasPreview(item.fullresult) && embedmethod !== 'thumbnail'}
                                 <div id="widget_documentviewer_${item.placement}" class="widget_inline"></div>
-                            {elseif sakai.config.MimeTypes[mimeType]}
-                                <a href="${item.contentProfileLink}">
-                                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}"/>
-                                </a>
                             {else}
                                 <a href="${item.contentProfileLink}">
-                                    <img src="${sakai.config.MimeTypes.other.URL}" alt="${mimeTypeDescription}"/>
+                                    <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="${mimeTypeDescription}"/>
                                 </a>
                             {/if}
                             <div class="embedcontent_details">
