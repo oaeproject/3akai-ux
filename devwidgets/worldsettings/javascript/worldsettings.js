@@ -90,8 +90,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('head').append('<link href=' + cssURL + ' type="text/css" rel="stylesheet" />');
         };
 
-        /* 
-         * Gets the current theme and returns it
+         /**
+         * Gets the current theme from the head by checking the href and returns the name of the theme
+         * @return {String} currentTheme The theme that is being used 
          */
         var getCurrentTheme = function() {
             var href = '';
@@ -110,7 +111,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         }
 
         /**
-        * POST to JSON file with new customStyle and calls changeCSS
+        * POST to JSON file with new customStyle url and calls changeCSS with the cssURL
         * @param {String} theme The name of the theme
         */
         var changeTheme = function(theme) {
@@ -119,7 +120,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('link[href*="' + cssURL + '"]').each(function() {
                isAlreadyUsed = theme;
             });
-            if(!isAlreadyUsed){
+            if(!isAlreadyUsed) {
                 $.ajax({
                     url: '/system/userManager/group/' + sakai_global.group.groupId + '.update.json',
                     data: {
@@ -133,7 +134,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /* * 
          * Generates warning
-         */ 
+         */
         var showWarning = function() {
             var newVisibility = $(worldsettingsCanBeFoundIn);
             var newVisibilityVal = $.trim(newVisibility.val());
@@ -172,7 +173,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             sakai.api.Groups.updateGroupProfile(worldId, worldData, worldTags, sakai_global.group.groupData, function( success ) {
                  $worldsettingsContainer.find('select, input').removeAttr('disabled');
-
                  $(window).trigger('sakai.entity.updateTitle', worldTitle);
                  sakai.api.Util.notification.show($('#worldsettings_success_title').html(), $('#worldsettings_success_body').html());
                  $worldsettingsDialog.jqmHide();
