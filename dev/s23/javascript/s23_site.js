@@ -221,7 +221,7 @@ sakai_global.s23_site = function(){
                         }
                         // The 'reset' tool <a> link, is overridden with the below event to reload the 
                         // sites iframe with the fresh tool state URL generated in the template. 
-                        $("#reset-Main" + page.tools[tool].xid).click(handleResetClick);
+                        $("#reset-Main" + page.tools[tool].xid).on('click', handleResetClick);
                     }
                     firstFrame.load(function(){
                         for (var j = 0; j < otherframes.length; j++) {
@@ -363,7 +363,7 @@ sakai_global.s23_site = function(){
             // If we haven't saved the prefs yet, or if we did and the noti isn't turned off show the notifcation area.
             if (success === false || (success === true && data.sakai2notification !== false)) { 
                 sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, false);
-                $(".s23_gritter_notification_cancel").click(hideNotification);
+                $(".s23_gritter_notification_cancel").on('click', hideNotification);
             }
         });
 
@@ -389,7 +389,7 @@ sakai_global.s23_site = function(){
             $(window).trigger("sakai.entity.init", ["s23site", "", {
                 "title": sakai.api.Security.saneHTML(completeJSON.site.title)
             }]);
-            $('.icon-sakai-help').click(function(ev) {
+            $('.icon-sakai-help').on('click', function(ev) {
                 ev.preventDefault();
                 var helpWindow = window.open('/portal/help/main', 'help','resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=800,height=600');
                 helpWindow.focus();
