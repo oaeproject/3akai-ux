@@ -213,7 +213,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'themes': themes,
                 'selectedTheme': getCurrentTheme()
             }));
-            var initialTagsValue = profile[ 'sakai:tags' ] ? profile[ 'sakai:tags' ] : false;
+            var initialTagsValue = profile['sakai:tags'] ? profile['sakai:tags'] : false;
             $worldsettingsTags = $( worldsettingsTags );
             sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest( $worldsettingsTags, null, $('.list_categories', $rootel), initialTagsValue );
         };

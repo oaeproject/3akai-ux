@@ -61,7 +61,7 @@
         <div class="worldsettings_section">
             <label for="worldsettings_theme" class="s3d-input-label">__MSG__THEME__:</label>
             <select id="worldsettings_change_theme_to">
-               <{for i in themes.themes}
+               {for i in themes.themes}
                    <option {if selectedTheme === i.title} selected="selected"{/if} value="${i.title}">${i.text}</option>
                {/for}
             </select>
