@@ -1513,11 +1513,6 @@ define(function(){
                 "title": "DEFAULT",
                 "text": "Default",
                 "url": "/dev/skins/default/skin.css"
-            },
-            {
-                "title": "TOPNAV",
-                "text": "Top navigation",
-                "url": "/dev/skins/topnav/skin.css"
             }
         ],
 

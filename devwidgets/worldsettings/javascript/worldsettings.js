@@ -4,14 +4,14 @@
  * distributed with this work for additional information
  * regarding copyright ownership. The SF licenses this file
  * to you under the Apache License, Version 2.0 (the
- * 'License'); you may not use this file except in compliance
+ * "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
@@ -61,17 +61,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var themePickerTemplate = $('#themechanger_form_template', $rootel);
         var themes = {};
 
-        var visibility = '',
-            worldId = '';
+        var visibility = '';
+        var worldId = '';
 
         /**
-        * Gets and returns the url of the css based on the theme name
+        * Gets array of skins out config.skinStore, compares the title with given theme and returns the css url of the theme if a match is found
         * @param {String} theme The name of the theme
         * @return {String} url Returns the url of the theme's cssfile
         */
-        var getURL = function(theme){
+        var getURL = function(theme) {
             var url = '';
-            $.each(sakai.config.skinStore, function(key, value){
+            $.each(sakai.config.skinStore, function(key, value) {
                 if(theme == value.title) { 
                    url = value.url;
                 }
@@ -83,8 +83,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         * Removes the current skin and adds the new one in head
         * @param {String} cssURL The url of the skin to which the user wants to change to
         */
-        var changeCSS = function(cssURL){
-            $('link[href*="skin"]').each(function(){
+        var changeCSS = function(cssURL) {
+            $('link[href*="skin"]').each(function() {
                 this.removeAttribute('href');
             });
             $('head').append('<link href=' + cssURL + ' type="text/css" rel="stylesheet" />');
@@ -93,16 +93,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /* 
          * Gets the current theme and returns it
          */
-        var getCurrentTheme = function(){
+        var getCurrentTheme = function() {
             var href = '';
             var currentTheme = '';
             $('link[href*="skin"]').each(function() {
                 href = this.href;
             });
-            $.each(themes, function(i, v){
-                $.each(v, function (j, w) {
-                        if (href.indexOf(w.url) >= 0){
-                            currentTheme = w.title;
+            $.each(themes, function(index, themes) {
+                $.each(v, function (arrayIndex, theme) {
+                        if (href.indexOf(theme.url) >= 0) {
+                            currentTheme = theme.title;
                         }
                 });
             });
@@ -134,11 +134,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /* * 
          * Generates warning
          */ 
-        var showWarning = function(){
+        var showWarning = function() {
             var newVisibility = $(worldsettingsCanBeFoundIn);
             var newVisibilityVal = $.trim(newVisibility.val());
             var oldVisibilityIndex = parseInt(newVisibility.find('option[value="' + sakai_global.group.groupData['sakai:group-visible'] + '"]').attr('index'), 10);
-            if (sakai_global.group.groupData['sakai:group-visible'] === newVisibilityVal || parseInt(newVisibility.attr('selectedIndex'), 10) > oldVisibilityIndex || newVisibilityVal === 'members-only'){
+            if (sakai_global.group.groupData['sakai:group-visible'] === newVisibilityVal || parseInt(newVisibility.attr('selectedIndex'), 10) > oldVisibilityIndex || newVisibilityVal === 'members-only') {
                 $worldsettingsForm.submit();
             } else {
                 $('#worldsettings_warning_container_text').html(sakai.api.Util.TemplateRenderer('worldsettings_warning_container_text_template', {
@@ -187,7 +187,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 showWarning();
             });
             $('#worldsettings_proceedandapply').off('click');
-            $('#worldsettings_proceedandapply').on('click', function(){
+            $('#worldsettings_proceedandapply').on('click', function() {
                 $worldsettingsForm.submit();
             });
 
@@ -202,7 +202,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Initialization function //
         /////////////////////////////
 
-        var renderWorldSettings = function(){
+        var renderWorldSettings = function() {
             var profile = sakai_global.group.groupData;
             themes = {themes:$.extend(sakai.config.skinStore, {}, true)};
             $('#worldsettings_form_container').html(sakai.api.Util.TemplateRenderer('worldsettings_form_template',{
