@@ -37,6 +37,8 @@ define(
     ],
     function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
 
+    $.extend(true, sakai_widgets_config, sakai_config.WidgetSettings);
+
     var sakai = {
         widgets: sakai_widgets_config
     };

@@ -323,24 +323,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Sets the default options in the display settings
          */
-        var setDefaultOptions = function() {
-            if (sakai.config.EmbedContent.embedmethod === 'thumbnail') {
+        var setDefaultOptions = function(options) {
+            if (options.embedmethod === 'thumbnail') {
                 $('.embedcontent_option #thumbnail', $rootel).click();
-            } else if (sakai.config.EmbedContent.embedmethod === 'original') {
+            } else if (options.embedmethod === 'original') {
                 $('.embedcontent_option #original_size', $rootel).click();
             }
-            if (sakai.config.EmbedContent.layout === 'vertical') {
+            if (options.layout === 'vertical') {
                 $('#embedcontent_layout_vertical', $rootel).click();
-            } else if (sakai.config.EmbedContent.layout === 'horizontal') {
+            } else if (options.layout === 'horizontal') {
                 $('#embedcontent_layout_horizontal', $rootel).click();
             }
-            if (sakai.config.EmbedContent.showName) {
+            if (options.showName) {
                 $('#embedcontent_name_checkbox', $rootel).click();
             }
-            if (sakai.config.EmbedContent.showDetails) {
+            if (options.showDetails) {
                 $('#embedcontent_details_checkbox', $rootel).click();
             }
-            if (sakai.config.EmbedContent.showDownload) {
+            if (options.showDownload) {
                 $('#embedcontent_download_checkbox', $rootel).click();
             }
         };
@@ -553,8 +553,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 toggleTabs(e.target);
             }
-            if (tab === 'display' && !defaultsSet && !wData) {
-                setDefaultOptions();
+            if (tab === 'display' && !defaultsSet && !wData && sakai.widgets.embedcontent.defaultOptions) {
+                setDefaultOptions(sakai.widgets.embedcontent.defaultOptions);
                 defaultsSet = true;
             }
             return false;
