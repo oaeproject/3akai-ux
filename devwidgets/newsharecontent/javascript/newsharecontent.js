@@ -269,16 +269,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newsharecontentContainer.jqmHide();
         });
 
-        $(window).bind("finished.sharecontent.sakai",doShare);
+        $(window).on("finished.sharecontent.sakai", doShare);
 
         ////////////////////
         // INITIALIZATION //
         ////////////////////
 
         var init = function(){
-            if (!sakai.data.me.user.anon){
+            if (!sakai.data.me.user.anon) {
                 $newsharecontentAnon.hide();
                 $newsharecontentUser.show();
+            } else {
+                $newsharecontentContainer.addClass('anon');
             }
             addBinding();
             var ajaxcache = $.ajaxSettings.cache;
