@@ -94,6 +94,69 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Saves the content/collection name
+         * @param {String} newTitle The new content/collection title to save
+         */
+        var saveName = function(newTitle) {
+            var oldTitle = $.trim($('#entity_name').attr('data-original-title'));
+            $('#entity_name').attr('data-original-title', newTitle);
+            if (newTitle && newTitle !== oldTitle) {
+                $.ajax({
+                    url: '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.html',
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        'sakai:pooled-content-file-name': newTitle
+                    },
+                    success: function() {
+                        var contentData = sakai_global.content_profile.content_data.data;
+                        if (sakai.api.Content.Collections.isCollection(contentData)) {
+                            // Change the group title as well
+                            var groupId = sakai.api.Content.Collections.getCollectionGroupId(contentData);
+                            $.ajax({
+                                'url': '/system/userManager/group/' + groupId + '.update.json',
+                                'type': 'POST',
+                                'data': {
+                                    'sakai:group-title': newTitle
+                                },
+                                'success': function() {
+                                    // Update the me object
+                                    var memberships = sakai.api.Groups.getMemberships(sakai.data.me.groups, true);
+                                    $.each(memberships.entry, function(index, membership) {
+                                        if (membership['sakai:group-id'] === groupId) {
+                                            membership['sakai:group-title'] = newTitle;
+                                        }
+                                    });
+                                    finishChangeTitle(newTitle);
+                                }
+                            });
+                        } else {
+                            finishChangeTitle(newTitle);
+                        }
+                    }
+                });
+            }
+        };
+
+        var finishChangeTitle = function(newTitle) {
+            var title = sakai.api.Security.safeOutput(newTitle);
+            var link;
+            sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'] = title;
+            // Export as IMS Package
+            if (sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data) === 'x-sakai/document') {
+                link = '/imscp/' + sakai_global.content_profile.content_data.data['_path'] + '/' +
+                sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']) + '.zip';
+                $('#contentpreview_download_button').attr('href', link);
+            // Download as a normal file
+            } else {
+                link = sakai_global.content_profile.content_data.smallPath + '/' +
+                sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']);
+                $('#contentpreview_download_button').attr('href', link);
+            }
+            document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + title;
+        };
+
+        /**
          * The 'context' variable can have the following values:
          * - 'user_me' When the viewed user page is the current logged in user
          * - 'user_other' When the viewed user page is a user that is not a contact
@@ -124,6 +187,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }, function(){
                         var $li = $(this);
                         $li.children(".s3d-dropdown-container").hide();
+                    });
+                    $(window).bind("displayName.profile.updated.sakai", function(){
+                        $('.entity_name_me').text(sakai.api.User.getDisplayName(sakai.data.me.profile));
                     });
                     break;
                 case "user_other":
@@ -194,6 +260,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(window).bind("ready.changepic.sakai", function(){
                         $(window).trigger("setData.changepic.sakai", ["group", context.data.authprofile["sakai:group-id"]]);
                     });
+                    sakai.api.Widgets.widgetLoader.insertWidgets("entity_groupsettings_dropdown", false, $rootel);
                     break;
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
@@ -228,6 +295,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container");
                     var entityContentUsersDialogTemplate = "#entity_content_users_dialog_list_template";
                     var entityContentCollectionsDialogTemplate = "#entity_content_collections_dialog_list_template";
+                    var entityNameEditable = "#entity_name.entity_name_editable";
+
+                    $(entityNameEditable).click(function(e) {
+                        if (!$(this).find('input').length) {
+                            $(this).addClass('entity_name_editing');
+                            $(this).text($.trim($('#entity_name').attr('data-original-title')));
+                            $(this).trigger('openjedit.entity.sakai');
+                        }
+                    });
+                    // setup jeditable for the content name field
+                    var nameUpdate = function(value, settings) {
+                        $(this).removeClass('entity_name_editing');
+                        saveName($.trim(value));
+                        return value;
+                    };
+                    var nameCallback = function(value, settings) {
+                        var newDottedTitle = sakai.api.Util.applyThreeDots($.trim(value), 800, {
+                            whole_word: false
+                        }, '');
+                        $(this).text(newDottedTitle);
+                    };
+                    $(entityNameEditable).editable(nameUpdate, {
+                        type: 'text',
+                        onblur: 'submit',
+                        event: 'openjedit.entity.sakai',
+                        callback: nameCallback
+                    });
 
                     $entityContentUsersDialog.jqm({
                         modal: true,
@@ -375,7 +469,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if(data && data.data && data.data["sakai:pooled-content-file-name"]){
                 data.data["sakai:pooled-content-file-name-shorter"] = sakai.api.Util.applyThreeDots(data.data["sakai:pooled-content-file-name"], 800, {
                     whole_word: false
-                }, "", true);
+                }, "");
             }
             renderObj = {
                 "context": context,

@@ -32,10 +32,10 @@ ${macros["search.tags"] = tags |eat}
     </a>
     <div class="s3d-search-result-right">
         <div>
-            <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']|safeURL}" title="${i['_path']|safeOutput}"{/if}>
+            <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']|safeURL}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']|safeURL}" title="${i['_path']|safeOutput}"{/if}>
                 {if i['sakai:pooled-content-file-name']}
-                    <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']|safeOutput}</span>
-                    <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']|safeOutput}</span>
+                    <span class="s3d-search-result-name">${i['sakai:pooled-content-file-name-short']}</span>
+                    <span class="s3d-search-result-name-grid">${i['sakai:pooled-content-file-name-shorter']}</span>
                 {elseif i['_path']}
                     ${i['_path']}
                 {/if}

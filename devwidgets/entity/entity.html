@@ -175,10 +175,7 @@
     {if !data.isManager}
         <hr class="s3d-margin-top-5 fl-hidden"/>
     {/if}
-    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} contentmetadata_editable{else} contentmetadata_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]|safeOutput}</span>
-    <span id="entity_name_edit" style="display:none">
-        <input id="entity_name_text" type="text"/>
-    </span>
+    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} entity_name_editable{else} entity_name_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]}</span>
     {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
     <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
     <div id="entity_owns" class="s3d-regular-links {if !data.isManager} entity_owns_viewer{/if}">
@@ -418,7 +415,7 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
 
 
 <div id="entity_group_template" style="display:none"><!--
-    <div id="entity_actions">
+    <div id="entity_actions" class="entity_group">
         {if !anon}
             {if type && type == "group_managed"}
                 <button type="button" id="entity_group_permissions" class="s3d-button s3d-header-button s3d-button-no-text"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
@@ -431,7 +428,7 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
     {if type && type == "group_managed"}
         <div id="entity_group_image" class="entity_change_avatar">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]|safeOutput}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
             <div class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></div>
             <div class="s3d-dropdown-list" style="display:none;">
@@ -448,7 +445,7 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
             </div>
         </div>
     {/if}
-    <div id="entity_name" class="s3d-bold">${data.authprofile["sakai:group-title"]|safeOutput}</div>
+    <div id="entity_name" class="s3d-bold entity_group">${data.authprofile["sakai:group-title"]|safeOutput}</div>
     <div id="entity_owns" class="s3d-regular-links">
         <span class="entity_number">
             {var contentCount = data.authprofile["contentCount"] || 0}
