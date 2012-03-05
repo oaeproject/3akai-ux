@@ -41,7 +41,8 @@
 /* Middle item */
 #newaddcontent_container #newaddcontent_container_newitem {background-color: #E5EAED;border: 1px solid #a9a9a9;float:left;width:500px;margin-left:204px;min-height:419px;-moz-border-radius: 0 5px 5px 5px;border-radius:0 5px 5px 5px;padding:12px 15px 12px 12px;}
 #newaddcontent_container .newaddcontent_container_newitem_extraroundedborder {-moz-border-radius: 5px !important;border-radius:5px !important;}
-#newaddcontent_container #newaddcontent_container_newitem #newaddcontent_container_newitem_raquo_right {background: url("/devwidgets/newaddcontent/images/newaddcontent_raquo_right.png") no-repeat scroll left top transparent;height: 34px;position: absolute;left:738px;top: 264px;width: 25px;}
+#newaddcontent_container #newaddcontent_container_newitem #newaddcontent_container_newitem_raquo_right {background: url("/devwidgets/newaddcontent/images/newaddcontent_raquo_right.png") no-repeat scroll left top transparent;height: 34px;position: absolute;left:738px;top: 264px;width: 25px;border: 0;}
+#newaddcontent_container #newaddcontent_container_newitem #newaddcontent_container_newitem_raquo_right:disabled {cursor: auto;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_raquo_right_documentsposition {top: 300px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list{position:absolute;left:673px;top:270px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_existingcontentposition{top:470px;}

@@ -294,6 +294,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "jquery-plugins/jquery.
             var uniqueId = sakai.api.Util.generateWidgetId();
             var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($autoSuggestElt, true);
             var $thisForm = $(this).parents($newaddcontentNewItemContainer).children(newAddContentForm);
+            if ($(this).attr('id') === 'newaddcontent_container_newitem_raquo_right') {
+                $thisForm = $(this).prev().children(':visible').find(newAddContentForm);
+            }
+
             switch ($thisForm.attr("id")) {
 
                 //////////////////////////
