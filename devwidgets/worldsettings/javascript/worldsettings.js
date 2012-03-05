@@ -100,8 +100,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('link[href*="skin"]').each(function() {
                 href = this.href;
             });
-            $.each(themes, function(index, themes) {
-                $.each(v, function (arrayIndex, theme) {
+            $.each(themes, function(index, themesArray) {
+                $.each(themesArray, function (arrayIndex, theme) {
                         if (href.indexOf(theme.url) >= 0) {
                             currentTheme = theme.title;
                         }
