@@ -515,12 +515,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @param {Object} changedHTML      The HTML that has been added or removed
          */
         $rootel.contentChange(function(changedHTML) {
-            $(changedHTML).find('img:visible').each(function(i, item) {
-                imageLoaded({}, $(item));
-                $(item).load(function(ev) {
-                    imageLoaded(ev, $(ev.currentTarget));
+            if (isInEditMode()) {
+                $(changedHTML).find('img:visible').each(function(i, item) {
+                    imageLoaded({}, $(item));
+                    $(item).load(function(ev) {
+                        imageLoaded(ev, $(ev.currentTarget));
+                    });
                 });
-            });
+            }
         });
 
         ////////////////////
