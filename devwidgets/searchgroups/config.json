@@ -12,7 +12,6 @@
     },
     "id":                 "searchgroups",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/searchgroups/searchgroups.html",
     "userdashboard":      false,

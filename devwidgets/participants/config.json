@@ -12,7 +12,6 @@
     },
     "id":                 "participants",
     "personalportal":     false,
-    "showinsakaigoodies": true,
     "type":               "sakai",
     "url":                "/devwidgets/participants/participants.html",
     "userdashboard":      false,

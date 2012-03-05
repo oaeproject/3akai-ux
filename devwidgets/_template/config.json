@@ -11,8 +11,7 @@
  *    displayed to users
  *  - enabled {Boolean} sets whether or not this widget may be used by Sakai OAE
  *  - sakaidocs {Boolean} sets whether or not this widget can be placed in 
- *    a pages created as content (showinsakaigoodies must also be enabled to
- *    access this widget from the page editor)
+ *    a pages created as content
  *  - hasSettings {Boolean} sets whether or not this widget has a settings menu
  *    option to allow users to configure or change the widget's settings.
  *  - i18n {Object} sets the location of internationalization files for this
@@ -23,10 +22,6 @@
  *  - name {String} a short name for the widget that is displayed to users.
  *  - personalportal {Boolean} sets whether or not this widget may be used on a
  *    user's personal portal (more commonly known as 'Home' or 'My Dashboard').
- *  - showinsakaigoodies {Boolean} sets whether or not this widget may appear in
- *    the list of widgets that can be placed on either a standard group or user
- *    page (either grouppages or userpages must also be enabled to access this
- *    widget from the page editor)
  *  - type {String} ["core" | "sakai" | "contrib"] 'core' widgets are essential
  *    for Sakai OAE to function properly (i.e. login, uploadcontent).
  *    'sakai' widgets are not essential for Sakai OAE to function properly, but
@@ -51,6 +46,5 @@
         }
     },
     "personalportal":     false,
-    "sakaidocs":          false,
-    "showinsakaigoodies": false
+    "sakaidocs":          false
 }

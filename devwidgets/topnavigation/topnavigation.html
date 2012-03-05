@@ -7,7 +7,7 @@
     <ul class="topnavigation_explore" role="menubar"><!----></ul>
     <div class="topnavigation_right">
         <div class="topnavigation_search s3d-search-container">
-            <input type="text" tabindex_none="40" id="topnavigation_search_input" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
+            <input x-webkit-speech speech type="text" tabindex_none="40" id="topnavigation_search_input" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
             <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SUBMIT_SEARCH__">
                 <span class="s3d-search-button-icon"></span>
                 <span class="s3d-aural-text">__MSG__SUBMIT_SEARCH__</span>
@@ -26,8 +26,8 @@
         {if type === "messages"}
             <div id="topnavigation_user_messages_container" class="topnavigation_counts_container">
                 <div class="topnavigation_usersection_splitter">|</div>
-                <button class="topnavigation_menuitem_counts_container" id="topnavigation_messages_container" title="__MSG__MY_MESSAGES__">
-                    <div id="topnavigation_user_inbox_icon" class="topnavigation_menuitem_icon"><span class="s3d-aural-text">__MSG__MY_MESSAGES__</span></div>
+                <button class="topnavigation_menuitem_counts_container" id="topnavigation_messages_container" title="__MSG__LATEST_MESSAGE__">
+                    <div id="topnavigation_user_inbox_icon" class="topnavigation_menuitem_icon"><span class="s3d-aural-text">__MSG__LATEST_MESSAGE__</span></div>
                     <div id="topnavigation_user_inbox_messages" class="topnavigation_menuitem_counts s3d-bold"></div>
                 </button>
                 <div class="s3d-dropdown-menu" style="display:none;"></div>
@@ -35,9 +35,9 @@
         {elseif type === "collections"}
             <div id="topnavigation_user_collections_container" class="topnavigation_counts_container">
                 <div class="topnavigation_usersection_splitter">|</div>
-                <button class="topnavigation_menuitem_counts_container collector_toggle" title="__MSG__MY_COLLECTIONS__">
+                <button class="topnavigation_menuitem_counts_container inserter_toggle" title="__MSG__MY_COLLECTIONS__">
                     <div id="topnavigation_user_collections_icon" class="topnavigation_menuitem_icon"><span class="s3d-aural-text">__MSG__MY_COLLECTIONS__</span></div>
-                    <div id="topnavigation_user_collections_total" class="topnavigation_menuitem_counts s3d-bold">${"" + sakai.api.Content.Collections.getMyCollectionsCount()}</div>
+                    <div id="topnavigation_user_collections_total" class="topnavigation_menuitem_counts s3d-bold">${"" + (sakai.api.Content.Collections.getMyCollectionsCount() + 1)}</div>
                 </button>
             </div>
         {/if}
@@ -261,8 +261,14 @@
 <!-- Share Content Widget Container -->
 <div id="widget_newsharecontent" class="widget_inline"></div>
 
+<!-- Share Content Widget Container -->
+<div id="widget_deletecontent" class="widget_inline"></div>
+
 <!-- Personinfo Widget Container -->
 <div id="widget_personinfo" class="widget_inline"></div>
+
+<!-- Inserter Widget Container -->
+<div id="widget_inserter" class="widget_inline"></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/topnavigation/javascript/topnavigation.js"></script>

@@ -83,5 +83,5 @@
 #addarea_container #addarea_actions {float:right;margin-top:15px;clear:both;}
 
 /* AutoSuggest */
-#addarea_container .autosuggest_wrapper ul.as-selections{width:340px;float:left;clear:both;min-height:50px;}
+#addarea_container .autosuggest_wrapper ul.as-selections{width:380px;float:left;clear:both;min-height:50px;}
 #addarea_container .autosuggest_wrapper ul.as-list{margin-top:0px;}

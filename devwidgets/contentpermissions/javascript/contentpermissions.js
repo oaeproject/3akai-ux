@@ -360,7 +360,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          */
         var renderMemberList = function(){
             sakai.api.Util.TemplateRenderer("contentpermissions_content_template", {
-                title: sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                title: sakai.api.Util.Security.safeOutput(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]),
                 contentData: removeDuplicateUsersGroups(contentData),
                 sakai: sakai,
                 defaultPermission: defaultPermissionPassed
@@ -414,7 +414,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             });
 
             $(".contentpermissions_permissions_container .s3d-actions-delete").live("click", doDelete);
-            $("#contentpermissions_apply_permissions").live("click", doSave);
+            $("#contentpermissions_apply_permissions").live("click", showWarning);
             $("#contentpermissions_members_autosuggest_sharebutton").live("click", doShare);
         };
 

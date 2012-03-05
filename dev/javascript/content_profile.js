@@ -58,7 +58,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 if (contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/document" || contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/collection"){
                                     showPreview = false;
                                 } else {
-                                    switchToOneColumnLayout(false);
+                                    setColumnLayout(false, false);
                                 }
 
                                 var collectionId = $.bbq.getState("collectionId");
@@ -173,6 +173,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         });
                     }                   
                     sakai.api.Security.showPage();
+                    document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
 
                     if(sakai_global.content_profile.content_data.data._mimeType === "x-sakai/collection"){
                         $(".collectionviewer_carousel_item.selected").click();
@@ -255,11 +256,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
-            switchToTwoColumnLayout(true);
+            setColumnLayout(true, true);
         });
 
         $(window).bind("sakai.contentauthoring.needsOneColumn", function(){
-            switchToOneColumnLayout(true);
+            setColumnLayout(true, false);
         });
 
         var setManagerProperty = function(structure, value){
@@ -272,48 +273,26 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return structure;
         };
 
-        var renderSakaiDoc = function(pagestructure){
+        var renderSakaiDoc = function(pagestructure) {
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
             pagestructure.structure0 = setManagerProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager);
-            if (getPageCount(pagestructure) >= 3){
-                switchToTwoColumnLayout(true);
+            if (getPageCount(pagestructure) >= 3) {
+                setColumnLayout(true, true);
             } else {
-                switchToOneColumnLayout(true);
+                setColumnLayout(true, false);
             }
             globalPageStructure = pagestructure;
             generateNav(pagestructure);
         };
 
-        var switchToTwoColumnLayout = function(isSakaiDoc){
-            $("#content_profile_left_column").show();
-            $("#content_profile_main_container").addClass("s3d-twocolumn");
-            $("#content_profile_right_container").addClass("s3d-page-column-right");
-            $("#content_profile_right_container").removeClass("s3d-page-fullcolumn-padding");
-            $("#content_profile_right_metacomments").removeClass("fl-container-650");
-            $("#content_profile_right_metacomments").addClass("fl-container-450");
-            if (isSakaiDoc){
-                $("#content_profile_preview_container").hide();
-                $("#content_profile_sakaidoc_container").show();
-            } else {
-                $("#content_profile_preview_container").show();
-                $("#content_profile_sakaidoc_container").hide();
-            }
-        };
-
-        var switchToOneColumnLayout = function(isSakaiDoc){
-            $("#content_profile_left_column").hide();
-            $("#content_profile_main_container").removeClass("s3d-twocolumn");
-            $("#content_profile_right_container").removeClass("s3d-page-column-right");
-            $("#content_profile_right_container").addClass("s3d-page-fullcolumn-padding");
-            $("#content_profile_right_metacomments").addClass("fl-container-650");
-            $("#content_profile_right_metacomments").removeClass("fl-container-450");
-            if (isSakaiDoc){
-                $("#content_profile_preview_container").hide();
-                $("#content_profile_sakaidoc_container").show();
-            } else {
-                $("#content_profile_preview_container").show();
-                $("#content_profile_sakaidoc_container").hide();
-            }
+        var setColumnLayout = function(isSakaiDoc, isTwoColumn) {
+            $('body').toggleClass('has_nav', isTwoColumn);
+            $('#content_profile_preview_container').toggle(!isSakaiDoc);
+            $('#content_profile_contentauthoring_container').toggle(isSakaiDoc);
+            $('#content_profile_left_column').toggle(isTwoColumn);
+            $('#content_profile_main_container').toggleClass('s3d-twocolumn', isTwoColumn);
+            $('#content_profile_right_container').toggleClass('s3d-page-column-right', isTwoColumn);
+            $('#content_profile_right_metacomments').toggleClass('fl-container-650', !isTwoColumn).toggleClass('fl-container-470', isTwoColumn);
         };
 
         // Initialise the content profile page
