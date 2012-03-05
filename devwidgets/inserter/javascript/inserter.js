@@ -52,6 +52,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var focusCreateNew = false;
         var contentToAdd = [];
         var topMargin = 50;
+        var $dropTarget = false;
+        var numberOfItemsDropped = 0;
+        var itemsDropped = [];
 
         // UI Elements
         var inserterToggle = '.inserter_toggle';
@@ -263,31 +266,32 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Boolean} inLibrary Indicates if the dropped content is already in the personal library
          */
         var addToCollectionCount = function(collectionId, amount, inLibrary) {
+            // If no content was uploaded previously, initialize contentCount variable
             sakai.data.me.user.properties.contentCount = sakai.data.me.user.properties.contentCount || 0;
-            var $contentCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
-            var collectionCount = (sakai.data.me.user.properties.contentCount) + amount;
-            $.each(sakai.data.me.groups, function(index, group) {
-                if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
-                    if (!inLibrary) {
-                        sakai.data.me.user.properties.contentCount += amount;
-                    }
-                    collectionCount = sakai.data.me.groups[index].counts.contentCount;
-                }
-            });
-            $contentCountEl.text(collectionCount);
-            if (collectionId !== 'library' && sakai.data.me.user.userid !== collectionId) {
+
+            // If content was not in library yet, update counts for the library
+            if (!inLibrary) {
+                sakai.data.me.user.properties.contentCount += amount;
+                // Display library the counts in the UI
                 var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
                 $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
-            } else {
-                $contentCountEl.text(sakai.data.me.user.properties.contentCount += amount);
             }
-            $.each(libraryData, function(i, item) {
-                if (item._path === collectionId) {
-                    item.counts.contentCount += amount;
-                }
-            });
-            if (inCollection) {
-                $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(collectionCount);
+
+            // We need to update collection variables if that is where it was dropped
+            if (collectionId !== 'library' && sakai.data.me.user.userid !== collectionId) {
+                $.each(sakai.data.me.groups, function(index, group) {
+                    if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
+                        // Display the collection counts in the UI
+                        var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
+                        $collectionCountEl.text(sakai.data.me.groups[index].counts.contentCount + amount);
+
+                        // Update the header of a collection if necessary
+                        if (inCollection) {
+                            $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
+                                sakai.data.me.groups[index].counts.contentCount + amount);
+                        }
+                    }
+                });
             }
         };
 
@@ -308,6 +312,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $(window).trigger('sakai.mylibrary.createdCollections', {
                     items: ['newcollection']
                 });
+                addToCollectionCount('library', 1, false);
             });
         };
 
@@ -460,111 +465,44 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Upload a set of files dropped onto the inserter lists
          * @param {String} collectionId the ID of the collection to associate the content with
          * @param {String} permissions Permissions for the newly uploaded content (default to public)
+         * @param {Array} itemsDropped Array of files dropped on the inserter
          */
-        var uploadFile = function(collectionId, permissions) {
-            if (filesToUpload.length) {
-                var fileToUpload = filesToUpload[0];
-                var splitOnDot = fileToUpload.name.split('.');
-                var xhReq = new XMLHttpRequest();
-                xhReq.open('POST', '/system/pool/createfile', false);
-                var formData = new FormData();
-                formData.append('enctype', 'multipart/form-data');
-                formData.append('filename', fileToUpload.name);
-                formData.append('file', fileToUpload);
-                formData.append('_charset_', 'utf-8');
-                xhReq.send(formData);
-                if (xhReq.status === 201) {
-                    var data = $.parseJSON(xhReq.responseText);
-                    var poolid = data[fileToUpload.name].poolId;
-                    var batchRequests = [];
-                    batchRequests.push({
-                        'url': '/p/' + poolid,
-                        'method': 'POST',
-                        'parameters': {
-                            'sakai:pooled-content-file-name': fileToUpload.name,
-                            'sakai:permissions': permissions,
-                            'sakai:copyright': 'creativecommons',
-                            'sakai:allowcomments': 'true',
-                            'sakai:showcomments': 'true',
-                            'sakai:fileextension': splitOnDot[splitOnDot.length - 1]
-                        }
-                    });
-
-                    // Set initial version
-                    batchRequests.push({
-                        'url': '/p/' + poolid + '.save.json',
-                        'method': 'POST'
-                    });
-
-                    sakai.api.Server.batch(batchRequests, function(success, response) {
-                        // Set the correct file permissions
-                        sakai.api.Content.setFilePermissions([{'hashpath': poolid, 'permissions': permissions}], function() {
-                            // Add it to the collection
-                            if (collectionId !== 'library') {
-                                sakai.api.Content.Collections.addToCollection(collectionId, poolid, function() {
-                                    addToCollectionCount(collectionId, 1, false);
-                                    filesToUpload.splice(0, 1);
-                                    uploadFile(collectionId, permissions);
-                                });
-                            } else {
-                                addToCollectionCount(collectionId, 1, false);
-                                filesToUpload.splice(0, 1);
-                                uploadFile(collectionId, permissions);
-                            }
-                        });
-                    });
-                } else {
-                    filesToUpload.splice(0, 1);
-                    uploadFile(collectionId, permissions);
-                }
-            } else {
-                setTimeout(function() {
-                    if (inCollection) {
-                        showCollection(contentListDisplayed);
-                    }
-                    sakai.api.Util.progressIndicator.hideProgressIndicator();
-                }, 500);
-            }
-        };
-
-        /**
-         * Handler for the drop event. Checks files for folders, gives appropriate messages and
-         * sends files through to the 'uploadFile' function that uploads and associates them to collections.
-         * @param {Object} ev Event fired by dropping content on the inserter list
-         * @param {Object} data Object containing data associated to the dropped files
-         */
-        var droppedDesktopItem = function(ev, data) {
-            if (data.files.length) {
-                // We only support browsers that have XMLHttpRequest Level 2
-                if (!window.FormData) {
-                    return false;
-                }
-                $('.s3d-droppable-container', $rootel).removeClass('dragover');
-                var collectionid = '';
-                if ($(ev.target).attr('data-collection-id') ||
-                    $(ev.target).parents('.s3d-droppable-container').attr('data-collection-id')) {
-                    collectionid = $(ev.target).attr('data-collection-id') ||
-                                   $(ev.target).parents('.s3d-droppable-container').attr('data-collection-id');
-                }
-                var error = false;
-                $.each(data.files, function (index, file) {
-                    if (file.size > 0) {
-                        filesToUpload.push(file);
-                    } else {
-                        error = true;
+        var setDataOnDropped = function(collectionId, permissions, itemsDropped) {
+            var batchRequests = [];
+            $.each(itemsDropped, function(index, item) {
+                var splitOnDot = item.item['sakai:pooled-content-file-name'].split('.');
+                // Set initial version
+                batchRequests.push({
+                    'url': '/p/' + item.poolId + '.save.json',
+                    'method': 'POST'
+                });
+                batchRequests.push({
+                    'url': '/p/' + item.poolId,
+                    'method': 'POST',
+                    'parameters': {
+                        'sakai:permissions': permissions,
+                        'sakai:copyright': 'creativecommons',
+                        'sakai:allowcomments': 'true',
+                        'sakai:showcomments': 'true',
+                        'sakai:fileextension': splitOnDot[splitOnDot.length -1]
                     }
                 });
-                if (error) {
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('DRAG_AND_DROP_ERROR', 'inserter'),
-                                                     sakai.api.i18n.getValueForKey('ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR', 'inserter'));
+
+                // Set the correct file permissions
+                sakai.api.Content.setFilePermissions([{'hashpath': item.poolId, 'permissions': permissions}], function() {
+                    // Add it to the collection
+                    if (collectionId !== 'library') {
+                        sakai.api.Content.Collections.addToCollection(collectionId, item.poolId);
+                    }
+                });
+            });
+            sakai.api.Server.batch(batchRequests, function(success, response) {
+                addToCollectionCount(collectionId, itemsDropped.length, false);
+                if (inCollection) {
+                    showCollection(contentListDisplayed);
                 }
-                if (filesToUpload.length) {
-                    sakai.api.Util.progressIndicator.showProgressIndicator(
-                        sakai.api.i18n.getValueForKey('UPLOADING_CONTENT_ADDING_TO_COLLECTION', 'inserter'),
-                        sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
-                    uploadFile(collectionid, 'public');
-                }
-            }
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
+            });
         };
 
         /**
@@ -574,10 +512,39 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Initialize drag and drop from desktop
             $('#inserter_collector', $rootel).fileupload({
                 url: '/system/pool/createfile',
-                drop: droppedDesktopItem,
-                dropZone: $('#inserter_collector ul li,#inserter_collector .s3d-no-results-container', $rootel)
+                drop: function(ev, data) {
+                    $dropTarget = $(ev.currentTarget);
+                    var error = false;
+                    $.each(data.files, function (index, file) {
+                        if (file.size > 0) {
+                            numberOfItemsDropped ++;
+                        } else {
+                            error = true;
+                        }
+                    });
+                    if (error) {
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey('DRAG_AND_DROP_ERROR', 'inserter'),
+                            sakai.api.i18n.getValueForKey('ONE_OR_MORE_DROPPED_FILES_HAS_AN_ERROR', 'inserter'));
+                    }
+                    if (numberOfItemsDropped) {
+                        sakai.api.Util.progressIndicator.showProgressIndicator(
+                            sakai.api.i18n.getValueForKey('UPLOADING_CONTENT_ADDING_TO_COLLECTION', 'inserter'),
+                            sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
+                    }
+                },
+                dropZone: $('#inserter_collector ul li,#inserter_collector .s3d-no-results-container', $rootel),
+                done: function(ev, data) {
+                    var result = $.parseJSON(data.result);
+                    itemsDropped.push(result[data.files[0].name]);
+                    if (itemsDropped.length && itemsDropped.length === numberOfItemsDropped) {
+                        var collectionId = $dropTarget.attr('data-collection-id');
+                        setDataOnDropped(collectionId, 'public', itemsDropped);
+                        numberOfItemsDropped = 0;
+                        itemsDropped = [];
+                    }
+                }
             });
-
         };
 
 
@@ -625,7 +592,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // post renderer
             $inserterNoResultsContainer.hide();
             sakai.api.Util.Draggable.setupDraggable({
-                connectToSortable: '.contentauthoring_cell_content',
+                connectToSortable: '.contentauthoring_cell_content'
             }, $inserterContentInfiniteScrollContainerList);
             sakai.api.Util.Droppable.setupDroppable({
                 scope: 'content'
@@ -766,7 +733,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(window).on('create.collections.sakai', openAddNewCollection);
             $(window).on('done.deletecontent.sakai', removeFromCollectionCount);
             $(window).on('done.newaddcontent.sakai', function() {
-                addToCollectionCount("library", 0, false);
+                addToCollectionCount('library', 0, false);
             });
             $(window).on('sakai.mylibrary.deletedCollections', function(ev, data) {
                 if (infinityCollectionScroll) {
