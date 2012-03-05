@@ -592,17 +592,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var mimetype = $inserterMimetypeFilter.val() || '';
             disableEnableHeader(!$.trim($(inserterCollectionContentSearch, $rootel).val()) && !mimetype);
             var query = $.trim($(inserterCollectionContentSearch, $rootel).val());
+            var libraryId = false;
+            if (!contentListDisplayed.length) {
+                libraryId = sakai.data.me.user.userid;
+            }
             if (!$inserterMimetypeFilter.val() || query) {
                 sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
                     'search': query,
-                    'collection': sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
+                    'collection': libraryId || sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
                 }, $inserterNoResultsContainer);
                 $inserterNoResultsContainer.show();
             } else {
                 query = $.trim($(inserterCollectionContentSearch, $rootel).val());
                 sakai.api.Util.TemplateRenderer(inserterNoResultsTemplate, {
                     'search': 'mimetypesearch',
-                    'collection': sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
+                    'collection': libraryId || sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed).replace('c-', '')
                 }, $inserterNoResultsContainer);
                 $inserterNoResultsContainer.show();
             }
@@ -782,9 +786,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $inserterCollectionContentContainer.on('change', inserterMimetypeFilter, function() {
                 showCollection(contentListDisplayed);
             });
-            $(window).on('sakai.collections.created', refreshWidget);
-            $(window).on('sakai.inserter.dropevent', addDroppedToCollection);
-            $(window).on('scroll', checkInserterPosition);
+            $(window).off('sakai.collections.created').on('sakai.collections.created', refreshWidget);
+            $(window).off('sakai.inserter.dropevent').on('sakai.inserter.dropevent', addDroppedToCollection);
+            $(window).off('scroll').on('scroll', checkInserterPosition);
         };
 
         /**
