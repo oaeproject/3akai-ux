@@ -35,12 +35,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         // Configuration variables
         var MINIMUM_COLUMN_SIZE = 0.10;
         var DEFAULT_WIDGET_SETTINGS_WIDTH = 650;
+        var CONCURRENT_EDITING_INTERVAL = 5000;
 
         // Help variables
         var pagesCache = {};
         var currentPageShown = {};
         var storePath = false;
         var isDragging = false;
+        var editInterval = false;
 
         ///////////////////////
         // Utility functions //
@@ -981,6 +983,27 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ///////////////////
 
         /**
+         * Sets the interval between two posts that mark a page as currently being edited
+         */
+        var setEditInterval = function() {
+            editInterval = setInterval(markAsEditing, CONCURRENT_EDITING_INTERVAL);
+        };
+
+        /**
+         * Executes a POST to indicate that the current page is being edited
+         * Used to avoid concurrent editing of the page
+         */
+        var markAsEditing = function() {
+            var editingContent = {};
+            editingContent[currentPageShown.saveRef] = {
+                'editing': {
+                    'time': sakai.api.Util.Datetime.getCurrentGMTTime()
+                }
+            };
+            sakai.api.Server.saveJSON(currentPageShown.pageSavePath, editingContent);
+        };
+
+        /**
          * Set up the page so rows are re-orderable, columns are resizable,
          * widgets can be re-ordered and all hover states
          */
@@ -999,13 +1022,24 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Put the page into edit mode
          */
         var editPage = function() {
-            $(window).trigger('edit.contentauthoring.sakai');
-            $('.contentauthoring_empty_content', $rootel).remove();
-            $('#contentauthoring_widget_container', $pageRootEl).show();
-            $rootel.addClass('contentauthoring_edit_mode');
-            setPageEditActions();
-            updateColumnHandles();
-            checkAutoSave();
+            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
+                currentPageShown.safeToEdit = data.safeToEdit;
+                if (data.safeToEdit) {
+                    setEditInterval();
+                    $(window).trigger('edit.contentauthoring.sakai');
+                    $('.contentauthoring_empty_content', $rootel).remove();
+                    $('#contentauthoring_widget_container', $pageRootEl).show();
+                    $rootel.addClass('contentauthoring_edit_mode');
+                    markAsEditing();
+                    setPageEditActions();
+                    updateColumnHandles();
+                    checkAutoSave(data);
+                } else {
+                    sakai.api.Util.notification.show(
+                        sakai.api.i18n.getValueForKey('CONCURRENT_EDITING', 'contentauthoring'),
+                        sakai.api.User.getDisplayName(data.editor) + ' ' + sakai.api.i18n.getValueForKey('IS_CURRENTLY_EDITING', 'contentauthoring'));
+                }
+            });
         };
 
         //////////////////////
@@ -1161,6 +1195,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Put the page into view mode
          */
         var exitEditMode = function() {
+            clearInterval(editInterval);
             // Alert the inserter bar that it should go back into view mode
             $(window).trigger('render.contentauthoring.sakai');
             // Take the widget back into view mode
@@ -1329,24 +1364,22 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         /**
          * Check whether an autosaved version is present. This would happen when
          * a user left the page during editing
+         * @param {Object} pageData Data for the page currently edited
          */
-        var checkAutoSave = function() {
-            // Cache the current page
-            sakai.api.Server.loadJSON(storePath, function(success, pageData) {
-                // Check whether there is an autosaved version
-                storePath = currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef;
-                sakai.api.Server.loadJSON(storePath, function(success2, autoSaveData) {
-                    // Clean up both versions
-                    pageData = sakai.api.Server.removeServerCreatedObjects(pageData, ['_']);
-                    autoSaveData = sakai.api.Server.removeServerCreatedObjects(autoSaveData, ['_']);
-                    // Only show the restore overlay if there is an autosave version and the
-                    // page content has changed
-                    if (!success2 || $.toJSON(pageData) === $.toJSON(autoSaveData)) {
-                        makeTempCopy(pageData);
-                    } else {
-                        showRestoreAutoSaveDialog(pageData, autoSaveData);
-                    }
-                });
+        var checkAutoSave = function(pageData) {
+            // Check whether there is an autosaved version
+            storePath = currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef;
+            sakai.api.Server.loadJSON(storePath, function(success, autoSaveData) {
+                // Clean up both versions
+                pageData = sakai.api.Server.removeServerCreatedObjects(pageData, ['_']);
+                autoSaveData = sakai.api.Server.removeServerCreatedObjects(autoSaveData, ['_']);
+                // Only show the restore overlay if there is an autosave version and the
+                // page content has changed
+                if (!success || $.toJSON(pageData) === $.toJSON(autoSaveData)) {
+                    makeTempCopy(pageData);
+                } else {
+                    showRestoreAutoSaveDialog(pageData, autoSaveData);
+                }
             });
         };
 

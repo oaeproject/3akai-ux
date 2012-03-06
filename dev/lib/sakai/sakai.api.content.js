@@ -801,6 +801,31 @@ define(
         },
 
         /**
+         * Object containing data for the page to edit
+         * If the document hasn't been edited in the last 10 seconds it is safe to edit
+         * @param page {String} Path to the page to edit
+         */
+        checkSafeToEdit: function(pagePath, callback) {
+            sakai_serv.loadJSON(pagePath + '.infinity.json', function(success, data) {
+                if ($.isFunction(callback)) {
+                    // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
+                    // someone else is editing the page right now.
+                    data.safeToEdit = true;
+                    if (data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 &&
+                        data.editing._lastModifiedBy !== sakai_user.data.me.user.userid) {
+                        data.safeToEdit = false;
+                        sakai_user.getUser(data.editing._lastModifiedBy, function(success, userData) {
+                            data.editor = userData;
+                            callback(success, data);
+                        });
+                    } else {
+                        callback(success, data);
+                    }
+                }
+            });
+        },
+
+        /**
          * Checks for autosaved documents for a sakai doc and returns that data
          *
          * @param {Boolean} Indicating if the sakai doc is a new page that can't have a autosaved page yet
