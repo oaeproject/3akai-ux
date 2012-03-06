@@ -1,3 +1,5 @@
-if(typeof _$jscoverage === "undefined"){
-    document.getElementById("coveragebutton").style.display = "none";
-}
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+    if (typeof _$jscoverage !== 'undefined') {
+        $('#coveragereport').show();
+    }
+});

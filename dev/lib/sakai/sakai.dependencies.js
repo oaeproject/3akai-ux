@@ -120,6 +120,8 @@ require(
         "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
         "misc/querystring",
+        "jquery-plugins/jquery.equalheights",
+        "jquery-plugins/jquery.contentchange.sakai-edited",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
@@ -132,7 +134,7 @@ require(
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
-        "jquery-plugins/jquery.jeditable",
+        "jquery-plugins/jquery.jeditable.sakai-edited",
         "jquery-plugins/jquery.tagcloud",
         "jquery-plugins/jquery.infinitescroll-sakai"
     ],

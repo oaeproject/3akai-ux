@@ -12,7 +12,6 @@
     },
     "id":                 "recentactivity",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/recentactivity/recentactivity.html",
     "userdashboard":      false,
