@@ -423,7 +423,8 @@
 				code : 'advanced.code',
 				dt : 'advanced.dt',
 				dd : 'advanced.dd',
-				samp : 'advanced.samp'
+				samp : 'advanced.samp',
+				caption: 'advanced.caption'
 			}, t = this;
 
 			c = t.editor.controlManager.createListBox('formatselect', {title : 'advanced.block', onselect : function(v) {

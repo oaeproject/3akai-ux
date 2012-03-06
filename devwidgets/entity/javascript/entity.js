@@ -139,7 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var finishChangeTitle = function(newTitle) {
-            var title = sakai.api.Security.safeOutput(newTitle);
+            var title = newTitle;
             var link;
             sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'] = title;
             // Export as IMS Package
@@ -153,6 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']);
                 $('#contentpreview_download_button').attr('href', link);
             }
+            document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + title;
         };
 
         /**
@@ -259,6 +260,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(window).bind("ready.changepic.sakai", function(){
                         $(window).trigger("setData.changepic.sakai", ["group", context.data.authprofile["sakai:group-id"]]);
                     });
+                    sakai.api.Widgets.widgetLoader.insertWidgets("entity_groupsettings_dropdown", false, $rootel);
                     break;
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
@@ -311,8 +313,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var nameCallback = function(value, settings) {
                         var newDottedTitle = sakai.api.Util.applyThreeDots($.trim(value), 800, {
                             whole_word: false
-                        }, '');
-                        $(this).text(newDottedTitle);
+                        }, '', true);
+                        $(this).html(newDottedTitle);
                     };
                     $(entityNameEditable).editable(nameUpdate, {
                         type: 'text',

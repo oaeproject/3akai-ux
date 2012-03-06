@@ -272,31 +272,25 @@ define(
                 }
 
                 // callback function for response from batch request
-                var bundleReqFunction = function(success, reqData) {
-                    if (success) {
-                        var loadDefaultBundleSucces;
-                        var loadDefaultBundleData;
+                var bundleReqFunction = function(success, reqData){
+                    if (success){
+                        var loadDefaultBundleSuccess = reqData.results[0].success;
+                        var loadDefaultBundleData = reqData.results[0].body;
                         var loadLocalBundleSuccess;
                         var loadLocalBundleData;
                         var loadCustomBundleSuccess;
                         var loadCustomBundleData;
 
-                        // loop through and allocate response data to their request
-                        for (var i in reqData.responseId) {
-                            if (reqData.responseId.hasOwnProperty(i) && reqData.responseData[i]) {
-                                if (reqData.responseId[i] === 'loadDefaultBundle') {
-                                    loadDefaultBundleSuccess = reqData.responseData[i].success;
-                                    loadDefaultBundleData = reqData.responseData[i].body;
-                                }
-                                if (reqData.responseId[i] === 'loadLocalBundle') {
-                                    loadLocalBundleSuccess = reqData.responseData[i].success;
-                                    loadLocalBundleData = reqData.responseData[i].body;
-                                }
-                                if (reqData.responseId[i] === 'loadCustomBundle') {
-                                    loadCustomBundleSuccess = reqData.responseData[i].success;
-                                    loadCustomBundleData = reqData.responseData[i].body;
-                                }
-                            }
+                        // Custom bundle
+                        if (reqData.results[1]) {
+                            loadCustomBundleSuccess = reqData.results[1].success;
+                            loadCustomBundleData = reqData.results[1].body;
+                        }
+
+                        // Local bundle
+                        if (reqData.results[2]) {
+                            loadLocalBundleSuccess = reqData.results[2].success;
+                            loadLocalBundleData = reqData.results[2].body;
                         }
 
                         // process the responses
@@ -315,12 +309,12 @@ define(
                         doI18N();
                     }
                 };
-                // add default language bundle to batch request
-                sakai_serv.bundleRequests('i18n', 3, 'loadDefaultBundle', loadDefaultBundleRequest, bundleReqFunction);
-                // add local language bundle to batch request
-                sakai_serv.bundleRequests('i18n', 3, 'loadLocalBundle', loadLocalBundleRequest);
-                // add custom language bundle to batch request
-                sakai_serv.bundleRequests('i18n', 3, 'loadCustomBundle', loadCustomBundleRequest);
+
+                var batchRequest = [loadDefaultBundleRequest, loadCustomBundleRequest];
+                if (loadLocalBundleRequest) {
+                    batchRequest.push(loadLocalBundleRequest);
+                }
+                sakai_serv.batch(batchRequest, bundleReqFunction);     
             };
 
 

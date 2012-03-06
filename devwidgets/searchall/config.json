@@ -12,7 +12,6 @@
     },
     "id":                 "searchallold",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/searchall/searchall.html",
     "userdashboard":      false,

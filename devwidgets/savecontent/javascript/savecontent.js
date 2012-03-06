@@ -94,8 +94,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $savecontent_save.removeAttr("disabled");
 
-            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 3;
-            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 115;
+            var adjustHeight = 0;
+            if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
+                adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
+            }
+
+            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 3 + adjustHeight;
+            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 122;
 
             $savecontent_widget.css({
                 top: savecontentTop,
@@ -228,6 +233,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     notificationBody = notificationBody.replace("${collectionid}", sakai.api.Security.safeOutput(sakai.api.Content.Collections.getCollectionPoolId(id)));
                     notificationBody = notificationBody.replace("${collectiontitle}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
                     notificationTitle = $("#savecontent_collection_add_library_title").html();
+                } else if (id === sakai.data.me.user.userid) {
+                    notificationBody = decodeURIComponent($('#savecontent_my_add_library_body').html());
+                    notificationTitle = $('#savecontent_group_add_library_title').html();
                 } else {
                     notificationBody = decodeURIComponent($("#savecontent_group_add_library_body").html());
                     notificationBody = notificationBody.replace("${groupid}", sakai.api.Security.safeOutput(id));
