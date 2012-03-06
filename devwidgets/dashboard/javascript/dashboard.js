@@ -919,7 +919,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         }
                     }
                 });
-                if (widget[widgetPropertyName]) {
+                if (widget && widget[widgetPropertyName]) {
                     var index = addingPossible.items.length;
                     addingPossible.items[index] = widget;
                     addingPossible.items[index].alreadyIn = alreadyIn;
