@@ -559,6 +559,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     if (itemsDropped.length && itemsDropped.length === numberOfItemsDropped) {
                         var collectionId = $dropTarget.attr('data-collection-id');
                         setDataOnDropped(collectionId, 'public', itemsDropped);
+                        var passItemsDropped = $.map(itemsDropped, function(arr) {
+                            return arr.item;
+                        });
+                        $(window).trigger('done.newaddcontent.sakai', [passItemsDropped, collectionId]);
                         numberOfItemsDropped = 0;
                         itemsDropped = [];
                     }
