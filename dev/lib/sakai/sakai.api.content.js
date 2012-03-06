@@ -1460,13 +1460,23 @@ define(
                                                                         //1b. Set the pagecontent to have the collectionviewer widget
                                                                         // We do this here so the collection itself is the item that is touched latest,
                                                                         // which it'll show on the top of the library listing
+                                                                        var widgetId = sakai_util.generateWidgetId();
                                                                         var toSave = {};
                                                                         toSave[refID] = {
-                                                                            "page": "<img id='widget_collectionviewer_" + refID + "2' class='widget_inline' src='/devwidgets/mylibrary/images/mylibrary.png'/></p>"
+                                                                            'rows': [{
+                                                                                'id': sakai_util.generateWidgetId(),
+                                                                                'columns': [{
+                                                                                    'width': 1,
+                                                                                    'elements': [{
+                                                                                        'id': widgetId,
+                                                                                        'type': 'collectionviewer'
+                                                                                    }]
+                                                                                }]
+                                                                            }]
                                                                         };
-                                                                        toSave[refID + "2"] = {
-                                                                            "collectionviewer": {
-                                                                                "groupid": groupId
+                                                                        toSave[refID][widgetId] = {
+                                                                            'collectionviewer': {
+                                                                                'groupid': groupId
                                                                             }
                                                                         };
                                                                         sakai_serv.saveJSON("/p/" + collectionId, toSave, function(){

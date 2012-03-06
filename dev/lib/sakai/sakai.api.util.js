@@ -2322,6 +2322,8 @@ define(
              * @param {Object} opts options to pass through to jquery.validate
              *    NOTE: There is one additional option you can pass in -- an error callback function
              *    When there is an error in validation detected, it will be called
+             *    NOTE: Additional option 'errorsShown' can hold a function that is executed after
+             *    the error labels have been displayed on screen.
              * @param {Function} [invalidCallback] The function to call when an error is detected
              * @param {Boolean} [insertAfterLabel] Insert the error span after the label, not before
              */
@@ -2417,6 +2419,9 @@ define(
                         }
                     });
                     this.defaultShowErrors();
+                    if ($.isFunction(options.errorsShown)) {
+                        options.errorsShown();
+                    }
                 };
 
                 // Set up the form with these options in jquery.validate
@@ -2468,35 +2473,42 @@ define(
                     scrollSensitivity: 100,
                     opacity: 0.5,
                     cursor: 'move',
-                    zindex: 10000,
+                    zIndex: 100000,
                     cursorAt: {
                         top: 10,
                         left: 5
                     },
                     stop: function(event, ui) {
+                        sakai_util.Draggable.removeIFrameFix();
                         $('.s3d-draggable-draggingitems').remove();
+                        $(window).trigger('stop.drag.sakai');
                         if ($(this).data('stopdragevent')) {
                             $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
-                    start: function(event, ui){
+                    start: function(event, ui) {
+                        sakai_util.Draggable.setIFrameFix();
                         $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
                         $(window).trigger('start.drag.sakai');
                         if ($(this).data('startdragevent')) {
                             $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
-                    helper: function(){
-                        var selected = $('.s3d-draggable-select:checked').parents('li');
-                        if (selected.length === 0) {
-                          selected = $(this);
+                    helper: function() {
+                        var $selected = $('.s3d-draggable-select:checked')
+                            .parents('li:not(.contentauthoring_row_container)');
+                        if ($selected.length === 0) {
+                          $selected = $(this);
                         }
-                        var container = $('<div/>').attr('id', 's3d-draggeditems-container');
-                        container.append(selected.clone());
-                        return container;
+                        var $container = $('<div/>').attr('id', 's3d-draggeditems-container');
+                        $container.append($selected.clone());
+                        return $container;
                     },
-                    drag: function(ev, data){
-                        $('.s3d-draggable-draggingitems').offset({left:data.offset.left - 10,top:data.offset.top - 12});
+                    drag: function(ev, data) {
+                        $('.s3d-draggable-draggingitems').offset({
+                            left: data.offset.left - 10,
+                            top: data.offset.top - 12
+                        });
                     }
                 };
             },

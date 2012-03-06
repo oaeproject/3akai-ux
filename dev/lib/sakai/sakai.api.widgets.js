@@ -173,6 +173,20 @@ define(
         },
 
         /**
+         * Get the URL from which a widget should load its widget data and to which
+         * it should store its widget data
+         * @param {String} id   The unique id of the widget
+         */
+        getWidgetDataStorageURL : function(id) {
+            if (id && sakaiWidgetsAPI.widgetLoader.widgets[id] && sakaiWidgetsAPI.widgetLoader.widgets[id].placement) {
+                return sakaiWidgetsAPI.widgetLoader.widgets[id].placement;
+            } else {
+                debug.error("The widget with unique id " + id + " could not be found");
+                return false;
+            }
+        },
+
+        /**
          * Will be used for detecting widget declerations inside the page and load those
          * widgets into the page
          */
@@ -854,6 +868,19 @@ define(
                 }
             } else {
                 return null;
+            }
+        },
+
+        /**
+         * This function will return widget configuration for a specific widget
+         * @param {Object} widgetid     id of the widget as specified in the widget's config file
+         */
+        getWidget: function(widgetid) {
+            if (sakai.widgets[widgetid]) {
+                return sakai.widgets[widgetid];
+            } else {
+                debug.error('A config file was not found for the following widget: ' + widgetid);
+                return false;
             }
         },
 

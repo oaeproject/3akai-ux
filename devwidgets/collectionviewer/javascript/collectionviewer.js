@@ -619,9 +619,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (widgetData.data && widgetData.data._path) {
                 collectionviewer.contextId = widgetData.data._path;
             } else {
-                collectionviewer.contextId = widgetData.collectionviewer.groupid
+                collectionviewer.contextId = widgetData.collectionviewer.groupid;
             }
-            if(sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)){
+            if (sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)) {
                 $('#collectionviewer_header_container #collectionviewer_add_content_button', $rootel).show();
                 $('#collectionviewer_header_container #collectionviewer_edit_collection_button', $rootel).show();
                 $('#collectionviewer_finish_editing_collection_button', $rootel).hide();

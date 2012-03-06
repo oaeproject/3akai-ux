@@ -118,7 +118,9 @@
                                 {/if}
                             {/if}
                         </div>
-                        <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
+                        {if !sakai.data.me.user.anon}
+                            <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
+                        {/if}
                         <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                     </div>
                     <a href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">

@@ -12,7 +12,6 @@
     },
     "id":                 "inserterbar",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/inserterbar/inserterbar.html",
     "userdashboard":      false,

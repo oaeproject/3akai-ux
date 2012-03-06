@@ -2,7 +2,7 @@
     "grouppages": true,
     "userpages": true,
     "hasSettings": true,
-    "sakaidocs": true,
+    "sakaidocs": false,
     "id":"embedcontent",
     "i18n": {
         "default": {

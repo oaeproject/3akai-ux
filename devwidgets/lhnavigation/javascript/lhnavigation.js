@@ -325,7 +325,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                                 }
                             }
                         } else {
-                            var docInfo = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body)));
+                            var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
                             docInfo.orderedItems = orderItems(docInfo.structure0);
                             sakaiDocsInStructure['/p/' + pids[i]] = docInfo;
                             addDocUrlIntoStructure(docInfo.structure0, '/p/' + pids[i]);
