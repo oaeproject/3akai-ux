@@ -283,12 +283,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
                         // Display the collection counts in the UI
                         var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
-                        $collectionCountEl.text(sakai.data.me.groups[index].counts.contentCount + amount);
+                        $collectionCountEl.text(group.counts.contentCount + amount);
 
                         // Update the header of a collection if necessary
                         if (inCollection) {
                             $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
-                                sakai.data.me.groups[index].counts.contentCount + amount);
+                                group.counts.contentCount + amount);
                         }
                     }
                 });
@@ -515,9 +515,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 drop: function(ev, data) {
                     $dropTarget = $(ev.currentTarget);
                     var error = false;
-                    $.each(data.files, function (index, file) {
+                    $.each(data.files, function(index, file) {
                         if (file.size > 0) {
-                            numberOfItemsDropped ++;
+                            numberOfItemsDropped++;
                         } else {
                             error = true;
                         }
