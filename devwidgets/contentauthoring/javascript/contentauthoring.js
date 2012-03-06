@@ -973,6 +973,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
             // Shwow the edit page bar if I have edit permissions on this page
             $('#contentauthoring_inserterbar_container', $rootel).toggle(canEditCurrentPage());
+            updateColumnHeights();
         };
 
         ///////////////////
