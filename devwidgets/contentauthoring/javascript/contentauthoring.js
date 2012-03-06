@@ -461,7 +461,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 $('.contentauthoring_cell_content', $row).css('height', 'auto');
                 // Remove whitespace since jQuery :empty selector doesn't ignore it
                 var html = $(cell).html().replace(/\s+/, '');
-                if (html.length) {
+                if (html.length || $(html).hasClass('contentauthoring_dummy_element')) {
                     // There is some content in the row so no default height but the cell height should be considered
                     setDefaultHeight = false;
                 }
@@ -973,6 +973,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
             // Shwow the edit page bar if I have edit permissions on this page
             $('#contentauthoring_inserterbar_container', $rootel).toggle(canEditCurrentPage());
+            updateColumnHeights();
         };
 
         ///////////////////
@@ -1165,6 +1166,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             // Take the widget back into view mode
             $rootel.removeClass('contentauthoring_edit_mode');
             $('.contentauthoring_cell_content', $rootel).sortable('destroy');
+            updateColumnHeights();
         };
 
         /**

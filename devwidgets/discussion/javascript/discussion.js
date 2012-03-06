@@ -879,6 +879,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
                     };
                 }
+                // Undo the saneHTMLAttribute applied in the template
+                renderData.body = renderData.body.replace(/\\\"/g, '"').replace(/\\\'/g, '\'');
                 $(this).parents(s3dHighlightBackgroundClass).children( discussionEntityContainer + "," + discussionReplyContents).hide();
                 sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, renderData, $(this).parents(s3dHighlightBackgroundClass).children(discussionEditContainer));
                 var editValidateOpts = {

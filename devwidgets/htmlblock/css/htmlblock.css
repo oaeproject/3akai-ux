@@ -25,7 +25,7 @@
     height: 25px;
 }
 .htmlblock_widget {
-    min-height: 25px;
+    min-height: 16px;
     word-wrap: break-word;
 }
 
