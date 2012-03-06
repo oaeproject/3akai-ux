@@ -143,17 +143,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
-        /**
-         * Hide the tinyMCE toolbar when we click outside of a tinyMCE area
-         */
-        var hideTinyMCEToolbar = function(ev) {
-            var $clicked = $(ev.target);
-            var $tinyMCEToolbar = $('#inserterbar_tinymce_container');
-            if (!$clicked.is($tinyMCEToolbar) && !$clicked.parents('#inserterbar_tinymce_container').length) {
-                $tinyMCEToolbar.hide();
-            }
-        };
-
         ////////////////////
         ////////////////////
         // ROW MANAGEMENT //
@@ -1520,9 +1509,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         // Cancel editing the page
         $rootel.on('click', '#inserterbar_cancel_edit_page', cancelEditPage);
-
-        // Remove the tinyMCE format bar when clicking outside of a tinyMCE editor
-        $(window).on('click', hideTinyMCEToolbar);
 
         // Called when the inserterbar starts dragging an element, at this point
         // no hovers should be shown

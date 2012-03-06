@@ -217,6 +217,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var addBinding = function() {
             $inserterbarMoreWidgets.click(showHideMoreWidgets);
+            // Hide the tinyMCE toolbar when we click outside of a tinyMCE area
+            sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'));
 
             $('#inserterbar_action_close_revision_history').live('click', function() {
                 $(window).trigger("close.versions.sakai");
