@@ -681,7 +681,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             if ($(ui.item).data('contentId') || $(ui.item).data('collectionId')) {
                 addExistingElement(event, ui);  
             // If we've dragged in a widget
-            } else if ($(ui.item).hasClass("inserterbar_widget_draggable")) {
+            } else if ($(ui.item).hasClass('inserterbar_widget_draggable')) {
                 addNewWidget(event, $(ui.item));
             }
             checkColumnsEmpty();
@@ -919,7 +919,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          */
         var renderPage = function(currentPageShown, requiresRefresh) {
             $pageRootEl = $('#' + currentPageShown.ref, $rootel);
-            $('#' + currentPageShown.ref + "_previewversion").remove();
+            $('#' + currentPageShown.ref + '_previewversion').remove();
             if (!currentPageShown.isVersionHistory) {
                 // Bring the page back to view mode
                 exitEditMode();
@@ -981,8 +981,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var markAsEditing = function() {
             var editingContent = {};
             editingContent[currentPageShown.saveRef] = {
-                "editing": {
-                    "time": sakai.api.Util.Datetime.getCurrentGMTTime()
+                'editing': {
+                    'time': sakai.api.Util.Datetime.getCurrentGMTTime()
                 }
             };
             sakai.api.Server.saveJSON(currentPageShown.pageSavePath, editingContent);
@@ -1007,7 +1007,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Put the page into edit mode
          */
         var editPage = function() {
-            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data) {
+            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
                 currentPageShown.safeToEdit = data.safeToEdit;
                 if (data.safeToEdit) {
                     setEditInterval();
@@ -1282,7 +1282,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                         url: storePath + '.save.json',
                         type: 'POST',
                         success: function() {
-                            $(window).trigger("update.versions.sakai", currentPageShown);
+                            $(window).trigger('update.versions.sakai', currentPageShown);
                         }
                     });
                 }, true);
@@ -1348,7 +1348,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          */
         var checkAutoSave = function(pageData) {
             // Check whether there is an autosaved version
-            storePath = currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef + '/';
+            storePath = currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef;
             sakai.api.Server.loadJSON(storePath, function(success, autoSaveData) {
                 // Clean up both versions
                 pageData = sakai.api.Server.removeServerCreatedObjects(pageData, ['_']);
@@ -1442,7 +1442,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         // Revision history
         $(window).on('click', '#inserterbar_action_revision_history', function() {
-            $(window).trigger("init.versions.sakai", currentPageShown);
+            $(window).trigger('init.versions.sakai', currentPageShown);
         });
 
         // Edit page button
