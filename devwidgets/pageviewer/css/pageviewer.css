@@ -16,13 +16,59 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Widget Container CSS */
-.pageviewer_widget {background:#fff;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;overflow:hidden;}
-.pageviewer_widget #pageviewer_lhnav_container {margin-right:5px;width:170px;float:left;margin:3px 0 3px 3px;z-index:100;}
-.pageviewer_widget #pageviewer_lhnav_container ul {margin:0 !important;}
-.pageviewer_widget #pageviewer_lhnav_container ul li {list-style:none;padding:3px 12px 2px 12px;cursor:pointer;margin-bottom:1px;border-bottom:1px dotted #ddd;}
-.pageviewer_widget #pageviewer_lhnav_container ul li.selected {background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left top #22AAE7;color:#FFFFFF;}
-.pageviewer_widget #pageviewer_lhnav_container ul li.selected button {color:#fff;font-weight:bold;text-shadow:0 1px 0 #666;}
-.pageviewer_widget #pageviewer_lhnav_container ul li button {display:block;padding:5px 0 7px;text-decoration:none;word-wrap:break-word;width:100%;}
-.pageviewer_widget #pageviewer_content_container {min-height:400px;overflow:auto;padding:12px;}
-.pageviewer_widget #pageviewer_content_container.hasnav {border-left:1px solid #D6DADD;box-shadow:3px -10px 7px 0;z-index:200;position:relative;}
-.pageviewer_widget .documentviewer_preview {width:auto !important;}
+.pageviewer_widget {
+    background: #fff;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    overflow: hidden;
+    font-size: auto;
+}
+.pageviewer_widget #pageviewer_lhnav_container {
+    margin-right: 5px;
+    width: 170px;
+    float: left;
+    margin: 3px 0 3px 3px;
+    z-index: 100;
+}
+.pageviewer_widget #pageviewer_lhnav_container ul {
+    margin: 0 !important
+}
+.pageviewer_widget #pageviewer_lhnav_container ul li {
+    list-style: none;
+    padding: 3px 12px 2px 12px;
+    cursor: pointer;
+    margin-bottom: 1px;
+    border-bottom: 1px dotted #ddd;
+}
+.pageviewer_widget #pageviewer_lhnav_container ul li.selected {
+    background: url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left top #22AAE7;
+    color: #FFFFFF;
+}
+.pageviewer_widget #pageviewer_lhnav_container ul li.selected button {
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #666;
+}
+.pageviewer_widget #pageviewer_lhnav_container ul li button {
+    display: block;
+    padding: 5px 0 7px;
+    text-decoration: none;
+    word-wrap: break-word;
+    width: 100%;
+}
+.pageviewer_widget #pageviewer_content_container {
+    border-left: 1px dotted #EDEDED;
+    min-height: 400px;
+    overflow: auto;
+    padding: 12px;
+}
+.pageviewer_widget #pageviewer_content_container.hasnav {
+    border-left: 1px solid #D6DADD;
+    box-shadow: 3px -10px 7px 0;
+    z-index: 200;
+    position: relative;
+}
+.pageviewer_widget .documentviewer_preview {
+    width: auto !important
+}

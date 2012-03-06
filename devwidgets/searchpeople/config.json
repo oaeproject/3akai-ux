@@ -12,7 +12,6 @@
     },
     "id":                 "searchpeople",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/searchpeople/searchpeople.html",
     "userdashboard":      false,

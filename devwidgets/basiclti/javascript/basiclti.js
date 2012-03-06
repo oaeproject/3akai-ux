@@ -179,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (json) {
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
-                json.launchDataUrl = sakai.api.Widgets.widgetLoader.widgets[tuid].placement + ".launch.html";
+                json.launchDataUrl = sakai.api.Widgets.getWidgetDataStorageURL(tuid) + ".launch.html";
                 $("#" + json.tuidFrame, rootel).attr("src", json.launchDataUrl); 
 
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
@@ -247,7 +247,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var saveRemoteContent = function(){
             var  saveContentAjax = function(json_data) {
-                var url = sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
+                var url = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -307,7 +307,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 saveContentAjax(json);
             }
             else {
-                sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("PLEASE_SPECIFY_A_URL"),
+                sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('PLEASE_SPECIFY_A_URL', 'basiclti'),
                                                  sakai.api.Util.notification.type.ERROR);
             }
         };
