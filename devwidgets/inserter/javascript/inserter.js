@@ -51,10 +51,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var filesToUpload = [];
         var focusCreateNew = false;
         var contentToAdd = [];
-        var topMargin = 50;
+        var topMargin = sakai.config.enableBranding ? $('.branding_widget').height() + 50 : 50;
         var $dropTarget = false;
         var numberOfItemsDropped = 0;
         var itemsDropped = [];
+        widgetPos = {
+            'left': 15,
+            'top': topMargin
+        }
 
         // UI Elements
         var inserterToggle = '.inserter_toggle';
@@ -770,10 +774,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'margin-left': 240,
                 'opacity': 0
             });
-            if (sakai.config.enableBranding) {
-                topMargin = 50 + $('.branding_widget').height();
-                $inserterWidget.css('top', topMargin);
-            }
+            $inserterWidget.css('top', topMargin);
             $inserterWidget.draggable({
                 cancel: 'div#inserter_collector',
                 stop: function(ev) {
@@ -802,9 +803,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         if (elOffset.top > $(window).scrollTop() + wHeight - iHeight) {
                             $inserterWidget.css('top', wHeight - iHeight - borderMargin);
                         }
+                        // Store new position
+                        widgetPos = {
+                            'left': $inserterWidget.css('left'),
+                            'top': $inserterWidget.css('top')
+                        };
                     } else {
-                        $inserterWidget.css('top', topMargin);
-                        $inserterWidget.css('left', borderMargin);
+                        $inserterWidget.css({
+                            'left': widgetPos.left,
+                            'top': widgetPos.top
+                        });
                     }
                 }
             });
