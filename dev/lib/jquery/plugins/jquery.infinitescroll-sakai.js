@@ -44,13 +44,14 @@
          * page before fetching the next set of items
          */
         var startInfiniteScrolling = function() {
-            $(window).scroll(function() {
-                if (!isDoingExtraSearch) {
-                    loadNextList();
-                }
-            });
             if($scrollContainer) {
                 $scrollContainer.scroll(function() {
+                    if (!isDoingExtraSearch) {
+                        loadNextList();
+                    }
+                });
+            } else {
+                $(window).scroll(function() {
                     if (!isDoingExtraSearch) {
                         loadNextList();
                     }
