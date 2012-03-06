@@ -156,7 +156,7 @@ define(
                     if($.isFunction(callback)){
                         callback(contentItem);
                     }
-                });
+                }, false, true);
             } else {
                 // If callback is supplied it is executed
                 if($.isFunction(callback)){
