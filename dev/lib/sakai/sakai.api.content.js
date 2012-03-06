@@ -1305,6 +1305,7 @@ define(
                     "sakai:showcomments": "true",
                     "sakai:showalways": true,
                     "sakai:showalways@TypeHint": "Boolean",
+                    'sakai:schemaversion': sakai_conf.schemaVersion,
                     "structure0": $.toJSON({
                         "main": {
                             "_ref": refID,
