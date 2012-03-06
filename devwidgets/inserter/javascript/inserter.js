@@ -41,7 +41,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var $rootel = $('#' + tuid);
         var hasInitialised = false;
-        var hasShownInit = false;
         var libraryData = [];
         var library = false;
         var infinityContentScroll = false;
