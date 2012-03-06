@@ -58,7 +58,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         widgetPos = {
             'left': 15,
             'top': topMargin
-        }
+        };
 
         // UI Elements
         var inserterToggle = '.inserter_toggle';
@@ -279,6 +279,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // Display library the counts in the UI
                 var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
                 $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
+                // Update the left hand nav library count
+                $(window).trigger('lhnav.updateCount', ['library', amount, true]);
             }
 
             // We need to update collection variables if that is where it was dropped
@@ -317,6 +319,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     items: ['newcollection']
                 });
                 addToCollectionCount('library', 1, false);
+                // Update the left hand nav library count
+                $(window).trigger('lhnav.updateCount', ['library', 1, true]);
             });
         };
 
