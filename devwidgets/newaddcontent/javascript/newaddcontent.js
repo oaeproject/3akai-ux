@@ -520,7 +520,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             if(itemsToUpload.length === itemsUploaded) {
                 sakai.data.me.user.properties.contentCount += itemsUploaded;
                 var itemsAdded = $.extend(true, [], existingAdded);
-                itemsAdded = $.merge(itemsAdded, lastUpload);
+                $.merge(itemsAdded, lastUpload);
                 $(window).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
                 // If adding to a group library or collection, these will also still be added to my library
                 if (libraryToUploadTo !== sakai.data.me.user.userid) {
