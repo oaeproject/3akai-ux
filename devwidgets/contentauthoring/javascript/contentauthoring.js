@@ -941,11 +941,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @param {Boolean} requiresRefresh     Whether or not the page should be fully reloaded (if it
          *                                      has already been loaded), or whether it can be served
          *                                      from cache
+         * @param {Boolean} preEdit             If we should just re-render the page before an edit
          */
-        var renderPage = function(currentPageShown, requiresRefresh) {
+        var renderPage = function(currentPageShown, requiresRefresh, preEdit) {
             $pageRootEl = $('#' + currentPageShown.ref, $rootel);
             $('#' + currentPageShown.ref + '_previewversion').remove();
-            if (!currentPageShown.isVersionHistory) {
+            if (!currentPageShown.isVersionHistory && !preEdit) {
                 // Bring the page back to view mode
                 exitEditMode();
                 $(window).trigger('render.contentauthoring.sakai');
@@ -1036,6 +1037,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
                 currentPageShown.safeToEdit = data.safeToEdit;
                 if (data.safeToEdit) {
+                    // Update the content based on the current state of the document
+                    currentPageShown.content.rows = data.rows;
+                    $.each(data, function(key, obj) {
+                        if (key.substring(0,2) === 'id') {
+                            currentPageShown.content[key] = obj;
+                        }
+                    });
+                    renderPage(currentPageShown, true, true);
                     setEditInterval();
                     $(window).trigger('edit.contentauthoring.sakai');
                     $('.contentauthoring_empty_content', $rootel).remove();
