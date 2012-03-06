@@ -298,6 +298,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         }
                     }
                 });
+                $.each(libraryData, function(i, item) {
+                    if (item._path === collectionId) {
+                        item.counts.contentCount += amount;
+                    }
+                });
             }
         };
 
@@ -394,8 +399,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // Share the collections that were dropped
                 sakai.api.Content.Collections.shareCollection(collectedCollections,
                     sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function() {
-                    // Update the collection counts and list of content in the collection
-                    addToCollectionCount(collectionId, 1, true);
+                    // Count was updated in the addToCollection API function
+                    // but needs to be reflected in the widget
+                    $.each(libraryData, function(i, item) {
+                        if (item._path === collectionId) {
+                            item.counts.contentCount += collectedContent.length;
+                        }
+                    });
+                    addToCollectionCount(collectionId, 0, true);
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                     if (inCollection) {
                         $.each(sakai.data.me.groups, function(index, item) {
