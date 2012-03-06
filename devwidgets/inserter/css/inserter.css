@@ -71,7 +71,6 @@
     border: 2px dashed #4b4b4b;
     margin-top: 10px;
     padding: 10px 5px;
-    visibility: hidden;
 }
 .inserter_widget #inserter_collector #inserter_create_collection_container:hover .inserter_create_icon {
     background: url("/devwidgets/inserter/images/inserter_create_icon_17x17_hover.png") repeat-x scroll left bottom transparent
@@ -97,7 +96,6 @@
 .inserter_widget #inserter_collector #inserter_collections,
 .inserter_widget #inserter_collector #inserter_collection_content_container {
     margin: 5px 5px 0;
-    position: absolute;
     width: 220px;
 }
 .inserter_widget #inserter_collector #inserter_collection_content_container .inserter_collections_top_container,
