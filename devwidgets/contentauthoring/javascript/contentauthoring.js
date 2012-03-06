@@ -533,6 +533,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                         imageLoaded(ev, $(ev.currentTarget));
                     });
                 });
+                updateColumnHeights();
             }
         });
 
@@ -914,7 +915,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             // If the current page is in edit mode, we take it back
             // into view mode
             if (isInEditMode() && currentPageShown) {
-                cancelEditPage();
+                cancelEditPage(true);
             }
             // Check whether this page has already been loaded
             if (currentPageShown && !_currentPageShown.isVersionHistory) {
@@ -1283,7 +1284,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          */
         var storeCurrentPageLayout = function() {
             var pageLayout = getCurrentPageLayout().rows;
-            sakai.api.Server.saveJSON(storePath + 'rows/', pageLayout, null, true);
+            sakai.api.Server.saveJSON(storePath + '/rows/', pageLayout, null, true);
         };
 
         /////////////////
@@ -1293,17 +1294,21 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         /**
          * This is called when the cancel button is clicked in the inserterbar. At that
          * point, the page is reset to its initial point.
+         * @param {Boolean} retainAutoSave      Set to true if the autosave needs to be retained.
+         *                                      This is used when navigating away from a page in edit mode.
          */
-        var cancelEditPage = function() {
+        var cancelEditPage = function(retainAutoSave) {
             exitEditMode();
-            // Delete the autosaved current page
-            $.ajax({
-                'url': storePath,
-                'type': 'POST',
-                'data': {
-                   ':operation': 'delete'
-                }
-            });
+            if (!retainAutoSave) {
+                // Delete the autosaved current page
+                $.ajax({
+                    'url': storePath,
+                    'type': 'POST',
+                    'data': {
+                       ':operation': 'delete'
+                    }
+                });
+            }
             // Store the page in the main location
             storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
 
