@@ -281,6 +281,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                 'sakai:description': '',
                 'sakai:permissions': permission,
                 'sakai:copyright': 'creativecommons',
+                'sakai:schemaversion': sakai.config.schemaVersion,
                 'mimeType': 'x-sakai/document'
             };
 

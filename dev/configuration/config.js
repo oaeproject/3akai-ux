@@ -1544,6 +1544,9 @@ define(function(){
         enableChat: false,
         enableCategories: true,
 
+        // The data schema version. Version 2 as of the 1.2 release in March 2012
+        schemaVersion: '2',
+
         Editor: {
             tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',
                 'sc','ta','ur','be','cs','es','he','it','lv','nn','se','te','vi','bg','cy','et','hi','ja','mk','no','si',
