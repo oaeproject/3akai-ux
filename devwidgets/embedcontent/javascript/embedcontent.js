@@ -271,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var removeItemFromSelected = function(path) {
             var newItems = [];
             $(selectedItems).each(function(i, val) {
-                if (val.value !== path) {
+                if (val.value && val.value !== path) {
                     newItems.push(val);
                 }
             });

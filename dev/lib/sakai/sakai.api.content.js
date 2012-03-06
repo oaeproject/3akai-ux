@@ -664,11 +664,14 @@ define(
          * @param {Object} userid     authorizable id for which we're checking presence in the library
          */
         isContentInLibrary: function(content, userid){
+            if (!content) {
+                return false;
+            }
             // check if the content is a collection and the ID is the same collection
             var collectionId = false;
             if (content.data && sakai_content.Collections.isCollection(content.data)) {
                 collectionId = sakai_content.Collections.getCollectionGroupId(content.data);
-            } else if (content && sakai_content.Collections.isCollection(content)) {
+            } else if (sakai_content.Collections.isCollection(content)) {
                 collectionId = sakai_content.Collections.getCollectionGroupId(content);
             }
             if (collectionId === userid) {
