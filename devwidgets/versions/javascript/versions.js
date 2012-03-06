@@ -40,6 +40,7 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
         var contentPath = "";
         var currentPageShown = "";
         var versions = [];
+        var itemsBeforeScroll = 0;
 
         // Containers
         var versionsContainer = "#versions_container";
@@ -79,6 +80,7 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
 
         var renderVersions = function(){
             $(versionsContainer, $rootel).html(sakai.api.Util.TemplateRenderer(versionsTemplate, {
+                'itemsBeforeScroll': itemsBeforeScroll,
                 "data": versions,
                 "sakai": sakai,
                 "currentPage": currentPageShown
@@ -215,12 +217,14 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
         };
 
         $(window).bind("init.versions.sakai", function(ev, cps){
-            if($("#content_profile_left_column").is(":visible")){
+            if ($('.s3d-page-column-left').is(':visible')) {
                 // There is a left hand navigation visible, versions widget will be smaller
                 $(versionsContainer, $rootel).removeClass("versions_without_left_hand_nav");
+                itemsBeforeScroll = 6;
             } else {
                 // No left hand navigation visible, versions widget will be wider
                 $(versionsContainer, $rootel).addClass("versions_without_left_hand_nav");
+                itemsBeforeScroll = 7;
             }
             currentPageShown = cps;
             $('.versions_widget', $rootel).show();
