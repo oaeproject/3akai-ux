@@ -41,6 +41,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var $rootel = $('#' + tuid);
         var hasInitialised = false;
+        var hasShownInit = false;
         var libraryData = [];
         var library = false;
         var infinityContentScroll = false;
@@ -183,6 +184,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 case 'init':
                     $inserterWidget.animate({
                         'height': $inserterInitContainer.height() + $inserterHeader.height() + 10
+                    }, function() {
+                        if (!hasShownInit) {
+                            $("#inserter_create_collection_container").css('visibility', 'visible');
+                            hasShownInit = true;
+                        }
                     });
                     break;
                 case 'reset':

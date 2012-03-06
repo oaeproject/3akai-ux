@@ -71,6 +71,7 @@
     border: 2px dashed #4b4b4b;
     margin-top: 10px;
     padding: 10px 5px;
+    visibility: hidden;
 }
 .inserter_widget #inserter_collector #inserter_create_collection_container:hover .inserter_create_icon {
     background: url("/devwidgets/inserter/images/inserter_create_icon_17x17_hover.png") repeat-x scroll left bottom transparent
