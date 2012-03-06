@@ -1007,8 +1007,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var markAsEditing = function() {
             var editingContent = {};
             editingContent[currentPageShown.saveRef] = {
-                "editing": {
-                    "time": sakai.api.Util.Datetime.getCurrentGMTTime()
+                'editing': {
+                    'time': sakai.api.Util.Datetime.getCurrentGMTTime()
                 }
             };
             sakai.api.Server.saveJSON(currentPageShown.pageSavePath, editingContent);
@@ -1033,7 +1033,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Put the page into edit mode
          */
         var editPage = function() {
-            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, function(success, data) {
+            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
                 currentPageShown.safeToEdit = data.safeToEdit;
                 if (data.safeToEdit) {
                     setEditInterval();
@@ -1379,7 +1379,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          */
         var checkAutoSave = function(pageData) {
             // Check whether there is an autosaved version
-            storePath = currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef + '/';
+            storePath = currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef;
             sakai.api.Server.loadJSON(storePath, function(success, autoSaveData) {
                 // Clean up both versions
                 pageData = sakai.api.Server.removeServerCreatedObjects(pageData, ['_']);
