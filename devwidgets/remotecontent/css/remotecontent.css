@@ -39,6 +39,7 @@
 .remotecontent_settings_subcontainer {
     border-bottom: 1px solid #ddd;
     padding: 10px;
+    overflow: hidden;
 }
 .remotecontent_settings_width_unit_selected {
     font-weight: bold;
