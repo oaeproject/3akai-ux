@@ -56,7 +56,6 @@
     height: 100% !important;
     display: table-cell;
     vertical-align: top !important;
-    overflow: hidden;
 }
 
 .contentauthoring_widget .contentauthoring_cell_container {
@@ -101,6 +100,11 @@
 }
 
 .contentauthoring_edit_mode .pagetitle_widget * {
+    -webkit-touch-callout: auto;
+    -webkit-user-select: auto;
+}
+
+.contentauthoring_edit_mode textarea, .contentauthoring_edit_mode input  {
     -webkit-touch-callout: auto;
     -webkit-user-select: auto;
 }

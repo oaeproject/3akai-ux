@@ -681,7 +681,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                         }
                     }
                 }),
-                'mimeType': 'x-sakai/document'
+                'mimeType': 'x-sakai/document',
+                'sakai:schemaversion': sakai.config.schemaVersion
             };
 
             $.ajax({

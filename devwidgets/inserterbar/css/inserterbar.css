@@ -58,6 +58,10 @@
     min-height: 30px;
 }
 
+#inserterbar_widget #inserterbar_more_widgets_container {
+    width: 550px;
+}
+
 #inserterbar_widget #inserterbar_more_widgets_container .inserterbar_widget_container {
     margin: 2px 0 0;
 }

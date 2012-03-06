@@ -154,6 +154,7 @@ define(
                 "visibility" : visibility,
                 "joinability" : joinability,
                 "worldTemplate" : templatePath,
+                'schemaVersion': sakai_conf.schemaVersion,
                 "message" : {
                     "body" : body,
                     "subject" : subject,
