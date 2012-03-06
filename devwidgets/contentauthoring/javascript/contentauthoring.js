@@ -522,6 +522,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                         imageLoaded(ev, $(ev.currentTarget));
                     });
                 });
+                updateColumnHeights();
             }
         });
 
