@@ -199,7 +199,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         $inserterInitContainer.show();
                         $inserterInitContainer.animate({
                             'opacity': 1
-                        }, 400)
+                        }, 400);
                     });
                     break;
                 case 'results':
@@ -210,7 +210,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         $inserterCollectionContentContainer.show();
                         $inserterCollectionContentContainer.animate({
                             'opacity': 1
-                        }, 400)
+                        }, 400);
                     });
                     break;
             }
