@@ -5,6 +5,9 @@
             "name":"Change profile picture",
             "description":"Change profile picture"
         },
+        "es_ES": { 
+            "bundle": "/devwidgets/changepic/bundles/es_ES.properties"
+        },
         "en_US": {
             "bundle": "/devwidgets/changepic/bundles/en_US.properties"
         },
