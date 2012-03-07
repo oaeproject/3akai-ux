@@ -52,7 +52,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var start = 0; // Start fetching from the first comment.
         var clickedPage = 1;
         var defaultPostsPerPage = 10;
-        var widgeturl = "";
         var store = "";
         var allowedEdit = false;
         var allowedDelete = false;
@@ -331,6 +330,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
 
+            var widgeturl = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
             var subject = 'Comment';
             var to = "internal:" + widgeturl + "/message";
 
@@ -748,6 +748,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function(){
             addBindings();
+            var widgeturl = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
             widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
             if (widgeturl) {
                 store = widgeturl + "/message";

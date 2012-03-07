@@ -12,7 +12,6 @@
     },
     "id":                 "mylibrary",
     "personalportal":     false,
-    "showinsakaigoodies": true,
     "type":               "sakai",
     "url":                "/devwidgets/mylibrary/mylibrary.html",
     "userdashboard":      false,
