@@ -113,7 +113,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var myShow = function(hash){
             doInit();
             loadPrivacySettings();
-            window.scrollTo(0, 0);
             hash.w.show();
         };
 
