@@ -65,6 +65,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $mylibrary_addcontent = $('#mylibrary_addcontent', $rootel);
         var $mylibrary_remove_icon = $('.mylibrary_remove_icon', $rootel);
         var $mylibrary_search_button = $('#mylibrary_search_button', $rootel);
+        var $mylibrary_result_count = $('.s3d-search-result-count', $rootel);
         var $mylibrary_show_grid = $('.s3d-listview-grid', $rootel);
         var $mylibrary_show_list = $('.s3d-listview-list', $rootel);
         var $mylibraryAddContentOverlay = $('.sakai_add_content_overlay', $rootel);
@@ -101,6 +102,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Bring all of the topbar items (search, checkbox, etc.) back into its original state
          */
         var resetView = function() {
+            $mylibrary_result_count.hide();
             $mylibrary_check_all.removeAttr('checked');
             $mylibrary_remove.attr('disabled', 'disabled');
             $mylibrary_addto.attr('disabled', 'disabled');
@@ -120,9 +122,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $mylibrary_admin_actions.show();
                     $mylibraryAddContentOverlay.show();
                 }
+                $('.s3d-page-header-top-row').show();
                 $mylibrary_livefilter_container.show();
                 $mylibrary_sortarea.show();
             } else {
+                $('.s3d-page-header-top-row').hide();
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter_container.hide();
                 $mylibrary_sortarea.hide();
@@ -163,7 +167,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 query: query
             }));
 
-            $('.s3d-page-header-top-row').hide();
             $('.s3d-page-header-bottom-row').hide();
 
             $mylibrary_empty.show();
@@ -195,6 +198,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sortOrder: sortOrder,
                 q: query
             }, function(items, total) {
+                if (query !== '*') {
+                    $mylibrary_result_count.show();
+                    $mylibrary_result_count.children('span').text(total);
+                }
                 if(!sakai.data.me.user.anon) {
                     if(items.length !== 0) {
                         $('.s3d-page-header-top-row').show();
