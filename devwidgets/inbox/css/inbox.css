@@ -55,8 +55,20 @@
 .inbox_name span{min-width:30%;}
 .inbox_to_list{font-size:11px;display:inline-block;}
 .inbox_date{width:25%;text-align:right;overflow:hidden;display:inline-block;float:right;}
-.inbox_subject{width:100%;display:inline-block;vertical-align:top;}
-.inbox_excerpt{height:32px;display:inline-block;width:100%;overflow:hidden;margin-top:11px;}
+.inbox_subject {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    word-wrap: break-word;
+}
+.inbox_excerpt{
+    display: inline-block;
+    margin-top: 11px;
+    height: 32px;
+    overflow: hidden;
+    width: 100%;
+    word-wrap: break-word;
+}
 .inbox_delete a,.inbox_delete button{float:right;display:inline;}
 .inbox_delete_button{margin-right:5px;height:22px;}
 .inbox_delete_button:hover{text-decoration:none;}

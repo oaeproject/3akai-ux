@@ -265,37 +265,37 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * Create a new Sakai Document
          * @param {String} title Title of the Sakai Document
          * @param {String} permission ID of the permissions to be set
-         * @param {String} pageContents Default content to be set on the Sakai Doc
+         * @param {String} docStructure Default content to be set on the Sakai Doc
          * @param {String|Boolean} preferredTitle Used to make a unique URL, can also be set to false 
          * @param {Object} widgetContents Contains data about any widgets on the page
          * @param {Boolean} nonEditable Defines if the Sakai doc will be editable or not
          * @param {Function} callback Function to be executed after setting (or failing to set) the permissions
          */
-        var createSakaiDoc = function(title, permission, pageContents, preferredTitle, widgetContents, nonEditable, callback){
-            var batchRequests = [];
+        var createSakaiDoc = function(title, permission, docStructure, preferredTitle, nonEditable, callback) {
             var realPermission = permission;
-            if (permission === "advanced"){
-                realPermission = "private";
+            if (permission === 'advanced') {
+                realPermission = 'private';
             }
             var parameters = {
-                "sakai:pooled-content-file-name": title,
-                "sakai:description": "",
-                "sakai:permissions": permission,
-                "sakai:copyright": "creativecommons",
-                "mimeType": "x-sakai/document"
+                'sakai:pooled-content-file-name': title,
+                'sakai:description': '',
+                'sakai:permissions': permission,
+                'sakai:copyright': 'creativecommons',
+                'sakai:schemaversion': sakai.config.schemaVersion,
+                'mimeType': 'x-sakai/document'
             };
 
             // Prepare Sakai Doc
             var structure0 = {},
                 toCreate = {};
-            for (var i = 0; i < pageContents.length; i++) {
-                var pageID = "",
-                    pageTitle = "";
+            for (var i = 0; i < docStructure.length; i++) {
+                var pageID = '',
+                    pageTitle = '';
 
                 // for multi-page creation, we don't care as much about the URL
                 // since they're auto-generated pages
-                if (pageContents.length > 1) {
-                    pageTitle = "Page " + (i+1);
+                if (docStructure.length > 1) {
+                    pageTitle = 'Page ' + (i+1);
                     // if we wanted to make the URL names 'Page 1', etc, we'd make
                     // that change here by..
                     //   pageID = sakai.api.Util.makeSafeURL(pageId);
@@ -315,62 +315,31 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                 var refID = sakai.api.Util.generateWidgetId();
 
                 structure0[pageID] = {
-                    "_title": pageTitle,
-                    "_order": i,
-                    "_ref": refID,
-                    "_nonEditable": nonEditable,
-                    "main": {
-                        "_title": pageTitle,
-                        "_order": 0,
-                        "_ref": refID,
-                        "_nonEditable": nonEditable
+                    '_title': pageTitle,
+                    '_order': i,
+                    '_ref': refID,
+                    '_nonEditable': nonEditable,
+                    'main': {
+                        '_title': pageTitle,
+                        '_order': 0,
+                        '_ref': refID,
+                        '_nonEditable': nonEditable
                     }
                 };
-
-                toCreate = {};
-                toCreate[refID] = {
-                    "page": pageContents[i]
-                };
-                batchRequests.push({
-                    method: "POST",
-                    parameters: {
-                        ":operation": "import",
-                        ":contentType": "json",
-                        ":replace": true,
-                        ":replaceProperties": true,
-                        "_charset_": "utf-8",
-                        ":content": $.toJSON(toCreate)
-                    }
-                });
+                toCreate[refID] = docStructure[i];
             }
 
-            for (var j in widgetContents){
-                toCreate = {};
-                toCreate[j] = widgetContents[j];
-                batchRequests.push({
-                    method: "POST",
-                    parameters: {
-                        ":operation": "import",
-                        ":contentType": "json",
-                        ":replace": true,
-                        ":replaceProperties": true,
-                        "_charset_": "utf-8",
-                        ":content": $.toJSON(toCreate)
-                    }
-                });
-            }
-
-            parameters["structure0"] = $.toJSON(structure0);
+            parameters['structure0'] = $.toJSON(structure0);
             $.ajax({
-                url: "/system/pool/createfile",
-                type:"POST",
+                url: '/system/pool/createfile',
+                type:'POST',
                 data: parameters,
-                dataType: "json",
-                success: function(data){
+                dataType: 'json',
+                success: function(data) {
                     var poolId = data._contentItem.poolId;
                     var struct = $.parseJSON(data._contentItem.item.structure0);
-                    var itemURLName = "";
-                    if (pageContents.length === 1) {
+                    var itemURLName = '';
+                    if (docStructure.length === 1) {
                         for (itemURLName in struct) {
                             if (struct.hasOwnProperty(itemURLName)) {
                                 break;
@@ -379,21 +348,26 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                     } else {
                         itemURLName = sakai.api.Util.makeSafeURL(title);
                     }
-                    for (var b = 0; b < batchRequests.length; b++){
-                        batchRequests[b].url = "/p/" + poolId;
-                    }
-                    $.each(struct, function(i, obj){
+                    var batchRequests = [];
+                    $.each(struct, function(i, obj) {
                         batchRequests.push({
-                            url: "/p/" + poolId + "/" + obj._ref + ".save.json",
-                            method: "POST"
+                            url: '/p/' + poolId + '/' + obj._ref + '.save.json',
+                            method: 'POST',
+                            parameters: {
+                                'sling:resourceType': 'sakai/pagecontent',
+                                'sakai:pagecontent': $.toJSON(toCreate[obj._ref]),
+                                '_charset_': 'utf-8'
+                            }
                         });
                     });
-                    var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $autoSuggestElt, true );
-                    sakai.api.Util.tagEntity( "/p/" + poolId, tags, [], function() {
-                        sakai.api.Server.batch(batchRequests, function(success2, data2) {
-                            if (success2) {
-                                callback(poolId, itemURLName);
-                            }
+                    var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($autoSuggestElt, true);
+                    sakai.api.Util.tagEntity('/p/' + poolId, tags, [], function() {
+                        sakai.api.Server.saveJSON('/p/' + poolId, toCreate, function(success2, data2) {
+                            sakai.api.Server.batch(batchRequests, function(success3, data3) {
+                                if (success3) {
+                                    callback(poolId, itemURLName);
+                                }
+                            });
                         });
                     });
                 }
@@ -593,19 +567,27 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Initiates the creation of a new Sakai Doc
          */
-        var createNewSakaiDoc = function(){
-            var docTitle = $("#addarea_new_name").val();
-            var docPermission = $("#addarea_new_permissions").val();
-            var numPages = parseInt($("#addarea_new_numberofpages").val(), 10);
+        var createNewSakaiDoc = function() {
+            var docTitle = $('#addarea_new_name').val();
+            var docPermission = $('#addarea_new_permissions').val();
+            var numPages = parseInt($('#addarea_new_numberofpages').val(), 10);
             var nonEditable = false;
-            var pageContents = [];
-            for (var i = 0; i < numPages; i++){
-                pageContents.push("");
+            var docStructure = [];
+            for (var i = 0; i < numPages; i++) {
+                docStructure.push({
+                    'rows': [{
+                        'id': sakai.api.Util.generateWidgetId(),
+                        'columns': [{
+                            'width': 1,
+                            'elements': []
+                        }]
+                    }]
+                });
             }
-            createSakaiDoc(docTitle, docPermission, pageContents, false, {}, nonEditable, function(poolId, urlName){
-                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
-                    removeCreatorAsManager(poolId, function(){
-                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+            createSakaiDoc(docTitle, docPermission, docStructure, false, nonEditable, function(poolId, urlName) {
+                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1) {
+                    removeCreatorAsManager(poolId, function() {
+                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path) {
                             selectPageAndShowPermissions(poolId2, path, docPermission);
                         });
                     });
@@ -616,22 +598,32 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Initiates the creation of a new Content Library
          */
-        var createContentLibrary = function(){
-            var docTitle = $("#addarea_contentlist_name").val();
-            var docPermission = $("#addarea_contentlist_permissions").val();
+        var createContentLibrary = function() {
+            var docTitle = $('#addarea_contentlist_name').val();
+            var docPermission = $('#addarea_contentlist_permissions').val();
             var widgetID = sakai.api.Util.generateWidgetId();
-            var pageContents = ["<img id='widget_mylibrary_" + widgetID + "' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'></p>"];
-            var nonEditable = true;
-            var widgetContents = {};
-            widgetContents[widgetID] = {
+            var docStructure = [{
+                'rows': [{
+                    'id': sakai.api.Util.generateWidgetId(),
+                    'columns': [{
+                        'width': 1,
+                        'elements': [{
+                            'id': widgetID,
+                            'type': 'mylibrary'
+                        }]
+                    }]
+                }]
+            }];
+            docStructure[0][widgetID] = {
                 mylibrary: {
-                    "groupid": sakai_global.group.groupId
+                    'groupid': sakai_global.group.groupId
                 }
             };
-            createSakaiDoc(docTitle, docPermission, pageContents, "library", widgetContents, nonEditable, function(poolId, urlName){
-                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
+            var nonEditable = true;
+            createSakaiDoc(docTitle, docPermission, docStructure, 'library', nonEditable, function(poolId, urlName) {
+                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1) {
                     removeCreatorAsManager(poolId, function(){
-                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path) {
                             selectPageAndShowPermissions(poolId2, path, docPermission);
                         });
                     });
@@ -642,22 +634,32 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Initiates the creation of a new Participants List
          */
-        var createParticipantsList = function(){
-            var docTitle = $("#addarea_participants_name").val();
-            var docPermission = $("#addarea_participants_permissions").val();
+        var createParticipantsList = function() {
+            var docTitle = $('#addarea_participants_name').val();
+            var docPermission = $('#addarea_participants_permissions').val();
             var widgetID = sakai.api.Util.generateWidgetId();
-            var pageContents = ["<img id='widget_participants_" + widgetID + "' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'></p>"];
-            var nonEditable = true;
-            var widgetContents = {};
-            widgetContents[widgetID] = {
+            var docStructure = [{
+                'rows': [{
+                    'id': sakai.api.Util.generateWidgetId(),
+                    'columns': [{
+                        'width': 1,
+                        'elements': [{
+                            'id': widgetID,
+                            'type': 'participants'
+                        }]
+                    }]
+                }]
+            }];
+            docStructure[0][widgetID] = {
                 participants: {
-                    "groupid": sakai_global.group.groupId
+                    'groupid': sakai_global.group.groupId
                 }
             };
-            createSakaiDoc(docTitle, docPermission, pageContents, "participants", widgetContents, nonEditable, function(poolId, urlName){
-                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
-                    removeCreatorAsManager(poolId, function(){
-                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+            var nonEditable = true;
+            createSakaiDoc(docTitle, docPermission, docStructure, 'participants', nonEditable, function(poolId, urlName) {
+                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1) {
+                    removeCreatorAsManager(poolId, function() {
+                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path) {
                             selectPageAndShowPermissions(poolId2, path, docPermission);
                         });
                     });
@@ -668,28 +670,29 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Initiates the creation of a new Widget page
          */
-        var createWidgetPage = function(){
-            var docTitle = $("#addarea_widgets_name").val();
-            var docPermission = $("#addarea_widgets_permissions").val();
-            var selectedWidget = $("#addarea_widgets_widget").val();
+        var createWidgetPage = function() {
+            var docTitle = $('#addarea_widgets_name').val();
+            var docPermission = $('#addarea_widgets_permissions').val();
+            var selectedWidget = $('#addarea_widgets_widget').val();
             var widgetID = sakai.api.Util.generateWidgetId();
-            var avatar = "";
-            var widgetContents = {};
-            for (var widget in sakai.widgets) {
-                if (sakai.widgets[widget].id === selectedWidget){
-                    avatar = sakai.widgets[widget].img;
-                    if (sakai.widgets[widget].defaultConfiguration) {
-                        widgetContents[widgetID] = sakai.widgets[widget].defaultConfiguration;
-                    }
-                    break;
-                }
-            }
-            var pageContents = ["<img id='widget_" + selectedWidget + "_" + widgetID + "' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='" + avatar + "' data-mce-src='" + avatar + "' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'></p>"];
+            var docStructure = [{
+                'rows': [{
+                    'id': sakai.api.Util.generateWidgetId(),
+                    'columns': [{
+                        'width': 1,
+                        'elements': [{
+                            'id': widgetID,
+                            'type': selectedWidget
+                        }]
+                    }]
+                }]
+            }];
+            docStructure[0][widgetID] = sakai.widgets[selectedWidget].defaultConfiguration || {};
             var nonEditable = false;
-            createSakaiDoc(docTitle, docPermission, pageContents, false, widgetContents, nonEditable, function(poolId, urlName){
-                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
-                    removeCreatorAsManager(poolId, function(){
-                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+            createSakaiDoc(docTitle, docPermission, docStructure, false, nonEditable, function(poolId, urlName) {
+                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1) {
+                    removeCreatorAsManager(poolId, function() {
+                        addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path) {
                             selectPageAndShowPermissions(poolId2, path, docPermission);
                         });
                     });

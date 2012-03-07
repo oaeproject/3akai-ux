@@ -1,7 +1,6 @@
 {
     "ca":true,
     "id":"newaddcontent",
-    "showinsakaigoodies":true,
     "type":"core",
     "enabled":true,
     "i18n": {

@@ -12,7 +12,6 @@
     },
     "id":                 "versions",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/versions/versions.html",
     "userdashboard":      false,
