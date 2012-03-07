@@ -36,9 +36,10 @@
                             <div class="fl-push">
                                 <label for="remotecontent_settings_width">__MSG__WIDTH__:</label>
                                 <input type="text" id="remotecontent_settings_width" value="${width}" />
-                                <button type="button" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit s3d-bold s3d-link-button {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> px</button>
-                                <span> or </span>
-                                <button type="button" id="remotecontent_settings_width_unit_percent" class="remotecontent_settings_width_unit s3d-bold s3d-link-button {if width_unit == "%"} remotecontent_settings_width_unit_selected{/if}"> %</button>
+                                <select class="remotecontent_settings_width_unit">
+                                    <option id="remotecontent_settings_width_unit_px" value="px"{if width_unit === "px"} selected="selected"{/if}>px</option>
+                                    <option id="remotecontent_settings_width_unit_percent" value="%"{if width_unit === "%"} selected="selected"{/if}>%</option>
+                                </select>
                             </div>
                             <div class="fl-push">
                                 <label for="remotecontent_settings_height">__MSG__HEIGHT__:</label>
