@@ -158,6 +158,8 @@
 .inserter_widget #inserter_header #inserter_header_float_container {
     overflow: auto;
     padding-right: 5px;
+    position: relative;
+    top: -7px;
 }
 .inserter_widget #inserter_header #inserter_header_itemcount {
     color: #999;
