@@ -1037,13 +1037,15 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
                 if (data.safeToEdit) {
                     // Update the content based on the current state of the document
-                    currentPageShown.content.rows = data.rows;
-                    $.each(data, function(key, obj) {
-                        if (key.substring(0,2) === 'id') {
-                            currentPageShown.content[key] = obj;
-                        }
-                    });
-                    renderPage(currentPageShown, true, true);
+                    if (currentPageShown.content._lastModified < data._lastModified) {
+                        currentPageShown.content.rows = data.rows;
+                        $.each(data, function(key, obj) {
+                            if (key.substring(0,2) === 'id') {
+                                currentPageShown.content[key] = obj;
+                            }
+                        });
+                        renderPage(currentPageShown, true, true);
+                    }
                     setEditInterval();
                     $(window).trigger('edit.contentauthoring.sakai');
                     $('.contentauthoring_empty_content', $rootel).remove();
@@ -1245,6 +1247,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Store an editted page
          */
         var savePage = function() {
+            storePath = currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef;
+            updateWidgetURLs();
             // Alert the widgets that they should be storing their widget data
             $(window).trigger('save.contentauthoring.sakai');
             // Generate the new row / column structure
@@ -1309,8 +1313,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 // Set the version history variable
                 delete data.version;
                 data.version = $.toJSON(data);
+                data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
                 // Save the page data
                 sakai.api.Server.saveJSON(storePath, data, function() {
+                    currentPageShown.content._lastModified = Date.now();
                     // Create a new version of the page
                     var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
                     $.ajax({
@@ -1392,9 +1398,20 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 // Clean up both versions
                 pageData = sakai.api.Server.removeServerCreatedObjects(pageData, ['_']);
                 autoSaveData = sakai.api.Server.removeServerCreatedObjects(autoSaveData, ['_']);
+
+                // Remove unncesessary properties for the comparison
+                var tmpPageData = $.extend(true, {}, pageData);
+                var tmpAutosaveData = $.extend(true, {}, autoSaveData);
+                delete tmpPageData.editing;
+                delete tmpPageData.version;
+                delete tmpPageData.safeToEdit;
+                delete tmpAutosaveData.editing;
+                delete tmpAutosaveData.version;
+                delete tmpAutosaveData.safeToEdit;
+
                 // Only show the restore overlay if there is an autosave version and the
                 // page content has changed
-                if (!success || $.toJSON(pageData) === $.toJSON(autoSaveData)) {
+                if (!success || $.toJSON(tmpPageData) === $.toJSON(tmpAutosaveData)) {
                     makeTempCopy(pageData);
                 } else {
                     showRestoreAutoSaveDialog(pageData, autoSaveData);
