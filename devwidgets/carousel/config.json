@@ -8,6 +8,9 @@
             "bundle":     "/devwidgets/carousel/bundles/default.properties",
             "name":       "Carousel",
             "description":"Carousel widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/carousel/bundles/es_ES.properties"
         }
     },
     "id":                 "carousel",
