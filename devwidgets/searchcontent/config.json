@@ -8,6 +8,9 @@
             "bundle":     "/devwidgets/searchcontent/bundles/default.properties",
             "name":       "Search content",
             "description":"Search content"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/searchcontent/bundles/es_ES.properties"
         }
     },
     "id":                 "searchcontent",
