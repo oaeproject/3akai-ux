@@ -1035,7 +1035,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          */
         var editPage = function() {
             sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
-                currentPageShown.safeToEdit = data.safeToEdit;
                 if (data.safeToEdit) {
                     // Update the content based on the current state of the document
                     currentPageShown.content.rows = data.rows;

@@ -803,7 +803,8 @@ define(
         /**
          * Object containing data for the page to edit
          * If the document hasn't been edited in the last 10 seconds it is safe to edit
-         * @param page {String} Path to the page to edit
+         * @param {String} pagePath Path to the page to edit
+         * @param {Function} callback The callback function
          */
         checkSafeToEdit: function(pagePath, callback) {
             sakai_serv.loadJSON(pagePath + '.infinity.json', function(success, data) {
