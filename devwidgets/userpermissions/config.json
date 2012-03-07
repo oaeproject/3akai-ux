@@ -8,6 +8,9 @@
             "bundle":     "/devwidgets/userpermissions/bundles/default.properties",
             "name":       "User permissions",
             "description":"User permissions"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/userpermissions/bundles/es_ES.properties"
         }
     },
     "id":                 "userpermissions",

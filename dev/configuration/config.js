@@ -1508,7 +1508,11 @@ define(function(){
         // Array of css files to load in each page
         skinCSS: [],
 
-        Languages: [{
+        Languages: [{ 
+            "country": "ES", 
+            "language": "es", 
+            "displayName": "Español"
+        }, {
             "country": "CN",
             "language": "zh",
             "displayName": "中文"

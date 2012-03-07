@@ -5,6 +5,9 @@
             "bundle": "/devwidgets/sakai2favourites/bundles/default.properties",
             "name": "Sakai 2 favourites",
             "description": "Sakai 2 favourites"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/sakai2favourites/bundles/es_ES.properties"
         }
     },
     "type":"core",
