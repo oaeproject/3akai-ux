@@ -10,6 +10,9 @@
             "bundle":     "/devwidgets/worldsettings/bundles/default.properties",
             "name":       "World settings",
             "description":"Edit world settings"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/worldsettings/bundles/es_ES.properties"
         }
     },
     "id":                 "worldsettings",

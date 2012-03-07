@@ -4,6 +4,9 @@
             "bundle": "/devwidgets/inbox/bundles/default.properties",
             "name": "inbox",
             "description": "Inbox"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/inbox/bundles/es_ES.properties"
         }
     },
     "id": "inbox",
