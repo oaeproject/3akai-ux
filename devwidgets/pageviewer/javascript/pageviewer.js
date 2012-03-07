@@ -81,11 +81,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var renderContainer = function() {
             // Check to see that we're not recursively embedding this page
-            var parentIdToCheck = "#" + storePath.substring(2,storePath.length-1).replace('/', '-');
-            if ((sakai_global.content_profile &&
-                sakai_global.content_profile.content_data &&
-                sakai_global.content_profile.content_data.data._path === docPath) ||
-                $rootel.parents(parentIdToCheck).length !== 0) {
+            var parentIdToCheck = '#' + docPath + '-' + tempItem._ref;
+            if ($rootel.parents(parentIdToCheck + ', #' + tempItem._ref).length !== 0) {
                 return;
             }
             $('.pageviewer_widget', $rootel).show();
