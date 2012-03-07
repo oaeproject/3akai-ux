@@ -361,7 +361,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Toggle the advanced view
-            $(basicltiSettingsAdvancedToggleSettings, $rootel).on('click' function() {
+            $(basicltiSettingsAdvancedToggleSettings, $rootel).on('click', function() {
                 $('#basiclti_settings_advanced', $rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
