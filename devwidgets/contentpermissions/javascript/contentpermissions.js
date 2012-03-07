@@ -178,6 +178,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         var finishSavePermissions = function(){
             closeOverlay();
             if (globalPermissionsChanged || changesMade) {
+                $(window).trigger('sakai.entity.ready');
                 sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
             }
         };
