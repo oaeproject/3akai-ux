@@ -664,11 +664,14 @@ define(
          * @param {Object} userid     authorizable id for which we're checking presence in the library
          */
         isContentInLibrary: function(content, userid){
+            if (!content) {
+                return false;
+            }
             // check if the content is a collection and the ID is the same collection
             var collectionId = false;
             if (content.data && sakai_content.Collections.isCollection(content.data)) {
                 collectionId = sakai_content.Collections.getCollectionGroupId(content.data);
-            } else if (content && sakai_content.Collections.isCollection(content)) {
+            } else if (sakai_content.Collections.isCollection(content)) {
                 collectionId = sakai_content.Collections.getCollectionGroupId(content);
             }
             if (collectionId === userid) {
@@ -796,6 +799,30 @@ define(
             sakai_serv.batch(batchRequests, function(success, data){
                 if ($.isFunction(callback)) {
                    callback(success);
+                }
+            });
+        },
+
+        /**
+         * Object containing data for the page to edit
+         * If the document hasn't been edited in the last 10 seconds it is safe to edit
+         * @param {String} pagePath Path to the page to edit
+         * @param {Function} callback The callback function
+         */
+        checkSafeToEdit: function(pagePath, callback) {
+            sakai_serv.loadJSON(pagePath + '.infinity.json', function(success, data) {
+                if ($.isFunction(callback)) {
+                    // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
+                    // someone else is editing the page right now.
+                    data.safeToEdit = true;
+                    if (data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 &&
+                        data.editing._lastModifiedBy !== sakai_user.data.me.user.userid) {
+                        data.safeToEdit = false;
+                    }
+                    sakai_user.getUser(data._lastModifiedBy, function(success, userData) {
+                        data.editor = userData;
+                        callback(success, data);
+                    });
                 }
             });
         },
