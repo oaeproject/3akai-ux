@@ -667,6 +667,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 handle: '.contentauthoring_row_handle',
                 placeholder: 'contentauthoring_cell_reorder_highlight',
                 opacity: 0.4,
+                tolerance: 'pointer',
                 helper: generateDragHelper,
                 start: startWidgetOrdering,
                 stop: stopWidgetOrdering
