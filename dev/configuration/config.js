@@ -216,6 +216,9 @@ define(function(){
             Links: {
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
+            Collections: {
+                'defaultaccess': 'private' // public, everyone or private (see above for role description)
+            },
             Copyright: {
                 types: {
                     "creativecommons": {
