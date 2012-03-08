@@ -1704,7 +1704,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 });
                 $(ui.item).replaceWith($(element));
                 checkColumnsEmpty();
-                sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath);
+                sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath + '/');
                 checkColumnsEmpty();
                 setPageEditActions();
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
@@ -1756,7 +1756,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         $.each(filesUploaded, function(index, item) {
                             contentData['items']['__array__' + index + '__'] = '/p/' + item._path;
                         });
-                        sakai.api.Server.saveJSON(storePath + id + '/' + 'embedcontent', contentData, function() {
+                        sakai.api.Server.saveJSON(storePath + '/' + id + '/' + 'embedcontent', contentData, function() {
                             filesUploaded = [];
                             var element = sakai.api.Util.TemplateRenderer('contentauthoring_widget_template', {
                                 'id': id,
@@ -1771,7 +1771,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                                 $el.append($(element));
                             }
                             checkColumnsEmpty();
-                            sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath);
+                            sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath + '/');
                             setPageEditActions();
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
                             if (uploadError) {
@@ -1869,7 +1869,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             'sakai:indexed-fields':'title,description',
                             'sling:resourceType':'sakai/widget-data'
                         };
-                        sakai.api.Server.saveJSON(storePath + id + '/' + 'embedcontent', linkData, function() {
+                        sakai.api.Server.saveJSON(storePath + '/' + id + '/' + 'embedcontent', linkData, function() {
                             var element = sakai.api.Util.TemplateRenderer('contentauthoring_widget_template', {
                                 'id': id,
                                 'type': 'embedcontent',
