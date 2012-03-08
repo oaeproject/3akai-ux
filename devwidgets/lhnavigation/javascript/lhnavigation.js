@@ -123,9 +123,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 return pageStructure;
             };
 
-            if (pubstructure.items[pageid]) {
+            if (pubstructure && pubstructure.items[pageid]) {
                 pubstructure = adjustCount(pubstructure, pageid, subpage, value);
-            } else if (privstructure.items[pageid]) {
+            } else if (privstructure && privstructure.items[pageid]) {
                 privstructure = adjustCount(privstructure, pageid, subpage, value);
             }
         };

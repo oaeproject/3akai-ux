@@ -521,6 +521,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Initialize drag and drop from desktop
             $('#inserter_collector', $rootel).fileupload({
                 url: '/system/pool/createfile',
+                formData: {
+                    '_charset_': 'utf-8'
+                },
                 drop: function(ev, data) {
                     $dropTarget = $(ev.currentTarget);
                     var error = false;
@@ -747,7 +750,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     toggleInserter();
                 }
             });
-            $(window).on('click', inserterToggle, toggleInserter);
+            $(document).on('click', inserterToggle, toggleInserter);
             $inserterCollectionInfiniteScrollContainer.on('click', 'li', collectionClicked);
             $inserterCollectionContentContainer.on('click', inserterAllCollectionsButton, refreshWidget);
             $inserterCollectionContentContainer.on('keyup', inserterCollectionContentSearch, searchCollection);
