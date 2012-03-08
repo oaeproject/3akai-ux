@@ -36,4 +36,4 @@
 #deletecontent_used_by_others_list_container {min-height: 20px; max-height: 210px; overflow: auto;}
 #deletecontent_used_by_others_list {margin: 0px 0px 0px 0px;}
 #deletecontent_used_by_others_list li {width: 560px; height: 30px; padding: 3px 13px 6px; list-style: none outside none;}
-#deletecontent_used_by_others_list li a {line-height: 30px; padding: 1px 0 0 6px;}
+#deletecontent_used_by_others_list li a, #deletecontent_used_by_others_list li span {line-height: 30px; padding: 1px 0 0 6px;}
