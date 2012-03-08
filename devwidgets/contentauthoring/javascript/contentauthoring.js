@@ -987,6 +987,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
             // Shwow the edit page bar if I have edit permissions on this page
             $('#contentauthoring_inserterbar_container', $rootel).toggle(canEditCurrentPage());
+            //SAKIII-5248
+            $(window).trigger('position.inserter.sakai');
             updateColumnHeights();
         };
 
