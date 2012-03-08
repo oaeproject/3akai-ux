@@ -299,7 +299,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the border width
-            $(remotecontentSettingsBorders, rootel).click(function() {
+            $(remotecontentSettingsBorders, rootel).on('click', function() {
                 if ($(remotecontentSettingsBorders, rootel).is(':checked')) {
                     json.border_size = 2;
                 } else {
