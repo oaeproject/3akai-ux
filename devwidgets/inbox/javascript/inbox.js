@@ -472,6 +472,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         if ((messages && !messages[all.message]) || !messages) {
                             sakai.api.Communication.getMessage(all.message, widgetData.box, sakai.data.me, function(message){
                                 if (message){
+                                    messages[all.message] = message;
                                     currentMessage = message;
                                     showMessage(message, all.hasOwnProperty("reply"));
                                 } else {
