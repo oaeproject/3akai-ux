@@ -934,6 +934,20 @@ define(
             if($(".s3d-draggable-container", $("body")).length){
                 sakai_util.Draggable.setupDraggable({}, $("body"));
             }
+        },
+
+        /**
+         * Check to see if a widget is embeddded inside itself
+         *
+         * @param {jQuery} $rootel The rootel of the widget
+         * @param {String} poolID The pool id of the widget
+         * @param {String} ref The _ref of the widget
+         *
+         * @return {Boolean} if it is safe to embed the widget
+         */
+        isRecursivelyEmbedded: function($rootel, poolID, ref) {
+            return $rootel && poolID && ref &&
+                $rootel.parents('#' + poolID + '-' + ref + ', #' + ref).length !== 0;
         }
     };
 

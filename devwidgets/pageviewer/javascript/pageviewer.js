@@ -80,6 +80,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Renders the page in the widget
          */
         var renderContainer = function() {
+            // Check to see that we're not recursively embedding this page
+            if (sakai.api.Widgets.isRecursivelyEmbedded($rootel, docPath, tempItem._ref)) {
+                return;
+            }
+            $('.pageviewer_widget', $rootel).show();
             sakai.api.Util.TemplateRenderer(pageViewerContentTemplate, {
                 data: docData,
                 selectedPage: selectedPage

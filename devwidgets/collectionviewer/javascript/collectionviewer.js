@@ -623,11 +623,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
             collectionviewer.sortOrder = $.bbq.getState(collectionviewer.tuidso) || 'modified';
+            var ref = '';
             if (widgetData.data && widgetData.data._path) {
                 collectionviewer.contextId = widgetData.data._path;
+                if (widgetData.data.structure0) {
+                    ref = $.parseJSON(widgetData.data.structure0).main._ref;
+                }
             } else {
                 collectionviewer.contextId = widgetData.collectionviewer.groupid;
             }
+            if (sakai.api.Widgets.isRecursivelyEmbedded($rootel, collectionviewer.contextId, ref)) {
+                return;
+            }
+            $('.collectionviewer_widget', $rootel).show();
             if (sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)) {
                 $('#collectionviewer_header_container #collectionviewer_add_content_button', $rootel).show();
                 $('#collectionviewer_header_container #collectionviewer_edit_collection_button', $rootel).show();
