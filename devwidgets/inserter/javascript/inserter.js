@@ -750,7 +750,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     toggleInserter();
                 }
             });
-            $(window).on('click', inserterToggle, toggleInserter);
+            $(document).on('click', inserterToggle, toggleInserter);
             $inserterCollectionInfiniteScrollContainer.on('click', 'li', collectionClicked);
             $inserterCollectionContentContainer.on('click', inserterAllCollectionsButton, refreshWidget);
             $inserterCollectionContentContainer.on('keyup', inserterCollectionContentSearch, searchCollection);
