@@ -113,6 +113,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     count._count = value;
                 }
                 if (listitem.length) {
+                    if (!listitem.find('lhnavigation_levelcount').length) {
+                        listitem.find('.lhnavigation_item_content').prepend(
+                            sakai.api.Util.TemplateRenderer('lhnavigation_counts_template', {
+                            'count': 0
+                            })
+                        );
+                    }
                     $(element, listitem).text(count._count);
                     if (count._count <= 0) {
                         $(element, listitem).hide();
