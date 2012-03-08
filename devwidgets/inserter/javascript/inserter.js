@@ -274,18 +274,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
                         // Display the collection counts in the UI
                         var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
-                        $collectionCountEl.text(group.counts.contentCount + amount);
+                        $collectionCountEl.text(group.counts.contentCount + (amount - 1));
 
                         // Update the header of a collection if necessary
                         if (inCollection) {
                             $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
-                                group.counts.contentCount + amount);
+                                group.counts.contentCount + (amount - 1));
                         }
-                    }
-                });
-                $.each(libraryData, function(i, item) {
-                    if (item._path === collectionId) {
-                        item.counts.contentCount += amount;
+                        $.each(libraryData, function(i, item) {
+                            if (item._path === collectionId) {
+                                item.counts.contentCount = group.counts.contentCount + (amount - 1);
+                            }
+                        });
                     }
                 });
             } else {
@@ -376,13 +376,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // Share the collections that were dropped
                 sakai.api.Content.Collections.shareCollection(collectedCollections,
                     sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function() {
-                    // Count was updated in the addToCollection API function
-                    // but needs to be reflected in the widget
-                    $.each(libraryData, function(i, item) {
-                        if (item._path === collectionId) {
-                            item.counts.contentCount += collectedContent.length;
-                        }
-                    });
                     addToCollectionCount(collectionId, 0, true);
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                     if (inCollection) {
