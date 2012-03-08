@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.contentauthoring = function() {
 
@@ -280,28 +280,28 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        $("#migration_convert_url").live("click", function(){
-            var url = $("#migration_input_url").val();
-            sakai.api.Server.loadJSON(url, function(success, data){
-                if (success){
-                     $("#migration_output").val($.toJSON(migratePageStructure(data)));
+        $('#migration_convert_url').live('click', function() {
+            var url = $('#migration_input_url').val();
+            sakai.api.Server.loadJSON(url, function(success, data) {
+                if (success) {
+                     $('#migration_output').val($.toJSON(migratePageStructure(data)));
                 } else {
-                    alert("No valid JSON structure was entered");
+                    alert('No valid JSON structure was entered');
                 }
             });
         });
 
-        $("#migration_convert_structure").live("click", function(){
+        $('#migration_convert_structure').live('click', function() {
             var block = {};
             try {
-                block = eval('(' + $("#migration_input_block").val() + ')');
-                $("#migration_output").val($.toJSON(migratePageStructure(block)));
-            } catch (err){
-                alert("An error has occured. Please replace variables by dummy values.\n" + err);
+                block = eval('(' + $('#migration_input_block').val() + ')');
+                $('#migration_output').val($.toJSON(migratePageStructure(block)));
+            } catch (err) {
+                alert('An error has occured. Please replace variables by dummy values.\n' + err);
             }
         });
         
     };
 
-    sakai.api.Widgets.Container.registerForLoad("contentauthoring");
+    sakai.api.Widgets.Container.registerForLoad('contentauthoring');
 });
