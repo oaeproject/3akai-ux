@@ -460,7 +460,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var batchRequests = [];
             var itemIDs = [];
             $.each(itemsDropped, function(index, item) {
-                var splitOnDot = item.item['sakai:pooled-content-file-name'].split('.');
+                $.extend(item, item.item);
+                var splitOnDot = item['sakai:pooled-content-file-name'].split('.');
                 // Set initial version
                 batchRequests.push({
                     'url': '/p/' + item.poolId + '.save.json',
@@ -492,6 +493,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             if (inCollection) {
                                 showCollection(contentListDisplayed);
                             }
+                            $(window).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
                         });
                     } else {
@@ -499,6 +501,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         if (inCollection) {
                             showCollection(contentListDisplayed);
                         }
+                        $(window).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                     }
                 });
