@@ -1627,7 +1627,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 'sling:resourceType':'sakai/widget-data'
             };
 
-            sakai.api.Server.saveJSON(storePath + id + '/' + 'embedcontent', contentData, function() {
+            sakai.api.Server.saveJSON(storePath + '/' + id + '/' + 'embedcontent', contentData, function() {
                 var element = sakai.api.Util.TemplateRenderer('contentauthoring_widget_template', {
                     'id': id,
                     'type': 'embedcontent',
