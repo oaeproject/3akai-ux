@@ -300,7 +300,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Change the border width
             $(remotecontentSettingsBorders, rootel).click(function() {
-                if ($(remotecontentSettingsBorders, rootel).attr('checked')) {
+                if ($(remotecontentSettingsBorders, rootel).is(':checked')) {
                     json.border_size = 2;
                 } else {
                     json.border_size = 0;
