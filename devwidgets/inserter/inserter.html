@@ -106,13 +106,11 @@
         <div id="inserter_header_collection_title_container" class="fl-push">
             <div class="inserter_library_icon fl-force-left inserter_header_collection_icon"></div>
             <div id="inserter_header_float_container">
-                <span id="inserter_header_collection_title">
                 {if item === "library"}
-                    __MSG__MY_LIBRARY__
+                    <a id="inserter_header_collection_title" href="/me#l=library">__MSG__MY_LIBRARY__</a>
                 {else}
-                    ${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 300)}
+                    <a id="inserter_header_collection_title" href="${item.link}">${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 300)}</a>
                 {/if}
-                </span>
                 <span class="inserter_collection_type">__MSG__COLLECTION__</span>
                 <div id="inserter_header_itemcount">
                     <span id="inserter_header_itemcount_count">
