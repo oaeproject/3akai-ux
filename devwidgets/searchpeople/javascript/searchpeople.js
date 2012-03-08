@@ -149,6 +149,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var doSearch = function(){
             var params = sakai_global.data.search.getQueryParams($rootel);
             var urlsearchterm = sakai_global.data.search.processSearchString(params);
+            var tags = sakai_global.data.search.processRefineString(params);
 
             var facetedurl = "";
             var facetedurlall = "";
@@ -170,13 +171,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             if (urlsearchterm === '**' || urlsearchterm === '*') {
                 url = facetedurlall;
-                $(window).trigger("lhnav.addHashParam", [{"q": "", "cat": "", "refine": ""}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": "", "refine": params.refine}]);
             } else {
                 url = facetedurl;
                 if (url.indexOf(".infinity.json") === -1) {
                     url = url.replace(".json", ".infinity.json");
                 }
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat, "refine": params.refine}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "refine": params.refine}]);
             }
 
             // Disable the previous infinite scroll
@@ -185,9 +186,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }
             // Set up the infinite scroll for the list of search results
             infinityScroll = $(searchConfig.results.container).infinitescroll(url, {
-                "q": urlsearchterm,
-                "sortOn": params["sorton"],
-                "sortOrder": params["sortby"]
+                'q': urlsearchterm,
+                'tags': tags,
+                'sortOn': params['sorton'],
+                'sortOrder': params['sortby']
             }, function(items, total){
                 // Adjust display global total
                 $(searchConfig.global.numberFound, $rootel).text("" + total);
