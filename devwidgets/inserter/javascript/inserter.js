@@ -298,7 +298,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var createNewCollection = function(title) {
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('CREATING_YOUR_COLLECTION', 'inserter'), sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
             title = title || sakai.api.i18n.getValueForKey('UNTITLED_COLLECTION', 'inserter');
-            var permissions = 'public';
+            var permissions = sakai.config.Permissions.Collections.defaultaccess;
             sakai.api.Content.Collections.createCollection(title, '', permissions, [], contentToAdd, [], function() {
                 contentToAdd = [];
                 $(window).trigger('sakai.collections.created');
