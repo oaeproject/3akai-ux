@@ -616,7 +616,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
             collectionviewer.sortOrder = $.bbq.getState(collectionviewer.tuidso) || 'modified';
-            var ref = "";
+            var ref = '';
             if (widgetData.data && widgetData.data._path) {
                 collectionviewer.contextId = widgetData.data._path;
                 if (widgetData.data.structure0) {
