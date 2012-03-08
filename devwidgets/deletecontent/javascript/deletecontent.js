@@ -290,7 +290,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 var profileInfo = [];
                 for (var i = 0; i < data.results.length; i++){
-                    if (data.results[i].success && data.results[i].status !== 404){
+                    if (data.results[i].success && data.results[i].status !== 404) {
                         // Process pseudoGroups
                         var profile = $.parseJSON(data.results[i].body);
                         profile.showLink = true;
