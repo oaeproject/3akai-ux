@@ -23,7 +23,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var groupData = false;
         var groupId = false;
         var pubdata = false;
-        var defaultPageTitle;
+        var defaultPageTitle = '';
 
         /**
          * Get the group id from the querystring
@@ -162,7 +162,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             loadDocStructure(forceOpenPage);
         });
 
-        $(window).bind('sakai.worldsettings.updatedTitle', function(e, title) {
+        $(window).on('sakai.worldsettings.updatedTitle', function(e, title) {
             document.title = defaultPageTitle + ' ' + sakai.api.Security.safeOutput(title);
         });
 
