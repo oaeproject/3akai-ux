@@ -129,6 +129,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
+        /**
+         * Renders library title
+         * @param {String} contextName The name to render
+         * @param {Boolean} isGroup Flag if this is a groups library or not
+         */
+        var renderLibraryTitle = function(contextName, isGroup) {
+            sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
+                isMe: mylibrary.isOwnerViewing,
+                isGroup: isGroup,
+                user: sakai.api.Util.Security.safeOutput(contextName)
+            }, $('#mylibrary_title_container', $rootel));
+        };
+
         /////////////////////////////
         // Deal with empty library //
         /////////////////////////////
@@ -428,6 +441,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             /**
+             * An event to listen from the worldsettings dialog so that we can refresh the title if it's been changed.
+             * @param {String} title     New group name
+             */
+            $(window).bind('sakai.worldsettings.updatedTitle', function(e, title) {
+                renderLibraryTitle(sakai.api.Security.safeOutput(title), true);
+            });
+
+            /**
              * Listen for newly the newly added content or newly saved content
              * @param {Object} data        Object that contains the new library items
              * @param {Object} library     Context id of the library the content has been added to
@@ -528,11 +549,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var all = state && state.all ? state.all : {};
                 mylibrary.listStyle = $.bbq.getState('ls') || 'list';
                 handleHashChange(null, true);
-                sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
-                    isMe: mylibrary.isOwnerViewing,
-                    isGroup: isGroup,
-                    user: sakai.api.Util.Security.safeOutput(contextName)
-                }, $('#mylibrary_title_container', $rootel));
+                renderLibraryTitle(contextName, isGroup);
             } else {
                 debug.warn('No user found for My Library');
             }
