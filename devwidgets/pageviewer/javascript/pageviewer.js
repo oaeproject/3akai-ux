@@ -81,8 +81,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var renderContainer = function() {
             // Check to see that we're not recursively embedding this page
-            var parentIdToCheck = '#' + docPath + '-' + tempItem._ref;
-            if ($rootel.parents(parentIdToCheck + ', #' + tempItem._ref).length !== 0) {
+            if (sakai.api.Widgets.isRecursivelyEmbedded($rootel, docPath, tempItem._ref)) {
                 return;
             }
             $('.pageviewer_widget', $rootel).show();
