@@ -175,6 +175,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var selectedData = collectionData[pageIndex][selectedIndex];
             if (selectedData._mimeType === 'x-sakai/collection') {
                 getCollectionData('c-' + selectedData._path, false, function(data) {
+                    if (data.results.fetchMultipleUserDataInWidget) {
+                        delete data.results.fetchMultipleUserDataInWidget;
+                    }
                     selectedData.collectionItems = data.results;
                     sakai.api.Util.TemplateRenderer('collectionviewer_list_item_template', {
                         data: selectedData,
@@ -631,7 +634,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         context: collectionviewer.contextId
                     }, function (success) {
                         sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('REMOVING_CONTENT_FROM_COLLECTION', 'collectionviewer'), sakai.api.i18n.getValueForKey('PROCESSING', 'collectionviewer'));
-                        $('.collectionviewer_check:checked:visible', $rootel).parents('li').hide('slow');
+                        $('.collectionviewer_check:checked:visible', $rootel).parents('li:not(.contentauthoring_row_container)').hide('slow');
                         setTimeout(refreshCollection, 1500);
                     }]);
                 }
@@ -644,7 +647,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     paths: [toRemoveId],
                     context: collectionviewer.contextId
                 }, function (success) {
-                    $itemToRemove.parents('li').hide('slow');
+                    $itemToRemove.parents('li:not(.contentauthoring_row_container)').hide('slow');
                     setTimeout(refreshCollection, 1500);
                 }]);
             });
