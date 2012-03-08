@@ -917,7 +917,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // If the current page is in edit mode, we take it back
             // into view mode
             if (isInEditMode() && currentPageShown) {
-                cancelEditPage(true);
+                cancelEditPage(false, true);
             }
             // Check whether this page has already been loaded
             if (currentPageShown && !_currentPageShown.isVersionHistory) {
