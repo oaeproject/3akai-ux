@@ -119,8 +119,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             showSearchAll(params);
 
             var url = sakai.config.URL.SEARCH_ALL_ENTITIES;
-            if (urlsearchterm === '**' || urlsearchterm === '*') {
-                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': params.refine}]);
+            if ((urlsearchterm === '**' || urlsearchterm === '*') && params.refine === '') {
+                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': ''}]);
                 url = sakai.config.URL.SEARCH_ALL_ENTITIES_ALL;
             } else {
                 $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);

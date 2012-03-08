@@ -169,9 +169,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             var url = '';
 
-            if (urlsearchterm === '**' || urlsearchterm === '*') {
+            if ((urlsearchterm === '**' || urlsearchterm === '*') && params.refine === '') {
                 url = facetedurlall;
-                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': params.refine}]);
+                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': ''}]);
             } else {
                 url = facetedurl;
                 if (url.indexOf('.infinity.json') === -1) {

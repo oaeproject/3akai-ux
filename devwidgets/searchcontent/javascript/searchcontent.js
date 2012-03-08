@@ -162,9 +162,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             showSearchContent(params);
 
             var url = '';
-            if (urlsearchterm === '**' || urlsearchterm === '*') {
+            if ((urlsearchterm === '**' || urlsearchterm === '*') && params.refine === '') {
                 url = facetedurlall;
-                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': params.refine}]);
+                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': ''}]);
             } else {
                 url = facetedurl.replace('.json', '.infinity.json');
                 $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);
