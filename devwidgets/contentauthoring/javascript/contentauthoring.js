@@ -1065,7 +1065,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     };
                     var parsed = parseColumn($elts, column);
                     row.columns.push(parsed.column);
-                    widgetIds.concat(parsed.widgetIds);
+                    widgetIds = widgetIds.concat(parsed.widgetIds);
                 }
                 rows.push(row);
             });
@@ -1212,14 +1212,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             determineEmptyAfterSave();
 
             checkPageReadyToSave(pageLayout.rows, pageLayout.widgetIds);
-
-            // Update the currentPage variable
-            currentPageShown.content = {};
-            currentPageShown.content.rows = pageLayout.rows;
-            $.each(pageLayout.widgetIds, function(key, item) {
-                var widgetInfo = sakai.api.Widgets.widgetLoader.widgets[item];
-                currentPageShown.content[item] = (widgetInfo && widgetInfo.widgetData) ? $.extend({}, true, widgetInfo.widgetData) : false;
-            });
         };
 
         /**
@@ -1240,6 +1232,13 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     checkPageReadyToSave(rows, widgetIds);
                 }, 100);
             } else {
+                // Update the currentPage variable
+                currentPageShown.content = {};
+                currentPageShown.content.rows = rows;
+                $.each(widgetIds, function(key, item) {
+                    var widgetInfo = sakai.api.Widgets.widgetLoader.widgets[item];
+                    currentPageShown.content[item] = (widgetInfo && widgetInfo.widgetData) ? $.extend(true, {}, widgetInfo.widgetData) : false;
+                });
                 savePageData(rows, widgetIds);
             }
         };
