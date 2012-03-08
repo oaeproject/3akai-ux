@@ -120,10 +120,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             var url = sakai.config.URL.SEARCH_ALL_ENTITIES;
             if (urlsearchterm === '**' || urlsearchterm === '*') {
-                $(window).trigger("lhnav.addHashParam", [{"q": "", "refine": params.refine}]);
+                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': params.refine}]);
                 url = sakai.config.URL.SEARCH_ALL_ENTITIES_ALL;
             } else {
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "refine": params.refine}]);
+                $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);
             }
 
             // Disable the previous infinite scroll

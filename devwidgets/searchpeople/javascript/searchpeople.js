@@ -167,17 +167,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // Set all the input fields and paging correct.
             showSearchPeople(params);
 
-            var url = "";
+            var url = '';
 
             if (urlsearchterm === '**' || urlsearchterm === '*') {
                 url = facetedurlall;
-                $(window).trigger("lhnav.addHashParam", [{"q": "", "refine": params.refine}]);
+                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': params.refine}]);
             } else {
                 url = facetedurl;
-                if (url.indexOf(".infinity.json") === -1) {
-                    url = url.replace(".json", ".infinity.json");
+                if (url.indexOf('.infinity.json') === -1) {
+                    url = url.replace('.json', '.infinity.json');
                 }
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "refine": params.refine}]);
+                $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);
             }
 
             // Disable the previous infinite scroll

@@ -169,11 +169,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return params;
         };
 
-        sakai_global.data.search.processSearchString = function(params){
+        sakai_global.data.search.processSearchString = function(params) {
             return sakai.api.Server.createSearchString(params.q);
         };
 
-        sakai_global.data.search.processRefineString = function(params){
+        sakai_global.data.search.processRefineString = function(params) {
             if (params.refine) {
                 return sakai.api.Server.createSearchString(params.refine.replace(/,/g, ' '));
             } else {

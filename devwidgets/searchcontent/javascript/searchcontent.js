@@ -161,13 +161,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // Set all the input fields and paging correct.
             showSearchContent(params);
 
-            var url = "";
+            var url = '';
             if (urlsearchterm === '**' || urlsearchterm === '*') {
                 url = facetedurlall;
-                $(window).trigger("lhnav.addHashParam", [{"q": "", "refine": params.refine}]);
+                $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': params.refine}]);
             } else {
-                url = facetedurl.replace(".json", ".infinity.json");
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "refine": params.refine}]);
+                url = facetedurl.replace('.json', '.infinity.json');
+                $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);
             }
 
             // Disable the previous infinite scroll
