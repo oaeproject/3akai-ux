@@ -8,6 +8,9 @@
             "bundle":     "/devwidgets/areapermissions/bundles/default.properties",
             "name":       "Area permissions",
             "description":"Area permissions"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/areapermissions/bundles/es_ES.properties"
         }
     },
     "id":                 "areapermissions",

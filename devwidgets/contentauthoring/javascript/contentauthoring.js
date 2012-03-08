@@ -143,6 +143,13 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        /**
+         * Hide the tinyMCE toolbar
+         */
+        var hideTinyMCEFormatBar = function() {
+            $('#inserterbar_tinymce_container', $rootel).hide();
+        };
+
         ////////////////////
         ////////////////////
         // ROW MANAGEMENT //
@@ -163,6 +170,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 opacity: 0.4,
                 helper: generateDragHelper,
                 start: function(ev, ui) {
+                    hideTinyMCEFormatBar();
                     killTinyMCEInstances($(ui.item));
                     isDragging = true;
                     $('.contentauthoring_row_handle_container', $rootel).css('visibility', 'hidden');
@@ -370,6 +378,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 },
                 helper: 'ui-resizable-helper',
                 start: function(event, ui) {
+                    hideTinyMCEFormatBar();
                     sakai.api.Util.Draggable.setIFrameFix();
                     isDragging = true;
                     var $row = $(this).parent();
@@ -669,6 +678,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @param {Object} ui        jQuery ui object
          */
         var startWidgetOrdering = function(event, ui) {
+            hideTinyMCEFormatBar();
             killTinyMCEInstances($(ui.item));
             sakai.api.Util.Draggable.setIFrameFix();
             isDragging = true;
@@ -757,6 +767,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @param {String} type     Name of the widget we are adding
          */
         var addNewWidgetPlaceholder = function(type) {
+            hideTinyMCEFormatBar();
             var $lastRow = $('.contentauthoring_row', $rootel).last().find('.contentauthoring_table_row.contentauthoring_cell_container_row');
             var $element = $('<div />').attr('data-element-type', type);
             $lastRow.find('.contentauthoring_cell_content:last').append($element);
