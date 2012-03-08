@@ -132,12 +132,8 @@
     border: 1px solid #999;
     height: 90px;
     resize: none;
-    width: 270px;
+    width: 356px;
     padding: 5px;
-}
-.contentpermissions_permissions_container #contentpermissions_members_autosuggest_sharebutton {
-    float: right;
-    margin-top: 80px;
 }
 .contentpermissions_permissions_container #contentpermissions_members_autosuggest_permissions {
     border: 1px solid #999;
