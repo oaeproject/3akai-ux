@@ -77,6 +77,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         };
 
         var showWarning = function(){
+            if ($('#contentpermissions_members_autosuggest_text').is(':visible')) {
+                doShare();
+            }
             var newVisibilityVal = $.trim($("#contentpermissions_see_container input:checked").val());
             if (visibility === newVisibilityVal || visibilityindex[newVisibilityVal] > visibilityindex[visibility] || newVisibilityVal === "selected"){
                 doSave();
@@ -368,8 +371,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          * Share the piece of content with a user by adding the user to the list of members (manager or viewer)
          */
         var doShare = function(){
-            $(window).unbind("ready.contentprofile.sakai", doInit);
-            $(window).bind("ready.contentprofile.sakai", doInit);
             var userList = getSelectedList();
             $(window).trigger("finished.sharecontent.sakai", [
                 userList, $.trim($("#contentpermissions_members_autosuggest_text").val()), { 
@@ -412,7 +413,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
 
             $(".contentpermissions_permissions_container .s3d-actions-delete").live("click", doDelete);
             $("#contentpermissions_apply_permissions").live("click", showWarning);
-            $("#contentpermissions_members_autosuggest_sharebutton").live("click", doShare);
         };
 
         /**
@@ -439,7 +439,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          * Initializes the content permission widget and invokes the overlay
          */
         var doInit = function(){
-            $(window).unbind("ready.contentprofile.sakai", doInit);
             contentData = sakai_global.content_profile.content_data;
             visibility = contentData.data["sakai:permissions"];
             globalPermissionsChanged = false;
