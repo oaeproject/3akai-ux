@@ -815,13 +815,11 @@ define(
                     if (data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 &&
                         data.editing._lastModifiedBy !== sakai_user.data.me.user.userid) {
                         data.safeToEdit = false;
-                        sakai_user.getUser(data.editing._lastModifiedBy, function(success, userData) {
-                            data.editor = userData;
-                            callback(success, data);
-                        });
-                    } else {
-                        callback(success, data);
                     }
+                    sakai_user.getUser(data._lastModifiedBy, function(success, userData) {
+                        data.editor = userData;
+                        callback(success, data);
+                    });
                 }
             });
         },

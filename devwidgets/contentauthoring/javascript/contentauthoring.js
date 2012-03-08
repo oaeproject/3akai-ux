@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
+require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function($, _, sakai) {
 
     /**
      * @name sakai.contentauthoring
@@ -1030,6 +1030,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
+        var prevModification = false;
+
         /**
          * Put the page into edit mode
          */
@@ -1037,7 +1039,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
                 if (data.safeToEdit) {
                     // Update the content based on the current state of the document
-                    if (currentPageShown.content._lastModified < data._lastModified) {
+                    if (prevModification !== data._lastModified && currentPageShown.content._lastModified < data._lastModified) {
+                        prevModification = data._lastModified;
                         currentPageShown.content.rows = data.rows;
                         $.each(data, function(key, obj) {
                             if (key.substring(0,2) === 'id') {
@@ -1045,20 +1048,28 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                             }
                         });
                         renderPage(currentPageShown, true, true);
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey('EDITED', 'contentauthoring'),
+                            sakai.api.User.getDisplayName(data.editor) + ' ' +
+                            sakai.api.i18n.getValueForKey('THIS_PAGE_HAS_BEEN_EDITED', 'contentauthoring')
+                        );
+                    } else {
+                        setEditInterval();
+                        $(window).trigger('edit.contentauthoring.sakai');
+                        $('.contentauthoring_empty_content', $rootel).remove();
+                        $('#contentauthoring_widget_container', $pageRootEl).show();
+                        $rootel.addClass('contentauthoring_edit_mode');
+                        markAsEditing();
+                        setPageEditActions();
+                        updateColumnHandles();
+                        checkAutoSave(data);
                     }
-                    setEditInterval();
-                    $(window).trigger('edit.contentauthoring.sakai');
-                    $('.contentauthoring_empty_content', $rootel).remove();
-                    $('#contentauthoring_widget_container', $pageRootEl).show();
-                    $rootel.addClass('contentauthoring_edit_mode');
-                    markAsEditing();
-                    setPageEditActions();
-                    updateColumnHandles();
-                    checkAutoSave(data);
                 } else {
                     sakai.api.Util.notification.show(
                         sakai.api.i18n.getValueForKey('CONCURRENT_EDITING', 'contentauthoring'),
-                        sakai.api.User.getDisplayName(data.editor) + ' ' + sakai.api.i18n.getValueForKey('IS_CURRENTLY_EDITING', 'contentauthoring'));
+                        sakai.api.User.getDisplayName(data.editor) + ' ' +
+                        sakai.api.i18n.getValueForKey('IS_CURRENTLY_EDITING', 'contentauthoring')
+                    );
                 }
             });
         };
@@ -1247,8 +1258,6 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * Store an editted page
          */
         var savePage = function() {
-            storePath = currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef;
-            updateWidgetURLs();
             // Alert the widgets that they should be storing their widget data
             $(window).trigger('save.contentauthoring.sakai');
             // Generate the new row / column structure
@@ -1348,7 +1357,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          * @param {Boolean} retainAutoSave      Set to true if the autosave needs to be retained.
          *                                      This is used when navigating away from a page in edit mode.
          */
-        var cancelEditPage = function(retainAutoSave) {
+        var cancelEditPage = function(e, retainAutoSave) {
             exitEditMode();
             if (!retainAutoSave) {
                 // Delete the autosaved current page
@@ -1411,7 +1420,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
                 // Only show the restore overlay if there is an autosave version and the
                 // page content has changed
-                if (!success || $.toJSON(tmpPageData) === $.toJSON(tmpAutosaveData)) {
+                if (!success || _.isEqual(tmpPageData, tmpAutosaveData)) {
                     makeTempCopy(pageData);
                 } else {
                     showRestoreAutoSaveDialog(pageData, autoSaveData);
