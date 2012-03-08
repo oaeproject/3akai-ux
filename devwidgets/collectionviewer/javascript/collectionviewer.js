@@ -175,6 +175,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var selectedData = collectionData[pageIndex][selectedIndex];
             if (selectedData._mimeType === 'x-sakai/collection') {
                 getCollectionData('c-' + selectedData._path, false, function(data) {
+                    if (data.results.fetchMultipleUserDataInWidget) {
+                        delete data.results.fetchMultipleUserDataInWidget;
+                    }
                     selectedData.collectionItems = data.results;
                     sakai.api.Util.TemplateRenderer('collectionviewer_list_item_template', {
                         data: selectedData,
