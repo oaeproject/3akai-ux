@@ -324,7 +324,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // When you click on one of the width units (px or percentage)
-            $(remotecontentSettingsWidthUnitClass, rootel).change(function(){
+            $(remotecontentSettingsWidthUnitClass, rootel).on('change', function() {
                 var widthUnitValue = $(this).val();
                 if (widthUnitValue === "px") {
                     json.width_unit = widthUnitValue;
