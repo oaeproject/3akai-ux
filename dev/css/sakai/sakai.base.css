@@ -1919,7 +1919,7 @@ ul li.s3d-list-item:hover {
 }
 .s3d-taglist li:first-child {
 	list-style: none;
-	background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left 1px transparent;
+	background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll 0 -1px transparent;
 	padding-left: 20px;
 }
 
