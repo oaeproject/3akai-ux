@@ -621,9 +621,9 @@ define(
             // we are sure there it isn't an advanced search query
             if (!advancedSearchRegex.test(searchString)) {
                 if (handlePhrases) {
-                    ret = ret.split(", ").join(" AND ");
+                    ret = '"' + ret.split(', ').join('" AND "') + '"';
                 } else {
-                    ret = ret.split(" ").join(" AND ");
+                    ret = ret.split(' ').join(' AND ');
                 }
             }
 
