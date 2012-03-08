@@ -159,7 +159,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Kills off the infinite scroll instances on the page
          */
         var killInfiniteScroll = function() {
-            libraryData = [];
             if (infinityContentScroll) {
                 infinityContentScroll.kill();
                 infinityContentScroll = false;
@@ -274,16 +273,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
                         // Display the collection counts in the UI
                         var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
-                        $collectionCountEl.text(group.counts.contentCount + (amount - 1));
+                        //debug.log(group.counts.contentCount, group.counts.contentCount + (amount - 1));
+                        $collectionCountEl.text(group.counts.contentCount);
 
                         // Update the header of a collection if necessary
                         if (inCollection) {
                             $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
-                                group.counts.contentCount + (amount - 1));
+                                group.counts.contentCount);
                         }
                         $.each(libraryData, function(i, item) {
                             if (item._path === collectionId) {
-                                item.counts.contentCount = group.counts.contentCount + (amount - 1);
+                                item.counts.contentCount = group.counts.contentCount;
                             }
                         });
                     }
