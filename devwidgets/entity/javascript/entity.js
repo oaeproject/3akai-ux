@@ -302,6 +302,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $(this).addClass('entity_name_editing');
                             $(this).text($.trim($('#entity_name').attr('data-original-title')));
                             $(this).trigger('openjedit.entity.sakai');
+                            $(window).trigger('position.inserter.sakai');
                         }
                     });
                     // setup jeditable for the content name field
@@ -315,6 +316,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             whole_word: false
                         }, '', true);
                         $(this).html(newDottedTitle);
+                        $(window).trigger('position.inserter.sakai');
                     };
                     $(entityNameEditable).editable(nameUpdate, {
                         type: 'text',

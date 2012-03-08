@@ -68,9 +68,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     // Show go back to collection link
                                     $("#back_to_collection_button #collection_title").text(collectionName);
                                     $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + sakai.api.Util.safeURL(collectionName) + "&item=" + currentPath.split("/")[0]);
-                                    $("#back_to_collection_container").show("slow");
+                                    $('#back_to_collection_container').show();
                                 } else {
-                                    $("#back_to_collection_container").hide("slow");
+                                    $('#back_to_collection_container').hide();
                                 }
                             }
                         }

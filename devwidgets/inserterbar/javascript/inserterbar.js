@@ -166,11 +166,40 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+         * Position the inserterBar correctly
+         */
+        var positionInserterBar = function() {
+            if ($inserterbarWidgetContainer.is(":visible")) {
+                var top = $inserterbarWidgetContainer.position().top;
+                var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
+                if (scroll > top) {
+                    if (scroll >= ($contentauthoringWidget.height() + top - ($inserterbarWidget.height() / 2))) {
+                        $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
+                        $inserterbarWidget.css('position', 'absolute');
+                    } else {
+                        $('.sakaiSkin[role="listbox"]').css('position', 'fixed');
+                        $inserterbarWidget.css({
+                            'position': 'fixed',
+                            'top': '0px'
+                        });
+                    }
+                } else {
+                    $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
+                    $inserterbarWidget.css({
+                        'position': 'absolute',
+                        'top': top + 'px'
+                    });
+                }
+            }
+        };
+
+        /**
          * Re-position the bar based on its current width
          */
         var resetPosition = function() {
             var right = $(window).width() - ($contentauthoringWidget.position().left + $contentauthoringWidget.width()) - 15;
             $inserterbarWidget.css('right', right + 'px');
+            positionInserterBar();
         };
 
         /**
@@ -230,30 +259,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(window).bind('edit.contentauthoring.sakai', setInserterForEditMode);
             $(window).bind('render.contentauthoring.sakai', setInserterForViewMode);
 
-            $(window).bind('scroll', function(ev, ui) {
-                if ($inserterbarWidgetContainer.is(":visible")) {
-                    var top = $inserterbarWidgetContainer.position().top;
-                    var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
-                    if (scroll > top) {
-                        if (scroll >= ($contentauthoringWidget.height() + top - ($inserterbarWidget.height() / 2))) {
-                            $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
-                            $inserterbarWidget.css('position', 'absolute');
-                        } else {
-                            $('.sakaiSkin[role="listbox"]').css('position', 'fixed');
-                            $inserterbarWidget.css({
-                                'position': 'fixed',
-                                'top': '0px'
-                            });
-                        }
-                    } else {
-                        $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
-                        $inserterbarWidget.css({
-                            'position': 'absolute',
-                            'top': top + 'px'
-                        });
-                    }
-                }
-            });
+            $(window).on('scroll', positionInserterBar);
+            $(window).on('position.inserter.sakai', positionInserterBar);
             $(window).resize(resetPosition);
         };
 
