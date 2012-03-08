@@ -299,12 +299,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the border width
-            $(remotecontentSettingsBorders, rootel).change(function(){
-                var borderValue = $(remotecontentSettingsBorders, rootel).val();
-                if (isDecimal(borderValue)) {
-                    json.border_size = borderValue;
-                    renderIframeSettings(false);
+            $(remotecontentSettingsBorders, rootel).click(function() {
+                if ($(remotecontentSettingsBorders, rootel).attr('checked')) {
+                    json.border_size = 2;
+                } else {
+                    json.border_size = 0;
                 }
+                renderIframeSettings(false);
             });
 
             // Toggle the advanced view
