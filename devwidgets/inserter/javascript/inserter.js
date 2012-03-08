@@ -305,7 +305,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('CREATING_YOUR_COLLECTION', 'inserter'), sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
             title = title || sakai.api.i18n.getValueForKey('UNTITLED_COLLECTION', 'inserter');
             var permissions = 'public';
-            sakai.api.Content.Collections.createCollection(title, '', permissions, [], contentToAdd, [], function() {
+            sakai.api.Content.Collections.createCollection(title, '', permissions, [], contentToAdd, [], function(success, path) {
+                sakai.api.Server.loadJSON('/p/' + path + '.json', function(success, collection) {
+                    if (success) {
+                        $(window).trigger('done.newaddcontent.sakai', [[collection], 'user']);
+                    }
+                });
                 contentToAdd = [];
                 $(window).trigger('sakai.collections.created');
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
