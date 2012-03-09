@@ -387,8 +387,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(selectedItems, function(i,item) {
                 if (item.path) {
                     itemsToSave.push(item.path);
-                } else {
-                    itemsToSave.push({notfound:true});
                 }
             });
             var objectData = {
@@ -421,27 +419,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var ret = false;
             var batchRequests = [];
             for (var i = 0, j = data.items.length; i < j; i++) {
-                if (data.items[i].notfound) {
-                    newItems.push({
-                        type: "notfound",
-                        name: $embedcontent_item_unavailable_text.text(),
-                        value: "notfound1" + i
-                    });
-                    if (newItems.length === data.items.length) {
-                        wData.items = newItems;
-                        ret = true;
-                    }
-                } else {
-                    batchRequests.push({
-                        url: data.items[i] + ".2.json",
-                        method: "GET"
-                    });
-                }
+                batchRequests.push({
+                    url: data.items[i] + ".2.json",
+                    method: "GET"
+                });
             }
 
             if (batchRequests.length > 0) {
                 sakai.api.Server.batch(batchRequests, function(success, response){
-                    if (success) {
+                    if (success || batchRequests.length === 1) {
                         $.each(response.results, function(index, item){
                             if (item.success && item.body){
                                 var newItem = createDataObject($.parseJSON(item.body));
@@ -450,7 +436,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 newItems.push({
                                     type: "notfound",
                                     name: $embedcontent_item_unavailable_text.text(),
-                                    value: "notfound2" + index
+                                    value: "notfound2" + index,
+                                    path: item.url.replace('.2.json', '')
                                 });
                             }
                         });
