@@ -451,6 +451,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             });
             $("#contentpermissions_members_autosuggest_permissions").attr("disabled", "disabled");
             initializeOverlay();
+            $('#contentpermissions_members_list').prop('scrollTop',
+                $('#contentpermissions_members_list').prop('scrollHeight'));
         };
 
         $("#contentpermissions_proceedandapply").click(doSave);
