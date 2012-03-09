@@ -397,7 +397,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var prepareRenderContext = function(context) {
             if (context.context === "content") {
-                getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
+                if ($.isArray(sakai_global.content_profile.content_data.members.managers)) {
+                    getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
+                }
                 sakai_global.content_profile.content_data.members.counts.managergroups = 0;
                 sakai_global.content_profile.content_data.members.counts.managerusers = 0;
                 $.each(sakai_global.content_profile.content_data.members.managers, function(i, manager){
