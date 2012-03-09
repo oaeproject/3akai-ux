@@ -26,7 +26,9 @@
 .discussion_pipe_divider {
     margin: 0 5px;
 }
-
+#discussion_main_container .s3d-form-field-wrapper span.s3d-error-after {
+    width: 96%;
+}
 
 /* Create new topic */
 #discussion_create_new_topic {
