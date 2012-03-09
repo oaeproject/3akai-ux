@@ -159,7 +159,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Kills off the infinite scroll instances on the page
          */
         var killInfiniteScroll = function() {
-            libraryData = [];
             if (infinityContentScroll) {
                 infinityContentScroll.kill();
                 infinityContentScroll = false;
@@ -265,7 +264,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
                 $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
                 // Update the left hand nav library count
-                $(window).trigger('lhnav.updateCount', ['library', amount, true]);
+                $(window).trigger('lhnav.updateCount', ['library', sakai.data.me.user.properties.contentCount, false]);
             }
 
             // We need to update collection variables if that is where it was dropped
@@ -274,18 +273,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
                         // Display the collection counts in the UI
                         var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
-                        $collectionCountEl.text(group.counts.contentCount + amount);
+                        //debug.log(group.counts.contentCount, group.counts.contentCount + (amount - 1));
+                        $collectionCountEl.text(group.counts.contentCount);
 
                         // Update the header of a collection if necessary
                         if (inCollection) {
                             $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
-                                group.counts.contentCount + amount);
+                                group.counts.contentCount);
                         }
-                    }
-                });
-                $.each(libraryData, function(i, item) {
-                    if (item._path === collectionId) {
-                        item.counts.contentCount += amount;
+                        $.each(libraryData, function(i, item) {
+                            if (item._path === collectionId) {
+                                item.counts.contentCount = group.counts.contentCount;
+                            }
+                        });
                     }
                 });
             } else {
@@ -305,7 +305,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('CREATING_YOUR_COLLECTION', 'inserter'), sakai.api.i18n.getValueForKey('WONT_BE_LONG', 'inserter'));
             title = title || sakai.api.i18n.getValueForKey('UNTITLED_COLLECTION', 'inserter');
             var permissions = 'public';
-            sakai.api.Content.Collections.createCollection(title, '', permissions, [], contentToAdd, [], function() {
+            sakai.api.Content.Collections.createCollection(title, '', permissions, [], contentToAdd, [], function(success, path) {
+                sakai.api.Server.loadJSON('/p/' + path + '.json', function(success, collection) {
+                    if (success) {
+                        $(window).trigger('done.newaddcontent.sakai', [[collection], 'user']);
+                    }
+                });
                 contentToAdd = [];
                 $(window).trigger('sakai.collections.created');
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
@@ -315,8 +320,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     items: ['newcollection']
                 });
                 addToCollectionCount('library', 1, false);
-                // Update the left hand nav library count
-                $(window).trigger('lhnav.updateCount', ['library', 1, true]);
             });
         };
 
@@ -378,13 +381,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // Share the collections that were dropped
                 sakai.api.Content.Collections.shareCollection(collectedCollections,
                     sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function() {
-                    // Count was updated in the addToCollection API function
-                    // but needs to be reflected in the widget
-                    $.each(libraryData, function(i, item) {
-                        if (item._path === collectionId) {
-                            item.counts.contentCount += collectedContent.length;
-                        }
-                    });
                     addToCollectionCount(collectionId, 0, true);
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                     if (inCollection) {
@@ -469,7 +465,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var batchRequests = [];
             var itemIDs = [];
             $.each(itemsDropped, function(index, item) {
-                var splitOnDot = item.item['sakai:pooled-content-file-name'].split('.');
+                $.extend(item, item.item);
+                var splitOnDot = item['sakai:pooled-content-file-name'].split('.');
                 // Set initial version
                 batchRequests.push({
                     'url': '/p/' + item.poolId + '.save.json',
@@ -501,6 +498,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             if (inCollection) {
                                 showCollection(contentListDisplayed);
                             }
+                            $(window).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
                         });
                     } else {
@@ -508,6 +506,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         if (inCollection) {
                             showCollection(contentListDisplayed);
                         }
+                        $(window).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                     }
                 });

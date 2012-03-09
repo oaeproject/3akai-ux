@@ -130,6 +130,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $(".inbox_accepted", $rootel).show();
                 sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid, function() {
                     currentMessage.from.connectionState = "ACCEPTED";
+                    sakai.data.me.contacts.accepted++;
+                    $(window).trigger('lhnav.updateCount', ['contacts', sakai.data.me.contacts.accepted, false]);
                 });
             } else {
                 $(".inbox_ignored", $rootel).show();

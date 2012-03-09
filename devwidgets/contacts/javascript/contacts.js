@@ -92,6 +92,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 },
                 success: function(data){
                     $(window).trigger("lhnav.updateCount", ["contacts", -1]);
+                    sakai.data.me.contacts.accepted--;
                     $("#contacts_delete_contacts_dialog").jqmHide();
                     if (infinityScroll){
                         infinityScroll.removeItems([user]);
