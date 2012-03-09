@@ -1277,6 +1277,11 @@ a.s3d-button.s3d-overlay-button {
 	height: 19px;
 	background: url("/dev/images/search_icon.png") no-repeat top left transparent;
 }
+.s3d-search-container .s3d-search-result-count {
+    color: #666666;
+    position: relative;
+    top: -4px;
+}
 
 /*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
