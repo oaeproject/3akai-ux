@@ -761,7 +761,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
             $(window).off('sakai.collections.created').on('sakai.collections.created', refreshWidget);
             $(window).off('sakai.inserter.dropevent').on('sakai.inserter.dropevent', addDroppedToCollection);
-            $(window).off('scroll').on('scroll', checkInserterPosition);
+            $(window).off('scroll', checkInserterPosition).on('scroll', checkInserterPosition);
             $(window).on('updateCount.inserter.sakai', updateCollectionCount);
         };
 
