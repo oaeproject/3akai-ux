@@ -198,9 +198,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sortOrder: sortOrder,
                 q: query
             }, function(items, total) {
-                if (query !== '*') {
+                if (query && query !== '*') {
                     $mylibrary_result_count.show();
-                    $mylibrary_result_count.children('span').text(total);
+                    var resultLabel = sakai.api.i18n.getValueForKey('RESULTS');
+                    if (total === 1) {
+                        resultLabel = sakai.api.i18n.getValueForKey('RESULT');
+                    }
+                    $mylibrary_result_count.children('.s3d-search-result-count-label').text(resultLabel);
+                    $mylibrary_result_count.children('.s3d-search-result-count-count').text(total);
                 }
                 if(!sakai.data.me.user.anon) {
                     if(items.length !== 0) {

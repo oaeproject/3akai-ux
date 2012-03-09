@@ -54,6 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mymemberships_show_grid = $(".s3d-listview-grid", $rootel);
         var $mymemberships_show_list = $(".s3d-listview-list", $rootel);
         var $mymemberships_nosearchresults = $("#mymemberships_nosearchresults");
+        var $mymemberships_result_count = $('.s3d-search-result-count', $rootel);
 
         var currentQuery = "";
 
@@ -208,6 +209,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#mymemberships_sortarea", $rootel).show();
                     $("#mymemberships_items", $rootel).html(sakai.api.Util.TemplateRenderer(
                         $("#mymemberships_items_template", $rootel), json));
+                }
+
+                // display search results count
+                if (currentQuery !== '' && groupData.length > 0) {
+                    $mymemberships_result_count.show();
+                    var resultLabel = sakai.api.i18n.getValueForKey('RESULTS');
+                    if (groupData.length === 1) {
+                        resultLabel = sakai.api.i18n.getValueForKey('RESULT');
+                    }
+                    $mymemberships_result_count.children('.s3d-search-result-count-label').text(resultLabel);
+                    $mymemberships_result_count.children('.s3d-search-result-count-count').text(groupData.length);
+                } else {
+                    $mymemberships_result_count.hide();
                 }
 
                 // display functions available to logged in users
