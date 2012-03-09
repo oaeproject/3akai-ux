@@ -65,7 +65,7 @@
     {for collection in collections}
         <li class="s3d-draggable-container s3d-droppable-container" id="${collection._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
             <img alt="${sakai.api.Content.getMimeTypeData("x-sakai/collection").description}" src="${sakai.api.Content.getMimeTypeData("x-sakai/collection").URL}" class="fl-force-left s3d-icon-32"/>
-            <div class="inserter_item_count_container fl-force-right">${collection.counts.contentCount}</div>
+            <div class="inserter_item_count_container fl-force-right">{if collection.counts && collection.counts.contentCount} ${collection.counts.contentCount}{else} 0{/if}</div>
             <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(collection['sakai:pooled-content-file-name'], 220, null, "s3d-bold")}</span>
         </li>
     {/for}
@@ -106,13 +106,11 @@
         <div id="inserter_header_collection_title_container" class="fl-push">
             <div class="inserter_library_icon fl-force-left inserter_header_collection_icon"></div>
             <div id="inserter_header_float_container">
-                <span id="inserter_header_collection_title">
                 {if item === "library"}
-                    __MSG__MY_LIBRARY__
+                    <a id="inserter_header_collection_title" href="/me#l=library">__MSG__MY_LIBRARY__</a>
                 {else}
-                    ${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 300)}
+                    <a id="inserter_header_collection_title" href="${item.link}">${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 300)}</a>
                 {/if}
-                </span>
                 <span class="inserter_collection_type">__MSG__COLLECTION__</span>
                 <div id="inserter_header_itemcount">
                     <span id="inserter_header_itemcount_count">

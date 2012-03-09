@@ -122,11 +122,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $mylibrary_admin_actions.show();
                     $mylibraryAddContentOverlay.show();
                 }
-                $('.s3d-page-header-top-row').show();
+                $('.s3d-page-header-top-row', $rootel).show();
                 $mylibrary_livefilter_container.show();
                 $mylibrary_sortarea.show();
             } else {
-                $('.s3d-page-header-top-row').hide();
+                $('.s3d-page-header-top-row', $rootel).hide();
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter_container.hide();
                 $mylibrary_sortarea.hide();
@@ -167,7 +167,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 query: query
             }));
 
-            $('.s3d-page-header-bottom-row').hide();
+            $('.s3d-page-header-bottom-row', $rootel).hide();
 
             $mylibrary_empty.show();
         };
@@ -204,12 +204,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
                 if(!sakai.data.me.user.anon) {
                     if(items.length !== 0) {
-                        $('.s3d-page-header-top-row').show();
-                        $('.s3d-page-header-bottom-row').show();
+                        $('.s3d-page-header-top-row', $rootel).show();
+                        $('.s3d-page-header-bottom-row', $rootel).show();
                     }
                 } else {
                     if(items.length !== 0) {
-                        $('.s3d-page-header-top-row').show();
+                        $('.s3d-page-header-top-row', $rootel).show();
                     }
                 }
                 return sakai.api.Util.TemplateRenderer('mylibrary_items_template', {

@@ -216,6 +216,9 @@ define(function(){
             Links: {
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
+            Collections: {
+                'defaultaccess': 'public' // public, everyone or private (see above for role description)
+            },
             Copyright: {
                 types: {
                     "creativecommons": {
@@ -1508,7 +1511,11 @@ define(function(){
         // Array of css files to load in each page
         skinCSS: [],
 
-        Languages: [{
+        Languages: [{ 
+            "country": "ES", 
+            "language": "es", 
+            "displayName": "Español"
+        }, {
             "country": "CN",
             "language": "zh",
             "displayName": "中文"

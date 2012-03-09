@@ -126,7 +126,7 @@
                     </div>
                     <a href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
-                            <img class="s3d-icon-40" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
+                            <img src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                         {else}
                             <img alt="${item.mimeTypeDescription}" src="${item.mimeTypeURL}" />
                         {/if}

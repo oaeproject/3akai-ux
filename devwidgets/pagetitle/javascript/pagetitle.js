@@ -52,7 +52,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var focusTextArea = function() {
             $('.contentauthoring_cell_element_actions').hide();
-            $('#inserterbar_tinymce_container').hide();
         };
 
         ///////////////////////
