@@ -1919,7 +1919,7 @@ ul li.s3d-list-item:hover {
 }
 .s3d-taglist li:first-child {
 	list-style: none;
-	background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left 1px transparent;
+	background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll 0 -1px transparent;
 	padding-left: 20px;
 }
 
@@ -2136,7 +2136,8 @@ ul li.s3d-list-item:hover {
 .s3d-search-result a img {
 	float: left;
 	padding: 0 10px 5px 0;
-	width: 40px;
+	max-width: 40px;
+	max-height: 60px;
 }
 .s3d-search-result-right {
 	margin-left: 80px;
