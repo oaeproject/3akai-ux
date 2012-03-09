@@ -689,9 +689,9 @@ define(
         /**
          * Shares content with a user and sets permissions for the user.
          * This function can handle single user/content or multiple user/content items in an array
-         * @param {Object|Array} contentId   Unique pool id or Array of IDs of the content being added to the library
-         * @param {Object} userId      Authorizable id of the library to add this content in
-         * @param {Boolean} canManage    Set to true if the user that's being shared with should have managing permissions
+         * @param {String|Array} contentId   Unique pool id or Array of IDs of the content being added to the library
+         * @param {String} userId      Authorizable id of the library to add this content in
+         * @param {Boolean} canManage  Set to true if the user that's being shared with should have managing permissions
          * @param {Object} callBack    Function to call once the content has been added to the library
          */
         addToLibrary: function(contentId, userId, canManage, callBack){
