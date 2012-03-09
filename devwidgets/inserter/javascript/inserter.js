@@ -241,10 +241,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} ev Event sent out by the deletecontent widget after deletion of content is completed
          * @param {Array} deletedContent Array of IDs that were deleted from the library
          */
-        var removeFromCollectionCount = function(ev, deletedContent) {
+        var removeFromLibraryCount = function(ev, deletedContent) {
             sakai.data.me.user.properties.contentCount -= deletedContent.length;
             var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
             $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
+        };
+
+        var updateCollectionCount = function(e, collectionId, count) {
+            var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
+            $collectionCountEl.text(count);
         };
 
         /**
@@ -272,10 +277,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $.each(sakai.data.me.groups, function(index, group) {
                     if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
                         // Display the collection counts in the UI
-                        var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
-                        //debug.log(group.counts.contentCount, group.counts.contentCount + (amount - 1));
-                        $collectionCountEl.text(group.counts.contentCount);
-
+                        updateCollectionCount(false, collectionId, group.counts.contentCount);
                         // Update the header of a collection if necessary
                         if (inCollection) {
                             $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
@@ -735,7 +737,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var addBinding = function() {
             $(window).on('click', '#subnavigation_add_collection_link', openAddNewCollection);
             $(window).on('create.collections.sakai', openAddNewCollection);
-            $(window).on('done.deletecontent.sakai', removeFromCollectionCount);
+            $(window).on('done.deletecontent.sakai', removeFromLibraryCount);
             $(window).on('done.newaddcontent.sakai', function() {
                 addToCollectionCount('library', 0, false);
             });
@@ -760,6 +762,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(window).off('sakai.collections.created').on('sakai.collections.created', refreshWidget);
             $(window).off('sakai.inserter.dropevent').on('sakai.inserter.dropevent', addDroppedToCollection);
             $(window).off('scroll').on('scroll', checkInserterPosition);
+            $(window).on('updateCount.inserter.sakai', updateCollectionCount);
         };
 
         /**
