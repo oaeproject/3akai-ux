@@ -445,7 +445,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * @param {String} title     New group name
              */
             $(window).on('sakai.worldsettings.updatedTitle', function(e, title) {
-                renderLibraryTitle(sakai.api.Security.safeOutput(title), true);
+                renderLibraryTitle(title, true);
             });
 
             /**
