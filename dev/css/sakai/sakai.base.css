@@ -2332,8 +2332,8 @@ ul li.s3d-list-item:hover {
 	float: left !important;
 	padding: 0 !important;
 	margin-left: 24px;
-	width: 100px !important;
-	height: 100px !important;
+	max-width: 100px !important;
+	max-height: 100px !important;
 	position: absolute;
 }
 .s3d-search-results-grid .s3d-search-result-anonuser {
