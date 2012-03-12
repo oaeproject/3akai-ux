@@ -585,7 +585,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // An event to call from the worldsettings dialog so that we can
         // refresh the title if it's been saved.
-        $(window).bind('sakai.worldsettings.updatedTitle', function(e, title) {
+        $(window).bind('updatedTitle.worldsettings.sakai', function(e, title) {
             $('#entity_name').html(sakai.api.Security.safeOutput(title));
         });
 

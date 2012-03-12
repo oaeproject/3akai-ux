@@ -444,7 +444,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * An event to listen from the worldsettings dialog so that we can refresh the title if it's been changed.
              * @param {String} title     New group name
              */
-            $(window).on('sakai.worldsettings.updatedTitle', function(e, title) {
+            $(window).on('updatedTitle.worldsettings.sakai', function(e, title) {
                 renderLibraryTitle(title, true);
             });
 

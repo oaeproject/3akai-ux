@@ -162,8 +162,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             loadDocStructure(forceOpenPage);
         });
 
-        $(window).on('sakai.worldsettings.updatedTitle', function(e, title) {
-            document.title = defaultPageTitle + ' ' + sakai.api.Security.safeOutput(title);
+        $(window).on('updatedTitle.worldsettings.sakai', function(e, title) {
+            document.title = defaultPageTitle + ' ' + title;
         });
 
         /////////////////////
