@@ -456,7 +456,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var i in sakai.config.Navigation) {
                 if (sakai.config.Navigation.hasOwnProperty(i)) {
                     var temp = "";
-                    /* Check that the ser is anon, the nav link is for anon
+                    /* Check that the user is anon, the nav link is for anon
                      * users, and if the link is the account create link,
                      * that internal account creation is allowed
                      */
