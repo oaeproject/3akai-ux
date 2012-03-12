@@ -1690,7 +1690,7 @@ define(function(){
             '${refid}0': {
                 'id2487321': {
                     'htmlblock': {
-                        'content': '<div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
+                        'content': '<h1 class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
                     }
                 },
                 'id2506067': {
