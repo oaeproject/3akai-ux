@@ -214,11 +214,24 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
          * Render the queue
          */
         var renderQueue = function() {
+            var groups = sakai.api.Groups.getMemberships(sakai.data.me.groups, true);
+
+            // We don't want to allow people to add content to a group they aren't a member of
+            if (groups && groups.entry) {
+                groups.entry = $.map(groups.entry, function(group) {
+                    if (!sakai.api.Groups.isCurrentUserAManager(group['sakai:group-id'], sakai.data.me)) {
+                        return null;
+                    } else {
+                        return group;
+                    }
+                });
+            }
+
             $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
                 'items': itemsToUpload,
                 'sakai': sakai,
                 'me': sakai.data.me,
-                'groups': sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
+                'groups': groups,
                 'currentSelectedLibrary': currentSelectedLibrary
             }));
         };
