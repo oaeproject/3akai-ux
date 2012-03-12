@@ -31,7 +31,7 @@
 
 /* Content Style */
 .allcategories_widget .allcategories_item .s3d-regular-links {font-size:12px;}
-.allcategories_widget .allcategories_item .allcategories_item_header .s3d-regular-links {color:#FFF;text-decoration:none;}
+.allcategories_widget .allcategories_item .allcategories_item_header .s3d-regular-links {color:#FFF;text-decoration:none;margin:0}
 .allcategories_widget .allcategories_item .allcategories_item_header_link{font-size: 17px;}
 .allcategories_widget .allcategories_item .allcategories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
 .allcategories_widget .allcategories_item .allcategories_item_header_meta {color:#fff;font-size:10px;display:block;}

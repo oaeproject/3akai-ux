@@ -182,6 +182,8 @@
     -moz-border-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0;
     padding: 10px 12px 5px;
+    font-size:12px;
+    margin:0;
 }
 #newaddcontent_container #newaddcontent_container_selecteditems .newaddcontent_noselecteditems {
     color: #aaa;

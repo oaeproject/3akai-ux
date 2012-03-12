@@ -19,9 +19,9 @@
 .me #entity_container {padding:20px 0 0;}
 #entity_container {padding:20px 15px 10px 20px;}
 #entity_container .entity_number {display:inline-block;color:#424242;}
-#entity_container #entity_name {word-wrap:break-word;font-size:18px;margin-bottom:0;padding:0 0 2px !important;color:#454A4F;}
+#entity_container #entity_name {word-wrap:break-word;font-size:18px;margin:0 !important;padding:0 0 2px !important;color:#454A4F;line-height:10px;display:inline}
 #entity_container #entity_name.entity_group {margin-top:10px;}
-#entity_container #entity_name.entity_name_noneditable {margin-top:8px;overflow:hidden;}
+#entity_container #entity_name.entity_name_noneditable {margin-top:8px;overflow:hidden;display:inline}
 #entity_container #entity_owns {font-size:11px; margin-top:5px;}
 #entity_container #entity_owns.entity_owns_viewer {margin-top:0;}
 #entity_container .entity_permissions_label {margin-left:10px;}
@@ -31,7 +31,7 @@
 #entity_container #entity_actions.entity_group .s3d-button {margin-top: 14px;}
 #entity_container #entity_owns.entity_owns_viewer .s3d-margin-top-5 {margin-top:0 !important;}
 #entity_container #entity_comments_link {text-transform:lowercase;}
-#entity_container .entity_plaintitle {font-size: 18px; margin-top: 8px; margin-left: 10px;}
+#entity_container .entity_plaintitle {font-size: 18px; margin-top: 8px; margin-left: 10px;line-height:12px;}
 #entity_container .entity_owns_actions_container {background:#fff;border:1px solid #eee;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;display:inline-block;padding:4px 0 4px 6px;line-height:23px;height:23px;float:left;margin-right:7px;}
 #entity_container .entity_owns_actions_container .entity_owns_actions_header {float:left;}
 #entity_container .entity_owns_actions_container .entity_owns_actions {float:right;margin-left:7px;padding:0;height:21px;margin-right:10px;}

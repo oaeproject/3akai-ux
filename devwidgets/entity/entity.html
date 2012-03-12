@@ -99,7 +99,7 @@
                 <img id="entity_profile_picture" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.displayName}" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
             </div>
         </div>
-        <div id="entity_name" class="s3d-bold">${data.displayName}</div>
+        <h1 id="entity_name" class="s3d-bold">${data.displayName}</h1>
         <div id="entity_owns" class="s3d-regular-links">
             <span class="entity_number">
                 {var contentCount = data.profile.counts["contentCount"] || 0}
@@ -175,7 +175,7 @@
     {if !data.isManager}
         <hr class="s3d-margin-top-5 fl-hidden"/>
     {/if}
-    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} entity_name_editable{else} entity_name_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]}</span>
+    <h1 id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} entity_name_editable{else} entity_name_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]}</h1>
     {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
     <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
     <div id="entity_owns" class="s3d-regular-links {if !data.isManager} entity_owns_viewer{/if}">
@@ -445,7 +445,7 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
             </div>
         </div>
     {/if}
-    <div id="entity_name" class="s3d-bold entity_group">${data.authprofile["sakai:group-title"]|safeOutput}</div>
+    <h1 id="entity_name" class="s3d-bold entity_group">${data.authprofile["sakai:group-title"]|safeOutput}</h1>
     <div id="entity_owns" class="s3d-regular-links">
         <span class="entity_number">
             {var contentCount = data.authprofile["contentCount"] || 0}

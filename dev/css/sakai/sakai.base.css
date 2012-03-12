@@ -225,6 +225,7 @@ blockquote {
 	color: #666;
 	font-weight: bold;
 	font-size: 13px;
+    margin:0 0 10px 0;
 }
 .s3d-widget-container .s3d-contentpage-title:hover {
 	cursor: pointer
