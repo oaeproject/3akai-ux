@@ -211,16 +211,62 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         };
 
         /**
+         * Checks if any collections to add are already associated with the selected library
+         * @param {Function} callback Callback function
+         */
+        var checkCollectionItems = function(callback){
+            var collectionGroupIds = [];
+            // check if any items are collections
+            $.each(itemsToUpload, function(index, item) {
+                if (sakai.api.Content.Collections.isCollection(item)) {
+                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(item);
+                    collectionGroupIds.push(collectionGroupId);
+                    item.collectionGroupId = collectionGroupId;
+                    item.currentSelectedLibraryHasCollection = false;
+                }
+            });
+
+            sakai.api.Groups.getMembers(collectionGroupIds, function(success, data) {
+                // loop through each collection group
+                $.each(data, function(groupRolesKey, groupRoles) {
+                    // loop through each group role
+                    $.each(groupRoles, function(roleMembersKey, roleMembers) {
+                        if (roleMembers.results && roleMembers.results.length > 0) {
+                            // loop through members in the role
+                            $.each(roleMembers.results, function(memberKey, member) {
+                                var authId = false;
+                                if (member.groupid) {
+                                    authId = member.groupid;
+                                } else if (member.userid) {
+                                    authId = member.userid;
+                                }
+                                // loop through each collection item to see if the collection is already in the selected group
+                                $.each(itemsToUpload, function(itemsToUploadIdx, item) {
+                                    if (item.collectionGroupId === groupRolesKey && currentSelectedLibrary === authId) {
+                                        item.currentSelectedLibraryHasCollection = true;
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+                callback();
+            }, true);
+        };
+
+        /**
          * Render the queue
          */
         var renderQueue = function() {
-            $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
-                'items': itemsToUpload,
-                'sakai': sakai,
-                'me': sakai.data.me,
-                'groups': sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
-                'currentSelectedLibrary': currentSelectedLibrary
-            }));
+            checkCollectionItems(function() {
+                $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
+                    'items': itemsToUpload,
+                    'sakai': sakai,
+                    'me': sakai.data.me,
+                    'groups': sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
+                    'currentSelectedLibrary': currentSelectedLibrary
+                }));
+            });
         };
 
         var greyOutExistingInLibrary = function() {

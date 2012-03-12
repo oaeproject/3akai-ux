@@ -100,8 +100,10 @@ define(
             sakai_serv.batch(batchRequest, function(success, response){
                 $.each(response.results, function(index, item){
                     var group = $.parseJSON(item.body);
-                    sakaiGroupsAPI.groupData[group.properties["sakai:group-id"]] = group;
-                    toReturn[group.properties["sakai:group-id"]] = group;
+                    if (group && group.properties) {
+                        sakaiGroupsAPI.groupData[group.properties["sakai:group-id"]] = group;
+                        toReturn[group.properties["sakai:group-id"]] = group;
+                    }
                 });
                 if ($.isFunction(callback)){
                     callback(true, toReturn);
