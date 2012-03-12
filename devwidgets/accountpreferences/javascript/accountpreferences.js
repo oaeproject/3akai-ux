@@ -530,35 +530,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(emailChangeContainer).hide();
         };
 
-        $(accountPreferencesPreferencesTab).click(function(){
+        $(accountPreferencesPreferencesTab).on('click', function() {
             $(accountPreferencesTabsButtons).removeClass(tabSelected);
             $(accountPreferencesPreferencesTab).addClass(tabSelected);
             hideAllPanes();
             $(preferContainer).show();
         });
 
-        $(accountPreferencesPrivacyTab).click(function(){
+        $(accountPreferencesPrivacyTab).on('click', function() {
             $(accountPreferencesTabsButtons).removeClass(tabSelected);
             $(accountPreferencesPrivacyTab).addClass(tabSelected);
             hideAllPanes();
             $(privacyContainer).show();
         });
 
-        $(accountPasswordTab).click(function(){
+        $(accountPasswordTab).on('click', function() {
             $(accountPreferencesTabsButtons).removeClass(tabSelected);
             $(accountPasswordTab).addClass(tabSelected);
             hideAllPanes();
             $(passChangeContainer).show();
         });
 
-        $(accountEmailTab).click(function(){
+        $(accountEmailTab).on('click', function() {
             $(accountPreferencesTabsButtons).removeClass(tabSelected);
             $(accountEmailTab).addClass(tabSelected);
             hideAllPanes();
             $(emailChangeContainer).show();
         });
 
-        $(accountPreferencesCancel).die("click").live("click", function() {
+        $(accountPreferencesCancel).die('click').live('click', function() {
             $(accountPreferencesContainer).jqmHide();
         });
 
@@ -589,16 +589,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     var emailVal = sakai.api.User.getProfileBasicElementValue(
                         sakai.data.me.profile,
-                        "email");
-                    $("#accountpreferences_email").val(emailVal);
+                        'email');
+                    $('#accountpreferences_email').val(emailVal);
                 }
                 if (sakai.config.displayTimezone || sakai.config.displayLanguage) {
                     $accountpreferences_langloc_settings.show();
                     if (sakai.config.displayTimezone) {
-                        $("#accountpreferences_select_timezone").show();
+                        $('#accountpreferences_select_timezone').show();
                     }
                     if (sakai.config.displayLanguage) {
-                        $("#accountpreferences_select_language").show();
+                        $('#accountpreferences_select_language').show();
                     }
                 }
             }

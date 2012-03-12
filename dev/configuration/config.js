@@ -260,7 +260,7 @@ define(function(){
          * display property of the email field in the defaultConfig
          * below to false
         */
-        emailLocation: 'accountpreferences',
+        emailLocation: 'profile',
 
         Profile: {
             /*
