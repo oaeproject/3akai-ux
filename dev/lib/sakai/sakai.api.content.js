@@ -1496,6 +1496,19 @@ define(
                                                                                     "membersCount": usersToAdd.length
                                                                                 }
                                                                             });
+                                                                            sakai_user.data.me.groups.push({
+                                                                                'sakai:category': 'collection',
+                                                                                'sakai:group-id': groupId + '-managers',
+                                                                                'sakai:pseudoGroup': true,
+                                                                                'groupid': groupId + '-managers',
+                                                                                'sakai:excludeSearch': 'true',
+                                                                                'counts': {
+                                                                                    'contentCount': contentToAdd.length,
+                                                                                    'membersCount': usersToAdd.length
+                                                                                },
+                                                                                'sakai:role-title': 'MANAGER',
+                                                                                'sakai:role-title-plural': 'MANAGERS'
+                                                                            });
                                                                             // 9. Execute the callback function
                                                                             callback(true, collectionId);
                                                                         });
