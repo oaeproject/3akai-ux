@@ -214,7 +214,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
          * Checks if any collections to add are already associated with the selected library
          * @param {Function} callback Callback function
          */
-        var checkCollectionItems = function(callback){
+        var checkCollectionItems = function(callback) {
             var collectionGroupIds = [];
             // check if any items are collections
             $.each(itemsToUpload, function(index, item) {
@@ -240,7 +240,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                                 } else if (member.userid) {
                                     authId = member.userid;
                                 }
-                                // loop through each collection item to see if the collection is already in the selected group
+                                // loop through each item to see if the collection is already associated with the selected library
                                 $.each(itemsToUpload, function(itemsToUploadIdx, item) {
                                     if (item.collectionGroupId === groupRolesKey && currentSelectedLibrary === authId) {
                                         item.currentSelectedLibraryHasCollection = true;
