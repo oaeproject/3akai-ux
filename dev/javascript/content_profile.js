@@ -68,9 +68,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     // Show go back to collection link
                                     $("#back_to_collection_button #collection_title").text(collectionName);
                                     $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + sakai.api.Util.safeURL(collectionName) + "&item=" + currentPath.split("/")[0]);
-                                    $("#back_to_collection_container").show("slow");
+                                    $('#back_to_collection_container').show();
                                 } else {
-                                    $("#back_to_collection_container").hide("slow");
+                                    $('#back_to_collection_container').hide();
                                 }
                             }
                         }
@@ -174,10 +174,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }                   
                     sakai.api.Security.showPage();
                     document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
-
-                    if(sakai_global.content_profile.content_data.data._mimeType === "x-sakai/collection"){
-                        $(".collectionviewer_carousel_item.selected").click();
-                    }
 
                     // rerender comments widget
                     $(window).trigger("content_profile_hash_change");

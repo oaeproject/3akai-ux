@@ -95,7 +95,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
 
             var adjustCount = function(pageStructure, pageid, subpage, value) {
-                var listitem = 'li[data-sakai-path=\'';
+                var listitem = 'li[data-sakai-addcontextoption="user"][data-sakai-path=\'';
                 var count;
                 var element;
                 if (subpage) {
@@ -113,6 +113,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     count._count = value;
                 }
                 if (listitem.length) {
+                    if (!listitem.find('.lhnavigation_levelcount').length) {
+                        listitem.find('.lhnavigation_item_content').prepend(
+                            sakai.api.Util.TemplateRenderer('lhnavigation_counts_template', {
+                            'count': 0
+                            })
+                        );
+                    }
                     $(element, listitem).text(count._count);
                     if (count._count <= 0) {
                         $(element, listitem).hide();
@@ -123,9 +130,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 return pageStructure;
             };
 
-            if (pubstructure.items[pageid]) {
+            if (pubstructure && pubstructure.items[pageid]) {
                 pubstructure = adjustCount(pubstructure, pageid, subpage, value);
-            } else if (privstructure.items[pageid]) {
+            } else if (privstructure && privstructure.items[pageid]) {
                 privstructure = adjustCount(privstructure, pageid, subpage, value);
             }
         };
