@@ -393,6 +393,41 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Rendering a content page //
         //////////////////////////////
 
+        /**
+         * Displays a page unavailable error message
+         */
+        var renderPageUnavailable = function() {
+            unavailablePage = {
+                'ref': false,
+                'path': false,
+                'content': {
+                    'unavailablePage1': {
+                        'htmlblock': {
+                            'content': sakai.config.pageUnavailableContent
+                        }
+                    },
+                    'rows': [{
+                        'columns': [{
+                            'elements': [{
+                                'id': 'unavailablePage1',
+                                'type': 'htmlblock'
+                            }],
+                            width: 1
+                        }]
+                    }]
+                },
+                'savePath': false,
+                'pageSavePath': false,
+                'saveRef': false,
+                'canEdit': false,
+                'nonEditable': false,
+                '_lastModified': false,
+                'autosave': false,
+                'title': false
+            };
+            $(window).trigger('showpage.contentauthoring.sakai', [unavailablePage]);
+        };
+
         var getFirstSelectablePage = function(structure) {
             var selected = false;
             if (structure.orderedItems) {
@@ -467,25 +502,29 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if (!selected) {
                     selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
                 }
-                // update links in all menus with subnav with the selected page, so they wont trigger handleHashChange and cause weirdness
-                $('#lhnavigation_container').find('a.lhnavigation_toplevel_has_subnav').attr('href', '#l=' + selected);
-                // Select correct item
-                var menuitem = $('li[data-sakai-path=\'' + selected + '\']');
-                if (menuitem.length) {
-                    if (selected.split('/').length > 1) {
-                        var par = $('li[data-sakai-path=\'' + selected.split('/')[0] + '\']');
-                        showHideSubnav(par, true);
+                if (selected) {
+                    // update links in all menus with subnav with the selected page, so they wont trigger handleHashChange and cause weirdness
+                    $('#lhnavigation_container').find('a.lhnavigation_toplevel_has_subnav').attr('href', '#l=' + selected);
+                    // Select correct item
+                    var menuitem = $('li[data-sakai-path=\'' + selected + '\']');
+                    if (menuitem.length) {
+                        if (selected.split('/').length > 1) {
+                            var par = $('li[data-sakai-path=\'' + selected.split('/')[0] + '\']');
+                            showHideSubnav(par, true);
+                        }
+                        var ref = menuitem.data('sakai-ref');
+                        var savePath = menuitem.data('sakai-savepath') || false;
+                        var pageSavePath = menuitem.data('sakai-pagesavepath') || false;
+                        var canEdit = menuitem.data('sakai-submanage') || false;
+                        var nonEditable = menuitem.data('sakai-noneditable') || false;
+                        if (!menuitem.hasClass(navSelectedItemClass)) {
+                            selectNavItem(menuitem, $(navSelectedItem));
+                        }
+                        // Render page
+                        preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
                     }
-                    var ref = menuitem.data('sakai-ref');
-                    var savePath = menuitem.data('sakai-savepath') || false;
-                    var pageSavePath = menuitem.data('sakai-pagesavepath') || false;
-                    var canEdit = menuitem.data('sakai-submanage') || false;
-                    var nonEditable = menuitem.data('sakai-noneditable') || false;
-                    if (!menuitem.hasClass(navSelectedItemClass)) {
-                        selectNavItem(menuitem, $(navSelectedItem));
-                    }
-                    // Render page
-                    preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                } else {
+                    renderPageUnavailable();
                 }
             }
         };
