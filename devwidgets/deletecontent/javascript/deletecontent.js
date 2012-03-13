@@ -68,6 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} successMessage   Id of the dom element that contains the success message to be displayed
          */
         var sendDeletes = function(batchRequests, successMessage) {
+            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('REMOVING_CONTENT'), sakai.api.i18n.getValueForKey('PROCESSING_REMOVING'));
             // Update the inserter
             $.each(collectionsToUpdate, function(collectionId, amount) {
                 $.each(sakai.api.User.data.me.groups, function(index, group){
@@ -89,6 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ($.isFunction(callback)) {
                     callback(success);
                 }
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
                 $deletecontent_dialog.jqmHide();
             });
         };
