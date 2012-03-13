@@ -53,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var t = "";
         var numItems = 0;
         var numDiff = 0;
+        var currentData = '';
 
         var parseActivity = function(success, data, initialLoad){
             if (success) {
@@ -108,8 +109,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
                 applyThreeDots();
             }
-
-            t = setTimeout(fetchActivity, 8000);
         };
 
         var applyThreeDots = function(){
@@ -135,7 +134,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var fetchActivity = function(initialLoad){
             sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, function(success, data){
-                parseActivity(success, data, initialLoad);
+                if ($.toJSON(data.results) !== currentData) {
+                    currentData = $.toJSON(data.results);
+                    parseActivity(success, data, initialLoad);
+                }
+                t = setTimeout(fetchActivity, 8000);
             }, {
                 "items": 12
             });
