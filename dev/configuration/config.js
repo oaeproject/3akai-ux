@@ -1588,7 +1588,7 @@ define(function(){
         /*
          * Content to display if there are no pages available to the user in a group/world
          */
-        pageUnavailableContent: '<p>Page unavailable</p>',
+        pageUnavailableContent: '<p>__MSG__PAGE_UNAVAILABLE__</p>',
 
         /*
          * _canEdit: can change the area permissions on this page
