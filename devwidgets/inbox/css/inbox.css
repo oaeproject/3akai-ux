@@ -43,18 +43,11 @@
 #inbox_message_list .inbox_items_container{box-shadow:0px 1px 2px 0px #DDDDDD;-moz-box-shadow:0px 1px 2px 0px #DDDDDD;-webkit-box-shadow:0px 1px 2px 0px #DDDDDD;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;margin:6px 0px;overflow:hidden;}
 #inbox_message_list .inbox_items_container .inbox_items_inner{background-color:#f4f4f4;border-radius:2px 2px 6px 6px;-moz-border-radius:2px 2px 6px 6px;-webkit-border-radius:2px 2px 6px 6px;box-shadow:0px 0px 5px 0px #aaa;-moz-box-shadow:0px 0px 5px 0px #aaa;-webkit-box-shadow:0px 0px 5px 0px #aaa;}
 #inbox_message_list .inbox_items_container.unread .inbox_items_inner{background-color:#f0f9fc;font-weight:bold}
-#inbox_message_list .inbox_items_container .inbox_item_read_icon{display:block;width:18px;margin-top:3px;
-    background: url("/dev/images/green_tick.png") no-repeat scroll left top transparent;
-    /*
-    background: url("/dev/images/message_icon_read.png") no-repeat scroll left top transparent;
-    */
-}
-
-#inbox_message_list .inbox_items_container.unread .inbox_item_read_icon{display:block;width:18px;margin-top:3px;
-/*
+#inbox_message_list .inbox_items_container.unread .inbox_item_unread_icon {
+    display: block;
+    width: 18px;
+    margin-top: 3px;
     background: url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;
-*/
-    background: none;
 }
 .inbox_items_container.last{border-bottom:none;}
 .inbox_items_inner{padding:10px 0px;float:left;width:100%}
