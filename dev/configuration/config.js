@@ -1586,6 +1586,11 @@ define(function(){
         },
 
         /*
+         * Content to display if there are no pages available to the user in a group/world
+         */
+        pageUnavailableContent: '<p>__MSG__PAGE_UNAVAILABLE__</p>',
+
+        /*
          * _canEdit: can change the area permissions on this page
          * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
          * _nonEditable: cannot edit the contents of this page
