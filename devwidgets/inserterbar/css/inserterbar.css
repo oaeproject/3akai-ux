@@ -35,7 +35,9 @@
     top: 130px;
     z-index: 990;
 }
-
+.inserterbar_visibility_hidden {
+    visibility: hidden;
+}
 
 /* Layout */
 #inserterbar_widget #inserterbar_grabber {
