@@ -337,14 +337,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (allowPost) {
                 var body = $(commentsMessageTxt, rootel).val();
                 var message = {
-                    "sakai:type": "comment",
-                    "sakai:to": to,
-                    "sakai:marker": tuid,
-                    "sakai:subject": subject,
-                    "sakai:body": body,
-                    "sakai:messagebox": "outbox",
-                    "sakai:sendstate": "pending",
-                    "_charset_":"utf-8"
+                    'sakai:type': 'comment',
+                    'sakai:to': to,
+                    'sakai:marker': tuid,
+                    'sakai:subject': subject,
+                    'sakai:body': body,
+                    'sakai:messagebox': 'pending',
+                    'sakai:sendstate': 'pending',
+                    'sling:resourceType': 'sakai/message',
+                    '_charset_':'utf-8'
                 };
 
 
