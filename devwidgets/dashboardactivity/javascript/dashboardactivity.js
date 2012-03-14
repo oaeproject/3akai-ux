@@ -33,12 +33,31 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      */
     sakai_global.dashboardactivity = function (tuid, showSettings) {
 
+
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
         var $rootel = $('#' + tuid);
 
+        // Containers
+        var $dashboardactivityContainer = $('#dashboardactivity_widget', $rootel);
+        var $dashboardactivityNoActivityContainer = $('#dashboardactivity_no_activity_container', $rootel);
+        var $dashboardactivityActivityContainer = $('#dashboardactivity_activity_container', $rootel);
+
+        // Templates
+        var dashboardactivityActivityTemplate = 'dashboardactivity_activity_template';
+
+
+        ////////////////////
+        // Initialization //
+        ////////////////////
+
+        var doInit = function() {
+            $dashboardactivityContainer.show();
+        };
+
+        doInit();
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run

@@ -15,3 +15,72 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+/* General */
+#dashboardactivity_widget {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_bg.png') repeat-x top left #ececeb;
+    border-radius: 4px;
+    box-shadow: 0 4px 9px 0 #DADADA inset;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    width: 55%;
+}
+
+/* No Activity */
+#dashboardactivity_widget #dashboardactivity_no_activity_container {
+    padding: 20px 40px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container:first-child div {
+    margin-bottom: 30px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_divider.png") no-repeat scroll left center transparent;
+    height: 87px;
+    padding-left: 20px;
+    width: 145px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox div:first-child{
+    padding-left: 0;
+    width: 140px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container h1#dashboardactivity_no_activity_header,
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div h2 {
+    color: #BFBFBF;
+    font-size: 23px;
+    font-weight: normal;
+    letter-spacing: -0.8px;
+    text-shadow: 0 1px 1px #FFFFFF;
+    margin-bottom: 25px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div button.s3d-button,
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div a.s3d-button {
+    font-size: 13px;
+    height: 84px;
+    width: 130px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div a.s3d-button {
+    height: 60px;
+    padding: 22px 10px 0;
+    width: 110px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_added h2 {
+    margin-top: 30px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_saved h2 {
+    margin-top: 15px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_added {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_added_bg.png") no-repeat scroll 70px 18px transparent;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_saved {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_saved_bg.png") no-repeat scroll 65px center transparent;
+}

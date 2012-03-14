@@ -1,7 +1,32 @@
-<!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/dashboardactivity/css/dashboardactivity.css" />
 
+<div id="dashboardactivity_widget" style="display:none;">
+    <div id="dashboardactivity_no_activity_container">
+        <h1 id="dashboardactivity_no_activity_header">Who is sharing what based on all the content you have...</h1>
+        <div class="dashboardactivity_no_activity_contentbox">
+            <div id="dashboardactivity_added" class="fl-force-left">
+                <h2>...Added</h2>
+            </div>
+            <div id="dashboardactivity_added_button" class="fl-force-left">
+                <button class="s3d-button s3d-overlay-button large sakai_add_content_overlay" type="button">Upload or create content</button>
+            </div>
+        </div>
+        <hr class="fl-hidden fl-push"/>
+        <div class="dashboardactivity_no_activity_contentbox">
+            <div id="dashboardactivity_saved" class="fl-force-left">
+                <h2>...Saved</h2>
+            </div>
+            <div id="dashboardactivity_saved_button" class="fl-force-left">
+                <a class="s3d-button s3d-overlay-button large" href="/search#q=">Discover content or people</a>
+            </div>
+        </div>
+        <hr class="fl-hidden fl-push"/>
+    </div>
+    <div id="dashboardactivity_activity_container"></div>
+</div>
 
+<div id="dashboardactivity_activity_template" style="display:none;"><!--
 
-<!-- JAVASCRIPT -->
+--></div>
+
 <script type="text/javascript" src="/devwidgets/dashboardactivity/javascript/dashboardactivity.js"></script>
