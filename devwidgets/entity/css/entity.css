@@ -25,7 +25,7 @@
 #entity_container #entity_owns {font-size:11px; margin-top:5px;}
 #entity_container #entity_owns.entity_owns_viewer {margin-top:0;}
 #entity_container .entity_permissions_label {margin-left:10px;}
-#entity_container .entity_comments {display:block;padding-top:10px}
+#entity_container .entity_comments {display:block;}
 #entity_container #entity_owns.entity_owns_viewer .entity_comments {margin-top:5px;}
 #entity_container #entity_actions .s3d-button {float:right;margin-left:5px;color:#666;line-height:17px;}
 #entity_container #entity_actions.entity_group .s3d-button {margin-top: 14px;}
