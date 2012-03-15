@@ -833,6 +833,13 @@ define(function(){
             }
         },
 
+        /**
+         * Top navigation configuration
+         *
+         * To indicate that a link should be placed on the right of the signup
+         * link, the object should indicate it as:
+         *   'rightLink': true
+         */
         Navigation: [{
             "url": "/me#l=dashboard",
             "id": "navigation_you_link",
