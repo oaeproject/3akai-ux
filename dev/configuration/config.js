@@ -217,6 +217,9 @@ define(function(){
             Links: {
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
+            Collections: {
+                'defaultaccess': 'public' // public, everyone or private (see above for role description)
+            },
             Copyright: {
                 types: {
                     "creativecommons": {
@@ -998,6 +1001,22 @@ define(function(){
         },
 
         displayDebugInfo: true,
+        displayTimezone: true,
+        displayLanguage: true,
+
+        enabledDashboardWidgets: [
+            "recentmemberships",
+            "mycontent",
+            "activegroups",
+            "popularcontent",
+            "tags",
+            "mycontacts",
+            "accountpreferences",
+            "recentmessages",
+            "recentcontactsnew",
+            "mygroups",
+            "recentchangedcontent"
+        ],
 
         /**
          * Section dividers can be added to the directory structure by adding in the following
@@ -1509,7 +1528,11 @@ define(function(){
         // Array of css files to load in each page
         skinCSS: [],
 
-        Languages: [{
+        Languages: [{ 
+            "country": "ES", 
+            "language": "es", 
+            "displayName": "Español"
+        }, {
             "country": "CN",
             "language": "zh",
             "displayName": "中文"
@@ -1578,6 +1601,11 @@ define(function(){
                 }
             ]
         },
+
+        /*
+         * Content to display if there are no pages available to the user in a group/world
+         */
+        pageUnavailableContent: '<p>__MSG__PAGE_UNAVAILABLE__</p>',
 
         /*
          * _canEdit: can change the area permissions on this page
@@ -1926,6 +1954,28 @@ define(function(){
                     "layout": "dev",
                     "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
                 }
+            }
+        },
+
+        /**
+         * Explore (landing page/index.html) configuration
+         *
+         * oneRow: indicates if there should just be one row and one widget in
+         *         that row. Requires widges.oneRowWidget to be set
+         * widgets: object that contains the widgets that should be in the
+         *          landing page configuration
+         *   rightColumn: The widget in the right column
+         *   main: The widget on the top left
+         *   bottom: The widget under the main widget
+         *   oneRowWidget: When oneRow is set to true, this widget will be the
+         *                 only widget displayed on the page
+         */
+        explore : {
+            oneRow: false,
+            widgets: {
+                rightColumn: "recentactivity",
+                main: "welcome",
+                bottom: "featuredcontent"
             }
         }
     };

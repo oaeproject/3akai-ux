@@ -67,13 +67,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} batchRequests    Array that contains all batch requests to be submitted
          * @param {Object} successMessage   Id of the dom element that contains the success message to be displayed
          */
-        var sendDeletes = function(batchRequests, successMessage){
+        var sendDeletes = function(batchRequests, successMessage) {
+            // Update the inserter
+            $.each(collectionsToUpdate, function(collectionId, amount) {
+                $.each(sakai.api.User.data.me.groups, function(index, group){
+                    if (group && group.counts && group.groupid === collectionId) {
+                        group.counts.contentCount -= amount;
+                        collectionId = collectionId.substring(2,collectionId.length);
+                        $(window).trigger('updateCount.inserter.sakai', [collectionId, group.counts.contentCount]);
+                    }
+                });
+            });
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 if (success) {
                     sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $(successMessage).html());
                 } else {
                     sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
                 }
+
                 $(window).trigger("done.deletecontent.sakai", [pathsToDelete]);
                 if ($.isFunction(callback)) {
                     callback(success);
@@ -181,11 +192,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sendDeletes(batchRequests, "#deletecontent_message_from_system");
         };
 
+        var collectionsToUpdate = {};
+
         /**
          * Check whether any users or groups are either managers or viewers from
          * any of the selected content items
          */
         var checkUsedByOthers = function(){
+            collectionsToUpdate = {};
             var userGroupIds = [];
             var collectionsToCheck = [];
             // Check whether any of the content I manage is managed by or
@@ -211,6 +225,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
                                 viewers[j] !== context && viewers[j] !== "everyone" && viewers[j] !== "anonymous"){
                                 userGroupIds.push(viewers[j]);
+                                if (sakai.api.Content.Collections.isCollection(viewers[j])) {
+                                     collectionsToUpdate[viewers[j]] = collectionsToUpdate[viewers[j]] || 0;
+                                     collectionsToUpdate[viewers[j]] += 1;
+                                 }
                             }
                         }
                     }
@@ -229,13 +247,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 sakai.api.Server.batch(batchRequest, function (success, data) {
                     for (var i = 0; i < data.results.length; i++) {
-                        if (data.results.hasOwnProperty(i)) {
-                            var members = $.parseJSON(data.results[i].body);
-                            for (var ii = 0; ii < members.length; ii++){
-                                var member = members[ii].userid;
-                                if ($.inArray(member, userGroupIds) === -1 && member !== sakai.data.me.user.userid &&
-                                member !== context){
-                                    userGroupIds.push(member);
+                        var members = $.parseJSON(data.results[i].body);
+                        for (var ii = 0; ii < members.length; ii++) {
+                            var member = members[ii].userid || members[ii].groupid;
+                            if ($.inArray(member, userGroupIds) === -1 &&
+                                member !== sakai.data.me.user.userid &&
+                                member !== context) {
+                                userGroupIds.push(member);
+                                if (sakai.api.Content.Collections.isCollection(member)) {
+                                    collectionsToUpdate[member] = collectionsToUpdate[member] || 0;
+                                    collectionsToUpdate[member] += 1;
                                 }
                             }
                         }
@@ -291,9 +312,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 var profileInfo = [];
                 for (var i = 0; i < data.results.length; i++){
-                    if (data.results[i].success){
+                    if (data.results[i].success && data.results[i].status !== 404) {
                         // Process pseudoGroups
                         var profile = $.parseJSON(data.results[i].body);
+                        profile.showLink = true;
                         if (sakai.api.Content.Collections.isCollection(profile)){
                             profile.collectionid = sakai.api.Content.Collections.getCollectionPoolId(profile);
                         } else if (profile["sakai:excludeSearch"] === "true"){
@@ -302,6 +324,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             profile.groupid = splitOnDash.splice(0, splitOnDash.length - 1).join("-");
                         }
                         profileInfo.push(profile);
+                    } else {
+                        var privateProfile = {
+                            showLink: false
+                        };
+                        if (data.results[i].url.substring(0,4) === '/~c-') {
+                            privateProfile.collectionid = true;
+                            privateProfile['sakai:group-title'] =
+                                sakai.api.i18n.getValueForKey('PRIVATE_COLLECTION', 'deletecontent');
+                        } else {
+                            privateProfile['sakai:group-title'] =
+                                sakai.api.i18n.getValueForKey('PRIVATE_USER_GROUP', 'deletecontent');
+                        }
+                        profileInfo.push(privateProfile);
                     }
                 }
                 $("#deletecontent_used_by_others_container").html(sakai.api.Util.TemplateRenderer("deletecontent_used_by_others_template", {
@@ -373,6 +408,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (context){
                     $("#deletecontent_action_removefromsystem").show();
                     if (contextType === "collection"){
+                        if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
+                            var managerCid = 'c-' + sakai_global.content_profile.content_data.data._path;
+                            collectionsToUpdate[managerCid] = collectionsToUpdate[managerCid] || 0;
+                            collectionsToUpdate[managerCid] += contentIManage.length;
+                        }
                         $("#deletecontent_action_removefromcollection").show();
                     } else {
                         $("#deletecontent_action_removefromlibrary").show();
@@ -386,6 +426,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Set up overlay for full viewer permissions
                 template = "deletecontent_template_list";
                 if (contextType === "collection") {
+                    if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
+                        var viewerCid = 'c-' + sakai_global.content_profile.content_data.data._path;
+                        collectionsToUpdate[viewerCid] =
+                            collectionsToUpdate[viewerCid] || 0;
+                        collectionsToUpdate[viewerCid] += contentIView.length;
+                    }
                     $("#deletecontent_action_removefromcollection").show();
                 } else {
                     $("#deletecontent_action_removefromlibrary").show();

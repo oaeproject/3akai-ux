@@ -228,14 +228,15 @@ define(
              * and we'll use the global sakai.api.User.data.me object to extract it from. If there is no prefered langauge,
              * we'll use the default bundle to translate everything.
              */
-            var loadLanguageBundles = function(){
-                
-                var localeSet = false;
-                var langCode, i10nCode, loadDefaultBundleRequest, loadCustomBundleRequest, loadLocalBundleRequest;
+            var loadLanguageBundles = function() {
+                var langCode;
+                var i10nCode;
+                var loadDefaultBundleRequest;
+                var loadCustomBundleRequest;
+                var loadLocalBundleRequest;
 
                 if (meData && meData.user && meData.user.locale && meData.user.locale.country) {
                     langCode = meData.user.locale.language + "_" + meData.user.locale.country.replace("_", "-");
-                    localeSet = true;
                 } else {
                     langCode = sakai_config.defaultLanguage;
                 }
@@ -262,14 +263,10 @@ define(
                     'method': 'GET'
                 };
 
-                if (localeSet) {
-                    loadLocalBundleRequest = {
-                        "url": sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
-                        "method":"GET"
-                    };
-                } else {
-                    loadLocalBundleRequest = false;
-                }
+                loadLocalBundleRequest = {
+                    "url": sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
+                    "method":"GET"
+                };
 
                 // callback function for response from batch request
                 var bundleReqFunction = function(success, reqData){
@@ -298,23 +295,23 @@ define(
                             loadCustomBundleData = sakaii18nAPI.changeToJSON(loadCustomBundleData);
                             sakaii18nAPI.data.customBundle = loadCustomBundleData;
                         }
-                        if (localeSet && loadLocalBundleSuccess) {
+
+                        if (loadLocalBundleSuccess) {
                             loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
                             sakaii18nAPI.data.localBundle = loadLocalBundleData;
                         }
+
                         if (loadDefaultBundleSuccess) {
                             loadDefaultBundleData = sakaii18nAPI.changeToJSON(loadDefaultBundleData);
                             sakaii18nAPI.data.defaultBundle = loadDefaultBundleData;
                         }
+
                         doI18N();
                     }
                 };
 
-                var batchRequest = [loadDefaultBundleRequest, loadCustomBundleRequest];
-                if (loadLocalBundleRequest) {
-                    batchRequest.push(loadLocalBundleRequest);
-                }
-                sakai_serv.batch(batchRequest, bundleReqFunction);     
+                var batchRequest = [loadDefaultBundleRequest, loadCustomBundleRequest, loadLocalBundleRequest];
+                sakai_serv.batch(batchRequest, bundleReqFunction);
             };
 
 
@@ -478,6 +475,8 @@ define(
             var locale = false;
             if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale) {
                 locale = sakaii18nAPI.data.meData.user.locale.language + "_" + sakaii18nAPI.data.meData.user.locale.country;
+            } else {
+                locale = sakai_config.defaultLanguage;
             }
             return locale;
         }
