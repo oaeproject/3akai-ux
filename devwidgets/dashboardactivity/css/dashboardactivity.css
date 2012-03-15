@@ -19,6 +19,8 @@
 #dashboardactivity_widget {
     background: url('/devwidgets/dashboardactivity/images/dashboardactivity_bg.png') repeat-x top left #ececeb;
     border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     box-shadow: 0 4px 9px 0 #DADADA inset;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -93,13 +95,15 @@
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn {
     background-color: #FFFFFF;
     border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
     height: 41px;
     padding: 7px 0;
     width: 50%;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item {
-    margin: 7px 5px;
+    margin: 10px 5px;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item a {
@@ -128,18 +132,43 @@
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_updated_secondcolumn_bg.png") repeat-x scroll top left transparent;
     border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    box-shadow: 0 2px 2px -2px #666;
+    -moz-box-shadow: 0 2px 2px -2px #666;
+    -webkit-box-shadow: 0 2px 2px -2px #666;
+    height: 55px;
     overflow: hidden;
 }
 
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item {
+    margin-top: 5px;
+}
+
+
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_secondcolumn {
     border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
     height: 41px;
     width: 50%;
     padding: 7px 0;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container {
-    padding-top:10px;
+    padding-top: 1px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_annotation_container {
+    margin-bottom: 15px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_annotation_container .dashboard_activity_annotation_speechbubble {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_annotation_speechbubble.png") no-repeat scroll left top transparent;
+    height: 13px;
+    margin: -8px 0 0 -12px;
+    position: absolute;
+    width: 12px;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > img {
@@ -156,7 +185,55 @@
     color: #666;
     font-size: 12px;
 }
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item {
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_annotation_highlight.png") no-repeat scroll 11px center #E6E368;
+    color: #333;
+    height: 20px;
+    margin-left: 59px;
+    overflow: visible;
+    padding: 3px 0 10px;
+    position: relative;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation > span {
+    font-style: italic;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation .dashboard_activity_annotation_comments_container {
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0 2px 3px -2px #666;
+    -moz-box-shadow: 0 2px 3px -2px #666;
+    -webkit-box-shadow: 0 2px 3px -2px #666;
+    margin: 2px 0 0 40px;
+    padding: 10px 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation span {
+    margin-left: 40px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation .dashboard_activity_annotation_comment > div {
+    overflow: auto;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation .dashboard_activity_annotation_comment {
+    margin: 7px 0 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation .dashboard_activity_annotation_comment:first-child {
+    margin: 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation .dashboard_activity_annotation_comment span {
+    margin-left: 0;
+    font-style: normal;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item, {
     margin-top: 4px;
 }
 
