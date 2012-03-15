@@ -397,7 +397,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         getMultipleUserData(data, function() {
                             data.results.fetchMultipleUserDataInWidget = true;
                             sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent) {
-                                $collectionviewerCarouselLoading.hide();
                                 callback(data);
                             });
                         });
