@@ -322,6 +322,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Sets the default options in the display settings
+         * @param {Object} options The object containing the default options to set
+         *                          embedmethod {String} original or thumbnail
+         *                          layout {String} vertical or horizontal
+         *                          showName {Boolean} true to show name by default
+         *                          showDetails {Boolean} true to show details by default
+         *                          showDownload {Boolean} true to show download link by default
          */
         var setDefaultOptions = function(options) {
             if (options.embedmethod === 'thumbnail') {

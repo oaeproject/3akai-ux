@@ -544,22 +544,8 @@ define(function(){
         },
 
         // Object to override default widget configuration
-        WidgetSettings: {
-            embedcontent: {
-                /*
-                 * Default options for the Embed Content widget
-                 * embedmethod options: original or thumbnail
-                 * layout options: vertical or horizontal
-                 */
-                defaultOptions: {
-                    'embedmethod': 'original',
-                    'layout': 'vertical',
-                    'showName': false,
-                    'showDetails': false,
-                    'showDownload': false
-                }
-            }
-        },
+        // Here you can add an object with the widget ID for the object key, with the configuration you would like to override
+        WidgetSettings: {},
 
         enableBranding: true,
 
