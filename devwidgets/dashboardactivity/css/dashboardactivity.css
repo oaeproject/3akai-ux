@@ -22,7 +22,7 @@
     box-shadow: 0 4px 9px 0 #DADADA inset;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    width: 55%;
+    width: 70%;
 }
 
 /* No Activity */
@@ -83,4 +83,109 @@
 
 #dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_saved {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_saved_bg.png") no-repeat scroll 65px center transparent;
+}
+
+/* Activity List */
+#dashboardactivity_widget #dashboardactivity_activity_container {
+    padding: 5px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn {
+    background-color: #FFFFFF;
+    border-radius: 4px 0 0 4px;
+    height: 41px;
+    padding: 7px 0;
+    width: 50%;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item {
+    margin: 5px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item a {
+    font-size: 12px;
+    letter-spacing: -0.01em;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_updated_secondcolumn a {
+    padding-right: 7px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_secondcolumn:hover {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_hover_bg.png") repeat-x scroll top left transparent;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn .dashboardactivity_activity_arrow {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_arrow.png") no-repeat scroll left top transparent;
+    float: right;
+    height: 55px;
+    margin: -7px -19px 0 0;
+    position: relative;
+    width: 20px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover .dashboardactivity_activity_arrow {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_arrow_hover.png") no-repeat scroll top left transparent;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_updated_secondcolumn_bg.png") repeat-x scroll top left transparent;
+    border-radius: 6px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_secondcolumn {
+    border-radius: 0 4px 4px 0;
+    height: 41px;
+    width: 50%;
+    padding: 7px 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_image {
+    margin: 0 10px 0 7px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_updated_secondcolumn .dashboardactivity_activity_item_image {
+    margin: 0 10px 0 22px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_timeago,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item span {
+    color: #666666;
+    display: inline-block;
+    font-size: 12px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_timeago {
+    display: block;
+    font-size: 11px;
+}
+
+/* Actions */
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_updated_secondcolumn:hover .s3d-actions-addtolibrary,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_updated_secondcolumn:hover .s3d-actions-share {
+    display: inline-block;
+}
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary {
+    display: none;
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_save.png") no-repeat scroll left top transparent;
+    height: 12px;
+    padding-left: 15px;
+    width: 50px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:hover {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_save_hover.png") no-repeat scroll left top transparent;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share {
+    display: none;
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share.png") no-repeat scroll left top transparent;
+    height: 12px;
+    padding-left: 20px;
+    width: 50px !important;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:hover {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share_hover.png") no-repeat scroll left top transparent;
 }

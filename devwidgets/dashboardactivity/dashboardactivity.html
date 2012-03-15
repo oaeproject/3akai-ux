@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/dashboardactivity/css/dashboardactivity.css" />
 
 <div id="dashboardactivity_widget" style="display:none;">
-    <div id="dashboardactivity_no_activity_container">
+    <div id="dashboardactivity_no_activity_container" style="display:none;">
         <h1 id="dashboardactivity_no_activity_header">Who is sharing what based on all the content you have...</h1>
         <div class="dashboardactivity_no_activity_contentbox">
             <div id="dashboardactivity_added" class="fl-force-left">
@@ -22,7 +22,29 @@
         </div>
         <hr class="fl-hidden fl-push"/>
     </div>
-    <div id="dashboardactivity_activity_container"></div>
+    <div id="dashboardactivity_activity_container">
+        <div class="dashboardactivity_activity_updated_container">
+            <div class="dashboard_activity_item">
+                <div class="dashboardactivity_activity_updated_firstcolumn fl-force-left">
+                    <div class="dashboardactivity_activity_arrow"></div>
+                    <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
+                    <div class="fl-force-left">
+                        <a href="/~Bert" class="s3d-bold" title="View Bert's Profile">Bert Pareyn</a> <span class="s3d-bold">updated</span>
+                        <span class="fl-push dashboardactivity_activity_item_timeago">2 hours ago</span>
+                    </div>
+                </div>
+                <div class="dashboardactivity_activity_updated_secondcolumn  fl-force-left">
+                    <img src="/dev/images/mimetypes/pdf.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="PDF Document"/>
+                    <a href="/temp" class="s3d-bold" title="View temp's Profile">The ever expanding universe, a guide to the stars</a> <span>PDF</span>
+                    <div>
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden" data-entityid="kitmJ3JAT" title="Add to">Save</button>
+                        <button title="Share content" data-entityid="kitmJ3JAT" class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden">Share</button>
+                    </div>
+                </div>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="dashboardactivity_activity_template" style="display:none;"><!--
