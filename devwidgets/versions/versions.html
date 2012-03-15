@@ -1,19 +1,21 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/versions/css/versions.css" />
 
-<div class="versions_widget">
-    <div id="versions_container" style="display:none;"><!----></div>
+<span style="display:none;">__MSG__IE_PLACEHOLDER__</span>
+
+<div class="versions_widget" style="display:none;">
+    <div id="versions_container"><!----></div>
 </div>
 
 <div id="versions_template"><!--
     {if data.length}
         <div class="versions_prev_next_container fl-force-right">
-            <button id="versions_older" class="versions_controls s3d-link-button" title="__MSG__VIEW_OLDER_VERSIONS__"></button>
-            <button id="versions_oldest" class="versions_controls s3d-link-button" title="__MSG__VIEW_OLDEST_VERSIONS__"></button>
+            <button id="versions_older" class="versions_controls s3d-link-button" title="__MSG__VIEW_OLDER_VERSIONS__"{if data.length < itemsBeforeScroll} style="display:none"{/if}></button>
+            <button id="versions_oldest" class="versions_controls s3d-link-button" title="__MSG__VIEW_OLDEST_VERSIONS__"{if data.length < itemsBeforeScroll} style="display:none"{/if}></button>
         </div>
         <div class="versions_prev_next_container fl-force-left">
-            <button id="versions_newer" class="versions_controls s3d-link-button" title="__MSG__VIEW_NEWER_VERSIONS__"></button>
-            <button id="versions_newest" class="versions_controls s3d-link-button" title="__MSG__VIEW_NEWEST_VERSIONS__"></button>
+            <button id="versions_newer" class="versions_controls s3d-link-button" title="__MSG__VIEW_NEWER_VERSIONS__"{if data.length < itemsBeforeScroll} style="display:none"{/if}></button>
+            <button id="versions_newest" class="versions_controls s3d-link-button" title="__MSG__VIEW_NEWEST_VERSIONS__"{if data.length < itemsBeforeScroll} style="display:none"{/if}></button>
         </div>
     {/if}
     <div id="versions_carousel_container" class="jcarousel-skin-tango s3d-bold">

@@ -89,10 +89,10 @@
             </div>
             <div class="regional" id="accountpreferences_preferContainer">
                 <form id="accountpreferences_preferences_form" class="preferences-form" method="POST" action="#">
-                    <div class="accountpreferences_section_wrap">
+                    <div class="accountpreferences_section_wrap" id="accountpreferences_langloc_settings" style="display:none">
                         <h2>__MSG__ACCOUNT_PREFERENCES__:</h2>
                         <div class="accountpreferences_section accountpreferences_section_border" id="accountpreferences_section_regional">
-                            <div class="form-item">
+                            <div class="form-item" id="accountpreferences_select_timezone" style="display:none">
                                 <label for="time_zone">__MSG__TIME_ZONE__:</label>
                                 <select id="time_zone" name="time-zone">
                                     <option value="Etc/GMT+12"> __MSG__ETC/GMT+12__ </option>
@@ -167,7 +167,7 @@
                                     <option value="Pacific/Kiritimati"> __MSG__PACIFIC/KIRITIMATI__ </option>
                                 </select>
                             </div>
-                            <div class="form-item">
+                            <div class="form-item" id="accountpreferences_select_language" style="display:none">
                                 <label for="pass_language">__MSG__LANGUAGE__:</label>
                                 <select id="pass_language" name="language">
                                 </select>

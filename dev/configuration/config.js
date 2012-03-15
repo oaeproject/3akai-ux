@@ -104,10 +104,6 @@ define(function(){
                 /**  allcategories.html  **/
                 "/categories": "BROWSE_ALL_CATEGORIES",
                 "/dev/allcategories.html": "BROWSE_ALL_CATEGORIES",
-                /**  category.html  **/
-                /**  content_profile.html  **/
-                "/dev/content_profile.html": "CONTENT_PROFILE",
-                "/content": "CONTENT_PROFILE",
                 /**  create_new_account.html  **/
                 "/dev/create_new_account.html": "CREATE_A_NEW_ACCOUNT",
                 "/register": "CREATE_A_NEW_ACCOUNT",
@@ -176,10 +172,6 @@ define(function(){
             }
         },
 
-        Search: {
-            MAX_CORRECT_SEARCH_RESULT_COUNT: 100
-        },
-
         SakaiDomain: window.location.protocol + "//" + window.location.host,
 
         Permissions: {
@@ -223,6 +215,9 @@ define(function(){
             },
             Links: {
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
+            },
+            Collections: {
+                'defaultaccess': 'public' // public, everyone or private (see above for role description)
             },
             Copyright: {
                 types: {
@@ -292,14 +287,14 @@ define(function(){
                                 "errorMessage": "__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "limitDisplayLength": 50
+                                "limitDisplayWidth": 300
                             },
                             "lastName": {
                                 "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
                                 "errorMessage": "__MSG__PROFILE_BASIC_LASTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
-                                "limitDisplayLength": 50
+                                "limitDisplayWidth": 300
                             },
                             "picture": {
                                 "label": "__MSG__PROFILE_BASIC_PICTURE_LABEL__",
@@ -488,13 +483,6 @@ define(function(){
             userNameDefaultDisplay: "firstName lastName",
 
             /*
-             * Set the user's short description to appear underneath their name
-             * in search results
-             */
-            userShortDescription: "${role} in ${department} at ${college}",
-            groupShortDescription: "asdf",
-
-            /*
              * Set the default user settings in account preferences for automatic tagging
              * and auto-tagged notifications
              */
@@ -558,26 +546,12 @@ define(function(){
             }]
         },
 
-        Site: {
-            Styles: {
-                original: {
-                    name: "Original sakai theme",
-                    image: "/dev/images/sakai_grey.png",
-                    URL: "/dev/skins/original/original.html"
-                },
-                camuniversity: {
-                    name: "Cambridge University theme",
-                    image: "/dev/skins/camuniversity/images/camuniversity.png",
-                    URL: "/dev/skins/camuniversity/camuniversity.html"
-                }
-            },
-            DefaultMember: "viewers"
-        },
-
         SystemTour: {
             "enableReminders": true,
             "reminderIntervalHours": "168"
         },
+
+        enableBranding: true,
 
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
@@ -1035,6 +1009,22 @@ define(function(){
         },
 
         displayDebugInfo: true,
+        displayTimezone: true,
+        displayLanguage: true,
+
+        enabledDashboardWidgets: [
+            "recentmemberships",
+            "mycontent",
+            "activegroups",
+            "popularcontent",
+            "tags",
+            "mycontacts",
+            "accountpreferences",
+            "recentmessages",
+            "recentcontactsnew",
+            "mygroups",
+            "recentchangedcontent"
+        ],
 
         /**
          * Section dividers can be added to the directory structure by adding in the following
@@ -1546,7 +1536,11 @@ define(function(){
         // Array of css files to load in each page
         skinCSS: [],
 
-        Languages: [{
+        Languages: [{ 
+            "country": "ES", 
+            "language": "es", 
+            "displayName": "Español"
+        }, {
             "country": "CN",
             "language": "zh",
             "displayName": "中文"
@@ -1579,11 +1573,11 @@ define(function(){
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
 
-        defaultUserTemplate: "defaultuser",
-        defaultGroupTemplate: "defaultgroup",
-
         enableChat: false,
         enableCategories: true,
+
+        // The data schema version. Version 2 as of the 1.2 release in March 2012
+        schemaVersion: '2',
 
         Editor: {
             tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',
@@ -1592,7 +1586,34 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
-        defaultSakaiDocContent: "",
+        /**
+         * The list of widgets (other than the fixed set) that should be shown inside
+         * of the inserterbar for content authoring.
+         */
+        exposedSakaiDocWidgets: ["discussion", "comments", "googlemaps"],
+        /*
+         * Default structure and content that should be given to a newly created
+         * Sakai Documented. If no default content is specified, an empty page placeholder
+         * will be shown to the user
+         */
+        defaultSakaiDocContent: {
+            'rows': [
+                {
+                    'id': 'id' + Math.round(Math.random() * 100000000),
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': []
+                        }
+                    ]
+                }
+            ]
+        },
+
+        /*
+         * Content to display if there are no pages available to the user in a group/world
+         */
+        pageUnavailableContent: '<p>__MSG__PAGE_UNAVAILABLE__</p>',
 
         /*
          * _canEdit: can change the area permissions on this page
@@ -1600,118 +1621,205 @@ define(function(){
          * _nonEditable: cannot edit the contents of this page
          * _canSubedit:
          */
-
         defaultprivstructure: {
-            "structure0": {
-                "dashboard": {
-                    "_ref": "${refid}0",
-                    "_title": "__MSG__MY_DASHBOARD__",
-                    "_order": 0,
-                    "_canEdit": true,
-                    "_reorderOnly": true,
-                    "_nonEditable": true,
-                    "main": {
-                        "_ref": "${refid}0",
-                        "_order": 0,
-                        "_title": "__MSG__MY_DASHBOARD__"
+            'structure0': {
+                'dashboard': {
+                    '_ref': '${refid}0',
+                    '_title': '__MSG__MY_DASHBOARD__',
+                    '_order': 0,
+                    '_canEdit': true,
+                    '_reorderOnly': true,
+                    '_nonEditable': true,
+                    'main': {
+                        '_ref': '${refid}0',
+                        '_order': 0,
+                        '_title': '__MSG__MY_DASHBOARD__'
                     }
                 },
-                "messages": {
-                    "_title": "__MSG__MY_MESSAGES__",
-                    "_ref": "${refid}1",
-                    "_order": 1,
-                    "_canEdit": true,
-                    "_reorderOnly": true,
-                    "_canSubedit": true,
-                    "_nonEditable": true,
-                    "inbox": {
-                        "_ref": "${refid}1",
-                        "_order": 0,
-                        "_title": "__MSG__INBOX__",
-                        "_nonEditable": true
+                'messages': {
+                    '_title': '__MSG__MY_MESSAGES__',
+                    '_ref': '${refid}1',
+                    '_order': 1,
+                    '_canEdit': true,
+                    '_reorderOnly': true,
+                    '_canSubedit': true,
+                    '_nonEditable': true,
+                    'inbox': {
+                        '_ref': '${refid}1',
+                        '_order': 0,
+                        '_title': '__MSG__INBOX__',
+                        '_nonEditable': true
                     },
-                    "invitations": {
-                        "_ref": "${refid}2",
-                        "_order": 1,
-                        "_title": "__MSG__INVITATIONS__",
-                        "_nonEditable": true
+                    'invitations': {
+                        '_ref': '${refid}2',
+                        '_order': 1,
+                        '_title': '__MSG__INVITATIONS__',
+                        '_nonEditable': true
                     },
-                    "sent": {
-                        "_ref": "${refid}3",
-                        "_order": 2,
-                        "_title": "__MSG__SENT__",
-                        "_nonEditable": true
+                    'sent': {
+                        '_ref': '${refid}3',
+                        '_order': 2,
+                        '_title': '__MSG__SENT__',
+                        '_nonEditable': true
                     },
-                    "trash": {
-                        "_ref": "${refid}4",
-                        "_order": 3,
-                        "_title": "__MSG__TRASH__",
-                        "_nonEditable": true
+                    'trash': {
+                        '_ref': '${refid}4',
+                        '_order': 3,
+                        '_title': '__MSG__TRASH__',
+                        '_nonEditable': true
                     }
                 }
             },
-            "${refid}0": {
-                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin"+
-                "-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' dat"+
-                "a-tuid='${refid}5'>__MSG__EDIT_LAYOUT__</button><button type='button' class='s3d-button "+
-                "s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_a"+
-                "dd_widget' data-tuid='${refid}5'>__MSG__ADD_WIDGET__</button></div><div class='s3d-conte"+
-                "ntpage-title'>__MSG__MY_DASHBOARD__</div><div id='widget_carousel' class='widget_inline'"+
-                "></div><br/><div id='widget_dashboard_${refid}5' class='widget_inline'></div>"
-            },
-            "${refid}1": {
-                "page": "<div id='widget_inbox_${refid}6' class='widget_inline'/>"
-            },
-            "${refid}2": {
-                "page": "<div id='widget_inbox_${refid}7' class='widget_inline'/>"
-            },
-            "${refid}3": {
-                "page": "<div id='widget_inbox_${refid}8' class='widget_inline'/>"
-            },
-            "${refid}4": {
-                "page": "<div id='widget_inbox_${refid}9' class='widget_inline'/>"
-            },
-            "${refid}5": {
-                "dashboard": {
-                    "layout": "threecolumn",
-                    "columns": {
-                        "column1": [{
-                            "uid": "${refid}10",
-                            "visible": "block",
-                            "name": "recentchangedcontent"
-                        }],
-                        "column2": [{
-                            "uid": "${refid}11",
-                            "visible": "block",
-                            "name": "recentmemberships"
-                        }],
-                        "column3": [{
-                            "uid": "${refid}12",
-                            "visible": "block",
-                            "name": "recentcontactsnew"
-                        }]
+            '${refid}0': {
+                'id2506067': {
+                    'htmlblock': {
+                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
                     }
-                }
+                },
+                '${refid}5': {
+                    'dashboard': {
+                        'layout': 'threecolumn',
+                        'columns': {
+                            'column1': [
+                                {
+                                    'uid': '${refid}10',
+                                    'visible': 'block',
+                                    'name': 'recentchangedcontent'
+                                }
+                            ],
+                            'column2': [
+                                {
+                                    'uid': '${refid}11',
+                                    'visible': 'block',
+                                    'name': 'recentmemberships'
+                                }
+                            ],
+                            'column3': [
+                                {
+                                    'uid': '${refid}12',
+                                    'visible': 'block',
+                                    'name': 'recentcontactsnew'
+                                }
+                            ]
+                        }
+                    }
+                },
+                'rows': [
+                    {
+                        'id': 'id8965114',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': 'id2506067',
+                                        'type': 'htmlblock'
+                                    },
+                                    {
+                                        'id': 'id8321271',
+                                        'type': 'carousel'
+                                    },
+                                    {
+                                        'id': '${refid}5',
+                                        'type': 'dashboard'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
-            "${refid}6": {
-                "box": "inbox",
-                "category": "message",
-                "title": "__MSG__INBOX__"
+            '${refid}1': {
+                '${refid}6': {
+                    'box': 'inbox',
+                    'category': 'message',
+                    'title': '__MSG__INBOX__'
+                },
+                'rows': [
+                    {
+                        'id': 'id7088118',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': '${refid}6',
+                                        'type': 'inbox'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
-            "${refid}7": {
-                "box": "inbox",
-                "category": "invitation",
-                "title": "__MSG__INVITATIONS__"
+            '${refid}2': {
+                '${refid}7': {
+                    'box': 'inbox',
+                    'category': 'invitation',
+                    'title': '__MSG__INVITATIONS__'
+                },
+                'rows': [
+                    {
+                        'id': 'id6156677',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': '${refid}7',
+                                        'type': 'inbox'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
-            "${refid}8": {
-                "box": "outbox",
-                "category": "*",
-                "title": "__MSG__SENT__"
+            '${refid}3': {
+                '${refid}8': {
+                    'box': 'outbox',
+                    'category': '*',
+                    'title': '__MSG__SENT__'
+                },
+                'rows': [
+                    {
+                        'id': 'id5268914',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': '${refid}8',
+                                        'type': 'inbox'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
-            "${refid}9": {
-                "box": "trash",
-                "category": "*",
-                "title": "__MSG__TRASH__"
+            '${refid}4': {
+                '${refid}9': {
+                    'box': 'trash',
+                    'category': '*',
+                    'title': '__MSG__TRASH__'
+                },
+                'rows': [
+                    {
+                        'id': 'id1281420',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': '${refid}9',
+                                        'type': 'inbox'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         },
 
@@ -1723,73 +1831,115 @@ define(function(){
          *   _view: "private" // Area is not visible to other users by default
          */
         defaultpubstructure: {
-            "structure0": {
-                "profile": {
-                    "_title": "__MSG__MY_PROFILE__",
-                    "_altTitle": "__MSG__MY_PROFILE_OTHER__",
-                    "_order": 0,
-                    "_view": "anonymous",
-                    "_reorderOnly": true,
-                    "_nonEditable": true
+            'structure0': {
+                'profile': {
+                    '_title': '__MSG__MY_PROFILE__',
+                    '_altTitle': '__MSG__MY_PROFILE_OTHER__',
+                    '_order': 0,
+                    '_view': 'anonymous',
+                    '_reorderOnly': true,
+                    '_nonEditable': true
                 },
-                "library": {
-                    "_ref": "${refid}0",
-                    "_order": 1,
-                    "_title": "__MSG__MY_LIBRARY__",
-                    "_altTitle": "__MSG__MY_LIBRARY_OTHER__",
-                    "_reorderOnly": true,
-                    "_nonEditable": true,
-                    "_view": "anonymous",
-                    "main": {
-                        "_ref": "${refid}0",
-                        "_order": 0,
-                        "_title": "__MSG__MY_LIBRARY__"
+                'library': {
+                    '_ref': '${refid}0',
+                    '_order': 1,
+                    '_title': '__MSG__MY_LIBRARY__',
+                    '_altTitle': '__MSG__MY_LIBRARY_OTHER__',
+                    '_reorderOnly': true,
+                    '_nonEditable': true,
+                    '_view': 'anonymous',
+                    'main': {
+                        '_ref': '${refid}0',
+                        '_order': 0,
+                        '_title': '__MSG__MY_LIBRARY__'
                     }
                 },
-                "memberships": {
-                    "_title": "__MSG__MY_MEMBERSHIPS__",
-                    "_order": 2,
-                    "_ref": "${refid}1",
-                    "_altTitle": "__MSG__MY_MEMBERSHIPS_OTHER__",
-                    "_reorderOnly": true,
-                    "_nonEditable": true,
-                    "_view": "anonymous",
-                    "main": {
-                        "_ref": "${refid}1",
-                        "_order": 0,
-                        "_title": "__MSG__MY_MEMBERSHIPS__"
+                'memberships': {
+                    '_title': '__MSG__MY_MEMBERSHIPS__',
+                    '_order': 2,
+                    '_ref': '${refid}1',
+                    '_altTitle': '__MSG__MY_MEMBERSHIPS_OTHER__',
+                    '_reorderOnly': true,
+                    '_nonEditable': true,
+                    '_view': 'anonymous',
+                    'main': {
+                        '_ref': '${refid}1',
+                        '_order': 0,
+                        '_title': '__MSG__MY_MEMBERSHIPS__'
                     }
                 },
-                "contacts": {
-                    "_title": "__MSG__MY_CONTACTS__",
-                    "_order": 3,
-                    "_ref": "${refid}2",
-                    "_altTitle": "__MSG__MY_CONTACTS_OTHER__",
-                    "_reorderOnly": true,
-                    "_nonEditable": true,
-                    "_view": "anonymous",
-                    "main": {
-                        "_ref": "${refid}2",
-                        "_order": 0,
-                        "_title": "__MSG__MY_CONTACTS__"
+                'contacts': {
+                    '_title': '__MSG__MY_CONTACTS__',
+                    '_order': 3,
+                    '_ref': '${refid}2',
+                    '_altTitle': '__MSG__MY_CONTACTS_OTHER__',
+                    '_reorderOnly': true,
+                    '_nonEditable': true,
+                    '_view': 'anonymous',
+                    'main': {
+                        '_ref': '${refid}2',
+                        '_order': 0,
+                        '_title': '__MSG__MY_CONTACTS__'
                     }
                 }
             },
-            "${refid}0": {
-                "page": "<div id='widget_mylibrary' class='widget_inline'></div>"
+            '${refid}0': {
+                'rows': [
+                    {
+                        'id': 'id89874',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': 'id5739346',
+                                        'type': 'mylibrary'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
-            "${refid}1": {
-                "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
-                    "<div id='widget_tooltip' class='widget_inline'></div> " +
-                    "<div id='widget_mymemberships' class='widget_inline'></div>"
+            '${refid}1': {
+                'rows': [
+                    {
+                        'id': 'id7664610',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': 'id4347509',
+                                        'type': 'mymemberships'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
-            "${refid}2": {
-                "page": "<div id='widget_contacts' class='widget_inline'></div>"
+            '${refid}2': {
+                'rows': [
+                    {
+                        'id': 'id293415',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': 'id6775571',
+                                        'type': 'contacts'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         },
 
         widgets: {
-            "groups": ["Administrators", "Lecturers & Supervisors", "Researchers", "Students"],
             "layouts": {
                 "onecolumn": {
                     "name": "One column",
@@ -1811,11 +1961,29 @@ define(function(){
                 "personalportal": {
                     "layout": "dev",
                     "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
-                },
-                "siteportal": {
-                    "layout": "dev",
-                    "columns": [["sitemembers"], []]
                 }
+            }
+        },
+
+        /**
+         * Explore (landing page/index.html) configuration
+         *
+         * oneRow: indicates if there should just be one row and one widget in
+         *         that row. Requires widges.oneRowWidget to be set
+         * widgets: object that contains the widgets that should be in the
+         *          landing page configuration
+         *   rightColumn: The widget in the right column
+         *   main: The widget on the top left
+         *   bottom: The widget under the main widget
+         *   oneRowWidget: When oneRow is set to true, this widget will be the
+         *                 only widget displayed on the page
+         */
+        explore : {
+            oneRow: false,
+            widgets: {
+                rightColumn: "recentactivity",
+                main: "welcome",
+                bottom: "featuredcontent"
             }
         }
     };

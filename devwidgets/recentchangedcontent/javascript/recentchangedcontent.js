@@ -23,7 +23,7 @@
  * /dev/lib/jquery/plugins/jquery.threedots.js (ThreeDots)
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.recentchangedcontent
@@ -46,9 +46,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         // DOM identifiers
-        var rootel = $("#" + tuid);
-        var recentchangedcontentItemTemplate = "#recentchangedcontent_item_template";
-        var recentchangedcontentItem = ".recentchangedcontent_item";
+        var rootel = $('#' + tuid);
+        var recentchangedcontentItemTemplate = '#recentchangedcontent_item_template';
+        var recentchangedcontentItem = '.recentchangedcontent_item';
 
         ///////////////////////
         // Utility functions //
@@ -63,62 +63,65 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *   and item.type_img_url (URL for mimetype icon) for the given result
          */
         var parseDataResult = function(result, isRelatedContent) {
+            if (result['sling:resourceType'] !== 'sakai/pooled-content') {
+                return false;
+            }
             // initialize parsed item with default values
             var mimeType = sakai.api.Content.getMimeType(result);
-            var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
-            if (sakai.config.MimeTypes[mimeType]){
+            var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes['other'].description);
+            if (sakai.config.MimeTypes[mimeType]) {
                 mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
             }
             var item = {
-                name: result["sakai:pooled-content-file-name"],
-                path: "/p/" + result["_path"],
-                link: result["_path"],
-                filename: result["sakai:pooled-content-file-name"],
+                name: result['sakai:pooled-content-file-name'],
+                path: '/p/' + result['_path'],
+                link: result['_path'],
+                filename: result['sakai:pooled-content-file-name'],
                 type_img_url: sakai.config.MimeTypes.other.URL,
-                size: "",
+                size: '',
                 mimeType: mimeType,
                 mimeTypeDescription: mimeTypeDescription,
                 usedin: sakai.api.Content.getPlaceCount(result),
                 thumbnail: sakai.api.Content.getThumbnail(result),
                 totalcomment: sakai.api.Content.getCommentCount(result),
-                "_mimeType/page1-small": result["_mimeType/page1-small"],
-                "_path": result["_path"]
+                '_mimeType/page1-small': result['_mimeType/page1-small'],
+                '_path': result['_path']
             };
 
-            item.nameShort = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
-            item.nameShorter = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 150, {max_rows: 1,whole_word: false}, "s3d-bold");
-            item.nameRelatedShort = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 100, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.nameShort = sakai.api.Util.applyThreeDots(item.name, $('.recentchangedcontent').width() - 50, {max_rows: 1,whole_word: false}, 's3d-bold');
+            item.nameShorter = sakai.api.Util.applyThreeDots(item.name, $('.recentchangedcontent').width() - 150, {max_rows: 1,whole_word: false}, 's3d-bold');
+            item.nameRelatedShort = sakai.api.Util.applyThreeDots(item.name, $('.recentchangedcontent').width() - 100, {max_rows: 1,whole_word: false}, 's3d-bold');
 
             // set the file size
-            if(result.hasOwnProperty("_length") && result["_length"]) {
-                item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(result["_length"]) + ")";
+            if(result.hasOwnProperty('_length') && result['_length']) {
+                item.size = '(' + sakai.api.Util.convertToHumanReadableFileSize(result['_length']) + ')';
             }
 
-            var path = result["_path"];
-            if (result["comments"]) {
-                var commentpath = ""; // store the path of the comment to display
+            var path = result['_path'];
+            if (result['comments']) {
+                var commentpath = ''; // store the path of the comment to display
                 var latestDate = 0; // store the latest date of the comment
-                for (var obj in result["comments"]) {
+                for (var obj in result['comments']) {
                     // if the object is comment
-                    if (obj.substring(0,1) !== "-1") {
+                    if (obj.substring(0,1) !== '-1') {
                         // check if the comment is latest comment
-                        if (result["comments"][obj]["_created"] > latestDate) {
+                        if (result['comments'][obj]['_created'] > latestDate) {
                             commentpath = obj;
-                            latestDate = result["comments"][obj]["_created"];
+                            latestDate = result['comments'][obj]['_created'];
                         }
                     }
                 }
-                item.comment = result["comments"][commentpath];
+                item.comment = result['comments'][commentpath];
 
                 if (item.comment.comment) {
-                    item.comment.comment = sakai.api.Util.applyThreeDots(item.comment.comment, $(".recentchangedcontent_widget").width() / 2, {
+                    item.comment.comment = sakai.api.Util.applyThreeDots(item.comment.comment, $('.recentchangedcontent_widget').width() / 2, {
                         max_rows: 5,
                         whole_word: false
                     });
                 }
 
                 // get the user name from userid and render it
-                sakai.api.User.getUser(item.comment.author, function(success, data){
+                sakai.api.User.getUser(item.comment.author, function(success, data) {
                     var json = {
                         author:{
                             authorId: data.userid,
@@ -127,28 +130,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         },
                         sakai: sakai
                     };
-                    if (item.comment){
+                    if (item.comment) {
                         json.commentCreated = new Date(item.comment._created);
                     }
 
-                    sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_comment_author_template", json, $("#recentchangedcontent_item_comment_author"));
+                    sakai.api.Util.TemplateRenderer('#recentchangedcontent_item_comment_author_template', json, $('#recentchangedcontent_item_comment_author'));
 
-                    if (item.comment){
-                        $("#recentchangedcontent_item_comment_author_picture img").attr("src", json.author.authorPicture);
-                        $("#recentchangedcontent_item_comment_author_picture").show();
+                    if (item.comment) {
+                        $('#recentchangedcontent_item_comment_author_picture img').attr('src', json.author.authorPicture);
+                        $('#recentchangedcontent_item_comment_author_picture').show();
                     }
                 });
             }
 
-            if(isRelatedContent){
+            if(isRelatedContent) {
                 // get realted content author name from the author id and rendertemplate
-                sakai.api.User.getUser(result["sakai:pool-content-created-for"], renderRelatedContentTemplate);
+                sakai.api.User.getUser(result['sakai:pool-content-created-for'], renderRelatedContentTemplate);
             }
 
             return item;
         };
 
-        var renderRecentComment = function(success, data){
+        var renderRecentComment = function(success, data) {
             var item = {
                 author:{
                     authorId: data.userid,
@@ -156,19 +159,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     authorPicture: sakai.api.Util.constructProfilePicture(data)
                 }
             };
-            $("#recentchangedcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_comment_author_template",item));
-            $("#recentchangedcontent_item_comment_author_picture img").attr("src", item.author.authorPicture);
-            $("#recentchangedcontent_item_comment_author_picture").show();
+            $('#recentchangedcontent_item_comment_author').html(sakai.api.Util.TemplateRenderer('#recentchangedcontent_item_comment_author_template',item));
+            $('#recentchangedcontent_item_comment_author_picture img').attr('src', item.author.authorPicture);
+            $('#recentchangedcontent_item_comment_author_picture').show();
         };
 
-        var renderRelatedContentTemplate = function(success, data){
+        var renderRelatedContentTemplate = function(success, data) {
             var item = {
                 author:{
                     authorId: data.userid,
                     authorName: sakai.api.User.getDisplayName(data)
                 }
             };
-            $("#recentchangedcontent_related_content_author").html(sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_related_content_author_template",item));
+            $('#recentchangedcontent_related_content_author').html(sakai.api.Util.TemplateRenderer('#recentchangedcontent_item_related_content_author_template',item));
         };
 
 
@@ -183,23 +186,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var handleRecentChangedContentData = function(success, data) {
             if(success && data.results && data.results.length > 0) {
                 getRelatedContent(data.results[0]);
-                $("#recentchangedcontent_no_results_container").hide();
-                $(".recentchangedcontent_main").show();
+                $('#recentchangedcontent_no_results_container').hide();
+                $('.recentchangedcontent_main').show();
             } else {
-                $(".recentchangedcontent_main").hide();
-                $("#recentchangedcontent_no_results_container").show();
+                $('.recentchangedcontent_main').hide();
+                $('#recentchangedcontent_no_results_container').show();
             }
         };
 
         /*
          * Bind Events
          */
-        var addBinding = function (){
-            $(".add_recentchangedcontent_button", rootel).click(function (ev) {
-                $(window).trigger("init.newaddcontent.sakai");
+        var addBinding = function () {
+            $('.add_recentchangedcontent_button', rootel).click(function (ev) {
+                $(window).trigger('init.newaddcontent.sakai');
                 return false;
             });
-            $(window).bind("done.newaddcontent.sakai", function(e, newContent) {
+            $(window).bind('done.newaddcontent.sakai', function(e, newContent) {
                 if (newContent && newContent.length) {
                     handleRecentChangedContentData(true, {results:newContent});
                 }
@@ -212,22 +215,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var prepSearchTermForURL = function(term) {
             // Filter out http:// as it causes the search feed to break
-            term = term.replace(/http:\/\//ig, "");
+            term = term.replace(/http:\/\//ig, '');
             // taken this from search_main until a backend service can get related content
-            var urlterm = "";
+            var urlterm = '';
             var split = $.trim(term).split(/\s/);
             if (split.length > 1) {
                 for (var i = 0; i < split.length; i++) {
                     if (split[i]) {
-                        urlterm += split[i] + " ";
+                        urlterm += split[i] + ' ';
                         if (i < split.length - 1) {
-                            urlterm += "OR ";
+                            urlterm += 'OR ';
                         }
                     }
                 }
             }
             else {
-                urlterm = "*" + term + "*";
+                urlterm = '*' + term + '*';
             }
             return urlterm;
         };
@@ -235,48 +238,48 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Fetches the related content
          */
-        var getRelatedContent = function(contentData){
+        var getRelatedContent = function(contentData) {
 
-            var managersList = "";
-            var viewersList = "";
-            if (contentData["sakai:pooled-content-manager"]) {
-                for (var i = 0; i < contentData["sakai:pooled-content-manager"].length; i++) {
-                    if (contentData["sakai:pooled-content-manager"][i]) {
-                        managersList += " " + (contentData["sakai:pooled-content-manager"][i]);
+            var managersList = '';
+            var viewersList = '';
+            if (contentData['sakai:pooled-content-manager']) {
+                for (var i = 0; i < contentData['sakai:pooled-content-manager'].length; i++) {
+                    if (contentData['sakai:pooled-content-manager'][i]) {
+                        managersList += ' ' + (contentData['sakai:pooled-content-manager'][i]);
                     }
                 }
             }
-            if (contentData["sakai:pooled-content-viewer"]) {
-                for (var z = 0; z < contentData["sakai:pooled-content-viewer"].length; z++) {
-                    if (contentData["sakai:pooled-content-viewer"][z]) {
-                        viewersList += " " + (contentData["sakai:pooled-content-viewer"][z]);
+            if (contentData['sakai:pooled-content-viewer']) {
+                for (var z = 0; z < contentData['sakai:pooled-content-viewer'].length; z++) {
+                    if (contentData['sakai:pooled-content-viewer'][z]) {
+                        viewersList += ' ' + (contentData['sakai:pooled-content-viewer'][z]);
                     }
                 }
             }
 
-            var searchterm = contentData["sakai:pooled-content-file-name"].substring(0,400) + " " + managersList + " " + viewersList;
-            searchquery = prepSearchTermForURL(searchterm);
+            var searchterm = contentData['sakai:pooled-content-file-name'].substring(0,400) + ' ' + managersList + ' ' + viewersList;
+            var searchquery = prepSearchTermForURL(searchterm);
 
             // get related content for contentData
             // return some search results for now
             var params = {
-                "items" : "2"
+                'items' : '2'
             };
-            var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+            var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.infinity.json');
             if (searchquery === '*' || searchquery === '**') {
                 url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
             } else {
-                params["q"] = searchquery;
+                params['q'] = searchquery;
             }
             $.ajax({
                 url: url,
                 data: params,
-                success: function(relatedContent){
+                success: function(relatedContent) {
                     var recentchangedcontentjson = {items: []};
                     var item = parseDataResult(contentData);
                     var isRelatedContent = false;
-                    for (var i = 0; i < relatedContent.results.length; i++){
-                        if (relatedContent.results[i]["_path"] !== contentData["_path"]){
+                    for (var i = 0; i < relatedContent.results.length; i++) {
+                        if (relatedContent.results[i]['_path'] !== contentData['_path']) {
                             isRelatedContent = relatedContent.results[i];
                             break;
                         }
@@ -307,21 +310,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // get list of recentchangedcontent items
             $.ajax({
-                url: "/var/search/pool/manager-viewer.json",
+                url: '/var/search/pool/manager-viewer.json',
                 cache: false,
                 data: {
                     userid: sakai.data.me.user.userid,
                     page: 0,
                     items: 1,
-                    sortOn: "_lastModified",
-                    sortOrder: "desc"
+                    sortOn: '_lastModified',
+                    sortOrder: 'desc'
                 },
-                success: function(data){
+                success: function(data) {
                     data.results = $.merge(sakai.api.Content.getNewList(sakai.data.me.user.userid), data.results);
                     handleRecentChangedContentData(true, data);
                 },
-                error: function(data){
-                    $("#recentchangedcontent_no_content").show();
+                error: function(data) {
+                    $('#recentchangedcontent_no_content').show();
                     handleRecentChangedContentData(false);
                 }
             });
@@ -331,5 +334,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         init();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("recentchangedcontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad('recentchangedcontent');
 });

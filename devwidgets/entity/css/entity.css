@@ -20,13 +20,15 @@
 #entity_container {padding:20px 15px 10px 20px;}
 #entity_container .entity_number {display:inline-block;color:#424242;}
 #entity_container #entity_name {word-wrap:break-word;font-size:18px;margin-bottom:0;padding:0 0 2px !important;color:#454A4F;}
-#entity_container #entity_name.contentmetadata_noneditable {margin-top:8px;overflow:hidden;}
+#entity_container #entity_name.entity_group {margin-top:10px;}
+#entity_container #entity_name.entity_name_noneditable {margin-top:8px;overflow:hidden;}
 #entity_container #entity_owns {font-size:11px; margin-top:5px;}
 #entity_container #entity_owns.entity_owns_viewer {margin-top:0;}
 #entity_container .entity_permissions_label {margin-left:10px;}
 #entity_container .entity_comments {float:left;margin-top:11px;}
 #entity_container #entity_owns.entity_owns_viewer .entity_comments {margin-top:5px;}
 #entity_container #entity_actions .s3d-button {float:right;margin-left:5px;color:#666;line-height:17px;}
+#entity_container #entity_actions.entity_group .s3d-button {margin-top: 14px;}
 #entity_container #entity_owns.entity_owns_viewer .s3d-margin-top-5 {margin-top:0 !important;}
 #entity_container #entity_comments_link {text-transform:lowercase;}
 #entity_container .entity_plaintitle {font-size: 18px; margin-top: 8px; margin-left: 10px;}
@@ -100,7 +102,6 @@
 #entity_container #entity_group_image.s3d-dropdown-menu .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 8px;margin-left: 7px;margin-top: 40px;width: 12px;float:right;}
 #entity_container #entity_group_image.s3d-dropdown-menu:hover .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:8px;}
 #entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
-#entity_container #entity_group_image {margin-top:-11px;}
 
 /* User */
 #entity_container .entity_user_action_icon {margin-left: 5px;padding-right: 20px;}
@@ -118,8 +119,15 @@
 /* Content */
 #entity_container #entity_content_image {width:45px;height:62px; float:left;margin-right:15px;margin-top:-4px;}
 #entity_content_image img{height:50px; margin-top:5px;}
-#entity_name_edit {padding:3px; font-size:18px; font-weight:bold; width:600px; padding:0 0 5px 5px; margin-bottom:5px;position:relative; top:-7px; left: -7px;}
-#entity_name_edit input {padding:3px 0;border:1px solid #DDDDDD;background:none;color:#454A4F;width:607px;}
+#entity_name form {display:inline-block!important}
+#entity_name input {font-size:18px;font-weight:bold;border:1px solid #DDDDDD;background:none;color:#454A4F;width:607px!important;height:24px!important;padding:3px 0;position:relative;top:-9px;left:-2px;}
+#entity_name.entity_name_editable{padding:5px;}
+#entity_name.entity_name_editable:hover{background-color:#fcecb2;cursor:pointer;}
+#entity_name.entity_name_editable:hover .s3d-highlight_area_background_darker1_white_content_tl{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1157px transparent;}
+#entity_name.entity_name_editable:hover .s3d-highlight_area_background_darker1_white_content_tinner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1167px transparent;}
+#entity_name.entity_name_editable:hover .s3d-highlight_area_background_darker1_white_content_bl{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1177px transparent;}
+#entity_name.entity_name_editable:hover .s3d-highlight_area_background_darker1_white_content_binner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1187px transparent;}
+#entity_name.entity_name_editing:hover{background-color:transparent!important;}
 #entity_container .entity_add_to_library {background:url("/devwidgets/savecontent/images/savecontent_button_icon_16x16.png") no-repeat center center transparent;display:block;float:right;height:17px;margin-left:10px;padding-left:20px;}
 #entity_container .s3d-button:hover .entity_add_to_library {background:url("/devwidgets/savecontent/images/savecontent_button_icon_16x16_hover.png") no-repeat center center transparent;}
 #entity_container .entity_download_content {background:url("/dev/images/download_button_image.png") no-repeat;display:block;float:right;height:12px;margin-left:10px;padding-left:12px;margin-top:6px;}

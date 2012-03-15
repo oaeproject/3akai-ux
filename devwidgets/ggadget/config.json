@@ -13,7 +13,6 @@
         }
     },
     "img":"/devwidgets/ggadget/images/ggadget.png",
-    "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",
     "enabled":true,

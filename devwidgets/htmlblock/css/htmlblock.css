@@ -1,0 +1,60 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/*
+ * The below CSS sections may not be necesary for your widget, but best practice
+ * is to organize your CSS into sections like these (or add new sections)
+ */
+
+.tinyMCE {
+    width: 100%;
+    height: 25px;
+}
+.htmlblock_widget {
+    min-height: 16px;
+    word-wrap: break-word;
+}
+
+#htmlblock_view_container {
+    display: block;
+}
+#htmlblock_view_container table {
+    min-width: 200px;
+}
+#htmlblock_view_container td {
+    min-width: 100px;
+}
+#htmlblock_view_container ol li {
+    list-style: decimal;
+}
+.contentauthoring_edit_mode #htmlblock_view_container {
+    display: none !important;
+}
+#htmlblock_edit_container {
+    display: none;
+}
+.contentauthoring_edit_mode #htmlblock_edit_container {
+    display: block !important;
+}
+#htmlblock_view_container p {
+    line-height: 140%;
+}
+
+/* Fix for wikipedia pastes */
+.htmlblock_widget .p0, .htmlblock_widget .p1, .htmlblock_widget .p2 {
+    display:block;
+}
