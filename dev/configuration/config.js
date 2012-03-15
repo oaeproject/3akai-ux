@@ -1003,6 +1003,20 @@ define(function(){
         displayTimezone: true,
         displayLanguage: true,
 
+        enabledDashboardWidgets: [
+            "recentmemberships",
+            "mycontent",
+            "activegroups",
+            "popularcontent",
+            "tags",
+            "mycontacts",
+            "accountpreferences",
+            "recentmessages",
+            "recentcontactsnew",
+            "mygroups",
+            "recentchangedcontent"
+        ],
+
         /**
          * Section dividers can be added to the directory structure by adding in the following
          * element at the appropriate place:
