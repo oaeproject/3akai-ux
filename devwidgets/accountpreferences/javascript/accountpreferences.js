@@ -105,6 +105,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // templates
         var languagesTemplate = accountPreferences + "_languagesTemplate";
 
+        var $accountpreferences_langloc_settings = $("#accountpreferences_langloc_settings");
+
         var myClose = function(hash) {
             hash.o.remove();
             hash.w.hide();
@@ -529,6 +531,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (!sakai.config.allowPasswordChange) {
                     $(accountPasswordTab).hide();
                     $(passChangeContainer).hide();
+                }
+                if (sakai.config.displayTimezone || sakai.config.displayLanguage) {
+                    $accountpreferences_langloc_settings.show();
+                    if (sakai.config.displayTimezone) {
+                        $("#accountpreferences_select_timezone").show();
+                    }
+                    if (sakai.config.displayLanguage) {
+                        $("#accountpreferences_select_language").show();
+                    }
                 }
             }
         };
