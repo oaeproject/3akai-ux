@@ -216,11 +216,12 @@ blockquote {
 	border-radius: 0 0 5px 5px;
 	margin-bottom: 10px;
 }
-.s3d-widget-container .s3d-contentpage-title {
+.s3d-widget-container .s3d-contentpage-title,
+.s3d-widget-container .s3d-tab-container {
 	border-bottom: none;
 	background: url("/dev/images/widget_header_bg.png") repeat-x scroll left top #dddddc;
-	height: 34px;
-	line-height: 34px;
+	height: 33px;
+	line-height: 33px;
 	padding: 0 12px;
 	color: #666;
 	font-weight: bold;
@@ -671,6 +672,29 @@ a.s3d-widget-links, span.s3d-widget-links, .s3d-widget-links a, button.s3d-widge
 .s3d-listview-options > div:first-child {
 	border-radius: 3px 0 0 3px;
 }
+
+/* TABS */
+.s3d-tab-container {
+    /* applies same style as .s3d-contentpage-title */
+}
+.s3d-tab-container .s3d-tab {
+    float: left;
+    padding: 0 17px;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+    background: url("/dev/images/tab_bg.png") repeat-x scroll left top transparent;
+    margin: 3px 1px 0;
+    color: #666;
+    cursor: pointer;
+    height: 30px;
+    font-size: 12px;
+    font-weight:bold;
+}
+
+.s3d-tab-container .s3d-tab.selected {
+    background: url("/dev/images/tab_selected_bg.png") repeat-x scroll left top transparent;
+}
+
 
 /*
  * BUTTONS
