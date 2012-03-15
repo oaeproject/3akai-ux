@@ -99,16 +99,12 @@
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item {
-    margin: 5px;
+    margin: 7px 5px;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item a {
     font-size: 12px;
     letter-spacing: -0.01em;
-}
-
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_updated_secondcolumn a {
-    padding-right: 7px;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover,
@@ -132,6 +128,7 @@
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_updated_secondcolumn_bg.png") repeat-x scroll top left transparent;
     border-radius: 6px;
+    overflow: hidden;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_secondcolumn {
@@ -139,6 +136,28 @@
     height: 41px;
     width: 50%;
     padding: 7px 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container {
+    padding-top:10px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > img {
+    margin: 0 7px 0 12px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > a,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > span {
+    display: block;
+    margin: -2px 3px 0 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > span {
+    color: #666;
+    font-size: 12px;
+}
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item {
+    margin-top: 4px;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_image {
@@ -162,8 +181,8 @@
 }
 
 /* Actions */
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_updated_secondcolumn:hover .s3d-actions-addtolibrary,
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_updated_secondcolumn:hover .s3d-actions-share {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item > div:hover .s3d-actions-addtolibrary,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item > div:hover .s3d-actions-share {
     display: inline-block;
 }
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary {
