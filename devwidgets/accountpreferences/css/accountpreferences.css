@@ -25,6 +25,7 @@
     font-size: 1.1em;
 }
 
+
 /* widget header and tabs */
 .accountpreferences_header {
     margin-top: 10px;
@@ -94,7 +95,7 @@
 #accountpreferences_section_autotagging div {
     margin-bottom: 10px;
 }
-.accountpreferences_section_wrap_password {
+.accountpreferences_section_wrap_password, .accountpreferences_section_wrap_email {
     margin: 0 10px 10px 0;
     padding: 10px 20px;
     float: left;
@@ -103,11 +104,11 @@
     margin: 0 10px 10px 0;
     padding: 20px;
 }
-#accountpreferences_section_password {
+#accountpreferences_section_password, #accountpreferences_section_email {
     width: 742px;
 }
 
-.accountpreferences .password-preferences-input {
+.accountpreferences .password-preferences-input, .accountpreferences .email-input {
     border: 1px solid #ccc;
     height: 25px;
     width: 330px;
@@ -129,10 +130,10 @@
     text-align: right;
     width: 70px;
 }
-.accountpreferences #accountpreferences_section_password .form-item input {
+.accountpreferences #accountpreferences_section_password .form-item input, .accountpreferences #accountpreferences_section_email .form-item input {
     margin-right: 180px;
 }
-.accountpreferences #accountpreferences_section_password .form-item label {
+.accountpreferences #accountpreferences_section_password .form-item label, .accountpreferences #accountpreferences_section_email .form-item label {
     margin-top: 5px;
     width: 180px;
 }
