@@ -1680,37 +1680,14 @@ define(function(){
                 }
             },
             '${refid}0': {
-                'id2506067': {
+                'id2487321': {
                     'htmlblock': {
-                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
+                        'content': '<div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
                     }
                 },
-                '${refid}5': {
-                    'dashboard': {
-                        'layout': 'threecolumn',
-                        'columns': {
-                            'column1': [
-                                {
-                                    'uid': '${refid}10',
-                                    'visible': 'block',
-                                    'name': 'recentchangedcontent'
-                                }
-                            ],
-                            'column2': [
-                                {
-                                    'uid': '${refid}11',
-                                    'visible': 'block',
-                                    'name': 'recentmemberships'
-                                }
-                            ],
-                            'column3': [
-                                {
-                                    'uid': '${refid}12',
-                                    'visible': 'block',
-                                    'name': 'recentcontactsnew'
-                                }
-                            ]
-                        }
+                'id2506067': {
+                    'dashboardactivity': {
+                        'content': ''
                     }
                 },
                 'rows': [
@@ -1721,16 +1698,12 @@ define(function(){
                                 'width': 1,
                                 'elements': [
                                     {
-                                        'id': 'id2506067',
+                                        'id': 'id2487321',
                                         'type': 'htmlblock'
                                     },
                                     {
-                                        'id': 'id8321271',
-                                        'type': 'carousel'
-                                    },
-                                    {
-                                        'id': '${refid}5',
-                                        'type': 'dashboard'
+                                        'id': 'id2506067',
+                                        'type': 'dashboardactivity'
                                     }
                                 ]
                             }
