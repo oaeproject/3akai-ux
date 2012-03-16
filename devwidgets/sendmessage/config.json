@@ -5,6 +5,9 @@
             "name":"Send a message",
             "description":"Send a message"
         },
+        "es_ES": { 
+            "bundle": "/devwidgets/sendmessage/bundles/es_ES.properties"
+        },
         "zh_CN": {
             "bundle": "/devwidgets/sendmessage/bundles/zh_CN.properties"
         }

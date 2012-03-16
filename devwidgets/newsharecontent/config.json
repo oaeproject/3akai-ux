@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/newsharecontent/bundles/default.properties",
             "name": "Share content",
             "description":"Share content widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/newsharecontent/bundles/es_ES.properties"
         }
     },
     "type":"core",

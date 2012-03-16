@@ -1,7 +1,7 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/collectionviewer/css/collectionviewer.css" />
 
-<div class="collectionviewer_widget">
+<div class="collectionviewer_widget" style="display:none">
     <div id="collectionviewer_header_container">
         <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left sakai_add_content_overlay" id="collectionviewer_add_content_button" type="button" style="display:none;"><div class="s3d-button s3d-button-in-button-lighter">0</div>__MSG__ADD_CONTENT__</button>
         <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left" id="collectionviewer_edit_collection_button" type="button" style="display:none;" data-liststyle="edit">__MSG__EDIT_COLLECTION__</button>
@@ -27,6 +27,7 @@
             </select>
         </div>
     </div>
+    <div id="collectionviewer_carousel_loading" style="display:none;"><img src="/dev/images/ajax-loader-gray.gif" alt="__MSG__LOADING__"></div>
     <div id="collectionviewer_carousel_container" style="display:none;"></div>
     <div id="collectionviewer_expanded_content_container" style="display:none;"></div>
     <div id="collectionviewer_grid_list_container" style="display:none;"></div>
