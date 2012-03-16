@@ -59,7 +59,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         //Themechanger
         var themePicker = '#worldsettings_change_theme_to';
         var themePickerTemplate = $('#themechanger_form_template', $rootel);
-        var themes = {};
 
         var visibility = '';
         var worldId = '';
@@ -72,7 +71,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var getURL = function(theme) {
             var url = '';
             $.each(sakai.config.skinStore, function(key, value) {
-                if(theme == value.title) { 
+                if (theme === value.title) { 
                    url = value.url;
                 }
             });
@@ -84,10 +83,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         * @param {String} cssURL The url of the skin to which the user wants to change to
         */
         var changeCSS = function(cssURL) {
-            $('link[href*="skin"]').each(function() {
-                this.removeAttribute('href');
-            });
-            $('head').append('<link href=' + cssURL + ' type="text/css" rel="stylesheet" />');
+            $('link[href*="skin"]').remove();
+            sakai.api.Util.include.css(cssURL);
         };
 
          /**
@@ -100,13 +97,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('link[href*="skin"]').each(function() {
                 href = this.href;
             });
-            $.each(themes, function(index, themesArray) {
-                $.each(themesArray, function (arrayIndex, theme) {
-                        if (href.indexOf(theme.url) >= 0) {
-                            currentTheme = theme.title;
-                        }
-                });
-            });
+            $.each(sakai.config.skinStore, function (key, value) {
+                if (href.indexOf(value.url) >= 0) {
+                    currentTheme = value.title;
+                }
+             });
             return currentTheme;
         }
 
@@ -120,7 +115,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('link[href*="' + cssURL + '"]').each(function() {
                isAlreadyUsed = theme;
             });
-            if(!isAlreadyUsed) {
+            if (!isAlreadyUsed) {
                 $.ajax({
                     url: '/system/userManager/group/' + sakai_global.group.groupId + '.update.json',
                     data: {
@@ -183,7 +178,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var bindEvents = function(worldId) {
             $worldsettingsApplyButton.off('click').on('click', function() {
                 var selectedTheme = $.trim($(themePicker).val());
-                changeTheme(selectedTheme);
+                if(checkEnableThemes == true){
+                    changeTheme(selectedTheme);
+                }
                 showWarning();
             });
             $('#worldsettings_proceedandapply').off('click');
@@ -204,14 +201,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var renderWorldSettings = function() {
             var profile = sakai_global.group.groupData;
-            themes = {themes:$.extend(sakai.config.skinStore, {}, true)};
             $('#worldsettings_form_container').html(sakai.api.Util.TemplateRenderer('worldsettings_form_template',{
                 'title': profile['sakai:group-title'],
                 'description': profile['sakai:group-description'],
                 'foundin': profile['sakai:group-visible'],
                 'membership': profile['sakai:group-joinable'],
-                'themes': themes,
-                'selectedTheme': getCurrentTheme()
+                'themes': $.extend(sakai.config.skinStore, {}, true),
+                'selectedTheme': getCurrentTheme(),
+                'enableThemes': profile["sakai:enableThemes"]
             }));
             var initialTagsValue = profile['sakai:tags'] ? profile['sakai:tags'] : false;
             $worldsettingsTags = $( worldsettingsTags );

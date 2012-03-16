@@ -38,6 +38,20 @@
                     <option value="no">__MSG__JOIN_MANAGER_ADD__</option>
                 </select>
             </div>
+
+            <div class="newcreategroup_section">
+                <label for="newcreategroup_theme" class="s3d-input-label">__MSG__THEME__:</label>
+                <select id="newcreategroup_change_theme_to">
+                </select>
+            </div>
+
+            <div class="newcreategroup_section">
+                <label for="newcreategroup_theme" class="s3d-input-label">__MSG__ALLOW_THEMECHANGER__:</label>
+                <select id="newcreategroup_allowthemechanger" name="newcreategroup_allowthemechanger">
+                    <option value="ENABLE">__MSG__ENABLE__</option>
+                    <option value="DISABLE">__MSG__DISABLE__</option>
+                </select>
+            </div>
         </div>
         <div id="newcreategroup_group_members_container">
             <div id="newcreategroup_group_members_none_added_container">
@@ -78,6 +92,12 @@
         </div>
         <textarea id="newcreategroup_members_message" placeholder="__MSG__ENTER_A_MESSAGE__" title="__MSG__ENTER_A_MESSAGE__"></textarea>
     --></div>
+
+    <div id="newcreategroup_themes_template" display: none><!--
+        {for i in themes.themes}
+            <option value="${i.title}">${i.text}</option>
+        {/for}
+--></div>
 
     <div id="newcreategroup_members_message_template"><!--
  __MSG__HI__

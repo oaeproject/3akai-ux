@@ -57,3 +57,5 @@
 #newcreategroup_creating h1, #newcreategroup_creating p {text-align:center;}
 #newcreategroup_creating .s3d-inset-shadow-container {height:50px;padding-top:30px;}
 #newcreategroup_creating .s3d-inset-shadow-container img {display:block;height:20px;margin-left:auto;margin-right:auto;width:188px;}
+
+#newcreategroup_allowthemechanger_check{float: right; margin-right: 2px;}
