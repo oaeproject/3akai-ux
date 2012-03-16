@@ -124,9 +124,9 @@
                                     <span class="carousel_bottom_buttons">
                                         <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                                             {if !user.connected}
-                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS1__ ${user.displayName|safeOutput} __MSG__ADD_TO_CONTACTS2__"></button>
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS1__ ${user.displayName|safeOutput} __MSG__ADD_TO_CONTACTS2__" sakai-entitypicture="${sakai.api.User.getProfilePicture(user)}"></button>
                                             {/if}
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE_TO__ ${user.displayName|safeOutput}"></button>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE_TO__ ${user.displayName|safeOutput}" sakai-entitypicture="${sakai.api.User.getProfilePicture(user)"></button>
                                         </fieldset>
                                     </span>
                                 </div>
