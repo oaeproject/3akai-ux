@@ -3,18 +3,10 @@
 <div id="dashboardactivity_widget" style="display:none;">
     <div class="dashboardactivity_filter_divider">
         <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-bar-options">
-            <div class="selected">
-                <div class="selected">All</div>
-            </div>
-            <div class="dashboardactivity_comments">
-                <div>Comments</div>
-            </div>
-            <div class="dashboardactivity_activity">
-                <div>Updates</div>
-            </div>
-            <div class="dashboardactivity_sharing">
-                <div>Sharing</div>
-            </div>
+            <button type="button" class="s3d-link-button dashboardactivity_all selected" data-filter="all">All</button>
+            <button type="button" class="s3d-link-button dashboardactivity_comments" data-filter="comments">Comments</button>
+            <button type="button" class="s3d-link-button dashboardactivity_activity" data-filter="updates">Updates</button>
+            <button type="button" class="s3d-link-button dashboardactivity_sharing" data-filter="sharing">Sharing</button>
         </div>
         <hr class="fl-push fl-hidden"/>
     </div>
@@ -173,6 +165,8 @@
         </div>
         <hr class="fl-hidden fl-push"/>
     </div>
+
+    <button type="button" class="s3d-button s3d-header-button" id="dashboardactivity_show_more">Show more</button>
 </div>
 
 <div id="dashboardactivity_activity_template" style="display:none;"><!--

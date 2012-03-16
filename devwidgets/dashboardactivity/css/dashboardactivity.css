@@ -22,13 +22,14 @@
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     box-shadow: 0 4px 9px 0 #DADADA inset;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    -moz-box-shadow: 0 4px 9px 0 #DADADA inset;
+    -webkit-box-shadow: 0 4px 9px 0 #DADADA inset;
+    padding-bottom: 10px;
     width: 70%;
 }
 
 #dashboardactivity_widget .s3d-bar-options {
-    margin: 15px 0 0 65px !important;
+    margin: 15px 0 0 65px;
 }
 
 #dashboardactivity_widget .s3d-bar-options .dashboardactivity_comments {
@@ -60,6 +61,11 @@
     margin: 0 auto;
     padding-bottom: 18px;
     width: 437px;
+}
+
+#dashboardactivity_widget #dashboardactivity_show_more {
+    display: block;
+    margin: 0 auto;
 }
 
 /* No Activity */
