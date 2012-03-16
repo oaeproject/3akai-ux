@@ -27,6 +27,41 @@
     width: 70%;
 }
 
+#dashboardactivity_widget .s3d-bar-options {
+    margin: 15px 0 0 65px !important;
+}
+
+#dashboardactivity_widget .s3d-bar-options .dashboardactivity_comments {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_comments_icon.png") no-repeat scroll 7px center transparent;
+    padding-left: 28px;
+}
+#dashboardactivity_widget .s3d-bar-options .dashboardactivity_comments:hover {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_comments_icon_hover.png') no-repeat 7px center transparent;
+}
+
+#dashboardactivity_widget .s3d-bar-options .dashboardactivity_activity {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_updates_icon.png") no-repeat scroll 7px center transparent;
+    padding-left: 28px;
+}
+#dashboardactivity_widget .s3d-bar-options .dashboardactivity_activity:hover {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_updates_icon_hover.png') no-repeat 7px center transparent;
+}
+
+#dashboardactivity_widget .s3d-bar-options .dashboardactivity_sharing {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share2_icon.png") no-repeat scroll 7px center transparent;
+    padding-left: 32px;
+}
+#dashboardactivity_widget .s3d-bar-options .dashboardactivity_sharing:hover {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_share2_icon_hover.png') no-repeat 7px center transparent;
+}
+
+#dashboardactivity_widget .dashboardactivity_filter_divider {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_filter_divider.png") no-repeat scroll center bottom transparent;
+    margin: 0 auto;
+    padding-bottom: 18px;
+    width: 437px;
+}
+
 /* No Activity */
 #dashboardactivity_widget #dashboardactivity_no_activity_container {
     padding: 20px 40px;
@@ -89,7 +124,7 @@
 
 /* Activity List */
 #dashboardactivity_widget #dashboardactivity_activity_container {
-    padding: 5px;
+    padding: 0 5px 5px;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn {
