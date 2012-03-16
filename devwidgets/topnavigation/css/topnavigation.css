@@ -113,8 +113,13 @@
 #topnavigation_explore_right {
     float: right;
 }
-.s3d-dropdown-menu.topnavigation_dual_login .s3d-dropdown-menu-content-container{border-radius:0 0 2px 2px;}
-.s3d-dropdown-menu.topnavigation_dual_login ul{border-radius:2px 2px 0 0;}
+.s3d-dropdown-menu.topnavigation_dual_login .s3d-dropdown-menu-content-container {
+    border-radius: 0 0 2px 2px;
+}
+.s3d-dropdown-menu.topnavigation_dual_login ul {
+    border-radius: 2px 2px 0 0;
+}
+
 
 /* Accessibility styles for keyboard navigation */
 #topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
