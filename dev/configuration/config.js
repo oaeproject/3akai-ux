@@ -1550,6 +1550,18 @@ define(function(){
             }
         },
 
+        /*
+        * List of available skins for themechanger
+        * title: value that will be used in dropdownlist
+        * text: text that is the user sees in dropdownlist
+        * url: where the skin can be found
+        */
+        skinStore: [{
+                "title": "DEFAULT",
+                "text": "Default",
+                "url": "/dev/skins/default/skin.css"
+        }],
+
         // Array of css files to load in each page
         skinCSS: [],
 
