@@ -8,6 +8,9 @@
         "en_US": {
             "bundle": "/devwidgets/topnavigation/bundles/en_US.properties"
         },
+        "es_ES": { 
+            "bundle": "/devwidgets/topnavigation/bundles/es_ES.properties"
+        },
         "nl_NL": {
             "bundle": "/devwidgets/topnavigation/bundles/nl_NL.properties"
         },

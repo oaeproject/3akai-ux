@@ -8,6 +8,9 @@
             "bundle": "/devwidgets/sakai2tools/bundles/default.properties",
             "name":"Sakai 2 tools",
             "description":"Sakai 2 tools"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/sakai2tools/bundles/es_ES.properties"
         }
     },
     "img":"/devwidgets/sakai2tools/images/sakai2tools.png",
