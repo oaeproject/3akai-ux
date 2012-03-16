@@ -2596,6 +2596,31 @@ define(
                     });
                 }
             }
+        },
+
+        /**
+         * Do a deep search and replace in an object
+         *
+         * @param {Object} obj The object to replace values in
+         * @param {String} toReplace The value to search for
+         * @param {String} replacement The string to replace the value with
+         * @return {Object} The object with the string replaced in all occurrences
+         */
+        replaceInObject: function(obj, toReplace, replacement) {
+            var ret = false;
+            if ($.isPlainObject(obj)) {
+                 ret = $.extend(true, {}, obj);
+            } else if ($.isArray(obj)) {
+                ret = $.merge([], obj);
+            }
+            $.each(ret, function(key, val) {
+                if ($.isPlainObject(val) || $.isArray(val)) {
+                    ret[key] = sakai_util.replaceInObject(val, toReplace, replacement);
+                } else if (_.isString(val) && val.indexOf(toReplace) !== -1) {
+                    ret[key] = val.replace(toReplace, replacement);
+                }
+            });
+            return ret;
         }
     };
 
