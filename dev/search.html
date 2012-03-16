@@ -210,7 +210,7 @@
                             {if participantCount > 0}
                                 <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                 <a class="s3d-regular-light-links" href="${i.homePath}#l=participants">
-                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__</span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
+                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
                                 </a>
                             {/if}
                         </div>
