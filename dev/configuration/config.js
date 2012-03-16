@@ -347,6 +347,7 @@ define(function(){
                     },
                     "aboutme": {
                         "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                        "altLabel": "__MSG__PROFILE_ABOUTME_LABEL_OTHER__",
                         "required": true,
                         "display": true,
                         "access": "everybody",
@@ -356,6 +357,7 @@ define(function(){
                         "elements": {
                             "aboutme": {
                                 "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                                "altLabel": "__MSG__PROFILE_ABOUTME_LABEL_OTHER__",
                                 "required": false,
                                 "display": true,
                                 "type": "textarea"
