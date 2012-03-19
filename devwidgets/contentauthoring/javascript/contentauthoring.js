@@ -1266,6 +1266,15 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // Generate the new row / column structure
             var pageLayout = getCurrentPageLayout();
 
+            // Fix for SAKIII-5325 & KERN-2670
+            $.ajax({
+                'url': currentPageShown.pageSavePath,
+                'type': 'POST',
+                'data': {
+                   'sakai:forceupdate': (new Date).getTime()
+                }
+            });
+
             exitEditMode();
             // Determine whether or not to show the empty page placeholder
             determineEmptyAfterSave();
