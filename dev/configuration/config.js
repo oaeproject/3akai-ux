@@ -554,6 +554,8 @@ define(function(){
 
         enableBranding: true,
 
+        enabledCarousel: true,
+
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
