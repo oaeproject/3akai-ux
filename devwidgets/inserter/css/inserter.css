@@ -196,6 +196,7 @@
 }
 .inserter_widget ul {
     margin: 0;
+    overflow-x: hidden;
 }
 .inserter_widget ul li {
     cursor: move !important;
