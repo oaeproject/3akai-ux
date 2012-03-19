@@ -324,16 +324,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // When you click on one of the width units (px or percentage)
-            $(remotecontentSettingsWidthUnitClass, rootel).click(function(){
-                var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+            $(remotecontentSettingsWidthUnitClass, rootel).on('change', function() {
+                var widthUnitValue = $(this).val();
                 if (widthUnitValue === "px") {
                     json.width_unit = widthUnitValue;
                 }
                 else {
                     json.width_unit = "%";
                 }
-                $(remotecontentSettingsWidthUnitClass, rootel).removeClass(remotecontentSettingsWidthUnitSelectedClass);
-                $(this).addClass(remotecontentSettingsWidthUnitSelectedClass);
                 renderIframeSettings(false);
             });
 

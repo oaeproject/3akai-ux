@@ -464,17 +464,18 @@ div .orderable-drop-marker {
 .s3d-dropdown-menu ul li:hover {
 	background: url("/devwidgets/topnavigation/images/topnav_nav_list_hover.png") repeat-x scroll left top transparent;
 }
-.s3d-dropdown-menu ul li a {
+.s3d-dropdown-menu ul li a, .s3d-dropdown-menu ul li button {
 	text-decoration: none;
 	display: block;
 	padding: 5px 6px;
-}
-.s3d-dropdown-menu ul li:hover a {
-	color: #f3f3f3;
-}
-.s3d-dropdown-menu ul li a {
 	color: #2683bc;
 	font-size: 12px;
+}
+.s3d-dropdown-menu ul li button {
+    width:100%;
+}
+.s3d-dropdown-menu ul li:hover a, .s3d-dropdown-menu ul li:hover button {
+	color: #f3f3f3;
 }
 .s3d-dropdown-menu .s3d-dropdown-container {
 	background: url("/devwidgets/topnavigation/images/topnav_nav_hover_list_bg.png") repeat-x scroll left top #0c4e79;
@@ -636,42 +637,85 @@ a.s3d-widget-links, span.s3d-widget-links, .s3d-widget-links a, button.s3d-widge
 	width: 16px;
 }
 .s3d-page-header-bottom-row .s3d-button:hover .s3d-page-header-add-to-icon {
-	background: url("/dev/images/savecontent_button_icon_16x16_hover.png") no-repeat scroll left center transparent;
+    background: url("/dev/images/savecontent_button_icon_16x16_hover.png") no-repeat scroll left center transparent;
 }
 .s3d-page-header-bottom-row .s3d-button[disabled]:hover .s3d-page-header-add-to-icon {
-	background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left center transparent;
+    background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left center transparent;
 }
 
 /* LIST VIEW OPTIONS */
 .s3d-listview-options {
-	float: right;
-	padding: 0 !important;
-	height: 19px !important;
-	margin-top: 4px;
-	margin-left: 20px;
+    float: right;
+    padding: 0 !important;
+    height: 19px !important;
+    margin-top: 4px;
+    margin-left: 20px;
+    border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    -webkit-border-radius: 3px !important;
+}
+.s3d-listview-options:hover,
+.s3d-bar-options:hover {
+    background: #fff !important;
+    box-shadow: 0 0 4px -2px #A8A8A8 inset !important;
+}
+.s3d-listview-options > div {
+    float: left;
+    height: 15px;
+    padding: 3px 4px 2px;
+}
+.s3d-listview-options > div.selected, .s3d-listview-options > div:hover {
+    background: url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;
+    box-shadow: 0 0 4px -2px #A8A8A8 inset;
+}
+.s3d-listview-options > div:last-child,
+.s3d-bar-options > button:last-child {
+    border-radius: 0 3px 3px 0;
+}
+.s3d-listview-options > div:first-child,
+.s3d-bar-options > button:first-child {
+    border-radius: 3px 0 0 3px;
+}
+
+/* BAR STYLED OPTIONS */
+.s3d-bar-options {
 	border-radius: 3px !important;
 	-moz-border-radius: 3px !important;
 	-webkit-border-radius: 3px !important;
+    float: left;
+    height: 25px !important;
+    line-height: 25px !important;
+    padding: 0 !important;
 }
-.s3d-listview-options:hover {
-	background: #fff;
-	box-shadow: 0 0 4px -2px #A8A8A8 inset;
+
+.s3d-bar-options > button {
+    color: #666666;
+    float: left;
+    font-size: 11px;
+    font-weight: bold;
+    height: 27px;
+    padding: 0 10px;
 }
-.s3d-listview-options > div {
-	float: left;
-	height: 15px;
-	padding: 3px 4px 2px;
+
+.s3d-bar-options > button.selected {
+    background: url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;
+    border: 1px solid #E0E3E5;
+    box-shadow: none;
+    margin-top: -1px;
 }
-.s3d-listview-options > div.selected, .s3d-listview-options > div:hover {
-	background: url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;
-	box-shadow: 0 0 4px -2px #A8A8A8 inset;
+
+.s3d-bar-options > button.selected {
+    color:#999;
 }
-.s3d-listview-options > div:last-child {
-	border-radius: 0 3px 3px 0;
+
+.s3d-bar-options > button.selected:first-child {
+	margin-left: -1px;
 }
-.s3d-listview-options > div:first-child {
-	border-radius: 3px 0 0 3px;
+
+.s3d-bar-options > button.selected:last-child {
+	margin-right: -1px;
 }
+
 
 /*
  * BUTTONS
@@ -914,6 +958,14 @@ a.s3d-button.s3d-overlay-button {
 	display: inline-block;
 	height: 21px;
 	line-height: 21px;
+}
+
+.s3d-button.s3d-overlay-button.large {
+    background: url("/dev/images/button_overlay_large_default.png") repeat-x scroll left top #DFDFDF;
+}
+
+.s3d-button.s3d-overlay-button.large:hover {
+    background: url("/dev/images/button_overlay_large_hover.png") repeat-x scroll left top #e2e5e7;
 }
 
 /* Overlay Action buttons */
@@ -2333,8 +2385,8 @@ ul li.s3d-list-item:hover {
 	float: left !important;
 	padding: 0 !important;
 	margin-left: 24px;
-	width: 100px !important;
-	height: 100px !important;
+	max-width: 100px !important;
+	max-height: 100px !important;
 	position: absolute;
 }
 .s3d-search-results-grid .s3d-search-result-anonuser {

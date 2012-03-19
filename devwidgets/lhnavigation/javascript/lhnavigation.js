@@ -37,6 +37,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // CONFIGURATION //
         ///////////////////
 
+        var $rootel = $('#' + tuid);
+
         // Classes
         var navSelectedItemClass = 'lhnavigation_selected_item';
         var navHoverableItemClass = 'lhnavigation_hoverable_item';
@@ -95,7 +97,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
 
             var adjustCount = function(pageStructure, pageid, subpage, value) {
-                var listitem = 'li[data-sakai-path=\'';
+                var listitem = 'li[data-sakai-addcontextoption="user"][data-sakai-path=\'';
                 var count;
                 var element;
                 if (subpage) {
@@ -113,6 +115,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     count._count = value;
                 }
                 if (listitem.length) {
+                    if (!listitem.find('.lhnavigation_levelcount').length) {
+                        listitem.find('.lhnavigation_item_content').prepend(
+                            sakai.api.Util.TemplateRenderer('lhnavigation_counts_template', {
+                            'count': 0
+                            })
+                        );
+                    }
                     $(element, listitem).text(count._count);
                     if (count._count <= 0) {
                         $(element, listitem).hide();
@@ -393,6 +402,41 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Rendering a content page //
         //////////////////////////////
 
+        /**
+         * Displays a page unavailable error message
+         */
+        var renderPageUnavailable = function() {
+            unavailablePage = {
+                'ref': false,
+                'path': false,
+                'content': {
+                    'unavailablePage1': {
+                        'htmlblock': {
+                            'content': sakai.config.pageUnavailableContent
+                        }
+                    },
+                    'rows': [{
+                        'columns': [{
+                            'elements': [{
+                                'id': 'unavailablePage1',
+                                'type': 'htmlblock'
+                            }],
+                            width: 1
+                        }]
+                    }]
+                },
+                'savePath': false,
+                'pageSavePath': false,
+                'saveRef': false,
+                'canEdit': false,
+                'nonEditable': false,
+                '_lastModified': false,
+                'autosave': false,
+                'title': false
+            };
+            $(window).trigger('showpage.contentauthoring.sakai', [unavailablePage]);
+        };
+
         var getFirstSelectablePage = function(structure) {
             var selected = false;
             if (structure.orderedItems) {
@@ -467,25 +511,29 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if (!selected) {
                     selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
                 }
-                // update links in all menus with subnav with the selected page, so they wont trigger handleHashChange and cause weirdness
-                $('#lhnavigation_container').find('a.lhnavigation_toplevel_has_subnav').attr('href', '#l=' + selected);
-                // Select correct item
-                var menuitem = $('li[data-sakai-path=\'' + selected + '\']');
-                if (menuitem.length) {
-                    if (selected.split('/').length > 1) {
-                        var par = $('li[data-sakai-path=\'' + selected.split('/')[0] + '\']');
-                        showHideSubnav(par, true);
+                if (selected) {
+                    // update links in all menus with subnav with the selected page, so they wont trigger handleHashChange and cause weirdness
+                    $('#lhnavigation_container').find('a.lhnavigation_toplevel_has_subnav').attr('href', '#l=' + selected);
+                    // Select correct item
+                    var menuitem = $('li[data-sakai-path=\'' + selected + '\']');
+                    if (menuitem.length) {
+                        if (selected.split('/').length > 1) {
+                            var par = $('li[data-sakai-path=\'' + selected.split('/')[0] + '\']');
+                            showHideSubnav(par, true);
+                        }
+                        var ref = menuitem.data('sakai-ref');
+                        var savePath = menuitem.data('sakai-savepath') || false;
+                        var pageSavePath = menuitem.data('sakai-pagesavepath') || false;
+                        var canEdit = menuitem.data('sakai-submanage') || false;
+                        var nonEditable = menuitem.data('sakai-noneditable') || false;
+                        if (!menuitem.hasClass(navSelectedItemClass)) {
+                            selectNavItem(menuitem, $(navSelectedItem));
+                        }
+                        // Render page
+                        preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
                     }
-                    var ref = menuitem.data('sakai-ref');
-                    var savePath = menuitem.data('sakai-savepath') || false;
-                    var pageSavePath = menuitem.data('sakai-pagesavepath') || false;
-                    var canEdit = menuitem.data('sakai-submanage') || false;
-                    var nonEditable = menuitem.data('sakai-noneditable') || false;
-                    if (!menuitem.hasClass(navSelectedItemClass)) {
-                        selectNavItem(menuitem, $(navSelectedItem));
-                    }
-                    // Render page
-                    preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                } else {
+                    renderPageUnavailable();
                 }
             }
         };
@@ -567,10 +615,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         };
 
-        var showContextMenu = function($clickedItem) {
+        var showContextMenu = function($clickedItem){
             var contextMenu = $('#lhnavigation_submenu');
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
-            contextMenu.css('left', $clickedItem.position().left + 130 - 50 + 'px');
+            contextMenu.css('left', $clickedItem.position().left + 65 + 'px');
             contextMenu.css('top', $clickedItem.position().top + 6 + 'px');
             toggleContextMenu();
         };
@@ -578,10 +626,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var toggleContextMenu = function(forceHide) {
             var contextMenu = $('#lhnavigation_submenu');
             if (forceHide) {
+                $('.lhnavigation_selected_submenu_image.clicked')
+                    .parents('.lhnavigation_item_content, .lhnavigation_subnav_item_content')
+                    .find('a:first').focus();
                 $('.lhnavigation_selected_submenu_image').removeClass('clicked');
                 contextMenu.hide();
             } else {
                 contextMenu.toggle();
+                contextMenu.find('a:visible:first').focus();
             }
         };
 
@@ -970,9 +1022,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var confirmPageDelete = function() {
             pageToDelete = jQuery.extend(true, {}, contextMenuHover);
+            toggleContextMenu(true);
             sakai.api.Util.bindDialogFocus($('#lhnavigation_delete_dialog'));
             $('#lhnavigation_delete_dialog').jqmShow();
-            toggleContextMenu(true);
         };
 
         // Init delete dialog
@@ -1158,7 +1210,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             showContextMenu($(this));
         });
 
-        $('.lhnavigation_item_content, .lhnavigation_subnav_item_content').live('mouseenter', function() {
+        $rootel.on('mouseenter focus', '.lhnavigation_item_content, .lhnavigation_subnav_item_content', function() {
             onContextMenuHover($(this), $(this).parent('li'));
         });
 
@@ -1179,7 +1231,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             showUserPermissions();
         });
 
-        $('.lhnavigation_change_title').live('keyup', function(ev) {
+        $rootel.on('keydown', '.lhnavigation_change_title', function(ev) {
             if (ev.keyCode === 13 && changingPageTitle) {
                 savePageTitle();
             }

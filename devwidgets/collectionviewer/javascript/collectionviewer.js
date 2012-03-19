@@ -58,6 +58,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var previewsAllowed = true;
 
         // containers
+        var $collectionviewerCarouselLoading = $('#collectionviewer_carousel_loading', $rootel);
         var $collectionviewerCarouselContainer = $('#collectionviewer_carousel_container', $rootel);
         var $collectionviewerExpandedContentContainer = $('#collectionviewer_expanded_content_container', $rootel);
         var $collectionviewerGridListContainer = $('#collectionviewer_grid_list_container', $rootel);
@@ -277,6 +278,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Hides the main containers
          */
         var hideContainers = function() {
+            $collectionviewerCarouselLoading.hide();
             $collectionviewerCarouselContainer.hide();
             $collectionviewerExpandedContentContainer.hide();
             $collectionviewerGridListContainer.hide();
@@ -384,6 +386,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 data.items = 1000;
                 data.page = 0;
             }
+            if (!refresh && !$.isFunction(callback)) {
+                $collectionviewerCarouselLoading.show();
+            }
             $.ajax({
                 url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                 data: data,
@@ -410,6 +415,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             showData();
                         }
                     }
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    $collectionviewerCarouselLoading.hide();
                 }
             });
         };
@@ -465,6 +473,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var handleHashChange = function() {
             // This will be empty when you switch a listview, so we should trigger that function instead
             if (!$.bbq.getState('item')) {
+                hideContainers();
                 switchListView();
                 return;
             }

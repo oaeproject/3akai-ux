@@ -35,6 +35,7 @@ define(function(){
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
             INFINITE_LOADING_ICON: "/dev/images/Infinite_Scrolling_Loader_v01.gif",
+            I18N_CUSTOM_BUNDLE: '/dev/configuration/custom.properties',
 
             // Services
             BATCH: "/system/batch",
@@ -247,6 +248,15 @@ define(function(){
         },
 
         allowPasswordChange: true,
+        /**
+         * Where the email field should live
+         * Default is 'profile' but it can also be 'accountpreferences'
+         *
+         * If you set this to 'accountpreferences', make sure to set the
+         * display property of the email field in the defaultConfig
+         * below to false
+        */
+        emailLocation: 'profile',
 
         Profile: {
             /*
@@ -809,6 +819,7 @@ define(function(){
         Authentication: {
             "allowInternalAccountCreation": true,
             "internal": true,
+            "internalAndExternal": false,
             "external": [{
                 label: "External Login System 1",
                 url: "http://external.login1.com/"
@@ -832,6 +843,13 @@ define(function(){
             }
         },
 
+        /**
+         * Top navigation configuration
+         *
+         * To indicate that a link should be placed on the right of the signup
+         * link, the object should indicate it as:
+         *   'rightLink': true
+         */
         Navigation: [{
             "url": "/me#l=dashboard",
             "id": "navigation_you_link",
@@ -1000,6 +1018,22 @@ define(function(){
         },
 
         displayDebugInfo: true,
+        displayTimezone: true,
+        displayLanguage: true,
+
+        enabledDashboardWidgets: [
+            "recentmemberships",
+            "mycontent",
+            "activegroups",
+            "popularcontent",
+            "tags",
+            "mycontacts",
+            "accountpreferences",
+            "recentmessages",
+            "recentcontactsnew",
+            "mygroups",
+            "recentchangedcontent"
+        ],
 
         /**
          * Section dividers can be added to the directory structure by adding in the following
@@ -1586,6 +1620,11 @@ define(function(){
         },
 
         /*
+         * Content to display if there are no pages available to the user in a group/world
+         */
+        pageUnavailableContent: '<p>__MSG__PAGE_UNAVAILABLE__</p>',
+
+        /*
          * _canEdit: can change the area permissions on this page
          * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
          * _nonEditable: cannot edit the contents of this page
@@ -1641,37 +1680,14 @@ define(function(){
                 }
             },
             '${refid}0': {
-                'id2506067': {
+                'id2487321': {
                     'htmlblock': {
-                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><h1 class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
+                        'content': '<h1 class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
                     }
                 },
-                '${refid}5': {
-                    'dashboard': {
-                        'layout': 'threecolumn',
-                        'columns': {
-                            'column1': [
-                                {
-                                    'uid': '${refid}10',
-                                    'visible': 'block',
-                                    'name': 'recentchangedcontent'
-                                }
-                            ],
-                            'column2': [
-                                {
-                                    'uid': '${refid}11',
-                                    'visible': 'block',
-                                    'name': 'recentmemberships'
-                                }
-                            ],
-                            'column3': [
-                                {
-                                    'uid': '${refid}12',
-                                    'visible': 'block',
-                                    'name': 'recentcontactsnew'
-                                }
-                            ]
-                        }
+                'id2506067': {
+                    'dashboardactivity': {
+                        'content': ''
                     }
                 },
                 'rows': [
@@ -1682,16 +1698,12 @@ define(function(){
                                 'width': 1,
                                 'elements': [
                                     {
-                                        'id': 'id2506067',
+                                        'id': 'id2487321',
                                         'type': 'htmlblock'
                                     },
                                     {
-                                        'id': 'id8321271',
-                                        'type': 'carousel'
-                                    },
-                                    {
-                                        'id': '${refid}5',
-                                        'type': 'dashboard'
+                                        'id': 'id2506067',
+                                        'type': 'dashboardactivity'
                                     }
                                 ]
                             }
@@ -1932,6 +1944,28 @@ define(function(){
                     "layout": "dev",
                     "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
                 }
+            }
+        },
+
+        /**
+         * Explore (landing page/index.html) configuration
+         *
+         * oneRow: indicates if there should just be one row and one widget in
+         *         that row. Requires widges.oneRowWidget to be set
+         * widgets: object that contains the widgets that should be in the
+         *          landing page configuration
+         *   rightColumn: The widget in the right column
+         *   main: The widget on the top left
+         *   bottom: The widget under the main widget
+         *   oneRowWidget: When oneRow is set to true, this widget will be the
+         *                 only widget displayed on the page
+         */
+        explore : {
+            oneRow: false,
+            widgets: {
+                rightColumn: "recentactivity",
+                main: "welcome",
+                bottom: "featuredcontent"
             }
         }
     };
