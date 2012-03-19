@@ -104,9 +104,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (moreWidgets.length > 4) {
                 setupCarousel();
             } else {
+                $inserterbarMoreWidgetsContainer.hide();
                 $('#inserterbar_carousel_left', $rootel).hide();
                 $('#inserterbar_carousel_right', $rootel).hide();
             }
+            $inserterbarWidgetContainer.removeClass('fl-hidden');
 
             setupSortables();
             resetPosition();
@@ -159,7 +161,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 easing: 'swing',
                 scroll: 4,
                 itemFirstInCallback: carouselBinding,
-                itemFallbackDimension: 4
+                itemFallbackDimension: 4,
+                visible: 4
             });
 
             $inserterbarMoreWidgetsContainer.hide();

@@ -1317,6 +1317,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                        ':operation': 'delete'
                     }
                 });
+                var oldStorePath = storePath;
                 // Store the page in the main location
                 storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
                 updateWidgetURLs();
@@ -1325,6 +1326,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 delete data.version;
                 data.version = $.toJSON(data);
                 data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
+                data = sakai.api.Util.replaceInObject(data,
+                        oldStorePath.replace('/p/', ''),
+                        storePath.replace('/p/', ''));
                 // Save the page data
                 sakai.api.Server.saveJSON(storePath, data, function() {
                     currentPageShown.content._lastModified = Date.now();
