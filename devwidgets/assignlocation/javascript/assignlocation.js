@@ -100,6 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     });
                     renderSelected();
+                    $assignlocationSaveButton.removeAttr('disabled');
                 }
             });
         };
@@ -207,6 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 sakai.api.Util.bindDialogFocus($assignlocationContainer);
                 $assignlocationContainer.jqmShow();
+                $assignlocationSaveButton.attr('disabled', 'disabled');
             });
         };
         doInit();
