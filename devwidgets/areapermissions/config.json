@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/areapermissions/bundles/default.properties",
             "name":       "Area permissions",
             "description":"Area permissions"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/areapermissions/bundles/es_ES.properties"
         }
     },
     "id":                 "areapermissions",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/areapermissions/areapermissions.html",
     "userdashboard":      false,

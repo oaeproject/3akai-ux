@@ -140,18 +140,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // display loading message
                 $($personinfo_container).html(sakai.api.Util.TemplateRenderer("#personinfo_loading_template", {"me": sakai.data.me}));
                 showPersonInfo($clickedEl);
-                sakai.api.User.getUser(userId, function(success, data){
+                sakai.api.User.getUser(userId, function(success, data) {
                     if (success) {
                         dataCache[userId] = data;
 
                         // check if user is a contact and their connection state
-                        sakai.api.User.getConnectionState(userId, function(state){
+                        sakai.api.User.getConnectionState(userId, function(state) {
                             dataCache[userId].connectionState = state;
                         });
 
                         // get display pic
                         var displayPicture = sakai.api.Util.constructProfilePicture(dataCache[userId]);
-                        if (!displayPicture){
+                        if (!displayPicture) {
                             displayPicture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                         }
                         dataCache[userId].displayPicture = displayPicture;
@@ -189,6 +189,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }
                         });
+                    } else {
+                        dataCache[userId] = {
+                            displayName: sakai.api.i18n.getValueForKey('PRIVATE_USER', 'personinfo'),
+                            displayPicture: sakai.config.URL.USER_DEFAULT_ICON_URL,
+                            isPrivate: true
+                        };
+                        if (open) {
+                            togglePersonInfo($clickedEl);
+                        }
                     }
                 });
             }

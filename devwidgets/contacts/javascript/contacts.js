@@ -92,6 +92,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 },
                 success: function(data){
                     $(window).trigger("lhnav.updateCount", ["contacts", -1]);
+                    sakai.data.me.contacts.accepted--;
                     sakai.api.Util.Modal.close('#contacts_delete_contacts_dialog');
                     if (infinityScroll){
                         infinityScroll.removeItems([user]);
@@ -323,7 +324,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var bindEvents = function(){
             $(".contacts_add_to_contacts").live("click", function(){
                 acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
-                $(this).parents("li").remove();
+                $(this).parents('.contacts_item').remove();
                 uncheckAll();
             });
 

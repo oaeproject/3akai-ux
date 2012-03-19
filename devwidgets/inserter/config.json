@@ -1,0 +1,19 @@
+{
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/inserter/bundles/default.properties",
+            "name":       "Inserter",
+            "description":"Insert content from collections"
+        }
+    },
+    "id":                 "inserter",
+    "personalportal":     false,
+    "type":               "sakai",
+    "url":                "/devwidgets/inserter/inserter.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

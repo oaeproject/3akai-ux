@@ -139,7 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var finishChangeTitle = function(newTitle) {
-            var title = sakai.api.Security.safeOutput(newTitle);
+            var title = newTitle;
             var link;
             sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'] = title;
             // Export as IMS Package
@@ -153,6 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']);
                 $('#contentpreview_download_button').attr('href', link);
             }
+            document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + title;
         };
 
         /**
@@ -259,6 +260,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(window).bind("ready.changepic.sakai", function(){
                         $(window).trigger("setData.changepic.sakai", ["group", context.data.authprofile["sakai:group-id"]]);
                     });
+                    sakai.api.Widgets.widgetLoader.insertWidgets("entity_groupsettings_dropdown", false, $rootel);
                     break;
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
@@ -300,6 +302,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $(this).addClass('entity_name_editing');
                             $(this).text($.trim($('#entity_name').attr('data-original-title')));
                             $(this).trigger('openjedit.entity.sakai');
+                            $(window).trigger('position.inserter.sakai');
                         }
                     });
                     // setup jeditable for the content name field
@@ -311,8 +314,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var nameCallback = function(value, settings) {
                         var newDottedTitle = sakai.api.Util.applyThreeDots($.trim(value), 800, {
                             whole_word: false
-                        }, '');
-                        $(this).text(newDottedTitle);
+                        }, '', true);
+                        $(this).html(newDottedTitle);
+                        $(window).trigger('position.inserter.sakai');
                     };
                     $(entityNameEditable).editable(nameUpdate, {
                         type: 'text',
@@ -393,7 +397,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var prepareRenderContext = function(context) {
             if (context.context === "content") {
-                getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
+                if ($.isArray(sakai_global.content_profile.content_data.members.managers)) {
+                    getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
+                }
                 sakai_global.content_profile.content_data.members.counts.managergroups = 0;
                 sakai_global.content_profile.content_data.members.counts.managerusers = 0;
                 $.each(sakai_global.content_profile.content_data.members.managers, function(i, manager){
@@ -426,9 +432,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var toggleDropdownList = function(){
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
+            $(entityChangeImage).nextAll(".s3d-dropdown-list").toggle();
             $(entityChangeImage).toggleClass("clicked");
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
+            $(entityChangeImage).nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
         };
 
         var checkHash = function(context){
@@ -577,7 +583,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(entityChangeImage).click(toggleDropdownList);
 
-            sakai.api.Util.hideOnClickOut(entityChangeImage + " .s3d-dropdown-list", entityChangeImage, toggleDropdownList);
+            sakai.api.Util.hideOnClickOut('.entity_user_avatar_menu.s3d-dropdown-list,.entity_group_avatar_menu.s3d-dropdown-list', entityChangeImage, toggleDropdownList);
 
         });
 

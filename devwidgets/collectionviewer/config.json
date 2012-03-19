@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/collectionviewer/bundles/default.properties",
             "name":       "Collections Viewer",
             "description":"Displays a collection through different views"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/collectionviewer/bundles/es_ES.properties"
         }
     },
     "id":                 "collectionviewer",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/collectionviewer/collectionviewer.html",
     "userdashboard":      false,

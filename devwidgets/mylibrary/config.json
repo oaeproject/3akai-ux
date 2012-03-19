@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/mylibrary/bundles/default.properties",
             "name":       "My library",
             "description":"View and manage a user's library items"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/mylibrary/bundles/es_ES.properties"
         }
     },
     "id":                 "mylibrary",
     "personalportal":     false,
-    "showinsakaigoodies": true,
     "type":               "sakai",
     "url":                "/devwidgets/mylibrary/mylibrary.html",
     "userdashboard":      false,

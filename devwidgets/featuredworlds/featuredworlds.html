@@ -14,7 +14,7 @@
                 ${tab.title}
                 <span class="s3d-counts-outer">
                     <span class="s3d-counts-inner">${data[tab.id].total}</span>
-                    <a id="featuredworlds_showall_${tab.id}" style="display:none;" href="/search#l=${tab.id}&q=${title|safeURL}&cat=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>
+                    <a id="featuredworlds_showall_${tab.id}" style="display:none;" href="/search#l=${tab.id}&refine=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>
                 </span>
             </div>
         {/for}
