@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var t = "";
         var numItems = 0;
         var numDiff = 0;
-        var currentData = '';
+        var currentData = {};
 
         var parseActivity = function(success, data, initialLoad){
             if (success) {
