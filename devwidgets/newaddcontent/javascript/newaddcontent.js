@@ -231,7 +231,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 $.each(data, function(groupRolesKey, groupRoles) {
                     // loop through each group role
                     $.each(groupRoles, function(roleMembersKey, roleMembers) {
-                        if (roleMembers.results && roleMembers.results.length > 0) {
+                        if (roleMembers.results && roleMembers.results.length) {
                             // loop through members in the role
                             $.each(roleMembers.results, function(memberKey, member) {
                                 var authId = false;
