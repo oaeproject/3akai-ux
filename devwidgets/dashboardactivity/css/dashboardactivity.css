@@ -77,6 +77,16 @@
     margin: 15px auto 0;
 }
 
+/* Bad request */
+#dashboardactivity_widget #dashboardactivity_container .dashboardactivity_activity_badrequest {
+    width: 100%;
+}
+
+#dashboardactivity_widget #dashboardactivity_container .dashboardactivity_activity_badrequest p {
+    margin: 10px auto;
+    text-align: center;
+}
+
 /* No Activity */
 #dashboardactivity_widget #dashboardactivity_no_activity_container {
     padding: 20px 40px;
@@ -246,6 +256,11 @@
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > span {
     display: block;
     margin: 0 3px 0 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_item_name,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_message_reversed {
+    margin-right: 3px;
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > span,

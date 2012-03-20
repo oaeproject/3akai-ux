@@ -16,8 +16,11 @@
  * specific language governing permissions and limitations under the License.
  */
 
+/*globals sakai_global */
 // load the master sakai object to access all Sakai OAE API methods
 require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+
+    'use strict';
 
     /**
      * @name sakai_global.dashboardactivity
@@ -41,12 +44,97 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $rootel = $('#' + tuid);
 
         // Containers
-        var $dashboardactivityContainer = $('#dashboardactivity_widget', $rootel);
-        var $dashboardactivityNoActivityContainer = $('#dashboardactivity_no_activity_container', $rootel);
+        var $dashboardactivityContainer = $('#dashboardactivity_container', $rootel);
         var $dashboardactivityActivityContainer = $('#dashboardactivity_activity_container', $rootel);
 
         // Templates
-        var dashboardactivityActivityTemplate = 'dashboardactivity_activity_template';
+        var $dashboardactivityActivityTemplate = $('#dashboardactivity_activity_template', $rootel);
+        var $dashboardactivityActivityBadrequestTemplate = $('#dashboardactivity_activity_badrequest_template', $rootel);
+        var $dashboardactivityNoActivityTemplate = $('#dashboardactivity_no_activity_template', $rootel);
+
+
+        /////////////
+        // Binding //
+        /////////////
+
+        /**
+         * Add binding to the elements
+         */
+        var addBinding = function() {
+            $dashboardactivityActivityContainer = $($dashboardactivityActivityContainer.selector);
+        };
+
+
+        ////////////////////
+        // Render & Parse //
+        ////////////////////
+
+        /**
+         * Render the dashboard activity widget
+         * @param {String|Object} template Template that needs to be rendered
+         * @param {Object} data The JSON you want to pass through the dashboard widget
+         */
+        var renderActivity = function(template, data) {
+            $dashboardactivityContainer.html(
+                sakai.api.Util.TemplateRenderer(template, data)
+                ).show();
+        };
+
+        /**
+         * Parse the activity data
+         * @param {Object|Boolean} data The JSON activity data or `false` when there was no data
+         */
+        var parseActivityData = function(data) {
+
+            // If the request wasn't successful, show it to the user
+            if (!data) {
+                renderActivity($dashboardactivityActivityBadrequestTemplate, {});
+                return;
+            }
+
+            if (data.results.length === 0){
+                renderActivity($dashboardactivityNoActivityTemplate, {});
+            } else {
+
+                $.each(data.results, function(index, item){
+                    item.translatedActivityMessage =
+                        sakai.api.i18n.getValueForKey(
+                            item['sakai:activityMessage'], 'dashboardactivity');
+                    item.translatedActivityMessageAction = item['sakai:activityMessageAction'] ?
+                        sakai.api.i18n.getValueForKey(
+                           item['sakai:activityMessageAction'] , 'dashboardactivity')
+                        : '';
+
+                });
+
+                renderActivity($dashboardactivityActivityTemplate, {
+                    data: data,
+                    sakai: sakai
+                });
+                addBinding();
+            }
+
+        };
+
+        /**
+         * Get the activity data
+         */
+        var getActivityData = function() {
+
+            $.ajax({
+                url: '/devwidgets/dashboardactivity/dummy/mydummy.json',
+                data: {
+                    items: 1000
+                },
+                success: function(data) {
+                    parseActivityData(data);
+                },
+                error: function() {
+                    parseActivityData(false);
+                }
+            });
+
+        };
 
 
         ////////////////////
@@ -54,7 +142,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ////////////////////
 
         var doInit = function() {
-            $dashboardactivityContainer.show();
+            getActivityData();
         };
 
         doInit();
