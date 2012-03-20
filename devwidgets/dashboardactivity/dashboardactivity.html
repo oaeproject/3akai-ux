@@ -1,12 +1,15 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/dashboardactivity/css/dashboardactivity.css" />
 
 <div id="dashboardactivity_widget">
-    <div class="dashboardactivity_filter_divider">
+    <div class="dashboardactivity_filter">
         <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-bar-options">
-            <button type="button" class="s3d-link-button dashboardactivity_all selected" data-filter="all">All</button>
-            <button type="button" class="s3d-link-button dashboardactivity_comments" data-filter="comments">Comments</button>
-            <button type="button" class="s3d-link-button dashboardactivity_activity" data-filter="updates">Updates</button>
-            <button type="button" class="s3d-link-button dashboardactivity_sharing" data-filter="sharing">Sharing</button>
+            <button type="button" class="s3d-link-button selected" data-filter="all">All</button>
+            <button type="button" class="s3d-link-button dashboardactivity_comments" data-filter="comments">
+                <div></div>Comments</button>
+            <button type="button" class="s3d-link-button dashboardactivity_activity" data-filter="updates">
+                <div></div>Updates</button>
+            <button type="button" class="s3d-link-button dashboardactivity_sharing" data-filter="sharing">
+                <div></div>Sharing</button>
         </div>
         <hr class="fl-push fl-hidden"/>
     </div>
@@ -14,7 +17,6 @@
     <div id="dashboardactivity_container"><!-- --></div>
 
     <div id="dashboardactivity_activity_template" style="display:none;"><!--
-
         {macro createContentSection(activity)}
             {var mimeType = activity._mimeType}
             {var description = sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(mimeType).description)}
@@ -38,7 +40,6 @@
             {if activity['sakai:activity-nonactor'] !== userid}
                 <span class="s3d-bold">${activity.translatedActivityMessage}</span>
             {/if}
-
         {/macro}
 
         {macro createUserImage(userid)}
@@ -65,7 +66,9 @@
                 </div>
                 <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left">
                     {if reverse}
-                        ${createUserSection(activity['sakai:activity-nonactor'])}
+                        {if activity['sakai:activity-nonactor']}
+                            ${createUserSection(activity['sakai:activity-nonactor'])}
+                        {/if}
                     {else}
                         ${createContentSection(activity)}
                     {/if}
@@ -74,21 +77,66 @@
             </div>
         {/macro}
 
+        {macro createContentLink(activity)}
+            <a href="/content#p=${activity['sakai:activity-source']}/${activity['sakai:pooled-content-file-name']}" class="s3d-bold fl-force-left dashboardactivity_activity_item_name" title="${activity['sakai:pooled-content-file-name']}">${activity['sakai:pooled-content-file-name']}</a>
+        {/macro}
+
+        {macro createContentImage(activity)}
+            {var mimeType = activity._mimeType}
+            {if sakai.config.MimeTypes[mimeType]}
+                <img src="${sakai.config.MimeTypes[mimeType].URL}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${sakai.config.MimeTypes[mimeType].description}"/>
+            {else}
+                <img src="${sakai.config.MimeTypes['other'].URL}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${sakai.config.MimeTypes['other'].description}"/>
+            {/if}
+        {/macro}
+
+        {macro createCommentItem(activity)}
+            <div class="dashboard_activity_comment_container">
+                <div class="dashboard_activity_comment_speechbubble"></div>
+                <div class="dashboard_activity_comment">
+                    <img src="${sakai.api.User.getProfilePicture(activity.users[activity['sakai:activity-actor']])}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${activity['sakai:activity-actor']}"/>
+                    <div>
+                        <a href="/~${activity['sakai:activity-actor']}" class="s3d-bold" title="View ${activity['sakai:activity-actor']}'s Profile">${sakai.api.User.getDisplayName(activity.users[activity['sakai:activity-actor']])}</a> <span class="dashboardactivity_activity_item_timeago">${$.timeago(new Date(activity._lastModified))}</span>
+                        <span>${activity['sakai:comment-body']}</span>
+                    </div>
+                </div>
+            </div>
+        {/macro}
+
         <div id="dashboardactivity_activity_container">
             <div class="dashboardactivity_activity_updated_container">
-            {for activity in data.results}
+            {for activity in data}
                 {if activity['sakai:activity-actor'] === sakai.data.me.user.userid}
                     ${createActivityItem(activity)}
                 {else}
-                <div class="dashboard_activity_item_container">
+                    {var nonactor = activity['sakai:activity-nonactor']}
+                    {var comment = activity['sakai:comment-body']}
+                    {if nonactor}
+                        <div class="dashboard_activity_item_container">
+                    {elseif comment}
+                        <div class="dashboard_activity_item_container dashboard_activity_comment_container">
+                    {/if}
+
                     {var userid = activity['sakai:activity-actor']}
-                    ${createUserImage(userid)}
-                    ${createUserLink(userid)}
-                    ${createActivityItem(activity, true)}
-                </div>
+                    {if nonactor}
+                        ${createUserImage(userid)}
+                        ${createUserLink(userid)}
+                        ${createActivityItem(activity, true)}
+                    {elseif comment}
+                        ${createContentImage(activity)}
+                        ${createContentLink(activity)}
+                        ${createCommentItem(activity)}
+                    {else}
+                        ${createActivityItem(activity, false)}
+                    {/if}
+
+                    {if nonactor || comment}
+                        </div>
+                    {/if}
                 {/if}
             {/for}
-            {if data.results.length > 2}
+            </div>
+            {if data.length > 5}
                 <button type="button" class="s3d-button s3d-header-button" id="dashboardactivity_show_more">__MSG__SHOW_MORE__</button>
             {/if}
         </div>
@@ -111,7 +159,7 @@
                     <h2>...__MSG__SAVED__</h2>
                 </div>
                 <div id="dashboardactivity_saved_button" class="fl-force-left">
-                    <a class="s3d-button s3d-overlay-button large" href="/search#q=">__MSG__UPLOAD_OR_CREATE_CONTENT__</a>
+                    <a class="s3d-button s3d-overlay-button large" href="/search#q=">__MSG__DISCOVER_CONTENT_OR_PEOPLE__</a>
                 </div>
             </div>
             <hr class="fl-hidden fl-push"/>
@@ -120,6 +168,31 @@
 
     <div id="dashboardactivity_activity_badrequest_template" style="display:none;"><!--
         <div class="dashboardactivity_activity_badrequest"><p>__MSG__COULDNT_GET_THE_ACTIVITY_DATA__</p></div>
+    --></div>
+
+    <div class="dashboard_activity_item_container dashboard_activity_annotation_container" style="display:none"><!--
+        <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Jeanette Fielding"/>
+        <a href="/temp" class="s3d-bold fl-force-left" title="View content profile">Aestheticism and Modernism review</a> <span>PAGES</span>
+        <div class="dashboard_activity_item dashboard_activity_annotation">
+            <span>The dawning of a new century marked a distinct change in literature...</span>
+        </div>
+        <div class="dashboard_activity_annotation_comments_container">
+            <div class="dashboard_activity_annotation_speechbubble"></div>
+            <div class="dashboard_activity_annotation_comment">
+                <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="sam Peck"/>
+                <div>
+                    <a href="/~sam" class="s3d-bold" title="View Sam's Profile">Sam Peck</a> <span class="dashboardactivity_activity_item_timeago">7 hours ago</span>
+                    <span>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
+                </div>
+            </div>
+            <div class="dashboard_activity_annotation_comment">
+                <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
+                <div>
+                    <a href="/~Bert" class="s3d-bold" title="View Sam's Profile">Bert Pareyn</a> <span class="dashboardactivity_activity_item_timeago">7 hours ago</span>
+                    <span>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
+                </div>
+            </div>
+        </div>
     --></div>
 
 </div>

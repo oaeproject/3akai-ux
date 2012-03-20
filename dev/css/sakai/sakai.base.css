@@ -701,6 +701,7 @@ a.s3d-widget-links, span.s3d-widget-links, .s3d-widget-links a, button.s3d-widge
     border: 1px solid #E0E3E5;
     box-shadow: none;
     margin-top: -1px;
+    padding: 1px 9px 0;
 }
 
 .s3d-bar-options > button.selected {
