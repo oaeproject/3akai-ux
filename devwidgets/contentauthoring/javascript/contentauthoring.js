@@ -1334,12 +1334,20 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     currentPageShown.content._lastModified = Date.now();
                     // Create a new version of the page
                     var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
-                    $.ajax({
-                        url: storePath + '.save.json',
-                        type: 'POST',
-                        success: function() {
-                            $(window).trigger('update.versions.sakai', currentPageShown);
+                    var batchRequests = [];
+                    batchRequests.push({
+                        'url': storePath + '.save.json',
+                        'method': 'POST'
+                    });
+                    batchRequests.push({
+                        'url': currentPageShown.pageSavePath,
+                        'method': 'POST',
+                        'parameters': {
+                            'sakai:forceupdate': (new Date).getTime()
                         }
+                    });
+                    sakai.api.Server.batch(batchRequests, function() {
+                        $(window).trigger('update.versions.sakai', currentPageShown);
                     });
                 }, true);
             });
