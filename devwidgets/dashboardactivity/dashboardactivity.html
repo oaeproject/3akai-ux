@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/dashboardactivity/css/dashboardactivity.css" />
 
-<div id="dashboardactivity_widget" style="display:none;">
+<div id="dashboardactivity_widget">
     <div class="dashboardactivity_filter_divider">
         <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-bar-options">
             <button type="button" class="s3d-link-button dashboardactivity_all selected" data-filter="all">All</button>
@@ -11,165 +11,117 @@
         <hr class="fl-push fl-hidden"/>
     </div>
 
-    <div id="dashboardactivity_activity_container">
-        <div class="dashboardactivity_activity_updated_container">
-            <div class="dashboard_activity_item">
-                <div class="dashboardactivity_activity_updated_firstcolumn fl-force-left">
-                    <div class="dashboardactivity_activity_arrow"></div>
-                    <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
-                    <div class="fl-force-left">
-                        <a href="/~Bert" class="s3d-bold" title="View Bert's Profile">Bert Pareyn</a> <span class="s3d-bold">updated</span>
-                        <span class="fl-push dashboardactivity_activity_item_timeago">2 hours ago</span>
-                    </div>
-                </div>
-                <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left" tabindex="0">
-                    <img src="/dev/images/mimetypes/pdf.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="PDF Document"/>
-                    <a href="/temp" class="s3d-bold" title="View temp's Profile">The ever expanding universe, see the stars</a> <span>PDF</span>
-                    <div>
-                        <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon_icon savecontent_trigger" data-entityid="kitmJ3JAT" title="Add to">Save</button>
-                        <button title="Share content" data-entityid="kitmJ3JAT" class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click">Share</button>
-                    </div>
-                </div>
-                <hr class="fl-push fl-hidden"/>
-            </div>
-            <div class="dashboard_activity_item_container">
-                <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Jeanette Fielding"/>
-                <a href="/temp" class="s3d-bold fl-force-left" title="View Jeanette's Profile">Jeanette Fielding</a> <span class="s3d-bold">shared</span>
-                <div class="dashboard_activity_item">
-                    <div class="dashboardactivity_activity_updated_firstcolumn fl-force-left" tabindex="0">
-                        <div class="dashboardactivity_activity_arrow"></div>
-                        <img src="/dev/images/mimetypes/pdf.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="PDF Document"/>
-                        <a href="/temp" class="s3d-bold" title="View temp's Profile">The ever expanding universe, see the stars</a> <span>PDF</span>
-                        <div>
-                            <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger" data-entityid="kitmJ3JAT" title="Add to">Save</button>
-                            <button title="Share content" data-entityid="kitmJ3JAT" class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click">Share</button>
-                        </div>
-                    </div>
-                    <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left">
-                        <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
-                        <div class="fl-force-left">
-                            <span class="s3d-bold">with</span> <a href="/~Bert" class="s3d-bold" title="View Bert's Profile">Bert Pareyn</a>
-                            <span class="fl-push dashboardactivity_activity_item_timeago">3 hours ago</span>
-                        </div>
-                    </div>
-                    <hr class="fl-push fl-hidden"/>
-                </div>
-            </div>
-            <div class="dashboard_activity_item_container">
-                <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Jeanette Fielding"/>
-                <a href="/temp" class="s3d-bold fl-force-left" title="View Jeanette's Profile">Jeanette Fielding</a> <span class="s3d-bold">added</span>
-                <div class="dashboard_activity_item">
-                    <div class="dashboardactivity_activity_updated_firstcolumn fl-force-left" tabindex="0">
-                        <div class="dashboardactivity_activity_arrow"></div>
-                        <img src="/dev/images/mimetypes/pdf.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="PDF Document"/>
-                        <a href="/temp" class="s3d-bold" title="View temp's Profile">The ever expanding universe, see the stars</a> <span>PDF</span>
-                        <div>
-                            <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger" data-entityid="kitmJ3JAT" title="Add to">Save</button>
-                            <button title="Share content" data-entityid="kitmJ3JAT" class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click">Share</button>
-                        </div>
-                    </div>
-                    <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left">
-                        <img src="/dev/images/mimetypes/collection.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
-                        <div class="fl-force-left">
-                            <span class="s3d-bold">to</span>
-                            <a href="/~Bert" class="s3d-bold" title="View Bert's Profile">Space and beyond</a>
-                            <span class="fl-push dashboardactivity_activity_item_timeago">4 hours ago</span>
-                        </div>
-                    </div>
-                    <hr class="fl-push fl-hidden"/>
-                </div>
-            </div>
-            <div class="dashboard_activity_item">
-                <div class="dashboardactivity_activity_updated_firstcolumn fl-force-left">
-                    <div class="dashboardactivity_activity_arrow"></div>
-                    <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
-                    <div class="fl-force-left">
-                        <a href="/~Bert" class="s3d-bold" title="View Bert's Profile">Bert Pareyn</a> <span class="s3d-bold">created</span>
-                        <span class="fl-push dashboardactivity_activity_item_timeago">6 hours ago</span>
-                    </div>
-                </div>
-                <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left" tabindex="0">
-                    <img src="/dev/images/mimetypes/pdf.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="PDF Document"/>
-                    <a href="/temp" class="s3d-bold" title="View temp's Profile">The ever expanding universe, see the stars</a> <span>PDF</span>
-                    <div>
-                        <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger" data-entityid="kitmJ3JAT" title="Add to">Save</button>
-                        <button title="Share content" data-entityid="kitmJ3JAT" class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click">Share</button>
-                    </div>
-                </div>
-                <hr class="fl-push fl-hidden"/>
-            </div>
-            <div class="dashboard_activity_item_container dashboard_activity_annotation_container">
-                <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Jeanette Fielding"/>
-                <a href="/temp" class="s3d-bold fl-force-left" title="View content profile">Aestheticism and Modernism review</a> <span>PAGES</span>
-                <div class="dashboard_activity_item dashboard_activity_annotation">
-                    <span>The dawning of a new century marked a distinct change in literature...</span>
-                </div>
-                <div class="dashboard_activity_annotation_comments_container">
-                    <div class="dashboard_activity_annotation_speechbubble"></div>
-                    <div class="dashboard_activity_annotation_comment">
-                        <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="sam Peck"/>
-                        <div>
-                            <a href="/~sam" class="s3d-bold" title="View Sam's Profile">Sam Peck</a> <span class="dashboardactivity_activity_item_timeago">7 hours ago</span>
-                            <span>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
-                        </div>
-                    </div>
-                    <div class="dashboard_activity_annotation_comment">
-                        <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
-                        <div>
-                            <a href="/~Bert" class="s3d-bold" title="View Sam's Profile">Bert Pareyn</a> <span class="dashboardactivity_activity_item_timeago">7 hours ago</span>
-                            <span>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dashboard_activity_item">
-                <div class="dashboardactivity_activity_updated_firstcolumn fl-force-left">
-                    <div class="dashboardactivity_activity_arrow"></div>
-                    <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
-                    <div class="fl-force-left">
-                        <a href="/~Bert" class="s3d-bold" title="View Bert's Profile">Bert Pareyn</a> <span class="s3d-bold">created</span>
-                        <span class="fl-push dashboardactivity_activity_item_timeago">6 hours ago</span>
-                    </div>
-                </div>
-                <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left" tabindex="0">
-                    <img src="/dev/images/mimetypes/pdf.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="PDF Document"/>
-                    <a href="/temp" class="s3d-bold" title="View temp's Profile">The ever expanding universe, see the stars</a> <span>PDF</span>
-                    <div>
-                        <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger" data-entityid="kitmJ3JAT" title="Add to">Save</button>
-                        <button title="Share content" data-entityid="kitmJ3JAT" class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click">Share</button>
-                    </div>
-                </div>
-                <hr class="fl-push fl-hidden"/>
-            </div>
-            <button type="button" class="s3d-button s3d-header-button" id="dashboardactivity_show_more">Show more</button>
-        </div>
-    </div>
+    <div id="dashboardactivity_container"><!-- --></div>
 
-    <div id="dashboardactivity_no_activity_container" style="display:none">
-        <h1 id="dashboardactivity_no_activity_header">Who is sharing what based on all the content you have...</h1>
-        <div class="dashboardactivity_no_activity_contentbox">
-            <div id="dashboardactivity_added" class="fl-force-left">
-                <h2>...Added</h2>
+    <div id="dashboardactivity_activity_template" style="display:none;"><!--
+
+        {macro createContentSection(activity)}
+            {var mimeType = activity._mimeType}
+            {var description = sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(mimeType).description)}
+            {if sakai.config.MimeTypes[mimeType]}
+                <img src="${sakai.config.MimeTypes[mimeType].URL}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${description}" />
+            {else}
+                <img src="${sakai.config.MimeTypes['other'].URL}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${description}" />
+            {/if}
+            <a href="/content#p=${activity['sakai:pooled-content-path']|safeURL}" class="s3d-bold">${activity['sakai:pooled-content-file-name']|safeOutput}</a> <span>${description}</span>
+            <div>
+                <button data-entityid="${activity['sakai:pooled-content-path']}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon_icon savecontent_trigger" title="__MSG__ADD_TO__">__MSG__SAVE__</button>
+                <button data-entityid="${activity['sakai:pooled-content-path']}" class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" title="__MSG__SHARE_CONTENT__">__MSG__SHARE__</button>
             </div>
-            <div id="dashboardactivity_added_button" class="fl-force-left">
-                <button class="s3d-button s3d-overlay-button large sakai_add_content_overlay" type="button">Upload or create content</button>
+        {/macro}
+
+        {macro createUserLink(userid)}
+            {if activity['sakai:activity-nonactor'] === userid}
+                <span class="s3d-bold fl-force-left dashboardactivity_activity_message_reversed">${activity.translatedActivityMessageAction}</span>
+            {/if}
+            <a href="${activity.users[userid].homePath}" class="s3d-bold fl-force-left dashboardactivity_activity_item_name" title="__MSG__VIEW_USERS_PROFILE__">${sakai.api.User.getDisplayName(activity.users[userid])}</a>
+            {if activity['sakai:activity-nonactor'] !== userid}
+                <span class="s3d-bold">${activity.translatedActivityMessage}</span>
+            {/if}
+
+        {/macro}
+
+        {macro createUserImage(userid)}
+            <img src="${sakai.api.User.getProfilePicture(activity.users[userid])}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${sakai.api.User.getDisplayName(activity.users[userid])}"/>
+        {/macro}
+
+        {macro createUserSection(userid)}
+            ${createUserImage(userid)}
+            <div class="fl-force-left">
+                ${createUserLink(userid)}
+                <span class="fl-push dashboardactivity_activity_item_timeago">${$.timeago(new Date(activity._lastModified))}</span>
             </div>
+        {/macro}
+
+        {macro createActivityItem(activity, reverse)}
+            <div class="dashboard_activity_item">
+                <div class="dashboardactivity_activity_updated_firstcolumn fl-force-left">
+                    <div class="dashboardactivity_activity_arrow"></div>
+                    {if reverse}
+                        ${createContentSection(activity)}
+                    {else}
+                        ${createUserSection(activity['sakai:activity-actor'])}
+                    {/if}
+                </div>
+                <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left">
+                    {if reverse}
+                        ${createUserSection(activity['sakai:activity-nonactor'])}
+                    {else}
+                        ${createContentSection(activity)}
+                    {/if}
+                </div>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+        {/macro}
+
+        <div id="dashboardactivity_activity_container">
+            <div class="dashboardactivity_activity_updated_container">
+            {for activity in data.results}
+                {if activity['sakai:activity-actor'] === sakai.data.me.user.userid}
+                    ${createActivityItem(activity)}
+                {else}
+                <div class="dashboard_activity_item_container">
+                    {var userid = activity['sakai:activity-actor']}
+                    ${createUserImage(userid)}
+                    ${createUserLink(userid)}
+                    ${createActivityItem(activity, true)}
+                </div>
+                {/if}
+            {/for}
+            {if data.results.length > 2}
+                <button type="button" class="s3d-button s3d-header-button" id="dashboardactivity_show_more">__MSG__SHOW_MORE__</button>
+            {/if}
         </div>
-        <hr class="fl-hidden fl-push"/>
-        <div class="dashboardactivity_no_activity_contentbox">
-            <div id="dashboardactivity_saved" class="fl-force-left">
-                <h2>...Saved</h2>
+    --></div>
+
+    <div id="dashboardactivity_no_activity_template"><!--
+        <div id="dashboardactivity_no_activity_container">
+            <h1 id="dashboardactivity_no_activity_header">__MSG__WHO_IS_SHARING_BASED_ON_ALL_THE_CONTENT_YOU_HAVE__...</h1>
+            <div class="dashboardactivity_no_activity_contentbox">
+                <div id="dashboardactivity_added" class="fl-force-left">
+                    <h2>...__MSG__ADDED__</h2>
+                </div>
+                <div id="dashboardactivity_added_button" class="fl-force-left">
+                    <button class="s3d-button s3d-overlay-button large sakai_add_content_overlay" type="button">__MSG__UPLOAD_OR_CREATE_CONTENT__</button>
+                </div>
             </div>
-            <div id="dashboardactivity_saved_button" class="fl-force-left">
-                <a class="s3d-button s3d-overlay-button large" href="/search#q=">Discover content or people</a>
+            <hr class="fl-hidden fl-push"/>
+            <div class="dashboardactivity_no_activity_contentbox">
+                <div id="dashboardactivity_saved" class="fl-force-left">
+                    <h2>...__MSG__SAVED__</h2>
+                </div>
+                <div id="dashboardactivity_saved_button" class="fl-force-left">
+                    <a class="s3d-button s3d-overlay-button large" href="/search#q=">__MSG__UPLOAD_OR_CREATE_CONTENT__</a>
+                </div>
             </div>
+            <hr class="fl-hidden fl-push"/>
         </div>
-        <hr class="fl-hidden fl-push"/>
-    </div>
+    --></div>
+
+    <div id="dashboardactivity_activity_badrequest_template" style="display:none;"><!--
+        <div class="dashboardactivity_activity_badrequest"><p>__MSG__COULDNT_GET_THE_ACTIVITY_DATA__</p></div>
+    --></div>
+
 </div>
-
-<div id="dashboardactivity_activity_template" style="display:none;"><!--
-
---></div>
 
 <script type="text/javascript" src="/devwidgets/dashboardactivity/javascript/dashboardactivity.js"></script>
