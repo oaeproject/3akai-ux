@@ -198,7 +198,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sortOrder: sortOrder,
                 q: query
             }, function(items, total) {
-                if (query && query !== '*') {
+                if (total && query && query !== '*') {
                     $mylibrary_result_count.show();
                     var resultLabel = sakai.api.i18n.getValueForKey('RESULTS');
                     if (total === 1) {

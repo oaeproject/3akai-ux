@@ -212,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
                 // display search results count
-                if (currentQuery !== '' && groupData.length > 0) {
+                if (currentQuery && groupData.length) {
                     $mymemberships_result_count.show();
                     var resultLabel = sakai.api.i18n.getValueForKey('RESULTS');
                     if (groupData.length === 1) {
