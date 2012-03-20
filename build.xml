@@ -209,6 +209,8 @@
             <arg value="lib${file.separator}jquery" />
             <arg value="--no-instrument" />
             <arg value="lib${file.separator}tinymce" />
+            <arg value="--no-instrument" />
+            <arg value="lib${file.separator}MathJax" />
             <arg value="${SRC_DIR}" />
             <arg value="${INSTRUMENTED_DIR}" />
         </exec>
@@ -253,7 +255,7 @@
     <!-- Target: Hash files-->
     <target name="hash_files" depends="copy_optimized">
       <!-- hashfiles jar gets put here by maven -->
-      <java jar="${settings.localRepository}/org/sakaiproject/nakamura/org.sakaiproject.nakamura.hashfiles/1.2-SNAPSHOT/org.sakaiproject.nakamura.hashfiles-1.2-SNAPSHOT.jar"
+      <java jar="${settings.localRepository}/org/sakaiproject/nakamura/org.sakaiproject.nakamura.hashfiles/1.3-SNAPSHOT/org.sakaiproject.nakamura.hashfiles-1.3-SNAPSHOT.jar"
         fork="true">
             <arg value="${HASHTOOL_DIR}/config.properties" />
         </java>

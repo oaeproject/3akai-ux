@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/categories/bundles/default.properties",
             "name":       "Categories widget",
             "description":"Categories widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/categories/bundles/es_ES.properties"
         }
     },
     "id":                  "categories",
     "personalportal":      false,
-    "showinsakaigoodies":  false,
     "type":                "sakai",
     "url":                 "/devwidgets/categories/categories.html",
     "userdashboard":       false,

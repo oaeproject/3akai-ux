@@ -122,50 +122,28 @@ define(
                         parseMembers($.parseJSON(dataItem.body), contentItem);
                     }
 
-                } else if(dataItem.url.indexOf(".versions.json") > -1){
-
-                    // results for versions.json
-                    // Parses all information related to versions and stores them on tempItem
-                    var versionInfo =$.parseJSON(dataItem.body);
-                    var versions = [];
-                    for (var j in versionInfo.versions) {
-                        if(versionInfo.versions.hasOwnProperty(j)){
-                            var splitDate = versionInfo.versions[j]["_created"];
-                            versionInfo.versions[j]["_created"] = sakai_l10n.transformDate(new Date(splitDate));
-                            versions.push(versionInfo.versions[j]);
-                        }
-                    }
-                    versionInfo.versions = versions.reverse();
-                    // Add the versions to the tempItem object
-                    contentItem.versions = versionInfo;
-
-                }else if (dataItem.url.indexOf("activityfeed.json") > -1){
-
-                    // results for activity.json
-                    contentItem.activity = $.parseJSON(dataItem.body);
-
-                    // Add in some extra data on the object about the content
-                    // Is current user manager/viewer
-                    contentItem.isManager = sakai_content.isUserAManager(contentItem.data, sakai_user.data.me);
-                    contentItem.isViewer = sakai_content.isUserAViewer(contentItem.data, sakai_user.data.me);
-
-                    // Set the mimetype of the content
-                    var mimeType = sakai_content.getMimeType(contentItem.data);
-                    contentItem.data.mimeType = mimeType;
-                    if (sakai_conf.MimeTypes[mimeType]) {
-                        contentItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
-                    } else {
-                        contentItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
-                    }
-
-                    // Add paths to the content item
-                    contentItem.content_path = "/p/" + contentItem.data._path;
-                    contentItem.smallPath = "/p/" + contentItem.data._path;
-                    contentItem.url = sakai_conf.SakaiDomain + "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
-                    contentItem.path = "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
-
                 }
             });
+
+            // Add in some extra data on the object about the content
+            // Is current user manager/viewer
+            contentItem.isManager = sakai_content.isUserAManager(contentItem.data, sakai_user.data.me);
+            contentItem.isViewer = sakai_content.isUserAViewer(contentItem.data, sakai_user.data.me);
+
+            // Set the mimetype of the content
+            var mimeType = sakai_content.getMimeType(contentItem.data);
+            contentItem.data.mimeType = mimeType;
+            if (sakai_conf.MimeTypes[mimeType]) {
+                contentItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
+            } else {
+                contentItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
+            }
+
+            // Add paths to the content item
+            contentItem.content_path = "/p/" + contentItem.data._path;
+            contentItem.smallPath = "/p/" + contentItem.data._path;
+            contentItem.url = sakai_conf.SakaiDomain + "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
+            contentItem.path = "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
 
             if (collectionGroup){
                 sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), function(success, members){
@@ -178,7 +156,7 @@ define(
                     if($.isFunction(callback)){
                         callback(contentItem);
                     }
-                });
+                }, false, true);
             } else {
                 // If callback is supplied it is executed
                 if($.isFunction(callback)){
@@ -211,22 +189,6 @@ define(
                     "method":"GET",
                     "cache":false,
                     "dataType":"json"
-                },
-                {
-                    "url": poolid + ".versions.json",
-                    "method":"GET",
-                    "cache":false,
-                    "dataType":"json"
-                },
-                {
-                    "url": sakai_conf.URL.POOLED_CONTENT_ACTIVITY_FEED,
-                    "method":"GET",
-                    "cache":false,
-                    "dataType":"json",
-                    "parameters":{
-                        "p":poolid,
-                        "items":"1000"
-                    }
                 }
             ];
 
@@ -397,6 +359,76 @@ define(
                     }
                 }
             });
+        },
+
+        /**
+        * Sets the permissions of an Array of files to be the same as their parent
+        * Order of execution:
+        *       - Load parent permissions
+        *       - Set parent permission parameter on content nodes
+        *       - Set ACLs on content node
+        *       - Callback if present
+        * @param {Array} filesArray        Array of files (PoolIDs)
+        * @param {String} parentSavePath   savePath of the parent
+        * @param {Function} callback       Executed on completion of the function
+        */
+        setFilePermissionsAsParent: function(filesArray, parentSavePath, callback) {
+
+            /**
+             * Set parent permission parameter on content nodes
+             * @param {Array} filesToSetPermissions     Array of files to set ACLs on
+             * @param {Array} batchRequests             Array of requests to set permission parameter on content nodes
+             */
+            var setDataOnContent = function(filesToSetPermissions, batchRequests) {
+                sakai_serv.batch(batchRequests, function(success) {
+                    if (success) {
+                        // Apply the same permissions to the filesArray
+                        sakai_content.setFilePermissions(filesToSetPermissions, function(success) {
+                            // Execute callback
+                            if ($.isFunction(callback)) {
+                                callback(success);
+                            }
+                        });
+                    } else {
+                        if ($.isFunction(callback)) {
+                            callback(success);
+                        }
+                    }
+                });
+            };
+
+            /**
+             * Get the permissons set on the parent
+             */
+            var getParentPermissions = function() {
+                sakai_serv.loadJSON(parentSavePath, function(success, data) {
+                    if (success) {
+                        var permissions = data['sakai:permissions'];
+                        var filesToSetPermissions = [];
+                        var batchRequests = [];
+                        $.each(filesArray, function(index, item) {
+                            filesToSetPermissions.push({
+                                'hashpath': item,
+                                'permissions': permissions
+                            });
+                            batchRequests.push({
+                                'url': '/p/' + item,
+                                'method': 'POST',
+                                'parameters': {
+                                    'sakai:permissions': permissions
+                                }
+                            });
+                        });
+                        setDataOnContent(filesToSetPermissions, batchRequests);
+                    } else {
+                        if($.isFunction(callback)) {
+                            callback(success);
+                        }
+                    }
+                });
+            };
+
+            getParentPermissions();
         },
 
         /**
@@ -632,11 +664,14 @@ define(
          * @param {Object} userid     authorizable id for which we're checking presence in the library
          */
         isContentInLibrary: function(content, userid){
+            if (!content) {
+                return false;
+            }
             // check if the content is a collection and the ID is the same collection
             var collectionId = false;
             if (content.data && sakai_content.Collections.isCollection(content.data)) {
                 collectionId = sakai_content.Collections.getCollectionGroupId(content.data);
-            } else if (content && sakai_content.Collections.isCollection(content)) {
+            } else if (sakai_content.Collections.isCollection(content)) {
                 collectionId = sakai_content.Collections.getCollectionGroupId(content);
             }
             if (collectionId === userid) {
@@ -654,9 +689,9 @@ define(
         /**
          * Shares content with a user and sets permissions for the user.
          * This function can handle single user/content or multiple user/content items in an array
-         * @param {Object} contentId   Unique pool id of the content being added to the library
-         * @param {Object} userId      Authorizable id of the library to add this content in
-         * @param {Boolean} canManage    Set to true if the user that's being shared with should have managing permissions
+         * @param {String|Array} contentId   Unique pool id or Array of IDs of the content being added to the library
+         * @param {String} userId      Authorizable id of the library to add this content in
+         * @param {Boolean} canManage  Set to true if the user that's being shared with should have managing permissions
          * @param {Object} callBack    Function to call once the content has been added to the library
          */
         addToLibrary: function(contentId, userId, canManage, callBack){
@@ -700,7 +735,7 @@ define(
                         // adjust content count in the UI so it accurately reflects the added content without needing a new request
                         $.each(sakai_user.data.me.groups, function(index, group){
                             if (group && group.counts && group.groupid === userId) {
-                                group.counts.contentCount++;
+                                group.counts.contentCount += toAdd.length;
                             }
                         });
                         if (callBack) {
@@ -764,6 +799,30 @@ define(
             sakai_serv.batch(batchRequests, function(success, data){
                 if ($.isFunction(callback)) {
                    callback(success);
+                }
+            });
+        },
+
+        /**
+         * Object containing data for the page to edit
+         * If the document hasn't been edited in the last 10 seconds it is safe to edit
+         * @param {String} pagePath Path to the page to edit
+         * @param {Function} callback The callback function
+         */
+        checkSafeToEdit: function(pagePath, callback) {
+            sakai_serv.loadJSON(pagePath + '.infinity.json', function(success, data) {
+                if ($.isFunction(callback)) {
+                    // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
+                    // someone else is editing the page right now.
+                    data.safeToEdit = true;
+                    if (data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 &&
+                        data.editing._lastModifiedBy !== sakai_user.data.me.user.userid) {
+                        data.safeToEdit = false;
+                    }
+                    sakai_user.getUser(data._lastModifiedBy, function(success, userData) {
+                        data.editor = userData;
+                        callback(success, data);
+                    });
                 }
             });
         },
@@ -1145,7 +1204,7 @@ define(
                     contentItem.thumbnail = sakai_content.getThumbnail(results[i]);
                     // if the content has an owner we need to add their ID to an array,
                     // so we can lookup the users display name in a batch req
-                    if (contentItem["sakai:pool-content-created-for"]) {
+                    if (contentItem['sakai:pool-content-created-for'] && !results.fetchMultipleUserDataInWidget) {
                         userArray.push(contentItem["sakai:pool-content-created-for"]);
                     }
                     contentItem.hasPreview = sakai_content.hasPreview(contentItem);
@@ -1273,6 +1332,7 @@ define(
                     "sakai:showcomments": "true",
                     "sakai:showalways": true,
                     "sakai:showalways@TypeHint": "Boolean",
+                    'sakai:schemaversion': sakai_conf.schemaVersion,
                     "structure0": $.toJSON({
                         "main": {
                             "_ref": refID,
@@ -1348,7 +1408,11 @@ define(
 
                                     sakai_groups.addUsersToGroup(groupId, managershipsToProcess, sakai_user.data.me, true, function(){
                                         sakai_groups.addUsersToGroup(groupId, membershipsToProcess, sakai_user.data.me, false, function(){
-
+                                            // Add current user to the managers group for management functions before refresh
+                                            sakai_user.data.me.user.subjects.push(groupId + '-managers');
+                                            sakai_user.data.me.groups.push({
+                                                'sakai:group-id': groupId + '-managers'
+                                            });
                                             // 4g. Remove the creator as an explicit manager of all these groups
                                             batchRequests = [];
                                             var params = {
@@ -1403,13 +1467,23 @@ define(
                                                                         //1b. Set the pagecontent to have the collectionviewer widget
                                                                         // We do this here so the collection itself is the item that is touched latest,
                                                                         // which it'll show on the top of the library listing
+                                                                        var widgetId = sakai_util.generateWidgetId();
                                                                         var toSave = {};
                                                                         toSave[refID] = {
-                                                                            "page": "<img id='widget_collectionviewer_" + refID + "2' class='widget_inline' src='/devwidgets/mylibrary/images/mylibrary.png'/></p>"
+                                                                            'rows': [{
+                                                                                'id': sakai_util.generateWidgetId(),
+                                                                                'columns': [{
+                                                                                    'width': 1,
+                                                                                    'elements': [{
+                                                                                        'id': widgetId,
+                                                                                        'type': 'collectionviewer'
+                                                                                    }]
+                                                                                }]
+                                                                            }]
                                                                         };
-                                                                        toSave[refID + "2"] = {
-                                                                            "collectionviewer": {
-                                                                                "groupid": groupId
+                                                                        toSave[refID][widgetId] = {
+                                                                            'collectionviewer': {
+                                                                                'groupid': groupId
                                                                             }
                                                                         };
                                                                         sakai_serv.saveJSON("/p/" + collectionId, toSave, function(){
@@ -1682,7 +1756,7 @@ define(
             }
 
         }
-
     };
+    
     return sakai_content;
 });

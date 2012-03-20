@@ -1,8 +1,10 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/mymemberships/css/mymemberships.css" />
 
+<div style="display:none">__MSG__IE_PLACEHOLDER__</div>
+
 <div class="mymemberships_widget">
-    
+
     <div id="mymemberships_title_container"></div>
     <div id="mymemberships_title_template"><!--
         {if isMe}
@@ -123,8 +125,8 @@
                 <div class="mymemberships_item_right s3d-search-result-right">
                     <div>
                         <a class="s3d-bold s3d-regular-light-links" href="${group.url|safeOutput}" title="${group.title|safeOutput}">
-                            <span class="s3d-search-result-name">${group.titleShort|safeOutput}</span>
-                            <span class="s3d-search-result-name-grid">${group.titleShorter|safeOutput}</span>
+                            <span class="s3d-search-result-name">${group.titleShort}</span>
+                            <span class="s3d-search-result-name-grid">${group.titleShorter}</span>
                         </a>
                         {if group.type}
                             <span class="mymemberships_item_grouptype">${group.type.toUpperCase()}</span>

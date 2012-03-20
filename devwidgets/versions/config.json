@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/versions/bundles/default.properties",
             "name":       "Version widget",
             "description":"Version widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/versions/bundles/es_ES.properties"
         }
     },
     "id":                 "versions",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/versions/versions.html",
     "userdashboard":      false,

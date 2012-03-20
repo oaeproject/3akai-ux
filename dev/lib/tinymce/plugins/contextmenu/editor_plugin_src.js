@@ -141,9 +141,6 @@
 			}
 
 			m.addSeparator();
-			m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
-
-			m.addSeparator();
 			am = m.addMenu({title : 'contextmenu.align'});
 			am.add({title : 'contextmenu.left', icon : 'justifyleft', cmd : 'JustifyLeft'});
 			am.add({title : 'contextmenu.center', icon : 'justifycenter', cmd : 'JustifyCenter'});

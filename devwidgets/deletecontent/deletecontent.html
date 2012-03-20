@@ -31,11 +31,31 @@
                             {elseif profile.collectionid}
                                 {var displayName = profile["sakai:group-title"]}
                                 <img alt="${displayName|safeOutput}" class="s3d-icon-32 fl-force-left" src="/dev/images/mimetypes/collection.png">
-                                <a title="__MSG__VIEW_PROFILE__" href="/content#p=${profile.collectionid}/${displayName|safeURL}" class="s3d-bold" target="_blank">${displayName|safeOutput}</a>
+                                {if profile.showLink}
+                                    <a title="__MSG__VIEW_PROFILE__" href="/content#p=${profile.collectionid}/${displayName|safeURL}" class="s3d-bold" target="_blank">
+                                {else}
+                                    <span class="s3d-bold">
+                                {/if}
+                                    ${displayName|safeOutput}
+                                {if profile.showLink}
+                                    </a>
+                                {else}
+                                    </span>
+                                {/if}
                             {else}
                                 {var displayName = profile["sakai:group-title"]}
                                 <img alt="__MSG__GROUP_PICTURE__" class="s3d-icon-32 fl-force-left" src="${sakai.api.Groups.getProfilePicture(profile)}">
-                                <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">${displayName|safeOutput}</a>
+                                {if profile.showLink}
+                                    <a title="__MSG__VIEW_PROFILE__" href="/~${profile.groupid|safeURL}" class="s3d-bold" target="_blank">
+                                {else}
+                                    <span class="s3d-bold">
+                                {/if}
+                                    ${displayName|safeOutput}
+                                {if profile.showLink}
+                                    </a>
+                                {else}
+                                    </span>
+                                {/if}
                             {/if}
                         </li>
                     {/for} 
