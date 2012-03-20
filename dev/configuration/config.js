@@ -543,8 +543,20 @@ define(function(){
             "reminderIntervalHours": "168"
         },
 
-        // Object to override default widget configuration
-        // Here you can add an object with the widget ID for the object key, with the configuration you would like to override
+        /*
+         * Object to override default widget configuration
+         * Here you can add an object with the widget ID for the object key, with the configuration you would like to override
+         * An example to override options for the embedcontent widget:
+         *     embedcontent: {
+         *         defaultOptions: {
+         *             'embedmethod': 'original',
+         *             'layout': 'vertical',
+         *             'showName': false,
+         *             'showDetails': false,
+         *             'showDownload': false
+         *         }
+         *     }
+         */
         WidgetSettings: {},
 
         enableBranding: true,
