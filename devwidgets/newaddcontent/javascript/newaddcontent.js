@@ -1066,7 +1066,6 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                         existingItems = data.results;
                     }
                     $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {'data': data, 'query':q, 'sakai':sakai, 'queue':existingIDs, 'context':currentExistingContext}));
-                    uncheckCheckboxes();
                     // Disable the add button
                     disableAddToQueue();
                     var numberOfPages = Math.ceil(data.total / 10);
