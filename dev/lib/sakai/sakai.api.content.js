@@ -688,7 +688,7 @@ define(
 
         /**
          * Checks if a user is allowed to share the specified content
-         * @param {Object} content      content profile data as defined in loadContentProfile()
+         * @param {Object} content The content profile data as defined in loadContentProfile()
          */
         canCurrentUserShareContent: function(content) {
             var canShare = false;
@@ -709,7 +709,8 @@ define(
             } else if (content.data && content.data['sakai:permissions']) {
                 contentPermission = content.data['sakai:permissions'];
             }
-            if (sakai_conf.roleCanShareContent && sakai_conf.roleCanShareContent[contentPermission] && $.inArray(userRole, sakai_conf.roleCanShareContent[contentPermission]) !== -1) {
+            if (userRole === 'manager' || (sakai_conf.roleCanShareContent && sakai_conf.roleCanShareContent[contentPermission]
+                && $.inArray(userRole, sakai_conf.roleCanShareContent[contentPermission]) !== -1)) {
                 canShare = true;
             }
             return canShare;

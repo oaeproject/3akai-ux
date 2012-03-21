@@ -238,15 +238,15 @@ define(function(){
         },
 
         /*
-         * Restrict the ability for a user to share a content item, depending on their role specified, and the content permission
-          * public - content available to anyone
-          * everyone - content available to logged in users
-          * private - content available to private users
+         * Restrict the ability for a non manager user to share a content item, depending on their role specified, and the content permission.
+         * public - content available to anyone
+         * everyone - content available to logged in users
+         * private - content available to private users
          */
         roleCanShareContent: {
-            'public': ['manager', 'editor', 'viewer', 'everyone', 'anon'],
-            'everyone': ['manager', 'editor', 'viewer', 'everyone'],
-            'private': ['manager', 'editor', 'viewer']
+            'public': ['editor', 'viewer', 'everyone', 'anon'],
+            'everyone': ['editor', 'viewer', 'everyone'],
+            'private': ['editor', 'viewer']
         },
 
         allowPasswordChange: true,
