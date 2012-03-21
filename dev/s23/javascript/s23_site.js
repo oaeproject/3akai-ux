@@ -127,7 +127,7 @@ sakai_global.s23_site = function(){
             var page = getPageInfo(pageid);
             
             // Check if the page actually exists
-            if (page) {
+            if (page && !page.popup) {
             
                 // Hide the content & tools from the other pages
                 $(s23SitePageContainerClass, s23SiteIframeContainer).hide();
@@ -249,6 +249,12 @@ sakai_global.s23_site = function(){
                     } else {
                         firstFrame.attr("src", firstFrameSrcUrl);
                     }
+                }
+            }
+            else{
+                if (page && page.popup) {
+                    var popupWindow=window.open('/portal/page/' + page.id, page.id, 'resizable=yes,toolbar=no,scrollbars=yes, width=800,height=600');
+                    popupWindow.focus();
                 }
             }
         }

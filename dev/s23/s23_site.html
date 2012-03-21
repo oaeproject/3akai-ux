@@ -54,7 +54,7 @@
             {if site.pages.length > 0}
                 <ul>
                 {for page in site.pages}
-                    <li class="s23_site_menu_item"><a href="#page=${page.id}" class="${page.iconclass}" id="s23_site_menu_item_${page.id}">${page.name}</a></li>
+                    <li class="s23_site_menu_item"><a href="#page=${page.id}" class="${page.iconclass}" id="s23_site_menu_item_${page.id}">${page.name}{if page.popup} <span class="s3d-aural-text">__MSG__OPENS_NEW_WINDOW__</span>{/if}</a></li>
                 {/for}
                 </ul>
             {else}
