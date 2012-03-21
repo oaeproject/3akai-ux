@@ -55,7 +55,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var fetchCollectionData = false;
         var initialload = true;
         var carouselSize = $body.hasClass('has_nav') ? 9 : 12;
+        // previewsAllowed makes sure recursive embedding is not allowed
         var previewsAllowed = true;
+        // pagePreviewDisabled disables page previews inside of collection viewers inside of a sakai doc
+        var pagePreviewDisabled = true;
 
         // containers
         var $collectionviewerCarouselContainer = $('#collectionviewer_carousel_container', $rootel);
@@ -184,7 +187,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         sakai: sakai,
                         collectionName: getCollectionName(),
                         collectionId: getCollectionId(collectionviewer.contextId),
-                        isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
+                        isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId),
+                        pagePreviewDisabled: pagePreviewDisabled
                     }, $('#collectionviewer_expanded_content_container', $rootel));
                     if (previewsAllowed) {
                         sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
@@ -196,7 +200,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     sakai: sakai,
                     collectionName: getCollectionName(),
                     collectionId: getCollectionId(collectionviewer.contextId),
-                    isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
+                    isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId),
+                    pagePreviewDisabled: pagePreviewDisabled
                 }, $('#collectionviewer_expanded_content_container', $rootel));
                 if (previewsAllowed) {
                     sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
@@ -680,6 +685,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+        * Decides if the pagepreview widget should be rendered on a page
+        * @param {String} id id of the page/group
+        */
+        var decidePagePreviewDisabled = function(id) {
+            if (sakai_global &&
+                sakai_global.content_profile &&
+                sakai_global.content_profile.content_data &&
+                id === sakai_global.content_profile.content_data.data._path) {
+                    pagePreviewDisabled = false;
+            }
+        };
+
+        /**
          * Initialize the widget by adding bindings to elements and gathering collection information
          */
         var doInit = function() {
@@ -691,8 +709,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 if (widgetData.data.structure0) {
                     ref = $.parseJSON(widgetData.data.structure0).main._ref;
                 }
+                decidePagePreviewDisabled(collectionviewer.contextId);
             } else {
                 collectionviewer.contextId = widgetData.collectionviewer.groupid;
+                decidePagePreviewDisabled(collectionviewer.contextId.slice(2, collectionviewer.contextId.length));
             }
             if ($rootel.parents('.pageviewer_widget').length) {
                 previewsAllowed = false;
