@@ -102,6 +102,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     type = "content_anon";
                 } else if (sakai_global.content_profile.content_data.isManager) {
                     type = "content_managed";
+                } else if (sakai_global.content_profile.content_data.isEditor) {
+                    type = 'content_edited';
                 } else if (sakai_global.content_profile.content_data.isViewer) {
                     type = "content_shared";
                 } else {
@@ -259,11 +261,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             setColumnLayout(true, false);
         });
 
-        var setManagerProperty = function(structure, value){
+        var setEditProperty = function(structure, manager, editor) {
             for (var i in structure){
                 if (structure.hasOwnProperty(i)){
-                    structure[i]._canEdit = value;
-                    structure[i]._canSubedit = value;
+                    structure[i]._canEdit = manager || editor;
+                    structure[i]._canSubedit = manager || editor;
                 }
             }
             return structure;
@@ -271,7 +273,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var renderSakaiDoc = function(pagestructure) {
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
-            pagestructure.structure0 = setManagerProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager);
+            pagestructure.structure0 = setEditProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager, sakai_global.content_profile.content_data.isEditor);
             if (getPageCount(pagestructure) >= 3) {
                 setColumnLayout(true, true);
             } else {

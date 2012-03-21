@@ -117,6 +117,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                     batchRequests.push({
+                        'url': '/system/userManager/group/' + groupId + '-editors.update.json',
+                        'method': 'POST',
+                        'parameters': {
+                            ':viewer@Delete': context,
+                            ':member@Delete': context
+                        }
+                    });
+                    batchRequests.push({
                         "url": "/system/userManager/group/" + groupId + "-managers.update.json",
                         "method": "POST",
                         "parameters": {
@@ -126,6 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 } else {
                     parameters[":manager@Delete"] = context;
+                    parameters[':editor@Delete'] = context;
                     parameters[":viewer@Delete"] = context;
                     batchRequests.push({
                         "url": "/p/" + items[i]["_path"] + ".members.json",
@@ -218,6 +227,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 userGroupIds.push(managers[i]);
                             }
                         }
+                    }
+                    var editors = contentIManage[m]['sakai:pooled-content-editor'];
+                    if (editors) {
+                        $.each(editors, function(idx, editor) {
+                            if ($.inArray(editor, userGroupIds) === -1 && editor !== sakai.data.me.user.userid && editor !== context) {
+                                userGroupIds.push(editor);
+                            }
+                        });
                     }
                     var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
                     if (viewers){
