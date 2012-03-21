@@ -10,7 +10,7 @@
 </div>
 
 <div id="displayprofilesection_header_template" style="display:none"><!--
-    <h1 class="s3d-contentpage-title">${section.label}</h1>
+    <h1 class="s3d-contentpage-title">${pageTitle}</h1>
 --></div>
 
 <div id="displayprofilesection_edit_template" style="display:none"><!--
@@ -129,7 +129,13 @@
             {var field_data = data && data[ field_key ] ? data[ field_key ] : false}
             {if field_data && field_data.value && ($.trim(field_data.value) !== "" || $.isArray(field_data.value))}
             <div class="displayprofilesection_field">
-                <span class="s3d-input-label">${field.label}:</span>
+                <span class="s3d-input-label">
+                    {if field.altLabel}
+                        ${field.altLabel}:
+                    {else}
+                        ${field.label}:
+                    {/if}
+                </span>
                 ${renderField(field, field_key, field_data)}
             </div>
             {/if}
