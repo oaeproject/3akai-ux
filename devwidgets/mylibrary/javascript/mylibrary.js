@@ -271,13 +271,20 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var updateButtonData = function() {
             var idArr = [];
             var titleArr = [];
+            var shareIdArr = [];
             $.each($('.mylibrary_check:checked:visible', $rootel), function(i, checked) {
                 idArr.push($(checked).attr('data-entityid'));
                 titleArr.push($(checked).attr('data-entityname'));
+                if ($(checked).attr('data-canshare') === 'true') {
+                    shareIdArr.push($(checked).attr('data-entityid'));
+                }
             });
-            $('#mylibrary_content_share', $rootel).attr('data-entityid', idArr);
+            $('#mylibrary_content_share', $rootel).attr('data-entityid', shareIdArr);
             $('#mylibrary_addpeople_button', $rootel).attr('data-entityid', idArr);
             $('#mylibrary_addpeople_button', $rootel).attr('data-entityname', titleArr);
+            if (!shareIdArr.length) {
+                $mylibrary_share.attr('disabled', 'disabled');
+            }
         };
 
         ////////////////////

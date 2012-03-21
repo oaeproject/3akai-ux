@@ -687,6 +687,35 @@ define(
         },
 
         /**
+         * Checks if a user is allowed to share the specified content
+         * @param {Object} content      content profile data as defined in loadContentProfile()
+         */
+        canCurrentUserShareContent: function(content) {
+            var canShare = false;
+            var contentPermission = '';
+            var userRole = 'anon';
+            if (!sakai_user.isAnonymous(sakai_user.data.me)) {
+                userRole = 'everyone';
+                if (sakai_content.isUserAManager(content, sakai_user.data.me)) {
+                    userRole = 'manager';
+                } else if (sakai_content.isUserAnEditor(content, sakai_user.data.me)) {
+                    userRole = 'editor';
+                } else if (sakai_content.isUserAViewer(content, sakai_user.data.me)) {
+                    userRole = 'viewer';
+                }
+            }
+            if (content['sakai:permissions']) {
+                contentPermission = content['sakai:permissions'];
+            } else if (content.data && content.data['sakai:permissions']) {
+                contentPermission = content.data['sakai:permissions'];
+            }
+            if (sakai_conf.roleCanShareContent && sakai_conf.roleCanShareContent[contentPermission] && $.inArray(userRole, sakai_conf.roleCanShareContent[contentPermission]) !== -1) {
+                canShare = true;
+            }
+            return canShare;
+        },
+
+        /**
          * Shares content with a user and sets permissions for the user.
          * This function can handle single user/content or multiple user/content items in an array
          * @param {String|Array} contentId   Unique pool id or Array of IDs of the content being added to the library
