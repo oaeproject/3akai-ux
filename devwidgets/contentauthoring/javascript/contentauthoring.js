@@ -1145,7 +1145,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var checkHTMLBlockEmpty = function(currentPageShown, element) {
             if (currentPageShown.content[element.id] &&
                 currentPageShown.content[element.id].htmlblock &&
-                $.trim($(currentPageShown.content[element.id].htmlblock.content).text())) {
+                ($.trim($(currentPageShown.content[element.id].htmlblock.content).text()) ||
+                $(currentPageShown.content[element.id].htmlblock.content).html())) {
                 return false;
             }
             return true;
