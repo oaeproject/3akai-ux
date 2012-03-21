@@ -289,7 +289,7 @@
             <div class="collectionviewer_collection_item_preview">
                 <div id="widget_contentpreview" class="widget_inline"></div>
             </div>
-        {elseif data._mimeType === "x-sakai/document"}
+        {elseif data._mimeType === "x-sakai/document" && !pagePreviewDisabled}
             <div class="collectionviewer_collection_item_preview">
                 <div id="widget_pageviewer" class="widget_inline"></div>
             </div>
