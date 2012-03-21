@@ -685,6 +685,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+        * Decides if the pagepreview widget should be rendered on a page
+        * @param {String} id id of the page/group
+        */
+        var decidePagePreviewDisabled = function(id) {
+            if (sakai_global &&
+                sakai_global.content_profile &&
+                sakai_global.content_profile.content_data &&
+                id === sakai_global.content_profile.content_data.data._path) {
+                    pagePreviewDisabled = false;
+            }
+        };
+
+        /**
          * Initialize the widget by adding bindings to elements and gathering collection information
          */
         var doInit = function() {
@@ -696,20 +709,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 if (widgetData.data.structure0) {
                     ref = $.parseJSON(widgetData.data.structure0).main._ref;
                 }
-                if (sakai_global &&
-                    sakai_global.content_profile &&
-                    sakai_global.content_profile.content_data &&
-                    collectionviewer.contextId === sakai_global.content_profile.content_data.data._path) {
-                        pagePreviewDisabled = false;
-                }
+                decidePagePreviewDisabled(collectionviewer.contextId);
             } else {
                 collectionviewer.contextId = widgetData.collectionviewer.groupid;
-                if (sakai_global &&
-                    sakai_global.content_profile &&
-                    sakai_global.content_profile.content_data &&
-                    collectionviewer.contextId.slice(2, collectionviewer.contextId.length) === sakai_global.content_profile.content_data.data._path) {
-                        pagePreviewDisabled = false;
-                }
+                decidePagePreviewDisabled(collectionviewer.contextId.slice(2, collectionviewer.contextId.length));
             }
             if ($rootel.parents('.pageviewer_widget').length) {
                 previewsAllowed = false;
