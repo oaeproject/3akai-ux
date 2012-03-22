@@ -709,7 +709,8 @@ define(
             } else if (content.data && content.data['sakai:permissions']) {
                 contentPermission = content.data['sakai:permissions'];
             }
-            if (userRole === 'manager' || (sakai_conf.roleCanShareContent && sakai_conf.roleCanShareContent[contentPermission] && $.inArray(userRole, sakai_conf.roleCanShareContent[contentPermission]) !== -1)) {
+            if (userRole === 'manager' || (sakai_conf.roleCanShareContent && sakai_conf.roleCanShareContent[contentPermission] &&
+            $.inArray(userRole, sakai_conf.roleCanShareContent[contentPermission]) !== -1)) {
                 canShare = true;
             }
             return canShare;
