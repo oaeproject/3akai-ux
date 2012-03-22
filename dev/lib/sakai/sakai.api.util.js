@@ -2021,12 +2021,12 @@ define(
 
                 var dialogOffset = 100;
                 if (offset && _.isNumber(offset)) {
-                    dialogOffset = offset;
+                    dialogOffset = parseInt(offset, 10);
                 }
 
-                var htmlScrollPos = $('html').scrollTop();
-                var docScrollPos = $(document).scrollTop();
-                if (htmlScrollPos >= 0) {
+                var htmlScrollPos = parseInt($('html').scrollTop(), 10);
+                var docScrollPos = parseInt($(document).scrollTop(), 10);
+                if (htmlScrollPos > 0) {
                     $el.css({'top': htmlScrollPos + dialogOffset + 'px'});
                 } else if (docScrollPos >= 0) {
                     $el.css({'top': docScrollPos + dialogOffset + 'px'});
