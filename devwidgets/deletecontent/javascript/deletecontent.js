@@ -213,13 +213,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var collectionsToCheck = [];
             // Check whether any of the content I manage is managed by or
             // shared with other people
-            for (var m = 0; m < contentIManage.length; m++){
-                if (sakai.api.Content.Collections.isCollection(contentIManage[m])){
-                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentIManage[m]);
+            $.each(contentIManage, function(m, contentItem) {
+                if (sakai.api.Content.Collections.isCollection(contentItem)) {
+                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentItem);
                     collectionsToCheck.push(collectionGroupId + "-members");
+                    collectionsToCheck.push(collectionGroupId + '-editors');
                     collectionsToCheck.push(collectionGroupId + "-managers");
                 } else {
-                    var managers = contentIManage[m]["sakai:pooled-content-manager"];
+                    var managers = contentItem["sakai:pooled-content-manager"];
                     if (managers){
                         for (var i = 0; i < managers.length; i++){
                             if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid &&
@@ -228,7 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
                     }
-                    var editors = contentIManage[m]['sakai:pooled-content-editor'];
+                    var editors = contentItem['sakai:pooled-content-editor'];
                     if (editors) {
                         $.each(editors, function(idx, editor) {
                             if ($.inArray(editor, userGroupIds) === -1 && editor !== sakai.data.me.user.userid && editor !== context) {
@@ -236,7 +237,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         });
                     }
-                    var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
+                    var viewers = contentItem["sakai:pooled-content-viewer"];
                     if (viewers){
                         for (var j = 0; j < viewers.length; j++){
                             if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
@@ -250,7 +251,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                 }
-            }
+            });
             if (collectionsToCheck.length > 0) {
                 var batchRequest = [];
                 $.each(collectionsToCheck, function(index, collectiongroup){
