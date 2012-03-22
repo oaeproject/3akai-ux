@@ -58,7 +58,7 @@
         </patternset>
 
         <path id="hashfiles.jar.id">
-            <fileset dir="${HASHTOOL_DIR}/target">
+            <fileset dir="${HASHTOOL_DIR}/target" erroronmissingdir="false">
                 <include name="*.jar"/>
             </fileset>
         </path>
