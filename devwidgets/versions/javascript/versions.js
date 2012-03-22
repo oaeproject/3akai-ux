@@ -138,22 +138,31 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
             contentPath = $.bbq.getState("content_path");
         };
 
-        var getVersionContent = function(versionId) {
+        var getVersionContent = function(versionId, callback) {
             var version = versions[versionId];
             if (!version.version) {
-                version.version = {
-                    "rows": [{
-                        "id": sakai.api.Util.generateWidgetId(),
-                        "columns": [{
-                            "width": 1,
-                            "elements": []
-                        }]
-                    }]
-                };
-            } else if (_.isString(version.version)) {
-                version.version = $.parseJSON(version.version);
+                var vurl = currentPageShown.pageSavePath + '/' + currentPageShown.ref + '.version.,' + version.versionId + ',.json';
+                sakai.api.Server.loadJSON(vurl, function(success, data) {
+                    if (success) {
+                        if (!data.version) {
+                            version.version = {
+                                'rows': [{
+                                    'id': sakai.api.Util.generateWidgetId(),
+                                    'columns': [{
+                                        'width': 1,
+                                        'elements': []
+                                    }]
+                                }]
+                            };
+                        } else if (_.isString(data.version)) {
+                            version.version = $.parseJSON(data.version);
+                        }
+                        callback(version);
+                    }
+                });
+            } else {
+                callback(version);
             }
-            return version;
         };
 
         var previewVersion = function(event){
@@ -162,19 +171,25 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
                 $(".versions_selected", $rootel).removeClass("versions_selected");
                 $("#" + currentPageShown.ref).remove();
                 $(this).addClass("versions_selected");
-                var version = getVersionContent($(this).attr("data-versionId"));
-                var newPageShown = $.extend(true, {}, currentPageShown);
-                newPageShown.content = version.version;
-                newPageShown.isVersionHistory = true;
-                newPageShown.ref = currentPageShown.ref + "_previewversion";
-                $(window).trigger('showpage.contentauthoring.sakai', newPageShown);
+                getVersionContent($(this).attr('data-versionId'), showPageVersion);
             } else{
                 window.open(currentPageShown.pageSavePath + ".version.," + $(this).attr("data-version") + ",/" + $(this).attr("data-pooleditemname"), "_blank");
             }
         };
 
+        var showPageVersion = function(version) {
+            var newPageShown = $.extend(true, {}, currentPageShown);
+            newPageShown.content = version.version;
+            newPageShown.isVersionHistory = true;
+            newPageShown.ref = currentPageShown.ref + "_previewversion";
+            $(window).trigger('showpage.contentauthoring.sakai', newPageShown);
+        };
+
         var restoreVersion = function(e) {
-            var version = getVersionContent($(this).parent().attr("data-versionId"));
+            getVersionContent($(this).parent().attr('data-versionId'), saveRestoredVersion);
+        };
+
+        var saveRestoredVersion = function(version) {
             var toStore = version.version;
             currentPageShown.content = toStore;
             toStore.version = $.toJSON(version.version);
@@ -188,7 +203,6 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
                 });
             });
         };
-
 
         /////////////
         // BINDING //
