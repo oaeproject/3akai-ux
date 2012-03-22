@@ -49,9 +49,13 @@ define(
                 script.type = "text/javascript";
                 script.src = "/dev/lib/MathJax/MathJax.js";
 
-                var config = 'MathJax.Hub.Config({ messageStyle: "none" }); ' +
-                             'MathJax.Hub.Config({ config: "default.js" }); ' +
-                             'MathJax.Hub.Startup.onload();';
+                var config =
+                    'MathJax.Hub.Config({' +
+                        'messageStyle: "none",' +
+                        'config: "default.js",' +
+                        'styles: {"#MathJax_Message": {display: "none !important"}}' +
+                    '}); ' +
+                    'MathJax.Hub.Startup.onload();';
 
                 if (window.opera) {script.innerHTML = config;}
                 else {script.text = config;}
