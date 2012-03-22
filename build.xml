@@ -57,6 +57,15 @@
             <include name="**/javascript/*.js"/>
         </patternset>
 
+        <path id="hashfiles.jar.id">
+            <fileset dir="${HASHTOOL_DIR}/target">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+
+        <property name="HASHTOOL_JAR" refid="hashfiles.jar.id"/>
+        <echo message="Using this jar for hashing files: ${HASHTOOL_JAR}"/>
+
     </target>
 
     <!-- Target: Create target folders, set up logging -->
@@ -255,7 +264,7 @@
     <!-- Target: Hash files-->
     <target name="hash_files" depends="copy_optimized">
       <!-- hashfiles jar gets put here by maven -->
-      <java jar="${settings.localRepository}/org/sakaiproject/nakamura/org.sakaiproject.nakamura.hashfiles/1.3-SNAPSHOT/org.sakaiproject.nakamura.hashfiles-1.3-SNAPSHOT.jar"
+      <java jar="${HASHTOOL_JAR}"
         fork="true">
             <arg value="${HASHTOOL_DIR}/config.properties" />
         </java>
