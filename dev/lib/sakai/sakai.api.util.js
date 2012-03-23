@@ -50,7 +50,7 @@ define(
                 script.src = "/dev/lib/MathJax/MathJax.js";
 
                 var config = 'MathJax.Hub.Config({ messageStyle: "none" }); ' +
-                             'MathJax.Hub.Config({ config: "MathJax.js" }); ' +
+                             'MathJax.Hub.Config({ config: "default.js" }); ' +
                              'MathJax.Hub.Startup.onload();';
 
                 if (window.opera) {script.innerHTML = config;}
@@ -565,12 +565,17 @@ define(
          * @param {String} content Content in the form of a string
          * @return{Boolean} True indicates that content is present, False indicates that there is no content
          */
-        determineEmptyContent: function(content){
-            var textPresent = $.trim($("<div>").html(content).text());
-            var elementArr = ["div", "img", "ol", "ul", "li", "hr", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "em", "strong", "code", "dl", "dt", "dd", "table", "tr", "th", "td", "iframe", "frame", "form", "input", "select", "option", "blockquote", "address"];
+        determineEmptyContent: function(content) {
+            var $el = $('<div/>').html(content);
+            // Filter out tinyMCE instances
+            $('.mceEditor', $el).each(function(index, item) {
+                $(item).remove();
+            });
+            var textPresent = $.trim($el.text());
+            var elementArr = ['img', 'iframe', 'frame', 'input', 'select', 'option'];
             var containsElement = false;
-            $.each(elementArr, function(i, el){
-                if(content.indexOf(el) != -1){
+            $.each(elementArr, function(i, el) {
+                if ($(el, $el).length) {
                     containsElement = true;
                     return false;
                 }
@@ -689,6 +694,8 @@ define(
                     htmlCode += '<div class="s3d-inset-shadow-container"><img src="/dev/images/progress_bar.gif"/></div></div>';
                     var notification = $(htmlCode);
                     $('body').append(notification);
+                    // position progress indicator at users scroll position
+                    sakai_util.positionDialogBox($('#sakai_progressindicator'));
                     $("#sakai_progressindicator").jqm({
                         modal: true,
                         overlay: 20,
@@ -1792,20 +1799,20 @@ define(
                 return false;
             },
 
-            showPage : function(callback){
+            showPage : function(callback) {
                 // Show the background images used on anonymous user pages
-                if ($.inArray(window.location.pathname, sakai_conf.requireAnonymous) > -1){
-                    $('html').addClass("requireAnon");
+                if ($.inArray(window.location.pathname, sakai_conf.requireAnonymous) > -1) {
+                    $('html').addClass('requireAnon');
                 // Show the normal background
                 } else {
-                    $('html').addClass("requireUser");
+                    $('html').addClass('requireUser');
                 }
                 sakai_util.loadSkinsFromConfig();
 
                 // Put the title inside the page
-                var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
-                if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    pageTitle += " " + require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                var pageTitle = require('sakai/sakai.api.i18n').getValueForKey(sakai_conf.PageTitles.prefix);
+                if (sakai_conf.PageTitles.pages[window.location.pathname]) {
+                    pageTitle += ' ' + require('sakai/sakai.api.i18n').getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content
@@ -1934,7 +1941,7 @@ define(
                 $el = $(el);
             }
 
-            var dialogOffset = 100;
+            var dialogOffset = 50;
             if (offset && _.isNumber(offset)){
                 dialogOffset = offset;
             }
@@ -2315,6 +2322,8 @@ define(
              * @param {Object} opts options to pass through to jquery.validate
              *    NOTE: There is one additional option you can pass in -- an error callback function
              *    When there is an error in validation detected, it will be called
+             *    NOTE: Additional option 'errorsShown' can hold a function that is executed after
+             *    the error labels have been displayed on screen.
              * @param {Function} [invalidCallback] The function to call when an error is detected
              * @param {Boolean} [insertAfterLabel] Insert the error span after the label, not before
              */
@@ -2410,6 +2419,9 @@ define(
                         }
                     });
                     this.defaultShowErrors();
+                    if ($.isFunction(options.errorsShown)) {
+                        options.errorsShown();
+                    }
                 };
 
                 // Set up the form with these options in jquery.validate
@@ -2453,41 +2465,50 @@ define(
              * Sets and overrides default parameters for the jQuery Droppable plugin
              * @param {Object} params Optional parameters that override defaults
              */
-            setDraggableParameters: function(){
+            setDraggableParameters: function(params) {
                 return {
+                    distance: 30,
                     revert: true,
                     revertDuration: 0,
                     scrollSensitivity: 100,
                     opacity: 0.5,
-                    cursor: "move",
-                    zindex: 10000,
+                    cursor: 'move',
+                    zIndex: 100000,
                     cursorAt: {
                         top: 10,
                         left: 5
                     },
                     stop: function(event, ui) {
-                        $(".s3d-draggable-draggingitems").remove();
-                        if($(this).data("stopdragevent")){
-                            $(window).trigger($(this).data("stopdragevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                        sakai_util.Draggable.removeIFrameFix();
+                        $('.s3d-draggable-draggingitems').remove();
+                        $(window).trigger('stop.drag.sakai');
+                        if ($(this).data('stopdragevent')) {
+                            $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
-                    start: function(event, ui){
-                        $("body").append("<div class='s3d-draggable-draggingitems'>" + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + "</div>");
-                        if($(this).data("startdragevent")){
-                            $(window).trigger($(this).data("startdragevent"), sakai_util.Draggable.getDraggableData(ui.helper));
+                    start: function(event, ui) {
+                        sakai_util.Draggable.setIFrameFix();
+                        $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
+                        $(window).trigger('start.drag.sakai');
+                        if ($(this).data('startdragevent')) {
+                            $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
                     },
-                    helper: function(){
-                        var selected = $('.s3d-draggable-select:checked').parents('li');
-                        if (selected.length === 0) {
-                          selected = $(this);
+                    helper: function() {
+                        var $selected = $('.s3d-draggable-select:checked')
+                            .parents('li:not(.contentauthoring_row_container)');
+                        if ($selected.length === 0) {
+                          $selected = $(this);
                         }
-                        var container = $('<div/>').attr('id', 's3d-draggeditems-container');
-                        container.append(selected.clone());
-                        return container;
+                        var $container = $('<div/>').attr('id', 's3d-draggeditems-container');
+                        $container.append($selected.clone());
+                        return $container;
                     },
-                    drag: function(ev, data){
-                        $(".s3d-draggable-draggingitems").offset({left:data.offset.left - 10,top:data.offset.top - 12});
+                    drag: function(ev, data) {
+                        $('.s3d-draggable-draggingitems').offset({
+                            left: data.offset.left - 10,
+                            top: data.offset.top - 12
+                        });
                     }
                 };
             },
@@ -2502,14 +2523,37 @@ define(
                         if (!$(draggable).hasClass("ui-draggable")) {
                             // HTML overrides default, JS overrides HTML
                             // Override default parameters with attribute defined parameters
-                            var htmlParams = $.extend(true, sakai_util.Draggable.setDraggableParameters(), $(draggable).data());
+                            var htmlParams = $.extend(true, sakai_util.Draggable.setDraggableParameters(params), $(draggable).data());
                             // Override attribute defined parameters with JS defined ones
                             params = $.extend(true, htmlParams, params);
                             $(".s3d-draggable-container", $container || $("html")).draggable(params);
                         }
                     });
                 }
+            },
+
+            /**
+             * When dragging elements over the screen, there are issues with iframes as they can make the
+             * drag action hang when hovering over them. Therefore, we apply an almost transparent div on
+             * top of the screen. This avoids the iframe events to be triggered and allows for smooth
+             * dragging and dropping
+             */
+            setIFrameFix: function() {
+                $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
+                    width: $(document).width() + 'px', height: $(document).height() + 'px',
+                    top: '0px', left: '0px',
+                    position: 'absolute', opacity: '0.001', zIndex: 100000
+                }).appendTo('body');
+            },
+
+            /**
+             * Remove the transparant div that makes sure that dragging is smooth despite iFrames
+             * being present on the screen
+             */
+            removeIFrameFix: function() {
+                $('div.ui-resizable-iframeFix').remove();
             }
+
         },
         Droppable: {
             /**
@@ -2552,6 +2596,31 @@ define(
                     });
                 }
             }
+        },
+
+        /**
+         * Do a deep search and replace in an object
+         *
+         * @param {Object} obj The object to replace values in
+         * @param {String} toReplace The value to search for
+         * @param {String} replacement The string to replace the value with
+         * @return {Object} The object with the string replaced in all occurrences
+         */
+        replaceInObject: function(obj, toReplace, replacement) {
+            var ret = false;
+            if ($.isPlainObject(obj)) {
+                 ret = $.extend(true, {}, obj);
+            } else if ($.isArray(obj)) {
+                ret = $.merge([], obj);
+            }
+            $.each(ret, function(key, val) {
+                if ($.isPlainObject(val) || $.isArray(val)) {
+                    ret[key] = sakai_util.replaceInObject(val, toReplace, replacement);
+                } else if (_.isString(val) && val.indexOf(toReplace) !== -1) {
+                    ret[key] = val.replace(toReplace, replacement);
+                }
+            });
+            return ret;
         }
     };
 

@@ -34,25 +34,19 @@ require(
             "name": "img",
             "type": "string"
         }, {
+            "name": "imghover",
+            "type": "string"
+        }, {
             "name": "multipleinstance",
             "type": "string"
         }, {
             "name": "personalportal",
             "type": "boolean"
         }, {
-            "name": "showinmedia",
-            "type": "boolean"
-        }, {
-            "name": "showinsakaigoodies",
-            "type": "boolean"
-        }, {
             "name": "showinsidebar",
             "type": "boolean"
         }, {
             "name": "scrolling",
-            "type": "boolean"
-        }, {
-            "name": "siteportal",
             "type": "boolean"
         }, {
             "name": "url",

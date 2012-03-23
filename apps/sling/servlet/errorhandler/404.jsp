@@ -125,7 +125,9 @@ response.setStatus(404);
                                 {for w in links.whatToDo}
                                     <li><a class="s3d-regular-links s3d-bold" href="\${w.url}">\${sakai.api.i18n.getValueForKey(w.title)}</a></li>
                                 {/for}
-                                <li><a href="{if document.referrer === ""}/{else}\${document.referrer}{/if}" class="s3d-regular-links s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</a></li>
+                                {if document.referrer}
+                                    <li><a href="\${document.referrer}" class="s3d-regular-links s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</a></li>
+                                {/if}
                             </ul>
 
                             {if links.getInTouch && links.getInTouch.length > 0}
