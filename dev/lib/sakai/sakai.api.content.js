@@ -1253,7 +1253,7 @@ define(
 
             /**
              * Create a new content collection. This includes the creation of a pooled content item and a pseudoGroup used to share
-             * content with. The manager-viewer feed for that pseudoGroup is then used to retrieve the content of the collection
+             * content with. The auth-all feed for that pseudoGroup is then used to retrieve the content of the collection
              * @param {Object} title            Title of the collection
              * @param {Object} description      Description of the collection
              * @param {Object} permissions      Permission to be set on the collection. Possible values are "public", "everyone"

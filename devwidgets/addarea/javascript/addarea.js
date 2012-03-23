@@ -770,7 +770,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
 
             if (library) {
                 json["userid"] = sakai.data.me.user.userid;
-                url = "/var/search/pool/manager-viewer.json";
+                url = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
             }
             sakai.api.Server.loadJSON( url, function(success, data) {
                 var sortOrder = $(".addarea_existing_container:visible").find(".addarea_existing_sort").val();
