@@ -112,6 +112,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         var newaddcontentContainerNewItemRaquoRightDocumentsposition = 'newaddcontent_container_newitem_raquo_right_documentsposition';
         var newaddcontentContainerNewItemAddToListDocumentsposition = 'newaddcontent_container_newitem_add_to_list_documentsposition';
         var newaddcontentContainerNewItemAddToListExistingContentposition = 'newaddcontent_container_newitem_add_to_list_existingcontentposition';
+        var newaddcontentContainerNewItemAddToListUploadNewContent = 'newaddcontent_container_newitem_add_to_list_upload_new_content';
+        var newaddcontentContainerNewItemAddToListAddLink = 'newaddcontent_container_newitem_add_to_list_add_link';
         var newaddcontentExistingItemsListContainerDisabledListItem = 'newaddcontent_existingitems_list_container_disabled_list_item';
 
         // List Variables
@@ -1186,6 +1188,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             $newaddcontentContainerNewItemRaquoRight.removeClass(newaddcontentContainerNewItemRaquoRightDocumentsposition);
             $newaddcontentContainerNewItemAddToList.removeClass(newaddcontentContainerNewItemAddToListDocumentsposition);
             $newaddcontentContainerNewItemAddToList.removeClass(newaddcontentContainerNewItemAddToListExistingContentposition);
+            $newaddcontentContainerNewItemAddToList.removeClass(newaddcontentContainerNewItemAddToListUploadNewContent);
+            $newaddcontentContainerNewItemAddToList.removeClass(newaddcontentContainerNewItemAddToListAddLink);
             if ($(this).prev().hasClass(newaddcontentContainerLHChoiceItemClass)) {
                 $newaddcontentContainerNewItem.addClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
             }
@@ -1198,6 +1202,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             switch ($(this)[0].id) {
                 case 'newaddcontent_upload_content':
                     renderUploadNewContent();
+                    $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListUploadNewContent);
                     break;
                 case 'newaddcontent_new_document':
                     renderNewDocument();
@@ -1206,6 +1211,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     break;
                 case 'newaddcontent_add_link':
                     renderAddLink();
+                    $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListAddLink);
                     break;
                 default: // No ID found on class -> subnav present
                     switch ($(this).children('ul').children(newaddcontentContainerLHChoiceSelectedSubitem)[0].id) {

@@ -152,7 +152,13 @@
     top: 270px;
 }
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_existingcontentposition {
-    top: 470px
+    top: 475px
+}
+#newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_upload_new_content {
+    top: 420px
+}
+#newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_add_link {
+    top: 380px
 }
 #newaddcontent_container input::-webkit-input-placeholder {
     color: #aaa;
