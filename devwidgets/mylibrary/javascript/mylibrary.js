@@ -243,9 +243,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (mylibrary.widgetShown) {
                 // Set the sort states
                 var parameters = $.bbq.getState();
-                mylibrary.sortOrder = parameters['lso'] || 'modified';
-                mylibrary.sortBy = parameters['lsb'] || '_lastModified';
-                $mylibrary_livefilter.val(parameters['lq'] || '');
+                mylibrary.sortOrder = parameters.lso || 'modified';
+                mylibrary.sortBy = parameters.lsb || '_lastModified';
+                $mylibrary_livefilter.val(parameters.lq || '');
                 $mylibrary_sortby.val(mylibrary.sortOrder);
                 showLibraryContent();
             }
@@ -483,6 +483,27 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Initialization function //
         /////////////////////////////
 
+        var initGroupLibrary = function() {
+            sakai.api.Server.loadJSON('/system/userManager/group/' +  mylibrary.contextId + '.json', function(success, data) {
+                if (success) {
+                    currentGroup = data;
+                    var contextName = currentGroup.properties['sakai:group-title'];
+                    mylibrary.isOwnerViewing = sakai.api.Groups.isCurrentUserAManager(currentGroup.properties['sakai:group-id'], sakai.data.me, currentGroup.properties);
+                    mylibrary.isMemberViewing = sakai.api.Groups.isCurrentUserAMember(currentGroup.properties['sakai:group-id'], sakai.data.me);
+                    finishInit(contextName, true);
+                }
+            });
+        };
+
+        var initUserLibrary = function() {
+            mylibrary.contextId = sakai_global.profile.main.data.userid;
+            var contextName = sakai.api.User.getFirstName(sakai_global.profile.main.data);
+            if (mylibrary.contextId === sakai.data.me.user.userid) {
+                mylibrary.isOwnerViewing = true;
+            }
+            finishInit(contextName, false);
+        };
+
         /**
          * Initialization function that is run when the widget is loaded. Determines
          * which mode the widget is in (settings or main), loads the necessary data
@@ -490,31 +511,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var doInit = function () {
             mylibrary.contextId = '';
-            var contextName = '';
-            var isGroup = false;
 
             // We embed the deletecontent widget, so make sure it's loaded
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
 
             if (widgetData && widgetData.mylibrary) {
                 mylibrary.contextId = widgetData.mylibrary.groupid;
-                sakai.api.Server.loadJSON('/system/userManager/group/' +  mylibrary.contextId + '.json', function(success, data) {
-                    if (success) {
-                        currentGroup = data;
-                        contextName = currentGroup.properties['sakai:group-title'];
-                        isGroup = true;
-                        mylibrary.isOwnerViewing = sakai.api.Groups.isCurrentUserAManager(currentGroup.properties['sakai:group-id'], sakai.data.me, currentGroup.properties);
-                        mylibrary.isMemberViewing = sakai.api.Groups.isCurrentUserAMember(currentGroup.properties['sakai:group-id'], sakai.data.me);
-                        finishInit(contextName, isGroup);
-                    }
-                });
+                initGroupLibrary();
+            } else if (sakai_global.group && sakai_global.group.groupId) {
+                mylibrary.contextId = sakai_global.group.groupId;
+                initGroupLibrary();
             } else {
-                mylibrary.contextId = sakai_global.profile.main.data.userid;
-                contextName = sakai.api.User.getFirstName(sakai_global.profile.main.data);
-                if (mylibrary.contextId === sakai.data.me.user.userid) {
-                    mylibrary.isOwnerViewing = true;
-                }
-                finishInit(contextName, isGroup);
+                initUserLibrary();
             }
         };
 
@@ -525,7 +533,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (mylibrary.contextId) {
                 mylibrary.default_search_text = getPersonalizedText('SEARCH_YOUR_LIBRARY');
                 mylibrary.currentPagenum = 1;
-                var all = state && state.all ? state.all : {};
                 mylibrary.listStyle = $.bbq.getState('ls') || 'list';
                 handleHashChange(null, true);
                 sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
