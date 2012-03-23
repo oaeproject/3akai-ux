@@ -43,6 +43,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var storePath = false;
         var isDragging = false;
         var editInterval = false;
+        var uniqueModifierId = sakai.api.Util.generateWidgetId();
 
         ///////////////////////
         // Utility functions //
@@ -1012,7 +1013,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             var editingContent = {};
             editingContent[currentPageShown.saveRef] = {
                 'editing': {
-                    'time': sakai.api.Util.Datetime.getCurrentGMTTime()
+                    'time': sakai.api.Util.Datetime.getCurrentGMTTime(),
+                    'sakai:modifierid': uniqueModifierId
                 }
             };
             sakai.api.Server.saveJSON(currentPageShown.pageSavePath, editingContent);
@@ -1039,7 +1041,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Put the page into edit mode
          */
         var editPage = function() {
-            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
+            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, uniqueModifierId, function(success, data) {
                 if (data.safeToEdit) {
                     // Update the content based on the current state of the document
                     if (prevModification !== data._lastModified && currentPageShown.content._lastModified < data._lastModified) {
