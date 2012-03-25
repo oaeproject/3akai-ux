@@ -726,7 +726,7 @@ define(
          * @param {Object} callBack    Function to call once the content has been added to the library
          */
         addToLibrary: function(contentId, userId, role, callBack) {
-            var permission = role === false ? 'viewer' : role;
+            var permission = !role ? 'viewer' : role;
 
             // content array
             var toAdd = [];
