@@ -11,6 +11,13 @@
             "description": "Embed content on a page"
         }
     },
+    "defaultOptions": {
+        "embedmethod": "original",
+        "layout": "vertical",
+        "showName": false,
+        "showDetails": false,
+        "showDownload": false
+    },
     "img":"/devwidgets/embedcontent/images/content.png",
     "type":"core",
     "enabled":true,
