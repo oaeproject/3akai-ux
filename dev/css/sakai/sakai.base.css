@@ -593,8 +593,8 @@ a:hover {
 	padding: 7px 0;
 	width: 200px;
 }
-.s3d-hidden, .i18nable {
-	display: none;
+.i18nable > div {
+    display: none;
 }
 .s3d-bold {
 	font-weight: bold;
