@@ -85,10 +85,10 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
                 "sakai": sakai,
                 "currentPage": currentPageShown
             }));
-            if (versions.length){
-                $("#versions_carousel_container", $rootel).jcarousel({
-                    animation: "slow",
-                    easing: "swing",
+            if (versions.length) {
+                $('#versions_carousel_container', $rootel).jcarousel({
+                    animation: 'slow',
+                    easing: 'swing',
                     scroll: 4,
                     start: 0,
                     initCallback: carouselBinding,
