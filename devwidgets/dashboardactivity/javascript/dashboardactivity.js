@@ -42,6 +42,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /////////////////////////////
 
         var $rootel = $('#' + tuid);
+        var $dashboardactivityWidget = $('#dashboardactivity_widget', $rootel);
 
         // Containers
         var $dashboardactivityContainer = $('#dashboardactivity_container', $rootel);
@@ -49,9 +50,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var dashboardactivityFilterContainer = '.dashboardactivity_filter';
 
         // Templates
-        var $dashboardactivityActivityTemplate = $('#dashboardactivity_activity_template', $rootel);
-        var $dashboardactivityActivityBadrequestTemplate = $('#dashboardactivity_activity_badrequest_template', $rootel);
-        var $dashboardactivityNoActivityTemplate = $('#dashboardactivity_no_activity_template', $rootel);
+        var dashboardactivityActivityTemplate = 'dashboardactivity_activity_template';
+        var dashboardactivityActivityBadrequestTemplate = 'dashboardactivity_activity_badrequest_template';
+        var dashboardactivityNoActivityTemplate = 'dashboardactivity_no_activity_template';
+        var dashboardactivityContentCommentsTemplate = 'dashboardactivity_content_comments_template'
 
         // Widget variables
         var filter = 'all';
@@ -61,7 +63,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             'SHARED_CONTENT': 'sharing',
             'UPDATED_CONTENT': 'updates'
         };
-        var contextURL = '';
+        var context = {
+            'url': '',
+            'id': ''
+        };
 
 
         ////////////////////
@@ -75,7 +80,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var renderActivity = function(template, data) {
             $dashboardactivityContainer.html(
-                sakai.api.Util.TemplateRenderer(template, data)).show();
+                sakai.api.Util.TemplateRenderer(template, data || {})).show();
         };
 
         /**
@@ -85,12 +90,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var parseActivityData = function(data) {
             // If the request wasn't successful, show it to the user
             if (!data) {
-                renderActivity($dashboardactivityActivityBadrequestTemplate, {});
+                renderActivity(dashboardactivityActivityBadrequestTemplate);
                 return;
             }
 
             if (!data.results.length) {
-                renderActivity($dashboardactivityNoActivityTemplate, {});
+                renderActivity(dashboardactivityNoActivityTemplate);
             } else {
                 var filteredData = [];
                 $.each(data.results, function(index, item){
@@ -112,9 +117,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 });
 
                 if (!filteredData.length) {
-                    renderActivity($dashboardactivityNoActivityTemplate, {});
+                    renderActivity(dashboardactivityNoActivityTemplate);
                 } else {
-                    renderActivity($dashboardactivityActivityTemplate, {
+                    renderActivity(dashboardactivityActivityTemplate, {
                         data: filteredData,
                         sakai: sakai
                     });
@@ -128,7 +133,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var getActivityData = function() {
             $.ajax({
-                url: contextURL,
+                url: context.url,
                 data: {
                     items: 1000
                 },
@@ -151,7 +156,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 filter = $(this).data('filter');
                 $(dashboardactivityFilterContainer + ' button').removeClass('selected');
                 $(this).addClass('selected');
-                getActivityData();
+                if (filter === 'comments' && context.id === 'content') {
+                    renderActivity(dashboardactivityContentCommentsTemplate);
+                    sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
+                } else {
+                    getActivityData();
+                }
             }
         };
 
@@ -171,10 +181,23 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                 if (data.groupid) {
                     // Load activity for group
-                    contextURL = '/devwidgets/dashboardactivity/dummy/groupdummy.json';
+                    context = {
+                        'url': '/devwidgets/dashboardactivity/dummy/groupdummy.json',
+                        'id': data.groupid
+                    };
+                } else if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
+                    // Load activity for content profile
+                    context = {
+                        'url': '/devwidgets/dashboardactivity/dummy/contentdummy.json',
+                        'id': 'content'
+                    };
+                    $dashboardactivityWidget.css('width', '100%');
                 } else {
-                    // Load activity for me
-                    contextURL = '/devwidgets/dashboardactivity/dummy/mydummy.json';
+                    // Load activity for a user
+                    context = {
+                        'url': '/devwidgets/dashboardactivity/dummy/mydummy.json',
+                        'id': 'user'
+                    };
                 }
                 addBinding();
                 getActivityData();
