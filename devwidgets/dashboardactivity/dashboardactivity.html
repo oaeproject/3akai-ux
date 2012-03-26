@@ -3,13 +3,13 @@
 <div id="dashboardactivity_widget">
     <div class="dashboardactivity_filter">
         <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-bar-options">
-            <button type="button" class="s3d-link-button selected" data-filter="all">All</button>
+            <button type="button" class="s3d-link-button selected" data-filter="all">__MSG__ALL__</button>
             <button type="button" class="s3d-link-button dashboardactivity_comments" data-filter="comments">
-                <div></div>Comments</button>
+                <div>&nbsp;</div>__MSG__COMMENTS__</button>
             <button type="button" class="s3d-link-button dashboardactivity_activity" data-filter="updates">
-                <div></div>Updates</button>
+                <div>&nbsp;</div>__MSG__UPDATES__</button>
             <button type="button" class="s3d-link-button dashboardactivity_sharing" data-filter="sharing">
-                <div></div>Sharing</button>
+                <div>&nbsp;</div>__MSG__SHARING__</button>
         </div>
         <hr class="fl-push fl-hidden"/>
     </div>
@@ -96,7 +96,7 @@
                 <div class="dashboard_activity_comment">
                     <img src="${sakai.api.User.getProfilePicture(activity.users[activity['sakai:activity-actor']])}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${activity['sakai:activity-actor']}"/>
                     <div>
-                        <a href="/~${activity['sakai:activity-actor']}" class="s3d-bold" title="View ${activity['sakai:activity-actor']}'s Profile">${sakai.api.User.getDisplayName(activity.users[activity['sakai:activity-actor']])}</a> <span class="dashboardactivity_activity_item_timeago">${$.timeago(new Date(activity._lastModified))}</span>
+                        <a href="/~${activity['sakai:activity-actor']}" class="s3d-bold" title="${activity['sakai:activity-actor']}__MSG__S_PROFILE__">${sakai.api.User.getDisplayName(activity.users[activity['sakai:activity-actor']])}</a> <span class="dashboardactivity_activity_item_timeago">${$.timeago(new Date(activity._lastModified))}</span>
                         <span>${activity['sakai:comment-body']}</span>
                     </div>
                 </div>
