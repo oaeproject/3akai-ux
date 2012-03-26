@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 success: function(data){
                     $(window).trigger("lhnav.updateCount", ["contacts", -1]);
                     sakai.data.me.contacts.accepted--;
-                    $("#contacts_delete_contacts_dialog").jqmHide();
+                    sakai.api.Util.Modal.close('#contacts_delete_contacts_dialog');
                     if (infinityScroll){
                         infinityScroll.removeItems([user]);
                     }
@@ -328,7 +328,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 uncheckAll();
             });
 
-            $("#contacts_delete_contacts_dialog").jqm({
+            sakai.api.Util.Modal.setup('#contacts_delete_contacts_dialog', {
                 modal: true,
                 overlay: 20,
                 toTop: true
@@ -337,8 +337,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(".s3d-actions-delete", $rootel).live("click", function(){
                 $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
                 $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
-                sakai.api.Util.bindDialogFocus($("#contacts_delete_contacts_dialog"));
-                $("#contacts_delete_contacts_dialog").jqmShow();
+                sakai.api.Util.Modal.open('#contacts_delete_contacts_dialog');
             });
 
             $("#contacts_delete_contact_confirm").live("click", function(){
