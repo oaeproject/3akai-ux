@@ -1310,38 +1310,49 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var savePageData = function(rows, widgetIds) {
             // Get the current saved data
             sakai.api.Server.loadJSON(storePath, function(success, data) {
-                $.ajax({
-                    'url': storePath,
-                    'type': 'POST',
-                    'data': {
-                       ':operation': 'delete'
-                    }
-                });
-                var oldStorePath = storePath;
-                // Store the page in the main location
-                storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
-                updateWidgetURLs();
-                data.rows = rows;
-                // Set the version history variable
-                delete data.version;
-                data.version = $.toJSON(data);
-                data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
-                data = sakai.api.Util.replaceInObject(data,
-                        oldStorePath.replace('/p/', ''),
-                        storePath.replace('/p/', ''));
-                // Save the page data
-                sakai.api.Server.saveJSON(storePath, data, function() {
-                    currentPageShown.content._lastModified = Date.now();
-                    // Create a new version of the page
-                    var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
+                if (success) {
                     $.ajax({
-                        url: storePath + '.save.json',
-                        type: 'POST',
-                        success: function() {
-                            $(window).trigger('update.versions.sakai', currentPageShown);
+                        'url': storePath,
+                        'type': 'POST',
+                        'data': {
+                           ':operation': 'delete'
                         }
                     });
-                }, true);
+                    var oldStorePath = storePath;
+                    // Store the page in the main location
+                    storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
+                    updateWidgetURLs();
+                    data.rows = rows;
+                    // Set the version history variable
+                    delete data.version;
+                    data.version = $.toJSON(data);
+                    data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
+                    data = sakai.api.Util.replaceInObject(data,
+                            oldStorePath.replace('/p/', ''),
+                            storePath.replace('/p/', ''));
+                    // Save the page data
+                    sakai.api.Server.saveJSON(storePath, data, function() {
+                        currentPageShown.content._lastModified = Date.now();
+                        // Create a new version of the page
+                        var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
+                        $.ajax({
+                            url: storePath + '.save.json',
+                            type: 'POST',
+                            success: function() {
+                                $(window).trigger('update.versions.sakai', currentPageShown);
+                            }
+                        });
+                    }, true);
+                } else {
+                    var errorMsg = '';
+                    if (data) {
+                        errorMsg = data.status + ' ' + data.statusText;
+                    }
+                    sakai.api.Util.notification.show(
+                        sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                        sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_SAVING', 'contentauthoring') + ' ' + errorMsg,
+                        sakai.api.Util.notification.type.ERROR, true);
+                }
             });
         };
 
