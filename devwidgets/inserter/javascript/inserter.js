@@ -442,7 +442,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         collectedCollections.push(item.entityid);
                     } else {
                         sakai.api.Util.notification.show(
-                            '',
+                            sakai.api.i18n.getValueForKey('ADD_COLLECTION', 'inserter'),
                             sakai.api.i18n.getValueForKey('CANT_ADD_A_COLLECTION_TO_ITSELF', 'inserter'),
                             sakai.api.Util.notification.type.ERROR);
                     }
