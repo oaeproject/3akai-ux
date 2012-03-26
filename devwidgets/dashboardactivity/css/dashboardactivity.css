@@ -183,7 +183,8 @@
     width: 20px;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover .dashboardactivity_activity_arrow {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover .dashboardactivity_activity_arrow,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:focus .dashboardactivity_activity_arrow {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_arrow_hover.png") no-repeat scroll top left transparent;
 }
 
@@ -343,7 +344,8 @@
     width: 50px;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:hover {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:focus {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_save_hover.png") no-repeat scroll left top transparent;
 }
 
@@ -355,6 +357,7 @@
     width: 50px !important;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:hover {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:focus {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share_hover.png") no-repeat scroll left top transparent;
 }
