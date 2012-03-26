@@ -135,9 +135,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * It initializes the accountPreferencesContainer widget and shows the jqmodal (ligthbox)
          */
         var initialize = function(){
-            sakai.api.Util.positionDialogBox(accountPreferencesContainer);
-            sakai.api.Util.bindDialogFocus(accountPreferencesContainer);
-            $(accountPreferencesContainer).jqmShow();
+            sakai.api.Util.Modal.open(accountPreferencesContainer);
         };
 
         $(window).bind("init.accountpreferences.sakai", function() {
@@ -404,7 +402,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var finishSave = function(){
             if (!preferencesChanges && !privacyChanges && !passwordChanges){
-                $(accountPreferencesContainer).jqmHide();
+                sakai.api.Util.Modal.close(accountPreferencesContainer);
                 if (pageReload){
                     window.setTimeout(function(){
                         document.location.reload();
@@ -485,7 +483,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This makes use of the jqModal (jQuery Modal) plugin that provides support
          * for lightboxes
          */
-        $(accountPreferencesContainer).jqm({
+        sakai.api.Util.Modal.setup(accountPreferencesContainer, {
             modal: true,
             overlay: 20,
             toTop: true,
@@ -560,7 +558,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(accountPreferencesCancel).die('click').live('click', function() {
-            $(accountPreferencesContainer).jqmHide();
+            sakai.api.Util.Modal.close(accountPreferencesContainer);
         });
 
         /////////////////////////////

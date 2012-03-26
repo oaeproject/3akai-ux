@@ -57,7 +57,13 @@
     border-radius: 3px 3px 0 0;
     -moz-border-radius: 3px 3px 0 0;
     -webkit-border-radius: 3px 3px 0 0;
-    background: url("/devwidgets/featuredworlds/images/featuredworlds_tab_bg.png") repeat-x scroll left top transparent;
+    background: #ffffff;
+    background: -moz-linear-gradient(top, #ffffff 0%, #f2f2f3 3%, #f2f2f3 69%, #e3e3e4 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(3%,#f2f2f3), color-stop(69%,#f2f2f3), color-stop(100%,#e3e3e4));
+    background: -webkit-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: -o-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
 }
 #accountpreferences_tabs button.selected {
     background: none;
@@ -250,3 +256,4 @@ div.accountpreferences_error {
     margin-right: 10px;
     margin-top: 2px;
 }
+

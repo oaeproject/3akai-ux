@@ -85,8 +85,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * Centers the overlay on the screen and handles with variable widths of the overlay
          */
         var centerOverlay = function(){
-            sakai.api.Util.positionDialogBox($addAreaContainer);
-
             $addAreaContainer.animate({
                 'margin-left': -1 * ($addAreaContainer.width() / 2 + 20)
             }, 400);
@@ -538,7 +536,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * Selects a Sakai Doc in the world to show and triggers the permissions overlay if necessary
          */
         var selectPageAndShowPermissions = function(poolId, path, docPermission){
-            $addAreaContainer.jqmHide();
+            sakai.api.Util.Modal.close($addAreaContainer);
             if (docPermission === "advanced"){
                 $(window).trigger("permissions.area.trigger", [{
                     isManager: true,
@@ -825,15 +823,14 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * Shows the jqModal overlay for adding areas
          */
         var initializeJQM = function(){
-            $addAreaContainer.jqm({
+            sakai.api.Util.Modal.setup($addAreaContainer, {
                 modal: true,
                 overlay: 20,
                 toTop: true,
                 onClose: resetWidget
             });
             centerOverlay();
-            sakai.api.Util.bindDialogFocus($addAreaContainer);
-            $addAreaContainer.jqmShow();
+            sakai.api.Util.Modal.open($addAreaContainer);
         };
 
         /*

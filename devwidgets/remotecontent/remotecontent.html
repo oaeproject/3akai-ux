@@ -51,9 +51,11 @@
 
                     <div class="remotecontent_settings_subcontainer">
                         <label class="remotecontent_settings_label_head">__MSG__BORDER__:</label><br />
+                        <div class="remotecontent_settings_border_checkbox">
+                            <input type="checkbox" id="remotecontent_settings_borders"{if border_size} checked="checked"{/if} />
+                            <label for="remotecontent_settings_borders">__MSG__DISPLAY_BORDER__</label>
+                        </div>
                         <div class="remotecontent_settings_block">
-                            <label for="remotecontent_settings_borders">__MSG__WIDTH__:</label>
-                            <input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
                             <div id="remotecontent_settings_color_container">
                             </div>
                         </div>
