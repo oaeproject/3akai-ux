@@ -61,6 +61,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             'SHARED_CONTENT': 'sharing',
             'UPDATED_CONTENT': 'updates'
         };
+        var contextURL = '';
 
 
         ////////////////////
@@ -127,7 +128,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var getActivityData = function() {
             $.ajax({
-                url: '/devwidgets/dashboardactivity/dummy/mydummy.json',
+                url: contextURL,
                 data: {
                     items: 1000
                 },
@@ -167,8 +168,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var doInit = function() {
-            addBinding();
-            getActivityData();
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
+                if (data.groupid) {
+                    // Load activity for group
+                    contextURL = '/devwidgets/dashboardactivity/dummy/groupdummy.json';
+                } else {
+                    // Load activity for me
+                    contextURL = '/devwidgets/dashboardactivity/dummy/mydummy.json';
+                }
+                addBinding();
+                getActivityData();
+            });
         };
 
         doInit();
