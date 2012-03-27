@@ -192,7 +192,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                 if (!globalPermissionsChanged) {
                     closeOverlay();
                 } else {
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('CANNOT_SAVE_SETTINGS', 'contentpermissions'), sakai.api.i18n.getValueForKey('THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER', 'contentpermissions'));
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('CANNOT_SAVE_SETTINGS', 'contentpermissions'),
+                        sakai.api.i18n.getValueForKey('THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER', 'contentpermissions'));
                 }
             }
         };
@@ -234,8 +235,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          */
         var doDelete = function(){
             var userid = $(this).data("sakai-entityid");
-            var manager = $(this).parent().data("originalpermission") === "managers";
-            var editor = $(this).parent().data('originalpermission') === 'editors';
+            var originalpermission = $(this).parent().attr('data-originalpermission');
+            var manager = originalpermission === 'managers';
+            var editor = originalpermission === 'editors';
             var $itemToDelete = $(this).parent();
             var userToDelete = {};
 
@@ -244,25 +246,25 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                 if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)) {
                     var userObj = [
                         {
-                            "permission": "managers",
-                            "userid": userid
+                            'permission': 'managers',
+                            'userid': userid
                         },
                         {
                             'permission': 'editors',
                             'userid': userid
                         },
                         {
-                            "permission": "members",
-                            "userid": userid
+                            'permission': 'members',
+                            'userid': userid
                         }
                     ];
-                    sakai.api.Groups.removeUsersFromGroup(sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data), userObj, sakai.data.me, function(){
+                    sakai.api.Groups.removeUsersFromGroup(sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data), userObj, sakai.data.me, function() {
                         $itemToDelete.remove();
                     });
                 } else {
                     if (manager) {
                         userToDelete = {
-                            ":manager@Delete": userid
+                            ':manager@Delete': userid
                         };
                     } else if (editor) {
                         userToDelete = {
@@ -270,7 +272,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                         };
                     } else {
                         userToDelete = {
-                            ":viewer@Delete": userid
+                            ':viewer@Delete': userid
                         };
                     }
                 }

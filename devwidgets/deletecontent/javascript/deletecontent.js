@@ -133,9 +133,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                 } else {
-                    parameters[":manager@Delete"] = context;
+                    parameters[':manager@Delete'] = context;
                     parameters[':editor@Delete'] = context;
-                    parameters[":viewer@Delete"] = context;
+                    parameters[':viewer@Delete'] = context;
                     batchRequests.push({
                         "url": "/p/" + items[i]["_path"] + ".members.json",
                         "method": "POST",
@@ -216,11 +216,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(contentIManage, function(m, contentItem) {
                 if (sakai.api.Content.Collections.isCollection(contentItem)) {
                     var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentItem);
-                    collectionsToCheck.push(collectionGroupId + "-members");
+                    collectionsToCheck.push(collectionGroupId + '-members');
                     collectionsToCheck.push(collectionGroupId + '-editors');
-                    collectionsToCheck.push(collectionGroupId + "-managers");
+                    collectionsToCheck.push(collectionGroupId + '-managers');
                 } else {
-                    var managers = contentItem["sakai:pooled-content-manager"];
+                    var managers = contentItem['sakai:pooled-content-manager'];
                     if (managers){
                         for (var i = 0; i < managers.length; i++){
                             if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid &&
@@ -230,14 +230,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                     var editors = contentItem['sakai:pooled-content-editor'];
-                    if (editors) {
+                    if (editors && editors.length) {
                         $.each(editors, function(idx, editor) {
                             if ($.inArray(editor, userGroupIds) === -1 && editor !== sakai.data.me.user.userid && editor !== context) {
                                 userGroupIds.push(editor);
                             }
                         });
                     }
-                    var viewers = contentItem["sakai:pooled-content-viewer"];
+                    var viewers = contentItem['sakai:pooled-content-viewer'];
                     if (viewers){
                         for (var j = 0; j < viewers.length; j++){
                             if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&

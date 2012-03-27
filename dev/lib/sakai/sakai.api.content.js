@@ -42,7 +42,7 @@ define(
             // collection pseudoGroup info to retrieve
             var collectionGroup = false;
 
-            var parseMembers = function(contentMembers, contentItem){
+            var parseMembers = function(contentMembers, contentItem) {
                 // results for members.json
                 // Members are parsed an put into a .viewers, .editors and .managers object in tempItem
                 contentMembers.viewers = contentMembers.viewers || {};
@@ -117,22 +117,22 @@ define(
             //    - members.json -> Fetches all viewers, editors and managers for a content item
             //    - versions.json -> Fetches all versions for a content item
             //    - activityfeed.json -> Fetches all activity for a content item
-            $.each(data, function(i, dataItem){
+            $.each(data, function(i, dataItem) {
                 // results for poolid.infinity.json
-                if(dataItem.url.indexOf(".infinity.json") > -1){
+                if(dataItem.url.indexOf(".infinity.json") > -1) {
 
                     // Stores all general data on tempItem.data
                     contentItem = {};
                     contentItem.data = $.parseJSON(dataItem.body);
-                    if (sakai_content.Collections.isCollection(contentItem.data)){
+                    if (sakai_content.Collections.isCollection(contentItem.data)) {
                         collectionGroup = true;
                     }
 
-                } else if(dataItem.url.indexOf(".members.json") > -1){
+                } else if(dataItem.url.indexOf(".members.json") > -1) {
 
                     // If this content item is a collection, retrieve the list of members
                     // behind the pseudoGroup
-                    if (!collectionGroup){
+                    if (!collectionGroup) {
                         parseMembers($.parseJSON(dataItem.body), contentItem);
                     }
 
@@ -160,26 +160,26 @@ define(
             contentItem.url = sakai_conf.SakaiDomain + "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
             contentItem.path = "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
 
-            if (collectionGroup){
-                sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), function(success, members){
+            if (collectionGroup) {
+                sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), function(success, members) {
                     members = members[sakai_content.Collections.getCollectionGroupId(contentItem.data)];
                     var editors = {};
                     if (members.editors) {
                         editors = members.editors.results;
                     }
                     parseMembers({
-                        "viewers": members.members.results,
+                        'viewers': members.members.results,
                         'editors': editors,
-                        "managers": members.managers.results
+                        'managers': members.managers.results
                     }, contentItem);
                     // If callback is supplied it is executed
-                    if($.isFunction(callback)){
+                    if($.isFunction(callback)) {
                         callback(contentItem);
                     }
                 }, false, true);
             } else {
                 // If callback is supplied it is executed
-                if($.isFunction(callback)){
+                if($.isFunction(callback)) {
                     callback(contentItem);
                 }
             }
@@ -743,7 +743,7 @@ define(
                 addTo = userId;
             }
             var batchRequests = [];
-            for (var i = 0; i < addTo.length; i++){
+            for (var i = 0; i < addTo.length; i++) {
                 var params = {};
                 if (permission === 'manager') {
                     params = {
@@ -822,9 +822,9 @@ define(
             for (var c = 0; c < contentIds.length; c++) {
                 for (var i = 0; i < userIds.length; i++) {
                     var parameter = {':viewer@Delete': userIds[i]};
-                    if (role === 'editor'){
+                    if (role === 'editor') {
                         parameter = {':editor@Delete': userIds[i]};
-                    } else if (role === 'manager'){
+                    } else if (role === 'manager') {
                         parameter = {':manager@Delete': userIds[i]};
                     }
                     batchRequests.push({
@@ -1144,7 +1144,7 @@ define(
             return count;
         },
 
-        getPlaceCount : function(content){
+        getPlaceCount : function(content) {
             var count = 0;
             if (!sakai_content.Collections.isCollection(content)) {
                 if (content['sakai:pooled-content-viewer']) {
@@ -1318,27 +1318,27 @@ define(
                 usersToAdd = usersToAdd || [];
                 contentToAdd = contentToAdd || []; 
                 // 0b. Creating a group
-                var createGroup = function(id, title, role){
-                    var fullId = role ? id + "-" + role : id;
-                    var roleTitle = "";
-                    var roleTitlePlural = "";
-                    if (role && role === "managers"){
-                        roleTitle = "MANAGER";
-                        roleTitlePlural = "MANAGERS";
-                    } else if (role && role === 'editors'){
+                var createGroup = function(id, title, role) {
+                    var fullId = role ? id + '-' + role : id;
+                    var roleTitle = '';
+                    var roleTitlePlural = '';
+                    if (role && role === 'managers') {
+                        roleTitle = 'MANAGER';
+                        roleTitlePlural = 'MANAGERS';
+                    } else if (role && role === 'editors') {
                         roleTitle = 'EDITOR';
                         roleTitlePlural = 'EDITORS';
-                    } else if (role && role === "members"){
-                        roleTitle = "MEMBER";
-                        roleTitlePlural = "MEMBERS";
+                    } else if (role && role === 'members') {
+                        roleTitle = 'MEMBER';
+                        roleTitlePlural = 'MEMBERS';
                     }
                     var roles = [
                         {
-                            "id": "managers",
-                            "title": "MANAGER",
-                            "titlePlural": "MANAGERS",
-                            "isManagerRole":true,
-                            'manages':['members','editors']
+                            'id': 'managers',
+                            'title': 'MANAGER',
+                            'titlePlural': 'MANAGERS',
+                            'isManagerRole': true,
+                            'manages': ['members','editors']
                         },
                         {
                             'id': 'editors',
@@ -1347,10 +1347,10 @@ define(
                             'isManagerRole': false
                         },
                         {
-                            "id":"members",
-                            "title": "MEMBER",
-                            "titlePlural": "MEMBERS",
-                            "isManagerRole":false
+                            'id':'members',
+                            'title': 'MEMBER',
+                            'titlePlural': 'MEMBERS',
+                            'isManagerRole': false
                         }
                     ];
                     return {
@@ -1412,9 +1412,9 @@ define(
 
                         // 2. Tag the collection
                         var collectionId = data._contentItem.poolId;
-                        sakai_util.tagEntity("/p/" + collectionId, collectionObject["sakai:tags"], false, function(){
+                        sakai_util.tagEntity('/p/' + collectionId, collectionObject['sakai:tags'], false, function() {
                             // 3. Set the permissions on the pooled content item
-                            sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": collectionObject["sakai:permissions"]}], function(){
+                            sakai_content.setFilePermissions([{'hashpath': collectionId, 'permissions': collectionObject['sakai:permissions']}], function() {
 
                                 // 4. Create the pseudoGroups
                                 var groupId = sakai_content.Collections.getCollectionGroupId(collectionId);
@@ -1422,62 +1422,57 @@ define(
                                 var membershipsToProcess = [];
                                 var managershipsToProcess = [];
                                 // 4a. Create the collection managers group
-                                batchRequests.push(createGroup(groupId, title, "managers"));
+                                batchRequests.push(createGroup(groupId, title, 'managers'));
                                 // 4b(i). Create the collection editors group
-                                batchRequests.push(createGroup(groupId, title, "editors"));
+                                batchRequests.push(createGroup(groupId, title, 'editors'));
                                 // 4b. Create the collection members group
-                                batchRequests.push(createGroup(groupId, title, "members"));
+                                batchRequests.push(createGroup(groupId, title, 'members'));
                                 // 4c. Create the main collections group
                                 batchRequests.push(createGroup(groupId, title));
                                 // 4d. Create the groups
-                                sakai_serv.batch(batchRequests, function(success, response){
+                                sakai_serv.batch(batchRequests, function(success, response) {
                                     // 4e. Set the correct members and managers
                                     managershipsToProcess.push({
-                                        "user": groupId + "-managers",
-                                        "permission": "managers"
+                                        'user': groupId + '-managers',
+                                        'permission': 'managers'
                                     });
                                     managershipsToProcess.push({
                                         'user': groupId + '-managers',
                                         'permission': 'editors'
                                     });
                                     managershipsToProcess.push({
-                                        "user": groupId + "-managers",
-                                        "permission": "members"
+                                        'user': groupId + '-managers',
+                                        'permission': 'members'
                                     });
                                     managershipsToProcess.push({
-                                        "user": groupId + "-managers"
+                                        'user': groupId + '-managers'
                                     });
                                     membershipsToProcess.push({
-                                        "user": sakai_user.data.me.user.userid,
-                                        "permission": "managers"
+                                        'user': sakai_user.data.me.user.userid,
+                                        'permission': 'managers'
                                     });
                                     membershipsToProcess.push({
-                                        "user": groupId + "-managers"
+                                        'user': groupId + '-managers'
                                     });
                                     membershipsToProcess.push({
-                                        "user": groupId + "-members"
+                                        'user': groupId + '-members'
                                     });
                                     membershipsToProcess.push({
                                         'user': groupId + '-editors'
                                     });
                                     // 4f. Share the collections with the appropriate users
-                                    // {"id": authorizableId, "role": "member/manager"}
-                                    $.each(usersToAdd, function(index, user){
-                                        var userRole = 'members';
-                                        if (user.role === 'manager') {
-                                            userRole = 'managers';
-                                        } else if (user.role === 'editor') {
-                                            userRole = 'editors';
-                                        }
+                                    // {'id': authorizableId, 'role': 'member/editor/manager'}
+                                    $.each(usersToAdd, function(index, user) {
+                                        var userRole = sakai_content.Collections.getCollectionRolePseudoGroup(user.role);
                                         membershipsToProcess.push({
-                                            "user": user.id,
-                                            "permission": userRole,
-                                            "viewer": true
+                                            'user': user.id,
+                                            'permission': userRole,
+                                            'viewer': true
                                         });
                                     });
 
-                                    sakai_groups.addUsersToGroup(groupId, managershipsToProcess, sakai_user.data.me, true, function(){
-                                        sakai_groups.addUsersToGroup(groupId, membershipsToProcess, sakai_user.data.me, false, function(){
+                                    sakai_groups.addUsersToGroup(groupId, managershipsToProcess, sakai_user.data.me, true, function() {
+                                        sakai_groups.addUsersToGroup(groupId, membershipsToProcess, sakai_user.data.me, false, function() {
                                             // Add current user to the managers group for management functions before refresh
                                             sakai_user.data.me.user.subjects.push(groupId + '-managers');
                                             sakai_user.data.me.groups.push({
@@ -1486,13 +1481,13 @@ define(
                                             // 4g. Remove the creator as an explicit manager of all these groups
                                             batchRequests = [];
                                             var params = {
-                                                "_charset_":"utf-8",
-                                                ":manager@Delete": sakai_user.data.me.user.userid
+                                                '_charset_': 'utf-8',
+                                                ':manager@Delete': sakai_user.data.me.user.userid
                                             };
                                             batchRequests.push({
-                                                "url": "/system/userManager/group/" + groupId + "-members.update.json",
-                                                "method": "POST",
-                                                "parameters": params
+                                                'url': '/system/userManager/group/' + groupId + '-members.update.json',
+                                                'method': 'POST',
+                                                'parameters': params
                                             });
                                             batchRequests.push({
                                                 'url': '/system/userManager/group/' + groupId + '-editors.update.json',
@@ -1500,45 +1495,45 @@ define(
                                                 'parameters': params
                                             });
                                             batchRequests.push({
-                                                "url": "/system/userManager/group/" + groupId + "-managers.update.json",
-                                                "method": "POST",
-                                                "parameters": params
+                                                'url': '/system/userManager/group/' + groupId + '-managers.update.json',
+                                                'method': 'POST',
+                                                'parameters': params
                                             });
                                             batchRequests.push({
-                                                "url": "/system/userManager/group/" + groupId + ".update.json",
-                                                "method": "POST",
-                                                "parameters": params
+                                                'url': '/system/userManager/group/' + groupId + '.update.json',
+                                                'method': 'POST',
+                                                'parameters': params
                                             });
-                                            sakai_serv.batch(batchRequests, function(success, response){
+                                            sakai_serv.batch(batchRequests, function(success, response) {
 
                                                 // 5. Set the permissions on the pseudoGroups
-                                                var visible = "public";
-                                                if (permissions === "everyone"){
-                                                    visible = "logged-in-only";
-                                                } else if (permissions === "private"){
-                                                    visible = "members-only";
+                                                var visible = 'public';
+                                                if (permissions === 'everyone') {
+                                                    visible = 'logged-in-only';
+                                                } else if (permissions === 'private') {
+                                                    visible = 'members-only';
                                                 }
                                                 var roles = [{'id': 'managers'}, {'id': 'editors'}, {'id': 'members'}];
-                                                sakai_groups.setPermissions(groupId, "yes", visible, roles, function(){
+                                                sakai_groups.setPermissions(groupId, "yes", visible, roles, function() {
 
                                                     // 6. Share the collection with the pseudoGroups and remove creator as manager
                                                     sakai_content.addToLibrary(collectionId, groupId + '-managers', 'manager', function() {
                                                         sakai_content.addToLibrary(collectionId, groupId + '-editors', 'editor', function() {
                                                             sakai_content.addToLibrary(collectionId, groupId + '-members', false, function() {
-                                                                sakai_content.removeUser("manager", collectionId, sakai_user.data.me.user.userid, function(){
+                                                                sakai_content.removeUser('manager', collectionId, sakai_user.data.me.user.userid, function() {
 
                                                                     // 7. Add the content to the collection
                                                                     var pooledContentToAdd = [];
                                                                     var collectionsToAdd = [];
-                                                                    $.each(contentToAdd, function(index, item){
-                                                                        if (sakai_content.Collections.isCollection(item)){
-                                                                            collectionsToAdd.push(item["_path"]);
+                                                                    $.each(contentToAdd, function(index, item) {
+                                                                        if (sakai_content.Collections.isCollection(item)) {
+                                                                            collectionsToAdd.push(item['_path']);
                                                                         } else {
-                                                                            pooledContentToAdd.push(item["_path"]);
+                                                                            pooledContentToAdd.push(item['_path']);
                                                                         }
                                                                     });
-                                                                    sakai_content.addToLibrary(pooledContentToAdd, groupId, false, function(){
-                                                                        sakai_content.Collections.shareCollection(collectionsToAdd, groupId, false, function(){
+                                                                    sakai_content.addToLibrary(pooledContentToAdd, groupId, false, function() {
+                                                                        sakai_content.Collections.shareCollection(collectionsToAdd, groupId, false, function() {
 
                                                                             //1b. Set the pagecontent to have the collectionviewer widget
                                                                             // We do this here so the collection itself is the item that is touched latest,
@@ -1562,18 +1557,18 @@ define(
                                                                                     'groupid': groupId
                                                                                 }
                                                                             };
-                                                                            sakai_serv.saveJSON("/p/" + collectionId, toSave, function(){
+                                                                            sakai_serv.saveJSON('/p/' + collectionId, toSave, function() {
                                                                                 // 8. Add the new collection to your me-object
                                                                                 sakai_user.data.me.groups.push({
-                                                                                    "sakai:category": "collection",
-                                                                                    "sakai:group-title": title,
-                                                                                    "sakai:group-id": groupId,
-                                                                                    "sakai:pseudoGroup": false,
-                                                                                    "groupid": groupId,
-                                                                                    "sakai:excludeSearch": "true",
-                                                                                    "counts": {
-                                                                                        "contentCount": contentToAdd.length,
-                                                                                        "membersCount": usersToAdd.length
+                                                                                    'sakai:category': 'collection',
+                                                                                    'sakai:group-title': title,
+                                                                                    'sakai:group-id': groupId,
+                                                                                    'sakai:pseudoGroup': false,
+                                                                                    'groupid': groupId,
+                                                                                    'sakai:excludeSearch': 'true',
+                                                                                    'counts': {
+                                                                                        'contentCount': contentToAdd.length,
+                                                                                        'membersCount': usersToAdd.length
                                                                                     }
                                                                                 });
                                                                                 // 9. Execute the callback function
@@ -1659,12 +1654,7 @@ define(
              * @param {Object} callback        Function to call when the collection has been shared
              */
             shareCollection: function(collectionIds, authorizables, role, callback) {
-                var userRole = 'members';
-                if (role === 'manager') {
-                    userRole = 'managers';
-                } else if (role === 'editor') {
-                    userRole = 'editors';
-                }
+                var userRole = sakai_content.Collections.getCollectionRolePseudoGroup(role);
                 var permissionBatch = [];
                 if (_.isString(authorizables)){
                     authorizables = [authorizables];
@@ -1693,18 +1683,27 @@ define(
             },
 
             /**
+             * Returns the pseudo group the role belongs to
+             * @param {String} role The role to check for
+             */
+            getCollectionRolePseudoGroup: function(role) {
+                var pseudoGroup = 'members';
+                if (role === 'manager') {
+                    pseudoGroup = 'managers';
+                } else if (role === 'editor') {
+                    pseudoGroup = 'editors';
+                }
+                return pseudoGroup;
+            },
+
+            /**
              * Check whether the current user can manage a given collection
              * @param {Object} collectionid   Pseudogroup id of the collection
              * @param {String} role           The role to check for
              */
             currentUserHasCollectionRole: function(collectionid, role) {
                 var hasRole = false;
-                var userRole = 'members';
-                if (role === 'manager') {
-                    userRole = 'managers';
-                } else if (role === 'editor') {
-                    userRole = 'editors';
-                }
+                var userRole = sakai_content.Collections.getCollectionRolePseudoGroup(role);
                 if (!sakai_user.data.me.user.anon) {
                     $.each(sakai_user.data.me.groups, function(idx, group) {
                         if (group['sakai:group-id'] === collectionid + '-' + userRole) {

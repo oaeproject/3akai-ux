@@ -290,8 +290,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "content_anon": //fallthrough
                 case "content_not_shared": //fallthrough
                 case "content_shared": //fallthrough
-                case "content_edited":
-                    $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_contentsettings_dropdown", context));
+                case 'content_edited':
+                    $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer('entity_contentsettings_dropdown', context));
                     break;
                 case "content_managed":
                     var $entityContentUsersDialog = $("#entity_content_users_dialog");

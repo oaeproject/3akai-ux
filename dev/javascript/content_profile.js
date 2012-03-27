@@ -262,8 +262,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         var setEditProperty = function(structure, manager, editor) {
-            for (var i in structure){
-                if (structure.hasOwnProperty(i)){
+            for (var i in structure) {
+                if (structure.hasOwnProperty(i)) {
                     structure[i]._canEdit = manager || editor;
                     structure[i]._canSubedit = manager || editor;
                 }
