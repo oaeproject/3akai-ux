@@ -65,10 +65,8 @@
                     {/if}
                 </div>
                 <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left">
-                    {if reverse}
-                        {if activity['sakai:activity-nonactor']}
-                            ${createUserSection(activity['sakai:activity-nonactor'])}
-                        {/if}
+                    {if reverse && activity['sakai:activity-nonactor']}
+                        ${createUserSection(activity['sakai:activity-nonactor'])}
                     {else}
                         ${createContentSection(activity)}
                     {/if}
@@ -96,7 +94,7 @@
                 <div class="dashboard_activity_comment">
                     <img src="${sakai.api.User.getProfilePicture(activity.users[activity['sakai:activity-actor']])}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${activity['sakai:activity-actor']}"/>
                     <div>
-                        <a href="/~${activity['sakai:activity-actor']}" class="s3d-bold" title="${activity['sakai:activity-actor']}__MSG__S_PROFILE__">${sakai.api.User.getDisplayName(activity.users[activity['sakai:activity-actor']])}</a> <span class="dashboardactivity_activity_item_timeago">${$.timeago(new Date(activity._lastModified))}</span>
+                        <a href="/~${activity['sakai:activity-actor']}" class="s3d-bold" title="__MSG__VIEW_ACTORS_PROFILE__">${sakai.api.User.getDisplayName(activity.users[activity['sakai:activity-actor']])}</a> <span class="dashboardactivity_activity_item_timeago">${$.timeago(new Date(activity._lastModified))}</span>
                         <span>${activity['sakai:comment-body']}</span>
                     </div>
                 </div>
