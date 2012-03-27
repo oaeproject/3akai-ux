@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.pageviewer
@@ -34,111 +34,222 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.pageviewer = function (tuid, showSettings) {
 
+
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
-        var $rootel = $("#" + tuid);
-        var contentData = {};
-        var lhnavData = {};
-        var pages = [];
+        var $rootel = $('#' + tuid);
+        var docPath = '';
+        var tempDocData = {};
+        var tempItem = false;
+        var docData = {};
+        var storePath = '';
+        var selectedPage = '';
 
-        var renderContainer = function(){
-            $("#pageviewer_lhnav_container", $rootel).html(sakai.api.Util.TemplateRenderer("pageviewer_lhnav_template", {pages: pages}));
-            $("#pageviewer_content_container", $rootel).html(sakai.api.Util.TemplateRenderer("pageviewer_content_template", {pages: pages}));
-            if(pages.length > 1){
-                $("#pageviewer_lhnav_container", $rootel).show();
-                $("#pageviewer_content_container", $rootel).addClass("hasnav");
-            }
-            if (pages.length && pages[0].ref && pages[0].poolpath) {
-                sakai.api.Widgets.widgetLoader.insertWidgets(pages[0].ref, false, pages[0].poolpath + "/");
-                sakai.api.Util.renderMath("pageviewer_content_container");
+        // Containers
+        var $pageViewerContentContainer = $('#pageviewer_content_container', $rootel);
+        var $pageViewerLHNavContainer = $("#pageviewer_lhnav_container", $rootel);
+
+        // Templates
+        var pageViewerContentTemplate = 'pageviewer_content_template';
+        var pageViewerLHNavTemplate = 'pageviewer_lhnav_template';
+
+
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
+
+        /**
+         * Check whether any of the columns in the current page are empty (i.e., they have no widgets
+         * inside of them). If so, we add the placeholder widget
+         */
+        var checkColumnsEmpty = function() {
+            var hasContent = false;
+            $.each($('.contentauthoring_cell_content:visible', $rootel), function(i, cellcontainer) {
+                if ($(cellcontainer).find('.contentauthoring_cell_element').length) {
+                    hasContent = true;
+                }
+            });
+            if (!hasContent) {
+                $(sakai.api.Util.TemplateRenderer('pageviewer_dummy_element_template', {}, $pageViewerContentContainer));
             }
         };
 
-        var fetchPageContent = function(){
-            var batchRequests = [];
-            $.each(pages, function(i, page){
-                batchRequests.push({
-                    "url": page.poolpath + "/" + page.ref + ".json",
-                    "method": "GET"
-                });
-            });
-            sakai.api.Server.batch(batchRequests, function(success, data) {
-                if(success){
-                    $.each(data.results, function(i, pageData){
-                        var pageBody = $.parseJSON(pageData.body) || {};
-                        pageBody.page = pageBody.page || "";
-                        if(sakai.api.Util.determineEmptyContent(pageBody.page)){
-                            pages[i].pageContent = pageBody;
-                        } else {
-                            pages[i].pageContent = false;
+        /**
+         * Renders the page in the widget
+         */
+        var renderContainer = function() {
+            // Check to see that we're not recursively embedding this page
+            if (sakai.api.Widgets.isRecursivelyEmbedded($rootel, docPath, tempItem._ref)) {
+                return;
+            }
+            $('.pageviewer_widget', $rootel).show();
+            sakai.api.Util.TemplateRenderer(pageViewerContentTemplate, {
+                data: docData,
+                selectedPage: selectedPage
+            }, $pageViewerContentContainer, false);
+            sakai.api.Widgets.widgetLoader.insertWidgets('pageviewer_content_container', false, storePath, false);
+            sakai.api.Util.renderMath($pageViewerContentContainer);
+            checkColumnsEmpty();
+        };
+
+        /**
+         * Renders the left hand navigation in the pageviewer widget
+         */
+        var renderNavigation = function() {
+            sakai.api.Util.TemplateRenderer(pageViewerLHNavTemplate, {
+                data: docData,
+                selectedPage: selectedPage
+            }, $pageViewerLHNavContainer, false);
+
+            $pageViewerLHNavContainer.show();
+
+            $(".pageviewer_lhnav_item button", $rootel).on('click', selectPage);
+            $(".pageviewer_lhnav_item:first button", $rootel).click();
+        };
+
+        /**
+         * Parse cells in a column in a row on a page
+         * @param {Object} cellIndex Index of the cell
+         * @param {Object} cell data for a cell in a column
+         */
+        var parseCells = function(cellIndex, cell) {
+            if ($.isPlainObject(cell)) {
+                if (tempDocData[tempItem._ref][cell.id]) {
+                    docData[tempItem._ref][cell.id] = {};
+                    var cellData = tempDocData[tempItem._ref][cell.id][cell.type];
+                    if (cell.type !== "htmlblock" && cell.type !== "pagetitle") {
+                        docData[tempItem._ref][cell.id][cell.type] = {
+                            'embedmethod': cellData.embedmethod,
+                            'sakai:indexed-fields': cellData['sakai:indexed-fields'],
+                            'download': cellData.download,
+                            'title': cellData.title,
+                            'details': cellData.details,
+                            'description': cellData.description,
+                            'name': cellData.name,
+                            'layout': cellData.layout,
+                            'items': {}
+                        };
+                        if (cellData.items) {
+                            $.each(cellData.items, function(itemsIndex, cellItem) {
+                                if (itemsIndex.indexOf('__array__') === 0) {
+                                    docData[tempItem._ref][cell.id][cell.type].items[itemsIndex] = cellItem;
+                                }
+                            });
                         }
-                    });
-                    renderContainer();
-                } else {
-                    debug.warn("Page contents could not be fetched.");
-                }
-            });
-        };
-
-        var processPages = function(data){
-            // Respect the order specified in the docstructure
-            var totalToOrder = 0;
-            $.each(data, function(i, page){
-                totalToOrder++;
-            });
-            var findNextPage = function(){
-                var lowestOrder = false;
-                var pageToAdd = false;
-                $.each(data, function(i, page){
-                    if (lowestOrder === false || page._order < lowestOrder){
-                        lowestOrder = page._order;
-                        pageToAdd = i;
+                    } else {
+                        docData[tempItem._ref][cell.id][cell.type] = {
+                            'content': cellData.content
+                        };
                     }
-                });
-                var page = data[pageToAdd];
-                if (page.hasOwnProperty("_title") && page.hasOwnProperty("_ref")) {
-                    pages.push({
-                        title: page._title,
-                        poolpath: page._poolpath || "/p/" + contentData._path,
-                        ref: page._ref
-                    });
                 }
-                delete data[pageToAdd];
-            };
-            while (totalToOrder > 0){
-                findNextPage();
-                totalToOrder--;
             }
-            fetchPageContent();
         };
 
-        var addBinding = function(){
-            $(".pageviewer_lhnav_item", $rootel).live("click", function(){
-                $(".pageviewer_lhnav_item", $rootel).removeClass("selected");
-                $(this).addClass("selected");
-                $(".pageviewer_content_for_page", $rootel).hide();
-                $("#pageviewer_content_for_page_" + $(this).data("index"), $rootel).show();
+        /**
+         * Parse columns in a row on a page
+         * @param {Object} columnIndex Index of the column
+         * @param {Object} column data for a column
+         */
+        var parseColumns = function(columnIndex, column) {
+            if ($.isPlainObject(column)) {
+                $.each(column.elements, parseCells);
+            }
+        };
+
+        /**
+         * Parse rows on a page
+         * @param {Object} rowIndex Index of the row
+         * @param {Object} row data for a row
+         */
+        var parseRows = function(rowIndex, row) {
+            if ($.isPlainObject(row)) {
+                $.each(row.columns, parseColumns);
+            }
+        };
+
+        /**
+         * Parses the document structure before sending it to the renderer
+         */
+        var parseStructure = function() {
+            var json = $.parseJSON(tempDocData.structure0);
+            var pageCount = 0;
+            $.each(json, function(index, item) {
+                if ($.isPlainObject(item)) {
+                    tempItem = item;
+                    if (!selectedPage) {
+                        selectedPage = tempItem._ref;
+                    }
+                    docData[tempItem._ref] = {};
+                    docData[tempItem._ref].pageTitle = item._title;
+                    docData[tempItem._ref]['rows'] = tempDocData[tempItem._ref].rows;
+                    storePath = 'p/' + docPath + '/' + tempItem._ref + '/';
+
+                    // Go through rows, columns and cells and extract any content
+                    $.each(docData[tempItem._ref]['rows'], parseRows);
+
+                    pageCount++;
+                }
+            });
+            docData.template = 'all';
+
+            // Render the pages and navigation in the widget
+            if (pageCount > 1) {
+                renderNavigation();
+            } else {
+                renderContainer();
+            }
+        };
+
+        /**
+         * Selects a page from the left hand navigation
+         */
+        var selectPage = function() {
+            $rootel.find('.tinyMCE').each(function() {
+                tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+            });
+            var $li = $(this).parent();
+            $(".pageviewer_lhnav_item", $rootel).removeClass("selected");
+            $li.addClass("selected");
+            selectedPage = $li.attr("data-index");
+            storePath = 'p/' + docPath + '/' + selectedPage + '/';
+            renderContainer();
+        };
+
+        /**
+         * Fetches the page content
+         */
+        var fetchPages = function() {
+            $.ajax({
+                url: "/p/" + docPath + ".infinity.json",
+                success: function(data) {
+                    tempDocData = data;
+                    parseStructure();
+                }
             });
         };
 
-        var doInit = function(){
-            addBinding();
-            processPages($.parseJSON(contentData.structure0));
+
+        //////////////////////////////
+        // Initialization functions //
+        //////////////////////////////
+
+        /**
+         * Initializes the pageviewer widget
+         */
+        var doInit = function() {
+            fetchPages();
         };
 
-        $(window).unbind("start.pageviewer.sakai");
-        $(window).bind("start.pageviewer.sakai", function(ev, data){
-            pages = [];
-            contentData = data;
+        $(window).off('start.pageviewer.sakai').on('start.pageviewer.sakai', function(ev, data) {
+            docPath = data.id;
             doInit();
         });
 
-        $(window).trigger("ready.pageviewer.sakai");
+        $(window).trigger('ready.pageviewer.sakai');
 
     };
 
-    // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("pageviewer");
+    sakai.api.Widgets.widgetLoader.informOnLoad('pageviewer');
 });

@@ -1,7 +1,6 @@
 {
     "id":"poll",
     "img":"/devwidgets/poll/images/poll.png",
-    "showinsakaigoodies":true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/poll/bundles/default.properties",

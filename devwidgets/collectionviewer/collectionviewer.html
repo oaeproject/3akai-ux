@@ -1,19 +1,19 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/collectionviewer/css/collectionviewer.css" />
 
-<div class="collectionviewer_widget">
+<div class="collectionviewer_widget" style="display:none">
     <div id="collectionviewer_header_container">
         <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left sakai_add_content_overlay" id="collectionviewer_add_content_button" type="button" style="display:none;"><div class="s3d-button s3d-button-in-button-lighter">0</div>__MSG__ADD_CONTENT__</button>
-        <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left" id="collectionviewer_edit_collection_button" type="button" style="display:none;">__MSG__EDIT_COLLECTION__</button>
+        <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left" id="collectionviewer_edit_collection_button" type="button" style="display:none;" data-liststyle="edit">__MSG__EDIT_COLLECTION__</button>
         <button class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-left" id="collectionviewer_finish_editing_collection_button" type="button" style="display:none;">__MSG__FINISH_EDITING__</button>
         <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
-            <div class="s3d-listview-grid" id="collectionviewer_grid_view">
+            <div class="s3d-listview-grid" id="collectionviewer_grid_view" data-liststyle="grid">
                 <div class="s3d-action-icon s3d-search-results-gridview"></div>
             </div>
-            <div class="s3d-listview-list" id="collectionviewer_list_view">
+            <div class="s3d-listview-list" id="collectionviewer_list_view" data-liststyle="list">
                 <div class="s3d-action-icon s3d-search-results-listview"></div>
             </div>
-            <div class="s3d-listview-carousel" id="collectionviewer_carousel_view">
+            <div class="s3d-listview-carousel" id="collectionviewer_carousel_view" data-liststyle="carousel">
                 <div class="s3d-action-icon s3d-search-results-carouselview"></div>
             </div>
         </div>
@@ -27,6 +27,7 @@
             </select>
         </div>
     </div>
+    <div id="collectionviewer_carousel_loading" style="display:none;"><img src="/dev/images/ajax-loader-gray.gif" alt="__MSG__LOADING__"></div>
     <div id="collectionviewer_carousel_container" style="display:none;"></div>
     <div id="collectionviewer_expanded_content_container" style="display:none;"></div>
     <div id="collectionviewer_grid_list_container" style="display:none;"></div>
@@ -175,19 +176,21 @@
             <ul>
                 {for page in data}
                     {for result in page}
-                        <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" data-item-id="${result._path}" title="${result["sakai:pooled-content-file-name"]|safeOutput}">
-                            {var thumbnail = sakai.api.Content.getThumbnail(result)}
-                            <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-scope="content" data-entityid="${result["_path"]}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
-                                {if thumbnail}
-                                    <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result["_mimeType"]}" />
-                                {elseif sakai.config.MimeTypes[result["_mimeType"]]}
-                                    <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes[result["_mimeType"]].URL}" alt="${result["_mimeType"]}" />
-                                {else}
-                                    <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes["other"].URL}" alt="${result["_mimeType"]}" />
-                                {/if}
-                            </div>
-                            <div class="arrow-down" style="display:none;"></div>
-                        </li>
+                        {if jQuery.isPlainObject(result)}
+                            <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" data-item-id="${result._path}" title="${result['sakai:pooled-content-file-name']|safeOutput}">
+                                {var thumbnail = sakai.api.Content.getThumbnail(result)}
+                                <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-scope="content" data-entityid="${result._path}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
+                                    {if thumbnail}
+                                        <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result._mimeType}" />
+                                    {elseif sakai.config.MimeTypes[result._mimeType]}
+                                        <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes[result._mimeType].URL}" alt="${result._mimeType}" />
+                                    {else}
+                                        <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes.other.URL}" alt="${result._mimeType}" />
+                                    {/if}
+                                </div>
+                                <div class="arrow-down" style="display:none;"></div>
+                            </li>
+                        {/if}
                     {/for}
                     {if page.length < 12}
                         {var itemsShort = 12 - page.length}
@@ -287,7 +290,7 @@
             <div class="collectionviewer_collection_item_preview">
                 <div id="widget_contentpreview" class="widget_inline"></div>
             </div>
-        {elseif data._mimeType === "x-sakai/document"}
+        {elseif data._mimeType === "x-sakai/document" && !pagePreviewDisabled}
             <div class="collectionviewer_collection_item_preview">
                 <div id="widget_pageviewer" class="widget_inline"></div>
             </div>

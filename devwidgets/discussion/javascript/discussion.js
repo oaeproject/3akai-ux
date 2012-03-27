@@ -45,8 +45,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         /////////////////////////////
 
         var $rootel = $("#" + tuid); // Get the main div used by the widget
-        var widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
-        var store = "";
         var widgetSettings = {};
         var topicData = {};
         // Each post gets a marker which is basicly the widget ID.
@@ -154,12 +152,21 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         };
 
         /**
+         * Get the URL at which the discussion post message store
+         * can be found
+         */
+        var getMessageStoreURL = function() {
+            return sakai.api.Widgets.getWidgetDataStorageURL(tuid) + '/message';
+        };
+
+        /**
          * Check if the message store already exists
          * If it does not exists we need to create one
          */
-        var checkMessageStore = function(){
+        var checkMessageStore = function() {
+            var widgeturl = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
             if (widgeturl) {
-                store = widgeturl + "/message";
+                var store = getMessageStoreURL();
                 $.ajax({
                     url: widgeturl + ".0.json",
                     type: "GET",
@@ -340,7 +347,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * Get the id of the dicussion widget and show the post including replies
          */
         var getPosts = function(){
-            var s = store;
+            var s = getMessageStoreURL();
             var url = sakai.config.URL.DISCUSSION_GETPOSTS_THREADED.replace(/__PATH__/, s).replace(/__MARKER__/, marker);
             $.ajax({
                 url: url,
@@ -465,6 +472,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          */
         var createTopic = function(){
             disableEnableButtons(false);
+            var store = getMessageStoreURL();
             var postData = {
                 "sakai:type": "discussion",
                 "sling:resourceType": "sakai/message",
@@ -512,6 +520,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * @param {String} $parentDiv the parent div that should be hidden on success
          */
         var replyToTopic = function(id, body, $parentDiv, $replyParent){
+            var store = getMessageStoreURL();
             var object = {
                 "sakai:body": body,
                 "sakai:marker": marker,
@@ -611,6 +620,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * @param {boolean} deleteValue true = delete, false = undelete
          */
         var deletePost = function(id, deleteValue, post){
+            var store = getMessageStoreURL();
             var url = store + "/inbox/" + id;
             var data = {
                 "sakai:deleted": deleteValue,
@@ -657,6 +667,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         };
 
         var updatePost = function(id, body, quote, quoted, post){
+            var store = getMessageStoreURL();
             var url = store + "/inbox/" + id;
             var data = {
                 "sakai:edited": true,
@@ -868,6 +879,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
                     };
                 }
+                // Undo the saneHTMLAttribute applied in the template
+                renderData.body = renderData.body.replace(/\\\"/g, '"').replace(/\\\'/g, '\'');
                 $(this).parents(s3dHighlightBackgroundClass).children( discussionEntityContainer + "," + discussionReplyContents).hide();
                 sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, renderData, $(this).parents(s3dHighlightBackgroundClass).children(discussionEditContainer));
                 var editValidateOpts = {

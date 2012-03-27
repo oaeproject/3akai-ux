@@ -130,6 +130,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $(".inbox_accepted", $rootel).show();
                 sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid, function() {
                     currentMessage.from.connectionState = "ACCEPTED";
+                    sakai.data.me.contacts.accepted++;
+                    $(window).trigger('lhnav.updateCount', ['contacts', sakai.data.me.contacts.accepted, false]);
                 });
             } else {
                 $(".inbox_ignored", $rootel).show();
@@ -162,7 +164,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             if (widgetData.category === "invitation") {
                 determineInviteStatus(messageToShow);
             }
-            $inbox_box_title.text(messageToShow.subject);
+            $inbox_box_title.text(sakai.api.Util.applyThreeDots(messageToShow.subject, 310));
             sakai.api.Util.TemplateRenderer($inbox_show_message_template, {
                 message:messageToShow,
                 me: {
@@ -472,6 +474,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         if ((messages && !messages[all.message]) || !messages) {
                             sakai.api.Communication.getMessage(all.message, widgetData.box, sakai.data.me, function(message){
                                 if (message){
+                                    messages[all.message] = message;
                                     currentMessage = message;
                                     showMessage(message, all.hasOwnProperty("reply"));
                                 } else {

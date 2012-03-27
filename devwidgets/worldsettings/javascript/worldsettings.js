@@ -143,6 +143,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }));
                 sakai.api.Util.bindDialogFocus($('#worldsettings_warning_container'));
                 $('#worldsettings_warning_container').jqmShow();
+                sakai.api.Util.Modal.open('#worldsettings_warning_container');
             }
         };
 
@@ -172,6 +173,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                  sakai.api.Util.notification.show($('#worldsettings_success_title').html(), $('#worldsettings_success_body').html());
                  $worldsettingsDialog.jqmHide();
                  $('#worldsettings_warning_container').jqmHide();
+                $worldsettingsContainer.find("select, input").removeAttr("disabled");
+
+                $(window).trigger("sakai.entity.updateTitle", worldTitle);
+                sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
+                sakai.api.Util.Modal.close($worldsettingsDialog);
+                sakai.api.Util.Modal.close('#worldsettings_warning_container');
             });
         };
 
@@ -222,7 +229,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             worldId = id;
             renderWorldSettings();
             bindEvents();
-            $worldsettingsDialog.jqm({
+            sakai.api.Util.Modal.setup($worldsettingsDialog, {
                 modal: true,
                 overlay: 20,
                 toTop: true,
@@ -234,8 +241,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toTop: true,
                 zIndex: 4000
             });
-            sakai.api.Util.bindDialogFocus($worldsettingsDialog);
-            $worldsettingsDialog.jqmShow();
+            sakai.api.Util.Modal.open($worldsettingsDialog);
         };
 
         // run the initialization function when the widget object loads

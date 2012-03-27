@@ -176,6 +176,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             hideInputError();
             $(uploadProcessing).hide();
             $(uploadNewButtons).show();
+            $('#profile_upload').attr('disabled', 'disabled');
         };
 
         // Add click event to all cancel buttons in the overlay
@@ -289,7 +290,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             thumbnailHeight  = (prefThumbHeight > 0) ? prefThumbHeight : thumbnailHeight;
 
             if (showPicture && picture && picture._name) {
-                resetUploadField();
                 // The user has already uploaded a picture.
                 // Show the image select area
                 existingPicture = true;
@@ -299,6 +299,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
                 // Check the current picture's size
                 $(pictureMeasurerImage).bind("load", function(ev){
+                    resetUploadField();
 
                     // save the image size in global var.
                     realw = $(pictureMeasurerImage).width();
@@ -392,6 +393,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         // Remove error notification when a new file is chosen
         $(picInput).bind("change", function(){
             hideInputError();
+            $('#profile_upload').removeAttr('disabled');
             // display help tooltip
             var tooltipData = {
                 "tooltipSelector":"#profile_upload",
@@ -416,7 +418,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 userSelection.picture === originalPic.picture)){
                 // no need to save if picture hasn't changed, so just close the dialog
                 // Hide the layover.
-                $(container).jqmHide();
+                sakai.api.Util.Modal.close(container);
             } else {
                 savePicture();
             }
@@ -494,7 +496,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                             $(window).trigger("update.tooltip.sakai", tooltipData);
 
                             // Hide the layover.
-                            $(container).jqmHide();
+                            sakai.api.Util.Modal.close(container);
 
                             if (mode !== "group") {
                                 // record that user uploaded their profile picture
@@ -558,8 +560,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             }
         };
 
-        // This will make the widget popup as a layover.
-        $(container).jqm({
+        sakai.api.Util.Modal.setup(container, {
             modal: true,
             overlay: 20,
             toTop: true,
@@ -568,8 +569,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         });
 
         $(containerTrigger).live("click", function(){
-            sakai.api.Util.bindDialogFocus(container);
-            $(container).jqmShow();
+            // This will make the widget popup as a layover.
+            sakai.api.Util.Modal.open(container);
         });
 
         $(window).bind("setData.changepic.sakai", function(e, _mode, _id) {
