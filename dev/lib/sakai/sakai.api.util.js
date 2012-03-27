@@ -2130,14 +2130,16 @@ define(
                     sakai_serv.loadJSON(searchUrl.replace(".json", ""), function( success, data ){
                         if ( success ) {
                             var suggestions = [];
+                            var name = '';
                             var nameArray = [];
+                            var idxToUpdate = '';
                             var duplicateNamePositions = [];
                             var arrayPositionOffset = 0;
                             $.each( data.results, function( i ) {
                                 if ( data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid ) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["rep:userId"], options.filterUsersGroups ) ===-1 ) {
-                                        var name = user.getDisplayName(data.results[i]);
-                                        var idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
+                                        name = user.getDisplayName(data.results[i]);
+                                        idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
                                         if (idxToUpdate !== -1) {
                                             if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
                                                 duplicateNamePositions.push(idxToUpdate);
@@ -2157,8 +2159,8 @@ define(
                                     }
                                 } else if (data.results[i]["sakai:group-id"]) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["sakai:group-id"], options.filterUsersGroups ) ===-1 ) {
-                                        var name = sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]);
-                                        var idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
+                                        name = sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]);
+                                        idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
                                         if (idxToUpdate !== -1) {
                                             if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
                                                 duplicateNamePositions.push(idxToUpdate);
