@@ -85,14 +85,16 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
                 "sakai": sakai,
                 "currentPage": currentPageShown
             }));
-            $("#versions_carousel_container", $rootel).jcarousel({
-                animation: "slow",
-                easing: "swing",
-                scroll: 4,
-                start: 0,
-                initCallback: carouselBinding,
-                itemFallbackDimension: 123
-            });
+            if (versions.length) {
+                $('#versions_carousel_container', $rootel).jcarousel({
+                    animation: 'slow',
+                    easing: 'swing',
+                    scroll: 4,
+                    start: 0,
+                    initCallback: carouselBinding,
+                    itemFallbackDimension: 123
+                });
+            }
         };
 
         var setUsername = function(u, users) {

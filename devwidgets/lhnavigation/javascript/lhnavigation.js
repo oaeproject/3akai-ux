@@ -610,6 +610,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     content: currentPageShown.content
                 };
                 editPageTitle();
+                $(window).on('click', '#inserterbar_action_add_page', addNewPage);
             } else {
                 $(window).trigger('showpage.contentauthoring.sakai', [currentPageShown]);
             }
@@ -735,6 +736,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         var addNewPage = function() {
+            $(window).off('click', '#inserterbar_action_add_page', addNewPage);
             if (contextData.addArea) {
                 addSubPage();
             } else {
@@ -867,13 +869,16 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
                     renderData();
                     addParametersToNavigation();
-                    $(window).trigger('sakai.contentauthoring.needsTwoColumns');
-                    $.bbq.pushState({
-                        'l': currentPageShown.path.split('/')[0] +
-                                '/' + newpageid,
-                        'newPageMode': 'true'
-                    }, 0);
-                    enableSorting();
+
+                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath + '/' + newpageid + '/', pageContent, function() {
+                        $(window).trigger('sakai.contentauthoring.needsTwoColumns');
+                        $.bbq.pushState({
+                            'l': currentPageShown.path.split('/')[0] +
+                                    '/' + newpageid,
+                            'newPageMode': 'true'
+                        }, 0);
+                        enableSorting();
+                    }, true);
                 }
             });
         };
@@ -1256,9 +1261,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             onContextMenuHover($(this), $(this).parent('li'));
         });
 
-        $('#inserterbar_action_add_page').live('click', function() {
-            addNewPage();
-        });
+        $(window).on('click', '#inserterbar_action_add_page', addNewPage);
 
         $('#lhavigation_submenu_edittitle').live('click', function(ev) {
             editPageTitle();
