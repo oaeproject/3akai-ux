@@ -58,7 +58,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showWarning = function(){
             var newVisibility = $(worldsettingsCanBeFoundIn);
             var newVisibilityVal = $.trim(newVisibility.val());
-            var oldVisibilityVal = sakai_global.group.groupData["sakai:group-visible"];
+            var oldVisibilityVal = sakai_global.group.groupData['sakai:group-visible'];
             var oldVisibilityIndex = parseInt(newVisibility.find("option[value='" + sakai_global.group.groupData["sakai:group-visible"] + "']").attr("index"), 10);
             if (sakai_global.group.groupData['sakai:group-visible'] === newVisibilityVal || parseInt(newVisibility.attr('selectedIndex'), 10) > oldVisibilityIndex || newVisibilityVal === 'members-only' || oldVisibilityVal === 'public') {
                 $worldsettingsForm.submit();
