@@ -43,6 +43,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var storePath = false;
         var isDragging = false;
         var editInterval = false;
+        var uniqueModifierId = sakai.api.Util.generateWidgetId();
 
         ///////////////////////
         // Utility functions //
@@ -1012,7 +1013,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             var editingContent = {};
             editingContent[currentPageShown.saveRef] = {
                 'editing': {
-                    'time': sakai.api.Util.Datetime.getCurrentGMTTime()
+                    'time': sakai.api.Util.Datetime.getCurrentGMTTime(),
+                    'sakai:modifierid': uniqueModifierId
                 }
             };
             sakai.api.Server.saveJSON(currentPageShown.pageSavePath, editingContent);
@@ -1039,7 +1041,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Put the page into edit mode
          */
         var editPage = function() {
-            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, function(success, data) {
+            sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, uniqueModifierId, function(success, data) {
                 if (data.safeToEdit) {
                     // Update the content based on the current state of the document
                     if (prevModification !== data._lastModified && currentPageShown.content._lastModified < data._lastModified) {
@@ -1145,7 +1147,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var checkHTMLBlockEmpty = function(currentPageShown, element) {
             if (currentPageShown.content[element.id] &&
                 currentPageShown.content[element.id].htmlblock &&
-                $.trim($(currentPageShown.content[element.id].htmlblock.content).text())) {
+                ($.trim($(currentPageShown.content[element.id].htmlblock.content).text()) ||
+                $(currentPageShown.content[element.id].htmlblock.content).html())) {
                 return false;
             }
             return true;
@@ -1304,44 +1307,28 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         /**
          * Save the page by moving the autosaved page to the main page. We also version the page
-         * @param {Array} rows          Array of rows in the page with its layout and widgets
-         * @param {Array} widgetIds     Array of widget ids for all the widgets in the current page
          */
-        var savePageData = function(rows, widgetIds) {
-            // Get the current saved data
-            sakai.api.Server.loadJSON(storePath, function(success, data) {
-                $.ajax({
-                    'url': storePath,
-                    'type': 'POST',
-                    'data': {
-                       ':operation': 'delete'
-                    }
-                });
-                var oldStorePath = storePath;
-                // Store the page in the main location
-                storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
-                updateWidgetURLs();
-                data.rows = rows;
-                // Set the version history variable
-                delete data.version;
-                data.version = $.toJSON(data);
-                data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
-                data = sakai.api.Util.replaceInObject(data,
-                        oldStorePath.replace('/p/', ''),
-                        storePath.replace('/p/', ''));
-                // Save the page data
-                sakai.api.Server.saveJSON(storePath, data, function() {
-                    currentPageShown.content._lastModified = Date.now();
-                    // Create a new version of the page
-                    var versionToStore = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
-                    $.ajax({
-                        url: storePath + '.save.json',
-                        type: 'POST',
-                        success: function() {
-                            $(window).trigger('update.versions.sakai', currentPageShown);
-                        }
-                    });
-                }, true);
+        var savePageData = function() {
+            var oldStorePath = storePath;
+            storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
+            updateWidgetURLs();
+
+            var batchRequests = [];
+            batchRequests.push({
+                'url': storePath + '.save.json',
+                'method': 'POST'
+            });
+            batchRequests.push({
+                'url': oldStorePath,
+                'method': 'POST',
+                'parameters': {
+                    ':operation': 'move',
+                    ':dest': storePath,
+                    ':replace': true
+                }
+            });
+            sakai.api.Server.batch(batchRequests, function() {
+                $(window).trigger('update.versions.sakai', currentPageShown);
             });
         };
 
