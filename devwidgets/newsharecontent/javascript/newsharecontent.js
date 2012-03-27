@@ -163,11 +163,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $.each(contentObj.data, function(i, content){
                         if (sakai.api.Content.Collections.isCollection(content.body)){
                             sakai.api.Content.Collections.shareCollection(content.body['_path'], toAddList, role, function() {
-                                createActivity("__MSG__ADDED_A_MEMBER__");
+                                createActivity("ADDED_A_MEMBER");
                             });
                         } else {
                             sakai.api.Content.addToLibrary(content.body['_path'], toAddList, role, function() {
-                                createActivity("__MSG__ADDED_A_MEMBER__");
+                                createActivity("ADDED_A_MEMBER");
                             });
                         }
                     });
