@@ -2130,25 +2130,61 @@ define(
                     sakai_serv.loadJSON(searchUrl.replace(".json", ""), function( success, data ){
                         if ( success ) {
                             var suggestions = [];
+                            var nameArray = [];
+                            var duplicateNamePositions = [];
+                            var arrayPositionOffset = 0;
                             $.each( data.results, function( i ) {
                                 if ( data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid ) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["rep:userId"], options.filterUsersGroups ) ===-1 ) {
+                                        var name = user.getDisplayName(data.results[i]);
+                                        var idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
+                                        if (idxToUpdate !== -1) {
+                                            if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
+                                                duplicateNamePositions.push(idxToUpdate);
+                                            }
+                                            duplicateNamePositions.push(i - arrayPositionOffset);
+                                        }
                                         suggestions.push({
                                             "value": data.results[i]["rep:userId"],
-                                            "name": user.getDisplayName(data.results[i]),
+                                            "name": name,
                                             "picture": sakai_util.constructProfilePicture(data.results[i], "user"),
                                             "type": "user"
                                         });
+                                        nameArray.push(name.toLowerCase());
+                                    } else {
+                                        nameArray.push('');
+                                        arrayPositionOffset++;
                                     }
                                 } else if (data.results[i]["sakai:group-id"]) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["sakai:group-id"], options.filterUsersGroups ) ===-1 ) {
+                                        var name = sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]);
+                                        var idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
+                                        if (idxToUpdate !== -1) {
+                                            if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
+                                                duplicateNamePositions.push(idxToUpdate);
+                                            }
+                                            duplicateNamePositions.push(i - arrayPositionOffset);
+                                        }
                                         suggestions.push({
                                             "value": data.results[i]["sakai:group-id"],
-                                            "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]),
+                                            "name": name,
                                             "picture": sakai_util.constructProfilePicture(data.results[i], "group"),
                                             "type": "group"
                                         });
+                                        nameArray.push(name.toLowerCase());
+                                    } else {
+                                        nameArray.push('');
+                                        arrayPositionOffset++;
                                     }
+                                } else {
+                                    nameArray.push('');
+                                    arrayPositionOffset++;
+                                }
+                            });
+                            // add the id to the name for users/groups with duplicate names
+                            $.each(duplicateNamePositions, function(idx, position) {
+                                if (suggestions[position]) {
+                                    suggestions[position].name += ' (' + suggestions[position].value + ')';
                                 }
                             });
                             add( suggestions, query );
