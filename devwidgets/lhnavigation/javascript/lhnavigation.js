@@ -657,7 +657,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var showContextMenu = function($clickedItem){
             var contextMenu = $('#lhnavigation_submenu');
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
-            contextMenu.css('left', $clickedItem.position().left + 65 + 'px');
+            var leftOffset = 68;
+            if ($clickedItem.parents('.lhnavigation_subnav_item').attr('data-sakai-addcontextoption') === 'user') {
+                leftOffset = 63;
+            }
+            contextMenu.css('left', $clickedItem.position().left + leftOffset + 'px');
             contextMenu.css('top', $clickedItem.position().top + 6 + 'px');
             toggleContextMenu();
         };
