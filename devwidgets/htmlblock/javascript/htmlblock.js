@@ -53,8 +53,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * button bar, so all the text is visible
          */
         var editorFocus = function() {
+            $('.mceExternalToolbar').hide();
             $('#inserterbar_widget #inserterbar_tinymce_container').show();
             $('.contentauthoring_cell_element_actions').hide();
+            $toolbar.show();
         };
 
         var editorSetup = function(ed) {
@@ -125,6 +127,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $toolbar = $('#' + editorId + '_external').hide();
             // Move the toolbar to the inserterbar widget
             $('#inserterbar_widget #inserterbar_tinymce_container').append($toolbar);
+            // Show the toolbar if we are in edit mode
+            if ($('.contentauthoring_edit_mode').length) {
+                $('.mceExternalToolbar').hide();
+                $('#inserterbar_widget #inserterbar_tinymce_container').show();
+                $toolbar.show();
+            }
             // Set timeOut as tinyMCE seems to need a little bit of additional time before we see all
             // of the content in the editor
             setTimeout(function() {
@@ -194,6 +202,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 if (editorId && tinyMCE.get(editorId)) {
                     // Render the page in view mode
                     var currentText = tinyMCE.get(editorId).getContent();
+                    currentText = sakai.api.Security.saneHTML(currentText);
                     $('#htmlblock_view_container', $rootel).html(currentText);
                     sakai.api.Util.renderMath($rootel);
                 }
@@ -266,6 +275,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Fill up the textarea
             if (widgetData && widgetData.htmlblock) {
                 var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
+                processedContent = sakai.api.Security.saneHTML(processedContent);
                 $('#htmlblock_view_container', $rootel).html(processedContent);
                 sakai.api.Util.renderMath($rootel);
                 $textarea.val(widgetData.htmlblock.content);

@@ -35,6 +35,7 @@
             <button type="button" id="mylibrary_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
                 <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_THE_CONTENT_LIBRARY__"/>
             </button>
+            <span class="s3d-search-result-count" style="display:none;"><span class="s3d-search-result-count-count s3d-bold"></span> <span class="s3d-search-result-count-label">__MSG__RESULTS__</span></span>
         </div>
     </div>
     <div class="s3d-page-header-bottom-row" style="display:none;">
@@ -125,7 +126,7 @@
                     </div>
                     <a href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
-                            <img class="s3d-icon-40" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
+                            <img src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                         {else}
                             <img alt="${item.mimeTypeDescription}" src="${item.mimeTypeURL}" />
                         {/if}

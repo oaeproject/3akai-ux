@@ -5,6 +5,9 @@
             "bundle": "/devwidgets/deletegroup/bundles/default.properties",
             "name": "Delete group",
             "description":"Delete group widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/deletegroup/bundles/es_ES.properties"
         }
     },
     "type":"core",

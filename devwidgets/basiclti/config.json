@@ -1,5 +1,5 @@
 {
-    "sakaidocs": false,
+    "sakaidocs": true,
     "ca":true,
     "hasSettings": true,
     "id":"basiclti",

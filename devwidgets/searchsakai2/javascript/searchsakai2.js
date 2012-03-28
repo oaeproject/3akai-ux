@@ -266,7 +266,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // to determine the categories for the search facet
         getCategories(function(data) {
             updateFacets(data);
-            $(window).trigger("sakai.search.util.init");
+            $(window).trigger("sakai.search.util.init", {"tuid": tuid});
         });
         
     };
