@@ -164,7 +164,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             if (widgetData.category === "invitation") {
                 determineInviteStatus(messageToShow);
             }
-            $inbox_box_title.text(sakai.api.Util.applyThreeDots(messageToShow.subject, 310));
+            $inbox_box_title.text(sakai.api.Util.applyThreeDots(messageToShow.subject, 310, false, false, true));
             sakai.api.Util.TemplateRenderer($inbox_show_message_template, {
                 message:messageToShow,
                 me: {
