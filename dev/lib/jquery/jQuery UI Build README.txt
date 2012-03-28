@@ -5,8 +5,9 @@ Widget
 Mouse
 Draggable
 Droppable
-Sortable
 Resizable
+Selectable
+Sortable
 Effects Core
 Effect "Pulsate"
 
