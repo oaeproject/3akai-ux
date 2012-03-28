@@ -55,8 +55,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var $newcreategroupAddPeople = $(".newcreategroup_add_people", $rootel);
     var newcreategroupMembersMessage = "#newcreategroup_members_message";
     var $newcreategroup_members_message_template_unprocessed = $("#newcreategroup_members_message_template_unprocessed", $rootel);
-    var themePicker = $("#change_theme_to", $rootel);
-    var themePickerTemplate = $("#themechanger_form_template", $rootel);
 
     // Forms
     var $newcreategroupGroupForm = $("#newcreategroup_group_form", $rootel);
@@ -109,35 +107,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         return users;
     };
 
-    var checkDefaultContentAdded = function(contentToAdd, count){
+    var checkDefaultContentAdded = function(contentToAdd, count) {
         return !$.isArray(contentToAdd) || contentToAdd.length - 1 === count;
     };
 
-    var addThemeSettings = function(groupid){
+    var addThemeSettings = function(groupid) {
          $.ajax({
-                    url: '/system/userManager/group/' + groupid + '.update.json',
-                    data: {
-                        'sakai:customStyle': getStyleUrl($('#newcreategroup_change_theme_to').val()),
-                        'sakai:enableThemes': getAllowThemechangerValue($('#newcreategroup_allowthemechanger').val())
-                    },
-                    type: 'POST',
-                    success: function(){
-                    window.location = "/~" + groupid;
-                    }
+            url: '/system/userManager/group/' + groupid + '.update.json',
+            data: {
+                'sakai:customStyle': getStyleUrl($('#newcreategroup_change_theme_to').val()),
+                'sakai:enableThemes': getAllowThemechangerValue($('#newcreategroup_allowthemechanger').val())
+            },
+            type: 'POST',
+            success: function(){
+            window.location = "/~" + groupid;
+            }
          });
     }
 
     var setDefaultContent = function(groupid){
         var contentToAdd = $.bbq.getState("contentToAdd");
-        if(contentToAdd.length > 1 && !$.isArray(contentToAdd)){
+        if(contentToAdd.length > 1 && !$.isArray(contentToAdd)) {
             contentToAdd = contentToAdd.split(",");
         }
         var count = 0;
         $.each(contentToAdd, function(i, contentId){
             sakai.api.Content.addToLibrary(contentId, groupid, false, function(contentId, entityId) {
-                if(checkDefaultContentAdded(contentToAdd, count)){
+                if(checkDefaultContentAdded(contentToAdd, count)) {
                     addThemeSettings(groupid);
-                    //window.location = "/~" + groupid;
                 } else {
                     count++;
                 }
@@ -145,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
     };
 
-    var getStyleUrl = function(selectedTheme){
+    var getStyleUrl = function(selectedTheme) {
         var url = '';
         $.each(sakai.config.skinStore, function(key, value) {
             if(selectedTheme == value.title) { 
@@ -155,7 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         return url;
     }
 
-    var getAllowThemechangerValue = function(value){
+    var getAllowThemechangerValue = function(value) {
         if(value == 'ENABLE') {
             return true;
         } else if(value == 'DISABLE') {
@@ -163,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }
     }
 
-    var renderThemes = function(){
+    var renderThemes = function() {
         themes = {themes:$.extend(sakai.config.skinStore, {}, true)};
         $('#newcreategroup_change_theme_to').html(sakai.api.Util.TemplateRenderer('#newcreategroup_themes_template',{
             'themes': themes
@@ -192,7 +189,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     setDefaultContent(groupid);
                 } else {
                     addThemeSettings(groupid);
-                    //window.location = "/~" + groupid;
                 }
             } else {
                 $newcreategroupContainer.find("select, input, textarea:not([class*='as-input']), button").removeAttr("disabled");
@@ -207,7 +203,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     /**
      * Add binding to the elements and validate the forms on submit
      */
-    var addBinding = function(){
+    var addBinding = function() {
         $.validator.addMethod("uniquegroupname", function(value, element){
             return !sakai.api.Groups.checkIfGroupExists(value);
         }, sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
@@ -250,7 +246,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     /**
      * Initialize the create group widget
      */
-    var doInit = function(){
+    var doInit = function() {
         currentTemplate = $.extend(true, {}, sakai.api.Groups.getTemplate(widgetData.category, widgetData.id));
         currentTemplate.roles = sakai.api.Groups.getRoles(currentTemplate, true);
         getTranslatedRoles();

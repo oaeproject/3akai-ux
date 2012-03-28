@@ -1560,8 +1560,7 @@ define(function(){
                 "title": "DEFAULT",
                 "text": "Default",
                 "url": "/dev/skins/default/skin.css"
-            }
-        ],
+        }],
 
         // Array of css files to load in each page
         skinCSS: [],

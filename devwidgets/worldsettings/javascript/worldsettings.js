@@ -94,6 +94,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var getCurrentTheme = function() {
             var href = '';
             var currentTheme = '';
+            var themes = $.extend(sakai.config.skinStore, {}, true);
+            for(theme in themes){
+                if($('link[href*="' + themes[theme].url + '"]')) {
+                    href = themes[theme].url;
+                }
+            }
+            
             $('link[href*="skin"]').each(function() {
                 href = this.href;
             });
@@ -170,15 +177,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             };
 
             sakai.api.Groups.updateGroupProfile(worldId, worldData, worldTags, sakai_global.group.groupData, function( success ) {
-                 $worldsettingsContainer.find('select, input').removeAttr('disabled');
-                 $(window).trigger('sakai.entity.updateTitle', worldTitle);
-                 sakai.api.Util.notification.show($('#worldsettings_success_title').html(), $('#worldsettings_success_body').html());
-                 $worldsettingsDialog.jqmHide();
-                 $('#worldsettings_warning_container').jqmHide();
-                $worldsettingsContainer.find("select, input").removeAttr("disabled");
-
-                $(window).trigger("sakai.entity.updateTitle", worldTitle);
-                sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
+                $worldsettingsContainer.find('select, input').removeAttr('disabled');
+                $(window).trigger('sakai.entity.updateTitle', worldTitle);
+                sakai.api.Util.notification.show($('#worldsettings_success_title').html(), $('#worldsettings_success_body').html());                
                 sakai.api.Util.Modal.close($worldsettingsDialog);
                 sakai.api.Util.Modal.close('#worldsettings_warning_container');
             });
@@ -186,8 +187,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var bindEvents = function(worldId) {
             $worldsettingsApplyButton.off('click').on('click', function() {
-                var selectedTheme = $.trim($(themePicker).val());
-                if(checkEnableThemes == true){
+                var selectedTheme = $('#worldsettings_change_theme_to').val();
+                if(sakai_global.group.groupData["sakai:enableThemes"] == "true") {
                     changeTheme(selectedTheme);
                 }
                 showWarning();
