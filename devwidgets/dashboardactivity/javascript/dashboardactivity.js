@@ -156,6 +156,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 filter = $(this).data('filter');
                 $(dashboardactivityFilterContainer + ' button').removeClass('selected');
                 $(this).addClass('selected');
+
                 if (filter === 'comments' && context.id === 'content') {
                     renderActivity(dashboardactivityContentCommentsTemplate);
                     sakai.api.Widgets.widgetLoader.insertWidgets(tuid);

@@ -856,7 +856,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(topnavUserOptionsLoginButtonCancel).show();
                         $(topnavuserOptionsLoginButtonLogin).show();
                         $(topnavUseroptionsLoginFieldsPassword).val("");
-                        $(topnavUseroptionsLoginFieldsUsername).focus();
+                        $(topnavUseroptionsLoginFieldsPassword).focus();
                         $(topnavUseroptionsLoginFieldsUsername).addClass("failedloginusername");
                         $(topnavUseroptionsLoginFieldsPassword).addClass("failedloginpassword");
                         $(topnavUserOptionsLoginForm).valid();

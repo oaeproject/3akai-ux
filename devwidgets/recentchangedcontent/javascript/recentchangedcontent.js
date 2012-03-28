@@ -310,7 +310,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             // get list of recentchangedcontent items
             $.ajax({
-                url: '/var/search/pool/manager-viewer.json',
+                url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                 cache: false,
                 data: {
                     userid: sakai.data.me.user.userid,
