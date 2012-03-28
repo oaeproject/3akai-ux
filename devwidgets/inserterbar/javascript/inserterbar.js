@@ -150,6 +150,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $inserterbarCarouselRight.live('click',function() {
                 carousel.next();
             });
+            var carouselListWidth = parseInt(carousel.list.css('width'), 10);
+            carousel.list.css('width' , carouselListWidth * carousel.options.size);
         };
 
         /**

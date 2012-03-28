@@ -192,7 +192,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (mylibrary.sortOrder === 'modified') {
                 sortOrder = 'desc';
             }
-            mylibrary.infinityScroll = $mylibrary_items.infinitescroll('/var/search/pool/manager-viewer.json', {
+            mylibrary.infinityScroll = $mylibrary_items.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER, {
                 userid: mylibrary.contextId,
                 sortOn: mylibrary.sortBy,
                 sortOrder: sortOrder,

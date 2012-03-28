@@ -78,8 +78,8 @@
                     <img src="${data.results[0].from.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.results[0].from.name}"/>
                 </div>
                 <div id="topnavigation_message_sender" class="s3d-bold">${data.results[0].from.name} <span>(${data.results[0].timeago})</span></div>
-                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0].subject, 120)}</div>
-                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0].body_nolinebreaks, 270, null, null, true)}</div>
+                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0].subject, 115)}</div>
+                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0].body_nolinebreaks, 255, null, null, true)}</div>
                 <a href="/me#l=messages/${category}&message=${data.results[0].id}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">__MSG__READ_FULL_MESSAGE__</a>
                 <hr class="fl-hidden fl-push"/>
             {else}
