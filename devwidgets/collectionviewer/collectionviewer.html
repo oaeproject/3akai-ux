@@ -27,6 +27,7 @@
             </select>
         </div>
     </div>
+    <div id="collectionviewer_carousel_loading" style="display:none;"><img src="/dev/images/ajax-loader-gray.gif" alt="__MSG__LOADING__"></div>
     <div id="collectionviewer_carousel_container" style="display:none;"></div>
     <div id="collectionviewer_expanded_content_container" style="display:none;"></div>
     <div id="collectionviewer_grid_list_container" style="display:none;"></div>
@@ -289,7 +290,7 @@
             <div class="collectionviewer_collection_item_preview">
                 <div id="widget_contentpreview" class="widget_inline"></div>
             </div>
-        {elseif data._mimeType === "x-sakai/document"}
+        {elseif data._mimeType === "x-sakai/document" && !pagePreviewDisabled}
             <div class="collectionviewer_collection_item_preview">
                 <div id="widget_pageviewer" class="widget_inline"></div>
             </div>

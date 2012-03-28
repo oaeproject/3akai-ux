@@ -689,9 +689,9 @@ define(
         /**
          * Shares content with a user and sets permissions for the user.
          * This function can handle single user/content or multiple user/content items in an array
-         * @param {Object} contentId   Unique pool id of the content being added to the library
-         * @param {Object} userId      Authorizable id of the library to add this content in
-         * @param {Boolean} canManage    Set to true if the user that's being shared with should have managing permissions
+         * @param {String|Array} contentId   Unique pool id or Array of IDs of the content being added to the library
+         * @param {String} userId      Authorizable id of the library to add this content in
+         * @param {Boolean} canManage  Set to true if the user that's being shared with should have managing permissions
          * @param {Object} callBack    Function to call once the content has been added to the library
          */
         addToLibrary: function(contentId, userId, canManage, callBack){
@@ -735,7 +735,7 @@ define(
                         // adjust content count in the UI so it accurately reflects the added content without needing a new request
                         $.each(sakai_user.data.me.groups, function(index, group){
                             if (group && group.counts && group.groupid === userId) {
-                                group.counts.contentCount++;
+                                group.counts.contentCount += toAdd.length;
                             }
                         });
                         if (callBack) {
@@ -808,15 +808,19 @@ define(
          * If the document hasn't been edited in the last 10 seconds it is safe to edit
          * @param {String} pagePath Path to the page to edit
          * @param {Function} callback The callback function
+         * @param {String} uniqueModifierId fakes a session by comparing a cached variable to a property
+                                            that is stored in the autosave data
          */
-        checkSafeToEdit: function(pagePath, callback) {
+        checkSafeToEdit: function(pagePath, uniqueModifierId, callback) {
             sakai_serv.loadJSON(pagePath + '.infinity.json', function(success, data) {
                 if ($.isFunction(callback)) {
                     // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
                     // someone else is editing the page right now.
                     data.safeToEdit = true;
-                    if (data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 &&
-                        data.editing._lastModifiedBy !== sakai_user.data.me.user.userid) {
+                    if (data.editing &&
+                        sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 &&
+                        (data.editing._lastModifiedBy !== sakai_user.data.me.user.userid ||
+                        uniqueModifierId !== data.editing['sakai:modifierid'])) {
                         data.safeToEdit = false;
                     }
                     sakai_user.getUser(data._lastModifiedBy, function(success, userData) {
@@ -1253,7 +1257,7 @@ define(
 
             /**
              * Create a new content collection. This includes the creation of a pooled content item and a pseudoGroup used to share
-             * content with. The manager-viewer feed for that pseudoGroup is then used to retrieve the content of the collection
+             * content with. The auth-all feed for that pseudoGroup is then used to retrieve the content of the collection
              * @param {Object} title            Title of the collection
              * @param {Object} description      Description of the collection
              * @param {Object} permissions      Permission to be set on the collection. Possible values are "public", "everyone"
@@ -1408,7 +1412,11 @@ define(
 
                                     sakai_groups.addUsersToGroup(groupId, managershipsToProcess, sakai_user.data.me, true, function(){
                                         sakai_groups.addUsersToGroup(groupId, membershipsToProcess, sakai_user.data.me, false, function(){
-
+                                            // Add current user to the managers group for management functions before refresh
+                                            sakai_user.data.me.user.subjects.push(groupId + '-managers');
+                                            sakai_user.data.me.groups.push({
+                                                'sakai:group-id': groupId + '-managers'
+                                            });
                                             // 4g. Remove the creator as an explicit manager of all these groups
                                             batchRequests = [];
                                             var params = {
