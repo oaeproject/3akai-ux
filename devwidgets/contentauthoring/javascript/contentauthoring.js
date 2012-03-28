@@ -1347,8 +1347,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         'method': 'POST'
                     });
                     sakai.api.Server.batch(batchRequests, function(success, data) {
-                        if (success && data && data.results) {
-                            var saveSuccessful = true;
+                        var saveSuccessful = true;
+                        if (data && data.results) {
                             // each response status code should be 200 for a successful save
                             if (data.results[0] && (!data.results[0].success || data.results[0].status !== 200) ||
                                 data.results[1] && (!data.results[1].success || data.results[1].status !== 200) ||
@@ -1358,13 +1358,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                                     errorMsg = sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_403', 'contentauthoring');
                                 }
                             }
+                        }
 
-                            addEditButtonBinding();
-                            if (saveSuccessful) {
-                                $(window).trigger('update.versions.sakai', currentPageShown);
-                            } else {
-                                saveErrorNotification(errorMsg);
-                            }
+                        addEditButtonBinding();
+                        if (success && saveSuccessful) {
+                            $(window).trigger('update.versions.sakai', currentPageShown);
+                        } else {
+                            saveErrorNotification(errorMsg);
                         }
                     });
                 } else {
