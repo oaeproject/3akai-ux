@@ -1315,23 +1315,34 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
             updateWidgetURLs();
 
-            var batchRequests = [];
-            batchRequests.push({
-                'url': storePath + '.save.json',
-                'method': 'POST'
-            });
-            batchRequests.push({
-                'url': oldStorePath,
-                'method': 'POST',
-                'parameters': {
-                    ':operation': 'move',
-                    ':dest': storePath,
-                    ':replace': true
+            sakai.api.Server.loadJSON(oldStorePath, function(success, data) {
+                if (success && data) {
+                    var batchRequests = [];
+                    batchRequests.push({
+                        'url': oldStorePath,
+                        'method': 'POST',
+                        'parameters': {
+                            'version': $.toJSON(data)
+                        }
+                    });
+                    batchRequests.push({
+                        'url': oldStorePath,
+                        'method': 'POST',
+                        'parameters': {
+                            ':operation': 'move',
+                            ':dest': storePath,
+                            ':replace': true
+                        }
+                    });
+                    batchRequests.push({
+                        'url': storePath + '.save.json',
+                        'method': 'POST'
+                    });
+                    sakai.api.Server.batch(batchRequests, function() {
+                        addEditButtonBinding();
+                        $(window).trigger('update.versions.sakai', currentPageShown);
+                    });
                 }
-            });
-            sakai.api.Server.batch(batchRequests, function() {
-                addEditButtonBinding();
-                $(window).trigger('update.versions.sakai', currentPageShown);
             });
         };
 
