@@ -61,7 +61,7 @@
                     <select id="newaddcontent_upload_content_permissions">
                         <option value="public">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="private">__MSG__ONLY_ME__</option>
+                        <option value="private">__MSG__PRIVATE_TO_LIBRARY__</option>
                     </select>
 
                     <div id="newaddcontent_upload_content_copyright_container"></div>
@@ -93,7 +93,7 @@
                         <select id="newaddcontent_add_document_permissions">
                             <option value="public">__MSG__PUBLIC__</option>
                             <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                            <option value="private">__MSG__PRIVATE__</option>
+                            <option value="private">__MSG__PRIVATE_TO_LIBRARY__</option>
                         </select>
                     </div>
                     <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
@@ -204,14 +204,14 @@
         <form class="newaddcontent_form">
             <label for="newaddcontent_selecteditems_edit_permissions_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_permissions">
-                <option value="public" {if "public" == item["sakai:permissions"]} selected="selected"{/if}>__MSG__PUBLIC__</option>
-                <option value="everyone" {if "everyone" == item["sakai:permissions"]} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
-                <option value="private" {if "private" == item["sakai:permissions"]} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                <option value="public" {if item["sakai:permissions"] === "public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                <option value="everyone" {if item["sakai:permissions"] === "everyone"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
+                <option value="private" {if item["sakai:permissions"] === "private"} selected="selected"{/if}>__MSG__PRIVATE_TO_LIBRARY__</option>
             </select>
             <label for="newaddcontent_selecteditems_edit_permissions_copyright">__MSG__COPYRIGHT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_copyright">
             {for cr in copyright.types}
-                <option value="${cr_index}" {if cr_index == item["sakai:copyright"]} selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
+                <option value="${cr_index}" {if item["sakai:copyright"] === cr_index} selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
             {/for}
             </select>
         </form>
