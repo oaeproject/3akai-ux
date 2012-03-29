@@ -1059,6 +1059,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             sakai.api.User.getDisplayName(data.editor) + ' ' +
                             sakai.api.i18n.getValueForKey('THIS_PAGE_HAS_BEEN_EDITED', 'contentauthoring')
                         );
+                        addEditButtonBinding();
                     } else {
                         setEditInterval();
                         $(window).trigger('edit.contentauthoring.sakai');
