@@ -105,21 +105,32 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                     if (newPermission === "manager") {
                         atLeastOneManager = true;
                     }
+                    var addToCollectionPseudoGroup = 'members';
+                    var removeFromCollectionPseudoGroups = ['managers', 'editors'];
+                    if (newPermission === 'manager') {
+                        addToCollectionPseudoGroup = 'managers';
+                        removeFromCollectionPseudoGroups = ['editors', 'members'];
+                    } else if (newPermission === 'editor') {
+                        addToCollectionPseudoGroup = 'editors';
+                        removeFromCollectionPseudoGroups = ['managers', 'members'];
+                    }
                     permissionBatch.push({
-                        "url": "/system/userManager/group/" + groupID + "-" + (newPermission === "manager" ? "managers" : "members") + ".update.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":member": userId,
-                            ":viewer": userId
+                        'url': '/system/userManager/group/' + groupID + '-' + addToCollectionPseudoGroup + '.update.json',
+                        'method': 'POST',
+                        'parameters': {
+                            ':member': userId,
+                            ':viewer': userId
                         }
                     });
-                    permissionBatch.push({
-                        "url": "/system/userManager/group/" + groupID + "-" + (newPermission === "manager" ? "members" : "managers") + ".update.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":member@Delete": userId,
-                            ":viewer@Delete": userId
-                        }
+                    $.each(removeFromCollectionPseudoGroups, function(idx, group) {
+                        permissionBatch.push({
+                            'url': '/system/userManager/group/' + groupID + '-' + group + '.update.json',
+                            'method': 'POST',
+                            'parameters': {
+                                ':member@Delete': userId,
+                                ':viewer@Delete': userId
+                            }
+                        });
                     });
                 });
             } else {
@@ -133,7 +144,18 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                             "method": "POST",
                             "parameters": {
                                 ":manager": userId,
+                                ':editor@Delete': userId,
                                 ":viewer@Delete": userId
+                            }
+                        });
+                    } else if (newPermission === 'editor') {
+                        permissionBatch.push({
+                            'url': '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.members.json',
+                            'method': 'POST',
+                            'parameters': {
+                                ':editor': userId,
+                                ':viewer@Delete': userId,
+                                ':manager@Delete': userId
                             }
                         });
                     } else {
@@ -142,13 +164,14 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                             "method": "POST",
                             "parameters": {
                                 ":viewer": userId,
+                                ':editor@Delete': userId,
                                 ":manager@Delete": userId
                             }
                         });
                     }
                 });
             }
-            
+
             if (atLeastOneManager) {
                 // Do the Batch request
                 sakai.api.Server.batch(permissionBatch, function(success, data){
@@ -166,10 +189,11 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                     }
                 }, false);
             } else {
-                if(!globalPermissionsChanged){
+                if (!globalPermissionsChanged) {
                     closeOverlay();
-                }else {
-                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_SAVE_SETTINGS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
+                } else {
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('CANNOT_SAVE_SETTINGS', 'contentpermissions'),
+                        sakai.api.i18n.getValueForKey('THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER', 'contentpermissions'));
                 }
             }
         };
@@ -211,7 +235,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          */
         var doDelete = function(){
             var userid = $(this).data("sakai-entityid");
-            var manager = $(this).parent().data("originalpermission") === "managers";
+            var originalpermission = $(this).parent().attr('data-originalpermission');
+            var manager = originalpermission === 'managers';
+            var editor = originalpermission === 'editors';
             var $itemToDelete = $(this).parent();
             var userToDelete = {};
 
@@ -220,25 +246,33 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                 if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)) {
                     var userObj = [
                         {
-                            "permission": "managers", 
-                            "userid": userid
-                        }, 
+                            'permission': 'managers',
+                            'userid': userid
+                        },
                         {
-                            "permission": "members", 
-                            "userid": userid
+                            'permission': 'editors',
+                            'userid': userid
+                        },
+                        {
+                            'permission': 'members',
+                            'userid': userid
                         }
                     ];
-                    sakai.api.Groups.removeUsersFromGroup(sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data), userObj, sakai.data.me, function(){
+                    sakai.api.Groups.removeUsersFromGroup(sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data), userObj, sakai.data.me, function() {
                         $itemToDelete.remove();
                     });
                 } else {
                     if (manager) {
                         userToDelete = {
-                            ":manager@Delete": userid
+                            ':manager@Delete': userid
+                        };
+                    } else if (editor) {
+                        userToDelete = {
+                            ':editor@Delete': userid
                         };
                     } else {
                         userToDelete = {
-                            ":viewer@Delete": userid
+                            ':viewer@Delete': userid
                         };
                     }
                 }
@@ -270,14 +304,22 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             var tmpManagers = {};
             var managers = data.members.managers || [];
             var ml = managers.length;
+            var tmpEditors = {};
+            var editors = data.members.editors || [];
+            var el = editors.length;
             var tmpViewers = {};
             var viewers = data.members.viewers || [];
             var vl = viewers.length;
-            for(var i = 0; i < ml; i++){ //though unlikely, this will remove any duplicates within the manager permission
+            for (var i = 0; i < ml; i++) { //though unlikely, this will remove any duplicates within the manager permission
                 tmpManagers[managers[i].userid || managers[i].groupid] = managers[i];
             }
-            for(var j = 0; j < vl; j++){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
-                if(!tmpManagers[viewers[j].userid || viewers[j].groupid]){
+            for (var k = 0; k < el; k++) { //if the editor is a manager, don't add them. Also removes duplicates within viewer permissions
+                if (!tmpManagers[editors[k].userid || editors[k].groupid]) {
+                    tmpEditors[editors[k].userid || editors[k].groupid] = editors[k];
+                }
+            }
+            for (var j = 0; j < vl; j++) { //if the viewer is a manager or editor, don't add them. Also removes duplicates within viewer permissions
+                if (!tmpManagers[viewers[j].userid || viewers[j].groupid] && !tmpEditors[viewers[j].userid || viewers[j].groupid]) {
                     tmpViewers[viewers[j].userid || viewers[j].groupid] = viewers[j];
                 }
             }
@@ -288,6 +330,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             };
 
             data.members.managers = _.toArray(tmpManagers).sort(sortById);
+            data.members.editors = _.toArray(tmpEditors).sort(sortById);
             data.members.viewers = _.toArray(tmpViewers).sort(sortById);
             return data;
         };
@@ -375,7 +418,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                     data: [{
                         body: sakai_global.content_profile.content_data.data
                     }]
-                }, $("#contentpermissions_members_autosuggest_permissions").val() === "manager"
+                }, $('#contentpermissions_members_autosuggest_permissions').val()
             ]);
             changesMade = true;
         };
@@ -386,7 +429,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          */     
         var autosuggestFilterUsersGroups = function(){
             var filterlist = [];
-            var filterUsersGroups = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
+            var filterUsersGroups = sakai_global.content_profile.content_data.members.managers
+                .concat(sakai_global.content_profile.content_data.members.viewers, sakai_global.content_profile.content_data.members.editors);
             $.each(filterUsersGroups,function(i,val){
                 filterlist.push(val.userid || val.groupid);
             });
