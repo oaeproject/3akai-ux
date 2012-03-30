@@ -164,7 +164,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             if (widgetData.category === "invitation") {
                 determineInviteStatus(messageToShow);
             }
-            $inbox_box_title.text(sakai.api.Util.applyThreeDots(messageToShow.subject, 310));
+            $inbox_box_title.text(sakai.api.Util.applyThreeDots(messageToShow.subject, 310, false, false, true));
             sakai.api.Util.TemplateRenderer($inbox_show_message_template, {
                 message:messageToShow,
                 me: {
@@ -276,6 +276,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     $.each(data.results, function(index, result){
                         if (result.id){
                             messages[result.id] = result;
+                            result['body_nolinebreaks_short'] = sakai.api.Util.applyThreeDots(result.body_nolinebreaks, '550', {max_rows: 2}, false, true);
+                            result['subject_short'] = sakai.api.Util.applyThreeDots(result.subject, '550', {max_rows: 1}, 's3d-bold', true);
                         }
                     });
                     callback(true, data);

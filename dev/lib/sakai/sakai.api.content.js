@@ -808,15 +808,19 @@ define(
          * If the document hasn't been edited in the last 10 seconds it is safe to edit
          * @param {String} pagePath Path to the page to edit
          * @param {Function} callback The callback function
+         * @param {String} uniqueModifierId fakes a session by comparing a cached variable to a property
+                                            that is stored in the autosave data
          */
-        checkSafeToEdit: function(pagePath, callback) {
+        checkSafeToEdit: function(pagePath, uniqueModifierId, callback) {
             sakai_serv.loadJSON(pagePath + '.infinity.json', function(success, data) {
                 if ($.isFunction(callback)) {
                     // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
                     // someone else is editing the page right now.
                     data.safeToEdit = true;
-                    if (data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 &&
-                        data.editing._lastModifiedBy !== sakai_user.data.me.user.userid) {
+                    if (data.editing &&
+                        sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 &&
+                        (data.editing._lastModifiedBy !== sakai_user.data.me.user.userid ||
+                        uniqueModifierId !== data.editing['sakai:modifierid'])) {
                         data.safeToEdit = false;
                     }
                     sakai_user.getUser(data._lastModifiedBy, function(success, userData) {
@@ -1253,7 +1257,7 @@ define(
 
             /**
              * Create a new content collection. This includes the creation of a pooled content item and a pseudoGroup used to share
-             * content with. The manager-viewer feed for that pseudoGroup is then used to retrieve the content of the collection
+             * content with. The auth-all feed for that pseudoGroup is then used to retrieve the content of the collection
              * @param {Object} title            Title of the collection
              * @param {Object} description      Description of the collection
              * @param {Object} permissions      Permission to be set on the collection. Possible values are "public", "everyone"

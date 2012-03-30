@@ -56,7 +56,7 @@ define(function(){
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
             POOLED_CONTENT_VIEWER_ALL: "/var/search/pool/me/viewer-all.json",
-            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/manager-viewer.json",
+            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/auth-all.json",
             PRESENCE_SERVICE: "/var/presence.json",
             SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
             WORLD_CREATION_SERVICE: "/system/world/create",
@@ -543,6 +543,22 @@ define(function(){
             "enableReminders": true,
             "reminderIntervalHours": "168"
         },
+
+        /*
+         * Object to override default widget configuration
+         * Here you can add an object with the widget ID for the object key, with the configuration you would like to override
+         * An example to override options for the embedcontent widget:
+         *     embedcontent: {
+         *         defaultOptions: {
+         *             'embedmethod': 'original',
+         *             'layout': 'vertical',
+         *             'showName': false,
+         *             'showDetails': false,
+         *             'showDownload': false
+         *         }
+         *     }
+         */
+        WidgetSettings: {},
 
         enableBranding: true,
 

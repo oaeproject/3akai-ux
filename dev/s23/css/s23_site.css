@@ -16,9 +16,10 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Header */
-#entity_container{
-    padding:10px 0 !important;
+#entity_container {
+    padding: 10px 0 !important;
 }
+
 .s3d-site-heading #s23_site_title {
     margin: 8px 10px 0 0;
 }
@@ -33,50 +34,64 @@
 /* Menu */
 .s23_site #s23_site_menu_container {
     background: url("/devwidgets/lhnavigation/images/lhnav_bg.png") repeat-x scroll 0 0 #FEFEFE;
-    width:180px;
-    min-height:600px;
+    width: 180px;
+    min-height: 600px;
     float: left;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
 }
-#s23_site_menu_container .s23_site_menu_logo{
-    text-align:center;
+#s23_site_menu_container .s23_site_menu_logo {
+    text-align: center;
+    margin:5px auto;
 }
 .s23_site #s23_site_menu_container ul {
-    width:100%;
-    padding:0;
-    margin:0
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .s23_site #s23_site_menu_container ul li {
     list-style-type: none;
     text-align: left;
-    padding:0;
+    padding: 0;
 }
 
-.s23_site #s23_site_menu_container ul li a {
+.s23_site #s23_site_menu_container ul li a,  .s23_site #s23_site_menu_container ul li button {
     background-repeat: no-repeat;
     background-position: left center;
     color: #707E8C;
     display: block;
-    margin-left:10px;
+    margin-left: 10px;
     padding: 10px 0 10px 25px;
     text-decoration: none;
     font-weight: bold;
     word-wrap: break-word;
-    outline:none;
+    outline: none;
+}
+.s23_site #s23_site_menu_container ul li button {
+    border: none;
+    background-color: transparent;
+    font-size: 100%;
+    cursor: pointer;
 }
 .s23_site #s23_site_menu_container ul li a:focus {
-    color:#000;
+    color: #000;
 }
 .s23_site #s23_site_menu_container ul li.s23_site_menu_item_active {
-    background: url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left top #22AAE7;
-    color: #FFFFFF;
+    background: #6abcf6;
+    background: -moz-linear-gradient(top,  #d9e9f1 0%, #89d9fb 1%, #83d6f9 10%, #60c2ec 39%, #4fbef1 48%, #4dc0f1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9e9f1), color-stop(1%,#89d9fb), color-stop(10%,#83d6f9), color-stop(39%,#60c2ec), color-stop(48%,#4fbef1), color-stop(100%,#4dc0f1));
+    background: -webkit-linear-gradient(top,  #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: -o-linear-gradient(top,  #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: -ms-linear-gradient(top,  #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: linear-gradient(top,  #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    color :#fff;
 }
 
-.s23_site #s23_site_menu_container ul li.s23_site_menu_item_active a{
-    color:#fff;
+.s23_site #s23_site_menu_container ul li.s23_site_menu_item_active a {
+    color :#fff;
 }    
+
 .s23_site #s23_site_menu_container ul li a:hover {
     text-decoration: none;
 }
@@ -323,12 +338,12 @@
 
 /* Iframe container */
 .s23_site #s23_site_iframe_container {
-    margin: -1px 0 0 0;
+    margin: 0;
     border-top: 0;
-    min-height:600px;
-    box-shadow:-3px -3px 5px -2px #888;
+    min-height: 600px;
+    box-shadow: -3px -3px 5px -2px #888;
     float: left;
-    padding:  10px 10px;
+    padding:  10px;
     width: 755px;
 }
 
@@ -342,15 +357,15 @@
     font-size: 1em;
     margin-bottom: 0;
     padding: 4px 0;
-    height:100%;
-    overflow:hidden;
+    height: 100%;
+    overflow: hidden;
 }
 
 .s23_site #s23_site_iframe_container .s23_site_iframe_title h2 {
     color: #555;
     float: left;
     font-size: 1.2em;
-    font-weight:normal;
+    font-weight: normal;
     margin: 0 0 0 0.2em;
     padding: 2px 4px 6px 0;
 }
@@ -360,7 +375,7 @@
     display: block;
     float: left;
     height: 16px;
-    width: 16px
+    width: 16px;
 }
 
 .s23_site #s23_site_iframe_container .s23_site_iframe_title_reset:hover {
@@ -375,7 +390,7 @@
 /* Container */
 .s23_site #s23_site_container .fixed-container {
     background-color: #fff;
-    padding-bottom: 20px
+    padding-bottom: 20px;
 }
 
 .s23_site .s23_site_back {

@@ -72,3 +72,47 @@
 .fl-container-470 #contentcomments_txtMessage {width:94%;}
 .fl-container-470 .contentcomments_fillInCommentTopContainer {width:85%}
 .contentcomments_no_results {margin: 30px 10px 10px 10px;}
+
+
+/* OVERRIDES WHEN WIDGET IS EMBEDDED IN DASHBOARDACTIVITY */
+#dashboardactivity_container #contentcomments_mainContainer {
+    background: transparent;
+    border: none;
+}
+#dashboardactivity_container #contentcomments_mainContainer .s3d-contentpage-title {
+    display: none;
+}
+#dashboardactivity_container #contentcomments_mainContainer .contentcomments_comment.first {
+    padding: 0 12px;
+}
+#dashboardactivity_container #contentcomments_mainContainer .contentcomments_comment.last {
+    border-top: none;
+}
+#dashboardactivity_container #contentcomments_mainContainer .contentcomments_comment {
+    border-bottom: none;
+    padding: 0 12px 15px;
+}
+#dashboardactivity_container #contentcomments_mainContainer textarea {
+    height: 65px;
+}
+#dashboardactivity_container #contentcomments_mainContainer .contentcomments_fillInCommentTopContainer {
+    margin-left: 10px;
+    width: 91%;
+}
+#dashboardactivity_container #contentcomments_mainContainer .contentcomments_leftCommentBar {
+    margin-right: 10px;
+}
+#dashboardactivity_container #contentcomments_mainContainer .contentcomments_topCommentBar {
+    background-color: #fff;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    float: left;
+    margin-top: 0;
+    overflow: hidden;
+    padding: 7px 5px;
+    width: 89%;
+}
+#dashboardactivity_container #contentcomments_mainContainer .contentcomments_comment.last .contentcomments_avatar {
+    margin-top: 0;
+}

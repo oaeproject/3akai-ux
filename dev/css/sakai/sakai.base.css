@@ -743,6 +743,7 @@ a.s3d-widget-links, span.s3d-widget-links, .s3d-widget-links a, button.s3d-widge
     border: 1px solid #E0E3E5;
     box-shadow: none;
     margin-top: -1px;
+    padding: 1px 9px 0;
 }
 
 .s3d-bar-options > button.selected {
@@ -1276,6 +1277,11 @@ a.s3d-button.s3d-overlay-button {
 	width: 16px;
 	height: 19px;
 	background: url("/dev/images/search_icon.png") no-repeat top left transparent;
+}
+.s3d-search-container .s3d-search-result-count {
+    color: #666666;
+    position: relative;
+    top: -4px;
 }
 
 /*

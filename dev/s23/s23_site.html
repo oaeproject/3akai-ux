@@ -59,6 +59,7 @@
                 {for page in site.pages}
                     <li class="s23_site_menu_item"><a href="#page=${page.id}" class="${page.iconclass}" id="s23_site_menu_item_${page.id.replace(/([~!])/g, '_')}">${page.name}</a></li>
                 {/for}
+                <li class="s23_site_menu_item"><button class="icon-sakai-help" title="__MSG__HELP__" accesskey="6" href="#">__MSG__HELP__</button></li>
                 </ul>
             {else}
                 <span id="s23_site_notools">There are no tools available</span>

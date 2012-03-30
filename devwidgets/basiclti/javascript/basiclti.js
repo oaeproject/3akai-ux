@@ -72,7 +72,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var basicltiSettingsLtiKey = basicltiSettings + '_ltikey';
         var basicltiSettingsLtiSecret = basicltiSettings + '_ltisecret';
         var basicltiSettingsWidth = basicltiSettings + '_width';
-        var basicltiSettingsReleaseName = basicltiSettings + '_release_names';
 
         // Containers
         var basicltiMainContainer = basiclti + '_main_container';
@@ -149,10 +148,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var savedDataToJCR = function() {
             displayRemoteContent(json);
             sakai.api.Widgets.Container.informFinish(tuid, 'basiclti');
-        };
-
-        var isSakai2Tool = function() {
-            return false;
         };
 
 
@@ -243,8 +238,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             renderIframe();
         };
 
-        var saveContentAjax = function(json_data) {
-            sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
+        var saveContentAjax = function(savedata) {
+            $.ajax({
+                type: 'POST',
+                url: sakai.api.Widgets.getWidgetDataStorageURL(tuid),
+                data: savedata,
+                success: function(data) {
+                    savedDataToJCR(true, data);
+                }
+            });
         };
 
         /**
@@ -252,46 +254,37 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var saveRemoteContent = function(){
  
-            if (isSakai2Tool()) {
-                json['lti_virtual_tool_id'] = $('#basiclti_settings_lti_virtual_tool_id', $rootel).val();
-                json[':operation'] = 'basiclti';
-                json['sling:resourceType'] = 'sakai/basiclti';
-                json.ltikey = $(basicltiSettingsLtiKey, $rootel).val() || '';
-                json.ltisecret = $(basicltiSettingsLtiSecret, $rootel).val() || '';
-                json['debug@TypeHint'] = 'Boolean';
-                json.debug = $('#basiclti_settings_debug:checked', $rootel).val() !== null;
-                json['release_names@TypeHint'] = 'Boolean';
-                json.release_names = $('#basiclti_settings_release_names:checked', $rootel).val() !== null;
-                json['release_principal_name@TypeHint'] = 'Boolean';
-                json.release_principal_name = $('#basiclti_settings_release_principal_name:checked', $rootel).val() !== null;
-                json['release_email@TypeHint'] = 'Boolean';
-                json.release_email = $('#basiclti_settings_release_email:checked', $rootel).val() !== null;
-                json.launchDataUrl = ''; // does not need to be persisted
-                json.tuidFrame = ''; // does not need to be persisted
-                json.defined = ''; // what the heck is this? Where does it come from?
-                delete(json._MODIFIERS);
+            if (json.ltiurl !== '') {
 
-                saveContentAjax(json);
-            } else if (json.ltiurl !== '') {
-                json.ltiurl = $(basicltiSettingsLtiUrl, $rootel).val() || '';
-                json[':operation'] = 'basiclti';
-                json['sling:resourceType'] = 'sakai/basiclti';
-                json.ltikey = $(basicltiSettingsLtiKey, $rootel).val() || '';
-                json.ltisecret = $(basicltiSettingsLtiSecret, $rootel).val() || '';
-                json['debug@TypeHint'] = 'Boolean';
-                json.debug = $('#basiclti_settings_debug:checked', $rootel).val() !== null;
-                json['release_names@TypeHint'] = 'Boolean';
-                json.release_names = $('#basiclti_settings_release_names:checked', $rootel).val() !== null;
-                json['release_principal_name@TypeHint'] = 'Boolean';
-                json.release_principal_name = $('#basiclti_settings_release_principal_name:checked', $rootel).val() !== null;
-                json['release_email@TypeHint'] = 'Boolean';
-                json.release_email = $('#basiclti_settings_release_email:checked', $rootel).val() !== null;
-                json.launchDataUrl = ''; // does not need to be persisted
-                json.tuidFrame = ''; // does not need to be persisted
-                json.defined = ''; // what the heck is this? Where does it come from?
-                delete(json._MODIFIERS);
+                var savejson = {
+                    ':operation': 'basiclti',
+                    ':contentType': 'json',
+                    ':replace': true,
+                    ':replaceProperties': true,
+                    '_charset_': 'utf-8'
+                };
 
-                saveContentAjax(json);
+                var savejson_content = {
+                    'sling:resourceType': 'sakai/basiclti',
+                    'ltiurl': $(basicltiSettingsLtiUrl, $rootel).val() || '',
+                    'ltikey': $(basicltiSettingsLtiKey, $rootel).val() || '',
+                    'ltisecret': $(basicltiSettingsLtiSecret, $rootel).val() || '',
+                    'debug@TypeHint': 'Boolean',
+                    'debug': $('#basiclti_settings_debug:checked', $rootel).val() !== null,
+                    'release_names@TypeHint': 'Boolean',
+                    'release_names': $('#basiclti_settings_release_names:checked', $rootel).val() !== null,
+                    'release_principal_name@TypeHint': 'Boolean',
+                    'release_principal_name': $('#basiclti_settings_release_principal_name:checked', $rootel).val() !== null,
+                    'release_email@TypeHint': 'Boolean',
+                    'release_email': $('#basiclti_settings_release_email:checked', $rootel).val() !== null,
+                    'launchDataUrl': '', // does not need to be persisted
+                    'tuidFrame': '', // does not need to be persisted
+                    'defined': '' // what the heck is this? Where does it come from?
+                };
+                savejson_content = $.extend({}, json, savejson_content);
+                json = savejson_content;
+                savejson[':content'] = $.toJSON(savejson_content);
+                saveContentAjax(savejson);
             } else {
                 sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('PLEASE_SPECIFY_A_URL', 'basiclti'),
                                                  sakai.api.Util.notification.type.ERROR);
@@ -430,7 +423,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     width_unit: defaultWidthUnit
                 };
             }
-            json.isSakai2Tool = isSakai2Tool();
             renderRemoteContentSettings();
             renderColorContainer();
             addBinding();

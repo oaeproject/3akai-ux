@@ -202,6 +202,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 if (editorId && tinyMCE.get(editorId)) {
                     // Render the page in view mode
                     var currentText = tinyMCE.get(editorId).getContent();
+                    currentText = sakai.api.Security.saneHTML(currentText);
                     $('#htmlblock_view_container', $rootel).html(currentText);
                     sakai.api.Util.renderMath($rootel);
                 }
@@ -274,6 +275,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Fill up the textarea
             if (widgetData && widgetData.htmlblock) {
                 var processedContent = sakai.api.i18n.General.process(widgetData.htmlblock.content);
+                processedContent = sakai.api.Security.saneHTML(processedContent);
                 $('#htmlblock_view_container', $rootel).html(processedContent);
                 sakai.api.Util.renderMath($rootel);
                 $textarea.val(widgetData.htmlblock.content);
