@@ -6,6 +6,12 @@
             "description":"Account preferences",
             "name":"Account preferences"
         }
+"fr_FR": {
+            "bundle": "/devwidgets/accountpreferences/bundles/fr_FR.properties",
+            "description":"Account preferences french",
+            "name":"Account preferences french"
+        }
+
     },
     "type":"core",
     "enabled":true,
