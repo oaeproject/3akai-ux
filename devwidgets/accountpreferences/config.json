@@ -5,7 +5,7 @@
             "bundle": "/devwidgets/accountpreferences/bundles/default.properties",
             "description":"Account preferences",
             "name":"Account preferences"
-        }
+        },
 "fr_FR": {
             "bundle": "/devwidgets/accountpreferences/bundles/fr_FR.properties",
             "description":"Account preferences french",

@@ -33,7 +33,7 @@
 .accountpreferences_section_border{background-color:#EFEFEF;border: 1px solid #DBDBDB;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
 #accountpreferences_section_regional{width:415px;}
 #accountpreferences_section_autotagging{width:275px;}
-#accountpreferences_section_autotagging div {margin-bottom:10px;}
+#accountpreferences_section_autotagging div {margin-bottom:5px;}
 .accountpreferences_section_wrap_password{margin:0 10px 10px 0;padding:10px 20px;float:left;}
 .accountpreferences_section_privacy {margin:0 10px 10px 0;padding:20px;}
 #accountpreferences_section_password{width:742px;}
@@ -55,7 +55,7 @@ div.accountpreferences_error{color:#9F3333;font-weight:bold;left:180px;position:
 #accountpreferences_section_autotagging_buttons{float:left;padding:0;height:auto;margin:6px 0 0 5px;border-color:#828282;background-color:#828282;}
 #accountpreferences_section_autotagging_buttons:hover{background:none;background-color:#828282;}
 #accountpreferences_section_autotagging_buttons button{cursor:pointer;border:none;margin:0;float:left;background-color:#a3a3a3;box-shadow:0 0 8px -2px #505050 inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
-#accountpreferences_section_autotagging_buttons button span{line-height: 16px; padding-top:2px;margin:0;display:block;height:18px;width:30px;font-weight:bold;}
+#accountpreferences_section_autotagging_buttons button span{line-height: 16px; padding-top:2px;margin:0;display:block;height:18px;width:45px;font-weight:bold;}
 #accountpreferences_section_autotagging_buttons button.accountpreferences_autotagging_selected{background-color:#FAFAFA;box-shadow:0 0 8px -2px #AAAAAA inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
 #accountpreferences_section_autotagging_buttons #button_autotagging_true.accountpreferences_autotagging_selected{color:#008109;}
 #accountpreferences_section_autotagging_buttons #button_autotagging_false.accountpreferences_autotagging_selected{color:#800000;}
