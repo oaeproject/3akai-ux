@@ -5,7 +5,12 @@
             "bundle": "/devwidgets/addpeople/bundles/default.properties",
             "name": "Add people",
             "description":"Add people"
-        }
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/addpeople/bundles/fr_FR.properties",
+            "name": "Add people french",
+            "description":"Add people french"
+        } 
     },
     "type":"core",
     "enabled":true,
