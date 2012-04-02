@@ -646,7 +646,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 }
             });
         };
-        
+
 
         ///////////////////////
         ///////////////////////
@@ -1267,6 +1267,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Store an editted page
          */
         var savePage = function() {
+            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('SAVING_YOUR_PAGE', 'contentauthoring'), sakai.api.i18n.getValueForKey('PROCESSING_PAGE', 'contentauthoring'));
             // Alert the widgets that they should be storing their widget data
             $(window).trigger('save.contentauthoring.sakai');
             // Generate the new row / column structure
@@ -1342,6 +1343,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     sakai.api.Server.batch(batchRequests, function() {
                         addEditButtonBinding();
                         $(window).trigger('update.versions.sakai', currentPageShown);
+                        sakai.api.Util.progressIndicator.hideProgressIndicator();
                     });
                 }
             });
@@ -1416,10 +1418,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 // Clean up both versions
                 pageData = sakai.api.Server.removeServerCreatedObjects(pageData, ['_']);
                 autoSaveData = sakai.api.Server.removeServerCreatedObjects(autoSaveData, ['_']);
+                autoSaveData.version = $.parseJSON(autoSaveData.version);
 
                 // Remove unncesessary properties for the comparison
                 var tmpPageData = $.extend(true, {}, pageData);
-                var tmpAutosaveData = $.extend(true, {}, autoSaveData);
+                var tmpAutosaveData = $.extend(true, {}, autoSaveData.version);
                 delete tmpPageData.editing;
                 delete tmpPageData.version;
                 delete tmpPageData.safeToEdit;
@@ -1486,6 +1489,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * @param {Object} data     Page object to make a temporary copy of
          */
         var makeTempCopy = function(data) {
+            if (data.version && !$.isPlainObject(data.version)) {
+                data.version = $.parseJSON(data.version);
+            }
             // Make temporary copy 
             sakai.api.Server.saveJSON(storePath, data, null, true);
             // Get the widgets in this page and change their save URL
