@@ -69,6 +69,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         //////////////////////////////
 
         var renderData = function() {
+            $('head').append('<link href="/dev/skins/print/skin.css" type="text/css" rel="stylesheet" media="print" />');
             calculateOrder();
             var lhnavHTML = sakai.api.Util.TemplateRenderer('lhnavigation_template', {
                 'private': privstructure,
