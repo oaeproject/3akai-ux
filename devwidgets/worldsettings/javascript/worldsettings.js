@@ -59,6 +59,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         //Themechanger
         var themePicker = '#worldsettings_change_theme_to';
         var themePickerTemplate = $('#themechanger_form_template', $rootel);
+        var themes = $.extend(sakai.config.skinStore, {}, true);
 
         var visibility = '';
         var worldId = '';
@@ -83,7 +84,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         * @param {String} cssURL The url of the skin to which the user wants to change to
         */
         var changeCSS = function(cssURL) {
-            $('link[href*="skin"]').remove();
+            for (theme in themes) {
+                if ($('link[href*="' + themes[theme].url + '"]')[0]) {
+                   $('link[href*="' + themes[theme].url + '"]').remove();
+                }
+            };
             sakai.api.Util.include.css(cssURL);
         };
 
@@ -94,16 +99,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var getCurrentTheme = function() {
             var href = '';
             var currentTheme = '';
-            var themes = $.extend(sakai.config.skinStore, {}, true);
-            for(theme in themes){
-                if($('link[href*="' + themes[theme].url + '"]')) {
+            for (theme in themes) {
+                if ($('link[href*="' + themes[theme].url + '"]')[0]) {
                     href = themes[theme].url;
                 }
-            }
-            
-            $('link[href*="skin"]').each(function() {
-                href = this.href;
-            });
+            };
             $.each(sakai.config.skinStore, function (key, value) {
                 if (href.indexOf(value.url) >= 0) {
                     currentTheme = value.title;
@@ -216,7 +216,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'description': profile['sakai:group-description'],
                 'foundin': profile['sakai:group-visible'],
                 'membership': profile['sakai:group-joinable'],
-                'themes': $.extend(sakai.config.skinStore, {}, true),
+                'themes': themes,
                 'selectedTheme': getCurrentTheme(),
                 'enableThemes': profile["sakai:enableThemes"]
             }));
