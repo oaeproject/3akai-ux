@@ -188,7 +188,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var bindEvents = function(worldId) {
             $worldsettingsApplyButton.off('click').on('click', function() {
                 var selectedTheme = $('#worldsettings_change_theme_to').val();
-                if(sakai_global.group.groupData["sakai:enableThemes"] == "true") {
+                if (sakai_global.group.groupData["sakai:enableThemes"] === "true") {
                     changeTheme(selectedTheme);
                 }
                 showWarning();

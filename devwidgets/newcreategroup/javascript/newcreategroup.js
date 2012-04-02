@@ -120,20 +120,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             },
             type: 'POST',
             success: function(){
-            window.location = "/~" + groupid;
+                window.location = "/~" + groupid;
             }
          });
-    }
+    };
 
     var setDefaultContent = function(groupid){
         var contentToAdd = $.bbq.getState("contentToAdd");
-        if(contentToAdd.length > 1 && !$.isArray(contentToAdd)) {
+        if (contentToAdd.length > 1 && !$.isArray(contentToAdd)) {
             contentToAdd = contentToAdd.split(",");
         }
         var count = 0;
         $.each(contentToAdd, function(i, contentId){
             sakai.api.Content.addToLibrary(contentId, groupid, false, function(contentId, entityId) {
-                if(checkDefaultContentAdded(contentToAdd, count)) {
+                if (checkDefaultContentAdded(contentToAdd, count)) {
                     addThemeSettings(groupid);
                 } else {
                     count++;
@@ -145,27 +145,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var getStyleUrl = function(selectedTheme) {
         var url = '';
         $.each(sakai.config.skinStore, function(key, value) {
-            if(selectedTheme == value.title) { 
+            if (selectedTheme === value.title) { 
                 url = value.url;
-                }
-            });
+            }
+        });
         return url;
-    }
+    };
 
     var getAllowThemechangerValue = function(value) {
-        if(value == 'ENABLE') {
+        if (value === 'ENABLE') {
             return true;
-        } else if(value == 'DISABLE') {
+        } else if (value === 'DISABLE') {
             return false;
         }
     }
 
     var renderThemes = function() {
-        themes = {themes:$.extend(sakai.config.skinStore, {}, true)};
+        themes = {
+            themes: $.extend(sakai.config.skinStore, {}, true)
+        };
         $('#newcreategroup_change_theme_to').html(sakai.api.Util.TemplateRenderer('#newcreategroup_themes_template',{
             'themes': themes
         }));
-    }
+    };
 
     /**
      * Create a simple group and execute the tagging and membership functions
@@ -181,8 +183,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var body = $.trim($newcreategroup_members_message_template_unprocessed.text().replace("<\"Role\">", "${role}").replace("<\"First Name\">", "${firstName}"));
         var joinable = $newcreategroupGroupMembership.val();
         var visible = $newcreategroupCanBeFoundIn.val();
-        //var customThemeURL = getStyleUrl($('#newcreategroup_change_theme_to').val());
-        //var allowThemechanger = getAllowThemechangerValue($('#newcreategroup_allowthemechanger').val());
         sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, grouptags, users, joinable, visible, templatePath, subject, body, sakai.data.me, function(success, groupData, nameTaken){
             if (success) {
                 if($.bbq.getState("contentToAdd")){
