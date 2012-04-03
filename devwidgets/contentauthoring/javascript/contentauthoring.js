@@ -1318,6 +1318,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
             sakai.api.Server.loadJSON(oldStorePath, function(success, data) {
                 if (success && data) {
+                    data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
+                    delete data.version;
                     var batchRequests = [];
                     batchRequests.push({
                         'url': oldStorePath,
@@ -1338,6 +1340,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     batchRequests.push({
                         'url': storePath + '.save.json',
                         'method': 'POST'
+                    });
+                    batchRequests.push({
+                        'url': currentPageShown.pageSavePath,
+                        'method': 'POST',
+                        'parameters': {
+                            'sakai:forceupdate': true
+                        }
                     });
                     sakai.api.Server.batch(batchRequests, function() {
                         addEditButtonBinding();
