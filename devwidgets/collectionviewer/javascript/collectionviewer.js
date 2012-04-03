@@ -130,10 +130,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sakai: sakai,
                 collectionName: getCollectionName(),
                 collectionId: getCollectionId(collectionviewer.contextId),
-                isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
+                isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId)
             }, $collectionviewerCarouselContainer);
             $('#collectionviewer_finish_editing_collection_button', $rootel).hide();
-            if (sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)) {
+            if (sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId)) {
                 $('#collectionviewer_edit_collection_button', $rootel).show();
             }
             $collectionviewerCarouselContainer.animate({
@@ -188,7 +188,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         sakai: sakai,
                         collectionName: getCollectionName(),
                         collectionId: getCollectionId(collectionviewer.contextId),
-                        isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId),
+                        isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId),
                         pagePreviewDisabled: pagePreviewDisabled
                     }, $('#collectionviewer_expanded_content_container', $rootel));
                     if (previewsAllowed) {
@@ -201,7 +201,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     sakai: sakai,
                     collectionName: getCollectionName(),
                     collectionId: getCollectionId(collectionviewer.contextId),
-                    isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId),
+                    isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId),
                     pagePreviewDisabled: pagePreviewDisabled
                 }, $('#collectionviewer_expanded_content_container', $rootel));
                 if (previewsAllowed) {
@@ -224,7 +224,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Boolean} editMode True if the widget is in edit mode
          */
         var renderGridOrList = function(grid, editMode) {
-            if (sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)) {
+            if (sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId)) {
                 if (editMode) {
                     $('#collectionviewer_edit_collection_button', $rootel).hide();
                     $('#collectionviewer_finish_editing_collection_button', $rootel).show();
@@ -241,7 +241,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 editMode: editMode,
                 collectionName: getCollectionName(),
                 collectionId: getCollectionId(collectionviewer.contextId),
-                isManager: sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)
+                isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId)
             }, $collectionviewerGridListContainer);
             $collectionviewerGridListContainer.show();
             var pageCount = Math.ceil(collectionviewer.total / carouselSize);
@@ -727,7 +727,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 previewsAllowed = false;
             }
             $('.collectionviewer_widget', $rootel).show();
-            if (sakai.api.Content.Collections.canCurrentUserManageCollection(collectionviewer.contextId)) {
+            if (sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId)) {
                 $('#collectionviewer_header_container #collectionviewer_add_content_button', $rootel).show();
                 $('#collectionviewer_header_container #collectionviewer_edit_collection_button', $rootel).show();
                 $('#collectionviewer_finish_editing_collection_button', $rootel).hide();

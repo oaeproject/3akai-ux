@@ -7,10 +7,12 @@
     <div id="entity_dropdown_wrapper" class="s3d-dropdown-list">
         <div class="s3d-dropdown-list-arrow-up"></div>
         <ul>
-            <li class="ew_permissions">
-                <button class="s3d-link-button">__MSG__PERMISSIONS__</button>
-            </li>
-            <hr class="s3d-split-line"/>
+            {if data.isManager}
+                <li class="ew_permissions">
+                    <button class="s3d-link-button">__MSG__PERMISSIONS__</button>
+                </li>
+                <hr class="s3d-split-line"/>
+            {/if}
             {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"}
                 <li id="ew_upload">
                     <button class="s3d-link-button">__MSG__UPLOAD_NEW_VERSION__</button>
@@ -23,9 +25,11 @@
                 </li>
                 <hr class="s3d-split-line"/>
             {/if}
-            <li id="ew_content_preview_delete">
-                <button class="s3d-link-button">__MSG__DELETE__</button>
-            </li>
+            {if data.isManager}
+                <li id="ew_content_preview_delete">
+                    <button class="s3d-link-button">__MSG__DELETE__</button>
+                </li>
+            {/if}
         </ul>
     </div>
 --></div>
@@ -192,7 +196,7 @@
         {var permissions = data.data["sakai:permissions"]}
         <div id="entity_actions">
             {if !anon}
-                {if type && type == "content_managed"}
+                {if type && (type === "content_managed" || (type === "content_edited" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"))}
                     <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
                 {/if}
                 <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__ADD_TO__<span class="entity_add_to_library"></span></button>
