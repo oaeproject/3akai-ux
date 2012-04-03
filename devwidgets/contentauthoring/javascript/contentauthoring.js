@@ -1320,37 +1320,42 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if (success && data) {
                     data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
                     delete data.version;
-                    var batchRequests = [];
-                    batchRequests.push({
-                        'url': oldStorePath,
-                        'method': 'POST',
-                        'parameters': {
+
+                    // SAKIII-5393 - We need to do this in a separate request
+                    // because sometimes the content isn't moved from the original location
+                    $.ajax({
+                        url: oldStorePath,
+                        type: 'POST',
+                        data: {
                             'version': $.toJSON(data)
+                        },
+                        success: function() {
+                            var batchRequests = [];
+                            batchRequests.push({
+                                'url': oldStorePath,
+                                'method': 'POST',
+                                'parameters': {
+                                    ':operation': 'move',
+                                    ':dest': storePath,
+                                    ':replace': true
+                                }
+                            });
+                            batchRequests.push({
+                                'url': storePath + '.save.json',
+                                'method': 'POST'
+                            });
+                            batchRequests.push({
+                                'url': currentPageShown.pageSavePath,
+                                'method': 'POST',
+                                'parameters': {
+                                    'sakai:forceupdate': true
+                                }
+                            });
+                            sakai.api.Server.batch(batchRequests, function() {
+                                addEditButtonBinding();
+                                $(window).trigger('update.versions.sakai', currentPageShown);
+                            });
                         }
-                    });
-                    batchRequests.push({
-                        'url': oldStorePath,
-                        'method': 'POST',
-                        'parameters': {
-                            ':operation': 'move',
-                            ':dest': storePath,
-                            ':replace': true
-                        }
-                    });
-                    batchRequests.push({
-                        'url': storePath + '.save.json',
-                        'method': 'POST'
-                    });
-                    batchRequests.push({
-                        'url': currentPageShown.pageSavePath,
-                        'method': 'POST',
-                        'parameters': {
-                            'sakai:forceupdate': true
-                        }
-                    });
-                    sakai.api.Server.batch(batchRequests, function() {
-                        addEditButtonBinding();
-                        $(window).trigger('update.versions.sakai', currentPageShown);
                     });
                 }
             });
