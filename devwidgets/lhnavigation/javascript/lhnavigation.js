@@ -1384,14 +1384,25 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.RIGHT &&
-                    $el.prev('div').hasClass('lhnavigation_has_subnav') &&
-                    !$el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
-                // open sub menu
-                $el.click();
-            } else if (ev.which == $.ui.keyCode.LEFT &&
-                    $el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
+            } else if (ev.which == $.ui.keyCode.RIGHT) {
+                if ($el.siblings('.lhnavigation_has_subnav').length && !$el.siblings('.lhnavigation_has_subnav_opened').length) {
+                    // open sub menu
+                    $el.click();
+                } else if ($el.siblings('.lhnavigation_selected_submenu').length) {
+                    $el.siblings('.lhnavigation_selected_submenu').find('button').focus();
+                }
+            } else if (ev.which == $.ui.keyCode.LEFT && $el.siblings('.lhnavigation_has_subnav_opened').length) {
                 // close sub menu
+                $el.click();
+            }
+        });
+
+        // bind arrow keys for navigation to page options dropdown
+        $rootel.on('keydown', '.lhnavigation_menuitem button', function(ev) {
+            var $el = $(this);
+            if (ev.which == $.ui.keyCode.LEFT && $el.parent().siblings('a').length) {
+                $el.parent().siblings('a').focus();
+            } else if (ev.which == $.ui.keyCode.DOWN) {
                 $el.click();
             }
         });
