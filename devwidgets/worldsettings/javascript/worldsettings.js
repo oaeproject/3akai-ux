@@ -95,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Groups.updateGroupProfile(worldId, worldData, worldTags, sakai_global.group.groupData, function( success ) {
                 $worldsettingsContainer.find("select, input").removeAttr("disabled");
 
-                $(window).trigger("sakai.entity.updateTitle", worldTitle);
+                $(window).trigger('updatedTitle.worldsettings.sakai', worldTitle);
                 sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
                 sakai.api.Util.Modal.close($worldsettingsDialog);
                 sakai.api.Util.Modal.close('#worldsettings_warning_container');
