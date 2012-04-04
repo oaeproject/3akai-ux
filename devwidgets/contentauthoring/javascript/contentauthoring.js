@@ -1335,16 +1335,16 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         'url': oldStorePath,
                         'method': 'POST',
                         'parameters': {
-                            ':operation': 'move',
-                            ':dest': storePath,
-                            ':replace': true
+                            'version': $.toJSON(data)
                         }
                     });
                     batchRequests.push({
                         'url': oldStorePath,
                         'method': 'POST',
                         'parameters': {
-                            'version': $.toJSON(data)
+                            ':operation': 'move',
+                            ':dest': storePath,
+                            ':replace': true
                         }
                     });
                     batchRequests.push({
@@ -1451,7 +1451,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
                 // Only show the restore overlay if there is an autosave version and the
                 // page content has changed
-                if (!success || _.isEqual(tmpPageData, tmpAutosaveData)) {
+                if (!success || _.isEqual(tmpPageData, tmpAutosaveData) ||
+                        !tmpAutosaveData.rows) {
                     makeTempCopy(pageData);
                 } else {
                     showRestoreAutoSaveDialog(pageData, autoSaveData);
