@@ -127,7 +127,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                     if (newPermission === "manager") {
                         atLeastOneManager = true;
                     }
-                    updateContentPermissionData(userId, oldPermission, newPermission + 's');
                     var addToCollectionPseudoGroup = 'members';
                     var removeFromCollectionPseudoGroups = ['managers', 'editors'];
                     if (newPermission === 'manager') {
