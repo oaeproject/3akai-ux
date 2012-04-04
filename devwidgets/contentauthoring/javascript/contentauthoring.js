@@ -1275,6 +1275,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             exitEditMode();
             // Determine whether or not to show the empty page placeholder
             determineEmptyAfterSave();
+            
+            $.ajax({
+                url: sakai_global.content_profile.content_data["content_path"] + ".json",
+                type: "POST",
+                data: {
+                    "sakai:needsprocessing": true,
+                },
+            });
 
             checkPageReadyToSave(pageLayout.rows, pageLayout.widgetIds);
         };
