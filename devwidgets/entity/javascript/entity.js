@@ -580,7 +580,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(".entity_owns_actions_container .ew_permissions").live("hover", function(){
                 var $dropdown = $(this).find(".s3d-dropdown-list");
-                $dropdown.css("left", $(this).position().left - $dropdown.width() / 2 + 7  );
+                $dropdown.css("left", $(this).position().left - $dropdown.width() / 2 - 30 );
                 $dropdown.css("margin-top", $(this).height() + 7 + "px");
             });
 
