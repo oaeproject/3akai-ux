@@ -1054,7 +1054,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     }
                     break;
                 case 'my_library':
-                    searchURL = '/var/search/pool/manager-viewer.json?userid=' + sakai.data.me.user.userid + '&items=10&page=' + (pagenum - 1) + '&sortOrder=' + sortOrder + '&sortOn=' + sortOn + '&q=' + q;
+                    searchURL = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + '?userid=' + sakai.data.me.user.userid + '&items=10&page=' + (pagenum - 1) + '&sortOrder=' + sortOrder + '&sortOn=' + sortOn + '&q=' + q;
                     break;
             }
             uncheckCheckboxes();

@@ -1041,6 +1041,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Put the page into edit mode
          */
         var editPage = function() {
+            $rootel.off('click', '#inserterbar_action_edit_page', editPage);
             sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, uniqueModifierId, function(success, data) {
                 if (data.safeToEdit) {
                     // Update the content based on the current state of the document
@@ -1075,6 +1076,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         sakai.api.User.getDisplayName(data.editor) + ' ' +
                         sakai.api.i18n.getValueForKey('IS_CURRENTLY_EDITING', 'contentauthoring')
                     );
+                    addEditButtonBinding();
                 }
             });
         };
@@ -1170,7 +1172,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // emptyPageElements will later be overridden if the tinymce instances don't have any content after all
             $.each(currentPageShown.content.rows, function(rowIndex, row) {
                 $.each(row.columns, function(columnIndex, column) {
-                    if (column.elements.length) {
+                    if (column.elements && column.elements.length) {
                         $.each(column.elements, function(elIndex, element) {
                             // Check designed to look at specific storage types
                             if (element.type === 'htmlblock') {
@@ -1313,22 +1315,34 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
             updateWidgetURLs();
 
-            var batchRequests = [];
-            batchRequests.push({
-                'url': storePath + '.save.json',
-                'method': 'POST'
-            });
-            batchRequests.push({
-                'url': oldStorePath,
-                'method': 'POST',
-                'parameters': {
-                    ':operation': 'move',
-                    ':dest': storePath,
-                    ':replace': true
+            sakai.api.Server.loadJSON(oldStorePath, function(success, data) {
+                if (success && data) {
+                    var batchRequests = [];
+                    batchRequests.push({
+                        'url': oldStorePath,
+                        'method': 'POST',
+                        'parameters': {
+                            'version': $.toJSON(data)
+                        }
+                    });
+                    batchRequests.push({
+                        'url': oldStorePath,
+                        'method': 'POST',
+                        'parameters': {
+                            ':operation': 'move',
+                            ':dest': storePath,
+                            ':replace': true
+                        }
+                    });
+                    batchRequests.push({
+                        'url': storePath + '.save.json',
+                        'method': 'POST'
+                    });
+                    sakai.api.Server.batch(batchRequests, function() {
+                        addEditButtonBinding();
+                        $(window).trigger('update.versions.sakai', currentPageShown);
+                    });
                 }
-            });
-            sakai.api.Server.batch(batchRequests, function() {
-                $(window).trigger('update.versions.sakai', currentPageShown);
             });
         };
 
@@ -1373,6 +1387,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             });
             updateWidgetURLs();
             renderPage(currentPageShown, true);
+            addEditButtonBinding();
         };
 
         //////////////
@@ -1481,6 +1496,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         ///////////////////
         ///////////////////
 
+        /**
+         * Add click handler to the edit button
+         */
+        var addEditButtonBinding = function() {
+            $rootel.on('click', '#inserterbar_action_edit_page', editPage);
+        };
+
         ////////////////////
         // PAGE RENDERING //
         ////////////////////
@@ -1501,7 +1523,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         });
 
         // Edit page button
-        $rootel.on('click', '#inserterbar_action_edit_page', editPage);
+        addEditButtonBinding();
 
         ///////////////////
         // EDIT ROW MENU //

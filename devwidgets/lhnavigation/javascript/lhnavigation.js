@@ -610,6 +610,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     content: currentPageShown.content
                 };
                 editPageTitle();
+                $(window).on('click', '#inserterbar_action_add_page', addNewPage);
             } else {
                 $(window).trigger('showpage.contentauthoring.sakai', [currentPageShown]);
             }
@@ -657,7 +658,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var showContextMenu = function($clickedItem){
             var contextMenu = $('#lhnavigation_submenu');
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
-            contextMenu.css('left', $clickedItem.position().left + 65 + 'px');
+            var leftOffset = 68;
+            if ($clickedItem.parents('.lhnavigation_subnav_item').attr('data-sakai-addcontextoption') === 'user') {
+                leftOffset = 63;
+            }
+            contextMenu.css('left', $clickedItem.position().left + leftOffset + 'px');
             contextMenu.css('top', $clickedItem.position().top + 6 + 'px');
             toggleContextMenu();
         };
@@ -731,6 +736,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         var addNewPage = function() {
+            $(window).off('click', '#inserterbar_action_add_page', addNewPage);
             if (contextData.addArea) {
                 addSubPage();
             } else {
@@ -863,13 +869,16 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
                     renderData();
                     addParametersToNavigation();
-                    $(window).trigger('sakai.contentauthoring.needsTwoColumns');
-                    $.bbq.pushState({
-                        'l': currentPageShown.path.split('/')[0] +
-                                '/' + newpageid,
-                        'newPageMode': 'true'
-                    }, 0);
-                    enableSorting();
+
+                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath + '/' + newpageid + '/', pageContent, function() {
+                        $(window).trigger('sakai.contentauthoring.needsTwoColumns');
+                        $.bbq.pushState({
+                            'l': currentPageShown.path.split('/')[0] +
+                                    '/' + newpageid,
+                            'newPageMode': 'true'
+                        }, 0);
+                        enableSorting();
+                    }, true);
                 }
             });
         };
@@ -1252,9 +1261,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             onContextMenuHover($(this), $(this).parent('li'));
         });
 
-        $('#inserterbar_action_add_page').live('click', function() {
-            addNewPage();
-        });
+        $(window).on('click', '#inserterbar_action_add_page', addNewPage);
 
         $('#lhavigation_submenu_edittitle').live('click', function(ev) {
             editPageTitle();

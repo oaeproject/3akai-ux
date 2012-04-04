@@ -58,8 +58,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showWarning = function(){
             var newVisibility = $(worldsettingsCanBeFoundIn);
             var newVisibilityVal = $.trim(newVisibility.val());
+            var oldVisibilityVal = sakai_global.group.groupData['sakai:group-visible'];
             var oldVisibilityIndex = parseInt(newVisibility.find("option[value='" + sakai_global.group.groupData["sakai:group-visible"] + "']").attr("index"), 10);
-            if (sakai_global.group.groupData["sakai:group-visible"] === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex"), 10) > oldVisibilityIndex || newVisibilityVal === "members-only"){
+            if (sakai_global.group.groupData['sakai:group-visible'] === newVisibilityVal || parseInt(newVisibility.attr('selectedIndex'), 10) > oldVisibilityIndex || newVisibilityVal === 'members-only' || oldVisibilityVal === 'public') {
                 $worldsettingsForm.submit();
             } else {
                 $("#worldsettings_warning_container_text").html(sakai.api.Util.TemplateRenderer("worldsettings_warning_container_text_template", {
@@ -94,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Groups.updateGroupProfile(worldId, worldData, worldTags, sakai_global.group.groupData, function( success ) {
                 $worldsettingsContainer.find("select, input").removeAttr("disabled");
 
-                $(window).trigger("sakai.entity.updateTitle", worldTitle);
+                $(window).trigger('updatedTitle.worldsettings.sakai', worldTitle);
                 sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
                 sakai.api.Util.Modal.close($worldsettingsDialog);
                 sakai.api.Util.Modal.close('#worldsettings_warning_container');

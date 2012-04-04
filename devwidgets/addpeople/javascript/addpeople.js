@@ -118,6 +118,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 "roles": currentTemplate.roles,
                 "sakai": sakai
             }));
+            $addpeopleSelectedContactsContainer.prop('scrollTop',
+                $addpeopleSelectedContactsContainer.prop('scrollHeight'));
             enableDisableControls(true);
         };
 
