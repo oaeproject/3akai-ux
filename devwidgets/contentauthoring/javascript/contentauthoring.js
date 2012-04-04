@@ -1041,6 +1041,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Put the page into edit mode
          */
         var editPage = function() {
+            sakai.api.Util.progressIndicator.showProgressIndicator(
+                sakai.api.i18n.getValueForKey('PROCESSING_YOUR_PAGE', 'contentauthoring'),
+                sakai.api.i18n.getValueForKey('PROCESSING_PAGE_TO_EDIT', 'contentauthoring'));
             $rootel.off('click', '#inserterbar_action_edit_page', editPage);
             sakai.api.Content.checkSafeToEdit(currentPageShown.pageSavePath + '/' + currentPageShown.saveRef, uniqueModifierId, function(success, data) {
                 if (data.safeToEdit) {
@@ -1059,6 +1062,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             sakai.api.User.getDisplayName(data.editor) + ' ' +
                             sakai.api.i18n.getValueForKey('THIS_PAGE_HAS_BEEN_EDITED', 'contentauthoring')
                         );
+                        sakai.api.Util.progressIndicator.hideProgressIndicator();
                         addEditButtonBinding();
                     } else {
                         setEditInterval();
@@ -1072,6 +1076,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         checkAutoSave(data);
                     }
                 } else {
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
                     sakai.api.Util.notification.show(
                         sakai.api.i18n.getValueForKey('CONCURRENT_EDITING', 'contentauthoring'),
                         sakai.api.User.getDisplayName(data.editor) + ' ' +
@@ -1267,6 +1272,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Store an editted page
          */
         var savePage = function() {
+            sakai.api.Util.progressIndicator.showProgressIndicator(
+                sakai.api.i18n.getValueForKey('SAVING_YOUR_PAGE', 'contentauthoring'),
+                sakai.api.i18n.getValueForKey('PROCESSING_PAGE', 'contentauthoring'));
+
             // Alert the widgets that they should be storing their widget data
             $(window).trigger('save.contentauthoring.sakai');
             // Generate the new row / column structure
@@ -1326,16 +1335,16 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         'url': oldStorePath,
                         'method': 'POST',
                         'parameters': {
-                            'version': $.toJSON(data)
+                            ':operation': 'move',
+                            ':dest': storePath,
+                            ':replace': true
                         }
                     });
                     batchRequests.push({
                         'url': oldStorePath,
                         'method': 'POST',
                         'parameters': {
-                            ':operation': 'move',
-                            ':dest': storePath,
-                            ':replace': true
+                            'version': $.toJSON(data)
                         }
                     });
                     batchRequests.push({
@@ -1352,6 +1361,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     sakai.api.Server.batch(batchRequests, function() {
                         addEditButtonBinding();
                         $(window).trigger('update.versions.sakai', currentPageShown);
+                        sakai.api.Util.progressIndicator.hideProgressIndicator();
                     });
                 }
             });
@@ -1445,6 +1455,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     makeTempCopy(pageData);
                 } else {
                     showRestoreAutoSaveDialog(pageData, autoSaveData);
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
                 }
             });
         };
@@ -1511,7 +1522,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
 
             // Make temporary copy 
-            sakai.api.Server.saveJSON(storePath, data, null, true);
+            sakai.api.Server.saveJSON(storePath, data, function(){
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
+            }, true);
             // Get the widgets in this page and change their save URL
             updateWidgetURLs();
         };
