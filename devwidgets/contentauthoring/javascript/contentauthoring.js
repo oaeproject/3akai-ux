@@ -1363,6 +1363,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         addEditButtonBinding();
                         if (success && saveSuccessful) {
                             $(window).trigger('update.versions.sakai', currentPageShown);
+                            sakai.api.Util.notification.show(
+                                sakai.api.i18n.getValueForKey('SAVE_SUCCESSFUL', 'contentauthoring'),
+                                sakai.api.i18n.getValueForKey('SAVE_SUCCESSFUL_TEXT', 'contentauthoring'));
                         } else {
                             saveErrorNotification(errorMsg);
                         }
