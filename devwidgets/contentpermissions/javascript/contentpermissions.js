@@ -90,17 +90,47 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         };
 
         /**
+         * Updates the global content object with the changed membership data
+         * @param {String} authId The ID for the user/group that has changed membership
+         * @param {String} oldPermission The users old permission
+         * @param {String} newPermission The users new permission (optional)
+         */
+        var updateContentPermissionData = function(authId, oldPermission, newPermission) {
+            var userData = false;
+            var index = false;
+            if (oldPermission !== newPermission && sakai_global.content_profile.content_data.members[oldPermission]) {
+                $.each(sakai_global.content_profile.content_data.members[oldPermission], function(i, userObject) {
+                    if (userObject.userid && userObject.userid === authId) {
+                        index = i;
+                        userData = userObject;
+                    } else if (userObject.groupid && userObject.groupid === authId) {
+                        index = i;
+                        userData = userObject;
+                    }
+                });
+                if (userData && sakai_global.content_profile.content_data.members[oldPermission]) {
+                    sakai_global.content_profile.content_data.members[oldPermission].splice(index, 1);
+                    if (newPermission && sakai_global.content_profile.content_data.members[newPermission]) {
+                        sakai_global.content_profile.content_data.members[newPermission].push(userData);
+                    }
+                }
+            }
+        };
+
+        /**
          * Saves permissions for each individual member in the list of members
          */
         var saveMemberPermissions = function(){
             var permissionBatch = [];
             var atLeastOneManager = false;
             var savePermissions = false;
+            var permissionsToUpdate = [];
 
             if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
                 var groupID = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
                 $(contentPermissionsEditList).each(function(index, item){
                     var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
+                    var oldPermission = $(item).attr('data-originalpermission');
                     var userId = $(item).attr("id").split("_")[1];
                     if (newPermission === "manager") {
                         atLeastOneManager = true;
@@ -132,10 +162,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                             }
                         });
                     });
+                    permissionsToUpdate.push({
+                        'authId': userId,
+                        'oldPermission': oldPermission,
+                        'newPermission': newPermission + 's'
+                    });
                 });
             } else {
                 $(contentPermissionsEditList).each(function(index, item){
                     var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
+                    var oldPermission = $(item).attr('data-originalpermission');
                     var userId = $(item).attr("id").split("_")[1];
                     if (newPermission === "manager") {
                         atLeastOneManager = true;
@@ -169,6 +205,11 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                             }
                         });
                     }
+                    permissionsToUpdate.push({
+                        'authId': userId,
+                        'oldPermission': oldPermission,
+                        'newPermission': newPermission + 's'
+                    });
                 });
             }
 
@@ -187,6 +228,12 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                     } else {
                         finishSavePermissions();
                     }
+                    $.each(permissionsToUpdate, function(i, permissionData) {
+                        updateContentPermissionData(
+                            permissionData.authId,
+                            permissionData.oldPermission,
+                            permissionData.newPermission);
+                    });
                 }, false);
             } else {
                 if (!globalPermissionsChanged) {
@@ -284,6 +331,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                     data: userToDelete,
                     success: function(){
                         $itemToDelete.remove();
+                        updateContentPermissionData(userid, originalpermission);
                     }
                 });
                 changesMade = true;
