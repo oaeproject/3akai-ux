@@ -33,7 +33,13 @@
 
 /* Menu */
 .s23_site #s23_site_menu_container {
-    background: url("/devwidgets/lhnavigation/images/lhnav_bg.png") repeat-x scroll 0 0 #FEFEFE;
+    background: #f7f7f7;
+    background: -moz-linear-gradient(top, #f7f7f7 0%, #f7f7f7 66%, #fdfdfd 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(66%,#f7f7f7), color-stop(100%,#fdfdfd));
+    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
+    background: -o-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
+    background: -ms-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
+    background: linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
     width: 180px;
     min-height: 600px;
     float: left;
@@ -42,7 +48,7 @@
 }
 #s23_site_menu_container .s23_site_menu_logo {
     text-align: center;
-    margin:5px auto;
+    margin: 15px auto;
 }
 .s23_site #s23_site_menu_container ul {
     width: 100%;
@@ -56,7 +62,7 @@
     padding: 0;
 }
 
-.s23_site #s23_site_menu_container ul li a,  .s23_site #s23_site_menu_container ul li button {
+.s23_site #s23_site_menu_container ul li a, .s23_site #s23_site_menu_container ul li button {
     background-repeat: no-repeat;
     background-position: left center;
     color: #707E8C;
@@ -66,7 +72,6 @@
     text-decoration: none;
     font-weight: bold;
     word-wrap: break-word;
-    outline: none;
 }
 .s23_site #s23_site_menu_container ul li button {
     border: none;
@@ -79,18 +84,18 @@
 }
 .s23_site #s23_site_menu_container ul li.s23_site_menu_item_active {
     background: #6abcf6;
-    background: -moz-linear-gradient(top,  #d9e9f1 0%, #89d9fb 1%, #83d6f9 10%, #60c2ec 39%, #4fbef1 48%, #4dc0f1 100%);
+    background: -moz-linear-gradient(top, #d9e9f1 0%, #89d9fb 1%, #83d6f9 10%, #60c2ec 39%, #4fbef1 48%, #4dc0f1 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9e9f1), color-stop(1%,#89d9fb), color-stop(10%,#83d6f9), color-stop(39%,#60c2ec), color-stop(48%,#4fbef1), color-stop(100%,#4dc0f1));
-    background: -webkit-linear-gradient(top,  #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
-    background: -o-linear-gradient(top,  #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
-    background: -ms-linear-gradient(top,  #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
-    background: linear-gradient(top,  #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
-    color :#fff;
+    background: -webkit-linear-gradient(top, #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: -o-linear-gradient(top, #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: -ms-linear-gradient(top, #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: linear-gradient(top, #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    color: #fff;
 }
 
 .s23_site #s23_site_menu_container ul li.s23_site_menu_item_active a {
-    color :#fff;
-}    
+    color: #fff;
+}
 
 .s23_site #s23_site_menu_container ul li a:hover {
     text-decoration: none;
@@ -343,7 +348,7 @@
     min-height: 600px;
     box-shadow: -3px -3px 5px -2px #888;
     float: left;
-    padding:  10px;
+    padding: 10px;
     width: 755px;
 }
 
