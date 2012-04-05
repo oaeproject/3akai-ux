@@ -205,19 +205,17 @@
     width: 615px;
 }
 #inserterbar_widget .inserterbar_carousel_item span {
-    display: inline-block;
     font-size: 12px;
-    margin: 3px 0 0 7px;
+    margin-left: 3px;
 }
 
 #inserterbar_widget .inserterbar_carousel_item {
     display: block;
-    width: 130px;
     margin-top: 3px;
-}
-
-#inserterbar_more_widgets_container ul li {
-    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 130px;
 }
 
 #inserterbar_dynamic_widget_list img {

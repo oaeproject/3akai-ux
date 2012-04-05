@@ -11,6 +11,7 @@
             "description":"My Sakai 2 favourites"
         }
     },
+    "img":"/devwidgets/mysakai2/images/s2icon.png",
     "id":"mysakai2",
     "personalportal":false,
     "type":"sakai",
