@@ -98,7 +98,7 @@
     <li>
         <a href="#" class="inserterbar_carousel_item inserterbar_widget_draggable" data-element-type="${widget.id}" tabindex="0">
             {if widget.img}
-                <img src="${widget.img}" alt="" class="fl-force-left"/>
+                <img src="${widget.img}" alt="${widget.id}" class="fl-force-left"/>
             {/if}
             <span class="s3d-regular-links s3d-bold">${sakai.api.Widgets.getWidgetTitle(widget.id)}</span>
             <hr class="fl-push fl-hidden"/>
