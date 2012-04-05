@@ -8,6 +8,11 @@
             "bundle":     "/devwidgets/categories/bundles/default.properties",
             "name":       "Categories widget",
             "description":"Categories widget"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/categories/bundles/fr_FR.properties",
+            "name":       "Categories widget french",
+            "description":"Categories widget french"
         }
     },
     "id":                  "categories",

@@ -8,7 +8,13 @@
             "bundle":     "/devwidgets/collections/bundles/default.properties",
             "name":       "Hello world",
             "description":"Collections widget"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/collections/bundles/fr_FR.properties",
+            "name":       "French",
+            "description":"Collections widget french"
         }
+
     },
     "id":                 "collections",
     "personalportal":     false,

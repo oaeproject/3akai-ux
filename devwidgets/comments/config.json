@@ -10,6 +10,11 @@
             "bundle": "/devwidgets/comments/bundles/default.properties",
             "name":"Comments",
             "description":"Comments"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/comments/bundles/fr_FR.properties",
+            "name":"Comments French",
+            "description":"Comments French" 
         }
     },
     "img":"/devwidgets/comments/images/comments.png",

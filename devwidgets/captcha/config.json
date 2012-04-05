@@ -4,6 +4,11 @@
             "bundle": "/devwidgets/captcha/bundles/default.properties",
             "name": "Captcha widget",
             "description": "Display a captcha widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/captcha/bundles/fr_FR.properties",
+            "name": "Captcha widget french",
+            "description": "Display a captcha widget french"
         }
     },
     "id":"captcha",

@@ -8,6 +8,9 @@
         "en_US": {
             "bundle": "/devwidgets/changepic/bundles/en_US.properties"
         },
+        "fr_FR": {
+            "bundle": "/devwidgets/changepic/bundles/fr_FR.properties"
+        },
         "zh_CN": {
             "bundle": "/devwidgets/changepic/bundles/zh_CN.properties"
         }

@@ -8,7 +8,13 @@
             "bundle":     "/devwidgets/collectionviewer/bundles/default.properties",
             "name":       "Collections Viewer",
             "description":"Displays a collection through different views"
+        },
+	"fr_FR": {
+            "bundle":     "/devwidgets/collectionviewer/bundles/fr_FR.properties",
+            "name":       "Collections Viewer french",
+            "description":"Displays a collection through different views french"
         }
+
     },
     "id":                 "collectionviewer",
     "personalportal":     false,

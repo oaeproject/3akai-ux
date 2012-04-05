@@ -4,7 +4,13 @@
             "bundle": "/devwidgets/contacts/bundles/default.properties",
             "name": "contacts",
             "description": "Contacts"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contacts/bundles/fr_FR.properties",
+            "name": "contacts French",
+            "description": "Contacts French"
         }
+
     },
     "id": "contacts",
     "personalportal":false,

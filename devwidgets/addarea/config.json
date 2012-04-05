@@ -8,6 +8,11 @@
             "bundle":     "/devwidgets/addarea/bundles/default.properties",
             "name":       "Add area widget",
             "description":"Add area widget"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/addarea/bundles/fr_FR.properties",
+            "name":       "Add area widget french",
+            "description":"Add area widget french"
         }
     },
     "id":                 "addarea",
