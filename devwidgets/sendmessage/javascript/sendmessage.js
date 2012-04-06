@@ -337,7 +337,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 if(success) {
                     showMessageSent(success);
                 } else {
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("YOUR_MESSAGE_FAILED_DELIVERED"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(
+                        sakai.api.i18n.getValueForKey('SEND_MESSAGE', 'sendmessage'),
+                        sakai.api.i18n.getValueForKey('YOUR_MESSAGE_FAILED_DELIVERED', 'sendmessage'),
+                        sakai.api.Util.notification.type.ERROR);
                 }
                 $(buttonSendMessage).removeAttr("disabled");
             };
