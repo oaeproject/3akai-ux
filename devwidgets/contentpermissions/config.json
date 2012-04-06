@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/contentpermissions/bundles/default.properties",
             "name": "Content permissions",
             "description":"Content permissions widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contentpermissions/bundles/fr_FR.properties",
+            "name": "Content permissions French",
+            "description":"Content permissions widget French"
         }
     },
     "type":"core",
