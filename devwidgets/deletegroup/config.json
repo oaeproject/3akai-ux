@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/deletegroup/bundles/default.properties",
             "name": "Delete group",
             "description":"Delete group widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/deletegroup/bundles/fr_FR.properties",
+            "name": "Delete group French",
+            "description":"Delete group widget French"
         }
     },
     "type":"core",

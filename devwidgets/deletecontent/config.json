@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/deletecontent/bundles/default.properties",
             "name": "Delete content",
             "description":"Delete content widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/deletecontent/bundles/fr_FR.properties",
+            "name": "Delete content french",
+            "description":"Delete content widget French"
         }
     },
     "type":"core",

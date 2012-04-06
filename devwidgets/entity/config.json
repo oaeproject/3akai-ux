@@ -8,6 +8,12 @@
             "bundle": "/devwidgets/entity/bundles/default.properties",
             "name": "Entity widget",
             "description": "Entity widget"
+         },
+        "fr_FR": {
+            "bundle": "/devwidgets/entity/bundles/fr_FR.properties",
+            "name": "Entity widget french",
+            "description": "Entity widget french"
          }
+
     }
 }

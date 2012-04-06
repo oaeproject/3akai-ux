@@ -7,6 +7,11 @@
             "bundle": "/devwidgets/displayprofilesection/bundles/default.properties",
             "name": "Profile section",
             "description": "Show a profile section"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/displayprofilesection/bundles/fr_FR.properties",
+            "name": "Profile section French",
+            "description": "Show a profile section French"
         }
     },
     "url":"/devwidgets/displayprofilesection/displayprofilesection.html"

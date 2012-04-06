@@ -16,7 +16,11 @@
         },
         "zh_CN": {
             "bundle": "/devwidgets/discussion/bundles/zh_CN.properties"
+        },
+       "fr_FR": {
+            "bundle": "/devwidgets/discussion/bundles/fr_FR.properties"
         }
+
     },
     "showinsakaigoodies":true,
     "hasSettings": true,

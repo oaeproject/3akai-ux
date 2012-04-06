@@ -8,7 +8,13 @@
             "bundle":     "/devwidgets/featuredpeople/bundles/default.properties",
             "name":       "Featured people widget",
             "description":"Featured people widget"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/featuredpeople/bundles/fr_FR.properties",
+            "name":       "Featured people widget french",
+            "description":"Featured people widget french"
         }
+
     },
     "id":                 "featuredpeople",
     "personalportal":     false,
