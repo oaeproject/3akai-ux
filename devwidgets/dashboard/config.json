@@ -8,8 +8,8 @@
             "name":"Dashboard",
             "description":"Dashboard"
         },
-        "default": {
-            "fr_FR": "/devwidgets/dashboard/bundles/fr_FR.properties",
+        "fR_FR": {
+            "bundle": "/devwidgets/dashboard/bundles/fr_FR.properties",
             "name":"Dashboard french",
             "description":"Dashboard french"
         }
