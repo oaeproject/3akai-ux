@@ -16,53 +16,105 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.search = function() {
         var worldsOrderIncrement = 3;
-        var searchButton = "#form .s3d-search-button";
-        var searchInput = "#form .s3d-search-inputfield";
+        var searchButton = '#form .s3d-search-button';
+        var searchInput = '#form .s3d-search-inputfield';
+        var searchUrl = sakai.config.URL.SEARCH_URL;
         var pubdata = {
-            "structure0": {
-                "all": {
-                    "_ref": "id9574379429432",
-                    "_order": 0,
-                    "_title": sakai.api.i18n.getValueForKey("ALL_TYPES"),
-                    "main": {
-                        "_ref": "id9574379429432",
-                        "_order": 0,
-                        "_title": sakai.api.i18n.getValueForKey("ALL_TYPES")
+            'structure0': {
+                'all': {
+                    '_ref': 'id9574379429432',
+                    '_order': 0,
+                    '_title': sakai.api.i18n.getValueForKey('ALL_TYPES'),
+                    '_url': searchUrl,
+                    'main': {
+                        '_ref': 'id9574379429432',
+                        '_order': 0,
+                        '_title': sakai.api.i18n.getValueForKey('ALL_TYPES'),
+                        '_url': searchUrl
                     }
                 },
-                "content": {
-                    "_ref": "id6573920372",
-                    "_order": 1,
-                    "_title": sakai.api.i18n.getValueForKey("CONTENT"),
-                    "main": {
-                        "_ref": "id6573920372",
-                        "_order": 0,
-                        "_title": sakai.api.i18n.getValueForKey("CONTENT")
+                'content': {
+                    '_ref': 'id6573920372',
+                    '_order': 1,
+                    '_title': sakai.api.i18n.getValueForKey('CONTENT'),
+                    '_url': searchUrl,
+                    'main': {
+                        '_ref': 'id6573920372',
+                        '_order': 0,
+                        '_title': sakai.api.i18n.getValueForKey('CONTENT'),
+                        '_url': searchUrl
                     }
                 },
-                "people": {
-                    "_title": sakai.api.i18n.getValueForKey("PEOPLE"),
-                    "_ref": "id49294509202",
-                    "_order": 2,
-                    "main": {
-                        "_ref": "id49294509202",
-                        "_order": 0,
-                        "_title": sakai.api.i18n.getValueForKey("PEOPLE")
-                     }
+                'people': {
+                    '_title': sakai.api.i18n.getValueForKey('PEOPLE'),
+                    '_ref': 'id49294509202',
+                    '_order': 2,
+                    '_url': searchUrl,
+                    'main': {
+                        '_ref': 'id49294509202',
+                        '_order': 0,
+                        '_title': sakai.api.i18n.getValueForKey('PEOPLE'),
+                        '_url': searchUrl
+                    }
                 }
             },
-            "id9574379429432": {
-                "page": "<div id='widget_searchall' class='widget_inline'></div>"
+            'id9574379429432': {
+                'rows': [
+                    {
+                        'id': 'id4382631',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': 'id8403845',
+                                        'type': 'searchall'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
-            "id6573920372": {
-                "page": "<div id='widget_searchcontent' class='widget_inline'></div>"
+            'id6573920372': {
+                'rows': [
+                    {
+                        'id': 'id1813095',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': 'id9436392',
+                                        'type': 'searchcontent'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
-            "id49294509202": {
-                "page": "<div id='widget_searchpeople' class='widget_inline'></div>"
+            'id49294509202': {
+                'rows': [
+                    {
+                        'id': 'id152530',
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': 'id1187051',
+                                        'type': 'searchpeople'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         };
 
@@ -71,61 +123,77 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var refId = sakai.api.Util.generateWidgetId();
             var title = sakai.api.i18n.getValueForKey(category.titlePlural);
             pubdata.structure0[category.id] = {
-                "_title": title,
-                "_ref": refId,
-                "_order": (c + worldsOrderIncrement),
-                "main": {
-                    "_ref": refId,
-                    "_order": 0,
-                    "_title": title
+                '_title': title,
+                '_ref': refId,
+                '_order': (c + worldsOrderIncrement),
+                '_url': searchUrl,
+                'main': {
+                    '_ref': refId,
+                    '_order': 0,
+                    '_title': title,
+                    '_url': searchUrl
                 }
             };
             var searchWidgetId = sakai.api.Util.generateWidgetId();
             pubdata[refId] = {
-                "page": "<div id='widget_searchgroups_" + searchWidgetId + "' class='widget_inline'></div>"
+                'rows': [
+                    {
+                        'id': sakai.api.Util.generateWidgetId(),
+                        'columns': [
+                            {
+                                'width': 1,
+                                'elements': [
+                                    {
+                                        'id': searchWidgetId,
+                                        'type': 'searchgroups'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             };
-            pubdata[searchWidgetId] = {
-                "category": category.id
+            pubdata[refId][searchWidgetId] = {
+                'category': category.id
             };
         }
+
+        var fireSearch = function() {
+            $.bbq.pushState({
+                'q': $(searchInput).val(),
+                'refine': $.bbq.getState('refine')
+            }, 0);
+        };
 
         ///////////////////
         // Event binding //
         ///////////////////
 
-        var eventBinding = function(){
-            $(searchInput).live("keydown", function(ev){
+        var eventBinding = function() {
+            $(searchInput).on('keydown', function(ev) {
                 if (ev.keyCode === 13) {
-                    $.bbq.pushState({
-                        "q": $(searchInput).val(),
-                        "cat": "",
-                        "refine": $.bbq.getState("refine")
-                    }, 0);
+                    fireSearch();
                 }
             });
 
-            $(searchButton).live("click", function(ev){
-                $.bbq.pushState({
-                    "q": $(searchInput).val(),
-                    "cat": "",
-                    "refine": $.bbq.getState("refine")
-                }, 0);
+            $(searchButton).on('click', function(ev) {
+                fireSearch();
             });
         };
 
-        var generateNav = function(){
-            $(window).trigger("lhnav.init", [pubdata, {}, {}]);
+        var generateNav = function() {
+            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
         };
 
-        var renderEntity = function(){
-            $(window).trigger("sakai.entity.init", ["search"]);
+        var renderEntity = function() {
+            $(window).trigger('sakai.entity.init', ['search']);
         };
 
-        $(window).bind("sakai.entity.ready", function(){
+        $(window).bind('sakai.entity.ready', function() {
             renderEntity();
         });
 
-        $(window).bind("lhnav.ready", function(){
+        $(window).bind('lhnav.ready', function() {
             generateNav();
         });
 
@@ -135,5 +203,5 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.Container.registerForLoad("search");
+    sakai.api.Widgets.Container.registerForLoad('search');
 });

@@ -48,7 +48,6 @@
 --></div>
 
 <div id="discussion_topic_reply_template"><!--
-    {if typeof(postId) != "undefined"}<button class="s3d-button s3d-link-button" name="reply_${postId}" style="display:none">&nbsp;</button>{/if}
     <form class="discussion_{if edit === true}edit{else}reply{/if}_form s3d-form-field-wrapper">
         {if quoted}
             <span id="discussion_topic_reply_quoted_user" style="display:none;">${quotedUser}</span>
@@ -138,7 +137,7 @@
                 <button type="button" class="s3d-button s3d-overlay-button discussion_reply_topic" id="discussion_reply_topic">__MSG__REPLY__</button>
             {/if}
             <h1 class="discussion_topic_subject">${topic.post["sakai:subject"]|safeOutput}</h1>
-            <button class="discussion_show_topic_replies s3d-button s3d-link-button"><div class="discussion_replies_icon discussion_show_replies_icon"></div><span class="discussion_topic_number_of_replies"><span class="discussion_number_of_replies">${topic.replies.length}</span> __MSG__REPLIES__</span></button>
+            <button class="discussion_show_topic_replies s3d-button s3d-link-button"><div class="discussion_replies_icon discussion_show_replies_icon"{if topic.replies.length === 0} style="display:none;"{/if}></div><span class="discussion_topic_number_of_replies"><span class="discussion_number_of_replies">${topic.replies.length}</span> __MSG__REPLIES__</span></button>
 
             <div class="s3d-highlight_area_background" id="${topic.post["sakai:id"]}">
                 <div class="s3d-highlight_area_background_tl">

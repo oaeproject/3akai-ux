@@ -17,6 +17,7 @@
     </head>
     <body class="fl-centered create_account show i18nable">
         <!-- HEADER -->
+        <div id="widget_branding" class="widget_inline"></div>
         <div class="fl-container-flex header s3d-header">
             <div class="s3d-navigation-container">
                 <div id="widget_topnavigation" class="widget_inline"></div>
@@ -32,7 +33,7 @@
         <!-- HEADER -->
         <div class="fl-container-flex">
             <div class="fl-fix fl-centered fixed-container s3d-main-container">
-                <div class="s3d-page-fullcolumn-padding">
+                <div class="s3d-main-container-padding">
                     <div id="signup_header">
                         <div id="signup_descriptionbox_left" class="signup_descriptionbox">__MSG__SIGN_UP_MESSAGE_1__</div>
                         <div id="signup_descriptionbox_right" class="signup_descriptionbox">__MSG__SIGN_UP_MESSAGE_2__</div>
@@ -80,27 +81,33 @@
                     <div id="username_short" style="display:none;">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__</div>
                     <div id="username_spaces" style="display:none;">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__</div>
                     <div id="password_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_PASSWORD__</div>
-                    <div id="password_short" style="display:none;">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__</div>
+                    <div id="password_short" style="display:none;">__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_FOUR_CHARACTERS_LONG__</div>
                     <div id="password_repeat_empty" style="display:none;">__MSG__PLEASE_REPEART_YOUR_PASSWORD__</div>
                     <div id="password_repeat_nomatch" style="display:none;">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__</div>
-
+                    <h2 class="s3d-aural-text">__MSG__SIGN_UP_QUOTE_HEADER__</h2>
                     <div class="signup_comment_box">
                         <div class="signup_comment_box_arrow_down"><!----></div>
                         <div class="signup_comment_icon signup_comment_icon_personalspace"><!----></div>
-                        <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_1__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                        <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_1__&quot;</span>
+                        <blockquote>
+                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_1__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_1__&quot;</span>
+                        </blockquote>
                     </div>
                     <div class="signup_comment_box">
                         <div class="signup_comment_box_arrow_down"><!----></div>
                         <div class="signup_comment_icon signup_comment_icon_cohere"><!----></div>
-                        <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_2__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                        <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_2__&quot;</span>
+                        <blockquote> 
+                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_2__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_2__&quot;</span>
+                        </blockquote>
                     </div>
                     <div class="signup_comment_box last">
                         <div class="signup_comment_box_arrow_down"><!----></div>
                         <div class="signup_comment_icon signup_comment_icon_editable"><!----></div>
-                        <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_3__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                        <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_3__&quot;</span>
+                        <blockquote>
+                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_3__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_3__&quot;</span>
+                        </blockquote>
                     </div>
                     <h2>__MSG__INSTITUTIONS_USING_SAKAI__</h2>
                     <ul id="signup_institution_logos">

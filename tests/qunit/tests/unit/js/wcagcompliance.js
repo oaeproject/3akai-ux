@@ -25,8 +25,16 @@ require(
             }
         });
 
+        $.each($elt.find("button"), function(i, elt) {
+            ok(!($(elt).attr('title') && $(elt).text() && !$.trim($(elt).text())) && ($(elt).attr("title") || $(elt).find('img').attr('alt') || $.trim($(elt).text()) || $.trim($(elt).find("*").text()) || ($(elt).html() === "<!-- -->")), "BUTTON tag has text or children that have text: " + $("<div/>").html(elt).html());
+        });
+
         $.each($elt.find("img"), function(i, elt) {
-            ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src"), "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
+            var parentTitle = false;
+            if ($(elt).parent().attr("title") && $(elt).parent().attr("title").length){
+                parentTitle = true;
+            }
+            ok($(elt).attr("alt") || $(elt).prev('img').attr("src") === $(elt).attr("src") || parentTitle, "IMG tag has ALT attribute:" + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("input[type='image']"), function(i, elt) {
@@ -47,10 +55,6 @@ require(
 
         $.each($elt.find("abbr"), function(i, elt) {
             ok($(elt).attr("title"), "ABBR tag has TITLE attribute: " + $("<div/>").html(elt).html());
-        });
-
-        $.each($elt.find("button"), function(i, elt) {
-            ok($(elt).attr("title") || $(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->"), "BUTTON tag has text or children that have text: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("textarea"), function(i, elt) {
@@ -77,7 +81,11 @@ require(
             var divHtml = $(elt).html();
             if (divHtml.substr(0, 5) === "<!--\n" && divHtml.substr(divHtml.length - 4, divHtml.length) === "\n-->") {
                 // this is a javascript template, check the elements in the template
-                var templateData = divHtml.substr(5, divHtml.length - 4);
+                var templateData = divHtml.substring(5, divHtml.length - 4);
+
+                // We need to empty out the SRC since otherwise we'll get unnecessary error messages
+                // These messages appear since the browser wants to load the actual image (e.g. src="{test.img}")
+                templateData = templateData.replace(/src="(.+?)"/g, 'src=""');
                 var div = document.createElement('div');
                 div.innerHTML = templateData;
                 checkElements($(div), false);

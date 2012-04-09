@@ -180,7 +180,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (json) {
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
-                json.launchDataUrl = sakai.api.Widgets.widgetLoader.widgets[tuid].placement + ".launch.html";
+                json.launchDataUrl = sakai.api.Widgets.getWidgetDataStorageURL(tuid) + ".launch.html";
                 if (sakai_global.group) {
                     json.launchDataUrl += "?groupid=" + sakai_global.group.groupData["sakai:group-id"];
                 }
@@ -259,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var saveRemoteContent = function(){
             var  saveContentAjax = function(json_data) {
-                var url = sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
+                var url = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
                 $.ajax({
                     type: "POST",
                     url: url,

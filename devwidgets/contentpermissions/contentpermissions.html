@@ -48,7 +48,8 @@
         <div class="s3d-inset-shadow-container">
             <p>__MSG__WHO_CAN_EDIT_THIS__</p>
             <select id="contentpermissions_members_autosuggest_permissions">
-                <option value="manager">__MSG__CAN_EDIT__</option>
+                <option value="manager">__MSG__CAN_MANAGE__</option>
+                <option value="editor">__MSG__CAN_EDIT__</option>
                 <option value="viewer" selected="selected">__MSG__CAN_VIEW__</option>
             </select>
             <input id="contentpermissions_members_autosuggest"/>
@@ -58,7 +59,7 @@
             </div>
             <ul id="contentpermissions_members_list">
                 {for memberArr in contentData.members}
-                    {if memberArr_index === "managers" || memberArr_index === "viewers"}
+                    {if memberArr_index === "managers" || memberArr_index === "editors" || memberArr_index === "viewers"}
                         {for member in memberArr}
                         {var id = member.userid || member.groupid}
                         {var name = sakai.api.i18n.General.process(member["sakai:group-title"] || sakai.api.User.getDisplayName(member), "contentpermissions")}
@@ -66,7 +67,8 @@
                             <li id="member_${id|safeOutput}" data-originalpermission="${memberArr_index}" class="contentpermissions_edit s3d-outer-shadow-container" {if member["sakai:group-id"] && member["sakai:category"] === "collection"} style="display:none" {/if}>
                                 <button data-sakai-entityid="${id|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-delete" type="button" title="Remove ${name|safeOutput}"></button>
                                 <select class="contentpermissions_member_permissions">
-                                    <option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
+                                    <option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_MANAGE__</option>
+                                    <option value="editor" {if memberArr_index === "editors"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
                                     <option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
                                 </select>
                                 <label for="select_${id|safeOutput}">
@@ -76,11 +78,10 @@
                                         <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
                                     {/if}
                                     {if member["sakai:pseudoGroup"]}
-                                        <a class="s3d-bold" href="/~${member["sakai:parent-group-id"]|safeURL}" title="__MSG__VIEW__ ${member["sakai:parent-group-title"]|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</span>
+                                        <a class="s3d-bold" href="/~${member["sakai:parent-group-id"]|safeURL}" title="__MSG__VIEW__ ${member["sakai:parent-group-title"]|safeOutput}'s (${sakai.api.i18n.getValueForKey(member["sakai:role-title-plural"])}) __MSG__PARENT_PROFILE__">${nameshort|safeOutput}</span>
                                     {else}
                                         <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
                                     {/if}
-
                                 </label>
                             </li>
                         {/for}

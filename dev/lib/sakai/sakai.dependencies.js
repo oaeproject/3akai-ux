@@ -92,6 +92,8 @@ if (!(Array.indexOf || [].indexOf)) {
 require(
     {
         baseUrl:"/dev/lib/",
+        //If you change these paths, please check out
+        //https://confluence.sakaiproject.org/x/sq_CB
         paths: {
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
@@ -118,6 +120,8 @@ require(
         "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
         "misc/querystring",
+        "jquery-plugins/jquery.equalheights",
+        "jquery-plugins/jquery.contentchange.sakai-edited",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
@@ -130,6 +134,8 @@ require(
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
+        "jquery-plugins/jquery.jeditable.sakai-edited",
+        "jquery-plugins/jquery.tagcloud",
         "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {

@@ -12,7 +12,7 @@
             </div>
             <div id="inbox_message_header">
                 <div class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view inbox_select_all_container">
-                    <input type="checkbox" disabled="disabled" id="inbox_select_checkbox"/>
+                    <input type="checkbox" disabled="disabled" id="inbox_select_checkbox" title="__MSG__SELECT_ALL_MESSAGES__"/>
                 </div>
 
                 <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__DELETE_SELECTED__</button>
@@ -45,7 +45,7 @@
                     <div class="inbox_item fl-container fl-fix inbox_items_container{if message.read !== "true" && message.read !== true} unread{/if}{if message_index == results.length-1} last{/if}" id="${message.id}">
                         <div class="inbox_items_inner">
                             <div class="inbox_left_col inbox_col">
-                                <div class="inbox_placeholder"><input type="checkbox"/></div>
+                                <div class="inbox_placeholder"><input type="checkbox" title="__MSG__SELECT_MESSAGE__ ${message.subject|safeOutput} __MSG__FROM_LC__ ${message.from.name}"/></div>
                                 <a href="#message=${message.id}" title="__MSG__PROFILE_PICTURE__"><img alt="__MSG__PROFILE_PICTURE__"{if box === "outbox"} src="${message.to[0].picture}"{else} src="${message.from.picture}"{/if} class="person_icon"/></a>
                             </div>
                             <div class="inbox_middle_col inbox_col">
@@ -70,17 +70,17 @@
                                     <span>${message.date}</span>
                                   </div>
                                   <div class="inbox_subject">
-                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject|safeOutput}</a>
+                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject_short|safeOutput}</a>
                                   </div>
                                   <div class="inbox_excerpt">
-                                    <p>${message.body_nolinebreaks}<p>
+                                    <p>${message.body_nolinebreaks_short}<p>
                                   </div>
                                 </div>
                             </div>
                             <div class="inbox_right_col inbox_col">
                                 <div class="inbox_delete fl-force-right">
-                                    <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button inbox_action_button" title="__MSG__DELETE_MESSAGE__"><div class="inbox_delete_icon"></div></button>
-                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-header-button s3d-button-no-text inbox_reply_button inbox_action_button" title="__MSG__REPLY__"><div class="inbox_reply_icon"></div></a>
+                                    <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button inbox_action_button" title="__MSG__DELETE_MESSAGE__"><span class="s3d-aural-text">__MSG__DELETE_MESSAGE__ ${message.subject|safeOutput}</span><div class="inbox_delete_icon"></div></button>
+                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-header-button s3d-button-no-text inbox_reply_button inbox_action_button" title="__MSG__REPLY__"><span class="s3d-aural-text">__MSG__REPLY_TO_MESSAGE__ ${message.subject|safeOutput}</span><div class="inbox_reply_icon"></div></a>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                                         </div>
                                         {if !reply}
                                         <div class="inbox_subject">
-                                          <a href="#" class="s3d-regular-links s3d-bold">${message.subject|safeOutput}</a>
+                                          <span class="s3d-bold">${message.subject|safeOutput}</span>
                                         </div>
                                         {/if}
                                         <div class="inbox_excerpt">
@@ -163,7 +163,7 @@
                                 <div class="inbox_right_col inbox_col">
                                 {if !reply}
                                     <div class="inbox_delete fl-force-right">
-                                        <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button" title="__MSG__DELETE_MESSAGE__"><div class="inbox_delete_icon"></div></button>
+                                        <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button" title="__MSG__DELETE_MESSAGE__"><span class="s3d-aural-text">__MSG__DELETE_MESSAGE__ ${message.subject|safeOutput}</span><div class="inbox_delete_icon"></div></button>
                                     </div>
                                 {/if}
                                 </div>

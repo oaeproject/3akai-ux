@@ -36,7 +36,6 @@
     </ul>
 
     <div id="newaddcontent_container_newitem">
-        <div id="newaddcontent_container_newitem_raquo_right"></div>
         <div id="newaddcontent_container_newitem_fields">
 
             <div id="newaddcontent_upload_content_template" class="newaddcontent_newitem_container" style="display:none;">
@@ -62,11 +61,11 @@
                     <select id="newaddcontent_upload_content_permissions">
                         <option value="public">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="private">__MSG__ONLY_ME__</option>
+                        <option value="private">__MSG__PRIVATE_TO_LIBRARY__</option>
                     </select>
 
                     <div id="newaddcontent_upload_content_copyright_container"></div>
-                    <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
+                    <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list newaddcontent_container_newitem_add_to_list_upload_new_content" disabled="disabled">__MSG__ADD__</button>
                 </div>
             </div>
 
@@ -94,7 +93,7 @@
                         <select id="newaddcontent_add_document_permissions">
                             <option value="public">__MSG__PUBLIC__</option>
                             <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                            <option value="private">__MSG__PRIVATE__</option>
+                            <option value="private">__MSG__PRIVATE_TO_LIBRARY__</option>
                         </select>
                     </div>
                     <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
@@ -102,22 +101,27 @@
             </div>
 
             <div id="newaddcontent_add_existing_template" class="newaddcontent_newitem_container" style="display:none;">
+                <div class="s3d-search-container">
+                    <input type="text" maxlength="255" title="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__" class="s3d-search-inputfield newaddcontent_existingitems_search" placeholder="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" id="newaddcontent_existing_search_button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
+                    </button>
+                </div>
                 <form id="newaddcontent_existing_content_form" class="newaddcontent_form">
-                    <div class="s3d-search-container">
-                        <input type="text" maxlength="255" title="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__" class="s3d-search-inputfield newaddcontent_existingitems_search" placeholder="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
-                        <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
-                            <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
-                        </button>
-                    </div>
                     <div id="newaddcontent_existingitems_list_container">
                         <div id="newaddcontent_existingitems_list_container_actions">
-                            <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall"/>
-                            <select id="newaddcontent_existingitems_list_container_actions_sort" class="fl-force-right">
-                                <option data-sort-order="desc" data-sort-on="_lastModified">__MSG__CHANGED_RECENTLY__</option>
-                                <option data-sort-order="asc" data-sort-on="filename">__MSG__A_Z__</option>
-                                <option data-sort-order="desc" data-sort-on="filename">__MSG__Z_A__</option>
-                            </select>
-                            <label for="newaddcontent_existingitems_list_container_actions_sort" id="newaddcontent_existingitems_list_container_actions_sort_label" class="fl-force-right">__MSG__SORT_BY__</label>
+                            <div class="fl-force-left">
+                                <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall" class="fl-force-left"/>
+                                <label for="newaddcontent_existingitems_list_container_actions_checkall" id="newaddcontent_existingitems_list_container_actions_checkall_label" class="s3d-aural-text">__MSG__SELECT_ALL__</label>
+                            </div>
+                            <div class="fl-force-right">
+                                <select id="newaddcontent_existingitems_list_container_actions_sort" class="fl-force-right">
+                                    <option data-sort-order="desc" data-sort-on="_lastModified">__MSG__CHANGED_RECENTLY__</option>
+                                    <option data-sort-order="asc" data-sort-on="filename">__MSG__A_Z__</option>
+                                    <option data-sort-order="desc" data-sort-on="filename">__MSG__Z_A__</option>
+                                </select>
+                                <label for="newaddcontent_existingitems_list_container_actions_sort" id="newaddcontent_existingitems_list_container_actions_sort_label" class="fl-force-right">__MSG__SORT_BY__</label>
+                            </div>
                         </div>
                         <div id="newaddcontent_existingitems_list_container_list"><!-- --></div>
                     </div>
@@ -147,6 +151,7 @@
             </div>
 
         </div>
+        <button type="button" id="newaddcontent_container_newitem_raquo_right" class="s3d-button newaddcontent_container_newitem_add_to_list" disabled="disabled" title="__MSG__ADD__"></button>
     </div>
 
     <div id="newaddcontent_container_selecteditems">
@@ -199,14 +204,14 @@
         <form class="newaddcontent_form">
             <label for="newaddcontent_selecteditems_edit_permissions_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_permissions">
-                <option value="public" {if "public" == item["sakai:permissions"]} selected="selected"{/if}>__MSG__PUBLIC__</option>
-                <option value="everyone" {if "everyone" == item["sakai:permissions"]} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
-                <option value="private" {if "private" == item["sakai:permissions"]} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+                <option value="public" {if item["sakai:permissions"] === "public"} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                <option value="everyone" {if item["sakai:permissions"] === "everyone"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
+                <option value="private" {if item["sakai:permissions"] === "private"} selected="selected"{/if}>__MSG__PRIVATE_TO_LIBRARY__</option>
             </select>
             <label for="newaddcontent_selecteditems_edit_permissions_copyright">__MSG__COPYRIGHT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_copyright">
             {for cr in copyright.types}
-                <option value="${cr_index}" {if cr_index == item["sakai:copyright"]} selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
+                <option value="${cr_index}" {if item["sakai:copyright"] === cr_index} selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
             {/for}
             </select>
         </form>

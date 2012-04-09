@@ -1,7 +1,6 @@
 {
     "ca":true,
     "id":"newaddcontent",
-    "showinsakaigoodies":true,
     "type":"core",
     "enabled":true,
     "i18n": {
@@ -9,6 +8,9 @@
             "bundle": "/devwidgets/newaddcontent/bundles/default.properties",
             "name":"Add resource",
             "description":"Add resource to a site"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/newaddcontent/bundles/es_ES.properties"
         }
     },
     "url":"/devwidgets/newaddcontent/newaddcontent.html"

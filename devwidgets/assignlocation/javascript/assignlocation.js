@@ -100,6 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     });
                     renderSelected();
+                    $assignlocationSaveButton.removeAttr('disabled');
                 }
             });
         };
@@ -108,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ( saveCallback ) {
                 saveCallback( initiallyRendered );
             }
-            $assignlocationContainer.jqmHide();
+            sakai.api.Util.Modal.close($assignlocationContainer);
         };
 
         var addWidgetBinding = function(){
@@ -122,21 +123,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             initTree();
             addTreeBinding();
             addWidgetBinding();
-            // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
-
-            if (htmlScrollPos > 0) {
-                $assignlocationContainer.css({
-                    "top": htmlScrollPos + 100 + "px"
-                });
-            } else {
-                if (docScrollPos > 0) {
-                    $assignlocationContainer.css({
-                        "top": docScrollPos + 100 + "px"
-                    });
-                }
-            }
             hash.w.show();
             renderSelected(true);
         };
@@ -211,14 +197,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ( $target.parents( ".s3d-dialog" ).length ) {
                     zIndex = 5000;
                 }
-                $assignlocationContainer.jqm({
+                sakai.api.Util.Modal.setup($assignlocationContainer, {
                     modal: true,
                     toTop: true,
                     onShow: showContainer,
                     onClose: closeContainer,
                     zIndex: zIndex
                 });
-                $assignlocationContainer.jqmShow();
+                sakai.api.Util.Modal.open($assignlocationContainer);
+                $assignlocationSaveButton.attr('disabled', 'disabled');
             });
         };
         doInit();

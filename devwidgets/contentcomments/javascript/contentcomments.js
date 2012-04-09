@@ -23,7 +23,7 @@
  */
 /*global Config, $, pagerClickHandler */
 
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
     /**
      * @name sakai_global.contentcomments
      *
@@ -47,6 +47,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var widgetSettings = {}; // Will hold the widget settings.
         var me = sakai.data.me; // Contains information about the current user
         var rootel = $("#" + tuid); // Get the main div used by the widget
+        var $window = $(window);
         var jsonDisplay = {};
         var start = 0; // Start fetching from the first comment.
         var clickedPage = 1;
@@ -173,21 +174,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             for (var i = 0; i < json.comments.length; i++) {
                 jsonDisplay.comments[i] = {};
                 var comment = json.comments[i];
-                // Checks if the date is already parsed to a date object
-                var tempDate = comment._created;
-                try {
-                    // if the date is not a string this should generate en exception
-                    comment.date = sakai.api.l10n.fromEpoch(tempDate, sakai.data.me);
-                }
-                catch (ex) {
-                    if (comment.date instanceof Date) {
-                        comment.date = tempDate;
-                    } else {
-                        comment.date = new Date(comment.date);
-                    }
-                }
 
-                comment.timeAgo = $.timeago(comment.date);
+                comment.timeAgo = $.timeago(new Date(comment._created));
                 comment.messageTxt = comment.comment;
                 comment.message = tidyInput(comment.comment);
                 comment.canEdit = false;
@@ -217,6 +205,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
             jsonDisplay.sakai = sakai;
             $(contentcommentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(contentcommentsShowCommentsTemplate, jsonDisplay));
+            // Render Math formulas in the text
+            sakai.api.Util.renderMath(tuid);
         };
 
         /**
@@ -338,9 +328,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         sakai.api.Activity.createActivity("/p/" + contentData.data["_path"], "content", "default", {"sakai:activityMessage": "CONTENT_ADDED_COMMENT"}, function(responseData, success){
                             if (success) {
                                 // update the entity widget with the new activity
-                                $(window).trigger("updateContentActivity.entity.sakai", "CONTENT_ADDED_COMMENT");
+                                $window.trigger('updateContentActivity.entity.sakai', 'CONTENT_ADDED_COMMENT');
                                 if (!rootel.parents(".collectionviewer_collection_item_comments").length){
-                                    $(window).trigger("sakai.entity.updatecountcache", {increment: true});
+                                    $window.trigger('sakai.entity.updatecountcache', {increment: true});
                                 }
                             }
                         });
@@ -557,7 +547,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 type: 'DELETE',
                 success: function(){
                     getComments();
-                    $(window).trigger("sakai.entity.updatecountcache", {increment: false});
+                    $window.trigger('sakai.entity.updatecountcache', {increment: false});
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_DELETE", "contentcomments"), "", sakai.api.Util.notification.type.ERROR);
@@ -629,29 +619,38 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             checkCommentsPermissions(true);
         };
 
-        if (!rootel.parents(".collectionviewer_collection_item_comments").length){
-            $(window).bind("ready.contentprofile.sakai", function(ev, data) {
+        /**
+         * Load the initial data
+         * @param {Object} data JSON object containing the data
+         */
+        var loadInitData = function(data) {
+            if (sakai_global.content_profile) {
                 contentData = data || sakai_global.content_profile.content_data;
                 if (contentData) {
                     doInit();
                 }
+            }
+        };
+
+        if (!rootel.parents('.collectionviewer_collection_item_comments').length) {
+
+            // Listen for the event if the content profile is ready
+            $window.bind('ready.contentprofile.sakai', function(ev, data) {
+                loadInitData(data);
             });
 
             // listen for event if new content profile is loaded
-            $(window).bind("content_profile_hash_change", function(ev, data){
-                contentData = data || sakai_global.content_profile.content_data;
-                if (contentData) {
-                    doInit();
-                }
+            $window.bind('content_profile_hash_change', function(ev, data) {
+                loadInitData(data);
             });
         } else {
-            $(window).bind("start.collectioncomments.sakai", function(ev, data){
+            $window.bind('start.collectioncomments.sakai', function(ev, data) {
                 contentData = data;
                 doInit();
             });
         }
 
-        $(window).trigger("content_profile_hash_change");
+        $window.trigger('content_profile_hash_change');
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("contentcomments");

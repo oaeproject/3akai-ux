@@ -77,6 +77,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // i18n
         var $contentmetadataUpdatedCopyright = $("#contentmetadata_updated_copyright");
 
+        // jEditable
+        var contentmetadataJEditTrigger = 'openjedit.contentmetadata.sakai';
+
         // Edit vars
         // ID of Input element that's focused, defines what to update
         var editingElement = "";
@@ -139,76 +142,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 $contentmetadataUrlContainer.hide();
             }
             addEditBinding(mode);
-        };
-
-        var renderName = function(mode){
-            if (mode === "edit") {
-                $("#entity_name").hide();
-                $("#entity_name_text").val($.trim($("#entity_name").attr("data-original-title") || $("#entity_name").text()));
-                $("#entity_name_edit").show();
-                $("#entity_name_text").focus();
-            }
-            $("#entity_name_text").unbind("blur");
-            $("#entity_name_text").bind("blur", function(){
-                $("#entity_name_edit").hide();
-                var newTitle = $("#entity_name_text").val();
-                var newDottedTitle = sakai.api.Util.applyThreeDots(newTitle, 800, {
-                    whole_word: false
-                }, "");
-                if ($.trim(newTitle)) {
-                    $("#entity_name").text(newDottedTitle);
-                    $("#entity_name").attr("data-original-title", newTitle);
-                    $("#entity_name").show();
-                    $.ajax({
-                        url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
-                        type: "POST",
-                        cache: false,
-                        data: {
-                            "sakai:pooled-content-file-name": newTitle
-                        },
-                        success: function(){
-                            if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
-                                // Change the group title as well
-                                var groupId = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
-                                $.ajax({
-                                    "url": "/system/userManager/group/" + groupId + ".update.json",
-                                    "type": "POST",
-                                    "data": {
-                                        "sakai:group-title": newTitle
-                                    },
-                                    "success": function(){
-                                        // Update the me object
-                                        var memberships = sakai.api.Groups.getMemberships(sakai.data.me.groups, true);
-                                        $.each(memberships.entry, function(index, membership){
-                                            if (membership["sakai:group-id"] === groupId){
-                                                membership["sakai:group-title"] = newTitle;
-                                            }
-                                        });
-                                        finishChangeTitle(newTitle);
-                                    }
-                                });
-                            } else {
-                                finishChangeTitle(newTitle);
-                            }
-                        }
-                    });
-                }
-                else {
-                    $("#entity_name").show();
-                    $(".entity_editable").live("click", editData);
-                }
-            });
-        };
-
-        var finishChangeTitle = function(newTitle){
-            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.safeOutput(newTitle);
-            // Export as IMS Package
-            if (sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data) === "x-sakai/document"){
-                $("#contentpreview_download_button").attr("href", "/imscp/" + sakai_global.content_profile.content_data.data["_path"] + "/" + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]) + ".zip");
-            // Download as a normal file
-            } else {
-                $("#contentpreview_download_button").attr("href", sakai_global.content_profile.content_data.smallPath + "/" + sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]));
-            }
         };
 
         /**
@@ -283,35 +216,27 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ////////////////////////
 
         var updateTags = function(){
-            var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $contentmetadataAutosuggestElt, true );
-            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
-                sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
-                renderTags(false);
-                // Create an activity
-                createActivity("UPDATED_TAGS");
-            });
-        };
-
-        /**
-         * Update the description of the content
-         */
-        var updateDescription = function(){
-            var description = $("#contentmetadata_description_description").val();
-            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
-            sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
+            var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($contentmetadataAutosuggestElt, true);
+            var path = sakai_global.content_profile.content_data.data["_path"];
+            sakai.api.Util.tagEntity("/p/" + path, tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
+                // We need this check because it's possible that this is called after new content is shown.
+                // If that is the case, we still need to send the update tags activity, but not render the actual tags.
+                if(path === sakai_global.content_profile.content_data.data["_path"]){
+                    sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
+                    renderTags(false);
+                }
                 if (success) {
-                    sakai_global.content_profile.content_data.data["sakai:description"] = description;
-                    createActivity("UPDATED_DESCRIPTION");
-                    renderDescription(false);
+                    // Create an activity
+                    createActivity("UPDATED_TAGS");
                 }
             });
         };
 
         /**
-         * Update the description of the content
+         * Updates the url
+         * @param {String} updateUrl The new URL to update with
          */
-        var updateUrl = function(){
-            var url = $("#contentmetadata_url_url").val();
+        var updateUrl = function(url) {
             var preview = sakai.api.Content.getPreviewUrl(url);
             sakai_global.content_profile.content_data.data["sakai:pooled-content-url"] = url;
             sakai_global.content_profile.content_data.data["sakai:pooled-content-revurl"] = url;
@@ -319,7 +244,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai_global.content_profile.content_data.data["sakai:preview-type"] = preview.type;
             sakai_global.content_profile.content_data.data["sakai:preview-avatar"] = preview.avatar;
             sakai_global.content_profile.content_data.data["length"] = url.length;
-            renderUrl(false);
             $.ajax({
                 url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
                 type: "POST",
@@ -340,21 +264,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         /**
-         * Update the copyright of the content
-         */
-        var updateCopyright = function(){
-            var copyright = $("#contentmetadata_copyright_copyright").val();
-            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
-            sakai.api.Server.saveJSON(url, {"sakai:copyright": copyright}, function(success, data) {
-                if (success) {
-                    sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
-                    renderCopyright(false);
-                    createActivity("UPDATED_COPYRIGHT");
-                }
-            });
-        };
-
-        /**
          * Trigger the template to render the edit mode
          * @param {Object} ev Trigger event
          */
@@ -367,22 +276,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         editInputBlur(false, editingElement);
                     }
                     editingElement = $target.attr( "data-edit-field" );
-                    switch ( editingElement ) {
-                        case "description":
-                            renderDescription("edit");
-                            break;
-                        case "tags":
-                            renderTags("edit");
-                            break;
-                        case "url":
-                            renderUrl("edit");
-                            break;
-                        case "copyright":
-                            renderCopyright("edit");
-                            break;
-                        case "name":
-                            renderName("edit");
-                            break;
+                    if (editingElement === 'tags') {
+                        renderTags('edit');
                     }
                 }
             }
@@ -397,21 +292,55 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if ( !e && forceElt !== editingElement ) {
                 return;
             }
-            switch ( editingElement ) {
-                case "description":
-                    updateDescription();
-                    break;
-                case "tags":
-                    updateTags();
-                    break;
-                case "url":
-                    updateUrl();
-                    break;
-                case "copyright":
-                    updateCopyright();
-                    break;
+            if (editingElement === 'tags') {
+                updateTags();
             }
             editingElement = "";
+        };
+
+        /**
+         * Updates data for a specific field
+         * @param {String} field The field to update
+         * @param {String} value The new field value
+         */
+        var updateData = function(field, value) {
+            if (value !== sakai_global.content_profile.content_data.data['sakai:' + field]) {
+                switch (field) {
+                    case 'description':
+                        saveData({'sakai:description': value}, function(success) {
+                            if (success) {
+                                sakai_global.content_profile.content_data.data['sakai:description'] = value;
+                                createActivity('UPDATED_DESCRIPTION');
+                            }
+                        });
+                        break;
+                    case 'copyright':
+                        saveData({'sakai:copyright': value}, function(success) {
+                            if (success) {
+                                sakai_global.content_profile.content_data.data['sakai:copyright'] = value;
+                                createActivity('UPDATED_COPYRIGHT');
+                            }
+                        });
+                        break;
+                    case 'url':
+                        updateUrl(value);
+                        break;
+                }
+            }
+        };
+
+        /**
+         * Saves the content metadata
+         * @param {Object} dataToSave Object containing the field and data to save
+         * @param {Function} callback Function to call when the request is completed
+         */
+        var saveData = function(dataToSave, callback) {
+            var url = '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.json';
+            sakai.api.Server.saveJSON(url, dataToSave, function(success, data) {
+                if ($.isFunction(callback)) {
+                    callback(success);
+                }
+            });
         };
 
         ////////////////////////
@@ -449,6 +378,90 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             $(contentmetadataViewRevisions).die("click").live("click", function() {
                 $(window).trigger("initialize.filerevisions.sakai", sakai_global.content_profile.content_data);
+            });
+
+            // jeditable bindings
+            $('.contentmetadata_jedit.contentmetadata_editable').click(function(e) {
+                if (!$('.contentmetadata_edit_input', $(this)).find('textarea').length &&
+                    !$('.contentmetadata_edit_area_select', $(this)).find('select').length) {
+                    if ($(this).attr('data-edit-field') === 'url') {
+                        // if the url hyperlink was clicked, we don't wait to edit the field
+                        if ($(e.target).is('a')) {
+                            return;
+                        }
+                        var $input = $(this).find('.contentmetadata_edit_input');
+                        $input.html($.trim($input.text()));
+                    }
+                    $(this).addClass('contentmetadata_editing');
+                    $('.contentmetadata_edit_input, .contentmetadata_edit_area_select', $(this))
+                    .trigger(contentmetadataJEditTrigger);
+                }
+            });
+
+            // setup jeditable for the description textarea
+            var placeholderStart = '<span class="contentmetadata_placeholder">';
+            var placeholderEnd = '</span>';
+            var placeholder = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT_DESCRIPTION', 'contentmetadata');
+            var tooltip = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT', 'contentmetadata');
+            var jeditableUpdate = function(value, settings) {
+                var $editingContainer = $(this).parents('.contentmetadata_jedit');
+                if (!$editingContainer.length) {
+                    $editingContainer = $(this);
+                }
+                $editingContainer.removeClass('contentmetadata_editing');
+                var field = $editingContainer.attr('data-edit-field');
+                updateData(field, $.trim(value));
+                return value;
+            };
+            $('.contentmetadata_description_textarea').editable(jeditableUpdate, {
+                type: 'textarea',
+                onblur: 'submit',
+                event: contentmetadataJEditTrigger,
+                tooltip: tooltip,
+                placeholder: placeholderStart + placeholder + placeholderEnd
+            });
+
+            // setup jeditable for the copyright selection
+            var copyrightData = {};
+            var selected = false;
+            $.each(sakai.config.Permissions.Copyright.types, function(key, val) {
+                if (sakai_global.content_profile.content_data.data['sakai:copyright'] === key) {
+                    selected = key;
+                }
+                copyrightData[key] = sakai.api.i18n.getValueForKey(val.title, 'contentmetadata');
+            });
+            if (selected) {
+                copyrightData['selected'] = selected;
+            }
+            var copyrightCallback = function(value, settings) {
+                $(this).html(settings.data[value]);
+                copyrightData['selected'] = value;
+            };
+            $('.contentmetadata_edit_area_select').editable(jeditableUpdate, {
+                data: copyrightData,
+                type: 'select',
+                onblur: 'submit',
+                event: contentmetadataJEditTrigger,
+                callback: copyrightCallback,
+                tooltip: tooltip
+            });
+
+            // setup jeditable for the url textarea
+            var urlPlaceholder = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT_URL', 'contentmetadata');
+            var urlCallback = function(value, settings) {
+                // add a hyperlink that can be clicked
+                if ($(this).text()) {
+                    var link = '<a class="s3d-action" target="_blank" href="' +
+                    $(this).text() + '">' + $(this).text() + '</a>';
+                    $(this).html(link);
+                }
+            };
+            $('.contentmetadata_url_textarea').editable(jeditableUpdate, {
+                type: 'textarea',
+                onblur: 'submit',
+                event: contentmetadataJEditTrigger,
+                callback: urlCallback,
+                placeholder: placeholderStart + urlPlaceholder + placeholderEnd
             });
         };
 

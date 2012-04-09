@@ -11,7 +11,7 @@
     <div class="s3d-contentpage-title">__MSG__PEOPLE__
         <span class="s3d-counts-outer">
             <span class="s3d-counts-inner">${data.total}</span>
-            <a id="featuredpeople_showall" style="display:none;" href="/search#l=people&q=${title|safeURL}&cat=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>
+            <a id="featuredpeople_showall" style="display:none;" href="/search#l=people&refine=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>
         </span>
     </div>
     {for item in data.results}
@@ -33,7 +33,7 @@
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
             <div class="s3d-no-results-icon s3d-no-results-people"></div>
-            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/search#l=people" class="s3d-regular-links">__MSG__ADD_PEOPLE__</a>{/if}</h1>
+            <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
         </div>
     {/if}
     <hr class="fl-push fl-hidden"/>

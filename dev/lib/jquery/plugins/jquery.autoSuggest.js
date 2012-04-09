@@ -351,6 +351,7 @@ require([ 'jquery' ], function(jQuery) {
                         if ( !input.data( "opts" ).matchCase ) {
                             query = query.toLowerCase();
                         }
+                        query = query.replace("(", "\\(", "g").replace(")", "\\)", "g");
                         var matchCount = 0;
                         input.data( "results_holder" ).html( input.data( "results_ul" ).html( "" ) ).hide();
                         var d_count = countValidItems( data );

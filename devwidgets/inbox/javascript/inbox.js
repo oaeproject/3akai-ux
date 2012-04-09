@@ -60,7 +60,13 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var toggleGlobalButtons = function(enable) {
             if (enable) {
-                $inbox_mark_as_read.removeAttr("disabled");
+                var $unreadMessages = $inbox_message_list.find('input[type="checkbox"]:visible:checked')
+                .parents('.inbox_items_container.unread');
+                if ($unreadMessages.length) {
+                    $inbox_mark_as_read.removeAttr('disabled');
+                } else {
+                    $inbox_mark_as_read.attr('disabled', 'disabled');
+                }
                 $inbox_delete_selected.removeAttr("disabled");
             } else {
                 $inbox_mark_as_read.attr("disabled", "disabled");
@@ -105,8 +111,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             selectMessages($inbox_select_checkbox.is(":checked"));
         });
 
-        $(".inbox_items_container input[type='checkbox']").live("change", function() {
-            if ($(".inbox_items_container input[type='checkbox']:checked").length > 0) {
+        $('.inbox_items_container input[type="checkbox"]', $rootel).live('change', function() {
+            if ($('.inbox_items_container input[type="checkbox"]:checked', $rootel).length > 0) {
                 toggleGlobalButtons(true);
             } else {
                 toggleGlobalButtons(false);
@@ -124,6 +130,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $(".inbox_accepted", $rootel).show();
                 sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid, function() {
                     currentMessage.from.connectionState = "ACCEPTED";
+                    sakai.data.me.contacts.accepted++;
+                    $(window).trigger('lhnav.updateCount', ['contacts', sakai.data.me.contacts.accepted, false]);
                 });
             } else {
                 $(".inbox_ignored", $rootel).show();
@@ -156,7 +164,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             if (widgetData.category === "invitation") {
                 determineInviteStatus(messageToShow);
             }
-            $inbox_box_title.text(messageToShow.subject);
+            $inbox_box_title.text(sakai.api.Util.applyThreeDots(messageToShow.subject, 310, false, false, true));
             sakai.api.Util.TemplateRenderer($inbox_show_message_template, {
                 message:messageToShow,
                 me: {
@@ -255,6 +263,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $inbox_search_term = $($inbox_search_term.selector);
                 $inbox_search_term.remove();
             }
+            toggleGlobalButtons(false);
+            $inbox_select_checkbox.removeAttr('checked');
             $inbox_search_messages.removeAttr("disabled");
             // Disable the previous infinite scroll
             if (infinityScroll){
@@ -266,14 +276,14 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     $.each(data.results, function(index, result){
                         if (result.id){
                             messages[result.id] = result;
+                            result['body_nolinebreaks_short'] = sakai.api.Util.applyThreeDots(result.body_nolinebreaks, '550', {max_rows: 2}, false, true);
+                            result['subject_short'] = sakai.api.Util.applyThreeDots(result.subject, '550', {max_rows: 1}, 's3d-bold', true);
                         }
                     });
                     callback(true, data);
                 });
             }, {}, function(items, total){
-                $(".inbox_select_all_container:visible input").removeAttr("disabled");
-                $("#inbox_delete_selected").removeAttr("disabled");
-                $("#inbox_mark_as_read").removeAttr("disabled");
+                $('.inbox_select_all_container:visible input', $rootel).removeAttr('disabled');
                 return sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
                     sakai: sakai,
                      _: _,
@@ -282,9 +292,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     box: widgetData.box
                 });
             }, function(){
-                $(".inbox_select_all_container:visible input").attr("disabled", true);
-                $("#inbox_delete_selected").attr("disabled", true);
-                $("#inbox_mark_as_read").attr("disabled", true);
+                $('.inbox_select_all_container:visible input', $rootel).attr('disabled', true);
+                $inbox_delete_selected.attr('disabled', true);
+                $inbox_mark_as_read.attr('disabled', true);
                 $inbox_message_list.html(sakai.api.Util.TemplateRenderer($inbox_message_list_item_empty_template, {
                     "widgetData": widgetData,
                     "search": searchTerm
@@ -466,6 +476,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         if ((messages && !messages[all.message]) || !messages) {
                             sakai.api.Communication.getMessage(all.message, widgetData.box, sakai.data.me, function(message){
                                 if (message){
+                                    messages[all.message] = message;
                                     currentMessage = message;
                                     showMessage(message, all.hasOwnProperty("reply"));
                                 } else {

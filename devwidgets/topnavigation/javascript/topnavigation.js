@@ -52,6 +52,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var navLinkDropdown = ".s3d-dropdown-container";
         var hasSubnav = ".hassubnav";
         var topnavExplore = ".topnavigation_explore";
+        var topnavExploreLeft = '#topnavigation_explore_left';
+        var topnavExploreRight = '#topnavigation_explore_right';
         var topnavUserOptions = ".topnavigation_user_options";
         var topnavUserDropdown = ".topnavigation_user_dropdown";
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
@@ -155,6 +157,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             var auth = {
                 "externalAuth": externalAuth,
+                "internalAndExternal": sakai.config.Authentication.internalAndExternal,
                 "Authentication": sakai.config.Authentication
             };
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
@@ -204,10 +207,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Open the login overlay even though the user is not hovering over it and if there is a URL redirect
+         */
+        var forceShowLoginUrl = function(){
+            if (qs.get("url")) {
+                forceShowLogin();
+            }
+        };
+
+        /**
          * Open the login overlay even though the user is not hovering over it
          */
         var forceShowLogin = function(){
-            if (qs.get("url") && sakai.api.User.isAnonymous(sakai.data.me)) {
+            if (sakai.api.User.isAnonymous(sakai.data.me)) {
                 $("#topnavigation_user_options_login_fields").addClass("topnavigation_force_submenu_display");
                 $("#topnavigation_user_options_login_wrapper").addClass("topnavigation_force_submenu_display_title");
                 $("#topnavigation_user_options_login_fields_username").focus();
@@ -439,7 +451,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderMenu = function(){
             var obj = {};
-            var menulinks = [];
+            var leftMenulinks = [];
+            var rightMenuLinks = [];
 
             $(".s3d-jump-link").click(function(){
                 $($(this).attr("href")).focus();
@@ -448,29 +461,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var i in sakai.config.Navigation) {
                 if (sakai.config.Navigation.hasOwnProperty(i)) {
                     var temp = "";
-                    if (sakai.data.me.user.anon) {
-                        if (sakai.config.Navigation[i].anonymous) {
-                            if (sakai.config.Navigation[i].id !== "navigation_anon_signup_link") {
-                                temp = createMenuList(i);
-                                menulinks.push(temp);
-                            } else if (sakai.config.Authentication.allowInternalAccountCreation) {
-                                temp = createMenuList(i);
-                                menulinks.push(temp);
-                            }
-                        }
-                    } else {
-                        if (!sakai.config.Navigation[i].anonymous) {
-                            temp = createMenuList(i);
-                            menulinks.push(temp);
+                    /* Check that the user is anon, the nav link is for anon
+                     * users, and if the link is the account create link,
+                     * that internal account creation is allowed
+                     */
+                    var anonAndAllowed = sakai.data.me.user.anon &&
+                        sakai.config.Navigation[i].anonymous &&
+                        (
+                            sakai.config.Navigation[i].id !== 'navigation_anon_signup_link' ||
+                            (
+                                sakai.config.Navigation[i].id === 'navigation_anon_signup_link' &&
+                                sakai.config.Authentication.allowInternalAccountCreation
+                            )
+                        );
+                    var isNotAnon = !sakai.data.me.user.anon &&
+                        !sakai.config.Navigation[i].anonymous;
+                    var shouldPush = anonAndAllowed || isNotAnon;
+                    if (shouldPush) {
+                        temp = createMenuList(i);
+                        if (sakai.config.Navigation[i].rightLink) {
+                            rightMenuLinks.push(temp);
+                        } else {
+                            leftMenulinks.push(temp);
                         }
                     }
                 }
             }
-            obj.links = menulinks;
+            obj.links = leftMenulinks;
             obj.selectedpage = true;
             obj.sakai = sakai;
             // Get navigation and render menu template
-            $(topnavExplore).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
+            $(topnavExploreLeft).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
+
+            obj.links = rightMenuLinks;
+            $(topnavExploreRight).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
         };
 
 
@@ -571,6 +595,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $subnav.css("margin-left", margin + "px");
                 }
             };
+
+
+            var toggleInternalLogin = function() {
+                $(topnavUserOptionsLoginForm).toggle();
+            };
+
+            $('#topnavigation_container').on(
+                'click',
+                '#topnavigation_toggle_internal_login',
+                toggleInternalLogin);
 
             $(hasSubnav).hover(openMenu, function(){
                 closePopover();
@@ -826,7 +860,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(topnavUserOptionsLoginButtonCancel).show();
                         $(topnavuserOptionsLoginButtonLogin).show();
                         $(topnavUseroptionsLoginFieldsPassword).val("");
-                        $(topnavUseroptionsLoginFieldsUsername).focus();
+                        $(topnavUseroptionsLoginFieldsPassword).focus();
                         $(topnavUseroptionsLoginFieldsUsername).addClass("failedloginusername");
                         $(topnavUseroptionsLoginFieldsPassword).addClass("failedloginpassword");
                         $(topnavUserOptionsLoginForm).valid();
@@ -915,6 +949,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".topnavigation_trigger_login").live("click", forceShowLogin);
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
+            $(window).bind("displayName.profile.updated.sakai", setUserName);
         };
 
 
@@ -975,20 +1010,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
             }
         });
-        $("#topnavigation_scroll_to_top").live("click", function(ev){
+        $("#topnavigation_scroll_to_top").live("click", function(ev) {
             $("html:not(:animated),body:not(:animated)").animate({
                 scrollTop: $("html").offset().top
             }, 500 );
         });
 
-        $(window).scroll(function(ev){
-            if($(window).scrollTop() > 800){
-                $("#topnavigation_scroll_to_top").show("slow");
+        $(window).scroll(function(ev) {
+            if($(window).scrollTop() > 800) {
+                $('#topnavigation_scroll_to_top').show('slow');
             } else {
-                $("#topnavigation_scroll_to_top").hide("slow");
+                $('#topnavigation_scroll_to_top').hide('slow');
             }
         });
 
+        $(window).bind('sakai.mylibrary.deletedCollections', function(ev, data) {
+            $.each(data.items, function(i, item) {
+                $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) - 1);
+            });
+        });
+
+        $(window).bind('sakai.mylibrary.createdCollections', function(ev, data) {
+            $.each(data.items, function(i, item) {
+                $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) + 1);
+            });
+        });
 
         $("#topnavigation_messages_container").live("click", function(){
             if($("#topnavigation_user_messages_container .s3d-dropdown-menu").is(":hidden")){
@@ -1022,7 +1068,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setUserName();
             addBinding();
             renderOverlays();
-            forceShowLogin();
+            forceShowLoginUrl();
         };
 
         doInit();

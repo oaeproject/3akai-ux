@@ -1,34 +1,89 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/pageviewer/css/pageviewer.css" />
 
-<div class="pageviewer_widget">
+<span style="display:none;">__MSG__IE_PLACEHOLDER__</span>
+
+<div class="pageviewer_widget" style="display:none">
     <div id="pageviewer_lhnav_container" style="display:none;"></div>
     <div id="pageviewer_content_container"></div>
     <hr class="fl-push fl-hidden"/>
 </div>
 
-<div id="pageviewer_lhnav_template"><!--
-    <ul>
-        {for page in pages}
-            <li class="pageviewer_lhnav_item {if page_index === "0"} selected{/if}" data-index="${page_index}">
-                <button type="button" class="s3d-link-button">${page.title}</button>
-            </li>
+<div id="pageviewer_content_template"><!--
+    {macro insertCell(id, type, element)}
+        <div class="contentauthoring_cell_element" data-element-type="${type}" data-element-id="${id}">
+            {if type === "htmlblock" || type === "pagetitle"}
+                {if type === "pagetitle"}
+                    <h1>
+                {/if}
+                    ${data[selectedPage][id][type].content}
+                {if type === "pagetitle"}
+                    </h1>
+                {/if}
+            {else}
+                <div id="widget_${type}_${id}" class="widget_inline"></div>
+            {/if}
+        </div>
+    {/macro}
+
+    {macro insertColumn(column)}
+        <div class="contentauthoring_cell" style="width: ${column.width * 100}%">
+            <div class="contentauthoring_cell_container">
+                <div class="contentauthoring_table_row">
+                    <div class="contentauthoring_cell_content">
+                        {for element in column.elements}
+                            {if $.isPlainObject(element)}
+                                ${insertCell(element.id, element.type, element)}
+                            {/if}
+                        {/for}
+                    </div>
+                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
+                </div>
+            </div>
+        </div>
+    {/macro}
+
+    {macro insertRow(id, columns)}
+        <li class="contentauthoring_row_container" data-row-id="${id}">
+            <div class="contentauthoring_row">
+                <div class="contentauthoring_minheight_container">
+                    <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
+                        {for column in columns}
+                            {if $.isPlainObject(column)}
+                                ${insertColumn(column)}
+                                <hr class="fl-hidden fl-push"/>
+                            {/if}
+                        {/for}
+                    </div>
+                </div>
+            </div>
+        </li>
+    {/macro}
+
+    <ul id="contentauthoring_widget_container">
+        {for row in data[selectedPage].rows}
+            {if $.isPlainObject(row)}
+                ${insertRow(row.id, row.columns)}
+            {/if}
         {/for}
     </ul>
 --></div>
 
-<div id="pageviewer_content_template"><!--
-    {for page in pages}
-        <div id="pageviewer_content_for_page_${page_index}" class="pageviewer_content_for_page" {if page_index !== "0"} style="display:none;"{/if}>
-            {if page.pageContent && page.pageContent.page}
-                ${page.pageContent.page}
-            {else}
-                <div class="sakaidocs_default_viewable_content_imagecontainer"></div>
-            {/if}
-        </div>
+<div id="pageviewer_lhnav_template"><!--
+<ul>
+    {for page in data}
+        {if page.pageTitle}
+            <li class="pageviewer_lhnav_item {if page_index === "0"} selected{/if}" data-index="${page_index}">
+                <button class="s3d-link-button">${page.pageTitle}</button>
+            </li>
+        {/if}
     {/for}
+</ul>
 --></div>
 
+<div id="pageviewer_dummy_element_template" style="display:none;"><!--
+    <div class="contentauthoring_empty_content contentauthoring_default_viewable_content_imagecontainer"></div>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/pageviewer/javascript/pageviewer.js"></script>

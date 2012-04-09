@@ -68,31 +68,64 @@
                 }
             },
             "${refid}0": {
-                "page": "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float: left; margin: 0; padding: 20px 0 0 0; width: 30%; display: block;'><p style='margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>Research Introduction</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><div style='float: right; margin: 0; padding: 20px 0 0 0; width:60%; display: block;'><p style='margin: 0 0 10px 0;'>Introduction text...</p><ul style='margin: 0 0 20px -15px; padding: 0 0 0 15px; list-style: none;'><p style=''><strong>Investigators:</strong></p><li><a href='#' target='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li><li><a href='#' target='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li></ul></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; width: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Benefit</strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'>The benefit of this research...</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; width: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Scope</strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'>We intend to study...</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /></div>"
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}1",
+                                        "type": "htmlblock"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}1": {
+                    "htmlblock": {
+                        "content": "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float: left; margin: 0; padding: 20px 0 0 0; width: 30%; display: block;'><p style='margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>Research Introduction</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><div style='float: right; margin: 0; padding: 20px 0 0 0; width:60%; display: block;'><p style='margin: 0 0 10px 0;'>Introduction text...</p><ul style='margin: 0 0 20px -15px; padding: 0 0 0 15px; list-style: none;'><p style=''><strong>Investigators:</strong></p><li><a href='#' target='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li><li><a href='#' target='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li></ul></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; width: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Benefit</strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'>The benefit of this research...</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; width: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Scope</strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'>We intend to study...</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /></div>"
+                    }
+                }
             }
         },
         "${pid}1": {
             "excludeSearch": true,
             "structure0": {
                 "library": {
-                    "_ref": "${refid}1",
+                    "_ref": "${refid}2",
                     "_order": 0,
                     "_nonEditable": true,
                     "_title": "Library",
                     "main": {
-                        "_ref": "${refid}1",
+                        "_ref": "${refid}2",
                         "_order": 0,
                         "_nonEditable": true,
                         "_title": "Library"
                     }
                 }
             },
-            "${refid}1": {
-                "page": "<img id='widget_mylibrary_${refid}2' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-            },
             "${refid}2": {
-                "mylibrary": {
-                    "groupid": "${groupid}"
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}3",
+                                        "type": "mylibrary"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}3": {
+                    "mylibrary": {
+                        "groupid": "${groupid}"
+                    }
                 }
             }
         },
@@ -100,50 +133,139 @@
             "excludeSearch": true,
             "structure0": {
                 "participants": {
-                    "_ref": "${refid}3",
+                    "_ref": "${refid}4",
                     "_order": 0,
-                    "_nonEditable": true,
                     "_title": "Participants",
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "${refid}3",
+                        "_ref": "${refid}4",
                         "_order": 0,
                         "_nonEditable": true,
                         "_title": "Participants"
                     }
                 }
             },
-            "${refid}3": {
-                "page": "<img id='widget_participants_${refid}4' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-            },
             "${refid}4": {
-                "participants": {
-                    "groupid": "${groupid}"
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}5",
+                                        "type": "participants"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}5": {
+                    "participants": {
+                        "groupid": "${groupid}"
+                    }
                 }
             }
-        },
+        }, 
         "${pid}3": {
             "excludeSearch": false,
             "structure0": {
                 "references": {
-                    "_ref": "${refid}5",
+                    "_ref": "${refid}6",
                     "_order": 0,
                     "_title": "References",
                     "main": {
-                        "_ref": "${refid}5",
+                        "_ref": "${refid}6",
                         "_order": 0,
                         "_title": "References"
                     }
                 }
             },
-            "${refid}5": {
-                "page": "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float: left; margin: 0; padding: 20px 0 0 0;'><p style='margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>References</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div></div>"
+            "${refid}6": {
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}7",
+                                        "type": "htmlblock"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}7": {
+                    "htmlblock": {
+                        "content" : "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float: left; margin: 0; padding: 20px 0 0 0;'><p style='margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>References</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div></div>"
+                    }
+                }
+            }
+        },
+        "${pid}4": {
+            "excludeSearch": true,
+            "structure0": {
+                "dashboardactivity": {
+                    "_ref": "${refid}8",
+                    "_order": 0,
+                    "_nonEditable": true,
+                    "_title": "Research Dashboard",
+                    "main": {
+                        "_ref": "${refid}8",
+                        "_order": 0,
+                        "_nonEditable": true,
+                        "_title": "Research Dashboard"
+                    }
+                }
+            },
+            "${refid}8": {
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}9",
+                                        "type": "dashboardactivity"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}9": {
+                    "dashboardactivity": {
+                        "groupid": "${groupid}"
+                    }
+                }
             }
         }
     },
     "structure": {
+        "dashboardactivity": {
+            "_title": "Research Dashboard",
+            "_order": 0,
+            "_docref": "${pid}4",
+            "_nonEditable": true,
+            "_view": [
+                "everyone",
+                "anonymous",
+                "-contributor",
+                "-evaluator"
+            ],
+            "_edit": [
+                "-leadresearcher",
+                "-researcher",
+                "-researchassistant"
+            ]
+        },
         "introduction": {
             "_title": "Introduction",
-            "_order": 0,
+            "_order": 1,
             "_docref": "${pid}0",
             "_view": [
                 "everyone",
@@ -159,7 +281,7 @@
         },
         "library": {
             "_title": "Library",
-            "_order": 1,
+            "_order": 2,
             "_docref": "${pid}1",
             "_nonEditable": true,
             "_view": [
@@ -176,7 +298,7 @@
         },
         "participants": {
             "_title": "Participants",
-            "_order": 2,
+            "_order": 3,
             "_docref": "${pid}2",
             "_nonEditable": true,
             "_view": [
@@ -193,7 +315,7 @@
         },
         "references": {
             "_title": "References",
-            "_order": 3,
+            "_order": 4,
             "_docref": "${pid}3",
             "_view": [
                 "everyone",

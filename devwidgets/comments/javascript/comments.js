@@ -52,7 +52,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var start = 0; // Start fetching from the first comment.
         var clickedPage = 1;
         var defaultPostsPerPage = 10;
-        var widgeturl = "";
         var store = "";
         var allowedEdit = false;
         var allowedDelete = false;
@@ -331,20 +330,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
 
+            var widgeturl = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
             var subject = 'Comment';
             var to = "internal:" + widgeturl + "/message";
 
             if (allowPost) {
                 var body = $(commentsMessageTxt, rootel).val();
                 var message = {
-                    "sakai:type": "comment",
-                    "sakai:to": to,
-                    "sakai:marker": tuid,
-                    "sakai:subject": subject,
-                    "sakai:body": body,
-                    "sakai:messagebox": "outbox",
-                    "sakai:sendstate": "pending",
-                    "_charset_":"utf-8"
+                    'sakai:type': 'comment',
+                    'sakai:to': to,
+                    'sakai:marker': tuid,
+                    'sakai:subject': subject,
+                    'sakai:body': body,
+                    'sakai:messagebox': 'pending',
+                    'sakai:sendstate': 'pending',
+                    'sling:resourceType': 'sakai/message',
+                    '_charset_':'utf-8'
                 };
 
 
@@ -613,6 +614,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             json.results[i].post["sakai:editedby"] = me.user.userid;
                         }
                     }
+                    // Render Math formulas in the text
+                    sakai.api.Util.renderMath(tuid);
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_EDIT"),"",sakai.api.Util.notification.type.ERROR);
@@ -649,7 +652,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             /** Bind the insert comment button*/
             $(commentsCommentBtn, rootel).bind("click", function(e, ui){
-                sakai.api.Util.Forms.clearValidation($("#comments_fillInComment form"));
+                sakai.api.Util.Forms.clearValidation($("#comments_fillInComment form", rootel));
                 // checks if the user is loggedIn
                 var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
                 var txtToFocus = commentsMessageTxt;
@@ -687,7 +690,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var saveValidateOpts = {
                 submitHandler: postComment
             };
-            sakai.api.Util.Forms.validate($("#comments_fillInComment form"), saveValidateOpts, true);
+            sakai.api.Util.Forms.validate($("#comments_fillInComment form", rootel), saveValidateOpts, true);
 
             /** Bind the settings cancel button */
             $(commentsCancel, rootel).bind("click", function(e, ui){
@@ -746,6 +749,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function(){
             addBindings();
+            var widgeturl = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
             widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
             if (widgeturl) {
                 store = widgeturl + "/message";

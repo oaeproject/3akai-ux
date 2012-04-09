@@ -14,7 +14,7 @@
             <ul class="carousel_content_tags s3d-taglist">
                 {for tag in t}
                     {if tag_index < 2}
-                        <li><a href="${tag.link}" class="s3d-regular-links s3d-bold" title="${tag.linkTitle}">${tag.value}</a></li>
+                        <li><a href="${tag.link}" class="s3d-regular-links s3d-bold carousel_apply_threedots threedots_allow_2" title="${tag.linkTitle}">${tag.tagShorter}</a></li>
                     {/if}
                 {/for}
             </ul>
@@ -23,10 +23,10 @@
 
     {macro contentButtons(id, uploader,title,type)}
         <span class="carousel_bottom_buttons s3d-draggable-hidden">
-            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__ ${title}</legend>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE__ ${title}"></button>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE__ ${title}"></button>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__ __MSG__FOR__ ${title}"></button>
+            <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__ ${title|safeOutput}</legend>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE__ ${title|safeOutput}"></button>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE__ ${title|safeOutput}"></button>
+                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__ __MSG__FOR__ ${title|safeOutput}"></button>
             </fieldset>
         </span>
     {/macro}
@@ -111,22 +111,22 @@
                                     <div class="carousel_counts">
                                         <ul>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=library">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=library"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
                                             </li>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts">${user.counts.contactsCount} __MSG__CONTACTS__</a>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.contactsCount} __MSG__CONTACTS__</a>
                                             </li>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <span class="carousel_bottom_buttons">
                                         <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                                             {if !user.connected}
-                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS1__ ${user.displayName|safeOutput} __MSG__ADD_TO_CONTACTS2__"></button>
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS1__ ${user.displayName|safeOutput} __MSG__ADD_TO_CONTACTS2__" sakai-entitypicture="${sakai.api.User.getProfilePicture(user)}"></button>
                                             {/if}
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE_TO__ ${user.displayName|safeOutput}"></button>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE_TO__ ${user.displayName|safeOutput}" sakai-entitypicture="${sakai.api.User.getProfilePicture(user)"></button>
                                         </fieldset>
                                     </span>
                                 </div>
@@ -148,22 +148,24 @@
                                         </a>
                                     </h2>
                                     {if tall}
-                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_5">
+                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_3">
                                             ${group.description|safeOutput}
                                         </p>
                                     {/if}
                                     <div class="carousel_counts">
                                         <ul>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${group.groupid}#l=library">${group.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                <a class="s3d-regular-light-links" href="/~${group.groupid}#l=library"><span class="s3d-aural-text">${group.title|safeOutput} __MSG__USER_GROUP_HAS__</span> ${group.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
                                             </li>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${group.groupid}#l=participants">${group.counts.membersCount} __MSG__PARTICIPANTS__</a>
+                                                <a class="s3d-regular-light-links" href="/~${group.groupid}#l=participants"><span class="s3d-aural-text">${group.title|safeOutput} __MSG__USER_GROUP_HAS__</span> ${group.counts.membersCount} __MSG__PARTICIPANTS__</a>
                                             </li>
 
                                         </ul>
                                     </div>
-                                    ${tags(group.tags)}
+                                    {if tall}
+                                        ${tags(group.tags)}
+                                    {/if}
                                     <span class="carousel_bottom_buttons">
                                         <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                                             <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}" title="__MSG__JOIN_GROUP__ ${group.title|safeOutput}"></button>

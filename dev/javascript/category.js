@@ -59,17 +59,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             bbqData.splice(0,1);
 
             // Create children level breadcrumb
-            var children = dirData.children[bbqData[0]];
-            $.each(bbqData, function(index, item){
-                breadcrumb.push({
-                    "title": children.title,
-                    "id": item,
-                    "link": bbqData.length - 1 - index
+            if (dirData.children) {
+                var children = dirData.children[bbqData[0]];
+                $.each(bbqData, function(index, item) {
+                    breadcrumb.push({
+                        'title': children.title,
+                        'id': item,
+                        'link': bbqData.length - 1 - index
+                    });
+                    if (children.children) {
+                        children = children.children[bbqData[index]];
+                    }
                 });
-                if (children.children) {
-                    children = children.children[bbqData[index]];
-                }
-            });
+            }
 
             $exploreNavigation.html(sakai.api.Util.TemplateRenderer(exploreNavigationTemplate,{"breadcrumb": breadcrumb}));
             document.title = originalTitle + " " + dirData.title;
@@ -102,57 +104,93 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var fpRnd = sakai.api.Util.generateWidgetId();
             var fwRnd = sakai.api.Util.generateWidgetId();
             privdata[rnd] = {
-                page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
+                'rows': [{
+                    'id': sakai.api.Util.generateWidgetId(),
+                    'columns': [{
+                        'width': 1,
+                        'elements': [
+                            {
+                                'id': fcRnd,
+                                'type': 'featuredcontent'
+                            },
+                            {
+                                'id': fpRnd,
+                                'type': 'featuredpeople'
+                            },
+                            {
+                                'id': fwRnd,
+                                'type': 'featuredworlds'
+                            }
+                        ]
+                    }]
+                }]
             };
-            privdata[fcRnd] = {
+            privdata[rnd][fcRnd] = {
                 category: navData.id,
                 title: navData.title
             };
-            privdata[fpRnd] = {
+            privdata[rnd][fpRnd] = {
                 category: navData.id,
                 title: navData.title
             };
-            privdata[fwRnd] = {
+            privdata[rnd][fwRnd] = {
                 category: navData.id,
                 title: navData.title
             };
 
             var count = 0;
-            $.each(navData.children, function(index, item){
-                var rnd = sakai.api.Util.generateWidgetId();
-                pubdata["structure0"][navData.id + "-" + index] = {
-                    "_ref": rnd,
-                    "_order": count,
-                    "_title": item.title,
-                    "main": {
-                        "_ref": rnd,
-                        "_order": 0,
-                        "_title": item.title
-                    }
-                };
+            if (navData.children) {
+                $.each(navData.children, function(index, item) {
+                    var rnd = sakai.api.Util.generateWidgetId();
+                    pubdata['structure0'][navData.id + '-' + index] = {
+                        '_ref': rnd,
+                        '_order': count,
+                        '_title': item.title,
+                        'main': {
+                            '_ref': rnd,
+                            '_order': 0,
+                            '_title': item.title
+                        }
+                    };
 
-                // featuredcontent, featured people and featuredworld random numbers
-                var fcRnd = sakai.api.Util.generateWidgetId();
-                var fpRnd = sakai.api.Util.generateWidgetId();
-                var fwRnd = sakai.api.Util.generateWidgetId();
-                pubdata[rnd] = {
-                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
-                };
-                pubdata[fcRnd] = {
-                    category: navData.id + "-" + index,
-                    title: navData.title + " » " + item.title
-                };
-                pubdata[fpRnd] = {
-                    category: navData.id + "-" + index,
-                    title: navData.title + " » " + item.title
-                };
-                pubdata[fwRnd] = {
-                    category: navData.id + "-" + index,
-                    title: navData.title + " » " + item.title
-                };
+                    // featuredcontent, featured people and featuredworld random numbers
+                    var fcRnd = sakai.api.Util.generateWidgetId();
+                    var fpRnd = sakai.api.Util.generateWidgetId();
+                    var fwRnd = sakai.api.Util.generateWidgetId();
+                    pubdata[rnd] = {
+                        'rows': [{
+                            'id': sakai.api.Util.generateWidgetId(),
+                            'columns': [{
+                                'width': 1,
+                                'elements': [{
+                                    'id': fcRnd,
+                                    'type': 'featuredcontent'
+                                }, {
+                                    'id': fpRnd,
+                                    'type': 'featuredpeople'
+                                }, {
+                                    'id': fwRnd,
+                                    'type': 'featuredworlds'
+                                }]
+                            }]
+                        }]
+                    };
+                    pubdata[rnd][fcRnd] = {
+                        category: navData.id + '-' + index,
+                        title: navData.title + ' » ' + item.title
+                    };
+                    pubdata[rnd][fpRnd] = {
+                        category: navData.id + '-' + index,
+                        title: navData.title + ' » ' + item.title
+                    };
+                    pubdata[rnd][fwRnd] = {
+                        category: navData.id + '-' + index,
+                        title: navData.title + ' » ' + item.title
+                    };
 
-                count++;
-            });
+                    count++;
+                });
+            }
             $(window).trigger("lhnav.init", [pubdata, privdata, {}]);
         };
 

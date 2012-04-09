@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/participants/bundles/default.properties",
             "name":       "Participants",
             "description":"List participants of a group"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/participants/bundles/es_ES.properties"
         }
     },
     "id":                 "participants",
     "personalportal":     false,
-    "showinsakaigoodies": true,
     "type":               "sakai",
     "url":                "/devwidgets/participants/participants.html",
     "userdashboard":      false,
