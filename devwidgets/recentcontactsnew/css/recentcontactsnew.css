@@ -28,7 +28,7 @@
     border-radius: 5px;
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
    -webkit-border-radius: 5px; /* Safari */}
-.recentcontactsnew_item_div {min-height:35px; margin-left:40px; word-wrap:break-word;}
+.recentcontactsnew_item_div {min-height:35px; margin-left:45px; word-wrap:break-word;}
 .recentcontactsnew_content_mimetype{white-space:pre;text-transform:uppercase;}
 .s3d-widget-footer .recentcontactsnew_item_link {float:right;}
 

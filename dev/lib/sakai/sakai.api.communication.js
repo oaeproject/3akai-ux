@@ -391,9 +391,12 @@ define(
                     newMsg.category = msg["sakai:category"];
                     newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.fromEpoch(msg["_created"], sakai_user.data.me));
                     newMsg.timeago = $.timeago(new Date(msg["_created"]));
-                    newMsg.id = msg.id;
+                    newMsg.id = msg.id || msg['sakai:id'];
                     newMsg.read = msg["sakai:read"];
-                    newMsg.path = msg["_path"];
+                    newMsg.path = msg['_path'];
+                    if (msg['_path'].substring(0,2) === 'a:') {
+                        newMsg.path = msg['_path'].replace('a:', '/~');
+                    }
                     if (msg.previousMessage) {
                         newMsg.previousMessage = sakaiCommunicationsAPI.processMessages([msg.previousMessage]);
                         $.each(newMsg.previousMessage, function(i,val){

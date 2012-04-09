@@ -1,0 +1,138 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/inserter/css/inserter.css" />
+
+<div class="inserter_widget" style="display:none;">
+    <div id="inserter_header" class="defines_height">
+        <div id="inserter_header_dragbar" class="fl-force-left"></div>
+        <button type="button" id="inserter_close_icon" class="s3d-link-button inserter_toggle" title="__MSG__CLOSE_INSERTER__">
+            <span class="s3d-aural-text">__MSG__CLOSE_INSERTER__</span>&nbsp;
+        </button>
+        <hr class="fl-push fl-hidden"/>
+        <div id="inserter_header_title_container"><!-- --></div>
+        <hr class="fl-push fl-hidden"/>
+    </div>
+    <div id="inserter_collector">
+        <div id="inserter_init_container">
+            <div class="inserter_collections_top_container" id="inserter_collection_infinitescroll_container"><!-- --></div>
+            <div id="inserter_create_collection_container">
+                <form id="inserter_create_collection_form" novalidate="novalidate">
+                    <div class="s3d-form-field-wrapper">
+                        <hr class="fl-hidden fl-push"/>
+                        <label for="inserter_create_collection_input">
+                            <div class="inserter_create_icon fl-force-left"></div>
+                        </label>
+                        <input type="text" class="required" id="inserter_create_collection_input" name="inserter_create_collection_input"/>
+                        <button type="submit" id="inserter_create_collection" class="s3d-button s3d-overlay-button">__MSG__CREATE__</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="inserter_collection_content_container">
+            <!--<select class="fl-force-right" id="inserter_mimetype_filter">
+                <option value="">__MSG__ALL_TYPES__</option>
+                <option value="application/pdf">__MSG__PDF__</option>
+                <option value="image/png">__MSG__IMAGES__</option>
+                <option value="x-sakai/collection">__MSG__COLLECTIONS__</option>
+            </select>-->
+            <div class="s3d-search-container">
+                <input type="text" class="s3d-search-inputfield" id="inserter_collection_content_search" title="__MSG__SEARCH_THROUGH_COLLECTION__">
+                <button title="__MSG__SUBMIT_SEARCH__" class="s3d-button s3d-overlay-button s3d-search-button" type="button">
+                    <span class="s3d-aural-text">__MSG__SUBMIT_SEARCH__</span>
+                    <span class="s3d-search-button-icon"></span>
+                </button>
+            </div>
+            <hr class="fl-hidden fl-push"/>
+            <div class="inserter_collections_top_container" id="inserter_content_infinitescroll_container">
+                <ul id="inserter_collection_items_container"><!-- --></ul>
+            </div>
+            <div id="inserter_no_results_container"><!-- --></div>
+            <button type="button" class="s3d-button s3d-overlay-action-button" id="inserter_all_collections_button">__MSG__ALL_COLLECTIONS__</button>
+        </div>
+    </div>
+</div>
+
+<div id="inserter_init_prescroll_template"><!--
+    <ul>
+        <li data-collection-id="library" class="s3d-droppable-container" data-dropevent="sakai.inserter.dropevent" data-scope="content">
+            <div class="inserter_library_icon fl-force-left"></div>
+            <div class="inserter_item_count_container fl-force-right">${sakai.data.me.user.properties.contentCount || 0}</div>
+            <span class="s3d-regular-links s3d-bold">__MSG__MY_LIBRARY__</span>
+        </li>
+    </ul>
+--></div>
+
+<div id="inserter_init_template" style="display:none;"><!--
+    {for collection in collections}
+        <li class="s3d-draggable-container s3d-droppable-container" id="${collection._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection._path}" data-connectToSortable=".contentauthoring_cell_content">
+            <img alt="${sakai.api.Content.getMimeTypeData("x-sakai/collection").description}" src="${sakai.api.Content.getMimeTypeData("x-sakai/collection").URL}" class="fl-force-left s3d-icon-32"/>
+            <div class="inserter_item_count_container fl-force-right">{if collection.counts && collection.counts.contentCount} ${collection.counts.contentCount}{else} 0{/if}</div>
+            <span class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(collection['sakai:pooled-content-file-name'], 220, null, "s3d-bold")}</span>
+        </li>
+    {/for}
+--></div>
+
+<div id="inserter_collection_content_template"><!--
+    {for item in items}
+        <li class="s3d-draggable-container s3d-droppable-container" id="${item._path}" data-content-id="${item._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection}">
+            {if item.hasPreview}
+                <img alt="${sakai.api.Content.getMimeTypeData(item._mimeType).description}" src="${sakai.api.Content.getThumbnail(item) || sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
+            {else}
+                <img alt="${sakai.api.Content.getMimeTypeData(item._mimeType).description}" src="${sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
+            {/if}
+            <a href="/content#p=${item._path}/${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 83, null, "s3d-bold")}</a>
+            <div class="inserter_collection_type s3d-draggable-hidden">${sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(item._mimeType).description)}</div>
+        </li>
+    {/for}
+--></div>
+
+<div id="inserter_no_results_template" style="display:none;"><!--
+    {if search}
+        <div class="s3d-no-results-container s3d-droppable-container" data-collection-id="${collection}" data-dropevent="sakai.inserter.dropevent" data-scope="content">
+            <div class="s3d-no-results-icon s3d-no-results-magnifier less-margin"></div>
+            <h1>__MSG__SEARCH_DIDNT_RETURN_RESULTS__</h1>
+        </div>
+    {else}
+        <div class="s3d-no-results-container s3d-droppable-container" data-collection-id="${collection}" data-dropevent="sakai.inserter.dropevent" data-scope="content">
+            <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
+            <h1>__MSG__COLLECTION_DOESNT_CONTAIN_ITEMS__</h1>
+        </div>
+    {/if}
+--></div>
+
+<div id="inserter_header_title_template" style="display:none;"><!--
+    {if context === "init"}
+        <div id="inserter_header_title">__MSG__COLLECTOR__</div>
+    {else}
+        <div id="inserter_header_collection_title_container" class="fl-push">
+            <div class="inserter_library_icon fl-force-left inserter_header_collection_icon"></div>
+            <div id="inserter_header_float_container">
+                {if item === "library"}
+                    <a id="inserter_header_collection_title" href="/me#l=library">__MSG__MY_LIBRARY__</a>
+                {else}
+                    <a id="inserter_header_collection_title" href="${item.link}">${sakai.api.Util.applyThreeDots(item['sakai:pooled-content-file-name'], 300)}</a>
+                {/if}
+                <span class="inserter_collection_type">__MSG__COLLECTION__</span>
+                <div id="inserter_header_itemcount">
+                    <span id="inserter_header_itemcount_count">
+                        {var count = 0}
+                        {if item === "library"}
+                            ${librarycount}
+                            ${count = librarycount|eat}
+                        {else}
+                            ${item.counts.contentCount}
+                            ${count = item.counts.contentCount|eat}
+                        {/if}
+                    </span>
+                    {if count === 1}
+                        __MSG__CONTENT_ITEM__
+                    {else}
+                        __MSG__CONTENT_ITEMS__
+                    {/if}
+                </div>
+            </div>
+        </div>
+    {/if}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/inserter/javascript/inserter.js"></script>

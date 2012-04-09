@@ -1,0 +1,19 @@
+{
+    "enabled":            true,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/dashboardactivity/bundles/default.properties",
+            "name":       "Dashboard Activity",
+            "description":"Shows activity on the users dashboard"
+        }
+    },
+    "id":                 "dashboardactivity",
+    "personalportal":     false,
+    "type":               "sakai",
+    "url":                "/devwidgets/dashboardactivity/dashboardactivity.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

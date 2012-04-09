@@ -155,7 +155,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.getQueryParams = function($rootel){
             var params = {
                 "page": parseInt($.bbq.getState('page'), 10) || 1,
-                "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
                 "sortby": $.bbq.getState('sortby'),
@@ -170,19 +169,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return params;
         };
 
-        sakai_global.data.search.processSearchString = function(params){
-            var searchString = params.q;
-            var catString = params.cat;
-            if (params.refine){
-                if (catString) {
-                    catString = catString + " " + params.refine.replace(/,/g, " ");
-                } else if (searchString === "*"){
-                    searchString = params.refine.replace(/,/g, " ");
-                } else {
-                    searchString = searchString + " " + params.refine.replace(/,/g, " ");
-                }
+        sakai_global.data.search.processSearchString = function(params) {
+            return sakai.api.Server.createSearchString(params.q);
+        };
+
+        sakai_global.data.search.processRefineString = function(params) {
+            if (params.refine) {
+                return sakai.api.Server.createSearchString(params.refine.replace(/,/g, ', '), true);
+            } else {
+                return '';
             }
-            return sakai.api.Server.createSearchString(catString || searchString);
         };
 
         var setActiveTags = function() {
@@ -238,7 +234,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind sortby select box
-        $("#s3d-page-container").on("change", ".s3d-search-header .s3d-search-sort select", function(ev) {
+        $('#' + config.tuid).on('change', '.s3d-search-header .s3d-search-sort select', function(ev) {
             var sortby = $(this).find(":selected").attr("data-sort-order");
             var sorton = $(this).find(":selected").attr("data-sort-on");
             $.bbq.pushState({

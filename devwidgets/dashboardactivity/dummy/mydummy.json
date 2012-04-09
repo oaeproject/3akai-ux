@@ -1,0 +1,345 @@
+{
+    "items": 25,
+    "results": [{
+        "sakai:activity-source": "kSjOw8M3aa",
+        "_lastModifiedBy": "admin",
+        "sakai:activity-type": "pooled content",
+        "sakai:activity-actor": "user1",
+        "_createdBy": "admin",
+        "_path": "/~user1/private/activityFeed/2012-03-19-12-4f8b07065809eb11a638d3c2c310a095de2029f9",
+        "sling:resourceType": "sakai/activity",
+        "_created": 1332193654879,
+        "_id": "4LY38HH1EeGgqj4QwKgBjQ+",
+        "sakai:activity-appid": "Content",
+        "_lastModified": 1332193654879,
+        "sakai:activity-templateid": "default",
+        "sakai:activityMessage": "CREATED_FILE",
+        "sakai:pooled-content-file-name": "The ever expanding universe, see the stars",
+        "_mimeType": "application/pdf",
+        "sakai:pooled-content-path": "kSjuwvkoaa",
+        "users": {
+            "user1": {
+                "hash": "user1",
+                "basic": {
+                    "access": "everybody",
+                    "elements": {
+                        "lastName": {
+                            "value": "Pareyn"
+                        },
+                        "email": {
+                            "value": "unknown"
+                        },
+                        "firstName": {
+                            "value": "Bert"
+                        }
+                    }
+                },
+                "rep:userId": "user1",
+                "userid": "user1",
+                "counts": {
+                    "contentCount": 11,
+                    "countLastUpdate": 1332183676386,
+                    "contactsCount": 2,
+                    "membershipsCount": 6
+                },
+                "sakai:excludeSearch": false,
+                "homePath": "/~user1"
+            }
+        }
+    },
+    {
+        "sakai:activity-source": "kSjOw8M3aa",
+        "_lastModifiedBy": "admin",
+        "sakai:activity-type": "pooled content",
+        "sakai:activity-actor": "user2",
+        "sakai:activity-nonactor": "user1",
+        "_createdBy": "admin",
+        "_path": "/~user1/private/activityFeed/2012-03-19-12-4f8b07065809eb11a638d3c2c310a095de2029f9",
+        "sling:resourceType": "sakai/activity",
+        "_created": 1332163654879,
+        "_id": "4LY38HH1EeGgqj4QwKgBjQ+",
+        "sakai:activity-appid": "Content",
+        "_lastModified": 1332163654879,
+        "sakai:activity-templateid": "default",
+        "sakai:activityMessage": "SHARED_CONTENT",
+        "sakai:activityMessageAction": "SHARED_CONTENT_ACTION",
+        "sakai:pooled-content-file-name": "The ever expanding universe, see the stars",
+        "_mimeType": "application/pdf",
+        "sakai:pooled-content-path": "kSjuwvkoaa",
+        "users": {
+            "user1": {
+                "hash": "user1",
+                "basic": {
+                    "access": "everybody",
+                    "elements": {
+                        "lastName": {
+                            "value": "Pareyn"
+                        },
+                        "email": {
+                            "value": "unknown"
+                        },
+                        "firstName": {
+                            "value": "Bert"
+                        }
+                    }
+                },
+                "rep:userId": "user1",
+                "userid": "user1",
+                "counts": {
+                    "contentCount": 11,
+                    "countLastUpdate": 1332183676386,
+                    "contactsCount": 2,
+                    "membershipsCount": 6
+                },
+                "sakai:excludeSearch": false,
+                "homePath": "/~user1"
+            },
+            "user2": {
+                "hash": "user2",
+                "basic": {
+                    "access": "everybody",
+                    "elements": {
+                        "lastName": {
+                            "value": "Christian"
+                        },
+                        "email": {
+                            "value": "unknown"
+                        },
+                        "firstName": {
+                            "value": "Vuerings"
+                        }
+                    }
+                },
+                "rep:userId": "user2",
+                "userid": "user2",
+                "counts": {
+                    "contentCount": 11,
+                    "countLastUpdate": 1332183676386,
+                    "contactsCount": 2,
+                    "membershipsCount": 6
+                },
+                "sakai:excludeSearch": false,
+                "homePath": "/~user2"
+            }
+        }
+    },
+    {
+        "sakai:activity-source": "kSjOw8M3aa",
+        "_lastModifiedBy": "admin",
+        "sakai:activity-type": "pooled content",
+        "sakai:activity-actor": "user1",
+        "_createdBy": "admin",
+        "_path": "/~user1/private/activityFeed/2012-03-19-12-4f8b07065809eb11a638d3c2c310a095de2029f9",
+        "sling:resourceType": "sakai/activity",
+        "_created": 1332133654879,
+        "_id": "4LY38HH1EeGgqj4QwKgBjQ+",
+        "sakai:activity-appid": "Content",
+        "_lastModified": 1332133654879,
+        "sakai:activity-templateid": "default",
+        "sakai:activityMessage": "UPDATED_CONTENT",
+        "sakai:pooled-content-file-name": "The ever expanding universe, see the stars",
+        "_mimeType": "application/pdf",
+        "sakai:pooled-content-path": "kSjuwvkoaa",
+        "users": {
+            "user1": {
+                "hash": "user1",
+                "basic": {
+                    "access": "everybody",
+                    "elements": {
+                        "lastName": {
+                            "value": "Pareyn"
+                        },
+                        "email": {
+                            "value": "unknown"
+                        },
+                        "firstName": {
+                            "value": "Bert"
+                        }
+                    }
+                },
+                "rep:userId": "user1",
+                "userid": "user1",
+                "counts": {
+                    "contentCount": 11,
+                    "countLastUpdate": 1332183676386,
+                    "contactsCount": 2,
+                    "membershipsCount": 6
+                },
+                "sakai:excludeSearch": false,
+                "homePath": "/~user1"
+            }
+        }
+    },
+    {
+        "sakai:activity-source": "kSjOw8M3aa",
+        "_lastModifiedBy": "admin",
+        "sakai:activity-type": "pooled content",
+        "sakai:activity-actor": "user1",
+        "_createdBy": "admin",
+        "_path": "/~user1/private/activityFeed/2012-03-19-12-4f8b07065809eb11a638d3c2c310a095de2029f9",
+        "sling:resourceType": "sakai/activity",
+        "_created": 1332193654879,
+        "_id": "4LY38HH1EeGgqj4QwKgBjQ+",
+        "sakai:activity-appid": "Content",
+        "_lastModified": 1332193654879,
+        "sakai:activity-templateid": "default",
+        "sakai:activityMessage": "CREATED_FILE",
+        "sakai:pooled-content-file-name": "The ever expanding universe, see the stars",
+        "_mimeType": "application/pdf",
+        "sakai:pooled-content-path": "kSjuwvkoaa",
+        "users": {
+            "user1": {
+                "hash": "user1",
+                "basic": {
+                    "access": "everybody",
+                    "elements": {
+                        "lastName": {
+                            "value": "Pareyn"
+                        },
+                        "email": {
+                            "value": "unknown"
+                        },
+                        "firstName": {
+                            "value": "Bert"
+                        }
+                    }
+                },
+                "rep:userId": "user1",
+                "userid": "user1",
+                "counts": {
+                    "contentCount": 11,
+                    "countLastUpdate": 1332183676386,
+                    "contactsCount": 2,
+                    "membershipsCount": 6
+                },
+                "sakai:excludeSearch": false,
+                "homePath": "/~user1"
+            }
+        }
+    },
+    {
+        "sakai:activity-source": "kSjOw8M3aa",
+        "_lastModifiedBy": "admin",
+        "sakai:activity-type": "pooled content",
+        "sakai:activity-actor": "user2",
+        "sakai:activity-nonactor": "user1",
+        "_createdBy": "admin",
+        "_path": "/~user1/private/activityFeed/2012-03-19-12-4f8b07065809eb11a638d3c2c310a095de2029f9",
+        "sling:resourceType": "sakai/activity",
+        "_created": 1332163654879,
+        "_id": "4LY38HH1EeGgqj4QwKgBjQ+",
+        "sakai:activity-appid": "Content",
+        "_lastModified": 1332163654879,
+        "sakai:activity-templateid": "default",
+        "sakai:activityMessage": "SHARED_CONTENT",
+        "sakai:activityMessageAction": "SHARED_CONTENT_ACTION",
+        "sakai:pooled-content-file-name": "The ever expanding universe, see the stars",
+        "_mimeType": "application/pdf",
+        "sakai:pooled-content-path": "kSjuwvkoaa",
+        "users": {
+            "user1": {
+                "hash": "user1",
+                "basic": {
+                    "access": "everybody",
+                    "elements": {
+                        "lastName": {
+                            "value": "Pareyn"
+                        },
+                        "email": {
+                            "value": "unknown"
+                        },
+                        "firstName": {
+                            "value": "Bert"
+                        }
+                    }
+                },
+                "rep:userId": "user1",
+                "userid": "user1",
+                "counts": {
+                    "contentCount": 11,
+                    "countLastUpdate": 1332183676386,
+                    "contactsCount": 2,
+                    "membershipsCount": 6
+                },
+                "sakai:excludeSearch": false,
+                "homePath": "/~user1"
+            },
+            "user2": {
+                "hash": "user2",
+                "basic": {
+                    "access": "everybody",
+                    "elements": {
+                        "lastName": {
+                            "value": "Christian"
+                        },
+                        "email": {
+                            "value": "unknown"
+                        },
+                        "firstName": {
+                            "value": "Vuerings"
+                        }
+                    }
+                },
+                "rep:userId": "user2",
+                "userid": "user2",
+                "counts": {
+                    "contentCount": 11,
+                    "countLastUpdate": 1332183676386,
+                    "contactsCount": 2,
+                    "membershipsCount": 6
+                },
+                "sakai:excludeSearch": false,
+                "homePath": "/~user2"
+            }
+        }
+    },
+    {
+        "sakai:activity-source": "kSjOw8M3aa",
+        "_lastModifiedBy": "admin",
+        "sakai:activity-type": "pooled content",
+        "sakai:activity-actor": "user1",
+        "_createdBy": "admin",
+        "_path": "/~user1/private/activityFeed/2012-03-19-12-4f8b07065809eb11a638d3c2c310a095de2029f9",
+        "sling:resourceType": "sakai/activity",
+        "_created": 1332133654879,
+        "_id": "4LY38HH1EeGgqj4QwKgBjQ+",
+        "sakai:activity-appid": "Content",
+        "_lastModified": 1332133654879,
+        "sakai:activity-templateid": "default",
+        "sakai:activityMessage": "ADDED_COMMENT",
+        "sakai:comment-body": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.",
+        "sakai:pooled-content-file-name": "The ever expanding universe, see the stars",
+        "_mimeType": "application/pdf",
+        "sakai:pooled-content-path": "kSjuwvkoaa",
+        "users": {
+            "user1": {
+                "hash": "user1",
+                "basic": {
+                    "access": "everybody",
+                    "elements": {
+                        "lastName": {
+                            "value": "Pareyn"
+                        },
+                        "email": {
+                            "value": "unknown"
+                        },
+                        "firstName": {
+                            "value": "Bert"
+                        }
+                    }
+                },
+                "rep:userId": "user1",
+                "userid": "user1",
+                "counts": {
+                    "contentCount": 11,
+                    "countLastUpdate": 1332183676386,
+                    "contactsCount": 2,
+                    "membershipsCount": 6
+                },
+                "sakai:excludeSearch": false,
+                "homePath": "/~user1"
+            }
+        }
+    }],
+    "total": 106
+}
