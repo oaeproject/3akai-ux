@@ -454,8 +454,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var leftMenulinks = [];
             var rightMenuLinks = [];
 
+            $(".s3d-jump-link").each(function(){
+                if ($('#' + $(this).attr('id').split('_')[0] + '_target:visible').length){
+                    $(this).show();
+                }
+            });
             $(".s3d-jump-link").click(function(){
-                $($(this).attr("href")).focus();
+                $('#' + $(this).attr("id").split('_')[0] + '_target').focus();
             });
 
             for (var i in sakai.config.Navigation) {

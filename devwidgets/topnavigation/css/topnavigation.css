@@ -169,7 +169,34 @@
 #topnavigation_search_input:focus{outline:2px solid #2683BC;}
 
 /* Skip navigation link focus treatment */
-#topnavigation_container .s3d-jump-link:focus {color: #FFFFFF;display: block;padding: 10px 25px 10px;text-decoration: none;position: absolute;top: 39px;left: 0;background: #000 url("/devwidgets/topnavigation/images/topnav_skip_bg.png") top left repeat-x;-webkit-border-bottom-right-radius: 3px;-moz-border-radius-bottomright: 3px;border-bottom-right-radius: 3px;-webkit-box-shadow: 0 8px 15px -2px #555555;box-shadow: 0 8px 15px -2px #555555;outline: none;clip: auto;overflow: visible;width: auto;height: auto;}
+#topnavigation_container .s3d-jump-link:focus {
+    color: #FFFFFF;
+    display: block;
+    padding: 10px 25px 10px;
+    text-decoration: none;
+    position: absolute;
+    top: 39px;
+    border: none;
+    font-size: 12px;
+    left: 0;
+    background: #242424;
+    background: -moz-linear-gradient(top, #242424 0%, #1e1e1e 23%, #090a09 71%, #010001 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#242424), color-stop(23%,#1e1e1e), color-stop(71%,#090a09), color-stop(100%,#010001));
+    background: -webkit-linear-gradient(top, #242424 0%,#1e1e1e 23%,#090a09 71%,#010001 100%);
+    background: -o-linear-gradient(top, #242424 0%,#1e1e1e 23%,#090a09 71%,#010001 100%);
+    background: -ms-linear-gradient(top, #242424 0%,#1e1e1e 23%,#090a09 71%,#010001 100%);
+    background: linear-gradient(top, #242424 0%,#1e1e1e 23%,#090a09 71%,#010001 100%);
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-box-shadow: 0 8px 15px -2px #555555;
+    box-shadow: 0 8px 15px -2px #555555;
+    outline: none;
+    clip: auto;
+    overflow: visible;
+    width: auto;
+    height: auto;
+}
 #topnavigation_scroll_to_top_container {display:block;width:50px;height:50px;float:right;margin-right:-50px;}
 #topnavigation_scroll_to_top_container #topnavigation_scroll_to_top {background: url("/devwidgets/topnavigation/images/topnav_scrolltotop.png") no-repeat scroll left top transparent;height:49px;position:fixed;top:70%;width:46px;}
 #topnavigation_scroll_to_top_container #topnavigation_scroll_to_top:hover {background:url("/devwidgets/topnavigation/images/topnav_scrolltotop_hover.png") no-repeat scroll top left transparent;}
