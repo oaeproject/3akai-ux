@@ -23,7 +23,9 @@
                 <li id="ew_revhistory">
                     <button class="s3d-link-button">__MSG__REVISION_HISTORY__</button>
                 </li>
-                <hr class="s3d-split-line"/>
+                {if data.isManager}
+                    <hr class="s3d-split-line"/>
+                {/if}
             {/if}
             {if data.isManager}
                 <li id="ew_content_preview_delete">
