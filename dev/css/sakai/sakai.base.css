@@ -1899,22 +1899,6 @@ ul.as-selections textarea.as-input {
 }
 
 /*
- * CHAT
- */
-.chat_available_status_online {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -33px -395px transparent;
-}
-.chat_available_status_busy {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -63px -395px transparent;
-}
-.chat_available_status_offline {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -93px -395px transparent;
-}
-.chat_available_status_offline, .chat_available_status_busy, .chat_available_status_online {
-	padding-left: 15px;
-}
-
-/*
  * LISTS
  */
 .s3d-list-item {

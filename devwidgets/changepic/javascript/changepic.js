@@ -92,7 +92,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var existingPicture = false;
 
         // An array with selectors pointing to images that need to be changed.
-        var imagesToChange = ["#picture_holder img", "#entity_profile_picture", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profile_userinfo_picture"];
+        var imagesToChange = ['#picture_holder img', '#entity_profile_picture', '#myprofile_pic', '#profile_userinfo_picture'];
 
 
         ///////////////////

@@ -468,7 +468,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                   $(document).click(function(e) {
                       var $clicked = $(e.target);
 
-                      // Check if one of the parents is the chatstatuscontainer
+                      // Check if the clicked target is not the settings menu
                       if (!$clicked.is(".settings", $rootel)) {
                           $("#widget_settings_menu", $rootel).hide();
                           $("#" + currentSettingsOpen + "_settings", $rootel).hide();

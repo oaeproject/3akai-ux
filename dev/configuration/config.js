@@ -579,7 +579,6 @@ define(function(){
             Categories: {
                 message: "Message",
                 announcement: "Announcement",
-                chat: "Chat",
                 invitation: "Invitation"
             },
             Subject: "subject",
@@ -1590,7 +1589,6 @@ define(function(){
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
 
-        enableChat: false,
         enableCategories: true,
 
         // The data schema version. Version 2 as of the 1.2 release in March 2012
