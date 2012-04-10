@@ -126,10 +126,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     $(element, listitem).text(count._count);
                     if (count._count <= 0) {
                         $(element, listitem).hide();
-                        $(element, listitem).next('.lhnavigation_private').addClass('lhnavigation_private_no_count');
                     } else {
                         $(element, listitem).show();
-                        $(element, listitem).next('.lhnavigation_private').removeClass('lhnavigation_private_no_count');
                     }
                 }
                 return pageStructure;
