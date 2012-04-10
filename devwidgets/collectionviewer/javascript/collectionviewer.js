@@ -177,6 +177,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var renderItemsForSelected = function(pageIndex, selectedIndex) {
             var selectedData = collectionData[pageIndex][selectedIndex];
+            var width = parseInt($collectionviewerExpandedContentContainer.width(), 10) / 2.5 - 50;
             if (selectedData._mimeType === 'x-sakai/collection') {
                 getCollectionData('c-' + selectedData._path, false, function(data) {
                     if (data.results.fetchMultipleUserDataInWidget) {
@@ -189,6 +190,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         collectionName: getCollectionName(),
                         collectionId: getCollectionId(collectionviewer.contextId),
                         isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId),
+                        titleWidth: width,
                         pagePreviewDisabled: pagePreviewDisabled
                     }, $('#collectionviewer_expanded_content_container', $rootel));
                     if (previewsAllowed) {
@@ -202,6 +204,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     collectionName: getCollectionName(),
                     collectionId: getCollectionId(collectionviewer.contextId),
                     isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId),
+                    titleWidth: width,
                     pagePreviewDisabled: pagePreviewDisabled
                 }, $('#collectionviewer_expanded_content_container', $rootel));
                 if (previewsAllowed) {
@@ -398,12 +401,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                 data: data,
                 success: function(data) {
+                    var width = parseInt($rootel.width(), 10);
+                    var widthOptions = {
+                        titleWidth: width - 150,
+                        descriptionWidth: width - 55,
+                        displayNameWidth: width - 150
+                    };
                     if ($.isFunction(callback)) {
                         getMultipleUserData(data, function() {
                             data.results.fetchMultipleUserDataInWidget = true;
                             sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent) {
                                 callback(data);
-                            });
+                            }, widthOptions);
                         });
                     } else {
                         $('#collectionviewer_add_content_button > div', $rootel).text(data.total);
@@ -414,7 +423,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                 sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent) {
                                     collectionData[(collectionviewer.page - 1)] = parsedContent;
                                     showData();
-                                });
+                                }, widthOptions);
                             });
                         } else {
                             showData();

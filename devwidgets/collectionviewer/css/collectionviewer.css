@@ -34,6 +34,7 @@
 }
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result {
     border-bottom: none;
+    position: relative;
 }
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result:hover, .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result.hovered {
     border: 2px solid #c4d9e1;
@@ -63,6 +64,8 @@
 }
 .collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result:hover .collectionviewer_item_actions, .collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result.hovered .collectionviewer_item_actions {
     display: inline;
+    position: absolute;
+    right: 42px;
 }
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button {
     float: right;
@@ -122,6 +125,7 @@
     padding: 7px 12px !important;
     margin-bottom: 4px;
     list-style: none;
+    position: relative;
     border-radius: 4px !important;
     -moz-border-radius: 4px !important;
     -webkit-border-radius: 4px !important;
@@ -134,7 +138,6 @@
 }
 .collectionviewer_widget .collectionviewer_entity_header {
     display: block;
-    width: 580px;
 }
 .collectionviewer_widget #collectionviewer_carousel_loading img {
     display: block;

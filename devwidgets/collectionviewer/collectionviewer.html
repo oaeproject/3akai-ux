@@ -126,7 +126,6 @@
                     </div>
                     {var commentCount = i.numComments || sakai.api.Content.getCommentCount(i)}
                     {if commentCount > 0}
-                        <br/>
                         <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
                         ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
                     {/if}
@@ -257,7 +256,13 @@
             </a>
             <div class="s3d-search-result-right">
                 <div class="collectionviewer_entity_header">
-                    <a class="s3d-bold s3d-regular-light-links collectionviewer_item_title" href="/content#p={if data['sakai:pooled-content-file-name']}${data['_path']}/${data['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['sakai:pooled-content-file-name']|safeOutput}"{else}${data['_path']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['_path']}"{/if}>{if data['sakai:pooled-content-file-name']}${data['sakai:pooled-content-file-name']|safeOutput}{elseif data['_path']}${data['_path']}{/if}</a>
+                    <a class="s3d-bold s3d-regular-light-links collectionviewer_item_title" href="/content#p={if data['sakai:pooled-content-file-name']}${data['_path']}/${data['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['sakai:pooled-content-file-name']|safeOutput}"{else}${data['_path']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['_path']}"{/if}>
+                        {if data['sakai:pooled-content-file-name']}
+                            ${sakai.api.Util.applyThreeDots(data['sakai:pooled-content-file-name'], titleWidth)}
+                        {elseif data['_path']}
+                            ${sakai.api.Util.applyThreeDots(data['_path'], titleWidth)}
+                        {/if}
+                    </a>
                     {if mimeTypeDescription}
                         <span class="collectionviewer_result_mimetype">${mimeTypeDescription}</span>
                     {/if}
