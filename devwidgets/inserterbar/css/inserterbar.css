@@ -206,7 +206,8 @@
 }
 #inserterbar_widget .inserterbar_carousel_item span {
     font-size: 12px;
-    margin-left: 3px;
+    margin-left: 5px;
+    line-height: 18px;
 }
 
 #inserterbar_widget .inserterbar_carousel_item {
@@ -216,6 +217,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 130px;
+}
+
+#inserterbar_dynamic_widget_list {
+    margin-top: 3px !important;
 }
 
 #inserterbar_dynamic_widget_list img {
