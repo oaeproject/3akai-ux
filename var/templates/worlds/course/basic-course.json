@@ -114,12 +114,66 @@
                     }
                 }
             }
+        },
+        "${pid}2": {
+            "excludeSearch": true,
+            "structure0": {
+                "dashboardactivity": {
+                    "_ref": "${refid}4",
+                    "_order": 0,
+                    "_nonEditable": true,
+                    "_title": "Course Dashboard",
+                    "main": {
+                        "_ref": "${refid}4",
+                        "_order": 0,
+                        "_nonEditable": true,
+                        "_title": "Course Dashboard"
+                    }
+                }
+            },
+            "${refid}4": {
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}5",
+                                        "type": "dashboardactivity"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}5": {
+                    "dashboardactivity": {
+                        "groupid": "${groupid}"
+                    }
+                }
+            }
         }
     },
     "structure": {
+        "dashboardactivity": {
+            "_title": "Course Dashboard",
+            "_order": 0,
+            "_docref": "${pid}2",
+            "_nonEditable": true,
+            "_view": [
+                "everyone",
+                "anonymous",
+                "-student"
+            ],
+            "_edit": [
+                "-ta",
+                "-lecturer"
+            ]
+        },
         "library": {
             "_title": "Library",
-            "_order": 0,
+            "_order": 1,
             "_docref": "${pid}0",
             "_nonEditable": true,
             "_view": [
@@ -134,7 +188,7 @@
         },
         "participants": {
             "_title": "Participants",
-            "_order": 1,
+            "_order": 2,
             "_docref": "${pid}1",
             "_nonEditable": true,
             "_view": [

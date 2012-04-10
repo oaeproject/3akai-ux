@@ -15,7 +15,7 @@
     <ul role="menu"><div id="lhnavigation_private_pages" class="lhnavigation_menu_list" data-sakai-space="private">
         {for level in private.orderedItems}
             {if level._childCount > 1}
-                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav lhnavigation_outer" data-sakai-savepath="${contextData.privurl}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" data-sakai-noneditable="${level._nonEditable}" data-sakai-reorder-only="${level._reorderOnly}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}">
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav lhnavigation_outer" data-sakai-addcontextoption="${contextData.addArea}" data-sakai-savepath="${contextData.privurl}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" data-sakai-noneditable="${level._nonEditable}" data-sakai-reorder-only="${level._reorderOnly}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}">
                     <div class="lhnavigation_item_content">
                         <div class="lhnavigation_has_subnav"></div>
                         {if level._count}<div class="lhnavigation_levelcount">${level._count}</div>{/if}
@@ -26,7 +26,7 @@
                     <ul role="menu" class="lhnavigation_subnav" style="display:none;" data-sakai-space="private">
                         {for sublevel in level._elements}
                             {if sublevel._id.substring(0,1) !== "_" && sublevel._title}
-                                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_subnav_item" data-sakai-ref="${sublevel._ref}" data-sakai-pagesavepath="${sublevel._poolpath}" data-sakai-savepath="${contextData.privurl}" data-sakai-reorder-only="${sublevel._reorderOnly}" data-sakai-manage="${level._canSubedit}" data-sakai-noneditable="${sublevel._nonEditable}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}/${sublevel._id}">
+                                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_subnav_item" data-sakai-ref="${sublevel._ref}" data-sakai-addcontextoption="${contextData.addArea}" data-sakai-pagesavepath="${sublevel._poolpath}" data-sakai-savepath="${contextData.privurl}" data-sakai-reorder-only="${sublevel._reorderOnly}" data-sakai-manage="${level._canSubedit}" data-sakai-noneditable="${sublevel._nonEditable}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}/${sublevel._id}">
                                     <div class="lhnavigation_subnav_item_content">
                                         {if sublevel._count}<div class="lhnavigation_sublevelcount">${sublevel._count}</div>{/if}
                                         <a role="menuitem" href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" class="s3d-regular-links">

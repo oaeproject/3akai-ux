@@ -38,34 +38,43 @@
     margin: 15px 0 0 65px;
 }
 
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_comments {
-    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_comments_icon.png") no-repeat scroll 7px center transparent;
-    padding-left: 28px;
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_comments > div {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_comments_icon.png") no-repeat scroll left top transparent;
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    width: 16px;
 }
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_comments:hover,
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_comments:focus {
-    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_comments_icon_hover.png') no-repeat 7px center transparent;
-}
-
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_activity {
-    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_updates_icon.png") no-repeat scroll 7px center transparent;
-    padding-left: 28px;
-}
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_activity:hover,
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_activity:focus {
-    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_updates_icon_hover.png') no-repeat 7px center transparent;
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_comments:hover > div,
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_comments:focus > div {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_comments_icon_hover.png') no-repeat left top transparent;
 }
 
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_sharing {
-    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share2_icon.png") no-repeat scroll 7px center transparent;
-    padding-left: 32px;
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_activity > div {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_updates_icon.png") no-repeat scroll left top transparent;
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    width: 16px;
 }
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_sharing:hover,
-#dashboardactivity_widget .s3d-bar-options .dashboardactivity_sharing:focus {
-    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_share2_icon_hover.png') no-repeat 7px center transparent;
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_activity:hover > div,
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_activity:focus > div {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_updates_icon_hover.png') no-repeat left top transparent;
 }
 
-#dashboardactivity_widget .dashboardactivity_filter_divider {
+#dashboardactivity_widget .s3d-bar-options .dashboardactivity_sharing > div {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share2_icon.png") no-repeat scroll left top transparent;
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    width: 20px;
+}
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_sharing:hover > div,
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_sharing:focus > div {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_share2_icon_hover.png') no-repeat left top transparent;
+}
+
+#dashboardactivity_widget .dashboardactivity_filter {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_filter_divider.png") no-repeat scroll center bottom transparent;
     margin: 0 auto;
     padding-bottom: 18px;
@@ -75,6 +84,16 @@
 #dashboardactivity_widget #dashboardactivity_show_more {
     display: block;
     margin: 15px auto 0;
+}
+
+/* Bad request */
+#dashboardactivity_widget #dashboardactivity_container .dashboardactivity_activity_badrequest {
+    width: 100%;
+}
+
+#dashboardactivity_widget #dashboardactivity_container .dashboardactivity_activity_badrequest p {
+    margin: 10px auto;
+    text-align: center;
 }
 
 /* No Activity */
@@ -183,7 +202,8 @@
     width: 20px;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover .dashboardactivity_activity_arrow {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover .dashboardactivity_activity_arrow,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:focus .dashboardactivity_activity_arrow {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_arrow_hover.png") no-repeat scroll top left transparent;
 }
 
@@ -225,11 +245,13 @@
     padding-top: 1px;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_annotation_container {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_annotation_container,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_comment_container {
     margin-bottom: 15px;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_annotation_container .dashboard_activity_annotation_speechbubble {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_annotation_container .dashboard_activity_annotation_speechbubble,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_comment_container .dashboard_activity_comment_speechbubble {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_annotation_speechbubble.png") no-repeat scroll left top transparent;
     height: 13px;
     margin: -8px 0 0 -12px;
@@ -238,7 +260,8 @@
 }
 
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > img,
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment img {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment img,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment img {
     margin: 0 7px 0 12px;
 }
 
@@ -248,10 +271,15 @@
     margin: 0 3px 0 0;
 }
 
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_item_name,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_message_reversed {
+    margin-right: 3px;
+}
+
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > span,
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_timeago,
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item span,
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment span {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment span,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment span {
     color: #666;
     display: inline-block;
     font-size: 12px;
@@ -272,7 +300,8 @@
     font-style: italic;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comments_container {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comments_container,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment_container {
     background-color: #FFFFFF;
     border-radius: 4px;
     -moz-border-radius: 4px;
@@ -284,11 +313,17 @@
     padding: 10px 0;
 }
 
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment_container {
+    margin-left: 60px;
+    margin-top: 20px;
+}
+
 #dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation span {
     margin-left: 40px;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment > div {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment > div,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment > div {
     overflow: auto;
 }
 
@@ -302,7 +337,8 @@
     margin: 0;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment span {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment span,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment span {
     margin-left: 0;
     font-style: normal;
 }
@@ -323,9 +359,10 @@
     margin: 0 10px 0 22px;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_timeago {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_timeago,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_comment .dashboardactivity_activity_item_timeago {
     display: block;
-    font-size: 11px;
+    font-size: 11px !important;
 }
 
 /* Actions */
@@ -343,7 +380,8 @@
     width: 50px;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:hover {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:focus {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_save_hover.png") no-repeat scroll left top transparent;
 }
 
@@ -355,6 +393,7 @@
     width: 50px !important;
 }
 
-#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:hover {
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:focus {
     background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share_hover.png") no-repeat scroll left top transparent;
 }

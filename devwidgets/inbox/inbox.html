@@ -70,10 +70,10 @@
                                     <span>${message.date}</span>
                                   </div>
                                   <div class="inbox_subject">
-                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject|safeOutput}</a>
+                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject_short|safeOutput}</a>
                                   </div>
                                   <div class="inbox_excerpt">
-                                    <p>${message.body_nolinebreaks}<p>
+                                    <p>${message.body_nolinebreaks_short}<p>
                                   </div>
                                 </div>
                             </div>

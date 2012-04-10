@@ -290,6 +290,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "content_anon": //fallthrough
                 case "content_not_shared": //fallthrough
                 case "content_shared": //fallthrough
+                case 'content_edited':
+                    $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer('entity_contentsettings_dropdown', context));
+                    break;
                 case "content_managed":
                     var $entityContentUsersDialog = $("#entity_content_users_dialog");
                     var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container");
@@ -589,7 +592,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // An event to call from the worldsettings dialog so that we can
         // refresh the title if it's been saved.
-        $(window).bind("sakai.entity.updateTitle", function(e, title) {
+        $(window).bind('updatedTitle.worldsettings.sakai', function(e, title) {
             $('#entity_name').html(sakai.api.Security.safeOutput(title));
         });
 
