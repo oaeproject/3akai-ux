@@ -259,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Gets the comments from the service.
          */
         var getComments = function(){
-            var sortOn = 'sakai:created';
+            var sortOn = '_created';
             var sortOrder = "desc";
             var items = 10;
             if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
