@@ -120,6 +120,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var discussionEditContainer = ".discussion_edit_container";
         var discussionDontSaveEdit = "#discussion_dont_save_edit";
         var discussionSaveEdit = "#discussion_save_edit";
+        var discussionEditButtons = '#discussion_add_new_topic, .discussion_reply_topic, .discussion_quote, .discussion_edit';
 
         // Delete
         var discussionDelete = ".discussion_delete";
@@ -142,23 +143,30 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var $discussionHide = $("#discussion_i18n_hide", $rootel);
 
         /**
-        * Enables all edit mode buttons (reply, quote, edit, create new topic)
-        */
-        var enableEditButtons = function() {
-            $('#discussion_add_new_topic').removeAttr('disabled');
-            $('.discussion_reply_topic').removeAttr('disabled');
-            $('.discussion_quote,').removeAttr('disabled');
-            $('.discussion_edit').removeAttr('disabled');
+         * Show a message to the user that they can't change anything while in edit mode
+         */
+        var showNotChangeableMessage = function() {
+            sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('DISCUSSION WIDGET', 'discussion'),
+                sakai.api.i18n.getValueForKey('ERROR_NOT_CHANGEABLE', 'discussion'),
+                sakai.api.Util.notification.type.ERROR);
         };
 
         /**
-        * Disables all edit mode buttons (reply, quote, edit, create new topic)
-        */
+         * Enables all edit mode buttons (reply, quote, edit, create new topic)
+         */
+        var enableEditButtons = function() {
+            $(discussionEditButtons, $rootel)
+                .off('click', showNotChangeableMessage)
+                .removeAttr('disabled');
+        };
+
+        /**
+         * Disables all edit mode buttons (reply, quote, edit, create new topic)
+         */
         var disableEditButtons = function() {
-            $('#discussion_add_new_topic').attr('disabled', 'disabled');
-            $('.discussion_reply_topic').attr('disabled', 'disabled');
-            $('.discussion_quote,').attr('disabled', 'disabled');
-            $('.discussion_edit').attr('disabled', 'disabled');
+            $(discussionEditButtons, $rootel)
+                .on('click', showNotChangeableMessage)
+                .attr('disabled', 'disabled');
         };
 
         var continueInit = function(){
@@ -347,7 +355,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     "sakai": sakai
                 }, $(discussionNoInitialTopic, $rootel));
                 $(discussionNoInitialTopic, $rootel).show();
-                if ($($rootel.parents('.contentauthoring_edit_mode')).length) {
+                if ($rootel.parents('.contentauthoring_edit_mode').length) {
                     disableEditButtons();
                 }
             }
