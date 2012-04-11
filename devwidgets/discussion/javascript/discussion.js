@@ -363,13 +363,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
         var parseSettings = function(data){
             var contact = false;
-            var canEditPage = false;
-            if (!widgetData) {
-                canEditPage = true;
-            }
-            else {
-                canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
-            }
+            var canEditPage = sakai_global.content_profile.content_data.isManager;
             parsedSettings["ismanager"] = canEditPage;
             // Anonymous can't do anything
             if (sakai.api.User.isAnonymous(sakai.data.me)) {
