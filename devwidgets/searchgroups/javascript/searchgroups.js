@@ -203,7 +203,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     "items": items,
                     "sakai": sakai
                 });
-            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, false, false, function(data){
+            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
+                // adjust height of grid row elements to be equal
+                var $searchGridElements = $rootel.find('.s3d-search-results-grid').children();
+                sakai_global.data.search.adjustGridElementHeights($searchGridElements);
+            }, false, function(data){
                 // Generate refine by tags
                 sakai_global.data.search.generateTagsRefineBy(data, params);
             });

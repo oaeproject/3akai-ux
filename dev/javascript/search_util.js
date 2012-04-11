@@ -148,6 +148,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             renderRefineTags();
         };
 
+        /**
+         * Adjusts the height of the search results grid elements of 4 elements per row
+         * @param {Object} $searchGridElements jQuery object containing the search result grid elements
+         */
+        sakai_global.data.search.adjustGridElementHeights = function($searchGridElements) {
+            var elementsToAdjust = [];
+            $.each($searchGridElements, function(i, el) {
+                if (i && !(i % 4)) {
+                    $(elementsToAdjust).equalHeights();
+                    elementsToAdjust = [];
+                }
+                elementsToAdjust.push(el);
+            });
+            if (elementsToAdjust.length) {
+                $(elementsToAdjust).equalHeights();
+            }
+        };
+
         //////////////////////
         // Query parameters //
         //////////////////////
@@ -253,6 +271,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     view = "grid";
                     $(".s3d-search-results-container").addClass("s3d-search-results-grid");
+
+                    var $searchGridElements = $('#' + config.tuid).find('.s3d-search-results-grid').children();
+                    sakai_global.data.search.adjustGridElementHeights($searchGridElements);
                 }
                 $(".s3d-search-listview-options").find("div").removeClass("selected");
                 $(".search_view_" + view).addClass("selected");

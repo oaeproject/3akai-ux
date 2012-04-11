@@ -2506,6 +2506,12 @@ ul li.s3d-list-item:hover {
 	margin: 0 5px 8px 0;
 	clear: none;
 }
+#searchall_results .s3d-search-results-grid .s3d-search-result,
+#searchcontent_results .s3d-search-results-grid .s3d-search-result,
+#searchgroups_results .s3d-search-results-grid .s3d-search-result,
+#searchpeople_results .s3d-search-results-grid .s3d-search-result {
+    height: auto;
+}
 .s3d-search-results-grid .s3d-search-result a img {
 	float: left !important;
 	padding: 0 !important;

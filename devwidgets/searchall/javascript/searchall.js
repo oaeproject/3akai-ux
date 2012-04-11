@@ -146,6 +146,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
                 // Initialize content draggable
                 sakai.api.Util.Draggable.setupDraggable({}, $(searchConfig.results.container));
+
+                // adjust height of grid row elements to be equal
+                var $searchGridElements = $rootel.find('.s3d-search-results-grid').children();
+                sakai_global.data.search.adjustGridElementHeights($searchGridElements);
             }, false, function(data){
                 // Generate refine by tags
                 sakai_global.data.search.generateTagsRefineBy(data, params);
