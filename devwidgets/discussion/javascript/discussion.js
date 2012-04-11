@@ -364,11 +364,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var parseSettings = function(data){
             var contact = false;
             var canEditPage = false;
-            if (!widgetData) {
-                canEditPage = true;
-            }
-            else {
-                canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
+            // Check if the logged in user manages the discussion page or not (for a content profile or group)
+            if ((sakai_global.group &&
+                sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me, sakai_global.group.groupData)) ||
+                (sakai_global.content_profile &&
+                sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data.data, sakai.data.me))) {
+                    canEditPage = true;
             }
             parsedSettings["ismanager"] = canEditPage;
             // Anonymous can't do anything
