@@ -754,6 +754,7 @@ a.s3d-button {
 }
 .s3d-link-button:disabled {
 	cursor: default !important;
+	color: #999;
 }
 .s3d-link-button:focus {
 	box-shadow: none !important;
