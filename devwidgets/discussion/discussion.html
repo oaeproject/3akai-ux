@@ -129,7 +129,7 @@
     {if settings.addtopic == true}
         <button id="discussion_add_new_topic" class="s3d-button s3d-regular-links s3d-link-button">__MSG__ADD_NEW_TOPIC__</button><span class="discussion_pipe_divider">|</span>
     {/if}
-    <button id="discussion_expand_all" class="s3d-button s3d-regular-links discussion_collapse_all s3d-link-button">__MSG__COLLAPSE_ALL__</button>
+    <button id="discussion_expand_all" class="s3d-button s3d-regular-links discussion_expand_all s3d-link-button">__MSG__EXPAND_ALL__</button>
     <hr class="discussion_horizontal_rule"/>
     {for topic in postData}
         <div id="discussion_post_${topic.post["sakai:id"]}" class="discussion_topic_container">
