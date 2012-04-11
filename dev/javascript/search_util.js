@@ -155,7 +155,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.adjustGridElementHeights = function($searchGridElements) {
             var elementsToAdjust = [];
             $.each($searchGridElements, function(i, el) {
-                if (i && !(i % 4)) {
+                if (i && i % 4 === 0) {
                     $(elementsToAdjust).equalHeights();
                     elementsToAdjust = [];
                 }
@@ -268,6 +268,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")) {
                     view = "list";
                     $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
+                    $('#' + config.tuid).find('.s3d-search-results-container').children().height('auto');
                 } else {
                     view = "grid";
                     $(".s3d-search-results-container").addClass("s3d-search-results-grid");
