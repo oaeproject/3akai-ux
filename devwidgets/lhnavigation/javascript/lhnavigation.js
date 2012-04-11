@@ -623,7 +623,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var contextMenuHover = false;
 
         var onContextMenuHover = function($el, $elLI) {
-            $('.lhnavigation_selected_submenu').hide();
             $('#lhnavigation_submenu').hide();
             if ($elLI.data('sakai-manage') && !$elLI.data('sakai-reorder-only')) {
                 var additionalOptions = $elLI.data('sakai-addcontextoption');
@@ -645,6 +644,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     savePath: $elLI.data('sakai-savepath')
                 };
                 $('.lhnavigation_selected_submenu', $el).show();
+            } else {
+                $('.lhnavigation_selected_submenu').hide();
             }
         };
 
