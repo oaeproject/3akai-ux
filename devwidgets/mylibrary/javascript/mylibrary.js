@@ -302,7 +302,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     shareIdArr.push($(checked).attr('data-entityid'));
                     shareTitleArr.push($(checked).attr('data-entityname'));
                 } else {
-                    noShareTitleArr.push($(checked).attr('data-entityname'));
+                    if (!$(checked).attr('data-canshare-error')) {
+                        $(checked).attr('data-canshare-error', 'true');
+                        noShareTitleArr.push($(checked).attr('data-entityname'));
+                    }
                 }
             });
             $mylibrary_share.attr('data-entityid', shareIdArr);
@@ -313,8 +316,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $mylibrary_addto.attr('disabled', 'disabled');
             }
             if (noShareTitleArr.length) {
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR', 'mylibrary'),
-                    sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR_TEXT', 'mylibrary') + ' ' + noShareTitleArr.join(', '));
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR'),
+                    sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR_TEXT') + ' ' + noShareTitleArr.join(', '));
             }
         };
 
