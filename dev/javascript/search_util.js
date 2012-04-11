@@ -268,12 +268,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")) {
                     view = "list";
                     $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
-                    $('#' + config.tuid).find('.s3d-search-results-container').children().height('auto');
+                    $('.s3d-search-results-container').children().height('auto');
                 } else {
                     view = "grid";
                     $(".s3d-search-results-container").addClass("s3d-search-results-grid");
 
-                    var $searchGridElements = $('#' + config.tuid).find('.s3d-search-results-grid').children();
+                    var $searchGridElements = $('.s3d-search-results-grid:visible').children();
                     sakai_global.data.search.adjustGridElementHeights($searchGridElements);
                 }
                 $(".s3d-search-listview-options").find("div").removeClass("selected");
