@@ -203,7 +203,7 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
                         $(window).trigger("update.versions.sakai", currentPageShown);
                     }
                 });
-            });
+            }, false, false, false);
         };
 
 
