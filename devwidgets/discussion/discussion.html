@@ -40,6 +40,7 @@
 <div id="discussion_no_initial_topic_template"><!--
     {if settings.addtopic == true}
         <button id="discussion_add_new_topic" class="s3d-button s3d-regular-links s3d-link-button">__MSG__ADD_NEW_TOPIC__</button>
+        <div class="fl-force-right discussion_not_changeable" style="display:none">(__MSG__ERROR_NOT_CHANGEABLE__)</div>
         <hr class="discussion_horizontal_rule"/>
         __MSG__NO_TOPICS_TO_DISPLAY_CLICK_TO_ADD__
     {else}
@@ -128,6 +129,7 @@
 <div id="discussion_list_topics_template"><!--
     {if settings.addtopic == true}
         <button id="discussion_add_new_topic" class="s3d-button s3d-regular-links s3d-link-button">__MSG__ADD_NEW_TOPIC__</button><span class="discussion_pipe_divider">|</span>
+        <div class="fl-force-right discussion_not_changeable" style="display:none">(__MSG__ERROR_NOT_CHANGEABLE__)</div>
     {/if}
     <button id="discussion_expand_all" class="s3d-button s3d-regular-links discussion_expand_all s3d-link-button">__MSG__EXPAND_ALL__</button>
     <hr class="discussion_horizontal_rule"/>

@@ -135,6 +135,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var discussionHideRepliesIcon = "discussion_hide_replies_icon";
         var s3dHighlightBackgroundClass = ".s3d-highlight_area_background";
         var discussionDeletedReplyClass = "discussion_deleted_reply";
+        var discussionNotChangeable = '.discussion_not_changeable';
 
         // i18n
         var $discussionCollapseAll = $("#discussion_i18n_collapse_all", $rootel);
@@ -147,8 +148,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          */
         var enableEditButtons = function() {
             $(discussionEditButtons, $rootel)
-                .off('click', showNotChangeableMessage)
                 .removeAttr('disabled');
+            $(discussionNotChangeable).hide();
         };
 
         /**
@@ -156,8 +157,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          */
         var disableEditButtons = function() {
             $(discussionEditButtons, $rootel)
-                .on('click', showNotChangeableMessage)
                 .attr('disabled', 'disabled');
+            $(discussionNotChangeable).show();
         };
 
         var continueInit = function(){
@@ -302,9 +303,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         };
 
         var setEllipsis = function(){
-            $(".discussion_ellipsis_container").css("width", $(".discussion_ellipsis_container").width() + "px");
+            $('.discussion_ellipsis_container', $rootel).css('width', $('.discussion_ellipsis_container').width() + 'px');
 
-            $(".discussion_ellipsis_container").ThreeDots({
+            $('.discussion_ellipsis_container', $rootel).ThreeDots({
                 max_rows: 4,
                 text_span_class: "discussion_ellipsis_text",
                 e_span_class: "discussion_e_span_class",
@@ -340,14 +341,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 } catch (err) {
                 }
             } else {
-                // No topics yet
-                sakai.api.Util.TemplateRenderer(discussionNoInitialTopicTemplate, {
-                    "settings": parsedSettings,
-                    "sakai": sakai
-                }, $(discussionNoInitialTopic, $rootel));
-                $(discussionNoInitialTopic, $rootel).show();
-                if ($rootel.parents('.contentauthoring_edit_mode').length) {
-                    disableEditButtons();
+                // No topics yet but check the topicData to be sure (sometimes server doesn't return topic yet)
+                if (exists && topicData && topicData.results && topicData.results.length) {
+                    showPosts(topicData, true);
+                } else {
+                    sakai.api.Util.TemplateRenderer(discussionNoInitialTopicTemplate, {
+                        'settings': parsedSettings,
+                        'sakai': sakai
+                    }, $(discussionNoInitialTopic, $rootel));
+                    $(discussionNoInitialTopic, $rootel).show();
+                    if ($rootel.parents('.contentauthoring_edit_mode').length) {
+                        disableEditButtons();
+                    }
                 }
             }
         };
@@ -661,7 +666,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         post.addClass(discussionDeletedReplyClass);
 
                         // hide message option links
-                        $("#" + id + " " + discussionMessageOptions).hide();
+                        $('#' + id + ' ' + discussionMessageOptions, $rootel).hide();
 
                         // Remove/add links and information
                         post.find(discussionPostMessage).nextAll().remove();
@@ -675,8 +680,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         post.removeClass(discussionDeletedReplyClass);
 
                         // hide message option links
-                        $("#" + id + " " + discussionMessageOptions).hide();
-                        $(discussionDeletedMessage).hide();
+                        $('#' + id + ' ' + discussionMessageOptions, $rootel).hide();
+                        $(discussionDeletedMessage, $rootel).hide();
 
                         // Remove links
                         post.find(discussionPostingDate).next().remove();
