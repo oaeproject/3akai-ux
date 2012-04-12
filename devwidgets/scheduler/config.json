@@ -1,0 +1,23 @@
+{
+    "id":                 "scheduler",
+    "name":               "Scheduler",
+    "description":        "Scheduler",
+    "type":               "contrib",
+    "enabled":            true,
+    "hasSettings":        true,
+    "url":                "/devwidgets/scheduler/scheduler.html",
+    "i18n": {
+        "default": {
+            "bundle":        "/devwidgets/scheduler/bundles/default.properties",
+            "name":           "Scheduler",
+            "description":    "Scheduler"
+        }
+    },
+    "personalportal":     true,
+    "sakaidocs":          true,
+    "showinsakaigoodies": true,
+    "groupdashboard":     true,
+    "grouppages":         true,
+    "userdashboard":      true,
+    "userpages":          true
+}

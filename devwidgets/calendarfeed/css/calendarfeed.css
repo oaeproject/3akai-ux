@@ -1,0 +1,299 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/*
+ * The below CSS sections may not be necesary for your widget, but best practice
+ * is to organize your CSS into sections like these (or add new sections)
+ */
+
+/* Error handling styles */
+.calendarfeed_widget .info-box {
+	/* width: 40em; */
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	padding: 14px;
+
+	border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	-webkit-border-radius: 4px 4px 4px 4px;
+
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.calendarfeed_widget .error-box {
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	color: #B94A48;
+}
+
+.calendarfeed_widget .warning-box {
+	background-color: #F2EFDE;
+	border: 1px solid #EEEAD3;
+	color: #9E8E1E;
+}
+
+.info-box .error_content {
+	padding: 0.5em 1.5em 1.5em 1.5em;
+}
+.info-box .info-title {
+	color: inherit;
+	font-weight: bold;
+	margin-bottom: 6px;
+	font-size: 16px;
+}
+
+/*
+ * Widget Container CSS
+ */
+
+/* padding around all your widget's content */
+.calendarfeed_widget .s3d-widget-content {
+	/* padding: 10px 20px; */
+	color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: #666;
+}
+
+table { margin: 0; }
+
+/* widget icon (for widgets that may appear on a dashboard)
+   icons are usually around 18 x 18 pixels */
+.calendarfeed.s3d-widget .s3d-widget-titlebar .widget_title {
+    background: url('/devwidgets/calendarfeed/images/calendarfeed_icon.png')
+        17px 18px no-repeat;
+}
+
+
+/*
+ * Main View CSS
+ */
+
+.calendarfeed_widget .center {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.calendarfeed_widget h1.lecture-subject {
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 6px;
+}
+.calendarfeed_widget h1.lecture-subject *:first-child {
+	vertical-align: top;
+}
+
+
+/* Agenda Table */
+
+.calendarfeed_widget table#agenda {
+	border-collapse: collapse;
+	border-spacing: 0;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.calendarfeed_widget table#agenda tbody:first-child tr:first-child td {
+	border-top: none;
+}
+
+.calendarfeed_widget table#agenda tbody tr:first-child td {
+	border-top: 1px solid #ccc;
+	padding-top: 10px;
+}
+
+.calendarfeed_widget table#agenda tbody tr.agenda-row:last-child > td {
+	padding-bottom: 20px;
+}
+
+.calendarfeed_widget td {
+
+	padding: 5px 0 5px 0;
+
+}
+.calendarfeed_widget td.date {
+	vertical-align: top;
+	font-weight: bold;
+	white-space: nowrap;
+	width: 80px;
+}
+
+.calendarfeed_widget td.time {
+	vertical-align: top;
+	width: 60px;
+}
+
+.calendarfeed_widget .description {
+	overflow: hidden;
+}
+
+.calendarfeed_widget .summary {
+	font-weight: bold;
+}
+.calendarfeed_widget .compact {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.calendarfeed_widget .description .full {
+	display: none;
+	margin: 1em 0em 0em 0em;
+	padding: 0 1em 0 1em;
+	border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.calendarfeed_widget .link:hover {
+	text-decoration: underline;
+}
+.calendarfeed_widget .link {
+	cursor: pointer;
+	color: #2683bc;
+}
+
+.calendarfeed_widget .expandable, .calendarfeed_widget .contractable {
+    background-repeat: no-repeat;
+    background-position-y: top;
+    background-position-x: right;
+    padding-right: 22px;
+}
+.calendarfeed_widget .expandable {
+    background-image: url(/dev/images/arrow_down_square.png);
+}
+.calendarfeed_widget .contractable {
+    background-image: url(/dev/images/arrow_up_square.png);
+}
+.calendarfeed_widget .expandable:hover {
+    background-image: url(/dev/images/arrow_down_square_hover.png);
+}
+.calendarfeed_widget .contractable:hover {
+    background-image: url(/dev/images/arrow_up_square_hover.png);
+}
+
+.calendarfeed_widget table.info-block {
+	table-layout: auto;
+}
+
+/*
+ * Settings View CSS
+ */
+
+.ui-widget:focus, .ui-widget *:focus {
+	outline: none;
+}
+
+.calendarfeed_widget .ui-slider {
+	margin: 0.8em;
+
+	border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	border: 1px solid #CFCFCF;
+	background: #E3E3E3;
+}
+.calendarfeed_widget .ui-slider-range {
+
+	/* #56c8fa
+	#11a0df
+	border: 1px solid #FF8F2E; */
+
+	background: #56c8fa; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffffff 0%, #56c8fa 2%, #11a0df 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(2%,#56c8fa), color-stop(100%,#11a0df)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#56c8fa 2%,#11a0df 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffffff 0%,#56c8fa 2%,#11a0df 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffffff 0%,#56c8fa 2%,#11a0df 100%); /* IE10+ */
+	background: linear-gradient(top,  #ffffff 0%,#56c8fa 2%,#11a0df 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#11a0df',GradientType=0 ); /* IE6-9 */
+
+}
+.calendarfeed_widget .ui-slider-handle {
+	border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+
+	background: white;
+	border: 1px solid #E0E3E5;
+	box-shadow: 0 0 4px -2px #a8a8a8 inset;
+	-moz-box-shadow: 0 0 4px -2px #a8a8a8 inset;
+	-webkit-box-shadow: 0 0 4px -2px #a8a8a8 inset;
+}
+.calendarfeed_widget .ui-slider-handle.ui-state-focus {
+	background-color: #DFE8EB;
+	border: 1px solid #A4B8BF;
+}
+.calendarfeed_widget .ui-slider-handle.ui-state-hover {
+	-webkit-box-shadow: 0 0 1px 1px #C9E8F2;
+}
+
+.calendarfeed_widget .ui-slider-handle.ui-state-active {
+	background-color: #DFE8EB;
+	border: 1px solid #A4B8BF;
+	box-shadow: 0 0 3px 1px #A7C3CC;
+	-moz-box-shadow: 0 0 3px 1px #A7C3CC;
+	-webkit-box-shadow: 0 0 3px 1px #A7C3CC;
+}
+
+.calendarfeed_widget #calendarfeed_settings_daterangeslider_label .date {
+	font-weight: bold;
+}
+
+.calendarfeed_widget .date-slider-wrapper {
+	padding: 5px;
+	margin-bottom: 15px;
+	width: 98%;
+	float: left;
+	clear: both;
+	border: 1px solid darkGray;
+}
+
+.loading {
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+
+/* ==========================================================================
+   JQuery UI Slider css
+   ========================================================================== */
+
+/*
+ * jQuery UI Slider 1.8.17
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Slider#theming
+ */
+.ui-slider { position: relative; text-align: left; }
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; }
+.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+
+.ui-slider-horizontal { height: .8em; }
+.ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.6em; }
+.ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
+.ui-slider-horizontal .ui-slider-range-min { left: 0; }
+.ui-slider-horizontal .ui-slider-range-max { right: 0; }
+
+.ui-slider-vertical { width: .8em; height: 100px; }
+.ui-slider-vertical .ui-slider-handle { left: -.3em; margin-left: 0; margin-bottom: -.6em; }
+.ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
+.ui-slider-vertical .ui-slider-range-min { bottom: 0; }
+.ui-slider-vertical .ui-slider-range-max { top: 0; }

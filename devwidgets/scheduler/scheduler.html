@@ -1,0 +1,65 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/scheduler/css/scheduler.css" />
+
+<!-- WIDGET CONTENT CONTAINER -->
+<div class="scheduler_widget">
+    <!-- MAIN VIEW -->
+    <div id="scheduler_main" style="display:none;">
+        <div id="scheduler_title_container">
+            <div class="s3d-contentpage-title">__MSG__SCHEDULER__</div>
+        </div>
+    <div id="scheduler_title_template">
+        <p>This is a scheduler for the entry exam in room 187.</p>
+    </div>
+        <p><span id="scheduler_username"></span></p>
+        <a href="#" class="s3d-button s3d-large-button">__MSG__CONFIRM__</a>
+    </div>
+    <!-- SETTINGS VIEW -->
+    <div id="scheduler_settings" style="display:none;">
+        <form id="scheduler_settings_form">
+            <div id="scheduler_settings_container"></div>
+            <hr class="fl-hidden fl-push"/>
+            <div class="fl-force-right">
+                <button type="button" class="s3d-button s3d-link-button" id="scheduler_cancel_settings">__MSG__CANCEL__</button>
+                <button type="submit" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="scheduler_settings_template"><!--
+    <div class="s3d-form-field-wrapper">
+                <div id="settings_from">
+                    <label for="scheduler_settings_from" class="s3d-input-label s3d-input-label-above">
+                        __MSG__FROM__:
+                    </label>
+                    <input type="text" id="scheduler_settings_from" name="scheduler_settings_from" class="required s3d-input-full-width" value="${from}" />
+                </div>
+                <div id="settings_until">
+                    <label for="scheduler_settings_until" class="s3d-input-label s3d-input-label-above">
+                        __MSG__UNTIL__:
+                    </label>
+                    <input type="text" id="scheduler_settings_until" name="scheduler_settings_until" class="required s3d-input-full-width" value="${until}"/>
+                </div>
+                <div id="settings_duration">
+                    <label for="scheduler_settings_duration" class="s3d-input-label s3d-input-label-above">
+                        __MSG__DURATION__:
+                    </label>
+                    <select id="scheduler_duration">
+                        <option {if duration === "15"} selected="selected"{/if} value="15">__MSG__15__</option>
+                        <option {if duration === "30"} selected="selected"{/if} value="30">__MSG__30__</option>
+                        <option {if duration === "45"} selected="selected"{/if} value="45">__MSG__45__</option>
+                        <option {if duration === "60"} selected="selected"{/if} value="60">__MSG__60__</option>
+                    </select>
+                </div>
+                 <div id="settings_duration">
+                    <label for="scheduler_settings_extra" class="s3d-input-label s3d-input-label-above">
+                        __MSG__EXTRA_INFORMATION__:
+                    </label>
+                    <input type="text" id="scheduler_settings_extra" name="scheduler_settings_extra" class="required s3d-input-full-width" value="${description}"/>
+                </div>
+            </div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/scheduler/javascript/scheduler.js"></script>

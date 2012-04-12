@@ -1,0 +1,22 @@
+{
+    "id":                 "calendarfeed",
+    "type":               "contrib",
+    "enabled":            true,
+    "hasSettings":        true,
+    "url":                "/devwidgets/calendarfeed/calendarfeed.html",
+    "img":                "/devwidgets/calendarfeed/images/calendarfeed.png",
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/calendarfeed/bundles/default.properties",
+            "name":       "Calendar Feed",
+            "description":"Calendar Feed"
+        }
+    },
+    "personalportal":     false,
+    "showinsakaigoodies": true,
+    "userpages": true,
+    "userdashboard": false,
+    "grouppages": true,
+    "groupdashboard": false,
+    "sakaidocs": true
+}
