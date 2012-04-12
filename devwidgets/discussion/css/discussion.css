@@ -27,6 +27,11 @@
     margin: 0 5px;
 }
 
+/* Not changeable message */
+.discussion_not_changeable {
+    font-weight: bold;
+    margin-top: 5px;
+}
 
 /* Create new topic */
 #discussion_create_new_topic {
