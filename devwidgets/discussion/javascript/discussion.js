@@ -103,7 +103,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var discussionPostMessage = ".discussion_post_message";
         var discussionReplyTopic = "#discussion_reply_topic";
         var discussionDontAddReply = "#discussion_dont_add_reply";
-        var discussionAddReply = "#discussion_add_reply";
         var discussionHideReply = ".discussion_hide_reply";
         var discussionReplyContents = ".discussion_reply_contents";
         var discussionReplyContentsText = ".discussion_reply_contents_text";
@@ -155,18 +154,36 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * Enables all edit mode buttons (reply, quote, edit, create new topic)
          */
         var enableEditButtons = function() {
+            // Remove the message handler used in edit mode
+            $(discussionEditButtons).off('click', showNotChangeableMessage);
+
+            // Add edit handlers
+            $rootel.on('click', discussionAddNewTopic, addNewTopicHandler);
+            $rootel.on('click', discussionReplyTopic, replyTopicHandler);
+            $rootel.on('click', discussionQuote, quoteHandler);
+            $rootel.on('click', discussionEdit, editHandler);
+
             $(discussionEditButtons, $rootel)
-                .off('click', showNotChangeableMessage)
-                .removeAttr('disabled');
+                .removeAttr('title')
+                .removeClass('disabled');
         };
 
         /**
          * Disables all edit mode buttons (reply, quote, edit, create new topic)
          */
         var disableEditButtons = function() {
+            // Remove the edit handlers
+            $rootel.off('click', discussionAddNewTopic, addNewTopicHandler);
+            $rootel.off('click', discussionReplyTopic, replyTopicHandler);
+            $rootel.off('click', discussionQuote, quoteHandler);
+            $rootel.off('click', discussionEdit, editHandler);
+
+            // Show message when trying to edit in edit mode
+            $(discussionEditButtons).on('click', showNotChangeableMessage);
+
             $(discussionEditButtons, $rootel)
-                .on('click', showNotChangeableMessage)
-                .attr('disabled', 'disabled');
+                .attr('title', 'Save the document to edit the discussion')
+                .addClass('disabled', 'disabled');
         };
 
         var continueInit = function(){
@@ -765,6 +782,68 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         // Event Handlers //
         ////////////////////
 
+        var addNewTopicHandler = function() {
+            $discussionListTopics.hide();
+            $(discussionNoInitialTopic, $rootel).hide();
+            $(discussionCreateNewTopic, $rootel).show();
+        };
+
+        var replyTopicHandler = function() {
+            var replyParent = $(this).parents(discussionTopicContainer);
+            replyParent.find(discussionReplyTopicBottom).hide();
+            var postId = replyParent.attr("id").split("discussion_post_")[1];
+            sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":false, "postId": postId}, replyParent.children(discussionTopicReplyContainer));
+            var replyValidateOpts = {
+                submitHandler: doAddReply
+            };
+            sakai.api.Util.Forms.validate($(".discussion_reply_form", $rootel), replyValidateOpts, true);
+            replyParent.children(discussionTopicReplyContainer).show();
+            replyParent.find(discussionTopicReplyText).focus();
+        };
+
+        var quoteHandler = function() {
+            var replyParent = $(this).parents(discussionTopicContainer);
+            replyParent.find(discussionReplyTopicBottom).hide();
+            var postId = replyParent.attr("id").split("discussion_post_")[1];
+            var quotedMessage = $(this).parent().prev().children(discussionPostMessage).attr("data-source-text");
+            var quotedUser = $(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text();
+            sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":quotedUser, "quotedMessage":quotedMessage, "postId": postId}, replyParent.children(discussionTopicReplyContainer));
+            var replyValidateOpts = {
+                submitHandler: doAddReply
+            };
+            sakai.api.Util.Forms.validate($(".discussion_reply_form", $rootel), replyValidateOpts, true);
+            replyParent.children(discussionTopicReplyContainer).show();
+            replyParent.find(discussionTopicReplyText).focus();
+        };
+
+        var editHandler = function() {
+            var renderData = {};
+            if ($(this).parent().prevAll(discussionQuotedTextContainer).length) {
+                renderData = {
+                    "edit": true,
+                    "quoted": true,
+                    "quotedUser": $(this).parents(s3dHighlightBackgroundClass).find(discussionReplyContentsTextQuoted).text(),
+                    "quotedMessage": $.trim($(this).parent().prevAll(discussionQuotedTextContainer).children(discussionReplyContentsText).attr("data-source-text")),
+                    "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
+                };
+            } else {
+                renderData = {
+                    "edit": true,
+                    "quoted": false,
+                    "quotedUser": false,
+                    "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
+                };
+            }
+            // Undo the saneHTMLAttribute applied in the template
+            renderData.body = renderData.body.replace(/\\\"/g, '"').replace(/\\\'/g, '\'');
+            $(this).parents(s3dHighlightBackgroundClass).children( discussionEntityContainer + "," + discussionReplyContents).hide();
+            sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, renderData, $(this).parents(s3dHighlightBackgroundClass).children(discussionEditContainer));
+            var editValidateOpts = {
+                submitHandler: saveEdit
+            };
+            sakai.api.Util.Forms.validate($(".discussion_edit_form", $rootel), editValidateOpts, true);
+        };
+
         var addBinding = function() {
             $(discussionExpandAll, $rootel).die("click");
             $(discussionExpandAll, $rootel).live("click", function(){
@@ -796,11 +875,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             });
 
             // NEW TOPIC //
-            $(discussionAddNewTopic, $rootel).live("click", function(){
-                $discussionListTopics.hide();
-                $(discussionNoInitialTopic, $rootel).hide();
-                $(discussionCreateNewTopic, $rootel).show();
-            });
+            $rootel.on('click', discussionAddNewTopic, addNewTopicHandler);
 
             $(discussionDontAddTopic, $rootel).bind("click", function(){
                 $(discussionCreateNewTopic, $rootel).hide();
@@ -841,34 +916,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             });
 
             // Open quoted reply fields
-            $(discussionQuote, $rootel).live("click", function(e){
-                var replyParent = $(this).parents(discussionTopicContainer);
-                replyParent.find(discussionReplyTopicBottom).hide();
-                var postId = replyParent.attr("id").split("discussion_post_")[1];
-                var quotedMessage = $(this).parent().prev().children(discussionPostMessage).attr("data-source-text");
-                var quotedUser = $(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text();
-                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":quotedUser, "quotedMessage":quotedMessage, "postId": postId}, replyParent.children(discussionTopicReplyContainer));
-                var replyValidateOpts = {
-                    submitHandler: doAddReply
-                };
-                sakai.api.Util.Forms.validate($(".discussion_reply_form", $rootel), replyValidateOpts, true);
-                replyParent.children(discussionTopicReplyContainer).show();
-                replyParent.find(discussionTopicReplyText).focus();
-            });
+            $rootel.on('click', discussionQuote, quoteHandler);
 
             // Open reply fields
-            $(discussionReplyTopic, $rootel).live("click", function(){
-                var replyParent = $(this).parents(discussionTopicContainer);
-                replyParent.find(discussionReplyTopicBottom).hide();
-                var postId = replyParent.attr("id").split("discussion_post_")[1];
-                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":false, "postId": postId}, replyParent.children(discussionTopicReplyContainer));
-                var replyValidateOpts = {
-                    submitHandler: doAddReply
-                };
-                sakai.api.Util.Forms.validate($(".discussion_reply_form", $rootel), replyValidateOpts, true);
-                replyParent.children(discussionTopicReplyContainer).show();
-                replyParent.find(discussionTopicReplyText).focus();
-            });
+            $rootel.on('click', discussionReplyTopic, replyTopicHandler);
 
             $(discussionDontAddReply, $rootel).live("click", function(){
                 $(this).parents(discussionTopicReplyContainer).hide();
@@ -894,33 +945,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             });
 
             // EDIT POST //
-            $(discussionEdit, $rootel).live("click", function(){
-                var renderData = {};
-                if ($(this).parent().prevAll(discussionQuotedTextContainer).length) {
-                    renderData = {
-                        "edit": true,
-                        "quoted": true,
-                        "quotedUser": $(this).parents(s3dHighlightBackgroundClass).find(discussionReplyContentsTextQuoted).text(),
-                        "quotedMessage": $.trim($(this).parent().prevAll(discussionQuotedTextContainer).children(discussionReplyContentsText).attr("data-source-text")),
-                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
-                    };
-                } else {
-                    renderData = {
-                        "edit": true,
-                        "quoted": false,
-                        "quotedUser": false,
-                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).attr("data-source-text"))
-                    };
-                }
-                // Undo the saneHTMLAttribute applied in the template
-                renderData.body = renderData.body.replace(/\\\"/g, '"').replace(/\\\'/g, '\'');
-                $(this).parents(s3dHighlightBackgroundClass).children( discussionEntityContainer + "," + discussionReplyContents).hide();
-                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, renderData, $(this).parents(s3dHighlightBackgroundClass).children(discussionEditContainer));
-                var editValidateOpts = {
-                    submitHandler: saveEdit
-                };
-                sakai.api.Util.Forms.validate($(".discussion_edit_form", $rootel), editValidateOpts, true);
-            });
+            $rootel.on('click', discussionEdit, editHandler);
 
             $(discussionDontSaveEdit, $rootel).live("click", function(){
                 $(this).parents(s3dHighlightBackgroundClass).children(discussionEntityContainer + "," + discussionReplyContents).show();

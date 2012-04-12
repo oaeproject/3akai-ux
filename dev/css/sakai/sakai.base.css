@@ -752,7 +752,7 @@ a.s3d-button {
 	text-align: left;
 	font-size: 11px;
 }
-.s3d-link-button:disabled {
+.s3d-link-button:disabled, .s3d-link-button.disabled {
 	cursor: default !important;
 	color: #999;
 }
@@ -902,12 +902,11 @@ a.s3d-button.s3d-large-button {
 .s3d-button.s3d-overlay-button:hover {
 	background: url("/dev/images/button_overlay_hover.png") repeat-x scroll left top transparent;
 }
-.s3d-button.s3d-overlay-button:disabled {
+.s3d-button.s3d-overlay-button:disabled, .s3d-button.s3d-overlay-button.disabled {
 	color: #ccc;
 }
-.s3d-button.s3d-overlay-button:disabled:hover {
-	background: none !important;
-	border: none !important;
+.s3d-button.s3d-overlay-button:disabled:hover, .s3d-button.s3d-overlay-button.disabled:hover {
+    background: url("/dev/images/button_overlay_default.png") repeat-x scroll left top transparent !important;
 	cursor: auto;
 }
 a.s3d-button.s3d-overlay-button {
