@@ -147,8 +147,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * Enables all edit mode buttons (reply, quote, edit, create new topic)
          */
         var enableEditButtons = function() {
-            $(discussionEditButtons, $rootel)
-                .removeAttr('disabled');
+            $(discussionEditButtons, $rootel).removeAttr('disabled');
             $(discussionNotChangeable).hide();
         };
 
@@ -156,8 +155,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * Disables all edit mode buttons (reply, quote, edit, create new topic)
          */
         var disableEditButtons = function() {
-            $(discussionEditButtons, $rootel)
-                .attr('disabled', 'disabled');
+            $(discussionEditButtons, $rootel).attr('disabled', 'disabled');
             $(discussionNotChangeable).show();
         };
 
