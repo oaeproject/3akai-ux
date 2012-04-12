@@ -1,7 +1,7 @@
 /*
- *  ../SourceForge/trunk/mathjax/jax/element/mml/optable/GreekAndCoptic.js
+ *  /MathJax/jax/element/mml/optable/GreekAndCoptic.js
  *  
- *  Copyright (c) 2010 Design Science, Inc.
+ *  Copyright (c) 2012 Design Science, Inc.
  *
  *  Part of the MathJax library.
  *  See http://www.mathjax.org for details.
@@ -12,7 +12,5 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  */
 
-MathJax.Unpack([
-  ['(function(a){var c=a.mo.OPTYPES;var b=a.TEXCLASS;MathJax.Hub.Insert(a.mo.prototype,{OPTABLE:{prefix:{"\\u03C3":c.ORD11}}});MathJax.Ajax.loadComplete(a.optableDir+"/GreekAndCoptic.js")})(MathJax.ElementJax.mml);']
-]);
+(function(a){var c=a.mo.OPTYPES;var b=a.TEXCLASS;MathJax.Hub.Insert(a.mo.prototype,{OPTABLE:{infix:{"\u03F6":c.REL}}});MathJax.Ajax.loadComplete(a.optableDir+"/GreekAndCoptic.js")})(MathJax.ElementJax.mml);
 

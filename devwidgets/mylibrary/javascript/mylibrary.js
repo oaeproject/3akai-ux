@@ -65,6 +65,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $mylibrary_addcontent = $('#mylibrary_addcontent', $rootel);
         var $mylibrary_remove_icon = $('.mylibrary_remove_icon', $rootel);
         var $mylibrary_search_button = $('#mylibrary_search_button', $rootel);
+        var $mylibrary_result_count = $('.s3d-search-result-count', $rootel);
         var $mylibrary_show_grid = $('.s3d-listview-grid', $rootel);
         var $mylibrary_show_list = $('.s3d-listview-list', $rootel);
         var $mylibraryAddContentOverlay = $('.sakai_add_content_overlay', $rootel);
@@ -101,6 +102,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Bring all of the topbar items (search, checkbox, etc.) back into its original state
          */
         var resetView = function() {
+            $mylibrary_result_count.hide();
             $mylibrary_check_all.removeAttr('checked');
             $mylibrary_remove.attr('disabled', 'disabled');
             $mylibrary_addto.attr('disabled', 'disabled');
@@ -120,13 +122,28 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $mylibrary_admin_actions.show();
                     $mylibraryAddContentOverlay.show();
                 }
+                $('.s3d-page-header-top-row', $rootel).show();
                 $mylibrary_livefilter_container.show();
                 $mylibrary_sortarea.show();
             } else {
+                $('.s3d-page-header-top-row', $rootel).hide();
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter_container.hide();
                 $mylibrary_sortarea.hide();
             }
+        };
+
+        /**
+         * Renders library title
+         * @param {String} contextName The name to render
+         * @param {Boolean} isGroup Flag if this is a groups library or not
+         */
+        var renderLibraryTitle = function(contextName, isGroup) {
+            sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
+                isMe: mylibrary.isOwnerViewing,
+                isGroup: isGroup,
+                user: sakai.api.Util.Security.safeOutput(contextName)
+            }, $('#mylibrary_title_container', $rootel));
         };
 
         /////////////////////////////
@@ -163,7 +180,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 query: query
             }));
 
-            $('.s3d-page-header-top-row', $rootel).hide();
             $('.s3d-page-header-bottom-row', $rootel).hide();
 
             $mylibrary_empty.show();
@@ -189,12 +205,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (mylibrary.sortOrder === 'modified') {
                 sortOrder = 'desc';
             }
-            mylibrary.infinityScroll = $mylibrary_items.infinitescroll('/var/search/pool/manager-viewer.json', {
+            mylibrary.infinityScroll = $mylibrary_items.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER, {
                 userid: mylibrary.contextId,
                 sortOn: mylibrary.sortBy,
                 sortOrder: sortOrder,
                 q: query
             }, function(items, total) {
+                if (total && query && query !== '*') {
+                    $mylibrary_result_count.show();
+                    var resultLabel = sakai.api.i18n.getValueForKey('RESULTS');
+                    if (total === 1) {
+                        resultLabel = sakai.api.i18n.getValueForKey('RESULT');
+                    }
+                    $mylibrary_result_count.children('.s3d-search-result-count-label').text(resultLabel);
+                    $mylibrary_result_count.children('.s3d-search-result-count-count').text(total);
+                }
                 if(!sakai.data.me.user.anon) {
                     if(items.length !== 0) {
                         $('.s3d-page-header-top-row', $rootel).show();
@@ -428,6 +453,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             /**
+             * An event to listen from the worldsettings dialog so that we can refresh the title if it's been changed.
+             * @param {String} title     New group name
+             */
+            $(window).on('updatedTitle.worldsettings.sakai', function(e, title) {
+                renderLibraryTitle(title, true);
+            });
+
+            /**
              * Listen for newly the newly added content or newly saved content
              * @param {Object} data        Object that contains the new library items
              * @param {Object} library     Context id of the library the content has been added to
@@ -535,11 +568,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 mylibrary.currentPagenum = 1;
                 mylibrary.listStyle = $.bbq.getState('ls') || 'list';
                 handleHashChange(null, true);
-                sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
-                    isMe: mylibrary.isOwnerViewing,
-                    isGroup: isGroup,
-                    user: sakai.api.Util.Security.safeOutput(contextName)
-                }, $('#mylibrary_title_container', $rootel));
+                renderLibraryTitle(contextName, isGroup);
             } else {
                 debug.warn('No user found for My Library');
             }

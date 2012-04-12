@@ -44,10 +44,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var contextData = false;
 
         var setupProfileSection = function( title, section ) {
+            var altTitle = section.altLabel || section.label;
             var ret = {
                 _ref: sakai.api.Util.generateWidgetId(),
                 _order: section.order,
-                _altTitle: section.label,
+                _altTitle: altTitle,
                 _title: section.label,
                 _nonEditable: true,
                 _view: section.permission

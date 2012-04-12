@@ -26,15 +26,13 @@ define(function(){
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/me#l=messages/inbox",
             INVITATIONS_URL: "/me#l=messages/invitations",
-            LOGOUT_URL: "/logout",
             MY_DASHBOARD_URL: "/me#l=dashboard",
-            PROFILE_EDIT_URL: "/me#l=profile/basic",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
             SEARCH_URL: "/search",
-            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
             INFINITE_LOADING_ICON: "/dev/images/Infinite_Scrolling_Loader_v01.gif",
+            I18N_CUSTOM_BUNDLE: '/dev/configuration/custom.properties',
 
             // Services
             BATCH: "/system/batch",
@@ -52,15 +50,13 @@ define(function(){
             LOGIN_SERVICE: "/system/sling/formlogin",
             LOGOUT_SERVICE: "/system/sling/logout?resource=/index",
             ME_SERVICE: "/system/me",
-            MESSAGE_BOX_SERVICE: "/var/message/box.json",
             MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
             MESSAGE_BOXCATEGORY_ALL_SERVICE: "/var/message/boxcategory-all.json",
             POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
             POOLED_CONTENT_VIEWER_ALL: "/var/search/pool/me/viewer-all.json",
-            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/manager-viewer.json",
-            POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
+            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/auth-all.json",
             PRESENCE_SERVICE: "/var/presence.json",
             SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
             WORLD_CREATION_SERVICE: "/system/world/create",
@@ -71,11 +67,6 @@ define(function(){
             SEARCH_ALL_ENTITIES_ALL: "/var/search/general-all.json",
             SEARCH_ALL_FILES: "/var/search/pool/all.json",
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
-            SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
-            SEARCH_MY_BOOKMARKS_ALL: "/var/search/files/mybookmarks-all.json",
-            SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
-            SEARCH_MY_FILES: "/var/search/files/myfiles.json",
-            SEARCH_MY_FILES_ALL: "/var/search/files/myfiles-all.json",
             SEARCH_GROUP_MEMBERS: "/var/search/groupmembers.json",
             SEARCH_GROUP_MEMBERS_ALL: "/var/search/groupmembers-all.json",
             SEARCH_GROUPS: "/var/search/groups.infinity.json",
@@ -216,6 +207,9 @@ define(function(){
             Links: {
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
+            Collections: {
+                'defaultaccess': 'public' // public, everyone or private (see above for role description)
+            },
             Copyright: {
                 types: {
                     "creativecommons": {
@@ -244,6 +238,15 @@ define(function(){
         },
 
         allowPasswordChange: true,
+        /**
+         * Where the email field should live
+         * Default is 'profile' but it can also be 'accountpreferences'
+         *
+         * If you set this to 'accountpreferences', make sure to set the
+         * display property of the email field in the defaultConfig
+         * below to false
+        */
+        emailLocation: 'profile',
 
         Profile: {
             /*
@@ -344,6 +347,7 @@ define(function(){
                     },
                     "aboutme": {
                         "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                        "altLabel": "__MSG__PROFILE_ABOUTME_LABEL_OTHER__",
                         "required": true,
                         "display": true,
                         "access": "everybody",
@@ -353,6 +357,7 @@ define(function(){
                         "elements": {
                             "aboutme": {
                                 "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                                "altLabel": "__MSG__PROFILE_ABOUTME_LABEL_OTHER__",
                                 "required": false,
                                 "display": true,
                                 "type": "textarea"
@@ -538,6 +543,22 @@ define(function(){
             "enableReminders": true,
             "reminderIntervalHours": "168"
         },
+
+        /*
+         * Object to override default widget configuration
+         * Here you can add an object with the widget ID for the object key, with the configuration you would like to override
+         * An example to override options for the embedcontent widget:
+         *     embedcontent: {
+         *         defaultOptions: {
+         *             'embedmethod': 'original',
+         *             'layout': 'vertical',
+         *             'showName': false,
+         *             'showDetails': false,
+         *             'showDownload': false
+         *         }
+         *     }
+         */
+        WidgetSettings: {},
 
         enableBranding: true,
 
@@ -806,6 +827,7 @@ define(function(){
         Authentication: {
             "allowInternalAccountCreation": true,
             "internal": true,
+            "internalAndExternal": false,
             "external": [{
                 label: "External Login System 1",
                 url: "http://external.login1.com/"
@@ -829,6 +851,13 @@ define(function(){
             }
         },
 
+        /**
+         * Top navigation configuration
+         *
+         * To indicate that a link should be placed on the right of the signup
+         * link, the object should indicate it as:
+         *   'rightLink': true
+         */
         Navigation: [{
             "url": "/me#l=dashboard",
             "id": "navigation_you_link",
@@ -997,6 +1026,22 @@ define(function(){
         },
 
         displayDebugInfo: true,
+        displayTimezone: true,
+        displayLanguage: true,
+
+        enabledDashboardWidgets: [
+            "recentmemberships",
+            "mycontent",
+            "activegroups",
+            "popularcontent",
+            "tags",
+            "mycontacts",
+            "accountpreferences",
+            "recentmessages",
+            "recentcontactsnew",
+            "mygroups",
+            "recentchangedcontent"
+        ],
 
         /**
          * Section dividers can be added to the directory structure by adding in the following
@@ -1583,6 +1628,11 @@ define(function(){
         },
 
         /*
+         * Content to display if there are no pages available to the user in a group/world
+         */
+        pageUnavailableContent: '<p>__MSG__PAGE_UNAVAILABLE__</p>',
+
+        /*
          * _canEdit: can change the area permissions on this page
          * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
          * _nonEditable: cannot edit the contents of this page
@@ -1638,37 +1688,14 @@ define(function(){
                 }
             },
             '${refid}0': {
-                'id2506067': {
+                'id2487321': {
                     'htmlblock': {
-                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
+                        'content': '<div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
                     }
                 },
-                '${refid}5': {
-                    'dashboard': {
-                        'layout': 'threecolumn',
-                        'columns': {
-                            'column1': [
-                                {
-                                    'uid': '${refid}10',
-                                    'visible': 'block',
-                                    'name': 'recentchangedcontent'
-                                }
-                            ],
-                            'column2': [
-                                {
-                                    'uid': '${refid}11',
-                                    'visible': 'block',
-                                    'name': 'recentmemberships'
-                                }
-                            ],
-                            'column3': [
-                                {
-                                    'uid': '${refid}12',
-                                    'visible': 'block',
-                                    'name': 'recentcontactsnew'
-                                }
-                            ]
-                        }
+                'id2506067': {
+                    'dashboardactivity': {
+                        'content': ''
                     }
                 },
                 'rows': [
@@ -1679,16 +1706,12 @@ define(function(){
                                 'width': 1,
                                 'elements': [
                                     {
-                                        'id': 'id2506067',
+                                        'id': 'id2487321',
                                         'type': 'htmlblock'
                                     },
                                     {
-                                        'id': 'id8321271',
-                                        'type': 'carousel'
-                                    },
-                                    {
-                                        'id': '${refid}5',
-                                        'type': 'dashboard'
+                                        'id': 'id2506067',
+                                        'type': 'dashboardactivity'
                                     }
                                 ]
                             }
@@ -1929,6 +1952,28 @@ define(function(){
                     "layout": "dev",
                     "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
                 }
+            }
+        },
+
+        /**
+         * Explore (landing page/index.html) configuration
+         *
+         * oneRow: indicates if there should just be one row and one widget in
+         *         that row. Requires widges.oneRowWidget to be set
+         * widgets: object that contains the widgets that should be in the
+         *          landing page configuration
+         *   rightColumn: The widget in the right column
+         *   main: The widget on the top left
+         *   bottom: The widget under the main widget
+         *   oneRowWidget: When oneRow is set to true, this widget will be the
+         *                 only widget displayed on the page
+         */
+        explore : {
+            oneRow: false,
+            widgets: {
+                rightColumn: "recentactivity",
+                main: "welcome",
+                bottom: "featuredcontent"
             }
         }
     };

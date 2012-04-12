@@ -27,6 +27,7 @@
             </select>
         </div>
     </div>
+    <div id="collectionviewer_carousel_loading" style="display:none;"><img src="/dev/images/ajax-loader-gray.gif" alt="__MSG__LOADING__"></div>
     <div id="collectionviewer_carousel_container" style="display:none;"></div>
     <div id="collectionviewer_expanded_content_container" style="display:none;"></div>
     <div id="collectionviewer_grid_list_container" style="display:none;"></div>
@@ -34,7 +35,7 @@
 
 <div id="collectionviewer_grid_or_list_template"><!--
     {if items && items.length}
-        {if editMode && isManager}
+        {if editMode && isEditor}
             <div class="s3d-page-header-bottom-row">
                 <input type="checkbox" id="collectionviewer_select_all"/>
                 <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger" id="collections_savecontent_button" disabled="true" data-entityname="" data-entityid="">
@@ -133,7 +134,7 @@
             </li>
         {/macro}
 
-        <ul {if grid} class="s3d-search-results-grid collectionviewer_list_grid_container"{else} class="collectionviewer_list_grid_container {if editMode && isManager} collectionviewer_editable{/if}"{/if}>
+        <ul {if grid} class="s3d-search-results-grid collectionviewer_list_grid_container"{else} class="collectionviewer_list_grid_container {if editMode && isEditor} collectionviewer_editable{/if}"{/if}>
             {for i in items}
                 {if i['sakai:pooled-content-file-name']}
                     ${listContent(i, sakai)}
@@ -145,7 +146,7 @@
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
             <div class="s3d-no-results-icon s3d-no-results-content"></div>
-            <h1>__MSG__THIS_COLLECTION_IS_EMPTY__ {if isManager} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</h1>
+            <h1>__MSG__THIS_COLLECTION_IS_EMPTY__ {if isEditor} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</h1>
         </div>
     {/if}
 --></div>
@@ -198,7 +199,7 @@
                 {/for}
             </ul>
         {else}
-            <div id="collectionviewer_no_content">__MSG__THIS_COLLECTION_IS_EMPTY__ {if !sakai.data.me.user.anon && isManager} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</div>
+            <div id="collectionviewer_no_content">__MSG__THIS_COLLECTION_IS_EMPTY__ {if !sakai.data.me.user.anon && isEditor} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</div>
         {/if}
     </div>
 --></div>
