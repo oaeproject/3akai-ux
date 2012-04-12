@@ -1408,6 +1408,17 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         });
 
+        // bind keyboard navigation for page options dropdown menu
+        $rootel.on('keydown', '#lhnavigation_submenu a', function(ev) {
+            var $el = $(this);
+            if (ev.which == $.ui.keyCode.TAB &&
+                ((!ev.shiftKey && !$el.parent().nextAll(':visible').length) ||
+                (ev.shiftKey && !$el.parent().prevAll(':visible').length))) {
+                toggleContextMenu(true);
+                return false;
+            }
+        });
+
         ////////////////////////////
         // External event binding //
         ////////////////////////////
