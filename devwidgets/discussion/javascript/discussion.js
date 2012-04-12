@@ -289,20 +289,30 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
          * Callback function to sort replies based on created timestamp
          */
         var sortReplies = function(a, b){
-            return a.post._created - b.post._created;
+            return a.post['sakai:created'] - b.post['sakai:created'];
         };
 
         var renderPosts = function(arrPosts){
             // Loop fetched posts and do markup
             for (var i = 0, j = arrPosts.length; i < j; i++) {
                 arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post.profile[0]);
-                arrPosts[i].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["_created"]));
+                var tempPostDate = sakai.api.Util.parseSakaiDate(arrPosts[i].post['sakai:created']).getTime();
+                if (isNaN(parseDate(arrPosts[i].post['sakai:created']))) {
+                    tempPostDate = sakai.api.Util.parseSakaiDate(
+                                       sakai.api.Util.createSakaiDate(new Date(arrPosts[i].post['sakai:created']))).getTime();
+                }
+                arrPosts[i].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(tempPostDate));
                 if(arrPosts[i].post["sakai:editedOn"]){
                     arrPosts[i].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:editedOn"]));
                 }
                 for(var ii = 0, jj = arrPosts[i].replies.length; ii < jj; ii++){
                     arrPosts[i].replies[ii].post.profile[0].pictureImg = parsePicture(arrPosts[i].replies[ii].post.profile[0]);
-                    arrPosts[i].replies[ii].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["_created"]));
+                    var tempReplyDate = sakai.api.Util.parseSakaiDate(arrPosts[i].replies[ii].post['sakai:created']).getTime();
+                    if (isNaN(parseDate(arrPosts[i].replies[ii].post['sakai:created']))) {
+                        tempReplyDate = sakai.api.Util.parseSakaiDate(
+                                            sakai.api.Util.createSakaiDate(new Date(arrPosts[i].replies[ii].post['sakai:created']))).getTime();
+                    }
+                    arrPosts[i].replies[ii].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(tempReplyDate));
                     if(arrPosts[i].replies[ii].post["sakai:deletedOn"]){
                         arrPosts[i].replies[ii].post["sakai:deletedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:deletedOn"]));
                     }
@@ -414,11 +424,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var parseSettings = function(data){
             var contact = false;
             var canEditPage = false;
-            if (!widgetData) {
-                canEditPage = true;
-            }
-            else {
-                canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
+            // Check if the logged in user manages the discussion page or not (for a content profile or group)
+            if ((sakai_global.group &&
+                sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me, sakai_global.group.groupData)) ||
+                (sakai_global.content_profile &&
+                sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data.data, sakai.data.me))) {
+                    canEditPage = true;
             }
             parsedSettings["ismanager"] = canEditPage;
             // Anonymous can't do anything
@@ -593,8 +604,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
                     data.message.profile.pictureImg = parsePicture(data.message.profile);
-                    data.message["_created"] = sakai.api.l10n.transformDateTimeShort(parseDate(data.message["_created"]));
-                    data.message["sakai:createdOn"] = data.message["_created"];
+                    var tempReplyDate = sakai.api.Util.parseSakaiDate(data.message['sakai:created']).getTime();
+                    if (isNaN(parseDate(data.message['sakai:created']))) {
+                        tempReplyDate = sakai.api.Util.parseSakaiDate(
+                                            sakai.api.Util.createSakaiDate(new Date(data.message['sakai:created']))).getTime();
+                    }
+                    data.message['sakai:created'] = sakai.api.l10n.transformDateTimeShort(parseDate(tempReplyDate));
+                    data.message["sakai:createdOn"] = data.message['sakai:created'];
 
                     data.message["sakai:quoted"] = parseQuote(data.message["sakai:body"]);
                     if (data.message["sakai:body"].split(["[/quote]"])[1]) {
