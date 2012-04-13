@@ -1510,21 +1510,15 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          */
         var makeTempCopy = function(data) {
 
-            // SAKIII-5393 When you're using world templates, sometimes the
-            // items within rows are strings when they should be objects
-            // This makes versions work again
-            if (data.rows && _.isArray(data.rows)) {
-                for (var i = 0; i < data.rows.length; i++) {
-                    if (_.isString(data.rows[i])) {
-                        data.rows[i] = $.parseJSON(data.rows[i]);
-                    }
-                }
-            }
-
-            // Make temporary copy 
-            sakai.api.Server.saveJSON(storePath, data, function(){
+            // Make temporary copy
+            sakai.api.Server.copy({
+                destination: currentPageShown.pageSavePath + '/tmp_' + currentPageShown.saveRef,
+                source: currentPageShown.pageSavePath + '/' + currentPageShown.saveRef,
+                replace: true
+            }, function() {
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
-            }, true);
+            });
+
             // Get the widgets in this page and change their save URL
             updateWidgetURLs();
         };
