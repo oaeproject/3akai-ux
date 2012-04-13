@@ -2232,8 +2232,13 @@ ul li.s3d-list-item:hover {
 	-moz-box-shadow: 0 1px 1px 1px #CCC;
 }
 .s3d-search-header .s3d-search-header-type {
-	display: inline-block;
-	padding-top: 2px;
+    display: inline-block;
+    padding-top: 2px;
+    color: #666666;
+    font-size: 1em;
+    font-weight: normal;
+    text-align: left;
+    margin: 0;
 }
 .s3d-search-header .s3d-search-selects {
 	float: right;
@@ -2274,9 +2279,10 @@ ul li.s3d-list-item:hover {
 	margin-bottom: 15px;
 }
 .s3d-search-refineby .s3d-search-refineby-title {
-	margin-bottom: 5px;
-	display: block;
-	color: #64707E;
+    margin: 0;
+    font-size: 13px;
+    font-weight: normal;
+    color: #64707E;
 }
 .s3d-search-refineby button {
 	cursor: pointer;
