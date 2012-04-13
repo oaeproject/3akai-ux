@@ -453,7 +453,7 @@ div .orderable-drop-marker {
 	margin-left: -2px;
 }
 .s3d-dropdown-menu:hover {
-    background: #57c9fa;
+    background: #3b8ec0;
     background: -moz-linear-gradient(top, #57c9fa 0%, #50bbec 22%, #3b8ec0 69%, #3581b3 89%, #3480b2 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#57c9fa), color-stop(22%,#50bbec), color-stop(69%,#3b8ec0), color-stop(89%,#3581b3), color-stop(100%,#3480b2));
     background: -webkit-linear-gradient(top, #57c9fa 0%,#50bbec 22%,#3b8ec0 69%,#3581b3 89%,#3480b2 100%);
@@ -507,7 +507,7 @@ div .orderable-drop-marker {
 	color: #f3f3f3;
 }
 .s3d-dropdown-menu .s3d-dropdown-container {
-    background: #56c9fb;
+    background: #3b8ec0;
     background: -moz-linear-gradient(top, #3480b2 0%, #2d77a8 23%, #155986 72%, #0b4e79 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3480b2), color-stop(23%,#2d77a8), color-stop(72%,#155986), color-stop(100%,#0b4e79));
     background: -webkit-linear-gradient(top, #3480b2 0%,#2d77a8 23%,#155986 72%,#0b4e79 100%);
