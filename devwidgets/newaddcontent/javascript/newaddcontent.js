@@ -112,6 +112,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         var newaddcontentContainerNewItemRaquoRightDocumentsposition = 'newaddcontent_container_newitem_raquo_right_documentsposition';
         var newaddcontentContainerNewItemAddToListDocumentsposition = 'newaddcontent_container_newitem_add_to_list_documentsposition';
         var newaddcontentContainerNewItemAddToListExistingContentposition = 'newaddcontent_container_newitem_add_to_list_existingcontentposition';
+        var newaddcontentContainerNewItemAddToListUploadNewContent = 'newaddcontent_container_newitem_add_to_list_upload_new_content';
+        var newaddcontentContainerNewItemAddToListAddLink = 'newaddcontent_container_newitem_add_to_list_add_link';
         var newaddcontentExistingItemsListContainerDisabledListItem = 'newaddcontent_existingitems_list_container_disabled_list_item';
 
         // List Variables
@@ -271,7 +273,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     }
                     break;
                 case 'existing':
-                    var $existing = $('input#' + obj.id);
+                    var $existing = $('input#' + obj['_path']);
                     $existing.removeAttr('disabled');
                     $existing.removeAttr('checked');
                     $existing.parent().removeClass(newaddcontentExistingItemsListContainerDisabledListItem);
@@ -295,6 +297,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             var uniqueId = sakai.api.Util.generateWidgetId();
             var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($autoSuggestElt, true);
             var $thisForm = $(this).parents($newaddcontentNewItemContainer).children(newAddContentForm);
+            if ($(this).attr('id') === 'newaddcontent_container_newitem_raquo_right') {
+                $thisForm = $(this).prev().children(':visible').find(newAddContentForm);
+            }
+
             switch ($thisForm.attr('id')) {
 
                 //////////////////////////
@@ -531,7 +537,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 _.uniq($.merge(brandNewContent[libraryToUploadTo], lastUpload));
                 _.uniq($.merge(allNewContent, lastUpload));
                 lastUpload = [];
-                $newaddcontentContainer.jqmHide();
+                sakai.api.Util.Modal.close($newaddcontentContainer);
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 var librarytitle = $(newaddcontentSaveTo + ' option:selected').text();
                 if (sakai.api.Content.Collections.isCollection(libraryToUploadTo)) {
@@ -1048,7 +1054,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     }
                     break;
                 case 'my_library':
-                    searchURL = '/var/search/pool/manager-viewer.json?userid=' + sakai.data.me.user.userid + '&items=10&page=' + (pagenum - 1) + '&sortOrder=' + sortOrder + '&sortOn=' + sortOn + '&q=' + q;
+                    searchURL = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + '?userid=' + sakai.data.me.user.userid + '&items=10&page=' + (pagenum - 1) + '&sortOrder=' + sortOrder + '&sortOn=' + sortOn + '&q=' + q;
                     break;
             }
             uncheckCheckboxes();
@@ -1059,14 +1065,13 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     var existingIDs = [];
                     $.each(itemsToUpload, function(index, item) {
                         if(item.type === 'existing') {
-                            existingIDs.push(item.id);
+                            existingIDs.push(item['_path']);
                         }
                     });
                     if (data && data.results) {
                         existingItems = data.results;
                     }
                     $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {'data': data, 'query':q, 'sakai':sakai, 'queue':existingIDs, 'context':currentExistingContext}));
-                    uncheckCheckboxes();
                     // Disable the add button
                     disableAddToQueue();
                     var numberOfPages = Math.ceil(data.total / 10);
@@ -1187,6 +1192,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             $newaddcontentContainerNewItemRaquoRight.removeClass(newaddcontentContainerNewItemRaquoRightDocumentsposition);
             $newaddcontentContainerNewItemAddToList.removeClass(newaddcontentContainerNewItemAddToListDocumentsposition);
             $newaddcontentContainerNewItemAddToList.removeClass(newaddcontentContainerNewItemAddToListExistingContentposition);
+            $newaddcontentContainerNewItemAddToList.removeClass(newaddcontentContainerNewItemAddToListUploadNewContent);
+            $newaddcontentContainerNewItemAddToList.removeClass(newaddcontentContainerNewItemAddToListAddLink);
             if ($(this).prev().hasClass(newaddcontentContainerLHChoiceItemClass)) {
                 $newaddcontentContainerNewItem.addClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
             }
@@ -1199,6 +1206,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             switch ($(this)[0].id) {
                 case 'newaddcontent_upload_content':
                     renderUploadNewContent();
+                    $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListUploadNewContent);
                     break;
                 case 'newaddcontent_new_document':
                     renderNewDocument();
@@ -1207,6 +1215,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     break;
                 case 'newaddcontent_add_link':
                     renderAddLink();
+                    $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListAddLink);
                     break;
                 default: // No ID found on class -> subnav present
                     switch ($(this).children('ul').children(newaddcontentContainerLHChoiceSelectedSubitem)[0].id) {
@@ -1347,10 +1356,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         /**
          * Initialize the modal dialog
          */
-        var initializeJQM = function() {
-            sakai.api.Util.positionDialogBox($newaddcontentContainer);
-
-            $newaddcontentContainer.jqm({
+        var initializeJQM = function(){
+            sakai.api.Util.Modal.setup($newaddcontentContainer, {
                 modal: true,
                 overlay: 20,
                 zIndex: 4001,
@@ -1361,8 +1368,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     hash.w.hide();
                 }
             });
-            $newaddcontentContainer.jqmShow();
-            sakai.api.Util.bindDialogFocus($newaddcontentContainer);
+            sakai.api.Util.Modal.open($newaddcontentContainer);
         };
 
         /**

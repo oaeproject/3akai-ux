@@ -16,111 +16,390 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Header */
-.s3d-site-heading #s23_site_title
-{ margin: 8px 10px 0 0}
-#s23_site_title_info
-{ color: #868a8d; font-weight: normal;  font-size: 11px; text-transform: uppercase;}
+#entity_container {
+    padding: 10px 0 !important;
+}
+
+.s3d-site-heading #s23_site_title {
+    margin: 8px 10px 0 0;
+}
+
+#s23_site_title_info {
+    color: #868a8d;
+    font-weight: normal;
+    font-size: 11px;
+    text-transform: uppercase;
+}
 
 /* Menu */
-.s23_site #s23_site_menu_container
-{ border-right:2px solid #fff; float: left; padding:0 0.5em 0 0; width: 11em }
-.s23_site #s23_site_menu_container:hover
-{ border-right:2px solid #aaa }
-.s23_site #s23_site_menu_container ul
-{ margin-left: 0 }
-.s23_site #s23_site_menu_container ul li
-{ list-style-type: none; text-align: right }
-.s23_site #s23_site_menu_container ul li a
-{ background-repeat: no-repeat; background-position: right center; color:#006E96; display:block; padding: 2px 23px 2px 0; text-decoration:underline }
-.s23_site #s23_site_menu_container ul li a.s23_site_menu_item_active
-{ color: #000; opacity: 0.5; text-decoration: none }
-.s23_site #s23_site_menu_container ul li a:hover
-{ text-decoration: none }
+.s23_site #s23_site_menu_container {
+    background: #f7f7f7;
+    background: -moz-linear-gradient(top, #f7f7f7 0%, #f7f7f7 66%, #fdfdfd 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(66%,#f7f7f7), color-stop(100%,#fdfdfd));
+    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
+    background: -o-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
+    background: -ms-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
+    background: linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
+    width: 180px;
+    min-height: 600px;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+#s23_site_menu_container .s23_site_menu_logo {
+    text-align: center;
+    margin: 15px auto;
+}
+.s23_site #s23_site_menu_container ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.s23_site #s23_site_menu_container ul li {
+    list-style-type: none;
+    text-align: left;
+    padding: 0;
+}
+
+.s23_site #s23_site_menu_container ul li a, .s23_site #s23_site_menu_container ul li button {
+    background-repeat: no-repeat;
+    background-position: left center;
+    color: #707E8C;
+    display: block;
+    margin-left: 10px;
+    padding: 10px 0 10px 25px;
+    text-decoration: none;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+.s23_site #s23_site_menu_container ul li button {
+    border: none;
+    background-color: transparent;
+    font-size: 100%;
+    cursor: pointer;
+}
+.s23_site #s23_site_menu_container ul li a:focus {
+    color: #000;
+}
+.s23_site #s23_site_menu_container ul li.s23_site_menu_item_active {
+    background: #6abcf6;
+    background: -moz-linear-gradient(top, #d9e9f1 0%, #89d9fb 1%, #83d6f9 10%, #60c2ec 39%, #4fbef1 48%, #4dc0f1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9e9f1), color-stop(1%,#89d9fb), color-stop(10%,#83d6f9), color-stop(39%,#60c2ec), color-stop(48%,#4fbef1), color-stop(100%,#4dc0f1));
+    background: -webkit-linear-gradient(top, #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: -o-linear-gradient(top, #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: -ms-linear-gradient(top, #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    background: linear-gradient(top, #d9e9f1 0%,#89d9fb 1%,#83d6f9 10%,#60c2ec 39%,#4fbef1 48%,#4dc0f1 100%);
+    color: #fff;
+}
+
+.s23_site #s23_site_menu_container ul li.s23_site_menu_item_active a {
+    color: #fff;
+}
+
+.s23_site #s23_site_menu_container ul li a:hover {
+    text-decoration: none;
+}
 
 /* Menu - icons */
-.s23_site_menu_item .icon-osp-glossary{background-image:url(/library/image/silk/text_list_bullets.png)}
-.s23_site_menu_item .icon-osp-matrix{background-image:url(/library/image/silk/table.png)}
-.s23_site_menu_item .icon-osp-presentation{background-image:url(/library/image/silk/briefcase.png)}
-.s23_site_menu_item .icon-osp-presLayout{background-image:url(/library/image/silk/layout_content.png)}
-.s23_site_menu_item .icon-osp-presTemplate{background-image:url(/library/image/silk/application_view_tile.png)}
-.s23_site_menu_item .icon-osp-style{background-image:url(/library/image/silk/style.png)}
-.s23_site_menu_item .icon-osp-wizard{background-image:url(/library/image/silk/wand.png)}
-.s23_site_menu_item .icon-sakai-announcements{background-image:url(/library/image/silk/flag_blue.png)}
-.s23_site_menu_item .icon-sakai-chat{background-image:url(/library/image/silk/user_comment.png)}
-.s23_site_menu_item .icon-sakai-datapoint{background-image:url(/library/image/silk/chart_line.png)}
-.s23_site_menu_item .icon-sakai-dropbox{background-image:url(/library/image/silk/folder_page.png)}
-.s23_site_menu_item .icon-sakai-gmt{background-image:url(/library/image/silk/award_star_gold_3.png)}
-.s23_site_menu_item .icon-sakai-help{background-image:url(/library/image/silk/help.png)}
-.s23_site_menu_item .icon-sakai-iframe{background-image:url(/library/image/silk/page_world.png)}
-.s23_site_menu_item .icon-sakai-mailbox{background-image:url(/library/image/silk/email.png)}
-.s23_site_menu_item .icon-sakai-metaobj{background-image:url(/library/image/silk/application_form.png)}
-.s23_site_menu_item .icon-sakai-membership{background-image:url(/library/image/silk/group.png)}
-.s23_site_menu_item .icon-sakai-news{background-image:url(/library/image/silk/rss.png)}
-.s23_site_menu_item .icon-sakai-podcasts{background-image:url(/library/image/silk/ipod_cast.png)}
-.s23_site_menu_item .icon-sakai-postem{background-image:url(/library/image/silk/database_table.png)}
-.s23_site_menu_item .icon-sakai-preferences{background-image:url(/library/image/silk/cog.png)}
-.s23_site_menu_item .icon-sakai-rutgers-linktool{background-image:url(/library/image/silk/application.png)}
-.s23_site_menu_item .icon-sakai-sections{background-image:url(/library/image/silk/group_gear.png)}
-.s23_site_menu_item .icon-sakai-singleuser{background-image:url(/library/image/silk/user.png)}
-.s23_site_menu_item .icon-sakai-syllabus{background-image:url(/library/image/silk/script.png)}
-.s23_site_menu_item .icon-blogger{background-image:url(/library/image/silk/book_edit.png)}
-.s23_site_menu_item .icon-sakai-assignment-grades{background-image:url(/library/image/silk/page_edit.png)}
-.s23_site_menu_item .icon-sakai-gradebook-tool{background-image:url(/library/image/silk/report.png)}
-.s23_site_menu_item .icon-sakai-mailtool{background-image:url(/library/image/silk/email_go.png)}
-.s23_site_menu_item .icon-sakai-presentation{background-image:url(/library/image/silk/monitor.png)}
-.s23_site_menu_item .icon-sakai-profile{background-image:url(/library/image/silk/vcard_edit.png)}
-.s23_site_menu_item .icon-sakai-reports{background-image:url(/library/image/silk/report_magnify.png)}
-.s23_site_menu_item .icon-sakai-resetpass{background-image:url(/library/image/silk/key.png)}
-.s23_site_menu_item .icon-sakai-resources{background-image:url(/library/image/silk/folder.png)}
-.s23_site_menu_item .icon-sakai-rwiki{background-image:url(/library/image/silk/page_white_edit.png)}
-.s23_site_menu_item .icon-sakai-samigo{background-image:url(/library/image/silk/pencil.png)}
-.s23_site_menu_item .icon-sakai-schedule{background-image:url(/library/image/silk/calendar.png)}
-.s23_site_menu_item .icon-sakai-search{background-image:url(/library/image/silk/find.png)}
-.s23_site_menu_item .icon-sakai-site-roster{background-image:url(/library/image/silk/vcard.png)}
-.s23_site_menu_item .icon-sakai-conferencing{background-image:url(/library/image/silk/webcam.png)}
-.s23_site_menu_item .icon-sakai-users{background-image:url(/library/image/silk/folder_user.png)}
-.s23_site_menu_item .icon-sakai-aliases{background-image:url(/library/image/silk/tag_blue.png)}
-.s23_site_menu_item .icon-sakai-sites{background-image:url(/library/image/silk/application_cascade.png)}
-.s23_site_menu_item .icon-sakai-realms{background-image:url(/library/image/silk/sitemap_color.png)}
-.s23_site_menu_item .icon-sakai-online{background-image:url(/library/image/silk/report_user.png)}
-.s23_site_menu_item .icon-sakai-memory{background-image:url(/library/image/silk/server_chart.png)}
-.s23_site_menu_item .icon-sakai-archive{background-image:url(/library/image/silk/page_white_compressed.png)}
-.s23_site_menu_item .icon-sakai-scheduler{background-image:url(/library/image/silk/clock.png)}
-.s23_site_menu_item .icon-sakai-su{background-image:url(/library/image/silk/user_go.png)}
-.s23_site_menu_item .icon-sakai-usermembership{background-image:url(/library/image/silk/drive_user.png)}
-.s23_site_menu_item .icon-sakai-sitebrowser{background-image:url(/library/image/silk/world.png)}
-.s23_site_menu_item .icon-sakai-createuser{background-image:url(/library/image/silk/user_add.png)}
-.s23_site_menu_item .icon-sakai-discussion,.s23_site_menu_item .icon-sakai-forums{background-image:url(/library/image/silk/comments.png)}
-.s23_site_menu_item .icon-sakai-iframe-site,.s23_site_menu_item .icon-sakai-motd{background-image:url(/library/image/silk/house.png)}
-.s23_site_menu_item .icon-sakai-messages,.s23_site_menu_item .icon-sakai-synoptic-messagecenter{background-image:url(/library/image/silk/comment.png)}
-.s23_site_menu_item .icon-sakai-poll,.s23_site_menu_item .icon-sakai-sitestats{background-image:url(/library/image/silk/chart_bar.png)}
-.s23_site_menu_item .icon-sakai-siteinfo,.s23_site_menu_item .icon-sakai-sitesetup{background-image:url(/library/image/silk/application_lightning.png)}
+.s23_site_menu_item .icon-osp-glossary {
+    background-image: url(/library/image/silk/text_list_bullets.png);
+}
+
+.s23_site_menu_item .icon-osp-matrix {
+    background-image: url(/library/image/silk/table.png);
+}
+
+.s23_site_menu_item .icon-osp-presentation {
+    background-image: url(/library/image/silk/briefcase.png);
+}
+
+.s23_site_menu_item .icon-osp-presLayout {
+    background-image: url(/library/image/silk/layout_content.png);
+}
+
+.s23_site_menu_item .icon-osp-presTemplate {
+    background-image: url(/library/image/silk/application_view_tile.png);
+}
+
+.s23_site_menu_item .icon-osp-style {
+    background-image: url(/library/image/silk/style.png);
+}
+
+.s23_site_menu_item .icon-osp-wizard {
+    background-image: url(/library/image/silk/wand.png);
+}
+
+.s23_site_menu_item .icon-sakai-announcements {
+    background-image: url(/library/image/silk/flag_blue.png);
+}
+
+.s23_site_menu_item .icon-sakai-chat {
+    background-image: url(/library/image/silk/user_comment.png);
+}
+
+.s23_site_menu_item .icon-sakai-datapoint {
+    background-image: url(/library/image/silk/chart_line.png);
+}
+
+.s23_site_menu_item .icon-sakai-dropbox {
+    background-image: url(/library/image/silk/folder_page.png);
+}
+
+.s23_site_menu_item .icon-sakai-gmt {
+    background-image: url(/library/image/silk/award_star_gold_3.png);
+}
+
+.s23_site_menu_item .icon-sakai-help {
+    background-image: url(/library/image/silk/help.png);
+}
+
+.s23_site_menu_item .icon-sakai-iframe {
+    background-image: url(/library/image/silk/page_world.png);
+}
+
+.s23_site_menu_item .icon-sakai-mailbox {
+    background-image: url(/library/image/silk/email.png);
+}
+
+.s23_site_menu_item .icon-sakai-metaobj {
+    background-image: url(/library/image/silk/application_form.png);
+}
+
+.s23_site_menu_item .icon-sakai-membership {
+    background-image: url(/library/image/silk/group.png);
+}
+
+.s23_site_menu_item .icon-sakai-news {
+    background-image: url(/library/image/silk/rss.png);
+}
+
+.s23_site_menu_item .icon-sakai-podcasts {
+    background-image: url(/library/image/silk/ipod_cast.png);
+}
+
+.s23_site_menu_item .icon-sakai-postem {
+    background-image: url(/library/image/silk/database_table.png);
+}
+
+.s23_site_menu_item .icon-sakai-preferences {
+    background-image: url(/library/image/silk/cog.png);
+}
+
+.s23_site_menu_item .icon-sakai-rutgers-linktool {
+    background-image: url(/library/image/silk/application.png);
+}
+
+.s23_site_menu_item .icon-sakai-sections {
+    background-image: url(/library/image/silk/group_gear.png);
+}
+
+.s23_site_menu_item .icon-sakai-singleuser {
+    background-image: url(/library/image/silk/user.png);
+}
+
+.s23_site_menu_item .icon-sakai-syllabus {
+    background-image: url(/library/image/silk/script.png);
+}
+
+.s23_site_menu_item .icon-blogger {
+    background-image: url(/library/image/silk/book_edit.png);
+}
+
+.s23_site_menu_item .icon-sakai-assignment-grades {
+    background-image: url(/library/image/silk/page_edit.png);
+}
+
+.s23_site_menu_item .icon-sakai-gradebook-tool {
+    background-image: url(/library/image/silk/report.png);
+}
+
+.s23_site_menu_item .icon-sakai-mailtool {
+    background-image: url(/library/image/silk/email_go.png);
+}
+
+.s23_site_menu_item .icon-sakai-presentation {
+    background-image: url(/library/image/silk/monitor.png);
+}
+
+.s23_site_menu_item .icon-sakai-profile {
+    background-image: url(/library/image/silk/vcard_edit.png);
+}
+
+.s23_site_menu_item .icon-sakai-reports {
+    background-image: url(/library/image/silk/report_magnify.png);
+}
+
+.s23_site_menu_item .icon-sakai-resetpass {
+    background-image: url(/library/image/silk/key.png);
+}
+
+.s23_site_menu_item .icon-sakai-resources {
+    background-image: url(/library/image/silk/folder.png);
+}
+
+.s23_site_menu_item .icon-sakai-rwiki {
+    background-image: url(/library/image/silk/page_white_edit.png);
+}
+
+.s23_site_menu_item .icon-sakai-samigo {
+    background-image: url(/library/image/silk/pencil.png);
+}
+
+.s23_site_menu_item .icon-sakai-schedule {
+    background-image: url(/library/image/silk/calendar.png);
+}
+
+.s23_site_menu_item .icon-sakai-search {
+    background-image: url(/library/image/silk/find.png);
+}
+
+.s23_site_menu_item .icon-sakai-site-roster {
+    background-image: url(/library/image/silk/vcard.png);
+}
+
+.s23_site_menu_item .icon-sakai-conferencing {
+    background-image: url(/library/image/silk/webcam.png);
+}
+
+.s23_site_menu_item .icon-sakai-users {
+    background-image: url(/library/image/silk/folder_user.png);
+}
+
+.s23_site_menu_item .icon-sakai-aliases {
+    background-image: url(/library/image/silk/tag_blue.png);
+}
+
+.s23_site_menu_item .icon-sakai-sites {
+    background-image: url(/library/image/silk/application_cascade.png);
+}
+
+.s23_site_menu_item .icon-sakai-realms {
+    background-image: url(/library/image/silk/sitemap_color.png);
+}
+
+.s23_site_menu_item .icon-sakai-online {
+    background-image: url(/library/image/silk/report_user.png);
+}
+
+.s23_site_menu_item .icon-sakai-memory {
+    background-image: url(/library/image/silk/server_chart.png);
+}
+
+.s23_site_menu_item .icon-sakai-archive {
+    background-image: url(/library/image/silk/page_white_compressed.png);
+}
+
+.s23_site_menu_item .icon-sakai-scheduler {
+    background-image: url(/library/image/silk/clock.png);
+}
+
+.s23_site_menu_item .icon-sakai-su {
+    background-image: url(/library/image/silk/user_go.png);
+}
+
+.s23_site_menu_item .icon-sakai-usermembership {
+    background-image: url(/library/image/silk/drive_user.png);
+}
+
+.s23_site_menu_item .icon-sakai-sitebrowser {
+    background-image: url(/library/image/silk/world.png);
+}
+
+.s23_site_menu_item .icon-sakai-createuser {
+    background-image: url(/library/image/silk/user_add.png);
+}
+
+.s23_site_menu_item .icon-sakai-discussion, .s23_site_menu_item .icon-sakai-forums {
+    background-image: url(/library/image/silk/comments.png);
+}
+
+.s23_site_menu_item .icon-sakai-iframe-site, .s23_site_menu_item .icon-sakai-motd {
+    background-image: url(/library/image/silk/house.png);
+}
+
+.s23_site_menu_item .icon-sakai-messages, .s23_site_menu_item .icon-sakai-synoptic-messagecenter {
+    background-image: url(/library/image/silk/comment.png);
+}
+
+.s23_site_menu_item .icon-sakai-poll, .s23_site_menu_item .icon-sakai-sitestats {
+    background-image: url(/library/image/silk/chart_bar.png);
+}
+
+.s23_site_menu_item .icon-sakai-siteinfo, .s23_site_menu_item .icon-sakai-sitesetup {
+    background-image: url(/library/image/silk/application_lightning.png);
+}
 
 /* Tool Columns */
-.col1of2 
-{ width: 49%; float: left; }
+.col1of2 {
+    width: 49%;
+    float: left;
+}
 
-.col2of2
-{ width: 50%; float: right; }
+.col2of2 {
+    width: 50%;
+    float: right;
+}
 
 /* Iframe container */
-.s23_site #s23_site_iframe_container
-{ margin: 1.6em 0 0 12.3em; padding-right: 20px; }
-.s23_site #s23_site_iframe_container .s23_site_iframe
-{ width: 100% }
-.s23_site #s23_site_iframe_container .s23_site_iframe_title
-{ border-bottom:2px solid #0099CC; overflow: hidden; width: 100%; }
-.s23_site #s23_site_iframe_container .s23_site_iframe_title h2
-{ color:#555; float: left; font-size:1.2em; margin:0 0 0 0.2em; padding:2px 4px 6px 0;  }
-.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset
-{ background:url("/dev/s23/images/s23_reload.png") no-repeat 0 0; display:block; float:left; height: 16px; width: 16px }
-.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset:hover
-{ background-position: -16px 0 }
-.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset span
-{ display:block; text-indent:-999em; }
+.s23_site #s23_site_iframe_container {
+    margin: 0;
+    border-top: 0;
+    min-height: 600px;
+    box-shadow: -3px -3px 5px -2px #888;
+    float: left;
+    padding: 10px;
+    width: 755px;
+}
+
+.s23_site #s23_site_iframe_container .s23_site_iframe {
+    width: 100%;
+}
+
+.s23_site #s23_site_iframe_container .s23_site_iframe_title {
+    border-bottom: 5px solid #E1E1E1;
+    color: #424242;
+    font-size: 1em;
+    margin-bottom: 0;
+    padding: 4px 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.s23_site #s23_site_iframe_container .s23_site_iframe_title h2 {
+    color: #555;
+    float: left;
+    font-size: 1.2em;
+    font-weight: normal;
+    margin: 0 0 0 0.2em;
+    padding: 2px 4px 6px 0;
+}
+
+.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset {
+    background: url("/dev/s23/images/s23_reload.png") no-repeat 0 0;
+    display: block;
+    float: left;
+    height: 16px;
+    width: 16px;
+}
+
+.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset:hover {
+    background-position: -16px 0;
+}
+
+.s23_site #s23_site_iframe_container .s23_site_iframe_title_reset span {
+    display: block;
+    text-indent: -999em;
+}
 
 /* Container */
-.s23_site #s23_site_container .fixed-container
-{ background-color:#fff; padding-bottom:20px }
-.s23_site .s23_site_back
-{ color:#006E96; float:right; margin-top:30px }
+.s23_site #s23_site_container .fixed-container {
+    background-color: #fff;
+    padding-bottom: 20px;
+}
+
+.s23_site .s23_site_back {
+    color: #006E96;
+    float: right;
+    margin-top: 30px;
+}

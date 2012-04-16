@@ -64,6 +64,7 @@
             "${refid}0": {
                 "rows": [
                     {
+                        "id": "${refid}33",
                         "columns": [
                             {
                                 "width": 1,
@@ -86,6 +87,7 @@
             "${refid}2": {
                 "rows": [
                     {
+                        "id": "${refid}34",
                         "columns": [
                             {
                                 "width": 1,
@@ -143,6 +145,7 @@
             "${refid}4": {
                 "rows": [
                     {
+                        "id": "${refid}35",
                         "columns": [
                             {
                                 "width": 1,
@@ -165,6 +168,7 @@
             "${refid}7": {
                 "rows": [
                     {
+                        "id": "${refid}36",
                         "columns": [
                             {
                                 "width": 1,
@@ -187,6 +191,7 @@
             "${refid}10": {
                 "rows": [
                     {
+                        "id": "${refid}37",
                         "columns": [
                             {
                                 "width": 1,
@@ -234,6 +239,7 @@
             "${refid}13": {
                 "rows": [
                     {
+                        "id": "${refid}38",
                         "columns": [
                             {
                                 "width": 1,
@@ -256,6 +262,7 @@
             "${refid}15": {
                 "rows": [
                     {
+                        "id": "${refid}39",
                         "columns": [
                             {
                                 "width": 1,
@@ -313,6 +320,7 @@
             "${refid}17": {
                 "rows": [
                     {
+                        "id": "${refid}40",
                         "columns": [
                             {
                                 "width": 1,
@@ -335,6 +343,7 @@
             "${refid}19": {
                 "rows": [
                     {
+                        "id": "${refid}41",
                         "columns": [
                             {
                                 "width": 1,
@@ -357,6 +366,7 @@
             "${refid}22": {
                 "rows": [
                     {
+                        "id": "${refid}42",
                         "columns": [
                             {
                                 "width": 1,
@@ -409,6 +419,7 @@
             "${refid}25": {
                 "rows": [
                     {
+                        "id": "${refid}43",
                         "columns": [
                             {
                                 "width": 1,
@@ -446,6 +457,7 @@
             "${refid}27": {
                 "rows": [
                     {
+                        "id": "${refid}44",
                         "columns": [
                             {
                                 "width": 1,
@@ -485,6 +497,7 @@
             "${refid}29": {
                 "rows": [
                     {
+                        "id": "${refid}45",
                         "columns": [
                             {
                                 "width": 1,
@@ -524,6 +537,7 @@
             "${refid}31": {
                 "rows": [
                     {
+                        "id": "${refid}46",
                         "columns": [
                             {
                                 "width": 1,
@@ -543,57 +557,109 @@
                     }
                 }
             }
+        },
+        "${pid}8": {
+            "excludeSearch": true,
+            "structure0": {
+                "dashboardactivity": {
+                    "_ref": "${refid}33",
+                    "_order": 0,
+                    "_nonEditable": true,
+                    "_title": "Course Dashboard",
+                    "main": {
+                        "_ref": "${refid}33",
+                        "_order": 0,
+                        "_nonEditable": true,
+                        "_title": "Course Dashboard"
+                    }
+                }
+            },
+            "${refid}33": {
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}34",
+                                        "type": "dashboardactivity"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}34": {
+                    "dashboardactivity": {
+                        "groupid": "${groupid}"
+                    }
+                }
+            }
         }
     },
     "structure": {
+        "dashboardactivity": {
+            "_title": "Course Dashboard",
+            "_order": 0,
+            "_docref": "${pid}8",
+            "_nonEditable": true,
+            "_view": [
+                "everyone",
+                "-student",
+                "-ta"],
+            "_edit": [
+                "-lecturer"
+            ]
+        },
         "syllabus": {
             "_edit": ["-lecturer"],
             "_docref": "${pid}0",
             "_title": "Syllabus",
             "_view": ["everyone","-student","-ta"],
-            "_order": 0
+            "_order": 1
         },
         "lectures": {
             "_edit": ["-lecturer","-ta"],
             "_docref": "${pid}1",
             "_title": "Lectures",
             "_view": ["-student"],
-            "_order": 1
+            "_order": 2
         },
         "problemsets": {
             "_edit": ["-lecturer","-ta"],
             "_docref": "${pid}2",
             "_title": "Problem sets",
             "_view": ["-student"],
-            "_order": 2
+            "_order": 3
         },
         "coursewebsite": {
             "_edit": ["-lecturer","-ta"],
             "_docref": "${pid}3",
             "_title": "Course website",
             "_view": ["-student","everyone","anonymous"],
-            "_order": 3
+            "_order": 4
         },
         "organizationnotes": {
             "_edit": ["-lecturer"],
             "_docref": "${pid}4",
             "_title": "Organization Notes",
             "_view": ["-ta"],
-            "_order": 4
+            "_order": 5
         },
         "lecturetemplate": {
             "_edit": ["-lecturer"],
             "_docref": "${pid}5",
             "_title": "Lecture Template",
             "_view": ["-ta"],
-            "_order": 5
+            "_order": 6
         },
         "library": {
             "_edit": ["-lecturer","-ta"],
             "_docref": "${pid}6",
             "_title": "Library",
             "_view": ["-student"],
-            "_order": 6,
+            "_order": 7,
             "_nonEditable": true
         },
         "participants": {
@@ -601,7 +667,7 @@
             "_docref": "${pid}7",
             "_title": "Participants",
             "_view": ["-student"],
-            "_order": 7,
+            "_order": 8,
             "_nonEditable": true
         }
     }

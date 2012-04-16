@@ -56,7 +56,7 @@ define(function(){
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
             POOLED_CONTENT_VIEWER_ALL: "/var/search/pool/me/viewer-all.json",
-            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/manager-viewer.json",
+            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/auth-all.json",
             PRESENCE_SERVICE: "/var/presence.json",
             SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
             WORLD_CREATION_SERVICE: "/system/world/create",
@@ -237,6 +237,18 @@ define(function(){
             }
         },
 
+        /*
+         * Restrict the ability for a non manager user to share a content item, depending on their role specified, and the content permission.
+         * public - content available to anyone
+         * everyone - content available to logged in users
+         * private - content available to private users
+         */
+        roleCanShareContent: {
+            'public': ['editor', 'viewer', 'everyone', 'anon'],
+            'everyone': ['editor', 'viewer', 'everyone'],
+            'private': ['editor', 'viewer']
+        },
+
         allowPasswordChange: true,
         /**
          * Where the email field should live
@@ -347,6 +359,7 @@ define(function(){
                     },
                     "aboutme": {
                         "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                        "altLabel": "__MSG__PROFILE_ABOUTME_LABEL_OTHER__",
                         "required": true,
                         "display": true,
                         "access": "everybody",
@@ -356,6 +369,7 @@ define(function(){
                         "elements": {
                             "aboutme": {
                                 "label": "__MSG__PROFILE_ABOUTME_LABEL__",
+                                "altLabel": "__MSG__PROFILE_ABOUTME_LABEL_OTHER__",
                                 "required": false,
                                 "display": true,
                                 "type": "textarea"
@@ -541,6 +555,22 @@ define(function(){
             "enableReminders": true,
             "reminderIntervalHours": "168"
         },
+
+        /*
+         * Object to override default widget configuration
+         * Here you can add an object with the widget ID for the object key, with the configuration you would like to override
+         * An example to override options for the embedcontent widget:
+         *     embedcontent: {
+         *         defaultOptions: {
+         *             'embedmethod': 'original',
+         *             'layout': 'vertical',
+         *             'showName': false,
+         *             'showDetails': false,
+         *             'showDownload': false
+         *         }
+         *     }
+         */
+        WidgetSettings: {},
 
         enableBranding: true,
 
@@ -1672,7 +1702,7 @@ define(function(){
             '${refid}0': {
                 'id2487321': {
                     'htmlblock': {
-                        'content': '<div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
+                        'content': '<h1 class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
                     }
                 },
                 'id2506067': {
