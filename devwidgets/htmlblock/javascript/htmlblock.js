@@ -102,6 +102,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     onchange_callback: tinyMCEEvent,
                     init_instance_callback: initTinyMCE,
                     remove_instance_callback: stopAutoSave,
+                    use_native_selects: true,
                     // Additional event handlers
                     setup : editorSetup
                 });
