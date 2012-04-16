@@ -221,6 +221,12 @@
 
 #inserterbar_dynamic_widget_list {
     margin-top: 3px !important;
+    width: 500% !important;
+}
+
+#inserterbar_dynamic_widget_list li {
+    display: block;
+    width: 135px !important;
 }
 
 #inserterbar_dynamic_widget_list img {
