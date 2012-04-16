@@ -212,11 +212,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         $(window).bind("sakai.search.util.finish", function(ev, data){
             if (data && data.tuid === tuid) {
-                sakai.api.Widgets.widgetLoader.insertWidgets("searchcontent_widget", false, false, [{
+                sakai.api.Widgets.widgetLoader.insertWidgets('searchcontent_widget', false, false, {
                     "98384013291": {
                         "facetedConfig": searchConfig.facetedConfig
                     }
-                }]);
+                });
                 doSearch();
             }
         });

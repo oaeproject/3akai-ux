@@ -136,6 +136,10 @@
     display: block;
     width: 580px;
 }
+.collectionviewer_widget #collectionviewer_carousel_loading img {
+    display: block;
+    margin: 80px auto 0 auto;
+}
 
 /* Overrides */
 .collectionviewer_widget .documentviewer_widget {

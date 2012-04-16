@@ -233,7 +233,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 config[widgetId] = {
                     "facetedConfig": searchConfig.facetedConfig
                 };
-                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, [config]);
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, config);
                 doSearch();
             }
         });

@@ -437,7 +437,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var collectedCollections = [];
             $.each(data, function(index, item) {
                 if (item.collection) {
-                    collectedCollections.push(item.entityid);
+                    // We don't need to send an extra POST since we can't add a collection to itself
+                    if (collectionId !== item.entityid) {
+                        collectedCollections.push(item.entityid);
+                    } else {
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey('ADD_COLLECTION', 'inserter'),
+                            sakai.api.i18n.getValueForKey('CANT_ADD_A_COLLECTION_TO_ITSELF', 'inserter'),
+                            sakai.api.Util.notification.type.ERROR);
+                    }
                 } else {
                     collectedContent.push(item.entityid);
                 }

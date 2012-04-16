@@ -290,6 +290,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "content_anon": //fallthrough
                 case "content_not_shared": //fallthrough
                 case "content_shared": //fallthrough
+                case 'content_edited':
+                    $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer('entity_contentsettings_dropdown', context));
+                    break;
                 case "content_managed":
                     var $entityContentUsersDialog = $("#entity_content_users_dialog");
                     var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container");
@@ -432,9 +435,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var toggleDropdownList = function(){
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
+            $(entityChangeImage).nextAll(".s3d-dropdown-list").toggle();
             $(entityChangeImage).toggleClass("clicked");
-            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
+            $(entityChangeImage).nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 62);
         };
 
         var checkHash = function(context){
@@ -577,19 +580,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(".entity_owns_actions_container .ew_permissions").live("hover", function(){
                 var $dropdown = $(this).find(".s3d-dropdown-list");
-                $dropdown.css("left", $(this).position().left - $dropdown.width() / 2 + 7  );
+                $dropdown.css("left", $(this).position().left - $dropdown.width() / 2 - 30 );
                 $dropdown.css("margin-top", $(this).height() + 7 + "px");
             });
 
             $(entityChangeImage).click(toggleDropdownList);
 
-            sakai.api.Util.hideOnClickOut(entityChangeImage + " .s3d-dropdown-list", entityChangeImage, toggleDropdownList);
+            sakai.api.Util.hideOnClickOut('.entity_user_avatar_menu.s3d-dropdown-list,.entity_group_avatar_menu.s3d-dropdown-list', entityChangeImage, toggleDropdownList);
 
         });
 
         // An event to call from the worldsettings dialog so that we can
         // refresh the title if it's been saved.
-        $(window).bind("sakai.entity.updateTitle", function(e, title) {
+        $(window).bind('updatedTitle.worldsettings.sakai', function(e, title) {
             $('#entity_name').html(sakai.api.Security.safeOutput(title));
         });
 

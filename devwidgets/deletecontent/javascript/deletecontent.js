@@ -68,6 +68,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} successMessage   Id of the dom element that contains the success message to be displayed
          */
         var sendDeletes = function(batchRequests, successMessage) {
+            sakai.api.Util.progressIndicator.showProgressIndicator(
+                sakai.api.i18n.getValueForKey('REMOVING_CONTENT'),
+                sakai.api.i18n.getValueForKey('PROCESSING_REMOVING'));
             // Update the inserter
             $.each(collectionsToUpdate, function(collectionId, amount) {
                 $.each(sakai.api.User.data.me.groups, function(index, group){
@@ -89,7 +92,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ($.isFunction(callback)) {
                     callback(success);
                 }
-                $deletecontent_dialog.jqmHide();
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
+                sakai.api.Util.Modal.close($deletecontent_dialog);
             });
         };
 
@@ -117,6 +121,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                     batchRequests.push({
+                        'url': '/system/userManager/group/' + groupId + '-editors.update.json',
+                        'method': 'POST',
+                        'parameters': {
+                            ':viewer@Delete': context,
+                            ':member@Delete': context
+                        }
+                    });
+                    batchRequests.push({
                         "url": "/system/userManager/group/" + groupId + "-managers.update.json",
                         "method": "POST",
                         "parameters": {
@@ -125,8 +137,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                 } else {
-                    parameters[":manager@Delete"] = context;
-                    parameters[":viewer@Delete"] = context;
+                    parameters[':manager@Delete'] = context;
+                    parameters[':editor@Delete'] = context;
+                    parameters[':viewer@Delete'] = context;
                     batchRequests.push({
                         "url": "/p/" + items[i]["_path"] + ".members.json",
                         "method": "POST",
@@ -204,13 +217,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var collectionsToCheck = [];
             // Check whether any of the content I manage is managed by or
             // shared with other people
-            for (var m = 0; m < contentIManage.length; m++){
-                if (sakai.api.Content.Collections.isCollection(contentIManage[m])){
-                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentIManage[m]);
-                    collectionsToCheck.push(collectionGroupId + "-members");
-                    collectionsToCheck.push(collectionGroupId + "-managers");
+            $.each(contentIManage, function(m, contentItem) {
+                if (sakai.api.Content.Collections.isCollection(contentItem)) {
+                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentItem);
+                    collectionsToCheck.push(collectionGroupId + '-members');
+                    collectionsToCheck.push(collectionGroupId + '-editors');
+                    collectionsToCheck.push(collectionGroupId + '-managers');
                 } else {
-                    var managers = contentIManage[m]["sakai:pooled-content-manager"];
+                    var managers = contentItem['sakai:pooled-content-manager'];
                     if (managers){
                         for (var i = 0; i < managers.length; i++){
                             if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid &&
@@ -219,7 +233,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
                     }
-                    var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
+                    var editors = contentItem['sakai:pooled-content-editor'];
+                    if (editors && editors.length) {
+                        $.each(editors, function(idx, editor) {
+                            if ($.inArray(editor, userGroupIds) === -1 && editor !== sakai.data.me.user.userid && editor !== context) {
+                                userGroupIds.push(editor);
+                            }
+                        });
+                    }
+                    var viewers = contentItem['sakai:pooled-content-viewer'];
                     if (viewers){
                         for (var j = 0; j < viewers.length; j++){
                             if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
@@ -233,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                 }
-            }
+            });
             if (collectionsToCheck.length > 0) {
                 var batchRequest = [];
                 $.each(collectionsToCheck, function(index, collectiongroup){
@@ -524,9 +546,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#deletecontent_container").html("");
             $("#deletecontent_container").show();
             $("#deletecontent_used_by_others").hide();
-            sakai.api.Util.positionDialogBox($deletecontent_dialog);
-            sakai.api.Util.bindDialogFocus($deletecontent_dialog);
-            $deletecontent_dialog.jqmShow();
+            sakai.api.Util.Modal.open($deletecontent_dialog);
         };
 
         /**
@@ -535,7 +555,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var init = function(){
             // This will make the widget popup as a layover.
-            $deletecontent_dialog.jqm({
+            sakai.api.Util.Modal.setup($deletecontent_dialog, {
                 modal: true,
                 toTop: true
             });

@@ -1,7 +1,7 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/inserterbar/css/inserterbar.css" />
 
-<div id="inserterbar_widget_container">
+<div id="inserterbar_widget_container" class="fl-hidden">
     <div id="inserterbar_widget" class="sakaiSkin">
         <div class="fl-force-left">
             <div id="inserterbar_view_container">
@@ -77,7 +77,7 @@
                     </button>
                 </div>
             </div>
-            <div id="inserterbar_more_widgets_container" style="display:none;">
+            <div id="inserterbar_more_widgets_container">
                 <div class="inserterbar_widget_container fl-force-left">
                     <div id="inserterbar_carousel_right" class="inserterbar_carousel_arrow fl-force-right"></div>
                     <div id="inserterbar_carousel_left" class="inserterbar_carousel_arrow fl-force-left"></div>
@@ -97,7 +97,9 @@
 {for widget in widgets}
     <li>
         <a href="#" class="inserterbar_carousel_item inserterbar_widget_draggable" data-element-type="${widget.id}" tabindex="0">
-            <img src="${widget.img}" alt="${widget.id}" class="fl-force-left"/>
+            {if widget.img}
+                <img src="${widget.img}" alt="${widget.id}" class="fl-force-left"/>
+            {/if}
             <span class="s3d-regular-links s3d-bold">${sakai.api.Widgets.getWidgetTitle(widget.id)}</span>
             <hr class="fl-push fl-hidden"/>
         </a>
