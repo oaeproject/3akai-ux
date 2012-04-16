@@ -46,7 +46,9 @@
     width: 46px;
     height: 46px;
 }
-.participants_widget .s3d-search-result .participants_avatar_large {display:none;}
+.participants_widget .s3d-search-result .participants_avatar_large {
+    display:none;
+}
 .participants_widget .s3d-search-results-grid .s3d-search-result {clear:none !important;}
 .participants_widget .s3d-search-results-grid .s3d-search-result input {float:left;}
 .participants_widget .s3d-search-results-grid .s3d-search-result .participants_list_participant_checkbox {width:auto !important;}
