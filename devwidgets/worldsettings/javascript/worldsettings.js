@@ -84,31 +84,31 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         * @param {String} cssURL The url of the skin to which the user wants to change to
         */
         var changeCSS = function(cssURL) {
-            for (theme in themes) {
-                if ($('link[href*="' + themes[theme].url + '"]')[0]) {
-                   $('link[href*="' + themes[theme].url + '"]').remove();
+            $.each(themes, function(index, theme) {
+                if ($('link[href*="' + theme.url + '"]')[0]) {
+                   $('link[href*="' + theme.url + '"]').remove();
                 }
-            };
+            });
             sakai.api.Util.include.css(cssURL);
         };
 
          /**
          * Gets the current theme from the head by checking the href and returns the name of the theme
-         * @return {String} currentTheme The theme that is being used 
+         * @return {String} currentTheme The theme that is being used
          */
         var getCurrentTheme = function() {
             var href = '';
             var currentTheme = '';
-            for (theme in themes) {
-                if ($('link[href*="' + themes[theme].url + '"]')[0]) {
-                    href = themes[theme].url;
+            $.each(themes, function(index, theme) {
+                if ($('link[href*="' + theme.url + '"]')[0]) {
+                    href = theme.url;
                 }
-            };
+            });
             $.each(sakai.config.skinStore, function (key, value) {
                 if (href.indexOf(value.url) >= 0) {
                     currentTheme = value.title;
                 }
-             });
+            });
             return currentTheme;
         };
 
@@ -128,20 +128,20 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     data: {
                         'sakai:customStyle': cssURL
                     },
-                    type: 'POST' 
+                    type: 'POST'
                 });
                 changeCSS(cssURL);
             }
         };
 
-        /* * 
+        /**
          * Generates warning
          */
         var showWarning = function() {
             var newVisibility = $(worldsettingsCanBeFoundIn);
             var newVisibilityVal = $.trim(newVisibility.val());
             var oldVisibilityIndex = parseInt(newVisibility.find('option[value="' + sakai_global.group.groupData['sakai:group-visible'] + '"]').attr('index'), 10);
-            
+
             if (sakai_global.group.groupData['sakai:group-visible'] === newVisibilityVal || parseInt(newVisibility.attr('selectedIndex'), 10) > oldVisibilityIndex || newVisibilityVal === 'members-only' || oldVisibilityVal === 'public') {
 
                 $worldsettingsForm.submit();

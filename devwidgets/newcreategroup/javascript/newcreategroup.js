@@ -145,7 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var getStyleUrl = function(selectedTheme) {
         var url = '';
         $.each(sakai.config.skinStore, function(key, value) {
-            if (selectedTheme === value.title) { 
+            if (selectedTheme === value.title) {
                 url = value.url;
             }
         });
