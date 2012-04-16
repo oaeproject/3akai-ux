@@ -841,6 +841,7 @@ a.s3d-button {
 }
 .s3d-link-button:disabled {
 	cursor: default !important;
+	color: #999;
 }
 .s3d-link-button:focus {
 	box-shadow: none !important;
@@ -1022,8 +1023,7 @@ a.s3d-button.s3d-large-button {
 	color: #ccc;
 }
 .s3d-button.s3d-overlay-button:disabled:hover {
-	background: none !important;
-	border: none !important;
+    background: url("/dev/images/button_overlay_default.png") repeat-x scroll left top transparent !important;
 	cursor: auto;
 }
 a.s3d-button.s3d-overlay-button {
