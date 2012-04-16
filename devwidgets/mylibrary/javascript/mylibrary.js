@@ -133,6 +133,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
+        /**
+         * Renders library title
+         * @param {String} contextName The name to render
+         * @param {Boolean} isGroup Flag if this is a groups library or not
+         */
+        var renderLibraryTitle = function(contextName, isGroup) {
+            sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
+                isMe: mylibrary.isOwnerViewing,
+                isGroup: isGroup,
+                user: sakai.api.Util.Security.safeOutput(contextName)
+            }, $('#mylibrary_title_container', $rootel));
+        };
+
         /////////////////////////////
         // Deal with empty library //
         /////////////////////////////
@@ -281,15 +294,31 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var updateButtonData = function() {
-            var idArr = [];
-            var titleArr = [];
+            var shareIdArr = [];
+            var shareTitleArr = [];
+            var noShareTitleArr = [];
             $.each($('.mylibrary_check:checked:visible', $rootel), function(i, checked) {
-                idArr.push($(checked).attr('data-entityid'));
-                titleArr.push($(checked).attr('data-entityname'));
+                if ($(checked).attr('data-canshare') === 'true') {
+                    shareIdArr.push($(checked).attr('data-entityid'));
+                    shareTitleArr.push($(checked).attr('data-entityname'));
+                } else {
+                    if (!$(checked).attr('data-canshare-error')) {
+                        $(checked).attr('data-canshare-error', 'true');
+                        noShareTitleArr.push($(checked).attr('data-entityname'));
+                    }
+                }
             });
-            $('#mylibrary_content_share', $rootel).attr('data-entityid', idArr);
-            $('#mylibrary_addpeople_button', $rootel).attr('data-entityid', idArr);
-            $('#mylibrary_addpeople_button', $rootel).attr('data-entityname', titleArr);
+            $mylibrary_share.attr('data-entityid', shareIdArr);
+            $mylibrary_addto.attr('data-entityid', shareIdArr);
+            $mylibrary_addto.attr('data-entityname', shareTitleArr);
+            if (!shareIdArr.length) {
+                $mylibrary_share.attr('disabled', 'disabled');
+                $mylibrary_addto.attr('disabled', 'disabled');
+            }
+            if (noShareTitleArr.length) {
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR'),
+                    sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR_TEXT') + ' ' + noShareTitleArr.join(', '));
+            }
         };
 
         ////////////////////
@@ -440,6 +469,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             /**
+             * An event to listen from the worldsettings dialog so that we can refresh the title if it's been changed.
+             * @param {String} title     New group name
+             */
+            $(window).on('updatedTitle.worldsettings.sakai', function(e, title) {
+                renderLibraryTitle(title, true);
+            });
+
+            /**
              * Listen for newly the newly added content or newly saved content
              * @param {Object} data        Object that contains the new library items
              * @param {Object} library     Context id of the library the content has been added to
@@ -547,11 +584,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 mylibrary.currentPagenum = 1;
                 mylibrary.listStyle = $.bbq.getState('ls') || 'list';
                 handleHashChange(null, true);
-                sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
-                    isMe: mylibrary.isOwnerViewing,
-                    isGroup: isGroup,
-                    user: sakai.api.Util.Security.safeOutput(contextName)
-                }, $('#mylibrary_title_container', $rootel));
+                renderLibraryTitle(contextName, isGroup);
             } else {
                 debug.warn('No user found for My Library');
             }

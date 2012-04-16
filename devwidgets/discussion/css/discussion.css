@@ -18,6 +18,7 @@
 /* Main Container */
 #discussion_main_container .fl-widget-content {
     padding: 10px;
+    overflow: auto;
 }
 .discussion_horizontal_rule {
     border: 1px solid #DDD;
@@ -27,11 +28,13 @@
     margin: 0 5px;
 }
 
+/* Not changeable message */
+.discussion_not_changeable {
+    font-weight: bold;
+    margin-top: 5px;
+}
 
 /* Create new topic */
-#discussion_create_new_topic {
-    overflow: auto;
-}
 #discussion_create_new_topic label {
     display: block;
     margin: 5px 0px;

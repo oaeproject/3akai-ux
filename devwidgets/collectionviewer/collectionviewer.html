@@ -35,7 +35,7 @@
 
 <div id="collectionviewer_grid_or_list_template"><!--
     {if items && items.length}
-        {if editMode && isManager}
+        {if editMode && isEditor}
             <div class="s3d-page-header-bottom-row">
                 <input type="checkbox" id="collectionviewer_select_all"/>
                 <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger" id="collections_savecontent_button" disabled="true" data-entityname="" data-entityid="">
@@ -50,18 +50,21 @@
         {/if}
 
         {macro listContent(i, sakai)}
+            {var canShare = sakai.api.Content.canCurrentUserShareContent(i)}
             <li id="${i.id}" class="fl-container fl-fix s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if} s3d-draggable-container" data-scope="content" data-entityid="${i["_path"]}" {if sakai.api.Content.Collections.isCollection(i)} data-collection="true" {/if}>
                 {if !editMode}
                     <span class="s3d-search-result-user-functions s3d-draggable-hidden">
                         {if !sakai.data.me.user.anon}
-                            <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}" title="__MSG__SAVE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+                            <button {if !canShare} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}" title="__MSG__SAVE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
                         {/if}
                         <button class="s3d-link-button s3d-action-icon s3d-actions-author searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']|safeOutput}" title="__MSG__VIEW_OWNER_INFO_FOR__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
-                        <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}" title="__MSG__SHARE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+                        {if canShare}
+                            <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}" title="__MSG__SHARE__{if i['sakai:pooled-content-file-name']} ${i['sakai:pooled-content-file-name']|safeOutput}{elseif i['_path']} ${i['_path']}{/if}"></button>
+                        {/if}
                     </span>
                 {else}
                     <span class="s3d-search-result-user-functions fl-force-left collectionviewer_remove_actions">
-                        <input class="collectionviewer_check s3d-draggable-select" id="collectionviewer_check_${i.id}" type="checkbox" data-entityid="${i.id}" data-entityname="${i['sakai:pooled-content-file-name']|safeOutput}"/>
+                        <input class="collectionviewer_check s3d-draggable-select" id="collectionviewer_check_${i.id}" type="checkbox" data-entityid="${i.id}" data-entityname="${i['sakai:pooled-content-file-name']|safeOutput}" data-canshare="${canShare}"/>
                         <label for="collectionviewer_check_${i.id}" class="s3d-aural-text">__MSG__SELECT__ ${i['sakai:pooled-content-file-name']|safeOutput} __MSG__TO_REMOVE__</label>
                         <button class="s3d-link-button s3d-action-icon s3d-actions-delete collectionviewer_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${i.id}"></button>
                     </span>
@@ -134,7 +137,7 @@
             </li>
         {/macro}
 
-        <ul {if grid} class="s3d-search-results-grid collectionviewer_list_grid_container"{else} class="collectionviewer_list_grid_container {if editMode && isManager} collectionviewer_editable{/if}"{/if}>
+        <ul {if grid} class="s3d-search-results-grid collectionviewer_list_grid_container"{else} class="collectionviewer_list_grid_container {if editMode && isEditor} collectionviewer_editable{/if}"{/if}>
             {for i in items}
                 {if i['sakai:pooled-content-file-name']}
                     ${listContent(i, sakai)}
@@ -146,7 +149,7 @@
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
             <div class="s3d-no-results-icon s3d-no-results-content"></div>
-            <h1>__MSG__THIS_COLLECTION_IS_EMPTY__ {if isManager} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</h1>
+            <h1>__MSG__THIS_COLLECTION_IS_EMPTY__ {if isEditor} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</h1>
         </div>
     {/if}
 --></div>
@@ -199,12 +202,13 @@
                 {/for}
             </ul>
         {else}
-            <div id="collectionviewer_no_content">__MSG__THIS_COLLECTION_IS_EMPTY__ {if !sakai.data.me.user.anon && isManager} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</div>
+            <div id="collectionviewer_no_content">__MSG__THIS_COLLECTION_IS_EMPTY__ {if !sakai.data.me.user.anon && isEditor} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</div>
         {/if}
     </div>
 --></div>
 
 <div id="collectionviewer_list_item_template"><!--
+    {var canShare = sakai.api.Content.canCurrentUserShareContent(data)}
     <ul>
         <li class="s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${data["_path"]}" {if sakai.api.Content.Collections.isCollection(data)} data-collection="true" {/if}>
 
@@ -219,16 +223,18 @@
                 <div class="collectionviewer_comments_icon"></div>
             </button>
             <div class="collectionviewer_item_actions s3d-draggable-hidden">
-                {if !sakai.data.me.user.anon}
+                {if !sakai.data.me.user.anon && canShare}
                     <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right savecontent_trigger" data-entityid="${data["_path"]}">
                         __MSG__ADD_TO__...
                         <span class="s3d-page-header-add-to-icon"></span>
                     </button>
                 {/if}
-                <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right share_trigger_click" data-entityname="${data['sakai:pooled-content-file-name']|safeOutput}" data-entityid="${data["_path"]}">
-                    __MSG__SHARE__
-                    <span class="s3d-page-header-add-to-icon"></span>
-                </button>
+                {if canShare}
+                    <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right share_trigger_click" data-entityname="${data['sakai:pooled-content-file-name']|safeOutput}" data-entityid="${data["_path"]}">
+                        __MSG__SHARE__
+                        <span class="s3d-page-header-add-to-icon"></span>
+                    </button>
+                {/if}
                 {if data["_mimeType"] !== "x-sakai/document"}
                     <a target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right collectionviewer_download_button" href="/p/${path}">
                         __MSG__DOWNLOAD__<span class="entity_download_content"></span>
@@ -305,16 +311,18 @@
                                 {var path = item["_path"]}
                             {/if}
                             <div class="collectionviewer_item_actions">
-                                {if !sakai.data.me.user.anon}
+                                {if !sakai.data.me.user.anon && canShare}
                                     <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right savecontent_trigger" data-entityid="${item["_path"]}">
                                         __MSG__ADD_TO__...
                                         <span class="s3d-page-header-add-to-icon"></span>
                                     </button>
                                 {/if}
-                                <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right share_trigger_click" data-entityname="${item['sakai:pooled-content-file-name']|safeOutput}" data-entityid="${item["_path"]}">
-                                    __MSG__SHARE__
-                                    <span class="s3d-page-header-add-to-icon"></span>
-                                </button>
+                                {if canShare}
+                                    <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right share_trigger_click" data-entityname="${item['sakai:pooled-content-file-name']|safeOutput}" data-entityid="${item["_path"]}">
+                                        __MSG__SHARE__
+                                        <span class="s3d-page-header-add-to-icon"></span>
+                                    </button>
+                                {/if}
                                 {if item["_mimeType"] !== "x-sakai/document"}
                                     <a target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right collectionviewer_download_button" href="/p/${path}">
                                         __MSG__DOWNLOAD__<span class="entity_download_content"></span>
