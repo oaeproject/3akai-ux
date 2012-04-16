@@ -1342,7 +1342,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         'url': oldStorePath,
                         'method': 'POST',
                         'parameters': {
-                            ':operation': 'move',
+                            // SAKIII-5486
+                            ':operation': 'publish-sakaidoc-page',
                             ':dest': storePath,
                             ':replace': true
                         }
