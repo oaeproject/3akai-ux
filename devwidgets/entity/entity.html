@@ -220,6 +220,11 @@
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>
             {/if}
+            {if data.data["sakai:needsprocessing"] === "false"}
+            {var pdfpath = "/p/" + data.data._path + "/processed." + data.data._path + ".pdf"}
+                <a id="contentpreview_download_button" href="${pdfpath}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
+                    __MSG__DOWNLOAD_AS_PDF__<span class="entity_download_content"></span>
+            {/if}
         </div>
 
         {if data.isManager}
