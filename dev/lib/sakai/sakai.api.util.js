@@ -2119,6 +2119,25 @@ define(
                 var sakaii18nAPI = require("sakai/sakai.api.i18n");
                 var user = require("sakai/sakai.api.user");
                 var dataFn = _dataFn || function( query, add ) {
+                    var name = '';
+                    var nameArray = [];
+                    var idxToUpdate = '';
+                    var duplicateNamePositions = [];
+                    var arrayPositionOffset = 0;
+                    var checkForDuplicateName = function(i) {
+                        idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
+                        if (idxToUpdate !== -1) {
+                            if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
+                                duplicateNamePositions.push(idxToUpdate);
+                            }
+                            duplicateNamePositions.push(i - arrayPositionOffset);
+                        }
+                    };
+                    var padNameArray = function() {
+                        nameArray.push('');
+                        arrayPositionOffset++;
+                    };
+
                     var q = sakai_serv.createSearchString(query);
                     var searchoptions = {"page": 0, "items": 15};
                     var searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS;
@@ -2130,22 +2149,11 @@ define(
                     sakai_serv.loadJSON(searchUrl.replace(".json", ""), function( success, data ){
                         if ( success ) {
                             var suggestions = [];
-                            var name = '';
-                            var nameArray = [];
-                            var idxToUpdate = '';
-                            var duplicateNamePositions = [];
-                            var arrayPositionOffset = 0;
                             $.each( data.results, function( i ) {
                                 if ( data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid ) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["rep:userId"], options.filterUsersGroups ) ===-1 ) {
                                         name = user.getDisplayName(data.results[i]);
-                                        idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
-                                        if (idxToUpdate !== -1) {
-                                            if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
-                                                duplicateNamePositions.push(idxToUpdate);
-                                            }
-                                            duplicateNamePositions.push(i - arrayPositionOffset);
-                                        }
+                                        checkForDuplicateName(i);
                                         suggestions.push({
                                             "value": data.results[i]["rep:userId"],
                                             "name": name,
@@ -2154,19 +2162,12 @@ define(
                                         });
                                         nameArray.push(name.toLowerCase());
                                     } else {
-                                        nameArray.push('');
-                                        arrayPositionOffset++;
+                                        padNameArray();
                                     }
                                 } else if (data.results[i]["sakai:group-id"]) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["sakai:group-id"], options.filterUsersGroups ) ===-1 ) {
                                         name = sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]);
-                                        idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
-                                        if (idxToUpdate !== -1) {
-                                            if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
-                                                duplicateNamePositions.push(idxToUpdate);
-                                            }
-                                            duplicateNamePositions.push(i - arrayPositionOffset);
-                                        }
+                                        checkForDuplicateName(i);
                                         suggestions.push({
                                             "value": data.results[i]["sakai:group-id"],
                                             "name": name,
@@ -2175,12 +2176,10 @@ define(
                                         });
                                         nameArray.push(name.toLowerCase());
                                     } else {
-                                        nameArray.push('');
-                                        arrayPositionOffset++;
+                                        padNameArray();
                                     }
                                 } else {
-                                    nameArray.push('');
-                                    arrayPositionOffset++;
+                                    padNameArray();
                                 }
                             });
                             // add the id to the name for users/groups with duplicate names
