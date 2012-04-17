@@ -7,9 +7,9 @@
     <div id="mylibrary_title_container"></div>
     <div id="mylibrary_title_template"><!--
         {if isMe && !isGroup}
-            <div class='s3d-contentpage-title'>__MSG__MY_LIBRARY__</div>
+            <h1 class='s3d-contentpage-title'>__MSG__MY_LIBRARY__</h1>
         {else}
-            <div class='s3d-contentpage-title'>__MSG__MY_LIBRARY_OTHER__</div>
+            <h2 class='s3d-contentpage-title'>__MSG__MY_LIBRARY_OTHER__</h2>
         {/if}
     --></div>
 
@@ -110,19 +110,22 @@
                 {var count = count + 1}
                 <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${item.id}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     <div class="s3d-search-result-user-functions s3d-draggable-hidden">
+                        {var canShare = sakai.api.Content.canCurrentUserShareContent(item)}
                         <div class="mylibrary_item_left_filler">
                             {if !sakai.data.me.user.anon}
-                                <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item.filename|safeOutput}" data-type="${item.mimeType}"/>
+                                <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item["sakai:pooled-content-file-name"]|safeOutput}" data-type="${item.mimeType}" data-canshare="${canShare}"/>
                                 {if isMe}
                                     <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item['sakai:pooled-content-file-name-short']|safeOutput} __MSG__SELECT_REMOVE__</label>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}" data-type="${item.mimeType}"></button>
                                 {/if}
                             {/if}
                         </div>
-                        {if !sakai.data.me.user.anon}
-                            <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
+                        {if canShare}
+                            {if !sakai.data.me.user.anon}
+                                <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
+                            {/if}
+                            <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                         {/if}
-                        <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                     </div>
                     <a href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}

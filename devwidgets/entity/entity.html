@@ -23,7 +23,9 @@
                 <li id="ew_revhistory">
                     <button class="s3d-link-button">__MSG__REVISION_HISTORY__</button>
                 </li>
-                <hr class="s3d-split-line"/>
+                {if data.isManager}
+                    <hr class="s3d-split-line"/>
+                {/if}
             {/if}
             {if data.isManager}
                 <li id="ew_content_preview_delete">
@@ -103,7 +105,7 @@
                 <img id="entity_profile_picture" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.displayName}" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
             </div>
         </div>
-        <div id="entity_name" class="s3d-bold">${data.displayName}</div>
+        <h1 id="entity_name" class="s3d-bold">${data.displayName}</h1>
         <div id="entity_owns" class="s3d-regular-links">
             <span class="entity_number">
                 {var contentCount = data.profile.counts["contentCount"] || 0}
@@ -142,18 +144,18 @@
 --></div>
 
 <div id="entity_s23site_template" style="display:none"><!--
-    <div class="s3d-bold entity_plaintitle">
+    <h1 class="s3d-bold entity_plaintitle">
         ${data.title}
         <span id="s23_site_title_info">__MSG__SAKAI_2_SITE__</span>
-    </div>
+    </h1>
 --></div>
 
 <div id="entity_acknowledgements_template" style="display:none"><!--
-    <div class="s3d-bold entity_plaintitle">Acknowledgements</div>
+    <h1 class="s3d-bold entity_plaintitle">Acknowledgements</h1>
 --></div>
 
 <div id="entity_search_template" style="display:none"><!--
-    <div class="s3d-bold entity_plaintitle entity_search">__MSG__SEARCH__</div>
+    <h1 class="s3d-bold entity_plaintitle entity_search">__MSG__SEARCH__</h1>
 --></div>
 
 <div id="entity_directory_template" style="display:none"><!--
@@ -179,7 +181,7 @@
     {if !data.isManager}
         <hr class="s3d-margin-top-5 fl-hidden"/>
     {/if}
-    <span id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} entity_name_editable{else} entity_name_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]}</span>
+    <h1 id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} entity_name_editable{else} entity_name_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]}</h1>
     {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
     <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
     <div id="entity_owns" class="s3d-regular-links {if !data.isManager} entity_owns_viewer{/if}">
@@ -194,14 +196,17 @@
 <div id="entity_macros_template" style="display:none"><!--
 {macro entityContentOwnsMacro(anon,type,data,sakai)}
         {var permissions = data.data["sakai:permissions"]}
+        {var canShare = sakai.api.Content.canCurrentUserShareContent(data)}
         <div id="entity_actions">
             {if !anon}
                 {if type && (type === "content_managed" || (type === "content_edited" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"))}
                     <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
                 {/if}
-                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__ADD_TO__<span class="entity_add_to_library"></span></button>
+                {if canShare}
+                    <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__ADD_TO__<span class="entity_add_to_library"></span></button>
+                {/if}
             {/if}
-            {if !data.isManager}
+            {if !data.isManager && canShare}
                 <button type="button" id="entity_content_share" class="s3d-button s3d-header-button s3d-header-smaller-button share_trigger_click s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__SHARE__<div class="s3d-action-icon entity_share_icon"></div></button>
             {/if}
             {if data.data.mimeType === "x-sakai/link"}
@@ -349,8 +354,10 @@
                         </div>
                         <span>${(data.members.counts.viewergroups + data.members.counts.viewerusers + data.members.counts.viewercollections) || "0"}</span>
                     </div>
-                    <span>|</span>
-                    <button type="button" class="s3d-link-button s3d-bold share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
+                    {if canShare}
+                        <span>|</span>
+                        <button type="button" class="s3d-link-button s3d-bold share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
+                    {/if}
                 </div>
             </div>
             <span class="entity_comments">
@@ -449,7 +456,7 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
             </div>
         </div>
     {/if}
-    <div id="entity_name" class="s3d-bold entity_group">${data.authprofile["sakai:group-title"]|safeOutput}</div>
+    <h1 id="entity_name" class="s3d-bold entity_group">${data.authprofile["sakai:group-title"]|safeOutput}</h1>
     <div id="entity_owns" class="s3d-regular-links">
         <span class="entity_number">
             {var contentCount = data.authprofile["contentCount"] || 0}

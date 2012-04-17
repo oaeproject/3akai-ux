@@ -118,11 +118,10 @@ sakai_global.s23_site = function(){
         if (pageid) {
 
             // Remove the active class from the previous selected item
-            $(s23SiteMenuItems).removeClass(s23SiteMenuActive);
+            $(s23SiteMenuItems).closest('li').removeClass(s23SiteMenuActive);
             
             // Set the active class to the item you just clicked on
-            $('#' + s23SiteMenuItemTag + pageid).addClass(s23SiteMenuActive);
-            
+            $('#' + s23SiteMenuItemTag + pageid.replace(/([~!])/g, '_')).closest('li').addClass(s23SiteMenuActive);
             // Get the page info for a certain page and store it in a variable
             var page = getPageInfo(pageid);
             
@@ -133,7 +132,7 @@ sakai_global.s23_site = function(){
                 $(s23SitePageContainerClass, s23SiteIframeContainer).hide();
                 
                 // Get the complete id for a page container
-                var completexid = s23SitePageContainerTag + page.xid;
+                var completexid = s23SitePageContainerTag + page.xid.replace(/([~!])/g, '_');
                 
                 // Check if the page was already loaded before
                 if ($("#" + completexid).length > 0) {

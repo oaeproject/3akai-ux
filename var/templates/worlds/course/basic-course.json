@@ -56,6 +56,7 @@
             "${refid}0": {
                 "rows": [
                     {
+                        "id": "${refid}4",
                         "columns": [
                             {
                                 "width": 1,
@@ -95,13 +96,14 @@
             "${refid}2": {
                 "rows": [
                     {
+                        "id": "${refid}5",
                         "columns": [
                             {
                                 "width": 1,
                                 "elements": [
                                     {
                                         "id": "${refid}3",
-                                        "type": "participants",
+                                        "type": "participants"
                                     }
                                 ]
                             }
