@@ -1308,7 +1308,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // bind arrow keys for navigation
         $('.lhnavigation_menuitem a').live('keydown', function(ev) {
             var $el = $(this);
-            if (ev.which == $.ui.keyCode.DOWN) {
+            if (ev.which === $.ui.keyCode.DOWN) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if sub menu open
@@ -1346,7 +1346,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.UP) {
+            } else if (ev.which === $.ui.keyCode.UP) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if previous menu has an open sub menu open
@@ -1385,14 +1385,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.RIGHT) {
+            } else if (ev.which === $.ui.keyCode.RIGHT) {
                 if ($el.siblings('.lhnavigation_has_subnav').length && !$el.siblings('.lhnavigation_has_subnav_opened').length) {
                     // open sub menu
                     $el.click();
                 } else if ($el.siblings('.lhnavigation_selected_submenu').length) {
                     $el.siblings('.lhnavigation_selected_submenu').find('button').focus();
                 }
-            } else if (ev.which == $.ui.keyCode.LEFT && $el.siblings('.lhnavigation_has_subnav_opened').length) {
+            } else if (ev.which === $.ui.keyCode.LEFT && $el.siblings('.lhnavigation_has_subnav_opened').length) {
                 // close sub menu
                 $el.click();
             }
@@ -1401,19 +1401,19 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // bind arrow keys for navigation to page options dropdown
         $rootel.on('keydown', '.lhnavigation_menuitem button', function(ev) {
             var $el = $(this);
-            if (ev.which == $.ui.keyCode.LEFT && $el.parent().siblings('a').length) {
+            if (ev.which === $.ui.keyCode.LEFT && $el.parent().siblings('a').length) {
                 $el.parent().siblings('a').focus();
-            } else if (ev.which == $.ui.keyCode.DOWN) {
+            } else if (ev.which === $.ui.keyCode.DOWN) {
                 $el.click();
             }
         });
 
         // bind keyboard navigation for page options dropdown menu
         $rootel.on('keydown', '#lhnavigation_submenu a', function(ev) {
-            var $el = $(this);
-            if (ev.which == $.ui.keyCode.TAB &&
-                ((!ev.shiftKey && !$el.parent().nextAll(':visible').length) ||
-                (ev.shiftKey && !$el.parent().prevAll(':visible').length))) {
+            var $el = $(this).parent();
+            if (ev.which === $.ui.keyCode.TAB &&
+                ((!ev.shiftKey && !$el.nextAll(':visible').length) ||
+                (ev.shiftKey && !$el.prevAll(':visible').length))) {
                 toggleContextMenu(true);
                 return false;
             }
