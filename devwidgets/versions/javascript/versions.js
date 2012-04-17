@@ -195,7 +195,11 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
             for (var i in version) {
                 if (version.hasOwnProperty(i)) {
                     if (version[i].comments) {
-                        version[i].comments['message@Ignore'] = true;
+                        delete version[i].comments.message.inbox;
+                        version[i].comments.message['inbox@Ignore'] = true;
+                    } else if (version[i].discussion) {
+                        delete version[i].discussion.message.inbox;
+                        version[i].discussion.message['inbox@Ignore'] = true;
                     }
                 }
             }
@@ -203,7 +207,7 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
         };
 
         var saveRestoredVersion = function(version) {
-            var toStore = version.version;
+            var toStore = $.extend({}, version.version);
             currentPageShown.content = toStore;
             toStore.version = addIgnores(version.version);
             toStore.version = $.toJSON(toStore.version);
