@@ -191,10 +191,26 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
             getVersionContent($(this).parent().attr('data-versionId'), saveRestoredVersion);
         };
 
+        var addIgnores = function(version) {
+            for (var i in version) {
+                if (version.hasOwnProperty(i)) {
+                    if (version[i].comments) {
+                        delete version[i].comments.message.inbox;
+                        version[i].comments.message['inbox@Ignore'] = true;
+                    } else if (version[i].discussion) {
+                        delete version[i].discussion.message.inbox;
+                        version[i].discussion.message['inbox@Ignore'] = true;
+                    }
+                }
+            }
+            return version;
+        };
+
         var saveRestoredVersion = function(version) {
-            var toStore = version.version;
+            var toStore = $.extend({}, version.version);
             currentPageShown.content = toStore;
-            toStore.version = $.toJSON(version.version);
+            toStore.version = addIgnores(version.version);
+            toStore.version = $.toJSON(toStore.version);
             sakai.api.Server.saveJSON(currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, toStore, function(success) {
                 $.ajax({
                     url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
