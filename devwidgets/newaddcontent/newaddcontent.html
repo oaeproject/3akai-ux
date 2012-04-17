@@ -249,9 +249,7 @@
                         <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
                     </span>
                 {else}
-                    {if $.inArray(currentSelectedLibrary, item["sakai:pooled-content-viewer"]) !== -1 || $.inArray(currentSelectedLibrary, item["sakai:pooled-content-manager"]) !== -1}
-                        <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (got it)</span>
-                    {elseif sakai.api.Content.Collections.isCollection(item) && (sakai.api.Content.Collections.getCollectionGroupId(item) === currentSelectedLibrary || item.currentSelectedLibraryHasCollection)}
+                    {if item.currentSelectedLibraryHasItem}
                         <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (got it)</span>
                     {else}
                         <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>

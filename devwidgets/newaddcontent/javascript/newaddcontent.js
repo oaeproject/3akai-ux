@@ -213,18 +213,22 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         };
 
         /**
-         * Checks if any collections to add are already associated with the selected library
+         * Checks if any content items to add are already associated with the selected library
          * @param {Function} callback Callback function
          */
-        var checkCollectionItems = function(callback) {
+        var markLibraryHasContentItems = function(callback) {
             var collectionGroupIds = [];
             // check if any items are collections
             $.each(itemsToUpload, function(index, item) {
+                item.currentSelectedLibraryHasItem = false;
                 if (sakai.api.Content.Collections.isCollection(item)) {
                     var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(item);
                     collectionGroupIds.push(collectionGroupId);
                     item.collectionGroupId = collectionGroupId;
-                    item.currentSelectedLibraryHasCollection = false;
+                } else if (item.type === 'existing' &&
+                    ($.inArray(currentSelectedLibrary, item["sakai:pooled-content-viewer"]) !== -1 ||
+                    $.inArray(currentSelectedLibrary, item["sakai:pooled-content-manager"]) !== -1)) {
+                    item.currentSelectedLibraryHasItem = true;
                 }
             });
 
@@ -245,22 +249,24 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                                 // loop through each item to see if the collection is already associated with the selected library
                                 $.each(itemsToUpload, function(itemsToUploadIdx, item) {
                                     if (item.collectionGroupId === groupRolesKey && currentSelectedLibrary === authId) {
-                                        item.currentSelectedLibraryHasCollection = true;
+                                        item.currentSelectedLibraryHasItem = true;
                                     }
                                 });
                             });
                         }
                     });
                 });
-                callback();
+                if ($.isFunction(callback)) {
+                    callback();
+                }
             }, true);
         };
 
         /**
          * Render the queue
          */
-        var renderQueue = function() {
-            checkCollectionItems(function() {
+        var renderQueue = function(callback) {
+            markLibraryHasContentItems(function() {
                 $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
                     'items': itemsToUpload,
                     'sakai': sakai,
@@ -268,12 +274,30 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     'groups': sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
                     'currentSelectedLibrary': currentSelectedLibrary
                 }));
+                if ($.isFunction(callback)) {
+                    callback();
+                }
             });
         };
 
         var greyOutExistingInLibrary = function() {
             currentSelectedLibrary = $(newaddcontentSaveTo).val();
             renderQueue();
+
+            if (itemsToUpload) {
+                var disableUpload = true;
+                $.each(itemsToUpload, function(i, content) {
+                    if (!content.currentSelectedLibraryHasItem) {
+                        disableUpload = false;
+                        return false;
+                    }
+                });
+                if (disableUpload) {
+                    disableStartUpload();
+                } else {
+                    enableStartUpload();
+                }
+            }
         };
 
         var resetQueue = function() {
@@ -293,9 +317,17 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         var addContentToQueue = function(contentToAdd, disableRender) {
             itemsToUpload.push(contentToAdd);
             disableAddToQueue();
-            enableStartUpload();
+
+            var decideIfEnableUpload = function() {
+                if (!contentToAdd.currentSelectedLibraryHasItem) {
+                    enableStartUpload();
+                }
+            };
+
             if (!disableRender) {
-                renderQueue();
+                renderQueue(decideIfEnableUpload);
+            } else {
+                decideIfEnableUpload();
             }
         };
 
@@ -330,6 +362,17 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
 
             if (!itemsToUpload.length) {
                 disableStartUpload();
+            } else {
+                var disableUpload = true;
+                $.each(itemsToUpload, function(i, content) {
+                    if (!content.currentSelectedLibraryHasItem) {
+                        disableUpload = false;
+                        return false;
+                    }
+                });
+                if (disableUpload) {
+                    disableStartUpload();
+                }
             }
 
             renderQueue();
