@@ -237,6 +237,18 @@ define(function(){
             }
         },
 
+        /*
+         * Restrict the ability for a non manager user to share a content item, depending on their role specified, and the content permission.
+         * public - content available to anyone
+         * everyone - content available to logged in users
+         * private - content available to private users
+         */
+        roleCanShareContent: {
+            'public': ['editor', 'viewer', 'everyone', 'anon'],
+            'everyone': ['editor', 'viewer', 'everyone'],
+            'private': ['editor', 'viewer']
+        },
+
         allowPasswordChange: true,
         /**
          * Where the email field should live
@@ -1690,7 +1702,7 @@ define(function(){
             '${refid}0': {
                 'id2487321': {
                     'htmlblock': {
-                        'content': '<div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
+                        'content': '<h1 class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
                     }
                 },
                 'id2506067': {

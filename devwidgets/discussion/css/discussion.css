@@ -27,8 +27,11 @@
 .discussion_pipe_divider {
     margin: 0 5px;
 }
-#discussion_main_container .s3d-form-field-wrapper span.s3d-error-after {
-    width: 96%;
+
+/* Not changeable message */
+.discussion_not_changeable {
+    font-weight: bold;
+    margin-top: 5px;
 }
 
 /* Create new topic */
