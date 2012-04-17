@@ -4,7 +4,7 @@
     <div id="topnavigation_scroll_to_top_container">
         <button type="button" class="s3d-link-button" id="topnavigation_scroll_to_top" title="__MSG__SCROLL_TO_TOP__" accesskey="s" style="display:none;"></button>
     </div>
-    <ul class="topnavigation_explore" role="menubar"><!----></ul>
+    <ul class="topnavigation_explore" id="topnavigation_explore_left" role="menubar"><!----></ul>
     <div class="topnavigation_right">
         <div class="topnavigation_search s3d-search-container">
             <input x-webkit-speech speech type="text" tabindex_none="40" id="topnavigation_search_input" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
@@ -17,6 +17,7 @@
                 <div id="topnavigation_search_results_bottom_container"><!----></div>
             </div>
         </div>
+        <ul class="topnavigation_explore" id="topnavigation_explore_right" role="menubar"><!----></ul>
         <div class="topnavigation_user_container"></div>
     </div>
 </div>
@@ -77,8 +78,8 @@
                     <img src="${data.results[0].from.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.results[0].from.name}"/>
                 </div>
                 <div id="topnavigation_message_sender" class="s3d-bold">${data.results[0].from.name} <span>(${data.results[0].timeago})</span></div>
-                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0].subject, 120)}</div>
-                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0].body_nolinebreaks, 270, null, null, true)}</div>
+                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0].subject, 115)}</div>
+                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0].body_nolinebreaks, 255, null, null, true)}</div>
                 <a href="/me#l=messages/${category}&message=${data.results[0].id}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">__MSG__READ_FULL_MESSAGE__</a>
                 <hr class="fl-hidden fl-push"/>
             {else}
@@ -165,50 +166,57 @@
 --></div>
 
 <div id="topnavigation_user_template"><!--
-    {if anon}
-        {if auth.externalAuth}
-        <ul id="subnavigation_login_list" role="menu">
-            <li class="s3d-bold s3d-dropdown-menu hassubnav">
-                <a role="menuitem" aria-haspopup="true" href="#" id="topnavigation_user_options_login_external" class="s3d-bold">__MSG__SIGN_IN__</a>
-                <div class="topnavigation_external_login s3d-dropdown-container" style="display:none;">
-                    <ul role="menu" aria-hidden="true">
-                        {for i in auth.Authentication.external}
-                            <li>
-                                <a tabindex="-1" role="menuitem" href="${i.url}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
-                            </li>
-                        {/for}
-                    </ul>
-                </div>
-            </li>
+    {macro externalAuthMenu(auth)}
+        <ul role="menu" aria-hidden="true">
+            {for i in auth.Authentication.external}
+                <li>
+                    <a tabindex="-1" role="menuitem" href="${i.url}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
+                </li>
+            {/for}
+            {if auth.internalAndExternal}
+                <li>
+                    <button tabindex="-1" role="menuitem" class="s3d-bold s3d-link-button" id="topnavigation_toggle_internal_login">__MSG__INTERNAL_LOGIN__</button>
+                </li>
+            {/if}
         </ul>
-        {else}
-        <div class="s3d-dropdown-menu" id="topnavigation_user_options_login_wrapper">
+    {/macro}
+
+    {macro internalAuthMenu(auth)}
+        <form id="topnavigation_user_options_login_form" method="POST" {if auth.internalAndExternal}style="display:none"{/if}>
+            <div id="topnavigation_user_options_login_fields_container" class="s3d-dropdown-menu-content-container s3d-form-field-wrapper">
+                <div id="topnavigation_user_options_login_error" style="display:none;">
+                    <div id="topnavigation_user_options_login_error_icon"></div>
+                    <span>__MSG__INVALID_USERNAME_OR_PASSWORD__</span>
+                </div>
+                <label for="topnavigation_user_options_login_fields_username" class="s3d-input-label-above">__MSG__USERNAME__</label>
+                <input type="text" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield s3d-input" />
+                <label for="topnavigation_user_options_login_fields_password" class="s3d-input-label-above">__MSG__PASSWORD__</label>
+                <input type="password" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield s3d-input" />
+                <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
+                <hr class="s3d-split-line fl-push"/>
+                {if auth.Authentication.allowInternalAccountCreation}
+                    <span class="topnavigation_sign_up_link">__MSG__NO_ACCOUNT_YET__</span>
+                    <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">__MSG__SIGN_UP__</a>
+                {/if}
+                <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login">__MSG__SIGN_IN__</button>
+                <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+        </form>
+    {/macro}
+
+    {if anon}
+        <div class="s3d-dropdown-menu{if auth.internalAndExternal} topnavigation_dual_login{/if}" id="topnavigation_user_options_login_wrapper">
             <button id="topnavigation_user_options_login">__MSG__SIGN_IN__</button>
             <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container" style="display:none;">
-                <form id="topnavigation_user_options_login_form" method="POST">
-                    <div id="topnavigation_user_options_login_fields_container" class="s3d-dropdown-menu-content-container s3d-form-field-wrapper">
-                        <div id="topnavigation_user_options_login_error" style="display:none;">
-                            <div id="topnavigation_user_options_login_error_icon"></div>
-                            <span>__MSG__INVALID_USERNAME_OR_PASSWORD__</span>
-                        </div>
-                        <label for="topnavigation_user_options_login_fields_username" class="s3d-input-label-above">__MSG__USERNAME__</label>
-                        <input type="text" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield s3d-input" />
-                        <label for="topnavigation_user_options_login_fields_password" class="s3d-input-label-above">__MSG__PASSWORD__</label>
-                        <input type="password" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield s3d-input" />
-                        <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
-                        <hr class="s3d-split-line fl-push"/>
-                        {if auth.Authentication.allowInternalAccountCreation}
-                            <span class="topnavigation_sign_up_link">__MSG__NO_ACCOUNT_YET__</span>
-                            <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">__MSG__SIGN_UP__</a>
-                        {/if}
-                        <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login">__MSG__SIGN_IN__</button>
-                        <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
-                        <hr class="fl-push fl-hidden"/>
-                    </div>
-                </form>
+            {if auth.externalAuth || auth.internalAndExternal}
+                ${externalAuthMenu(auth)}
+            {/if}
+            {if !auth.externalAuth || auth.internalAndExternal}
+                ${internalAuthMenu(auth)}
+            {/if}
             </div>
         </div>
-        {/if}
     {else}
         <ul id="topnavigation_user_options_list" role="menu">
             <li class="s3d-bold s3d-dropdown-menu hassubnav">

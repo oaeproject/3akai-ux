@@ -38,6 +38,9 @@
 #htmlblock_view_container td {
     min-width: 100px;
 }
+#htmlblock_view_container ol li {
+    list-style: decimal;
+}
 .contentauthoring_edit_mode #htmlblock_view_container {
     display: none !important;
 }

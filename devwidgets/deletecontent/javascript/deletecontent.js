@@ -67,18 +67,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} batchRequests    Array that contains all batch requests to be submitted
          * @param {Object} successMessage   Id of the dom element that contains the success message to be displayed
          */
-        var sendDeletes = function(batchRequests, successMessage){
+        var sendDeletes = function(batchRequests, successMessage) {
+            sakai.api.Util.progressIndicator.showProgressIndicator(
+                sakai.api.i18n.getValueForKey('REMOVING_CONTENT'),
+                sakai.api.i18n.getValueForKey('PROCESSING_REMOVING'));
+            // Update the inserter
+            $.each(collectionsToUpdate, function(collectionId, amount) {
+                $.each(sakai.api.User.data.me.groups, function(index, group){
+                    if (group && group.counts && group.groupid === collectionId) {
+                        group.counts.contentCount -= amount;
+                        collectionId = collectionId.substring(2,collectionId.length);
+                        $(window).trigger('updateCount.inserter.sakai', [collectionId, group.counts.contentCount]);
+                    }
+                });
+            });
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 if (success) {
                     sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $(successMessage).html());
                 } else {
                     sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
                 }
+
                 $(window).trigger("done.deletecontent.sakai", [pathsToDelete]);
                 if ($.isFunction(callback)) {
                     callback(success);
                 }
-                $deletecontent_dialog.jqmHide();
+                sakai.api.Util.progressIndicator.hideProgressIndicator();
+                sakai.api.Util.Modal.close($deletecontent_dialog);
             });
         };
 
@@ -106,6 +121,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                     batchRequests.push({
+                        'url': '/system/userManager/group/' + groupId + '-editors.update.json',
+                        'method': 'POST',
+                        'parameters': {
+                            ':viewer@Delete': context,
+                            ':member@Delete': context
+                        }
+                    });
+                    batchRequests.push({
                         "url": "/system/userManager/group/" + groupId + "-managers.update.json",
                         "method": "POST",
                         "parameters": {
@@ -114,8 +137,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                 } else {
-                    parameters[":manager@Delete"] = context;
-                    parameters[":viewer@Delete"] = context;
+                    parameters[':manager@Delete'] = context;
+                    parameters[':editor@Delete'] = context;
+                    parameters[':viewer@Delete'] = context;
                     batchRequests.push({
                         "url": "/p/" + items[i]["_path"] + ".members.json",
                         "method": "POST",
@@ -181,22 +205,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sendDeletes(batchRequests, "#deletecontent_message_from_system");
         };
 
+        var collectionsToUpdate = {};
+
         /**
          * Check whether any users or groups are either managers or viewers from
          * any of the selected content items
          */
         var checkUsedByOthers = function(){
+            collectionsToUpdate = {};
             var userGroupIds = [];
             var collectionsToCheck = [];
             // Check whether any of the content I manage is managed by or
             // shared with other people
-            for (var m = 0; m < contentIManage.length; m++){
-                if (sakai.api.Content.Collections.isCollection(contentIManage[m])){
-                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentIManage[m]);
-                    collectionsToCheck.push(collectionGroupId + "-members");
-                    collectionsToCheck.push(collectionGroupId + "-managers");
+            $.each(contentIManage, function(m, contentItem) {
+                if (sakai.api.Content.Collections.isCollection(contentItem)) {
+                    var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(contentItem);
+                    collectionsToCheck.push(collectionGroupId + '-members');
+                    collectionsToCheck.push(collectionGroupId + '-editors');
+                    collectionsToCheck.push(collectionGroupId + '-managers');
                 } else {
-                    var managers = contentIManage[m]["sakai:pooled-content-manager"];
+                    var managers = contentItem['sakai:pooled-content-manager'];
                     if (managers){
                         for (var i = 0; i < managers.length; i++){
                             if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid &&
@@ -205,17 +233,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
                     }
-                    var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
+                    var editors = contentItem['sakai:pooled-content-editor'];
+                    if (editors && editors.length) {
+                        $.each(editors, function(idx, editor) {
+                            if ($.inArray(editor, userGroupIds) === -1 && editor !== sakai.data.me.user.userid && editor !== context) {
+                                userGroupIds.push(editor);
+                            }
+                        });
+                    }
+                    var viewers = contentItem['sakai:pooled-content-viewer'];
                     if (viewers){
                         for (var j = 0; j < viewers.length; j++){
                             if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
                                 viewers[j] !== context && viewers[j] !== "everyone" && viewers[j] !== "anonymous"){
                                 userGroupIds.push(viewers[j]);
+                                if (sakai.api.Content.Collections.isCollection(viewers[j])) {
+                                     collectionsToUpdate[viewers[j]] = collectionsToUpdate[viewers[j]] || 0;
+                                     collectionsToUpdate[viewers[j]] += 1;
+                                 }
                             }
                         }
                     }
                 }
-            }
+            });
             if (collectionsToCheck.length > 0) {
                 var batchRequest = [];
                 $.each(collectionsToCheck, function(index, collectiongroup){
@@ -236,6 +276,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 member !== sakai.data.me.user.userid &&
                                 member !== context) {
                                 userGroupIds.push(member);
+                                if (sakai.api.Content.Collections.isCollection(member)) {
+                                    collectionsToUpdate[member] = collectionsToUpdate[member] || 0;
+                                    collectionsToUpdate[member] += 1;
+                                }
                             }
                         }
                     }
@@ -386,6 +430,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (context){
                     $("#deletecontent_action_removefromsystem").show();
                     if (contextType === "collection"){
+                        if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
+                            var managerCid = 'c-' + sakai_global.content_profile.content_data.data._path;
+                            collectionsToUpdate[managerCid] = collectionsToUpdate[managerCid] || 0;
+                            collectionsToUpdate[managerCid] += contentIManage.length;
+                        }
                         $("#deletecontent_action_removefromcollection").show();
                     } else {
                         $("#deletecontent_action_removefromlibrary").show();
@@ -399,6 +448,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Set up overlay for full viewer permissions
                 template = "deletecontent_template_list";
                 if (contextType === "collection") {
+                    if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
+                        var viewerCid = 'c-' + sakai_global.content_profile.content_data.data._path;
+                        collectionsToUpdate[viewerCid] =
+                            collectionsToUpdate[viewerCid] || 0;
+                        collectionsToUpdate[viewerCid] += contentIView.length;
+                    }
                     $("#deletecontent_action_removefromcollection").show();
                 } else {
                     $("#deletecontent_action_removefromlibrary").show();
@@ -491,9 +546,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#deletecontent_container").html("");
             $("#deletecontent_container").show();
             $("#deletecontent_used_by_others").hide();
-            sakai.api.Util.positionDialogBox($deletecontent_dialog);
-            sakai.api.Util.bindDialogFocus($deletecontent_dialog);
-            $deletecontent_dialog.jqmShow();
+            sakai.api.Util.Modal.open($deletecontent_dialog);
         };
 
         /**
@@ -502,7 +555,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var init = function(){
             // This will make the widget popup as a layover.
-            $deletecontent_dialog.jqm({
+            sakai.api.Util.Modal.setup($deletecontent_dialog, {
                 modal: true,
                 toTop: true
             });
