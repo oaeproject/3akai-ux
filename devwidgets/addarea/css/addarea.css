@@ -26,7 +26,18 @@
  */
 #addarea_container ul#addarea_content_menu {width:180px;display:block;margin:0;float:left;position:relative;}
 #addarea_container ul#addarea_content_menu ul.addarea_content_menu_item_subnav {margin:0 0 0 26px;padding-bottom:5px;}
-#addarea_container ul#addarea_content_menu li.selected ul.addarea_content_menu_item_subnav li.selected {background:url("/devwidgets/addarea/images/addarea_subnav_selected.png") repeat-x top left #3c96d4;border-radius:4px 0 0 4px;-moz-border-radius:4px 0 0 4px;-webkit-border-radius:4px 0 0 4px;}
+#addarea_container ul#addarea_content_menu li.selected ul.addarea_content_menu_item_subnav li.selected {
+    background: #4cb1dc;
+    background: -moz-linear-gradient(top, #4cb1dc 0%, #4fbeed 9%, #4dc2f6 22%, #21a9e6 74%, #1aa4e2 87%, #1198d5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4cb1dc), color-stop(9%,#4fbeed), color-stop(22%,#4dc2f6), color-stop(74%,#21a9e6), color-stop(87%,#1aa4e2), color-stop(100%,#1198d5));
+    background: -webkit-linear-gradient(top, #4cb1dc 0%,#4fbeed 9%,#4dc2f6 22%,#21a9e6 74%,#1aa4e2 87%,#1198d5 100%);
+    background: -o-linear-gradient(top, #4cb1dc 0%,#4fbeed 9%,#4dc2f6 22%,#21a9e6 74%,#1aa4e2 87%,#1198d5 100%);
+    background: -ms-linear-gradient(top, #4cb1dc 0%,#4fbeed 9%,#4dc2f6 22%,#21a9e6 74%,#1aa4e2 87%,#1198d5 100%);
+    background: linear-gradient(top, #4cb1dc 0%,#4fbeed 9%,#4dc2f6 22%,#21a9e6 74%,#1aa4e2 87%,#1198d5 100%);
+    border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
+}
 #addarea_container ul#addarea_content_menu li.selected ul.addarea_content_menu_item_subnav li.selected button {color:#fff;font-weight:bold;}
 #addarea_container ul#addarea_content_menu li {list-style:none;min-height:28px;background:transparent;line-height:28px;padding:1px 0 1px 1px;}
 #addarea_container ul#addarea_content_menu > li.selected {background-color:#e9e9e8;border-radius:5px 0 0 5px;-webkit-border-radius:5px 0 0 5px;-moz-border-radius:5px 0 0 5px;border-left:1px solid #e2e2e2;border-top:1px solid #e2e2e2;border-bottom:1px solid #e2e2e2;padding:0;}
@@ -71,7 +82,16 @@
 .addarea_existing_bottom {height:250px;overflow:auto;}
 .addarea_existing_bottom ul {margin:0;}
 .addarea_existing_bottom ul li {border-bottom:1px dotted #999;margin:2px;padding:5px;cursor:pointer;}
-.addarea_existing_bottom ul li.selected {background:url("/devwidgets/addarea/images/addarea_subnav_selected.png") repeat-x scroll left top transparent;}
+.addarea_existing_bottom ul li.selected {
+    margin-top: -3px;
+    background: #4cb1dc;
+    background: -moz-linear-gradient(top, #4cb1dc 0%, #4fbeed 9%, #4dc2f6 22%, #21a9e6 74%, #1aa4e2 87%, #1198d5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4cb1dc), color-stop(9%,#4fbeed), color-stop(22%,#4dc2f6), color-stop(74%,#21a9e6), color-stop(87%,#1aa4e2), color-stop(100%,#1198d5));
+    background: -webkit-linear-gradient(top, #4cb1dc 0%,#4fbeed 9%,#4dc2f6 22%,#21a9e6 74%,#1aa4e2 87%,#1198d5 100%);
+    background: -o-linear-gradient(top, #4cb1dc 0%,#4fbeed 9%,#4dc2f6 22%,#21a9e6 74%,#1aa4e2 87%,#1198d5 100%);
+    background: -ms-linear-gradient(top, #4cb1dc 0%,#4fbeed 9%,#4dc2f6 22%,#21a9e6 74%,#1aa4e2 87%,#1198d5 100%);
+    background: linear-gradient(top, #4cb1dc 0%,#4fbeed 9%,#4dc2f6 22%,#21a9e6 74%,#1aa4e2 87%,#1198d5 100%);
+}
 .addarea_existing_bottom ul li.selected .s3d-regular-links {color:#fff;}
 .addarea_existing_top input {margin-bottom:0 !important;width:210px !important;}
 .addarea_existing_top select {float:right;margin-bottom:0 !important;}

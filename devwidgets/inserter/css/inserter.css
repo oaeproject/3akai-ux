@@ -148,7 +148,13 @@
     width: 179px;
 }
 .inserter_widget #inserter_header {
-    background: url("/devwidgets/inserter/images/inserter_header_bg.png") repeat-x top left #1f1e1e;
+    background: #313131;
+    background: -moz-linear-gradient(top, #333333 0%, #1e1e1e 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#1e1e1e));
+    background: -webkit-linear-gradient(top, #333333 0%,#1e1e1e 100%);
+    background: -o-linear-gradient(top, #333333 0%,#1e1e1e 100%);
+    background: -ms-linear-gradient(top, #333333 0%,#1e1e1e 100%);
+    background: linear-gradient(top, #333333 0%,#1e1e1e 100%);
     border-radius: 3px 3px 0 0;
     -moz-border-radius: 3px 3px 0 0;
     -webkit-border-radius: 3px 3px 0 0;
@@ -216,7 +222,13 @@
     padding: 5px;
 }
 .inserter_widget ul li .inserter_item_count_container {
-    background: url("/devwidgets/inserter/images/inserter_count_bg.png") repeat-x scroll left top transparent;
+    background: #c5c5c5;
+    background: -moz-linear-gradient(top, #c5c5c5 0%, #cac8c8 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c5c5c5), color-stop(100%,#cac8c8));
+    background: -webkit-linear-gradient(top, #c5c5c5 0%,#cac8c8 100%);
+    background: -o-linear-gradient(top, #c5c5c5 0%,#cac8c8 100%);
+    background: -ms-linear-gradient(top, #c5c5c5 0%,#cac8c8 100%);
+    background: linear-gradient(top, #c5c5c5 0%,#cac8c8 100%);
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -248,7 +260,13 @@
 }
 .inserter_widget ul li:hover .inserter_item_count_container,
 .inserter_widget ul li.dragover .inserter_item_count_container {
-    background: url("/devwidgets/inserter/images/inserter_count_bg_hover.png") repeat-x scroll left top transparent;
+    background: #c5c5c5;
+    background: -moz-linear-gradient(top, #c5c5c5 0%, #cac8c8 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c5c5c5), color-stop(100%,#cac8c8));
+    background: -webkit-linear-gradient(top, #c5c5c5 0%,#cac8c8 100%);
+    background: -o-linear-gradient(top, #c5c5c5 0%,#cac8c8 100%);
+    background: -ms-linear-gradient(top, #c5c5c5 0%,#cac8c8 100%);
+    background: linear-gradient(top, #c5c5c5 0%,#cac8c8 100%);
     color: #fff;
     text-shadow: 0 1px 1px #000;
 }
