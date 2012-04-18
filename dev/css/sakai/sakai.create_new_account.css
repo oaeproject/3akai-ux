@@ -52,6 +52,34 @@ h2 {color:#666;font-size:15px;}
 #signup_descriptionbox_middle {margin-left:336px;margin-top:344px;text-align:center;width:230px;}
 
 #signup_form_container .signup_form_column {width:370px;float:left;margin-top:12px;}
+#signup_form_container .s3d-form-field-wrapper label.s3d-input-label {
+    width: 130px;
+}
+#signup_form_container .signup_form_column input {
+    width: 204px;
+}
+#signup_form_container .signup_form_column.signup_form_right_column {
+    width:500px;
+}
+#password_strength {
+    float: right;
+    font-size: 12px;
+    padding-top: 5px;
+    text-align: left;
+    width: 127px;
+}
+.strength_zero, .strength_one {
+    color: red;
+}
+.strength_two {
+    color: #666;
+}
+.strength_three, .strength_four {
+    color: green;
+}
+.strength_four {
+    font-weight: bold;
+}
 #signup_form_container #signup_form_shadow {background:url("/dev/images/signup_form_bgshadow.png") no-repeat scroll left top transparent;height:15px;margin-left:95px;margin-top:-14px;position:absolute;width:700px;}
 #signup_form_container #checkUserName{float:right;margin-top:10px;}
 
