@@ -21,7 +21,7 @@
     <groupId>org.sakaiproject.nakamura</groupId>
     <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
     <packaging>jar</packaging>
-    <version>1.2.0-RC1</version>
+    <version>1.2.0-RC2-SNAPSHOT</version>
     <name>Sakai 3 UX File Hasher</name>
     <description>Hashes files and appends the hash to the name to trigger proper caching</description>
     <scm>
