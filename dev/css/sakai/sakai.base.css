@@ -242,6 +242,9 @@ blockquote {
 .s3d-widget-container .s3d-contentpage-title:hover {
 	cursor: pointer
 }
+.s3d-widget-container .s3d-contentpage-title-notdraggable:hover {
+    cursor: auto
+}
 .s3d-widget-container .hiddenwidget .s3d-contentpage-title {
 	margin-bottom: 0;
 }
