@@ -579,7 +579,7 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
             <h2 class="s3d-dialog-header">__MSG__DOWNLOAD_PDF__</h2>
             <h3 class="s3d-dialog-header">__MSG__DOWNLOAD_PDF_INFO__</h3>
             {if needsprocessing === "false"}
-            <a class="s3d-button s3d-overlay-button" href="/p/${id}/processed.pdf.pdf">__MSG__DOWNLOAD_PDF__</a>
+            <a id="entity_download_button_pdf" class="s3d-button s3d-overlay-button" href="/p/${id}/processed.pdf.pdf">__MSG__DOWNLOAD_PDF__</a>
             {else}
             <p>__MSG__NOT_YET_AVAILABLE__</p>
             {/if}
@@ -587,7 +587,7 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
         <div class="download_choice_wrapper">
             <h2 class="s3d-dialog-header">__MSG__DOWNLOAD_IMSCP__</h2>
             <h3 class="s3d-dialog-header">__MSG__DOWNLOAD_IMSCP_INFO__</h3>
-            <a class="s3d-button s3d-overlay-button" href="/imscp/${id}/${name}.zip">__MSG__DOWNLOAD_IMSCP__</a>
+            <a id="entity_download_button_imscp" class="s3d-button s3d-overlay-button" href="/imscp/${id}/${name}.zip">__MSG__DOWNLOAD_IMSCP__</a>
         </div>
 --></div>
 
