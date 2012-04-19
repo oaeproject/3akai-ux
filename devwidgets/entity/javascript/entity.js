@@ -156,6 +156,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + title;
         };
 
+        var showDownload = function () {
+            $("#entity_download_container").html(sakai.api.Util.TemplateRenderer("#entity_download_template",{
+                        "id": sakai_global.content_profile.content_data.data['_path'],
+                        "name": sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'],
+                        "needsprocessing": sakai_global.content_profile.content_data.data['sakai:needsprocessing']
+                    }));
+                    console.log(sakai_global.content_profile.content_data.data['sakai:needsprocessing']);
+            $("#entity_download").jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+                zIndex: 9999
+            });
+            $("#entity_download").jqmShow();
+        }
+
         /**
          * The 'context' variable can have the following values:
          * - 'user_me' When the viewed user page is the current logged in user
@@ -622,7 +638,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
         });
-
+        $("#contentpreview_download_overlay_button").live("click", function() {
+                showDownload();
+            })
+    
         $(window).trigger("sakai.entity.ready");
 
     };
