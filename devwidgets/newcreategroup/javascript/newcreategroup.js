@@ -67,7 +67,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         currentTemplate = false,
         templatePath = false,
         translatedRoles = {};
-    var themes = {};
 
     var renderShareMessage = function() {
         $(newcreategroupMembersMessage, $rootel).html(sakai.api.Util.TemplateRenderer(newcreategroupMembersMessageTemplate, {
@@ -111,6 +110,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         return !$.isArray(contentToAdd) || contentToAdd.length - 1 === count;
     };
 
+    var getStyleUrl = function(selectedTheme) {
+        var url = '';
+        $.each(sakai.config.skinStore, function(key, value) {
+            if (selectedTheme === value.title) {
+                url = value.url;
+            }
+        });
+        return url;
+    };
+
+    var getAllowThemechangerValue = function(value) {
+        if (value === 'ENABLE') {
+            return true;
+        } else if (value === 'DISABLE') {
+            return false;
+        }
+    };
+
     var addThemeSettings = function(groupid) {
          $.ajax({
             url: '/system/userManager/group/' + groupid + '.update.json',
@@ -142,29 +159,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
     };
 
-    var getStyleUrl = function(selectedTheme) {
-        var url = '';
-        $.each(sakai.config.skinStore, function(key, value) {
-            if (selectedTheme === value.title) {
-                url = value.url;
-            }
-        });
-        return url;
-    };
-
-    var getAllowThemechangerValue = function(value) {
-        if (value === 'ENABLE') {
-            return true;
-        } else if (value === 'DISABLE') {
-            return false;
-        }
-    };
-
     var renderThemes = function() {
+        var themes = {};
         themes = {
             themes: $.extend(sakai.config.skinStore, {}, true)
         };
-        $('#newcreategroup_change_theme_to').html(sakai.api.Util.TemplateRenderer('#newcreategroup_themes_template',{
+        $('#newcreategroup_change_theme_to').html(sakai.api.Util.TemplateRenderer('#newcreategroup_themes_template', {
             'themes': themes
         }));
     };

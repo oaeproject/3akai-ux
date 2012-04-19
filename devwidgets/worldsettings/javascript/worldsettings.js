@@ -52,7 +52,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $worldsettingsContainer = $('#worldsettings_container', $rootel);
         var $worldsettingsDialog = $('.worldsettings_dialog', $rootel);
         var $worldsettingsForm = $('#worldsettings_form', $rootel);
-        var $worldsettingsApplyButton = $('#worldsettings_apply_button');
+        var $worldsettingsApplyButton = $('#worldsettings_apply_button', $rootel);
         var $worldsettingsClosebButton = $('#worldsettings_close_button', $rootel);
         var $worldsettingsWarning = $('#worldsettings_warning_container', $rootel);
 
@@ -85,9 +85,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         */
         var changeCSS = function(cssURL) {
             $.each(themes, function(index, theme) {
-                if ($('link[href*="' + theme.url + '"]')[0]) {
                    $('link[href*="' + theme.url + '"]').remove();
-                }
             });
             sakai.api.Util.include.css(cssURL);
         };
@@ -188,7 +186,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var bindEvents = function(worldId) {
             $worldsettingsApplyButton.off('click').on('click', function() {
                 var selectedTheme = $('#worldsettings_change_theme_to').val();
-                if (sakai_global.group.groupData["sakai:enableThemes"] === "true") {
+                if (sakai_global.group.groupData['sakai:enableThemes'] === 'true') {
                     changeTheme(selectedTheme);
                 }
                 showWarning();
@@ -218,7 +216,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'membership': profile['sakai:group-joinable'],
                 'themes': themes,
                 'selectedTheme': getCurrentTheme(),
-                'enableThemes': profile["sakai:enableThemes"]
+                'enableThemes': profile['sakai:enableThemes']
             }));
             var initialTagsValue = profile['sakai:tags'] ? profile['sakai:tags'] : false;
             $worldsettingsTags = $( worldsettingsTags );
