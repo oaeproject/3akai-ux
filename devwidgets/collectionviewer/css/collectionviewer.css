@@ -156,9 +156,6 @@
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
-.has_nav .collectionviewer_widget .documentviewer_widget {
-    width:682px;
-}
 .collectionviewer_widget .documentviewer_widget #documentviewer_preview {
     overflow:hidden;
 }
@@ -166,14 +163,8 @@
     width: 850px;
     max-width: 850px;
 }
-.has_nav .collectionviewer_widget .contentpreview_fullsize_preview embed {
-    width:682px;
-}
 .collectionviewer_widget #contentpreview_fullsize_preview {
     padding: 0 0 15px;
-}
-.has_nav .collectionviewer_widget #contentpreview_fullsize_preview {
-    width:712px;
 }
 .collectionviewer_widget .s3d-search-results-grid {
     border: none !important;
