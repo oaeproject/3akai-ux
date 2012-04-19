@@ -55,6 +55,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var fetchCollectionData = false;
         var initialload = true;
         var carouselSize = $body.hasClass('has_nav') ? 9 : 12;
+        var widgetWidth = $rootel.width();
+        if (widgetWidth < 300) {
+            carouselSize = $body.hasClass('has_nav') ? 2 : 3;
+        } else if (widgetWidth < 700) {
+            carouselSize = $body.hasClass('has_nav') ? 3 : 5;
+        }
+
         // previewsAllowed makes sure recursive embedding is not allowed
         var previewsAllowed = true;
         // pagePreviewDisabled disables page previews inside of collection viewers inside of a sakai doc
@@ -152,21 +159,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         totalItems += item.length;
                     }
                 });
-                if (totalItems > carouselSize) {
-                    $('.collectionviewer_controls', $rootel).show();
-                }
-                $('#collectionviewer_carousel', $rootel).jcarousel({
+                var jcarouselOptions = {
                     animation: 'slow',
                     easing: 'swing',
                     scroll: carouselSize,
                     start: 0,
                     initCallback: carouselBinding,
                     itemFallbackDimension: 123
-                });
-
-                if (totalItems > carouselSize && $.bbq.getState('item')) {
-                    $('#collectionviewer_carousel', $rootel).data('jcarousel').scroll($('.collectionviewer_carousel_item[data-item-id="' + $.bbq.getState('item') + '"]', $rootel).attr('data-arr-index'));
+                };
+                if (totalItems > carouselSize) {
+                    $('.collectionviewer_controls', $rootel).show();
+                    if ($.bbq.getState('item')) {
+                        jcarouselOptions.start = parseInt($('.collectionviewer_carousel_item[data-item-id="' + $.bbq.getState('item') + '"]', $rootel).attr('data-arr-index'), 10);
+                    }
                 }
+                $('#collectionviewer_carousel', $rootel).jcarousel(jcarouselOptions);
             }
         };
 

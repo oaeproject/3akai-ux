@@ -1198,13 +1198,13 @@ define(
          * @param {Object} results Search results to process
          * @param {Object} meData User object for the user
          * @param {Function} callback Callback function executed at the end of the operation
-         * @param {Object} widthOptions Optional object to specify width options for applyThreeDots:
+         * @param {Object} threeDotsWidths Optional object to specify widths for applyThreeDots in the list view:
          *                              titleWidth {Integer} limit the title to this width in list view
          *                              descriptionWidth {Integer} limit the description to this width in list view
          *                              displayNameWidth {Integer} limit the owner display name to this width in list view
          * @returns void
          */
-        prepareContentForRender : function(results, meData, callback, widthOptions) {
+        prepareContentForRender : function(results, meData, callback, threeDotsWidths) {
             var userArray = [];
             $.each(results, function(i, contentItem){
                 if (contentItem['sakai:pooled-content-file-name']) {
@@ -1216,8 +1216,8 @@ define(
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
                         var descWidth = 750;
-                        if (widthOptions && widthOptions.descriptionWidth) {
-                            descWidth = widthOptions.descriptionWidth;
+                        if (threeDotsWidths && threeDotsWidths.descriptionWidth) {
+                            descWidth = threeDotsWidths.descriptionWidth;
                         }
                         contentItem["sakai:description-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 150, {
                             max_rows: 2,
@@ -1234,8 +1234,8 @@ define(
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
                         var fileNameWidth = 560;
-                        if (widthOptions && widthOptions.titleWidth) {
-                            fileNameWidth = widthOptions.titleWidth;
+                        if (threeDotsWidths && threeDotsWidths.titleWidth) {
+                            fileNameWidth = threeDotsWidths.titleWidth;
                         }
                         contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], fileNameWidth, {
                             max_rows: 1,
@@ -1272,8 +1272,8 @@ define(
             if (userArray.length) {
                 sakai_user.getMultipleUsers(userArray, function(users){
                     var displayNameWidth = 580;
-                    if (widthOptions && widthOptions.displayNameWidth) {
-                        displayNameWidth = widthOptions.displayNameWidth;
+                    if (threeDotsWidths && threeDotsWidths.displayNameWidth) {
+                        displayNameWidth = threeDotsWidths.displayNameWidth;
                     }
                     $.each(results, function(index, item){
                         if (item && item['sakai:pooled-content-file-name']) {
