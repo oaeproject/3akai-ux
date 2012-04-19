@@ -459,7 +459,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(this).show();
                 }
             });
-            $(".s3d-jump-link").click(function(){
+            $(".s3d-jump-link").click(function(e){
+                e.preventDefault();
                 $('#' + $(this).attr("id").split('_')[0] + '_target').focus();
             });
 
