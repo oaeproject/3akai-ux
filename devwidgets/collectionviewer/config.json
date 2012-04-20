@@ -11,6 +11,11 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/collectionviewer/bundles/es_ES.properties"
+	},
+	"fr_FR": {
+            "bundle":     "/devwidgets/collectionviewer/bundles/fr_FR.properties",
+            "name":       "Collections Viewer french",
+            "description":"Displays a collection through different views french"
         }
     },
     "id":                 "collectionviewer",
