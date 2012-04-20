@@ -124,10 +124,10 @@
 }
 
 #entity_container .entity_owns_actions_container .entity_owns_actions_collab > div:after {
-    content:"|"
+    content: "|"
 }
 #entity_container .entity_owns_actions_container .entity_owns_actions_collab > div, #entity_container .entity_owns_actions_container .entity_owns_actions_collab > button {
-    float:left;
+    float: left;
 }
 #entity_container .entity_owns_actions_container .entity_owns_actions_collab > button {
     padding:4px 0
