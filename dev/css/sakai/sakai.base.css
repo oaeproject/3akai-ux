@@ -2312,9 +2312,9 @@ ul li.s3d-list-item:hover {
 	list-style: none
 }
 .s3d-search-result a img {
-	float: left;
-	max-width: 46px;
-	max-height: 46px;
+    float: left;
+    max-width: 46px;
+    max-height: 46px;
 }
 .s3d-search-result-right {
 	margin-left: 80px;
