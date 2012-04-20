@@ -157,14 +157,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Get data about doc to see if it is available
+         * We do an ajax call to get the latest data
+         */
+        var getAvailability = function () {
+            $.ajax({
+                url: sakai_global.content_profile.content_data["content_path"] + ".json",
+                type: "GET",
+                success: function (data) {
+                    showDownload(data["sakai:needsprocessing"], data["sakai:processing_failed"]);
+                    console.log(data);
+                },
+                error: function () {
+                    showDownload(true);
+                }
+            });
+        }
+
+        /**
          * Runs the templaterenderer for the download container, shows it and adds binding to the links
          */
-        var showDownload = function () {
+        var showDownload = function (needsprocessing, processingfailed) {
             //render the download container
             $("#entity_download_container").html(sakai.api.Util.TemplateRenderer("#entity_download_template",{
                 "id": sakai_global.content_profile.content_data.data['_path'],
                 "name": sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'],
-                "needsprocessing": sakai_global.content_profile.content_data.data['sakai:needsprocessing']
+                "needsprocessing": needsprocessing,
+                "processingfailed": processingfailed
             }));
             $("#entity_download").jqm({
                 modal: true,
@@ -650,8 +669,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
         $("#contentpreview_download_overlay_button").live("click", function() {
-                showDownload();
-            })
+                getAvailability();
+        })
     
         $(window).trigger("sakai.entity.ready");
 
