@@ -154,10 +154,11 @@ define(
          * end of the operation
          * @param {Boolean} removeTree If we should replace the entire tree of saved data or just update it
          * @param {Array} indexFields Fields to index in the data (used for widgets, and is optional)
+         * @param {Boolean} merge If false, it will truly replace the content during an import - the default is true
          *
          * @returns {Void}
          */
-        saveJSON : function(i_url, i_data, callback, removeTree, indexFields) {
+        saveJSON : function(i_url, i_data, callback, removeTree, indexFields, merge) {
 
             // Argument check
             if (!i_url || !i_data) {
@@ -271,6 +272,7 @@ define(
             var postData = {
                 ':operation': 'import',
                 ':contentType': 'json',
+                ':merge': (merge === false) ? false : true,
                 ':replace': true,
                 ':replaceProperties': true,
                 '_charset_':'utf-8'

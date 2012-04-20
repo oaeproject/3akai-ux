@@ -15,13 +15,21 @@
   <parent>
     <groupId>org.sakaiproject.nakamura</groupId>
     <artifactId>org.sakaiproject.nakamura.uxloader-wrap</artifactId>
+<<<<<<< HEAD
     <version>1.3-SNAPSHOT</version>
+=======
+    <version>1.2.0-RC2-SNAPSHOT</version>
+>>>>>>> origin/1.2.0
     <relativePath>./pom.xml</relativePath>
   </parent>
   <groupId>org.sakaiproject.nakamura</groupId>
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
+<<<<<<< HEAD
   <version>1.3-SNAPSHOT</version>
+=======
+  <version>1.2.0-RC2-SNAPSHOT</version>
+>>>>>>> origin/1.2.0
   <name>Sakai 3 UX Loader</name>
   <description>Loads the Sakai 3 UI into the JCR</description>
   <url>http://github.com/sakaiproject/3akai-ux</url>
@@ -253,7 +261,11 @@
           <dependency>
             <groupId>org.sakaiproject.nakamura</groupId>
             <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
+<<<<<<< HEAD
             <version>1.3-SNAPSHOT</version>
+=======
+            <version>1.2.0-RC1</version>
+>>>>>>> origin/1.2.0
           </dependency>
         </dependencies>
       </plugin>
@@ -269,7 +281,11 @@
     <dependency>
       <groupId>org.sakaiproject.nakamura</groupId>
       <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
+<<<<<<< HEAD
       <version>1.3-SNAPSHOT</version>
+=======
+      <version>1.2.0-RC1</version>
+>>>>>>> origin/1.2.0
     </dependency>
   </dependencies>
 </project>
