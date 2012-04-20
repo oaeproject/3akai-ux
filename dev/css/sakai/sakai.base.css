@@ -2313,9 +2313,8 @@ ul li.s3d-list-item:hover {
 }
 .s3d-search-result a img {
 	float: left;
-	padding: 0 10px 5px 0;
-	max-width: 40px;
-	max-height: 60px;
+	max-width: 46px;
+	max-height: 46px;
 }
 .s3d-search-result-right {
 	margin-left: 80px;
@@ -2523,11 +2522,19 @@ ul li.s3d-list-item:hover {
 .s3d-search-results-grid .s3d-search-result-user-functions {
 	position: absolute;
 	float: left !important;
-	margin: 110px 0 0 21px !important;
+    margin: 110px 0 0 21px !important;
 	left: 10px;
 }
+.s3d-search-results-grid .s3d-search-result-content .s3d-search-result-user-functions {
+    margin-left: 30px !important;
+}
+.s3d-search-results-grid .s3d-search-result-person .searchpeople_result_left_filler img,
+.s3d-search-results-grid .s3d-search-result-group .searchgroups_result_left_filler img {
+    margin-top: 3px;
+}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-addtolibrary {
-	margin-right: 8px;
+    margin-right: 0px !important;
+    margin-top: -2px !important;
 }
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-author {
 	margin-right: 20px;
@@ -2538,6 +2545,7 @@ ul li.s3d-list-item:hover {
 }
 .s3d-search-results-grid .s3d-search-result-person .s3d-actions-message, .s3d-search-results-grid .s3d-search-result-group .s3d-actions-message {
 	margin-left: 60px;
+    margin-top: 3px;
 }
 .s3d-search-results-grid .s3d-search-result-detail-separator {
 	display: block;
