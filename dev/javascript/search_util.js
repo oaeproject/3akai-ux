@@ -171,8 +171,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} $rootel jQuery object for the widget container
          */
         sakai_global.data.search.determineAdjustGridElementHeights = function($rootel) {
-            if ($(".s3d-search-results-container", $rootel).hasClass("s3d-search-results-grid")) {
-                var $searchGridElements = $rootel.find('.s3d-search-result');
+            var $searchContainer = $(".s3d-search-results-container", $rootel);
+            if ($searchContainer.hasClass("s3d-search-results-grid")) {
+                var $searchGridElements = $searchContainer.children();
                 adjustGridElementHeights($searchGridElements);
             }
         };
