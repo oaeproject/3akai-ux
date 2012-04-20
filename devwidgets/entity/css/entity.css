@@ -792,3 +792,45 @@
 #entity_dropdown_container ul li#ew_content_preview_delete {
     border: 0;
 }
+
+#entity_download_container {
+    text-align: center;
+    margin-top: -10px;
+}
+
+#entity_download_container h1 {
+    border: none;
+}
+
+#entity_download_container .download_choice_wrapper p {
+    color: #DDD;
+}
+
+#entity_download_container .download_choice_wrapper {
+    width: 48%;
+    float: left;
+    height: 120px;
+    margin: 5px;
+    border-radius: 5px;
+    background: -moz-linear-gradient(top,  #2e2e2a 0%, #525252 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2e2e2a), color-stop(100%,#525252)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #2e2e2a 0%,#525252 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #2e2e2a 0%,#525252 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #2e2e2a 0%,#525252 100%); /* IE10+ */
+    background: linear-gradient(top,  #2e2e2a 0%,#525252 100%); /* W3C */
+}
+
+#entity_download_container .download_choice_wrapper h2 {
+    color: #FFFFFF;
+    padding-bottom: 0px;
+    padding-top: 10px;
+}
+#entity_download_container .download_choice_wrapper h3 {
+    color: #DDD;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
+#contentpreview_download_overlay_button {
+    line-height: 23px !important;
+}

@@ -1,0 +1,81 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/* Default Custom Skin File */
+
+#entity_container {
+    display: none;
+}
+* {
+    background-color: #FFFFFF;
+    border: medium none;
+}
+html {
+    background-color: #FFFFFF;
+}
+.footer_main {
+    display: none;
+}
+.s3d-navigation-container {
+    display: none;
+}
+.s3d-container-shadow-right {
+    display: none;
+}
+.s3d-container-shadow-left {
+    display: none;
+}
+.s3d-page-header {
+    display: none;
+}
+
+#content_profile_bottom_container {
+    display: none;
+}
+#inserterbar_widget_container {
+    display: none;
+}
+#content_profile_left_column {
+    display: none;
+}
+#contentauthoring_widget {
+    display: block;
+}
+.s3d-bottom-spacer {
+    display: none;
+}
+.footer_push {
+    display: none;
+}
+.requireUser, .requireAnon {
+    background-color: #FFFFFF !important;
+}
+.s3d-page-column-right {
+    border: medium none;
+    width:960px !important;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+div[id^="brandingcontainer"]{
+    display: none;
+}
+
+#content_profile_preview_container {
+    display: none;
+}

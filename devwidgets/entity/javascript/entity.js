@@ -157,6 +157,52 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Runs the templaterenderer for the download container, shows it and adds binding to the links
+         */
+        var showDownload = function (needsprocessing, processingfailed) {
+            //render the download container
+            $("#entity_download_container").html(sakai.api.Util.TemplateRenderer("#entity_download_template",{
+                "id": sakai_global.content_profile.content_data.data['_path'],
+                "name": sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'],
+                "needsprocessing": needsprocessing,
+                "processingfailed": processingfailed
+            }));
+            $("#entity_download").jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+                zIndex: 9999
+            });
+            $("#entity_download").jqmShow();
+            $("#entity_download_button_pdf").bind("click", function(){
+                $("#entity_download").jqmHide();
+                $("#entity_download_button_pdf").unbind("click");
+            });
+            $("#entity_download_button_imscp").bind("click", function(){
+                $("#entity_download").jqmHide();
+                $("#entity_download_button_imscp").unbind("click");
+            });
+        }
+
+        /**
+         * Get data about doc to see if it is available
+         * We do an ajax call to get the latest data
+         */
+        var getAvailability = function () {
+            $.ajax({
+                url: sakai_global.content_profile.content_data["content_path"] + ".json",
+                type: "GET",
+                success: function (data) {
+                    showDownload(data["sakai:needsprocessing"], data["sakai:processing_failed"]);
+                    console.log(data);
+                },
+                error: function () {
+                    showDownload(true);
+                }
+            });
+        }
+
+        /**
          * The 'context' variable can have the following values:
          * - 'user_me' When the viewed user page is the current logged in user
          * - 'user_other' When the viewed user page is a user that is not a contact
@@ -582,6 +628,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $dropdown = $(this).find(".s3d-dropdown-list");
                 $dropdown.css("left", $(this).position().left - $dropdown.width() / 2 - 30 );
                 $dropdown.css("margin-top", $(this).height() + 7 + "px");
+            });
+
+            $("#contentpreview_download_overlay_button").on("click", function() {
+                getAvailability();
             });
 
             $(entityChangeImage).click(toggleDropdownList);
