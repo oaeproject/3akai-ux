@@ -247,9 +247,15 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     if ( editing ) {
                         template = $displayprofilesection_edit_template;
                     }
+
                     // Render header
+                    var pageTitle = section.label;
+                    if (!editing && section.altLabel) {
+                        pageTitle = sakai.api.i18n.General.process(section.altLabel)
+                            .replace('${user}', sakai.api.User.getFirstName(sakai_global.profile.main.data));
+                    }
                     var headerHTML = sakai.api.Util.TemplateRenderer( $displayprofilesection_header_template, {
-                        section: section
+                        pageTitle: pageTitle
                     });
                     $displayprofilesection_header.html( sakai.api.i18n.General.process( headerHTML ) );
 
@@ -260,6 +266,12 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         // data[widgetData.sectionid] won't exist when the user hasn't logged in before
                         if (editing || (data[widgetData.sectionid] && sectionHasElements(data[widgetData.sectionid].elements))) {
                             sectionData = data[ widgetData.sectionid ] && data[ widgetData.sectionid ].elements ? data[ widgetData.sectionid ].elements : false;
+                            $.each(section.elements, function(index, element) {
+                                if (element.altLabel) {
+                                    element.altLabel = sakai.api.i18n.General.process(section.altLabel)
+                                        .replace('${user}', sakai.api.User.getFirstName(sakai_global.profile.main.data));
+                                }
+                            });
                             var bodyHTML = sakai.api.Util.TemplateRenderer( template, {
                                 sectionid: widgetData.sectionid,
                                 section: section,

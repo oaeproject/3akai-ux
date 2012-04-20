@@ -39,10 +39,17 @@
 .remotecontent_settings_subcontainer {
     border-bottom: 1px solid #ddd;
     padding: 10px;
+    overflow: hidden;
 }
 .remotecontent_settings_width_unit_selected {
     font-weight: bold;
     text-decoration: underline;
+}
+.remotecontent_settings_border_checkbox {
+    margin: 12px 0 0 20px;
+}
+.remotecontent_settings_border_checkbox label {
+    margin-left: 10px;
 }
 .dialog_buttons .remotecontent_buttons {
     text-align: right;

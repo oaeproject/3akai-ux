@@ -16,57 +16,244 @@
  * specific language governing permissions and limitations under the License.
  */
 /** MAIN CONTENT **/
-#accountpreferences_container { width: 800px; margin-left:-420px !important;}
-.accountpreferences .accountpreferences h4{color:#5A697B;font-size:1.1em;}
+#accountpreferences_container {
+    width: 800px;
+    margin-left: -420px !important;
+}
+.accountpreferences .accountpreferences h4 {
+    color: #5A697B;
+    font-size: 1.1em;
+}
+
 
 /* widget header and tabs */
-.accountpreferences_header{margin-top:10px;height:35px;border-bottom:1px dotted #d4d4d4;}
-#accountpreferences_title{display:inline;vertical-align:top;border:0;}
-#accountpreferences_tabs{display:inline;margin-left:50px;}
-#accountpreferences_tabs li{list-style:none;display:inline;}
-#accountpreferences_tabs li button{color:#2683bc;margin-top:6px;padding:0 20px;height:30px;font-size:12px;cursor:pointer;border:1px solid #dbdbdb;border-bottom:none;border-radius:3px 3px 0 0;-moz-border-radius:3px 3px 0 0;-webkit-border-radius:3px 3px 0 0;background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_bg.png") repeat-x scroll left top transparent;}
-#accountpreferences_tabs button.selected{background:none;background-color:#ffffff;color:#000000;}
+.accountpreferences_header {
+    margin-top: 10px;
+    height: 35px;
+    border-bottom: 1px dotted #d4d4d4;
+}
+#accountpreferences_title {
+    display: inline;
+    vertical-align: top;
+    border: 0;
+}
+#accountpreferences_tabs {
+    display: inline;
+    margin-left: 50px;
+}
+#accountpreferences_tabs li {
+    list-style: none;
+    display: inline;
+}
+#accountpreferences_tabs li button {
+    color: #2683bc;
+    margin-top: 6px;
+    padding: 0 20px;
+    height: 30px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #dbdbdb;
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+    background: #ffffff;
+    background: -moz-linear-gradient(top, #ffffff 0%, #f2f2f3 3%, #f2f2f3 69%, #e3e3e4 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(3%,#f2f2f3), color-stop(69%,#f2f2f3), color-stop(100%,#e3e3e4));
+    background: -webkit-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: -o-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+}
+#accountpreferences_tabs button.selected {
+    background: none;
+    background-color: #ffffff;
+    color: #000000;
+}
 
-.accountpreferences form h2{margin:0 0 5px 0;color:#666666;font-size:14px;font-weight:bold;}
-.accountpreferences_section_wrap{float:left;}
-.accountpreferences_section{margin:0 10px 10px 0;padding:20px 15px 0 20px;height:100px;}
-.accountpreferences_section_border{background-color:#EFEFEF;border: 1px solid #DBDBDB;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
-#accountpreferences_section_regional{width:415px;}
-#accountpreferences_section_autotagging{width:275px;}
-#accountpreferences_section_autotagging div {margin-bottom:10px;}
-.accountpreferences_section_wrap_password{margin:0 10px 10px 0;padding:10px 20px;float:left;}
-.accountpreferences_section_privacy {margin:0 10px 10px 0;padding:20px;}
-#accountpreferences_section_password{width:742px;}
+.accountpreferences form h2 {
+    margin: 0 0 5px 0;
+    color: #666666;
+    font-size: 14px;
+    font-weight: bold;
+}
+.accountpreferences_section_wrap {
+    float: left;
+}
+.accountpreferences_section {
+    margin: 0 10px 10px 0;
+    padding: 20px 15px 0 20px;
+    height: 100px;
+}
+.accountpreferences_section_border {
+    background-color: #EFEFEF;
+    border: 1px solid #DBDBDB;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+#accountpreferences_section_regional {
+    width: 415px;
+}
+#accountpreferences_section_autotagging {
+    width: 275px;
+}
+#accountpreferences_section_autotagging div {
+    margin-bottom: 10px;
+}
+.accountpreferences_section_wrap_password, .accountpreferences_section_wrap_email {
+    margin: 0 10px 10px 0;
+    padding: 10px 20px;
+    float: left;
+}
+.accountpreferences_section_privacy {
+    margin: 0 10px 10px 0;
+    padding: 20px;
+}
+#accountpreferences_section_password, #accountpreferences_section_email {
+    width: 742px;
+}
 
-.accountpreferences .password-preferences-input{border:1px solid #ccc;height:25px;width:330px;}
-.accountpreferences .save-preferences{float:right;height:30px;margin-right:10px;margin-top:5px;}
-.accountpreferences .form-item{margin-bottom:15px;}
-.accountpreferences .form-item label{float:left;margin-right:15px;text-align:right;width:70px;}
-.accountpreferences #accountpreferences_section_password .form-item input{margin-right:180px;}
-.accountpreferences #accountpreferences_section_password .form-item label{margin-top:5px;width:180px;}
-.accountpreferences #accountpreferences_section_regional .form-item label{margin-top:2px;}
-.accountpreferences .preferences-form{margin-top:25px;}
-.accountpreferences .preferences-form select{border:1px solid #ccc;height:21px;width:260px;}
-div.accountpreferences_error{color:#9F3333;font-weight:bold;left:180px;position:relative;top:5px;width:300px;}
-.accountpreferences .s3d-form-field-wrapper span.s3d-error{margin-left:195px;width:330px;margin-right:180px;}
+.accountpreferences .password-preferences-input, .accountpreferences .email-input {
+    border: 1px solid #ccc;
+    height: 25px;
+    width: 330px;
+}
+.accountpreferences .save-preferences {
+    float: right;
+    height: 30px;
+    margin-right: 10px;
+    margin-top: 5px;
+    width: 100%;
+    text-align: right;
+}
+.accountpreferences .form-item {
+    margin-bottom: 15px;
+}
+.accountpreferences .form-item label {
+    float: left;
+    margin-right: 15px;
+    text-align: right;
+    width: 70px;
+}
+.accountpreferences #accountpreferences_section_password .form-item input, .accountpreferences #accountpreferences_section_email .form-item input {
+    margin-right: 180px;
+}
+.accountpreferences #accountpreferences_section_password .form-item label, .accountpreferences #accountpreferences_section_email .form-item label {
+    margin-top: 5px;
+    width: 180px;
+}
+.accountpreferences #accountpreferences_section_regional .form-item label {
+    margin-top: 2px;
+}
+.accountpreferences .preferences-form {
+    margin-top: 25px;
+}
+.accountpreferences .preferences-form select {
+    border: 1px solid #ccc;
+    height: 21px;
+    width: 260px;
+}
+div.accountpreferences_error {
+    color: #9F3333;
+    font-weight: bold;
+    left: 180px;
+    position: relative;
+    top: 5px;
+    width: 300px;
+}
+.accountpreferences .s3d-form-field-wrapper span.s3d-error {
+    margin-left: 195px;
+    width: 330px;
+    margin-right: 180px;
+}
+
 
 /* preferences autotagging options */
-#accountpreferences_section_autotagging_radio{display:none;}
-#accountpreferences_section_autotagging_buttons{float:left;padding:0;height:auto;margin:6px 0 0 5px;border-color:#828282;background-color:#828282;}
-#accountpreferences_section_autotagging_buttons:hover{background:none;background-color:#828282;}
-#accountpreferences_section_autotagging_buttons button{cursor:pointer;border:none;margin:0;float:left;background-color:#a3a3a3;box-shadow:0 0 8px -2px #505050 inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
-#accountpreferences_section_autotagging_buttons button span{line-height: 16px; padding-top:2px;margin:0;display:block;height:18px;width:30px;font-weight:bold;}
-#accountpreferences_section_autotagging_buttons button.accountpreferences_autotagging_selected{background-color:#FAFAFA;box-shadow:0 0 8px -2px #AAAAAA inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
-#accountpreferences_section_autotagging_buttons #button_autotagging_true.accountpreferences_autotagging_selected{color:#008109;}
-#accountpreferences_section_autotagging_buttons #button_autotagging_false.accountpreferences_autotagging_selected{color:#800000;}
-#accountpreferences_section_autotagging_notify{margin-top:50px;}
+#accountpreferences_section_autotagging_radio {
+    display: none;
+}
+#accountpreferences_section_autotagging_buttons {
+    float: left;
+    padding: 0;
+    height: auto;
+    margin: 6px 0 0 5px;
+    border-color: #828282;
+    background-color: #828282;
+}
+#accountpreferences_section_autotagging_buttons:hover {
+    background: none;
+    background-color: #828282;
+}
+#accountpreferences_section_autotagging_buttons button {
+    cursor: pointer;
+    border: none;
+    margin: 0;
+    float: left;
+    background-color: #a3a3a3;
+    box-shadow: 0 0 8px -2px #505050 inset;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+#accountpreferences_section_autotagging_buttons button span {
+    line-height: 16px;
+    padding-top: 2px;
+    margin: 0;
+    display: block;
+    height: 18px;
+    width: 30px;
+    font-weight: bold;
+}
+#accountpreferences_section_autotagging_buttons button.accountpreferences_autotagging_selected {
+    background-color: #FAFAFA;
+    box-shadow: 0 0 8px -2px #AAAAAA inset;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+#accountpreferences_section_autotagging_buttons #button_autotagging_true.accountpreferences_autotagging_selected {
+    color: #008109;
+}
+#accountpreferences_section_autotagging_buttons #button_autotagging_false.accountpreferences_autotagging_selected {
+    color: #800000;
+}
+#accountpreferences_section_autotagging_notify {
+    margin-top: 50px;
+}
+
 
 /* privacy settings */
-#accountpreferences_changePrivacyContainer .accountpreferences_privacy_selection_container {margin-top: 15px;}
-#accountpreferences_changePrivacyContainer .s3d-outer-shadow-container {color: #333333;}
-#accountpreferences_changePrivacyContainer label {padding: 1px 0 0 6px;}
-#accountpreferences_changePrivacyContainer label .label_icon {display: inline-block; float: left; height: 15px; margin: 0 8px 0 2px; width: 15px;}
-#accountpreferences_changePrivacyContainer label .label_icon.globe {background: url("/dev/images/globe_icon_black.png") no-repeat scroll left top transparent;}
-#accountpreferences_changePrivacyContainer label .label_icon.small_institution {background: url("/dev/images/small_institution_icon.png") no-repeat scroll left top transparent;}
-#accountpreferences_changePrivacyContainer .accountpreferences_unselected_rbt {height: 30px;margin-left: 13px;padding-top: 15px;}
-#accountpreferences_changePrivacyContainer .accountpreferences_selectable > input {float: left; margin-right: 10px; margin-top: 2px;}
+#accountpreferences_changePrivacyContainer .accountpreferences_privacy_selection_container {
+    margin-top: 15px;
+}
+#accountpreferences_changePrivacyContainer .s3d-outer-shadow-container {
+    color: #333333;
+}
+#accountpreferences_changePrivacyContainer label {
+    padding: 1px 0 0 6px;
+}
+#accountpreferences_changePrivacyContainer label .label_icon {
+    display: inline-block;
+    float: left;
+    height: 15px;
+    margin: 0 8px 0 2px;
+    width: 15px;
+}
+#accountpreferences_changePrivacyContainer label .label_icon.globe {
+    background: url("/dev/images/globe_icon_black.png") no-repeat scroll left top transparent;
+}
+#accountpreferences_changePrivacyContainer label .label_icon.small_institution {
+    background: url("/dev/images/small_institution_icon.png") no-repeat scroll left top transparent;
+}
+#accountpreferences_changePrivacyContainer .accountpreferences_unselected_rbt {
+    height: 30px;
+    margin-left: 13px;
+    padding-top: 15px;
+}
+#accountpreferences_changePrivacyContainer .accountpreferences_selectable > input {
+    float: left;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+

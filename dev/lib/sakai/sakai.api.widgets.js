@@ -37,6 +37,8 @@ define(
     ],
     function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
 
+    $.extend(true, sakai_widgets_config, sakai_config.WidgetSettings);
+
     var sakai = {
         widgets: sakai_widgets_config
     };
@@ -359,10 +361,7 @@ define(
                     }
 
                     if(urls.length > 0){
-                        var current_locale_string = false;
-                        if (typeof sakai_user.data.me.user.locale === "object") {
-                            current_locale_string = sakai_user.data.me.user.locale.language + "_" + sakai_user.data.me.user.locale.country;
-                        }
+                        var current_locale_string = sakai_i18n.getUserLocale();
                         var bundles = [];
                         for (var i = 0, j = urls.length; i<j; i++) {
                             var jsonpath = urls[i].url;
@@ -419,8 +418,7 @@ define(
                                             if (requestedBundlesResults[ii].url.split("/")[4].split(".")[0] === "default") {
                                                 sakai_i18n.data.widgets[widgetName] = sakai_i18n.data.widgets[widgetName] || {};
                                                 sakai_i18n.data.widgets[widgetName]["default"] = sakai_i18n.changeToJSON(requestedBundlesResults[ii].body);
-                                            }
-                                            else {
+                                            } else {
                                                 sakai_i18n.data.widgets[widgetName] = sakai_i18n.data.widgets[widgetName] || {};
                                                 sakai_i18n.data.widgets[widgetName][current_locale_string] = sakai_i18n.changeToJSON(requestedBundlesResults[ii].body);
                                             }
@@ -449,16 +447,14 @@ define(
                                                 toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
-                                            }
-                                            else {
+                                            } else {
                                                 toreplace = quotes + sakai_i18n.getValueForKey(lastParen, widgetName) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
                                             }
                                         }
                                         translated_content += requestedURLsResults[i].body.substring(lastend);
-                                    }
-                                    else {
+                                    } else {
                                         translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_user.data.me);
                                     }
                                     var ss = sethtmlover(translated_content, widgetsInternal2, widgetName);
@@ -940,6 +936,20 @@ define(
             if($(".s3d-draggable-container", $("body")).length){
                 sakai_util.Draggable.setupDraggable({}, $("body"));
             }
+        },
+
+        /**
+         * Check to see if a widget is embeddded inside itself
+         *
+         * @param {jQuery} $rootel The rootel of the widget
+         * @param {String} poolID The pool id of the widget
+         * @param {String} ref The _ref of the widget
+         *
+         * @return {Boolean} if it is safe to embed the widget
+         */
+        isRecursivelyEmbedded: function($rootel, poolID, ref) {
+            return $rootel && poolID && ref &&
+                $rootel.parents('#' + poolID + '-' + ref + ', #' + ref).length !== 0;
         }
     };
 

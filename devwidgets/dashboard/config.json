@@ -7,6 +7,9 @@
             "bundle": "/devwidgets/dashboard/bundles/default.properties",
             "name":"Dashboard",
             "description":"Dashboard"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/dashboard/bundles/es_ES.properties"
         }
     },
     "img":"/devwidgets/comments/images/comments.png",

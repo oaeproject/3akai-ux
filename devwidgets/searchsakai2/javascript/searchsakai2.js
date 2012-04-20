@@ -253,11 +253,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * Initialization function DOCUMENTATION
          */
         $(window).bind("sakai.search.util.finish", function(ev){
-            sakai.api.Widgets.widgetLoader.insertWidgets("searchcontent_widget", false, false, [{
+            sakai.api.Widgets.widgetLoader.insertWidgets('searchcontent_widget', false, false, {
                 "id845719741363": {
                     "facetedConfig": searchConfig.facetedConfig
                 }
-            }]);
+            });
             doSearch();
         });
         
@@ -266,7 +266,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // to determine the categories for the search facet
         getCategories(function(data) {
             updateFacets(data);
-            $(window).trigger("sakai.search.util.init");
+            $(window).trigger("sakai.search.util.init", {"tuid": tuid});
         });
         
     };

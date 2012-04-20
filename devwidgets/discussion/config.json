@@ -15,6 +15,9 @@
         "en_US": {
             "bundle": "/devwidgets/discussion/bundles/en_US.properties"
         },
+        "es_ES": { 
+            "bundle": "/devwidgets/discussion/bundles/es_ES.properties"
+        },
         "zh_CN": {
             "bundle": "/devwidgets/discussion/bundles/zh_CN.properties"
         }

@@ -8,6 +8,9 @@
         },
         "en_US": {
             "bundle": "/devwidgets/newcreategroup/bundles/en_US.properties"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/newcreategroup/bundles/es_ES.properties"
         }
     },
     "type":"core",

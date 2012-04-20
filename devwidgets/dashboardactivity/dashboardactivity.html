@@ -1,0 +1,204 @@
+<link rel="stylesheet" type="text/css" href="/devwidgets/dashboardactivity/css/dashboardactivity.css" />
+
+<div id="dashboardactivity_widget">
+    <div class="dashboardactivity_filter">
+        <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-bar-options">
+            <button type="button" class="s3d-link-button selected" data-filter="all">__MSG__ALL__</button>
+            <button type="button" class="s3d-link-button dashboardactivity_comments" data-filter="comments">
+                <div>&nbsp;</div>__MSG__COMMENTS__</button>
+            <button type="button" class="s3d-link-button dashboardactivity_activity" data-filter="updates">
+                <div>&nbsp;</div>__MSG__UPDATES__</button>
+            <button type="button" class="s3d-link-button dashboardactivity_sharing" data-filter="sharing">
+                <div>&nbsp;</div>__MSG__SHARING__</button>
+        </div>
+        <hr class="fl-push fl-hidden"/>
+    </div>
+
+    <div id="dashboardactivity_container"><!-- --></div>
+
+    <div id="dashboardactivity_activity_template" style="display:none;"><!--
+        {macro createContentSection(activity)}
+            {var mimeType = activity._mimeType}
+            {var description = sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(mimeType).description)}
+            {if sakai.config.MimeTypes[mimeType]}
+                <img src="${sakai.config.MimeTypes[mimeType].URL}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${description}" />
+            {else}
+                <img src="${sakai.config.MimeTypes['other'].URL}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${description}" />
+            {/if}
+            <a href="/content#p=${activity['sakai:pooled-content-path']|safeURL}" class="s3d-bold">${activity['sakai:pooled-content-file-name']|safeOutput}</a> <span>${description}</span>
+            <div>
+                <button data-entityid="${activity['sakai:pooled-content-path']}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon_icon savecontent_trigger" title="__MSG__ADD_TO__">__MSG__SAVE__</button>
+                <button data-entityid="${activity['sakai:pooled-content-path']}" class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" title="__MSG__SHARE_CONTENT__">__MSG__SHARE__</button>
+            </div>
+        {/macro}
+
+        {macro createUserLink(userid)}
+            {if activity['sakai:activity-nonactor'] === userid}
+                <span class="s3d-bold fl-force-left dashboardactivity_activity_message_reversed">${activity.translatedActivityMessageAction}</span>
+            {/if}
+            <a href="${activity.users[userid].homePath}" class="s3d-bold fl-force-left dashboardactivity_activity_item_name" title="__MSG__VIEW_USERS_PROFILE__">${sakai.api.User.getDisplayName(activity.users[userid])}</a>
+            {if activity['sakai:activity-nonactor'] !== userid}
+                <span class="s3d-bold">${activity.translatedActivityMessage}</span>
+            {/if}
+        {/macro}
+
+        {macro createUserImage(userid)}
+            <img src="${sakai.api.User.getProfilePicture(activity.users[userid])}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${sakai.api.User.getDisplayName(activity.users[userid])}"/>
+        {/macro}
+
+        {macro createUserSection(userid)}
+            ${createUserImage(userid)}
+            <div class="fl-force-left">
+                ${createUserLink(userid)}
+                <span class="fl-push dashboardactivity_activity_item_timeago">${$.timeago(new Date(activity._lastModified))}</span>
+            </div>
+        {/macro}
+
+        {macro createActivityItem(activity, reverse)}
+            <div class="dashboard_activity_item">
+                <div class="dashboardactivity_activity_updated_firstcolumn fl-force-left">
+                    <div class="dashboardactivity_activity_arrow"></div>
+                    {if reverse}
+                        ${createContentSection(activity)}
+                    {else}
+                        ${createUserSection(activity['sakai:activity-actor'])}
+                    {/if}
+                </div>
+                <div class="dashboardactivity_activity_updated_secondcolumn fl-force-left">
+                    {if reverse && activity['sakai:activity-nonactor']}
+                        ${createUserSection(activity['sakai:activity-nonactor'])}
+                    {else}
+                        ${createContentSection(activity)}
+                    {/if}
+                </div>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+        {/macro}
+
+        {macro createContentLink(activity)}
+            <a href="/content#p=${activity['sakai:activity-source']}/${activity['sakai:pooled-content-file-name']}" class="s3d-bold fl-force-left dashboardactivity_activity_item_name" title="${activity['sakai:pooled-content-file-name']}">${activity['sakai:pooled-content-file-name']}</a>
+        {/macro}
+
+        {macro createContentImage(activity)}
+            {var mimeType = activity._mimeType}
+            {if sakai.config.MimeTypes[mimeType]}
+                <img src="${sakai.config.MimeTypes[mimeType].URL}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${sakai.config.MimeTypes[mimeType].description}"/>
+            {else}
+                <img src="${sakai.config.MimeTypes['other'].URL}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${sakai.config.MimeTypes['other'].description}"/>
+            {/if}
+        {/macro}
+
+        {macro createCommentItem(activity)}
+            <div class="dashboard_activity_comment_container">
+                <div class="dashboard_activity_comment_speechbubble"></div>
+                <div class="dashboard_activity_comment">
+                    <img src="${sakai.api.User.getProfilePicture(activity.users[activity['sakai:activity-actor']])}" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="${activity['sakai:activity-actor']}"/>
+                    <div>
+                        <a href="/~${activity['sakai:activity-actor']}" class="s3d-bold" title="__MSG__VIEW_ACTORS_PROFILE__">${sakai.api.User.getDisplayName(activity.users[activity['sakai:activity-actor']])}</a> <span class="dashboardactivity_activity_item_timeago">${$.timeago(new Date(activity._lastModified))}</span>
+                        <span>${activity['sakai:comment-body']}</span>
+                    </div>
+                </div>
+            </div>
+        {/macro}
+
+        <div id="dashboardactivity_activity_container">
+            <div class="dashboardactivity_activity_updated_container">
+            {for activity in data}
+                {if activity['sakai:activity-actor'] === sakai.data.me.user.userid}
+                    ${createActivityItem(activity)}
+                {else}
+                    {var nonactor = activity['sakai:activity-nonactor']}
+                    {var comment = activity['sakai:comment-body']}
+                    {if nonactor}
+                        <div class="dashboard_activity_item_container">
+                    {elseif comment}
+                        <div class="dashboard_activity_item_container dashboard_activity_comment_container">
+                    {/if}
+
+                    {var userid = activity['sakai:activity-actor']}
+                    {if nonactor}
+                        ${createUserImage(userid)}
+                        ${createUserLink(userid)}
+                        ${createActivityItem(activity, true)}
+                    {elseif comment}
+                        ${createContentImage(activity)}
+                        ${createContentLink(activity)}
+                        ${createCommentItem(activity)}
+                    {else}
+                        ${createActivityItem(activity, false)}
+                    {/if}
+
+                    {if nonactor || comment}
+                        </div>
+                    {/if}
+                {/if}
+            {/for}
+            </div>
+            {if data.length > 5}
+                <button type="button" class="s3d-button s3d-header-button" id="dashboardactivity_show_more">__MSG__SHOW_MORE__</button>
+            {/if}
+        </div>
+    --></div>
+
+    <div id="dashboardactivity_no_activity_template"><!--
+        <div id="dashboardactivity_no_activity_container">
+            <h1 id="dashboardactivity_no_activity_header">__MSG__WHO_IS_SHARING_BASED_ON_ALL_THE_CONTENT_YOU_HAVE__...</h1>
+            <div class="dashboardactivity_no_activity_contentbox">
+                <div id="dashboardactivity_added" class="fl-force-left">
+                    <h2>...__MSG__ADDED__</h2>
+                </div>
+                <div id="dashboardactivity_added_button" class="fl-force-left">
+                    <button class="s3d-button s3d-overlay-button large sakai_add_content_overlay" type="button">__MSG__UPLOAD_OR_CREATE_CONTENT__</button>
+                </div>
+            </div>
+            <hr class="fl-hidden fl-push"/>
+            <div class="dashboardactivity_no_activity_contentbox">
+                <div id="dashboardactivity_saved" class="fl-force-left">
+                    <h2>...__MSG__SAVED__</h2>
+                </div>
+                <div id="dashboardactivity_saved_button" class="fl-force-left">
+                    <a class="s3d-button s3d-overlay-button large" href="/search#q=">__MSG__DISCOVER_CONTENT_OR_PEOPLE__</a>
+                </div>
+            </div>
+            <hr class="fl-hidden fl-push"/>
+        </div>
+    --></div>
+
+    <div id="dashboardactivity_activity_badrequest_template" style="display:none;"><!--
+        <div class="dashboardactivity_activity_badrequest"><p>__MSG__COULDNT_GET_THE_ACTIVITY_DATA__</p></div>
+    --></div>
+
+    <div class="dashboard_activity_item_container dashboard_activity_annotation_container" style="display:none"><!--
+        <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Jeanette Fielding"/>
+        <a href="/temp" class="s3d-bold fl-force-left" title="View content profile">Aestheticism and Modernism review</a> <span>PAGES</span>
+        <div class="dashboard_activity_item dashboard_activity_annotation">
+            <span>The dawning of a new century marked a distinct change in literature...</span>
+        </div>
+        <div class="dashboard_activity_annotation_comments_container">
+            <div class="dashboard_activity_annotation_speechbubble"></div>
+            <div class="dashboard_activity_annotation_comment">
+                <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="sam Peck"/>
+                <div>
+                    <a href="/~sam" class="s3d-bold" title="View Sam's Profile">Sam Peck</a> <span class="dashboardactivity_activity_item_timeago">7 hours ago</span>
+                    <span>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
+                </div>
+            </div>
+            <div class="dashboard_activity_annotation_comment">
+                <img src="/dev/images/default_User_icon_50x50.png" class="s3d-icon-40 dashboardactivity_activity_item_image fl-force-left" alt="Bert Pareyn"/>
+                <div>
+                    <a href="/~Bert" class="s3d-bold" title="View Sam's Profile">Bert Pareyn</a> <span class="dashboardactivity_activity_item_timeago">7 hours ago</span>
+                    <span>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
+                </div>
+            </div>
+        </div>
+    --></div>
+
+<div id="dashboardactivity_content_comments_template"><!--
+    <div id="widget_contentcomments" class="widget_inline"></div>
+    <hr class="fl-push fl-hidden"/>
+--></div>
+
+
+</div>
+
+<script type="text/javascript" src="/devwidgets/dashboardactivity/javascript/dashboardactivity.js"></script>

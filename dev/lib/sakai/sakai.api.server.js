@@ -154,10 +154,11 @@ define(
          * end of the operation
          * @param {Boolean} removeTree If we should replace the entire tree of saved data or just update it
          * @param {Array} indexFields Fields to index in the data (used for widgets, and is optional)
+         * @param {Boolean} merge If false, it will truly replace the content during an import - the default is true
          *
          * @returns {Void}
          */
-        saveJSON : function(i_url, i_data, callback, removeTree, indexFields) {
+        saveJSON : function(i_url, i_data, callback, removeTree, indexFields, merge) {
 
             // Argument check
             if (!i_url || !i_data) {
@@ -271,6 +272,7 @@ define(
             var postData = {
                 ':operation': 'import',
                 ':contentType': 'json',
+                ':merge': (merge === false) ? false : true,
                 ':replace': true,
                 ':replaceProperties': true,
                 '_charset_':'utf-8'
@@ -605,9 +607,11 @@ define(
          * and left alone. Those without are transformed into term* AND term2*
          *
          * @param {String} searchString The user's search
+         * @param {Boolean} handlePhrases If we should split on ,\s instead of \s to
+         *                      better handle phrases
          * @return {String} The string to send to the server
          */
-        createSearchString : function(searchString) {
+        createSearchString : function(searchString, handlePhrases) {
             var ret = "";
             var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
             var removeArray = [" AND", " OR"];
@@ -618,7 +622,11 @@ define(
             // We only join every single word with "AND" when
             // we are sure there it isn't an advanced search query
             if (!advancedSearchRegex.test(searchString)) {
-                ret = ret.split(" ").join(" AND ");
+                if (handlePhrases) {
+                    ret = '"' + ret.split(', ').join('" AND "') + '"';
+                } else {
+                    ret = ret.split(' ').join(' AND ');
+                }
             }
 
             if (ret.length > truncateLength) {

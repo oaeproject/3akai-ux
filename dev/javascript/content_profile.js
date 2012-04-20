@@ -68,9 +68,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     // Show go back to collection link
                                     $("#back_to_collection_button #collection_title").text(collectionName);
                                     $("#back_to_collection_button").attr("href", "/content#p=" + collectionId + "/" + sakai.api.Util.safeURL(collectionName) + "&item=" + currentPath.split("/")[0]);
-                                    $("#back_to_collection_container").show("slow");
+                                    $('#back_to_collection_container').show();
                                 } else {
-                                    $("#back_to_collection_container").hide("slow");
+                                    $('#back_to_collection_container').hide();
                                 }
                             }
                         }
@@ -102,6 +102,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     type = "content_anon";
                 } else if (sakai_global.content_profile.content_data.isManager) {
                     type = "content_managed";
+                } else if (sakai_global.content_profile.content_data.isEditor) {
+                    type = 'content_edited';
                 } else if (sakai_global.content_profile.content_data.isViewer) {
                     type = "content_shared";
                 } else {
@@ -174,10 +176,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }                   
                     sakai.api.Security.showPage();
                     document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
-
-                    if(sakai_global.content_profile.content_data.data._mimeType === "x-sakai/collection"){
-                        $(".collectionviewer_carousel_item.selected").click();
-                    }
 
                     // rerender comments widget
                     $(window).trigger("content_profile_hash_change");
@@ -263,11 +261,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             setColumnLayout(true, false);
         });
 
-        var setManagerProperty = function(structure, value){
-            for (var i in structure){
-                if (structure.hasOwnProperty(i)){
-                    structure[i]._canEdit = value;
-                    structure[i]._canSubedit = value;
+        var setEditProperty = function(structure, manager, editor) {
+            for (var i in structure) {
+                if (structure.hasOwnProperty(i)) {
+                    structure[i]._canEdit = manager || editor;
+                    structure[i]._canSubedit = manager || editor;
                 }
             }
             return structure;
@@ -275,7 +273,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var renderSakaiDoc = function(pagestructure) {
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
-            pagestructure.structure0 = setManagerProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager);
+            pagestructure.structure0 = setEditProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager, sakai_global.content_profile.content_data.isEditor);
             if (getPageCount(pagestructure) >= 3) {
                 setColumnLayout(true, true);
             } else {

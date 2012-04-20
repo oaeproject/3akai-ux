@@ -8,6 +8,9 @@
             "bundle":     "/devwidgets/searchpeople/bundles/default.properties",
             "name":       "Search people",
             "description":"Search people"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/searchpeople/bundles/es_ES.properties"
         }
     },
     "id":                 "searchpeople",

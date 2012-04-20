@@ -8,6 +8,9 @@
             "bundle": "/devwidgets/faceted/bundles/default.properties",
             "name": "Faceted",
             "description": "Faceted"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/faceted/bundles/es_ES.properties"
         }
     }
 }

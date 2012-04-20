@@ -7,6 +7,9 @@
             "bundle": "/devwidgets/displayprofilesection/bundles/default.properties",
             "name": "Profile section",
             "description": "Show a profile section"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/displayprofilesection/bundles/es_ES.properties"
         }
     },
     "url":"/devwidgets/displayprofilesection/displayprofilesection.html"

@@ -55,14 +55,15 @@
                                     </div>
                                 </div>
 
-                                <div class="signup_form_column">
+                                <div class="signup_form_column signup_form_right_column">
                                     <div class="s3d-form-field-wrapper">
                                         <label id="username_label" class="username s3d-input-label" for="username">__MSG__USERNAME__:</label>
-                                        <input type="text" maxlength="255" id="username" name="username" class="username_unavailable_icon create_account_input required" placeholder="Hiroyuki"/>
+                                        <input type="text" maxlength="255" id="username" name="username" class="username_unavailable_icon create_account_input required s3d-error-calculate" placeholder="Hiroyuki"/>
                                         <label for="password" class="password s3d-input-label">__MSG__PASSWORD__:</label>
-                                        <input type="password" maxlength="255" id="password" name="password" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
+                                        <input type="password" maxlength="255" id="password" name="password" class="create_account_input required s3d-error-calculate" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
+                                        <span id="password_strength"></span>
                                         <label for="password_repeat" class="password_repeat s3d-input-label">__MSG__RE_TYPE_PASSWORD__:</label>
-                                        <input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
+                                        <input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input required s3d-error-calculate" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
                                     </div>
                                 </div>
                                 <div class="captcha_container" id="captcha_box">
@@ -84,24 +85,30 @@
                     <div id="password_short" style="display:none;">__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_FOUR_CHARACTERS_LONG__</div>
                     <div id="password_repeat_empty" style="display:none;">__MSG__PLEASE_REPEART_YOUR_PASSWORD__</div>
                     <div id="password_repeat_nomatch" style="display:none;">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__</div>
-
+                    <h2 class="s3d-aural-text">__MSG__SIGN_UP_QUOTE_HEADER__</h2>
                     <div class="signup_comment_box">
                         <div class="signup_comment_box_arrow_down"><!----></div>
                         <div class="signup_comment_icon signup_comment_icon_personalspace"><!----></div>
-                        <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_1__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                        <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_1__&quot;</span>
+                        <blockquote>
+                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_1__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_1__&quot;</span>
+                        </blockquote>
                     </div>
                     <div class="signup_comment_box">
                         <div class="signup_comment_box_arrow_down"><!----></div>
                         <div class="signup_comment_icon signup_comment_icon_cohere"><!----></div>
-                        <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_2__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                        <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_2__&quot;</span>
+                        <blockquote> 
+                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_2__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_2__&quot;</span>
+                        </blockquote>
                     </div>
                     <div class="signup_comment_box last">
                         <div class="signup_comment_box_arrow_down"><!----></div>
                         <div class="signup_comment_icon signup_comment_icon_editable"><!----></div>
-                        <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_3__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                        <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_3__&quot;</span>
+                        <blockquote>
+                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_3__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_3__&quot;</span>
+                        </blockquote>
                     </div>
                     <h2>__MSG__INSTITUTIONS_USING_SAKAI__</h2>
                     <ul id="signup_institution_logos">

@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/assignlocation/bundles/default.properties",
             "name": "Assign location",
             "description": "Assign a directory location to an entity"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/assignlocation/bundles/es_ES.properties"
         }
     },
     "type":"core",

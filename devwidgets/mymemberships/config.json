@@ -4,6 +4,9 @@
             "bundle": "/devwidgets/mymemberships/bundles/default.properties",
             "name": "My memberships",
             "description": "My memberships"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/mymemberships/bundles/es_ES.properties"
         }
     },
     "id": "mymemberships",

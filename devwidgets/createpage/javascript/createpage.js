@@ -191,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             hideProcessing();
             if(success) {
                 // hide the modal
-                $createpageContainer.jqmHide();
+                sakai.api.Util.Modal.close($createpageContainer);
             } else {
                 debug.error("createpage.js - handleNewPageCreation: creating page failed.");
                 sakai.api.Util.notification.show($("#createpage_createpage").text(),
@@ -245,20 +245,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global.createpage.initialise = function(){
             // add jqModal functionality to the container
-            $createpageContainer.jqm({
+            sakai.api.Util.Modal.setup($createpageContainer, {
                 modal: true,
                 overlay: 20,
                 toTop: true,
                 onHide: resetModalDialog
-            })
-            .jqmAddClose($createpageCancel);
-            
+            }, $createpageCancel);
+
             // Load page templates
             sakai_global.sitespages.loadTemplates();
             $createpageSubmit.removeAttr("disabled");
-            sakai.api.Util.bindDialogFocus($createpageContainer);
             // show container
-            $createpageContainer.jqmShow();
+            sakai.api.Util.Modal.open($createpageContainer);
             $inputPageTitle.focus();
         };
 

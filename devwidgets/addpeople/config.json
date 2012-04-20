@@ -5,6 +5,9 @@
             "bundle": "/devwidgets/addpeople/bundles/default.properties",
             "name": "Add people",
             "description":"Add people"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/addpeople/bundles/es_ES.properties"
         }
     },
     "type":"core",

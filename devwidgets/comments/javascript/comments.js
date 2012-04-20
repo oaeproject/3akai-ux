@@ -165,16 +165,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 jsonDisplay.comments[i] = {};
                 var comment = json.results[i].post;
                 // Checks if the date is already parsed to a date object
-                var tempDate = comment["_created"];
+                var tempDate = sakai.api.Util.parseSakaiDate(comment['sakai:created']);
+                if (isNaN(parseDate(comment['sakai:created']).getTime())) {
+                    tempDate = sakai.api.Util.parseSakaiDate(
+                                   sakai.api.Util.createSakaiDate(new Date(comment['sakai:created'])));
+                }
                 try {
                     // if the date is not a string this should generate en exception
                     comment.date = parseDate(tempDate);
                 } catch (ex) {
                     comment.date = tempDate;
                 }
-                comment.timeAgo = $.timeago(comment.date);
+                comment.timeAgo = $.timeago(tempDate);
                 // Use the sakai API function to parse the date and convert to the users local time
-                comment.date = parseDate(tempDate, sakai.data.me);
+                comment.date = parseDate(tempDate.getTime(), sakai.data.me);
                 comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);
                 comment.messageTxt = comment["sakai:body"];
                 comment.message = tidyInput(comment["sakai:body"]);
@@ -184,7 +188,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var user = {};
                 // User
                 // Puts the userinformation in a better structure for trimpath
-                // if (comment.profile["sling:resourceType"] === "sakai/user-profile") { // no longer in use, it seems
                 if (comment.profile) {
                     var profile = comment.profile[0];
                     user.fullName = sakai.api.User.getDisplayName(profile);
@@ -256,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Gets the comments from the service.
          */
         var getComments = function(){
-            var sortOn = "_created";
+            var sortOn = '_created';
             var sortOrder = "desc";
             var items = 10;
             if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
@@ -337,14 +340,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (allowPost) {
                 var body = $(commentsMessageTxt, rootel).val();
                 var message = {
-                    "sakai:type": "comment",
-                    "sakai:to": to,
-                    "sakai:marker": tuid,
-                    "sakai:subject": subject,
-                    "sakai:body": body,
-                    "sakai:messagebox": "outbox",
-                    "sakai:sendstate": "pending",
-                    "_charset_":"utf-8"
+                    'sakai:type': 'comment',
+                    'sakai:to': to,
+                    'sakai:marker': tuid,
+                    'sakai:subject': subject,
+                    'sakai:body': body,
+                    'sakai:messagebox': 'pending',
+                    'sakai:sendstate': 'pending',
+                    'sling:resourceType': 'sakai/message',
+                    '_charset_':'utf-8'
                 };
 
 

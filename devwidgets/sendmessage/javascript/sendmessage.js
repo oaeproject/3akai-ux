@@ -156,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     sakai.api.Util.notification.show("", errorMsg, sakai.api.Util.notification.type.ERROR);
                 }
                 if ($(messageDialogContainer).hasClass('s3d-dialog')) {
-                    $(messageDialogContainer).jqmHide();
+                    sakai.api.Util.Modal.close(messageDialogContainer);
                 }
 
                 // If we have a valid callback function we call that
@@ -308,15 +308,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
                 // show popup
                 if (layover) {
-                    // position dialog box at users scroll position
-                    sakai.api.Util.positionDialogBox(messageDialogContainer);
-                    $(messageDialogContainer).jqm({
+                    var dialogOptions = {
                         modal: true,
                         overlay: 20,
                         toTop: true
-                    });
-                    sakai.api.Util.bindDialogFocus(messageDialogContainer, "a.as-close");
-                    $(messageDialogContainer).jqmShow();
+                    };
+                    var openOptions = {
+                        bindKeyboardFocusIgnoreElements: 'a.as-close'
+                    };
+                    sakai.api.Util.Modal.setup(messageDialogContainer, dialogOptions);
+                    sakai.api.Util.Modal.open(messageDialogContainer, openOptions);
                 }
                 sakai.api.Util.Forms.clearValidation($sendmessage_form);
             };
@@ -337,7 +338,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 if(success) {
                     showMessageSent(success);
                 } else {
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("YOUR_MESSAGE_FAILED_DELIVERED"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(
+                        sakai.api.i18n.getValueForKey('SEND_MESSAGE', 'sendmessage'),
+                        sakai.api.i18n.getValueForKey('YOUR_MESSAGE_FAILED_DELIVERED', 'sendmessage'),
+                        sakai.api.Util.notification.type.ERROR);
                 }
                 $(buttonSendMessage).removeAttr("disabled");
             };
@@ -375,7 +379,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $(send_message_cancel).die("click");
                 $(send_message_cancel).live("click", function() {
                     if ($(messageDialogContainer).hasClass('s3d-dialog')) {
-                        $(messageDialogContainer).jqmHide();
+                        sakai.api.Util.Modal.close(messageDialogContainer);
                     }
                     if ($.isFunction(callbackWhenDone)) {
                         callbackWhenDone(false);

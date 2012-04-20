@@ -36,9 +36,10 @@
                             <div class="fl-push">
                                 <label for="remotecontent_settings_width">__MSG__WIDTH__:</label>
                                 <input type="text" id="remotecontent_settings_width" value="${width}" />
-                                <button type="button" id="remotecontent_settings_width_unit_px" class="remotecontent_settings_width_unit s3d-bold s3d-link-button {if width_unit == "px"} remotecontent_settings_width_unit_selected{/if}"> px</button>
-                                <span> or </span>
-                                <button type="button" id="remotecontent_settings_width_unit_percent" class="remotecontent_settings_width_unit s3d-bold s3d-link-button {if width_unit == "%"} remotecontent_settings_width_unit_selected{/if}"> %</button>
+                                <select class="remotecontent_settings_width_unit">
+                                    <option id="remotecontent_settings_width_unit_px" value="px"{if width_unit === "px"} selected="selected"{/if}>px</option>
+                                    <option id="remotecontent_settings_width_unit_percent" value="%"{if width_unit === "%"} selected="selected"{/if}>%</option>
+                                </select>
                             </div>
                             <div class="fl-push">
                                 <label for="remotecontent_settings_height">__MSG__HEIGHT__:</label>
@@ -50,9 +51,11 @@
 
                     <div class="remotecontent_settings_subcontainer">
                         <label class="remotecontent_settings_label_head">__MSG__BORDER__:</label><br />
+                        <div class="remotecontent_settings_border_checkbox">
+                            <input type="checkbox" id="remotecontent_settings_borders"{if border_size} checked="checked"{/if} />
+                            <label for="remotecontent_settings_borders">__MSG__DISPLAY_BORDER__</label>
+                        </div>
                         <div class="remotecontent_settings_block">
-                            <label for="remotecontent_settings_borders">__MSG__WIDTH__:</label>
-                            <input type="text" id="remotecontent_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
                             <div id="remotecontent_settings_color_container">
                             </div>
                         </div>

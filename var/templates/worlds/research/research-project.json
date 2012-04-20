@@ -70,6 +70,7 @@
             "${refid}0": {
                 "rows": [
                     {
+                        "id": "${refid}8",
                         "columns": [
                             {
                                 "width": 1,
@@ -109,6 +110,7 @@
             "${refid}2": {
                 "rows": [
                     {
+                        "id": "${refid}9",
                         "columns": [
                             {
                                 "width": 1,
@@ -148,6 +150,7 @@
             "${refid}4": {
                 "rows": [
                     {
+                        "id": "${refid}10",
                         "columns": [
                             {
                                 "width": 1,
@@ -185,6 +188,7 @@
             "${refid}6": {
                 "rows": [
                     {
+                        "id": "${refid}11",
                         "columns": [
                             {
                                 "width": 1,
@@ -204,12 +208,68 @@
                     }
                 }
             }
+        },
+        "${pid}4": {
+            "excludeSearch": true,
+            "structure0": {
+                "dashboardactivity": {
+                    "_ref": "${refid}8",
+                    "_order": 0,
+                    "_nonEditable": true,
+                    "_title": "Research Dashboard",
+                    "main": {
+                        "_ref": "${refid}8",
+                        "_order": 0,
+                        "_nonEditable": true,
+                        "_title": "Research Dashboard"
+                    }
+                }
+            },
+            "${refid}8": {
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "width": 1,
+                                "elements": [
+                                    {
+                                        "id": "${refid}9",
+                                        "type": "dashboardactivity"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "${refid}9": {
+                    "dashboardactivity": {
+                        "groupid": "${groupid}"
+                    }
+                }
+            }
         }
     },
     "structure": {
+        "dashboardactivity": {
+            "_title": "Research Dashboard",
+            "_order": 0,
+            "_docref": "${pid}4",
+            "_nonEditable": true,
+            "_view": [
+                "everyone",
+                "anonymous",
+                "-contributor",
+                "-evaluator"
+            ],
+            "_edit": [
+                "-leadresearcher",
+                "-researcher",
+                "-researchassistant"
+            ]
+        },
         "introduction": {
             "_title": "Introduction",
-            "_order": 0,
+            "_order": 1,
             "_docref": "${pid}0",
             "_view": [
                 "everyone",
@@ -225,7 +285,7 @@
         },
         "library": {
             "_title": "Library",
-            "_order": 1,
+            "_order": 2,
             "_docref": "${pid}1",
             "_nonEditable": true,
             "_view": [
@@ -242,7 +302,7 @@
         },
         "participants": {
             "_title": "Participants",
-            "_order": 2,
+            "_order": 3,
             "_docref": "${pid}2",
             "_nonEditable": true,
             "_view": [
@@ -259,7 +319,7 @@
         },
         "references": {
             "_title": "References",
-            "_order": 3,
+            "_order": 4,
             "_docref": "${pid}3",
             "_view": [
                 "everyone",

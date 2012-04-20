@@ -48,7 +48,13 @@
     overflow: hidden;
     border-bottom: 1px solid #c6c6c6;
     height: 35px;
-    background: url("/dev/images/back_to_collection_bg.png") repeat-x scroll left bottom #f8f8f9;
+    background: #f8f8f9;
+    background: -moz-linear-gradient(top, #f8f8f9 0%, #f8f8f9 50%, #e8e8e8 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f9), color-stop(50%,#f8f8f9), color-stop(100%,#e8e8e8));
+    background: -webkit-linear-gradient(top, #f8f8f9 0%,#f8f8f9 50%,#e8e8e8 100%);
+    background: -o-linear-gradient(top, #f8f8f9 0%,#f8f8f9 50%,#e8e8e8 100%);
+    background: -ms-linear-gradient(top, #f8f8f9 0%,#f8f8f9 50%,#e8e8e8 100%);
+    background: linear-gradient(top, #f8f8f9 0%,#f8f8f9 50%,#e8e8e8 100%);
 }
 #back_to_collection_container #back_to_collection_button {
     display: inline-block;

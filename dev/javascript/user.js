@@ -44,10 +44,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var contextData = false;
 
         var setupProfileSection = function( title, section ) {
+            var altTitle = section.altLabel || section.label;
             var ret = {
                 _ref: sakai.api.Util.generateWidgetId(),
                 _order: section.order,
-                _altTitle: section.label,
+                _altTitle: altTitle,
                 _title: section.label,
                 _nonEditable: true,
                 _view: section.permission
@@ -175,7 +176,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata = sakai.api.Util.replaceTemplateParameters(refid, pubdata);
                 } else {
                     pubdata = data;
-                    pubdata = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject(pubdata), isMe ? puburl : false);
+                    pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                 }
                 if (!isMe) {
                     pubdata.structure0 = setManagerProperty(pubdata.structure0, false);
@@ -197,7 +198,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;
-                            privdata = sakai.api.Content.Migrators.migratePageStructure(sakai.api.Server.cleanUpSakaiDocObject(privdata), privurl);
+                            privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
                         }
                         if (publicToStore) {
                             if ($.isPlainObject(publicToStore.structure0)) {

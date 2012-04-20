@@ -5,6 +5,9 @@
             "bundle": "/devwidgets/navigation/bundles/default.properties",
             "name": "Pages",
             "description": "Navigate all the pages contained within this group or site"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/navigation/bundles/es_ES.properties"
         }
     },
     "id": "navigation",

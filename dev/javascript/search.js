@@ -161,7 +161,6 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         var fireSearch = function() {
             $.bbq.pushState({
                 'q': $(searchInput).val(),
-                'cat': '',
                 'refine': $.bbq.getState('refine')
             }, 0);
         };

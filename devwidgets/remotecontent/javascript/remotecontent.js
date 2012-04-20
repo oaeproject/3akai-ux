@@ -299,12 +299,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the border width
-            $(remotecontentSettingsBorders, rootel).change(function(){
-                var borderValue = $(remotecontentSettingsBorders, rootel).val();
-                if (isDecimal(borderValue)) {
-                    json.border_size = borderValue;
-                    renderIframeSettings(false);
+            $(remotecontentSettingsBorders, rootel).on('click', function() {
+                if ($(remotecontentSettingsBorders, rootel).is(':checked')) {
+                    json.border_size = 2;
+                } else {
+                    json.border_size = 0;
                 }
+                renderIframeSettings(false);
             });
 
             // Toggle the advanced view
@@ -324,16 +325,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // When you click on one of the width units (px or percentage)
-            $(remotecontentSettingsWidthUnitClass, rootel).click(function(){
-                var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+            $(remotecontentSettingsWidthUnitClass, rootel).on('change', function() {
+                var widthUnitValue = $(this).val();
                 if (widthUnitValue === "px") {
                     json.width_unit = widthUnitValue;
                 }
                 else {
                     json.width_unit = "%";
                 }
-                $(remotecontentSettingsWidthUnitClass, rootel).removeClass(remotecontentSettingsWidthUnitSelectedClass);
-                $(this).addClass(remotecontentSettingsWidthUnitSelectedClass);
                 renderIframeSettings(false);
             });
 

@@ -24,6 +24,11 @@
     padding: 10px; 
     clear: both;
 }
+
+.contentauthoring_edit_mode .contentauthoring_widget {
+    padding: 10px 9px 9px 10px;
+}
+
 .contentauthoring_edit_mode {
     background: url("/devwidgets/contentauthoring/images/grid_bg.png") repeat scroll left top transparent;
     border: 1px solid #e9e9e9;
@@ -87,7 +92,7 @@
 }
 
 .contentauthoring_widget {
-    min-height: 300px;
+    min-height: 460px;
 }
 
 .contentauthoring_edit_mode .contentauthoring_minheight_container {

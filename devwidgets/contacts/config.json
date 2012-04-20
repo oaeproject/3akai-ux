@@ -4,6 +4,9 @@
             "bundle": "/devwidgets/contacts/bundles/default.properties",
             "name": "contacts",
             "description": "Contacts"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/contacts/bundles/es_ES.properties"
         }
     },
     "id": "contacts",

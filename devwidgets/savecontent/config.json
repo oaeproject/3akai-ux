@@ -8,6 +8,9 @@
             "bundle": "/devwidgets/savecontent/bundles/default.properties",
             "name":"Savecontent",
             "description":"Saves content into the users library"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/savecontent/bundles/es_ES.properties"
         }
     },
     "url":"/devwidgets/savecontent/savecontent.html"
