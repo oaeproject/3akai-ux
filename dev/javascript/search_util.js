@@ -152,7 +152,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Adjusts the height of the search results grid elements of 4 elements per row
          * @param {Object} $searchGridElements jQuery object containing the search result grid elements
          */
-        sakai_global.data.search.adjustGridElementHeights = function($searchGridElements) {
+        var adjustGridElementHeights = function($searchGridElements) {
             var elementsToAdjust = [];
             $.each($searchGridElements, function(i, el) {
                 if (i && i % 4 === 0) {
@@ -163,6 +163,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             if (elementsToAdjust.length) {
                 $(elementsToAdjust).equalHeights();
+            }
+        };
+
+        /**
+         * Determine if height for search results needs to be adjusted
+         * @param {Object} $rootel jQuery object for the widget container
+         */
+        sakai_global.data.search.determineAdjustGridElementHeights = function($rootel) {
+            if ($(".s3d-search-results-container", $rootel).hasClass("s3d-search-results-grid")) {
+                var $searchGridElements = $rootel.find('.s3d-search-result');
+                adjustGridElementHeights($searchGridElements);
             }
         };
 
@@ -268,13 +279,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")) {
                     view = "list";
                     $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
-                    $('.s3d-search-results-container').children().height('auto');
+                    $('.s3d-search-result').height('auto');
                 } else {
                     view = "grid";
                     $(".s3d-search-results-container").addClass("s3d-search-results-grid");
 
-                    var $searchGridElements = $('.s3d-search-results-grid:visible').children();
-                    sakai_global.data.search.adjustGridElementHeights($searchGridElements);
+                    var $searchGridElements = $('.s3d-search-result:visible');
+                    adjustGridElementHeights($searchGridElements);
                 }
                 $(".s3d-search-listview-options").find("div").removeClass("selected");
                 $(".search_view_" + view).addClass("selected");
