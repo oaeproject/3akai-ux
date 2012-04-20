@@ -10,6 +10,11 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/dashboard/bundles/es_ES.properties"
+	},
+        "fr_FR": {
+            "bundle": "/devwidgets/dashboard/bundles/fr_FR.properties",
+            "name":"Dashboard french",
+            "description":"Dashboard french"
         }
     },
     "img":"/devwidgets/comments/images/comments.png",

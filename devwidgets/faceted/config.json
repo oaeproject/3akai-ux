@@ -11,6 +11,11 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/faceted/bundles/es_ES.properties"
+	},
+        "fr_FR": {
+            "bundle": "/devwidgets/faceted/bundles/fr_FR.properties",
+            "name": "Faceted french",
+            "description": "Faceted french"
         }
     }
 }

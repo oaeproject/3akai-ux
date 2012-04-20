@@ -10,6 +10,11 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/contentmetadata/bundles/es_ES.properties"
+	},
+        "fr_FR": {
+            "bundle": "/devwidgets/contentmetadata/bundles/fr_FR.properties",
+            "name": "Content metadata French",
+            "description": "Content metadata French"
         }
     },
     "url":"/devwidgets/contentmetadata/contentmetadata.html"
