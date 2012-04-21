@@ -9,10 +9,10 @@
         "es_ES": { 
             "bundle": "/devwidgets/accountpreferences/bundles/es_ES.properties"
         }, 
-	"fr_FR": {
+        "fr_FR": {
             "bundle": "/devwidgets/accountpreferences/bundles/fr_FR.properties",
-            "description":"Account preferences french",
-            "name":"Account preferences french"
+            "description": "préférences du compte",
+            "name": "préférences du compte"
         }
     },
     "type":"core",

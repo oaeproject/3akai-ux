@@ -11,7 +11,7 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/carousel/bundles/es_ES.properties"
-	},
+        },
         "fr_FR": {
            "bundle":     "/devwidgets/carousel/bundles/fr_FR.properties",
             "name":       "Carousel french",

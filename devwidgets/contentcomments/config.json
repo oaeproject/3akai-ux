@@ -13,7 +13,7 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/contentcomments/bundles/es_ES.properties"
-	},
+        },
         "fr_FR": {
             "bundle": "/devwidgets/contentcomments/bundles/fr_FR.properties",
             "name":"Content comments French",
