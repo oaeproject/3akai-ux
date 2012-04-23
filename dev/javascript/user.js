@@ -75,6 +75,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $.each( structure.structure0.profile, function( key, section ) {
                 if ( $.isPlainObject( section ) ) {
                     newProfile = false;
+                    return false;
                 }
             });
             if ( newProfile ) {
@@ -162,11 +163,72 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return updateStructure;
         };
 
+        /**
+         * Check the structure (public/private) & update if necessary
+         * @param {Object} structure The structure we need to check
+         * @param {Object} config The config we need to check
+         * @param {Boolean} isMe Whether the current person is looking at his/her profile
+         * @return {Boolean} Whether or not we need to update the structure
+         */
+        var checkStructure = function(structure, config, isMe) {
+
+            // We only update the navigation when the user himself logs in
+            if (!isMe) {
+                return false;
+            }
+
+            var needsUpdate = false;
+
+            for (var i in config) {
+                if (config.hasOwnProperty(i)) {
+                    if (i === 'structure0') {
+                        for (var j in config[i]) {
+                            // It is in the config file but not in the saved structure
+                            if (config[i].hasOwnProperty(j) && !structure.structure0.hasOwnProperty(j)) {
+
+                                // Add it to the saved structure
+                                var refidParam = {
+                                    'refid': sakai.api.Util.generateWidgetId()
+                                };
+                                // We don't want to change the current config variable
+                                configClone = $.extend(true, {}, config);
+                                sakai.api.Util.replaceTemplateParameters(refidParam, configClone);
+                                // Add it to structure0
+                                structure.structure0[j] = configClone[i][j];
+                                // Add it to the main structure
+                                var refidItem = configClone[i][j]._ref;
+                                structure[refidItem] = configClone[refidItem];
+                                needsUpdate = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (var k in structure) {
+                if (structure.hasOwnProperty(k)) {
+                    if (k === 'structure0'){
+                        for (var l in structure[k]) {
+                            // It is not in the config file, but it is in the structure
+                            if (structure[k].hasOwnProperty(l) && !config.structure0.hasOwnProperty(l)) {
+
+                                // Remove it from the structure
+                                var refid = structure[k][l]._ref;
+                                delete structure[k][l];
+                                delete structure[refid];
+                                needsUpdate = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return needsUpdate;
+        };
+
         var continueLoadSpaceData = function(userid) {
             var publicToStore = false;
-            var requiresPublicMigration = false;
             var privateToStore = false;
-            var requirePrivateMigration = false;
 
             // Load public data from /~userid/private/pubspace
             sakai.api.Server.loadJSON(puburl, function(success, data) {
@@ -186,7 +248,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                 }
-                if ( pubdata.structure0.profile && setupProfile( pubdata, isMe ) ) {
+                if (pubdata.structure0.profile && checkStructure(pubdata,
+                        $.extend(true, {}, sakai.config.defaultpubstructure), isMe)) {
+                    publicToStore = $.extend(true, {}, pubdata);
+                }
+                if (pubdata.structure0.profile && setupProfile(pubdata, isMe)) {
                     publicToStore = $.extend(true, {}, pubdata);
                 }
                 if (isMe) {
@@ -199,6 +265,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         } else {
                             privdata = data2;
                             privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
+
+                            // Check whether the privstructure needs to change or not
+                            if (privdata.structure0 && checkStructure(privdata,
+                                    $.extend(true, {}, sakai.config.defaultprivstructure), isMe)) {
+                                privateToStore = $.extend(true, {}, privdata);
+                            }
                         }
                         if (publicToStore) {
                             if ($.isPlainObject(publicToStore.structure0)) {
