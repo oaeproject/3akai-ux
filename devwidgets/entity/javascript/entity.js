@@ -158,46 +158,61 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Runs the templaterenderer for the download container, shows it and adds binding to the links
+         * @param {boolean} The needsprocessing value of the Sakai Document, so we only show the PDF link if a file has been processed
+         *                  When no file has been converted the value does not exist
+         * @param {boolean} The processingfailed value of the Sakai Document, so we do not create links for unexisting files
          */
         var showDownload = function (needsprocessing, processingfailed) {
-            //render the download container
-            $("#entity_download_container").html(sakai.api.Util.TemplateRenderer("#entity_download_template",{
-                "id": sakai_global.content_profile.content_data.data['_path'],
-                "name": sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'],
-                "needsprocessing": needsprocessing,
-                "processingfailed": processingfailed
+            var id = sakai_global.content_profile.content_data.data['_path'];
+            var name = sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']
+            
+            //Render the download container
+            $('#entity_download_container').html(sakai.api.Util.TemplateRenderer('#entity_download_template', {
+                'id': id,
+                'name': name,
+                'needsprocessing': needsprocessing,
+                'processingfailed': processingfailed
             }));
-            $("#entity_download").jqm({
+            
+            //Overlay setup
+            sakai.api.Util.Modal.setup('#entity_download', {
                 modal: true,
                 overlay: 20,
                 toTop: true,
                 zIndex: 9999
             });
-            $("#entity_download").jqmShow();
-            $("#entity_download_button_pdf").bind("click", function(){
-                $("#entity_download").jqmHide();
-                $("#entity_download_button_pdf").unbind("click");
+            
+            //Show download overlay
+            sakai.api.Util.Modal.open('#entity_download');
+            
+            //PDF Button
+            $('#entity_download_button_pdf').on('click', function(){
+                sakai.api.Util.Modal.close('#entity_download');
+                $('#entity_download_button_pdf').off('click');
             });
-            $("#entity_download_button_imscp").bind("click", function(){
-                $("#entity_download").jqmHide();
-                $("#entity_download_button_imscp").unbind("click");
+            
+            //IMSCP Button
+            $('#entity_download_button_imscp').on('click', function(){
+                sakai.api.Util.Modal.close('#entity_download');
+                $('#entity_download_button_imscp').off('click');
             });
         }
 
         /**
          * Get data about doc to see if it is available
-         * We do an ajax call to get the latest data
+         * We do an ajax call to get the latest data and setup the download overlay
          */
         var getAvailability = function () {
             $.ajax({
-                url: sakai_global.content_profile.content_data["content_path"] + ".json",
-                type: "GET",
+                url: sakai_global.content_profile.content_data['content_path'] + '.json',
+                type: 'GET',
                 success: function (data) {
-                    showDownload(data["sakai:needsprocessing"], data["sakai:processing_failed"]);
-                    console.log(data);
+                    //call showDownload function to set up the download overlay
+                    showDownload(data['sakai:needsprocessing'], data['sakai:processing_failed']);
                 },
                 error: function () {
-                    showDownload(true);
+                    //we set variables to true (which do not show the download) when loading fails.
+                    showDownload(true, true);
                 }
             });
         }

@@ -214,8 +214,9 @@
                     __MSG__OPEN_LINK__<span class="entity_download_content"></span>
                 </a>
             {elseif data.data.mimeType === "x-sakai/document"}
-                <a id="contentpreview_download_overlay_button" href="#" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
+                <button type="button" id="contentpreview_download_overlay_button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" >
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+                </button>
             {elseif data.data.mimeType !== "x-sakai/collection"}
                 <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
@@ -581,8 +582,8 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
 
 <div id="entity_download_template"><!--
     <div class="download_choice_wrapper">
-        <h2 class="s3d-dialog-header">__MSG__DOWNLOAD_PDF__</h2>
-        <h3 class="s3d-dialog-header">__MSG__DOWNLOAD_PDF_INFO__</h3>
+        <h2>__MSG__DOWNLOAD_PDF__</h2>
+        <h3>__MSG__DOWNLOAD_PDF_INFO__</h3>
         {if needsprocessing === "false" && processingfailed === "false"}
             <a id="entity_download_button_pdf" class="s3d-button s3d-overlay-button" href="/p/${id}/${id}.processed.pdf">__MSG__DOWNLOAD_PDF__</a>
         {else}
@@ -590,8 +591,8 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
         {/if}
     </div>
     <div class="download_choice_wrapper">
-        <h2 class="s3d-dialog-header">__MSG__DOWNLOAD_IMSCP__</h2>
-        <h3 class="s3d-dialog-header">__MSG__DOWNLOAD_IMSCP_INFO__</h3>
+        <h2>__MSG__DOWNLOAD_IMSCP__</h2>
+        <h3>__MSG__DOWNLOAD_IMSCP_INFO__</h3>
         <a id="entity_download_button_imscp" class="s3d-button s3d-overlay-button" href="/imscp/${id}/${name}.zip">__MSG__DOWNLOAD_IMSCP__</a>
     </div>
 --></div>

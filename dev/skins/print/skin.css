@@ -22,7 +22,7 @@
 }
 * {
     background-color: #FFFFFF;
-    border: medium none;
+    border: none;
 }
 html {
     background-color: #FFFFFF;
@@ -65,14 +65,14 @@ html {
     background-color: #FFFFFF !important;
 }
 .s3d-page-column-right {
-    border: medium none;
-    width:960px !important;
+    border: none;
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
+    width: 960px !important;
 }
 
-div[id^="brandingcontainer"]{
+div[id^="brandingcontainer"] {
     display: none;
 }
 
