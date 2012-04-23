@@ -236,7 +236,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toTop: true,
                 zIndex: 3000
             });
-            $('#worldsettings_warning_container').jqm({
+            sakai.api.Util.Modal.setup('#worldsettings_warning_container', {
                 modal: true,
                 overlay: 20,
                 toTop: true,
