@@ -250,11 +250,9 @@ sakai_global.s23_site = function(){
                     }
                 }
             }
-            else{
-                if (page && page.popup) {
-                    var popupWindow=window.open('/portal/page/' + page.id, page.id, 'resizable=yes,toolbar=no,scrollbars=yes, width=800,height=600');
-                    popupWindow.focus();
-                }
+            else if (page && page.popup) {
+                var popupWindow = window.open('/portal/page/' + page.id, page.id, 'resizable=yes,toolbar=no,scrollbars=yes, width=800,height=600');
+                popupWindow.focus();
             }
         }
     };
