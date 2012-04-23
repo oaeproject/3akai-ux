@@ -656,15 +656,15 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         var showContextMenu = function($clickedItem, x, y) {
-            var contextMenu = $("#lhnavigation_submenu");
-            $clickedItem.children(".lhnavigation_selected_submenu_image").addClass("clicked");
-            contextMenu.css("left", x - 70 + "px");
-            contextMenu.css("top", y + 15 +"px");
+            var contextMenu = $('#lhnavigation_submenu', $rootel);
+            $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
+            contextMenu.css('left', x - 70);
+            contextMenu.css('top', y + 15);
             toggleContextMenu();
         };
 
         var toggleContextMenu = function(forceHide) {
-            var contextMenu = $('#lhnavigation_submenu');
+            var contextMenu = $('#lhnavigation_submenu', $rootel);
             if (forceHide) {
                 $('.lhnavigation_selected_submenu_image.clicked')
                     .parents('.lhnavigation_item_content, .lhnavigation_subnav_item_content')
@@ -1249,7 +1249,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Internal event binding //
         ////////////////////////////
 
-        $(".lhnavigation_selected_submenu").live("click", function(ev){
+        $rootel.on('click', '.lhnavigation_selected_submenu', function(ev){
             showContextMenu($(this), ev.pageX, ev.pageY);
         });
 
