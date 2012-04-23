@@ -597,8 +597,8 @@ a:hover {
 	padding: 7px 0;
 	width: 200px;
 }
-.s3d-hidden, .i18nable {
-	display: none;
+.i18nable > div {
+    display: none;
 }
 .s3d-bold {
 	font-weight: bold;
@@ -2846,4 +2846,23 @@ ul li.s3d-list-item:hover {
 }
 #s3d-draggeditems-container .s3d-draggable-hidden {
 	display: none;
+}
+
+/*
+ * No Javascript message
+ */
+noscript {
+    display: block;
+    padding: 10px 20px;
+    margin: 20px;
+    border: 1px solid #999;
+    background-color: #F8FFC7;
+}
+noscript p {
+    font-size: 1.2em;
+    font-family: Arial,Helvetica,sans-serif;
+    line-height: 140%;
+}
+noscript a:link {
+    text-decoration: underline;
 }

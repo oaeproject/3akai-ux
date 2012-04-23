@@ -1823,7 +1823,7 @@ define(
                 }
                 document.title = pageTitle;
                 // Show the actual page content
-                $('body').show();
+                $('body.i18nable > div').show();
                 if ($.isFunction(callback)) {
                     callback();
                 }
