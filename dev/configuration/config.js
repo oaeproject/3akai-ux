@@ -1650,7 +1650,7 @@ define(function(){
          */
         defaultprivstructure: {
             'structure0': {
-                'dashboard': {
+                'dashboardactivity': {
                     '_ref': '${refid}0',
                     '_title': '__MSG__MY_DASHBOARD__',
                     '_order': 0,
