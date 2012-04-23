@@ -102,7 +102,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             $.each(unreadMessages, function(i,elt) {
                 var message = messages[$(elt).attr("id")];
                 $(elt).removeClass("unread");
-                $(elt).find('.inbox_placeholder').find('span').attr('class', 'inbox_item_read_icon').find('em').text(sakai.api.i18n.getValueForKey('READ', 'inbox'));
+                $(elt).find('.inbox_placeholder').find('em').text(sakai.api.i18n.getValueForKey('READ', 'inbox'));
                 readList.push(message);
             });
             sakai.api.Communication.markMessagesAsRead(readList);
