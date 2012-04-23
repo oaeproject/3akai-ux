@@ -8,6 +8,11 @@
             "bundle": "/devwidgets/addpeoplegroups/bundles/default.properties",
             "name":"addpeoplegroups",
             "description":"Adds people or groups as a member on groups"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/addpeoplegroups/bundles/fr_FR.properties",
+            "name":"addpeoplegroups french",
+            "description":"Adds people or groups as a member on groups french"
         }
     },
     "url":"/devwidgets/addpeoplegroups/addpeoplegroups.html"
