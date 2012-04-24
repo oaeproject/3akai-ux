@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/listpeople/bundles/default.properties",
             "name": "People lister",
             "description":"General people lister widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/listpeople/bundles/fr_FR.properties",
+            "name": "People lister French",
+            "description":"General people lister widget French"
         }
     },
     "url": "/devwidgets/listpeople/listpeople.html",

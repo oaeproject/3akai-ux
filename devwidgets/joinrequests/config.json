@@ -8,6 +8,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/joinrequests/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/joinrequests/bundles/fr_FR.properties"
         }
     },
     "personalportal":false,

@@ -13,6 +13,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/worldsettings/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/worldsettings/bundles/fr_FR.properties"
         }
     },
     "id":                 "worldsettings",

@@ -8,6 +8,11 @@
             "bundle": "/devwidgets/personinfo/bundles/default.properties",
             "name":"Personinfo",
             "description":"Overlay that displays person info"
+        },
+        "default": {
+            "bundle": "/devwidgets/personinfo/bundles/fr_FR.properties",
+            "name": "Personinfo French",
+            "description": "Overlay that displays person info French"
         }
     },
     "url":"/devwidgets/personinfo/personinfo.html"
