@@ -79,20 +79,13 @@
                             <tfoot>
                             </tfoot>
                         </table>
-                        <button id="coveragebutton" onclick='window.open("/dev/jscoverage.html")'>
-                            Coverage report
-                        </button>
-                        <script>
-                            if (typeof(_$jscoverage)=='undefined'){
-                            document.getElementById("coveragebutton").style.display="none";
-                        }
-                        </script>
+                        <a id="coveragereport" class="s3d-action" href="/dev/jscoverage.html" target="_blank" style="display:none">Coverage report</a>
                     </div>
                     <div id="run_all_iframes">
                     </div>
                 </div>
             </div>
         </div>
-        <script>require(["./qunit/js/sakai_qunit_runner.js"]);</script>
+        <script>require(["./qunit/js/sakai_qunit_runner.js", "./qunit/js/jscoverage.js"]);</script>
     </body>
 </html>

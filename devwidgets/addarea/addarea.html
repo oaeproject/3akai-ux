@@ -253,12 +253,12 @@
     {if !newDoc}
         <option value="public" {if !canManage || groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
         <option value="everyone" {if !canManage || groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USER_ONLY__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
-        <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+        <option value="private" {if !canManage && groupVisibility === 'members-only' && groupVisibility !== 'public'}selected{/if}>__MSG__PARTICIPANTS_ONLY__</option>
         <option value="advanced">__MSG__ADVANCED__</option>
     {else}
         <option value="public" {if groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){/if}</option>
         <option value="everyone" {if groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USER_ONLY__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){/if}</option>
-        <option value="private">__MSG__PARTICIPANTS_ONLY__</option>
+        <option value="private" {if groupVisibility === 'members-only' && groupVisibility !== 'public'}selected{/if}>__MSG__PARTICIPANTS_ONLY__</option>
         <option value="advanced">__MSG__ADVANCED__</option>
     {/if}
 --></div>

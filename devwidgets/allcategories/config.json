@@ -12,7 +12,6 @@
     },
     "id":                 "allcategories",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/allcategories/allcategories.html",
     "userdashboard":      false,

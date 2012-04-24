@@ -8,7 +8,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/googlemaps/bundles/default.properties",
-            "name": "Google maps",
+            "name": "Google map",
             "description":"Google maps"
         },
         "en_US": {
@@ -20,7 +20,7 @@
     },
     "id":"googlemaps",
     "img":"/devwidgets/googlemaps/images/googlemaps.png",
-    "showinsakaigoodies":true,
+    "imghover":"/devwidgets/googlemaps/images/googlemaps_hover.png",
     "type":"sakai",
     "enabled":true,
     "defaultLat":52.2025441,

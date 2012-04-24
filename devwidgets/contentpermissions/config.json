@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/contentpermissions/bundles/default.properties",
             "name": "Content permissions",
             "description":"Content permissions widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/contentpermissions/bundles/es_ES.properties"
         }
     },
     "type":"core",

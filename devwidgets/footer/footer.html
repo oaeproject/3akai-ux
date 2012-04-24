@@ -26,9 +26,6 @@
         <p id="footer_debug_info" style="display: none"><!-- --></p>
     </div>
      <div class="fl-fix fl-centered fixed-container bottom">
-        <p id="footer_langdoc_lang" class="footer_langloc" style="display:none;"><span>__MSG__LANGUAGE__:</span> <button id="footer_language" class="s3d-link-button" title="__MSG__CHANGE_LANGUAGE__"></button> </p>
-        <p id="footer_langdoc_loc" class="footer_langloc" style="display:none;"><span>__MSG__LOCATION__:</span> <button id="footer_location" class="s3d-link-button" title="__MSG__CHANGE_LOCATION__"></button></p>
-        <div id="footer_links"></div>
         <div id="footer_links_template"><!--
             <p>
                 {for link in links}
@@ -36,6 +33,11 @@
                 {/for}
             </p>
         --></div>
+        <div id="footer_links" class="fl-force-left"></div>
+        <div class="fl-force-right">
+            <p id="footer_langdoc_lang" class="footer_langloc fl-force-left" style="display:none;"><span>__MSG__LANGUAGE__:</span> <button id="footer_language" class="s3d-link-button" title="__MSG__CHANGE_LANGUAGE__"></button> </p>
+            <p id="footer_langdoc_loc" class="footer_langloc fl-force-left" style="display:none;"><span>__MSG__LOCATION__:</span> <button id="footer_location" class="s3d-link-button" title="__MSG__CHANGE_LOCATION__"></button></p>
+        </div>
      </div>
 </div>
 <div class="footer_push"><!-- --></div>

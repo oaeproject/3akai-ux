@@ -94,8 +94,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $savecontent_save.removeAttr("disabled");
 
-            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 3;
-            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 115;
+            var adjustHeight = 0;
+            if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
+                adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
+            }
+
+            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 3 + adjustHeight;
+            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 122;
 
             $savecontent_widget.css({
                 top: savecontentTop,
@@ -136,20 +141,62 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Check if collections are in the content data set, and fetch their members
+         */
+        var checkCollectionMembers = function(callback) {
+            var checkCollections = [];
+            $.each(contentObj.data, function(i, selectedContent) {
+                var contentItem = selectedContent.body;
+                if (!(sakai_global.content_profile && sakai_global.content_profile.content_data &&
+                    sakai_global.content_profile.content_data.content_path === '/p/' + contentItem._path) &&
+                    sakai.api.Content.Collections.isCollection(contentItem)) {
+                    var collectionId = sakai.api.Content.Collections.getCollectionGroupId(contentItem);
+                    if (checkCollections.indexOf(collectionId) < 0) {
+                        checkCollections.push(sakai.api.Content.Collections.getCollectionGroupId(contentItem));
+                    }
+                }
+            });
+            if (checkCollections.length > 0) {
+                sakai.api.Groups.getMembers(checkCollections, function(success, data) {
+                    $.each(contentObj.data, function(i, contentItem) {
+                        if (sakai.api.Content.Collections.isCollection(contentItem.body)) {
+                            var collectionId = sakai.api.Content.Collections.getCollectionGroupId(contentItem.body);
+                            if (data[collectionId]) {
+                                contentItem.body.members = {
+                                    'managers': data[collectionId].managers.results,
+                                    'viewers': data[collectionId].members.results
+                                };
+                            }
+                        }
+                    });
+                    callback();
+                }, false, true);
+            } else {
+                callback();
+            }
+        };
+
+        /**
          * Determines if the selected content items are a part of any groups
          */
         var selectAlreadyInGroup = function(){
-            $.each(contentObj.memberOfGroups.entry, function(j, memberOfGroup){
-                memberOfGroup.alreadyHasIt = true;
-                $.each(contentObj.data, function(i, selectedContent){
-                    var contentItem = selectedContent.body;
-                    var isContentInGroup = sakai.api.Content.isContentInLibrary(contentItem, memberOfGroup["sakai:group-id"]);
-                    if (!isContentInGroup){
-                        memberOfGroup.alreadyHasIt = false;
-                    }
+            checkCollectionMembers(function() {
+                $.each(contentObj.memberOfGroups.entry, function(j, memberOfGroup) {
+                    memberOfGroup.alreadyHasIt = true;
+                    $.each(contentObj.data, function(i, selectedContent) {
+                        var contentItem = selectedContent.body;
+                        if (sakai_global.content_profile && sakai_global.content_profile.content_data &&
+                            sakai_global.content_profile.content_data.content_path === '/p/' + contentItem._path) {
+                            contentItem = sakai_global.content_profile.content_data;
+                        }
+                        var isContentInGroup = sakai.api.Content.isContentInLibrary(contentItem, memberOfGroup['sakai:group-id']);
+                        if (!isContentInGroup){
+                            memberOfGroup.alreadyHasIt = false;
+                        }
+                    });
                 });
+                selectedAlreadyMyLibraryMember();
             });
-            selectedAlreadyMyLibraryMember();
         };
 
         /**
@@ -186,6 +233,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     notificationBody = notificationBody.replace("${collectionid}", sakai.api.Security.safeOutput(sakai.api.Content.Collections.getCollectionPoolId(id)));
                     notificationBody = notificationBody.replace("${collectiontitle}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
                     notificationTitle = $("#savecontent_collection_add_library_title").html();
+                } else if (id === sakai.data.me.user.userid) {
+                    notificationBody = decodeURIComponent($('#savecontent_my_add_library_body').html());
+                    notificationTitle = $('#savecontent_group_add_library_title').html();
                 } else {
                     notificationBody = decodeURIComponent($("#savecontent_group_add_library_body").html());
                     notificationBody = notificationBody.replace("${groupid}", sakai.api.Security.safeOutput(id));

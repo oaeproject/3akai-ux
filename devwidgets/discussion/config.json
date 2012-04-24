@@ -5,20 +5,23 @@
     "groupdashboard": true,
     "id":"discussion",
     "img":"/devwidgets/discussion/images/discussion.png",
+    "imghover":"/devwidgets/discussion/images/discussion_hover.png",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/discussion/bundles/default.properties",
-            "name": "Discussion",
+            "name": "Discussion forum",
             "description":"Discussion widget"
         },
         "en_US": {
             "bundle": "/devwidgets/discussion/bundles/en_US.properties"
         },
+        "es_ES": { 
+            "bundle": "/devwidgets/discussion/bundles/es_ES.properties"
+        },
         "zh_CN": {
             "bundle": "/devwidgets/discussion/bundles/zh_CN.properties"
         }
     },
-    "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",
     "enabled":true,

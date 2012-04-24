@@ -64,5 +64,16 @@ more_colors:"More colors",
 shortcuts_desc:'Accessibility Help',
 help_shortcut:'. Press ALT F10 for toolbar. Press ALT 0 for help.',
 rich_text_area:"Rich Text Area",
-toolbar:"Toolbar"
+toolbar:"Toolbar",
+
+// Custom Sakai styles
+h1: "Heading 1",
+h2: "Heading 2",
+h3: "Heading 3",
+h4: "Heading 4",
+h5: "Heading 5",
+h6: "Heading 6",
+p: "Paragraph",
+blockquote: "Blockquote",
+caption: "Caption"
 });

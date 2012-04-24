@@ -10,6 +10,7 @@
             <li><button class="selected" id="accountpreferences_preferences_tab">__MSG__ACCOUNT_PREFERENCES__</button></li>
             <li><button id="accountpreferences_privacy_tab">__MSG__PRIVACY_SETTINGS__</button></li>
             <li><button id="accountpreferences_password_tab">__MSG__PASSWORD__</button></li>
+            <li><button id="accountpreferences_email_tab">__MSG__EMAIL__</button></li>
         </ul>
     </div>
 
@@ -25,11 +26,28 @@
     <span id="accountpreferences_message_ChangeLang_title" style="display:none;">__MSG__REGIONAL_SETTINGS__.</span>
     <span id="accountpreferences_message_ChangeLang" style="display:none;">__MSG__REGIONAL_SETTINGS_CHANGED__.</span>
     <span id="accountpreferences_error_passSame" style="display:none;">__MSG__NEW_OLD_PASSWORD_EQUAL__</span>
+    <span id="accountpreferences_error_failChangeEmail" style="display:none;">__MSG__CHANGING_EMAIL_FAILED__.</span>
+    <span id="accountpreferences_error_failChangeEmailBody" style="display:none;">__MSG__CHANGING_EMAIL_FAILED_BODY__.</span>
+    <span id="accountpreferences_message_emailChanged" style="display:none;">__MSG__EMAIL_CHANGED__.</span>
+    <span id="accountpreferences_message_emailChangedBody" style="display:none;">__MSG__EMAIL_CHANGED_BODY__.</span>
 
     <!-- Account Preferences -->
     <div class="fl-container-flex">
         <div class="fl-fix fl-centered accountpreferences">
             <!-- CONTENT -->
+            <div class="email" id="accountpreferences_changeEmailContainer" style="display:none;">
+                <form id="accountpreferences_email_change" class="preferences-form">
+                    <h2>__MSG__EMAIL__:</h2>
+                    <div class="accountpreferences_section_wrap_email accountpreferences_section_border">
+                        <div id="accountpreferences_section_email">
+                            <div class="form-item s3d-form-field-wrapper">
+                                <label for="accountpreferences_email">__MSG__EMAIL__:</label>
+                                <input maxlength="255" type="email" id="accountpreferences_email" name="accountpreferences_email" class="email-input required" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="password" id="accountpreferences_changePassContainer" style="display:none;">
                 <form id="accountpreferences_password_change" class="preferences-form">
                     <h2>__MSG__PASSWORD__:</h2>
@@ -71,10 +89,10 @@
             </div>
             <div class="regional" id="accountpreferences_preferContainer">
                 <form id="accountpreferences_preferences_form" class="preferences-form" method="POST" action="#">
-                    <div class="accountpreferences_section_wrap">
+                    <div class="accountpreferences_section_wrap" id="accountpreferences_langloc_settings" style="display:none">
                         <h2>__MSG__ACCOUNT_PREFERENCES__:</h2>
                         <div class="accountpreferences_section accountpreferences_section_border" id="accountpreferences_section_regional">
-                            <div class="form-item">
+                            <div class="form-item" id="accountpreferences_select_timezone" style="display:none">
                                 <label for="time_zone">__MSG__TIME_ZONE__:</label>
                                 <select id="time_zone" name="time-zone">
                                     <option value="Etc/GMT+12"> __MSG__ETC/GMT+12__ </option>
@@ -149,7 +167,7 @@
                                     <option value="Pacific/Kiritimati"> __MSG__PACIFIC/KIRITIMATI__ </option>
                                 </select>
                             </div>
-                            <div class="form-item">
+                            <div class="form-item" id="accountpreferences_select_language" style="display:none">
                                 <label for="pass_language">__MSG__LANGUAGE__:</label>
                                 <select id="pass_language" name="language">
                                 </select>

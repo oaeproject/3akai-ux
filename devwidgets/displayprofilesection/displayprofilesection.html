@@ -10,12 +10,12 @@
 </div>
 
 <div id="displayprofilesection_header_template" style="display:none"><!--
-    <div class="s3d-contentpage-title">${section.label}</div>
+    <h1 class="s3d-contentpage-title">${pageTitle}</h1>
 --></div>
 
 <div id="displayprofilesection_edit_template" style="display:none"><!--
     {macro renderTextInput(config, field_id, data)}
-        <input type="text" id="${field_id}" name="${field_id}" {if data && data.value}value="${data.value}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
+        <input type="text" id="${field_id}" name="${field_id}" {if data && data.value}value="${data.value|safeOutput}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
     {/macro}
 
     {macro renderTextarea(config, field_id, data)}
@@ -99,12 +99,12 @@
     <div class="s3d-no-results-container">
         <div class="s3d-no-results-arrow-up"></div>
         <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
-        <h1>
+        <p>
             <span id="displayprofilesection_no_results_text">${errorString}</span>
             <span id="displayprofilesection_no_results_message" {if !showMessage}style="display:none;"{/if}>
                 <button type="button" id="displayprofilesection_user_message" class="s3d-link-button sakai_sendmessage_overlay" sakai-entityid="${userid}" sakai-entityname="${displayName}" data-sakai-entitytype="user">__MSG__SEND_THEM_A_MESSAGE__</button> __MSG__TO_REMIND_THEM__
             </span>
-        </h1>
+        </p>
     </div>
 --></div>
 
@@ -129,7 +129,13 @@
             {var field_data = data && data[ field_key ] ? data[ field_key ] : false}
             {if field_data && field_data.value && ($.trim(field_data.value) !== "" || $.isArray(field_data.value))}
             <div class="displayprofilesection_field">
-                <span class="s3d-input-label">${field.label}:</span>
+                <span class="s3d-input-label">
+                    {if field.altLabel}
+                        ${field.altLabel}:
+                    {else}
+                        ${field.label}:
+                    {/if}
+                </span>
                 ${renderField(field, field_key, field_data)}
             </div>
             {/if}

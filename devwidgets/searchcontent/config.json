@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/searchcontent/bundles/default.properties",
             "name":       "Search content",
             "description":"Search content"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/searchcontent/bundles/es_ES.properties"
         }
     },
     "id":                 "searchcontent",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/searchcontent/searchcontent.html",
     "userdashboard":      false,

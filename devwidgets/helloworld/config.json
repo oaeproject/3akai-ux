@@ -12,7 +12,6 @@
     },
     "id":                 "helloworld",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/helloworld/helloworld.html",
     "userdashboard":      false,

@@ -19,7 +19,7 @@ var sakai = {};
 var $ = {};
 
 // Init google map object with Cambridge location as the center position
-var map = new google.maps.Map(document.getElementById("googlemaps_map_canvas"), {
+var map = new google.maps.Map(document.getElementById('googlemaps_map_canvas'), {
     zoom: 8,
     center: new google.maps.LatLng(52.2025441, 0.1312368),
     mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
@@ -37,17 +37,16 @@ var marker = new google.maps.Marker({
 
 // Init a google maps infor window object to open a info window to show the location info
 var infoWindow = new google.maps.InfoWindow({
-    content: ""
+    content: ''
 });
 
 // Init a json object which inlcudes the basic properties of the google map
 var json = {
-    "lat": map.getCenter().lat(),
-    "lng": map.getCenter().lng(),
-    "mapzoom": map.getZoom(),
-    "mapinput": "",
-    "mapsize": "",
-    "maphtml": "Cambridge, UK"
+    'lat': map.getCenter().lat(),
+    'lng': map.getCenter().lng(),
+    'mapzoom': map.getZoom(),
+    'mapinput': '',
+    'maphtml': 'Cambridge, UK'
 };
 
 /**
@@ -60,7 +59,7 @@ function updateInfoWindow(html) {
 
     json.maphtml = html;
     infoWindow = new google.maps.InfoWindow({
-        content: "<h4>" + html + "</h4>"
+        content: '<h4>' + html + '</h4>'
     });
     infoWindow.open(map, marker);
 }
@@ -74,15 +73,14 @@ function geocodePosition(position) {
     if (geocoder) {
         geocoder.geocode({
             latLng: position
-        }, function(responses){
+        }, function(responses) {
             if (responses && responses.length > 0) {
                 var html = responses[0].formatted_address;
                 updateInfoWindow(html);
-            }
-            else {
-                $(window).trigger("show.mapsnotification.sakai", {
-                    subject: sakai.api.i18n.Widgets.getValueForKey("googlemaps", "NO_ADDRESS"),
-                    body: sakai.api.i18n.Widgets.getValueForKey("googlemaps", "CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION")
+            } else {
+                $(window).trigger('show.mapsnotification.sakai', {
+                    subject: sakai.api.i18n.Widgets.getValueForKey('googlemaps', 'NO_ADDRESS'),
+                    body: sakai.api.i18n.Widgets.getValueForKey('googlemaps', 'CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION')
                 });
             }
         });
@@ -97,7 +95,7 @@ function geocodeAddress(address) {
     var geocoder = new google.maps.Geocoder();
     if (geocoder) {
         geocoder.geocode({
-            "address": address
+            'address': address
         }, function(results, status){
             if (status == google.maps.GeocoderStatus.OK) {
                 var position = results[0].geometry.location;
@@ -106,9 +104,9 @@ function geocodeAddress(address) {
                 marker.setPosition(position);
                 var html = results[0].formatted_address;
                 updateInfoWindow(html);
-            }
-            else {
-                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("googlemaps", sakai.api.User.data.me.user.locale, "NO_ADDRESS"), sakai.api.i18n.Widgets.getValueForKey("googlemaps", sakai.api.User.data.me.user.locale, "CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION"));
+            } else {
+                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey('googlemaps', sakai.api.User.data.me.user.locale, 'NO_ADDRESS'), 
+                                                 sakai.api.i18n.Widgets.getValueForKey('googlemaps', sakai.api.User.data.me.user.locale, 'CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION'));
             }
         });
     }
@@ -133,15 +131,14 @@ var getJSON = function() {
  * @param {string} The region where Google will perform the search
  */
 function search(keyword, region, _sakai, _$) {
-
     sakai = _sakai;
     $ = _$;
 
     // If region is provided, attach it ot the search query
     // TO DO: This later will need to be moved to the Google API
-    if (region !== "") {
-        geocodeAddress(keyword+", "+region);
-        json.mapinput = keyword+", "+region;
+    if (region !== '') {
+        geocodeAddress(keyword+', '+region);
+        json.mapinput = keyword+', '+region;
     } else {
         geocodeAddress(keyword);
         json.mapinput = keyword;
@@ -170,9 +167,7 @@ function setMap(jsonTarget) {
  * Init the listeners of marker
  */
 function init() {
-
-    //alert(new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude))
-    google.maps.event.addListener(marker, "click", function() {
+    google.maps.event.addListener(marker, 'click', function() {
         geocodePosition(marker.getPosition());
     });
 }

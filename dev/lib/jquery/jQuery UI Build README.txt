@@ -6,6 +6,7 @@ Mouse
 Draggable
 Droppable
 Sortable
+Resizable
 Effects Core
 Effect "Pulsate"
 

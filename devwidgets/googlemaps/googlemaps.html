@@ -3,10 +3,7 @@
 
 <!-- MAIN VIEW -->
 <div id="googlemaps_select_container">
-    <div class="fl-widget-content s3d-widget-content">
-        <form id="googlemaps_form_search" style="display:none;">
-
-
+    <form id="googlemaps_form_search" style="display:none;">
         <label for="googlemaps_input_text_location">__MSG__LOCATION__:</label><br/>
 
         <!-- The search input textfield -->
@@ -20,25 +17,13 @@
         <p id="googlemaps_location_help">__MSG__LOCATION_HELP__</p>
     </form>
 
-        <!-- The map iframe -->
-        <iframe id="googlemaps_iframe_map" class="fl-fix" src="/devwidgets/googlemaps/map.html" frameborder="0"></iframe>
-
-    <!-- The small and large radio button -->
-    <div id="googlemaps_size_options" style="display:none">
-        <label for="googlemaps_radio_small">__MSG__MAP_SIZE_ON_PAGE__:</label>
-        <input id="googlemaps_radio_large" name="googlemaps_radio" type="radio" value="Large" /><label for="googlemaps_radio_large">__MSG__LARGE__</label>
-        <input id="googlemaps_radio_small" name="googlemaps_radio" type="radio" value="Small" /><label for="googlemaps_radio_small">__MSG__SMALL__</label><br/>
-    </div>
+    <!-- The map iframe -->
+    <iframe id="googlemaps_iframe_map" class="fl-fix" src="/devwidgets/googlemaps/map.html" frameborder="0"></iframe>
 
     <!-- The submit and cancel button -->
-    <div class="dialog_buttons" id="googlemaps_save_cancel_container">
+    <div class="dialog_buttons" id="googlemaps_save_cancel_container" style="display:none">
         <button type="button" id="googlemaps_cancel" class="s3d-bold s3d-link-button">__MSG__DONT_ADD__</button>
         <button type="button" id="googlemaps_save" class="s3d-button s3d-overlay-action-button">__MSG__ADD_MAP__</button>
-    </div>
-</div>
-
-<div class="s3d-widget-no-options">
-    <div class="s3d-widget-no-options-inner">
     </div>
 </div>
 

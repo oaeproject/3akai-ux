@@ -15,26 +15,107 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#newsharecontent_widget{color: #333333;position:absolute;display:none;width:250px;}
-#newsharecontent_title {font-size: 13px; margin: 10px 10px 5px;}
-#newsharecontent_select {margin-top:10px;width:220px;}
-#newsharecontent_widget button{margin:10px 10px 10px 0px;}
-#newsharecontent_widget .jqmClose{margin-left:10px; margin-top:15px;}
-#newsharecontent_container label {font-size:11px;}
-#newsharecontent_container label.toggletext {color:#369;}
-#newsharecontent_message_container {display:none;padding-top:15px;}
-#newsharecontent_sharelist_container {float:left;clear:both;width:100%;position:relative;}
-#newsharecontent_container .arrow_right {border-bottom:5px solid transparent;border-left:5px solid black;border-top:5px solid transparent;height:0;width:0;display:block;float:left;margin:4px 11px 0 0;}
-#newsharecontent_container .arrow_down {border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #000;margin:6px 6px 0 0;}
-#newsharecontent_container textarea {resize:none;height:78px;}
-#newsharecontent_container input, #newsharecontent_container textarea {padding:4px;border:1px solid #ccc;width:194px;margin-bottom:0px;}
-#newsharecontent_container input{width:186px;}
-#newsharecontent_container ul li input {border:none;}
-#newsharecontent_message_container textarea {margin-bottom:10px;width:218px;} 
-#toolbox {margin-bottom:12px;}
-#toolbox a {float:left; margin-right:5px;}
+#newsharecontent_widget {
+    color: #333333;
+    position: absolute;
+    display: none;
+    width: 250px;
+}
+#newsharecontent_title {
+    font-size: 13px;
+    margin: 10px 10px 5px;
+}
+#newsharecontent_select {
+    margin-top: 10px;
+    width: 220px;
+}
+#newsharecontent_widget button {
+    margin: 10px 10px 10px 0px;
+}
+#newsharecontent_widget .jqmClose {
+    margin-left: 10px;
+    margin-top: 15px;
+}
+#newsharecontent_widget.anon .jqmClose {
+    margin-top: 0 !important;
+}
+#newsharecontent_widget.anon .s3d-popover-inner {
+    padding: 10px 10px 0 !important;
+}
+#newsharecontent_container label {
+    font-size: 11px;
+}
+#newsharecontent_container label.toggletext {
+    color: #369;
+}
+#newsharecontent_message_container {
+    display: none;
+    padding-top: 15px;
+}
+#newsharecontent_sharelist_container {
+    float: left;
+    clear: both;
+    width: 100%;
+    position: relative;
+}
+#newsharecontent_container .arrow_right {
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid black;
+    border-top: 5px solid transparent;
+    height: 0;
+    width: 0;
+    display: block;
+    float: left;
+    margin: 4px 11px 0 0;
+}
+#newsharecontent_container .arrow_down {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #000;
+    margin: 6px 6px 0 0;
+}
+#newsharecontent_container textarea {
+    resize: none;
+    height: 78px;
+}
+#newsharecontent_container input,
+#newsharecontent_container textarea {
+    padding: 4px;
+    border: 1px solid #ccc;
+    width: 194px;
+    margin-bottom: 0px;
+}
+#newsharecontent_container input {
+    width: 186px;
+}
+#newsharecontent_container ul li input {
+    border: none;
+}
+#newsharecontent_message_container textarea {
+    margin-bottom: 10px;
+    width: 218px;
+}
+#toolbox {
+    margin-bottom: 12px;
+}
+#toolbox a {
+    float: left;
+    margin-right: 5px;
+}
 
 /* overrides */
-#newsharecontent_widget ul.as-selections{box-shadow:none;width:95%;}
-#newsharecontent_widget ul.as-list{max-height: 120px;overflow:auto;width:218px;top:100%;margin-top:-15px;}
-#newsharecontent_widget .s3d-form-field-wrapper span.s3d-error-after{width:95%;}
+#newsharecontent_widget ul.as-selections {
+    box-shadow: none;
+    width: 95%;
+}
+#newsharecontent_widget ul.as-list {
+    max-height: 120px;
+    overflow: auto;
+    width: 218px;
+    top: 100%;
+    margin-top: -15px;
+}
+#newsharecontent_widget .s3d-form-field-wrapper span.s3d-error-after {
+    width: 95%;
+}
+

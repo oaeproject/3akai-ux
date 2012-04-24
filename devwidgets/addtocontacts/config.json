@@ -5,6 +5,9 @@
             "name":"Add a contact",
             "description":"Add a contact"
         },
+        "es_ES": { 
+            "bundle": "/devwidgets/addtocontacts/bundles/es_ES.properties"
+        },
         "zh_CN": {
             "bundle": "/devwidgets/addtocontacts/bundles/zh_CN.properties",
             "name": "\u901A\u77E5\u5728\u901A\u77E5\u6E05\u5355\u91CC\u5C06\u5982\u4F55\u663E\u793A",

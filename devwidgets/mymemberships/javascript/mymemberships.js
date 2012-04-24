@@ -54,6 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mymemberships_show_grid = $(".s3d-listview-grid", $rootel);
         var $mymemberships_show_list = $(".s3d-listview-list", $rootel);
         var $mymemberships_nosearchresults = $("#mymemberships_nosearchresults");
+        var $mymemberships_result_count = $('.s3d-search-result-count', $rootel);
 
         var currentQuery = "";
 
@@ -170,7 +171,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         groupData.push({
                             id: group.groupid,
                             url: "/~" + sakai.api.Util.makeSafeURL(group.groupid),
-                            picsrc: group.picPath,
+                            picPath: group.picPath,
+                            picPathLarge: group.picPathLarge,
                             edit_url: "/dev/group_edit2.html?id=" + group.groupid,
                             title: group["sakai:group-title"],
                             titleShort: group["sakai:group-title-short"],
@@ -208,6 +210,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#mymemberships_sortarea", $rootel).show();
                     $("#mymemberships_items", $rootel).html(sakai.api.Util.TemplateRenderer(
                         $("#mymemberships_items_template", $rootel), json));
+                }
+
+                // display search results count
+                if (currentQuery && groupData.length) {
+                    $mymemberships_result_count.show();
+                    var resultLabel = sakai.api.i18n.getValueForKey('RESULTS');
+                    if (groupData.length === 1) {
+                        resultLabel = sakai.api.i18n.getValueForKey('RESULT');
+                    }
+                    $mymemberships_result_count.children('.s3d-search-result-count-label').text(resultLabel);
+                    $mymemberships_result_count.children('.s3d-search-result-count-count').text(groupData.length);
+                } else {
+                    $mymemberships_result_count.hide();
                 }
 
                 // display functions available to logged in users
@@ -262,7 +277,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Groups.leave(groupid,role,sakai.data.me,function(success) {
                     if (success) {
                         $(window).trigger("lhnav.updateCount", ["memberships", -1]);
-                        $("#mymemberships_delete_membership_dialog").jqmHide();
+                        sakai.api.Util.Modal.close('#mymemberships_delete_membership_dialog');
                         $("#mymemberships_item_"+groupid).fadeOut(false, function(){
                             // Show the default message if I have no remaining memberships
                             if ($("#mymemberships_items li:visible").length === 0){
@@ -275,7 +290,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             sakai.api.i18n.getValueForKey("YOU_HAVE_LEFT_GROUP","mymemberships").replace("${groupname}",groupname),
                             sakai.api.Util.notification.type.INFORMATION);
                     } else {
-                        $("#mymemberships_delete_membership_dialog").jqmHide();
+                        sakai.api.Util.Modal.close('#mymemberships_delete_membership_dialog');
                         sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MY_MEMBERSHIPS","mymemberships"),
                             sakai.api.i18n.getValueForKey("ERROR_LEAVING_GROUP","mymemberships").replace("${groupname}",groupname),
                             sakai.api.Util.notification.type.ERROR);
@@ -368,7 +383,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 updateMessageAndAddToData();
             });
 
-            $("#mymemberships_delete_membership_dialog").jqm({
+            sakai.api.Util.Modal.setup('#mymemberships_delete_membership_dialog', {
                 modal: true,
                 overlay: 20,
                 toTop: true
@@ -384,9 +399,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#mymemberships_are_you_sure").html(msg);
                     $("#mymemberships_delete_membership_confirm").attr("data-sakai-entityid", $(this).attr("data-sakai-entityid"));
                     $("#mymemberships_delete_membership_confirm").attr("data-sakai-entityname", $(this).attr("data-sakai-entityname"));
-                    sakai.api.Util.positionDialogBox($("#mymemberships_delete_membership_dialog"));
-                    sakai.api.Util.bindDialogFocus($("#mymemberships_delete_membership_dialog"));
-                    $("#mymemberships_delete_membership_dialog").jqmShow();
+                    sakai.api.Util.Modal.open('#mymemberships_delete_membership_dialog');
                 }
             });
 

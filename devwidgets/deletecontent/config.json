@@ -5,6 +5,9 @@
             "bundle": "/devwidgets/deletecontent/bundles/default.properties",
             "name": "Delete content",
             "description":"Delete content widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/deletecontent/bundles/es_ES.properties"
         }
     },
     "type":"core",

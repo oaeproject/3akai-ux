@@ -228,8 +228,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var previewGadget = function() {
             // get the src attribute of the embed script tag, and define a html render rather than JS
-                var urlValue = $($(remotecontentSettingsUrl).val()).attr("src").replace("output=js", "output=html");
+            var urlValue = false;
+            if ($($(remotecontentSettingsUrl).val()).length && $($(remotecontentSettingsUrl).val()).attr("src")) {
+                urlValue = $($(remotecontentSettingsUrl).val()).attr("src").replace("output=js", "output=html");
+            }
 
+            if (urlValue && urlValue !== '') {
                 // Get size of the gadget from the embed code
                 var rawParams = urlValue.split("&");
                 for (var i = 0, il = rawParams.length; i < il; i++) {
@@ -238,7 +242,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         json.width = kvpair[1];
                     }
                     if (kvpair[0] === "h") {
-                        json.width = kvpair[1];
+                        json.height = kvpair[1];
                     }
                 }
 
@@ -249,14 +253,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (isDecimal(json.height)) {
                     $(remotecontentSettingsHeight).val(json.height);
                 }
-                if (urlValue !== "") {
-                    // Check if someone already wrote http inside the url
-                    if (!isUrl(urlValue)) {
-                        urlValue = 'http://' + urlValue;
-                    }
-                    json.url = urlValue;
-                    renderIframeSettings(true);
+
+                // Check if someone already wrote http inside the url
+                if (!isUrl(urlValue)) {
+                    urlValue = 'http://' + urlValue;
                 }
+                json.url = urlValue;
+                renderIframeSettings(true);
+            }
         };
 
 

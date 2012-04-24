@@ -8,13 +8,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/comments/bundles/default.properties",
-            "name":"Comments",
+            "name":"Comment stream",
             "description":"Comments"
         }
     },
     "img":"/devwidgets/comments/images/comments.png",
-    "showinsakaigoodies":true,
-    "siteportal":true,
+    "imghover": "/devwidgets/comments/images/comments_hover.png",
     "type":"sakai",
     "enabled":true,
     "sakaidocs": true,

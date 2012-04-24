@@ -16,8 +16,35 @@
  * specific language governing permissions and limitations under the License.
  */
 /* General */
-.categories_widget {background:url("/devwidgets/categories/images/categories_bg.png") repeat-x top left transparent;width:930px;padding:0 20px 5px;visibility:hidden;}
-.categories_widget .categories_item {background:url("/devwidgets/categories/images/categories_item_bg.png") repeat-x top left transparent;width:176px;height:156px;float:left;margin:19px 3px 0 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:12px;}
+.categories_widget {
+    background: #232323;
+    background: -moz-linear-gradient(top, #232323 0%, #2b2b2b 1%, #3e3e3e 2%, #474747 3%, #494848 10%, #414141 33%, #272727 78%, #1f1f1f 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#232323), color-stop(1%,#2b2b2b), color-stop(2%,#3e3e3e), color-stop(3%,#474747), color-stop(10%,#494848), color-stop(33%,#414141), color-stop(78%,#272727), color-stop(100%,#1f1f1f));
+    background: -webkit-linear-gradient(top, #232323 0%,#2b2b2b 1%,#3e3e3e 2%,#474747 3%,#494848 10%,#414141 33%,#272727 78%,#1f1f1f 100%);
+    background: -o-linear-gradient(top, #232323 0%,#2b2b2b 1%,#3e3e3e 2%,#474747 3%,#494848 10%,#414141 33%,#272727 78%,#1f1f1f 100%);
+    background: -ms-linear-gradient(top, #232323 0%,#2b2b2b 1%,#3e3e3e 2%,#474747 3%,#494848 10%,#414141 33%,#272727 78%,#1f1f1f 100%);
+    background: linear-gradient(top, #232323 0%,#2b2b2b 1%,#3e3e3e 2%,#474747 3%,#494848 10%,#414141 33%,#272727 78%,#1f1f1f 100%);
+    width: 930px;
+    padding: 0 20px 5px;
+    visibility: hidden;
+}
+.categories_widget .categories_item {
+    background: #3a3a3a;
+    background: -moz-linear-gradient(top, #3a3a3a 0%, #3b3a3a 6%, #404040 18%, #414141 29%, #2f2f2f 69%, #1f1f1f 91%, #1b1b1b 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3a3a3a), color-stop(6%,#3b3a3a), color-stop(18%,#404040), color-stop(29%,#414141), color-stop(69%,#2f2f2f), color-stop(91%,#1f1f1f), color-stop(100%,#1b1b1b));
+    background: -webkit-linear-gradient(top, #3a3a3a 0%,#3b3a3a 6%,#404040 18%,#414141 29%,#2f2f2f 69%,#1f1f1f 91%,#1b1b1b 100%);
+    background: -o-linear-gradient(top, #3a3a3a 0%,#3b3a3a 6%,#404040 18%,#414141 29%,#2f2f2f 69%,#1f1f1f 91%,#1b1b1b 100%);
+    background: -ms-linear-gradient(top, #3a3a3a 0%,#3b3a3a 6%,#404040 18%,#414141 29%,#2f2f2f 69%,#1f1f1f 91%,#1b1b1b 100%);
+    background: linear-gradient(top, #3a3a3a 0%,#3b3a3a 6%,#404040 18%,#414141 29%,#2f2f2f 69%,#1f1f1f 91%,#1b1b1b 100%);
+    width: 176px;
+    height: 156px;
+    float: left;
+    margin: 19px 3px 0 0;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 12px;
+}
 .categories_widget .categories_item .s3d-split-line {margin:7px 0 15px;}
 .categories_widget #categories_items_container {padding-bottom:13px;}
 .categories_widget #categories_items_content {width:824px;}
@@ -29,7 +56,27 @@
 .categories_widget #categories_expand_contract .categories_expand, .categories_widget #categories_expand_contract .categories_contract {float:right;height:9px;margin:16px 0 0 12px;width:13px;}
 .categories_widget #categories_expand_contract .categories_expand {background:url("/devwidgets/categories/images/categories_expand.png") repeat-x top left transparent;}
 .categories_widget #categories_expand_contract .categories_contract {background:url("/devwidgets/categories/images/categories_contract.png") repeat-x top left transparent;}
-.categories_widget #categories_expand_contract {background:url("/dev/images/explore_choose_category_bg.png") repeat-x scroll left top transparent;border-radius:0 0 2px 2px;-moz-border-radius:0 0 2px 2px;-webkit-border-radius:0 0 2px 2px;color: #FFFFFF;display: inline-block;float: right;height: 38px;line-height: 38px;padding: 0 20px;cursor:pointer;margin-right:20px;margin-top:5px;}
+.categories_widget #categories_expand_contract {
+    background: #222222;
+    background: -moz-linear-gradient(top, #222222 0%, #444444 62%, #545454 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#222222), color-stop(62%,#444444), color-stop(100%,#545454));
+    background: -webkit-linear-gradient(top, #222222 0%,#444444 62%,#545454 100%);
+    background: -o-linear-gradient(top, #222222 0%,#444444 62%,#545454 100%);
+    background: -ms-linear-gradient(top, #222222 0%,#444444 62%,#545454 100%);
+    background: linear-gradient(top, #222222 0%,#444444 62%,#545454 100%);
+    border-radius: 0 0 2px 2px;
+    -moz-border-radius: 0 0 2px 2px;
+    -webkit-border-radius: 0 0 2px 2px;
+    color: #FFFFFF;
+    display: inline-block;
+    float: right;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 20px;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-top: 5px;
+}
 .categories_widget #categories_expand_contract span.s3d-bold {float:left;}
 
 /* Content Style */

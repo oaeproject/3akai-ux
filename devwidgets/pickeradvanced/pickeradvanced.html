@@ -53,13 +53,12 @@
                     <li id="${i["_path"]}">
                         <input type="checkbox" name="selected" value="${i["_path"]}" />
                         {var mimetype = sakai.api.Content.getMimeType(i)}
+                        {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(mimetype).description)}
                         {var thumbnail = sakai.api.Content.getThumbnail(i)}
                         {if thumbnail}
-                            <img src="${thumbnail}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
-                        {elseif sakai.config.MimeTypes[mimetype]}
-                            <img src="${sakai.config.MimeTypes[mimetype].URL}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
+                            <img src="${thumbnail}" alt="${mimeTypeDescription}" class="pickeradvanced_ppicture"/>
                         {else}
-                            <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="pickeradvanced_ppicture"/>
+                            <img src="${sakai.api.Content.getMimeTypeData(mimetype).URL}" alt="${mimeTypeDescription}" class="pickeradvanced_ppicture"/>
                         {/if}
                         <a class="pickeradvanced_name" href="/content#p=${i["_path"]|safeURL}/${i["sakai:pooled-content-file-name"]|safeURL}" target="_blank">${i["sakai:pooled-content-file-name"]|safeOutput}</a>
                         <br />

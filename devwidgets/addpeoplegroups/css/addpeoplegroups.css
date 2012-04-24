@@ -16,7 +16,23 @@
  * specific language governing permissions and limitations under the License.
  */
 #addpeoplegroups_widget {color: #333333;position:absolute;display:none;width:250px;}
-#addpeoplegroups_widget .addpeoplegroups_outer {border: 1px solid #EAEBEC;border-top: none;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;box-shadow: 0px 0px 5px #454545;-moz-box-shadow: 0px 0px 5px #454545;-webkit-box-shadow: 0px 0px 5px #454545;background:url("/dev/images/popover_bg.png") repeat-x scroll left top #f4f4f4;}
+#addpeoplegroups_widget .addpeoplegroups_outer {
+    border: 1px solid #EAEBEC;
+    border-top: none;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 5px #454545;
+    -moz-box-shadow: 0px 0px 5px #454545;
+    -webkit-box-shadow: 0px 0px 5px #454545;
+    background: #f4f4f4;
+    background: -moz-linear-gradient(top, #e6e6e6 0%, #f4f4f4 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e6e6e6), color-stop(100%,#f4f4f4));
+    background: -webkit-linear-gradient(top, #e6e6e6 0%,#f4f4f4 100%);
+    background: -o-linear-gradient(top, #e6e6e6 0%,#f4f4f4 100%);
+    background: -ms-linear-gradient(top, #e6e6e6 0%,#f4f4f4 100%);
+    background: linear-gradient(top, #e6e6e6 0%,#f4f4f4 100%);
+}
 #addpeoplegroups_widget .addpeoplegroups_inner {padding:10px;word-wrap:break-word;}
 #addpeoplegroups_widget #addpeoplegroups_title {font-size: 13px; margin: 10px 10px 5px;}
 #addpeoplegroups_widget #addpeoplegroups_select {margin-top:10px;width:220px;border:1px solid #999;height:20px;}

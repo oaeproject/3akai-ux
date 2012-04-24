@@ -20,6 +20,7 @@
     <body class="fl-centered error404 i18nable">
 
         <!-- HEADER -->
+        <div id="widget_branding" class="widget_inline"></div>
         <div class="fl-container-flex header s3d-header">
             <div class="s3d-navigation-container">
                 <div id="widget_topnavigation" class="widget_inline"></div>
@@ -28,7 +29,6 @@
                 <div class="s3d-container-shadow-left"><!----></div>
                 <div class="s3d-container-shadow-right"><!----></div>
                 <div class="s3d-page-header">
-                    <div id="widget_collections" class="widget_inline"></div>
                     <div id="widget_institutionalskinning" class="widget_inline"></div>
                 </div>
             </div>
@@ -123,7 +123,9 @@
                                 {for w in links.whatToDo}
                                     <li><a class="s3d-regular-links s3d-bold" href="${w.url}">${sakai.api.i18n.getValueForKey(w.title)}</a></li>
                                 {/for}
-                                <li><a href="{if document.referrer === ""}/{else}${document.referrer}{/if}" class="s3d-regular-links s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</a></li>
+                                {if document.referrer}
+                                    <li><a href="${document.referrer}" class="s3d-regular-links s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</a></li>
+                                {/if}
                             </ul>
 
                             {if links.getInTouch && links.getInTouch.length > 0}

@@ -19,11 +19,11 @@
 #contentmetadata_description_container,#contentmetadata_tags_container,#contentmetadata_details_container,#contentmetadata_locations_container,#contentmetadata_copyright_container,#contentmetadata_url_container{padding:7px 0;background-color:#FFF;border-bottom:1px dotted #aaa;margin-right:10px;}
 #contentmetadata_container > div.last {border-bottom:none;}
 .fl-container-650 #contentmetadata_description_container,.fl-container-650 #contentmetadata_tags_container,.fl-container-650 #contentmetadata_details_container,.fl-container-650 #contentmetadata_locations_container,.fl-container-650 #contentmetadata_copyright_container,.fl-container-650 #contentmetadata_url_container{width:600px;clear:both;min-height:15px;margin:0 15px;color:#666;float:left;}
-.fl-container-450 #contentmetadata_description_container,.fl-container-450 #contentmetadata_tags_container,.fl-container-450 #contentmetadata_details_container,.fl-container-450 #contentmetadata_locations_container,.fl-container-450 #contentmetadata_copyright_container,.fl-container-450 #contentmetadata_url_container{width:420px;clear:both;min-height:15px;margin:0 15px;color:#666;float:left;}
+.fl-container-470 #contentmetadata_description_container,.fl-container-470 #contentmetadata_tags_container,.fl-container-470 #contentmetadata_details_container,.fl-container-470 #contentmetadata_locations_container,.fl-container-470 #contentmetadata_copyright_container,.fl-container-470 #contentmetadata_url_container{width:420px;clear:both;min-height:15px;margin:0 15px;color:#666;float:left;}
 #contentmetadata_container .s3d-contentpage-title.metadata {margin-bottom:5px;}
 #contentmetadata_container .s3d-widget-footer {padding-bottom:0px;float:left;}
 .fl-container-650 #contentmetadata_container .s3d-widget-footer{width:626px;}
-.fl-container-450 #contentmetadata_container .s3d-widget-footer{width:426px;}
+.fl-container-470 #contentmetadata_container .s3d-widget-footer{width:446px;}
 #contentmetadata_container .s3d-link-button {color:#666;}
 #contentmetadata_container .s3d-link-button:hover {color:#2683BC;}
 #contentmetadata_show_more{padding: 10px 0px 7px; display:inline;clear:both;}
@@ -43,14 +43,18 @@
 .contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_bl{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1177px transparent;}
 .contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_binner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1187px transparent;}
 .contentmetadata_editing:hover{background-color:#FFFFFF!important;}
-.contentmetadata_edit_input{width:100%;margin:7px 0;background-color: #fcecb2;}
-.contentmetadata_edit_input.as-selections, .contentmetadata_edit_input.as-selections textarea {background-color: #fcecb2;}
-.contentmetadata_edit_input textarea{min-height: 75px;}
-textarea.contentmetadata_edit_input{min-height: 75px; resize:vertical; background-color: #fcecb2;}
+.contentmetadata_edit_input{width:100%;margin:7px 0;}
+.contentmetadata_jedit.contentmetadata_editable .contentmetadata_edit_input {margin: 0;}
+.contentmetadata_edit_input:hover{background-color:#fcecb2!important;cursor:pointer;}
+.contentmetadata_edit_input.as-selections, .contentmetadata_edit_input.as-selections textarea, .contentmetadata_jedit.contentmetadata_editable select {background-color: #fcecb2;}
+.contentmetadata_edit_input textarea{min-height: 75px; resize:vertical; background-color: #fcecb2;}
+.contentmetadata_edit_area_select:hover{background-color:#fcecb2!important;cursor:pointer;}
 #contentmetadata_container ul{margin:0;overflow:hidden;}
 #contentmetadata_container ul li{list-style:none outside none;}
 #contentmetadata_container{word-wrap:break-word;clear:both;margin-bottom:20px;}
-.contentmetadata_manager_edit{font-style:italic;font-weight:normal;}
+.contentmetadata_manager_edit,.contentmetadata_placeholder{font-style:italic;font-weight:normal;}
+.contentmetadata_jedit.contentmetadata_editable:hover{background-color:#fcecb2!important;cursor:pointer;}
+.contentmetadata_jedit.contentmetadata_editable.contentmetadata_editing{background-color:#ffffff!important;cursor:default;}
 
 /* DIRECTORY */
 #contentmetadata_locations_dialog{width:750px;margin-left:-370px;}

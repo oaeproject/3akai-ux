@@ -1,0 +1,111 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/inserterbar/css/inserterbar.css" />
+
+<div id="inserterbar_widget_container" class="fl-hidden">
+    <div id="inserterbar_widget" class="sakaiSkin">
+        <div class="fl-force-left">
+            <div id="inserterbar_view_container">
+                <div id="inserterbar_action_add_page_container" class="inserterbar_widget_container fl-force-left">
+                    <ul>
+                        <li><a id="inserterbar_action_add_page" class="s3d-regular-link s3d-link-button inserterbar_action_link" href="#" tabindex="0">__MSG__ADD_PAGE__</a></li>
+                    </ul>
+                </div>
+                <div id="inserterbar_action_page_revision_history_container" class="inserterbar_widget_container fl-force-left">
+                    <ul>
+                        <li><a id="inserterbar_action_revision_history" class="s3d-regular-link s3d-link-button inserterbar_action_link" href="#" tabindex="0">__MSG__PAGE_REVISIONS__</a></li>
+                    </ul>
+                </div>
+                <div class="inserterbar_widget_container fl-force-left">
+                    <ul>
+                        <li><a id="inserterbar_action_edit_page" class="s3d-regular-link s3d-link-button inserterbar_action_link" href="#" tabindex="0">__MSG__EDIT_PAGE__</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="inserterbar_revision_history_container" style="display:none;">
+                <div id="inserterbar_action_page_close_revision_history_container" class="inserterbar_widget_container fl-force-left">
+                    <ul>
+                        <li><a id="inserterbar_action_close_revision_history" class="s3d-regular-link s3d-link-button inserterbar_action_link" href="#" tabindex="0">__MSG__CLOSE_PAGE_REVISIONS__</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="inserterbar_default_widgets_container" style="display: none;">
+                <div class="inserterbar_label fl-force-left" style="display:none;">
+                    <div class="inserterbar_arrow_right fl-force-right"><!-- --></div>__MSG__FORMAT__
+                </div>
+                <div class="inserterbar_widget_container fl-force-left">
+                    <ul>
+                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_text_widget inserterbar_standard_icon" data-element-type="htmlblock" title="__MSG__INSERT_TEXT_BLOCK__"></a></li>
+                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_title_widget inserterbar_standard_icon" data-element-type="pagetitle" title="__MSG__INSERT_TITLE__"></a></li>
+                    </ul>
+                </div>
+                <div class="inserterbar_widget_container fl-force-left">
+                    <ul>
+                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_image_widget inserterbar_standard_icon" data-element-type="embedcontent" title="__MSG__INSERT_IMAGE__"></a></li>
+                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_video_widget inserterbar_standard_icon" data-element-type="embedcontent" title="__MSG__INSERT_VIDEO__"></a></li>
+                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_filelist_widget inserterbar_standard_icon" data-element-type="embedcontent" title="__MSG__INSERT_FILE_LIST__"></a></li>
+                        <li><a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_link_widget inserterbar_standard_icon" data-element-type="remotecontent" title="__MSG__INSERT_WEB_PAGE__"></a></li>
+                    </ul>
+                </div>
+                <div id="inserterbar_widget_container_exposed" class="inserterbar_widget_container fl-force-left"><!-- --></div>
+                <div id="inserterbar_widget_container_exposed_template" style="display:none;"><!--
+                    <ul>
+                        {for widgetid in widgets}
+                            {var widget = sakai.api.Widgets.getWidget(widgetid)}
+                            {if widget}
+                                <li>
+                                    <a href="#" tabindex="0" class="inserterbar_widget_draggable inserterbar_widget_exposed" data-element-type="${widgetid}" title="__MSG__INSERT__ ${sakai.api.Widgets.getWidgetTitle(widgetid)}">
+                                        <img src="${widget.img}" class="inserterbar_standard_icon inserterbar_standard_icon_out" />
+                                        {if widget.imghover}
+                                            <img src="${widget.imghover}" class="inserterbar_standard_icon inserterbar_standard_icon_hover" style="display:none;" />
+                                        {/if}
+                                    </a>
+                                </li>
+                            {/if}
+                        {/for}
+                     </ul>
+                --></div>
+                <div class="inserterbar_widget_container fl-force-left">
+                    <ul>
+                        <li><a href="#" tabindex="0" id="inserterbar_cancel_edit_page" class="s3d-link-button inserterbar_action_link">__MSG__CANCEL__</a></li>
+                        <li><a href="#" tabindex="0" id="inserterbar_save_edit_page" class="s3d-link-button inserterbar_action_link">__MSG__SAVE_CHANGES__</a></li>
+                    </ul>
+                </div>
+                <div class="inserterbar_label fl-force-left">
+                    <button type="button" id="inserterbar_more_widgets" class="s3d-link-button" title="__MSG__VIEW_MORE_WIDGETS__">
+                        <span class="s3d-aural-text">__MSG__VIEW_MORE_WIDGETS__</span>
+                        <div class="inserterbar_expand_widget inserterbar_standard_icon fl-force-right"><!-- --></div>
+                    </button>
+                </div>
+            </div>
+            <div id="inserterbar_more_widgets_container">
+                <div class="inserterbar_widget_container fl-force-left">
+                    <div id="inserterbar_carousel_right" class="inserterbar_carousel_arrow fl-force-right"></div>
+                    <div id="inserterbar_carousel_left" class="inserterbar_carousel_arrow fl-force-left"></div>
+                    <div class="s3d-outer-shadow-container jcarousel-skin-tango">
+                        <ul id="inserterbar_dynamic_widget_list"><!----></ul>
+                    </div>
+                </div>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+        </div>
+        <div id="inserterbar_tinymce_container" class="inserterbar_widget_container fl-push" style="display:none;"></div>
+        <hr class="fl-push fl-hidden"/>
+    </div>
+</div>
+
+<div id="inserterbar_dynamic_widget_list_template"><!--
+{for widget in widgets}
+    <li>
+        <a href="#" class="inserterbar_carousel_item inserterbar_widget_draggable" data-element-type="${widget.id}" tabindex="0">
+            {if widget.img}
+                <img src="${widget.img}" alt="${widget.id}" class="fl-force-left"/>
+            {/if}
+            <span class="s3d-regular-links s3d-bold">${sakai.api.Widgets.getWidgetTitle(widget.id)}</span>
+            <hr class="fl-push fl-hidden"/>
+        </a>
+    </li>
+{/for}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/inserterbar/javascript/inserterbar.js"></script>

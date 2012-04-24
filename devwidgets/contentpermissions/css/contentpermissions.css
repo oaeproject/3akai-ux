@@ -15,44 +15,156 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#contentpermissions_container {width:800px !important;font-size:12px;margin-left:-420px !important;color:#666;}
-#contentpermissions_container h1.s3d-dialog-header {margin-bottom:0;}
-#contentpermissions_container .contentpermissions_permissions_container {width:390px;float:left;}
-#contentpermissions_container #contentpermissions_content_container .contentpermissions_permissions_container.first {margin-right:20px;}
-#contentpermissions_container .s3d-inset-shadow-container {padding:10px;}
-#contentpermissions_container .contentpermissions_selectable > input {float:left;margin-right:10px;margin-top:2px;}
-#contentpermissions_container .s3d-inset-shadow-container label {padding:1px 0 0 6px;}
-#contentpermissions_container .s3d-inset-shadow-container label .label_icon {width:15px;height:15px;display:inline-block;margin:0 8px 0 2px;float:left;}
-#contentpermissions_container .s3d-inset-shadow-container label .label_icon.globe {background:url("/dev/images/globe_icon.png") no-repeat top left transparent;}
-#contentpermissions_container .s3d-inset-shadow-container label .label_icon.small_institution {background:url("/dev/images/small_institution_icon.png") no-repeat top left transparent;}
-#contentpermissions_container .s3d-inset-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon.png") no-repeat top left transparent;}
-#contentpermissions_container .s3d-outer-shadow-container label .label_icon.globe {background:url("/dev/images/globe_icon_black.png") no-repeat top left transparent;}
-#contentpermissions_container .s3d-outer-shadow-container label .label_icon.small_institution {background:url("/dev/images/small_institution_icon_black.png") no-repeat top left transparent;}
-#contentpermissions_container .s3d-outer-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon_black.png") no-repeat top left transparent;}
-#contentpermissions_container .s3d-outer-shadow-container select {border:1px solid #999;}
-#contentpermissions_container .s3d-inset-shadow-container .s3d-split-line {border-top-style:solid;margin:7px 0 10px;}
-#contentpermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {width:95%}
-#contentpermissions_container .s3d-inset-shadow-container .contentpermissions_unselected_rbt {height:30px;margin-left:13px;padding-top:15px;}
-#contentpermissions_container .contentpermissions_buttons{margin-top:15px;}
-#contentpermissions_container ul#contentpermissions_members_list {margin:0;padding:0;overflow-y:auto;height:210px;}
-#contentpermissions_container .s3d-outer-shadow-container {color:#333;list-style:none;}
-#contentpermissions_container .s3d-inset-shadow-container {background-color:none;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
-#contentpermissions_container .contentpermissions_you {font-weight:normal;}
-#contentpermissions_container #contentpermissions_see_private_specific, #contentpermissions_container .contentpermissions_role_label {text-transform: capitalize;}
-#contentpermissions_container #contentpermissions_see_private_specific > hr:first-child {margin:10px 0 20px;}
-#contentpermissions_container .contentpermissions_grouppermissions_notificationlabel {font-size:10px;font-weight:normal;}
-#contentpermissions_container .contentpermissions_edit_role_container {width:169px;}
-#contentpermissions_container .contentpermissions_edit_role_container.multiple {float:left;}
-.contentpermissions_permissions_container .as-selections {margin-bottom:10px;width:250px;padding:0 5px;box-shadow:none;}
-.contentpermissions_permissions_container #contentpermissions_members_autosuggest_text {border:1px solid #999;height:90px;resize:none;width:270px;padding:5px;}
-.contentpermissions_permissions_container #contentpermissions_members_autosuggest_sharebutton {float:right;margin-top:80px;}
-.contentpermissions_permissions_container #contentpermissions_members_autosuggest_permissions {border:1px solid #999;float:right;margin-top:3px;}
-
-li.contentpermissions_edit.s3d-outer-shadow-container {padding:3px 13px 6px;}
-li.contentpermissions_edit label a, li.contentpermissions_edit label span {line-height:30px;}
-li.contentpermissions_edit label img {float:left;}
-li.contentpermissions_edit select.contentpermissions_member_permissions {float:right;margin-top:7px;}
-li.contentpermissions_edit button{float:right;margin:10px 0 0 10px;}
-
-#contentpermissions_warning_container {top:150px;}
-#contentpermissions_warning_container #contentpermissions_warning_container_text {font-size:16px;line-height:20px;}
+#contentpermissions_container {
+    width: 800px !important;
+    font-size: 12px;
+    margin-left: -420px !important;
+    color: #666;
+}
+#contentpermissions_container h1.s3d-dialog-header {
+    margin-bottom: 0;
+}
+#contentpermissions_container h2 {
+    font-size: 15px !important;
+}
+#contentpermissions_container .contentpermissions_permissions_container {
+    width: 390px;
+    float: left;
+}
+#contentpermissions_container #contentpermissions_content_container .contentpermissions_permissions_container.first {
+    margin-right: 20px;
+}
+#contentpermissions_container .s3d-inset-shadow-container {
+    padding: 10px;
+}
+#contentpermissions_container .contentpermissions_selectable > input {
+    float: left;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+#contentpermissions_container .s3d-inset-shadow-container label {
+    padding: 1px 0 0 6px;
+}
+#contentpermissions_container .s3d-inset-shadow-container label .label_icon {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin: 0 8px 0 2px;
+    float: left;
+}
+#contentpermissions_container .s3d-inset-shadow-container label .label_icon.globe {
+    background: url("/dev/images/globe_icon.png") no-repeat top left transparent;
+}
+#contentpermissions_container .s3d-inset-shadow-container label .label_icon.small_institution {
+    background: url("/dev/images/small_institution_icon.png") no-repeat top left transparent;
+}
+#contentpermissions_container .s3d-inset-shadow-container label .label_icon.lock {
+    background: url("/dev/images/lock_icon.png") no-repeat top left transparent;
+}
+#contentpermissions_container .s3d-outer-shadow-container label .label_icon.globe {
+    background: url("/dev/images/globe_icon_black.png") no-repeat top left transparent;
+}
+#contentpermissions_container .s3d-outer-shadow-container label .label_icon.small_institution {
+    background: url("/dev/images/small_institution_icon_black.png") no-repeat top left transparent;
+}
+#contentpermissions_container .s3d-outer-shadow-container label .label_icon.lock {
+    background: url("/dev/images/lock_icon_black.png") no-repeat top left transparent;
+}
+#contentpermissions_container .s3d-outer-shadow-container select {
+    border: 1px solid #999;
+}
+#contentpermissions_container .s3d-inset-shadow-container .s3d-split-line {
+    border-top-style: solid;
+    margin: 7px 0 10px;
+}
+#contentpermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {
+    width: 95%
+}
+#contentpermissions_container .s3d-inset-shadow-container .contentpermissions_unselected_rbt {
+    height: 30px;
+    margin-left: 13px;
+    padding-top: 15px;
+}
+#contentpermissions_container .contentpermissions_buttons {
+    margin-top: 15px;
+}
+#contentpermissions_container ul#contentpermissions_members_list {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    height: 210px;
+}
+#contentpermissions_container .s3d-outer-shadow-container {
+    color: #333;
+    list-style: none;
+}
+#contentpermissions_container .s3d-inset-shadow-container {
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+#contentpermissions_container .contentpermissions_you {
+    font-weight: normal;
+}
+#contentpermissions_container #contentpermissions_see_private_specific, #contentpermissions_container .contentpermissions_role_label {
+    text-transform: capitalize;
+}
+#contentpermissions_container #contentpermissions_see_private_specific > hr:first-child {
+    margin: 10px 0 20px;
+}
+#contentpermissions_container .contentpermissions_grouppermissions_notificationlabel {
+    font-size: 10px;
+    font-weight: normal;
+}
+#contentpermissions_container .contentpermissions_edit_role_container {
+    width: 169px;
+}
+#contentpermissions_container .contentpermissions_edit_role_container.multiple {
+    float: left;
+}
+.contentpermissions_permissions_container .as-selections {
+    margin-bottom: 10px;
+    width: 250px;
+    padding: 0 5px;
+    box-shadow: none;
+}
+.contentpermissions_permissions_container #contentpermissions_members_autosuggest_text {
+    border: 1px solid #999;
+    height: 90px;
+    resize: none;
+    width: 270px;
+    padding: 5px;
+}
+.contentpermissions_permissions_container #contentpermissions_members_autosuggest_sharebutton {
+    float: right;
+    margin-top: 80px;
+}
+.contentpermissions_permissions_container #contentpermissions_members_autosuggest_permissions {
+    border: 1px solid #999;
+    float: right;
+    margin-top: 3px;
+}
+li.contentpermissions_edit.s3d-outer-shadow-container {
+    padding: 3px 13px 6px;
+}
+li.contentpermissions_edit label a, li.contentpermissions_edit label span {
+    line-height: 30px;
+}
+li.contentpermissions_edit label img {
+    float: left;
+}
+li.contentpermissions_edit select.contentpermissions_member_permissions {
+    float: right;
+    margin-top: 7px;
+}
+li.contentpermissions_edit button {
+    float: right;
+    margin: 10px 0 0 10px;
+}
+#contentpermissions_warning_container {
+    top: 150px;
+}
+#contentpermissions_warning_container #contentpermissions_warning_container_text {
+    font-size: 16px;
+    line-height: 20px;
+}

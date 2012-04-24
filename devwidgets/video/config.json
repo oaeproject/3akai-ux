@@ -6,7 +6,6 @@
     "hasSettings":true,
     "id":"video",
     "img":"/devwidgets/video/images/video.png",
-    "showinmedia":true,
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/video/video.html",

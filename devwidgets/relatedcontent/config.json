@@ -8,6 +8,9 @@
             "bundle": "/devwidgets/relatedcontent/bundles/default.properties",
             "name":"Related content",
             "description":"Related content"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/relatedcontent/bundles/es_ES.properties"
         }
     },
     "url":"/devwidgets/relatedcontent/relatedcontent.html"

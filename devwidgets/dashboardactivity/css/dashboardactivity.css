@@ -1,0 +1,399 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/* General */
+#dashboardactivity_widget {
+    background: #ececeb;
+    background: -moz-linear-gradient(top, #f4f4f4 0px, #ececeb 470px);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0px,#f4f4f4), color-stop(470px,#ececeb));
+    background: -webkit-linear-gradient(top, #f4f4f4 0px,#ececeb 470px);
+    background: -o-linear-gradient(top, #f4f4f4 0px,#ececeb 470px);
+    background: -ms-linear-gradient(top, #f4f4f4 0px,#ececeb 470px);
+    background: linear-gradient(top, #f4f4f4 0px,#ececeb 470px);
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0 4px 9px 0 #DADADA inset;
+    -moz-box-shadow: 0 4px 9px 0 #DADADA inset;
+    -webkit-box-shadow: 0 4px 9px 0 #DADADA inset;
+    padding-bottom: 10px;
+    width: 70%;
+}
+
+#dashboardactivity_widget .s3d-bar-options {
+    margin: 15px 0 0 65px;
+}
+
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_comments > div {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_comments_icon.png") no-repeat scroll left top transparent;
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    width: 16px;
+}
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_comments:hover > div,
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_comments:focus > div {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_comments_icon_hover.png') no-repeat left top transparent;
+}
+
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_activity > div {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_updates_icon.png") no-repeat scroll left top transparent;
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    width: 16px;
+}
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_activity:hover > div,
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_activity:focus > div {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_updates_icon_hover.png') no-repeat left top transparent;
+}
+
+#dashboardactivity_widget .s3d-bar-options .dashboardactivity_sharing > div {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share2_icon.png") no-repeat scroll left top transparent;
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    width: 20px;
+}
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_sharing:hover > div,
+#dashboardactivity_widget .s3d-bar-options button.dashboardactivity_sharing:focus > div {
+    background: url('/devwidgets/dashboardactivity/images/dashboardactivity_share2_icon_hover.png') no-repeat left top transparent;
+}
+
+#dashboardactivity_widget .dashboardactivity_filter {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_filter_divider.png") no-repeat scroll center bottom transparent;
+    margin: 0 auto;
+    padding-bottom: 18px;
+    width: 437px;
+}
+
+#dashboardactivity_widget #dashboardactivity_show_more {
+    display: block;
+    margin: 15px auto 0;
+}
+
+/* Bad request */
+#dashboardactivity_widget #dashboardactivity_container .dashboardactivity_activity_badrequest {
+    width: 100%;
+}
+
+#dashboardactivity_widget #dashboardactivity_container .dashboardactivity_activity_badrequest p {
+    margin: 10px auto;
+    text-align: center;
+}
+
+/* No Activity */
+#dashboardactivity_widget #dashboardactivity_no_activity_container {
+    padding: 20px 40px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container:first-child div {
+    margin-bottom: 30px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_divider.png") no-repeat scroll left center transparent;
+    height: 87px;
+    padding-left: 20px;
+    width: 145px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox div:first-child{
+    padding-left: 0;
+    width: 140px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container h1#dashboardactivity_no_activity_header,
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div h2 {
+    color: #BFBFBF;
+    font-size: 23px;
+    font-weight: normal;
+    letter-spacing: -0.8px;
+    text-shadow: 0 1px 1px #FFFFFF;
+    margin-bottom: 25px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div button.s3d-button,
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div a.s3d-button {
+    font-size: 13px;
+    height: 84px;
+    width: 130px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox > div a.s3d-button {
+    height: 60px;
+    padding: 22px 10px 0;
+    width: 110px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_added h2 {
+    margin-top: 30px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_saved h2 {
+    margin-top: 15px;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_added {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_added_bg.png") no-repeat scroll 70px 18px transparent;
+}
+
+#dashboardactivity_widget #dashboardactivity_no_activity_container .dashboardactivity_no_activity_contentbox #dashboardactivity_saved {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_saved_bg.png") no-repeat scroll 65px center transparent;
+}
+
+/* Activity List */
+#dashboardactivity_widget #dashboardactivity_activity_container {
+    padding: 0 5px 5px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn {
+    background-color: #FFFFFF;
+    border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
+    height: 41px;
+    padding: 7px 0;
+    width: 50%;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item {
+    margin: 10px 5px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item a {
+    font-size: 12px;
+    letter-spacing: -0.01em;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:focus,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_secondcolumn:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_secondcolumn:focus {
+    background: #f2fafc;
+    background: -moz-linear-gradient(top, #f2fafc 0%, #eef8fc 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2fafc), color-stop(100%,#eef8fc));
+    background: -webkit-linear-gradient(top, #f2fafc 0%,#eef8fc 100%);
+    background: -o-linear-gradient(top, #f2fafc 0%,#eef8fc 100%);
+    background: -ms-linear-gradient(top, #f2fafc 0%,#eef8fc 100%);
+    background: linear-gradient(top, #f2fafc 0%,#eef8fc 100%);
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn .dashboardactivity_activity_arrow {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_arrow.png") no-repeat scroll left top transparent;
+    float: right;
+    height: 55px;
+    margin: -7px -19px 0 0;
+    position: relative;
+    width: 20px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:hover .dashboardactivity_activity_arrow,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_firstcolumn:focus .dashboardactivity_activity_arrow {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_activity_arrow_hover.png") no-repeat scroll top left transparent;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item {
+    background: #e2e2e2;
+    background: -moz-linear-gradient(top, #e2e2e2 0%, #eaeaea 4%, #ededed 7%, #e2e2e2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e2e2e2), color-stop(4%,#eaeaea), color-stop(7%,#ededed), color-stop(100%,#e2e2e2));
+    background: -webkit-linear-gradient(top, #e2e2e2 0%,#eaeaea 4%,#ededed 7%,#e2e2e2 100%);
+    background: -o-linear-gradient(top, #e2e2e2 0%,#eaeaea 4%,#ededed 7%,#e2e2e2 100%);
+    background: -ms-linear-gradient(top, #e2e2e2 0%,#eaeaea 4%,#ededed 7%,#e2e2e2 100%);
+    background: linear-gradient(top, #e2e2e2 0%,#eaeaea 4%,#ededed 7%,#e2e2e2 100%);
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    box-shadow: 0 2px 2px -2px #666;
+    -moz-box-shadow: 0 2px 2px -2px #666;
+    -webkit-box-shadow: 0 2px 2px -2px #666;
+    clear: both;
+    height: 55px;
+    overflow: hidden;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item {
+    clear: none;
+    display: block;
+    margin-top: 5px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_updated_secondcolumn {
+    border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+    height: 41px;
+    width: 50%;
+    padding: 7px 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container {
+    padding-top: 1px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_annotation_container,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_comment_container {
+    margin-bottom: 15px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_annotation_container .dashboard_activity_annotation_speechbubble,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container.dashboard_activity_comment_container .dashboard_activity_comment_speechbubble {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_annotation_speechbubble.png") no-repeat scroll left top transparent;
+    height: 13px;
+    margin: -8px 0 0 -12px;
+    position: absolute;
+    width: 12px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > img,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment img,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment img {
+    margin: 0 7px 0 12px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > a,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > span {
+    display: block;
+    margin: 0 3px 0 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_item_name,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboardactivity_activity_message_reversed {
+    margin-right: 3px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container > span,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item span,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment span,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment span {
+    color: #666;
+    display: inline-block;
+    font-size: 12px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_annotation_highlight.png") no-repeat scroll 11px center #E6E368;
+    clear: none;
+    color: #333;
+    display: block;
+    height: 20px;
+    margin-left: 59px;
+    overflow: visible;
+    padding: 3px 0 10px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation > span {
+    font-style: italic;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comments_container,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment_container {
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0 2px 3px -2px #666;
+    -moz-box-shadow: 0 2px 3px -2px #666;
+    -webkit-box-shadow: 0 2px 3px -2px #666;
+    margin: -21px 5px 0 100px;
+    padding: 10px 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment_container {
+    margin-left: 60px;
+    margin-top: 20px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item.dashboard_activity_annotation span {
+    margin-left: 40px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment > div,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment > div {
+    overflow: auto;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment {
+    clear: both;
+    display: inline-block;
+    margin: 7px 0 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment:first-child {
+    margin: 0;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment span,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_comment span {
+    margin-left: 0;
+    font-style: normal;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_annotation_comment a {
+    font-size: 12px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item_container .dashboard_activity_item, {
+    margin-top: 4px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_image {
+    margin: 0 10px 0 7px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_updated_secondcolumn .dashboardactivity_activity_item_image {
+    margin: 0 10px 0 22px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .dashboardactivity_activity_item_timeago,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_comment .dashboardactivity_activity_item_timeago {
+    display: block;
+    font-size: 11px !important;
+}
+
+/* Actions */
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item > div:hover .s3d-actions-addtolibrary,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item > div:focus .s3d-actions-addtolibrary,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item > div:hover .s3d-actions-share,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item > div:focus .s3d-actions-share {
+    display: inline-block;
+}
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary {
+    display: none;
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_save.png") no-repeat scroll left top transparent;
+    height: 12px;
+    padding-left: 15px;
+    width: 50px;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-addtolibrary:focus {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_save_hover.png") no-repeat scroll left top transparent;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share {
+    display: none;
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share.png") no-repeat scroll left top transparent;
+    height: 12px;
+    padding-left: 20px;
+    width: 50px !important;
+}
+
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:hover,
+#dashboardactivity_widget #dashboardactivity_activity_container .dashboardactivity_activity_updated_container .dashboard_activity_item .s3d-actions-share:focus {
+    background: url("/devwidgets/dashboardactivity/images/dashboardactivity_share_hover.png") no-repeat scroll left top transparent;
+}

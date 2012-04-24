@@ -8,6 +8,9 @@
             "bundle": "/devwidgets/entity/bundles/default.properties",
             "name": "Entity widget",
             "description": "Entity widget"
-         }
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/entity/bundles/es_ES.properties"
+        }
     }
 }

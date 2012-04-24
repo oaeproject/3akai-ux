@@ -2,7 +2,7 @@
     "grouppages": true,
     "userpages": true,
     "hasSettings": true,
-    "sakaidocs": true,
+    "sakaidocs": false,
     "id":"embedcontent",
     "i18n": {
         "default": {
@@ -10,6 +10,13 @@
             "name": "Files and documents",
             "description": "Embed content on a page"
         }
+    },
+    "defaultOptions": {
+        "embedmethod": "original",
+        "layout": "vertical",
+        "showName": false,
+        "showDetails": false,
+        "showDownload": false
     },
     "img":"/devwidgets/embedcontent/images/content.png",
     "type":"core",

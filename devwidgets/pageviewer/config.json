@@ -12,7 +12,6 @@
     },
     "id":                 "pageviewer",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/pageviewer/pageviewer.html",
     "userdashboard":      false,

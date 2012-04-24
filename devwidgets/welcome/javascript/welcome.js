@@ -30,8 +30,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.welcome = function (tuid, showSettings) {
 
-        var $welcomeWidget = $(".welcome_widget");
+        var $rootel = $('#' + tuid);
+        var $welcomeWidget = $('.welcome_widget', $rootel);
         var welcomeTemplate = "welcome_template";
+
+        var addBinding = function() {
+            $welcomeWidget.on('click', 'button[data-trigger]', function() {
+                $(window).trigger($(this).attr('data-trigger'));
+            });
+        };
 
         var renderWidget = function(){
             $welcomeWidget.html(sakai.api.Util.TemplateRenderer(welcomeTemplate, {
@@ -40,6 +47,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         renderWidget();
+        addBinding();
 
     };
 

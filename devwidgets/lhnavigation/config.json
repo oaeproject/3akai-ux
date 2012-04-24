@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/lhnavigation/bundles/default.properties",
             "name":       "Left hand navigation",
             "description":"Left hand navigation widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/lhnavigation/bundles/es_ES.properties"
         }
     },
     "id":                 "lhnavigation",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/lhnavigation/lhnavigation.html",
     "userdashboard":      false,

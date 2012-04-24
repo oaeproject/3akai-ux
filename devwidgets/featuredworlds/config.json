@@ -12,7 +12,6 @@
     },
     "id":                 "featuredworlds",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/featuredworlds/featuredworlds.html",
     "userdashboard":      false,

@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/searchgroups/bundles/default.properties",
             "name":       "Search groups",
             "description":"Search groups"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/searchgroups/bundles/es_ES.properties"
         }
     },
     "id":                 "searchgroups",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/searchgroups/searchgroups.html",
     "userdashboard":      false,

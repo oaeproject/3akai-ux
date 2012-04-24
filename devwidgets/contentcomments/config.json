@@ -10,11 +10,12 @@
             "bundle": "/devwidgets/contentcomments/bundles/default.properties",
             "name":"Content comments",
             "description":"Content comments"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/contentcomments/bundles/es_ES.properties"
         }
     },
     "img":"/devwidgets/contentcomments/images/comments.png",
-    "showinsakaigoodies":false,
-    "siteportal":false,
     "type":"core",
     "enabled":true,
     "url":"/devwidgets/contentcomments/contentcomments.html"

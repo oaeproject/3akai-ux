@@ -16,5 +16,17 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Default Custom Skin File */
-#explore_navigation {background:url("/dev/images/explore_navigation_bg.png") repeat-x scroll left bottom #E5E6E7;box-shadow:0px 11px 7px -11px inset;-moz-box-shadow:0px 11px 7px -11px inset;-webkit-box-shadow:0px 11px 7px -11px inset;padding:10px 0 0 30px;}
+#explore_navigation {
+    background: #E5E6E7;
+    background: -moz-linear-gradient(top, #e5e6e7 0%, #e3e4e5 55%, #dcddde 91%, #c6c6c6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e6e7), color-stop(55%,#e3e4e5), color-stop(91%,#dcddde), color-stop(100%,#c6c6c6));
+    background: -webkit-linear-gradient(top, #e5e6e7 0%,#e3e4e5 55%,#dcddde 91%,#c6c6c6 100%);
+    background: -o-linear-gradient(top, #e5e6e7 0%,#e3e4e5 55%,#dcddde 91%,#c6c6c6 100%);
+    background: -ms-linear-gradient(top, #e5e6e7 0%,#e3e4e5 55%,#dcddde 91%,#c6c6c6 100%);
+    background: linear-gradient(top, #e5e6e7 0%,#e3e4e5 55%,#dcddde 91%,#c6c6c6 100%);
+    box-shadow: 0px 11px 7px -11px inset;
+    -moz-box-shadow: 0px 11px 7px -11px inset;
+    -webkit-box-shadow: 0px 11px 7px -11px inset;
+    padding: 10px 0 0 30px;
+}
 #explore_content {background:url("/dev/images/explore_top_dropshadow.png") no-repeat top center transparent;}

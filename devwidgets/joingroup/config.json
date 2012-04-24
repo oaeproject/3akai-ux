@@ -4,6 +4,9 @@
             "bundle": "/devwidgets/joingroup/bundles/default.properties",
             "name": "Join group overlay",
             "description": "Join group overlay"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/joingroup/bundles/es_ES.properties"
         }
     },
     "id": "joingroup",

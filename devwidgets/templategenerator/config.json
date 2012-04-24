@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/templategenerator/bundles/default.properties",
             "name": "Template generator",
             "description": "Export sites to templates"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/templategenerator/bundles/es_ES.properties"
         }
     },
     "id":                 "templategenerator",

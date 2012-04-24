@@ -15,26 +15,57 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
- /* Default type*/
- #contentpreview_default_preview {background-color:#EEF2F5; height:70px; margin-bottom:15px; padding-bottom:20px; padding-left:15px; padding-right:20px; padding-top:20px;}
- #contentpreview_default_preview_button { width: 240px; float: right; padding-top:9px; }
- #contentpreview_default_preview_image { float:left; width:80px; }
- #contentpreview_default_preview_data { width: 280px; float:left; padding-top:7px; font-weight: bold;}
- .contentpreview_actions_container_default {float:right; padding-top:5px;}
- 
- /* Non default type */
- #contentpreview_fullsize_preview { padding: 0px 20px 15px 10px; margin-bottom: 20px; border-bottom: 5px solid #e1e1e1;}
- 
- /*Content Preview template*/
- /* Image formatting */
- .contentpreview_other_preview { max-width:920px; max-height: 560px;}
- .contentpreview_noborder { border:none;}
- .contentpreview_overflowhidden { overflow: hidden}
 
- .contentpreview_fullsize_preview embed { width: 920px; }
+/* Default type*/
+#contentpreview_default_preview {
+    background-color: #EEF2F5;
+    height: 70px;
+    margin: 20px;
+    padding: 20px 20px 20px 15px;
+}
+#contentpreview_default_preview_button {
+    width: 240px;
+    float: right;
+    padding-top: 9px;
+}
+#contentpreview_default_preview_image {
+    float: left;
+    width: 80px;
+}
+#contentpreview_default_preview_data {
+    width: 280px;
+    float: left;
+    padding-top: 7px;
+    font-weight: bold;
+}
+.contentpreview_actions_container_default {
+    float: right;
+    padding-top: 5px;
+}
 
- .contentpreview_fullsize_preview #documentviewer_preview>img,
- .contentpreview_fullsize_preview #documentviewer_preview>div,
- .contentpreview_fullsize_preview #documentviewer_preview>embed,
- .contentpreview_fullsize_preview #documentviewer_preview>iframe { border: 1px solid #D4DADE; }
- .contentpreview_fullsize_preview #documentviewer_preview #documentviewer_html_iframe {width: 100%; height: 560px;}
+/* Non default type */
+#contentpreview_fullsize_preview {
+    padding: 20px;
+}
+
+/*Content Preview template*/
+/* Image formatting */
+.contentpreview_other_preview {
+    max-width: 920px;
+}
+.contentpreview_noborder {
+    border: none;
+}
+.contentpreview_overflowhidden {
+    overflow: hidden
+}
+.contentpreview_fullsize_preview embed {
+    width: 920px;
+}
+.contentpreview_fullsize_preview #documentviewer_preview > img, .contentpreview_fullsize_preview #documentviewer_preview > div, .contentpreview_fullsize_preview #documentviewer_preview > embed, .contentpreview_fullsize_preview #documentviewer_preview > iframe {
+    border: 1px solid #D4DADE;
+}
+.contentpreview_fullsize_preview #documentviewer_preview #documentviewer_html_iframe {
+    width: 100%;
+    height: 560px;
+}

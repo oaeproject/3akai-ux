@@ -1,7 +1,7 @@
 /*
- *  ../SourceForge/trunk/mathjax/jax/output/HTML-CSS/autoload/ms.js
+ *  /MathJax/jax/output/HTML-CSS/autoload/ms.js
  *  
- *  Copyright (c) 2010 Design Science, Inc.
+ *  Copyright (c) 2012 Design Science, Inc.
  *
  *  Part of the MathJax library.
  *  See http://www.mathjax.org for details.
@@ -12,7 +12,5 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  */
 
-MathJax.Unpack([
-  ['(','function(','a){var b="1.0";a.ms.Augment({toHTML:',1,'d){d=this.HTMLhandleSize(this.HTMLcreateSpan(d));var c=this.getValues("lquote","rquote");var f=this.data.join("");var e=[];if(c.lquote','.length===1){e.push(this.HTMLquoteRegExp(c.','lquote))}if(c.rquote',5,'rquote))}if(e.length){f=f.replace(RegExp("("+e.join("|")+")","g"),"\\\\$1")}this.HTMLhandleVariant(d,this.HTMLgetVariant(),c.lquote+f+c.rquote);this.HTMLhandleSpace(d);this.HTMLhandleColor(d);return d},HTMLquoteRegExp:',1,'c){return c.replace(/([.*+?|{}()\\[\\]\\\\])/g,"\\\\$1")}});a.ms.prototype.defaults.fontfamily="monospace";MathJax.Hub.Startup.signal.Post("HTML-CSS ms Ready")})(MathJax.ElementJax.mml);MathJax.Ajax.loadComplete(MathJax.OutputJax["HTML-CSS"].autoloadDir+"/ms.js");']
-]);
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function(){var c="2.0";var a=MathJax.ElementJax.mml,b=MathJax.OutputJax["HTML-CSS"];a.ms.Augment({toHTML:function(e){e=this.HTMLhandleSize(this.HTMLcreateSpan(e));var d=this.getValues("lquote","rquote");var g=this.data.join("");var f=[];if(d.lquote.length===1){f.push(this.HTMLquoteRegExp(d.lquote))}if(d.rquote.length===1){f.push(this.HTMLquoteRegExp(d.rquote))}if(f.length){g=g.replace(RegExp("("+f.join("|")+")","g"),"\\$1")}this.HTMLhandleVariant(e,this.HTMLgetVariant(),d.lquote+g+d.rquote);this.HTMLhandleSpace(e);this.HTMLhandleColor(e);return e},HTMLquoteRegExp:function(d){return d.replace(/([.*+?|{}()\[\]\\])/g,"\\$1")}});a.ms.prototype.defaults.mathvariant="monospace";MathJax.Hub.Startup.signal.Post("HTML-CSS ms Ready");MathJax.Ajax.loadComplete(b.autoloadDir+"/ms.js")});
 

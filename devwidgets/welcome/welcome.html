@@ -10,16 +10,93 @@
     <img src="/devwidgets/welcome/images/sakai_default.png" alt="__MSG__KEYWORDS__">
 
     <h2>__MSG__WELCOME_ITEM1_TITLE__</h2>
-    {if !anon}<a class="s3d-regular-links" href="__MSG__WELCOME_ITEM1_LINK__">{else}<span class="s3d-regular-links">{/if}__MSG__WELCOME_ITEM1_LINK_TEXT__{if !anon}</a>{else}</span>{/if}<span> __MSG__WELCOME_ITEM1_OTHER_TEXT__</span>
+    {if !anon}
+        {if '__MSG__WELCOME_ITEM1_LINK__'.substr(0,1) === '#'}
+            <button class="s3d-link-button" data-trigger="${'__MSG__WELCOME_ITEM1_LINK__'.substr(1)}">
+        {else}
+            <a class="s3d-regular-links" href="__MSG__WELCOME_ITEM1_LINK__">
+        {/if}
+    {else}
+        <span class="s3d-regular-links">
+    {/if}
+    __MSG__WELCOME_ITEM1_LINK_TEXT__
+    {if !anon}
+        {if '__MSG__WELCOME_ITEM1_LINK__'.substr(0,1) === '#'}
+            </button>
+        {else}
+            </a>
+        {/if}
+    {else}
+        </span>
+    {/if}
+    <span> __MSG__WELCOME_ITEM1_OTHER_TEXT__</span>
 
     <h2>__MSG__WELCOME_ITEM2_TITLE__</h2>
-    {if !anon}<a class="s3d-regular-links" href="__MSG__WELCOME_ITEM2_LINK__">{else}<span class="s3d-regular-links">{/if}__MSG__WELCOME_ITEM2_LINK_TEXT__{if !anon}</a>{else}</span>{/if}<span> __MSG__WELCOME_ITEM2_OTHER_TEXT__</span>
+    {if !anon}
+        {if '__MSG__WELCOME_ITEM2_LINK__'.substr(0,1) === '#'}
+            <button class="s3d-link-button" data-trigger="${'__MSG__WELCOME_ITEM2_LINK__'.substr(1)}">
+        {else}
+            <a class="s3d-regular-links" href="__MSG__WELCOME_ITEM2_LINK__">
+        {/if}
+    {else}
+        <span class="s3d-regular-links">
+    {/if}
+    __MSG__WELCOME_ITEM2_LINK_TEXT__
+    {if !anon}
+        {if '__MSG__WELCOME_ITEM2_LINK__'.substr(0,1) === '#'}
+            </button>
+        {else}
+            </a>
+        {/if}
+    {else}
+        </span>
+    {/if}
+    <span> __MSG__WELCOME_ITEM2_OTHER_TEXT__</span>
 
     <h2>__MSG__WELCOME_ITEM3_TITLE__</h2>
-    {if !anon}<a class="s3d-regular-links" href="__MSG__WELCOME_ITEM3_LINK__">{else}<span class="s3d-regular-links">{/if}__MSG__WELCOME_ITEM3_LINK_TEXT__{if !anon}</a>{else}</span>{/if}<span> __MSG__WELCOME_ITEM3_OTHER_TEXT__</span>
+    {if !anon}
+        {if '__MSG__WELCOME_ITEM3_LINK__'.substr(0,1) === '#'}
+            <button class="s3d-link-button" data-trigger="${'__MSG__WELCOME_ITEM3_LINK__'.substr(1)}">
+        {else}
+            <a class="s3d-regular-links" href="__MSG__WELCOME_ITEM3_LINK__">
+        {/if}
+    {else}
+        <span class="s3d-regular-links">
+    {/if}
+    __MSG__WELCOME_ITEM3_LINK_TEXT__
+    {if !anon}
+        {if '__MSG__WELCOME_ITEM3_LINK__'.substr(0,1) === '#'}
+            </button>
+        {else}
+            </a>
+        {/if}
+    {else}
+        </span>
+    {/if}
+    <span> __MSG__WELCOME_ITEM3_OTHER_TEXT__</span>
 
     <h2>__MSG__WELCOME_ITEM4_TITLE__</h2>
-    {if !anon}<a class="s3d-regular-links" href="__MSG__WELCOME_ITEM4_LINK__">{else}<span class="s3d-regular-links">{/if}__MSG__WELCOME_ITEM4_LINK_TEXT__{if !anon}</a>{else}</span>{/if}<span> __MSG__WELCOME_ITEM4_OTHER_TEXT__</span>
+    {if !anon}
+        {if '__MSG__WELCOME_ITEM4_LINK__'.substr(0,1) === '#'}
+            <button class="s3d-link-button" data-trigger="${'__MSG__WELCOME_ITEM4_LINK__'.substr(1)}">
+        {else}
+            <a class="s3d-regular-links" href="__MSG__WELCOME_ITEM4_LINK__">
+        {/if}
+    {else}
+        <span class="s3d-regular-links">
+    {/if}
+    __MSG__WELCOME_ITEM4_LINK_TEXT__
+    {if !anon}
+        {if '__MSG__WELCOME_ITEM4_LINK__'.substr(0,1) === '#'}
+            </button>
+        {else}
+            </a>
+        {/if}
+    {else}
+        </span>
+    {/if}
+    <span> __MSG__WELCOME_ITEM4_OTHER_TEXT__</span>
+
     <hr class="fl-push fl-hidden"/>
 --></div>
 

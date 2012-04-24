@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/addarea/bundles/default.properties",
             "name":       "Add area widget",
             "description":"Add area widget"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/addarea/bundles/es_ES.properties"
         }
     },
     "id":                 "addarea",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/addarea/addarea.html",
     "userdashboard":      false,

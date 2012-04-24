@@ -69,9 +69,8 @@ define(
         },
 
         getUserDefaultTimezone : function() {
-            var tz = determine_timezone().timezone;
-            tz.ambiguity_check();
-            return tz.olson_tz;
+            var tz = jstz.determine_timezone();
+            return tz.name();
         },
 
         /**
@@ -114,6 +113,10 @@ define(
             var UTCDate = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()));
             if (meData && meData.user.locale) {
                 UTCDate.setHours(UTCDate.getUTCHours() + meData.user.locale.timezone.GMT);
+                // Check to see if UTC is a day in the future
+                if (UTCDate.getUTCHours() + meData.user.locale.timezone.GMT < 0) {
+                    UTCDate.setDate(UTCDate.getUTCDate());
+                }
             }
             return UTCDate;
         },

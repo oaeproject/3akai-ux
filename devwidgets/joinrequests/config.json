@@ -5,6 +5,9 @@
             "bundle": "/devwidgets/joinrequests/bundles/default.properties",
             "name":"Join requests",
             "description":"Manage join requests for a specific group"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/joinrequests/bundles/es_ES.properties"
         }
     },
     "personalportal":false,

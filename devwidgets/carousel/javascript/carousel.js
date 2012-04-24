@@ -42,51 +42,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
 
         /////////////////////
-        // RENDER PREVIEWS //
-        /////////////////////
-
-        var renderImagePreview = function(contentURL, lastModified){
-            var url = "/p/" + contentURL + "?_=" + lastModified;
-            return "<img src=\"" + url + "\" style=\"max-width:350;\"/>";
-        };
-
-        var isJwPlayerSupportedVideo = function(mimeType){
-            var supported = false;
-            if (mimeType.substring(0, 6) === "video/") {
-                var mimeSuffix = mimeType.substring(6);
-                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
-                    supported = true;
-                }
-            }
-            return supported;
-        };
-
-        var createSWFObject = function(url, params, flashvars){
-            if (!url) {
-                url = "/devwidgets/video/jwplayer/player-licensed.swf";
-            }
-            var so = new SWFObject(url, 'ply', '350', '197', '9', '#ffffff');
-            so.addParam('allowfullscreen', 'true');
-            if (params.allowscriptaccess) {
-                so.addParam('allowscriptaccess', params.allowscriptaccess);
-            }
-            else {
-                so.addParam('allowscriptaccess', 'always');
-            }
-            so.addParam('wmode', 'opaque');
-            return so;
-        };
-
-        var renderVideoPlayer = function(url){
-            var so = createSWFObject(false, {}, {});
-            so.addVariable('file', "/p/" + url);
-            so.addVariable('stretching', 'uniform');
-            so.write("carousel_video");
-            return $("#carousel_video_holder").html();
-        };
-
-
-        /////////////////////
         // RENDER CAROUSEL //
         /////////////////////
 

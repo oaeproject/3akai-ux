@@ -59,7 +59,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderTemplateFaceted = function(facetedConfig){
             if (sakai.data.me.user.anon) {
               $(facetedContainer,rootel).hide();
-            } else {
+            } else if (facetedConfig) {
               // Render the faceted.
               $(facetedContainer,rootel).html(sakai.api.Util.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
 

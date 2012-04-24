@@ -5,7 +5,10 @@
             "bundle": "/devwidgets/accountpreferences/bundles/default.properties",
             "description":"Account preferences",
             "name":"Account preferences"
-        }
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/accountpreferences/bundles/es_ES.properties"
+        } 
     },
     "type":"core",
     "enabled":true,

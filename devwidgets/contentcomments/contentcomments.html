@@ -3,7 +3,7 @@
 
 <!-- MAIN VIEW -->
 <div id="contentcomments_mainContainer" class="s3d-widget-container" style="display:none;">
-    <div class="s3d-contentpage-title">__MSG__COMMENTS__</div>
+    <h2 class="s3d-contentpage-title">__MSG__COMMENTS__</h2>
 
     <div id="contentcomments_userCommentContainer">
     </div>
@@ -46,7 +46,7 @@
             <div class="contentcomments_topCommentBar">
                 <div class="contentcomments_posterData s3d-regular-links">
                     {if i.user.fullName}
-                        <span class="contentcomments_posterDataName s3d-regular-links"><a href="/~${i.user.uid}" target="_blank">${i.user.fullName}</a></span>
+                        <span class="contentcomments_posterDataName s3d-regular-links"><a href="/~${i.user.uid}">${i.user.fullName}</a></span>
                     {else}
                         <span class="contentcomments_posterDataName s3d-gray s3d-regular-links">__MSG__UNDISCLOSED_USER__</span>
                     {/if}

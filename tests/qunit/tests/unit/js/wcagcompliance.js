@@ -25,6 +25,10 @@ require(
             }
         });
 
+        $.each($elt.find("button"), function(i, elt) {
+            ok(!($(elt).attr('title') && $(elt).text() && !$.trim($(elt).text())) && ($(elt).attr("title") || $(elt).find('img').attr('alt') || $.trim($(elt).text()) || $.trim($(elt).find("*").text()) || ($(elt).html() === "<!-- -->")), "BUTTON tag has text or children that have text: " + $("<div/>").html(elt).html());
+        });
+
         $.each($elt.find("img"), function(i, elt) {
             var parentTitle = false;
             if ($(elt).parent().attr("title") && $(elt).parent().attr("title").length){
@@ -51,10 +55,6 @@ require(
 
         $.each($elt.find("abbr"), function(i, elt) {
             ok($(elt).attr("title"), "ABBR tag has TITLE attribute: " + $("<div/>").html(elt).html());
-        });
-
-        $.each($elt.find("button"), function(i, elt) {
-            ok($(elt).attr("title") || $(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->"), "BUTTON tag has text or children that have text: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("textarea"), function(i, elt) {

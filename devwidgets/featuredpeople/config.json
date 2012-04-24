@@ -12,7 +12,6 @@
     },
     "id":                 "featuredpeople",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "sakai",
     "url":                "/devwidgets/featuredpeople/featuredpeople.html",
     "userdashboard":      false,

@@ -8,11 +8,13 @@
             "bundle":     "/devwidgets/searchall/bundles/default.properties",
             "name":       "Search all",
             "description":"Search all"
+        },
+        "es_ES": { 
+            "bundle": "/devwidgets/searchall/bundles/es_ES.properties"
         }
     },
     "id":                 "searchallold",
     "personalportal":     false,
-    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/searchall/searchall.html",
     "userdashboard":      false,

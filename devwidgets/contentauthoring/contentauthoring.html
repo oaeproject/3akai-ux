@@ -1,0 +1,142 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/contentauthoring/css/contentauthoring.css" />
+
+<!-- Inserter Bar Widget Container -->
+<div id="contentauthoring_inserterbar_container" style="display:none;">
+    <div id="widget_inserterbar" class="widget_inline"></div>
+</div>
+
+<!-- Version History Container -->
+<div id="widget_versions" class="widget_inline"></div>
+
+<div class="s3d-dropdown-list" id="contentauthoring_row_menu" style="display:none;">
+    <div class="s3d-dropdown-list-arrow-up"><!-- --></div>
+    <ul>
+        <li data-columncount="1">
+            <button id="contentauthoring_row_menu_one" class="s3d-link-button"><span class="s3d-action-icon fl-force-right s3d-action-icon-spacing-left"><!-- --></span>__MSG__ONE_COLUMN__</button>
+        </li>
+        <li data-columncount="2">
+            <button id="contentauthoring_row_menu_two" class="s3d-link-button"><span class="s3d-action-icon fl-force-right s3d-action-icon-spacing-left"><!-- --></span>__MSG__TWO_COLUMN__</button>
+        </li>
+        <li data-columncount="3">
+            <button id="contentauthoring_row_menu_three" class="s3d-link-button"><span class="s3d-action-icon fl-force-right s3d-action-icon-spacing-left"><!-- --></span>__MSG__THREE_COLUMN__</button>
+        </li>
+        <li class="s3d-dropdown-hassubnav"><button id="contentauthoring_row_menu_add_above" class="s3d-link-button">__MSG__ADD_ROW__</button>
+            <ul class="s3d-dropdown-list">
+                <li><button id="contentauthoring_row_menu_add_above" class="s3d-link-button"><span class="s3d-action-icon s3d-above-icon fl-force-left s3d-action-icon-spacing-right"><!-- --></span>__MSG__ADD_ROW_ABOVE__</button></li>
+                <li><button id="contentauthoring_row_menu_add_below" class="s3d-link-button"><span class="s3d-action-icon s3d-below-icon fl-force-left s3d-action-icon-spacing-right"><!-- --></span>__MSG__ADD_ROW_BELOW__</button></li>
+            </ul>
+        </li>
+        <li><button id="contentauthoring_row_menu_remove" class="s3d-link-button">__MSG__REMOVE_ROW__</button></li>
+    </ul>
+</div>
+
+<div id="contentauthoring_widget" class="contentauthoring_widget"><!-- --></div>
+<div id="contentauthoring_widget_template" style="display:none;"><!--
+    {macro insertCell(id, type)}
+        <div class="contentauthoring_cell_element {if type === "htmlblock"} contentauthoring_init{/if}" data-element-type="${type}" data-element-id="${id}">
+            <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
+                <span class="contentauthoring_row_handle fl-force-left" title="__MSG__DRAG_ME_TO_REORDER__"></span>
+                {if sakai.widgets[type].hasSettings}
+                    <span class="contentauthoring_cell_element_action_e fl-force-left" data-element-id="${id}" data-element-type="${type}" title="__MSG__SETTINGS__"></span>
+                {/if}
+                <span class="contentauthoring_cell_element_action_x fl-force-left" data-element-id="${id}" title="__MSG__DELETE__"></span>
+            </div>
+            {if template === "cell" && (sakai.widgets[type].hasSettings && !settingsoverridden)}
+                <div id="${id}"></div>
+            {else}
+                <div id="widget_${type}_${id}" class="widget_inline"></div>
+            {/if}
+        </div>
+    {/macro}
+
+    {macro insertColumn(column)}
+        <div class="contentauthoring_cell" style="width: ${column.width * 100}%">
+            <div class="contentauthoring_cell_container">
+                <div class="contentauthoring_table_row">
+                    <div class="contentauthoring_cell_content">
+                        {for element in column.elements}
+                            {if element.dummytext}
+                                <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
+                            {elseif element.type}
+                                ${insertCell(element.id, element.type)}
+                            {/if}
+                        {forelse}
+                            <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
+                        {/for}
+                    </div>
+                    <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
+                </div>
+            </div>
+        </div>
+    {/macro}
+
+    {macro insertRow(id, columns)}
+        <li class="contentauthoring_row_container" data-row-id="${id}">
+            <div class="contentauthoring_row_handle_container">
+                <span class="contentauthoring_row_handle" title="__MSG__DRAG_ME_TO_REORDER_ROWS__"></span>
+                <span class="contentauthoring_row_edit" data-row-id="${id}"></span>
+            </div>
+            <div class="contentauthoring_row">
+                <div class="contentauthoring_minheight_container">
+                    <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
+                        {for column in columns}
+                            ${insertColumn(column)}
+                            <hr class="fl-hidden fl-push"/>
+                        {/for}
+                    </div>
+                </div>
+            </div>
+        </li>
+    {/macro}
+
+    {if template === "row"}
+        ${insertRow(id, columns)}
+    {elseif template === "cell" && type}
+        ${insertCell(id, type, settingsoverridden)}
+    {elseif template === "column"}
+        ${insertColumn(column)}
+    {else}
+        <ul id="contentauthoring_widget_container">
+            {for row in rows}
+                ${insertRow(row.id, row.columns)}
+            {/for}
+        </ul>
+        <div id="contentauthoring_no_content_container" style="display:none;"></div>
+    {/if}
+--></div>
+
+<!-- Empty page placeholder -->
+<div id="contentauthoring_no_content_template" style="display:none;"><!--
+    {if canEdit}
+        <div class="contentauthoring_empty_content contentauthoring_default_editable_content_imagecontainer"></div>
+    {else}
+        <div class="contentauthoring_empty_content contentauthoring_default_viewable_content_imagecontainer"></div>
+    {/if}
+--></div>
+
+<!-- Widget Settings -->
+<div id="contentauthoring_widget_settings" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close"><!-- --></div>
+    <h1 class="s3d-dialog-header" id="contentauthoring_widget_settings_title"><!-- --></h1>
+    <div id="contentauthoring_widget_settings_content"><!-- --></div>
+</div>
+
+<!-- Autosave dialog -->
+<div id="autosave_dialog" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"><!-- --></div>
+    <h1 id="entity_content_users_dialog_heading" class="s3d-dialog-header">__MSG__AUTOSAVE__</h1>
+    <div>
+        <h3 id="autosave_title">__MSG__AN_UNSAVED_VERSION_OF_PAGE_HAS_BEEN_FOUND__.</h3>
+        <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
+        <div class="fl-force-right">
+            <button class="s3d-button s3d-link-button" id="autosave_keep">__MSG__NO__</button>
+            <button class="s3d-button s3d-overlay-action-button" id="autosave_revert">__MSG__YES__</button>
+        </div>
+    </div>
+</div>
+
+<div id="contentauthoring_dummy_element_template"><!--<div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/contentauthoring/javascript/contentauthoring.js"></script>

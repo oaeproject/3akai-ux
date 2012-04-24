@@ -1,0 +1,16 @@
+{
+    "id":                 "contentauthoring",
+    "type":               "core",
+    "enabled":            true,
+    "hasSettings":        false,
+    "url":                "/devwidgets/contentauthoring/contentauthoring.html",
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/contentauthoring/bundles/default.properties",
+            "name":       "Content Authoring",
+            "description":"Content Authoring"
+        }
+    },
+    "personalportal":     false,
+    "sakaidocs":          false
+}

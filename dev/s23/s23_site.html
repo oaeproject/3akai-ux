@@ -18,7 +18,7 @@
         <!-- to support sakai2 legacy frame resizing -->
         <script type="text/javascript" src="/library/js/headscripts.js"></script>
     </head>
-    <body id="root" class="fl-centered me i18nable s23_site">
+    <body id="root" class="fl-centered i18nable s23_site">
 
         <!-- HEADER -->
         <div class="fl-container-flex header s3d-header">
@@ -51,11 +51,15 @@
 
         <!-- TEMPLATES -->
         <div id="s23_site_menu_container_template"><!--
+            {if site.icon}
+                <div class="s23_site_menu_logo"><img src="${site.icon}" alt="" /></div>
+            {/if}
             {if site.pages.length > 0}
                 <ul>
                 {for page in site.pages}
-                    <li class="s23_site_menu_item"><a href="#page=${page.id}" class="${page.iconclass}" id="s23_site_menu_item_${page.id}">${page.name}</a></li>
+                    <li class="s23_site_menu_item"><a href="#page=${page.id}" class="${page.iconclass}" id="s23_site_menu_item_${page.id.replace(/([~!])/g, '_')}">${page.name}</a></li>
                 {/for}
+                <li class="s23_site_menu_item"><button class="icon-sakai-help" title="__MSG__HELP__" accesskey="6" href="#">__MSG__HELP__</button></li>
                 </ul>
             {else}
                 <span id="s23_site_notools">There are no tools available</span>
@@ -63,7 +67,7 @@
         --></div>
 
         <div id="s23_site_iframe_container_template"><!--
-            <div id="s23_site_page_container_${xid}" class="s23_site_page_container">
+            <div id="s23_site_page_container_${xid.replace(/([~!])/g, '_')}" class="s23_site_page_container">
                 {for col in columnTools}
                     {if columnTools.length == 1}
                         <div>

@@ -74,7 +74,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 obj.sakai = sakai;
                 obj.contentData = contentData;
-                if(sakai_global.content_profile.content_data.data.mimeType !== "x-sakai/collection"){
+                if (sakai_global && sakai_global.content_profile && (sakai_global.content_profile.content_data.data.mimeType !== 'x-sakai/collection' &&
+                    sakai_global.content_profile.content_data.data.mimeType !== 'x-sakai/document')) {
                     $(".collectionviewer_widget .collectionviewer_collection_item_preview").remove();
                 }
                 sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container", $rootel));
@@ -90,7 +91,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var data = {};
             data[tuid] = contentData;
             sakai.api.Util.TemplateRenderer($("#contentpreview_fullsize_template", $rootel), {tuid: tuid}, fullSizeContainer);
-            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [data]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, data);
         };
 
         var hidePreview = function(){
@@ -112,14 +113,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.contentpreview.isReady = true;
             $(window).trigger("ready.contentpreview.sakai", {});
         } else {
-            $(window).bind("start.collectioncontentpreview.sakai", function(ev, data) {
+            $rootel.parents('.collectionviewer_widget').bind('start.collectioncontentpreview.sakai', function(ev, data) {
                 contentData = {data: data};
                 determineDataType();
             });
 
             // Indicate that the widget has finished loading
             sakai_global.contentpreview.isReady = true;
-            $(window).trigger("ready.collectioncontentpreview.sakai");
+            $rootel.parents('.collectionviewer_widget').trigger('ready.collectioncontentpreview.sakai');
         }
     };
 
