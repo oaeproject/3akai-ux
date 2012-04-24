@@ -58,8 +58,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var widgetWidth = $rootel.width();
         if (widgetWidth < 300) {
             carouselSize = $body.hasClass('has_nav') ? 2 : 3;
+            $('#collectionviewer_expanded_content_container', $rootel).addClass('collectionviewer_3col');
         } else if (widgetWidth < 700) {
             carouselSize = $body.hasClass('has_nav') ? 3 : 5;
+            $('#collectionviewer_expanded_content_container', $rootel).addClass('collectionviewer_2col');
+        } else if (widgetWidth < 800) {
+            $('#collectionviewer_expanded_content_container', $rootel).addClass('collectionviewer_1col');
         }
 
         // previewsAllowed makes sure recursive embedding is not allowed
