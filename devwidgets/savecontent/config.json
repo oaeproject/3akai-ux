@@ -11,6 +11,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/savecontent/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/savecontent/bundles/fr_FR.properties"
         }
     },
     "url":"/devwidgets/savecontent/savecontent.html"

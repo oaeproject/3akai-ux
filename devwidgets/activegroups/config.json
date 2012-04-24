@@ -14,6 +14,11 @@
             "bundle": "/devwidgets/activegroups/bundles/default.properties",
             "name": "Most active groups",
             "description": "Most active groups"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/activegroups/bundles/fr_FR.properties",
+            "name": "Most active groups french",
+            "description": "Most active groups french"
         }
     }
 }

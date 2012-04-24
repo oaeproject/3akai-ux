@@ -14,6 +14,11 @@
             "bundle": "/devwidgets/video/bundles/default.properties",
             "name":"Video",
             "description":"Video"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/video/bundles/fr_FR.properties",
+            "name":"Video",
+            "description":"Video"
         }
     },
     "indexFields": ["source", "title", "url"]

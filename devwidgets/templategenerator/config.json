@@ -9,6 +9,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/templategenerator/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/templategenerator/bundles/fr_FR.properties"
         }
     },
     "id":                 "templategenerator",
