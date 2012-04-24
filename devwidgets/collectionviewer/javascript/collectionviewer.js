@@ -506,12 +506,27 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var updateButtonData = function() {
             var idArr = [];
             var titleArr = [];
+            var noShareTitleArr = [];
             $('.collectionviewer_check:checked:visible', $rootel).each(function(i, item) {
-                idArr.push($(item).attr('data-entityid'));
-                titleArr.push($(item).attr('data-entityname'));
+                if ($(item).attr('data-canshare') === 'true') {
+                    idArr.push($(item).attr('data-entityid'));
+                    titleArr.push($(item).attr('data-entityname'));
+                } else {
+                    if (!$(item).attr('data-canshare-error')) {
+                        $(item).attr('data-canshare-error', 'true');
+                        noShareTitleArr.push($(item).attr('data-entityname'));
+                    }
+                }
             });
             $('#collections_savecontent_button', $rootel).attr('data-entityid', idArr);
             $('#collections_savecontent_button', $rootel).attr('data-entityname', titleArr);
+            if (!idArr.length) {
+                $('#collections_savecontent_button', $rootel).attr('disabled', 'disabled');
+            }
+            if (noShareTitleArr.length) {
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR'),
+                    sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR_TEXT') + ' ' + noShareTitleArr.join(', '));
+            }
         };
 
         /**

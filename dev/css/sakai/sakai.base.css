@@ -237,9 +237,13 @@ blockquote {
 	color: #666;
 	font-weight: bold;
 	font-size: 13px;
+    margin:0 0 10px 0;
 }
 .s3d-widget-container .s3d-contentpage-title:hover {
 	cursor: pointer
+}
+.s3d-widget-container .s3d-contentpage-title-notdraggable:hover {
+    cursor: auto
 }
 .s3d-widget-container .hiddenwidget .s3d-contentpage-title {
 	margin-bottom: 0;
@@ -1302,13 +1306,14 @@ a.s3d-button.s3d-overlay-button {
 	width: 36px;
 	height: 24px;
 }
-.s3d-no-results-container h1 {
-	color: #666;
-	font-size: 18px;
-	font-weight: normal;
-	margin: 5px 0 10px 0 !important;
+.s3d-no-results-container p {
+    color: #666;
+    line-height:normal;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 5px 0 10px 0 !important;
 }
-.s3d-no-results-container h1 button {
+.s3d-no-results-container p button {
 	font-size: 18px;
 }
 .s3d-no-results-container .s3d-no-results-icon {
@@ -1896,22 +1901,6 @@ ul.as-selections textarea.as-input {
 	box-shadow: 0 0 4px -2px #A2A2A2 inset;
 	-webkit-box-shadow: 0 0 4px -2px #A2A2A2 inset;
 	-moz-box-shadow: 0 0 4px -2px #A2A2A2 inset;
-}
-
-/*
- * CHAT
- */
-.chat_available_status_online {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -33px -395px transparent;
-}
-.chat_available_status_busy {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -63px -395px transparent;
-}
-.chat_available_status_offline {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -93px -395px transparent;
-}
-.chat_available_status_offline, .chat_available_status_busy, .chat_available_status_online {
-	padding-left: 15px;
 }
 
 /*

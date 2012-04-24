@@ -32,12 +32,6 @@
 #htmlblock_view_container {
     display: block;
 }
-#htmlblock_view_container table {
-    min-width: 200px;
-}
-#htmlblock_view_container td {
-    min-width: 100px;
-}
 #htmlblock_view_container ol li {
     list-style: decimal;
 }

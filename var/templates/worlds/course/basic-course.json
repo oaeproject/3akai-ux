@@ -103,7 +103,7 @@
                                 "elements": [
                                     {
                                         "id": "${refid}3",
-                                        "type": "participants",
+                                        "type": "participants"
                                     }
                                 ]
                             }

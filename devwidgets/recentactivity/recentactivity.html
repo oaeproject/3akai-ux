@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/recentactivity/css/recentactivity.css" />
 
 <div class="recentactivity_widget s3d-widget-container">
-    <div class="s3d-contentpage-title">__MSG__RECENT_ACTIVITY__</div>
+    <h2 class="s3d-contentpage-title">__MSG__RECENT_ACTIVITY__</h2>
     <div id="recentactivity_activity_container"><!----></div>
 </div>
 
@@ -43,12 +43,12 @@
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
             <div class="s3d-no-results-icon s3d-no-results-people"></div>
-            <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
+            <p>__MSG__NO_RESULTS_DESCRIPTION__</p>
             {if !sakai.data.me.user.anon}
-                <h1>
+                <p>
                     <a href="/search#l=people&q=*" class="s3d-regular-links">__MSG__ADD_PEOPLE__</a>
                     <a href="/create" class="s3d-regular-links">__MSG__ADD_CONTENT__</a>
-                </h1>
+                </p>
             {/if}
         </div>
         <div id="recentactivity_noresults_example"></div>

@@ -273,7 +273,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     }
                     break;
                 case 'existing':
-                    var $existing = $('input#' + obj.id);
+                    var $existing = $('input#' + obj['_path']);
                     $existing.removeAttr('disabled');
                     $existing.removeAttr('checked');
                     $existing.parent().removeClass(newaddcontentExistingItemsListContainerDisabledListItem);
@@ -1065,14 +1065,13 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     var existingIDs = [];
                     $.each(itemsToUpload, function(index, item) {
                         if(item.type === 'existing') {
-                            existingIDs.push(item.id);
+                            existingIDs.push(item['_path']);
                         }
                     });
                     if (data && data.results) {
                         existingItems = data.results;
                     }
                     $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {'data': data, 'query':q, 'sakai':sakai, 'queue':existingIDs, 'context':currentExistingContext}));
-                    uncheckCheckboxes();
                     // Disable the add button
                     disableAddToQueue();
                     var numberOfPages = Math.ceil(data.total / 10);

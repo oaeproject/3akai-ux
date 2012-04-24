@@ -8,7 +8,7 @@
 </div>
 
 <div id="featuredworlds_template"><!--
-    <div class="s3d-contentpage-title">
+    <h2 class="s3d-contentpage-title s3d-contentpage-title-notdraggable">
         {for tab in tabs}
             <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" data-sakai-worldid="${tab.id}">
                 ${tab.title}
@@ -18,7 +18,7 @@
                 </span>
             </div>
         {/for}
-    </div>
+    </h2>
     <div id="featuredworlds_worlds_content_container">
         {for tab in tabs}
             <div id="featuredworlds_worlds_content_${tab.id}"></div>
@@ -47,7 +47,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-world"></div>
-                    <h1>__MSG__WHEN_CATEGORY_ITEMS_FOR__ '${tab.title}' __MSG__ARE_CREATED__{if !sakai.data.me.user.anon} <a href="/create#l=${tab.id}" class="s3d-regular-links">__MSG__ADD__ <span class="s3d-lowercase">${tab.title}</span></a>{/if}</h1>
+                    <p>__MSG__WHEN_CATEGORY_ITEMS_FOR__ '${tab.title}' __MSG__ARE_CREATED__{if !sakai.data.me.user.anon} <a href="/create#l=${tab.id}" class="s3d-regular-links">__MSG__ADD__ <span class="s3d-lowercase">${tab.title}</span></a>{/if}</p>
                 </div>
             {/if}
         </div>

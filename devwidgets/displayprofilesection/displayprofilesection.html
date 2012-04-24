@@ -10,7 +10,7 @@
 </div>
 
 <div id="displayprofilesection_header_template" style="display:none"><!--
-    <div class="s3d-contentpage-title">${pageTitle}</div>
+    <h1 class="s3d-contentpage-title">${pageTitle}</h1>
 --></div>
 
 <div id="displayprofilesection_edit_template" style="display:none"><!--
@@ -99,12 +99,12 @@
     <div class="s3d-no-results-container">
         <div class="s3d-no-results-arrow-up"></div>
         <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
-        <h1>
+        <p>
             <span id="displayprofilesection_no_results_text">${errorString}</span>
             <span id="displayprofilesection_no_results_message" {if !showMessage}style="display:none;"{/if}>
                 <button type="button" id="displayprofilesection_user_message" class="s3d-link-button sakai_sendmessage_overlay" sakai-entityid="${userid}" sakai-entityname="${displayName}" data-sakai-entitytype="user">__MSG__SEND_THEM_A_MESSAGE__</button> __MSG__TO_REMIND_THEM__
             </span>
-        </h1>
+        </p>
     </div>
 --></div>
 

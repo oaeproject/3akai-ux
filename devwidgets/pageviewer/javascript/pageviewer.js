@@ -88,7 +88,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.TemplateRenderer(pageViewerContentTemplate, {
                 data: docData,
                 selectedPage: selectedPage
-            }, $pageViewerContentContainer, false);
+            }, $pageViewerContentContainer);
             sakai.api.Widgets.widgetLoader.insertWidgets('pageviewer_content_container', false, storePath, false);
             sakai.api.Util.renderMath($pageViewerContentContainer);
             checkColumnsEmpty();
