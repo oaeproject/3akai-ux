@@ -116,18 +116,17 @@ sakai_global.s23_site = function(){
 
         var pageid = $.bbq.getState("page");
         if (pageid) {
-
-            // Remove the active class from the previous selected item
-            $(s23SiteMenuItems).closest('li').removeClass(s23SiteMenuActive);
-            
-            // Set the active class to the item you just clicked on
-            $('#' + s23SiteMenuItemTag + pageid.replace(/([~!])/g, '_')).closest('li').addClass(s23SiteMenuActive);
             // Get the page info for a certain page and store it in a variable
             var page = getPageInfo(pageid);
             
             // Check if the page actually exists
             if (page && !page.popup) {
             
+                // Remove the active class from the previous selected item
+                $(s23SiteMenuItems).closest('li').removeClass(s23SiteMenuActive);                
+
+                // Set the active class to the item you just clicked on
+                $('#' + s23SiteMenuItemTag + pageid.replace(/([~!])/g, '_')).closest('li').addClass(s23SiteMenuActive);
                 // Hide the content & tools from the other pages
                 $(s23SitePageContainerClass, s23SiteIframeContainer).hide();
                 
@@ -251,7 +250,7 @@ sakai_global.s23_site = function(){
                 }
             }
             else if (page && page.popup) {
-                var popupWindow = window.open('/portal/page/' + page.id, page.id, 'resizable=yes,toolbar=no,scrollbars=yes, width=800,height=600');
+                var popupWindow = window.open('/portal/page/' + page.id, page.id, 'resizable=yes, toolbar=no, scrollbars=yes, width=800, height=600');
                 popupWindow.focus();
             }
         }
@@ -408,7 +407,7 @@ sakai_global.s23_site = function(){
             }]);
             $('.icon-sakai-help').on('click', function(ev) {
                 ev.preventDefault();
-                var helpWindow = window.open('/portal/help/main', 'help','resizable=yes,toolbar=no,scrollbars=yes,menubar=yes,width=800,height=600');
+                var helpWindow = window.open('/portal/help/main', 'help', 'resizable=yes, toolbar=no, scrollbars=yes, menubar=yes, width=800, height=600');
                 helpWindow.focus();
             });
         }
