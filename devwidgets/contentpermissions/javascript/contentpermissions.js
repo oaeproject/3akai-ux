@@ -547,7 +547,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             globalPermissionsChanged = false;
             changesMade = false;
             renderMemberList();
-            $contentpermissionsMembersAutosuggest = $("#contentpermissions_members_autosuggest");
+            $contentpermissionsMembersAutosuggest = $('#contentpermissions_members_autosuggest');
             sakai.api.Util.AutoSuggest.setup($contentpermissionsMembersAutosuggest, {
                 "asHtmlID": tuid,
                 "selectionAdded":addedUserGroup,
