@@ -14,6 +14,11 @@
             "bundle": "/devwidgets/popularcontent/bundles/default.properties",
             "name": "Most active content",
             "description": "Most active content"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/popularcontent/bundles/fr_FR.properties",
+            "name": "Most active content French",
+            "description": "Most active content French"
         }
     }
 }

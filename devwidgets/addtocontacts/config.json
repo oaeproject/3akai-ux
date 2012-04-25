@@ -7,6 +7,11 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/addtocontacts/bundles/es_ES.properties"
+	},
+        "fr_FR": {
+            "bundle": "/devwidgets/addtocontacts/bundles/fr_FR.properties",
+            "name":"Add a contact french",
+            "description":"Add a contact french"
         },
         "zh_CN": {
             "bundle": "/devwidgets/addtocontacts/bundles/zh_CN.properties",

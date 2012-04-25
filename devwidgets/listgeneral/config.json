@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/listgeneral/bundles/default.properties",
             "name": "General lister",
             "description":"General space, site and content lister widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/listgeneral/bundles/fr_FR.properties",
+            "name": "General lister French",
+            "description": "General space, site and content lister widget French"
         }
     },
     "type":"core",

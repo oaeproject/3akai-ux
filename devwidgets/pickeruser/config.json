@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/pickeruser/bundles/default.properties",
             "name": "People picker",
             "description":"General people picker widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/pickeruser/bundles/fr_FR.properties",
+            "name": "People picker French",
+            "description":"General people picker widget French"
         }
     },    
     "type":"core",

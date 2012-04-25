@@ -10,6 +10,11 @@
             "bundle": "/devwidgets/systemtour/bundles/default.properties",
             "name":"System tour",
             "description":"Tracks system tour progress"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/systemtour/bundles/fr_FR.properties",
+            "name": "System tour French",
+            "description": "Tracks system tour progress French"
         }
     },
     "type":"sakai",
