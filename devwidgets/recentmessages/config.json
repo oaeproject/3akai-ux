@@ -7,6 +7,9 @@
         },
         "en_US": {
             "bundle": "/devwidgets/recentmessages/bundles/en_US.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentmessages/bundles/fr_FR.properties"
         }
     },
     "id":"recentmessages",

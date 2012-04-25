@@ -8,6 +8,11 @@
             "bundle":     "/devwidgets/uploadnewversion/bundles/default.properties",
             "name":       "Upload new version widget",
             "description":"Upload new version widget"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/uploadnewversion/bundles/fr_FR.properties",
+            "name":       "Upload new version widget French",
+            "description": "Upload new version widget French"
         }
     },
     "id":                 "uploadnewversion",

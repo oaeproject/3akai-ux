@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/createpage/bundles/default.properties",
             "name": "Create page",
             "description": "Create page widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/createpage/bundles/fr_FR.properties",
+            "name": "Create page French",
+            "description": "Create page widget French"
         }
     },
     "type":"core",
