@@ -2015,7 +2015,7 @@ define(
             positionDialogBox : function(el, offset) {
                 var $el = sakai_util.getJqueryObject(el);
 
-                var dialogOffset = 100;
+                var dialogOffset = 50;
                 if (offset && _.isNumber(offset)) {
                     dialogOffset = parseInt(offset, 10);
                 }
