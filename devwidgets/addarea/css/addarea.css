@@ -53,8 +53,9 @@
 #addarea_container #addarea_content_container select {height:20px;padding:0;margin-top:3px;}
 #addarea_container #addarea_content_container .addarea_list_categories {float:right;}
 #addarea_container #addarea_content_container .addarea_preview_container {float:left;width:100px;}
-#addarea_container #addarea_content_container .addarea_data_container {float:left;margin-left:15px;overflow:visible;}
-#addarea_container #addarea_content_container h3 {margin:0 0 15px;}
+#addarea_container #addarea_content_container .addarea_data_container {float:left;overflow:visible; min-width: 375px;}
+#addarea_container #addarea_content_container h3 {margin:0 0 4px; color: #424242; font-size: 15px;}
+#addarea_container #addarea_content_container .addarea_type_more {margin:0 0 15px; font-style:italic; display:block; max-width: 375px;}
 
 #addarea_container #addarea_content_container .addarea_column {width:50%;float:left;}
 #addarea_container #addarea_content_container .addarea_column input,
