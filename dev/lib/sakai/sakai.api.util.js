@@ -1724,7 +1724,7 @@ define(
                                         case html4.atype.STYLE:
                                             var accept = ["color", "display", "background-color", "font-weight", "font-family",
                                                           "padding", "padding-left", "padding-right", "text-align", "font-style",
-                                                          "text-decoration", "border", "visibility", "font-size"];
+                                                          "text-decoration", "border", "visibility", "font-size", "width"];
                                             var sanitizedValue = "";
                                             if (value){
                                                 var vals = value.split(";");
