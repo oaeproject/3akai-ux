@@ -1227,10 +1227,14 @@ define(
          *
          * @param {Object} results Search results to process
          * @param {Object} meData User object for the user
-         * @param callback {Function} Callback function executed at the end of the operation
+         * @param {Function} callback Callback function executed at the end of the operation
+         * @param {Object} threeDotsWidths Optional object to specify widths for applyThreeDots in the list view:
+         *                              titleWidth {Integer} limit the title to this width in list view
+         *                              descriptionWidth {Integer} limit the description to this width in list view
+         *                              displayNameWidth {Integer} limit the owner display name to this width in list view
          * @returns void
          */
-        prepareContentForRender : function(results, meData, callback) {
+        prepareContentForRender : function(results, meData, callback, threeDotsWidths) {
             var userArray = [];
             $.each(results, function(i, contentItem){
                 if (contentItem['sakai:pooled-content-file-name']) {
@@ -1241,6 +1245,10 @@ define(
                     contentItem.numComments = sakai_content.getCommentCount(contentItem);
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
+                        var descWidth = 750;
+                        if (threeDotsWidths && threeDotsWidths.descriptionWidth) {
+                            descWidth = threeDotsWidths.descriptionWidth;
+                        }
                         contentItem["sakai:description-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 150, {
                             max_rows: 2,
                             whole_word: false
@@ -1249,13 +1257,17 @@ define(
                             max_rows: 2,
                             whole_word: false
                         }, "");
-                        contentItem["sakai:description"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 580, {
+                        contentItem["sakai:description"] = sakai_util.applyThreeDots(contentItem["sakai:description"], descWidth, {
                             max_rows: 2,
                             whole_word: false
                         }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
-                        contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 560, {
+                        var fileNameWidth = 560;
+                        if (threeDotsWidths && threeDotsWidths.titleWidth) {
+                            fileNameWidth = threeDotsWidths.titleWidth;
+                        }
+                        contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], fileNameWidth, {
                             max_rows: 1,
                             whole_word: false
                         }, "s3d-bold");
@@ -1289,13 +1301,17 @@ define(
             // Get displaynames for the users that created content
             if (userArray.length) {
                 sakai_user.getMultipleUsers(userArray, function(users){
+                    var displayNameWidth = 580;
+                    if (threeDotsWidths && threeDotsWidths.displayNameWidth) {
+                        displayNameWidth = threeDotsWidths.displayNameWidth;
+                    }
                     $.each(results, function(index, item){
                         if (item && item['sakai:pooled-content-file-name']) {
                             var userid = item["sakai:pool-content-created-for"];
                             var displayName = sakai_user.getDisplayName(users[userid]);
                             item.ownerId = userid;
                             item.ownerDisplayName = displayName;
-                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, displayNameWidth, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                             item.ownerDisplayNameShorter = sakai_util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                         }
                     });

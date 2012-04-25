@@ -55,6 +55,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var fetchCollectionData = false;
         var initialload = true;
         var carouselSize = $body.hasClass('has_nav') ? 9 : 12;
+        var widgetWidth = $rootel.width();
+        if (widgetWidth < 300) {
+            carouselSize = $body.hasClass('has_nav') ? 2 : 3;
+            $('#collectionviewer_expanded_content_container', $rootel).addClass('collectionviewer_3col');
+        } else if (widgetWidth < 700) {
+            carouselSize = $body.hasClass('has_nav') ? 3 : 5;
+            $('#collectionviewer_expanded_content_container', $rootel).addClass('collectionviewer_2col');
+        } else if (widgetWidth < 800) {
+            $('#collectionviewer_expanded_content_container', $rootel).addClass('collectionviewer_1col');
+        }
+
         // previewsAllowed makes sure recursive embedding is not allowed
         var previewsAllowed = true;
         // pagePreviewDisabled disables page previews inside of collection viewers inside of a sakai doc
@@ -152,21 +163,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         totalItems += item.length;
                     }
                 });
-                if (totalItems > carouselSize) {
-                    $('.collectionviewer_controls', $rootel).show();
-                }
-                $('#collectionviewer_carousel', $rootel).jcarousel({
+                var jcarouselOptions = {
                     animation: 'slow',
                     easing: 'swing',
                     scroll: carouselSize,
                     start: 0,
                     initCallback: carouselBinding,
                     itemFallbackDimension: 123
-                });
-
-                if (totalItems > carouselSize && $.bbq.getState('item')) {
-                    $('#collectionviewer_carousel', $rootel).data('jcarousel').scroll($('.collectionviewer_carousel_item[data-item-id="' + $.bbq.getState('item') + '"]', $rootel).attr('data-arr-index'));
+                };
+                if (totalItems > carouselSize) {
+                    $('.collectionviewer_controls', $rootel).show();
+                    if ($.bbq.getState('item')) {
+                        jcarouselOptions.start = parseInt($('.collectionviewer_carousel_item[data-item-id="' + $.bbq.getState('item') + '"]', $rootel).attr('data-arr-index'), 10);
+                    }
                 }
+                $('#collectionviewer_carousel', $rootel).jcarousel(jcarouselOptions);
             }
         };
 
@@ -177,6 +188,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var renderItemsForSelected = function(pageIndex, selectedIndex) {
             var selectedData = collectionData[pageIndex][selectedIndex];
+            var width = parseInt($collectionviewerExpandedContentContainer.width(), 10) / 2.5 - 50;
             if (selectedData._mimeType === 'x-sakai/collection') {
                 getCollectionData('c-' + selectedData._path, false, function(data) {
                     if (data.results.fetchMultipleUserDataInWidget) {
@@ -189,6 +201,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         collectionName: getCollectionName(),
                         collectionId: getCollectionId(collectionviewer.contextId),
                         isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId),
+                        titleWidth: width,
                         pagePreviewDisabled: pagePreviewDisabled
                     }, $('#collectionviewer_expanded_content_container', $rootel));
                     if (previewsAllowed) {
@@ -202,6 +215,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     collectionName: getCollectionName(),
                     collectionId: getCollectionId(collectionviewer.contextId),
                     isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId),
+                    titleWidth: width,
                     pagePreviewDisabled: pagePreviewDisabled
                 }, $('#collectionviewer_expanded_content_container', $rootel));
                 if (previewsAllowed) {
@@ -398,12 +412,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                 data: data,
                 success: function(data) {
+                    var width = parseInt($rootel.width(), 10);
+                    var widthOptions = {
+                        titleWidth: width - 150,
+                        descriptionWidth: width - 55,
+                        displayNameWidth: width - 150
+                    };
                     if ($.isFunction(callback)) {
                         getMultipleUserData(data, function() {
                             data.results.fetchMultipleUserDataInWidget = true;
                             sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent) {
                                 callback(data);
-                            });
+                            }, widthOptions);
                         });
                     } else {
                         $('#collectionviewer_add_content_button > div', $rootel).text(data.total);
@@ -414,7 +434,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                 sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent) {
                                     collectionData[(collectionviewer.page - 1)] = parsedContent;
                                     showData();
-                                });
+                                }, widthOptions);
                             });
                         } else {
                             showData();
