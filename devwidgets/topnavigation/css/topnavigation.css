@@ -92,7 +92,7 @@
     word-wrap: break-word;
 }
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_readfull {float:right;margin-right:0;position:absolute;bottom:12px;right:12px;}
-#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_reply {float:left;margin-left:7px;position:absolute;bottom:12px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container #topnavigation_message_showall {float:left;margin-left:7px;position:absolute;bottom:12px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-no-results-container {height:50px;margin:0;padding:10px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-no-results-container p {font-size:12px;margin:0 !important;padding-top:5px;width:215px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-no-results-container #message_video_preview {border:3px solid #6ABFE7;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;float:right;height:49px;width:54px;margin-top:-2px;}

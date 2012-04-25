@@ -939,7 +939,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
-            $("#topnavigation_message_reply").live("click", hideMessageInlay);
+            $("#topnavigation_message_showall").live("click", hideMessageInlay);
             $("#topnavigation_message_readfull").live("click", hideMessageInlay);
             $(".no_messages .s3d-no-results-container a").live("click", hideMessageInlay);
             $(".topnavigation_trigger_login").live("click", forceShowLogin);
