@@ -12,6 +12,9 @@
         },
         "zh_CN": {
             "bundle": "/devwidgets/mycontacts/bundles/zh_CN.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mycontacts/bundles/fr_FR.properties"
         }
     },
     "personalportal":true,

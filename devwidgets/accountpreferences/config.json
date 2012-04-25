@@ -8,7 +8,12 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/accountpreferences/bundles/es_ES.properties"
-        } 
+        }, 
+        "fr_FR": {
+            "bundle": "/devwidgets/accountpreferences/bundles/fr_FR.properties",
+            "description": "préférences du compte",
+            "name": "préférences du compte"
+        }
     },
     "type":"core",
     "enabled":true,

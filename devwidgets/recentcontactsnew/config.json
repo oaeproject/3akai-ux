@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/recentcontactsnew/bundles/default.properties",
             "name": "My recent contacts",
             "description":"My recent contacts"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentcontactsnew/bundles/fr_FR.properties",
+            "name": "My recent contacts French",
+            "description":"My recent contacts French"
         }
     },
     "personalportal":true,

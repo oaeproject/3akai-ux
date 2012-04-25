@@ -14,6 +14,11 @@
             "bundle": "/devwidgets/tags/bundles/default.properties",
             "name": "Most popular tags",
             "description": "Most popular tags"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/tags/bundles/fr_FR.properties",
+            "name": "Most popular tags French",
+            "description": "Most popular tags French"
         }
     }
 }

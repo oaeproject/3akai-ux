@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/listpeopleinnode/bundles/default.properties",
             "name": "listpeopleinnode",
             "description": "Browsing people in this node of the directory"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/listpeopleinnode/bundles/fr_FR.properties",
+            "name": "listpeopleinnode French",
+            "description": "Browsing people in this node of the directory French"
         }
     },
     "id": "listpeopleinnode",
