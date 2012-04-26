@@ -454,14 +454,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var leftMenulinks = [];
             var rightMenuLinks = [];
 
-            $(".s3d-jump-link").each(function() {
-                if ($('#' + $(this).attr('id').split('_')[0] + '_target:visible').length) {
+            $('#topnavigation_container .s3d-jump-link').each(function() {
+                if ($($(this).attr('href') + ':visible').length) {
                     $(this).show();
                 }
             });
-            $(".s3d-jump-link").click(function(e) {
-                e.preventDefault();
-                $('#' + $(this).attr("id").split('_')[0] + '_target').focus();
+            $('.s3d-jump-link').on('click',function() {
+                $($(this).attr("href")).focus();
+                return false;
             });
 
             for (var i in sakai.config.Navigation) {
