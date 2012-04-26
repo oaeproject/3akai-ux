@@ -80,15 +80,18 @@ require(['jquery'], function (jQuery) {
             height = options.maxHeight;
         }
         
-        
-        // Animate the column's height change.
-        elements.animate
-        (
-            {
-                height : height
-            },
-            options.speed
-        );
+        if (options.animate) {
+            // Animate the column's height change.
+            elements.animate
+            (
+                {
+                    height : height
+                },
+                options.speed
+            );
+        } else {
+            elements.height(height);
+        }
         
         return $(this);
     };
@@ -101,7 +104,8 @@ require(['jquery'], function (jQuery) {
             height : 0,
             minHeight : 0,
             maxHeight : 0,
-            speed : 0
+            speed : 0,
+            animate: false
         }
     };
 })(jQuery);
