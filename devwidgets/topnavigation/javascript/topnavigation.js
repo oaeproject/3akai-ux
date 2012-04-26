@@ -460,7 +460,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             $('#topnavigation_container .s3d-jump-link').on('click', function() {
-                $($(this).attr("href")).focus();
+                $($(this).attr('href')).focus();
                 return false;
             });
 
