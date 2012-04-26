@@ -404,7 +404,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $("#mymemberships_delete_membership_confirm").live("click", function(){
-                removeMembership($(this).data("sakai-entityid"),$(this).attr("data-sakai-entityname"));
+                removeMembership($(this).attr('data-sakai-entityid'), $(this).attr('data-sakai-entityname'));
                 updateMessageAndAddToData();
             });
 
