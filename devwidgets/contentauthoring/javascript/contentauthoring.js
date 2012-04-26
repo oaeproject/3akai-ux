@@ -1321,11 +1321,19 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Save the page by moving the autosaved page to the main page. We also version the page
          */
         var savePageData = function() {
+            var saveErrorNotification = function(errorText) {
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                    sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_SAVING', 'contentauthoring') + ' ' + errorText,
+                    sakai.api.Util.notification.type.ERROR, true);
+            };
+
             var oldStorePath = storePath;
             storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
             updateWidgetURLs();
 
             sakai.api.Server.loadJSON(oldStorePath, function(success, data) {
+                var errorMsg = '';
                 if (success && data) {
                     data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
                     delete data.version;
@@ -1359,11 +1367,33 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             'sakai:forceupdate': true
                         }
                     });
-                    sakai.api.Server.batch(batchRequests, function() {
+                    sakai.api.Server.batch(batchRequests, function(success, data) {
+                        var saveSuccessful = true;
+                        if (data && data.results) {
+                            // each response status code should be 200 for a successful save
+                            if (data.results[0] && (!data.results[0].success || data.results[0].status !== 200) ||
+                                data.results[1] && (!data.results[1].success || data.results[1].status !== 200) ||
+                                data.results[2] && (!data.results[2].success || data.results[2].status !== 200)) {
+                                saveSuccessful = false;
+                                if (data.results[0].status === 403 || data.results[1].status === 403) {
+                                    errorMsg = sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_403', 'contentauthoring');
+                                }
+                            }
+                        }
                         addEditButtonBinding();
-                        $(window).trigger('update.versions.sakai', currentPageShown);
+                        if (success && saveSuccessful) {
+                            $(window).trigger('update.versions.sakai', currentPageShown);
+                        } else {
+                            saveErrorNotification(errorMsg);
+                        }
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                     });
+                } else {
+                    if (data && data.status === 404) {
+                        errorMsg = sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_404', 'contentauthoring');
+                    }
+                    saveErrorNotification(errorMsg);
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
                 }
             });
         };
