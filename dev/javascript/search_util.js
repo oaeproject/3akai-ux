@@ -156,13 +156,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var elementsToAdjust = [];
             $.each($searchGridElements, function(i, el) {
                 if (i && i % 4 === 0) {
-                    $(elementsToAdjust).equalHeights();
+                    $(elementsToAdjust).equalHeightColumns();
                     elementsToAdjust = [];
                 }
                 elementsToAdjust.push(el);
             });
             if (elementsToAdjust.length) {
-                $(elementsToAdjust).equalHeights();
+                $(elementsToAdjust).equalHeightColumns();
             }
         };
 
