@@ -1366,7 +1366,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             'sakai:forceupdate': true
                         }
                     });
-                    sakai.api.Server.batch(batchRequests, function() {
+                    sakai.api.Server.batch(batchRequests, function(success, data) {
                         var saveSuccessful = true;
                         if (data && data.results) {
                             // each response status code should be 200 for a successful save
@@ -1392,6 +1392,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         errorMsg = sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_404', 'contentauthoring');
                     }
                     saveErrorNotification(errorMsg);
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
                 }
             });
         };
