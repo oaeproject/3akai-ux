@@ -19,8 +19,10 @@
     {macro actionbuttons(item, sakai)}
         <fieldset class="featuredcontent_content_actions s3d-draggable-hidden">
         <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
-            <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
-            {if !sakai.data.me.user.anon}
+            {if item.canShare}
+                <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
+            {/if}
+            {if !sakai.data.me.user.anon && item.canShare}
                 <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__SAVE_CONTENT__"></div>
             {/if}
             <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}" title="__MSG__VIEW_OWNER_INFO__"></div>
@@ -151,8 +153,10 @@
                 <div class="featuredcontent_content featuredcontent_content_small s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     <fieldset class="featuredcontent_content_actions s3d-draggable-hidden">
                         <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
-                        <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
-                        {if !sakai.data.me.user.anon}
+                        {if item.canShare}
+                            <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
+                        {/if}
+                        {if !sakai.data.me.user.anon && item.canShare}
                             <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__SAVE_CONTENT__"></div>
                         {/if}
                         <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}" title="__MSG__VIEW_OWNER_INFO__"></div>
