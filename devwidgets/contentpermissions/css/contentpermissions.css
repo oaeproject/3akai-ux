@@ -143,6 +143,7 @@
     border: 1px solid #999;
     float: right;
     margin-top: 3px;
+    max-width: 100px;
 }
 li.contentpermissions_edit.s3d-outer-shadow-container {
     padding: 3px 13px 6px;
