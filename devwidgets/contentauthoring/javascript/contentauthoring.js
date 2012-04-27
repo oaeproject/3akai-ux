@@ -1248,6 +1248,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             $rootel.removeClass('contentauthoring_edit_mode');
             $('.contentauthoring_cell_content', $rootel).sortable('destroy');
             updateColumnHeights();
+            $('.contentauthoring_cell', $rootel).resizable('destroy');
         };
 
         /**
