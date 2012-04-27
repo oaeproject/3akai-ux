@@ -139,6 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     item.thumbnail = sakai.api.Content.getThumbnail(item);
                     item.usedin = sakai.api.Content.getPlaceCount(item);
                     item.commentcount = sakai.api.Content.getCommentCount(item);
+                    item.canShare = sakai.api.Content.canCurrentUserShareContent(item);
                     if (item["sakai:tags"]) {
                         item["sakai:tags"] = sakai.api.Util.formatTags(item["sakai:tags"].toString());
                     }
