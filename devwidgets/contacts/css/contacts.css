@@ -28,13 +28,24 @@
 
 /* contact lists */
 #contacts_invited_container .contacts_list_items, #contacts_container .contacts_list_items {margin:0; border-top: 1px solid #DDDDDD;}
-#contacts_invited_container .contacts_item,#contacts_container .contacts_item {color:#333;padding:10px 10px 0 6px;border-bottom: 1px dotted #cccccc;overflow:hidden;}
+#contacts_invited_container .contacts_item,#contacts_container .contacts_item {
+    padding: 10px 10px 10px 6px;
+}
 #contacts_invited_container .contacts_item_end {margin-bottom:20px;}
-#contacts_invited_container .contacts_item_left_filler, #contacts_container .contacts_item_left_filler {margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 27px;}
+#contacts_invited_container .contacts_item_left_filler, #contacts_container .contacts_item_left_filler {
+    display: inline;
+    float: left;
+    height: 25px;
+    margin: 1px 0 0 1px;
+    width: 23px;
+}
 #contacts_invited_container .s3d-search-results-grid .contacts_item_left_filler, #contacts_container .s3d-search-results-grid .contacts_item_left_filler {width:auto;}
 #contacts_invited_container .s3d-search-results-grid .contacts_list_picture, #contacts_container .s3d-search-results-grid .contacts_list_picture {display:none;}
 #contacts_invited_container .s3d-search-results-grid .contacts_grid_picture, #contacts_container .s3d-search-results-grid .contacts_grid_picture {display:inline-block !important;}
-#contacts_invited_container .contacts_list, #contacts_container .contacts_list{margin-left:8px;overflow:hidden;}
+#contacts_invited_container .contacts_list, #contacts_container .contacts_list {
+    overflow: hidden;
+    padding-left: 5px;
+}
 #contacts_invited_container .contacts_item_description, #contacts_container .contacts_item_description{margin-bottom:5px;color:#333;font-size:.90em;}
 #contacts_invited_container .contacts_item_counts, #contacts_container .contacts_item_counts {padding:3px 0;font-size:11px;}
 #contacts_invited_container .contacts_item_message_icon, #contacts_container .contacts_item_message_icon{display:inline-block;float:right;}
