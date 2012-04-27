@@ -1306,14 +1306,16 @@ a.s3d-button.s3d-overlay-button {
 	width: 36px;
 	height: 24px;
 }
-.s3d-no-results-container p {
+.s3d-no-results-container p,
+.s3d-no-results-container h1 {
     color: #666;
     line-height:normal;
     font-size: 18px;
     font-weight: normal;
     margin: 5px 0 10px 0 !important;
 }
-.s3d-no-results-container p button {
+.s3d-no-results-container p button,
+.s3d-no-results-container h1 button {
 	font-size: 18px;
 }
 .s3d-no-results-container .s3d-no-results-icon {
