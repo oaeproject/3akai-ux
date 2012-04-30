@@ -524,7 +524,7 @@ define(
             // if there is profile picture and userId
             // return the picture links
             var imgUrl = sakai_conf.URL.USER_DEFAULT_ICON_URL;
-            if (type === "group"){
+            if (type === 'group' || profile['sakai:category'] === 'group') {
                 imgUrl = sakai_conf.URL.GROUP_DEFAULT_ICON_URL;
             }
             var id = null, picture_name = null;
