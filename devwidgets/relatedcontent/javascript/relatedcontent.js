@@ -141,7 +141,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(relatedcontentShowMore).hide();
                         $("#relatedcontent_footer").addClass("relatedcontent_footer_norelated");
                     } else {
-                        $(relatedcontentShowMore).show();
+                        $(relatedcontentShowMore).removeAttr('disabled').show();
                         $("#relatedcontent_footer").removeClass("relatedcontent_footer_norelated");
                     }
                 }
@@ -194,6 +194,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var showMore = function(){
+            $(relatedcontentShowMore).attr('disabled','disabled');
             page++;
             getRelatedContent();
             getRelatedContent(true);
