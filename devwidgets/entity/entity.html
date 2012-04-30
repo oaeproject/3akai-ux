@@ -277,33 +277,33 @@
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
                                 <span>
-                                {if data.members.counts.managerusers + data.members.counts.managergroups !== 0}
-                                    {if data.members.counts.managerusers !== 0}
-                                        <button type="button" class="s3d-link-button entity_content_people">${data.members.counts.managerusers}
-                                            {if data.members.counts.managerusers === 1}
+                                {if data.members.counts.collaboratorusers + data.members.counts.collaboratorgroups !== 0}
+                                    {if data.members.counts.collaboratorusers !== 0}
+                                        <button type="button" class="s3d-link-button entity_content_people">${data.members.counts.collaboratorusers}
+                                            {if data.members.counts.collaboratorusers === 1}
                                                 __MSG__PERSON_LC__
                                             {else}
                                                 __MSG__PEOPLE_LC__
                                             {/if}
                                         </button>
-                                        {if data.members.counts.managergroups !== 0 && data.members.counts.managerusers !== 0}__MSG__AND__{/if}
+                                        {if data.members.counts.collaboratorgroups !== 0 && data.members.counts.collaboratorusers !== 0}__MSG__AND__{/if}
                                     {/if}
-                                    {if data.members.counts.managergroups !== 0}
-                                        <button class="s3d-link-button entity_content_group">${data.members.counts.managergroups}
-                                            {if data.members.counts.managergroups === 1}
+                                    {if data.members.counts.collaboratorgroups !== 0}
+                                        <button class="s3d-link-button entity_content_group">${data.members.counts.collaboratorgroups}
+                                            {if data.members.counts.collaboratorgroups === 1}
                                                 __MSG__GROUP_LC__
                                             {else}
                                                 __MSG__GROUPS_LC__
                                             {/if}
                                         </button>
                                     {/if}
-                                    {if (data.members.counts.managerusers === 1 && data.members.counts.managergroups === 0) || (data.members.counts.managerusers === 0 && data.members.counts.managergroups === 1)}__MSG__IS__{else}__MSG__ARE__{/if} __MSG__COLLABORATING_ON_THIS__</span>
+                                    {if (data.members.counts.collaboratorusers === 1 && data.members.counts.collaboratorgroups === 0) || (data.members.counts.collaboratorusers === 0 && data.members.counts.managergroups === 1)}__MSG__IS__{else}__MSG__ARE__{/if} __MSG__COLLABORATING_ON_THIS__</span>
                                 {else}
                                     __MSG__THERE_ARE_NO_COLLABORATORS__
                                 {/if}
                             <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                         </div>
-                        <span id="entity_participants_count">${data.members.managers.length}</span>
+                        <span id="entity_participants_count">${data.members.counts.collaboratorusers}</span>
                     </div>
                     <span>|</span>
                     <div class="entity_owns_actions_share has_counts ew_permissions">

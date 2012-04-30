@@ -156,6 +156,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + title;
         };
 
+        /**
+         * Get the complete user list
+         * This includes managers, viewers and editors
+         * @return {Array} All the users for a specific content item
+         */
+        var getUserList = function() {
+            return sakai_global.content_profile.content_data.members.managers.concat(
+                sakai_global.content_profile.content_data.members.viewers,
+                sakai_global.content_profile.content_data.members.editors
+            );
+        };
+
         var addBindingUsedBy = function(context) {
             var $entityContentUsersDialog = $('#entity_content_users_dialog');
             var $entityContentUsersDialogContainer = $('#entity_content_users_dialog_list_container');
@@ -169,9 +181,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $('.entity_content_people').on('click', function() {
+                var userList = getUserList();
+
                 $entityContentUsersDialog.jqmShow();
 
-                var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
                 var json = {
                     'userList': userList,
                     'type': 'people',
@@ -186,7 +199,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $('.entity_content_group').on('click', function() {
-                var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
+                var userList = getUserList();
+
                 $entityContentUsersDialog.jqmShow();
 
                 var parentGroups = getParentGroups(userList, false);
@@ -206,7 +220,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $('.entity_content_collections').on('click', function() {
-                var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
+                var userList = getUserList();
+
                 $entityContentUsersDialog.jqmShow();
 
                 var json = {
@@ -407,17 +422,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var prepareRenderContext = function(context) {
             if (context.context === "content") {
                 if ($.isArray(sakai_global.content_profile.content_data.members.managers)) {
-                    getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
+                    getParentGroups(getUserList, true, context);
                 }
-                sakai_global.content_profile.content_data.members.counts.managergroups = 0;
-                sakai_global.content_profile.content_data.members.counts.managerusers = 0;
-                $.each(sakai_global.content_profile.content_data.members.managers, function(i, manager){
-                    if(manager["sakai:group-id"]){
-                        sakai_global.content_profile.content_data.members.counts.managergroups++;
+
+                // Collaborators are managers & editors
+                var collaborators = sakai_global.content_profile.content_data.members.managers.concat(
+                    sakai_global.content_profile.content_data.members.editors
+                );
+
+                sakai_global.content_profile.content_data.members.counts.collaboratorgroups = 0;
+                sakai_global.content_profile.content_data.members.counts.collaboratorusers = 0;
+                $.each(collaborators, function(i, collaborator) {
+                    if(collaborator['sakai:group-id']){
+                        sakai_global.content_profile.content_data.members.counts.collaboratorgroups++;
                     } else {
-                        sakai_global.content_profile.content_data.members.counts.managerusers++;
+                        sakai_global.content_profile.content_data.members.counts.collaboratorusers++;
                     }
                 });
+
                 sakai_global.content_profile.content_data.members.counts.viewergroups = 0;
                 sakai_global.content_profile.content_data.members.counts.viewerusers = 0;
                 sakai_global.content_profile.content_data.members.counts.viewercollections = 0;
