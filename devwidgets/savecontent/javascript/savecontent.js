@@ -136,6 +136,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(!sakai.api.Content.isContentInLibrary(content.body, sakai.data.me.user.userid) && !sakai.api.Content.Collections.isCollectionInMyLibrary(content.body)){
                     contentObj.libraryHasIt = false;
                 }
+                content.body.canShare = sakai.api.Content.canCurrentUserShareContent(content.body);
             });
             toggleSavecontent();
         };
