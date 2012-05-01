@@ -521,38 +521,58 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         /**
          * Check if all items have been uploaded
          */
-        var checkUploadCompleted = function(files) {
+        var checkUploadCompleted = function(files, contentObj) {
             itemsUploaded++;
             if(itemsToUpload.length === itemsUploaded) {
+            
                 sakai.data.me.user.properties.contentCount += itemsUploaded;
                 var itemsAdded = $.extend(true, [], existingAdded);
+                
+                // Variables passed to 'Content Added' Notification Template
+                var libraryTitle = $(newaddcontentSaveTo + ' option:selected').text();
+                var uploadToCollection = false;
+                var notificationHeading = '';
+                var contentFileName = $.trim(contentObj['sakai:pooled-content-file-name-short']) || 
+                    $.trim(contentObj['sakai:pooled-content-file-name']);
+                var contentURL = '/content#p='+ contentObj['_path'] + '/' + contentFileName;
+                
                 $.merge(itemsAdded, lastUpload);
                 $(window).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
+                
                 // If adding to a group library or collection, these will also still be added to my library
                 if (libraryToUploadTo !== sakai.data.me.user.userid) {
                     brandNewContent[sakai.data.me.user.userid] = brandNewContent[sakai.data.me.user.userid] || [];
                     _.uniq($.merge(brandNewContent[sakai.data.me.user.userid], lastUpload));
                 }
+                
                 brandNewContent[libraryToUploadTo] = brandNewContent[libraryToUploadTo] || [];
                 _.uniq($.merge(brandNewContent[libraryToUploadTo], lastUpload));
                 _.uniq($.merge(allNewContent, lastUpload));
                 lastUpload = [];
                 sakai.api.Util.Modal.close($newaddcontentContainer);
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
-                var librarytitle = $(newaddcontentSaveTo + ' option:selected').text();
+
+                // Set variables to send to template, based on whether we're uploading to a Collection or a library
                 if (sakai.api.Content.Collections.isCollection(libraryToUploadTo)) {
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('COLLECTION'), sakai.api.Util.TemplateRenderer('newaddcontent_notification_collection_finished_template', {
-                        collectionid: libraryToUploadTo.substring(2),
-                        collectiontitle: librarytitle
-                    }));
-                } else {
-                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('LIBRARY'), sakai.api.Util.TemplateRenderer('newaddcontent_notification_finished_template', {
+                    notificationHeading = sakai.api.i18n.getValueForKey('COLLECTION');
+                    libraryToUploadTo = libraryToUploadTo.substring(2);
+                    uploadToCollection = true;
+                }
+                else {
+                    notificationHeading = sakai.api.i18n.getValueForKey('LIBRARY');
+                }
+
+                sakai.api.Util.notification.show(notificationHeading, 
+                    sakai.api.Util.TemplateRenderer('newaddcontent_notification_finished_template', {
                         sakai: sakai,
                         me: sakai.data.me,
                         libraryid: libraryToUploadTo,
-                        librarytitle: librarytitle
+                        librarytitle: libraryTitle,
+                        uploadcount: itemsUploaded,
+                        contenttitle: contentFileName,
+                        contenturl: contentURL,
+                        uploadtocollection: uploadToCollection,
                     }));
-                }
             }
         };
 
@@ -842,7 +862,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     // Set the correct file permissions
                     sakai.api.Content.setFilePermissions([{'hashpath': contentObj['_path'], 'permissions': contentObj['sakai:permissions']}], function() {
                         lastUpload.push(contentObj);
-                        checkUploadCompleted(true);
+                        checkUploadCompleted(true, contentObj);
                     });
                 });
             });
@@ -863,7 +883,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             item['sakai:pooled-content-viewer'] = item['sakai:pooled-content-viewer'] || [];
                             item['sakai:pooled-content-viewer'].push(libraryToUploadTo);
                             lastUpload.push(item);
-                            checkUploadCompleted();
+                            checkUploadCompleted(false, existingItem);
                         });
                     } else {
                         // Don't make the authorizable a viewer if it's already part of the library
@@ -872,11 +892,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                                 item['sakai:pooled-content-viewer'] = item['sakai:pooled-content-viewer'] || [];
                                 item['sakai:pooled-content-viewer'].push(libraryToUploadTo);
                                 lastUpload.push(item);
-                                checkUploadCompleted();
+                                checkUploadCompleted(false, existingItem);
                             });
                         } else {
                             existingAdded.push(item);
-                            checkUploadCompleted();
+                            checkUploadCompleted(false, existingItem);
                         }
                     }
                 }

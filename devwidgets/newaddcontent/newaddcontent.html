@@ -302,17 +302,19 @@
         </ul>
 --></div>
 
+<!--- Should work when uploading single/multiple items to My Library or someone else's library --->
 <div id="newaddcontent_notification_finished_template" style="display:none;"><!--
-    {if me.user.userid === libraryid}
-        __MSG__MY_LIBRARY_ADDED__
-    {elseif sakai.api.Content.Collections.isCollection(libraryid)}
-        __MSG__COLLECTION_ADDED__
+    {if uploadcount === 1}
+        __MSG__FILE_UPLOAD_PREFIX_SINGLE__
     {else}
-        __MSG__THIS_CONTENT_HAS_BEEN_ADDED_TO__ <a href="/~${libraryid}#l=library">${librarytitle|safeOutput}</a>
+        __MSG__FILE_UPLOAD_PREFIX_MULTI__
     {/if}
---></div>
-<div id="newaddcontent_notification_collection_finished_template" style="display:none;"><!--
-    __MSG__COLLECTION_ADDED__
+    
+    {if uploadtocollection}
+        __MSG__FILE_UPLOAD_SUFFIX_COLLECTION__
+    {else}
+        __MSG__FILE_UPLOAD_SUFFIX_LIBRARY__
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->
