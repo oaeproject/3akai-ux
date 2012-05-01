@@ -171,7 +171,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             });
                         }
                     });
-                    sakai.api.Util.notification.show(false, $("#newsharecontent_users_added_text").text() + " " + userList.toAddNames.join(", "), "");
+                    sakai.api.Util.notification.show(false,
+                        $("#newsharecontent_users_added_text").text() + " " + 
+                        userList.toAddNames.join(" " + sakai.api.i18n.getValueForKey("AND", "newsharecontent") + " "), "");
+                    
                     $newsharecontentContainer.jqmHide();
                 }
             } else {
