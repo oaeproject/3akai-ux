@@ -126,6 +126,35 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+         * Set focus on the editor
+         * @param {Object} ed Editor object
+         */
+        var focusEditor = function(ed) {
+            if (!$('.s3d-dialog:visible').length) {
+                ed.focus();
+            }
+        };
+
+        /**
+         * We need to open the TinyMCE dropdown menus onload
+         * so we can avoid a jump to the top
+         * SAKIII-5482
+         */
+        var openMenus = function() {
+            var ed = tinyMCE.get(editorId);
+            var controls = ed.controlManager.controls;
+
+            $.each(controls, function(index, control) {
+                if (control.showMenu && control.rendered === false) {
+                    control.showMenu();
+                    control.hideMenu();
+                }
+            });
+
+            focusEditor(ed);
+        };
+
+        /**
          * This is executed when the tinyMCE editor has been initialized
          */
         var initTinyMCE = function(ui) {
@@ -133,9 +162,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Set focus if there is no "An unsaved version has been found" overlay
             // showing
             var ed = tinyMCE.get(editorId);
-            if (!$('.s3d-dialog:visible').length) {
-                ed.focus();
-            }
+            focusEditor(ed);
             // Cache the editor elements
             $editor = $('#' + editorId + '_ifr');
             $toolbar = $('#' + editorId + '_external').hide();
@@ -150,6 +177,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Set timeOut as tinyMCE seems to need a little bit of additional time before we see all
             // of the content in the editor
             setTimeout(function() {
+                openMenus();
                 var $containingCell = $('.htmlblock_widget', $rootel).parents('.contentauthoring_cell_element');
                 $containingCell.removeClass('contentauthoring_init');
                 updateHeight();
