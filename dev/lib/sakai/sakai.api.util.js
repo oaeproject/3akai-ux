@@ -2116,9 +2116,15 @@ define(
                 var dataFn = _dataFn || function( query, add ) {
                     var name = '';
                     var nameArray = [];
-                    var idxToUpdate = '';
+                    var idxToUpdate = 0;
                     var duplicateNamePositions = [];
                     var arrayPositionOffset = 0;
+
+                    /**
+                     * This function checks if the name is already listed in nameArray, and if so,
+                     * stores the array position for processing to include the user/group ID.
+                     * @param {Integer} Array position of name to check
+                     */
                     var checkForDuplicateName = function(i) {
                         idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
                         if (idxToUpdate !== -1) {
@@ -2128,6 +2134,11 @@ define(
                             duplicateNamePositions.push(i - arrayPositionOffset);
                         }
                     };
+                    /**
+                     * This function is used to increment the nameArray position and arrayPositionOffset value
+                     * in the case when a group or user is filtered and not added to the "suggestions" array.
+                     * This is so the correct array index is selected in checkForDuplicateName.
+                     */
                     var padNameArray = function() {
                         nameArray.push('');
                         arrayPositionOffset++;
