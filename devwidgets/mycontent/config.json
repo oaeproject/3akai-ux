@@ -8,8 +8,8 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/mycontent/bundles/fr_FR.properties",
-            "name":"My content French",
-            "description":"My content French"
+            "name":"Mes contenus",
+            "description":"Mes contenus"
         }
     },
     "personalportal":true,

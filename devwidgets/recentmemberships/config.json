@@ -8,8 +8,8 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/recentmemberships/bundles/fr_FR.properties",
-            "name": "My recent memberships French",
-            "description": "My recent memberships French"
+            "name": "Mes inscriptions récentes",
+            "description": "Mes inscriptions récentes"
         }
     },
     "personalportal":true,

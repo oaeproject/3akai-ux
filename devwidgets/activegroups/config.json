@@ -17,8 +17,8 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/activegroups/bundles/fr_FR.properties",
-            "name": "Most active groups french",
-            "description": "Most active groups french"
+            "name": "Groupes les plus actifs",
+            "description": "Groupes les plus actifs"
         }
     }
 }

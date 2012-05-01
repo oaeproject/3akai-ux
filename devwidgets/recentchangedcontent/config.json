@@ -8,8 +8,8 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/recentchangedcontent/bundles/fr_FR.properties",
-            "name": "My recent content French",
-            "description": "My recent content French"
+            "name": "Mes contenus récents",
+            "description": "Mes contenus récents"
         }
     },
     "personalportal":true,

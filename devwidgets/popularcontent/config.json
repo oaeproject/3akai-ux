@@ -17,8 +17,8 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/popularcontent/bundles/fr_FR.properties",
-            "name": "Most active content French",
-            "description": "Most active content French"
+            "name": "Contenus les plus actifs",
+            "description": "Contenus les plus actifs"
         }
     }
 }

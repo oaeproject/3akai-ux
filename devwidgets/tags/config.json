@@ -17,8 +17,8 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/tags/bundles/fr_FR.properties",
-            "name": "Most popular tags French",
-            "description": "Most popular tags French"
+            "name": "Mots-clés les plus populaires",
+            "description": "Mots-clés les plus populaires"
         }
     }
 }
