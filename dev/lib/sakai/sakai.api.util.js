@@ -2164,13 +2164,26 @@ define(
                     formatList: function(data, elem) {
                         // formats each line to be presented in autosuggest list
                         // add the correct image, wrap name in a class
-                        var imgSrc = '/dev/images/user_avatar_icon_32x32.png';
-                        if (data.type === 'group') {
-                            imgSrc = '/dev/images/group_avatar_icon_32x32.png';
+                        var imgSrc = false;
+                        if (data.type) {
+                            if (data.type === 'user' || data.type === 'group') {
+                                imgSrc = data.picture;
+                                if (data.picture === sakai_conf.URL.USER_DEFAULT_ICON_URL) {
+                                    imgSrc = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
+                                } else if (data.picture === sakai_conf.URL.GROUP_DEFAULT_ICON_URL) {
+                                    imgSrc = sakai_conf.URL.GROUP_DEFAULT_ICON_URL_SMALL;
+                                }
+                            } else if (data.type === 'file') {
+                                imgSrc = data.autosuggestThumbnail;
+                            }
                         }
                         var line_item = elem.html(
-                            '<img class="autosuggest_suggestion_img" src="' + imgSrc + '" />' +
                             '<span class="autosuggest_suggestion_name">' + data.name + '</span>');
+                        if (imgSrc) {
+                            line_item = elem.html(
+                                '<img class="autosuggest_suggestion_img" src="' + imgSrc + '" />' +
+                                '<span class="autosuggest_suggestion_name">' + data.name + '</span>');
+                        }
                         return line_item;
                     }
                 };
