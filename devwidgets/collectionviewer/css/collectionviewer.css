@@ -163,14 +163,9 @@
     width: 850px;
     max-width: 850px;
 }
-.collectionviewer_widget .collectionviewer_3col #documentviewer_image_rendered {
-    max-width: 169px !important;
-}
-.collectionviewer_widget .collectionviewer_2col #documentviewer_image_rendered {
-    max-width: 294px !important;
-}
-.collectionviewer_widget .collectionviewer_1col #documentviewer_image_rendered {
-    max-width: 688px !important;
+.collectionviewer_widget .collectionviewer_column #documentviewer_image_rendered {
+    max-width: 100% !important;
+    height: auto;
 }
 .collectionviewer_widget #contentpreview_fullsize_preview {
     padding: 0 0 15px;
