@@ -7,9 +7,7 @@
             "description": "Create page widget"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/createpage/bundles/fr_FR.properties",
-            "name": "Create page French",
-            "description": "Create page widget French"
+            "bundle": "/devwidgets/createpage/bundles/fr_FR.properties"
         }
     },
     "type":"core",

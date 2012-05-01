@@ -10,11 +10,8 @@
             "description":"Featured content widget"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/featuredcontent/bundles/fr_FR.properties",
-            "name":       "Featured content widget french",
-            "description":"Featured content widget french"
+            "bundle":     "/devwidgets/featuredcontent/bundles/fr_FR.properties"
         }
-
     },
     "id":                 "featuredcontent",
     "personalportal":     false,

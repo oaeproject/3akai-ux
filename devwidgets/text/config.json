@@ -15,9 +15,7 @@
             "description": "Text"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/text/bundles/fr_FR.properties",
-            "name": "Text widget French",
-            "description": "Text French"
+            "bundle": "/devwidgets/text/bundles/fr_FR.properties"
         }
     },
     "indexFields": ["data/text"]

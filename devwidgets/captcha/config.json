@@ -6,9 +6,7 @@
             "description": "Display a captcha widget"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/captcha/bundles/fr_FR.properties",
-            "name": "Captcha widget french",
-            "description": "Display a captcha widget french"
+            "bundle": "/devwidgets/captcha/bundles/fr_FR.properties"
         }
     },
     "id":"captcha",

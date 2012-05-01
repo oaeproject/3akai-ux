@@ -8,9 +8,7 @@
             "description":"Advanced search picker widget"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/pickeradvanced/bundles/fr_FR.properties",
-            "name": "Advanced search picker French",
-            "description":"Advanced search picker widget French"
+            "bundle": "/devwidgets/pickeradvanced/bundles/fr_FR.properties"
         }
     },
     "type":"core",

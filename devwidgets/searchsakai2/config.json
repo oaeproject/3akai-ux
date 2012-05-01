@@ -11,9 +11,7 @@
             "description":"Search Sakai 2"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/searchsakai2/bundles/fr_FR.properties",
-            "name":       "Search Sakai 2 French",
-            "description": "Search Sakai 2 French"
+            "bundle":     "/devwidgets/searchsakai2/bundles/fr_FR.properties"
         }
     },
     "personalportal":     false,

@@ -6,9 +6,7 @@
             "description": "Upload content to Sakai OAE"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/uploadcontent/bundles/fr_FR.properties",
-            "name": "Upload content French",
-            "description": "Upload content to Sakai OAE French"
+            "bundle": "/devwidgets/uploadcontent/bundles/fr_FR.properties"
         }
     },
     "id": "uploadcontent",

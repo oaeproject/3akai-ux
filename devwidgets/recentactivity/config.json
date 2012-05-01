@@ -10,9 +10,7 @@
             "description":"Recent activity widget"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/recentactivity/bundles/fr_FR.properties",
-            "name":       "Recent activity widget French",
-            "description": "Recent activity widget French"
+            "bundle":     "/devwidgets/recentactivity/bundles/fr_FR.properties"
         }
     },
     "id":                 "recentactivity",

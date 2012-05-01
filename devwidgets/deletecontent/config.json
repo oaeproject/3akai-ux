@@ -10,9 +10,7 @@
             "bundle": "/devwidgets/deletecontent/bundles/es_ES.properties"
 	},
         "fr_FR": {
-            "bundle": "/devwidgets/deletecontent/bundles/fr_FR.properties",
-            "name": "Delete content french",
-            "description":"Delete content widget French"
+            "bundle": "/devwidgets/deletecontent/bundles/fr_FR.properties"
         }
     },
     "type":"core",

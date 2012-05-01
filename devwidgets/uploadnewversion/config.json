@@ -10,9 +10,7 @@
             "description":"Upload new version widget"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/uploadnewversion/bundles/fr_FR.properties",
-            "name":       "Upload new version widget French",
-            "description": "Upload new version widget French"
+            "bundle":     "/devwidgets/uploadnewversion/bundles/fr_FR.properties"
         }
     },
     "id":                 "uploadnewversion",

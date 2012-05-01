@@ -11,9 +11,7 @@
             "description":"My Sakai 2 favourites"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/mysakai2/bundles/fr_FR.properties",
-            "name": "My Sakai 2 favourites French",
-            "description": "My Sakai 2 favourites French"
+            "bundle": "/devwidgets/mysakai2/bundles/fr_FR.properties"
         }
     },
     "img":"/devwidgets/mysakai2/images/s2icon.png",

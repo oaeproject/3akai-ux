@@ -10,9 +10,7 @@
             "description":"Content preview"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/contentpreview/bundles/fr_FR.properties",
-            "name":"Content preview French",
-            "description":"Content preview French"
+            "bundle": "/devwidgets/contentpreview/bundles/fr_FR.properties"
         }
     },
     "url":"/devwidgets/contentpreview/contentpreview.html"

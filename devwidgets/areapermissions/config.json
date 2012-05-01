@@ -13,9 +13,7 @@
             "bundle": "/devwidgets/areapermissions/bundles/es_ES.properties"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/areapermissions/bundles/fr_FR.properties",
-            "name":       "Area permissions french",
-            "description":"Area permissions french"
+            "bundle":     "/devwidgets/areapermissions/bundles/fr_FR.properties"
         }
     },
     "id":                 "areapermissions",

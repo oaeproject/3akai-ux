@@ -8,9 +8,7 @@
             "description":"Poll widget"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/poll/bundles/fr_FR.properties",
-            "name":"Poll French",
-            "description":"Poll widget French"
+            "bundle": "/devwidgets/poll/bundles/fr_FR.properties"
         }
     },
     "userpages": false,

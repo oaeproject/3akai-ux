@@ -8,9 +8,7 @@
             "description":"General people lister widget"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/listpeople/bundles/fr_FR.properties",
-            "name": "People lister French",
-            "description":"General people lister widget French"
+            "bundle": "/devwidgets/listpeople/bundles/fr_FR.properties"
         }
     },
     "url": "/devwidgets/listpeople/listpeople.html",

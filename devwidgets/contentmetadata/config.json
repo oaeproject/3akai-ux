@@ -12,9 +12,7 @@
             "bundle": "/devwidgets/contentmetadata/bundles/es_ES.properties"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/contentmetadata/bundles/fr_FR.properties",
-            "name": "Content metadata French",
-            "description": "Content metadata French"
+            "bundle": "/devwidgets/contentmetadata/bundles/fr_FR.properties"
         }
     },
     "url":"/devwidgets/contentmetadata/contentmetadata.html"

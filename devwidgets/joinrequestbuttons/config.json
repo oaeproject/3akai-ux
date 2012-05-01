@@ -7,9 +7,7 @@
             "description":"Display join/leave/pending buttons to match the context"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/joinrequestbuttons/bundles/fr_FR.properties",
-            "name": "Join request buttons French",
-            "description": "Display join/leave/pending buttons to match the context French"
+            "bundle": "/devwidgets/joinrequestbuttons/bundles/fr_FR.properties"
         }
     },
     "personalportal":false,

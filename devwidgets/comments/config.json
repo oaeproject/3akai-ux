@@ -12,9 +12,7 @@
             "description":"Comments"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/comments/bundles/fr_FR.properties",
-            "name":"Comments French",
-            "description":"Comments French" 
+            "bundle": "/devwidgets/comments/bundles/fr_FR.properties"
         }
     },
     "img":"/devwidgets/comments/images/comments.png",

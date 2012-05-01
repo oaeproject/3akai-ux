@@ -11,9 +11,7 @@
             "description": "Embed content on a page"
         },
        "fr_FR": {
-            "bundle": "/devwidgets/embedcontent/bundles/fr_FR.properties",
-            "name": "Files and documents french",
-            "description": "Embed content on a page french"
+            "bundle": "/devwidgets/embedcontent/bundles/fr_FR.properties"
         }
     },
     "defaultOptions": {

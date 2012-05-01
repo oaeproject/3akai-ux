@@ -13,7 +13,7 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/mygroups/bundles/fr_FR.properties",
-	    "name": "Mes inscriptions",
+            "name": "Mes inscriptions",
 	    "description": "Mes inscriptions"
         }
     },

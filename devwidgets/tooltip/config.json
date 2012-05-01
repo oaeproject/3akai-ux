@@ -10,9 +10,7 @@
             "description":"Displays tooltip help dialog boxes"
         },
         "fr_FRd": {
-            "bundle": "/devwidgets/tooltip/bundles/fr_FR.properties",
-            "name": "Tooltip French",
-            "description": "Displays tooltip help dialog boxes French"
+            "bundle": "/devwidgets/tooltip/bundles/fr_FR.properties"
         }
     },
     "url":"/devwidgets/tooltip/tooltip.html"

@@ -10,9 +10,7 @@
             "bundle": "/devwidgets/addpeople/bundles/es_ES.properties"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/addpeople/bundles/fr_FR.properties",
-            "name": "Add people french",
-            "description":"Add people french"
+            "bundle": "/devwidgets/addpeople/bundles/fr_FR.properties"
         } 
     },
     "type":"core",

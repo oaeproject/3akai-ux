@@ -11,9 +11,7 @@
             "bundle": "/devwidgets/contentpermissions/bundles/es_ES.properties"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/contentpermissions/bundles/fr_FR.properties",
-            "name": "Content permissions French",
-            "description":"Content permissions widget French"
+            "bundle": "/devwidgets/contentpermissions/bundles/fr_FR.properties"
         }
     },
     "type":"core",

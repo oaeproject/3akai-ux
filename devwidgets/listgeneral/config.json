@@ -8,9 +8,7 @@
             "description":"General space, site and content lister widget"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/listgeneral/bundles/fr_FR.properties",
-            "name": "General lister French",
-            "description": "General space, site and content lister widget French"
+            "bundle": "/devwidgets/listgeneral/bundles/fr_FR.properties"
         }
     },
     "type":"core",

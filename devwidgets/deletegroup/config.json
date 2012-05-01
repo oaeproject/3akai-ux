@@ -10,9 +10,7 @@
             "bundle": "/devwidgets/deletegroup/bundles/es_ES.properties"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/deletegroup/bundles/fr_FR.properties",
-            "name": "Delete group French",
-            "description": "Delete group widget French"
+            "bundle": "/devwidgets/deletegroup/bundles/fr_FR.properties"
         }
     },
     "type":"core",
