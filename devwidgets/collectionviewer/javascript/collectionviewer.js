@@ -61,9 +61,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         } else if (widgetWidth < 700) {
             carouselSize = $body.hasClass('has_nav') ? 3 : 5;
         }
-        if (widgetWidth < 800) {
-            $('#collectionviewer_expanded_content_container', $rootel).addClass('collectionviewer_column');
-        }
 
         // previewsAllowed makes sure recursive embedding is not allowed
         var previewsAllowed = true;

@@ -163,7 +163,7 @@
     width: 850px;
     max-width: 850px;
 }
-.collectionviewer_widget .collectionviewer_column #documentviewer_image_rendered {
+.collectionviewer_widget #documentviewer_image_rendered {
     max-width: 100% !important;
     height: auto;
 }
