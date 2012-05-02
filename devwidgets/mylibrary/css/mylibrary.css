@@ -116,4 +116,6 @@
 #mylibrary_content_share.s3d-button .entity_share_content,
 #mylibrary_content_share.s3d-button:disabled:hover .entity_share_content {background:url("/dev/images/share_icon_default_16x11.png") no-repeat center center transparent;display:block;float:right;height:18px;margin-left:7px;width:16px;}
 #mylibrary_content_share.s3d-button:hover .entity_share_content {background:url("/dev/images/share_icon_hover_16x11.png") no-repeat center center transparent;}
-#mylibrary_items .s3d-search-result {padding:10px 10px 6px 5px !important;}
+#mylibrary_items .s3d-search-result {
+    padding: 10px 10px 6px 7px !important;
+}
