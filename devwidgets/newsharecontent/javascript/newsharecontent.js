@@ -152,14 +152,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var doShare = function(event, userlist, message, contentobj, role) {
             var userList = userlist || getSelectedList();
             var messageText = message || $.trim($newsharecontentMessage.val());
+            var shareMessage = $("#newsharecontent_users_added_text").text() + " ";
+            
             contentObj = contentobj || contentObj;
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
+            
             if (userList && userList.list && userList.list.length && messageText && contentObj && contentObj.data) {
                 var toAddList = userList.list.slice();
                 userList.list = toAddList;
                 if (toAddList.length) {
                     sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.getValueForKey("I_WANT_TO_SHARE", "newsharecontent") + sakai.api.Util.TemplateRenderer("newsharecontent_filenames_template", {"files": contentObj.data}), messageText, "message", false, false, true, "shared_content");
+                    
                     $.each(contentObj.data, function(i, content){
                         if (sakai.api.Content.Collections.isCollection(content.body)){
                             sakai.api.Content.Collections.shareCollection(content.body['_path'], toAddList, role, function() {
@@ -171,13 +175,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             });
                         }
                     });
-                    sakai.api.Util.notification.show(false,
-                        $("#newsharecontent_users_added_text").text() + " " + 
-                        userList.toAddNames.join(" " + sakai.api.i18n.getValueForKey("AND", "newsharecontent") + " "), "");
+
+                    if (userList.toAddNames.length > 1) {
+                        for (var i=0, len=userList.toAddNames.length; i<len; i++) {
+                            shareMessage += ' ';
+                            if (i === len-1) {
+                                shareMessage += sakai.api.i18n.getValueForKey("AND", "newsharecontent") +
+                                    ' ' + userList.toAddNames[i];
+                            }
+                            else {
+                                shareMessage += userList.toAddNames[i];
+                                if (i !== len-2) {
+                                    shareMessage += ',';
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        shareMessage += userList.toAddNames[0];
+                    }
                     
+                    sakai.api.Util.notification.show(false, shareMessage, "");
                     $newsharecontentContainer.jqmHide();
                 }
-            } else {
+            }
+            else {
                 if (!messageText) {
                     $newsharecontentMessage.addClass(newsharecontentRequiredClass);
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("NO_MESSAGE_PROVIDED", "newsharecontent"), sakai.api.i18n.getValueForKey("A_MESSAGE_SHOULD_BE_PROVIDED_TO_SHARE", "newsharecontent"));
