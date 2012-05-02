@@ -11,6 +11,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/userpermissions/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/userpermissions/bundles/fr_FR.properties"
         }
     },
     "id":                 "userpermissions",

@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/poll/bundles/default.properties",
             "name":"Poll",
             "description":"Poll widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/poll/bundles/fr_FR.properties"
         }
     },
     "userpages": false,

@@ -11,6 +11,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/sakai2tools/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/sakai2tools/bundles/fr_FR.properties"
         }
     },
     "img":"/devwidgets/sakai2tools/images/sakai2tools.png",

@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/recentchangedcontent/bundles/default.properties",
             "name": "My recent content",
             "description": "My recent content"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentchangedcontent/bundles/fr_FR.properties",
+            "name": "Mes contenus récents",
+            "description": "Mes contenus récents"
         }
     },
     "personalportal":true,

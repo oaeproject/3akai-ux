@@ -8,6 +8,9 @@
             "bundle": "/devwidgets/contentpreview/bundles/default.properties",
             "name":"Content preview",
             "description":"Content preview"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contentpreview/bundles/fr_FR.properties"
         }
     },
     "url":"/devwidgets/contentpreview/contentpreview.html"

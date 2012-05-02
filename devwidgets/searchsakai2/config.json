@@ -9,6 +9,9 @@
             "bundle":     "/devwidgets/searchsakai2/bundles/default.properties",
             "name":       "Search Sakai 2",
             "description":"Search Sakai 2"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/searchsakai2/bundles/fr_FR.properties"
         }
     },
     "personalportal":     false,
