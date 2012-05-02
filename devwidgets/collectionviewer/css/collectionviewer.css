@@ -165,6 +165,7 @@
 }
 .collectionviewer_widget #documentviewer_image_rendered {
     max-width: 100% !important;
+    width: auto;
     height: auto;
 }
 .collectionviewer_widget #contentpreview_fullsize_preview {
