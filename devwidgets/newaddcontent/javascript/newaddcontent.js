@@ -263,6 +263,20 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         };
 
         /**
+         * Checks if the all the items are in the selected library already
+         */
+        var libraryHasAllItems = function() {
+            var hasAllItems = true;
+            $.each(itemsToUpload, function(i, content) {
+                if (!content.currentSelectedLibraryHasItem) {
+                    hasAllItems = false;
+                    return false;
+                }
+            });
+            return hasAllItems;
+        };
+
+        /**
          * Render the queue
          */
         var renderQueue = function(callback) {
@@ -285,13 +299,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             renderQueue();
 
             if (itemsToUpload) {
-                var disableUpload = true;
-                $.each(itemsToUpload, function(i, content) {
-                    if (!content.currentSelectedLibraryHasItem) {
-                        disableUpload = false;
-                        return false;
-                    }
-                });
+                var disableUpload = libraryHasAllItems();
                 if (disableUpload) {
                     disableStartUpload();
                 } else {
@@ -363,13 +371,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             if (!itemsToUpload.length) {
                 disableStartUpload();
             } else {
-                var disableUpload = true;
-                $.each(itemsToUpload, function(i, content) {
-                    if (!content.currentSelectedLibraryHasItem) {
-                        disableUpload = false;
-                        return false;
-                    }
-                });
+                var disableUpload = libraryHasAllItems();
                 if (disableUpload) {
                     disableStartUpload();
                 }
