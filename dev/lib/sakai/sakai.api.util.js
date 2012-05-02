@@ -2165,17 +2165,22 @@ define(
                         // formats each line to be presented in autosuggest list
                         // add the correct image, wrap name in a class
                         var imgSrc = false;
-                        if (data.type) {
-                            if (data.type === 'user' || data.type === 'group') {
+                        switch (data.type) {
+                            case 'user':
                                 imgSrc = data.picture;
                                 if (data.picture === sakai_conf.URL.USER_DEFAULT_ICON_URL) {
                                     imgSrc = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
-                                } else if (data.picture === sakai_conf.URL.GROUP_DEFAULT_ICON_URL) {
+                                }
+                                break;
+                            case 'group':
+                                imgSrc = data.picture;
+                                if (data.picture === sakai_conf.URL.GROUP_DEFAULT_ICON_URL) {
                                     imgSrc = sakai_conf.URL.GROUP_DEFAULT_ICON_URL_SMALL;
                                 }
-                            } else if (data.type === 'file') {
+                                break;
+                            case 'file':
                                 imgSrc = data.autosuggestThumbnail;
-                            }
+                                break;
                         }
                         var line_item = elem.html(
                             '<span class="autosuggest_suggestion_name">' + data.name + '</span>');
