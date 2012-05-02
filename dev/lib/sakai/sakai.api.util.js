@@ -2136,15 +2136,6 @@ define(
                             duplicateNamePositions.push(i - arrayPositionOffset);
                         }
                     };
-                    /**
-                     * This function is used to increment the nameArray position and arrayPositionOffset value
-                     * in the case when a group or user is filtered and not added to the "suggestions" array.
-                     * This is so the correct array index is selected in checkForDuplicateName.
-                     */
-                    var padNameArray = function() {
-                        nameArray.push('');
-                        arrayPositionOffset++;
-                    };
 
                     var q = sakai_serv.createSearchString(query);
                     var searchoptions = {"page": 0, "items": 15};
@@ -2170,7 +2161,7 @@ define(
                                         });
                                         nameArray.push(name.toLowerCase());
                                     } else {
-                                        padNameArray();
+                                        arrayPositionOffset++;
                                     }
                                 } else if (data.results[i]["sakai:group-id"]) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["sakai:group-id"], options.filterUsersGroups ) ===-1 ) {
@@ -2184,10 +2175,10 @@ define(
                                         });
                                         nameArray.push(name.toLowerCase());
                                     } else {
-                                        padNameArray();
+                                        arrayPositionOffset++;
                                     }
                                 } else {
-                                    padNameArray();
+                                    arrayPositionOffset++;
                                 }
                             });
                             // add the id to the name for users/groups with duplicate names
