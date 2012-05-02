@@ -215,7 +215,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var autoSave = function() {
             // Only save when the widget is on the current page
-            if ($rootel.is(':visible')) {
+            if ($editor.is(':visible')) {
                 var currentText = tinyMCE.get(editorId).getContent();
                 if (currentText !== lastData) {
                     lastData = currentText;
