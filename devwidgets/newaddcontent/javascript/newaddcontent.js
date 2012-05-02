@@ -571,7 +571,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                         uploadcount: itemsUploaded,
                         contenttitle: contentFileName,
                         contenturl: contentURL,
-                        uploadtocollection: uploadToCollection,
+                        uploadtocollection: uploadToCollection
                     }));
             }
         };
