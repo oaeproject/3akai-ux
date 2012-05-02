@@ -18,7 +18,7 @@
             <div id="recentchangedcontent_item_template"><!--
             {for item in items}
                 <div class="recentchangedcontent_related_details">
-                    <div class="s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
+                    <div class="{if item.canShare}s3d-draggable-container{/if}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                         <div class="recentchangedcontent_item_img fl-force-left">
                             <a href="/content#p=${item.link}/${item.filename|safeURL}" title="${item.name|safeOutput}">
                                 {if item.thumbnail}
@@ -63,7 +63,7 @@
                     {/if}
 
                     {if item.relatedContent}
-                    <div class="recentchangedcontent_item_related_info s3d-draggable-container" data-scope="content" data-entityid="${item.relatedContent["_path"]}" {if sakai.api.Content.Collections.isCollection(item.relatedContent)} data-collection="true" {/if}>
+                    <div class="recentchangedcontent_item_related_info{if item.relatedContent.canShare} s3d-draggable-container{/if}" data-scope="content" data-entityid="${item.relatedContent["_path"]}" {if sakai.api.Content.Collections.isCollection(item.relatedContent)} data-collection="true" {/if}>
                         <p class="recentchangedcontent_item_meta_data">__MSG__RELATED_CONTENT_TO__ <span class="s3d-bold">${item.nameShort}</span></p>
                         <div class="fl-force-left">
                         <a href="/content#p=${item.relatedContent['_path']|safeURL}/${item.relatedContent.filename|safeURL}" title="${item.relatedContent.name|safeOutput}">
