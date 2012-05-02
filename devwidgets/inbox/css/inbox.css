@@ -29,7 +29,7 @@
 #inbox_select span{font-size:9px;}
 #inbox_search_messages {
     width: 290px;
-    margin-top: 2px
+    margin-top: 2px;
 }
 .s3d-search-container.inbox-message-list-view {
     float: right;
