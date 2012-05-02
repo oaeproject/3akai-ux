@@ -76,6 +76,7 @@
     display:table-cell !important;
     width: 100%;
     vertical-align: top !important;
+    height: auto !important;
 }
 
 .contentauthoring_widget .contentauthoring_table_row.contentauthoring_cell_container_row .contentauthoring_cell:first-child {
