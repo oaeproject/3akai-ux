@@ -2120,6 +2120,8 @@ define(
                     var nameArray = [];
                     var idxToUpdate = 0;
                     var duplicateNamePositions = [];
+                    // This value is used to increment the array position in the case when a
+                    // group or user is filtered and not added to the "suggestions" array.
                     var arrayPositionOffset = 0;
 
                     /**
