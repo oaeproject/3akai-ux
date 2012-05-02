@@ -1388,13 +1388,15 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     }
                 }
             } else if (ev.which === $.ui.keyCode.RIGHT) {
-                if ($el.siblings('.lhnavigation_has_subnav').length && !$el.siblings('.lhnavigation_has_subnav_opened').length) {
+                if ($el.siblings('.lhnavigation_has_subnav').length &&
+                    !$el.siblings('.lhnavigation_has_subnav_opened').length) {
                     // open sub menu
                     $el.click();
                 } else if ($el.siblings('.lhnavigation_selected_submenu').length) {
                     $el.siblings('.lhnavigation_selected_submenu').find('button').focus();
                 }
-            } else if (ev.which === $.ui.keyCode.LEFT && $el.siblings('.lhnavigation_has_subnav_opened').length) {
+            } else if (ev.which === $.ui.keyCode.LEFT &&
+                $el.siblings('.lhnavigation_has_subnav_opened').length) {
                 // close sub menu
                 $el.click();
             }
