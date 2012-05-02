@@ -90,7 +90,9 @@
     width: 100%;
     word-wrap: break-word;
 }
-.inbox_delete a,.inbox_delete button{float:right;display:inline;}
+.inbox_delete a, .inbox_delete button {
+    display: inline-block;
+}
 .inbox_delete_button{margin-right:5px;height:22px;}
 .inbox_delete_button:hover{text-decoration:none;}
 #inbox_no_messages p {
