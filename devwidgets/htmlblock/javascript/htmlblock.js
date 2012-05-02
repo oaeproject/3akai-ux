@@ -130,12 +130,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var ed = tinyMCE.get(editorId);
             var controls = ed.controlManager.controls;
 
-            for (var i in controls){
-                if (controls.hasOwnProperty(i) && controls[i].showMenu && controls[i].rendered === false) {
-                    controls[i].showMenu();
-                    controls[i].hideMenu();
+            $.each(controls, function(index, control) {
+                if (control.showMenu && control.rendered === false) {
+                    control.showMenu();
+                    control.hideMenu();
                 }
-            }
+            });
 
             focusEditor(ed);
         };
