@@ -73,7 +73,8 @@
 
 <div id="inserter_collection_content_template"><!--
     {for item in items}
-        <li class="s3d-draggable-container s3d-droppable-container" id="${item._path}" data-content-id="${item._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection}">
+        {var canShare = sakai.api.Content.canCurrentUserShareContent(item)}
+        <li class="s3d-draggable-container s3d-droppable-container" id="${item._path}" data-content-id="${item._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection}" data-canshare="${canShare}">
             {if item.hasPreview}
                 <img alt="${sakai.api.Content.getMimeTypeData(item._mimeType).description}" src="${sakai.api.Content.getThumbnail(item) || sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
             {else}

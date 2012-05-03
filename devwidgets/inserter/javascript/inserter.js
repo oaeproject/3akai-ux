@@ -436,7 +436,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var collectedContent = [];
             var collectedCollections = [];
             $.each(data, function(index, item) {
-                if (item.collection) {
+                if (item.collection && item.canshare) {
                     // We don't need to send an extra POST since we can't add a collection to itself
                     if (collectionId !== item.entityid) {
                         collectedCollections.push(item.entityid);
@@ -446,7 +446,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             sakai.api.i18n.getValueForKey('CANT_ADD_A_COLLECTION_TO_ITSELF', 'inserter'),
                             sakai.api.Util.notification.type.ERROR);
                     }
-                } else {
+                }
+                else if (item.canshare) {
                     collectedContent.push(item.entityid);
                 }
             });
@@ -462,6 +463,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 } else {
                     addDroppedToMyLibrary(collectionId, collectedCollections, collectedContent);
                 }
+            } else {
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.getValueForKey('ADD_CONTENT'),
+                    sakai.api.i18n.getValueForKey('COULDNT_ADD_CONTENT', 'inserter'),
+                    sakai.api.Util.notification.type.ERROR);
             }
         };
 
