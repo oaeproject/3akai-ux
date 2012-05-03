@@ -159,7 +159,7 @@
 }
 
 #contentauthoring_row_menu.s3d-dropdown-list .s3d-dropdown-list-arrow-up {
-    right: 35px;
+    left: 37px;
     background-position: left -7px;
     height: 14px;
     margin-top: -13px;
@@ -310,7 +310,7 @@
 }
 
 .contentauthoring_edit_mode .s3d-dropdown-list .s3d-dropdown-hassubnav ul {
-    width: 225px;
+    padding-right: 30px;
 }
 
 .contentauthoring_dummy_element {

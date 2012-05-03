@@ -1587,7 +1587,7 @@ define(function(){
         }, {
             "country": "FR",
             "language": "fr",
-            "displayName": "French (France)"
+            "displayName": "Français"
         }, {
             "country": "JP",
             "language": "ja",
@@ -1603,7 +1603,7 @@ define(function(){
         }],
 
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
-        defaultLanguage: "fr_FR",
+        defaultLanguage: "en_US",
 
         enableCategories: true,
 
