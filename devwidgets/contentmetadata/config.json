@@ -10,6 +10,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/contentmetadata/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contentmetadata/bundles/fr_FR.properties"
         }
     },
     "url":"/devwidgets/contentmetadata/contentmetadata.html"

@@ -10,6 +10,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/dashboard/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/dashboard/bundles/fr_FR.properties"
         }
     },
     "img":"/devwidgets/comments/images/comments.png",

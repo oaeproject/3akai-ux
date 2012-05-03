@@ -8,6 +8,9 @@
             "bundle":     "/devwidgets/featuredcontent/bundles/default.properties",
             "name":       "Featured content widget",
             "description":"Featured content widget"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/featuredcontent/bundles/fr_FR.properties"
         }
     },
     "id":                 "featuredcontent",

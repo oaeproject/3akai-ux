@@ -11,6 +11,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/entity/bundles/es_ES.properties"
-        }
+         },
+        "fr_FR": {
+            "bundle": "/devwidgets/entity/bundles/fr_FR.properties"
+         }
     }
 }

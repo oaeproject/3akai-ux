@@ -8,7 +8,10 @@
             "bundle":     "/devwidgets/inserterbar/bundles/default.properties",
             "name":       "Inserter Bar",
             "description":"Content Authoring Inserter Bar"
-        }
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/inserterbar/bundles/fr_FR.properties"
+        } 
     },
     "id":                 "inserterbar",
     "personalportal":     false,

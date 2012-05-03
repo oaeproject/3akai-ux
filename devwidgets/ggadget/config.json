@@ -10,6 +10,9 @@
             "bundle": "/devwidgets/ggadget/bundles/default.properties",
             "name": "Google Gadget",
             "description":"Embed Google Gadgets in your page or dashboard"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/ggadget/bundles/fr_FR.properties"
         }
     },
     "img":"/devwidgets/ggadget/images/ggadget.png",
