@@ -16,6 +16,9 @@
         },
         "zh_CN": {
             "bundle": "/devwidgets/googlemaps/bundles/zh_CN.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/googlemaps/bundles/fr_FR.properties"
         }
     },
     "id":"googlemaps",

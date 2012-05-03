@@ -10,6 +10,9 @@
             "bundle": "/devwidgets/comments/bundles/default.properties",
             "name":"Comment stream",
             "description":"Comments"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/comments/bundles/fr_FR.properties"
         }
     },
     "img":"/devwidgets/comments/images/comments.png",

@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/recentmemberships/bundles/default.properties",
             "name":"My recent memberships",
             "description":"My recent memberships"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentmemberships/bundles/fr_FR.properties",
+            "name": "Mes inscriptions récentes",
+            "description": "Mes inscriptions récentes"
         }
     },
     "personalportal":true,
