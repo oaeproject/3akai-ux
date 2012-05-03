@@ -1384,6 +1384,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             $(window).trigger('update.versions.sakai', currentPageShown);
                         } else {
                             saveErrorNotification(errorMsg);
+                            currentPageShown.canEdit = false;
+                            $('#contentauthoring_inserterbar_container', $rootel).hide();
                         }
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                     });
@@ -1392,6 +1394,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         errorMsg = sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_404', 'contentauthoring');
                     }
                     saveErrorNotification(errorMsg);
+                    currentPageShown.canEdit = false;
+                    $('#contentauthoring_inserterbar_container', $rootel).hide();
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                 }
             });
