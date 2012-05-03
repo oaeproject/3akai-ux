@@ -8,7 +8,10 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/addpeople/bundles/es_ES.properties"
-        }
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/addpeople/bundles/fr_FR.properties"
+        } 
     },
     "type":"core",
     "enabled":true,
