@@ -69,8 +69,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         var addToContactsInfoTypes = addToContacts + "_types";
         var addToContactsInfoDisplayName = addToContactsClass + "_displayname";
 
-        var addToContactsResponse = addToContacts + "_response";
-
         ///////////////////
         // Functionality //
         ///////////////////
@@ -147,7 +145,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
             if (!$.isArray(types)) {
                 types = [types];
             }
-            $(addToContactsResponse).text("");
             if (types.length) {
                 var fromRelationshipsToSend = [];
                 var toRelationshipsToSend = [];
