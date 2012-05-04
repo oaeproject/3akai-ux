@@ -116,6 +116,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     count._count = value;
                 }
                 if (listitem.length) {
+                    if (count._count > 999) {
+                        $(element, listitem).text('999+');
+                    } else {
+                        $(element, listitem).text(count._count);
+                    }
                     if (!listitem.find('.lhnavigation_levelcount').length) {
                         listitem.find('.lhnavigation_item_content').prepend(
                             sakai.api.Util.TemplateRenderer('lhnavigation_counts_template', {
@@ -123,7 +128,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             })
                         );
                     }
-                    $(element, listitem).text(count._count);
                     if (count._count <= 0) {
                         $(element, listitem).hide();
                     } else {
