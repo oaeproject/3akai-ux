@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
 
     /**
      * @name sakai_global.newsharecontent
@@ -176,25 +176,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                     });
 
+                    // Formulate content shared message with list of users
                     if (userList.toAddNames.length > 1) {
-                        for (var i=0, len=userList.toAddNames.length; i<len; i++) {
-                            shareMessage += ' ';
-                            if (i === len-1) {
-                                shareMessage += sakai.api.i18n.getValueForKey("AND", "newsharecontent") +
-                                    ' ' + userList.toAddNames[i];
-                            }
-                            else {
-                                shareMessage += userList.toAddNames[i];
-                                if (i !== len-2) {
-                                    shareMessage += ',';
-                                }
-                            }
-                        }
+                        shareMessage += _.initial(userList.toAddNames).join(', ') + ' and ' + _.last(userList.toAddNames);
                     }
                     else {
                         shareMessage += userList.toAddNames[0];
                     }
-                    
+
                     sakai.api.Util.notification.show(false, shareMessage, "");
                     $newsharecontentContainer.jqmHide();
                 }
