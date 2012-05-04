@@ -121,8 +121,18 @@
     padding: 0;
     height: 21px;
     margin-right: 10px;
+    color: #999
 }
 
+#entity_container .entity_owns_actions_container .entity_owns_actions_collab > div:after {
+    content: "|";
+}
+#entity_container .entity_owns_actions_container .entity_owns_actions_collab > div, #entity_container .entity_owns_actions_container .entity_owns_actions_collab > button {
+    float: left;
+}
+#entity_container .entity_owns_actions_container .entity_owns_actions_collab > button {
+    padding: 4px 0;
+}
 #entity_container .entity_owns_actions_container .entity_owns_actions:hover {
     background: none repeat scroll 0 0 #fff;
     border: 1px solid #E0E3E5;
