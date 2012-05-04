@@ -210,14 +210,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                     },
                     error: function(xhr, textStatus, thrownError){
                         enableDisableInviteButton(false);
-                        $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                            $(addToContactsErrorRequest).text(),
+                            sakai.api.Util.notification.type.ERROR, true);
                     }
                 });
 
             }
             else {
                 enableDisableInviteButton(false);
-                $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorNoTypeSelected).text()));
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                    $(addToContactsErrorNoTypeSelected).text(),
+                    sakai.api.Util.notification.type.ERROR, true);
             }
         };
 
