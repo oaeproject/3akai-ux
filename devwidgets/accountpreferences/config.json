@@ -6,8 +6,11 @@
             "description":"Account preferences",
             "name":"Account preferences"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/accountpreferences/bundles/es_ES.properties"
+        },
+        "nl_NL": {
+            "bundle": "/devwidgets/accountpreferences/bundles/nl_NL.properties"
         }, 
         "fr_FR": {
             "bundle": "/devwidgets/accountpreferences/bundles/fr_FR.properties",

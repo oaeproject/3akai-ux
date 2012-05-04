@@ -15,6 +15,9 @@
             "name": "Most active groups",
             "description": "Most active groups"
         },
+        "nl_NL": {
+            "bundle": "/devwidgets/activegroups/bundles/nl_NL.properties"
+        },
         "fr_FR": {
             "bundle": "/devwidgets/activegroups/bundles/fr_FR.properties",
             "name": "Groupes les plus actifs",
