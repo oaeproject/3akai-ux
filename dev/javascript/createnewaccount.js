@@ -138,6 +138,12 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                             sakai_global.captcha.reload();
                             sakai_global.captcha.showError("create_account_input_error");
                         }
+                    } else {
+                        var errorMsg = sakai.api.Security.safeOutput($(data.responseText).find('#Message').text());
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                            sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_FAILURE') + ' ' + errorMsg,
+                            sakai.api.Util.notification.type.ERROR, true);
                     }
                 }
             });
@@ -294,11 +300,15 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
              */
             $.validator.addMethod("nospaces", function(value, element){
                 return this.optional(element) || (value.indexOf(" ") === -1);
-            }, "* No spaces are allowed");
+            }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_NOSPACES'));
 
             $.validator.addMethod("validusername", function(value, element){
                 return this.optional(element) || (checkUserName());
-            }, "* This username is already taken.");
+            }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_VALIDUSERNAME'));
+
+            $.validator.addMethod("validchars", function(value, element){
+                return this.optional(element) || /^[a-zA-Z0-9_-]+$/i.test(value);
+            }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_INVALIDCHAR'));
 
             var validateOpts = {
                 rules: {
@@ -311,6 +321,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                     username: {
                         minlength: 3,
                         nospaces: true,
+                        validchars: true,
                         validusername: true
                     }
                 },
