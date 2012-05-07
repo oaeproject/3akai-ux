@@ -137,16 +137,25 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                         if (data.responseText.indexOf("Untrusted request") !== -1) {
                             sakai_global.captcha.reload();
                             sakai_global.captcha.showError("create_account_input_error");
+                        } else {
+                            showCreateUserError($(data.responseText).find('#Message').text());
                         }
                     } else {
-                        var errorMsg = sakai.api.Security.safeOutput($(data.responseText).find('#Message').text());
-                        sakai.api.Util.notification.show(
-                            sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
-                            sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_FAILURE') + ' ' + errorMsg,
-                            sakai.api.Util.notification.type.ERROR, true);
+                        showCreateUserError($(data.responseText).find('#Message').text());
                     }
                 }
             });
+        };
+
+        /**
+         * Displays an error if the user creation failed
+         * @param {String} errorMessage The error message to display
+         */
+        var showCreateUserError = function(errorMessage){
+            sakai.api.Util.notification.show(
+                sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_FAILURE') + ' ' + sakai.api.Security.safeOutput(errorMessage),
+                sakai.api.Util.notification.type.ERROR, true);
         };
 
         //////////////////////////////
@@ -310,6 +319,10 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                 return this.optional(element) || !(/[\<\>\\\/{}\[\]!@#\$%^&\*,]+/i.test(value));
             }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_INVALIDCHAR'));
 
+            $.validator.addMethod("reservedprefix", function(value, element){
+                return this.optional(element) || (value.substr(0, 11) !== 'g-contacts-');
+            }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_RESERVED_PREFIX'));
+
             var validateOpts = {
                 rules: {
                     password: {
@@ -322,6 +335,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                         minlength: 3,
                         nospaces: true,
                         validchars: true,
+                        reservedprefix: true,
                         validusername: true
                     }
                 },
