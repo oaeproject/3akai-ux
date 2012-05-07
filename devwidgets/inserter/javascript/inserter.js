@@ -435,20 +435,23 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var collectionId = target.attr('data-collection-id');
             var collectedContent = [];
             var collectedCollections = [];
+            var isCollection = (collectionId !== 'library' && collectionId !== sakai.data.me.user.userid);
             $.each(data, function(index, item) {
-                if (item.collection && item.canshare) {
-                    // We don't need to send an extra POST since we can't add a collection to itself
-                    if (collectionId !== item.entityid) {
-                        collectedCollections.push(item.entityid);
-                    } else {
-                        sakai.api.Util.notification.show(
-                            sakai.api.i18n.getValueForKey('ADD_COLLECTION', 'inserter'),
-                            sakai.api.i18n.getValueForKey('CANT_ADD_A_COLLECTION_TO_ITSELF', 'inserter'),
-                            sakai.api.Util.notification.type.ERROR);
+                if (!isCollection || item.canshare) {
+                    if (item.collection) {
+                        // We don't need to send an extra POST since we can't add a collection to itself
+                        if (collectionId !== item.entityid) {
+                            collectedCollections.push(item.entityid);
+                        } else {
+                            sakai.api.Util.notification.show(
+                                sakai.api.i18n.getValueForKey('ADD_COLLECTION', 'inserter'),
+                                sakai.api.i18n.getValueForKey('CANT_ADD_A_COLLECTION_TO_ITSELF', 'inserter'),
+                                sakai.api.Util.notification.type.ERROR);
+                        }
                     }
-                }
-                else if (item.canshare) {
-                    collectedContent.push(item.entityid);
+                    else {
+                        collectedContent.push(item.entityid);
+                    }
                 }
             });
             if (collectedContent.length + collectedCollections.length > 0) {
@@ -458,7 +461,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // If the collection the content was added to is not the user's library
                 // share the content with that collection
                 // If it is the library execute different API functions
-                if (collectionId !== 'library' && collectionId !== sakai.data.me.user.userid) {
+                if (isCollection) {
                     addDroppedToIndependentCollection(collectionId, collectedCollections, collectedContent);
                 } else {
                     addDroppedToMyLibrary(collectionId, collectedCollections, collectedContent);
