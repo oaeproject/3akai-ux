@@ -40,7 +40,7 @@
                         <div id="signup_descriptionbox_middle" class="signup_descriptionbox">__MSG__SIGN_UP_MESSAGE_3__</div>
                     </div>
                     <div id="signup_header_bg">
-                        <form id="create_account_form">
+                        <form id="create_account_form" role="main">
                             <div id="signup_form_container">
                                 <div id="signup_form_shadow"></div>
                                 <h1 class="signup_header">__MSG__CREATE_A_NEW_ACCOUNT__</h1>
@@ -85,40 +85,42 @@
                     <div id="password_short" style="display:none;">__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_FOUR_CHARACTERS_LONG__</div>
                     <div id="password_repeat_empty" style="display:none;">__MSG__PLEASE_REPEART_YOUR_PASSWORD__</div>
                     <div id="password_repeat_nomatch" style="display:none;">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__</div>
-                    <h2 class="s3d-aural-text">__MSG__SIGN_UP_QUOTE_HEADER__</h2>
-                    <div class="signup_comment_box">
-                        <div class="signup_comment_box_arrow_down"><!----></div>
-                        <div class="signup_comment_icon signup_comment_icon_personalspace"><!----></div>
-                        <blockquote>
-                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_1__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_1__&quot;</span>
-                        </blockquote>
+                    <div  role="complementary">
+                        <h2 class="s3d-aural-text">__MSG__SIGN_UP_QUOTE_HEADER__</h2>
+                        <div class="signup_comment_box">
+                            <div class="signup_comment_box_arrow_down"><!----></div>
+                            <div class="signup_comment_icon signup_comment_icon_personalspace"><!----></div>
+                            <blockquote>
+                                <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_1__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                                <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_1__&quot;</span>
+                            </blockquote>
+                        </div>
+                        <div class="signup_comment_box">
+                            <div class="signup_comment_box_arrow_down"><!----></div>
+                            <div class="signup_comment_icon signup_comment_icon_cohere"><!----></div>
+                            <blockquote> 
+                                <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_2__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                                <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_2__&quot;</span>
+                            </blockquote>
+                        </div>
+                        <div class="signup_comment_box last">
+                            <div class="signup_comment_box_arrow_down"><!----></div>
+                            <div class="signup_comment_icon signup_comment_icon_editable"><!----></div>
+                            <blockquote>
+                                <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_3__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                                <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_3__&quot;</span>
+                            </blockquote>
+                        </div>
+                        <h2>__MSG__INSTITUTIONS_USING_SAKAI__</h2>
+                        <ul id="signup_institution_logos">
+                            <li><img src="/dev/images/logo_inst_nyu.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__"></li>
+                            <li><img src="/dev/images/logo_inst_stanford.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_STANFORD__"></li>
+                            <li><img src="/dev/images/logo_inst_cambridge.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_CAMBRIDGE__"></li>
+                            <li><img src="/dev/images/logo_inst_yale.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_YALE__"></li>
+                            <li><img src="/dev/images/logo_inst_csu.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_CSU__"></li>
+                            <li><img src="/dev/images/logo_inst_oxford.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_OXFORD__"></li>
+                        </ul>
                     </div>
-                    <div class="signup_comment_box">
-                        <div class="signup_comment_box_arrow_down"><!----></div>
-                        <div class="signup_comment_icon signup_comment_icon_cohere"><!----></div>
-                        <blockquote> 
-                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_2__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_2__&quot;</span>
-                        </blockquote>
-                    </div>
-                    <div class="signup_comment_box last">
-                        <div class="signup_comment_box_arrow_down"><!----></div>
-                        <div class="signup_comment_icon signup_comment_icon_editable"><!----></div>
-                        <blockquote>
-                            <div class="signup_comment_box_commenter">__MSG__SIGN_UP_RECOMMEND_NAME_3__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                            <span class="signup_comment_quote">&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_3__&quot;</span>
-                        </blockquote>
-                    </div>
-                    <h2>__MSG__INSTITUTIONS_USING_SAKAI__</h2>
-                    <ul id="signup_institution_logos">
-                        <li><img src="/dev/images/logo_inst_nyu.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__"></li>
-                        <li><img src="/dev/images/logo_inst_stanford.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_STANFORD__"></li>
-                        <li><img src="/dev/images/logo_inst_cambridge.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_CAMBRIDGE__"></li>
-                        <li><img src="/dev/images/logo_inst_yale.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_YALE__"></li>
-                        <li><img src="/dev/images/logo_inst_csu.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_CSU__"></li>
-                        <li><img src="/dev/images/logo_inst_oxford.png" alt="__MSG__SIGN_UP_RECOMMEND_INSTITUTION_OXFORD__"></li>
-                    </ul>
                 </div>
                 <div class="fl-push fl-widget"><!-- --></div>
             </div>
