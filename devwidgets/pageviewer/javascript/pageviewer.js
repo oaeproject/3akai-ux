@@ -133,9 +133,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         };
                         if (cellData.items) {
                             $.each(cellData.items, function(itemsIndex, cellItem) {
-                                if (itemsIndex.indexOf('__array__') === 0) {
-                                    docData[tempItem._ref][cell.id][cell.type].items[itemsIndex] = cellItem;
-                                }
+                                docData[tempItem._ref][cell.id][cell.type].items[itemsIndex] = cellItem;
                             });
                         }
                     } else {
@@ -221,12 +219,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Fetches the page content
          */
         var fetchPages = function() {
-            $.ajax({
-                url: "/p/" + docPath + ".infinity.json",
-                success: function(data) {
-                    tempDocData = data;
-                    parseStructure();
-                }
+            sakai.api.Server.loadJSON("/p/" + docPath + ".infinity.json", function(success, data){
+                tempDocData = data;
+                parseStructure();
             });
         };
 

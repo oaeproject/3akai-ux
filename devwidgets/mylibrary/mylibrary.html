@@ -69,32 +69,32 @@
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
                 <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
-                <h1>__MSG__NO_SEARCH_RESULTS__ <a class="s3d-regular-links" href="/search#l=content">__MSG__CONTENT_LC__</a>.</h1>
+                <p>__MSG__NO_SEARCH_RESULTS__ <a class="s3d-regular-links" href="/search#l=content">__MSG__CONTENT_LC__</a>.</p>
             </div>
         {else}
             {if mode === "user_me"}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION_ME__ <button id="mylibrary_addcontent" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_CONTENT__</button></h1>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_ME__ <button id="mylibrary_addcontent" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_CONTENT__</button></p>
                 </div>
             {elseif mode === "user_other"}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</p>
                 </div>
             {elseif mode === "group_manager_member"}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION_GROUP__. <button id="mylibrary_addcontent" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_CONTENT__</button></h1>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_GROUP__. <button id="mylibrary_addcontent" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_CONTENT__</button></p>
                 </div>
             {elseif mode === "group"}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION_GROUP__</h1>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_GROUP__</p>
                 </div>
             {/if}
         {/if}
@@ -120,10 +120,10 @@
                                 {/if}
                             {/if}
                         </div>
+                        {if !sakai.data.me.user.anon}
+                            <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
+                        {/if}
                         {if canShare}
-                            {if !sakai.data.me.user.anon}
-                                <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
-                            {/if}
                             <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                         {/if}
                     </div>

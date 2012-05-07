@@ -34,6 +34,9 @@
 .mymemberships_no_memberships {text-decoration:none;}
 #mymemberships_message_button .s3d-action-icon{float:right;margin:2px 0 0 7px;}
 /* groups list */
+ul#mymemberships_items li.s3d-search-result {
+    padding: 10px 10px 6px 5px;
+}
 .mymemberships_item_grouptype {font-size:smaller;white-space:pre;}
 .mymemberships_item_icon{display: inline-block;height: 10px;width: 15px;}
 .mymemberships_item_right_buttons{display: inline-block;float:right;}
@@ -64,4 +67,3 @@
 .mymemberships_item .s3d-actions-delete {float: left;margin:8px 7px 0 2px}
 .s3d-search-results-grid .s3d-actions-delete {margin:3px 16px 0 2px}
 .mymemberships_widget #mymemberships_select_all_container {float:left;height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}
-.mymemberships_item.s3d-search-result {padding:10px 10px 6px 4px !important;}

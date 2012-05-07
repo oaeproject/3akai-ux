@@ -42,7 +42,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
      */
     sakai_global.contentpermissions = function(tuid, showSettings){
 
-
         /////////////////////////////
         // CONFIGURATION VARIABLES //
         /////////////////////////////
@@ -51,9 +50,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         var contentData = sakai_global.content_profile.content_data;
         var contentPermissionsEditList = "li.contentpermissions_edit";
         var contentpermissionsMemberPermissions = ".contentpermissions_member_permissions";
-        var contentpermissionsMembersAutosuggest = "#contentpermissions_members_autosuggest";
         var contentpermissionsShareMessageTemplate = "contentpermissions_share_message_template";
 
+        var $contentpermissionsMembersAutosuggest = false;
         var globalPermissionsChanged = false;
         var defaultPermissionPassed = false;
         var changesMade = false;
@@ -423,6 +422,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                     "path": window.location,
                     "user": sakai.api.User.getDisplayName(sakai.data.me.profile)
                 }));
+                $('.contentpermissions_buttons').hide();
                 $("#contentpermissions_members_autosuggest_container").show();
                 $("#contentpermissions_members_list").hide();
                 $("#contentpermissions_members_autosuggest_permissions").removeAttr("disabled");
@@ -433,19 +433,30 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          * Removes a user or group from the autosuggest input field and 
          * hides the message box if no other users or groups are present
          */
-        var removedUserGroup = function(elem){
+        var removedUserGroup = function(elem) {
             elem.remove();
-            if(getSelectedList().list.length === 0){
-                $("#contentpermissions_members_autosuggest_container").hide();
-                $("#contentpermissions_members_list").show();
-                $("#contentpermissions_members_autosuggest_permissions").attr("disabled", "disabled");
+            if (getSelectedList().list.length === 0) {
+                hideShare();
             }
+        };
+
+        /**
+         * Hide the share message box and show the list of people the content
+         * has been shared with again 
+         */
+        var hideShare = function() {
+            sakai.api.Util.AutoSuggest.reset($contentpermissionsMembersAutosuggest);
+            $('.contentpermissions_buttons').show();
+            $('#contentpermissions_members_autosuggest_container').hide();
+            $('#contentpermissions_members_list').show();
+            $('#contentpermissions_members_autosuggest_permissions').attr('disabled', 'disabled');
         };
 
         /**
          * Renders the list of members and their permissions in the widget
          */
-        var renderMemberList = function(){
+        var renderMemberList = function() {
+            $('.contentpermissions_buttons').show();
             sakai.api.Util.TemplateRenderer("contentpermissions_content_template", {
                 title: sakai.api.Util.Security.safeOutput(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]),
                 contentData: removeDuplicateUsersGroups(contentData),
@@ -504,6 +515,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             $(".contentpermissions_permissions_container .s3d-actions-delete").live("click", doDelete);
             $("#contentpermissions_apply_permissions").live("click", showWarning);
             $("#contentpermissions_members_autosuggest_sharebutton").live("click", doShare);
+            $(window).on('click', '#contentpermissions_members_autosuggest_cancelbutton', hideShare);
         };
 
         /**
@@ -535,7 +547,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             globalPermissionsChanged = false;
             changesMade = false;
             renderMemberList();
-            sakai.api.Util.AutoSuggest.setup($(contentpermissionsMembersAutosuggest), {
+            $contentpermissionsMembersAutosuggest = $('#contentpermissions_members_autosuggest');
+            sakai.api.Util.AutoSuggest.setup($contentpermissionsMembersAutosuggest, {
                 "asHtmlID": tuid,
                 "selectionAdded":addedUserGroup,
                 "selectionRemoved":removedUserGroup,

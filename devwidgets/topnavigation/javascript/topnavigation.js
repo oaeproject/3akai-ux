@@ -454,6 +454,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var leftMenulinks = [];
             var rightMenuLinks = [];
 
+            $('#topnavigation_container .s3d-jump-link').each(function() {
+                if ($($(this).attr('href') + ':visible').length) {
+                    $(this).show();
+                }
+            });
+            $('#topnavigation_container .s3d-jump-link').on('click', function() {
+                $($(this).attr('href')).focus();
+                return false;
+            });
+
             for (var i in sakai.config.Navigation) {
                 if (sakai.config.Navigation.hasOwnProperty(i)) {
                     var temp = "";
@@ -939,7 +949,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
-            $("#topnavigation_message_reply").live("click", hideMessageInlay);
+            $("#topnavigation_message_showall").live("click", hideMessageInlay);
             $("#topnavigation_message_readfull").live("click", hideMessageInlay);
             $(".no_messages .s3d-no-results-container a").live("click", hideMessageInlay);
             $(".topnavigation_trigger_login").live("click", forceShowLogin);

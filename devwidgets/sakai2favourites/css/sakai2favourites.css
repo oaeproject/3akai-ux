@@ -27,6 +27,26 @@
 #sakai2favourites_sub_container{height:340px;padding-top: 10px;}
 #sakai2favourites_container{width:760px;left:40%!important;}
 .sakai2favourites_site_list ul{margin:0;padding:3px 0;}
-.sakai2favourites_site_list ul li{list-style:none;margin:0;padding:0 5px;}
-.sakai2favourites_close_image{float:right;margin-right:5px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -40px -641px transparent;cursor:pointer;display:block;height:15px;overflow:hidden;width:14px;}
+.sakai2favourites_site_list ul li {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 1px 5px;
+}
+.sakai2favourites_site_list ul li span {
+    padding-right: 20px;
+    display: inline-block;
+}
+.sakai2favourites_close_image {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    margin-right: 5px;
+    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -40px -641px transparent;
+    cursor: pointer;
+    display: block;
+    height: 15px;
+    overflow: hidden;
+    width: 14px;
+}
 .sakai2favourites_leftpane_button{font-size:13px}

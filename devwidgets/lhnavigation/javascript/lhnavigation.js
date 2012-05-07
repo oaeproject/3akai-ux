@@ -1181,11 +1181,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var enableSorting = function() {
             $('#lhnavigation_container .lhnavigation_menu_list').sortable({
                 items: 'li.lhnavigation_outer[data-sakai-manage=true]',
-                update: handleReorder
+                update: handleReorder,
+                distance: 30
             });
             $('#lhnavigation_container .lhnavigation_subnav').sortable({
                 items: 'li.lhnavigation_subnav_item[data-sakai-manage=true]',
-                update: handleReorder
+                update: handleReorder,
+                distance: 30
             });
             $('.lhnavigation_menuitem[data-sakai-manage=true]').addClass('lhnavigation_move_cursor');
         };

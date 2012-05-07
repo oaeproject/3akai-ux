@@ -42,7 +42,22 @@
 .inbox_item input, .inbox_item .inbox_action_button{}
 #inbox_message_list .inbox_items_container{box-shadow:0px 1px 2px 0px #DDDDDD;-moz-box-shadow:0px 1px 2px 0px #DDDDDD;-webkit-box-shadow:0px 1px 2px 0px #DDDDDD;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;margin:6px 0px;overflow:hidden;}
 #inbox_message_list .inbox_items_container .inbox_items_inner{background-color:#f4f4f4;border-radius:2px 2px 6px 6px;-moz-border-radius:2px 2px 6px 6px;-webkit-border-radius:2px 2px 6px 6px;box-shadow:0px 0px 5px 0px #aaa;-moz-box-shadow:0px 0px 5px 0px #aaa;-webkit-box-shadow:0px 0px 5px 0px #aaa;}
-#inbox_message_list .inbox_items_container.unread .inbox_items_inner{background-color:#f0f9fc;}
+#inbox_message_list .inbox_items_container.unread .inbox_items_inner{background-color:#f0f9fc;font-weight:bold}
+#inbox_message_list .inbox_items_container .inbox_item_read_icon {
+    display: block;
+    cursor: text;
+    width: 18px;
+    margin-top: 3px;
+    background: url("/dev/images/message_icon_default_read.png") no-repeat scroll left top transparent;
+}
+#inbox_message_list .inbox_items_container.unread .inbox_item_read_icon {
+    display: block;
+    width: 18px;
+    cursor: text;
+    margin-top: 3px;
+    background: url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;
+}
+
 .inbox_items_container.last{border-bottom:none;}
 .inbox_items_inner{padding:10px 0px;float:left;width:100%}
 .inbox_items_inner img.person_icon,#inbox_show_message_reply img.person_icon{float:left;padding:0 10px 5px 0;width:30px;}
@@ -72,7 +87,9 @@
 .inbox_delete a,.inbox_delete button{float:right;display:inline;}
 .inbox_delete_button{margin-right:5px;height:22px;}
 .inbox_delete_button:hover{text-decoration:none;}
-#inbox_no_messages p{text-align:center;margin:60px 0px;}
+#inbox_no_messages p {
+    margin: 60px 0px;
+}
 #inbox_pager{float:left;width:100%;border-bottom:1px solid #D4D4D4;}
 .inbox_invitation_accept{padding-right:5px;}
 .inbox_invitation_ignore{padding-left:3px;}
