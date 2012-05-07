@@ -522,7 +522,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         displayRemoteContent(data);
                     } 
                 }
-                else {
+                else if (showSettings) {
                     displaySettings(null, false);
                 }
             }, false);
