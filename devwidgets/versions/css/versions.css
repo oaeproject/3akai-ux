@@ -90,10 +90,6 @@
 .versions_widget #versions_container ul li:hover .versions_updater {
     color: #fff;
 }
-.versions_widget #versions_container ul li:hover .s3d-button {
-    visibility: visible;
-    margin-top: 5px;
-}
 .versions_widget #versions_container ul li.versions_selected {
     background: url("/devwidgets/versions/images/versions_hover_bg.png") repeat-x scroll left top transparent;
     color: #fff;
@@ -103,10 +99,6 @@
 }
 .versions_widget #versions_container ul li.versions_divider {
     border-right: 1px solid #dadad9;
-}
-.versions_widget #versions_container ul li.versions_selected .s3d-button {
-    visibility: visible;
-    margin-top: 5px;
 }
 .versions_widget #versions_container ul li .versions_date {
     display: block;
@@ -132,8 +124,8 @@
     font-size: 9px;
 }
 .versions_widget #versions_container ul li .s3d-button {
-    visibility: hidden;
     display: block;
+    margin-top: 5px;
 }
 .versions_widget #versions_container.versions_without_left_hand_nav ul li {
     width: 123px;
