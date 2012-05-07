@@ -52,7 +52,7 @@
                     {/if}
                     <span class="contentcomments_dateComment">${i.timeAgo}</span>
                 </div>
-                {if i.canDelete && i.canDelete === true || i.userid === sakai.data.me.user.userid}
+                {if (i.canDelete && i.canDelete === true) || (i.userid === sakai.data.me.user.userid && !sakai.data.me.user.anon)}
                     {if i["sakai:deleted"] && i["sakai:deleted"] === true}
                         <button type="button" class="s3d-button contentcomments_undelete s3d-regular-links s3d-link-button" id="contentcomments_undelete_${i['sakai:id']}">__MSG__UNDELETE__</button>
                     {else}
