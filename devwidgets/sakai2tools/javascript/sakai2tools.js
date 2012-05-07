@@ -26,9 +26,9 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai_global.basiclti
+     * @name sakai_global.sakai2tools
      *
-     * @class basiclti
+     * @class sakai2tools
      *
      * @description
      * Basiclti widget
@@ -55,37 +55,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var defaultHeight = 200;
 
         // Links and labels
-        var basiclti = "#basiclti";
-        var basicltiSettings = basiclti + "_settings";
-        var basicltiSettingsAdvanced = basicltiSettings + "_advanced";
-        var basicltiSettingsAdvancedDown = basicltiSettingsAdvanced + "_down";
-        var basicltiSettingsAdvancedToggleSettings = basicltiSettingsAdvanced + "_toggle_settings";
-        var basicltiSettingsAdvancedUp = basicltiSettingsAdvanced + "_up";
-        var basicltiSettingsBorders = basicltiSettings + "_borders";
-        var basicltiSettingsCancel = basicltiSettings + "_cancel";
-        var basicltiSettingsColorContainer = basicltiSettings + "_color_container";
-        var basicltiSettingsHeight = basicltiSettings + "_frame_height";
-        var basicltiSettingsInsert = basicltiSettings + "_insert";
-        var basicltiSettingsPreview = basicltiSettings + "_preview";
-        var basicltiSettingsPreviewId = tuid + "_frame";
-        var basicltiSettingsPreviewFrame = "#" + basicltiSettingsPreviewId;
-        var basicltiSettingsLtiUrl = basicltiSettings + "_ltiurl";
-        var basicltiSettingsLtiKey = basicltiSettings + "_ltikey";
-        var basicltiSettingsLtiSecret = basicltiSettings + "_ltisecret";
-        var basicltiSettingsWidth = basicltiSettings + "_width";
-        var basicltiSettingsReleaseName = basicltiSettings + "_release_names";
+        var sakai2tools = "#sakai2tools";
+        var sakai2toolsSettings = sakai2tools + "_settings";
+        var sakai2toolsSettingsAdvanced = sakai2toolsSettings + "_advanced";
+        var sakai2toolsSettingsAdvancedDown = sakai2toolsSettingsAdvanced + "_down";
+        var sakai2toolsSettingsAdvancedToggleSettings = sakai2toolsSettingsAdvanced + "_toggle_settings";
+        var sakai2toolsSettingsAdvancedUp = sakai2toolsSettingsAdvanced + "_up";
+        var sakai2toolsSettingsBorders = sakai2toolsSettings + "_borders";
+        var sakai2toolsSettingsCancel = sakai2toolsSettings + "_cancel";
+        var sakai2toolsSettingsColorContainer = sakai2toolsSettings + "_color_container";
+        var sakai2toolsSettingsHeight = sakai2toolsSettings + "_frame_height";
+        var sakai2toolsSettingsInsert = sakai2toolsSettings + "_insert";
+        var sakai2toolsSettingsPreview = sakai2toolsSettings + "_preview";
+        var sakai2toolsSettingsPreviewId = tuid + "_frame";
+        var sakai2toolsSettingsPreviewFrame = "#" + sakai2toolsSettingsPreviewId;
+        var sakai2toolsSettingsLtiUrl = sakai2toolsSettings + "_ltiurl";
+        var sakai2toolsSettingsLtiKey = sakai2toolsSettings + "_ltikey";
+        var sakai2toolsSettingsLtiSecret = sakai2toolsSettings + "_ltisecret";
+        var sakai2toolsSettingsWidth = sakai2toolsSettings + "_width";
+        var sakai2toolsSettingsReleaseName = sakai2toolsSettings + "_release_names";
 
         // Containers
-        var basicltiMainContainer = basiclti + "_main_container";
+        var sakai2toolsMainContainer = sakai2tools + "_main_container";
 
         // Classes
-        var basicltiSettingsWidthUnitClass = ".basiclti_settings_width_unit";
-        var basicltiSettingsWidthUnitSelectedClass = "basiclti_settings_width_unit_selected";
+        var sakai2toolsSettingsWidthUnitClass = ".sakai2tools_settings_width_unit";
+        var sakai2toolsSettingsWidthUnitSelectedClass = "sakai2tools_settings_width_unit_selected";
 
         // Templates
-        var $basicltiSettingsColorContainerTemplate = $("#basiclti_settings_color_container_template", rootel);
-        var $basicltiSettingsTemplate = $("#basiclti_settings_template", rootel);
-        var $basicltiSettingsPreviewTemplate = $("#basiclti_settings_preview_template", rootel);
+        var $sakai2toolsSettingsColorContainerTemplate = $("#sakai2tools_settings_color_container_template", rootel);
+        var $sakai2toolsSettingsTemplate = $("#sakai2tools_settings_template", rootel);
+        var $sakai2toolsSettingsPreviewTemplate = $("#sakai2tools_settings_preview_template", rootel);
 
         // see: http://www.ietf.org/rfc/rfc2396.txt Appendix B
         var urlRegExp = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
@@ -164,12 +164,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
         var renderIframeSettings = function(complete){
-            if (complete) { 
-                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';               
-                $(basicltiSettingsPreview, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
+            if (complete) {
+                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "sakai2tools") + '.launch.html';
+                $(sakai2toolsSettingsPreview, rootel).html(sakai.api.Util.TemplateRenderer($sakai2toolsSettingsPreviewTemplate, json));
             }
             else {
-                $(basicltiSettingsPreviewFrame, rootel).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
+                $(sakai2toolsSettingsPreviewFrame, rootel).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
             }
         };
 
@@ -178,39 +178,39 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderIframe = function(){
             if (json) {
-                json.tuidFrame = basicltiSettingsPreviewId;
-                $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
+                json.tuidFrame = sakai2toolsSettingsPreviewId;
+                $(sakai2toolsMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($sakai2toolsSettingsPreviewTemplate, json));
                 json.launchDataUrl = sakai.api.Widgets.getWidgetDataStorageURL(tuid) + ".launch.html";
                 if (sakai_global.group) {
                     json.launchDataUrl += "?groupid=" + sakai_global.group.groupData["sakai:group-id"];
                 }
-                $("#" + json.tuidFrame, rootel).attr("src", json.launchDataUrl); 
+                $("#" + json.tuidFrame, rootel).attr("src", json.launchDataUrl);
 
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
                 if(isSameOriginPolicy(window.location.href, json.ltiurl)) {
-                    $(basicltiSettingsPreviewFrame, rootel).load(function() {
+                    $(sakai2toolsSettingsPreviewFrame, rootel).load(function() {
                         $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
                     });
                 }
 
                 // SAKIII-314 We need to show the container, otherwise the second item won't be shown.
-                $(basicltiMainContainer, rootel).show();
+                $(sakai2toolsMainContainer, rootel).show();
             }
         };
 
         /**
-         * Render the html of the basicltisettings
+         * Render the html of the sakai2toolssettings
          */
         var renderRemoteContentSettings = function(){
             if (json) {
                 // temporarily add the toolList to the json for rendering, but
                 // remove it afterwards because we don't want to store it in the node
                 json.toolList = toolList;
-                $(basicltiSettings, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsTemplate, json));
+                $(sakai2toolsSettings, rootel).html(sakai.api.Util.TemplateRenderer($sakai2toolsSettingsTemplate, json));
                 delete json.toolList;
-                // Necessary until we parameterize the tool list on the server and client side.            
+                // Necessary until we parameterize the tool list on the server and client side.
                 if (isSakai2Tool && json.lti_virtual_tool_id) {
-                    $('#basiclti_settings_lti_virtual_tool_id',rootel).val(json.lti_virtual_tool_id);
+                    $('#sakai2tools_settings_lti_virtual_tool_id',rootel).val(json.lti_virtual_tool_id);
                 }
             }
         };
@@ -220,7 +220,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderColorContainer = function(){
             if (json) {
-                $(basicltiSettingsColorContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsColorContainerTemplate, json));
+                $(sakai2toolsSettingsColorContainer, rootel).html(sakai.api.Util.TemplateRenderer($sakai2toolsSettingsColorContainerTemplate, json));
             }
         };
 
@@ -255,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Save the basiclti to the jcr
+         * Save the sakai2tools to the jcr
          */
         var saveRemoteContent = function(){
             var  saveContentAjax = function(json_data) {
@@ -264,32 +264,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     type: "POST",
                     url: url,
                     data: json,
-                    success: function(data) { 
-                        savedDataToJCR(true, data); 
+                    success: function(data) {
+                        savedDataToJCR(true, data);
                     }
-                }); 
+                });
                 // Because we need to use a particular servlet (LiteBasicLTI), and it
                 // requires some different options, we make our own ajax call above
                 // instead of using saveWidgetData for now.
-                // 
-                //sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);                
+                //
+                //sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
             };
 
             if (isSakai2Tool()) {
-                json["lti_virtual_tool_id"] = $('#basiclti_settings_lti_virtual_tool_id',rootel).val();    
+                json["lti_virtual_tool_id"] = $('#sakai2tools_settings_lti_virtual_tool_id',rootel).val();
 
                 json[":operation"] = "basiclti";
                 json["sling:resourceType"] = "sakai/basiclti";
-                json.ltikey = $(basicltiSettingsLtiKey,rootel).val() || "";
-                json.ltisecret = $(basicltiSettingsLtiSecret,rootel).val() || "";
+                json.ltikey = $(sakai2toolsSettingsLtiKey,rootel).val() || "";
+                json.ltisecret = $(sakai2toolsSettingsLtiSecret,rootel).val() || "";
                 json["debug@TypeHint"] = "Boolean";
-                json.debug = $('#basiclti_settings_debug:checked',rootel).val() !== null;
+                json.debug = $('#sakai2tools_settings_debug:checked',rootel).val() !== null;
                 json["release_names@TypeHint"] = "Boolean";
-                json.release_names = $('#basiclti_settings_release_names:checked',rootel).val() !== null;
+                json.release_names = $('#sakai2tools_settings_release_names:checked',rootel).val() !== null;
                 json["release_principal_name@TypeHint"] = "Boolean";
-                json.release_principal_name = $('#basiclti_settings_release_principal_name:checked',rootel).val() !== null;
+                json.release_principal_name = $('#sakai2tools_settings_release_principal_name:checked',rootel).val() !== null;
                 json["release_email@TypeHint"] = "Boolean";
-                json.release_email = $('#basiclti_settings_release_email:checked',rootel).val() !== null;
+                json.release_email = $('#sakai2tools_settings_release_email:checked',rootel).val() !== null;
                 json.launchDataUrl = ""; // does not need to be persisted
                 json.tuidFrame = ""; // does not need to be persisted
                 json.defined = ""; // what the heck is this? Where does it come from?
@@ -298,19 +298,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 saveContentAjax(json);
             }
             else if (json.ltiurl !== "") {
-                json.ltiurl = $(basicltiSettingsLtiUrl,rootel).val() || "";    
+                json.ltiurl = $(sakai2toolsSettingsLtiUrl,rootel).val() || "";
                 json[":operation"] = "basiclti";
                 json["sling:resourceType"] = "sakai/basiclti";
-                json.ltikey = $(basicltiSettingsLtiKey,rootel).val() || "";
-                json.ltisecret = $(basicltiSettingsLtiSecret,rootel).val() || "";
+                json.ltikey = $(sakai2toolsSettingsLtiKey,rootel).val() || "";
+                json.ltisecret = $(sakai2toolsSettingsLtiSecret,rootel).val() || "";
                 json["debug@TypeHint"] = "Boolean";
-                json.debug = $('#basiclti_settings_debug:checked',rootel).val() !== null;
+                json.debug = $('#sakai2tools_settings_debug:checked',rootel).val() !== null;
                 json["release_names@TypeHint"] = "Boolean";
-                json.release_names = $('#basiclti_settings_release_names:checked',rootel).val() !== null;
+                json.release_names = $('#sakai2tools_settings_release_names:checked',rootel).val() !== null;
                 json["release_principal_name@TypeHint"] = "Boolean";
-                json.release_principal_name = $('#basiclti_settings_release_principal_name:checked',rootel).val() !== null;
+                json.release_principal_name = $('#sakai2tools_settings_release_principal_name:checked',rootel).val() !== null;
                 json["release_email@TypeHint"] = "Boolean";
-                json.release_email = $('#basiclti_settings_release_email:checked',rootel).val() !== null;
+                json.release_email = $('#sakai2tools_settings_release_email:checked',rootel).val() !== null;
                 json.launchDataUrl = ""; // does not need to be persisted
                 json.tuidFrame = ""; // does not need to be persisted
                 json.defined = ""; // what the heck is this? Where does it come from?
@@ -329,12 +329,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var changeAdvancedSettingsArrow = function(){
             if (isAdvancedSettingsVisible) {
-                $(basicltiSettingsAdvancedDown, rootel).hide();
-                $(basicltiSettingsAdvancedUp, rootel).show();
+                $(sakai2toolsSettingsAdvancedDown, rootel).hide();
+                $(sakai2toolsSettingsAdvancedUp, rootel).show();
             }
             else {
-                $(basicltiSettingsAdvancedUp, rootel).hide();
-                $(basicltiSettingsAdvancedDown, rootel).show();
+                $(sakai2toolsSettingsAdvancedUp, rootel).hide();
+                $(sakai2toolsSettingsAdvancedDown, rootel).show();
             }
         };
 
@@ -347,7 +347,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to the color boxes
          */
         var addColorBinding = function(){
-            $(".basiclti_settings_color",rootel).click(function(){
+            $(".sakai2tools_settings_color",rootel).click(function(){
                 json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
                 renderIframeSettings(false);
                 renderColorContainer();
@@ -361,7 +361,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addBinding = function(){
 
             // Change the url for the iFrame
-            $(basicltiSettingsLtiUrl,rootel).change(function(){
+            $(sakai2toolsSettingsLtiUrl,rootel).change(function(){
                 var urlValue = $(this).val();
                 if (urlValue !== "") {
                     // Check if someone already wrote http inside the url
@@ -374,8 +374,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the iframe width
-            $(basicltiSettingsWidth,rootel).change(function(){
-                var widthValue = $(basicltiSettingsWidth,rootel).val();
+            $(sakai2toolsSettingsWidth,rootel).change(function(){
+                var widthValue = $(sakai2toolsSettingsWidth,rootel).val();
 
                 if (isDecimal(widthValue)) {
                     json.width = widthValue;
@@ -384,8 +384,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the iframe height
-            $(basicltiSettingsHeight,rootel).change(function(){
-                var heightValue = $(basicltiSettingsHeight,rootel).val();
+            $(sakai2toolsSettingsHeight,rootel).change(function(){
+                var heightValue = $(sakai2toolsSettingsHeight,rootel).val();
 
                 if (isDecimal(heightValue)) {
                     json.frame_height = heightValue;
@@ -394,8 +394,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the border width
-            $(basicltiSettingsBorders,rootel).change(function(){
-                var borderValue = $(basicltiSettingsBorders,rootel).val();
+            $(sakai2toolsSettingsBorders,rootel).change(function(){
+                var borderValue = $(sakai2toolsSettingsBorders,rootel).val();
                 if (isDecimal(borderValue)) {
                     json.border_size = borderValue;
                     renderIframeSettings(false);
@@ -403,14 +403,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Toggle the advanced view
-            $(basicltiSettingsAdvancedToggleSettings,rootel).click(function(){
-                $("#basiclti_settings_advanced", rootel).toggle();
+            $(sakai2toolsSettingsAdvancedToggleSettings,rootel).click(function(){
+                $("#sakai2tools_settings_advanced", rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
             });
 
             // When you click on one of the width units (px or percentage)
-            $(basicltiSettingsWidthUnitClass,rootel).click(function(){
+            $(sakai2toolsSettingsWidthUnitClass,rootel).click(function(){
                 var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
                 if (widthUnitValue === "px") {
                     json.width_unit = widthUnitValue;
@@ -418,19 +418,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 else {
                     json.width_unit = "%";
                 }
-                $(basicltiSettingsWidthUnitClass,rootel).removeClass(basicltiSettingsWidthUnitSelectedClass);
-                $(this).addClass(basicltiSettingsWidthUnitSelectedClass);
+                $(sakai2toolsSettingsWidthUnitClass,rootel).removeClass(sakai2toolsSettingsWidthUnitSelectedClass);
+                $(this).addClass(sakai2toolsSettingsWidthUnitSelectedClass);
                 renderIframeSettings(false);
             });
 
             // When you push the save button..
-            $(basicltiSettingsInsert,rootel).click(function(){
+            $(sakai2toolsSettingsInsert,rootel).click(function(){
                 saveRemoteContent();
             });
 
             // Cancel it
-            $(basicltiSettingsCancel,rootel).click(function(){
-                sakai.api.Widgets.Container.informCancel(tuid, "basiclti");
+            $(sakai2toolsSettingsCancel,rootel).click(function(){
+                sakai.api.Widgets.Container.informCancel(tuid, "sakai2tools");
             });
 
             addColorBinding();
@@ -444,7 +444,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Function that fills in the input fields in the settings tab.
          * @param {Object} parameters A JSON object that contains the necessary information.
-         * @param {Boolean} exists Does there exist a previous basiclti
+         * @param {Boolean} exists Does there exist a previous sakai2tools
          */
         var displaySettings = function(parameters, exists){
             if (exists && parameters.ltiurl) {
@@ -471,19 +471,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderColorContainer();
             addBinding(); // Add binding to the various elements
             changeAdvancedSettingsArrow();
-            $(basicltiSettings,rootel).show(); // Show the basiclti settings
+            $(sakai2toolsSettings,rootel).show(); // Show the sakai2tools settings
         };
 
         /*
          * Is the widget in settings mode or not
          */
         if (showSettings) {
-            $(basicltiMainContainer,rootel).hide();
-            $(basicltiSettings,rootel).show();
+            $(sakai2toolsMainContainer,rootel).hide();
+            $(sakai2toolsSettings,rootel).show();
         }
         else {
-            $(basicltiSettings,rootel).hide();
-            $(basicltiMainContainer,rootel).show();
+            $(sakai2toolsSettings,rootel).hide();
+            $(sakai2toolsMainContainer,rootel).show();
         }
 
         /**
@@ -493,7 +493,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getRemoteContent = function() {
             // The list of available Sakai 2 Tools is configurable at runtime on nakamura
             sakai.api.Server.loadJSON('/var/basiclti/cletools.json' , function(success,data) {
-                toolList = []; 
+                toolList = [];
                 for (var i = 0; i < data.toolList.length; i++) {
                     // Our i18n keys for the tools are formatted as: sakai.announcements -> CLE_SAKAI_ANNOUNCEMENTS
                     var key = "CLE_" + data.toolList[i].replace(/\./g,"_").toUpperCase();
@@ -520,7 +520,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     else {
                         displayRemoteContent(data);
-                    } 
+                    }
                 }
                 else {
                     displaySettings(null, false);
