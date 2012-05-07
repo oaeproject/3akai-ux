@@ -323,6 +323,10 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                 return this.optional(element) || (value.substr(0, 11) !== 'g-contacts-');
             }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_RESERVED_PREFIX'));
 
+            $.validator.addMethod("validfirstchar", function(value, element){
+                return this.optional(element) || (value.substr(0, 1) !== '_');
+            }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_START_WITH'));
+
             var validateOpts = {
                 rules: {
                     password: {
@@ -336,6 +340,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                         nospaces: true,
                         validchars: true,
                         reservedprefix: true,
+                        validfirstchar: true,
                         validusername: true
                     }
                 },
