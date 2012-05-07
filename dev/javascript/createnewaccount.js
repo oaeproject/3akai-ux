@@ -307,7 +307,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
             }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_VALIDUSERNAME'));
 
             $.validator.addMethod("validchars", function(value, element){
-                return this.optional(element) || /^[a-zA-Z0-9_-]+$/i.test(value);
+                return this.optional(element) || !(/[\<\>\\\/{}\[\]!@#\$%^&\*,]+/i.test(value));
             }, sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_INVALIDCHAR'));
 
             var validateOpts = {
