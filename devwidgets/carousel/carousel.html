@@ -21,10 +21,12 @@
         {/if}
     {/macro}
 
-    {macro contentButtons(id, uploader,title,type)}
+    {macro contentButtons(id, uploader,title,type,canShare)}
         <span class="carousel_bottom_buttons s3d-draggable-hidden">
             <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__ ${title|safeOutput}</legend>
-                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE__ ${title|safeOutput}"></button>
+                {if canShare}
+                    <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}" title="__MSG__SHARE__ ${title|safeOutput}"></button>
+                {/if}
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}" title="__MSG__SAVE__ ${title|safeOutput}"></button>
                 <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}" title="__MSG__VIEW_OWNER_INFO__ __MSG__FOR__ ${title|safeOutput}"></button>
             </fieldset>
@@ -39,7 +41,8 @@
                         <div class="carousel_three_column_container">
                             {var content0 = item.suggestions[0]}
                             {if content0}
-                                <div class="carousel_three_column_left s3d-draggable-container" data-scope="content" data-entityid="${content0.id}" {if sakai.api.Content.Collections.isCollection(content0)} data-collection="true" {/if}>
+                                {var canShare = sakai.api.Content.canCurrentUserShareContent(content0)}
+                                <div class="carousel_three_column_left s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${content0.id}" {if sakai.api.Content.Collections.isCollection(content0)} data-collection="true" {/if}>
                                     <a href="${content0.link}">
                                         {if content0.thumbnail}
                                             <img class="carousel_item_preview_img carousel_item_large_preview" src="${content0.thumbnail}" alt="__MSG__CONTENT_PREVIEW__"/>
@@ -52,12 +55,13 @@
                                             ${content0["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
                                     </h2>
-                                    ${contentButtons(content0.id, content0["sakai:pool-content-created-for"],content0["sakai:pooled-content-file-name"],content0.mimeType)}
+                                    ${contentButtons(content0.id, content0["sakai:pool-content-created-for"],content0["sakai:pooled-content-file-name"],content0.mimeType,canShare)}
                                 </div>
                             {/if}
                             {var content1 = item.suggestions[1]}
                             {if content1}
-                                <div class="carousel_three_column_middle s3d-draggable-container" data-scope="content" data-entityid="${content1.id}" {if sakai.api.Content.Collections.isCollection(content1)} data-collection="true" {/if}>
+                                {var canShare = sakai.api.Content.canCurrentUserShareContent(content1)}
+                                <div class="carousel_three_column_middle s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${content1.id}" {if sakai.api.Content.Collections.isCollection(content1)} data-collection="true" {/if}>
                                     <a href="${content1.link}">
                                         {if content1.thumbnail}
                                             <img class="carousel_item_preview_img carousel_item_medium_preview" src="${content1.thumbnail}" alt="__MSG__CONTENT_PREVIEW__"/>
@@ -70,30 +74,32 @@
                                             ${content1["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
                                     </h2>
-                                    ${contentButtons(content1.id, content1["sakai:pool-content-created-for"],content1["sakai:pooled-content-file-name"],content1.mimeType)}
+                                    ${contentButtons(content1.id, content1["sakai:pool-content-created-for"],content1["sakai:pooled-content-file-name"],content1.mimeType,canShare)}
                                 </div>
                             {/if}
                             <div class="carousel_three_column_right">
                                 {var content2 = item.suggestions[2]}
                                 {if content2}
-                                    <div class="carousel_two_high_top s3d-draggable-container" data-scope="content" data-entityid="${content2.id}" {if sakai.api.Content.Collections.isCollection(content2)} data-collection="true" {/if}>
+                                    {var canShare = sakai.api.Content.canCurrentUserShareContent(content2)}
+                                    <div class="carousel_two_high_top s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${content2.id}" {if sakai.api.Content.Collections.isCollection(content2)} data-collection="true" {/if}>
                                         <h2>
                                             <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.link}">
                                                 ${content2["sakai:pooled-content-file-name"]|safeOutput}
                                             </a>
                                         </h2>
-                                        ${contentButtons(content2.id, content2["sakai:pool-content-created-for"],content2["sakai:pooled-content-file-name"],content2.mimeType)}
+                                        ${contentButtons(content2.id, content2["sakai:pool-content-created-for"],content2["sakai:pooled-content-file-name"],content2.mimeType,canShare)}
                                     {/if}
                                 </div>
                                 {var content3 = item.suggestions[3]}
                                 {if content3}
-                                    <div class="carousel_two_high_bottom s3d-draggable-container" data-scope="content" data-entityid="${content3.id}" {if sakai.api.Content.Collections.isCollection(content3)} data-collection="true" {/if}>
+                                    {var canShare = sakai.api.Content.canCurrentUserShareContent(content3)}
+                                    <div class="carousel_two_high_bottom s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${content3.id}" {if sakai.api.Content.Collections.isCollection(content3)} data-collection="true" {/if}>
                                             <h2>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.link}">
                                                     ${content3["sakai:pooled-content-file-name"]|safeOutput}
                                                 </a>
                                             </h2>
-                                            ${contentButtons(content3.id, content3["sakai:pool-content-created-for"],content3["sakai:pooled-content-file-name"],content3.mimeType)}
+                                            ${contentButtons(content3.id, content3["sakai:pool-content-created-for"],content3["sakai:pooled-content-file-name"],content3.mimeType,canShare)}
                                     </div>
                                 {/if}
                             </div>

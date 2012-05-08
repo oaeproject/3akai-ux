@@ -108,9 +108,9 @@
         {for item in items}
             {if item["sakai:pooled-content-file-name"]}
                 {var count = count + 1}
-                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${item.id}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
+                {var canShare = sakai.api.Content.canCurrentUserShareContent(item)}
+                <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${item.id}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if} data-canshare="${canShare}">
                     <div class="s3d-search-result-user-functions s3d-draggable-hidden">
-                        {var canShare = sakai.api.Content.canCurrentUserShareContent(item)}
                         <div class="mylibrary_item_left_filler">
                             {if !sakai.data.me.user.anon}
                                 <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item["sakai:pooled-content-file-name"]|safeOutput}" data-type="${item.mimeType}" data-canshare="${canShare}"/>

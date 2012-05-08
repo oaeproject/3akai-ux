@@ -44,7 +44,8 @@
                             <span class="categories_item_header_meta">${item.count} content items</span>
                             {if item.content}
                                 {if item.content["sakai:pooled-content-file-name"]}
-                                    <div class="s3d-draggable-container" data-scope="content" data-entityid="${item.content["_path"]}" {if sakai.api.Content.Collections.isCollection(item.content)} data-collection="true" {/if}>
+                                    {var canShare = sakai.api.Content.canCurrentUserShareContent(item.content)}
+                                    <div class="s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${item.content["_path"]}" {if sakai.api.Content.Collections.isCollection(item.content)} data-collection="true" {/if}>
                                         <hr class="s3d-split-line fl-push">
                                         {var thumbnail = sakai.api.Content.getThumbnail(item.content)}
                                         {if thumbnail}
