@@ -51,7 +51,7 @@
 
         {macro listContent(i, sakai)}
             {var canShare = sakai.api.Content.canCurrentUserShareContent(i)}
-            <li id="${i.id}" class="fl-container fl-fix s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if} s3d-draggable-container" data-scope="content" data-entityid="${i["_path"]}" {if sakai.api.Content.Collections.isCollection(i)} data-collection="true" {/if}>
+            <li id="${i.id}" class="fl-container fl-fix s3d-search-result-content s3d-search-result{if i_index === "0"} s3d-search-result-first{/if} s3d-draggable-container" data-scope="content" data-entityid="${i["_path"]}" data-canshare="${canShare}" {if sakai.api.Content.Collections.isCollection(i)} data-collection="true" {/if}>
                 {if !editMode}
                     <span class="s3d-search-result-user-functions s3d-draggable-hidden">
                         {if !sakai.data.me.user.anon}
@@ -182,7 +182,8 @@
                         {if jQuery.isPlainObject(result)}
                             <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" data-item-id="${result._path}" title="${result['sakai:pooled-content-file-name']|safeOutput}">
                                 {var thumbnail = sakai.api.Content.getThumbnail(result)}
-                                <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-scope="content" data-entityid="${result._path}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
+                                {var canShare = sakai.api.Content.canCurrentUserShareContent(result)}
+                                <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${result._path}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
                                     {if thumbnail}
                                         <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result._mimeType}" />
                                     {elseif sakai.config.MimeTypes[result._mimeType]}
@@ -210,7 +211,7 @@
 <div id="collectionviewer_list_item_template"><!--
     {var canShare = sakai.api.Content.canCurrentUserShareContent(data)}
     <ul>
-        <li class="s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${data["_path"]}" {if sakai.api.Content.Collections.isCollection(data)} data-collection="true" {/if}>
+        <li class="s3d-search-result s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${data["_path"]}" {if sakai.api.Content.Collections.isCollection(data)} data-collection="true" {/if}>
 
             {if data['sakai:pooled-content-file-name']}
                 {var path = data["_path"] + "/" + sakai.api.Util.safeURL(data["sakai:pooled-content-file-name"])}
