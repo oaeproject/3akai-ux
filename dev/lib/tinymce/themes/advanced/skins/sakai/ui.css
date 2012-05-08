@@ -468,20 +468,20 @@
 }
 .sakaiSkin .mce_h4 span.mceText {
     font-family: Arial;
-    font-size: 13px;
+    font-size: 18px;
     color: #aaa;
-    text-transform: uppercase;
+    font-weight: bold;
 }
 .sakaiSkin .mce_h5 span.mceText {
     font-family: Arial;
     font-size: 18px;
     color: #aaa;
-    font-weight: bold;
 }
 .sakaiSkin .mce_h6 span.mceText {
     font-family: Arial;
-    font-size: 18px;
+    font-size: 13px;
     color: #aaa;
+    text-transform: uppercase;
 }
 .sakaiSkin .mce_blockquote span.mceText {
     font-family: Arial;
