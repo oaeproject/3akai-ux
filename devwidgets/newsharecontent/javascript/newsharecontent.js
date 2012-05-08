@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
+require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _){
 
     /**
      * @name sakai_global.newsharecontent
@@ -152,7 +152,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         var doShare = function(event, userlist, message, contentobj, role) {
             var userList = userlist || getSelectedList();
             var messageText = message || $.trim($newsharecontentMessage.val());
-            var shareMessage = $("#newsharecontent_users_added_text").text() + " ";
+            var shareMessage = $('#newsharecontent_users_added_text').text() + ' ';
             
             contentObj = contentobj || contentObj;
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
@@ -184,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                         shareMessage += userList.toAddNames[0];
                     }
 
-                    sakai.api.Util.notification.show(false, shareMessage, "");
+                    sakai.api.Util.notification.show(false, shareMessage, '');
                     $newsharecontentContainer.jqmHide();
                 }
             }
