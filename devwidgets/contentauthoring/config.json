@@ -9,6 +9,9 @@
             "bundle":     "/devwidgets/contentauthoring/bundles/default.properties",
             "name":       "Content Authoring",
             "description":"Content Authoring"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/contentauthoring/bundles/fr_FR.properties"
         }
     },
     "personalportal":     false,

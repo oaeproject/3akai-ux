@@ -1585,6 +1585,10 @@ define(function(){
             "language": "en",
             "displayName": "English (United States)"
         }, {
+            "country": "FR",
+            "language": "fr",
+            "displayName": "Français"
+        }, {
             "country": "JP",
             "language": "ja",
             "displayName": "日本語"

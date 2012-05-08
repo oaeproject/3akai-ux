@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/mycontent/bundles/default.properties",
             "name":"My content",
             "description":"My content"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mycontent/bundles/fr_FR.properties",
+            "name":"Mes contenus",
+            "description":"Mes contenus"
         }
     },
     "personalportal":true,

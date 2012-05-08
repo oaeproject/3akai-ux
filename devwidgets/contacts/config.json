@@ -7,6 +7,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/contacts/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contacts/bundles/fr_FR.properties"
         }
     },
     "id": "contacts",
