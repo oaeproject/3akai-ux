@@ -579,6 +579,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     saveRef: "",
                     showByDefault: true
                 });
+                $('#content_profile_preview_versions_container').toggle();
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 

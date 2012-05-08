@@ -245,8 +245,8 @@ define(function(){
          */
         roleCanShareContent: {
             'public': ['editor', 'viewer', 'everyone', 'anon'],
-            'everyone': ['editor', 'viewer', 'everyone'],
-            'private': ['editor', 'viewer']
+            'everyone': [],
+            'private': []
         },
 
         allowPasswordChange: true,

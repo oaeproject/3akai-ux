@@ -33,7 +33,8 @@
                     {if item.fullresult._mimeType === 'x-sakai/collection'}
                         <div id="widget_collectionviewer_${item.placement}" class="widget_inline"></div>
                     {else}
-                        <div class="${embedClass} ${layout} {if embedmethod === 'thumbnail'} s3d-draggable-container {/if}" data-scope="content" data-entityid="${item.fullresult._path}" {if sakai.api.Content.Collections.isCollection(item.fullresult)} data-collection="true" {/if}>
+                        {var canShare = sakai.api.Content.canCurrentUserShareContent(item.fullresult)}
+                        <div class="${embedClass} ${layout} {if embedmethod === 'thumbnail'} s3d-draggable-container {/if}" data-canshare="${canShare}" data-scope="content" data-entityid="${item.fullresult._path}" {if sakai.api.Content.Collections.isCollection(item.fullresult)} data-collection="true" {/if}>
                             {var mimeType = sakai.api.Content.getMimeType(item.fullresult)}
                             {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(mimeType).description)}
                             {var thumbnail = sakai.api.Content.getThumbnail(item.fullresult)}
