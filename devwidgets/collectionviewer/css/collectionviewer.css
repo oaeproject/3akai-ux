@@ -60,14 +60,6 @@
     line-height: 22px;
     color: #666666;
 }
-.collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_item_actions {
-    display: none;
-}
-.collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result:hover .collectionviewer_item_actions, .collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result.hovered .collectionviewer_item_actions {
-    display: inline;
-    position: absolute;
-    right: 42px;
-}
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button {
     float: right;
     margin-left: 10px;

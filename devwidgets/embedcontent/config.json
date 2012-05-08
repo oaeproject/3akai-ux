@@ -9,6 +9,9 @@
             "bundle": "/devwidgets/embedcontent/bundles/default.properties",
             "name": "Files and documents",
             "description": "Embed content on a page"
+        },
+       "fr_FR": {
+            "bundle": "/devwidgets/embedcontent/bundles/fr_FR.properties"
         }
     },
     "defaultOptions": {

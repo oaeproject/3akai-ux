@@ -253,11 +253,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * Initialization function DOCUMENTATION
          */
         $(window).bind("sakai.search.util.finish", function(ev){
-            sakai.api.Widgets.widgetLoader.insertWidgets("searchcontent_widget", false, false, [{
+            sakai.api.Widgets.widgetLoader.insertWidgets('searchcontent_widget', false, false, {
                 "id845719741363": {
                     "facetedConfig": searchConfig.facetedConfig
                 }
-            }]);
+            });
             doSearch();
         });
         

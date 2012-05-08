@@ -51,6 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var $contactsResultCount = $('.s3d-search-result-count', $rootel);
         var contacts = {  // global data for contacts widget
             initialized: false,
+            isOwnerViewing: false,
             totalItems: 0,
             sortBy: "lastName",
             sortOrder: "asc",
@@ -305,6 +306,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var handleHashChange = function(){
             uncheckAll();
+
+            if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
+                contacts.isOwnerViewing = true;
+            } else {
+                contacts.isOwnerViewing = false;
+            }
+
+            sakai.api.Util.TemplateRenderer('contacts_title_template', {
+                isMe: contacts.isOwnerViewing,
+                user: sakai_global.profile.main.data.basic.elements.firstName.value
+            }, $('#contacts_title_container', $rootel));
 
             $(".s3d-listview-options", $rootel).find("div").removeClass("selected");
             contacts.listStyle = $.bbq.getState("ls") || "list";

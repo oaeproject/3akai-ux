@@ -8,9 +8,9 @@
     <div id="mymemberships_title_container"></div>
     <div id="mymemberships_title_template"><!--
         {if isMe}
-            <div class='s3d-contentpage-title'>__MSG__MY_MEMBERSHIPS__</div>
+            <h1 class="s3d-contentpage-title">__MSG__MY_MEMBERSHIPS__</h1>
         {else}
-            <div class='s3d-contentpage-title'>__MSG__MY_MEMBERSHIPS_OTHER__</div>
+            <h2 class="s3d-contentpage-title">__MSG__MY_MEMBERSHIPS_OTHER__</h2>
         {/if}
     --></div>
 
@@ -61,7 +61,7 @@
     <div class="s3d-no-results-container" id="mymemberships_nosearchresults" style="display:none;">
         <div class="s3d-no-results-arrow-up"></div>
         <div class="s3d-no-results-icon s3d-no-results-search-world less-margin"></div>
-        <h1>__MSG__YOUR_SEARCH_DID_NOT_RETURN_ANY_RESULTS__</h1>
+        <p>__MSG__YOUR_SEARCH_DID_NOT_RETURN_ANY_RESULTS__</p>
     </div>
 
     <div id="mymemberships_nogroups_template" style="display:none"><!--
@@ -69,13 +69,13 @@
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
                 <div class="s3d-no-results-icon s3d-no-results-memberships less-margin"></div>
-                <h1>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a class="s3d-regular-links" href="/create#l=group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
+                <p>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a class="s3d-regular-links" href="/create#l=group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></p>
             </div>
         {else}
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
                 <div class="s3d-no-results-icon s3d-no-results-memberships less-margin"></div>
-                <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
+                <p>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</p>
             </div>
         {/if}
     --></div>
@@ -95,7 +95,7 @@
             <li id="mymemberships_item_${group.id}" class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result mymemberships_item {if count == 1} mymemberships_item_first s3d-search-resultfirst{/if}">
                 <span class="mymemberships_item_user_functions s3d-search-result-user-functions" style="display:none;">
                     <span class="mymemberships_item_right_buttons">
-                        <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group"></button>
+                        <button title="__MSG__SEND_A_MESSAGE_TO__ ${group.title|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group"></button>
                     </span>
                     {if isOwnerViewing}
                         <div class="mymemberships_item_left_filler">
@@ -115,12 +115,9 @@
                 </span>
                 <span class="mymemberships_item_anonuser"></span>
                 <a href="${group.url|safeOutput}" title="__MSG__VIEW_GROUP__">
-                    {if !group.picsrc}
-                        <img class="mymemberships_group_pic" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL}" />
-                        <img class="s3d-search-result-avatar-large" src="${sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE}"/>
-                    {else}
-                        <img class="mymemberships_group_pic" src="${group.picsrc}"/>
-                        <img class="s3d-search-result-avatar-large" src="${group.picsrc}"/>
+                    <img src="${group.picPath}" alt="${group.title|safeOutput}">
+                    {if group.picPathLarge}
+                        <img src="${group.picPathLarge}" class="s3d-search-result-avatar-large" alt="${group.title|safeOutput}">
                     {/if}
                 </a>
                 <div class="mymemberships_item_right s3d-search-result-right">

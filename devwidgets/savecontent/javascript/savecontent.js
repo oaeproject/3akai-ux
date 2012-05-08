@@ -136,6 +136,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(!sakai.api.Content.isContentInLibrary(content.body, sakai.data.me.user.userid) && !sakai.api.Content.Collections.isCollectionInMyLibrary(content.body)){
                     contentObj.libraryHasIt = false;
                 }
+                content.body.canShare = sakai.api.Content.canCurrentUserShareContent(content.body);
             });
             toggleSavecontent();
         };
@@ -296,6 +297,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(".savecontent_trigger").live("click", function(el){
             clickedEl = $(this);
+            
+            //SAKIII-5514 Fix for disabled buttons in Chrome
+            if (!$(el.target).is(clickedEl) && clickedEl.attr('disabled')) {
+                return false;
+            }
+            
             idArr = clickedEl.attr("data-entityid");
             if(idArr.length > 1 && !$.isArray(idArr)){
                 idArr = idArr.split(",");

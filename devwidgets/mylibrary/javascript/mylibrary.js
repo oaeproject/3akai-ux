@@ -294,15 +294,30 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var updateButtonData = function() {
-            var idArr = [];
-            var titleArr = [];
+            var shareIdArr = [];
+            var addToIdArr = [];
+            var addToTitleArr = [];
+            var noShareTitleArr = [];
             $.each($('.mylibrary_check:checked:visible', $rootel), function(i, checked) {
-                idArr.push($(checked).attr('data-entityid'));
-                titleArr.push($(checked).attr('data-entityname'));
+                addToIdArr.push($(checked).attr('data-entityid'));
+                addToTitleArr.push($(checked).attr('data-entityname'));
+                if ($(checked).attr('data-canshare') === 'true') {
+                    shareIdArr.push($(checked).attr('data-entityid'));
+                } else if (!$(checked).attr('data-canshare-error')) {
+                    $(checked).attr('data-canshare-error', 'true');
+                    noShareTitleArr.push($(checked).attr('data-entityname'));
+                }
             });
-            $('#mylibrary_content_share', $rootel).attr('data-entityid', idArr);
-            $('#mylibrary_addpeople_button', $rootel).attr('data-entityid', idArr);
-            $('#mylibrary_addpeople_button', $rootel).attr('data-entityname', titleArr);
+            $mylibrary_share.attr('data-entityid', shareIdArr);
+            $mylibrary_addto.attr('data-entityid', addToIdArr);
+            $mylibrary_addto.attr('data-entityname', addToTitleArr);
+            if (!shareIdArr.length) {
+                $mylibrary_share.attr('disabled', 'disabled');
+            }
+            if (noShareTitleArr.length) {
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR'),
+                    sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR_TEXT') + ' ' + noShareTitleArr.join(', '));
+            }
         };
 
         ////////////////////

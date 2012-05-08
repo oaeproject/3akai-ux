@@ -144,6 +144,61 @@ define(
         },
 
         /**
+         * Copy one node to another node
+         *
+         * @param {Object} config JSON object which has several options
+         *  - source: The source path, where you want to copy from
+         *  - destination: The destination path, where you want to copy to
+         *  - replace: If true, it will remove the destination branch before doing the copy
+         * @param {Function} callback A callback function which is executed at the end of the operation
+         */
+        copy : function(config, callback) {
+
+            // Argument check
+            if (!config.source || !config.destination) {
+
+                // Log the error message
+                debug.warn('sakai.api.Server.copy: Not enough or empty arguments!');
+
+                // Still invoke the callback function
+                if ($.isFunction(callback)) {
+                    callback(false, 'The supplied arguments were incorrect.');
+                }
+
+                // Make sure none of the other code in this function is executed
+                return;
+            }
+
+            var batchRequests = [];
+
+            // If replace is true, we'll remove the destination branch first
+            if (config.replace) {
+                batchRequests.push({
+                    'url': config.destination,
+                    'method': 'POST',
+                    'parameters': {
+                        ':operation': 'delete'
+                    }
+                });
+            }
+
+            // The actual copy operation
+            batchRequests.push({
+                'url': config.source,
+                'method': 'POST',
+                'parameters': {
+                    ':operation': 'copy',
+                    ':dest': config.destination,
+                    ':replace': true
+                }
+            });
+
+            // Execute the batch operation
+            sakaiServerAPI.batch(batchRequests, callback, false, true);
+
+        },
+
+        /**
          * Saves a specified JSON object to a specified URL in JCR. The structure of JSON data will be re-created in JCR as a node hierarchy.
          *
          * @param {String} i_url The path to the preference where it needs to be
@@ -154,10 +209,11 @@ define(
          * end of the operation
          * @param {Boolean} removeTree If we should replace the entire tree of saved data or just update it
          * @param {Array} indexFields Fields to index in the data (used for widgets, and is optional)
+         * @param {Boolean} merge If false, it will truly replace the content during an import - the default is true
          *
          * @returns {Void}
          */
-        saveJSON : function(i_url, i_data, callback, removeTree, indexFields) {
+        saveJSON : function(i_url, i_data, callback, removeTree, indexFields, merge) {
 
             // Argument check
             if (!i_url || !i_data) {
@@ -271,6 +327,7 @@ define(
             var postData = {
                 ':operation': 'import',
                 ':contentType': 'json',
+                ':merge': (merge === false) ? false : true,
                 ':replace': true,
                 ':replaceProperties': true,
                 '_charset_':'utf-8'

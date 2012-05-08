@@ -155,7 +155,7 @@
     </div>
 
     <div id="newaddcontent_container_selecteditems">
-        <div id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__</div>
+        <h2 id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__</h2>
         <div id="newaddcontent_container_selecteditems_container"><!-- --></div>
     </div>
 
@@ -283,36 +283,38 @@
                     <div class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
                         <div class="s3d-no-results-icon s3d-no-results-search-content"></div>
-                        <h1>__MSG__NO_RESULTS_DESCRIPTION_QUERY__</h1>
+                        <p>__MSG__NO_RESULTS_DESCRIPTION_QUERY__</p>
                     </div>
                 {elseif context == "everything"}
                     <div class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
                         <div class="s3d-no-results-icon s3d-no-results-upload"></div>
-                        <h1>__MSG__NO_RESULTS_DESCRIPTION_EVERYTHING__</h1>
+                        <p>__MSG__NO_RESULTS_DESCRIPTION_EVERYTHING__</p>
                     </div>
                 {elseif context == "my_library"}
                     <div class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
                         <div class="s3d-no-results-icon s3d-no-results-upload"></div>
-                        <h1>__MSG__NO_RESULTS_DESCRIPTION_MY_LIBRARY__</h1>
+                        <p>__MSG__NO_RESULTS_DESCRIPTION_MY_LIBRARY__</p>
                     </div>
                 {/if}
             {/if}
         </ul>
 --></div>
 
+<!--- Should work when uploading single/multiple items to My Library or someone else's library --->
 <div id="newaddcontent_notification_finished_template" style="display:none;"><!--
-    {if me.user.userid === libraryid}
-        __MSG__MY_LIBRARY_ADDED__
-    {elseif sakai.api.Content.Collections.isCollection(libraryid)}
-        __MSG__COLLECTION_ADDED__
+    {if uploadcount === 1}
+        __MSG__FILE_UPLOAD_PREFIX_SINGLE__
     {else}
-        __MSG__THIS_CONTENT_HAS_BEEN_ADDED_TO__ <a href="/~${libraryid}#l=library">${librarytitle|safeOutput}</a>
+        __MSG__FILE_UPLOAD_PREFIX_MULTI__
     {/if}
---></div>
-<div id="newaddcontent_notification_collection_finished_template" style="display:none;"><!--
-    __MSG__COLLECTION_ADDED__
+    
+    {if uploadtocollection}
+        __MSG__FILE_UPLOAD_SUFFIX_COLLECTION__
+    {else}
+        __MSG__FILE_UPLOAD_SUFFIX_LIBRARY__
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->

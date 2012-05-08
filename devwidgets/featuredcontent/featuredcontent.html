@@ -19,7 +19,9 @@
     {macro actionbuttons(item, sakai)}
         <fieldset class="featuredcontent_content_actions s3d-draggable-hidden">
         <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
-            <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
+            {if item.canShare}
+                <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
+            {/if}
             {if !sakai.data.me.user.anon}
                 <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__SAVE_CONTENT__"></div>
             {/if}
@@ -56,7 +58,7 @@
     {/macro}
 
     {if results && results.length}
-        <div class="s3d-contentpage-title">{if sakai.config.enableCategories}__MSG__FEATURED_CONTENT__{else}__MSG__SUGGESTED__{/if}</div>
+        <h2 class="s3d-contentpage-title">{if sakai.config.enableCategories}__MSG__FEATURED_CONTENT__{else}__MSG__SUGGESTED__{/if}</h2>
         <div id="featuredcontent_content_offset_container">
         {for item in results}
             {if item_index === "0"}
@@ -123,10 +125,9 @@
     {else}
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
-            <div class="s3d-no-results-icon s3d-no-results-content"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/create" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</h1>
+            <div class="s3d-no-results-icon s3d-no-results-content"></div><p>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/create" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</p>
         </div>
     {/if}
-    <div class="footer_bg s3d-contentpage-title"></div>
 
 --></div>
 
@@ -138,12 +139,12 @@
 
 <div id="featuredcontent_category_other_template"><!--
     <div class="s3d-widget-container">
-        <div class="s3d-contentpage-title">__MSG__CONTENT__
+        <h2 class="s3d-contentpage-title s3d-contentpage-title-notdraggable">__MSG__CONTENT__
             <span class="s3d-counts-outer">
                 <span class="s3d-counts-inner">${total}</span>
                 {if showSeeAll}<a id="featuredcontent_showall" href="/search#l=content&refine=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>{/if}
             </span>
-        </div>
+        </h2>
         {var count = 0}
         {for item in results}
             ${count++|eat}
@@ -151,7 +152,9 @@
                 <div class="featuredcontent_content featuredcontent_content_small s3d-draggable-container" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     <fieldset class="featuredcontent_content_actions s3d-draggable-hidden">
                         <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
-                        <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
+                        {if item.canShare}
+                            <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
+                        {/if}
                         {if !sakai.data.me.user.anon}
                             <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__SAVE_CONTENT__"></div>
                         {/if}
@@ -173,7 +176,7 @@
         {forelse}
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
-                <div class="s3d-no-results-icon s3d-no-results-content"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <button class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_REAL_CONTENT__</button>{/if}</h1>
+                <div class="s3d-no-results-icon s3d-no-results-content"></div><p>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <button class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_REAL_CONTENT__</button>{/if}</p>
             </div>
         {/for}
         <hr class="fl-push fl-hidden"/>

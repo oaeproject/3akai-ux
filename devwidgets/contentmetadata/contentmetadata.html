@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentmetadata/css/contentmetadata.css" />
 
 <div class="s3d-widget-container" id="contentmetadata_container">
-    <div class="s3d-contentpage-title metadata">__MSG__DETAILS__</div>
+    <h2 class="s3d-contentpage-title metadata">__MSG__DETAILS__</h2>
     <div id="contentmetadata_description_container" class="contentmetadata_editable_for_maintainers contentmetadata_jedit" data-edit-field="description">
         <!-- -->
     </div>
@@ -30,13 +30,13 @@
     <span class="contentmetadata_first_column">__MSG__DESCRIPTION__:</span>
     <span class="contentmetadata_second_column">
         {if $.trim(data.data["sakai:description"])}
-            {if data.isManager}
+            {if data.isManager || data.isEditor}
                 <div class="contentmetadata_description_textarea contentmetadata_edit_input">${data.data["sakai:description"]|safeOutput}</div>
             {else}
                 ${data.data["sakai:description"]|safeOutput}
             {/if}
         {else}
-            {if data.isManager}
+            {if data.isManager || data.isEditor}
                 <div class="contentmetadata_description_textarea contentmetadata_edit_input"></div>
             {else}
                 __MSG__NO_DESCRIPTION__
@@ -61,7 +61,7 @@
                     {/for}
                 </span>
             {else}
-                {if data.isManager}
+                {if data.isManager || data.isEditor}
                    <label class="contentmetadata_manager_edit content_profile_basic_info_form_anon_label">__MSG__CLICK_TO_EDIT_TAGS__
                 {else}
                     <label class="content_profile_basic_info_form_anon_label">__MSG__NO_TAGS__
@@ -75,7 +75,7 @@
     <span class="contentmetadata_first_column">__MSG__URL__:</span>
     <span class="contentmetadata_second_column">
         {if $.trim(data.data["sakai:pooled-content-url"])}
-            {if data.isManager}
+            {if data.isManager || data.isEditor}
                 <div class="contentmetadata_url_textarea contentmetadata_edit_input">
                     <a class="s3d-action" target="_blank" href="${data.data["sakai:pooled-content-url"]}">
                         ${data.data["sakai:pooled-content-url"]}
@@ -87,7 +87,7 @@
                 </a>
             {/if}
         {else}
-            {if data.isManager}
+            {if data.isManager || data.isEditor}
                 <div class="contentmetadata_url_textarea contentmetadata_edit_input"></div>
             {else}
                 __MSG__NO_URL__
@@ -101,7 +101,7 @@
     <span class="contentmetadata_second_column">
         {for copyrightLabel in sakai.config.Permissions.Copyright.types}
             {if data.data["sakai:copyright"] === copyrightLabel_index}
-                <label class="content_profile_basic_info_form_anon_label{if data.isManager} contentmetadata_edit_area_select{/if}">
+                <label class="content_profile_basic_info_form_anon_label{if data.isManager || data.isEditor} contentmetadata_edit_area_select{/if}">
                     ${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}
                 </label>
             {/if}
