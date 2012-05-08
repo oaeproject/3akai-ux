@@ -29,7 +29,7 @@
                         {if !sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document"}
                             <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button versions_restore_version">__MSG__RESTORE__</button>
                         {else}
-                            <a href="${currentPage.pageSavePath|safeOutput}.version.,${version.versionId|safeOutput},/${version["sakai:pooled-content-file-name"]|safeOutput}" target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button">
+                            <a href="${currentPage.pageSavePath|safeOutput}.version.,${version.versionId|safeOutput},{if version["sakai:pooled-content-file-name"]}/${version["sakai:pooled-content-file-name"]|safeOutput}{/if}" target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button">
                                 __MSG__DOWNLOAD__
                             </a>
                         {/if}
