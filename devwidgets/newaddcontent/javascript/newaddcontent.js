@@ -391,6 +391,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                                 'sakai:pooled-content-manager': managers,
                                 '_path': item.id,
                                 '_mimeType': $(item).data('mimetype'),
+                                'canshare': $(item).data('canshare'),
                                 'type': 'existing',
                                 'css_class': $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
                             };
@@ -867,7 +868,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                         });
                     } else {
                         // Don't make the authorizable a viewer if it's already part of the library
-                        if (!sakai.api.Content.isContentInLibrary(item, libraryToUploadTo)) {
+                        if (!sakai.api.Content.isContentInLibrary(item, libraryToUploadTo) &&
+                            (item.canshare || libraryToUploadTo === sakai.data.me.user.userid)) {
                             sakai.api.Content.addToLibrary(item['_path'], libraryToUploadTo, false, function() {
                                 item['sakai:pooled-content-viewer'] = item['sakai:pooled-content-viewer'] || [];
                                 item['sakai:pooled-content-viewer'].push(libraryToUploadTo);
