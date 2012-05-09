@@ -157,6 +157,68 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Runs the templaterenderer for the download container, shows it and adds binding to the links
+         * @param {boolean} The needsprocessing value of the Sakai Document, so we only show the PDF link if a file has been processed
+         *                  When no file has been converted the value does not exist
+         * @param {boolean} The processingfailed value of the Sakai Document, so we do not create links for unexisting files
+         */
+        var showDownload = function (needsprocessing, processingfailed) {
+            var id = sakai_global.content_profile.content_data.data['_path'];
+            var name = sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']
+            
+            //Render the download container
+            $('#entity_download_container').html(sakai.api.Util.TemplateRenderer('#entity_download_template', {
+                'id': id,
+                'name': name,
+                'needsprocessing': needsprocessing,
+                'processingfailed': processingfailed
+            }));
+            
+            //Overlay setup
+            sakai.api.Util.Modal.setup('#entity_download', {
+                modal: true,
+                overlay: 20,
+                toTop: true,
+                zIndex: 9999
+            });
+            
+            //Show download overlay
+            sakai.api.Util.Modal.open('#entity_download');
+            
+            //PDF Button
+            $('#entity_download_button_pdf').on('click', function(){
+                sakai.api.Util.Modal.close('#entity_download');
+                $('#entity_download_button_pdf').off('click');
+            });
+            
+            //IMSCP Button
+            $('#entity_download_button_imscp').on('click', function(){
+                sakai.api.Util.Modal.close('#entity_download');
+                $('#entity_download_button_imscp').off('click');
+            });
+        }
+
+        /**
+         * Get data about doc to see if it is available
+         * We do an ajax call to get the latest data and setup the download overlay
+         */
+        var getAvailability = function () {
+            $.ajax({
+                url: sakai_global.content_profile.content_data['content_path'] + '.json',
+                type: 'GET',
+                success: function (data) {
+                    //call showDownload function to set up the download overlay
+                    showDownload(data['sakai:needsprocessing'], data['sakai:processing_failed']);
+                },
+                error: function () {
+                    //we set variables to true (which do not show the download) when loading fails.
+                    showDownload(true, true);
+                }
+            });
+        }
+
+
+        /**
          * Get the complete user list
          * This includes managers, viewers and editors
          * @return {Array} All the users for a specific content item
@@ -605,6 +667,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".addpeople_init").live("click", function(){
                 $(window).trigger("init.addpeople.sakai", [tuid, true]);
                 $("#entity_groupsettings_dropdown").jqmHide();
+            });
+
+            $('#contentpreview_download_overlay_button').on('click', function() {
+                getAvailability();
             });
 
             $(".entity_owns_actions_container .ew_permissions").live("hover", function(){
