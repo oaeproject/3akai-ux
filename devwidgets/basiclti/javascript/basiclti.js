@@ -447,6 +447,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     }
                 } else if (showSettings) {
                     displaySettings(null, false);
+                } else {
+                    $(basicltiMainContainer, $rootel).html($('#basiclti_no_settings').text());
                 }
             }, false);
         };
