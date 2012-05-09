@@ -521,9 +521,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     else {
                         displayRemoteContent(data);
                     } 
-                }
-                else {
+                } else if (showSettings) {
                     displaySettings(null, false);
+                } else {
+                    $(basicltiMainContainer, rootel).html($('#sakai2tools_no_settings').text());
                 }
             }, false);
         };
