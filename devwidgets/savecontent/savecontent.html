@@ -79,6 +79,16 @@
             {/for}
         {/if}
     </select>
+    {if !canShare}
+        <span class="s3d-bold">__MSG__SOME_ITEMS_CANT_BE_SHARED__ __MSG__UNCHECK_FOR_MORE_OPTIONS__</span>
+        <ul id="savecontent_cant_share_list">
+            {for file in files}
+                {if !file.body.canShare}
+                    <li>${file.body["sakai:pooled-content-file-name"]}</li>
+                {/if}
+            {/for}
+        </ul>
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->

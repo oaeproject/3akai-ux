@@ -15,10 +15,35 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#savecontent_widget {color: #333333;position:absolute;display:none;width:250px;}
-#savecontent_title {font-size: 13px; margin: 10px 10px 5px;}
-#savecontent_select {margin-top:10px;width:220px;border:1px solid #999999;height:20px;}
-#savecontent_widget button {margin:10px 10px 10px 0px;}
-#savecontent_widget .savecontent_close {margin-right:20px;padding-top:6px;}
-#savecontent_widget #savecontent_select option {padding:3px 0;}
-#savecontent_widget #mylibrary_option, #savecontent_widget #mylibrary_group_first {border-top:1px solid #ddd;}
+#savecontent_widget {
+    color: #333;
+    display: none;
+    position: absolute;
+    width: 250px;
+}
+#savecontent_widget #savecontent_title {
+    font-size: 13px;
+    margin: 10px 10px 5px;
+}
+#savecontent_widget #savecontent_select {
+    border: 1px solid #999;
+    height: 20px;
+    margin: 10px 0;
+    width: 220px;
+}
+#savecontent_widget button {
+    margin: 10px 10px 10px 0px;
+}
+#savecontent_widget .savecontent_close {
+    margin-right: 20px;
+    padding-top: 6px;
+}
+#savecontent_widget #savecontent_select option {
+    padding: 3px 0;
+}
+#savecontent_widget #mylibrary_option, #savecontent_widget #mylibrary_group_first {
+    border-top: 1px solid #ddd;
+}
+#savecontent_widget #savecontent_cant_share_list {
+    margin: 5px 0 0 17px;
+}
