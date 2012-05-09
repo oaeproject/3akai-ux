@@ -104,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          */
         var fillInUserInfo = function(user){
             if (user) {
-                $(addToContactsInfoDisplayName, $rootel).text(user.displayName);
+                $(addToContactsInfoDisplayName, $rootel).html(user.displayName);
                 if (!user.pictureLink) {
                     user.pictureLink = sakai.api.Util.constructProfilePicture(user);
                 }
@@ -160,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                 var personalnote = $.trim(formValues[addToContactsFormPersonalNote.replace(/#/gi, '')]);
 
                 // send message to other person
-                var userstring = $.trim(sakai.api.User.getDisplayName(sakai.data.me.profile));
+                var userstring = $.trim(sakai.api.User.getDisplayName(sakai.data.me.profile, false));
 
                 var title = $.trim($("#addtocontacts_invitation_title_key").text().replace(/\$\{user\}/g, userstring));
                 var message = $.trim($("#addtocontacts_invitation_body_key").text().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,"\n"));
@@ -214,7 +214,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
-            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", sakai.api.Security.safeOutput(contactToAdd.displayName)));
+            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", contactToAdd.displayName));
             hash.w.show();
         };
 

@@ -244,7 +244,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     structure[level] = sakai.api.i18n.General.process(structure[level]);
                 } else if (level && level === '_altTitle') {
                     structure[level] = sakai.api.i18n.General.process(structure[level]);
-                    structure[level] = structure[level].replace('${user}', sakai.api.User.getFirstName(contextData.profile));
+                    structure[level] = structure[level].replace('${user}', sakai.api.User.getFirstName(contextData.profile, false));
                 }
             }
             structure._childCount = childCount;
