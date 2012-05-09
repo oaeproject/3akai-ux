@@ -142,7 +142,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
                 isMe: mylibrary.isOwnerViewing,
                 isGroup: isGroup,
-                user: sakai.api.Util.Security.safeOutput(contextName)
+                user: contextName
             }, $('#mylibrary_title_container', $rootel));
         };
 
@@ -535,7 +535,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Server.loadJSON('/system/userManager/group/' +  mylibrary.contextId + '.json', function(success, data) {
                 if (success) {
                     currentGroup = data;
-                    var contextName = currentGroup.properties['sakai:group-title'];
+                    var contextName = sakai.api.Util.Security.safeOutput(currentGroup.properties['sakai:group-title']);
                     mylibrary.isOwnerViewing = sakai.api.Groups.isCurrentUserAManager(currentGroup.properties['sakai:group-id'], sakai.data.me, currentGroup.properties);
                     mylibrary.isMemberViewing = sakai.api.Groups.isCurrentUserAMember(currentGroup.properties['sakai:group-id'], sakai.data.me);
                     finishInit(contextName, true);

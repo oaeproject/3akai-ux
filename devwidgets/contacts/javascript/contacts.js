@@ -315,7 +315,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             sakai.api.Util.TemplateRenderer('contacts_title_template', {
                 isMe: contacts.isOwnerViewing,
-                user: sakai_global.profile.main.data.basic.elements.firstName.value
+                user: sakai.api.User.getFirstName(sakai_global.profile.main.data)
             }, $('#contacts_title_container', $rootel));
 
             $(".s3d-listview-options", $rootel).find("div").removeClass("selected");

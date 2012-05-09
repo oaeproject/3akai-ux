@@ -504,9 +504,15 @@ define(
          * and parses it from the profile elements
          *
          * @param {Object} profile the user's profile (data.me.profile for the current user)
+         * @param {Boolean} doSafeOutput (Optional) perform html safe output. Defaults to true
          * @return {String} the first name to show for a user
          */
-        getFirstName : function(profile) {
+        getFirstName : function(profile, doSafeOutput) {
+            var safeOutput = true;
+            if (doSafeOutput !== undefined) {
+                safeOutput = doSafeOutput;
+            }
+
             var configFirstName = [sakai_conf.Profile.userFirstNameDisplay];
             var nameToReturn = "";
 
@@ -518,7 +524,11 @@ define(
                 nameToReturn += profile.basic.elements[configFirstName].value;
             }
 
-            return sakai_util.Security.safeOutput($.trim(nameToReturn));
+            if (safeOutput) {
+                return sakai_util.Security.safeOutput($.trim(nameToReturn));
+            } else {
+                return $.trim(nameToReturn);
+            }
         },
 
         /**
@@ -526,9 +536,15 @@ define(
          * and parses it from the profile elements
          *
          * @param {Object} profile the user's profile (data.me.profile for the current user)
+         * @param {Boolean} doSafeOutput (Optional) perform html safe output. Defaults to true
          * @return {String} the name to show for a user
          */
-        getDisplayName : function(profile) {
+        getDisplayName : function(profile, doSafeOutput) {
+            var safeOutput = true;
+            if (doSafeOutput !== undefined) {
+                safeOutput = doSafeOutput;
+            }
+
             var configDisplayName = [sakai_conf.Profile.userNameDisplay, sakai_conf.Profile.userNameDefaultDisplay];
             var nameToReturn = "";
             var done = false;
@@ -562,7 +578,11 @@ define(
                     return "";
                 }
             } else {
-                return sakai_util.Security.safeOutput($.trim(nameToReturn));
+                if (safeOutput) {
+                    return sakai_util.Security.safeOutput($.trim(nameToReturn));
+                } else {
+                    return $.trim(nameToReturn);
+                }
             }
             return false;
         },
