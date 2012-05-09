@@ -406,7 +406,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             } else if (showSettings) {
                     displaySettings(null, false);
-                }
             }
         };
 
