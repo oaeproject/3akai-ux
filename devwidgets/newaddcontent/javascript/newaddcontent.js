@@ -526,8 +526,15 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             itemsUploaded++;
             if(itemsToUpload.length === itemsUploaded) {
                 sakai.data.me.user.properties.contentCount += itemsUploaded;
-                var itemsAdded = $.extend(true, [], existingAdded);
-                $.merge(itemsAdded, lastUpload);
+                var tmpItemsAdded = $.extend(true, [], existingAdded);
+                var itemsAdded = [];
+                $.merge(tmpItemsAdded, lastUpload);
+                // SAKIII-5583 Filter out items that cannot be shared (and were not shared)
+                $.each(tmpItemsAdded, function(index, item) {
+                    if (sakai.api.Content.canCurrentUserShareContent(item)) {
+                        itemsAdded.push(item);
+                    }
+                });
                 $(window).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
                 // If adding to a group library or collection, these will also still be added to my library
                 if (libraryToUploadTo !== sakai.data.me.user.userid) {
@@ -869,7 +876,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     } else {
                         // Don't make the authorizable a viewer if it's already part of the library
                         if (!sakai.api.Content.isContentInLibrary(item, libraryToUploadTo) &&
-                            (item.canshare || libraryToUploadTo === sakai.data.me.user.userid)) {
+                            (sakai.api.Content.canCurrentUserShareContent(item) ||
+                            libraryToUploadTo === sakai.data.me.user.userid)) {
                             sakai.api.Content.addToLibrary(item['_path'], libraryToUploadTo, false, function() {
                                 item['sakai:pooled-content-viewer'] = item['sakai:pooled-content-viewer'] || [];
                                 item['sakai:pooled-content-viewer'].push(libraryToUploadTo);
