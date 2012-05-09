@@ -291,10 +291,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     }
                 });
             } else {
+                var currentCount = parseInt($('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(), 10);
                 // Update the header of the library if necessary
                 if (inCollection) {
                     $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
-                        sakai.data.me.user.properties.contentCount);
+                        currentCount + amount);
                 }
             }
         };
