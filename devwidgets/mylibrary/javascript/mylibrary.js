@@ -297,7 +297,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var shareIdArr = [];
             var addToIdArr = [];
             var addToTitleArr = [];
-            var noShareTitleArr = [];
             $.each($('.mylibrary_check:checked:visible', $rootel), function(i, checked) {
                 addToIdArr.push($(checked).attr('data-entityid'));
                 addToTitleArr.push($(checked).attr('data-entityname'));
@@ -305,7 +304,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     shareIdArr.push($(checked).attr('data-entityid'));
                 } else if (!$(checked).attr('data-canshare-error')) {
                     $(checked).attr('data-canshare-error', 'true');
-                    noShareTitleArr.push($(checked).attr('data-entityname'));
                 }
             });
             $mylibrary_share.attr('data-entityid', shareIdArr);
@@ -313,10 +311,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $mylibrary_addto.attr('data-entityname', addToTitleArr);
             if (!shareIdArr.length) {
                 $mylibrary_share.attr('disabled', 'disabled');
-            }
-            if (noShareTitleArr.length) {
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR'),
-                    sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR_TEXT') + ' ' + noShareTitleArr.join(', '));
             }
         };
 
