@@ -1073,6 +1073,16 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     if (data && data.results) {
                         existingItems = data.results;
                     }
+                    
+                    // SAKIII-5583 Filter out items that are private and that you're not allowed to manage.
+                    data.results = _.filter(data.results, function(val, key) {
+                        var includeInResults = true;
+                        if (val['sakai:permissions'] === 'private') {
+                            includeInResults = _.include(val['sakai:pooled-content-manager'], sakai.data.me.user.userid);
+                        }
+                        return includeInResults;
+                    });
+
                     $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {'data': data, 'query':q, 'sakai':sakai, 'queue':existingIDs, 'context':currentExistingContext}));
                     // Disable the add button
                     disableAddToQueue();
