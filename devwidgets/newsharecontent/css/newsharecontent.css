@@ -95,6 +95,12 @@
     margin-bottom: 10px;
     width: 218px;
 }
+#newsharecontent_widget #newsharecontent_cantshare_container {
+    margin-top: 10px;
+}
+#newsharecontent_widget #newsharecontent_cantshare_container ul {
+    margin: 5px 0 0 17px;
+}
 #toolbox {
     margin-bottom: 12px;
 }
