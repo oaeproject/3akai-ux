@@ -161,8 +161,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
         var renderIframeSettings = function(complete) {
-            if (complete) { 
-                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + '/_widgets').replace(/__TUID__/, tuid).replace(/__NAME__/, 'basiclti') + '.launch.html';               
+            if (complete) {
+                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + '/_widgets').replace(/__TUID__/, tuid).replace(/__NAME__/, 'basiclti') + '.launch.html';
                 $(basicltiSettingsPreview, $rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
             } else {
                 $(basicltiSettingsPreviewFrame, $rootel).attr('style', 'border: ' + json.border_size + 'px #' + json.border_color + ' solid');
@@ -254,7 +254,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Save the basiclti to the jcr
          */
         var saveRemoteContent = function(){
- 
+
             if (json.ltiurl !== '') {
 
                 var savejson = {
@@ -445,8 +445,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     } else {
                         displayRemoteContent(data);
                     }
-                } else {
+                } else if (showSettings) {
                     displaySettings(null, false);
+                } else {
+                    $(basicltiMainContainer, $rootel).html($('#basiclti_no_settings').text());
                 }
             }, false);
         };
