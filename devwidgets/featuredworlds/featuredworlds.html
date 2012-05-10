@@ -8,7 +8,7 @@
 </div>
 
 <div id="featuredworlds_template"><!--
-    <h2 class="s3d-contentpage-title s3d-contentpage-title-notdraggable">
+    <div class="s3d-contentpage-title s3d-contentpage-title-notdraggable">
         {for tab in tabs}
             <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" data-sakai-worldid="${tab.id}">
                 ${tab.title}
@@ -18,7 +18,7 @@
                 </span>
             </div>
         {/for}
-    </h2>
+    </div>
     <div id="featuredworlds_worlds_content_container">
         {for tab in tabs}
             <div id="featuredworlds_worlds_content_${tab.id}"></div>
@@ -30,6 +30,7 @@
 <div id="featuredworlds_worlds_content_template"><!--
     {for tab in tabs}
         <div id="featuredworlds_${tab.id}" class="featuredworlds_content_container" {if tab_index != 0} style="display:none;"{/if}>
+            <h2 class="s3d-aural-text">${tab.title}</h2>
             {if data[tab.id].total}
                 {for item in data[tab.id].results}
                     <div class="featuredworlds_content">
