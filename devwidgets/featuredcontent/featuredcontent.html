@@ -4,7 +4,7 @@
 <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
 
 <div class="featuredcontent_widget">
-    <div id="featuredcontent_content_container" role="complementary" aria-label="__MSG__FEATURED_CONTENT_ARIA_LABEL__"><!----></div>
+    <div id="featuredcontent_content_container" role="complementary" aria-labelledby="featuredcontent_aria_label"><!----></div>
     <div id="featuredcontent_category_content_container"><!----></div>
 </div>
 
@@ -58,7 +58,7 @@
     {/macro}
 
     {if results && results.length}
-        <h2 class="s3d-contentpage-title">{if sakai.config.enableCategories}__MSG__FEATURED_CONTENT__{else}__MSG__SUGGESTED__{/if}</h2>
+        <h2 class="s3d-contentpage-title" id="featuredcontent_aria_label">{if sakai.config.enableCategories}__MSG__FEATURED_CONTENT__{else}__MSG__SUGGESTED__{/if}</h2>
         <div id="featuredcontent_content_offset_container">
         {for item in results}
             {if item_index === "0"}
@@ -140,7 +140,7 @@
 
 <div id="featuredcontent_category_other_template"><!--
     <div class="s3d-widget-container">
-        <h2 class="s3d-contentpage-title s3d-contentpage-title-notdraggable">__MSG__CONTENT__
+        <h2 class="s3d-contentpage-title s3d-contentpage-title-notdraggable" id="featuredcontent_aria_label">__MSG__CONTENT__
             <span class="s3d-counts-outer">
                 <span class="s3d-counts-inner">${total}</span>
                 {if showSeeAll}<a id="featuredcontent_showall" href="/search#l=content&refine=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>{/if}
