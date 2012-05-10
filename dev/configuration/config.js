@@ -261,6 +261,13 @@ define(function(){
         emailLocation: 'profile',
 
         Profile: {
+            /**
+             * Sets the default visibility of a user's profile in the system
+             * "public" for a public account or "everyone" for an account that's only
+             * visible to logged in users
+             */
+            defaultVisibility: 'public',
+
             /*
              * This is a collection of profile configuration functions and settings
              * The structure of the config object is identical to the storage object

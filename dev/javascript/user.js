@@ -214,6 +214,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             privateToStore['sakai:schemaversion'] = sakai.config.schemaVersion;
                             sakai.api.Server.saveJSON(privurl, privateToStore);
                         }
+                        if (privateToStore && publicToStore) {
+                            sakai.api.User.savePrivacySettings(sakai.config.Profile.defaultVisibility);
+                        }
                         pubdata.structure0 = setManagerProperty(pubdata.structure0, true);
                         generateNav();
                     });
