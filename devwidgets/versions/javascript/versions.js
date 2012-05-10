@@ -78,9 +78,10 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
         // RENDERING //
         ///////////////
 
-        var renderVersions = function(){
+        var renderVersions = function(users) {
             $(versionsContainer, $rootel).html(sakai.api.Util.TemplateRenderer(versionsTemplate, {
                 'itemsBeforeScroll': itemsBeforeScroll,
+                'users': users,
                 "data": versions,
                 "sakai": sakai,
                 "currentPage": currentPageShown
@@ -97,34 +98,12 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
             }
         };
 
-        var setUsername = function(u, users) {
-            $(versions).each(function(index, val){
-               var userId = val["_lastModifiedBy"] || val["sakai:pool-content-created-for"];
-               if (userId === u){
-                    val["username"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(users[u]), 80, null, "s3d-regular-links versions_updater");
-               }
-            });
-        };
-
         var parseVersions = function(success, data){
-            var userIds = [];
             $.each(data.versions, function(index, version){
                 version.versionId = index;
                 versions.push(version);
-                userIds.push(version["_lastModifiedBy"] || version["sakai:pool-content-created-for"]);
             });
-            if (userIds.length) {
-                sakai.api.User.getMultipleUsers(userIds, function(users){
-                    for (var u in users) {
-                        if (users.hasOwnProperty(u)) {
-                            setUsername(u, users);
-                        }
-                    }
-                    renderVersions();
-                });
-            } else {
-                renderVersions();
-            }
+            renderVersions(data.users);
         };
 
 
