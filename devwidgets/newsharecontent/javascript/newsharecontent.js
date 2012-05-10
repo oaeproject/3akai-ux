@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) {
 
     /**
      * @name sakai_global.newsharecontent
@@ -38,6 +38,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // Containers
         var $newsharecontentContainer = $("#newsharecontent_widget");
+        var $newsharecontentCantshareContainer = $('#newsharecontent_cantshare_container');
         var $newsharecontentMessageContainer = $("#newsharecontent_message_container");
 
         // Elements
@@ -54,6 +55,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var $newsharecontentUser = $('.newsharecontent_user_function');
         var $newsharecontent_form = $("#newsharecontent_form");
 
+        // Templates
+        var $newsharecontentCantshareTemplate = $('#newsharecontent_cantshare_template');
+
         // Classes
         var newsharecontentRequiredClass = "newsharecontent_required";
 
@@ -65,17 +69,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // RENDERING //
         ///////////////
 
+        var renderCantshare = function(cantsharefiles) {
+            $newsharecontentCantshareContainer.html(
+                sakai.api.Util.TemplateRenderer($newsharecontentCantshareTemplate, {
+                    'files': cantsharefiles
+                })
+            );
+        };
+
         var fillShareData = function(hash){
             $newsharecontentLinkURL.val(contentObj.shareUrl);
-            var filenames = sakai.api.Util.TemplateRenderer("newsharecontent_filenames_template", {"files": contentObj.data});
-            var shareURLs = sakai.api.Util.TemplateRenderer("newsharecontent_fileURLs_template", {"files": contentObj.data, sakai: sakai});
+
+            var cantsharefiles = _.filter(contentObj.data, function(file){
+                return !sakai.api.Content.canCurrentUserShareContent(file.body);
+            });
+            var sharefiles = _.without(contentObj.data, cantsharefiles);
+            var filenames = sakai.api.Util.TemplateRenderer('newsharecontent_filenames_template', {
+                'files': sharefiles
+            });
+            var shareURLs = sakai.api.Util.TemplateRenderer('newsharecontent_fileURLs_template', {
+                'files': sharefiles,
+                'sakai': sakai
+            });
             var shareData = {
-                "filename": filenames,
-                "data": contentObj.data,
-                "path": shareURLs,
-                "user": sakai.api.Security.safeOutput(sakai.data.me.profile.basic.elements.firstName.value)
+                'filename': filenames,
+                'data': sharefiles,
+                'path': shareURLs,
+                'user': sakai.api.User.getFirstName(sakai.data.me.profile)
             };
             $newsharecontentMessage.html(sakai.api.Util.TemplateRenderer("newsharecontent_share_message_template", shareData));
+
+            renderCantshare(cantsharefiles);
 
             if (hash) {
                 hash.w.show();
