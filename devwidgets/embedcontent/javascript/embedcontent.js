@@ -126,7 +126,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 
                 if (value.fullresult) {
-                    var placement = "ecDocViewer" + tuid + value["_path"] + index;
+                    var placement = 'ecDocViewer' + tuid + value['_path'] + sakai.api.Util.generateWidgetId();
                     wData.items[index].placement = placement;
                     docData[placement] = {
                         data: value.fullresult,

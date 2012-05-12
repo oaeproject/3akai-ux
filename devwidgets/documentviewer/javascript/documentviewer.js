@@ -81,21 +81,10 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             if (date){
                 templateObject.contentURL += "?_=" + date.getTime();
             }
-            sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#documentviewer_image_calculatesize", $rootel));
-            var $imageRendered = $("#documentviewer_image_rendered", $rootel);
-            $imageRendered.bind('load', function(ev){
-                var width = $imageRendered.width();
-                var height = $imageRendered.height();
-                // TODO we can probably avoid hardcoding the sizes here
-                // Too wide but when scaled to width won't be too tall
-                if (width > 920 && height / width * 920 <= 560){
-                    $imageRendered.addClass("documentviewer_preview_width");
-                // Too tall but when scaled to height won't be too wide
-                } else if (height > 560 && width / height * 560 <= 920){
-                    $imageRendered.addClass("documentviewer_preview_height");
-                }
-                $documentviewerPreview.append($imageRendered);
-            });
+
+            $documentviewerPreview.html(
+                sakai.api.Util.TemplateRenderer('documentviewer_image_template', templateObject)
+            );
         };
 
         var renderEmbedPreview = function(data){
