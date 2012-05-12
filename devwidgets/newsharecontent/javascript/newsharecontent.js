@@ -38,7 +38,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
 
         // Containers
         var $newsharecontentContainer = $("#newsharecontent_widget");
-        var $newsharecontentCantshareContainer = $('#newsharecontent_cantshare_container');
+        var $newsharecontentCantShareContainer = $('#newsharecontent_cantshare_container');
         var $newsharecontentMessageContainer = $("#newsharecontent_message_container");
 
         // Elements
@@ -56,7 +56,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         var $newsharecontent_form = $("#newsharecontent_form");
 
         // Templates
-        var $newsharecontentCantshareTemplate = $('#newsharecontent_cantshare_template');
+        var $newsharecontentCantShareTemplate = $('#newsharecontent_cantshare_template');
 
         // Classes
         var newsharecontentRequiredClass = "newsharecontent_required";
@@ -69,21 +69,26 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // RENDERING //
         ///////////////
 
-        var renderCantshare = function(cantsharefiles) {
-            $newsharecontentCantshareContainer.html(
-                sakai.api.Util.TemplateRenderer($newsharecontentCantshareTemplate, {
-                    'files': cantsharefiles
-                })
+
+        /**
+         * Render the list of files that we can't share
+         * @param {Object} cantShareFiles A list of all the files that we can't share
+         */
+        var renderCantShare = function(cantShareFiles) {
+            $newsharecontentCantShareContainer.html(
+                sakai.api.Util.TemplateRenderer($newsharecontentCantShareTemplate, {
+                    'files': cantShareFiles
+                });
             );
         };
 
         var fillShareData = function(hash){
             $newsharecontentLinkURL.val(contentObj.shareUrl);
 
-            var cantsharefiles = _.filter(contentObj.data, function(file){
+            var cantShareFiles = _.filter(contentObj.data, function(file) {
                 return !sakai.api.Content.canCurrentUserShareContent(file.body);
             });
-            var sharefiles = _.without(contentObj.data, cantsharefiles);
+            var sharefiles = _.without(contentObj.data, cantShareFiles);
             var filenames = sakai.api.Util.TemplateRenderer('newsharecontent_filenames_template', {
                 'files': sharefiles
             });
@@ -99,7 +104,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             };
             $newsharecontentMessage.html(sakai.api.Util.TemplateRenderer("newsharecontent_share_message_template", shareData));
 
-            renderCantshare(cantsharefiles);
+            renderCantShare(cantShareFiles);
 
             if (hash) {
                 hash.w.show();
