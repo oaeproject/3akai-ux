@@ -391,7 +391,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                                 'sakai:pooled-content-manager': managers,
                                 '_path': item.id,
                                 '_mimeType': $(item).data('mimetype'),
-                                'canshare': $(item).data('canshare'),
+                                'canshare': $(item).attr('data-canshare'),
                                 'type': 'existing',
                                 'css_class': $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
                             };

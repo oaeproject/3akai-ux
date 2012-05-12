@@ -249,12 +249,11 @@
                         <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
                     </span>
                 {else}
-                    {var canShare = sakai.api.Content.canCurrentUserShareContent(item)}
                     {if $.inArray(currentSelectedLibrary, item["sakai:pooled-content-viewer"]) !== -1 || $.inArray(currentSelectedLibrary, item["sakai:pooled-content-manager"]) !== -1}
                         <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
                     {elseif sakai.api.Content.Collections.isCollection(item) && (sakai.api.Content.Collections.getCollectionGroupId(item) === currentSelectedLibrary || sakai.api.Content.Collections.isCollectionInMyLibrary(item))}
                         <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
-                    {elseif !canShare && currentSelectedLibrary !== me.user.userid}
+                    {elseif item.canshare === 'false' && currentSelectedLibrary !== me.user.userid}
                         <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__SHARING_DISABLED__)</span>
                     {else}
                         <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
