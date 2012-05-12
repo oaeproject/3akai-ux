@@ -82,7 +82,9 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 templateObject.contentURL += "?_=" + date.getTime();
             }
 
-            $documentviewerPreview.html(sakai.api.Util.TemplateRenderer('documentviewer_image_template', templateObject));
+            $documentviewerPreview.html(
+                sakai.api.Util.TemplateRenderer('documentviewer_image_template', templateObject)
+            );
         };
 
         var renderEmbedPreview = function(data){
