@@ -78,7 +78,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             $newsharecontentCantShareContainer.html(
                 sakai.api.Util.TemplateRenderer($newsharecontentCantShareTemplate, {
                     'files': cantShareFiles
-                });
+                })
             );
         };
 
