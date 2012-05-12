@@ -119,12 +119,12 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
 
             renderCantShare(cantShareFiles);
 
-            if (shareFiles.length === 0) {
-                $newsharecontentCanShareContainer.hide();
-                $newsharecontentTitle.hide();
-            } else {
+            if (shareFiles.length) {
                 $newsharecontentCanShareContainer.show();
                 $newsharecontentTitle.show();
+            } else {
+                $newsharecontentCanShareContainer.hide();
+                $newsharecontentTitle.hide();
             }
 
             if (hash) {
