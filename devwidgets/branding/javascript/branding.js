@@ -24,6 +24,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
+    $('.branding_widget .s3d-jump-link').each(function(){
+        if ($($(this).attr('href') + ':visible').length) {
+            $(this).show();
+        }
+    });
+    $('.branding_widget .s3d-jump-link').on('click', function(){
+        $($(this).attr('href')).focus();
+        return false;
+    });
+
     sakai_global.branding = function(tuid, showSettings) {
 
         var $rootel = $('#' + tuid);

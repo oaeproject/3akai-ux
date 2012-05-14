@@ -22,3 +22,18 @@
     position:       relative;
     z-index:        1000;
 }
+/* Skip navigation link focus treatment */
+.branding_widget .s3d-jump-link:focus {
+    color: #fff;
+    display: block;
+    padding: 12px 0 12px 10px;
+    text-decoration: none;
+    font-size: 12px;
+    left: 0;
+    background: transparent;
+    outline: none;
+    clip: auto;
+    overflow: visible;
+    width: auto;
+    height: auto;
+}
