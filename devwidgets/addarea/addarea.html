@@ -3,7 +3,7 @@
 
 <div id="addarea_container" class="s3d-dialog s3d-dialog-container">
     <div class="s3d-dialog-close jqmClose"></div>
-    <h1 class="s3d-dialog-header">__MSG__ADD__ +</h1>
+    <h1 class="s3d-dialog-header">__MSG__ADD_NAVIGATION_ITEM__</h1>
     <ul id="addarea_content_menu">
         <li class="addarea_content_menu_item selected">
             <button type="button" class="s3d-button s3d-link-button" data-containertoshow="addarea_new_container"><span class="navigation_icon new_document_icon"></span>__MSG__NEW__</button>
@@ -30,18 +30,15 @@
             <button type="button" class="s3d-button s3d-link-button" data-containertoshow="addarea_participants_container"><span class="navigation_icon participants_icon"></span>__MSG__PARTICIPANTS_LIST__</button>
         </li>
         <li class="addarea_content_menu_item">
-            <button type="button" class="s3d-button s3d-link-button" data-containertoshow="addarea_widgets_container"><span class="navigation_icon widgets_icon"></span>__MSG__WIDGETS__</button>
+            <button type="button" class="s3d-button s3d-link-button" data-containertoshow="addarea_widgets_container"><span class="navigation_icon widgets_icon"></span>__MSG__WIDGET_PAGE__</button>
         </li>
     </ul>
     <div id="addarea_content_container">
         <div id="addarea_new_container" data-doc-type="new">
-            <h3>__MSG__NEW_SAKAI_DOCUMENT__</h3>
-            <div class="addarea_preview_container">
-                <img src="/devwidgets/addarea/images/addarea_new_document_example.png" alt="__MSG__NEW_SAKAI_DOCUMENT__"/>
-                <span>__MSG__A_NEW_SAKAI_DOCUMENT__</span>
-            </div>
             <div class="addarea_data_container">
-                <label for="addarea_new_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <h3>__MSG__NEW_ITEM__</h3>
+                <span class="addarea_type_more">__MSG__A_NEW_SAKAI_DOCUMENT__</span>
+                <label for="addarea_new_name">__MSG__PLEASE_ENTER_A_TITLE__:</label>
                 <input type="text" name="addarea_new_name" id="addarea_new_name" class="addarea_name_field"></input>
                 <label for="addarea_new_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_new_permissions" name="addarea_new_permissions"></select>
@@ -54,15 +51,10 @@
                 </select>
                 <span id="addarea_new_numberofpages_doc">__MSG__YOU_CAN_ADD_MORE_LATER__</span>
                 <hr class="fl-push fl-hidden"/>
-                <div class="autosuggest_wrapper">
-                    <label for="addarea_new_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
-                    <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
-                    <textarea id="addarea_new_tagsandcategories" name="addarea_new_tagsandcategories" class="addarea_autosuggest_tags_cats"></textarea>
-                </div>
             </div>
         </div>
         <div id="addarea_existing_currentlyviewing_container" data-doc-type="existing_currentlyviewing" class="addarea_existing_container" style="display:none;">
-            <h3>__MSG__CURRENTLY_VIEWING__ <span class="addarea_group_name"></span></h3>
+            <h3>__MSG__FROM__ <span class="addarea_group_name"></span></h3>
             <div class="addarea_existing_top">
                 <select id="addarea_existing_currentlyviewing_sort" class="addarea_existing_sort" name="addarea_existing_currentlyviewing_sort">
                     <option value="desc">__MSG__NEWEST__</option>
@@ -80,7 +72,7 @@
                 
             </div>
             <div class="addarea_column">
-                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_TITLE__:</label>
                 <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
             </div>
             <div class="addarea_column">
@@ -112,7 +104,7 @@
                 
             </div>
             <div class="addarea_column">
-                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_TITLE__:</label>
                 <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
             </div>
             <div class="addarea_column">
@@ -144,7 +136,7 @@
                 
             </div>
             <div class="addarea_column">
-                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_TITLE__:</label>
                 <input type="text" name="addarea_existing_name" class="addarea_existing_name addarea_name_field"></input>
             </div>
             <div class="addarea_column">
@@ -158,60 +150,36 @@
             </div>
         </div>
         <div id="addarea_contentlist_container" data-doc-type="contentlibrary" style="display:none;">
-            <h3>__MSG__CONTENT_LIST_OR_LIBARY__</h3>
-            <div class="addarea_preview_container">
-                <img src="/devwidgets/addarea/images/addarea_content_library_example.png" alt="__MSG__CONTENT_LIST_OR_LIBARY__"/>
-                <span>__MSG__A_LIST_OF_ALL_CONTENT_USED_HERE__</span>
-            </div>
             <div class="addarea_data_container">
-                <label for="addarea_contentlist_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <h3>__MSG__CONTENT_LIST_OR_LIBARY__</h3>
+                <span class="addarea_type_more">__MSG__A_LIST_OF_ALL_CONTENT_USED_HERE__</span>
+                <label for="addarea_contentlist_name">__MSG__PLEASE_ENTER_A_TITLE__:</label>
                 <input type="text" id="addarea_contentlist_name" name="addarea_contentlist_name" class="addarea_name_field"/>
                 <label for="addarea_contentlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_contentlist_permissions" name="addarea_contentlist_permissions"></select>
-                <div class="autosuggest_wrapper">
-                    <label for="addarea_contentlist_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
-                    <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
-                    <textarea id="addarea_contentlist_tagsandcategories" name="addarea_contentlist_tagsandcategories" class="addarea_autosuggest_tags_cats"></textarea>
-                </div>
             </div>
         </div>
         <div id="addarea_participants_container" data-doc-type="participants" style="display:none;">
-            <h3>__MSG__PARTICIPANTS_OR_MEMBERS_LIST__</h3>
-            <div class="addarea_preview_container">
-                <img src="/devwidgets/addarea/images/addarea_content_library_example.png" alt="__MSG__PARTICIPANTS_OR_MEMBERS_LIST__"/>
-                <span>__MSG__A_LIST_OF_ALL_PARTICIPANTS_OR_MEMBERS_IN_THE_GROUP__</span>
-            </div>
             <div class="addarea_data_container">
-                <label for="addarea_participants_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <h3>__MSG__PARTICIPANTS_OR_MEMBERS_LIST__</h3>
+                <span class="addarea_type_more">__MSG__A_LIST_OF_ALL_PARTICIPANTS_OR_MEMBERS_IN_THE_GROUP__</span>
+                <label for="addarea_participants_name">__MSG__PLEASE_ENTER_A_TITLE__:</label>
                 <input type="text" id="addarea_participants_name" name="addarea_participants_name" class="addarea_name_field"/>
                 <label for="addarea_participants_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_participants_permissions" name="addarea_participants_permissions"></select>
-                <div class="autosuggest_wrapper">
-                    <label for="addarea_participants_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
-                    <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
-                    <textarea id="addarea_participants_tagsandcategories" name="addarea_participants_tagsandcategories" class="addarea_autosuggest_tags_cats"></textarea>
-                </div>
             </div>
         </div>
         <div id="addarea_widgets_container" data-doc-type="widgets" style="display:none;">
-            <h3>__MSG__WIDGET_PAGE__</h3>
-            <div class="addarea_preview_container">
-                <img src="/devwidgets/addarea/images/addarea_widget_example.png" alt="__MSG__WIDGET_PAGE__"/>
-                <span>__MSG__CREATE_A_PAGE_USING_WIDGETS__</span>
-            </div>
             <div class="addarea_data_container">
+                <h3>__MSG__WIDGET_PAGE__</h3>
+                <span class="addarea_type_more">__MSG__CREATE_A_PAGE_USING_WIDGETS__</span>
                 <label for="addarea_widgets_widget">__MSG__SELECT_WIDGET__:</label>
                 <select id="addarea_widgets_widget" name="addarea_widgets_widget"></select>
-                <label for="addarea_widgets_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <label for="addarea_widgets_name">__MSG__PLEASE_ENTER_A_TITLE__:</label>
                 <input type="text" name="addarea_widgets_name" id="addarea_widgets_name" class="addarea_name_field"></input>
                 <label for="addarea_widgets_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                 <select id="addarea_widgets_permissions" name="addarea_widgets_permissions"></select>
                 <hr class="fl-push fl-hidden"/>
-                <div class="autosuggest_wrapper">
-                    <label for="addarea_widgets_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
-                     <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
-                    <textarea id="addarea_widgets_tagsandcategories" name="addarea_widgets_tagsandcategories" class="addarea_autosuggest_tags_cats"></textarea>
-                </div>
             </div>
         </div>
     </div>

@@ -171,7 +171,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         groupData.push({
                             id: group.groupid,
                             url: "/~" + sakai.api.Util.makeSafeURL(group.groupid),
-                            picsrc: group.picPath,
+                            picPath: group.picPath,
+                            picPathLarge: group.picPathLarge,
                             edit_url: "/dev/group_edit2.html?id=" + group.groupid,
                             title: group["sakai:group-title"],
                             titleShort: group["sakai:group-title-short"],
@@ -403,7 +404,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $("#mymemberships_delete_membership_confirm").live("click", function(){
-                removeMembership($(this).data("sakai-entityid"),$(this).attr("data-sakai-entityname"));
+                removeMembership($(this).attr('data-sakai-entityid'), $(this).attr('data-sakai-entityname'));
                 updateMessageAndAddToData();
             });
 

@@ -16,7 +16,10 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Global */
-#ggadget_remotecontent_container .fl-widget-content{padding:10px;}
+#ggadget_remotecontent_container .fl-widget-content {
+    overflow: hidden;
+    padding: 10px;
+}
 
 /* Settings */
 #ggadget_remotecontent_settings input[type="text"]{padding:3px;}

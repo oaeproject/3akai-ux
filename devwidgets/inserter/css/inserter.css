@@ -42,7 +42,7 @@
     margin: 5px 0 0;
     padding: 10px 10px 5px;
 }
-.inserter_widget .s3d-no-results-container h1 {
+.inserter_widget .s3d-no-results-container p {
     margin: 0 0 10px !important;
     overflow: hidden;
 }

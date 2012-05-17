@@ -132,17 +132,18 @@
     border: 1px solid #999;
     height: 90px;
     resize: none;
-    width: 270px;
+    width: 355px;
     padding: 5px;
 }
 .contentpermissions_permissions_container #contentpermissions_members_autosuggest_sharebutton {
-    float: right;
-    margin-top: 80px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 .contentpermissions_permissions_container #contentpermissions_members_autosuggest_permissions {
     border: 1px solid #999;
     float: right;
     margin-top: 3px;
+    max-width: 100px;
 }
 li.contentpermissions_edit.s3d-outer-shadow-container {
     padding: 3px 13px 6px;

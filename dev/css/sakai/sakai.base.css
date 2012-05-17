@@ -242,6 +242,9 @@ blockquote {
 .s3d-widget-container .s3d-contentpage-title:hover {
 	cursor: pointer
 }
+.s3d-widget-container .s3d-contentpage-title-notdraggable:hover {
+    cursor: auto
+}
 .s3d-widget-container .hiddenwidget .s3d-contentpage-title {
 	margin-bottom: 0;
 }
@@ -1335,12 +1338,15 @@ a.s3d-button.s3d-overlay-button {
 	width: 36px;
 	height: 24px;
 }
+.s3d-no-results-container p,
 .s3d-no-results-container h1 {
-	color: #666;
-	font-size: 18px;
-	font-weight: normal;
-	margin: 5px 0 10px 0 !important;
+    color: #666;
+    line-height:normal;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 5px 0 10px 0 !important;
 }
+.s3d-no-results-container p button,
 .s3d-no-results-container h1 button {
 	font-size: 18px;
 }
@@ -1932,22 +1938,6 @@ ul.as-selections textarea.as-input {
 }
 
 /*
- * CHAT
- */
-.chat_available_status_online {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -33px -395px transparent;
-}
-.chat_available_status_busy {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -63px -395px transparent;
-}
-.chat_available_status_offline {
-	background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -93px -395px transparent;
-}
-.chat_available_status_offline, .chat_available_status_busy, .chat_available_status_online {
-	padding-left: 15px;
-}
-
-/*
  * LISTS
  */
 .s3d-list-item {
@@ -2345,10 +2335,9 @@ ul li.s3d-list-item:hover {
 	list-style: none
 }
 .s3d-search-result a img {
-	float: left;
-	padding: 0 10px 5px 0;
-	max-width: 40px;
-	max-height: 60px;
+    float: left;
+    max-width: 46px;
+    max-height: 46px;
 }
 .s3d-search-result-right {
 	margin-left: 80px;
@@ -2556,11 +2545,19 @@ ul li.s3d-list-item:hover {
 .s3d-search-results-grid .s3d-search-result-user-functions {
 	position: absolute;
 	float: left !important;
-	margin: 110px 0 0 21px !important;
+    margin: 110px 0 0 23px !important;
 	left: 10px;
 }
+.s3d-search-results-grid .s3d-search-result-content .s3d-search-result-user-functions {
+    margin-left: 30px !important;
+}
+.s3d-search-results-grid .s3d-search-result-person .searchpeople_result_left_filler img,
+.s3d-search-results-grid .s3d-search-result-group .searchgroups_result_left_filler img {
+    margin-top: 3px;
+}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-addtolibrary {
-	margin-right: 8px;
+    margin-right: 0px !important;
+    margin-top: -2px !important;
 }
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-author {
 	margin-right: 20px;
@@ -2571,6 +2568,7 @@ ul li.s3d-list-item:hover {
 }
 .s3d-search-results-grid .s3d-search-result-person .s3d-actions-message, .s3d-search-results-grid .s3d-search-result-group .s3d-actions-message {
 	margin-left: 60px;
+    margin-top: 3px;
 }
 .s3d-search-results-grid .s3d-search-result-detail-separator {
 	display: block;

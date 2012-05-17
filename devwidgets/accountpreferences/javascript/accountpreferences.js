@@ -131,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////
         /**
          * Public function that can be called from elsewhere
-         * (e.g. chat and sites widget)
+         * (e.g. sites widget)
          * It initializes the accountPreferencesContainer widget and shows the jqmodal (ligthbox)
          */
         var initialize = function(){

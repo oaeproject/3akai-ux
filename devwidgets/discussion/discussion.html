@@ -81,8 +81,9 @@
             <div class="s3d-highlight_area_background_tinner"></div>
         </div>
         <div class="discussion_entity_container">
-            <img src="${post.message.profile.pictureImg}" alt="${sakai.api.User.getDisplayName(post.message.profile)}" class="discussion_entity_picture"/>
-            <span class="discussion_poster_name">${sakai.api.User.getDisplayName(post.message.profile)}</span>
+            {var displayName = sakai.api.User.getDisplayName(post.message.profile)}
+            <img src="${post.message.profile.pictureImg}" alt="${displayName}" class="discussion_entity_picture"/>
+            <a href="${post.message.profile.homePath}" title="__MSG__VIEW_USERS_PROFILE__" class="discussion_poster_name">${displayName}</a>
             <span class="discussion_posting_date">${post.message["sakai:createdOn"]}<span class="discussion_updating_date" {if !post.message["sakai:editedOn"]}style="display:none;"{/if}>(__MSG__EDITED_BY__ <span></span>)</span></span>
             <hr class="fl-push fl-hidden"/>
         </div>
@@ -146,8 +147,9 @@
                     <div class="s3d-highlight_area_background_tinner"></div>
                 </div>
                 <div class="discussion_entity_container">
-                    <img src="${topic.post.profile[0].pictureImg}" alt="${sakai.api.User.getDisplayName(topic.post.profile[0])}" class="discussion_entity_picture"/>
-                    <span class="discussion_poster_name">${sakai.api.User.getDisplayName(topic.post.profile[0])}</span>
+                    {var displayName = sakai.api.User.getDisplayName(topic.post.profile[0])}
+                    <img src="${topic.post.profile[0].pictureImg}" alt="${displayName}" class="discussion_entity_picture"/>
+                    <a href="${topic.post.profile[0].homePath}" class="discussion_poster_name" title="__MSG__VIEW_USERS_PROFILE__">${displayName}</a>
                     <span class="discussion_posting_date">${topic.post["sakai:createdOn"]}<span class="discussion_updating_date" {if !topic.post["sakai:editedOn"]}style="display:none;"{/if}>{if topic.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${topic.post["sakai:editedBy"]} ${topic.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
                     <hr class="fl-push fl-hidden"/>
                 </div>
@@ -184,8 +186,9 @@
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <button class="discussion_hide_reply s3d-button s3d-regular-links s3d-link-button"><span>__MSG__HIDE__</span><span style="display:none;">__MSG__SHOW__</span></button>
                             {/if}
-                            <img src="${reply.post.profile[0].pictureImg}" alt="${sakai.api.User.getDisplayName(reply.post.profile[0])}" class="discussion_entity_picture"/>
-                            <span class="discussion_poster_name">${sakai.api.User.getDisplayName(reply.post.profile[0])}</span>
+                            {var displayName = sakai.api.User.getDisplayName(reply.post.profile[0])}
+                            <img src="${reply.post.profile[0].pictureImg}" alt="${displayName}" class="discussion_entity_picture"/>
+                            <a href="${reply.post.profile[0].homePath}" class="discussion_poster_name" title="__MSG__VIEW_USERS_PROFILE__">${displayName}</a>
                             <span class="discussion_posting_date">${reply.post["sakai:createdOn"]}<span class="discussion_updating_date" {if !reply.post["sakai:editedOn"]}style="display:none;"{/if}>{if reply.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${reply.post["sakai:editedBy"]} ${reply.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <span class="discussion_delete_date">(__MSG__DELETED_BY__ ${reply.post["sakai:deletedBy"]} ${reply.post["sakai:deletedOn"]})</span>

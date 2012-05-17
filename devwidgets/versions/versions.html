@@ -24,12 +24,14 @@
                 {for version in data}
                     <li class="versions_version_item {if version_index == 0} versions_selected {else} versions_divider{/if}" data-versionId="${version_index}" data-version="${version.versionId}" data-pooleditemname="${version["sakai:pooled-content-file-name"]|safeOutput}">
                         {var date = sakai.api.Util.parseSakaiDate(version["_versionNumber"]).toString().split(" ")}
+                        {var userid = version['sakai:pool-content-created-for'] || version._lastModifiedBy}
+                        {var username = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(users[userid]), 80)}
                         <span class="versions_date">${date[1]} ${date[2]}, ${date[4].substring(0,5)}</span>
-                        <a href="javascript:;" class="s3d-regular-links versions_updater">${version["username"]}</a>
+                        <a href="/~${userid|safeURL}" class="s3d-regular-links versions_updater">${username}</a>
                         {if !sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document"}
                             <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button versions_restore_version">__MSG__RESTORE__</button>
                         {else}
-                            <a href="${currentPage.pageSavePath|safeOutput}.version.,${version.versionId|safeOutput},/${version["sakai:pooled-content-file-name"]|safeOutput}" target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button">
+                            <a href="${currentPage.pageSavePath|safeOutput}.version.,${version.versionId|safeOutput},{if version["sakai:pooled-content-file-name"]}/${version["sakai:pooled-content-file-name"]|safeOutput}{/if}" target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button">
                                 __MSG__DOWNLOAD__
                             </a>
                         {/if}

@@ -62,15 +62,6 @@ define(
 
                 $("head")[0].appendChild(script);
               })();
-              if (sakai_conf.enableChat) {
-                  // scroll more on focus if the focused element is obscrured by the chat bar
-                  $("input:not(.chat_with_txt), textarea, select, button:not(.chat_name_link), a:not(.chat_window_name)").live("focus", function(){
-                      if (($(this).offset().top + $(this).height()) - $(window).scrollTop() > $(window).height() - 40) {
-                          var scrollByAmt = 40 + $(this).height() + ($(this).offset().top - $(window).scrollTop()) - $(window).height();
-                          window.scrollBy(0, scrollByAmt);
-                      }
-                  });
-            }
 
             // Start polling to keep session alive when logged in
             if (meData.user.userid) {
@@ -533,8 +524,10 @@ define(
             // if there is profile picture and userId
             // return the picture links
             var imgUrl = sakai_conf.URL.USER_DEFAULT_ICON_URL;
-            if (type === "group"){
-                imgUrl = sakai_conf.URL.GROUP_DEFAULT_ICON_URL;
+            if (type === 'group' ||
+                profile['sakai:category'] === 'group' ||
+                profile['sakai:pseudoGroup']) {
+                    imgUrl = sakai_conf.URL.GROUP_DEFAULT_ICON_URL;
             }
             var id = null, picture_name = null;
             if (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"] || profile["userid"]){
@@ -1733,7 +1726,7 @@ define(
                                         case html4.atype.STYLE:
                                             var accept = ["color", "display", "background-color", "font-weight", "font-family",
                                                           "padding", "padding-left", "padding-right", "text-align", "font-style",
-                                                          "text-decoration", "border", "visibility", "font-size"];
+                                                          "text-decoration", "border", "visibility", "font-size", "width"];
                                             var sanitizedValue = "";
                                             if (value){
                                                 var vals = value.split(";");
@@ -2024,7 +2017,7 @@ define(
             positionDialogBox : function(el, offset) {
                 var $el = sakai_util.getJqueryObject(el);
 
-                var dialogOffset = 100;
+                var dialogOffset = 50;
                 if (offset && _.isNumber(offset)) {
                     dialogOffset = parseInt(offset, 10);
                 }
