@@ -226,14 +226,41 @@
     </target>
 
     <!-- Target: Optimize with requirejs -->
-    <target name="optimize" depends="init">
-        <delete dir="${OPTIMIZED_DIR}" includeemptydirs="true" />
+    <target name="optimize" depends="optimize_node">
+        <if>
+            <not><equals arg1="${optimizeNodeResult}" arg2="0"/></not>
+            <then>
+                <echo message="Couldn't run the optimizer with Node, trying Rhino instead." />
+                <antcall target="optimize_rhino" />
+            </then>
+        </if>
+    </target>
+
+    <!-- Target: Optimize with requirejs run in node -->
+    <target name="optimize_node">
         <path id="reqjs.path">
             <pathelement location="tools/requirejs-optimizer/r.js"/>
         </path>
         <property name="requireJs.path" refid="reqjs.path"/>
         <property name="requireJs.conf" value="build.js" />
 
+        <echo message="Attempting to run the optimizer with Node."/>
+        <exec executable="node" failifexecutionfails="false" resultproperty="optimizeNodeResult">
+            <arg value="${requireJs.path}" />
+            <arg value="-o" />
+            <arg value="${requireJs.conf}" />
+        </exec>
+    </target>
+
+    <!-- Target: Optimize with requirejs run in rhino -->
+    <target name="optimize_rhino" depends="init">
+        <path id="reqjs.path">
+            <pathelement location="tools/requirejs-optimizer/r.js"/>
+        </path>
+        <property name="requireJs.path" refid="reqjs.path"/>
+        <property name="requireJs.conf" value="build.js" />
+
+        <delete dir="${OPTIMIZED_DIR}" includeemptydirs="true" />
         <!-- the rhino jar gets put here by maven -->
         <java jar="${settings.localRepository}/rhino/js/1.7R2/js-1.7R2.jar" fork="true">
           <arg value="${requireJs.path}" />
