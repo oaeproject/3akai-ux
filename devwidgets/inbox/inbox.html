@@ -128,7 +128,7 @@
                                         <div class="inbox_name">
                                             {if box !== "outbox"}
                                                 <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</button>
-                                                {if !reply}<span class="inbox_to_list">__MSG__TO__: ${message.toList.join(", ")}</span>{/if}
+                                                {if !reply}<span class="inbox_to_list">__MSG__TO:__ ${message.toList.join(", ")}</span>{/if}
                                             {else}
                                                 <span class="inbox_to_list">{if box !== "outbox"}__MSG__TO__{else}__MSG__TO_UC__{/if}: 
                                                     {for toUser in message.to}
@@ -185,7 +185,7 @@
                 {/if}
                 <div id="inbox_show_message_reply">
                     <img alt="person icon" src="${me.picture}" class="person_icon"/>
-                    <span>${me.name} (__MSG__REPLY_LOWER__) <span class="inbox_to_list">__MSG__TO__:</span></span>
+                    <span>${me.name} (__MSG__REPLY_LOWER__) <span class="inbox_to_list">__MSG__TO:__</span></span>
                     <div class="inbox_show_message_reply_fields"></div>
                 </div>
             --></div>
