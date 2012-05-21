@@ -1,6 +1,6 @@
 {
-    "description":        "Export sites to templates",
-    "enabled":            true,
+    "description": "Export sites to templates",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/templategenerator/bundles/default.properties",
@@ -11,10 +11,10 @@
             "bundle": "/devwidgets/templategenerator/bundles/es_ES.properties"
         }
     },
-    "id":                 "templategenerator",
-    "name":               "Templategenerator Widget",
-    "type":               "core",
-    "url":                "/devwidgets/templategenerator/templategenerator.html",
+    "id": "templategenerator",
+    "name": "Templategenerator Widget",
+    "type": "core",
+    "url": "/devwidgets/templategenerator/templategenerator.html",
     "defaultConfiguration": {
         "templategenerator": {
             "targetUser": "admin",
