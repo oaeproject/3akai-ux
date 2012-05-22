@@ -110,6 +110,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         return !$.isArray(contentToAdd) || contentToAdd.length - 1 === count;
     };
 
+    var getStyleUrl = function(selectedTheme) {
+        var url = '';
+        $.each(sakai.config.skinStore, function(key, value) {
+            if (selectedTheme === value.title) {
+                url = value.url;
+            }
+        });
+        return url;
+    };
+
+    var getAllowThemechangerValue = function(value) {
+        return (value === 'ENABLE');
+    };
+
+    var addThemeSettings = function(groupid) {
+         $.ajax({
+            url: '/system/userManager/group/' + groupid + '.update.json',
+            data: {
+                'sakai:customStyle': getStyleUrl($('#newcreategroup_change_theme_to').val()),
+                'sakai:enableThemes': getAllowThemechangerValue($('#newcreategroup_allowthemechanger').val())
+            },
+            type: 'POST',
+            success: function() {
+                window.location = '/~' + groupid;
+            }
+         });
+    };
+
     var setDefaultContent = function(groupid){
         var contentToAdd = $.bbq.getState("contentToAdd");
         if(contentToAdd.length > 1 && !$.isArray(contentToAdd)){
@@ -119,12 +147,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $.each(contentToAdd, function(i, contentId){
             sakai.api.Content.addToLibrary(contentId, groupid, false, function(contentId, entityId) {
                 if(checkDefaultContentAdded(contentToAdd, count)){
-                    window.location = "/~" + groupid;
+                    addThemeSettings(groupid);
                 } else {
                     count++;
                 }
             });
         });
+    };
+
+    var renderThemes = function() {
+        var themes = $.extend(sakai.config.skinStore, {}, true);
+
+        $('#newcreategroup_change_theme_to').html(sakai.api.Util.TemplateRenderer('#newcreategroup_themes_template', {
+            'themes': themes
+        }));
     };
 
     /**
@@ -146,7 +182,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if($.bbq.getState("contentToAdd")){
                     setDefaultContent(groupid);
                 } else {
-                    window.location = "/~" + groupid;
+                    addThemeSettings(groupid);
                 }
             } else {
                 var errorMessage = sakai.api.i18n.getValueForKey("GROUP_NOT_SUCCESSFULLY_CREATED", "newcreategroup").replace(/\$\{title\}/, grouptitle);
@@ -212,6 +248,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         currentTemplate = $.extend(true, {}, sakai.api.Groups.getTemplate(widgetData.category, widgetData.id));
         currentTemplate.roles = sakai.api.Groups.getRoles(currentTemplate, true);
         getTranslatedRoles();
+        renderThemes();
         templatePath = "/var/templates/worlds/" + widgetData.category + "/" + widgetData.id;
         $(".newcreategroup_template_name", $rootel).text(sakai.api.i18n.getValueForKey(currentTemplate.title));
         if(widgetData.singleTemplate === true){
