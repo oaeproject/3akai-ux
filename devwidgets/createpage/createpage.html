@@ -12,7 +12,7 @@
 
     <div class="dialog_content">
         <form id="createpage_form" method="post" action="#">
-            <p><label for="createpage_page_type" class="createpage_form_label">__MSG__PAGE_TYPE__:</label>
+            <p><label for="createpage_page_type" class="createpage_form_label">__MSG__PAGE_TYPE__</label>
                 <select id="createpage_page_type">
                     <option value="blank">__MSG__BLANK_PAGE__</option>
                     <option value="template">__MSG__TEMPLATE_PAGE__</option>
@@ -24,7 +24,7 @@
             {if templates.length === 0}
                 <p id="createpage_notemplates_msg">__MSG__NO_TEMPLATES__</p>
             {else}
-                <p>__MSG__TEMPLATES_AVAILABLE__:</p>
+                <p>__MSG__TEMPLATES_AVAILABLE__</p>
                 <ul id="createpage_templates_list">
                 {for t in templates}
                     {if t.id && t.name}
@@ -41,7 +41,7 @@
                 </ul>
             {/if}
             --></div>
-            <p id="createpage_title_container"><label for="createpage_title" class="createpage_form_label">__MSG__PAGE_TITLE__:</label>
+            <p id="createpage_title_container"><label for="createpage_title" class="createpage_form_label">__MSG__PAGE_TITLE__</label>
                 <input id="createpage_title" maxlength="255" type="text" value="" />
                 <p class="createpage_error_msg"
                     style="display:none;">__MSG__ENTER_PAGE_NAME__</p>
