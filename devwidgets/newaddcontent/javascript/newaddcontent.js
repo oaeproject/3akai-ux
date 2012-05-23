@@ -686,7 +686,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             var refID = sakai.api.Util.generateWidgetId();
             var title = documentObj['sakai:pooled-content-file-name'];
             var doc = {
-                'structure0': $.toJSON({
+                'structure0': JSON.stringify({
                     'page1': {
                         '_ref': refID,
                         '_order': 0,
@@ -701,6 +701,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 'mimeType': 'x-sakai/document',
                 'sakai:schemaversion': sakai.config.schemaVersion
             };
+            console.log(doc);
 
             $.ajax({
                 url: uploadPath,
@@ -733,7 +734,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             url: '/p/' + documentObj['_path'] + '/' + i + '.save.json',
                             parameters: {
                                 'sling:resourceType': 'sakai/pagecontent',
-                                'sakai:pagecontent': $.toJSON(content[i]),
+                                'sakai:pagecontent': JSON.stringify(content[i]),
                                 '_charset_': 'utf-8'
                             },
                             method: 'POST'

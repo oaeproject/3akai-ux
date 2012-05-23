@@ -572,7 +572,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             }
 
-            if ($.toJSON(tempSettings) !== $.toJSON(settings)) {
+            if (JSON.stringify(tempSettings) !== JSON.stringify(settings)) {
                 sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess, true);
             }
 

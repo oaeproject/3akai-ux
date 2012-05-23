@@ -288,7 +288,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 ajaxArray.push(ajaxObject);
             });
             var data = {
-                requests: $.toJSON(ajaxArray),
+                requests: JSON.stringify(ajaxArray),
                 ":replace": true,
                 ":replaceProperties": true
             };

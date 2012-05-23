@@ -464,7 +464,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                         "selectedy2" : userSelection.height + userSelection.y1
                     };
 
-                    var stringtosave = $.toJSON(tosave);
+                    var stringtosave = JSON.stringify(tosave);
 
                     sakai.data.me.profile.picture = stringtosave;
 
@@ -473,7 +473,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                         url: "/~" + sakai.api.Util.safeURL(id) + "/public/authprofile.profile.json",
                         type : "POST",
                         data : {
-                            "picture" : $.toJSON(tosave),
+                            "picture" : JSON.stringify(tosave),
                             "_charset_":"utf-8"
                         },
                         success : function(data) {
@@ -502,7 +502,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                                 // record that user uploaded their profile picture
                                 sakai.api.User.addUserProgress("uploadedProfilePhoto");
                             } else if (sakai.currentgroup && sakai.currentgroup.data && sakai.currentgroup.data.authprofile) {
-                                sakai.currentgroup.data.authprofile.picture = $.toJSON(tosave);
+                                sakai.currentgroup.data.authprofile.picture = JSON.stringify(tosave);
                             }
                         },
                         error: function(xhr, textStatus, thrownError) {

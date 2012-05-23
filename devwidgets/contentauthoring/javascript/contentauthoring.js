@@ -1335,7 +1335,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         'url': oldStorePath,
                         'method': 'POST',
                         'parameters': {
-                            'version': $.toJSON(data)
+                            'version': JSON.stringify(data)
                         }
                     });
                     batchRequests.push({

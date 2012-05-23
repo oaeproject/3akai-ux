@@ -178,7 +178,7 @@ require(
                                     "url":widgetObject[property][n].bundle
                                 });
                                 if (!widgetObject[property][n].bundle){
-                                    alert($.toJSON(widgetObject));
+                                    alert(JSON.stringify(widgetObject));
                                 }
                                 debug.log("Error ===> " + widgetObject[property][n].bundle);
                             }
