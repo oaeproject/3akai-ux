@@ -35,11 +35,13 @@
                 <option value="x-sakai/collection">__MSG__COLLECTIONS__</option>
             </select>-->
             <div class="s3d-search-container">
-                <input type="text" class="s3d-search-inputfield" id="inserter_collection_content_search" title="__MSG__SEARCH_THROUGH_COLLECTION__">
-                <button title="__MSG__SUBMIT_SEARCH__" class="s3d-button s3d-overlay-button s3d-search-button" type="button">
-                    <span class="s3d-aural-text">__MSG__SUBMIT_SEARCH__</span>
-                    <span class="s3d-search-button-icon"></span>
-                </button>
+                <form id="inserter_collection_content_search_form">
+                    <input type="text" class="s3d-search-inputfield" id="inserter_collection_content_search" title="__MSG__SEARCH_THROUGH_COLLECTION__">
+                    <button title="__MSG__SUBMIT_SEARCH__" class="s3d-button s3d-overlay-button s3d-search-button" type="submit">
+                        <span class="s3d-aural-text">__MSG__SUBMIT_SEARCH__</span>
+                        <span class="s3d-search-button-icon"></span>
+                    </button>
+                </form>
             </div>
             <hr class="fl-hidden fl-push"/>
             <div class="inserter_collections_top_container" id="inserter_content_infinitescroll_container">
