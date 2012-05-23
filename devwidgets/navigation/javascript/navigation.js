@@ -19,7 +19,6 @@
 /*
  * Dependencies
  *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.ba-bbq.js (BBQ)

@@ -21,7 +21,6 @@
  *
  * /dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js (imgAreaSelect)
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
  */
 
 require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"], function($, sakai) {
