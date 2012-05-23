@@ -63,6 +63,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // UI Elements
         var inserterToggle = '.inserter_toggle';
         var inserterCollectionContentSearch = '#inserter_collection_content_search';
+        var inserterCollectionContentSearchForm = '#inserter_collection_content_search_form';
         var $inserterMimetypeFilter = $('#inserter_mimetype_filter', $rootel);
         var inserterCreateCollectionInput = '#inserter_create_collection_input';
         var topnavToggle = '#topnavigation_container .inserter_toggle';
@@ -114,10 +115,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} ev Event object from search input field keyup action
          */
         var searchCollection = function(ev) {
-            if ((ev.keyCode === $.ui.keyCode.ENTER || $(ev.target).hasClass('s3d-search-button')) && prevQ !== $.trim($(inserterCollectionContentSearch, $rootel).val())) {
+            if (prevQ !== $.trim($(inserterCollectionContentSearch, $rootel).val())) {
                 prevQ = $.trim($(inserterCollectionContentSearch, $rootel).val());
                 showCollection(contentListDisplayed);
             }
+            return false;
         };
 
         /**
@@ -772,8 +774,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(document).on('click', inserterToggle, toggleInserter);
             $inserterCollectionInfiniteScrollContainer.on('click', 'li', collectionClicked);
             $inserterCollectionContentContainer.on('click', inserterAllCollectionsButton, refreshWidget);
-            $inserterCollectionContentContainer.on('keyup', inserterCollectionContentSearch, searchCollection);
-            $inserterCollectionContentContainer.on('click', '.s3d-search-button', searchCollection);
+            $inserterCollectionContentContainer.on('submit', inserterCollectionContentSearchForm, searchCollection);
             $inserterCollectionContentContainer.on('change', inserterMimetypeFilter, function() {
                 showCollection(contentListDisplayed);
             });
