@@ -16,7 +16,7 @@
 * specific language governing permissions and limitations under the License.
 */
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) {
 
     /**
      * @name sakai.templategenerator
@@ -63,8 +63,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             joinRole : '',
             creatorRole : '',
             defaultaccess: 'public',
-            defaultjoin: 'yes',
-            excludeSearch: true
+            defaultjoin: 'yes'
         };
 
         ////////////////////
@@ -101,7 +100,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (templategeneratorData.templatesLoaded && !templategeneratorData.generatingTemplate) {
                 templategeneratorData.generatingTemplate = true;
                 templategeneratorData.exportData = $.extend({}, templategeneratorDataTemplate);
-
                 // 1. Heading
                 templategeneratorData.exportData.title = $templategeneratorTitle.val();
                 templategeneratorData.exportData.perfectFor = $templategeneratorUsedFor.val();
@@ -111,99 +109,100 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 templategeneratorData.exportData.roles = templategeneratorData.roles.roleData;
                 templategeneratorData.exportData.joinRole = templategeneratorData.roles.joinRole;
                 templategeneratorData.exportData.creatorRole = templategeneratorData.roles.creatorRole;
+                templategeneratorData.exportData.structure = templategeneratorData.docstructure.structure;
+
+                var refIndex = 0;
 
                 // 3. Docs
-                var pageId, refId;
-                pageId = refId = 0;
-
-                // Create the root structure for the group template
-                templategeneratorData.exportData.structure = {};
                 $.each(templategeneratorData.pageStructures, function(index, item) {
-                    templategeneratorData.exportData.structure[item.page1._title] = {};
-                    templategeneratorData.exportData.structure[item.page1._title] = {
-                        '_title': item.page1._title,
-                        '_order': item.page1._order,
-                        '_docref': '${pid}' + index,
-                        '_nonEditable': true,
-                        '_view': [
-                            'everyone',
-                            'anonymous',
-                            '-student'
-                        ],
-                        '_edit': [
-                            '-ta',
-                            '-lecturer'
-                        ]
-                    };
+                    var pidIndex = '${pid}' + index;
+                    // Get the first page
+                    var firstPage = _.keys(item)[0];
+
+                    // Set the docref and delete the pid if is hanging around
+                    templategeneratorData.exportData.structure[firstPage]._docref = pidIndex;
+                    delete templategeneratorData.exportData.structure[firstPage]._pid;
+
                     // Add the documents for the page
                     templategeneratorData.exportData.docs['${pid}' + index] = {
                         'excludeSearch': true,
                         'structure0': {}
                     };
                     // Add structure0 inside of that page
-                    templategeneratorData.exportData.docs['${pid}' + index].structure0[templategeneratorData.pages[index].pageData['sakai:pooled-content-file-name']] = {
-                        '_ref': '${refid}' + index,
-                        '_order': 0,
-                        '_nonEditable': true,
-                        '_title': templategeneratorData.pages[index].pageData['sakai:pooled-content-file-name'],
-                        'main': {
-                            '_ref': '${refid}' + index,
-                            '_order': 0,
-                            '_nonEditable': true,
-                            '_title': templategeneratorData.pages[index].pageData['sakai:pooled-content-file-name']
+                    var pageRefs = [];
+                    $.each(templategeneratorData.pages[index].structure, function(pageid, pagedata) {
+                        templategeneratorData.exportData.docs[pidIndex].structure0[pageid] = {
+                            '_ref': '${refid}' + refIndex,
+                            '_title': pagedata._title,
+                            '_order': pagedata._order,
+                            '_nonEditable': pagedata._nonEditable || false,
+                            'main': {
+                                '_ref': '${refid}' + refIndex,
+                                '_order': pagedata.main._order,
+                                '_title': pagedata.main._title,
+                                '_nonEditable': pagedata.main._nonEditable || false
+                            }
+                        };
+                        pageRefs.push({ pageRef: pagedata._ref, index: refIndex });
+                        if (_.keys(templategeneratorData.pages[index].structure).length > 1) {
+                            refIndex += 1;
                         }
-                    };
-                    // Add the content for the page (rows, cells,...)
-                    var oldRef = item.page1._ref;
-                    templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index] = {
-                        'rows': {}
-                    };
-                    // rows on the page
-                    $.each(templategeneratorData.pages[index].pageData[oldRef].rows, function(rowIndex, row) {
-                        if($.isPlainObject(row)) {
-                            templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index].rows[rowIndex] = {
-                                'columns': {}
-                            };
-                            // Columns in the rows
-                            $.each(row.columns, function(columnIndex, column) {
-                                if($.isPlainObject(column)) {
-                                    templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index].rows[rowIndex].columns[columnIndex] = {
-                                        'width': column.width,
-                                        'elements': {}
-                                    };
-                                    // Cells in the column
-                                    $.each(column.elements, function(cellIndex, cell) {
-                                        if($.isPlainObject(cell)) {
-                                            templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index]['rows'][rowIndex].columns[columnIndex].elements[cellIndex] = {
-                                                'id': cell.id,
-                                                'type': cell.type
-                                            };
-                                            if(templategeneratorData.pages[index].pageData[oldRef][cell.id]) {
-                                                templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index][cell.id] = {};
-                                                templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index][cell.id][cell.type] = {
-                                                    'embedmethod': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].embedmethod,
-                                                    'sakai:indexed-fields': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type]['sakai:indexed-fields'],
-                                                    'download': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].download,
-                                                    'title': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].title,
-                                                    'details': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].details,
-                                                    'description': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].description,
-                                                    'name': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].name,
-                                                    'layout': templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].layout,
-                                                    'items': {
-                                                        '__array__0__': '/p/kMR5kxyyec'
-                                                    }
-                                                };
-                                                $.each(templategeneratorData.pages[index].pageData[oldRef][cell.id][cell.type].items, function(itemsIndex, item) {
-                                                    if(itemsIndex.indexOf('__array__') === 0) {
-                                                        templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index][cell.id][cell.type].items[itemsIndex] = item;
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
+                    });
+
+                    $.each(pageRefs, function(i, pageObj) {
+                        var pageRef = pageObj.pageRef;
+                        var pageRefIndex = '${refid}' + pageObj.index;
+                        // Add the content for the page (rows, cells,...)
+                        templategeneratorData.exportData.docs[pidIndex][pageRefIndex] = {
+                            'rows': []
+                        };
+                        // Rows on the page
+                        $.each(templategeneratorData.pages[index].pageData[pageRef].rows, function(rowIndex, row) {
+                            if (_.isString(row)) {
+                                try {
+                                    row = $.parseJSON(row);
+                                } catch (e) {
+                                    // This string was not JSON, continue
+                                    return true;
                                 }
-                            });
-                        }
+                            }
+                            if ($.isPlainObject(row)) {
+                                refIndex += 1;
+                                var rowRef = '${refid}' + refIndex;
+                                templategeneratorData.exportData.docs[pidIndex][pageRefIndex].rows[rowIndex] = {
+                                    'id': rowRef,
+                                    'columns': []
+                                };
+                                // Columns in the rows
+                                $.each(row.columns, function(columnIndex, column) {
+                                    if ($.isPlainObject(column)) {
+                                        templategeneratorData.exportData.docs[pidIndex][pageRefIndex].rows[rowIndex].columns[columnIndex] = {
+                                            'width': column.width,
+                                            'elements': []
+                                        };
+                                        // Cells in the column
+                                        $.each(column.elements, function(cellIndex, cell) {
+                                            if ($.isPlainObject(cell)) {
+                                                refIndex += 1;
+                                                var cellRef = '${refid}' + refIndex;
+                                                templategeneratorData.exportData.docs[pidIndex][pageRefIndex].rows[rowIndex].columns[columnIndex].elements[cellIndex] = {
+                                                    'id': cellRef,
+                                                    'type': cell.type
+                                                };
+                                                if (templategeneratorData.pages[index].pageData[pageRef][cell.id]) {
+                                                    templategeneratorData.exportData.docs[pidIndex][pageRefIndex][cellRef] = {};
+                                                    templategeneratorData.exportData.docs[pidIndex][pageRefIndex][cellRef][cell.type] = {};
+                                                    var thisWidgetData = sakai.api.Server.removeServerCreatedObjects(templategeneratorData.pages[index].pageData[pageRef][cell.id][cell.type], '_');
+                                                    $.extend(templategeneratorData.exportData.docs[pidIndex][pageRefIndex][cellRef][cell.type], thisWidgetData);
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+
+                        refIndex += 1;
                     });
                 });
 
@@ -216,7 +215,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var createTemplateFile = function() {
             var body = '--AAAAA\r\n';
-            body = body + 'Content-Disposition: form-data; name=\'*\'; filename=\'' + templategeneratorData.exportData.id + '.txt\' \r\n';
+            body = body + 'Content-Disposition: form-data; name=\'*\'; filename="' + templategeneratorData.exportData.id + '.txt" \r\n';
             body = body + 'Content-Type: text/plain \r\n';
             body = body + 'Content-Transfer-Encoding: binary\r\n\r\n';
             body = body + templategeneratorData.output + '\r\n';
@@ -335,7 +334,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                 page.pageData = $.parseJSON(pageElement.body);
                                 page.structure = $.parseJSON(page.pageData.structure0);
 
-                                templategeneratorData.pages.push(page);
+                                templategeneratorData.pages.push(sakai.api.Server.cleanUpSakaiDocObject(page));
                                 templategeneratorData.pageStructures.push(page.structure);
                                 if ( $.isFunction( callback ) ) {
                                     callback( true );
