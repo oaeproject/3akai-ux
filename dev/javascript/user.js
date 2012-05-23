@@ -233,13 +233,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             privurl = '/~' + sakai.api.Util.safeURL(userid) + '/private/privspace';
             puburl = '/~' + sakai.api.Util.safeURL(userid) + '/public/pubspace';
-
-            //SAKIII-5620 Remove request for unread message count on /me page
-            if (!isMe) {
-                sakai.api.Communication.getUnreadMessagesCountOverview('inbox', function(success, counts) {
-                    messageCounts = counts;
-                    continueLoadSpaceData(userid);
-                });
+            if (isMe) {
+                messageCounts = sakai.data.me.messages.unread;
+                continueLoadSpaceData(userid);
             } else {
                 continueLoadSpaceData(userid);
             }
