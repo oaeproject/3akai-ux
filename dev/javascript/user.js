@@ -235,10 +235,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             puburl = '/~' + sakai.api.Util.safeURL(userid) + '/public/pubspace';
             if (isMe) {
                 messageCounts = sakai.data.me.messages.unread;
-                continueLoadSpaceData(userid);
-            } else {
-                continueLoadSpaceData(userid);
             }
+            continueLoadSpaceData(userid);
         };
 
         var addCounts = function() {
