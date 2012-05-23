@@ -701,7 +701,6 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 'mimeType': 'x-sakai/document',
                 'sakai:schemaversion': sakai.config.schemaVersion
             };
-            console.log(doc);
 
             $.ajax({
                 url: uploadPath,
