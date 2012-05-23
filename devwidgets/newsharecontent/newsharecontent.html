@@ -17,7 +17,7 @@
             <form id="newsharecontent_form">
                 <div class="s3d-popover-inner">
                     <div id="newsharecontent_container">
-                        <div>
+                        <div id="newsharecontent_canshare_container">
                             <span class="newsharecontent_user_function s3d-form-field-wrapper" style="display:none;">
                                 <div id="newsharecontent_sharelist_container">
                                     <label for="newsharecontent_sharelist" id="newsharecontent_autosuggest_for">__MSG__WHO_DO_YOU_WANT_TO_SHARE_WITH__</label>
@@ -40,11 +40,13 @@
                             <span class="newsharecontent_user_function" style="display:none;">
                                 <span id="newsharecontent_message_arrow" class="arrow_right"></span><label for="newsharecontent_message" class="toggletext">__MSG__MESSAGE__:</label>
                             </span>
+
+                            <div id="newsharecontent_message_container" style="display:none;">
+                                <textarea id="newsharecontent_message" placeholder="__MSG__ENTER_MESSAGE__"></textarea>
+                            </div>
                         </div>
 
-                        <div id="newsharecontent_message_container" style="display:none;">
-                            <textarea id="newsharecontent_message" placeholder="__MSG__ENTER_MESSAGE__"></textarea>
-                        </div>
+                        <div id="newsharecontent_cantshare_container"><!-- --></div>
                     </div>
                 </div>
                 <button type="submit" id="sharecontent_send_button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right newsharecontent_user_function" style="display:none;">__MSG__SHARE__</button>
@@ -79,6 +81,17 @@ ${path}
 {for file in files}
 ${sakai.config.SakaiDomain}/content#p=${file.body["_path"]|safeURL}/${file.body["sakai:pooled-content-file-name"]|safeURL}
 {/for}
+--></div>
+
+<div id="newsharecontent_cantshare_template" style="display:none;"><!--
+{if files.length}
+    <span class="s3d-bold">__MSG__SOME_ITEMS_CANT_BE_SHARED__ __MSG__UNCHECK_FOR_MORE_OPTIONS__</span>
+    <ul>
+        {for file in files}
+            <li>${file.body["sakai:pooled-content-file-name"]}</li>
+        {/for}
+    </ul>
+{/if}
 --></div>
 
 <!-- JAVASCRIPT -->

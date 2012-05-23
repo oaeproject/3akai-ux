@@ -251,7 +251,7 @@
                 {else}
                     {if item.currentSelectedLibraryHasItem}
                         <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
-                    {elseif !item.canshare && currentSelectedLibrary !== me.user.userid}
+                    {elseif item.canshare === 'false' && currentSelectedLibrary !== me.user.userid}
                         <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__SHARING_DISABLED__)</span>
                     {else}
                         <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>

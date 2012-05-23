@@ -300,9 +300,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.each($('.mylibrary_check:checked:visible', $rootel), function(i, checked) {
                 addToIdArr.push($(checked).attr('data-entityid'));
                 addToTitleArr.push($(checked).attr('data-entityname'));
-                if ($(checked).attr('data-canshare') === 'true') {
-                    shareIdArr.push($(checked).attr('data-entityid'));
-                } else if (!$(checked).attr('data-canshare-error')) {
+                shareIdArr.push($(checked).attr('data-entityid'));
+                if (!$(checked).attr('data-canshare-error')) {
                     $(checked).attr('data-canshare-error', 'true');
                 }
             });
