@@ -97,6 +97,23 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.Forms.validate( $templategeneratorForm, validateOpts, true );
         };
 
+        /**
+         * Get the first page in a list of pages
+         * @param {Object} pages the list of pages
+         * @return {Object} the first page in the list
+         */
+        var getFirstPage = function(pages) {
+            var page = {};
+
+            $.each(pages, function(index, item) {
+                if (item._order === 0) {
+                    page = item;
+                }
+            });
+
+            return page;
+        };
+
         var generateTemplateFromData = function() {
             if (templategeneratorData.templatesLoaded && !templategeneratorData.generatingTemplate) {
                 templategeneratorData.generatingTemplate = true;
@@ -119,10 +136,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // Create the root structure for the group template
                 templategeneratorData.exportData.structure = {};
                 $.each(templategeneratorData.pageStructures, function(index, item) {
-                    templategeneratorData.exportData.structure[item.page1._title] = {};
-                    templategeneratorData.exportData.structure[item.page1._title] = {
-                        '_title': item.page1._title,
-                        '_order': item.page1._order,
+
+                    // Get the first page
+                    var firstPage = getFirstPage(item);
+
+                    templategeneratorData.exportData.structure[firstPage._title] = {};
+                    templategeneratorData.exportData.structure[firstPage._title] = {
+                        '_title': firstPage._title,
+                        '_order': firstPage._order,
                         '_docref': '${pid}' + index,
                         '_nonEditable': true,
                         '_view': [
@@ -154,7 +175,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         }
                     };
                     // Add the content for the page (rows, cells,...)
-                    var oldRef = item.page1._ref;
+                    var oldRef = firstPage._ref;
                     templategeneratorData.exportData.docs['${pid}' + index]['${refid}' + index] = {
                         'rows': {}
                     };
@@ -216,7 +237,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var createTemplateFile = function() {
             var body = '--AAAAA\r\n';
-            body = body + 'Content-Disposition: form-data; name=\'*\'; filename=\'' + templategeneratorData.exportData.id + '.txt\' \r\n';
+            body = body + 'Content-Disposition: form-data; name=\'*\'; filename="' + templategeneratorData.exportData.id + '.txt" \r\n';
             body = body + 'Content-Type: text/plain \r\n';
             body = body + 'Content-Transfer-Encoding: binary\r\n\r\n';
             body = body + templategeneratorData.output + '\r\n';
