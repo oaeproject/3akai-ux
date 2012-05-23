@@ -29,6 +29,9 @@
     top: 50px;
     width: 230px;
 }
+.inserter_widget .s3d-search-button:hover, .inserter_widget .s3d-search-button:focus {
+    border: none !important;
+}
 .inserter_widget #inserter_init_container ul li:first-child {
     border-bottom: 1px solid #ccc
 }
