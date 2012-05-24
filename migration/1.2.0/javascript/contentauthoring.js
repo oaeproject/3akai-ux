@@ -284,7 +284,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             var url = $('#migration_input_url').val();
             sakai.api.Server.loadJSON(url, function(success, data) {
                 if (success) {
-                     $('#migration_output').val($.toJSON(migratePageStructure(data)));
+                     $('#migration_output').val(JSON.stringify(migratePageStructure(data)));
                 } else {
                     alert('No valid JSON structure was entered');
                 }
@@ -295,7 +295,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             var block = {};
             try {
                 block = eval('(' + $('#migration_input_block').val() + ')');
-                $('#migration_output').val($.toJSON(migratePageStructure(block)));
+                $('#migration_output').val(JSON.stringify(migratePageStructure(block)));
             } catch (err) {
                 alert('An error has occured. Please replace variables by dummy values.\n' + err);
             }

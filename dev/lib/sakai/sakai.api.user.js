@@ -67,7 +67,7 @@ define(
                 "lastName": lastName,
                 "email": email,
                 ":name": username,
-                ":sakai:profile-import": $.toJSON(profileData)
+                ":sakai:profile-import": JSON.stringify(profileData)
             };
             for (var i in extraOptions) {
                 if (extraOptions.hasOwnProperty(i)) {

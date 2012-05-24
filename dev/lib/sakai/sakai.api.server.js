@@ -106,7 +106,7 @@ define(
                     hasIELongUrlBug = true;
                 //}
 
-                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + $.toJSON(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
+                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + JSON.stringify(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
                 if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
                     method = "POST";
                 } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
@@ -127,7 +127,7 @@ define(
                     async: async,
                     data: {
                         "_charset_":"utf-8",
-                        requests: $.toJSON(_requests)
+                        requests: JSON.stringify(_requests)
                     },
                     success: function(data) {
                         if ($.isFunction(_callback)) {
@@ -341,7 +341,7 @@ define(
                 });
             }
             sakaiServerAPI.removeServerCreatedObjects(i_data, ['_']);
-            postData[':content'] = $.toJSON(i_data);
+            postData[':content'] = JSON.stringify(i_data);
             // Send request
             $.ajax({
                 url: i_url,

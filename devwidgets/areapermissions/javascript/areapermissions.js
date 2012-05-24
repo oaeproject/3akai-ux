@@ -162,11 +162,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: function(data){
                     // Store view and edit roles
                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
-                    pubdata.structure0[contextData.path]._view = $.toJSON(newView);
-                    pubdata.structure0[contextData.path]._edit = $.toJSON(newEdit);
+                    pubdata.structure0[contextData.path]._view = JSON.stringify(newView);
+                    pubdata.structure0[contextData.path]._edit = JSON.stringify(newEdit);
                     sakai_global.group.pubdata.structure0 = pubdata.structure0;
                     sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
-                        "structure0": $.toJSON(pubdata.structure0)
+                        "structure0": JSON.stringify(pubdata.structure0)
                     });
                 }
             });

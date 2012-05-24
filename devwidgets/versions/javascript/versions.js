@@ -189,7 +189,7 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
             var toStore = $.extend({}, version.version);
             currentPageShown.content = toStore;
             toStore.version = addIgnores(version.version);
-            toStore.version = $.toJSON(toStore.version);
+            toStore.version = JSON.stringify(toStore.version);
             sakai.api.Server.saveJSON(currentPageShown.pageSavePath + "/" + currentPageShown.saveRef, toStore, function(success) {
                 $.ajax({
                     url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
