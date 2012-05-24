@@ -19,7 +19,6 @@
 /*
  * Dependencies
  *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.ba-bbq.js (BBQ)
@@ -288,7 +287,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 ajaxArray.push(ajaxObject);
             });
             var data = {
-                requests: $.toJSON(ajaxArray),
+                requests: JSON.stringify(ajaxArray),
                 ":replace": true,
                 ":replaceProperties": true
             };

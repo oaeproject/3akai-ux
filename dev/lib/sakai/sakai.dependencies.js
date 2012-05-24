@@ -117,7 +117,6 @@ require(
         "jquery-plugins/jquery.validate",
         "jquery-plugins/jquery.autoSuggest",
         "misc/l10n/globalize",
-        "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
         "misc/querystring",
         "jquery-plugins/jquery.equalheights",

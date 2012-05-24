@@ -767,7 +767,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         "option": option
                     };
                 }
-                $.cookie(tuid, $.toJSON(cookieData));
+                $.cookie(tuid, JSON.stringify(cookieData));
             }
         };
 

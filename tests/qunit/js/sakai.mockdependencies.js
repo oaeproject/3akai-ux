@@ -99,7 +99,6 @@ require(
         "jquery-plugins/jquery.autoSuggest",
         "misc/l10n/globalize",
         "misc/underscore",
-        "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
         "misc/querystring",
         "jquery-plugins/jquery.timeago",
