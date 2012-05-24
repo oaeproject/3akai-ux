@@ -1,23 +1,19 @@
 {
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         true,
-    "hasSettings":        false,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/mylibrary/bundles/default.properties",
-            "name":       "My library",
+            "bundle": "/devwidgets/mylibrary/bundles/default.properties",
+            "name": "My library",
             "description":"View and manage a user's library items"
         },
         "es_ES": { 
             "bundle": "/devwidgets/mylibrary/bundles/es_ES.properties"
         }
     },
-    "id":                 "mylibrary",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/mylibrary/mylibrary.html",
-    "userdashboard":      false,
-    "userpages":          false,
+    "id": "mylibrary",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/mylibrary/mylibrary.html",
     "hashParams": ["ls", "lq"]
 }

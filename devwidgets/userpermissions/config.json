@@ -1,22 +1,19 @@
 {
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        false,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/userpermissions/bundles/default.properties",
-            "name":       "User permissions",
+            "bundle": "/devwidgets/userpermissions/bundles/default.properties",
+            "name": "User permissions",
             "description":"User permissions"
         },
         "es_ES": { 
             "bundle": "/devwidgets/userpermissions/bundles/es_ES.properties"
         }
     },
-    "id":                 "userpermissions",
-    "personalportal":     false,
-    "type":               "core",
-    "url":                "/devwidgets/userpermissions/userpermissions.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "userpermissions",
+    "personalportal": false,
+    "type": "core",
+    "url": "/devwidgets/userpermissions/userpermissions.html",
+    "userpages": false
 }

@@ -1,8 +1,4 @@
 {
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
-    "groupdashboard": true,
     "id":"discussion",
     "img":"/devwidgets/discussion/images/discussion.png",
     "imghover":"/devwidgets/discussion/images/discussion_hover.png",

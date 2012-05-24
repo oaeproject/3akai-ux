@@ -1,5 +1,4 @@
 {
-    "grouppages":true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/siterecentactivity/bundles/default.properties",

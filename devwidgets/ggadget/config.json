@@ -1,8 +1,4 @@
 {
-    "grouppages": true,
-    "groupdashboard": true,
-    "userdashboard": true,
-    "userpages": true,
     "sakaidocs": true,
     "id":"ggadget",
     "i18n": {

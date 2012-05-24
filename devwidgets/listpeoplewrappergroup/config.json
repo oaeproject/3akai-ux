@@ -1,6 +1,4 @@
 {
-    "grouppages": true,
-    "groupdashboard": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/listpeoplewrappergroup/bundles/default.properties",
