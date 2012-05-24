@@ -190,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                             "name": toUser.username,
                             "value": toUser.uuid
                         });
-                    } else if (_.isArray(toUser)) {
+                    } else if ($.isArray(toUser)) {
                         $.each(toUser, function(i,usr) {
                             preFill.push({
                                 "name": usr.username,
@@ -242,7 +242,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 // Make sure that everything is standard.
                 resetView();
                 // The user we are sending a message to.
-                if (userObj && (($.isPlainObject(userObj) && userObj.username) || _.isArray(userObj))) {
+                if (userObj && (($.isPlainObject(userObj) && userObj.username) || $.isArray(userObj))) {
                     toUser = userObj;
                 } else {
                     toUser = false;
