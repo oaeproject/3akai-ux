@@ -639,7 +639,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var showCollection = function(item) {
             inCollection = true;
-            var query = $.trim($(inserterCollectionContentSearch, $rootel).val()) || '*';
+            var query = $.trim($(inserterCollectionContentSearch, $rootel).val());
             var mimetype = $inserterMimetypeFilter.val() || '';
 
             var params = {
