@@ -88,6 +88,7 @@ define(
                 url: sakai_conf.URL.WORLD_INFO_URL,
                 async:false,
                 success: function(data) {
+                    data = sakai_serv.removeServerCreatedObjects(data, ["jcr:"]);
                     $.each(data, function(key, value){
                         if ($.isPlainObject(value) && value.id){
                             templates.push(value);
