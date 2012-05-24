@@ -18,7 +18,6 @@
 /*
  * Dependencies
  *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
@@ -572,7 +571,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             }
 
-            if ($.toJSON(tempSettings) !== $.toJSON(settings)) {
+            if (JSON.stringify(tempSettings) !== JSON.stringify(settings)) {
                 sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess, true);
             }
 

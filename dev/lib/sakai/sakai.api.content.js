@@ -366,7 +366,7 @@ define(
                 type: "POST",
                 cache: false,
                 data: {
-                    requests: $.toJSON(data)
+                    requests: JSON.stringify(data)
                 },
                 success: function(data){
                     if (callback) {
@@ -605,7 +605,7 @@ define(
                 type: "POST",
                 cache: false,
                 data: {
-                    requests: $.toJSON(ACLs)
+                    requests: JSON.stringify(ACLs)
                 },
                 success: function(data){
                     if ($.isFunction(callback)) {
@@ -1389,7 +1389,7 @@ define(
                         "parameters": {
                             ":name": fullId,
                             "sakai:group-title" : role ? "" : title,
-                            "sakai:roles": role ? "" : $.toJSON(roles),
+                            "sakai:roles": role ? "" : JSON.stringify(roles),
                             "sakai:group-id": fullId,
                             "sakai:category": "collection",
                             "sakai:excludeSearch": true,
@@ -1418,7 +1418,7 @@ define(
                     "sakai:showalways": true,
                     "sakai:showalways@TypeHint": "Boolean",
                     'sakai:schemaversion': sakai_conf.schemaVersion,
-                    "structure0": $.toJSON({
+                    "structure0": JSON.stringify({
                         "main": {
                             "_ref": refID,
                             "_order": 0,
