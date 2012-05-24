@@ -88,7 +88,12 @@ define(
                 url: sakai_conf.URL.WORLD_INFO_URL,
                 async:false,
                 success: function(data) {
-                    templates = _.toArray(sakai_serv.removeServerCreatedObjects(data, ["jcr:"]));
+                    data = sakai_serv.removeServerCreatedObjects(data, ["jcr:"]);
+                    $.each(data, function(key, value){
+                        if ($.isPlainObject(value) && value.id){
+                            templates.push(value);
+                        }
+                    });
                 }
             });
             $.each(templates, function(i,temp) {
