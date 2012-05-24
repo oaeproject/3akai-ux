@@ -1,9 +1,5 @@
 {
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
     "sakaidocs": true,
-    "groupdashboard": true,
     "hasSettings":true,
     "id":"rss",
     "img":"/devwidgets/rss/images/rss.png",

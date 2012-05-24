@@ -1,7 +1,5 @@
 {
     "enabled": true,
-    "groupdashboard": false,
-    "grouppages": false,
     "hasSettings": false,
     "sakaidocs": false,
     "i18n": {
@@ -18,6 +16,5 @@
     "personalportal": false,
     "type": "core",
     "url": "/devwidgets/worldsettings/worldsettings.html",
-    "userdashboard": false,
     "userpages": false
 }

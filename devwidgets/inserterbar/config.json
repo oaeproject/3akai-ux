@@ -1,7 +1,5 @@
 {
     "enabled": true,
-    "groupdashboard": false,
-    "grouppages": false,
     "hasSettings": false,
     "i18n": {
         "default": {
@@ -14,6 +12,5 @@
     "personalportal": false,
     "type": "core",
     "url": "/devwidgets/inserterbar/inserterbar.html",
-    "userdashboard": false,
     "userpages": false
 }

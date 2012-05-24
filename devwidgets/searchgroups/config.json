@@ -1,7 +1,5 @@
 {
     "enabled": false,
-    "groupdashboard": false,
-    "grouppages": false,
     "hasSettings": false,
     "i18n": {
         "default": {
@@ -17,6 +15,5 @@
     "personalportal": false,
     "type": "core",
     "url": "/devwidgets/searchgroups/searchgroups.html",
-    "userdashboard": false,
     "userpages": false
 }

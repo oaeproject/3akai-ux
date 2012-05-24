@@ -1,8 +1,4 @@
 {
-    "userpages": false,
-    "userdashboard": false,
-    "grouppages": false,
-    "groupdashboard": false,
     "hasSettings":true,
     "id":"contentcomments",
     "i18n": {

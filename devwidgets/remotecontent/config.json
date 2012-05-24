@@ -1,8 +1,4 @@
 {
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
-    "groupdashboard": true,
     "sakaidocs": false,
     "i18n": {
         "default": {

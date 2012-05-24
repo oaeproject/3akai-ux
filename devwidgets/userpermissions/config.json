@@ -1,7 +1,5 @@
 {
     "enabled": true,
-    "groupdashboard": false,
-    "grouppages": false,
     "hasSettings": false,
     "i18n": {
         "default": {
@@ -17,6 +15,5 @@
     "personalportal": false,
     "type": "core",
     "url": "/devwidgets/userpermissions/userpermissions.html",
-    "userdashboard": false,
     "userpages": false
 }

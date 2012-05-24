@@ -13,8 +13,5 @@
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/basiclti/basiclti.html",
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
     "groupdashboard": true
 }

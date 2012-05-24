@@ -1,9 +1,5 @@
 {
     "personalportal":true,
-    "userpages": false,
-    "userdashboard": false,
-    "grouppages": false,
-    "groupdashboard": false,
     "hasSettings": false,
     "id": "activegroups",
     "type": "sakai",

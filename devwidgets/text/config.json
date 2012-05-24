@@ -1,8 +1,4 @@
 {
-    "userpages": false,
-    "userdashboard": true,
-    "grouppages": false,
-    "groupdashboard": true,
     "hasSettings": true,
     "id": "text",
     "type": "sakai",

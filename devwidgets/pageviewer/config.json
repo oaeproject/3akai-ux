@@ -1,7 +1,5 @@
 {
     "enabled": true,
-    "groupdashboard": false,
-    "grouppages": false,
     "hasSettings": true,
     "i18n": {
         "default": {
@@ -14,6 +12,5 @@
     "personalportal": false,
     "type": "sakai",
     "url": "/devwidgets/pageviewer/pageviewer.html",
-    "userdashboard": false,
     "userpages": false
 }

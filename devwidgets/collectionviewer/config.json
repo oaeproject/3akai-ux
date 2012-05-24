@@ -1,7 +1,5 @@
 {
     "enabled": true,
-    "groupdashboard": false,
-    "grouppages": false,
     "hasSettings": false,
     "i18n": {
         "default": {
@@ -17,7 +15,5 @@
     "personalportal": false,
     "type": "sakai",
     "url": "/devwidgets/collectionviewer/collectionviewer.html",
-    "userdashboard": false,
-    "userpages": false,
     "hashParams": ["ls", "so"]
 }

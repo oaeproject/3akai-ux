@@ -1,7 +1,5 @@
 {
     "enabled": false,
-    "groupdashboard": false,
-    "grouppages": false,
     "hasSettings": true,
     "i18n": {
         "default": {
@@ -17,6 +15,5 @@
     "personalportal": false,
     "type": "sakai",
     "url": "/devwidgets/categories/categories.html",
-    "userdashboard": false,
     "userpages": false
 }
