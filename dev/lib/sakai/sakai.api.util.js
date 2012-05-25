@@ -494,7 +494,7 @@ define(
                             structure[i] = structure[i].replace(regex, replace);
                         } else if ($.isPlainObject(structure[i])) {
                             structure[i] = loopAndReplace(structure[i], variable, replace);
-                        } else if (_.isArray(structure[i])) {
+                        } else if ($.isArray(structure[i])) {
                             for (var j = 0; j < structure[i].length; j++){
                                 structure[i][j] = loopAndReplace(structure[i][j], variable, replace);
                             }
@@ -1605,11 +1605,11 @@ define(
                 var newobj;
                 if ($.isPlainObject(data)) {
                     newobj = $.extend(true, {}, data);
-                } else if (_.isArray(data)) {
+                } else if ($.isArray(data)) {
                     newobj = $.merge([], data);
                 }
                 $.each(newobj, function(key,val) {
-                    if ($.isPlainObject(val) || _.isArray(val)) {
+                    if ($.isPlainObject(val) || $.isArray(val)) {
                         newobj[key] = sakai_util.Security.safeDataSave(newobj[key]);
                     } else {
                         newobj[key] = sakai_util.Security.safeOutput(val);
@@ -2023,7 +2023,7 @@ define(
                 var $el = sakai_util.getJqueryObject(el);
 
                 var dialogOffset = 50;
-                if (offset && _.isNumber(offset)) {
+                if (offset && $.isNumeric(offset)) {
                     dialogOffset = parseInt(offset, 10);
                 }
 
