@@ -839,13 +839,13 @@ define(
 
             if (_.isString(userId)){
                 userIds.push(userId);
-            } else if (_.isArray(userId)){
+            } else if ($.isArray(userId)){
                 userIds = userId;
             }
 
             if (_.isString(contentId)){
                 contentIds.push(contentId);
-            } else if (_.isArray(contentId)){
+            } else if ($.isArray(contentId)){
                 contentIds = contentId;
             }
 
