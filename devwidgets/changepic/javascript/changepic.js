@@ -182,8 +182,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         // Since file upload form is reset every time overlay closes do this in init function
         $("#changepic_container .jqmClose").click(function(){
             resetUploadField();
-            // hide any tooltips if they are open
-            $(window).trigger("done.tooltip.sakai");
         });
 
         /**
@@ -367,15 +365,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                             imageareaobject.setOptions({show: true, enable: true});
                             imageareaobject.update();
                             preview($("img" + fullPicture)[0], selectionObj);
-                            // display help tooltip
-                            var tooltipData = {
-                                "tooltipSelector":"#save_new_selection",
-                                "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
-                                "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P4",
-                                "tooltipArrow":"top",
-                                "tooltipLeft":50
-                            };
-                            $(window).trigger("update.tooltip.sakai", tooltipData);
                         },
                         onSelectChange: preview
                     });
@@ -393,14 +382,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         $(picInput).bind("change", function(){
             hideInputError();
             $('#profile_upload').removeAttr('disabled');
-            // display help tooltip
-            var tooltipData = {
-                "tooltipSelector":"#profile_upload",
-                "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
-                "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P3",
-                "tooltipArrow":"bottom"
-            };
-            $(window).trigger("update.tooltip.sakai", tooltipData);
         });
 
         // This is the function that will be called when a user has cut out a selection
@@ -482,25 +463,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                                 $(imagesToChange[i]).attr("src", "/~" + id + "/public/profile/" + tosave.name + "?sid=" + Math.random());
                             }
 
-                            // display help tooltip
-                            var tooltipData = {
-                                "tooltipSelector":"#systemtour_add_photo",
-                                "tooltipTitle":"TOOLTIP_ADD_MY_PHOTO",
-                                "tooltipDescription":"TOOLTIP_ADD_MY_PHOTO_P5",
-                                "tooltipArrow":"top",
-                                "tooltipTop":25,
-                                "tooltipLeft":40,
-                                "tooltipAutoClose":true
-                            };
-                            $(window).trigger("update.tooltip.sakai", tooltipData);
-
                             // Hide the layover.
                             sakai.api.Util.Modal.close(container);
 
-                            if (mode !== "group") {
-                                // record that user uploaded their profile picture
-                                sakai.api.User.addUserProgress("uploadedProfilePhoto");
-                            } else if (sakai.currentgroup && sakai.currentgroup.data && sakai.currentgroup.data.authprofile) {
+                            if (sakai.currentgroup && sakai.currentgroup.data && sakai.currentgroup.data.authprofile) {
                                 sakai.currentgroup.data.authprofile.picture = JSON.stringify(tosave);
                             }
                         },
@@ -547,16 +513,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var showArea = function(hash){
             doInit();
             hash.w.show();
-            if (!existingPicture) {
-                // display help tooltip
-                var tooltipData = {
-                    "tooltipSelector": "#profilepicture",
-                    "tooltipTitle": "TOOLTIP_ADD_MY_PHOTO",
-                    "tooltipDescription": "TOOLTIP_ADD_MY_PHOTO_P2",
-                    "tooltipArrow": "top"
-                };
-                $(window).trigger("update.tooltip.sakai", tooltipData);
-            }
         };
 
         sakai.api.Util.Modal.setup(container, {
