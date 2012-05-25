@@ -234,13 +234,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             privurl = '/~' + sakai.api.Util.safeURL(userid) + '/private/privspace';
             puburl = '/~' + sakai.api.Util.safeURL(userid) + '/public/pubspace';
             if (isMe) {
-                sakai.api.Communication.getUnreadMessagesCountOverview('inbox', function(success, counts) {
-                    messageCounts = counts;
-                    continueLoadSpaceData(userid);
-                });
-            } else {
-                continueLoadSpaceData(userid);
+                messageCounts = sakai.data.me.messages.unread;
             }
+            continueLoadSpaceData(userid);
         };
 
         var addCounts = function() {
