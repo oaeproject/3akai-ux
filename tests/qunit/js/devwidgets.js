@@ -121,7 +121,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "selecttemplate",
         "sendmessage",
         "siterecentactivity",
-        "systemtour",
         "tags",
         "text",
         "tooltip",
