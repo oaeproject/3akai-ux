@@ -755,7 +755,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Add binding to various elements of the widget
          */
         var addBinding = function() {
-            $(window).on('click', '#subnavigation_add_collection_link', openAddNewCollection);
+            $('#subnavigation_add_collection_link').on('click', openAddNewCollection);
             $(window).on('create.collections.sakai', openAddNewCollection);
             $(window).on('done.deletecontent.sakai', removeFromLibraryCount);
             $(window).on('done.newaddcontent.sakai', function() {
