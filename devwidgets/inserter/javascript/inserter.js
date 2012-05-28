@@ -171,7 +171,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             library = false;
             $(inserterCollectionContentSearch, $rootel).val('');
             $inserterMimetypeFilter.val($('options:first', $inserterMimetypeFilter).val());
-            animateUIElements('reset');
+            showUIElements('reset');
             doInit();
         };
 
@@ -179,30 +179,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Animate different UI elements according to the context of the widget
          * @param {String} context Context the widget is in
          */
-        var animateUIElements = function(context) {
-            debug.log(context);
+        var showUIElements = function(context) {
             switch (context) {
                 case 'reset':
-                    $inserterCollectionContentContainer.animate({
-                        'opacity': 0
-                    }, 400, function() {
-                        $inserterCollectionContentContainer.hide();
-                        $inserterInitContainer.show();
-                        $inserterInitContainer.animate({
-                            'opacity': 1
-                        }, 400);
-                    });
+                    $inserterCollectionContentContainer.hide();
+                    $inserterInitContainer.show();
                     break;
                 case 'results':
-                    $inserterInitContainer.animate({
-                        'opacity': 0
-                    }, 400, function() {
-                        $inserterInitContainer.hide();
-                        $inserterCollectionContentContainer.show();
-                        $inserterCollectionContentContainer.animate({
-                            'opacity': 1
-                        }, 400);
-                    });
+                    $inserterInitContainer.hide();
+                    $inserterCollectionContentContainer.show();
                     break;
             }
         };
@@ -339,7 +324,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var collectionClicked = function(ev) {
             if (!inCollection) {
-                animateUIElements('results');
+                showUIElements('results');
                 var idToShow = $(this).attr('data-collection-id');
                 if (idToShow === 'library') {
                     renderHeader('items', idToShow);
@@ -382,7 +367,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         });
                         showCollection(contentListDisplayed);
                     } else {
-                        animateUIElements('reset');
+                        showUIElements('reset');
                     }
                 });
             });
@@ -613,7 +598,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 scope: 'content'
             }, $inserterContentInfiniteScrollContainerList);
             addDnDToElements();
-            //animateUIElements('results');
         };
 
         /**
@@ -687,7 +671,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // empty list processor
             }, sakai.config.URL.INFINITE_LOADING_ICON, handleLibraryItems, function() {
                 // post renderer
-                animateUIElements('reset');
+                showUIElements('reset');
                 sakai.api.Util.Draggable.setupDraggable({
                     connectToSortable: '.contentauthoring_cell_content'
                 }, $inserterInitContainer);
@@ -714,7 +698,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toggleInserter();
             } else {
                 renderHeader('init');
-                animateUIElements('reset');
+                showUIElements('reset');
                 inCollection = false;
                 $(inserterCreateCollectionInput).focus();
             }
