@@ -180,6 +180,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} context Context the widget is in
          */
         var animateUIElements = function(context) {
+            debug.log(context);
             switch (context) {
                 case 'reset':
                     $inserterCollectionContentContainer.animate({
@@ -612,7 +613,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 scope: 'content'
             }, $inserterContentInfiniteScrollContainerList);
             addDnDToElements();
-            animateUIElements('results');
+            //animateUIElements('results');
         };
 
         /**
@@ -620,6 +621,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} item Contains data about the collection to be loaded
          */
         var showCollection = function(item) {
+            debug.log("In show collection");
+            debug.log(item);
             inCollection = true;
             var query = $.trim($(inserterCollectionContentSearch, $rootel).val()) || '*';
             var mimetype = $inserterMimetypeFilter.val() || '';
