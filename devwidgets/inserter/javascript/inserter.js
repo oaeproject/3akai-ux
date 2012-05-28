@@ -279,7 +279,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $.each(sakai.data.me.groups, function(index, group) {
                     if (group['sakai:category'] === 'collection' && group.groupid === 'c-' + collectionId) {
                         // Display the collection counts in the UI
-                        updateCollectionCount(false, collectionId, group.counts.contentCount);
+                        updateCollectionCount(false, collectionId, group.counts.contentCount += amount);
                         // Update the header of a collection if necessary
                         if (inCollection) {
                             $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
@@ -386,7 +386,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // Share the collections that were dropped
                 sakai.api.Content.Collections.shareCollection(collectedCollections,
                     sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function() {
-                    addToCollectionCount(collectionId, 0, true);
+                    addToCollectionCount(collectionId, 1, true);
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                     if (inCollection) {
                         $.each(sakai.data.me.groups, function(index, item) {
