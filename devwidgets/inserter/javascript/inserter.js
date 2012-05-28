@@ -40,8 +40,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /////////////////////////////
 
         var $rootel = $('#' + tuid);
-        var hasInitialised = false;
-        var libraryData = [];
+        var libraryData = {};
         var library = false;
         var infinityContentScroll = false;
         var infinityCollectionScroll = false;
@@ -101,12 +100,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var toggleInserter = function() {
             $inserterWidget.fadeToggle(250);
             $(topnavToggle).toggleClass('inserter_toggle_active');
-            if (!hasInitialised) {
-                doInit();
-                hasInitialised = true;
-            } else if (focusCreateNew) {
-                $(inserterCreateCollectionInput).focus();
-            }
             refreshWidget();
         };
 
@@ -165,10 +158,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 infinityContentScroll.kill();
                 infinityContentScroll = false;
             }
-            if (infinityCollectionScroll) {
-                infinityCollectionScroll.kill();
-                infinityCollectionScroll = false;
-            }
         };
 
         /**
@@ -182,7 +171,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             library = false;
             $(inserterCollectionContentSearch, $rootel).val('');
             $inserterMimetypeFilter.val($('options:first', $inserterMimetypeFilter).val());
-            animateUIElements('reset');
+            showUIElements('reset');
             doInit();
         };
 
@@ -190,29 +179,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Animate different UI elements according to the context of the widget
          * @param {String} context Context the widget is in
          */
-        var animateUIElements = function(context) {
+        var showUIElements = function(context) {
             switch (context) {
                 case 'reset':
-                    $inserterCollectionContentContainer.animate({
-                        'opacity': 0
-                    }, 400, function() {
-                        $inserterCollectionContentContainer.hide();
-                        $inserterInitContainer.show();
-                        $inserterInitContainer.animate({
-                            'opacity': 1
-                        }, 400);
-                    });
+                    $inserterCollectionContentContainer.hide();
+                    $inserterInitContainer.show();
                     break;
                 case 'results':
-                    $inserterInitContainer.animate({
-                        'opacity': 0
-                    }, 400, function() {
-                        $inserterInitContainer.hide();
-                        $inserterCollectionContentContainer.show();
-                        $inserterCollectionContentContainer.animate({
-                            'opacity': 1
-                        }, 400);
-                    });
+                    $inserterInitContainer.hide();
+                    $inserterCollectionContentContainer.show();
                     break;
             }
         };
@@ -230,7 +205,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             item.counts = {
                                 contentCount: group.counts.contentCount
                             };
-                            libraryData.push(item);
+                            libraryData[item._path] = item;
                         }
                     });
                 });
@@ -285,11 +260,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             $('#inserter_header_itemcount > #inserter_header_itemcount_count', $rootel).text(
                                 group.counts.contentCount);
                         }
-                        $.each(libraryData, function(i, item) {
-                            if (item._path === collectionId) {
-                                item.counts.contentCount = group.counts.contentCount;
-                            }
-                        });
+                        libraryData[collectionId].counts.contentCount = group.counts.contentCount;
                     }
                 });
             } else {
@@ -353,18 +324,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var collectionClicked = function(ev) {
             if (!inCollection) {
-                animateUIElements('results');
+                showUIElements('results');
                 var idToShow = $(this).attr('data-collection-id');
                 if (idToShow === 'library') {
                     renderHeader('items', idToShow);
                     showCollection(idToShow);
                 } else {
-                    $.each(libraryData, function(i, item) {
-                        if (item._path === idToShow) {
-                            renderHeader('items', item);
-                            showCollection(item);
-                        }
-                    });
+                    var item = libraryData[idToShow];
+                    renderHeader('items', item);
+                    showCollection(item);
                 }
             }
         };
@@ -399,7 +367,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         });
                         showCollection(contentListDisplayed);
                     } else {
-                        animateUIElements('reset');
+                        showUIElements('reset');
                     }
                 });
             });
@@ -630,7 +598,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 scope: 'content'
             }, $inserterContentInfiniteScrollContainerList);
             addDnDToElements();
-            animateUIElements('results');
         };
 
         /**
@@ -702,7 +669,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // empty list processor
             }, sakai.config.URL.INFINITE_LOADING_ICON, handleLibraryItems, function() {
                 // post renderer
-                animateUIElements('reset');
+                showUIElements('reset');
                 sakai.api.Util.Draggable.setupDraggable({
                     connectToSortable: '.contentauthoring_cell_content'
                 }, $inserterInitContainer);
@@ -729,7 +696,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toggleInserter();
             } else {
                 renderHeader('init');
-                animateUIElements('reset');
+                showUIElements('reset');
                 inCollection = false;
                 $(inserterCreateCollectionInput).focus();
             }
@@ -771,7 +738,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     toggleInserter();
                 }
             });
-            $(document).on('click', inserterToggle, toggleInserter);
+            $(window).on('click', inserterToggle, toggleInserter);
             $inserterCollectionInfiniteScrollContainer.on('click', 'li', collectionClicked);
             $inserterCollectionContentContainer.on('click', inserterAllCollectionsButton, refreshWidget);
             $inserterCollectionContentContainer.on('submit', inserterCollectionContentSearchForm, searchCollection);
