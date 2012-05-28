@@ -7,8 +7,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
     module("Sorting");
 
     test("Natural sorting: Strings", function(){
@@ -38,5 +36,4 @@ require(
         same(arrayTest.sort(sakai.api.Util.Sorting.naturalSort), arrayNatural);
     });
 
-    });
 });

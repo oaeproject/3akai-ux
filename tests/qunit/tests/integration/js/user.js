@@ -6,8 +6,6 @@ require(
     "../../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
     function($, sakai) {
-    
-    require(["misc/domReady!"], function(doc) {
 
         module("User Creation, Login, Logout");
 
@@ -53,5 +51,5 @@ require(
 
         $(window).trigger("addlocalbinding.qunit.sakai");
 
-    });
-});
+    }
+);
