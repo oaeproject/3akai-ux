@@ -12,6 +12,5 @@
     "img":"/devwidgets/basiclti/images/basiclti.png",
     "type":"sakai",
     "enabled":true,
-    "url":"/devwidgets/basiclti/basiclti.html",
-    "groupdashboard": true
+    "url":"/devwidgets/basiclti/basiclti.html"
 }

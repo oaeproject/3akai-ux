@@ -15,6 +15,5 @@
     "img":"/devwidgets/sakai2tools/images/sakai2tools.png",
     "type":"sakai",
     "enabled":true,
-    "url":"/devwidgets/sakai2tools/sakai2tools.html",
-    "groupdashboard": true
+    "url":"/devwidgets/sakai2tools/sakai2tools.html"
 }
