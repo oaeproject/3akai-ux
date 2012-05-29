@@ -273,27 +273,6 @@ blockquote {
 	padding-left: 5px;
 }
 
-/* Change layout */
-
-#change_layout_dialog {
-	width: 840px !important;
-	margin-left: -420px !important;
-}
-
-/* Add Sakai Goodies */
-.add_goodies  ul {
-	margin: 0;
-}
-.add_goodies  ul li {
-	border-bottom: 1px solid #efefef;
-	line-height: 30px;
-	list-style: none;
-	padding: 0 12px;
-}
-.add_goodies  ul li:hover {
-	background-color: #dbeefc;
-}
-
 /* D&D Classes */
 .ui-draggable, .orderable-hover {
 	cursor: move;

@@ -55,6 +55,18 @@
 #change_layout_dialog .layout_picker_item_radio_unselected {margin-left:50px; margin-top: 10px;}
 
 /* Add Sakai Goodies */
+.add_goodies  ul {
+    margin: 0;
+}
+.add_goodies  ul li {
+    border-bottom: 1px solid #efefef;
+    line-height: 30px;
+    list-style: none;
+    padding: 0 12px;
+}
+.add_goodies  ul li:hover {
+    background-color: #dbeefc;
+}
 #add_goodies_dialog {width:520px; height: 374px; margin-left: -260px;}
 .add_goodies .s3d-button {margin:0; height:23px;}
 .add_goodies .dialog_body {height:308px; overflow-y:auto; overflow-x:hidden; position:relative; width:471px;}
