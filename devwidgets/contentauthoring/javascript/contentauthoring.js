@@ -938,6 +938,22 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         /**
+         * SAKIII-5647 When you're using world templates, sometimes the
+         * items within rows are strings when they should be objects.
+         * This makes versions work again
+         * @param {Object} rows The rows object that you want to convert
+         */
+        var convertRows = function(rows) {
+            if (rows && $.isArray(rows)) {
+                for (var i = 0; i < rows.length; i++) {
+                    if (typeof rows[i] === 'string') {
+                        rows[i] = $.parseJSON(rows[i]);
+                    }
+                }
+            }
+        };
+
+        /**
          * Render a page, including its full layout and all of the widgets that live inside of it
          * @param {Object} currentPageShown     Object representing the current page
          * @param {Boolean} requiresRefresh     Whether or not the page should be fully reloaded (if it
@@ -973,6 +989,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 $pageRootEl = $('<div />').attr('id', currentPageShown.ref);
                 // Add element to the DOM
                 $('#contentauthoring_widget', $rootel).append($pageRootEl);
+                convertRows(currentPageShown.content.rows);
                 var pageStructure = $.extend(true, {}, currentPageShown.content);
                 pageStructure.template = 'all';
                 pageStructure.sakai = sakai;
@@ -1335,7 +1352,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         'url': oldStorePath,
                         'method': 'POST',
                         'parameters': {
-                            'version': $.toJSON(data)
+                            'version': JSON.stringify(data)
                         }
                     });
                     batchRequests.push({

@@ -195,7 +195,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var showLibraryContent = function () {
             resetView();
-            var query = $mylibrary_livefilter.val() || '*';
+            var query = $mylibrary_livefilter.val();
             // Disable the previous infinite scroll
             if (mylibrary.infinityScroll) {
                 mylibrary.infinityScroll.kill();

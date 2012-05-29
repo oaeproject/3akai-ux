@@ -551,11 +551,6 @@ define(function(){
             }]
         },
 
-        SystemTour: {
-            "enableReminders": true,
-            "reminderIntervalHours": "168"
-        },
-
         /*
          * Object to override default widget configuration
          * Here you can add an object with the widget ID for the object key, with the configuration you would like to override

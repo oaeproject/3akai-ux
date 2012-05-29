@@ -17,7 +17,7 @@
  */
 
 /*global sakai, Config, $, QueryString */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.cookie'], function($, sakai) {
 
 sakai_global.s23_site = function(){
 

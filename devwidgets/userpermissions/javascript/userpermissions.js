@@ -90,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
             page._view = permission;
 
             sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/public/pubspace", {
-                "structure0": $.toJSON(sakai_global.user.pubdata.structure0)
+                "structure0": JSON.stringify(sakai_global.user.pubdata.structure0)
             });
 
             if (_.indexOf(["library", "memberships", "contacts"], currentPath) === -1) {

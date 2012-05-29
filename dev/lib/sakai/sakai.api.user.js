@@ -67,7 +67,7 @@ define(
                 "lastName": lastName,
                 "email": email,
                 ":name": username,
-                ":sakai:profile-import": $.toJSON(profileData)
+                ":sakai:profile-import": JSON.stringify(profileData)
             };
             for (var i in extraOptions) {
                 if (extraOptions.hasOwnProperty(i)) {
@@ -351,9 +351,6 @@ define(
          * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
          */
         logout : function(callback) {
-
-            // clear the systemtour widget cookie
-            $.cookie("sakai.systemtour.hide", null);
 
             /*
              * POST request to the logout service,
@@ -764,66 +761,6 @@ define(
                     }
                 }
             });
-        },
-
-        /**
-         * Adds system tour progress for the user to be tracked by the systemtour widget
-         *
-         * @param {String} type The type of progress the user as achieved
-         */
-        addUserProgress : function(type) {
-            if (!this.data.me.profile.userprogress){
-                this.data.me.profile.userprogress = {};
-            }
-            var me = this.data.me;
-            var progressData = "";
-            var refresh = true;
-
-            switch(type) {
-                case "uploadedProfilePhoto":
-                    if (!me.profile.userprogress.uploadedProfilePhoto) {
-                        progressData = {"uploadedProfilePhoto": true};
-                        this.data.me.profile.userprogress.uploadedProfilePhoto = true;
-                    }
-                    break;
-                case "uploadedContent":
-                    if (!me.profile.userprogress.uploadedContent) {
-                        progressData = {"uploadedContent": true};
-                        this.data.me.profile.userprogress.uploadedContent = true;
-                    }
-                    break;
-                case "sharedContent":
-                    if (!me.profile.userprogress.sharedContent) {
-                        progressData = {"sharedContent": true};
-                        this.data.me.profile.userprogress.sharedContent = true;
-                    }
-                    break;
-                case "madeContactRequest":
-                    if (!me.profile.userprogress.madeContactRequest) {
-                        progressData = {"madeContactRequest": true};
-                        this.data.me.profile.userprogress.madeContactRequest = true;
-                    }
-                    break;
-                case "halfCompletedProfile":
-                    if (!me.profile.userprogress.halfCompletedProfile) {
-                        progressData = {"halfCompletedProfile": true};
-                        this.data.me.profile.userprogress.halfCompletedProfile = true;
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            if (progressData !== ""){
-                var authprofileURL = "/~" + sakai_util.safeURL(me.user.userid) + "/public/authprofile/userprogress";
-                sakai_serv.saveJSON(authprofileURL, progressData, function(success, data){
-                    // Check whether save was successful
-                    if (success && refresh) {
-                        // Refresh the widget
-                        $(window).trigger("update.systemtour.sakai");
-                    }
-                });
-            }
         },
 
         getUpdatedCounts : function(medata, callback) {

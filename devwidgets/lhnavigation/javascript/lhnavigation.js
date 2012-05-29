@@ -150,7 +150,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var storeStructure = function(structure, savepath) {
             sakai.api.Server.saveJSON(savepath, {
-                'structure0': $.toJSON(structure)
+                'structure0': JSON.stringify(structure)
             });
         };
 
