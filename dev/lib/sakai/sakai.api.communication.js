@@ -451,13 +451,6 @@ define(
                 data: parameters,
                 cache: false,
                 success: function(data){
-                    if (box === "inbox") {
-                        sakaiCommunicationsAPI.getUnreadMessageCount(box, function() {
-                            sakaiCommunicationsAPI.getUnreadMessagesCountOverview(box, function(){
-                                $(window).trigger("updated.messageCount.sakai");
-                            }, false);
-                        });
-                    }
                     if (doProcessing !== false) {
                         data.results = sakaiCommunicationsAPI.processMessages(data.results, doFlip);
                     }
@@ -507,80 +500,6 @@ define(
                     callback(false);
                 }
             });
-        },
-
-        /**
-         * Gets a count of the unread messages for each box belonging to
-         * the current user
-         */
-        getUnreadMessagesCountOverview : function(box, callback, ignoreCache) {
-            if (!ignoreCache && sakai_user.data.me.messages.countOverview && $.isFunction(callback)) {
-                callback(true, sakai_user.data.me.messages.countOverview);
-            } else {
-                var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
-                $.ajax({
-                    url: url,
-                    cache: false,
-                    success: function(data){
-                        sakai_user.data.me.messages.countOverview = data;
-                        if ($.isFunction(callback)) {
-                            callback(true, data);
-                        }
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        if ($.isFunction(callback)) {
-                            callback(false,{});
-                        }
-                    }
-                });
-            }
-        },
-
-        /**
-         * Gets a count of the unread messages in a box belonging
-         * to the current user
-         */
-        getUnreadMessageCount : function(box, callback, category) {
-            if (box === "inbox" && sakai_user.data.me.messages.unread) {
-                if ($.isFunction(callback)) {
-                    callback(true, sakai_user.data.me.messages.unread);
-                }
-            } else {
-                var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
-                $.ajax({
-                    url: url,
-                    cache: false,
-                    success: function(data){
-                        var count = 0;
-                        if (category){
-                            /*
-                             * Data format for this return is:
-                             * {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
-                             */
-                            if (data.count && data.count.length){
-                                for (var i = 0; i < data.count.length; i++){
-                                    if (data.count[i].group && data.count[i].group === category && data.count[i].count){
-                                        count = data.count[i].count;
-                                    }
-                                }
-                            }
-                        } else if (data.count && data.count[0] && data.count[0].count) {
-                            count = data.count[0].count;
-                        }
-                        if (box === "inbox") {
-                            sakai_user.data.me.messages.unread = count;
-                        }
-                        if ($.isFunction(callback)) {
-                            callback(true, count);
-                        }
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        if ($.isFunction(callback)) {
-                            callback(false,{});
-                        }
-                    }
-                });
-            }
         },
 
         /**
