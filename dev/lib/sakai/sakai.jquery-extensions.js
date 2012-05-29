@@ -189,4 +189,9 @@ $.validator.addMethod("appendhttp", function(value, element) {
     return true;
 }, "No error message, this is just an appender");
 
+/**
+ * Make caching the default behavior for $.getScript
+ */
+$.ajaxSetup({ cache: true });
+
 });
