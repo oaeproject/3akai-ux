@@ -45,7 +45,7 @@ require(
                 if (widgetslistwithkey.length !== 0) {
                     outputtext += ' the following widgets: ' + widgetslistwithkey.join(', ');
                 }
-                if (typeof widgetdefaultbundlekey !== undefined) {
+                if (typeof widgetdefaultbundlekey !== 'undefined') {
                     outputtext += (widgetslistwithkey.length !== 0 ? ' &' : '') + ' the default core bundle';
                 }
                 QUnit.ok(false, outputtext);
