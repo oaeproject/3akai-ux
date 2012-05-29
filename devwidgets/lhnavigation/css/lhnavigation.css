@@ -118,7 +118,6 @@
 #lhnavigation_container .lhnavigation_page_title_value {cursor: pointer; cursor: hand;}
 #lhnavigation_container .lhnavigation_has_subnav {
     cursor: pointer;
-    cursor: hand;
 }
 
 /** SitesPages Styles */
@@ -136,7 +135,6 @@
 .layout_picker_item {
     background-color: #EFF;
     border: 2px solid #39C;
-    border-right: 2px solid #39C;
     height: 62px;
     width: 114px;
 }
@@ -155,7 +153,6 @@
 .layout_picker_item_unselected {
     background-color: #F8F8F8;
     border: 2px solid #dddfe1;
-    border-right: 2px solid #dddfe1;
     height: 62px;
     width: 114px;
 }
@@ -165,18 +162,4 @@
 .layout_picker_item_radio_unselected {
     margin-left: 50px;
     margin-top: 10px;
-}
-#layouts_list {
-    display: block;
-}
-
-/* Widget context menu */
-#context_menu.s3d-sprites-buttons .s3d-button-inline: hover {
-    background: none;
-}
-#context_menu.s3d-sprites-buttons .s3d-button-inline: hover .s3d-button-inner {
-    background: none;
-}
-#context_menu.s3d-sprites-buttons .s3d-button-inline: hover .s3d-button-inner .s3d-button-icon-left {
-    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -11px -235px transparent;
 }
