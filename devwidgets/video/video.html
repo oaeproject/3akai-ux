@@ -18,7 +18,7 @@
                         <div id="${videoContainer}"/>
                     </div>
                     {if source}
-                        <p id="video_source_display">__MSG__SOURCE__: <a class="s3d-regular-links" href="${URL}" target="_blank" title="__MSG__VIEW_VIDEO_SOURCE__">${source}</a></p>
+                        <p id="video_source_display">__MSG__SOURCE__ <a class="s3d-regular-links" href="${URL}" target="_blank" title="__MSG__VIEW_VIDEO_SOURCE__">${source}</a></p>
                     {/if}
                 </div>
             --></div>
@@ -28,18 +28,18 @@
         <div id="video_settings" style="display:none" class="s3d-form-field-wrapper">
             <form id="video_form" method="post" action="#">
                 <p class="video_nomargin">
-                    <label class="s3d-input-label" for="video_txtURL">__MSG__VIDEO_WEB_ADDRESS__:</label>
+                    <label class="s3d-input-label" for="video_txtURL">__MSG__VIDEO_WEB_ADDRESS__</label>
                     <input type="text" name="video_txtURL" id="video_txtURL" class="video_input_text" />
                 </p>
                 <p class="video_input_help">__MSG__PLEASE_ENTER_WEB_ADDRESS__.</p>
 
                 <p class="video_nomargin">
-                    <label class="s3d-input-label" for="video_txtSource">__MSG__SOURCE_DISPLAY__:</label>
+                    <label class="s3d-input-label" for="video_txtSource">__MSG__SOURCE_DISPLAY__</label>
                     <input type="text" id="video_txtSource" name="video_txtSource" class="video_input_text" />
                 </p>
                 <p class="video_input_help">__MSG__SOURCE_DISPLAY_HELP__.</p>
                 <p class="video_nomargin">
-                    <label class="s3d-input-label" for="video_txtSource">__MSG__WIDGET_TITLE__:</label>
+                    <label class="s3d-input-label" for="video_txtSource">__MSG__WIDGET_TITLE__</label>
                     <input type="text" id="video_txtTitle" name="video_txtTitle" class="video_input_text" />
                 </p>
                 <div class="dialog_buttons">
