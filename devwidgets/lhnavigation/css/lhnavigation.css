@@ -15,9 +15,8 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 /* Widget Container CSS */
-#lhnavigation_container #lhnavigation_actions {padding:12px;text-align:center;}
-#lhnavigation_container #lhnavigation_actions .s3d-button-inner{font-size:9px;}
 
 #lhnavigation_container ul{margin:6px 0 0;}
 #lhnavigation_container ul li{display:block; list-style:none;}
@@ -56,7 +55,7 @@
     margin-top: 4px;
     font-weight: bold;
 }
-#lhnavigation_container ul li[data-sakai-reorder-only="false"] .lhnavigation_levelcount {margin-right:15px;}
+
 #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_levelcount, #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_sublevelcount {
     background: #0e99d2;
     background: -moz-linear-gradient(top, #0e99d2 0%, #1097d7 8%, #1097d1 15%, #1098d6 23%, #1098d4 38%, #0e98d7 46%, #1197d4 54%, #0e9ad5 62%, #1298d5 92%, #0e98d7 100%);
@@ -82,7 +81,8 @@
     padding: 0;
     margin: 0;
 }
-.lhnavigation_selected_submenu_image.clicked, .lhnavigation_selected_submenu_image:hover, .lhnavigation_selected_submenu_image:focus {
+
+.lhnavigation_selected_submenu_image:hover, .lhnavigation_selected_submenu_image:focus {
     background: #1da7e4;
     background: -moz-linear-gradient(top, #cbe1eb 0%, #57c9fa 1%, #4ec4f7 10%, #1da7e4 39%, #12a0e0 48%, #11a0df 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cbe1eb), color-stop(1%,#57c9fa), color-stop(10%,#4ec4f7), color-stop(39%,#1da7e4), color-stop(48%,#12a0e0), color-stop(100%,#11a0df));
@@ -120,17 +120,9 @@
 #lhnavigation_container .lhnavigation_subnav li div.lhnavigation_subnav_item_content{padding-left:40px;}
 
 #lhnavigation_submenu {position:absolute;}
-#lhnavigation_submenu .lhnavigation_submenu_container {background-color: #fff; border: 1px solid #aaa; width: 140px;}
-#lhnavigation_submenu .lhnavigation_submenu_container ul {margin: 0; padding: 5px 10px 10px;}
-#lhnavigation_submenu .lhnavigation_submenu_container ul li {list-style:none;padding:4px 0;border-bottom:1px solid #ccc;}
-#lhnavigation_submenu .lhnavigation_submenu_container ul li a {padding-left:6px;color:#369;font-size:13px;}
-#lhnavigation_submenu .lhnavigation_submenu_container ul li a:hover {color:#999;}
-#lhnavigation_submenu .lhnavigation_submenu_arrow {position:relative;float:left;z-index:100;margin-left:35px;font-size:0px;line-height:0%;width:0px;border-top:0;border-bottom: 15px solid #e4e3e3;border-left:15px solid transparent;border-right:15px solid transparent;}
-#lhnavigation_submenu .lhnavigation_submenu_container {padding-top: 3px; position:relative;clear:both;z-index:1; background-color:#e4e3e3; border: 1px solid #EAEBEC; border-top: none; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ box-shadow: 0px 0px 5px #A9A9A9; -moz-box-shadow: 0px 0px 5px #A9A9A9; /* Firefox 3.6 and earlier */ -webkit-box-shadow: 0px 0px 5px #A9A9A9; /* Safari and Chrome */ }
-#lhnavigation_submenu .lhnavigation_submenu_container_inner {margin: 0px 3px 3px; padding: 0; background-color:#ffffff; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */}
-
-#lhnav_edit_cancel_button {font-size: 12px !important; margin-right: 10px; font-weight: bold;}
 
 #lhnavigation_container .lhnavigation_move_cursor {cursor: move !important;}
 #lhnavigation_container .lhnavigation_page_title_value {cursor: pointer; cursor: hand;}
-#lhnavigation_container .lhnavigation_has_subnav {cursor: pointer; cursor: hand;}
+#lhnavigation_container .lhnavigation_has_subnav {
+    cursor: pointer;
+}
