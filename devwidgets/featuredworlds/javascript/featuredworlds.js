@@ -120,7 +120,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var doInit = function(){
             addBinding();
-            constructWorlds();
+            sakai.api.Util.getTemplates(constructWorlds);
         };
 
         doInit();

@@ -147,19 +147,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var toggleVisibility = function(){
-            // Fill up initial values in object to send to renderer
-            renderObj = {
-                api: sakai.api,
-                groups: getSelected(),
-                memberOfGroups: sakai.api.Groups.getMemberships(sakai.data.me.groups),
-                worlds: sakai.config.worldTemplates
-            };
-            // Check if groups are part of my library
-            if(!$addpeoplegroupsWidget.is(":visible")){
-                getMemberships();
-            } else {
-                $addpeoplegroupsWidget.toggle();
-            }
+            sakai.api.Util.getTemplates(function() {
+                // Fill up initial values in object to send to renderer
+                renderObj = {
+                    api: sakai.api,
+                    groups: getSelected(),
+                    memberOfGroups: sakai.api.Groups.getMemberships(sakai.data.me.groups),
+                    worlds: sakai.config.worldTemplates
+                };
+                // Check if groups are part of my library
+                if(!$addpeoplegroupsWidget.is(":visible")){
+                    getMemberships();
+                } else {
+                    $addpeoplegroupsWidget.toggle();
+                }
+            });
         };
 
         var saveMemberships = function(){

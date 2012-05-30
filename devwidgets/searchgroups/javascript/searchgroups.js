@@ -32,16 +32,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      */
     sakai_global.searchgroups = function(tuid, showSettings, widgetData){
 
-        var selectedCategory = "other",
-            selectedCategoryPlural = "other",
-            selectedCategoryId = "";
-        for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
-            if (sakai.config.worldTemplates[c].id === widgetData.category) {
-                selectedCategory = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].title);
-                selectedCategoryPlural = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titlePlural);
-                selectedCategoryId = sakai.config.worldTemplates[c].id;
+        var selectedCategory = "other";
+        var selectedCategoryPlural = "other";
+        var selectedCategoryId = "";
+
+        sakai.api.Util.getTemplates(function() {
+            for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
+                if (sakai.config.worldTemplates[c].id === widgetData.category) {
+                    selectedCategory = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].title);
+                    selectedCategoryPlural = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titlePlural);
+                    selectedCategoryId = sakai.config.worldTemplates[c].id;
+                }
             }
-        }
+        });
 
         //////////////////////
         // Config variables //

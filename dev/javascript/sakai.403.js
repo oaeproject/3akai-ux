@@ -54,18 +54,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Create the world links in the second column after People, Content...
-            var worlds = [];
-            var obj = {};
-            for (var c = 0; c < sakai.config.worldTemplates.length; c++){
-                var world = sakai.config.worldTemplates[c];
-                world.label = sakai.api.i18n.getValueForKey(world.titlePlural);
-                if(c===sakai.config.worldTemplates.length-1){
-                    world.last = true;
+            sakai.api.Util.getTemplates(function() {
+                var worlds = [];
+                var obj = {};
+                for (var c = 0; c < sakai.config.worldTemplates.length; c++){
+                    var world = sakai.config.worldTemplates[c];
+                    world.label = sakai.api.i18n.getValueForKey(world.titlePlural);
+                    if(c===sakai.config.worldTemplates.length-1){
+                        world.last = true;
+                    }
+                    worlds.push(world);
                 }
-                worlds.push(world);
-            }
-            obj.worlds = worlds;
-            $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
+                obj.worlds = worlds;
+                $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
+            });
 
             // display the error page links
             var linkObj = {

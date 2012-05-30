@@ -1098,11 +1098,13 @@ define(
 
                     var groupType = sakai_i18n.getValueForKey("OTHER");
                     if (group["sakai:category"]){
-                        for (var c = 0; c < sakai_conf.worldTemplates.length; c++) {
-                            if (sakai_conf.worldTemplates[c].id === group["sakai:category"]){
-                                groupType = sakai_i18n.getValueForKey(sakai_conf.worldTemplates[c].title);
+                        sakai_util.getTemplates(function() {
+                            for (var c = 0; c < sakai_conf.worldTemplates.length; c++) {
+                                if (sakai_conf.worldTemplates[c].id === group["sakai:category"]){
+                                    groupType = sakai_i18n.getValueForKey(sakai_conf.worldTemplates[c].title);
+                                }
                             }
-                        }
+                        });
                     }
                     // Modify the tags if there are any
                     if (group["sakai:tags"]) {

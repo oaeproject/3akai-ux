@@ -41,20 +41,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $rootel = $("#" + tuid);
 
         var doInit = function(){
-            var templatesToRender = false;
-            for (var i = 0; i < sakai.config.worldTemplates.length; i++){
-                if (sakai.config.worldTemplates[i].id === tuid){
-                    templatesToRender = sakai.config.worldTemplates[i];
-                    break;
+            sakai.api.Util.getTemplates(function() {
+                var templatesToRender = false;
+                for (var i = 0; i < sakai.config.worldTemplates.length; i++){
+                    if (sakai.config.worldTemplates[i].id === tuid){
+                        templatesToRender = sakai.config.worldTemplates[i];
+                        break;
+                    }
                 }
-            }
-            if (templatesToRender){
-                if (templatesToRender.templates.length === 1){
-                    renderCreateWorld(templatesToRender.id, templatesToRender.templates[0].id, true);
-                } else {
-                    renderTemplateList(templatesToRender);
+                if (templatesToRender){
+                    if (templatesToRender.templates.length === 1){
+                        renderCreateWorld(templatesToRender.id, templatesToRender.templates[0].id, true);
+                    } else {
+                        renderTemplateList(templatesToRender);
+                    }
                 }
-            }
+            });
         };
 
         $(".selecttemplate_use_button", $rootel).live("click", function(){

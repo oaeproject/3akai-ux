@@ -1068,13 +1068,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function(){
             checkForRedirect();
-            renderMenu();
-            renderUser();
-            setCountUnreadMessages();
-            setUserName();
-            addBinding();
             renderOverlays();
-            forceShowLoginUrl();
+            sakai.api.Util.getTemplates(function() {
+                renderMenu();
+                renderUser();
+                setCountUnreadMessages();
+                setUserName();
+                addBinding();
+                forceShowLoginUrl();
+            });
         };
 
         doInit();
