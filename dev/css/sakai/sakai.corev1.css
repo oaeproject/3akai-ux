@@ -22,12 +22,12 @@
     min-height: 500px;
     border-top: solid #d6dadd 1px;
     background: #f7f7f7;
-    background: -moz-linear-gradient(top, #f7f7f7 0%, #f7f7f7 66%, #fdfdfd 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(66%,#f7f7f7), color-stop(100%,#fdfdfd));
-    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
-    background: -o-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
-    background: -ms-linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
-    background: linear-gradient(top, #f7f7f7 0%,#f7f7f7 66%,#fdfdfd 100%);
+    background: -moz-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(5%,#f7f7f7), color-stop(12%,#ffffff));
+    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
+    background: -o-linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
+    background: -ms-linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
+    background: linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
 }
 .s3d-page-column-right {
     float: left;
@@ -114,12 +114,12 @@ a {
 }
 .requireUser, .requireAnon {
     background: #f2f2f2;
-    background: -moz-linear-gradient(top, #f7f7f7 0%, #f9f9fa 24%, #f2f2f2 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(24%,#f9f9fa), color-stop(100%,#f2f2f2));
-    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f9f9fa 24%,#f2f2f2 100%);
-    background: -o-linear-gradient(top, #f7f7f7 0%,#f9f9fa 24%,#f2f2f2 100%);
-    background: -ms-linear-gradient(top, #f7f7f7 0%,#f9f9fa 24%,#f2f2f2 100%);
-    background: linear-gradient(top, #f7f7f7 0%,#f9f9fa 24%,#f2f2f2 100%);
+    background: -moz-linear-gradient(top, #f7f7f7 0%, #f9f9fa 4%, #f2f2f2 10%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(4%,#f9f9fa), color-stop(10%,#f2f2f2));
+    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
+    background: -o-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
+    background: -ms-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
+    background: linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
 }
 .s3d-header .fixed-container {
     padding: 0 !important;
