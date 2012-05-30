@@ -354,7 +354,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // Share the collections that were dropped
                 sakai.api.Content.Collections.shareCollection(collectedCollections,
                     sakai.api.Content.Collections.getCollectionGroupId(collectionId), false, function() {
-                    addToCollectionCount(collectionId, 1, true);
+                    addToCollectionCount(collectionId, collectedCollections.length, true);
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
                     if (inCollection) {
                         $.each(sakai.data.me.groups, function(index, item) {
