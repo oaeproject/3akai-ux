@@ -1005,7 +1005,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             determineEmptyPage(currentPageShown);
 
             // Shwow the edit page bar if I have edit permissions on this page
+            if (canEditCurrentPage() && !currentPageShown.isVersionHistory) {
+                $('#contentauthoring_inserterbar_container', $rootel).html(sakai.api.Util.TemplateRenderer('contentauthoring_inserterbar_template', {}));
+                sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_inserterbar_container', false);
+            }
             $('#contentauthoring_inserterbar_container', $rootel).toggle(canEditCurrentPage());
+
             //SAKIII-5248
             $(window).trigger('position.inserter.sakai');
             updateColumnHeights();

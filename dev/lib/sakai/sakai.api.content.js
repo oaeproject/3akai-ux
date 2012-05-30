@@ -1718,7 +1718,12 @@ define(
                                 ":member": authorizable,
                                 ":viewer": authorizable
                             }
-                        }); 
+                        });
+                        $.each(sakai_user.data.me.groups, function(index, group) {
+                            if (group && group.counts && group.groupid === authorizable) {
+                                group.counts.contentCount += 1;
+                            }
+                        });
                     });
                 });
                 sakai_serv.batch(permissionBatch, function(success, response){
