@@ -9,7 +9,6 @@ require(
     "../../../../tests/qunit/js/jshint.js"
     ], function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
         module("Clean Javascript");
 
         var consoleregex = new RegExp(/console\.(?:log|warn|error|debug|trace)/g),
@@ -89,5 +88,5 @@ require(
                 cleanJSTest();
             });
         }
-    });
-});
+    }
+);

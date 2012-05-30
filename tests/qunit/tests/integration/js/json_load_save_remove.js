@@ -5,10 +5,7 @@ require(
     "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
-    function($, sakai) {
-    
-    require(["misc/domReady!"], function(doc) {
-        
+    function($, sakai) {        
 
         module("JSON - load / save & remove");
 
@@ -177,5 +174,5 @@ require(
 
             testCallback();
         });
-    });
-});
+    }
+);

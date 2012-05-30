@@ -12,8 +12,6 @@ require(
 
     "use strict";
 
-    require(["misc/domReady!"], function(doc) {
-
         QUnit.module("TemplateRenderer");
 
         var $container = $("#qunit_body"),
@@ -129,5 +127,5 @@ require(
             });
         }
 
-    });
-});
+    }
+);

@@ -9,8 +9,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
         var widgetProperties = [{
             "name": "ca",
             "type": "boolean"
@@ -253,5 +251,5 @@ require(
             });
         }
 
-    });
-});
+    }
+);
