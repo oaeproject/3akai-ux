@@ -1818,12 +1818,12 @@ define(
         },
 
         loadedMathJax: false,
-        loadMathJax: function(){
-            if (!sakai_util.loadedMathJax){
+        loadMathJax: function() {
+            if (!sakai_util.loadedMathJax) {
                 sakai_util.loadedMathJax = true;
-                var script = document.createElement("script");
-                script.type = "text/javascript";
-                script.src = "/dev/lib/MathJax/MathJax.js";
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = '/dev/lib/MathJax/MathJax.js';
     
                 var config =
                     'MathJax.Hub.Config({' +
@@ -1833,10 +1833,13 @@ define(
                     '}); ' +
                     'MathJax.Hub.Startup.onload();';
     
-                if (window.opera) {script.innerHTML = config;}
-                else {script.text = config;}
+                if (window.opera) {
+                    script.innerHTML = config;
+                } else {
+                    script.text = config;
+                }
     
-                $("head")[0].appendChild(script);
+                $('head')[0].appendChild(script);
             }
         },
 
@@ -1847,23 +1850,22 @@ define(
         * @param element {String} The element (or it's id) that should be checked for math
         */
         renderMath : function(element) {
-            if (element instanceof jQuery && element[0])
-            {
+            if (element instanceof jQuery && element[0]) {
                 element = element[0];
             }
             // Check whether a MathJax formula is available
             var elementContent = $(element).html();
-            if (elementContent && elementContent.indexOf("$$") !== -1){
+            if (elementContent && elementContent.indexOf('$$') !== -1) {
                 // Check whether MathJax has already been loaded
-                if (!window["MathJax"] || !MathJax.Hub){
+                if (!window['MathJax'] || !MathJax.Hub) {
                     sakai_util.loadMathJax();
                 }
                 // Try to render the formula. This will fail if MathJax hasn't finished
                 // loading yet. If that's the case, the system will retry after 200ms
                 try {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
-                } catch (err){
-                    setTimeout(function(){
+                    MathJax.Hub.Queue(['Typeset', MathJax.Hub, element]);
+                } catch (err) {
+                    setTimeout(function() {
                         sakai_util.renderMath(element);
                     }, 200);
                 }
