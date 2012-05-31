@@ -147,16 +147,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var toggleVisibility = function(){
-            sakai.api.Util.getTemplates(function() {
+            sakai.api.Util.getTemplates(function(templates) {
                 // Fill up initial values in object to send to renderer
                 renderObj = {
                     api: sakai.api,
                     groups: getSelected(),
                     memberOfGroups: sakai.api.Groups.getMemberships(sakai.data.me.groups),
-                    worlds: sakai.config.worldTemplates
+                    worlds: templates
                 };
                 // Check if groups are part of my library
-                if(!$addpeoplegroupsWidget.is(":visible")){
+                if (!$addpeoplegroupsWidget.is(':visible')) {
                     getMemberships();
                 } else {
                     $addpeoplegroupsWidget.toggle();

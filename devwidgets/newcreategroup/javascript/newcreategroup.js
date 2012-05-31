@@ -223,7 +223,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 break;
             }
         }
-
         var defaultaccess =  currentTemplate.defaultaccess || sakai.config.Permissions.Groups.defaultaccess;
         var defaultjoin = currentTemplate.defaultjoin || sakai.config.Permissions.Groups.defaultjoin;
 

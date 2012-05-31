@@ -118,9 +118,9 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        sakai.api.Util.getTemplates(function() {
-            for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
-                var category = sakai.config.worldTemplates[c];
+        sakai.api.Util.getTemplates(function(templates) {
+            for (var c = 0; c < templates.length; c++) {
+                var category = templates[c];
                 var refId = sakai.api.Util.generateWidgetId();
                 var title = sakai.api.i18n.getValueForKey(category.titlePlural);
                 pubdata.structure0[category.id] = {

@@ -24,9 +24,9 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             'structure0': {}
         };
 
-        sakai.api.Util.getTemplates(function() {
-            for (var i = 0; i < sakai.config.worldTemplates.length; i++) {
-                var category = sakai.config.worldTemplates[i];
+        sakai.api.Util.getTemplates(function(templates) {
+            for (var i = 0; i < templates.length; i++) {
+                var category = templates[i];
                 var rnd = sakai.api.Util.generateWidgetId();
                 pubdata.structure0[category.id] = {
                     '_order': i,

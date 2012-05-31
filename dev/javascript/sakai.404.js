@@ -55,13 +55,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Create the world links in the second column after People, Content...
-            sakai.api.Util.getTemplates(function() {
+            sakai.api.Util.getTemplates(function(templates) {
                 var worlds = [];
                 var obj = {};
-                for (var c = 0; c < sakai.config.worldTemplates.length; c++){
-                    var world = sakai.config.worldTemplates[c];
+                for (var c = 0; c < templates.length; c++) {
+                    var world = templates[c];
                     world.label = sakai.api.i18n.getValueForKey(world.titlePlural);
-                    if(c===sakai.config.worldTemplates.length-1){
+                    if (c === templates.length-1) {
                         world.last = true;
                     }
                     worlds.push(world);

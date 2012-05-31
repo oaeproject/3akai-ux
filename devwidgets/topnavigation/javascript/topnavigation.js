@@ -1069,7 +1069,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             checkForRedirect();
             renderOverlays();
-            sakai.api.Util.getTemplates(function() {
+            sakai.api.Util.getTemplates(function(templates) {
                 renderMenu();
                 renderUser();
                 setCountUnreadMessages();

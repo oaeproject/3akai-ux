@@ -1097,11 +1097,11 @@ define(
                     }
 
                     var groupType = sakai_i18n.getValueForKey("OTHER");
-                    if (group["sakai:category"]){
-                        sakai_util.getTemplates(function() {
-                            for (var c = 0; c < sakai_conf.worldTemplates.length; c++) {
-                                if (sakai_conf.worldTemplates[c].id === group["sakai:category"]){
-                                    groupType = sakai_i18n.getValueForKey(sakai_conf.worldTemplates[c].title);
+                    if (group['sakai:category']) {
+                        sakai_util.getTemplates(function(templates) {
+                            for (var c = 0; c < templates.length; c++) {
+                                if (templates[c].id === group['sakai:category']) {
+                                    groupType = sakai_i18n.getValueForKey(templates[c].title);
                                 }
                             }
                         });
