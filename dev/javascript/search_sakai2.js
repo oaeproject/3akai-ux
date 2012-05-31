@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.pager.sakai-edited'], function($, sakai) {
 
     sakai_global.search = function() {
 
