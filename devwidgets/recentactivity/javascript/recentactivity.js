@@ -90,7 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var $recentactivity_activity_item_container = $(".recentactivity_activity_item_container");
             $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
             if (!initialLoad) {
-                $recentactivity_activity_item_container.filter(":hidden").fadeTo(1000, 1);
+                $recentactivity_activity_item_container.filter(':hidden').fadeTo(1000, 1);
             } else {
                 $recentactivity_activity_item_container.filter(":hidden").show();
                 $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
