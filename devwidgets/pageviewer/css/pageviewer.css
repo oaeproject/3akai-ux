@@ -42,7 +42,13 @@
     border-bottom: 1px dotted #ddd;
 }
 .pageviewer_widget #pageviewer_lhnav_container ul li.selected {
-    background: url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left top #22AAE7;
+    background: #1da7e4;
+    background: -moz-linear-gradient(top, #cbe1eb 0%, #57c9fa 1%, #4ec4f7 10%, #1da7e4 39%, #12a0e0 48%, #11a0df 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cbe1eb), color-stop(1%,#57c9fa), color-stop(10%,#4ec4f7), color-stop(39%,#1da7e4), color-stop(48%,#12a0e0), color-stop(100%,#11a0df));
+    background: -webkit-linear-gradient(top, #cbe1eb 0%,#57c9fa 1%,#4ec4f7 10%,#1da7e4 39%,#12a0e0 48%,#11a0df 100%);
+    background: -o-linear-gradient(top, #cbe1eb 0%,#57c9fa 1%,#4ec4f7 10%,#1da7e4 39%,#12a0e0 48%,#11a0df 100%);
+    background: -ms-linear-gradient(top, #cbe1eb 0%,#57c9fa 1%,#4ec4f7 10%,#1da7e4 39%,#12a0e0 48%,#11a0df 100%);
+    background: linear-gradient(top, #cbe1eb 0%,#57c9fa 1%,#4ec4f7 10%,#1da7e4 39%,#12a0e0 48%,#11a0df 100%);
     color: #FFFFFF;
 }
 .pageviewer_widget #pageviewer_lhnav_container ul li.selected button {
