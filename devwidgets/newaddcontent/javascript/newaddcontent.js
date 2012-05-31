@@ -452,7 +452,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             'sakai:permissions': $thisForm.find(newaddcontentAddDocumentPermissions).val(),
                             'sakai:description': $thisForm.find(newaddcontentAddDocumentDescription).val(),
                             'sakai:tags': tags,
-                            'sakai:copyright': sakai.config.Permissions.Copyright.defaults['sakaidocs'],
+                            'sakai:copyright': $('#newaddcontent_add_document_copyright').val(),
                             'css_class': 'icon-sakaidoc-sprite',
                             'type': 'document'
                         };
@@ -1128,6 +1128,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 }
             });
             $('#newaddcontent_upload_content_copyright_container').html(sakai.api.Util.TemplateRenderer('newaddcontent_copyright_template', {
+                formId: 'upload_content',
                 copyright: sakai.config.Permissions.Copyright,
                 copyright_default: sakai.config.Permissions.Copyright.defaults['content'],
                 sakai: sakai
@@ -1149,6 +1150,13 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 enableAddToQueue();
             }
             showSelectedItem($(newaddcontentAddDocumentTemplate));
+
+            $('#newaddcontent_add_document_copyright_container').html(sakai.api.Util.TemplateRenderer('newaddcontent_copyright_template', {
+                formId: 'add_document',
+                copyright: sakai.config.Permissions.Copyright,
+                copyright_default: sakai.config.Permissions.Copyright.defaults['sakaidocs'],
+                sakai: sakai
+            }));
 
             if ( !autoSuggestElts[ 'new_document' ] ) {
                 autoSuggestElts[ 'new_document' ] = $( newaddcontentAddDocumentTags );
