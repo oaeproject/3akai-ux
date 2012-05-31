@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/*global sakai, Config, $, QueryString */
+/*global sakai, Config, $ */
 require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.cookie'], function($, sakai) {
 
 sakai_global.s23_site = function(){
@@ -25,7 +25,6 @@ sakai_global.s23_site = function(){
     // Configuration variables //
     /////////////////////////////
 
-    var qs = new Querystring(); // Get the current query string
     var completeJSON;
     var entityReady = false;
 
@@ -382,16 +381,13 @@ sakai_global.s23_site = function(){
 
 
         // Check if the query string contains the parameter id
-        if (qs.contains("id")) {
-
+        if ($.deparam.querystring(window.location.id).id) {
             // Get the value for the id parameter
-            var siteid = qs.get("id");
-
+            var siteid = $.deparam.querystring(window.location.id).id;
             // Send an ajax request to the user
             getSakai2SiteInfo(siteid);
         }
         else {
-
             // Log an error message for the user
             debug.error("s23site: This site needs to have an id parameter for a sakai2 site");
         }
