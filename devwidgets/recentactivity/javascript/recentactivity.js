@@ -84,6 +84,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "sakai": sakai
                 };
                 sakai.api.Util.TemplateRenderer(recentactivityActivityItemTemplate, json, $recentactivityActivityContainer);
+                applyThreeDots();
             }
 
             var $recentactivity_activity_item_container = $(".recentactivity_activity_item_container");
@@ -94,6 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $recentactivity_activity_item_container.filter(":hidden").show();
                 $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
             }
+            applyThreeDots();
         };
 
         var applyThreeDots = function(){

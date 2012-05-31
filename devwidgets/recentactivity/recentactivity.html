@@ -16,12 +16,8 @@
                     <a href="/~${username|safeURL}" title="__MSG__VIEW_USERS_PROFILE__" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">
                         <img src="${activity.who.picture}" alt="${activity.who.name}" class="recentactivity_activity_item_image"/>
                     </a>
-                    <a href="/~${username|safeURL}" title="__MSG__VIEW_USERS_PROFILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">
-                        ${sakai.api.Util.applyThreeDots(activity.who.name, 55)}
-                    </a>
-                    <span class="recentactivity_activity_item_description">
-                        ${sakai.api.Util.applyThreeDots(sakai.api.Security.safeOutput(activity["sakai:activityMessage"]), 80)}{if activity.showdetails}:{/if}
-                    </span>
+                    <a href="/~${username|safeURL}" title="__MSG__VIEW_USERS_PROFILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">${activity.who.name}</a>
+                    <span class="recentactivity_activity_item_description">${activity["sakai:activityMessage"]|safeOutput}{if activity.showdetails}:{/if}</span>
                 </div>
                 {if activity.showdetails}
                     <div class="recentactivity_activity_item_content">
@@ -34,12 +30,8 @@
                                 <img src="${sakai.api.Content.getMimeTypeData(activity["_mimeType"]).URL}" alt="${activity["sakai:pooled-content-file-name"]|safeOutput}" class="recentactivity_activity_item_image"/>
                             {/if}
                         </a>
-                        <a href="/content#p=${activity["_path"]|safeURL}/${activity["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_FILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">
-                            ${sakai.api.Util.applyThreeDots(sakai.api.Security.safeOutput(filename), 65)}
-                        </a>
-                        <span class="recentactivity_activity_item_description">
-                            __MSG__USED_IN__ ${activity.usedin|safeOutput} {if activity.usedin == 1} __MSG__PLACE__ {else} __MSG__PLACES__{/if}
-                        </span>
+                        <a href="/content#p=${activity["_path"]|safeURL}/${activity["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_FILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">${filename|safeOutput}</a>
+                        <span class="recentactivity_activity_item_description">__MSG__USED_IN__ ${activity.usedin|safeOutput} {if activity.usedin == 1} __MSG__PLACE__ {else} __MSG__PLACES__{/if}</span>
                     </div>
                 {/if}
             </div>
