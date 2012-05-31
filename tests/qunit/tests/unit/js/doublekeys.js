@@ -12,7 +12,6 @@ require(
 
     "use strict";
 
-    require(['misc/domReady!'], function(doc) {
         QUnit.module('Double Translation Keys');
 
         var batchURLs = [];
@@ -212,6 +211,5 @@ require(
             });
         }
 
-    });
-
-});
+    }
+);
