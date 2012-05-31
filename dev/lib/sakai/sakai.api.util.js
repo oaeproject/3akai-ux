@@ -2098,6 +2098,27 @@ define(
             return entity;
         },
 
+        /**
+         * This function checks if the name is already listed in nameArray, and if so,
+         * stores the array position for processing to include the user/group ID.
+         * @param {Integer} i Array position of name to check
+         * @param {String} name Name to check for duplicate
+         * @param {Array} nameArray Array containing the possible duplicate names
+         * @param {Integer} arrayPositionOffset Array offset position
+         * @param {Array} duplicateNamePositions Array containing the positions of duplicate names
+         * @return {Array} The updated array containing the positions of duplicate names
+         */
+        getDuplicateArrayPositions : function(i, name, nameArray, arrayPositionOffset, duplicateNamePositions) {
+            var idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
+            if (idxToUpdate !== -1) {
+                if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
+                    duplicateNamePositions.push(idxToUpdate);
+                }
+                duplicateNamePositions.push(i - arrayPositionOffset);
+            }
+            return duplicateNamePositions;
+        },
+
         AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new
@@ -2118,26 +2139,10 @@ define(
                 var dataFn = _dataFn || function( query, add ) {
                     var name = '';
                     var nameArray = [];
-                    var idxToUpdate = 0;
                     var duplicateNamePositions = [];
                     // This value is used to increment the array position in the case when a
                     // group or user is filtered and not added to the "suggestions" array.
                     var arrayPositionOffset = 0;
-
-                    /**
-                     * This function checks if the name is already listed in nameArray, and if so,
-                     * stores the array position for processing to include the user/group ID.
-                     * @param {Integer} Array position of name to check
-                     */
-                    var checkForDuplicateName = function(i) {
-                        idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
-                        if (idxToUpdate !== -1) {
-                            if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
-                                duplicateNamePositions.push(idxToUpdate);
-                            }
-                            duplicateNamePositions.push(i - arrayPositionOffset);
-                        }
-                    };
 
                     var q = sakai_serv.createSearchString(query);
                     var searchoptions = {"page": 0, "items": 15};
@@ -2154,13 +2159,13 @@ define(
                                 if ( data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid ) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["rep:userId"], options.filterUsersGroups ) ===-1 ) {
                                         name = user.getDisplayName(data.results[i]);
-                                        checkForDuplicateName(i);
                                         suggestions.push({
                                             "value": data.results[i]["rep:userId"],
                                             "name": name,
                                             "picture": sakai_util.constructProfilePicture(data.results[i], "user"),
                                             "type": "user"
                                         });
+                                        duplicateNamePositions = sakai_util.getDuplicateArrayPositions(i, name, nameArray, arrayPositionOffset, duplicateNamePositions);
                                         nameArray.push(name.toLowerCase());
                                     } else {
                                         arrayPositionOffset++;
@@ -2168,13 +2173,13 @@ define(
                                 } else if (data.results[i]["sakai:group-id"]) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["sakai:group-id"], options.filterUsersGroups ) ===-1 ) {
                                         name = sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]);
-                                        checkForDuplicateName(i);
                                         suggestions.push({
                                             "value": data.results[i]["sakai:group-id"],
                                             "name": name,
                                             "picture": sakai_util.constructProfilePicture(data.results[i], "group"),
                                             "type": "group"
                                         });
+                                        duplicateNamePositions = sakai_util.getDuplicateArrayPositions(i, name, nameArray, arrayPositionOffset, duplicateNamePositions);
                                         nameArray.push(name.toLowerCase());
                                     } else {
                                         arrayPositionOffset++;

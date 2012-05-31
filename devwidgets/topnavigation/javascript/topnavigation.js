@@ -246,6 +246,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderPeople = function(data) {
             var people = [];
+            var nameArray = [];
+            var duplicateNamePositions = [];
+            var arrayPositionOffset = 0;
+
             if (data) {
                 for (var i in data.results) {
                     if (data.results.hasOwnProperty(i)) {
@@ -253,12 +257,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var dottedName = sakai.api.Util.applyThreeDots(displayName, 100, null, null, true);
                         var tempPerson = {
                             "dottedname": dottedName,
-                            "name": sakai.api.User.getDisplayName(data.results[i]),
-                            "url": data.results[i].homePath
+                            "name": displayName,
+                            "url": data.results[i].homePath,
+                            "userid": data.results[i].userid
                         };
                         people.push(tempPerson);
+                        duplicateNamePositions = sakai.api.Util.getDuplicateArrayPositions(i, displayName, nameArray, arrayPositionOffset, duplicateNamePositions);
+                        nameArray.push(displayName.toLowerCase());
+                    } else {
+                        arrayPositionOffset++;
                     }
                 }
+
+                // add the id to the name for users with duplicate names
+                $.each(duplicateNamePositions, function(idx, position) {
+                    if (people[position]) {
+                        people[position].name += ' (' + people[position].userid + ')'
+                        people[position].dottedname = sakai.api.Util.applyThreeDots(people[position].name, 100, null, null, true);
+                    }
+                });
+
                 renderObj.people = people;
                 renderObj.peopletotal = data.total;
                 renderResults();
@@ -267,13 +285,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderGroups = function(data, category) {
             var groups = [];
+            var nameArray = [];
+            var duplicateNamePositions = [];
+            var arrayPositionOffset = 0;
+
             if (data) {
                 for (var i in data.results) {
                     if (data.results.hasOwnProperty(i)) {
                         var tempGroup = {
                             "dottedname": sakai.api.Util.applyThreeDots(data.results[i]["sakai:group-title"], 100),
                             "name": data.results[i]["sakai:group-title"],
-                            "url": data.results[i].homePath
+                            "url": data.results[i].homePath,
+                            "groupid": data.results[i].groupid
                         };
                         if (data.results[i]["sakai:group-visible"] == "members-only" || data.results[i]["sakai:group-visible"] == "logged-in-only") {
                             tempGroup["css_class"] = "topnavigation_group_private_icon";
@@ -281,10 +304,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             tempGroup["css_class"] = "topnavigation_group_public_icon";
                         }
                         groups.push(tempGroup);
+                        duplicateNamePositions = sakai.api.Util.getDuplicateArrayPositions(i, tempGroup.name, nameArray, arrayPositionOffset, duplicateNamePositions);
+                        nameArray.push(tempGroup.name.toLowerCase());
+                    } else {
+                        arrayPositionOffset++;
                     }
                 }
-                renderObj.groups = renderObj.groups ||
-                {};
+
+                // add the id to the name for groups with duplicate names
+                $.each(duplicateNamePositions, function(idx, position) {
+                    if (groups[position]) {
+                        groups[position].name += ' (' + groups[position].groupid + ')'
+                        groups[position].dottedname = sakai.api.Util.applyThreeDots(groups[position].name, 100);
+                    }
+                });
+
+                renderObj.groups = renderObj.groups || {};
                 renderObj.groups[category] = groups;
                 renderObj.groups[category + "total"] = data.total;
                 renderResults();
