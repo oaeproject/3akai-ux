@@ -88,8 +88,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var redurl = window.location.pathname + window.location.hash;
                 // Parameter that indicates which page to redirect to. This should be present when
                 // the static 403.html and 404.html page are loaded
-                if ($.deparam.querystring(window.location.redurl).redurl){
-                    redurl = $.deparam.querystring(window.location.redurl).redurl;
+                if ($.deparam.querystring().url){
+                    redurl = $.deparam.querystring().url;
                 }
                 // Set the link for the sign in button
                 $(".login-container button").bind("click", function(){

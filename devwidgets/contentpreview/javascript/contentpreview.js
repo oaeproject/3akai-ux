@@ -59,7 +59,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.User.getUser(user, function(success, userdata){
                 var mimeType = sakai.api.Content.getMimeType(contentData.data);
                 obj.userName = sakai.api.User.getDisplayName(userdata);
-                if ($.deparam.querystring(window.location.nopreview).nopreview === 'true'){
+                if ($.deparam.querystring().nopreview === 'true'){
                     callback = renderDefaultPreview;
                     obj.type = "default";
                 } else if (mimeType === "x-sakai/link"){

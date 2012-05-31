@@ -381,9 +381,9 @@ sakai_global.s23_site = function(){
 
 
         // Check if the query string contains the parameter id
-        if ($.deparam.querystring(window.location.id).id) {
+        if ($.deparam.querystring().id) {
             // Get the value for the id parameter
-            var siteid = $.deparam.querystring(window.location.id).id;
+            var siteid = $.deparam.querystring().id;
             // Send an ajax request to the user
             getSakai2SiteInfo(siteid);
         }
