@@ -272,7 +272,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // add the id to the name for users with duplicate names
                 $.each(duplicateNamePositions, function(idx, position) {
                     if (people[position]) {
-                        people[position].name += ' (' + people[position].userid + ')'
+                        people[position].name += ' (' + people[position].userid + ')';
                         people[position].dottedname = sakai.api.Util.applyThreeDots(people[position].name, 100, null, null, true);
                     }
                 });
@@ -314,7 +314,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // add the id to the name for groups with duplicate names
                 $.each(duplicateNamePositions, function(idx, position) {
                     if (groups[position]) {
-                        groups[position].name += ' (' + groups[position].groupid + ')'
+                        groups[position].name += ' (' + groups[position].groupid + ')';
                         groups[position].dottedname = sakai.api.Util.applyThreeDots(groups[position].name, 100);
                     }
                 });
