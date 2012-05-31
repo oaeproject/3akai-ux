@@ -45,8 +45,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION //
         ///////////////////
 
-        var qs = new Querystring();
-
         // Elements
         var subnavtl = ".hassubnav_tl";
         var navLinkDropdown = ".s3d-dropdown-container";
@@ -181,8 +179,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getRedirectURL = function(){
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             // Check whether we require a redirect
-            if (qs.get("url")) {
-                redirectURL = qs.get("url");
+            if ($.deparam.querystring(window.location.url).url) {
+                redirectURL = $.deparam.querystring(window.location.url).url;
             // Go to You when you're on explore page
             } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
@@ -199,10 +197,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var checkForRedirect = function() {
             // Check for url param, path and if user is logged in
-            if (qs.get("url") && !sakai.api.User.isAnonymous(sakai.data.me) &&
+            if ($.deparam.querystring(window.location.url).url && !sakai.api.User.isAnonymous(sakai.data.me) &&
                 (window.location.pathname === "/" || window.location.pathname === "/dev/explore.html" ||
                   window.location.pathname === "/index" || window.location.pathname === "/dev")) {
-                    window.location = qs.get("url");
+                    window.location = $.deparam.querystring(window.location.url).url;
             }
         };
 
@@ -210,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Open the login overlay even though the user is not hovering over it and if there is a URL redirect
          */
         var forceShowLoginUrl = function(){
-            if (qs.get("url")) {
+            if ($.deparam.querystring(window.location.url).url) {
                 forceShowLogin();
             }
         };

@@ -20,11 +20,10 @@
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/misc/querystring.js (Querystring)
  * /dev/lib/jquery/plugins/jquery.pager.js (pager)
  */
 
-/*global $, Config, Querystring, DOMParser */
+/*global $, Config, DOMParser */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 

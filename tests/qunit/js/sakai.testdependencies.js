@@ -99,7 +99,6 @@ require(
         "misc/l10n/globalize",
         "misc/underscore",
         "misc/google/html-sanitizer",
-        "misc/querystring",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
