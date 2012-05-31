@@ -55,10 +55,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var uploadnewversionFormTemplate = "uploadnewversion_form_template";
 
         // Elements
-        var uploadnewversionUploadContentForm = "#uploadnewversion_upload_content_form";
         var uploadnewversionDoUpload = ".uploadnewversion_doupload";
         var $uploadnewversionUploading = $("#uploadnewversion_uploading");
 
+        var filesList = [];
 
         ////////////
         // UPLOAD //
@@ -66,9 +66,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var doUploadVersion = function(){
             sakai.api.Util.Modal.open($uploadnewversionUploading);
-            $(uploadnewversionUploadContentForm).attr("action", "/system/pool/createfile." + sakai_global.content_profile.content_data.data["_path"]);
-            $(uploadnewversionUploadContentForm).ajaxForm({
-                success: function(data){
+            var jqXHR = $('#uploadnewversion_fileupload').fileupload('send', {
+                url: '/system/pool/createfile.' + sakai_global.content_profile.content_data.data["_path"],
+                files: filesList,
+                success: function(data) {
                     $.ajax({
                        url: sakai_global.content_profile.content_data["content_path"] + ".json",
                        type: "POST",
@@ -103,10 +104,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                            debug.error(err);
                        }
                     });
-                    
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    debug.error(jqXHR, textStatus, errorThrown);
+                    sakai.api.Util.Modal.close($uploadnewversionUploading);
                 }
             });
-            $(uploadnewversionUploadContentForm).submit();
         };
 
 
@@ -134,9 +137,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $uploadnewversionUploading.css("z-index", "4002");
         };
 
-        var initializeMultiFile = function(){
-            $uploadnewversionFormContainer.html(sakai.api.Util.TemplateRenderer(uploadnewversionFormTemplate,{}));
-            $(uploadnewversionUploadContentForm + " input").MultiFile();
+        var initializeFileUpload = function(){
+            $('#uploadnewversion_fileupload').fileupload({
+                replaceFileInput: false,
+                add: function(e, data) {
+                    filesList = data.files;
+                }
+            });
         };
 
         var addBinding = function(){
@@ -146,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var doInit = function(){
             initializeJQM();
-            initializeMultiFile();
+            initializeFileUpload();
             addBinding();
         };
 

@@ -39,11 +39,14 @@
         <div id="newaddcontent_container_newitem_fields">
 
             <div id="newaddcontent_upload_content_template" class="newaddcontent_newitem_container" style="display:none;">
-                <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
+                <label for="multifile_upload" class="fl-force-left" id="upload_a_file_label">__MSG__UPLOAD_A_FILE__:</label>
                 <form id="newaddcontent_upload_content_form" class="newaddcontent_form" method="POST" enctype="multipart/form-data">
-                    <input name="fileData" id="multifile_upload" type="file" class="multi" size="42"/>
+                    <span class="fileinput-button s3d-overlay-button s3d-button fl-force-left">
+                        <span>Browse</span>
+                        <input type="file" id="file_upload" name="files[]"/>
+                    </span>
                 </form>
-                <div id="newaddcontent_upload_content_fields" class="newaddcontent_form">
+                <div id="newaddcontent_upload_content_fields" class="newaddcontent_form fl-push">
                     <span class="newaddcontent_upload_content_originaltitle"><!----></span>
                     <label for="newaddcontent_upload_content_title">__MSG__TITLE__:</label>
                     <input placeholder="__MSG__TITLE__" type="text" id="newaddcontent_upload_content_title"/>
