@@ -236,10 +236,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderResults = function(){
-            renderObj.sakai = sakai;
-            $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
-            $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
-            $("#topnavigation_search_results").show();
+            sakai.api.Util.getTemplates(function(templates) {
+                renderObj.sakai = sakai;
+                renderObj.templates = templates;
+                $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
+                $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
+                $("#topnavigation_search_results").show();
+            });
         };
 
         var renderPeople = function(data) {
@@ -317,8 +320,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Execute the live search and render the results
+         * @param {Object} templates the available world templates
          */
-        var doSearch = function(){
+        var doSearch = function(templates) {
             var searchText = $.trim($("#topnavigation_search_input").val());
             var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
             var usersUrl = sakai.config.URL.SEARCH_USERS;
@@ -352,8 +356,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "q": searchText
                 }
             });
-            for (var c = 0; c < sakai.config.worldTemplates.length; c++){
-                var category = sakai.config.worldTemplates[c];
+            for (var c = 0; c < templates.length; c++) {
+                var category = templates[c];
                 requests.push({
                     "url": groupsUrl,
                     "method": "GET",
@@ -370,8 +374,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(requests, function(success, data) {
                 renderContent($.parseJSON(data.results[0].body));
                 renderPeople($.parseJSON(data.results[1].body));
-                for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
-                    renderGroups($.parseJSON(data.results[2 + c].body), sakai.config.worldTemplates[c].id);
+                for (var c = 0; c < templates.length; c++) {
+                    renderGroups($.parseJSON(data.results[2 + c].body), templates[c].id);
                 }
             });
         };
@@ -409,13 +413,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Create a list item for the topnavigation menu including the subnavigation
          * @param {integer} i index of the current item in the loop
+         * @param {Object} templates the available world templates
          */
-        var createMenuList = function(i){
+        var createMenuList = function(i, templates) {
             var temp = getNavItem(i, sakai.config.Navigation);
             // Add in the template categories
             if (sakai.config.Navigation[i].id === "navigation_create_and_add_link"){
-                for (var c = 0; c < sakai.config.worldTemplates.length; c++){
-                    var category = sakai.config.worldTemplates[c];
+                for (var c = 0; c < templates.length; c++) {
+                    var category = templates[c];
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
                         "label": category.menuLabel || category.title,
@@ -423,8 +428,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
             } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
-                for (var x = 0; x < sakai.config.worldTemplates.length; x++){
-                    var categoryx = sakai.config.worldTemplates[x];
+                for (var x = 0; x < templates.length; x++) {
+                    var categoryx = templates[x];
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_explore_" + categoryx.id + "_link",
                         "label": categoryx.titlePlural,
@@ -446,8 +451,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Initialise the rendering of the topnavigation menu
+         * @param {Object} templates the available world templates
          */
-        var renderMenu = function(){
+        var renderMenu = function(templates) {
             var obj = {};
             var leftMenulinks = [];
             var rightMenuLinks = [];
@@ -482,7 +488,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         !sakai.config.Navigation[i].anonymous;
                     var shouldPush = anonAndAllowed || isNotAnon;
                     if (shouldPush) {
-                        temp = createMenuList(i);
+                        temp = createMenuList(i, templates);
                         if (sakai.config.Navigation[i].rightLink) {
                             rightMenuLinks.push(temp);
                         } else {
@@ -499,6 +505,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             obj.links = rightMenuLinks;
             $(topnavExploreRight).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
+            addBinding();
         };
 
 
@@ -616,7 +623,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // remove focus of menu item if mouse is used
-            $(hasSubnav + " div").find("a").hover(function(){
+            $(hasSubnav + " div").find("a").on('hover', function() {
                 if ($openMenu.length) {
                     $openMenu.find("a").blur();
                 }
@@ -792,8 +799,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         clearTimeout(searchTimeout);
                     }
                     searchTimeout = setTimeout(function() {
-                        doSearch();
-                        lastSearchVal = val;
+                        sakai.api.Util.getTemplates(function(templates) {
+                            doSearch(templates);
+                            lastSearchVal = val;
+                        });
                     }, 200);
                 } else if (val === "") {
                     lastSearchVal = val;
@@ -1068,13 +1077,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             checkForRedirect();
             renderOverlays();
             sakai.api.Util.getTemplates(function(templates) {
-                renderMenu();
-                renderUser();
-                setCountUnreadMessages();
-                setUserName();
-                addBinding();
-                forceShowLoginUrl();
+                renderMenu(templates);
             });
+            renderUser();
+            setCountUnreadMessages();
+            setUserName();
+            forceShowLoginUrl();
         };
 
         doInit();

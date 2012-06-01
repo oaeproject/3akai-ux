@@ -1385,24 +1385,28 @@ define(
             return newjson;
         },
 
-        getTemplate: function(cat, id){
-            var category = false;
-            for (var i = 0; i < sakai_conf.worldTemplates.length; i++){
-                if (sakai_conf.worldTemplates[i].id === cat){
-                    category = sakai_conf.worldTemplates[i];
-                    break;
-                }
-            }
-            var template = false;
-            if (category && category.templates && category.templates.length) {
-                for (var w = 0; w < category.templates.length; w++){
-                    if (category.templates[w].id === id){
-                        template = category.templates[w];
+        getTemplate: function(cat, id, callback) {
+            sakai_util.getTemplates(function(templates) {
+                var category = false;
+                for (var i = 0; i < templates.length; i++) {
+                    if (templates[i].id === cat) {
+                        category = templates[i];
                         break;
                     }
                 }
-            }
-            return template;
+                var template = false;
+                if (category && category.templates && category.templates.length) {
+                    for (var w = 0; w < category.templates.length; w++) {
+                        if (category.templates[w].id === id) {
+                            template = category.templates[w];
+                            break;
+                        }
+                    }
+                }
+                if ($.isFunction(callback)) {
+                    callback(template, templates);
+                }
+            });
         }
 
     };

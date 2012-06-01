@@ -38,16 +38,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.savecontent = function(tuid, showSettings) {
 
-        var $rootel = $("#" + tuid);
-        var $savecontent_widget = $("#savecontent_widget", $rootel),
-            $savecontent_container = $("#savecontent_container", $rootel),
-            $savecontent_template = $("#savecontent_template", $rootel),
-            $savecontent_close = $(".savecontent_close", $rootel),
-            $savecontent_save = $("#savecontent_save", $rootel);
-        var newlyShared = {},
-            allNewlyShared = [],
-            contentObj = {},
-            clickedEl = null;
+        var $rootel = $('#' + tuid);
+        var $savecontent_widget = $('#savecontent_widget', $rootel);
+        var $savecontent_container = $('#savecontent_container', $rootel);
+        var $savecontent_template = $('#savecontent_template', $rootel);
+        var $savecontent_close = $('.savecontent_close', $rootel);
+        var $savecontent_save = $('#savecontent_save', $rootel);
+        var newlyShared = {};
+        var allNewlyShared = [];
+        var contentObj = {};
+        var clickedEl = null;
 
         $savecontent_widget.jqm({
             modal: false,
@@ -107,16 +107,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 left: savecontentLeft
             });
 
-            var json = {
-                "files": contentObj.data,
-                "context": contentObj.context,
-                "libraryHasIt": contentObj.libraryHasIt,
-                "groups": contentObj.memberOfGroups,
-                "sakai": sakai
-            };
-            $savecontent_container.html(sakai.api.Util.TemplateRenderer("#savecontent_template", json));
-            enableDisableAddButton();
-            $savecontent_widget.jqmShow();
+            sakai.api.Util.getTemplates(function(templates) {
+                var json = {
+                    'files': contentObj.data,
+                    'context': contentObj.context,
+                    'libraryHasIt': contentObj.libraryHasIt,
+                    'groups': contentObj.memberOfGroups,
+                    'sakai': sakai,
+                    'templates': templates
+                };
+                $savecontent_container.html(sakai.api.Util.TemplateRenderer("#savecontent_template", json));
+                enableDisableAddButton();
+                $savecontent_widget.jqmShow();
+            });
         };
 
         var getFileIDs = function(){

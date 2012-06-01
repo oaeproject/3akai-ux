@@ -126,7 +126,7 @@
                 {/for}
             </ul>
         {/if}
-        {for c in sakai.config.worldTemplates}
+        {for c in templates}
             {if groups[c.id] && groups[c.id].length}
                 <a href="/search#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header">${sakai.api.i18n.getValueForKey(c.title)}</a>
                 <ul role="menu">
@@ -155,7 +155,7 @@
         {if people.length || files.length}
             ${totalresults = peopletotal + filestotal|eat} 
         {/if}
-        {for c in sakai.config.worldTemplates}
+        {for c in templates}
             {if groups[c.id] && groups[c.id].length}
                 ${totalresults += groups[c.id + "total"]|eat} 
             {/if}

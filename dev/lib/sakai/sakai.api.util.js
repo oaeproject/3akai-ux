@@ -41,6 +41,9 @@ define(
     function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_conf, _) {
 
     var sakai_util = {
+        data: {
+            worldTemplates: false
+        },
 
         startup : function(meData) {
             // I know this is hideous
@@ -86,37 +89,36 @@ define(
          *                            The templates are passed through to the function
          */
         getTemplates: function(callback) {
-            if (!sakai_conf.worldTemplates) {
-                var templates = [];
+            if (!sakai_util.data.worldTemplates) {
+                sakai_util.data.worldTemplates = [];
                 $.ajax({
                     url: sakai_conf.URL.WORLD_INFO_URL,
                     success: function(data) {
                         data = sakai_serv.removeServerCreatedObjects(data, ['jcr:']);
                         $.each(data, function(key, value) {
                             if ($.isPlainObject(value) && value.id) {
-                                templates.push(value);
+                                sakai_util.data.worldTemplates.push(value);
                             }
                         });
-                        $.each(templates, function(i,temp) {
-                            $.each(temp, function(k,templ) {
+                        $.each(sakai_util.data.worldTemplates, function(i, temp) {
+                            $.each(temp, function(k, templ) {
                                 if ($.isPlainObject(temp[k])) {
                                     temp.templates = temp.templates || [];
                                     temp.templates.push(temp[k]);
                                 }
                             });
                         });
-                        templates = _.sortBy(templates, function(templ) {
+                        sakai_util.data.worldTemplates = _.sortBy(sakai_util.data.worldTemplates, function(templ) {
                             return templ.order;
                         });
-                        sakai_conf.worldTemplates = templates;
                         if ($.isFunction(callback)) {
-                            callback(templates);
+                            callback(sakai_util.data.worldTemplates);
                         }
                     }
                 });
             } else {
                 if ($.isFunction(callback)) {
-                    callback(sakai_conf.worldTemplates);
+                    callback(sakai_util.data.worldTemplates);
                 }
             }
         },

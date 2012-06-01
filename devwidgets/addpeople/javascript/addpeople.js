@@ -479,9 +479,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         var loadRoles = function() {
-            sakai.api.Util.getTemplates(function() {
-                currentTemplate = $.extend(true, {}, sakai.api.Groups.getTemplate(widgetData.category, widgetData.id));
-                if ( $.isEmptyObject( currentTemplate ) && sakai_global.group &&
+            sakai.api.Groups.getTemplate(widgetData.category, widgetData.id, function(template) {
+                currentTemplate = $.extend(true, {}, template);
+                if ($.isEmptyObject(currentTemplate) && sakai_global.group &&
                      sakai_global.group.groupData && sakai_global.group.groupData['sakai:roles']) {
                     var groupData = $.extend( true, {}, sakai_global.group.groupData );
                     groupData.roles = $.parseJSON(sakai_global.group.groupData['sakai:roles']);
