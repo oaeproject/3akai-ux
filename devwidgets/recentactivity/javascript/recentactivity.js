@@ -53,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var t = "";
         var numItems = 0;
         var numDiff = 0;
+        var currentData = '';
 
         var parseActivity = function(success, data, initialLoad){
             if (success) {
@@ -89,27 +90,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var $recentactivity_activity_item_container = $(".recentactivity_activity_item_container");
             $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
             if (!initialLoad) {
-                $recentactivity_activity_item_container.filter(":hidden").animate({
-                    height: 100,
-                    "opacity": 1
-                }, {
-                    duration: 1000,
-                    specialEasing: {
-                        height: 'easeOutBounce',
-                        opacity: 'linear'
-                    },
-                    step: function(now, fx){
-                        $(fx.elem).css("display", "block");
-                        applyThreeDots();
-                    }
-                });
+                $recentactivity_activity_item_container.filter(':hidden').fadeTo(1000, 1);
             } else {
                 $recentactivity_activity_item_container.filter(":hidden").show();
                 $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
-                applyThreeDots();
             }
-
-            t = setTimeout(fetchActivity, 8000);
+            applyThreeDots();
         };
 
         var applyThreeDots = function(){
@@ -135,7 +121,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var fetchActivity = function(initialLoad){
             sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, function(success, data){
-                parseActivity(success, data, initialLoad);
+                var recentActivityJson = JSON.stringify(data.results);
+                if (recentActivityJson !== currentData) {
+                    currentData = recentActivityJson;
+                    parseActivity(success, data, initialLoad);
+                }
+                t = setTimeout(function(){
+                        fetchActivity(false);
+                    }, 8000);
             }, {
                 "items": 12
             });
