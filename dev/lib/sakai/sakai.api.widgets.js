@@ -514,7 +514,7 @@ define(
                                     }
                                 }
                             }
-                        }, false);
+                        });
                     }
                 };
 
@@ -924,10 +924,52 @@ define(
             }
         },
 
+        /**
+         * This function will register all widgets that require lazy loading
+         */
+        registerLazyLoading: function(){
+            $.each(sakai.widgets, function(widgetid, widget){
+                if (widget.trigger) {
+                    // Check whether this needs to bind to an event
+                    if (widget.trigger.events && widget.trigger.events.length){
+                        if (!$.isArray(widget.trigger.events)){
+                            widget.trigger.events = [widget.trigger.events];
+                        }
+                        $.each(widget.trigger.events, function(index, eventid){
+                            $(window).bind(eventid, function(){
+                                alert("Load " + widgetid + " widget");
+                            });
+                        });
+                    }
+
+                    // Check whether this needs to bind to a selector
+                    if (widget.trigger.selectors && widget.trigger.selectors.length){
+                        if (!$.isArray(widget.trigger.selectors)){
+                            widget.trigger.selectors = [widget.trigger.selectors];
+                        }
+                        $.each(widget.trigger.selectors, function(index, selector){
+                            $(window).on('click', selector, function(){
+                                $(window).off('click', selector);
+                                $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
+                                sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
+                            });
+                        });
+                    }
+                }
+            });
+        },
+
         initialLoad : function() {
             sakaiWidgetsAPI.bindToHash();
             sakaiWidgetsAPI.Container.setReadyToLoad(true);
+
+            // TODO Insert onLoad widgets
+            // sakaiWidgetsAPI.insertOnLoadWidgets();
+
             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
+
+            // TODO Register events for lazy loading
+            sakaiWidgetsAPI.registerLazyLoading();
 
             // Set up draggable/droppable containers for the main page if there are any
             if($(".s3d-droppable-container", $("body")).length){

@@ -402,6 +402,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 temp.label = sakai.api.i18n.getValueForKey(item.label);
+                if (item.cssClass){
+                    temp.cssClass = item.cssClass;
+                }
             }
             return temp;
         };
@@ -961,20 +964,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // OVERLAYS //
         //////////////
 
-        var renderOverlays = function(){
-            sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
-        };
+        //var renderOverlays = function(){
+        //    sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
+        //};
 
         // Add content
-
-        $(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {
-            $(window).trigger("init.newaddcontent.sakai");
-            return false;
-        });
+        //$(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {
+        //    $(window).trigger("init.newaddcontent.sakai");
+        //});
 
         // Send a message
 
-        $(".sakai_sendmessage_overlay").live("click", function(ev){
+        /*$(".sakai_sendmessage_overlay").live("click", function(ev){
             var el = $(this);
             var person = false;
             var people = [];
@@ -1054,7 +1055,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $messageContainer.show();
                 });
             }
-        }); 
+        }); */
 
 
         /////////////////////////
@@ -1071,7 +1072,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setCountUnreadMessages();
             setUserName();
             addBinding();
-            renderOverlays();
+            //renderOverlays();
             forceShowLoginUrl();
         };
 

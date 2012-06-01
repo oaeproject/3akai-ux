@@ -102,9 +102,9 @@ define(
                 var hasIELongUrlBug = false;
                 // Long requests are overflowing the Jetty header cache
                 // so lets use POST for long requests on all browsers until that's fixed
-                //if($.browser.msie && $.browser.version.substr(0,1)<="7"){
+                if($.browser.msie && $.browser.version.substr(0,1)<="7"){
                     hasIELongUrlBug = true;
-                //}
+                }
 
                 var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + JSON.stringify(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
                 if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
