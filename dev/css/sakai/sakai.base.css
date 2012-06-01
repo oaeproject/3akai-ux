@@ -20,16 +20,16 @@
 /*
  * GLOBAL RULES
  */
-* {
-    margin: 0;
-    padding: 0;
-}
 html {
     background: #FFF;
     color: #000;
     font: 13px  /1.231 arial, helvetica, clean, sans-serif;*
     font-size: small;
     overflow: auto;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote {
+    margin: 0;
+    padding: 0;
 }
 body, button {
 	font-family: Arial, Helvetica, sans-serif !important;
@@ -80,7 +80,14 @@ th {
 p, fieldset, table, pre {
     margin-bottom: 1em;
 }
-
+input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+blockquote, ul, ol, dl {
+    margin: 1em;
+}
 /* adding a visible outline on focus for accessibility */
 *:focus {
 	outline: 1px dotted #000;
@@ -96,6 +103,9 @@ p, fieldset, table, pre {
 }
 
 /* HTML TAG OVERRIDES */
+h1, h2, h3 {
+    margin: 0.5em 0;
+}
 h1 {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 18px;
