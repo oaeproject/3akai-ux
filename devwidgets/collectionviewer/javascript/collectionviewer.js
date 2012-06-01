@@ -645,7 +645,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $checked.each(function () {
                         paths.push($(this).attr('id').split('collectionviewer_check_')[1]);
                     });
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: collectionviewer.contextId
                     }, function (success) {
@@ -659,7 +659,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $rootel.on('click', '.collectionviewer_remove_icon', function() {
                 var $itemToRemove = $(this);
                 var toRemoveId = $itemToRemove.attr('data-entityid');
-                $(window).trigger('init.deletecontent.sakai', [{
+                $(document).trigger('init.deletecontent.sakai', [{
                     paths: [toRemoveId],
                     context: collectionviewer.contextId
                 }, function (success) {
@@ -678,7 +678,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 doStart('pageviewer');
             });
 
-            $(window).on('done.newaddcontent.sakai', function(ev, data) {
+            $(document).on('done.newaddcontent.sakai', function(ev, data) {
                 switchListView();
             });
 

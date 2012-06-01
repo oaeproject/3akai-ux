@@ -9,6 +9,10 @@
         }
     },
     "id": "addpeoplegroups",
+    "trigger": {
+        "selectors": [".addpeoplegroups_trigger"],
+        "onLoad": false
+    },
     "type": "sakai",
     "url": "/devwidgets/addpeoplegroups/addpeoplegroups.html"
 }

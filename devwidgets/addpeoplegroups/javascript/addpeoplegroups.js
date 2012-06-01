@@ -202,10 +202,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $addpeoplegroupsWidget.css("left", $(el).position().left - ($addpeoplegroupsWidget.width() / 2) + ($(el).width() / 2 + 10) );
         };
 
-        $(".addpeoplegroups_trigger").live("click", function(){
-            selectedTitles = $(".addpeoplegroups_trigger:visible").data("entityname");
-            selectedIDs = $(".addpeoplegroups_trigger:visible").data("entityid");
-            if(!$addpeoplegroupsWidget.is(":visible")){
+        $(document).on('click', '.addpeoplegroups_trigger', function() {
+            selectedTitles = $('.addpeoplegroups_trigger:visible').data('entityname');
+            selectedIDs = $('.addpeoplegroups_trigger:visible').data('entityid');
+            if (!$addpeoplegroupsWidget.is(':visible')) {
                 addBinding();
                 doInit(this);
             } else {

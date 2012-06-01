@@ -151,19 +151,6 @@ define(
         },
 
         /**
-         * Takes a jquery selector or object, and returns the jquery object
-         * @param {String} selector A jquery selector or jquery object
-         * @return (Object) jQuery object
-         */
-        getJqueryObject : function(selector) {
-            var $object = selector;
-            if (!(selector instanceof jQuery)) {
-                $object = $(selector);
-            }
-            return $object;
-        },
-
-        /**
          * Convert a file's size to a human readable size
          * example: 2301 = 2.301kB
          *
@@ -1996,7 +1983,7 @@ define(
              * @param addClose {String} a jquery selector or jquery object used in the jqmAddClose function
              */
             setup : function(dialogContainer, options, addClose) {
-                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
+                var $dialogContainer = $(dialogContainer);
 
                 if (addClose) {
                     $dialogContainer.jqm(options).jqmAddClose(addClose);
@@ -2017,7 +2004,7 @@ define(
              *                              bindKeyboardCloseFunction {Function} optional function to be called when the user hits the escape key
              */
             open : function(dialogContainer, openOptions) {
-                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
+                var $dialogContainer = $(dialogContainer);
 
                 var positionDialog = true;
                 var positionOffset = false;
@@ -2053,7 +2040,7 @@ define(
              * @param {String} dialogContainer a jquery selector or jquery object, that is the dialog container
              */
             close : function(dialogContainer) {
-                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
+                var $dialogContainer = $(dialogContainer);
                 $dialogContainer.jqmHide();
             },
 
@@ -2064,7 +2051,7 @@ define(
              * @param {Integer} offset optional numeric value to add to the dialog position offset
              */
             positionDialogBox : function(el, offset) {
-                var $el = sakai_util.getJqueryObject(el);
+                var $el = $(el);
 
                 var dialogOffset = 50;
                 if (offset && $.isNumeric(offset)) {
@@ -2089,7 +2076,7 @@ define(
              */
             bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
                 var origFocus = $(':focus');
-                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
+                var $dialogContainer = $(dialogContainer);
 
                 var bindFunction = function(e) {
                     if ($dialogContainer.is(':visible') && $dialogContainer.has(':focus').length && e.which === $.ui.keyCode.ESCAPE) {
@@ -2638,7 +2625,7 @@ define(
                     stop: function(event, ui) {
                         sakai_util.Draggable.removeIFrameFix();
                         $('.s3d-draggable-draggingitems').remove();
-                        $(window).trigger('stop.drag.sakai');
+                        $(document).trigger('stop.drag.sakai');
                         if ($(this).data('stopdragevent')) {
                             $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
@@ -2646,7 +2633,7 @@ define(
                     start: function(event, ui) {
                         sakai_util.Draggable.setIFrameFix();
                         $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
-                        $(window).trigger('start.drag.sakai');
+                        $(document).trigger('start.drag.sakai');
                         if ($(this).data('startdragevent')) {
                             $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }

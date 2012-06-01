@@ -906,7 +906,8 @@ define(function(){
             "subnav": [{
                 "id": "subnavigation_add_content_link",
                 "label": "ADD_CONTENT",
-                "url": "#"
+                "url": "#",
+                "cssClass": "sakai_add_content_overlay"
             }, {
                 "id": "subnavigation_add_collection_link",
                 "label": "ADD_COLLECTION",

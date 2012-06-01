@@ -137,9 +137,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.Modal.open(accountPreferencesContainer);
         };
 
-        $(window).bind("init.accountpreferences.sakai", function() {
-            initialize();
-        });
+        $(document).on('click', '.accountpreferences_trigger', initialize);
 
         /////////////////
         // Change pass //
