@@ -97,7 +97,7 @@ require(
         paths: {
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
-            "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
+            "jquery-ui": "jquery/jquery-ui-1.8.18.custom",
             "underscore": "misc/underscore",
             "config": "../configuration"
         },
@@ -118,7 +118,6 @@ require(
         "jquery-plugins/jquery.autoSuggest",
         "misc/l10n/globalize",
         "misc/google/html-sanitizer",
-        "misc/querystring",
         "jquery-plugins/jquery.equalheights",
         "jquery-plugins/jquery.contentchange.sakai-edited",
         "jquery-plugins/jquery.timeago",
@@ -129,7 +128,6 @@ require(
         "jquery-plugins/jquery.form",
         "jquery-plugins/jquery.fileupload",
         "jquery-plugins/jquery.MultiFile.sakai-edited",
-        "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
         "jquery-plugins/jquery.jeditable.sakai-edited",

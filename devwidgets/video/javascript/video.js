@@ -21,10 +21,9 @@
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
- * /dev/lib/misc/querystring.js (Querystring)
  */
 
-/*global $, Config, Querystring, SWFID, swfobject */
+/*global $, Config, SWFID, swfobject */
 
 
 require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject.js"], function($, sakai) {
