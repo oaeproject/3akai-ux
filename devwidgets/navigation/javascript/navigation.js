@@ -22,12 +22,11 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.ba-bbq.js (BBQ)
- * /dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js (jstree)
  */
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jsTree/jquery.jstree.sakai-edit'], function($, sakai) {
 
     /**
      * @name sakai.site
