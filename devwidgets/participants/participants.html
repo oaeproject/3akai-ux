@@ -90,7 +90,7 @@
                 </a>
             </label>
             <div class="s3d-search-result-right">
-                <a href="/~${participant.id|safeURL}" title="{if participant.type != "group"}${participant.name|safeOutput}{else}${participant.name|safeOutput}{/if}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">{if participant.type != "group"}${participant.name|safeOutput}{else}${participant.name|safeOutput}{/if}</a>
+                <a href="/~${participant.id|safeURL}" title="{if participant.type != "group"}${participant.name|safeOutput}{else}${participant.name|safeOutput}{/if}'s __MSG__PROFILE_LC__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">{if participant.type != "group"}${participant.name|safeOutput}{else}${participant.name|safeOutput}{/if}</a>
                 <br/>
                 <span class="participants_list_participant_details">${sakai.api.i18n.getValueForKey(participant.title)}</span>
                 <br/>

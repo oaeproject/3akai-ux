@@ -121,9 +121,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // list if items are managers or members
             if (listType === "managers") {
-                $listpeople_count_items.html(sakai.api.i18n.getValueForKey("MANAGERS", "listpeople"));
+                $listpeople_count_items.html(sakai.api.i18n.getValueForKey("MANAGER_S", "listpeople"));
             } else if (listType === "members") {
-                $listpeople_count_items.html(sakai.api.i18n.getValueForKey("MEMBERS", "listpeople"));
+                $listpeople_count_items.html(sakai.api.i18n.getValueForKey("MEMBER_S", "listpeople"));
             }
 
             // get data
