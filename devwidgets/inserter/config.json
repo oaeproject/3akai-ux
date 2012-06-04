@@ -8,6 +8,9 @@
             "bundle":     "/devwidgets/inserter/bundles/default.properties",
             "name":       "Inserter",
             "description":"Insert content from collections"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/inserter/bundles/fr_FR.properties"
         }
     },
     "id":                 "inserter",

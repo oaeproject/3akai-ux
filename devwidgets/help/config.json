@@ -8,6 +8,11 @@
             "bundle": "/devwidgets/help/bundles/default.properties",
             "name":"Help",
             "description":"Help"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/help/bundles/fr_FR.properties",
+            "name":"Aide",
+            "description":"Aide"
         }
     },
     "url":"/devwidgets/help/help.html"
