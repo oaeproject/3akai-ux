@@ -26,7 +26,7 @@
     <div class="contentpermissions_permissions_container first">
         <h2>__MSG__VISIBLE_TO__</h2>
         <div class="s3d-inset-shadow-container" id="contentpermissions_see_container">
-            <p>__MSG__WHO_CAN_SEE_THIS__</p>
+            <p>__MSG__WHO_CAN_FIND_OR_SEE_THIS__</p>
             <div class="{if defaultPermission === "public"} s3d-outer-shadow-container{elseif contentData.data["sakai:permissions"] === "public" && !defaultPermission} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
                 <input type="radio" name="contentpermissions_see" id="contentpermissions_see_public" {if defaultPermission === "public"}checked="checked" {elseif contentData.data["sakai:permissions"] === "public" && !defaultPermission} checked="checked" {/if} value="public">
                 <label for="contentpermissions_see_public" class="s3d-bold"><span class="label_icon globe"></span>__MSG__ANYONE_PUBLIC__</label>
