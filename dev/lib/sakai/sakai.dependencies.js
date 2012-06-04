@@ -131,7 +131,6 @@ require(
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
         "jquery-plugins/jquery.jeditable.sakai-edited",
-        "jquery-plugins/jquery.tagcloud",
         "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {
