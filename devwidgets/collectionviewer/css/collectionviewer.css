@@ -183,7 +183,13 @@
 
 /* Carousel Specific */
 .collectionviewer_widget #collectionviewer_carousel_container {
-    background: url("/devwidgets/collectionviewer/images/collectionviewer_bg.png") repeat-x scroll left top transparent;
+    background: #ededec;
+    background: -moz-linear-gradient(top, #cfcfce 0%, #e1e1e0 3%, #ededec 7%, #f3f3f3 45%, #f3f3f3 59%, #ededec 96%, #e1e1e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfce), color-stop(3%,#e1e1e0), color-stop(7%,#ededec), color-stop(45%,#f3f3f3), color-stop(59%,#f3f3f3), color-stop(96%,#ededec), color-stop(100%,#e1e1e0));
+    background: -webkit-linear-gradient(top, #cfcfce 0%,#e1e1e0 3%,#ededec 7%,#f3f3f3 45%,#f3f3f3 59%,#ededec 96%,#e1e1e0 100%);
+    background: -o-linear-gradient(top, #cfcfce 0%,#e1e1e0 3%,#ededec 7%,#f3f3f3 45%,#f3f3f3 59%,#ededec 96%,#e1e1e0 100%);
+    background: -ms-linear-gradient(top, #cfcfce 0%,#e1e1e0 3%,#ededec 7%,#f3f3f3 45%,#f3f3f3 59%,#ededec 96%,#e1e1e0 100%);
+    background: linear-gradient(top, #cfcfce 0%,#e1e1e0 3%,#ededec 7%,#f3f3f3 45%,#f3f3f3 59%,#ededec 96%,#e1e1e0 100%);
     box-shadow: 0 0 3px #999999 inset;
     height: 75px;
     overflow: hidden;
@@ -284,7 +290,13 @@
     height: 50px;
 }
 .collectionviewer_widget #collectionviewer_carousel_container ul li .collectionviewer_carousel_no_thumbnail_container {
-    background: url("/devwidgets/collectionviewer/images/collectionviewer_carousel_item_bg.png") repeat-x top left transparent;
+    background: #f5f5f5;
+    background: -moz-linear-gradient(top, #f1f1f1 0%, #f5f5f5 29%, #f5f5f5 73%, #f1f1f1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(29%,#f5f5f5), color-stop(73%,#f5f5f5), color-stop(100%,#f1f1f1));
+    background: -webkit-linear-gradient(top, #f1f1f1 0%,#f5f5f5 29%,#f5f5f5 73%,#f1f1f1 100%);
+    background: -o-linear-gradient(top, #f1f1f1 0%,#f5f5f5 29%,#f5f5f5 73%,#f1f1f1 100%);
+    background: -ms-linear-gradient(top, #f1f1f1 0%,#f5f5f5 29%,#f5f5f5 73%,#f1f1f1 100%);
+    background: linear-gradient(top, #f1f1f1 0%,#f5f5f5 29%,#f5f5f5 73%,#f1f1f1 100%);
 }
 .collectionviewer_widget #collectionviewer_carousel_container .jcarousel-skin-tango {
     margin: 0 31px;
