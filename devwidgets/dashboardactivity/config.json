@@ -8,6 +8,9 @@
             "bundle":     "/devwidgets/dashboardactivity/bundles/default.properties",
             "name":       "Dashboard Activity",
             "description":"Shows activity on the users dashboard"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/dashboardactivity/bundles/fr_FR.properties
         }
     },
     "id":                 "dashboardactivity",

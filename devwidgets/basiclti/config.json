@@ -8,7 +8,10 @@
             "bundle": "/devwidgets/basiclti/bundles/default.properties",
             "name":"Basic LTI",
             "description":"Basic LTI widget"
-        }
+        },
+         "fr_FR":{
+             "bundle": "/devwidgets/basiclti/bundles/fr_FR.properties"
+          }
     },
     "img":"/devwidgets/basiclti/images/basiclti.png",
     "type":"sakai",
