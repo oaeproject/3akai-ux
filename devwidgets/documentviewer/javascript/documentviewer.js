@@ -74,9 +74,31 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             });
         };
 
-        var renderImagePreview = function(url, lastMod){
+        /**
+         * Get the extension for the image preview according to the mimeType
+         * @param {String} mimeType The mimeType of the image preview
+         */
+        var getImagePreviewExtension = function(mimeType) {
+            if (mimeType === 'image/png' || mimeType === 'image/gif') {
+                return '.' + mimeType.split('/')[1];
+            } else {
+                return '.jpg';
+            }
+        };
+
+        /**
+         * Render the preview of an image
+         * @param {String} url The URL for the image
+         * @param {Object} data The data for the image (will be undefined for flickr / 3th party images)
+         */
+        var renderImagePreview = function(url, data){
             $documentviewerPreview.html("");
-            templateObject.contentURL = url;
+
+            if (data && data['sakai:hasPreview'] === 'true' && data['sakai:needsprocessing'] === 'false' && data.page1) {
+                templateObject.contentURL = getPath(data.page1) + '.normal' + getImagePreviewExtension(data.page1._mimeType);
+            } else {
+                templateObject.contentURL = url;
+            }
             var date = new Date();
             if (date){
                 templateObject.contentURL += "?_=" + date.getTime();
@@ -275,7 +297,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     renderExternalHTMLPreview(pUrl);
                 }
             } else  if (mimeType.substring(0, 6) === "image/") {
-                renderImagePreview(getPath(data), data["_bodyLastModified"]);
+                renderImagePreview(getPath(data), data);
             } else if (data["sakai:pagecount"]){
                 docType = 'document';
                 renderDocumentPreview(data);
