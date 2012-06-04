@@ -43,6 +43,9 @@
             "bundle":     "/devwidgets/WIDGET_ID/bundles/default.properties",
             "name":       "WIDGET_ID_NAME",
             "description":"WIDGET_ID_DESCRIPTION"
+        },
+         "fr_FR": {
+            "bundle":     "/devwidgets/WIDGET_ID/bundles/fr_FR.properties"
         }
     },
     "personalportal":     false,
