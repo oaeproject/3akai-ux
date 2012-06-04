@@ -4,12 +4,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/uploadnewversion/bundles/default.properties",
-            "name": "Upload new version widget",
-            "description":"Upload new version widget"
+            "description": "Upload new version widget",
+            "name": "Upload new version widget"
         }
     },
     "id": "uploadnewversion",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/uploadnewversion/uploadnewversion.html",
+    "url": "/devwidgets/uploadnewversion/uploadnewversion.html"
 }

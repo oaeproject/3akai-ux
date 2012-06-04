@@ -5,11 +5,11 @@
         "default": {
             "bundle": "/devwidgets/allcategories/bundles/default.properties",
             "name": "All categories widget",
-            "description":"All categories widget"
+            "description": "All categories widget"
         }
     },
     "id": "allcategories",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/allcategories/allcategories.html",
+    "url": "/devwidgets/allcategories/allcategories.html"
 }

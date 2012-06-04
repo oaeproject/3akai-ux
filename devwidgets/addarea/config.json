@@ -4,15 +4,15 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/addarea/bundles/default.properties",
-            "name": "Add area widget",
-            "description":"Add area widget"
+            "description": "Add area widget"
+            "name": "Add area widget"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/addarea/bundles/es_ES.properties"
         }
     },
     "id": "addarea",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/addarea/addarea.html",
+    "url": "/devwidgets/addarea/addarea.html"
 }

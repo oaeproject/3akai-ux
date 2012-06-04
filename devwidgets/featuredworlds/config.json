@@ -4,12 +4,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/featuredworlds/bundles/default.properties",
-            "name": "Featured worlds widget",
-            "description":"Featured worlds widget"
+            "description": "Featured worlds widget",
+            "name": "Featured worlds widget"
         }
     },
     "id": "featuredworlds",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/featuredworlds/featuredworlds.html",
+    "url": "/devwidgets/featuredworlds/featuredworlds.html"
 }

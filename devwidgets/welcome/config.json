@@ -4,12 +4,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/welcome/bundles/default.properties",
-            "name": "Welcome widget",
-            "description":"Welcome widget"
+            "description": "Welcome widget",
+            "name": "Welcome widget"
         }
     },
     "id": "welcome",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/welcome/welcome.html",
+    "url": "/devwidgets/welcome/welcome.html"
 }

@@ -1,14 +1,14 @@
 {
-    "hasSettings":false,
-    "id":"systemtour",
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/systemtour/bundles/default.properties",
-            "name":"System tour",
-            "description":"Tracks system tour progress"
+            "description": "Tracks system tour progress",
+            "name": "System tour"
         }
     },
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/systemtour/systemtour.html"
+    "id": "systemtour",
+    "type": "sakai",
+    "url": "/devwidgets/systemtour/systemtour.html"
 }

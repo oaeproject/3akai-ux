@@ -1,17 +1,15 @@
 {
-    "id": "pagetitle",
-    "type": "contrib",
     "enabled": false,
     "hasSettings": false,
-    "url": "/devwidgets/pagetitle/pagetitle.html",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/pagetitle/bundles/default.properties",
-            "name": "Page Title",
-            "description":"Title element"
+            "description": "Title element",
+            "name": "Page Title"
         }
     },
+    "indexFields": ["content"],
     "personalportal": false,
     "sakaidocs": false,
-    "indexFields": ["content"]
+    "url": "/devwidgets/pagetitle/pagetitle.html"
 }

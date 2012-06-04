@@ -4,12 +4,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/institutionalskinning/bundles/default.properties",
-            "name": "Institutional skinning",
-            "description":"Institutional skinning widget"
+            "description": "Institutional skinning widget",
+            "name": "Institutional skinning"
         }
     },
     "id": "institutionalskinning",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/institutionalskinning/institutionalskinning.html",
+    "url": "/devwidgets/institutionalskinning/institutionalskinning.html"
 }

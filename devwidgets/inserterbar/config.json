@@ -4,12 +4,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/inserterbar/bundles/default.properties",
-            "name": "Inserter Bar",
-            "description":"Content Authoring Inserter Bar"
+            "description": "Content Authoring Inserter Bar",
+            "name": "Inserter Bar"
         }
     },
     "id": "inserterbar",
     "personalportal": false,
     "type": "core",
-    "url": "/devwidgets/inserterbar/inserterbar.html",
+    "url": "/devwidgets/inserterbar/inserterbar.html"
 }

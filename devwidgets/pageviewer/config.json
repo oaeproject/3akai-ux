@@ -4,12 +4,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/pageviewer/bundles/default.properties",
-            "name": "Page Viewer",
-            "description":"Show single level pages"
+            "description": "Show single level pages",
+            "name": "Page Viewer"
         }
     },
     "id": "pageviewer",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/pageviewer/pageviewer.html",
+    "url": "/devwidgets/pageviewer/pageviewer.html"
 }

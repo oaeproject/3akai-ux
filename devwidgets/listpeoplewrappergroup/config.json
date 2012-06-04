@@ -1,15 +1,15 @@
 {
+    "enabled": true,
+    "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/listpeoplewrappergroup/bundles/default.properties",
-            "name": "Member/content list",
-            "description": "Group lister"
+            "description": "Group lister",
+            "name": "Member/content list"
         }
     },
-    "hasSettings": true,
     "id": "listpeoplewrappergroup",
-    "img":"/devwidgets/listpeoplewrappergroup/images/icon.png",
-    "type":"core",
-    "enabled":true,
+    "img": "/devwidgets/listpeoplewrappergroup/images/icon.png",
+    "type": "core",
     "url": "/devwidgets/listpeoplewrappergroup/listpeoplewrappergroup.html"
 }

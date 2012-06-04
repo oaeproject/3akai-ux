@@ -4,15 +4,15 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/searchall/bundles/default.properties",
-            "name": "Search all",
-            "description":"Search all"
+            "description": "Search all",
+            "name": "Search all"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/searchall/bundles/es_ES.properties"
         }
     },
     "id": "searchallold",
     "personalportal": false,
     "type": "core",
-    "url": "/devwidgets/searchall/searchall.html",
+    "url": "/devwidgets/searchall/searchall.html"
 }

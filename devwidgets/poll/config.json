@@ -1,14 +1,14 @@
 {
-    "id":"poll",
-    "img":"/devwidgets/poll/images/poll.png",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/poll/bundles/default.properties",
-            "name":"Poll",
-            "description":"Poll widget"
+            "description": "Poll widget",
+            "name": "Poll"
         }
     },
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/poll/poll.html"
+    "id": "poll",
+    "img": "/devwidgets/poll/images/poll.png",
+    "type": "sakai",
+    "url": "/devwidgets/poll/poll.html"
 }

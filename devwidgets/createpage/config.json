@@ -1,13 +1,13 @@
 {
-    "id": "createpage",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/createpage/bundles/default.properties",
-            "name": "Create page",
-            "description": "Create page widget"
+            "description": "Create page widget",
+            "name": "Create page"
         }
     },
-    "type":"core",
-    "enabled":true,
+    "id": "createpage",
+    "type": "core",
     "url": "/devwidgets/createpage/createpage.html"
 }

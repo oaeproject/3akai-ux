@@ -1,19 +1,19 @@
 {
     "enabled": true,
+    "hashParams": ["newPageMode", "l"],
     "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/lhnavigation/bundles/default.properties",
-            "name": "Left hand navigation",
-            "description":"Left hand navigation widget"
+            "description": "Left hand navigation widget",
+            "name": "Left hand navigation"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/lhnavigation/bundles/es_ES.properties"
         }
     },
     "id": "lhnavigation",
     "personalportal": false,
     "type": "core",
-    "url": "/devwidgets/lhnavigation/lhnavigation.html",
-    "hashParams": ["newPageMode", "l"]
+    "url": "/devwidgets/lhnavigation/lhnavigation.html"
 }

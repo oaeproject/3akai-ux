@@ -1,19 +1,19 @@
 {
     "enabled": true,
+    "hashParams": ["ls", "so"],
     "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/collectionviewer/bundles/default.properties",
-            "name": "Collections Viewer",
-            "description":"Displays a collection through different views"
+            "description": "Displays a collection through different views",
+            "name": "Collections Viewer"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/collectionviewer/bundles/es_ES.properties"
         }
     },
     "id": "collectionviewer",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/collectionviewer/collectionviewer.html",
-    "hashParams": ["ls", "so"]
+    "url": "/devwidgets/collectionviewer/collectionviewer.html"
 }

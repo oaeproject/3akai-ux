@@ -4,12 +4,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/recentactivity/bundles/default.properties",
-            "name": "Recent activity widget",
-            "description":"Recent activity widget"
+            "description": "Recent activity widget",
+            "name": "Recent activity widget"
         }
     },
     "id": "recentactivity",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/recentactivity/recentactivity.html",
+    "url": "/devwidgets/recentactivity/recentactivity.html"
 }

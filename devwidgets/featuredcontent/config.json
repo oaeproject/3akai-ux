@@ -4,12 +4,12 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/featuredcontent/bundles/default.properties",
-            "name": "Featured content widget",
-            "description":"Featured content widget"
+            "description": "Featured content widget",
+            "name": "Featured content widget"
         }
     },
     "id": "featuredcontent",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/featuredcontent/featuredcontent.html",
+    "url": "/devwidgets/featuredcontent/featuredcontent.html"
 }

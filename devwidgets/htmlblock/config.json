@@ -1,17 +1,17 @@
 {
-    "id": "htmlblock",
-    "type": "contrib",
     "enabled": false,
     "hasSettings": false,
-    "url": "/devwidgets/htmlblock/htmlblock.html",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/htmlblock/bundles/default.properties",
-            "name": "HTML Block",
-            "description":"Block of HTML"
+            "description": "Block of HTML",
+            "name": "HTML Block"
         }
     },
+    "id": "htmlblock",
+    "indexFields": ["content"],
     "personalportal": false,
     "sakaidocs": false,
-    "indexFields": ["content"]
+    "type": "contrib",
+    "url": "/devwidgets/htmlblock/htmlblock.html"
 }

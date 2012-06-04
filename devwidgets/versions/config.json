@@ -5,7 +5,7 @@
         "default": {
             "bundle": "/devwidgets/versions/bundles/default.properties",
             "name": "Version widget",
-            "description":"Version widget"
+            "description": "Version widget"
         },
         "es_ES": { 
             "bundle": "/devwidgets/versions/bundles/es_ES.properties"

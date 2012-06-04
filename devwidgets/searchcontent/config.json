@@ -4,15 +4,15 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/searchcontent/bundles/default.properties",
-            "name": "Search content",
-            "description":"Search content"
+            "description": "Search content",
+            "name": "Search content"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/searchcontent/bundles/es_ES.properties"
         }
     },
     "id": "searchcontent",
     "personalportal": false,
     "type": "core",
-    "url": "/devwidgets/searchcontent/searchcontent.html",
+    "url": "/devwidgets/searchcontent/searchcontent.html"
 }
