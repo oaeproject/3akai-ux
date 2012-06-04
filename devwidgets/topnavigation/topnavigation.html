@@ -76,7 +76,7 @@
         {if dataPresent}
             {var category = data.results[0].category === "invitation" ? "invitations" : "inbox"}
             <a href="/me#l=messages/${category}" class="s3d-button s3d-overlay-button" id="topnavigation_message_showall">__MSG__SEE_ALL__</a>
-            <div class="s3d-dropdown-menu-content-container">
+            <div class="s3d-dropdown-menu-content-container topnavigation_message">
                 <div id="topnavigation_message_profile_pic">
                     <img src="${data.results[0].from.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.results[0].from.name}"/>
                 </div>
