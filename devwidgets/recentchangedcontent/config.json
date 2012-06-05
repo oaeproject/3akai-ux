@@ -1,5 +1,5 @@
 {
-    "deletable": true
+    "deletable": true,
     "enabled": true,
     "hasSettings": false,
     "i18n": {
@@ -7,7 +7,6 @@
             "bundle": "/devwidgets/recentchangedcontent/bundles/default.properties",
             "description": "My recent content",
             "name": "My recent content"
-            
         }
     },
     "id": "recentchangedcontent",
