@@ -114,12 +114,6 @@ a {
 }
 .requireUser, .requireAnon {
     background: #f2f2f2;
-    background: -moz-linear-gradient(top, #f7f7f7 0%, #f9f9fa 4%, #f2f2f2 10%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(4%,#f9f9fa), color-stop(10%,#f2f2f2));
-    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
-    background: -o-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
-    background: -ms-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
-    background: linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
 }
 .s3d-header .fixed-container {
     padding: 0 !important;

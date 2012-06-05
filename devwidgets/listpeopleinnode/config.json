@@ -1,17 +1,17 @@
 {
+    "enabled": true,
     "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/listpeopleinnode/bundles/default.properties",
-            "name": "listpeopleinnode",
-            "description": "Browsing people in this node of the directory"
+            "description": "Browsing people in this node of the directory",
+            "name": "listpeopleinnode"
         },
         "fr_FR": {
             "bundle": "/devwidgets/listpeopleinnode/bundles/fr_FR.properties"
         }
     },
     "id": "listpeopleinnode",
-    "type":"core",
-    "enabled":true,
+    "type": "core",
     "url": "/devwidgets/listpeopleinnode/listpeopleinnode.html"
 }

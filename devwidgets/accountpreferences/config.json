@@ -1,24 +1,24 @@
 {
-    "id":"accountpreferences",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/accountpreferences/bundles/default.properties",
-            "description":"Account preferences",
-            "name":"Account preferences"
+            "description": "Account preferences",
+            "name": "Account preferences"
         },
         "es_ES": {
             "bundle": "/devwidgets/accountpreferences/bundles/es_ES.properties"
         },
-        "nl_NL": {
-            "bundle": "/devwidgets/accountpreferences/bundles/nl_NL.properties"
-        }, 
         "fr_FR": {
             "bundle": "/devwidgets/accountpreferences/bundles/fr_FR.properties",
             "description": "préférences du compte",
             "name": "préférences du compte"
+        },
+        "nl_NL": {
+            "bundle": "/devwidgets/accountpreferences/bundles/nl_NL.properties"
         }
     },
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/accountpreferences/accountpreferences.html"
+    "id": "accountpreferences",
+    "type": "core",
+    "url": "/devwidgets/accountpreferences/accountpreferences.html"
 }

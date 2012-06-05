@@ -1,21 +1,21 @@
 {
-    "id":"joinrequests",
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/joinrequests/bundles/default.properties",
-            "name":"Join requests",
-            "description":"Manage join requests for a specific group"
+            "description": "Manage join requests for a specific group",
+            "name": "Join requests"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/joinrequests/bundles/es_ES.properties"
         },
         "fr_FR": {
             "bundle": "/devwidgets/joinrequests/bundles/fr_FR.properties"
         }
     },
-    "personalportal":false,
-    "hasSettings":false,
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/joinrequests/joinrequests.html"
+    "id": "joinrequests",
+    "personalportal": false,
+    "type": "core",
+    "url": "/devwidgets/joinrequests/joinrequests.html"
 }

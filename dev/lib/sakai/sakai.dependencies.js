@@ -97,7 +97,7 @@ require(
         paths: {
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
-            "jquery-ui": "jquery/jquery-ui-1.8.18.custom",
+            "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
             "underscore": "misc/underscore",
             "config": "../configuration"
         },
@@ -131,7 +131,6 @@ require(
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
         "jquery-plugins/jquery.jeditable.sakai-edited",
-        "jquery-plugins/jquery.tagcloud",
         "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {

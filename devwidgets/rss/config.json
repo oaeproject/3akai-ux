@@ -1,20 +1,21 @@
 {
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
-    "sakaidocs": true,
-    "groupdashboard": true,
-    "hasSettings":true,
-    "id":"rss",
-    "img":"/devwidgets/rss/images/rss.png",
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/rss/rss.html",
+    "defaultConfiguration": {
+        "rss": {
+            "displayHeadlines": false,
+            "displaySource": false,
+            "feeds": [],
+            "numEntries": 25,
+            "title": "The Sakai Project",
+            "urlFeeds": ["http://sakaiproject.org/rss.xml"]
+        }
+    },
+    "enabled": true,
+    "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/rss/bundles/default.properties",
-            "name": "RSS reader",
-            "description":"RSS feed reader"
+            "description": "RSS feed reader",
+            "name": "RSS reader"
         },
         "en_US": {
             "bundle": "/devwidgets/rss/bundles/en_US.properties"
@@ -26,15 +27,10 @@
             "bundle": "/devwidgets/rss/bundles/fr_FR.properties"
         }
     },
+    "id": "rss",
+    "img": "/devwidgets/rss/images/rss.png",
     "indexFields": ["title"],
-    "defaultConfiguration": {
-        "rss": {
-            "displayHeadlines": false,
-            "displaySource": false,
-            "feeds": [],
-            "numEntries": 25,
-            "title": "The Sakai Project",
-            "urlFeeds": ["http://sakaiproject.org/rss.xml"]
-        }
-    }
+    "sakaidocs": true,
+    "type": "sakai",
+    "url": "/devwidgets/rss/rss.html"
 }

@@ -1,12 +1,13 @@
 {
+    "enabled": true,
     "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/navigation/bundles/default.properties",
-            "name": "Pages",
-            "description": "Navigate all the pages contained within this group or site"
+            "description": "Navigate all the pages contained within this group or site",
+            "name": "Pages"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/navigation/bundles/es_ES.properties"
         },
         "fr_FR": {
@@ -16,7 +17,6 @@
     "id": "navigation",
     "img": "/devwidgets/navigation/images/icon.png",
     "showinsidebar": true,
-    "type":"core",
-    "enabled":true,
+    "type": "core",
     "url": "/devwidgets/navigation/navigation.html"
 }

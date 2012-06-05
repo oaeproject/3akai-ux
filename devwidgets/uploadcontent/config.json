@@ -1,16 +1,16 @@
 {
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/uploadcontent/bundles/default.properties",
-            "name": "Upload content",
-            "description": "Upload content to Sakai OAE"
+            "description": "Upload content to Sakai OAE",
+            "name": "Upload content"
         },
         "fr_FR": {
             "bundle": "/devwidgets/uploadcontent/bundles/fr_FR.properties"
         }
     },
     "id": "uploadcontent",
-    "type":"core",
-    "enabled":true,
+    "type": "core",
     "url": "/devwidgets/uploadcontent/uploadcontent.html"
 }

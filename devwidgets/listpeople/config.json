@@ -1,18 +1,18 @@
 {
+    "enabled": true,
     "hasSettings": false,
-    "id": "listpeople",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/listpeople/bundles/default.properties",
-            "name": "People lister",
-            "description":"General people lister widget"
+            "description": "General people lister widget",
+            "name": "People lister"
         },
         "fr_FR": {
             "bundle": "/devwidgets/listpeople/bundles/fr_FR.properties"
         }
     },
-    "url": "/devwidgets/listpeople/listpeople.html",
-    "type":"core",
-    "enabled":true,
-    "subNameInfoContent": "mimeTypeDescripton"
+    "id": "listpeople",
+    "subNameInfoContent": "mimeTypeDescripton",
+    "type": "core",
+    "url": "/devwidgets/listpeople/listpeople.html"
 }
