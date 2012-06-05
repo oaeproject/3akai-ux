@@ -97,7 +97,7 @@ require(
         paths: {
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
-            "jquery-ui": "jquery/jquery-ui-1.8.18.custom",
+            "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
             "underscore": "misc/underscore",
             "config": "../configuration"
         },
