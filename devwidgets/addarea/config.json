@@ -1,22 +1,18 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/addarea/bundles/default.properties",
-            "name":       "Add area widget",
-            "description":"Add area widget"
+            "bundle": "/devwidgets/addarea/bundles/default.properties",
+            "description": "Add area widget"
+            "name": "Add area widget"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/addarea/bundles/es_ES.properties"
         }
     },
-    "id":                 "addarea",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/addarea/addarea.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "addarea",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/addarea/addarea.html"
 }

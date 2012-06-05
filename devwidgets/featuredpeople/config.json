@@ -1,19 +1,15 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/featuredpeople/bundles/default.properties",
-            "name":       "Featured people widget",
-            "description":"Featured people widget"
+            "bundle": "/devwidgets/featuredpeople/bundles/default.properties",
+            "description": "Featured people widget",
+            "name": "Featured people widget"
         }
     },
-    "id":                 "featuredpeople",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/featuredpeople/featuredpeople.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "featuredpeople",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/featuredpeople/featuredpeople.html"
 }

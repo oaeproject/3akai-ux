@@ -1,30 +1,26 @@
 {
-    "grouppages": true,
-    "groupdashboard": true,
-    "userdashboard": true,
-    "userpages": true,
-    "sakaidocs": true,
-    "id":"ggadget",
-    "i18n": {
-        "default": {
-            "bundle": "/devwidgets/ggadget/bundles/default.properties",
-            "name": "Google Gadget",
-            "description":"Embed Google Gadgets in your page or dashboard"
-        }
-    },
-    "img":"/devwidgets/ggadget/images/ggadget.png",
-    "hasSettings": true,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/ggadget/ggadget.html",
     "defaultConfiguration": {
         "ggadget": {
             "border_color": "cccccc",
-	        "border_size": 0,
+            "border_size": 0,
             "height": 350,
             "url": "http://www.gmodules.com/ig/ifr?url=http://static.die.net/moon/gadget.xml&up_size=medium&up_info=1&up_date=0&synd=open&w=320&h=170&title=Moon+Phase&border=%23ffffff%7C3px%2C1px+solid+%23999999&output=html",
-	        "width": 600,
+            "width": 600,
             "width_unit": "px"
         }
-    }
+    },
+    "enabled": true,
+    "hasSettings": true,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/ggadget/bundles/default.properties",
+            "description": "Embed Google Gadgets in your page or dashboard",
+            "name": "Google Gadget"
+        }
+    },
+    "id": "ggadget",
+    "img": "/devwidgets/ggadget/images/ggadget.png",
+    "sakaidocs": true,
+    "type": "sakai",
+    "url": "/devwidgets/ggadget/ggadget.html"
 }
