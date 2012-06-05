@@ -1,17 +1,17 @@
 {
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/joingroup/bundles/default.properties",
-            "name": "Join group overlay",
-            "description": "Join group overlay"
+            "description": "Join group overlay",
+            "name": "Join group overlay"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/joingroup/bundles/es_ES.properties"
         }
     },
     "id": "joingroup",
-    "personalportal":false,
+    "personalportal": false,
     "type": "sakai",
-    "enabled": true,
-    "url":"/devwidgets/joingroup/joingroup.html"
+    "url": "/devwidgets/joingroup/joingroup.html"
 }

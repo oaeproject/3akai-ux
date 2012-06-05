@@ -1,16 +1,16 @@
 {
-    "id":"mycontent",
+    "deletable": true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/mycontent/bundles/default.properties",
-            "name":"My content",
-            "description":"My content"
+            "description": "My content",
+            "name": "My content"
         }
     },
-    "personalportal":true,
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/mycontent/mycontent.html",
-    "deletable":true
+    "id": "mycontent",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/mycontent/mycontent.html"
 }

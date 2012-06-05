@@ -1,22 +1,18 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        false,
+    "enabled": false,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/searchall/bundles/default.properties",
-            "name":       "Search all",
-            "description":"Search all"
+            "bundle": "/devwidgets/searchall/bundles/default.properties",
+            "description": "Search all",
+            "name": "Search all"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/searchall/bundles/es_ES.properties"
         }
     },
-    "id":                 "searchallold",
-    "personalportal":     false,
-    "type":               "core",
-    "url":                "/devwidgets/searchall/searchall.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "searchallold",
+    "personalportal": false,
+    "type": "core",
+    "url": "/devwidgets/searchall/searchall.html"
 }

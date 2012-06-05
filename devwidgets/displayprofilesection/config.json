@@ -1,16 +1,16 @@
 {
-    "id":"displayprofilesection",
-    "type":"core",
-    "enabled":true,
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/displayprofilesection/bundles/default.properties",
-            "name": "Profile section",
-            "description": "Show a profile section"
+            "description": "Show a profile section",
+            "name": "Profile section"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/displayprofilesection/bundles/es_ES.properties"
         }
     },
-    "url":"/devwidgets/displayprofilesection/displayprofilesection.html"
+    "id": "displayprofilesection",
+    "type": "core",
+    "url": "/devwidgets/displayprofilesection/displayprofilesection.html"
 }

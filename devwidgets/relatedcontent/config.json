@@ -1,17 +1,17 @@
 {
-    "id":"relatedcontent",
-    "hasSettings":false,
-    "type":"core",
-    "enabled":true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/relatedcontent/bundles/default.properties",
-            "name":"Related content",
-            "description":"Related content"
+            "description": "Related content",
+            "name": "Related content"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/relatedcontent/bundles/es_ES.properties"
         }
     },
-    "url":"/devwidgets/relatedcontent/relatedcontent.html"
+    "id": "relatedcontent",
+    "type": "core",
+    "url": "/devwidgets/relatedcontent/relatedcontent.html"
 }

@@ -1,17 +1,16 @@
 {
-    "grouppages":true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/siterecentactivity/bundles/default.properties",
-            "name":"Recent activity",
-            "description":"Site recent activity"
+            "description": "Site recent activity",
+            "name": "Recent activity"
         }
     },
-    "hasSettings": false,
-    "id":"siterecentactivity",
-    "img":"/devwidgets/siterecentactivity/images/icon.png",
-    "showinsidebar":true,
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/siterecentactivity/siterecentactivity.html"
+    "id": "siterecentactivity",
+    "img": "/devwidgets/siterecentactivity/images/icon.png",
+    "showinsidebar": true,
+    "type": "core",
+    "url": "/devwidgets/siterecentactivity/siterecentactivity.html"
 }
