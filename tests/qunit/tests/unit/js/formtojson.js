@@ -8,8 +8,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
     module("Forms");
 
     test("Convert the values of a form to a json object", function(){
@@ -47,5 +45,4 @@ require(
         same($("textarea[name='description']").val(),"","Reset the 'description' field.");
     });
 
-    });
 });

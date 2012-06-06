@@ -7,7 +7,7 @@
             "description": "Most active groups",
             "name": "Most active groups"
         }
-    }
+    },
     "id": "activegroups",
     "personalportal": true,
     "type": "sakai",

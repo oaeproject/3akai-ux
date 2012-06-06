@@ -12,7 +12,6 @@ require(
 
     "use strict";
 
-    require(["misc/domReady!"], function(doc) {
         module("Unused Keys");
 
         var allHtml = "";
@@ -342,6 +341,5 @@ require(
             });
         }
 
-    });
-
-});
+    }
+);
