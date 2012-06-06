@@ -2188,7 +2188,37 @@ define(
                     scroll: true,
                     canGenerateNewSelections: false,
                     usePlaceholder: true,
-                    showResultListWhenNoMatch: true
+                    showResultListWhenNoMatch: true,
+                    formatList: function(data, elem) {
+                        // formats each line to be presented in autosuggest list
+                        // add the correct image, wrap name in a class
+                        var imgSrc = false;
+                        switch (data.type) {
+                            case 'user':
+                                imgSrc = data.picture;
+                                if (data.picture === sakai_conf.URL.USER_DEFAULT_ICON_URL) {
+                                    imgSrc = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
+                                }
+                                break;
+                            case 'group':
+                                imgSrc = data.picture;
+                                if (data.picture === sakai_conf.URL.GROUP_DEFAULT_ICON_URL) {
+                                    imgSrc = sakai_conf.URL.GROUP_DEFAULT_ICON_URL_SMALL;
+                                }
+                                break;
+                            case 'file':
+                                imgSrc = data.autosuggestThumbnail;
+                                break;
+                        }
+                        var line_item = elem.html(
+                            '<span class="autosuggest_suggestion_name">' + data.name + '</span>');
+                        if (imgSrc) {
+                            line_item = elem.html(
+                                '<img class="autosuggest_suggestion_img" src="' + imgSrc + '" />' +
+                                '<span class="autosuggest_suggestion_name">' + data.name + '</span>');
+                        }
+                        return line_item;
+                    }
                 };
 
                 var opts = $.extend( defaults, options );
@@ -2272,7 +2302,8 @@ define(
                     },
                     processNewSelection: function( userinput ) {
                         return sakai_util.Security.safeOutput(sakai_util.makeSafeTag(userinput));
-                    }
+                    },
+                    formatList: false
                 };
 
                 // Set up the directory structure for autoSuggesting

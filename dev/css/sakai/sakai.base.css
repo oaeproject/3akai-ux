@@ -1716,6 +1716,11 @@ ul.as-selections textarea.as-input {
 .autosuggest_wrapper textarea {
 	overflow: hidden;
 }
+img.autosuggest_suggestion_img {
+    height: 16px;
+    width: 16px;
+    margin-right: 5px;
+}
 /* http://blogs.sitepoint.com/2005/02/26/simple-clearing-of-floats/ */
 .clearfix {
 	overflow: auto;

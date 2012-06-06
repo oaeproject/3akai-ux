@@ -176,6 +176,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var createDataObject = function(result, name) {
             var mimetype = sakai.api.Content.getMimeType(result);
+            var thumbnail = sakai.api.Content.getThumbnail(result);
+            if (!thumbnail) {
+                thumbnail = sakai.api.Content.getMimeTypeData(mimetype).URL;
+            }
             var dataObj = {
                 "value": name || result['_path'],
                 "name": sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']),
@@ -187,7 +191,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
                 "_path": result['_path'],
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
-                "fullresult" : result
+                'fullresult' : result,
+                'autosuggestThumbnail': thumbnail
             };
             var link = sakai.api.Util.safeURL(name || result['_path']) + "/" + sakai.api.Util.safeURL(result['sakai:pooled-content-file-name']);
             if (dataObj._mimeType === "x-sakai/link"){

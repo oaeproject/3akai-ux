@@ -22,6 +22,7 @@ define(function(){
             GATEWAY_URL: "/",
             GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
             GROUP_DEFAULT_ICON_URL_LARGE: "/dev/images/group_avatar_icon_100x100_nob.png",
+            GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_32x32.png",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/me#l=messages/inbox",
@@ -31,6 +32,7 @@ define(function(){
             SEARCH_URL: "/search",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
+            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
             INFINITE_LOADING_ICON: "/dev/images/Infinite_Scrolling_Loader_v01.gif",
             I18N_CUSTOM_BUNDLE: '/dev/configuration/custom.properties',
 
