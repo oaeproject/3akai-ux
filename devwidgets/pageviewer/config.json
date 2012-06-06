@@ -1,19 +1,15 @@
 {
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": true,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/pageviewer/bundles/default.properties",
-            "name":       "Page Viewer",
-            "description":"Show single level pages"
+            "bundle": "/devwidgets/pageviewer/bundles/default.properties",
+            "description": "Show single level pages",
+            "name": "Page Viewer"
         }
     },
-    "id":                 "pageviewer",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/pageviewer/pageviewer.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "pageviewer",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/pageviewer/pageviewer.html"
 }

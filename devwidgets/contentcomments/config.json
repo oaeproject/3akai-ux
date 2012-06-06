@@ -1,22 +1,18 @@
 {
-    "userpages": false,
-    "userdashboard": false,
-    "grouppages": false,
-    "groupdashboard": false,
-    "hasSettings":true,
-    "id":"contentcomments",
+    "enabled": true,
+    "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/contentcomments/bundles/default.properties",
-            "name":"Content comments",
-            "description":"Content comments"
+            "description": "Content comments",
+            "name": "Content comments"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/contentcomments/bundles/es_ES.properties"
         }
     },
-    "img":"/devwidgets/contentcomments/images/comments.png",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/contentcomments/contentcomments.html"
+    "id": "contentcomments",
+    "img": "/devwidgets/contentcomments/images/comments.png",
+    "type": "core",
+    "url": "/devwidgets/contentcomments/contentcomments.html"
 }

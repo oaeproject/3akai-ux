@@ -1,23 +1,19 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         true,
-    "hasSettings":        false,
+    "enabled": false,
+    "hashParams": ["pq", "psb", "ls"],
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/participants/bundles/default.properties",
-            "name":       "Participants",
-            "description":"List participants of a group"
+            "bundle": "/devwidgets/participants/bundles/default.properties",
+            "description": "List participants of a group",
+            "name": "Participants"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/participants/bundles/es_ES.properties"
         }
     },
-    "id":                 "participants",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/participants/participants.html",
-    "userdashboard":      false,
-    "userpages":          false,
-    "hashParams": ["pq", "psb", "ls"]
+    "id": "participants",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/participants/participants.html"
 }

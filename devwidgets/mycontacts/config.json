@@ -1,11 +1,10 @@
 {
-    "id":"mycontacts",
-    "multipleinstance": false,
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/mycontacts/bundles/default.properties",
-            "name": "My contacts",
-            "description":"My contacts"
+            "description": "My contacts",
+            "name": "My contacts"
         },
         "en_US": {
             "bundle": "/devwidgets/mycontacts/bundles/en_US.properties"
@@ -14,8 +13,9 @@
             "bundle": "/devwidgets/mycontacts/bundles/zh_CN.properties"
         }
     },
-    "personalportal":true,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/mycontacts/mycontacts.html"
+    "id": "mycontacts",
+    "multipleinstance": false,
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/mycontacts/mycontacts.html"
 }

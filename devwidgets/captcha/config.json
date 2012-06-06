@@ -1,13 +1,13 @@
 {
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/captcha/bundles/default.properties",
-            "name": "Captcha widget",
-            "description": "Display a captcha widget"
+            "description": "Display a captcha widget",
+            "name": "Captcha widget"
         }
     },
-    "id":"captcha",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/captcha/captcha.html"
+    "id": "captcha",
+    "type": "core",
+    "url": "/devwidgets/captcha/captcha.html"
 }
