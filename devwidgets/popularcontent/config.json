@@ -7,7 +7,7 @@
             "description": "Most active content",
             "name": "Most active content"
         }
-    }
+    },
     "id": "popularcontent",
     "personalportal": true,
     "type": "sakai",

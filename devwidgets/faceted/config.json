@@ -9,7 +9,7 @@
         "es_ES": {
             "bundle": "/devwidgets/faceted/bundles/es_ES.properties"
         }
-    }
+    },
     "id": "faceted",
     "type": "core",
     "url": "/devwidgets/faceted/faceted.html"
