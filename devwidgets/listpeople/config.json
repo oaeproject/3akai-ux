@@ -9,7 +9,7 @@
         }
     },
     "id": "listpeople",
-    "subNameInfoContent": "mimeTypeDescripton"
+    "subNameInfoContent": "mimeTypeDescripton",
     "type": "core",
     "url": "/devwidgets/listpeople/listpeople.html"
 }
