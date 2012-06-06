@@ -4,7 +4,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/dashboard/bundles/default.properties",
-            "description": "Dashboard"
+            "description": "Dashboard",
             "name": "Dashboard"
         },
         "es_ES": {

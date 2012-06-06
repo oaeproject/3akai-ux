@@ -134,12 +134,10 @@ require(
         "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {
-        require(['misc/domReady!'], function(doc) {
-            sakai.api.User.loadMeData(function(success, data) {
-                sakai.api.Util.startup(data);
-                // Start i18n
-                sakai.api.i18n.init(data);
-            });
+        sakai.api.User.loadMeData(function(success, data) {
+            sakai.api.Util.startup(data);
+            // Start i18n
+            sakai.api.i18n.init(data);
         });
         return sakai;
     }
