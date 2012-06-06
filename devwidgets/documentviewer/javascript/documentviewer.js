@@ -24,7 +24,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/document-viewer/assets/viewer.js", "/devwidgets/video/jwplayer/swfobject.js"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/document-viewer/assets/viewer.js', '/dev/lib/misc/jwplayer/swfobject.js'], function($, sakai) {
 
     /**
      * @name sakai.documentviewer
@@ -220,7 +220,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
 
         var createSWFObject = function(url, params, flashvars){
             if (!url){
-                url = "/devwidgets/video/jwplayer/player.swf";
+                url = '/dev/lib/misc/jwplayer/player.swf';
             }
             var so = new SWFObject(url,'ply', '100%', params.height || '100%','9','#000000');
             so.addParam('allowfullscreen','true');
