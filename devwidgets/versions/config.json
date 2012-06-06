@@ -14,5 +14,5 @@
     "id": "versions",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/versions/versions.html",
+    "url": "/devwidgets/versions/versions.html"
 }
