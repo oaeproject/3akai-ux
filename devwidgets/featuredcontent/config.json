@@ -1,19 +1,15 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/featuredcontent/bundles/default.properties",
-            "name":       "Featured content widget",
-            "description":"Featured content widget"
+            "bundle": "/devwidgets/featuredcontent/bundles/default.properties",
+            "description": "Featured content widget",
+            "name": "Featured content widget"
         }
     },
-    "id":                 "featuredcontent",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/featuredcontent/featuredcontent.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "featuredcontent",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/featuredcontent/featuredcontent.html"
 }

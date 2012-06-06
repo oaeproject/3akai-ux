@@ -1,16 +1,16 @@
 {
-    "id":"contentmetadata",
-    "type":"core",
-    "enabled":true,
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/contentmetadata/bundles/default.properties",
-            "name": "Content metadata",
-            "description": "Content metadata"
+            "description": "Content metadata",
+            "name": "Content metadata"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/contentmetadata/bundles/es_ES.properties"
         }
     },
-    "url":"/devwidgets/contentmetadata/contentmetadata.html"
+    "id": "contentmetadata",
+    "type": "core",
+    "url": "/devwidgets/contentmetadata/contentmetadata.html"
 }

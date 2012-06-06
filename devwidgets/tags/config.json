@@ -1,19 +1,15 @@
 {
-    "personalportal":true,
-    "userpages": false,
-    "userdashboard": false,
-    "grouppages": false,
-    "groupdashboard": false,
-    "hasSettings": false,
-    "id": "tags",
-    "type": "sakai",
     "enabled": true,
-    "url":"/devwidgets/tags/tags.html",
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/tags/bundles/default.properties",
-            "name": "Most popular tags",
-            "description": "Most popular tags"
+            "description": "Most popular tags",
+            "name": "Most popular tags"
         }
-    }
+    },
+    "id": "tags",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/tags/tags.html"
 }

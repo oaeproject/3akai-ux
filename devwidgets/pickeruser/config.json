@@ -1,14 +1,14 @@
 {
+    "enabled": true,
     "hasSettings": false,
-    "id": "pickeruser",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/pickeruser/bundles/default.properties",
-            "name": "People picker",
-            "description":"General people picker widget"
+            "description": "General people picker widget",
+            "name": "People picker"
         }
-    },    
-    "type":"core",
-    "enabled":true,
+    },
+    "id": "pickeruser",
+    "type": "core",
     "url": "/devwidgets/pickeruser/pickeruser.html"
 }

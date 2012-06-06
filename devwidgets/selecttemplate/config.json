@@ -1,16 +1,16 @@
 {
-    "id":"selecttemplate",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/selecttemplate/bundles/default.properties",
-            "name":"Select template",
-            "description":"Select template"
+            "description": "Select template",
+            "name": "Select template"
         },
         "en_US": {
             "bundle": "/devwidgets/selecttemplate/bundles/en_US.properties"
         }
     },
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/selecttemplate/selecttemplate.html"
+    "id": "selecttemplate",
+    "type": "core",
+    "url": "/devwidgets/selecttemplate/selecttemplate.html"
 }

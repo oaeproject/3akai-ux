@@ -78,7 +78,7 @@ require({
     paths: {
         "jquery-plugins": "jquery/plugins",
         "jquery": "jquery/jquery-1.7.0",
-        "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
+        "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
         "config": "../configuration",
         "mockjax": "../../tests/qunit/js/jquery.mockjax",
         "qunitjs": "../../tests/qunit/js"
@@ -99,7 +99,6 @@ require(
         "misc/l10n/globalize",
         "misc/underscore",
         "misc/google/html-sanitizer",
-        "misc/querystring",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
         "jquery-plugins/jquery.cookie",
@@ -108,7 +107,6 @@ require(
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
         "jquery-plugins/jquery.fileupload",
-        "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
         "qunitjs/qunit"

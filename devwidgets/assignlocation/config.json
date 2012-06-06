@@ -1,17 +1,17 @@
 {
+    "enabled": true,
     "hasSettings": false,
-    "id": "assignlocation",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/assignlocation/bundles/default.properties",
-            "name": "Assign location",
-            "description": "Assign a directory location to an entity"
+            "description": "Assign a directory location to an entity",
+            "name": "Assign location"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/assignlocation/bundles/es_ES.properties"
         }
     },
-    "type":"core",
-    "enabled":true,
+    "id": "assignlocation",
+    "type": "core",
     "url": "/devwidgets/assignlocation/assignlocation.html"
 }

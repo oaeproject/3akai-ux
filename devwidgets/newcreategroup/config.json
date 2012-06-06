@@ -1,19 +1,19 @@
-{ 
-    "id":"newcreategroup",
+{
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/newcreategroup/bundles/default.properties",
-            "name":"Create group",
-            "description":"Create group"
+            "description": "Create group",
+            "name": "Create group"
         },
         "en_US": {
             "bundle": "/devwidgets/newcreategroup/bundles/en_US.properties"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/newcreategroup/bundles/es_ES.properties"
         }
     },
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/newcreategroup/newcreategroup.html"
+    "id": "newcreategroup",
+    "type": "core",
+    "url": "/devwidgets/newcreategroup/newcreategroup.html"
 }
