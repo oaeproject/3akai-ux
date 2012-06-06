@@ -1,23 +1,19 @@
 {
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": true,
+    "hashParams": ["newPageMode", "l"],
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/lhnavigation/bundles/default.properties",
-            "name":       "Left hand navigation",
-            "description":"Left hand navigation widget"
+            "bundle": "/devwidgets/lhnavigation/bundles/default.properties",
+            "description": "Left hand navigation widget",
+            "name": "Left hand navigation"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/lhnavigation/bundles/es_ES.properties"
         }
     },
-    "id":                 "lhnavigation",
-    "personalportal":     false,
-    "type":               "core",
-    "url":                "/devwidgets/lhnavigation/lhnavigation.html",
-    "userdashboard":      false,
-    "userpages":          false,
-    "hashParams":         ["newPageMode", "l"]
+    "id": "lhnavigation",
+    "personalportal": false,
+    "type": "core",
+    "url": "/devwidgets/lhnavigation/lhnavigation.html"
 }

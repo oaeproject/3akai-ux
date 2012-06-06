@@ -1,30 +1,26 @@
 {
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
-    "groupdashboard": true,
-    "id":"discussion",
-    "img":"/devwidgets/discussion/images/discussion.png",
-    "imghover":"/devwidgets/discussion/images/discussion_hover.png",
+    "enabled": true,
+    "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/discussion/bundles/default.properties",
-            "name": "Discussion forum",
-            "description":"Discussion widget"
+            "description": "Discussion widget",
+            "name": "Discussion forum"
         },
         "en_US": {
             "bundle": "/devwidgets/discussion/bundles/en_US.properties"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/discussion/bundles/es_ES.properties"
         },
         "zh_CN": {
             "bundle": "/devwidgets/discussion/bundles/zh_CN.properties"
         }
     },
-    "hasSettings": true,
-    "type":"sakai",
-    "enabled":true,
+    "id": "discussion",
+    "img": "/devwidgets/discussion/images/discussion.png",
+    "imghover": "/devwidgets/discussion/images/discussion_hover.png",
     "sakaidocs": true,
-    "url":"/devwidgets/discussion/discussion.html"
+    "type": "sakai",
+    "url": "/devwidgets/discussion/discussion.html"
 }

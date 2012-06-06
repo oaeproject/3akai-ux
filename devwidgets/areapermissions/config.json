@@ -1,22 +1,18 @@
 {
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        false,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/areapermissions/bundles/default.properties",
-            "name":       "Area permissions",
-            "description":"Area permissions"
+            "bundle": "/devwidgets/areapermissions/bundles/default.properties",
+            "description": "Area permissions",
+            "name": "Area permissions"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/areapermissions/bundles/es_ES.properties"
         }
     },
-    "id":                 "areapermissions",
-    "personalportal":     false,
-    "type":               "core",
-    "url":                "/devwidgets/areapermissions/areapermissions.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "areapermissions",
+    "personalportal": false,
+    "type": "core",
+    "url": "/devwidgets/areapermissions/areapermissions.html"
 }

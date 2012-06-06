@@ -1,17 +1,17 @@
 {
-    "id":                 "htmlblock",
-    "type":               "contrib",
-    "enabled":            false,
-    "hasSettings":        false,
-    "url":                "/devwidgets/htmlblock/htmlblock.html",
+    "enabled": false,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/htmlblock/bundles/default.properties",
-            "name":       "HTML Block",
-            "description":"Block of HTML"
+            "bundle": "/devwidgets/htmlblock/bundles/default.properties",
+            "description": "Block of HTML",
+            "name": "HTML Block"
         }
     },
-    "personalportal":     false,
-    "sakaidocs":          false,
-    "indexFields": ["content"]
+    "id": "htmlblock",
+    "indexFields": ["content"],
+    "personalportal": false,
+    "sakaidocs": false,
+    "type": "contrib",
+    "url": "/devwidgets/htmlblock/htmlblock.html"
 }

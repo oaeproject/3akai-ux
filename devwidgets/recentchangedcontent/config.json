@@ -1,16 +1,16 @@
 {
-    "id":"recentchangedcontent",
+    "deletable": true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/recentchangedcontent/bundles/default.properties",
-            "name": "My recent content",
-            "description": "My recent content"
+            "description": "My recent content",
+            "name": "My recent content"
         }
     },
-    "personalportal":true,
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/recentchangedcontent/recentchangedcontent.html",
-    "deletable":true
+    "id": "recentchangedcontent",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/recentchangedcontent/recentchangedcontent.html"
 }

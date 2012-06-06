@@ -1,24 +1,19 @@
 {
-    "sakaidocs": false,
-    "ca":true,
+    "enabled": true,
     "hasSettings": true,
-    "id":"sakai2tools",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/sakai2tools/bundles/default.properties",
-            "name":"Sakai 2 tools",
-            "description":"Sakai 2 tools"
+            "description": "Sakai 2 tools",
+            "name": "Sakai 2 tools"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/sakai2tools/bundles/es_ES.properties"
         }
     },
-    "img":"/devwidgets/sakai2tools/images/sakai2tools.png",
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/sakai2tools/sakai2tools.html",
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
-    "groupdashboard": true
+    "id": "sakai2tools",
+    "img": "/devwidgets/sakai2tools/images/sakai2tools.png",
+    "sakaidocs": false,
+    "type": "sakai",
+    "url": "/devwidgets/sakai2tools/sakai2tools.html"
 }

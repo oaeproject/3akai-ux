@@ -91,7 +91,7 @@
 #topnavigation_user_messages_container .s3d-dropdown-menu {display:block;margin-left:-71px;position:relative;top:25px;z-index:100;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .dropdown-menu-arrowup {background:url("/devwidgets/topnavigation/images/topnav_nav_list_arrow.png") no-repeat scroll left top transparent;height:14px;margin-left:87px;margin-top:-14px;position:absolute;width:28px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container {width:330px;color:#333;font-size:12px;overflow:auto;letter-spacing:0.01em;}
-#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-dropdown-menu-content-container{
+#topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-dropdown-menu-content-container.topnavigation_message {
     background: #f3f3f3;
     background: -moz-linear-gradient(top, #e6ebee 0%, #f3f3f3 1%, #f3f3f3 51%, #e9e9e9 65%, #e5e5e5 68%, #dedede 71%, #dedede 72%, #f3f3f3 72%, #f3f3f3 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e6ebee), color-stop(1%,#f3f3f3), color-stop(51%,#f3f3f3), color-stop(65%,#e9e9e9), color-stop(68%,#e5e5e5), color-stop(71%,#dedede), color-stop(72%,#dedede), color-stop(72%,#f3f3f3), color-stop(100%,#f3f3f3));

@@ -1,16 +1,16 @@
 {
-    "id":"recentcontactsnew",
+    "deletable": true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/recentcontactsnew/bundles/default.properties",
-            "name": "My recent contacts",
-            "description":"My recent contacts"
+            "description": "My recent contacts",
+            "name": "My recent contacts"
         }
     },
-    "personalportal":true,
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/recentcontactsnew/recentcontactsnew.html",
-    "deletable":true
+    "id": "recentcontactsnew",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/recentcontactsnew/recentcontactsnew.html"
 }

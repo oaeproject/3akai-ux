@@ -1,16 +1,16 @@
 {
-    "id":                 "contentauthoring",
-    "type":               "core",
-    "enabled":            true,
-    "hasSettings":        false,
-    "url":                "/devwidgets/contentauthoring/contentauthoring.html",
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/contentauthoring/bundles/default.properties",
-            "name":       "Content Authoring",
-            "description":"Content Authoring"
+            "bundle": "/devwidgets/contentauthoring/bundles/default.properties",
+            "description": "Content Authoring",
+            "name": "Content Authoring"
         }
     },
-    "personalportal":     false,
-    "sakaidocs":          false
+    "id": "contentauthoring",
+    "personalportal": false,
+    "sakaidocs": false,
+    "type": "core",
+    "url": "/devwidgets/contentauthoring/contentauthoring.html"
 }

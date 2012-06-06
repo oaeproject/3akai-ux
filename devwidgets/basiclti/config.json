@@ -1,21 +1,16 @@
 {
-    "sakaidocs": true,
-    "ca":true,
+    "enabled": true,
     "hasSettings": true,
-    "id":"basiclti",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/basiclti/bundles/default.properties",
-            "name":"Basic LTI",
-            "description":"Basic LTI widget"
+            "description": "Basic LTI widget",
+            "name": "Basic LTI"
         }
     },
-    "img":"/devwidgets/basiclti/images/basiclti.png",
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/basiclti/basiclti.html",
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
-    "groupdashboard": true
+    "id": "basiclti",
+    "img": "/devwidgets/basiclti/images/basiclti.png",
+    "sakaidocs": true,
+    "type": "sakai",
+    "url": "/devwidgets/basiclti/basiclti.html"
 }

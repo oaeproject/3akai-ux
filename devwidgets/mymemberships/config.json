@@ -1,18 +1,18 @@
 {
+    "enabled": true,
+    "hashParams": ["mq", "mp", "mso", "ls"],
     "i18n": {
         "default": {
             "bundle": "/devwidgets/mymemberships/bundles/default.properties",
-            "name": "My memberships",
-            "description": "My memberships"
+            "description": "My memberships",
+            "name": "My memberships"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/mymemberships/bundles/es_ES.properties"
         }
     },
     "id": "mymemberships",
-    "personalportal":false,
+    "personalportal": false,
     "type": "sakai",
-    "enabled": true,
-    "url":"/devwidgets/mymemberships/mymemberships.html",
-    "hashParams": ["mq", "mp", "mso", "ls"]
+    "url": "/devwidgets/mymemberships/mymemberships.html"
 }
