@@ -27,7 +27,7 @@
 * Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
 *
 */
-require(['jquery'], function (jQuery) {
+require(['jquery'], function ($) {
 (function($) {
 
     $.fn.pager = function(options){
@@ -159,7 +159,7 @@ require(['jquery'], function (jQuery) {
 })(jQuery);
 });
 
-require(['jquery', 'sakai/sakai.api.core'], function (jQuery, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function ($, sakai) {
     // Sakai edit to remove the dependency of jquery.pager in the i18n API
     // described at https://jira.sakaiproject.org/browse/SAKIII-5700
     $.fn.pager.defaults.htmlparts = {
