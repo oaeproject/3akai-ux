@@ -9,7 +9,7 @@
         "es_ES": {
             "bundle": "/devwidgets/entity/bundles/es_ES.properties"
         }
-    }
+    },
     "id": "entity",
     "type": "core",
     "url": "/devwidgets/entity/entity.html"
