@@ -1,9 +1,11 @@
 {
+    "deletable": true,
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/mygroups/bundles/default.properties",
-            "name": "My memberships",
-            "description": "My memberships"
+            "description": "My memberships",
+            "name": "My memberships"
         },
         "en_US": {
             "bundle": "/devwidgets/mygroups/bundles/en_US.properties"
@@ -12,10 +14,8 @@
             "bundle": "/devwidgets/mygroups/bundles/zh_CN.properties"
         }
     },
-    "id":"mygroups",
-    "personalportal":true,
-    "deletable": true,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/mygroups/mygroups.html"
+    "id": "mygroups",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/mygroups/mygroups.html"
 }

@@ -1,18 +1,18 @@
 {
+    "enabled": true,
+    "hashParams": ["cq", "cp", "cso", "ls"],
     "i18n": {
         "default": {
             "bundle": "/devwidgets/contacts/bundles/default.properties",
-            "name": "contacts",
-            "description": "Contacts"
+            "description": "Contacts",
+            "name": "contacts"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/contacts/bundles/es_ES.properties"
         }
     },
     "id": "contacts",
-    "personalportal":false,
+    "personalportal": false,
     "type": "sakai",
-    "enabled": true,
-    "url":"/devwidgets/contacts/contacts.html",
-    "hashParams": ["cq", "cp", "cso", "ls"]
+    "url": "/devwidgets/contacts/contacts.html"    
 }

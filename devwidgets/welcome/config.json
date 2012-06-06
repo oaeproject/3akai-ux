@@ -1,19 +1,15 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/welcome/bundles/default.properties",
-            "name":       "Welcome widget",
-            "description":"Welcome widget"
+            "bundle": "/devwidgets/welcome/bundles/default.properties",
+            "description": "Welcome widget",
+            "name": "Welcome widget"
         }
     },
-    "id":                 "welcome",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/welcome/welcome.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "welcome",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/welcome/welcome.html"
 }
