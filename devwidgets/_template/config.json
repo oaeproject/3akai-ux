@@ -23,7 +23,7 @@
  *  - personalportal {Boolean} sets whether or not this widget may be used on a
  *    user's personal portal (more commonly known as 'Home' or 'My Dashboard').
  *  - type {String} ["core" | "sakai" | "contrib"] 'core' widgets are essential
- *    for Sakai OAE to function properly (i.e. login, uploadcontent).
+ *    for Sakai OAE to function properly (i.e. login).
  *    'sakai' widgets are not essential for Sakai OAE to function properly, but
  *    are shipped with the main codebase (i.e. discussion, video).
  *    'contrib' widgets are written by individuals and institutions outside the

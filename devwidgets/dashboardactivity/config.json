@@ -11,5 +11,5 @@
     "id": "dashboardactivity",
     "personalportal": false,
     "type": "sakai",
-    "url": "/devwidgets/dashboardactivity/dashboardactivity.html",
+    "url": "/devwidgets/dashboardactivity/dashboardactivity.html"
 }
