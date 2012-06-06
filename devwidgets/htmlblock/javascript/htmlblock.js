@@ -79,7 +79,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                           }
                     },
                     // CSS Files to load in the editor
-                    content_css: '/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css',
+                    content_css: '/dev/css/sakai/main.css',
                     // Plugins and toolbar buttons to show
                     plugins: 'table,advlink,contextmenu,paste,directionality',
                     theme_advanced_blockformats: 'h1,h2,h3,h4,h5,h6,p,blockquote,caption',
