@@ -15,6 +15,7 @@
         "fr_FR": {
             "bundle":     "/devwidgets/collectionviewer/bundles/fr_FR.properties"
         }
+
     },
     "id":                 "collectionviewer",
     "personalportal":     false,

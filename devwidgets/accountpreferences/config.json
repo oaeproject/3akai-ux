@@ -17,6 +17,7 @@
             "description": "préférences du compte",
             "name": "préférences du compte"
         }
+
     },
     "type":"core",
     "enabled":true,
