@@ -76,13 +76,13 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
-                    <p>__MSG__NO_RESULTS_DESCRIPTION_ME__ <button id="mylibrary_addcontent" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_CONTENT__</button></p>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_GROUP_ME__ <button id="mylibrary_addcontent" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_CONTENT__</button></p>
                 </div>
             {elseif mode === "user_other"}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
-                    <p>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</p>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_GROUP_NOT_ME__</p>
                 </div>
             {elseif mode === "group_manager_member"}
                 <div class="s3d-no-results-container">
@@ -121,7 +121,7 @@
                             {/if}
                         </div>
                         {if !sakai.data.me.user.anon}
-                            <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
+                            <button title="__MSG__ADD_TO__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
                         {/if}
                         {if canShare}
                             <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
@@ -188,7 +188,7 @@
                             {/if}
                             {if item.numComments > 0}
                                 <span class="mylibrary_item_icon mylibrary_item_comments_icon"></span>
-                                ${item.numComments} {if item.numComments === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                                ${item.numComments} {if item.numComments === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}
                             {/if}
                         </div>
                     </div>
