@@ -12,8 +12,13 @@
         "fr_FR": {
             "bundle": "/devwidgets/faceted/bundles/fr_FR.properties"
         }
+<<<<<<< HEAD
     },
     "id": "faceted",
     "type": "core",
     "url": "/devwidgets/faceted/faceted.html"
+=======
+
+    }
+>>>>>>> SAKIII-5712
 }

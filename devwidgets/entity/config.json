@@ -12,8 +12,13 @@
         "fr_FR": {
             "bundle": "/devwidgets/entity/bundles/fr_FR.properties"
          }
+<<<<<<< HEAD
     },
     "id": "entity",
     "type": "core",
     "url": "/devwidgets/entity/entity.html"
+=======
+
+    }
+>>>>>>> SAKIII-5712
 }

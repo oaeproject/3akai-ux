@@ -3,9 +3,12 @@
     "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle": "/devwidgets/welcome/bundles/default.properties",
-            "description": "Welcome widget",
-            "name": "Welcome widget"
+            "bundle":     "/devwidgets/welcome/bundles/default.properties",
+            "name":       "Welcome widget",
+            "description":"Welcome widget"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/welcome/bundles/fr_FR.properties"
         }
     },
     "id": "welcome",

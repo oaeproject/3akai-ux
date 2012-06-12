@@ -8,7 +8,13 @@
             "name": "Content preview"
         },
         "fr_FR": {
+<<<<<<< HEAD
             "bundle": "/devwidgets/contentpreview/bundles/fr_FR.properties"
+=======
+            "bundle": "/devwidgets/contentpreview/bundles/fr_FR.properties",
+            "name":"Content preview French",
+            "description":"Content preview French"
+>>>>>>> 90704e7418f6814fab83ce62eb6fde64aef15eca
         }
     },
     "id": "contentpreview",

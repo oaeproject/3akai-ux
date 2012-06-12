@@ -13,6 +13,7 @@
         "fr_FR": {
             "bundle": "/devwidgets/contacts/bundles/fr_FR.properties"
         }
+
     },
     "id": "contacts",
     "personalportal": false,

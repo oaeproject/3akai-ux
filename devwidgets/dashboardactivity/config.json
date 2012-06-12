@@ -3,9 +3,18 @@
     "hasSettings": true,
     "i18n": {
         "default": {
+<<<<<<< HEAD
             "bundle": "/devwidgets/dashboardactivity/bundles/default.properties",
             "description": "Shows activity on the users dashboard",
             "name": "Dashboard Activity"
+=======
+            "bundle":     "/devwidgets/dashboardactivity/bundles/default.properties",
+            "name":       "Dashboard Activity",
+            "description":"Shows activity on the users dashboard"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/dashboardactivity/bundles/fr_FR.properties
+>>>>>>> SAKIII-5712
         }
     },
     "id": "dashboardactivity",

@@ -4,9 +4,18 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/basiclti/bundles/default.properties",
+<<<<<<< HEAD
             "description": "Basic LTI widget",
             "name": "Basic LTI"
         }
+=======
+            "name":"Basic LTI",
+            "description":"Basic LTI widget"
+        },
+         "fr_FR":{
+             "bundle": "/devwidgets/basiclti/bundles/fr_FR.properties"
+          }
+>>>>>>> SAKIII-5712
     },
     "id": "basiclti",
     "img": "/devwidgets/basiclti/images/basiclti.png",

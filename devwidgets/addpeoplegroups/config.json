@@ -8,7 +8,13 @@
             "name": "addpeoplegroups"
         },
         "fr_FR": {
+<<<<<<< HEAD
             "bundle": "/devwidgets/addpeoplegroups/bundles/fr_FR.properties"
+=======
+            "bundle": "/devwidgets/addpeoplegroups/bundles/fr_FR.properties",
+            "name":"addpeoplegroups french",
+            "description":"Adds people or groups as a member on groups french"
+>>>>>>> 90704e7418f6814fab83ce62eb6fde64aef15eca
         }
     },
     "id": "addpeoplegroups",

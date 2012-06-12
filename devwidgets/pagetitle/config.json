@@ -3,6 +3,7 @@
     "hasSettings": false,
     "i18n": {
         "default": {
+<<<<<<< HEAD
             "bundle": "/devwidgets/pagetitle/bundles/default.properties",
             "description": "Title element",
             "name": "Page Title"
@@ -13,3 +14,17 @@
     "sakaidocs": false,
     "url": "/devwidgets/pagetitle/pagetitle.html"
 }
+=======
+            "bundle":     "/devwidgets/pagetitle/bundles/default.properties",
+            "name":       "Page Title",
+            "description":"Title element"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/pagetitle/bundles/fr_FR.properties"
+        }
+    },
+    "personalportal":     false,
+    "sakaidocs":          false,
+    "indexFields": ["content"]
+}
+>>>>>>> SAKIII-5712
