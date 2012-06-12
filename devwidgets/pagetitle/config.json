@@ -3,18 +3,6 @@
     "hasSettings": false,
     "i18n": {
         "default": {
-<<<<<<< HEAD
-            "bundle": "/devwidgets/pagetitle/bundles/default.properties",
-            "description": "Title element",
-            "name": "Page Title"
-        }
-    },
-    "indexFields": ["content"],
-    "personalportal": false,
-    "sakaidocs": false,
-    "url": "/devwidgets/pagetitle/pagetitle.html"
-}
-=======
             "bundle":     "/devwidgets/pagetitle/bundles/default.properties",
             "name":       "Page Title",
             "description":"Title element"
@@ -27,4 +15,3 @@
     "sakaidocs":          false,
     "indexFields": ["content"]
 }
->>>>>>> SAKIII-5712

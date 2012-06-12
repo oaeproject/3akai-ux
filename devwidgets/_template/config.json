@@ -36,20 +36,6 @@
     "hasSettings": false,
     "i18n": {
         "default": {
-<<<<<<< HEAD
-            "bundle": "/devwidgets/WIDGET_ID/bundles/default.properties",
-            "description": "WIDGET_ID_DESCRIPTION",
-            "name": "WIDGET_ID_NAME"
-        }
-    },
-    "id": "WIDGET_ID",
-    "img": "/devwidgets/WIDGET_ID/images/WIDGET_ID.png",
-    "personalportal": false,
-    "sakaidocs": false,
-    "type": "contrib",
-    "url": "/devwidgets/WIDGET_ID/WIDGET_ID.html"
-}
-=======
             "bundle":     "/devwidgets/WIDGET_ID/bundles/default.properties",
             "name":       "WIDGET_ID_NAME",
             "description":"WIDGET_ID_DESCRIPTION"
@@ -61,4 +47,3 @@
     "personalportal":     false,
     "sakaidocs":          false
 }
->>>>>>> SAKIII-5712
