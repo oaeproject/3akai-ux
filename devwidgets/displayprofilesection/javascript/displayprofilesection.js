@@ -115,6 +115,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $tagfield, true );
             }
             sakai.api.User.updateUserProfile(userid, widgetData.sectionid, values, tags, sectionData, multiple, handleSave);
+            $('button.profile-section-save-button', $rootel).attr('disabled', 'disabled');
             return false;
         };
 
@@ -283,15 +284,25 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                             var $tagfield = $displayprofilesection_body.find( "textarea[data-tag-field]" );
                             if ( $tagfield.length ) {
                                 var autoSuggestOptions = {
-                                    scrollHeight: 120
+                                    scrollHeight: 120,
+                                    selectionAdded: function() {
+                                        $(window).trigger(tuid + '.updated.displayprofilesection.sakai');
+                                    },
+                                    selectionRemoved: function(elem) {
+                                        elem.remove();
+                                        $(window).trigger(tuid + '.updated.displayprofilesection.sakai');
+                                    }
                                 };
                                 var initialTagsValue = sectionData["sakai:tags"] && sectionData["sakai:tags"].value ? sectionData["sakai:tags"].value : false;
-                                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($tagfield, autoSuggestOptions, $(".list_categories", $rootel), initialTagsValue);
+                                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($tagfield, autoSuggestOptions, $('.list_categories', $rootel), initialTagsValue, function() {
+                                    $(window).bind(tuid + '.updated.displayprofilesection.sakai', function() {
+                                        enableUpdate();
+                                    });
+                                });
                             }
                         } else {
                             renderEmptySection( data, section );
                         }
-                        
                     }
 
                     if ( editing ) {
@@ -313,6 +324,14 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 }
             }
         };
+
+        var enableUpdate = function() {
+            $('button.profile-section-save-button', $rootel).removeAttr('disabled');
+        };
+
+        $rootel.on('change cut paste', function() {
+            enableUpdate();
+        });
 
         var getData = function(callback) {
             if (editing && sakai.data.me.profile && $.isFunction(callback) && sakai.data.me.profile._fullProfileLoaded) {
