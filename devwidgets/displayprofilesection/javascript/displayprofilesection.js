@@ -45,6 +45,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             multiple = false,
             multipleSectionLength = 0,
             sectionData = false;
+        var allowUpdate = false;
 
         ///////////////////
         // CSS Selectors //
@@ -286,18 +287,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                                 var autoSuggestOptions = {
                                     scrollHeight: 120,
                                     selectionAdded: function() {
-                                        $(window).trigger(tuid + '.updated.displayprofilesection.sakai');
+                                        enableUpdate();
                                     },
                                     selectionRemoved: function(elem) {
                                         elem.remove();
-                                        $(window).trigger(tuid + '.updated.displayprofilesection.sakai');
+                                        enableUpdate();
                                     }
                                 };
                                 var initialTagsValue = sectionData["sakai:tags"] && sectionData["sakai:tags"].value ? sectionData["sakai:tags"].value : false;
                                 sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($tagfield, autoSuggestOptions, $('.list_categories', $rootel), initialTagsValue, function() {
-                                    $(window).bind(tuid + '.updated.displayprofilesection.sakai', function() {
-                                        enableUpdate();
-                                    });
+                                    allowUpdate = true;
                                 });
                             }
                         } else {
@@ -326,7 +325,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         var enableUpdate = function() {
-            $('button.profile-section-save-button', $rootel).removeAttr('disabled');
+            if (allowUpdate) {
+                $('button.profile-section-save-button', $rootel).removeAttr('disabled');
+            }
         };
 
         $rootel.on('change cut paste', function() {
