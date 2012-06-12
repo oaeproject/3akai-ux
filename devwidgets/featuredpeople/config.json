@@ -10,6 +10,7 @@
         "fr_FR": {
             "bundle": "/devwidgets/featuredpeople/bundles/fr_FR.properties"
         }
+
     },
     "id": "featuredpeople",
     "personalportal": false,

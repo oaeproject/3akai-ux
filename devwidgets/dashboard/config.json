@@ -13,6 +13,7 @@
         "fr_FR": {
             "bundle": "/devwidgets/dashboard/bundles/fr_FR.properties"
         }
+
     },
     "id": "dashboard",
     "img": "/devwidgets/comments/images/comments.png",

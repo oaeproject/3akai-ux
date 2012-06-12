@@ -8,7 +8,9 @@
             "name": "Comment stream"
         },
         "fr_FR": {
-            "bundle": "/devwidgets/comments/bundles/fr_FR.properties"
+            "bundle": "/devwidgets/comments/bundles/fr_FR.properties",
+            "name":"Zone de commentaires",
+            "description":"Commentaires"
         }
     },
     "id": "comments",

@@ -36,15 +36,14 @@
     "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle": "/devwidgets/WIDGET_ID/bundles/default.properties",
-            "description": "WIDGET_ID_DESCRIPTION",
-            "name": "WIDGET_ID_NAME"
+            "bundle":     "/devwidgets/WIDGET_ID/bundles/default.properties",
+            "name":       "WIDGET_ID_NAME",
+            "description":"WIDGET_ID_DESCRIPTION"
+        },
+         "fr_FR": {
+            "bundle":     "/devwidgets/WIDGET_ID/bundles/fr_FR.properties"
         }
     },
-    "id": "WIDGET_ID",
-    "img": "/devwidgets/WIDGET_ID/images/WIDGET_ID.png",
-    "personalportal": false,
-    "sakaidocs": false,
-    "type": "contrib",
-    "url": "/devwidgets/WIDGET_ID/WIDGET_ID.html"
+    "personalportal":     false,
+    "sakaidocs":          false
 }

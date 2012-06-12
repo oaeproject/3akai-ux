@@ -3,13 +3,15 @@
     "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle": "/devwidgets/pagetitle/bundles/default.properties",
-            "description": "Title element",
-            "name": "Page Title"
+            "bundle":     "/devwidgets/pagetitle/bundles/default.properties",
+            "name":       "Page Title",
+            "description":"Title element"
+        },
+        "fr_FR": {
+            "bundle":     "/devwidgets/pagetitle/bundles/fr_FR.properties"
         }
     },
-    "indexFields": ["content"],
-    "personalportal": false,
-    "sakaidocs": false,
-    "url": "/devwidgets/pagetitle/pagetitle.html"
+    "personalportal":     false,
+    "sakaidocs":          false,
+    "indexFields": ["content"]
 }
