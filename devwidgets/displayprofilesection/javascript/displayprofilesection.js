@@ -45,7 +45,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             multiple = false,
             multipleSectionLength = 0,
             sectionData = false;
-        var allowUpdate = false;
+        var allowUpdate = true;
 
         ///////////////////
         // CSS Selectors //
@@ -284,6 +284,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                             $displayprofilesection_body.html( sakai.api.i18n.General.process( bodyHTML ) );
                             var $tagfield = $displayprofilesection_body.find( "textarea[data-tag-field]" );
                             if ( $tagfield.length ) {
+                                allowUpdate = false;
                                 var autoSuggestOptions = {
                                     scrollHeight: 120,
                                     selectionAdded: function() {
