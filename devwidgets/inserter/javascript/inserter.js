@@ -486,7 +486,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         sakai.api.Content.Collections.addToCollection(collectionId, itemIDs, function() {
                             addToCollectionCount(collectionId, itemsDropped.length, false);
                             if (inCollection) {
-                                showCollection(contentListDisplayed);
+                                prependToCollectionList(contentListDisplayed, itemsDropped);
                             }
                             $(window).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
@@ -598,6 +598,28 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 scope: 'content'
             }, $inserterContentInfiniteScrollContainerList);
             addDnDToElements();
+        };
+
+        /**
+         * Adds dropped items to the list of content
+         * @param {Object} item Contains data about the collection
+         * @param {Object} itemsDropped The items to add
+         */
+        var prependToCollectionList = function(item, itemsDropped) {
+            if (item === 'library' || library) {
+                userid = sakai.data.me.user.userid;
+            } else {
+                contentListDisplayed = item._path || item;
+                userid = sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed);
+            }
+
+            $inserterCollectionItemsList.prepend(
+                sakai.api.Util.TemplateRenderer(inserterCollectionContentTemplate, {
+                    items: itemsDropped,
+                    collection: userid.replace('c-', ''),
+                    sakai: sakai
+                })
+            );
         };
 
         /**
