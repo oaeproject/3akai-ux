@@ -613,13 +613,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 userid = sakai.api.Content.Collections.getCollectionGroupId(contentListDisplayed);
             }
 
-            $inserterCollectionItemsList.prepend(
-                sakai.api.Util.TemplateRenderer(inserterCollectionContentTemplate, {
-                    items: itemsDropped,
-                    collection: userid.replace('c-', ''),
-                    sakai: sakai
-                })
-            );
+            var html = sakai.api.Util.TemplateRenderer(inserterCollectionContentTemplate, {
+                items: itemsDropped,
+                collection: userid.replace('c-', ''),
+                sakai: sakai
+            });
+
+            $(html).hide().prependTo($inserterCollectionItemsList).fadeIn('slow');
+
+            collectionListPostRender();
         };
 
         /**
