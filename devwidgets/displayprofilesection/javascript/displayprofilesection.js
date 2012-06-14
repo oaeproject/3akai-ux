@@ -40,11 +40,11 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         // Configuration variables //
         /////////////////////////////
 
-        var editing = false,
-            userid = false,
-            multiple = false,
-            multipleSectionLength = 0,
-            sectionData = false;
+        var editing = false;
+        var userid = false;
+        var multiple = false;
+        var multipleSectionLength = 0;
+        var sectionData = false;
         var allowUpdate = true;
 
         ///////////////////
@@ -296,9 +296,15 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                                     }
                                 };
                                 var initialTagsValue = sectionData["sakai:tags"] && sectionData["sakai:tags"].value ? sectionData["sakai:tags"].value : false;
-                                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($tagfield, autoSuggestOptions, $('.list_categories', $rootel), initialTagsValue, function() {
-                                    allowUpdate = true;
-                                });
+                                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest(
+                                    $tagfield,
+                                    autoSuggestOptions,
+                                    $('.list_categories', $rootel),
+                                    initialTagsValue,
+                                    function() {
+                                        allowUpdate = true;
+                                    }
+                                );
                             }
                         } else {
                             renderEmptySection( data, section );
