@@ -47,8 +47,7 @@ define(
             if (meData.user.userid) {
                 setInterval(function() {
                     $.ajax({
-                        url: "/system/me",
-                        cache: false,
+                        url: sakai_conf.URL.ME_SERVICE,
                         success: function(data) {
                             if (!data.user.userid) {
                                 document.location = "/";
