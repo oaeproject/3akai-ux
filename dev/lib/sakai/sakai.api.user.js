@@ -430,7 +430,6 @@ define(
             // Start a request to the service
             $.ajax({
                 url: data_url,
-                cache: false,
                 success: function(data) {
                     sakaiUserAPI.data.me = sakai_serv.convertObjectToArray(data, null, null);
 
