@@ -202,7 +202,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} redirectURL The URL to check
          */
         var checkValidRedirect = function(redirectURL) {
-            var absoluteUrl = /^https?:\/\//i;
+            var absoluteUrl = /^(?:ftp|https?):\/\//i;
             return !absoluteUrl.test(redirectURL);
         };
 
