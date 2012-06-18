@@ -468,6 +468,21 @@ define(
         },
 
         /**
+         * Get the language for the editor for the current user
+         * If the editor language doesn't exist, we default to English
+         * @return {String} The language for the current user (e.g. 'nl')
+         */
+        getEditorLanguage: function() {
+            var language = sakaii18nAPI.getUserLocale().split('_')[0];
+
+            if ($.inArray(language, sakai_config.Editor.languagePacks) === -1) {
+                language = 'en';
+            }
+
+            return language;
+        },
+
+        /**
          * Function that will return the current user's locale
          *     Example: en_GB
          */
