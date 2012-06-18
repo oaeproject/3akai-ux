@@ -1303,6 +1303,15 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // Generate the new row / column structure
             var pageLayout = getCurrentPageLayout();
 
+            //set needsprocessing to true so it gets picked up by monitor_server.sh
+            $.ajax({
+                url: sakai_global.content_profile.content_data['content_path'] + '.json',
+                type: 'POST',
+                data: {
+                    'sakai:needsprocessing': true,
+                },
+            });
+
             exitEditMode();
             // Determine whether or not to show the empty page placeholder
             determineEmptyAfterSave();
