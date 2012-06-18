@@ -96,6 +96,15 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             }
         };
 
+        /**
+         * Enables the 'Update Profile' button when the user has changed their profile information. 
+         */
+        var enableUpdate = function() {
+            if (allowUpdate) {
+                $('button.profile-section-save-button', $rootel).removeAttr('disabled');
+            }
+        };
+
         var saveValues = function() {
             // Serialize the data from the form for saving
             var values = $form.serializeObject( false );
@@ -328,12 +337,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         sakai.api.Util.Forms.validate( $form, validateOpts );
                     }
                 }
-            }
-        };
-
-        var enableUpdate = function() {
-            if (allowUpdate) {
-                $('button.profile-section-save-button', $rootel).removeAttr('disabled');
             }
         };
 
