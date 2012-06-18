@@ -373,7 +373,7 @@ require([ 'jquery' ], function(jQuery) {
                                 if ( !input.data( "opts" ).matchCase ) {
                                     str = str.toLowerCase();
                                 }
-                                if ( str.search(query) != -1 && input.data( "values_input" ).val().search( "," + data[ num ][ input.data( "opts" ).selectedValuesProp ] + "," ) === -1 ) {
+                                if ( str.indexOf(query) != -1 && input.data( "values_input" ).val().search( "," + data[ num ][ input.data( "opts" ).selectedValuesProp ] + "," ) === -1 ) {
                                     forward = true;
                                 }
                             }
