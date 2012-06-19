@@ -310,6 +310,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
 
         var resetQueue = function() {
             itemsToUpload = [];
+            existingAdded = [];
             itemsUploaded = 0;
             disableAddToQueue();
             renderQueue();
@@ -616,14 +617,13 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         var checkUploadCompleted = function(files, contentObj) {
             itemsUploaded++;
             if(itemsToUpload.length === itemsUploaded) {
-            
-                sakai.data.me.user.properties.contentCount += itemsUploaded;
+                sakai.data.me.user.properties.contentCount += itemsUploaded - existingAdded.length;
 
                 // Variables passed to 'Content Added' Notification Template
                 var libraryTitle = $(newaddcontentSaveTo + ' option:selected').text();
                 var uploadToCollection = false;
                 var notificationHeading = '';
-                var contentFileName = $.trim(contentObj['sakai:pooled-content-file-name-short']) || 
+                var contentFileName = $.trim(contentObj['sakai:pooled-content-file-name-short']) ||
                     $.trim(contentObj['sakai:pooled-content-file-name']);
                 var contentURL = '/content#p='+ contentObj['_path'] + '/' + contentFileName;
 
