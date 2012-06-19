@@ -172,12 +172,12 @@
 
 /* Accessibility styles for keyboard navigation */
 #topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
-.topnavigation_explore .s3d-dropdown-menu ul li:focus,
-.topnavigation_explore .s3d-dropdown-menu ul li:hover,
-.topnavigation_user_container .s3d-dropdown-menu ul li:focus,
-.topnavigation_user_container .s3d-dropdown-menu ul li:hover,
-#topnavigation_user_options_login ul li:focus,
-#topnavigation_user_options_login ul li:hover,
+.topnavigation_explore .s3d-dropdown-menu li a:focus,
+.topnavigation_explore .s3d-dropdown-menu li a:hover,
+.topnavigation_user_container .s3d-dropdown-menu li a:focus,
+.topnavigation_user_container .s3d-dropdown-menu li a:hover,
+#topnavigation_user_options_login li a:focus,
+#topnavigation_user_options_login li a:hover,
 #navigation_anon_signup_link:focus,
 #navigation_anon_signup_link:hover {
     -moz-border-radius: 2px;
