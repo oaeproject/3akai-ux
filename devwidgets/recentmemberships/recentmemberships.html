@@ -8,7 +8,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"><!----></div>
                     <div class="s3d-no-results-icon s3d-no-results-memberships-small"><!----></div>
-                    <p>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/create#l=group" class="s3d-regular-links">__MSG__CREATE_ONE__</a></p>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_RECENTMEMBERSHIPS__ <a class="s3d-regular-links" href="/create#l=group" class="s3d-regular-links">__MSG__CREATE_ONE__</a></p>
                 </div>
             </div>
        </div>
@@ -31,7 +31,7 @@
                         <p class="recentmemberships_item_meta">${entry[0].counts.contentCount}{if entry[0].counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</p>
                     {/if}
                     {if entry[0].counts.membersCount > 0}
-                        <p class="recentmemberships_item_meta">${entry[0].counts.membersCount}{if entry[0].counts.membersCount === 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</p>
+                        <p class="recentmemberships_item_meta">${entry[0].counts.membersCount}{if entry[0].counts.membersCount === 1} __MSG__PARTICIPANT_LC__{else} __MSG__PARTICIPANTS_LC__{/if}</p>
                     {/if}
                 </div>
 

@@ -41,7 +41,7 @@
                             {if item.counts.contentCount} ${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if} {else} 0 __MSG__CONTENT_ITEMS__ {/if}
                         </a>
                         <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=memberships" class="s3d-regular-links fl-push featuredworlds_grouppage_link">
-                            ${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS__{else} __MSG__PARTICIPANT__{/if}
+                            ${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS_LC__{else} __MSG__PARTICIPANT_LC__{/if}
                         </a>
                     </div>
                 {/for}
