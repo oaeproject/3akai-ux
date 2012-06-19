@@ -176,6 +176,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /**
+         * Checks if the URL redirect is valid
+         * @param {String} redirectURL The URL to check
+         */
+        var checkValidRedirect = function(redirectURL) {
+            var absoluteUrl = /^(?:ftp|https?):\/\//i;
+            return !absoluteUrl.test(redirectURL);
+        };
+
         var getRedirectURL = function(){
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             // Check whether we require a redirect
@@ -195,15 +204,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 redirectURL = "/me";
             }
             return redirectURL;
-        };
-
-        /**
-         * Checks if the URL redirect is valid
-         * @param {String} redirectURL The URL to check
-         */
-        var checkValidRedirect = function(redirectURL) {
-            var absoluteUrl = /^(?:ftp|https?):\/\//i;
-            return !absoluteUrl.test(redirectURL);
         };
 
         /**
