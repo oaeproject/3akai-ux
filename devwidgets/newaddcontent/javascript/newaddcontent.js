@@ -232,6 +232,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
 
         var resetQueue = function() {
             itemsToUpload = [];
+            existingAdded = [];
             itemsUploaded = 0;
             disableAddToQueue();
             renderQueue();
@@ -525,7 +526,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         var checkUploadCompleted = function(files) {
             itemsUploaded++;
             if(itemsToUpload.length === itemsUploaded) {
-                sakai.data.me.user.properties.contentCount += itemsUploaded;
+                sakai.data.me.user.properties.contentCount += itemsUploaded - existingAdded.length;
                 var tmpItemsAdded = $.extend(true, [], existingAdded);
                 var itemsAdded = [];
                 $.merge(tmpItemsAdded, lastUpload);
