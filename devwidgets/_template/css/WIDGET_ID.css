@@ -29,9 +29,8 @@
 
 /* widget icon (for widgets that may appear on a dashboard) 
    icons are usually around 18 x 18 pixels */
-.WIDGET_ID.s3d-widget .s3d-widget-titlebar .widget_title {
-    background: url('/devwidgets/WIDGET_ID/images/WIDGET_ID_icon.png') 
-        17px 18px no-repeat;
+.WIDGET_ID .s3d-widget .s3d-widget-titlebar .widget_title {
+    background: url('/devwidgets/_template/images/WIDGET_ID.png') 17px 18px no-repeat;
 }
 
 
