@@ -102,232 +102,233 @@
 }
 
 /* Menu - icons */
+/* Since these images are loaded from Sakai CLE, we can't CSSEmbed them */
 .s23_site_menu_item .icon-osp-glossary {
-    background-image: url(/library/image/silk/text_list_bullets.png);
+    background-image: url(/library/image/silk/text_list_bullets.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-osp-matrix {
-    background-image: url(/library/image/silk/table.png);
+    background-image: url(/library/image/silk/table.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-osp-presentation {
-    background-image: url(/library/image/silk/briefcase.png);
+    background-image: url(/library/image/silk/briefcase.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-osp-presLayout {
-    background-image: url(/library/image/silk/layout_content.png);
+    background-image: url(/library/image/silk/layout_content.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-osp-presTemplate {
-    background-image: url(/library/image/silk/application_view_tile.png);
+    background-image: url(/library/image/silk/application_view_tile.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-osp-style {
-    background-image: url(/library/image/silk/style.png);
+    background-image: url(/library/image/silk/style.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-osp-wizard {
-    background-image: url(/library/image/silk/wand.png);
+    background-image: url(/library/image/silk/wand.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-announcements {
-    background-image: url(/library/image/silk/flag_blue.png);
+    background-image: url(/library/image/silk/flag_blue.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-chat {
-    background-image: url(/library/image/silk/user_comment.png);
+    background-image: url(/library/image/silk/user_comment.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-datapoint {
-    background-image: url(/library/image/silk/chart_line.png);
+    background-image: url(/library/image/silk/chart_line.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-dropbox {
-    background-image: url(/library/image/silk/folder_page.png);
+    background-image: url(/library/image/silk/folder_page.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-gmt {
-    background-image: url(/library/image/silk/award_star_gold_3.png);
+    background-image: url(/library/image/silk/award_star_gold_3.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-help {
-    background-image: url(/library/image/silk/help.png);
+    background-image: url(/library/image/silk/help.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-iframe {
-    background-image: url(/library/image/silk/page_world.png);
+    background-image: url(/library/image/silk/page_world.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-mailbox {
-    background-image: url(/library/image/silk/email.png);
+    background-image: url(/library/image/silk/email.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-metaobj {
-    background-image: url(/library/image/silk/application_form.png);
+    background-image: url(/library/image/silk/application_form.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-membership {
-    background-image: url(/library/image/silk/group.png);
+    background-image: url(/library/image/silk/group.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-news {
-    background-image: url(/library/image/silk/rss.png);
+    background-image: url(/library/image/silk/rss.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-podcasts {
-    background-image: url(/library/image/silk/ipod_cast.png);
+    background-image: url(/library/image/silk/ipod_cast.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-postem {
-    background-image: url(/library/image/silk/database_table.png);
+    background-image: url(/library/image/silk/database_table.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-preferences {
-    background-image: url(/library/image/silk/cog.png);
+    background-image: url(/library/image/silk/cog.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-rutgers-linktool {
-    background-image: url(/library/image/silk/application.png);
+    background-image: url(/library/image/silk/application.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-sections {
-    background-image: url(/library/image/silk/group_gear.png);
+    background-image: url(/library/image/silk/group_gear.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-singleuser {
-    background-image: url(/library/image/silk/user.png);
+    background-image: url(/library/image/silk/user.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-syllabus {
-    background-image: url(/library/image/silk/script.png);
+    background-image: url(/library/image/silk/script.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-blogger {
-    background-image: url(/library/image/silk/book_edit.png);
+    background-image: url(/library/image/silk/book_edit.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-assignment-grades {
-    background-image: url(/library/image/silk/page_edit.png);
+    background-image: url(/library/image/silk/page_edit.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-gradebook-tool {
-    background-image: url(/library/image/silk/report.png);
+    background-image: url(/library/image/silk/report.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-mailtool {
-    background-image: url(/library/image/silk/email_go.png);
+    background-image: url(/library/image/silk/email_go.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-presentation {
-    background-image: url(/library/image/silk/monitor.png);
+    background-image: url(/library/image/silk/monitor.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-profile {
-    background-image: url(/library/image/silk/vcard_edit.png);
+    background-image: url(/library/image/silk/vcard_edit.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-reports {
-    background-image: url(/library/image/silk/report_magnify.png);
+    background-image: url(/library/image/silk/report_magnify.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-resetpass {
-    background-image: url(/library/image/silk/key.png);
+    background-image: url(/library/image/silk/key.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-resources {
-    background-image: url(/library/image/silk/folder.png);
+    background-image: url(/library/image/silk/folder.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-rwiki {
-    background-image: url(/library/image/silk/page_white_edit.png);
+    background-image: url(/library/image/silk/page_white_edit.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-samigo {
-    background-image: url(/library/image/silk/pencil.png);
+    background-image: url(/library/image/silk/pencil.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-schedule {
-    background-image: url(/library/image/silk/calendar.png);
+    background-image: url(/library/image/silk/calendar.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-search {
-    background-image: url(/library/image/silk/find.png);
+    background-image: url(/library/image/silk/find.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-site-roster {
-    background-image: url(/library/image/silk/vcard.png);
+    background-image: url(/library/image/silk/vcard.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-conferencing {
-    background-image: url(/library/image/silk/webcam.png);
+    background-image: url(/library/image/silk/webcam.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-users {
-    background-image: url(/library/image/silk/folder_user.png);
+    background-image: url(/library/image/silk/folder_user.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-aliases {
-    background-image: url(/library/image/silk/tag_blue.png);
+    background-image: url(/library/image/silk/tag_blue.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-sites {
-    background-image: url(/library/image/silk/application_cascade.png);
+    background-image: url(/library/image/silk/application_cascade.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-realms {
-    background-image: url(/library/image/silk/sitemap_color.png);
+    background-image: url(/library/image/silk/sitemap_color.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-online {
-    background-image: url(/library/image/silk/report_user.png);
+    background-image: url(/library/image/silk/report_user.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-memory {
-    background-image: url(/library/image/silk/server_chart.png);
+    background-image: url(/library/image/silk/server_chart.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-archive {
-    background-image: url(/library/image/silk/page_white_compressed.png);
+    background-image: url(/library/image/silk/page_white_compressed.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-scheduler {
-    background-image: url(/library/image/silk/clock.png);
+    background-image: url(/library/image/silk/clock.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-su {
-    background-image: url(/library/image/silk/user_go.png);
+    background-image: url(/library/image/silk/user_go.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-usermembership {
-    background-image: url(/library/image/silk/drive_user.png);
+    background-image: url(/library/image/silk/drive_user.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-sitebrowser {
-    background-image: url(/library/image/silk/world.png);
+    background-image: url(/library/image/silk/world.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-createuser {
-    background-image: url(/library/image/silk/user_add.png);
+    background-image: url(/library/image/silk/user_add.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-discussion, .s23_site_menu_item .icon-sakai-forums {
-    background-image: url(/library/image/silk/comments.png);
+    background-image: url(/library/image/silk/comments.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-iframe-site, .s23_site_menu_item .icon-sakai-motd {
-    background-image: url(/library/image/silk/house.png);
+    background-image: url(/library/image/silk/house.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-messages, .s23_site_menu_item .icon-sakai-synoptic-messagecenter {
-    background-image: url(/library/image/silk/comment.png);
+    background-image: url(/library/image/silk/comment.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-poll, .s23_site_menu_item .icon-sakai-sitestats {
-    background-image: url(/library/image/silk/chart_bar.png);
+    background-image: url(/library/image/silk/chart_bar.png); /*CSSEmbed:SKIP*/
 }
 
 .s23_site_menu_item .icon-sakai-siteinfo, .s23_site_menu_item .icon-sakai-sitesetup {
-    background-image: url(/library/image/silk/application_lightning.png);
+    background-image: url(/library/image/silk/application_lightning.png); /*CSSEmbed:SKIP*/
 }
 
 /* Tool Columns */
