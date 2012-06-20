@@ -1584,7 +1584,7 @@ define(function(){
         }],
 
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
-        defaultLanguage: "en_US",
+        defaultLanguage: "fr_FR",
 
         enableCategories: true,
 
