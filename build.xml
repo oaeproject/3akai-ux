@@ -44,12 +44,16 @@
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
         <property name="ANT_CONTRIB" value="tools/ant-contrib/ant-contrib-1.0b3.jar" description="Ant-contrib 1.0b3" />
         <property name="HASHTOOL_DIR" value="tools/hashfiles" description="hash js and css files" />
+        <property name="CSSEMBED" value="tools/cssembed/cssembed-0.4.5.jar" description="CSSEmbed - automaticly create CSS files with embedded data URIs" />
 
         <!-- SETUP - Set Ant-contrib dependency -->
         <taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
                 <pathelement location="${ANT_CONTRIB}"/>
             </classpath>
+        </taskdef>
+
+        <taskdef name="cssembed" classname="net.nczonline.web.cssembed.CSSEmbedTask" classpath="${CSSEMBED}">
         </taskdef>
 
         <!-- Define patternset for widget JS files (from ${TARGET_DIR_W}) -->
@@ -295,6 +299,15 @@
         fork="true">
             <arg value="${HASHTOOL_DIR}/config.properties" />
         </java>
+    </target>
+
+    <!-- Target: CSSEmbed -->
+    <target name="cssembed" depends="init, create_target_folders">
+        <cssembed root=".">
+            <!--<fileset dir="${TARGET_DIR}/css/sakai" includes="**/*.css" />-->
+            <fileset dir="testscss/dev" includes="**/*.css" />
+            <fileset dir="testscss/devwidgets" includes="**/*.css" />
+        </cssembed>
     </target>
 
     <!-- Target: Release Builds-->
