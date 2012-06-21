@@ -1574,7 +1574,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         });
 
         // Revision history
-        $(window).on('click', '#inserterbar_action_revision_history', function() {
+        $(document).on('click', '#inserterbar_action_revision_history', function() {
             $(window).trigger('init.versions.sakai', currentPageShown);
         });
 

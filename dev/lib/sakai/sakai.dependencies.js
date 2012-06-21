@@ -115,7 +115,7 @@ require(
         "underscore",
         "jquery-ui",
         "jquery-plugins/jquery.validate",
-        "jquery-plugins/jquery.autoSuggest",
+        "jquery-plugins/jquery.autoSuggest.sakai-edited",
         "misc/l10n/globalize",
         "misc/google/html-sanitizer",
         "jquery-plugins/jquery.equal-height-columns",
