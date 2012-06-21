@@ -48,6 +48,10 @@
 #dashboard_container #widgetscontainer .fl-widget {
     margin-top: 1px;
 }
+#dashboard_container #widgetscontainer .groupWrapper {
+    overflow:hidden;
+    min-height: 40px;
+}
 #dashboard_container .widget_spacer {
     height: 1px;
 }
