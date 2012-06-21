@@ -513,22 +513,6 @@
     cursor: pointer;
 }
 
-#entity_name.entity_name_editable:hover .s3d-highlight_area_background_darker1_white_content_tl {
-    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1157px transparent;
-}
-
-#entity_name.entity_name_editable:hover .s3d-highlight_area_background_darker1_white_content_tinner {
-    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1167px transparent;
-}
-
-#entity_name.entity_name_editable:hover .s3d-highlight_area_background_darker1_white_content_bl {
-    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1177px transparent;
-}
-
-#entity_name.entity_name_editable:hover .s3d-highlight_area_background_darker1_white_content_binner {
-    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1187px transparent;
-}
-
 #entity_name.entity_name_editing:hover {
     background-color: transparent !important;
 }
