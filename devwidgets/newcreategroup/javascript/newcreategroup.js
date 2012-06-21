@@ -131,7 +131,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Create a simple group and execute the tagging and membership functions
      */
     var doCreateSimpleGroup = function() {
-        sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey("CREATING_YOUR_GROUP", "newcreategroup").replace(/\$\{type\}/, sakai.api.i18n.getValueForKey(currentTemplate.title)), sakai.api.i18n.getValueForKey("PROCESSING_GROUP"));
+        sakai.api.Util.progressIndicator.showProgressIndicator(
+            sakai.api.i18n.getValueForKey('CREATING_YOUR_GROUP', 'newcreategroup').replace(/\$\{type\}/, sakai.api.i18n.getValueForKey(currentTemplate.title)),
+            sakai.api.i18n.getValueForKey('PROCESSING_GROUP', 'newcreategroup')
+        );
         var grouptitle = $newcreategroupGroupTitle.val() || "";
         var groupdescription = $newcreategroupGroupDescription.val() || "";
         var groupid = sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-");
