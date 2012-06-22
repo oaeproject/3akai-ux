@@ -28,7 +28,8 @@
 }
 
 .gritter-bottom {
-    background:  no-repeat left bottom;
+    background-position: left bottom;
+    background-repeat: no-repeat;
     height: 8px;
     margin: 0;
 }
