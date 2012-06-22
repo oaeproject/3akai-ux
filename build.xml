@@ -302,8 +302,11 @@
     </target>
 
     <!-- Target: CSSEmbed -->
-    <target name="cssembed" depends="init, create_target_folders">
-        <cssembed root=".">
+    <target name="cssembed">
+        <echo message="CSSEmbed - replace all the small icons with data URIs." />
+        <echo message="[NOTE] skipMissing is necessary for the CLE icons." />
+        <!-- Add verbose="true" if you want to see more output -->
+        <cssembed root="." skipMissing="true">
             <fileset dir="${TARGET_DIR}" includes="**/*.css" />
             <fileset dir="${TARGET_DIR_W}" includes="**/*.css" />
         </cssembed>
