@@ -20,7 +20,7 @@
 .my_groups_widget .mygroups_list_item{padding:0 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;}
 .mygroups_left_padding{padding-left:15px;}
 .my_groups_widget .mygroup_item{padding:5px 5px 5px 15px;margin:0;border-bottom:1px solid #CCC;list-style-type:none;}
-.my_groups_widget .mygroup_item .group_icon{
+.my_groups_widget .mygroup_item .group_icon {
     background: url(/dev/images/globe_fuge.png) no-repeat transparent;
     display: block;
     height: 16px;
@@ -29,7 +29,7 @@
 }
 .mygroup_item_img {display:inline;}
 .mygroups_ellipsis_text, .mygroups_ellipsis_container{word-wrap:break-word;}
-.mygroup_items_list{
+.mygroup_items_list {
     margin: -8px 0 0;
 }
 

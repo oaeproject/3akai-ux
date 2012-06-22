@@ -43,7 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $embedcontent_dont_add = $(".embedcontent_dont_add", $rootel);
 
         // Choose Content tab selectors
-        var $embedcontent_tabs = $("#embedcontent_settings_container .s3d-tabs", $rootel);
+        var $embedcontent_tabs = $('#embedcontent_settings_container .s3d-tabs', $rootel);
         var $embedcontent_search_for_content = $("#embedcontent_search_for_content", $rootel);
         var $embedcontent_just_add = $("#embedcontent_just_add", $rootel);
         var $embedcontent_button_goto_display_settings = $("#embedcontent_button_goto_display_settings", $rootel);

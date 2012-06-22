@@ -2133,7 +2133,7 @@ ul.as-selections textarea.as-input {
 .s3d-dialog-container .s3d-dialog-close {
     background-image: url('/dev/images/dialog_close.png');
     background-color: transparent;
-    background-repeat: no-repeat ;
+    background-repeat: no-repeat;
 }
 .s3d-dialog-container .s3d-dialog-close {
     background-position: left top;
@@ -2294,8 +2294,8 @@ ul li.s3d-list-item:hover {
  * HIGHLIGHTED AREAS
  */
 .s3d-highlight_area_background, .s3d-highlight_area_background_white {
-    padding: 0 10px;
     margin: 0 0 15px;
+    padding: 0 10px;
 }
 .s3d-highlight_area_background {
     background-color: #EFF2F4;

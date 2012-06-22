@@ -66,8 +66,8 @@
     position: absolute;
     top: 5px;
     right: 3px;
-    background-repeat: no-repeat;
     background-position: left top;
+    background-repeat: no-repeat;
     cursor: pointer;
     width: 30px;
     height: 30px;

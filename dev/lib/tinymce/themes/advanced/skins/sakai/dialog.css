@@ -89,7 +89,7 @@ a.pickcolor, a.browse {
     text-decoration: none
 }
 a.browse span, a.pickcolor span {
-    background:url(/dev/lib/tinymce/themes/advanced/img/icons.gif);
+    background: url(/dev/lib/tinymce/themes/advanced/img/icons.gif);
 }
 a.browse span {
     display: block;
@@ -188,8 +188,8 @@ td.charmap, #charmap a {
     width: 100%;
     height: 18px;
     line-height: normal;
-    background-repeat: repeat-x;
     background-position: 0 -72px;
+    background-repeat: repeat-x;
 }
 .tabs ul {
     margin: 0;
@@ -198,7 +198,7 @@ td.charmap, #charmap a {
 }
 .tabs li {
     float: left;
-    background-position:  0 0;
+    background-position: 0 0;
     background-repeat: no-repeat;
     margin: 0 2px 0 0;
     padding: 0 0 0 10px;
