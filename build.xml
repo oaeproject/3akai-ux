@@ -304,14 +304,13 @@
     <!-- Target: CSSEmbed -->
     <target name="cssembed" depends="init, create_target_folders">
         <cssembed root=".">
-            <!--<fileset dir="${TARGET_DIR}/css/sakai" includes="**/*.css" />-->
-            <fileset dir="testscss/dev" includes="**/*.css" />
-            <fileset dir="testscss/devwidgets" includes="**/*.css" />
+            <fileset dir="${TARGET_DIR}" includes="**/*.css" />
+            <fileset dir="${TARGET_DIR_W}" includes="**/*.css" />
         </cssembed>
     </target>
 
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, hash_files">
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, cssembed, hash_files">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
