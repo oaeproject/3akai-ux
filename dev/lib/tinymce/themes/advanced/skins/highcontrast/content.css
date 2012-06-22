@@ -10,7 +10,7 @@ h6 {font-size: .75em}
 a.mceItemAnchor {
     background: url(/dev/lib/tinymce/themes/advanced/skins/sakai/img/items.gif) no-repeat 0 0;
     display: inline-block;
-    height: 11px  !important;
+    height: 11px !important;
     width: 11px !important;
 }
 span.mceItemNbsp {background: #DDD}

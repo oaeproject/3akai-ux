@@ -42,7 +42,7 @@
 #contentcomments_postComment {text-transform: capitalize;}
 .contentcomments_commentLinks{overflow:auto;width:20%;float:right;}
 .contentcomments_commentMessage ul li{display:inline;color:#BBB;}
-.contentcomments_arrowUp{
+.contentcomments_arrowUp {
     background: #fff url(/devwidgets/contentcomments/images/comments_arrowup.jpg) no-repeat bottom left;
     height: 10px;
 }
