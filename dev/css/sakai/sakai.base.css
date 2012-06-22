@@ -2841,49 +2841,49 @@ ul li.s3d-list-item:hover {
 }
 
 .s3d-icon-audio {
-    background-image: url(/dev/images/mimetypes/sound.png);
+    background-image: url(/dev/images/mimetypes/small/sound.png);
 }
 .s3d-icon-collection {
-    background-image: url(/dev/images/mimetypes/collection.png);
+    background-image: url(/dev/images/mimetypes/small/collection.png);
 }
 .s3d-icon-doc {
-    background-image: url(/dev/images/mimetypes/doc.png);
+    background-image: url(/dev/images/mimetypes/small/doc.png);
 }
 .s3d-icon-html, .s3d-icon-url {
-    background-image: url(/dev/images/mimetypes/html.png);
+    background-image: url(/dev/images/mimetypes/small/html.png);
 }
 .s3d-icon-image {
-    background-image: url(/dev/images/mimetypes/images.png);
+    background-image: url(/dev/images/mimetypes/small/images.png);
 }
 .s3d-icon-kmultiple {
-    background-image: url(/dev/images/mimetypes/kmultiple.png);
+    background-image: url(/dev/images/mimetypes/small/kmultiple.png);
 }
 .s3d-icon-pdf {
-    background-image: url(/dev/images/mimetypes/pdf.png);
+    background-image: url(/dev/images/mimetypes/small/pdf.png);
 }
 .s3d-icon-pps {
-    background-image: url(/dev/images/mimetypes/pps.png);
+    background-image: url(/dev/images/mimetypes/small/pps.png);
 }
 .s3d-icon-sakaidoc {
-    background-image: url(/dev/images/mimetypes/sakaidoc.png);
+    background-image: url(/dev/images/mimetypes/small/sakaidoc.png);
 }
 .s3d-icon-swf {
-    background-image: url(/dev/images/mimetypes/swf.png);
+    background-image: url(/dev/images/mimetypes/small/swf.png);
 }
 .s3d-icon-spreadsheet {
-    background-image: url(/dev/images/mimetypes/spreadsheet.png);
+    background-image: url(/dev/images/mimetypes/small/spreadsheet.png);
 }
 .s3d-icon-txt {
-    background-image: url(/dev/images/mimetypes/txt.png);
+    background-image: url(/dev/images/mimetypes/small/txt.png);
 }
 .s3d-icon-unknown {
-    background-image: url(/dev/images/mimetypes/unknown.png);
+    background-image: url(/dev/images/mimetypes/small/unknown.png);
 }
 .s3d-icon-video {
-    background-image: url(/dev/images/mimetypes/video.png);
+    background-image: url(/dev/images/mimetypes/small/video.png);
 }
 .s3d-icon-zip {
-    background-image: url(/dev/images/mimetypes/zip.png);
+    background-image: url(/dev/images/mimetypes/small/zip.png);
 }
 
 /*
