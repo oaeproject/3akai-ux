@@ -348,8 +348,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * @param {String} userid ID of the collection to retrieve data for, if empty cache will be checked for ID
          * @param {Boolean} refresh Reloads the collection interface if set to true
          * @param {Function} callback Function executed after the data has been retrieved
+         * @param {Boolean} cache If we use cache or not
          */
-        var getCollectionData = function(userid, refresh, callback) {
+        var getCollectionData = function(userid, refresh, callback, _cache) {
+            var cache = _cache === false ? false : true;
             toggleButtons(collectionviewer.listStyle);
             if (refresh) {
                 collectionviewer.page = $.bbq.getState('lp') || 1;
@@ -384,6 +386,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             $.ajax({
                 url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                 data: data,
+                cache: cache,
                 success: function(data) {
                     if ($.isFunction(callback)) {
                         getMultipleUserData(data, function() {
@@ -438,13 +441,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
 
         /**
          * Switch the listview when necessary and load the items within that listview
+         * @param {Boolean} cache If we use cache or not
          */
-        var switchListView = function() {
+        var switchListView = function(cache) {
             collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
             collectionviewer.page = $.bbq.getState('lp') || 1;
             $('.s3d-listview-options', $rootel).children('.selected').children().removeClass('selected');
             $('.s3d-listview-options', $rootel).children('.selected').removeClass('selected');
-            getCollectionData();
+            getCollectionData(false, false, false, cache);
         };
 
         /**
@@ -675,7 +679,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             $(document).on('done.newaddcontent.sakai', function(ev, data) {
-                setTimeout(switchListView, 1000);
+                setTimeout(function() {
+                    switchListView(false);
+                }, 1000);
             });
 
             $(window).on('hiding.newsharecontent.sakai hiding.savecontent.sakai', function() {
