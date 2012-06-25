@@ -7,7 +7,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
         module("Profile");
 
         var profile = {}; profile.basic = {}; profile.basic.elements = {}; 
@@ -32,5 +31,5 @@ require(
 
         $(window).trigger("addlocalbinding.qunit.sakai");
 
-    });
-});
+    }
+);

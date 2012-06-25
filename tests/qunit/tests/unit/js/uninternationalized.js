@@ -9,7 +9,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
          module("Uninternationalized English Strings");
 
          // attributes to test for
@@ -291,6 +290,5 @@ require(
              });
          }
 
-    });
-
-});
+    }
+);

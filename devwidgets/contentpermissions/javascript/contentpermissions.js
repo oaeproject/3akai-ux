@@ -417,7 +417,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         var addedUserGroup = function(){
             if (!$("#contentpermissions_members_autosuggest_text").is(":visible")) {
                 $("#contentpermissions_members_autosuggest_text").html(sakai.api.Util.TemplateRenderer(contentpermissionsShareMessageTemplate, {
-                    "filename": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                    "filename": sakai.api.Security.safeOutput(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]),
                     "path": window.location,
                     "user": sakai.api.User.getDisplayName(sakai.data.me.profile)
                 }));

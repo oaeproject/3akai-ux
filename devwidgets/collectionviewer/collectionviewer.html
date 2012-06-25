@@ -131,7 +131,7 @@
                     {if commentCount > 0}
                         <br/>
                         <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
-                        ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                        ${commentCount} {if commentCount === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}
                     {/if}
                 </div>
             </li>
@@ -374,7 +374,7 @@
                                    {var commentCount = item.numComments || sakai.api.Content.getCommentCount(item)}
                                    {if commentCount > 0}
                                        <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
-                                       ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                                       ${commentCount} {if commentCount === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}
                                    {/if}
                                </div>
                             </div>

@@ -1,19 +1,18 @@
 {
-    "ca":true,
-    "hasSettings":true,
-    "id":"dashboard",
+    "enabled": true,
+    "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/dashboard/bundles/default.properties",
-            "name":"Dashboard",
-            "description":"Dashboard"
+            "description": "Dashboard",
+            "name": "Dashboard"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/dashboard/bundles/es_ES.properties"
         }
     },
-    "img":"/devwidgets/comments/images/comments.png",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/dashboard/dashboard.html"
+    "id": "dashboard",
+    "img": "/devwidgets/comments/images/comments.png",
+    "type": "core",
+    "url": "/devwidgets/dashboard/dashboard.html"
 }

@@ -1,14 +1,14 @@
 {
-    "id":"tooltip",
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/tooltip/bundles/default.properties",
-            "name":"Tooltip",
-            "description":"Displays tooltip help dialog boxes"
+            "description": "Displays tooltip help dialog boxes",
+            "name": "Tooltip"
         }
     },
-    "url":"/devwidgets/tooltip/tooltip.html"
+    "id": "tooltip",
+    "type": "sakai",
+    "url": "/devwidgets/tooltip/tooltip.html"
 }

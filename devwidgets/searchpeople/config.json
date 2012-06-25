@@ -1,22 +1,18 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        false,
+    "enabled": false,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/searchpeople/bundles/default.properties",
-            "name":       "Search people",
-            "description":"Search people"
+            "bundle": "/devwidgets/searchpeople/bundles/default.properties",
+            "description": "Search people",
+            "name": "Search people"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/searchpeople/bundles/es_ES.properties"
         }
     },
-    "id":                 "searchpeople",
-    "personalportal":     false,
-    "type":               "core",
-    "url":                "/devwidgets/searchpeople/searchpeople.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "searchpeople",
+    "personalportal": false,
+    "type": "core",
+    "url": "/devwidgets/searchpeople/searchpeople.html"
 }

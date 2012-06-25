@@ -1,22 +1,18 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/versions/bundles/default.properties",
-            "name":       "Version widget",
-            "description":"Version widget"
+            "bundle": "/devwidgets/versions/bundles/default.properties",
+            "name": "Version widget",
+            "description": "Version widget"
         },
         "es_ES": { 
             "bundle": "/devwidgets/versions/bundles/es_ES.properties"
         }
     },
-    "id":                 "versions",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/versions/versions.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "versions",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/versions/versions.html"
 }

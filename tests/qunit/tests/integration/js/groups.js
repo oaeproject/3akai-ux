@@ -6,9 +6,7 @@ require(
     "../../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
     function($, sakai) {
-
-    require(["misc/domReady!"], function(doc) {
-        
+    
         module("Groups");
 
         var group_id = ("grouprandom" + (new Date()).getTime()),
@@ -227,5 +225,4 @@ require(
 
         $(window).trigger("addlocalbinding.qunit.sakai");
 
-    });
 });

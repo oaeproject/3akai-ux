@@ -1,16 +1,16 @@
 {
-    "id":"faceted",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/faceted/faceted.html",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/faceted/bundles/default.properties",
-            "name": "Faceted",
-            "description": "Faceted"
+            "description": "Faceted",
+            "name": "Faceted"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/faceted/bundles/es_ES.properties"
         }
-    }
+    },
+    "id": "faceted",
+    "type": "core",
+    "url": "/devwidgets/faceted/faceted.html"
 }

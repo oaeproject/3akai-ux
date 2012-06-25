@@ -1,16 +1,16 @@
 {
-    "id":"entity",
-    "url":"/devwidgets/entity/entity.html",
-    "type":"core",
-    "enabled":true,
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/entity/bundles/default.properties",
-            "name": "Entity widget",
-            "description": "Entity widget"
+            "description": "Entity widget",
+            "name": "Entity widget"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/entity/bundles/es_ES.properties"
         }
-    }
+    },
+    "id": "entity",
+    "type": "core",
+    "url": "/devwidgets/entity/entity.html"
 }

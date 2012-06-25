@@ -995,7 +995,7 @@ define(function(){
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/me", "/dev/me.html", "/dev/search_sakai2.html", "/create", "/dev/createnew.html"],
+        requireUser: ["/me", "/dev/me.html", "/create", "/dev/createnew.html"],
 
         /*
          * List of pages that require an anonymous user
@@ -1005,7 +1005,7 @@ define(function(){
          * List of pages that will be added to requireUser if
          * anonAllowed is false
          */
-        requireUserAnonNotAllowed: ["/me", "/dev/me.html", "/dev/search_sakai2.html"],
+        requireUserAnonNotAllowed: ["/me", "/dev/me.html"],
         /*
          * List of pages that will be added to requireAnonymous if
          * anonAllowed is false
@@ -1017,7 +1017,7 @@ define(function(){
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
+        requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/content"],
 
         useLiveSakai2Feeds: false,
         /*

@@ -1,21 +1,20 @@
 {
-    "id":"newaddcontent",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/newaddcontent/newaddcontent.html",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/newaddcontent/bundles/default.properties",
-            "name":"Add content",
-            "description":"Add content"
+            "name": "Add resource"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/newaddcontent/bundles/es_ES.properties"
         }
     },
+    "id": "newaddcontent",
     "trigger": {
         "events": ["init.newaddcontent.sakai"],
         "selectors": [".sakai_add_content_overlay"],
         "onLoad": false
-    }
+    },
+    "type": "core",
+    "url": "/devwidgets/newaddcontent/newaddcontent.html"
 }

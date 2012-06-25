@@ -535,9 +535,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var newNum = num + val;
                 $("#entity_participants_count").text(newNum);
                 if (newNum === 1) {
-                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANT", "entity"));
+                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANT_LC", "entity"));
                 } else {
-                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANTS", "entity"));
+                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANTS_LC", "entity"));
                 }
             });
 

@@ -20,7 +20,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !anon} <a href="/search#l=people" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a>{/if}</h1>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION_MYCONTACTS__ {if !anon} <a href="/search#l=people" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a>{/if}</h1>
                 </div>
             </div>
         {/for}
@@ -30,9 +30,9 @@
         {if ((invited > 0) && (invited < 1000))}
             <span>__MSG__RESPOND_TO__ ${invited}
                 {if invited == 1}
-                    __MSG__INVITATION__
+                    __MSG__INVITATION_LC__
                 {else}
-                    __MSG__INVITATIONS__
+                    __MSG__INVITATIONS_LC__
                 {/if}
             </span>
         {/if}

@@ -1,9 +1,10 @@
 {
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/footer/bundles/default.properties",
-            "name": "Dynamic footer",
-            "description": "Dynamic Footer with Debug Info"
+            "description": "Dynamic Footer with Debug Info",
+            "name": "Dynamic footer"
         },
         "en_US": {
             "bundle": "/devwidgets/footer/bundles/en_US.properties"
@@ -15,8 +16,7 @@
             "bundle": "/devwidgets/footer/bundles/zh_CN.properties"
         }
     },
-    "id":"footer",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/footer/footer.html"
+    "id": "footer",
+    "type": "core",
+    "url": "/devwidgets/footer/footer.html"
 }
