@@ -1229,14 +1229,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var sakaiDocsInitialized = false;
 
-        $(window).bind('ready.contentauthoring.sakai', function() {
-            sakaiDocsInitialized = true;
-        });
-
         var prepareRenderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
             if (!sakaiDocsInitialized) {
-            //    sakaiDocsInitialized = true;
-                //$('#s3d-page-main-content').append($('#lhnavigation_contentauthoring_declaration'));
+                sakaiDocsInitialized = true;
+                $('#s3d-page-main-content').append($('#lhnavigation_contentauthoring_declaration'));
                 $(window).bind('ready.contentauthoring.sakai', function() {
                     renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
                 });
@@ -1245,7 +1241,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if ($.inArray(window.location.path, doNotRenderSakaiDocsOnPaths) === -1) {
                     sakai.api.Util.TemplateRenderer($lhnavigation_contentauthoring_declaration_template, {}, $lhnavigation_contentauthoring_declaration);
                 }
-                //sakai.api.Widgets.widgetLoader.insertWidgets('s3d-page-main-content', false);
+                sakai.api.Widgets.widgetLoader.insertWidgets('s3d-page-main-content', false);
             } else {
                 renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
             }
