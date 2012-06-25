@@ -84,8 +84,20 @@ define(
         getGroupAuthorizableData : function(groupids, callback) {
             var toReturn = {};
             var batchRequest = [];
+
             if (_.isString(groupids)){
-                groupids = [groupids];
+                if ($.isPlainObject(sakai_global.group.cachedResponse[groupids])) {
+                    var group = sakai_global.group.cachedResponse[groupids];
+                    sakaiGroupsAPI.groupData[group.properties["sakai:group-id"]] = group;
+                    toReturn[group.properties["sakai:group-id"]] = group;
+
+                    if ($.isFunction(callback)){
+                        callback(true, toReturn);
+                    }
+                }
+                else {
+                    groupids = [groupids];
+                }
             }
             $.each(groupids, function(index, groupid){
                 if ($.isPlainObject(sakaiGroupsAPI.groupData[groupid])) {

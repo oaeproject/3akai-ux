@@ -30,6 +30,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var processEntityInfo = function(){
             groupId = sakai.api.Util.extractEntity(window.location.pathname);
+            sakai_global.group.cachedResponse = {};
             sakai.api.Server.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
                 if (success){
                     groupData = {};
@@ -37,6 +38,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     groupData.authprofile.picture = sakai.api.Groups.getProfilePicture(groupData.authprofile);
                     sakai_global.group.groupData = groupData.authprofile;
                     sakai_global.group.groupId = groupId;
+                    sakai_global.group.cachedResponse[groupId] = data;
                     sakai.api.Security.showPage(function() {
                         if (groupData.authprofile["sakai:customStyle"]) {
                             sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
