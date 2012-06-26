@@ -211,8 +211,8 @@ define(
              *  true  : render the settings mode of the widget
              *  false : render the view mode of the widget
              */
-            insertWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough){
-                var obj = this.loadWidgets(id, showSettings, context, widgetData, widgetDataPassthrough);
+            insertWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback){
+                var obj = this.loadWidgets(id, showSettings, context, widgetData, widgetDataPassthrough, callback);
                 this.loaded.push(obj);
             },
 
@@ -224,7 +224,7 @@ define(
              *  false : render the view mode of the widget
              * @param {String} context The context of the widget (e.g. siteid)
              */
-            loadWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough){
+            loadWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback){
                 // Configuration variables
                 var widgetNameSpace = "sakai_global";
                 var widgetSelector = ".widget_inline";
@@ -258,6 +258,9 @@ define(
                                 var initfunction = window[widgetNameSpace][widgetname];
                                 var historyState = sakaiWidgetsAPI.handleHashChange(widgetname);
                                 initfunction(widgetsInternal[widgetname][i].uid, settings, widgetsInternal[widgetname][i].widgetData ? $.extend(true, {}, widgetsInternal[widgetname][i].widgetData) : false, historyState);
+                                if (widgetsInternal[widgetname][i].callback) {
+                                    widgetsInternal[widgetname][i].callback();
+                                }
 
                                 // Send out a "loaded" event for this widget
                                 $(window).trigger(widgetname + "_loaded", [widgetsInternal[widgetname][i].uid]);
@@ -525,7 +528,7 @@ define(
                  * @param {Object} widgetData Widget data associated to the loaded widgets
                  * @param {String} context The context of the widget (e.g. siteid)
                  */
-                var locateWidgets = function(containerId, showSettings, widgetData, context){
+                var locateWidgets = function(containerId, showSettings, widgetData, context, callback){
 
                     // Use document.getElementById() to avoid jQuery selector escaping issues with '/'
                     var el = containerId ? document.getElementById(containerId) : $(document.body);
@@ -554,32 +557,7 @@ define(
                         }
 
                         // Check if the widget is an iframe widget
-                        if (sakai.widgets[widgetname] && sakai.widgets[widgetname].iframe){
-
-                            // Get the information about the widget in the widgets.js file
-                            var portlet = sakai.widgets[widgetname];
-
-                            // Check if the scrolling property has been set to true
-                            var scrolling = portlet.scrolling ? "auto" : "no";
-
-                            var src = portlet.url;
-
-                            // Construct the HTML for the iframe
-                            var html = '<div id="widget_content_'+ widgetname + '">' +
-                                           '<iframe src="'+ src +'" ' +
-                                           'frameborder="0" ' +
-                                           'height="'+ portlet.height +'px" ' +
-                                           'width="100%" ' +
-                                           'scrolling="' + scrolling + '"' +
-                                           '></iframe></div>';
-
-                            // Add the HTML for to the iframe widget container
-                            $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
-
-                        }
-
-                        // The widget isn't an iframe widget
-                        else if (sakai.widgets[widgetname]){
+                        if (sakai.widgets[widgetname]){
 
                             // Set the placement for the widget
                             var placement = "";
@@ -601,8 +579,11 @@ define(
                                 uid : widgetid,
                                 placement : placement,
                                 id : id,
-                                widgetData: widgetData[widgetid] || false
+                                widgetData: widgetData[widgetid] || false,
+                                callback: callback
                             };
+                            
+                            debug.log(callback);
 
                             var floating = "inline_class_widget_nofloat";
                             if ($(divarray[i]).hasClass("block_image_left")){
@@ -635,7 +616,7 @@ define(
 
                 };
 
-                locateWidgets(id, showSettings, widgetData, context);
+                locateWidgets(id, showSettings, widgetData, context, callback);
 
                 return {
                     "informOnLoad" : informOnLoad
@@ -948,10 +929,12 @@ define(
                             widget.trigger.selectors = [widget.trigger.selectors];
                         }
                         $.each(widget.trigger.selectors, function(index, selector){
-                            $(window).on('click', selector, function(){
+                            $(window).on('click', selector, function(event){
                                 $(window).off('click', selector);
                                 $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
-                                sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
+                                sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, function() {
+                                    $(event.target).trigger('click');
+                                });
                             });
                         });
                     }
