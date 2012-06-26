@@ -83,6 +83,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
             }
 
+            if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                personinfoTop += parseInt($('html').scrollTop(), 10);
+            }
+
             $personinfo_widget.css({
                 top: personinfoTop + adjustHeight,
                 left: personinfoLeft

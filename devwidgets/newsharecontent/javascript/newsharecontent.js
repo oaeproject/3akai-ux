@@ -274,6 +274,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
                     adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
                 }
+                if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                    adjustHeight += parseInt($('html').scrollTop(), 10);
+                }
                 $newsharecontentContainer.css({
                     'top':$this.offset().top + $this.height() + adjustHeight,
                     'left':$this.offset().left + $this.width() / 2 - 119

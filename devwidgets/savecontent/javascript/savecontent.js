@@ -102,6 +102,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var savecontentTop = clickedEl.offset().top + clickedEl.height() - 3 + adjustHeight;
             var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 122;
 
+            if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                savecontentTop += parseInt($('html').scrollTop(), 10);
+            }
+
             $savecontent_widget.css({
                 top: savecontentTop,
                 left: savecontentLeft
