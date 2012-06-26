@@ -51,7 +51,7 @@
     cursor: pointer;
 }
 .allcategories_widget .allcategories_item .allcategories_item_header:hover {
-    background: #7acefa;
+    background: #3279b2;
     background: -moz-linear-gradient(top, #7acefa 0%, #4cbcf9 2%, #4fbbf7 7%, #49b0eb 22%, #3279b2 78%, #2e6ea5 98%, #3572a7 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7acefa), color-stop(2%,#4cbcf9), color-stop(7%,#4fbbf7), color-stop(22%,#49b0eb), color-stop(78%,#3279b2), color-stop(98%,#2e6ea5), color-stop(100%,#3572a7));
     background: -webkit-linear-gradient(top, #7acefa 0%,#4cbcf9 2%,#4fbbf7 7%,#49b0eb 22%,#3279b2 78%,#2e6ea5 98%,#3572a7 100%);
