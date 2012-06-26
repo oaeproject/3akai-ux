@@ -30,32 +30,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var processEntityInfo = function(){
             groupId = sakai.api.Util.extractEntity(window.location.pathname);
-            sakai_global.group.cachedResponse = {};
-            sakai.api.Server.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
-                if (success){
-                    groupData = {};
-                    groupData.authprofile = data.properties;
-                    groupData.authprofile.picture = sakai.api.Groups.getProfilePicture(groupData.authprofile);
-                    sakai_global.group.groupData = groupData.authprofile;
-                    sakai_global.group.groupId = groupId;
-                    sakai_global.group.cachedResponse[groupId] = data;
-                    sakai.api.Security.showPage(function() {
-                        if (groupData.authprofile["sakai:customStyle"]) {
-                            sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
-                        }
-                    });
-                    defaultPageTitle = document.title;
-                    document.title = document.title + " " + groupData.authprofile["sakai:group-title"];
-                    loadGroupEntityWidget();
-                    loadDocStructure();
 
-                } else {
-                    if (data.status === 401 || data.status === 403){
-                        sakai.api.Security.send403();
+            sakai.api.Groups.getGroupInformation({
+                    groupId: groupId
+                }, function(success, data) {
+                    if(success) {
+                        groupData = data;
+                        sakai.api.Security.showPage(function() {
+                            if (groupData.authprofile["sakai:customStyle"]) {
+                                sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
+                            }
+                        });
+                        defaultPageTitle = document.title;
+                        document.title = document.title + " " + groupData.authprofile["sakai:group-title"];
+                        loadGroupEntityWidget();
+                        loadDocStructure();
                     } else {
                         sakai.api.Security.send404();
                     }
-                }
             });
         };
 

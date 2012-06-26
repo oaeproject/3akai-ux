@@ -75,6 +75,37 @@ define(
         groupData : {},
 
         /**
+         * Gets information for specified group
+         *
+         * @param {Object} options Contains function parameters:
+         *   {String} groupId ID of group to retrieve information for
+         * @param {Function} callback Callback function, passes ( {Boolean} success, {Object} data )
+         *
+        */
+        getGroupInformation: function(options, callback) {
+            if (!options.groupId) {
+                throw 'getGroupInformation: No Group ID provided.';
+            }
+            var groupId = options.groupId;
+            var _groupData = {};
+            sakai_serv.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
+                if (success){
+                    _groupData.authprofile = data.properties;
+                    _groupData.authprofile.picture = sakaiGroupsAPI.getProfilePicture(_groupData.authprofile);
+
+                    sakai_global.group.groupData = _groupData.authprofile;
+                    sakai_global.group.groupId = groupId;
+
+                    // Cache the response
+                    sakaiGroupsAPI.groupData[groupId] = data;
+                }
+                if ($.isFunction(callback)) {
+                    callback(success, _groupData);
+                }
+            });
+        },
+
+        /**
          * Get the data for the specified group
          *
          * @param {Object} groupids The ID of the group or an array of group IDs
@@ -86,19 +117,9 @@ define(
             var batchRequest = [];
 
             if (_.isString(groupids)){
-                if ($.isPlainObject(sakai_global.group.cachedResponse[groupids])) {
-                    var group = sakai_global.group.cachedResponse[groupids];
-                    sakaiGroupsAPI.groupData[group.properties["sakai:group-id"]] = group;
-                    toReturn[group.properties["sakai:group-id"]] = group;
-
-                    if ($.isFunction(callback)){
-                        callback(true, toReturn);
-                    }
-                }
-                else {
                     groupids = [groupids];
-                }
             }
+
             $.each(groupids, function(index, groupid){
                 if ($.isPlainObject(sakaiGroupsAPI.groupData[groupid])) {
                     toReturn[groupid] = sakaiGroupsAPI.groupData[groupid];
