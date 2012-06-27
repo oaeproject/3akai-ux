@@ -77,7 +77,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "joinrequestbuttons",
         "joinrequests",
         "lhnavigation",
-        "login",
         "mycontacts",
         "mycontent",
         "mygroups",
