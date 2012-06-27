@@ -29,11 +29,11 @@
  */
 define(
     [
-        "jquery",
-        "config/config_custom",
-        "sakai/sakai.api.server",
-        "underscore",
-        "jquery-plugins/jquery.timeago"
+        'jquery',
+        'config/config_custom',
+        'sakai/sakai.api.server',
+        'underscore',
+        'jquery-plugins/jquery.timeago'
     ],
     function($, sakai_config, sakai_serv, _) {
 
