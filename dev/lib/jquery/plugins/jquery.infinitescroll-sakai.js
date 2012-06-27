@@ -135,7 +135,14 @@
         var renderList = function(data, prepend) {
             // Filter out items that are already in the list
             var filteredresults = [];
+
+            // Determine if there are more items to load
             var doAnotherOne = data.results.length > 0;
+            if (data.items && data.total) {
+                var itemsDisplayed = data.items * (parameters.page + 1);
+                doAnotherOne = itemsDisplayed < data.total;
+            }
+
             showHideLoadingContainer(false);
             $.each(data.results, function(i, result) {
                 if (result.id) {
