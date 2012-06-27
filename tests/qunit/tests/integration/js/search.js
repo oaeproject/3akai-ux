@@ -7,8 +7,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
         var createdGroups = [];
         var createdUsers = [];
 
@@ -226,5 +224,5 @@ require(
 
         $(window).trigger("addlocalbinding.qunit.sakai");
 
-    });
-});
+    }
+);

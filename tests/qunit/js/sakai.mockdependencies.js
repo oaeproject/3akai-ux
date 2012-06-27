@@ -96,7 +96,7 @@ require(
         "config/config_custom",
         "jquery-ui",
         "jquery-plugins/jquery.validate",
-        "jquery-plugins/jquery.autoSuggest",
+        "jquery-plugins/jquery.autoSuggest.sakai-edited",
         "misc/l10n/globalize",
         "misc/underscore",
         "misc/google/html-sanitizer",
@@ -117,14 +117,12 @@ require(
         "qunitjs/qunit"
     ],
     function($, sakai) {
-        require(["misc/domReady!"], function(doc) {
-            if (document.location.pathname !== "/tests/qunit/" && document.location.pathname !== "/tests/qunit/index.html") {
-                sakai.api.User.loadMeData(function(success, data) {
-                    // Start i18n
-                    sakai.api.i18n.init(data);
-                });
-            }
-        });
+        if (document.location.pathname !== "/tests/qunit/" && document.location.pathname !== "/tests/qunit/index.html") {
+            sakai.api.User.loadMeData(function(success, data) {
+                // Start i18n
+                sakai.api.i18n.init(data);
+            });
+        }
         return sakai;
     }
 );

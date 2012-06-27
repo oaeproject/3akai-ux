@@ -66,7 +66,7 @@
                         {var placeCount = sakai.api.Content.getPlaceCount(i)}
                         <p class="personinfo_content_text">__MSG__USED_IN__ ${placeCount} {if placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
                         {var commentCount = sakai.api.Content.getCommentCount(i)}
-                        <p class="personinfo_content_text">${commentCount}{if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                        <p class="personinfo_content_text">${commentCount}{if commentCount === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}</p>
                         <span class="personinfo_content_plus">
                             <button type="button" class="s3d-button s3d-header-button savecontent_trigger" data-entityid="${i['_path']}" title="__MSG__SAVE_CONTENT__">+</button>
                         </span>

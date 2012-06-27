@@ -90,7 +90,7 @@
                     <div class="s3d-no-results-container">
                         <img src="/devwidgets/topnavigation/images/topnav_messages_demo.png" alt="__MSG__MESSAGES_DEMO__" id="message_video_preview"/>
                         <div class="s3d-no-results-icon s3d-no-results-people"></div>
-                        <p>__MSG__YOUR_INBOX_IS_EMPTY__. <a class="s3d-regular-links" href="/me#l=messages/inbox&newmessage=true">__MSG__SEND_A_MESSAGE__</a> __MSG__OR__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_PEOPLE__</a> __MSG__TO_EXPAND_YOUR_NETWORK__.</p>
+                        <p>__MSG__YOUR_INBOX_IS_EMPTY__. <a class="s3d-regular-links" href="/me#l=messages/inbox&newmessage=true">__MSG__SEND_A_MESSAGE__</a> __MSG__OR__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_PEOPLE_LC__</a> __MSG__TO_EXPAND_YOUR_NETWORK__.</p>
                     </div>
             {/if}
         </div>
@@ -198,7 +198,7 @@
                 <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
                 <hr class="s3d-split-line fl-push"/>
                 {if auth.Authentication.allowInternalAccountCreation}
-                    <span class="topnavigation_sign_up_link">__MSG__NO_ACCOUNT_YET__</span>
+                    <span class="topnavigation_sign_up_link">__MSG__NO_ACCOUNT__</span>
                     <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">__MSG__SIGN_UP__</a>
                 {/if}
                 <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login">__MSG__SIGN_IN__</button>

@@ -7,8 +7,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
     module("Server Object Removal");
 
     var serverObject = {
@@ -77,5 +75,4 @@ require(
         testJCRRemoval();
     });
 
-    });
 });

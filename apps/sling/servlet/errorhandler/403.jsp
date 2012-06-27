@@ -13,7 +13,6 @@ response.setStatus(403);
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
         <!-- Sakai Error CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />

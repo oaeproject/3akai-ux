@@ -176,11 +176,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /**
+         * Checks if the URL redirect is valid
+         * @param {String} redirectURL The URL to check
+         */
+        var checkValidRedirect = function(redirectURL) {
+            var absoluteUrl = /^(?:ftp|https?):\/\//i;
+            return !absoluteUrl.test(redirectURL);
+        };
+
         var getRedirectURL = function(){
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             // Check whether we require a redirect
             if ($.deparam.querystring().url) {
-                redirectURL = $.deparam.querystring().url;
+                // Check if the redirect URL is valid
+                if (checkValidRedirect($.deparam.querystring().url)) {
+                    redirectURL = $.deparam.querystring().url;
+                } else {
+                    redirectURL = window.location.pathname;
+                }
             // Go to You when you're on explore page
             } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
@@ -192,12 +206,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return redirectURL;
         };
 
-       /**
+        /**
          * Check if a redirect should be performed
          */
         var checkForRedirect = function() {
             // Check for url param, path and if user is logged in
-            if ($.deparam.querystring().url && !sakai.api.User.isAnonymous(sakai.data.me) &&
+            if ($.deparam.querystring().url && checkValidRedirect($.deparam.querystring().url) &&
+                !sakai.api.User.isAnonymous(sakai.data.me) &&
                 (window.location.pathname === "/" || window.location.pathname === "/dev/explore.html" ||
                   window.location.pathname === "/index" || window.location.pathname === "/dev")) {
                     window.location = $.deparam.querystring().url;
