@@ -162,7 +162,7 @@ caption, .caption {
     width: 187px;
     min-height: 500px;
     border-top: solid #d6dadd 1px;
-    background: #f7f7f7;
+    background: #ffffff;
     background: -moz-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(5%,#f7f7f7), color-stop(12%,#ffffff));
     background: -webkit-linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
@@ -3248,7 +3248,7 @@ ul li.s3d-list-item:hover {
 	background-color: #cc0000;
 	color: #fff;
 	padding: 0 5px;
-	width: 98%;
+	width: 96%;
 	float: left;
 	margin-left: 0;
 	border: 3px solid #cc0000;

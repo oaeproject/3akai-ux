@@ -102,7 +102,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "manager": contextData.isManager,
                     "groupPermissions": sakai_global.group.groupData["sakai:group-visible"],
                     "sakai": sakai,
-                    "area": currentArea._title,
+                    "title": sakai.api.Security.safeOutput(currentArea._title),
                     "meRole": data.id
                 }));
              });
@@ -283,7 +283,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              } else {
                  $("#areapermissions_warning_container_text").html(sakai.api.Util.TemplateRenderer("areapermissions_warning_container_text_template", {
                      "visibility": newVisibilityVal,
-                     "area": currentArea._title
+                     "title": sakai.api.Security.safeOutput(currentArea._title)
                  }));
                  $("#areapermissions_proceedandapply").removeAttr("disabled");
                  $("#areapermissions_apply_permissions").removeAttr("disabled");

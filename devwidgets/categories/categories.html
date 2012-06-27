@@ -60,7 +60,7 @@
                                             <span class="categories_content_description">${sakai.api.Util.applyThreeDots(item.content["sakai:description"], size)}</span>
                                         {/if}
                                         <span class="categories_content_category_description"><span class="categories_content_usedin_icon categories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
-                                        {if item.content.commentcount}<span class="categories_content_category_description"><span class="categories_content_comments_icon categories_content_icon"></span><a href="/content#p=${item.content["_path"]|safeURL}/${item.content["sakai:pooled-content-file-name"]|safeURL}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
+                                        {if item.content.commentcount}<span class="categories_content_category_description"><span class="categories_content_comments_icon categories_content_icon"></span><a href="/content#p=${item.content["_path"]|safeURL}/${item.content["sakai:pooled-content-file-name"]|safeURL}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}</a></span>{/if}
                                         {var tags = sakai.api.Util.formatTags(item.content["sakai:tags"])}
                                         {if tags.length}
                                             <span class="categories_content_tags">
