@@ -1,0 +1,42 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/zotero/css/zotero.css" />
+
+<!-- WIDGET CONTENT CONTAINER -->
+<div class="zotero_widget">
+    <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
+
+    <!-- MAIN VIEW -->
+    <div id="zotero_main" style="display: none;">
+    	
+    	<div id="zotero_global_collection">		
+    		<center><h1>Collections</h1></center>
+    		<div id="zotero_collections">		
+    		</div>
+    	</div>
+    	<div id="zotero_global_items">
+    		<center><h1>Content</h1></center>
+    		<div id="zotero_items">		
+    		</div>
+    	</div>
+    </div>
+    <!-- SETTINGS VIEW -->
+    <div id="zotero_settings" style="display:none;">
+        <form id="zotero_settings_form" action="#">
+            <p>__MSG__SIGN_IN__:
+                <div id="zotero_id_text">__MSG__LOGIN_WIDGET__</div>
+                <input id="zotero_user_id" type="text"/>
+               	<div id="zotero_key_text">__MSG__PWD_WIDGET__</div> 
+               	<input id="zotero_user_key" type="password"/>
+            </p>
+            
+            <div class="fl-force-right">
+                <button type="button" class="s3d-button s3d-link-button" id="zotero_cancel_settings">__MSG__CANCEL__</button>
+                <button type="submit" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
+            </div>
+            <hr class="fl-hidden fl-push" />
+        </form>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/zotero/javascript/zotero.js"></script>

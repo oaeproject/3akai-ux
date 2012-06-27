@@ -1,0 +1,23 @@
+{
+    "id":                 "zotero",
+    "name":               "zotero",
+    "description":        "Zotero's library",
+    "type":               "contrib",
+    "enabled":            true,
+    "hasSettings":        true,
+    "url":                "/devwidgets/zotero/zotero.html",
+    "i18n": {
+        "default": {
+            "bundle":        "/devwidgets/zotero/bundles/default.properties",
+            "name":           "Zotero",
+            "description":    "Zotero's library"
+        }
+    },
+    "personalportal":     true,
+    "sakaidocs":          false,
+    "showinsakaigoodies": true,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "userdashboard":      true,
+    "userpages":          false
+}
