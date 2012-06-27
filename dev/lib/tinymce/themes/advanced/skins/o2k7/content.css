@@ -62,4 +62,12 @@ font[face=mceinline] {font-family:inherit !important}
 .mceItemIframe {
     background-image:url(/dev/lib/tinymce/themes/advanced/img/iframe.gif);
 }
-.mcePageBreak {display:block;border:0;width:100%;height:12px;border-top:1px dotted #ccc;margin-top:15px;background:#fff url(/dev/lib/tinymce/themes/advanced/img/pagebreak.gif) no-repeat center top;}
+.mcePageBreak {
+    background: #fff url(/dev/lib/tinymce/themes/advanced/img/pagebreak.gif) no-repeat center top;
+    border: 0;
+    border-top: 1px dotted #ccc;
+    display:block;
+    height: 12px;
+    margin-top: 15px;
+    width: 100%;
+}
