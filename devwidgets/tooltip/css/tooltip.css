@@ -30,7 +30,7 @@
 .tooltip_bold{font-weight:bold;}
 #tooltip_widget #tooltip_description{margin-bottom:0;padding-bottom:10px;}
 #tooltip_close{
-	background: url(/dev/images/close_icon_small.png) no-repeat transparent;
-	height: 16px;
-	width: 16px;
+    background: url(/dev/images/close_icon_small.png) no-repeat transparent;
+    height: 16px;
+    width: 16px;
 }

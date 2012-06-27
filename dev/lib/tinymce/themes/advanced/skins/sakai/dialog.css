@@ -77,11 +77,11 @@ input.checkbox {
     float: left;
 }
 #insert {
-    background-position: 0 -52px
+    background-position: 0 -52px;
 }
 #cancel {
     background-position: 0 0;
-    float: right
+    float: right;
 }
 
 /* Browse */
