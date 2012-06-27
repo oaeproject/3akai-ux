@@ -69,6 +69,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var loadTinyMCE = function() {
             if (window['tinyMCE']) {
                 tinyMCE.init({
+                    language: sakai.api.i18n.getEditorLanguage(),
                     mode: 'textareas',
                     theme: 'advanced',
                     skin: 'sakai',
