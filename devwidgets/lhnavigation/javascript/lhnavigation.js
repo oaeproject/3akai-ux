@@ -1144,8 +1144,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         ////////////////////////////
 
         var handleReorder = function(e, ui) {
-            var $target = $(e.target);
-            var savePath = $target.parents('.lhnavigation_menuitem:first').data('sakai-savepath');
+            var $target = $(ui.item);
+            var savePath = $target.data('sakai-savepath');
             var structure = sakaiDocsInStructure[savePath];
             var $list = $target.parents('ul div.lhnavigation_menu_list');
             if ($target.parents('ul.lhnavigation_subnav').length) {
