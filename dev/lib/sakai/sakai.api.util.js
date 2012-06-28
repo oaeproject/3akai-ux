@@ -1687,6 +1687,32 @@ define(
                 html4.ATTRIBS["ul::role"] = 0;
                 html4.ATTRIBS['iframe::src'] = 0;
 
+                /**
+                 * Remove expressions from a CSS style (only an issue in IE)
+                 * @param {String} cssStyle The CSS style we want to remove expressions from
+                 * @return {String} A CSS style that doesn't contain an expression
+                 */
+                var removeExpression = function(cssStyle) {
+
+                    // Sometimes cssStyle will be undefined/null
+                    // if that is the case, we just return it
+                    if (!cssStyle) {
+                        return cssStyle;
+                    }
+
+                    // We first need to filter out all the comments
+                    // since we also need to catch expr/*XSS*/ession
+                    var regex = /\/\*.+?\*\//g;
+                    cssStyle = cssStyle.replace(regex, '');
+
+                    // If we encounter an expression, we remove the complete CSS style
+                    regex = /expression\(/g;
+                    if (cssStyle.search(regex) !== -1) {
+                        cssStyle = '';
+                    }
+                    return cssStyle
+                };
+
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
@@ -1718,7 +1744,7 @@ define(
                                                 for (var attrid = 0; attrid < vals.length; attrid++){
                                                     var attrValue = $.trim(vals[attrid].split(":")[0]).toLowerCase();
                                                     if ($.inArray(attrValue, accept) !== -1){
-                                                        sanitizedValue += vals[i];
+                                                        sanitizedValue += removeExpression(vals[i]);
                                                     }
                                                 }
                                                 if (!sanitizedValue) {
