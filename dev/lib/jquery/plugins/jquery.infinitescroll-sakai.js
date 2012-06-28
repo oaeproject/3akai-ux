@@ -151,6 +151,10 @@
                     if ($('#' + result.id, $container).length === 0) {
                         filteredresults.push(result);
                     }
+                } else if (result.target) {
+                    if ($('#' + result.target, $container).length === 0) {
+                        filteredresults.push(result);
+                    }
                 }
             });
             data.results = filteredresults;
