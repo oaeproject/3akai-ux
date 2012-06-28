@@ -34,15 +34,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Groups.getGroupInformation({
                     groupId: groupId
                 }, function(success, data) {
-                    if(success) {
+                    if (success) {
                         groupData = data;
+                        sakai_global.group.groupData = groupData.authprofile;
+                        sakai_global.group.groupId = groupId;
                         sakai.api.Security.showPage(function() {
-                            if (groupData.authprofile["sakai:customStyle"]) {
-                                sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
+                            if (groupData.authprofile['sakai:customStyle']) {
+                                sakai.api.Util.include.css(groupData.authprofile['sakai:customStyle']);
                             }
                         });
                         defaultPageTitle = document.title;
-                        document.title = document.title + " " + groupData.authprofile["sakai:group-title"];
+                        document.title = document.title + ' ' + groupData.authprofile['sakai:group-title'];
                         loadGroupEntityWidget();
                         loadDocStructure();
                     } else {

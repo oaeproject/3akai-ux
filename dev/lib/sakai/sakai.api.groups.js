@@ -77,30 +77,26 @@ define(
         /**
          * Gets information for specified group
          *
-         * @param {Object} options Contains function parameters:
-         *   {String} groupId ID of group to retrieve information for
+         * @param {Object} options Contains function parameters
          * @param {Function} callback Callback function, passes ( {Boolean} success, {Object} data )
          *
         */
         getGroupInformation: function(options, callback) {
-            if (!options.groupId) {
-                throw 'getGroupInformation: No Group ID provided.';
+            if (!options || !options.groupId) {
+                throw 'getGroupInformation: The options object is empty or no groupId was provided.';
             }
             var groupId = options.groupId;
-            var _groupData = {};
-            sakai_serv.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
+            var groupData = {};
+            sakai_serv.loadJSON('/system/userManager/group/' + groupId + '.json', function(success, data) {
                 if (success){
-                    _groupData.authprofile = data.properties;
-                    _groupData.authprofile.picture = sakaiGroupsAPI.getProfilePicture(_groupData.authprofile);
-
-                    sakai_global.group.groupData = _groupData.authprofile;
-                    sakai_global.group.groupId = groupId;
+                    groupData.authprofile = data.properties;
+                    groupData.authprofile.picture = sakaiGroupsAPI.getProfilePicture(groupData.authprofile);
 
                     // Cache the response
                     sakaiGroupsAPI.groupData[groupId] = data;
                 }
                 if ($.isFunction(callback)) {
-                    callback(success, _groupData);
+                    callback(success, groupData);
                 }
             });
         },
@@ -115,11 +111,9 @@ define(
         getGroupAuthorizableData : function(groupids, callback) {
             var toReturn = {};
             var batchRequest = [];
-
             if (_.isString(groupids)){
-                    groupids = [groupids];
+                groupids = [groupids];
             }
-
             $.each(groupids, function(index, groupid){
                 if ($.isPlainObject(sakaiGroupsAPI.groupData[groupid])) {
                     toReturn[groupid] = sakaiGroupsAPI.groupData[groupid];
