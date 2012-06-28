@@ -9,6 +9,11 @@
         }
     },
     "id": "personinfo",
+    "trigger": {
+        "events": [],
+        "selectors": [".personinfo_trigger_click"],
+        "onLoad": false
+    },
     "type": "sakai",
     "url": "/devwidgets/personinfo/personinfo.html"
 }

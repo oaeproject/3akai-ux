@@ -102,7 +102,7 @@ define(
                 var hasIELongUrlBug = false;
                 // Long requests are overflowing the Jetty header cache
                 // so lets use POST for long requests on all browsers until that's fixed
-                if($.browser.msie && $.browser.version.substr(0,1)<="7"){
+                if ($.browser.msie && $.browser.version.substr(0,1)<="7") {
                     hasIELongUrlBug = true;
                 }
 

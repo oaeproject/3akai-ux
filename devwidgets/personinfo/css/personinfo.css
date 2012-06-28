@@ -18,7 +18,6 @@
 #personinfo_widget {
     color: #333333;
     position: absolute;
-    display: none;
     width: 250px;
 }
 .personinfo_outer {

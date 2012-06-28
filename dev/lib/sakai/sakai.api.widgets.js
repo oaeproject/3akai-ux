@@ -583,8 +583,6 @@ define(
                                 callback: callback
                             };
                             
-                            debug.log(callback);
-
                             var floating = "inline_class_widget_nofloat";
                             if ($(divarray[i]).hasClass("block_image_left")){
                                 floating = "inline_class_widget_leftfloat";
@@ -908,36 +906,59 @@ define(
         /**
          * This function will register all widgets that require lazy loading
          */
-        registerLazyLoading: function(){
-            $.each(sakai.widgets, function(widgetid, widget){
+        registerLazyLoading: function() {
+            $.each(sakai.widgets, function(widgetid, widget) {
                 if (widget.trigger) {
-                    // Check whether this needs to bind to an event
-                    if (widget.trigger.events && widget.trigger.events.length){
-                        if (!$.isArray(widget.trigger.events)){
+
+                    // Convert all of the properties to an array
+                    if (widget.trigger.events && widget.trigger.events.length) {
+                        if (!$.isArray(widget.trigger.events)) {
                             widget.trigger.events = [widget.trigger.events];
                         }
-                        $.each(widget.trigger.events, function(index, eventid){
-                            $(window).bind(eventid, function(){
-                                alert("Load " + widgetid + " widget");
-                            });
-                        });
                     }
+                    widget.trigger.events = widget.trigger.events || [];
 
-                    // Check whether this needs to bind to a selector
-                    if (widget.trigger.selectors && widget.trigger.selectors.length){
-                        if (!$.isArray(widget.trigger.selectors)){
+                    if (widget.trigger.selectors && widget.trigger.selectors.length) {
+                        if (!$.isArray(widget.trigger.selectors)) {
                             widget.trigger.selectors = [widget.trigger.selectors];
                         }
-                        $.each(widget.trigger.selectors, function(index, selector){
-                            $(window).on('click', selector, function(event){
-                                $(window).off('click', selector);
-                                $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
-                                sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, function() {
-                                    $(event.target).trigger('click');
+                    }
+                    widget.trigger.selectors = widget.trigger.selectors || [];
+
+                    var lazyLoadWidget = function(finishCallBack) {
+                        // Unbind the event
+                        $.each(widget.trigger.events, function(index, eventid) {
+                            $(document).off(eventid);
+                        });
+                        // Also kill the click events associated to this widget
+                        $.each(widget.trigger.selectors, function(index, selector) {
+                            $(document).off('click', selector);
+                        });
+
+                        $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
+                        sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, finishCallBack);
+                    }
+
+                    // Check whether this needs to bind to an event
+                    $.each(widget.trigger.events, function(index, eventid) {
+                        $(document).on(eventid, function(a, b, c, d, e, f, g, h, i, j) {
+                            lazyLoadWidget(function() {
+                                $(document).trigger(eventid, [a, b, c, d, e, f, g, h, i, j]);
+                            });
+                        });
+                    });
+
+                    // Check whether this needs to bind to a selector
+                    if (widget.trigger.selectors && widget.trigger.selectors.length) {
+                        $.each(widget.trigger.selectors, function(index, selector) {
+                            $(document).on('click', selector, function(event, ui) {
+                                lazyLoadWidget(function() {
+                                    $(event.target).trigger('click', [event, ui]);
                                 });
                             });
                         });
                     }
+
                 }
             });
         },

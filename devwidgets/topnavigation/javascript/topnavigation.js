@@ -975,18 +975,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
 
+        //////////////////////////
+        // SCROLL FUNCTIONALITY //
+        //////////////////////////
+
+        $("#topnavigation_scroll_to_top").live("click", function(ev) {
+            $("html:not(:animated),body:not(:animated)").animate({
+                scrollTop: $("html").offset().top
+            }, 500 );
+        });
+
+        $(window).scroll(function(ev) {
+            if($(window).scrollTop() > 800) {
+                $('#topnavigation_scroll_to_top').show('slow');
+            } else {
+                $('#topnavigation_scroll_to_top').hide('slow');
+            }
+        });
+
         //////////////
         // OVERLAYS //
         //////////////
-
-        //var renderOverlays = function(){
-        //    sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
-        //};
-
-        // Add content
-        //$(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {
-        //    $(window).trigger("init.newaddcontent.sakai");
-        //});
 
         // Send a message
 
@@ -1030,20 +1039,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
             }
         });
-        $("#topnavigation_scroll_to_top").live("click", function(ev) {
-            $("html:not(:animated),body:not(:animated)").animate({
-                scrollTop: $("html").offset().top
-            }, 500 );
-        });
-
-        $(window).scroll(function(ev) {
-            if($(window).scrollTop() > 800) {
-                $('#topnavigation_scroll_to_top').show('slow');
-            } else {
-                $('#topnavigation_scroll_to_top').hide('slow');
-            }
-        });
-
+        
         $(window).bind('sakai.mylibrary.deletedCollections', function(ev, data) {
             $.each(data.items, function(i, item) {
                 $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) - 1);
@@ -1087,7 +1083,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setCountUnreadMessages();
             setUserName();
             addBinding();
-            //renderOverlays();
             forceShowLoginUrl();
         };
 

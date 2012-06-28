@@ -62,7 +62,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $mylibrary_sortarea = $('#mylibrary_sortarea', $rootel);
         var $mylibrary_empty = $('#mylibrary_empty', $rootel);
         var $mylibrary_admin_actions = $('#mylibrary_admin_actions', $rootel);
-        var $mylibrary_addcontent = $('#mylibrary_addcontent', $rootel);
         var $mylibrary_remove_icon = $('.mylibrary_remove_icon', $rootel);
         var $mylibrary_search_button = $('#mylibrary_search_button', $rootel);
         var $mylibrary_result_count = $('.s3d-search-result-count', $rootel);
@@ -451,14 +450,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * field is pressed
              */
             $mylibrary_search_button.click(doSearch);
-
-            /**
-             * Initiate the add content widget
-             */
-            $mylibrary_addcontent.click(function (ev) {
-                $(window).trigger('init.newaddcontent.sakai');
-                return false;
-            });
 
             /**
              * An event to listen from the worldsettings dialog so that we can refresh the title if it's been changed.
