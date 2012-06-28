@@ -36,13 +36,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var selectedCategoryPlural = 'other';
         var selectedCategoryId = '';
 
-        sakai.api.Util.getTemplates(function(templates) {
-            for (var c = 0; c < templates.length; c++) {
-                if (templates[c].id === widgetData.category) {
-                    selectedCategory = sakai.api.i18n.getValueForKey(templates[c].title);
-                    selectedCategoryPlural = sakai.api.i18n.getValueForKey(templates[c].titlePlural);
-                    selectedCategoryId = templates[c].id;
+        sakai.api.Util.getTemplates(function(success, templates) {
+            if (success) {
+                for (var c = 0; c < templates.length; c++) {
+                    if (templates[c].id === widgetData.category) {
+                        selectedCategory = sakai.api.i18n.getValueForKey(templates[c].title);
+                        selectedCategoryPlural = sakai.api.i18n.getValueForKey(templates[c].titlePlural);
+                        selectedCategoryId = templates[c].id;
+                    }
                 }
+            } else {
+                debug.error('Could not get the group templates');
             }
         });
 

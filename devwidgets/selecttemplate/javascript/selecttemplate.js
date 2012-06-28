@@ -41,20 +41,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $rootel = $("#" + tuid);
 
         var doInit = function(){
-            sakai.api.Util.getTemplates(function(templates) {
-                var templatesToRender = false;
-                for (var i = 0; i < templates.length; i++) {
-                    if (templates[i].id === tuid) {
-                        templatesToRender = templates[i];
-                        break;
+            sakai.api.Util.getTemplates(function(success, templates) {
+                if (success) {
+                    var templatesToRender = false;
+                    for (var i = 0; i < templates.length; i++) {
+                        if (templates[i].id === tuid) {
+                            templatesToRender = templates[i];
+                            break;
+                        }
                     }
-                }
-                if (templatesToRender) {
-                    if (templatesToRender.templates.length === 1) {
-                        renderCreateWorld(templatesToRender.id, templatesToRender.templates[0].id, true);
-                    } else {
-                        renderTemplateList(templatesToRender);
+                    if (templatesToRender) {
+                        if (templatesToRender.templates.length === 1) {
+                            renderCreateWorld(templatesToRender.id, templatesToRender.templates[0].id, true);
+                        } else {
+                            renderTemplateList(templatesToRender);
+                        }
                     }
+                } else {
+                    debug.error('Could not get the group templates');
                 }
             });
         };

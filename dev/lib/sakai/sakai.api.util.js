@@ -92,13 +92,18 @@ define(
                             return templ.order;
                         });
                         if ($.isFunction(callback)) {
-                            callback(sakai_util.data.worldTemplates);
+                            callback(true, sakai_util.data.worldTemplates);
+                        }
+                    }, error: function(xhr, textStatus, thrownError) {
+                        debug.error('Could not get the group templates');
+                        if ($.isFunction(callback)) {
+                            callback(false, xhr);
                         }
                     }
                 });
             } else {
                 if ($.isFunction(callback)) {
-                    callback(sakai_util.data.worldTemplates);
+                    callback(true, sakai_util.data.worldTemplates);
                 }
             }
         },

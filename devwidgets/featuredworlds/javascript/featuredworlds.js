@@ -96,14 +96,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             sakai.api.Server.batch(requests, renderWidget);
         };
 
-        var constructWorlds = function(templates) {
-            $.each(templates, function(index, item) {
-                tabs.push({
-                    id: item.id,
-                    title: sakai.api.i18n.getValueForKey(item.titlePlural)
+        var constructWorlds = function(success, templates) {
+            if (success) {
+                $.each(templates, function(index, item) {
+                    tabs.push({
+                        id: item.id,
+                        title: sakai.api.i18n.getValueForKey(item.titlePlural)
+                    });
                 });
-            });
-            fetchWorldData();
+                fetchWorldData();
+            } else {
+                debug.error('Could not get the group templates');
+            }
         };
 
         var addBinding = function(){
