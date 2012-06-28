@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////
 
         // Elements
+        var $rootel = $('#' + tuid);
         var subnavtl = ".hassubnav_tl";
         var navLinkDropdown = ".s3d-dropdown-container";
         var hasSubnav = ".hassubnav";
@@ -417,7 +418,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 temp.label = sakai.api.i18n.getValueForKey(item.label);
-                if (item.cssClass){
+                if (item.cssClass) {
                     temp.cssClass = item.cssClass;
                 }
             }
@@ -974,17 +975,53 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // SCROLL FUNCTIONALITY //
         //////////////////////////
 
-        $("#topnavigation_scroll_to_top").live("click", function(ev) {
-            $("html:not(:animated),body:not(:animated)").animate({
-                scrollTop: $("html").offset().top
+        $rootel.on('click', '#topnavigation_scroll_to_top', function(ev) {
+            $('html:not(:animated),body:not(:animated)').animate({
+                scrollTop: $('html').offset().top
             }, 500 );
         });
 
-        $(window).scroll(function(ev) {
-            if($(window).scrollTop() > 800) {
+        $(window).on('scroll', function(ev) {
+            if ($(window).scrollTop() > 800) {
                 $('#topnavigation_scroll_to_top').show('slow');
             } else {
                 $('#topnavigation_scroll_to_top').hide('slow');
+            }
+        });
+
+        ////////////////////////
+        // COLLECTION COUNTER //
+        ////////////////////////
+
+        $(window).bind('sakai.mylibrary.deletedCollections', function(ev, data) {
+            $.each(data.items, function(i, item) {
+                $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) - 1);
+            });
+        });
+
+        $(window).bind('sakai.mylibrary.createdCollections', function(ev, data) {
+            $.each(data.items, function(i, item) {
+                $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) + 1);
+            });
+        });
+
+        /////////////////////
+        // MESSAGES POP-UP //
+        /////////////////////
+
+        $("#topnavigation_messages_container").live("click", function(){
+            if($("#topnavigation_user_messages_container .s3d-dropdown-menu").is(":hidden")){
+                sakai.api.Communication.getAllMessages("inbox", false, false, 1, 0, "_created", "desc", function(success, data){
+                    var dataPresent = false;
+                    if (data.results && data.results[0]) {
+                        dataPresent = true;
+                    }
+                    $("#topnavigation_messages_container").addClass("selected");
+                    var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
+                    $openPopover = $messageContainer;
+                    $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
+                    $messageContainer.show();
+                });
             }
         });
 
@@ -1011,34 +1048,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             $(window).trigger("initialize.sendmessage.sakai", [people]);
         });
-        
-        $(window).bind('sakai.mylibrary.deletedCollections', function(ev, data) {
-            $.each(data.items, function(i, item) {
-                $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) - 1);
-            });
-        });
-
-        $(window).bind('sakai.mylibrary.createdCollections', function(ev, data) {
-            $.each(data.items, function(i, item) {
-                $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) + 1);
-            });
-        });
-
-        $("#topnavigation_messages_container").live("click", function(){
-            if($("#topnavigation_user_messages_container .s3d-dropdown-menu").is(":hidden")){
-                sakai.api.Communication.getAllMessages("inbox", false, false, 1, 0, "_created", "desc", function(success, data){
-                    var dataPresent = false;
-                    if (data.results && data.results[0]) {
-                        dataPresent = true;
-                    }
-                    $("#topnavigation_messages_container").addClass("selected");
-                    var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
-                    $openPopover = $messageContainer;
-                    $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
-                    $messageContainer.show();
-                });
-            }
-        }); */
+         */
 
 
         /////////////////////////

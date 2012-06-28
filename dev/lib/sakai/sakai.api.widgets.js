@@ -258,7 +258,7 @@ define(
                                 var initfunction = window[widgetNameSpace][widgetname];
                                 var historyState = sakaiWidgetsAPI.handleHashChange(widgetname);
                                 initfunction(widgetsInternal[widgetname][i].uid, settings, widgetsInternal[widgetname][i].widgetData ? $.extend(true, {}, widgetsInternal[widgetname][i].widgetData) : false, historyState);
-                                if (widgetsInternal[widgetname][i].callback) {
+                                if ($.isFunction(widgetsInternal[widgetname][i].callback)) {
                                     widgetsInternal[widgetname][i].callback();
                                 }
 
@@ -528,7 +528,7 @@ define(
                  * @param {Object} widgetData Widget data associated to the loaded widgets
                  * @param {String} context The context of the widget (e.g. siteid)
                  */
-                var locateWidgets = function(containerId, showSettings, widgetData, context, callback){
+                var locateWidgets = function(containerId, showSettings, widgetData, context, callback) {
 
                     // Use document.getElementById() to avoid jQuery selector escaping issues with '/'
                     var el = containerId ? document.getElementById(containerId) : $(document.body);
@@ -557,7 +557,7 @@ define(
                         }
 
                         // Check if the widget is an iframe widget
-                        if (sakai.widgets[widgetname]){
+                        if (sakai.widgets[widgetname]) {
 
                             // Set the placement for the widget
                             var placement = "";
@@ -582,7 +582,7 @@ define(
                                 widgetData: widgetData[widgetid] || false,
                                 callback: callback
                             };
-                            
+
                             var floating = "inline_class_widget_nofloat";
                             if ($(divarray[i]).hasClass("block_image_left")){
                                 floating = "inline_class_widget_leftfloat";
@@ -969,10 +969,8 @@ define(
 
             // TODO Insert onLoad widgets
             // sakaiWidgetsAPI.insertOnLoadWidgets();
-
             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
 
-            // TODO Register events for lazy loading
             sakaiWidgetsAPI.registerLazyLoading();
 
             // Set up draggable/droppable containers for the main page if there are any

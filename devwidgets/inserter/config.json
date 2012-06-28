@@ -10,6 +10,11 @@
     },
     "id": "inserter",
     "personalportal": false,
+     "trigger": {
+        "events": [],
+        "selectors": [],
+        "onLoad": false
+    },
     "type": "sakai",
     "url": "/devwidgets/inserter/inserter.html"
 }

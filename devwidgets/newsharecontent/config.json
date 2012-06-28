@@ -17,6 +17,11 @@
         }
     },
     "id": "newsharecontent",
+    "trigger": {
+        "events": [],
+        "selectors": [".share_trigger_click"],
+        "onLoad": false
+    },
     "type": "core",
     "url": "/devwidgets/newsharecontent/newsharecontent.html"
 }

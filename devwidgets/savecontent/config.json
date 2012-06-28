@@ -12,6 +12,11 @@
         }
     },
     "id": "savecontent",
+    "trigger": {
+        "events": [],
+        "selectors": [".savecontent_trigger"],
+        "onLoad": false
+    },
     "type": "sakai",
     "url": "/devwidgets/savecontent/savecontent.html"
 }

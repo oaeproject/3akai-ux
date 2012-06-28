@@ -251,7 +251,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var groupid = $el.attr('data-groupid');
                 if (groupid){
                     sakai.api.Groups.isAllowedToLeave(groupid, sakai.data.me, function(leaveAllowed) {
-                        debug.log(leaveAllowed);
                         openTooltip(groupid, $el, leaveAllowed[groupid]);
                     });
                     return false;

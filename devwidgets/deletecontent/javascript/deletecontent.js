@@ -578,7 +578,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // External event binding //
         ////////////////////////////
 
-        $(window).unbind("init.deletecontent.sakai").bind("init.deletecontent.sakai", load);
+        $(document).on('init.deletecontent.sakai', load);
 
         init();
     };

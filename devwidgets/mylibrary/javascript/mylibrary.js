@@ -367,7 +367,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             collectionPaths.push($(this).data('entityid'));
                         }
                     });
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: mylibrary.contextId
                     }, function (success) {
@@ -397,7 +397,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         collection = true;
                     }
                     paths.push($(this).attr('data-entityid'));
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: mylibrary.contextId
                     }, function (success) {

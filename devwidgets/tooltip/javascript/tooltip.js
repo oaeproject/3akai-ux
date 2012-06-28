@@ -128,7 +128,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * {Integer} tooltipTop   absolute position of where the tooltip should spawn: Y value (jQuery.Event.pageY)
          * {Function} onShow      callback called when the tooltip is shown
          */
-        $(document).on("init.tooltip.sakai", function(e, tooltipConfig) {
+        $(document).on('init.tooltip.sakai', function(e, tooltipConfig) {
             if (tooltipConfig) {
                 tooltipHTML = tooltipConfig.tooltipHTML || false;
                 tooltipAutoClose = tooltipConfig.tooltipAutoClose || false;

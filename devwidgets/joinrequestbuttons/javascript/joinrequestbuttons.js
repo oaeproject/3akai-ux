@@ -336,7 +336,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             joinrequestbuttons.leaveCallback = leaveCallback || false;
             render();
         });
-        $(document).trigger("ready.joinrequestbuttons.sakai");
+        $(document).trigger('ready.joinrequestbuttons.sakai');
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("joinrequestbuttons");

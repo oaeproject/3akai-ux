@@ -210,12 +210,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sendMessageUserObj.username = sakai.api.User.getDisplayName(dataCache[userId]);
             sendMessageUserObj.type = "user";
             // initialize the sendmessage-widget
-            $(document).trigger("initialize.sendmessage.sakai", [sendMessageUserObj, false, false, null, null, null]);
+            $(document).trigger('initialize.sendmessage.sakai', [sendMessageUserObj, false, false, null, null, null]);
         });
 
         // bind personinfo request connection button
         $personinfo_invite.live("click", function(){
-            $(document).trigger("initialize.addToContacts.sakai", [dataCache[userId]]);
+            $(document).trigger('initialize.addToContacts.sakai', [dataCache[userId]]);
         });
 
         // bind personinfo request connection button

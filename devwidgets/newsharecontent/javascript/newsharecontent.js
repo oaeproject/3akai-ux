@@ -260,8 +260,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 onHide: resetWidget
             });
 
-            $('.share_trigger_click').live('click',function(){
-                if($newsharecontentContainer.is(":visible")){
+            $(document).on('click', '.share_trigger_click', function() {
+                if($newsharecontentContainer.is(':visible')) {
                     $newsharecontentContainer.jqmHide();
                 }
                 sakai.api.Util.Forms.clearValidation($newsharecontent_form);
@@ -270,12 +270,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     idArr = idArr.split(",");
                 }
                 var $this = $(this);
-                var adjustHeight = 0;
-                if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
-                    adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
-                }
                 $newsharecontentContainer.css({
-                    'top':$this.offset().top + $this.height() + adjustHeight,
+                    'top':$this.offset().top + $this.height(),
                     'left':$this.offset().left + $this.width() / 2 - 119
                 });
                 // Fetch data for content items
