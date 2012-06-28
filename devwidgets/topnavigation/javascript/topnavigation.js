@@ -798,11 +798,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // of the search box and outside of the results box
             sakai.api.Util.hideOnClickOut("#topnavigation_search_results", "#topnavigation_search_results_container,#topnavigation_search_results_bottom_container,#topnavigation_search_input");
 
-            $("#subnavigation_preferences_link").live("click", function(){
-                $(window).trigger("init.accountpreferences.sakai");
-                return false;
-            });
-
             $("#topnavigation_search_input").keyup(function(evt){
                 var val = $.trim($(this).val());
                 if (val !== "" && evt.keyCode !== 16 && val !== lastSearchVal) {
@@ -1015,29 +1010,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $(window).trigger("initialize.sendmessage.sakai", [people]);
-        });
-
-        // Add to contacts
-
-        $(".sakai_addtocontacts_overlay").live("click", function(ev){
-            var el = $(this);
-            if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
-                var person = {
-                    "uuid": el.attr("sakai-entityid"),
-                    "displayName": el.attr("sakai-entityname"),
-                    "pictureLink": el.attr("sakai-entitypicture") || false
-                };
-                $(window).trigger("initialize.addToContacts.sakai", [person]);
-            }
-        });
-
-        // Join group
-
-        $(".sakai_joingroup_overlay").live("click", function(ev){
-            var el = $(this);
-            if (el.attr("data-groupid")){
-                $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
-            }
         });
         
         $(window).bind('sakai.mylibrary.deletedCollections', function(ev, data) {

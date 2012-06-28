@@ -244,9 +244,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
 
         };
 
-        alert("Initializing");
         $(document).on('initialize.addToContacts.sakai', function(e, userObj) {
-            debug.log(userObj);
             initialize(userObj);
         });
         $(document).on('click', '.sakai_addtocontacts_overlay', function(ev, ui) {

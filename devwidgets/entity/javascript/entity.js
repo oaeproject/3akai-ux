@@ -354,12 +354,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Widgets.widgetLoader.insertWidgets("entity_groupsettings_dropdown", false, $rootel);
                     break;
                 case "group":
-                    $(window).bind("ready.joinrequestbuttons.sakai", function() {
+                    $(document).bind("ready.joinrequestbuttons.sakai", function() {
                         sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], function(success, members) {
                             members = members[context.data.authprofile["sakai:group-id"]];
                             var managerCount = sakai.api.Groups.getManagerCount(context.data.authprofile, members);
                             var leaveAllowed = managerCount > 1 || !sakai.api.Groups.isCurrentUserAManager(context.data.authprofile["sakai:group-id"], sakai.data.me);
-                            $(window).trigger("init.joinrequestbuttons.sakai", [
+                            $(document).trigger('init.joinrequestbuttons.sakai', [
                                 {
                                     "groupProfile": context.data.authprofile,
                                     "groupMembers": members,

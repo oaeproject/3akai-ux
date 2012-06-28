@@ -1413,8 +1413,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         // EVENTS //
         ////////////
 
-        $(window).on('init.newaddcontent.sakai', initialize);
-        $(window).on('click', ".sakai_add_content_overlay", initialize);
+        $(document).on('init.newaddcontent.sakai', initialize);
+        $(document).on('click', ".sakai_add_content_overlay", initialize);
 
     };
     sakai.api.Widgets.widgetLoader.informOnLoad('newaddcontent');

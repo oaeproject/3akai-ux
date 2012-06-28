@@ -941,7 +941,7 @@ define(
 
                     // Check whether this needs to bind to an event
                     $.each(widget.trigger.events, function(index, eventid) {
-                        $(document).on(eventid, function(a, b, c, d, e, f, g, h, i, j) {
+                        $(document).on(eventid, function(ev, a, b, c, d, e, f, g, h, i, j) {
                             lazyLoadWidget(function() {
                                 $(document).trigger(eventid, [a, b, c, d, e, f, g, h, i, j]);
                             });

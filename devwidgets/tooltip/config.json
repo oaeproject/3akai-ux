@@ -9,6 +9,11 @@
         }
     },
     "id": "tooltip",
+    "trigger": {
+        "events": ["init.tooltip.sakai"],
+        "selectors": [],
+        "onLoad": false
+    },
     "type": "sakai",
     "url": "/devwidgets/tooltip/tooltip.html"
 }
