@@ -585,7 +585,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
          * Execute the upload
          */
         var uploadContent = function() {
-            var jqXHR = $('#file_upload').fileupload('send', {
+            var jqXHR = $('#newaddcontent_file_upload').fileupload('send', {
                 files: filesList,
                 success: function(data) {
                     data = $.parseJSON(data);
@@ -842,8 +842,6 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 setContent(contentObj);
                 lastUpload.push(contentObj);
             }
-
-            checkUploadCompleted();
         };
 
         /**
@@ -1281,12 +1279,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
 
             sakai.api.Util.Forms.validate($(newaddcontentAddDocumentForm), documentValidateOpts, true);
 
-            var dropbox = $('#newaddcontent_container_selecteditems');
-
-            $('#file_upload').fileupload({
+            $('#newaddcontent_file_upload').fileupload({
                 url: uploadPath,
                 sequentialUploads: true,
                 singleFileUploads: false,
+                dropZone: $('#newaddcontent_container_selecteditems'),
                 drop: function (ev, data) {
                     ev.stopPropagation();
                     ev.preventDefault();
@@ -1294,7 +1291,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                     if (!window.FormData) {
                         return false;
                     }
-                    if ($(ev.target).is($('#newaddcontent_container_selecteditems')) || $(ev.target).parents('#newaddcontent_container_selecteditems').length) {
+                    if ($(ev.target).is($('#newaddcontent_file_upload'))) {
                         var error = false;
                         $.each(data.files, function (index, file) {
                             if (file.size > 0) {

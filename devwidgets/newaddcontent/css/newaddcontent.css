@@ -526,22 +526,18 @@
     margin-top: 0
 }
 
-#upload_a_file_label {
+#newaddcontent_upload_a_file_label {
     padding-top: 7px;
 }
 
-.fileinput-button {
+.newaddcontent_fileinput_button {
     line-height: 24px;
     overflow: hidden;
     position: relative;
 }
 
-.fileinput-button input {
-    -moz-border-bottom-colors: none;
+.newaddcontent_fileinput_button input {
     -moz-border-image: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
     -moz-transform: translate(-300px, 0pt) scale(4);
     border-color: transparent;
     border-style: solid;
@@ -553,4 +549,7 @@
     position: absolute;
     right: 0;
     top: 0;
+    /* IE8 opacity fix */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=0);
 }
