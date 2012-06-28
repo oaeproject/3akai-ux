@@ -237,6 +237,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
 
         var resetQueue = function() {
             itemsToUpload = [];
+            existingAdded = [];
             itemsUploaded = 0;
             disableAddToQueue();
             renderQueue();
@@ -536,7 +537,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             itemsUploaded++;
             if(itemsToUpload.length === itemsUploaded) {
                 setDataOnContent(function() {
-                    sakai.data.me.user.properties.contentCount += itemsUploaded;
+                    sakai.data.me.user.properties.contentCount += itemsUploaded - existingAdded.length;
                     var tmpItemsAdded = $.extend(true, [], existingAdded);
                     var itemsAdded = [];
                     $.merge(tmpItemsAdded, lastUpload);
@@ -903,7 +904,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
          * Execute the upload of the files in the queue by calling the functions needed for the specific type of content
          */
         var doUpload = function() {
-            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('UPLOADING_YOUR_CONTENT'), sakai.api.i18n.getValueForKey('PROCESSING'));
+            sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('UPLOADING_YOUR_CONTENT'), sakai.api.i18n.getValueForKey('PROCESSING_UPLOAD'));
             libraryToUploadTo = $(newaddcontentSaveTo).val();
             $.each(itemsToUpload, function(index,item) {
                 switch(item.type) {

@@ -43,26 +43,6 @@ define(
     var sakai_util = {
 
         startup : function(meData) {
-            // I know this is hideous
-            (function () {
-                var script = document.createElement("script");
-                script.type = "text/javascript";
-                script.src = "/dev/lib/MathJax/MathJax.js";
-
-                var config =
-                    'MathJax.Hub.Config({' +
-                        'messageStyle: "none",' +
-                        'config: "default.js",' +
-                        'styles: {"#MathJax_Message": {display: "none !important"}}' +
-                    '}); ' +
-                    'MathJax.Hub.Startup.onload();';
-
-                if (window.opera) {script.innerHTML = config;}
-                else {script.text = config;}
-
-                $("head")[0].appendChild(script);
-              })();
-
             // Start polling to keep session alive when logged in
             if (meData.user.userid) {
                 setInterval(function() {
@@ -1707,6 +1687,32 @@ define(
                 html4.ATTRIBS["ul::role"] = 0;
                 html4.ATTRIBS['iframe::src'] = 0;
 
+                /**
+                 * Remove expressions from a CSS style (only an issue in IE)
+                 * @param {String} cssStyle The CSS style we want to remove expressions from
+                 * @return {String} A CSS style that doesn't contain an expression
+                 */
+                var removeExpression = function(cssStyle) {
+
+                    // Sometimes cssStyle will be undefined/null
+                    // if that is the case, we just return it
+                    if (!cssStyle) {
+                        return cssStyle;
+                    }
+
+                    // We first need to filter out all the comments
+                    // since we also need to catch expr/*XSS*/ession
+                    var regex = /\/\*.+?\*\//g;
+                    cssStyle = cssStyle.replace(regex, '');
+
+                    // If we encounter an expression, we remove the complete CSS style
+                    regex = /expression\(/g;
+                    if (cssStyle.search(regex) !== -1) {
+                        cssStyle = '';
+                    }
+                    return cssStyle
+                };
+
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
@@ -1738,7 +1744,7 @@ define(
                                                 for (var attrid = 0; attrid < vals.length; attrid++){
                                                     var attrValue = $.trim(vals[attrid].split(":")[0]).toLowerCase();
                                                     if ($.inArray(attrValue, accept) !== -1){
-                                                        sanitizedValue += vals[i];
+                                                        sanitizedValue += removeExpression(vals[i]);
                                                     }
                                                 }
                                                 if (!sanitizedValue) {
@@ -1837,6 +1843,32 @@ define(
             }
         },
 
+        loadedMathJax: false,
+        loadMathJax: function() {
+            if (!sakai_util.loadedMathJax) {
+                sakai_util.loadedMathJax = true;
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = '/dev/lib/MathJax/MathJax.js';
+
+                var config =
+                    'MathJax.Hub.Config({' +
+                        'messageStyle: "none",' +
+                        'config: "default.js",' +
+                        'styles: {"#MathJax_Message": {display: "none !important"}}' +
+                    '}); ' +
+                    'MathJax.Hub.Startup.onload();';
+
+                if (window.opera) {
+                    script.innerHTML = config;
+                } else {
+                    script.text = config;
+                }
+
+                $('head')[0].appendChild(script);
+            }
+        },
+
         /**
         * Runs MathJax over an element replacing any math TeX with rendered
         * formulas
@@ -1844,11 +1876,26 @@ define(
         * @param element {String} The element (or it's id) that should be checked for math
         */
         renderMath : function(element) {
-            if (element instanceof jQuery && element[0])
-            {
+            if (element instanceof jQuery && element[0]) {
                 element = element[0];
             }
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
+            // Check whether a MathJax formula is available
+            var elementContent = $(element).html();
+            if (elementContent && elementContent.indexOf('$$') !== -1) {
+                // Check whether MathJax has already been loaded
+                if (!window['MathJax'] || !MathJax.Hub) {
+                    sakai_util.loadMathJax();
+                }
+                // Try to render the formula. This will fail if MathJax hasn't finished
+                // loading yet. If that's the case, the system will retry after 200ms
+                try {
+                    MathJax.Hub.Queue(['Typeset', MathJax.Hub, element]);
+                } catch (err) {
+                    setTimeout(function() {
+                        sakai_util.renderMath(element);
+                    }, 200);
+                }
+            }
         },
 
         // :?=&;\/?@+$<>#%'"''{}|\\^[]'

@@ -115,7 +115,7 @@ require(
         "underscore",
         "jquery-ui",
         "jquery-plugins/jquery.validate",
-        "jquery-plugins/jquery.autoSuggest",
+        "jquery-plugins/jquery.autoSuggest.sakai-edited",
         "misc/l10n/globalize",
         "misc/google/html-sanitizer",
         "jquery-plugins/jquery.equalheights",
@@ -133,12 +133,10 @@ require(
         "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {
-        require(['misc/domReady!'], function(doc) {
-            sakai.api.User.loadMeData(function(success, data) {
-                sakai.api.Util.startup(data);
-                // Start i18n
-                sakai.api.i18n.init(data);
-            });
+        sakai.api.User.loadMeData(function(success, data) {
+            sakai.api.Util.startup(data);
+            // Start i18n
+            sakai.api.i18n.init(data);
         });
         return sakai;
     }

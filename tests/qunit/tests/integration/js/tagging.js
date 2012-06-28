@@ -6,8 +6,6 @@ require(
     "../../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
     function($, sakai) {
-    
-    require(["misc/domReady!"], function(doc) {
 
         module("Tagging");
 
@@ -58,5 +56,5 @@ require(
 
         $(window).trigger("addlocalbinding.qunit.sakai");
 
-    });
-});
+    }
+);

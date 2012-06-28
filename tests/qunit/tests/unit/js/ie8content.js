@@ -9,8 +9,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
     module("IE8 Content Test");
 
     var checkElements = function($elt, callback){
@@ -86,5 +84,4 @@ require(
         });
     }
 
-    });
 });

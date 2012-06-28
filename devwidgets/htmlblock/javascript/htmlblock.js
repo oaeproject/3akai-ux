@@ -69,6 +69,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var loadTinyMCE = function() {
             if (window['tinyMCE']) {
                 tinyMCE.init({
+                    language: sakai.api.i18n.getEditorLanguage(),
                     mode: 'textareas',
                     theme: 'advanced',
                     skin: 'sakai',
@@ -79,7 +80,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                           }
                     },
                     // CSS Files to load in the editor
-                    content_css: '/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css',
+                    content_css: '/dev/css/sakai/main.css',
                     // Plugins and toolbar buttons to show
                     plugins: 'table,advlink,contextmenu,paste,directionality',
                     theme_advanced_blockformats: 'h1,h2,h3,h4,h5,h6,p,blockquote,caption',
@@ -278,7 +279,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 processedContent = sakai.api.Security.saneHTML(processedContent);
                 $('#htmlblock_view_container', $rootel).html(processedContent);
                 sakai.api.Util.renderMath($rootel);
-                $textarea.val(widgetData.htmlblock.content);
+                $textarea.val(processedContent);
             }
             // Set the height of the textarea to be the same as the height of the view mode,
             // so tinyMCE picks up on this initial height

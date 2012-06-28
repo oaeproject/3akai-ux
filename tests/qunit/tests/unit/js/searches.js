@@ -7,7 +7,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
         module("Searches");
         var simpleSearch = "Abe Lincoln",
             simpleSearchTransformed = "Abe AND Lincoln",
@@ -37,5 +36,5 @@ require(
 
         $(window).trigger("addlocalbinding.qunit.sakai");
 
-    });
-});
+    }
+);

@@ -8,7 +8,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-contacts-small"><!----></div>
-                    <p>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_AND_ADD_PEOPLE__</a></p>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_RECENTCONTACTS__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_AND_ADD_PEOPLE__</a></p>
                 </div>
             </div>
         </div>
@@ -31,10 +31,10 @@
                         <p class="recentcontactsnew_item_meta">${profile.counts.contentCount}{if profile.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</p>
                     {/if}
                     {if profile.counts && profile.counts.contactsCount > 0}
-                        <p class="recentcontactsnew_item_meta">${profile.counts.contactsCount}{if profile.counts.contactsCount === 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}</p>
+                        <p class="recentcontactsnew_item_meta">${profile.counts.contactsCount}{if profile.counts.contactsCount === 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}</p>
                     {/if}
                     {if profile.counts.membershipsCount > 0}
-                        <p class="recentcontactsnew_item_meta">${profile.counts.membershipsCount}{if profile.counts.membershipsCount === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}</p>
+                        <p class="recentcontactsnew_item_meta">${profile.counts.membershipsCount}{if profile.counts.membershipsCount === 1} __MSG__MEMBERSHIP_LC__{else} __MSG__MEMBERSHIPS_LC__{/if}</p>
                     {/if}
                 </div>
 
@@ -90,7 +90,7 @@
                             <p class="recentcontactsnew_item_meta">__MSG__USED_IN__ ${content.placeCount}{if content.placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
                         {/if}
                         {if content.commentCount > 0}
-                            <p class="recentcontactsnew_item_meta">${content.commentCount}{if content.commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                            <p class="recentcontactsnew_item_meta">${content.commentCount}{if content.commentCount === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}</p>
                         {/if}
                     </div>
                 </div>

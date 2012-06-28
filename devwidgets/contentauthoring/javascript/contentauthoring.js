@@ -1574,7 +1574,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         });
 
         // Revision history
-        $(window).on('click', '#inserterbar_action_revision_history', function() {
+        $(document).on('click', '#inserterbar_action_revision_history', function() {
             $(window).trigger('init.versions.sakai', currentPageShown);
         });
 
@@ -2004,14 +2004,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 }
                 sakai.api.Util.progressIndicator.showProgressIndicator(
                     sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
-                    sakai.api.i18n.getValueForKey('PROCESSING'));
+                    sakai.api.i18n.getValueForKey('PROCESSING_UPLOAD'));
                 contentType = 'file';
                 content = dt.files;
                 uploadExternalFiles(content, $el);
             } else if (validURL) {
                 sakai.api.Util.progressIndicator.showProgressIndicator(
                     sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
-                    sakai.api.i18n.getValueForKey('PROCESSING'));
+                    sakai.api.i18n.getValueForKey('PROCESSING_UPLOAD'));
                 content = text;
                 uploadExternalLink(content, $el);
             }
