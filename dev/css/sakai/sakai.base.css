@@ -2671,7 +2671,9 @@ ul li.s3d-list-item:hover {
 	padding: 0;
 	margin: 5px 2px 0 2px;
 }
-.s3d-search-activetags span, .s3d-search-refineby span {
+.s3d-search-activetags span,
+.s3d-search-refineby span,
+.s3d-search-refineby li {
 	display: inline-block;
 }
 .s3d-search-activetags button {
