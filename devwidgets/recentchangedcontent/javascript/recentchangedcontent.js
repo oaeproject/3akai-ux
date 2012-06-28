@@ -247,7 +247,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var params = {
                 'items' : '2'
             };
-            var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.infinity.json');
+            var url = sakai.config.URL.SEARCH_ALL_FILES;
             if (searchquery === '*' || searchquery === '**') {
                 url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
             } else {
