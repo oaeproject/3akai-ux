@@ -1035,16 +1035,16 @@ a:hover {
 	text-decoration: underline;
 }
 .s3d-add_another_location {
-	clear: both;
-	color: #39C;
-	font-size: 13px;
-	font-weight: bold;
-    background: url('/dev/images/add_blue_icon.png') no-repeat transparent;
-	float: left;
-	width: 16px;
-	height: 16px;
-	display: block;
-	margin-right: 6px;
+    background: url(/dev/images/add_blue_icon.png) no-repeat transparent;
+    clear: both;
+    color: #39C;
+    display: block;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    height: 16px;
+    margin-right: 6px;
+    width: 16px;
 }
 .s3d-add_another_location_container {
 	clear: both;
