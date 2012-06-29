@@ -248,8 +248,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return None
          */
         var init = function() {
-            sakai.api.User.getContacts(function(){
-                handlerecentcontactsnewData(sakai.data.me.mycontacts);
+            var params = {
+                'state': 'ACCEPTED',
+                'items': '1'
+            };
+            $.ajax({
+                url: sakai.config.URL.CONTACTS_FIND_STATE,
+                data: params,
+                success: function(data) {
+                    handlerecentcontactsnewData(data.results);
+                },
+                error: function() {
+                    handlerecentcontactsnewData(false);
+                }
             });
         };
 
