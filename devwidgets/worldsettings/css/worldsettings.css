@@ -27,10 +27,6 @@
 /* padding around all your widget's content */
 .worldsettings_widget .s3d-widget-content {padding: 10px 20px;}
 
-/* widget icon (for widgets that may appear on a dashboard) 
-   icons are usually around 18 x 18 pixels */
-.worldsettings.s3d-widget .s3d-widget-titlebar .widget_title {background: url('/devwidgets/worldsettings/images/worldsettings_icon.png') 17px 18px no-repeat;}
-
 /* Everything below is lifted from newcreategroup.css and should be consolidated somewhere */
 
 #worldsettings_form h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}

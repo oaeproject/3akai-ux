@@ -71,28 +71,31 @@ input.checkbox {
     font-weight: bold;
     width: 94px;
     height: 26px;
-    background: url(img/buttons.png) 0 -26px;
+    background: url(/dev/lib/tinymce/themes/advanced/skins/sakai/img/buttons.png) 0 -26px;
     cursor: pointer;
     padding-bottom: 2px;
     float: left;
 }
 #insert {
-    background: url(img/buttons.png) 0 -52px
+    background-position: 0 -52px;
 }
 #cancel {
-    background: url(img/buttons.png) 0 0;
-    float: right
+    background-position: 0 0;
+    float: right;
 }
 
 /* Browse */
 a.pickcolor, a.browse {
     text-decoration: none
 }
+a.browse span, a.pickcolor span {
+    background: url(/dev/lib/tinymce/themes/advanced/img/icons.gif);
+}
 a.browse span {
     display: block;
     width: 20px;
     height: 18px;
-    background: url(../../img/icons.gif) -860px 0;
+    background-position: -860px 0;
     border: 1px solid #FFF;
     margin-left: 1px;
 }
@@ -118,7 +121,7 @@ a.pickcolor span {
     display: block;
     width: 20px;
     height: 16px;
-    background: url(../../img/icons.gif) -840px 0;
+    background-position: -840px 0;
     margin-left: 2px;
 }
 .mceOldBoxModel a.pickcolor span {
@@ -178,11 +181,15 @@ td.charmap, #charmap a {
 }
 
 /* Tabs classes */
+.tabs, .tabs li, .tabs span, .tabs .current span {
+    background-image: url(/dev/lib/tinymce/themes/advanced/skins/sakai/img/tabs.gif);
+}
 .tabs {
     width: 100%;
     height: 18px;
     line-height: normal;
-    background: url(img/tabs.gif) repeat-x 0 -72px;
+    background-position: 0 -72px;
+    background-repeat: repeat-x;
 }
 .tabs ul {
     margin: 0;
@@ -191,7 +198,8 @@ td.charmap, #charmap a {
 }
 .tabs li {
     float: left;
-    background: url(img/tabs.gif) no-repeat 0 0;
+    background-position: 0 0;
+    background-repeat: no-repeat;
     margin: 0 2px 0 0;
     padding: 0 0 0 10px;
     line-height: 17px;
@@ -199,17 +207,20 @@ td.charmap, #charmap a {
     display: block;
 }
 .tabs li.current {
-    background: url(img/tabs.gif) no-repeat 0 -18px;
+    background-position: 0 -18px;
+    background-repeat: no-repeat;
     margin-right: 2px;
 }
 .tabs span {
     float: left;
     display: block;
-    background: url(img/tabs.gif) no-repeat right -36px;
+    background-position: right -36px;
+    background-repeat: no-repeat;
     padding: 0px 10px 0 0;
 }
 .tabs .current span {
-    background: url(img/tabs.gif) no-repeat right -54px;
+    background-position: right -54px;
+    background-repeat: no-repeat;
 }
 .tabs a {
     text-decoration: none;

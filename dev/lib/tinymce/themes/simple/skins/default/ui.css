@@ -9,7 +9,9 @@
 
 /* Layout */
 .defaultSimpleSkin span.mceIcon, .defaultSimpleSkin img.mceIcon {display:block; width:20px; height:20px}
-.defaultSimpleSkin .mceIcon {background:url(../../img/icons.gif) no-repeat 20px 20px}
+.defaultSimpleSkin .mceIcon {
+    background: url(/dev/lib/tinymce/themes/advanced/img/icons.gif) no-repeat 20px 20px;
+}
 
 /* Button */
 .defaultSimpleSkin .mceButton {display:block; border:1px solid #F0F0EE; width:20px; height:20px}
@@ -18,7 +20,13 @@
 .defaultSimpleSkin .mceButtonDisabled span {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 
 /* Separator */
-.defaultSimpleSkin .mceSeparator {display:block; background:url(../../img/icons.gif) -180px 0; width:2px; height:20px; margin:0 2px 0 4px}
+.defaultSimpleSkin .mceSeparator {
+    background: url(/dev/lib/tinymce/themes/advanced/img/icons.gif) -180px 0;
+    display: block;
+    height: 20px;
+    margin: 0 2px 0 4px;
+    width: 2px;
+}
 
 /* Theme */
 .defaultSimpleSkin span.mce_bold {background-position:0 0}

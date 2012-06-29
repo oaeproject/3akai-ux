@@ -117,7 +117,7 @@
 }
 .comments_arrowUp {
     height: 10px;
-    background: #fff url(../images/comments_arrowup.jpg) no-repeat bottom left;
+    background: #fff url(/devwidgets/comments/images/comments_arrowup.jpg) no-repeat bottom left;
 }
 .comments_avatar {
     height: 35px;
