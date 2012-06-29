@@ -42,6 +42,7 @@ public class HashRefreshFiles {
   public final String REQUIRE_PATHS = "require_paths";
   public final String REQUIRE_DEPENDENCY_FILE = "require_dependency_file";
   public final String MANAGE_FOLDERS = "folder_libs";
+  public final Integer HASH_LENGTH = 7;
   
   public String[] hashFileTypes;
   public String[] ignoreFilePaths;
@@ -87,7 +88,7 @@ public class HashRefreshFiles {
     }
     is.close();
     BigInteger bi = new BigInteger(1, md.digest());
-    return bi.toString(16);
+    return bi.toString(16).substring(0, HASH_LENGTH);
   }
   /**
    *  return the relative path of path2 file in path1 file
@@ -141,7 +142,7 @@ public class HashRefreshFiles {
     MessageDigest md = MessageDigest.getInstance("MD5");
     md.update(sb.toString().getBytes());
     BigInteger bi = new BigInteger(1, md.digest());
-    return bi.toString(16);
+    return bi.toString(HASH_LENGTH).substring(0, HASH_LENGTH);
   }
 
   public void hashFiles(File file) throws Exception {
