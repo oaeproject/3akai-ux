@@ -12,6 +12,11 @@
         }
     },
     "id": "contentpermissions",
+    "trigger": {
+        "events": ["init.contentpermissions.sakai"],
+        "selectors": [],
+        "onLoad": false
+    },
     "type": "core",
     "url": "/devwidgets/contentpermissions/contentpermissions.html"
 }

@@ -492,8 +492,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('.ew_permissions').unbind("click").bind("click", function(e){
                 e.preventDefault();
-                if($(this).parents(".s3d-dropdown-list").length || $(e.target).hasClass("s3d-dropdown-list-arrow-up")){
-                    $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).data("permissionvalue") || false});
+                if ($(this).parents('.s3d-dropdown-list').length || $(e.target).hasClass('s3d-dropdown-list-arrow-up')) {
+                    $(document).trigger('init.contentpermissions.sakai', {'newPermission': $(this).data('permissionvalue') || false});
                     $('#entity_contentsettings_dropdown').jqmHide();
                 }
             });
@@ -569,7 +569,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('#ew_upload').click(function(e){
                 e.preventDefault();
-                $(window).trigger("init.uploadnewversion.sakai");
+                $(document).trigger('init.uploadnewversion.sakai');
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 

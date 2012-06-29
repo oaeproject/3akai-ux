@@ -150,7 +150,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addBinding();
         };
 
-        $(window).bind("init.uploadnewversion.sakai", doInit);
+        $(document).on('init.uploadnewversion.sakai', doInit);
 
     };
 
