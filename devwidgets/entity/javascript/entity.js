@@ -354,7 +354,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Widgets.widgetLoader.insertWidgets("entity_groupsettings_dropdown", false, $rootel);
                     break;
                 case "group":
-                    $(document).bind("ready.joinrequestbuttons.sakai", function() {
+                    $(document).on('ready.joinrequestbuttons.sakai', function() {
                         sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], function(success, members) {
                             members = members[context.data.authprofile["sakai:group-id"]];
                             var managerCount = sakai.api.Groups.getManagerCount(context.data.authprofile, members);

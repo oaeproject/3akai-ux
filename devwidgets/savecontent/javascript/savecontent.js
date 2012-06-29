@@ -279,7 +279,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     contentToAdd.push(item.body);
                 });
                 hideSavecontent();
-                $(document).trigger("create.collections.sakai", [contentToAdd]);
+                $(document).trigger('create.collections.sakai', [contentToAdd]);
             } else if (!dropdownSelection.is(":disabled") && dropdownSelection.val()) {
                 saveContent(dropdownSelection.val());
             }
