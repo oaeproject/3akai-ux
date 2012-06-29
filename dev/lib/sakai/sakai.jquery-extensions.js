@@ -70,7 +70,6 @@ var msie = $.browser.msie;
 
                 $.ajax({
                     url: '/system/me',
-                    cache: false,
                     success: function(data){
                         decideLoggedIn(data, true);
                     }
