@@ -199,7 +199,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Bind Events
          */
         var addBinding = function () {
-            $(window).bind('done.newaddcontent.sakai', function(e, newContent) {
+            $(document).on('done.newaddcontent.sakai', function(e, newContent) {
                 if (newContent && newContent.length) {
                     handleRecentChangedContentData(true, {results:newContent});
                 }

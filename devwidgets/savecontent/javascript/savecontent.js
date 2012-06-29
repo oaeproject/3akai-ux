@@ -84,7 +84,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
         };
-        $(window).bind("done.deletecontent.sakai", deleteContent);
+
+        $(document).on('done.deletecontent.sakai', deleteContent);
 
         /**
          * toggleSavecontent
@@ -221,7 +222,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Content.addToLibrary(content.body["_path"], id, false, finishSaveContent);
                     }
                 });
-                $(window).trigger("done.newaddcontent.sakai");
+                $(document).trigger('done.newaddcontent.sakai');
                 var notificationBody = false;
                 var notificationTitle = false;
                 if (sakai.api.Content.Collections.isCollection(id)){
@@ -278,7 +279,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     contentToAdd.push(item.body);
                 });
                 hideSavecontent();
-                $(window).trigger("create.collections.sakai", [contentToAdd]);
+                $(document).trigger("create.collections.sakai", [contentToAdd]);
             } else if (!dropdownSelection.is(":disabled") && dropdownSelection.val()) {
                 saveContent(dropdownSelection.val());
             }

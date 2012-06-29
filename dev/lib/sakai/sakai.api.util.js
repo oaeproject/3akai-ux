@@ -2594,7 +2594,7 @@ define(
                     stop: function(event, ui) {
                         sakai_util.Draggable.removeIFrameFix();
                         $('.s3d-draggable-draggingitems').remove();
-                        $(window).trigger('stop.drag.sakai');
+                        $(document).trigger('stop.drag.sakai');
                         if ($(this).data('stopdragevent')) {
                             $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
@@ -2602,7 +2602,7 @@ define(
                     start: function(event, ui) {
                         sakai_util.Draggable.setIFrameFix();
                         $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
-                        $(window).trigger('start.drag.sakai');
+                        $(document).trigger('start.drag.sakai');
                         if ($(this).data('startdragevent')) {
                             $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }

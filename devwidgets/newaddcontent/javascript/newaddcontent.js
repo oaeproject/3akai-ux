@@ -536,7 +536,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                         itemsAdded.push(item);
                     }
                 });
-                $(window).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
+                $(document).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
                 // If adding to a group library or collection, these will also still be added to my library
                 if (libraryToUploadTo !== sakai.data.me.user.userid) {
                     brandNewContent[sakai.data.me.user.userid] = brandNewContent[sakai.data.me.user.userid] || [];
@@ -1348,7 +1348,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 }
             });
 
-            $(window).bind('done.deletecontent.sakai', deleteContent);
+            $(document).on('done.deletecontent.sakai', deleteContent);
         };
 
         ////////////////////

@@ -10,9 +10,9 @@
     },
     "id": "inserter",
     "personalportal": false,
-     "trigger": {
-        "events": [],
-        "selectors": [],
+    "trigger": {
+        "events": ["create.collections.sakai", "start.drag.sakai"],
+        "selectors": ["#subnavigation_add_collection_link", ".inserter_toggle"],
         "onLoad": false
     },
     "type": "sakai",

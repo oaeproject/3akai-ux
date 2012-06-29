@@ -376,7 +376,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             $(window).trigger('lhnav.updateCount', ['library', -(paths.length)]);
                             mylibrary.infinityScroll.removeItems(paths);
                             if(collectionPaths.length) {
-                                $(window).trigger('sakai.mylibrary.deletedCollections', {
+                                $(document).trigger('sakai.mylibrary.deletedCollections', {
                                     items: collectionPaths
                                 });
                             }
@@ -405,7 +405,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             resetView();
                             $(window).trigger('lhnav.updateCount', ['library', -(paths.length)]);
                             if(collection) {
-                                $(window).trigger('sakai.mylibrary.deletedCollections', {
+                                $(document).trigger('sakai.mylibrary.deletedCollections', {
                                     items: paths
                                 });
                             }
@@ -464,7 +464,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * @param {Object} data        Object that contains the new library items
              * @param {Object} library     Context id of the library the content has been added to
              */
-            $(window).bind('done.newaddcontent.sakai', function(e, data, library) {
+            $(document).on('done.newaddcontent.sakai', function(e, data, library) {
                 if (library === mylibrary.contextId || mylibrary.contextId === sakai.data.me.user.userid) {
                     mylibrary.infinityScroll.prependItems(data);
                 }

@@ -681,7 +681,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 doStart('pageviewer');
             });
 
-            $(window).on('done.newaddcontent.sakai', function(ev, data) {
+            $(document).on('done.newaddcontent.sakai', function(ev, data) {
                 switchListView();
             });
 

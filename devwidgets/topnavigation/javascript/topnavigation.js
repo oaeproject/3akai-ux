@@ -993,7 +993,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // COLLECTION COUNTER //
         ////////////////////////
 
-        $(window).bind('sakai.mylibrary.deletedCollections', function(ev, data) {
+        $(document).on('sakai.mylibrary.deletedCollections', function(ev, data) {
             $.each(data.items, function(i, item) {
                 $('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(parseInt($('.topnavigation_menuitem_counts_container #topnavigation_user_collections_total').text(), 10) - 1);
             });
@@ -1024,32 +1024,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
         });
-
-        //////////////
-        // OVERLAYS //
-        //////////////
-
-        // Send a message
-
-        /*$(".sakai_sendmessage_overlay").live("click", function(ev){
-            var el = $(this);
-            var person = false;
-            var people = [];
-            if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
-                var userIDArr = el.attr("sakai-entityid").split(",");
-                var userNameArr = sakai.api.Security.safeOutput(el.attr("sakai-entityname")).split(",");
-                for(var i = 0; i < userNameArr.length; i++){
-                    people.push({
-                        "uuid": userIDArr[i],
-                        "username": userNameArr[i],
-                        "type": el.attr("sakai-entitytype") || "user"
-                    });
-                }
-            }
-            $(window).trigger("initialize.sendmessage.sakai", [people]);
-        });
-         */
-
 
         /////////////////////////
         /////// INITIALISE //////
