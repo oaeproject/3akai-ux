@@ -546,8 +546,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 toggleTabs(e.target);
             }
-            if (tab === 'display' && !defaultsSet && !wData && sakai.widgets.embedcontent.defaultOptions) {
-                setDefaultOptions(sakai.widgets.embedcontent.defaultOptions);
+            if (tab === 'display' && !defaultsSet && !wData && sakai.widgets.embedcontent.defaultConfiguration) {
+                setDefaultOptions(sakai.widgets.embedcontent.defaultConfiguration);
                 defaultsSet = true;
             }
             return false;

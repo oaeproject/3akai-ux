@@ -62,6 +62,9 @@
 }
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_content{display: block;padding-top:7px; color:#636363;}
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all{float:right; margin-top:3px;text-decoration: none;}
+.topnavigation_search #topnavigation_search_see_all:focus {
+    box-shadow: 0 0 2px 1px #2683BC;
+}
 
 /* USER */
 .topnavigation_user_container {float:right;}
