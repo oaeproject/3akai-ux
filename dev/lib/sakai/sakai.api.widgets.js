@@ -904,11 +904,22 @@ define(
         },
 
         /**
+         * Add the widgets that need to be present at all time on all pages
+         */
+        insertOnLoadWidgets: function() {
+            $.each(sakai.widgets, function(widgetid, widget) {
+                if (widget.trigger && widget.trigger.onLoad) {
+                    $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
+                }
+            });
+        },
+
+        /**
          * This function will register all widgets that require lazy loading
          */
         registerLazyLoading: function() {
             $.each(sakai.widgets, function(widgetid, widget) {
-                if (widget.trigger) {
+                if (widget.trigger && !widget.trigger.onLoad) {
 
                     // Convert all of the properties to an array
                     if (widget.trigger.events && widget.trigger.events.length) {
@@ -949,15 +960,13 @@ define(
                     });
 
                     // Check whether this needs to bind to a selector
-                    if (widget.trigger.selectors && widget.trigger.selectors.length) {
-                        $.each(widget.trigger.selectors, function(index, selector) {
-                            $(document).on('click', selector, function(event, ui) {
-                                lazyLoadWidget(function() {
-                                    $(event.target).trigger('click', [event, ui]);
-                                });
+                    $.each(widget.trigger.selectors, function(index, selector) {
+                        $(document).on('click', selector, function(event, ui) {
+                            lazyLoadWidget(function() {
+                                $(event.target).trigger('click', [event, ui]);
                             });
                         });
-                    }
+                    });
 
                 }
             });
@@ -967,8 +976,7 @@ define(
             sakaiWidgetsAPI.bindToHash();
             sakaiWidgetsAPI.Container.setReadyToLoad(true);
 
-            // TODO Insert onLoad widgets
-            // sakaiWidgetsAPI.insertOnLoadWidgets();
+            sakaiWidgetsAPI.insertOnLoadWidgets();
             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
 
             sakaiWidgetsAPI.registerLazyLoading();
