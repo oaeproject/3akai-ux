@@ -51,9 +51,15 @@
 .topnavigation_search #topnavigation_search_results_container #topnavigation_search_results_no_results{padding:0 12px;}
 .topnavigation_search #topnavigation_search_results_container .topnav_content_icon, .topnavigation_search #topnavigation_search_results_container .topnav_person_icon, .topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon, .topnavigation_search #topnavigation_search_results_container .topnavigation_group_public_icon {width:16px; height:16px; display:block;}
 .topnavigation_search #topnavigation_search_results_container .topnav_content_icon_container {margin-right:7px;}
-.topnavigation_search #topnavigation_search_results_container .topnav_person_icon{background:url("/dev/images/icons_sprite.png") no-repeat scroll -761px -20px transparent;}
-.topnavigation_search #topnavigation_search_results_container .topnavigation_group_public_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -220px -21px transparent;}
-.topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -780px -21px transparent;}
+.topnavigation_search #topnavigation_search_results_container .topnav_person_icon {
+    background: url('/dev/images/person_badge_icon_16x16.png') no-repeat transparent;
+}
+.topnavigation_search #topnavigation_search_results_container .topnavigation_group_public_icon {
+    background: url('/dev/images/globe_fuge.png') no-repeat transparent;
+}
+.topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon {
+    background: url('/dev/images/globe_fuge_lock.png') no-repeat transparent;
+}
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_content{display: block;padding-top:7px; color:#636363;}
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all{float:right; margin-top:3px;text-decoration: none;}
 .topnavigation_search #topnavigation_search_see_all:focus {

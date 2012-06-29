@@ -32,9 +32,6 @@
             </div>
         </div>
     </div>
-    <div class="s3d-widget-no-options">
-        <div class="s3d-widget-no-options-inner"></div>
-    </div>
 </div>
 
 <div id="discussion_no_initial_topic_template"><!--
@@ -76,10 +73,7 @@
 --></div>
 
 <div id="discussion_topic_newly_posted_reply_template"><!--
-    <div class="s3d-highlight_area_background" id="${post.message["sakai:id"]}">
-        <div class="s3d-highlight_area_background_tl">
-            <div class="s3d-highlight_area_background_tinner"></div>
-        </div>
+    <div class="s3d-highlight_area_background s3d-highlight_area_background_rounded" id="${post.message["sakai:id"]}">
         <div class="discussion_entity_container">
             {var displayName = sakai.api.User.getDisplayName(post.message.profile)}
             <img src="${post.message.profile.pictureImg}" alt="${displayName}" class="discussion_entity_picture"/>
@@ -90,15 +84,9 @@
 
         <div class="discussion_reply_contents">
             {if post.message["sakai:quoted"]}
-                <div class="discussion_quoted_text_container s3d-highlight_area_background">
-                    <div class="s3d-highlight_area_background_white_content_tl">
-                        <div class="s3d-highlight_area_background_white_content_tinner"></div>
-                    </div>
+                <div class="discussion_quoted_text_container s3d-highlight_area_background_white s3d-highlight_area_background_rounded">
                     <p><span class="discussion_reply_contents_text_quoted">${post.message["sakai:quoted"].by}</span> __MSG__WROTE__:</p>
                     <p class="discussion_reply_contents_text" data-source-text="${post.message["sakai:quoted"].quote|saneHTMLAttribute}">${post.message["sakai:quoted"].quote|safeOutput}</p>
-                    <div class="s3d-highlight_area_background_white_content_bl">
-                        <div class="s3d-highlight_area_background_white_content_binner"></div>
-                    </div>
                 </div>
             {/if}
 
@@ -120,10 +108,6 @@
         </div>
 
         <div class="discussion_edit_container"></div>
-
-        <div class="s3d-highlight_area_background_bl">
-            <div class="s3d-highlight_area_background_binner"></div>
-        </div>
     </div>
 --></div>
 
@@ -142,10 +126,7 @@
             <h1 class="discussion_topic_subject">${topic.post["sakai:subject"]|safeOutput}</h1>
             <button class="discussion_show_topic_replies s3d-button s3d-link-button"><div class="discussion_replies_icon discussion_show_replies_icon"{if topic.replies.length === 0} style="display:none;"{/if}></div><span class="discussion_topic_number_of_replies"><span class="discussion_number_of_replies">${topic.replies.length}</span> __MSG__REPLIES__</span></button>
 
-            <div class="s3d-highlight_area_background" id="${topic.post["sakai:id"]}">
-                <div class="s3d-highlight_area_background_tl">
-                    <div class="s3d-highlight_area_background_tinner"></div>
-                </div>
+            <div class="s3d-highlight_area_background s3d-highlight_area_background_rounded" id="${topic.post["sakai:id"]}">
                 <div class="discussion_entity_container">
                     {var displayName = sakai.api.User.getDisplayName(topic.post.profile[0])}
                     <img src="${topic.post.profile[0].pictureImg}" alt="${displayName}" class="discussion_entity_picture"/>
@@ -170,18 +151,11 @@
                 </div>
 
                 <div class="discussion_edit_container"></div>
-
-                <div class="s3d-highlight_area_background_bl">
-                    <div class="s3d-highlight_area_background_binner"></div>
-                </div>
             </div>
 
             <div class="discussion_topic_replies_container" style="display:none;">
                 {for reply in topic.replies}
-                    <div {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"} class="s3d-highlight_area_background discussion_deleted_reply"{else} class="s3d-highlight_area_background"{/if}id="${reply.post["sakai:id"]}">
-                        <div class="s3d-highlight_area_background_tl">
-                            <div class="s3d-highlight_area_background_tinner"></div>
-                        </div>
+                    <div class="{if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}s3d-highlight_area_background discussion_deleted_reply{else}s3d-highlight_area_background{/if} s3d-highlight_area_background_rounded" id="${reply.post["sakai:id"]}">
                         <div class="discussion_entity_container">
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <button class="discussion_hide_reply s3d-button s3d-regular-links s3d-link-button"><span>__MSG__HIDE__</span><span style="display:none;">__MSG__SHOW__</span></button>
@@ -198,17 +172,9 @@
 
                         <div class="discussion_reply_contents">
                             {if reply.post["sakai:quoted"]}
-                                <div class="discussion_quoted_text_container s3d-highlight_area_background">
-                                    <div class="s3d-highlight_area_background_white_content_tl">
-                                        <div class="s3d-highlight_area_background_white_content_tinner">
-                                        </div>
-                                    </div>
+                                <div class="discussion_quoted_text_container s3d-highlight_area_background_white s3d-highlight_area_background_rounded">
                                     <p><span class="discussion_reply_contents_text_quoted">${reply.post["sakai:quoted"].by}</span> __MSG__WROTE__:</p>
                                     <p class="discussion_reply_contents_text" data-source-text="${reply.post["sakai:quoted"].quote|saneHTMLAttribute}">${reply.post["sakai:quoted"].quote|safeOutput}</p>
-                                    <div class="s3d-highlight_area_background_white_content_bl">
-                                        <div class="s3d-highlight_area_background_white_content_binner">
-                                        </div>
-                                    </div>
                                 </div>
                             {/if}
 
@@ -243,10 +209,6 @@
                         </div>
 
                         <div class="discussion_edit_container"></div>
-
-                        <div class="s3d-highlight_area_background_bl">
-                            <div class="s3d-highlight_area_background_binner"></div>
-                        </div>
                     </div>
                 {/for}
             </div>

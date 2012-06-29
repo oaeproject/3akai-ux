@@ -42,7 +42,10 @@
 #contentcomments_postComment {text-transform: capitalize;}
 .contentcomments_commentLinks{overflow:auto;width:20%;float:right;}
 .contentcomments_commentMessage ul li{display:inline;color:#BBB;}
-.contentcomments_arrowUp{height:10px;background:#fff url(../images/contentcomments_arrowup.jpg) no-repeat bottom left;}
+.contentcomments_arrowUp {
+    background: #fff url(/devwidgets/contentcomments/images/comments_arrowup.jpg) no-repeat bottom left;
+    height: 10px;
+}
 .contentcomments_avatar{height:40px;float:left;padding:1px;border:1px solid #DEDEDE;clear:left;*margin-top:18px;/* IE margin fix */}
 .contentcomments_dateComment{font-size:11px;color:#666;margin-left:5px;}
 .contentcomments_leftCommentBar{float:left;margin-right:15px;}
