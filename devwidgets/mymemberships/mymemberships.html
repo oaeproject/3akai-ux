@@ -69,13 +69,13 @@
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
                 <div class="s3d-no-results-icon s3d-no-results-memberships less-margin"></div>
-                <p>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a class="s3d-regular-links" href="/create#l=group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></p>
+                <p>__MSG__NO_RESULTS_DESCRIPTION_MYMEMBERSHIPS_ME__ <a class="s3d-regular-links" href="/create#l=group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></p>
             </div>
         {else}
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
                 <div class="s3d-no-results-icon s3d-no-results-memberships less-margin"></div>
-                <p>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</p>
+                <p>__MSG__NO_RESULTS_DESCRIPTION_MYMEMBERSHIPS_NOT_ME__</p>
             </div>
         {/if}
     --></div>
@@ -134,11 +134,11 @@
                         __MSG__CHANGED__ ${jQuery.timeago(new Date(group.lastModified))}
                         {if group.contentCount > 0}
                             <span class="mymemberships_item_detail_separator s3d-search-result-detail-separator"><span> | </span></span>
-                            <a class="s3d-regular-light-links" href="${group.url|safeOutput}#l=library" title="${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
+                            <a class="s3d-regular-light-links" href="${group.url|safeOutput}#l=library" title="${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}"><span class="s3d-aural-text">${group.titleShort} __MSG__HAS__ </span>${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
                         {/if}
                         {if group.membersCount > 0}
                             <span class="mymemberships_item_detail_separator s3d-search-result-detail-separator"><span> | </span></span>
-                            <a class="s3d-regular-light-links" href="${group.url|safeOutput}#l=participants" title="${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
+                            <a class="s3d-regular-light-links" href="${group.url|safeOutput}#l=participants" title="${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}"><span class="s3d-aural-text">${group.titleShort} __MSG__HAS__ </span>${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
                         {/if}
                     </div>
                     {if group.descShort}<div class="mymemberships_item_description s3d-search_result-description">${group.descShort}</div>{/if}

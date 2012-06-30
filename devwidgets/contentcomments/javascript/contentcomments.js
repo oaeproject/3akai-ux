@@ -224,7 +224,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(contentcommentsNumComments, rootel).html(json.total);
             // Change to "comment" or "contentcomments"
             if (json.total === 1) {
-                $(contentcommentsCommentComments, rootel).text(sakai.api.i18n.getValueForKey("COMMENT"));
+                $(contentcommentsCommentComments, rootel).text(sakai.api.i18n.getValueForKey("COMMENT_LC"));
             }
 
             if (json.total > widgetSettings.perPage) {

@@ -10,9 +10,6 @@
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
-        <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
-
     </head>
     <body class="fl-centered show i18nable">
 
@@ -61,7 +58,7 @@
             {var tagsListed = false}
             {for t in tags}
                 {if t_index === "0"}
-                    <span class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</span>
+                    <h2 class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</h2>
                     <div class="s3d-search-refineby-list">
                     {var tagsListed = true}
                 {/if}
@@ -210,7 +207,7 @@
                             {if participantCount > 0}
                                 <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                 <a class="s3d-regular-light-links" href="${i.homePath}#l=participants">
-                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
+                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT_LC__{else}__MSG__PARTICIPANTS_LC__{/if}</span>
                                 </a>
                             {/if}
                         </div>

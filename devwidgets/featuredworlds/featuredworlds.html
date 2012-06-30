@@ -8,7 +8,7 @@
 </div>
 
 <div id="featuredworlds_template"><!--
-    <h2 class="s3d-contentpage-title s3d-contentpage-title-notdraggable">
+    <div class="s3d-contentpage-title s3d-contentpage-title-notdraggable">
         {for tab in tabs}
             <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" data-sakai-worldid="${tab.id}">
                 ${tab.title}
@@ -18,7 +18,7 @@
                 </span>
             </div>
         {/for}
-    </h2>
+    </div>
     <div id="featuredworlds_worlds_content_container">
         {for tab in tabs}
             <div id="featuredworlds_worlds_content_${tab.id}"></div>
@@ -30,16 +30,17 @@
 <div id="featuredworlds_worlds_content_template"><!--
     {for tab in tabs}
         <div id="featuredworlds_${tab.id}" class="featuredworlds_content_container" {if tab_index != 0} style="display:none;"{/if}>
+            <h2 class="s3d-aural-text">${tab.title}</h2>
             {if data[tab.id].total}
                 {for item in data[tab.id].results}
                     <div class="featuredworlds_content">
                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" class="featuredworlds_image" alt="${item["sakai:group-title"]|safeOutput}"/>
                         <a href="/~${item["sakai:group-id"]}" class="s3d-bold s3d-regular-links">${item["sakai:group-title"]|safeOutput}</a>
                         <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=library" class="s3d-regular-links fl-push featuredworlds_grouppage_link">
-                            {if item.counts.contentCount} ${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if} {else} 0 __MSG__CONTENT_ITEMS__ {/if}
+                            <span class="s3d-aural-text">${item["sakai:group-title"]|safeOutput} __MSG__HAS__ </span>{if item.counts.contentCount} ${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if} {else} 0 __MSG__CONTENT_ITEMS__ {/if}
                         </a>
                         <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=memberships" class="s3d-regular-links fl-push featuredworlds_grouppage_link">
-                            ${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS__{else} __MSG__PARTICIPANT__{/if}
+                            <span class="s3d-aural-text">${item["sakai:group-title"]|safeOutput} __MSG__HAS__ </span>${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS__{else} __MSG__PARTICIPANT__{/if}
                         </a>
                     </div>
                 {/for}

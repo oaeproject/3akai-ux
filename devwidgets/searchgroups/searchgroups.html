@@ -3,7 +3,7 @@
     <div class="searchgroups_content_main">
         <div class="s3d-search-refineby search_tags_refine_container"></div>
         <div class="fl-left fl-container s3d-search-header" id="results_header">
-            <span class="s3d-search-header-type"><span id="searchgroups_type_title"></span> (<strong id="searchgroups_numberFound">0</strong>)</span>
+            <h2 class="s3d-search-header-type"><span id="searchgroups_type_title"></span> (<strong id="searchgroups_numberFound">0</strong><span class="s3d-aural-text"> __MSG__GROUPS_FOUND__</span>)</h2>
             <div class="s3d-search-selects">
                 <!-- FACETED WIDGET -->
                 <div id="searchgroups_results_faceted" class=""><!--
@@ -44,7 +44,7 @@
                     <li class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
                         <div class="s3d-no-results-icon s3d-no-results-search-world less-margin"></div>
-                        <p>__MSG__NO_RESULTS_DESCRIPTION__. {if !sakai.data.me.user.anon} <a href="/create#l=${categoryid}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</p>
+                        <p>__MSG__NO_RESULTS_DESCRIPTION_SEARCH__. {if !sakai.data.me.user.anon} <a href="/create#l=${categoryid}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</p>
                     </li>
                 --></div>
             </div>

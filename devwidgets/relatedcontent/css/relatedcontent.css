@@ -31,4 +31,8 @@
 .relatedcontent_mimetypedescription {display:block;text-transform:uppercase;font-size:11px;}
 .relatedcontent_comments {display:block;margin-top:4px;}
 .relatedcontent_comments img {padding-top:3px;padding-right:5px !important;}
+#relatedcontent_show_more {
+    line-height: 27px;
+    padding: 0 12px 0;
+}
 #relatedcontent_footer.relatedcontent_footer_norelated {background:none repeat scroll 0 0 transparent;min-height:0;padding:0;}

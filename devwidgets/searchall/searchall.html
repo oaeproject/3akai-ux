@@ -3,7 +3,7 @@
     <div class="searchall_content_main">
         <div class="s3d-search-refineby search_tags_refine_container"></div>
         <div class="fl-left fl-container s3d-search-header" id="results_header">
-            <span class="s3d-search-header-type">__MSG__ALL_TYPES__ (<strong id="searchall_numberFound">0</strong>)</span>
+            <h2 class="s3d-search-header-type">__MSG__ALL_TYPES__ (<strong id="searchall_numberFound">0</strong><span class="s3d-aural-text"> __MSG__ITEMS_FOUND__</span>)</h2>
             <div class="s3d-search-selects">
                 <div class="s3d-search-sort">
                     __MSG__SORT_BY__: <select>
@@ -40,7 +40,7 @@
                     <li class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
                         <div class="s3d-no-results-icon s3d-no-results-magnifier less-margin"></div>
-                        <p>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/register" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}{if !sakai.data.me.user.anon} <a href="/create#l=group" class="s3d-regular-links">__MSG__ADD_GROUPS__</a> <a href="#" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</p>
+                        <p>__MSG__NO_RESULTS_DESCRIPTION_SEARCH__ {if sakai.data.me.user.anon} <a href="/register" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}{if !sakai.data.me.user.anon} <a href="/create#l=group" class="s3d-regular-links">__MSG__ADD_GROUPS__</a> <a href="#" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</p>
                     </li>
                 --></div>
             </div>
