@@ -95,6 +95,8 @@
                             <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
                             <option value="private">__MSG__PRIVATE_TO_LIBRARY__</option>
                         </select>
+
+                        <div id="newaddcontent_add_document_copyright_container"></div>
                     </div>
                     <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
                 </form>
@@ -169,8 +171,8 @@
 </div>
 
 <div id="newaddcontent_copyright_template"><!--
-    <label for="newaddcontent_upload_content_copyright">__MSG__COPYRIGHT:__</label>
-    <select id="newaddcontent_upload_content_copyright">
+    <label for="newaddcontent_${formId}_copyright">__MSG__COPYRIGHT:__</label>
+    <select id="newaddcontent_${formId}_copyright">
     {for cr in copyright.types}
         <option value="${cr_index}"{if cr_index === copyright_default}selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
     {/for}
