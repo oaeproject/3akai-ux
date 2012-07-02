@@ -103,7 +103,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
                 // Set up the infinite scroll for the list of contacts
                 contactsInfinityScroll = $addpeopleContactsContainer.infinitescroll(url, data, function(items, total) {
-                    $.each(items, function(index, contact){
+                    $.each(items, function(index, contact) {
                         contact.profile.basic.elements.picture = sakai.api.Util.constructProfilePicture(contact.profile);
                     });
                     if ((!groups || (groups && !groups.length)) && !total) {

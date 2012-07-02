@@ -170,13 +170,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var none = false;
                             if (result['sakai:state'] === 'ACCEPTED') {
                                 connected = true;
-                            } else if (result['sakai:state'] === 'INVITED'){
+                            } else if (result['sakai:state'] === 'INVITED') {
                                 connected = true;
                                 invited = true;
-                            } else if (result['sakai:state'] === 'PENDING'){
+                            } else if (result['sakai:state'] === 'PENDING') {
                                 connected = true;
                                 pending = true;
-                            } else if (result['sakai:state'] === 'NONE'){
+                            } else if (result['sakai:state'] === 'NONE') {
                                 none = true;
                             }
 
