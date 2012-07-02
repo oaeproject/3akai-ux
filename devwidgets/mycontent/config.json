@@ -7,6 +7,11 @@
             "bundle": "/devwidgets/mycontent/bundles/default.properties",
             "description": "My content",
             "name": "My content"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mycontent/bundles/fr_FR.properties",
+            "name": "Mes contenus",
+            "description": "Mes contenus"
         }
     },
     "id": "mycontent",

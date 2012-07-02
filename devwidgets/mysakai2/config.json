@@ -11,6 +11,9 @@
             "bundle": "/devwidgets/mysakai2/bundles/en_GB.properties",
             "name": "My Sakai 2 favourites",
             "description": "My Sakai 2 favourites"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mysakai2/bundles/fr_FR.properties"
         }
     },
     "id": "mysakai2",

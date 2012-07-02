@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/featuredpeople/bundles/default.properties",
             "description": "Featured people widget",
             "name": "Featured people widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/featuredpeople/bundles/fr_FR.properties"
         }
     },
     "id": "featuredpeople",

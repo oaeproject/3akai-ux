@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 .sites_error{font-size:.95em;padding:10px 20px!important;}
-.mysakai2 .fl-widget-titlebar .widget_title_icon{background:url(/devwidgets/mysakai2/images/mysakai2_headericon.png) left top no-repeat; width:18px; height:18px;}
 .mysakai2_widget .fl-widget-content {
     max-height: 200px;
     overflow: auto;

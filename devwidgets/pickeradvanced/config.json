@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/pickeradvanced/bundles/default.properties",
             "description": "Advanced search picker widget",
             "name": "Advanced search picker"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/pickeradvanced/bundles/fr_FR.properties"
         }
     },
     "id": "pickeradvanced",

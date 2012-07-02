@@ -8,6 +8,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/sakai2favourites/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/sakai2favourites/bundles/fr_FR.properties"
         }
     },
     "id": "sakai2favourites",

@@ -139,6 +139,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }, function(items, total){
                 // Adjust display global total
                 $(searchConfig.global.numberFound, $rootel).text("" + (total || 0));
+                if (total === 1) {
+                    $(searchConfig.global.numberFound, $rootel).next('span.s3d-aural-text').text(
+                        '' + sakai.api.i18n.getValueForKey('ITEM_FOUND', 'searchall')
+                    );
+                } else {
+                    $(searchConfig.global.numberFound, $rootel).next('span.s3d-aural-text').text(
+                        '' + sakai.api.i18n.getValueForKey('ITEMS_FOUND', 'searchall')
+                    );
+                }
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
                     "items": items,
                     "sakai": sakai
@@ -146,6 +155,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
                 // Initialize content draggable
                 sakai.api.Util.Draggable.setupDraggable({}, $(searchConfig.results.container));
+                // adjust height of grid row elements to be equal
+                sakai_global.data.search.determineAdjustGridElementHeights($rootel);
             }, false, function(data){
                 // Generate refine by tags
                 sakai_global.data.search.generateTagsRefineBy(data, params);

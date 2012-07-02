@@ -486,7 +486,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 // Some cells have content
                 // if row is part of the pageviewer than equalheights doesn't need to be set
                 if (!$('.contentauthoring_cell_content', $row).parents('.pageviewer_widget').length) {
-                    $('.contentauthoring_cell_content', $row).equalHeights();
+                    $('.contentauthoring_cell_content', $row).equalHeightColumns();
                 }
             }
         };

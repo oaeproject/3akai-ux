@@ -27,8 +27,21 @@
 /* Message Header */
 #inbox_message_header{float:left;width:100%;padding:5px 0 18px;}
 #inbox_select span{font-size:9px;}
-#inbox_search_messages{width:290px;}
-.s3d-search-container.inbox-message-list-view {float:right;margin-top:5px;}
+#inbox_search_messages {
+    width: 290px;
+    margin-top: 2px;
+}
+.s3d-search-container.inbox-message-list-view {
+    float: right;
+    margin-top: 3px;
+    width: 65%;
+    padding: 0;
+}
+.s3d-search-container.inbox-message-list-view .inbox-message-detail-view{
+    float: right;
+    display: inline-block;
+    margin: 0;
+}
 #inbox_search_messages[disabled]{background-color:#fff;opacity:0.4;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";filter: alpha(opacity=40);}
 #inbox_select {padding: 3px;}
 /* Inbox Columns */
@@ -84,7 +97,9 @@
     width: 100%;
     word-wrap: break-word;
 }
-.inbox_delete a,.inbox_delete button{float:right;display:inline;}
+.inbox_delete a, .inbox_delete button {
+    display: inline-block;
+}
 .inbox_delete_button{margin-right:5px;height:22px;}
 .inbox_delete_button:hover{text-decoration:none;}
 #inbox_no_messages p {
