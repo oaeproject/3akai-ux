@@ -7,8 +7,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
     module("Arrays");
 
     var dummyArray = ["apple","pear","banana","cherry"];
@@ -42,5 +40,5 @@ require(
         testCustomIndexOf();
     });
 
-    });
-});
+    }
+);

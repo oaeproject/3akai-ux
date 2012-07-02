@@ -23,7 +23,13 @@
     border-bottom: 5px solid #E2E2E2;
 }
 .versions_widget #versions_container {
-    background: url("/devwidgets/versions/images/versions_bg.png") repeat-x scroll left top transparent;
+    background: #f0f0ef;
+    background: -moz-linear-gradient(top, #cfcfce 0%, #e1e1e0 3%, #ededec 7%, #f3f3f3 45%, #f3f3f3 59%, #ededec 96%, #e1e1e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfcfce), color-stop(3%,#e1e1e0), color-stop(7%,#ededec), color-stop(45%,#f3f3f3), color-stop(59%,#f3f3f3), color-stop(96%,#ededec), color-stop(100%,#e1e1e0));
+    background: -webkit-linear-gradient(top, #cfcfce 0%,#e1e1e0 3%,#ededec 7%,#f3f3f3 45%,#f3f3f3 59%,#ededec 96%,#e1e1e0 100%);
+    background: -o-linear-gradient(top, #cfcfce 0%,#e1e1e0 3%,#ededec 7%,#f3f3f3 45%,#f3f3f3 59%,#ededec 96%,#e1e1e0 100%);
+    background: -ms-linear-gradient(top, #cfcfce 0%,#e1e1e0 3%,#ededec 7%,#f3f3f3 45%,#f3f3f3 59%,#ededec 96%,#e1e1e0 100%);
+    background: linear-gradient(top, #cfcfce 0%,#e1e1e0 3%,#ededec 7%,#f3f3f3 45%,#f3f3f3 59%,#ededec 96%,#e1e1e0 100%);
     box-shadow: 0 0 3px #999999 inset;
     height: 75px;
     overflow: hidden;
@@ -77,10 +83,6 @@
     width: 113px;
     cursor: pointer;
 }
-.versions_widget #versions_container ul li:hover {
-    background: url("/devwidgets/versions/images/versions_hover_bg.png") repeat-x scroll left top transparent;
-    color: #fff;
-}
 .versions_widget #versions_container ul li a {
     text-decoration: none;
 }
@@ -90,8 +92,14 @@
 .versions_widget #versions_container ul li:hover .versions_updater {
     color: #fff;
 }
-.versions_widget #versions_container ul li.versions_selected {
-    background: url("/devwidgets/versions/images/versions_hover_bg.png") repeat-x scroll left top transparent;
+.versions_widget #versions_container ul li.versions_selected, .versions_widget #versions_container ul li:hover {
+    background: #48abe7;
+    background: -moz-linear-gradient(top, #5db0db 0%, #65beed 3%, #66c2f2 4%, #68c5f6 5%, #68c6f8 8%, #48abe7 64%, #3c9edf 96%, #3c9ddd 97%, #3896d4 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5db0db), color-stop(3%,#65beed), color-stop(4%,#66c2f2), color-stop(5%,#68c5f6), color-stop(8%,#68c6f8), color-stop(64%,#48abe7), color-stop(96%,#3c9edf), color-stop(97%,#3c9ddd), color-stop(100%,#3896d4));
+    background: -webkit-linear-gradient(top, #5db0db 0%,#65beed 3%,#66c2f2 4%,#68c5f6 5%,#68c6f8 8%,#48abe7 64%,#3c9edf 96%,#3c9ddd 97%,#3896d4 100%);
+    background: -o-linear-gradient(top, #5db0db 0%,#65beed 3%,#66c2f2 4%,#68c5f6 5%,#68c6f8 8%,#48abe7 64%,#3c9edf 96%,#3c9ddd 97%,#3896d4 100%);
+    background: -ms-linear-gradient(top, #5db0db 0%,#65beed 3%,#66c2f2 4%,#68c5f6 5%,#68c6f8 8%,#48abe7 64%,#3c9edf 96%,#3c9ddd 97%,#3896d4 100%);
+    background: linear-gradient(top, #5db0db 0%,#65beed 3%,#66c2f2 4%,#68c5f6 5%,#68c6f8 8%,#48abe7 64%,#3c9edf 96%,#3c9ddd 97%,#3896d4 100%);
     color: #fff;
 }
 .versions_widget #versions_container ul li.versions_selected .versions_updater {

@@ -24,7 +24,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core", "misc/querystring"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
      * @name sakai_global.popularcontent
@@ -40,9 +40,9 @@ require(["jquery", "sakai/sakai.api.core", "misc/querystring"], function($, saka
      */
     sakai_global.popularcontent = function(tuid, showSettings) {
 
-        var $rootel = $("#"+tuid),
-            $popularcontent_main = $("#popularcontent_main", $rootel),
-            $popularcontent_main_template = $("#popularcontent_main_template", $rootel);
+        var $rootel = $("#" + tuid);
+        var $popularcontent_main = $("#popularcontent_main", $rootel);
+        var $popularcontent_main_template = $("#popularcontent_main_template", $rootel);
 
         var popularcontentMainLoadingProgress = "#popularcontent_main_progress_loading";
         var popularcontentMainProgress = "popularcontent_main_progress";

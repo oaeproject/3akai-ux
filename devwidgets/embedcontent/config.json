@@ -1,30 +1,28 @@
 {
-    "grouppages": true,
-    "userpages": true,
+    "defaultConfiguration": {
+        "embedmethod": "original",
+        "layout": "vertical",
+        "showDetails": false,
+        "showDownload": false,
+        "showName": false
+    },
+    "enabled": true,
     "hasSettings": true,
-    "sakaidocs": false,
-    "id":"embedcontent",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/embedcontent/bundles/default.properties",
-            "name": "Files and documents",
-            "description": "Embed content on a page"
+            "description": "Embed content on a page",
+            "name": "Files and documents"
         },
-       "fr_FR": {
+        "fr_FR": {
             "bundle": "/devwidgets/embedcontent/bundles/fr_FR.properties"
         }
     },
-    "defaultOptions": {
-        "embedmethod": "original",
-        "layout": "vertical",
-        "showName": false,
-        "showDetails": false,
-        "showDownload": false
-    },
-    "img":"/devwidgets/embedcontent/images/content.png",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/embedcontent/embedcontent.html",
+    "id": "embedcontent",
+    "img": "/devwidgets/embedcontent/images/content.png",
+    "indexFields": ["title", "description"],
+    "sakaidocs": false,
     "settingsWidth": 785,
-    "indexFields": ["title", "description"]
+    "type": "core",
+    "url": "/devwidgets/embedcontent/embedcontent.html"
 }

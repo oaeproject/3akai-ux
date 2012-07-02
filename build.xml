@@ -44,12 +44,16 @@
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
         <property name="ANT_CONTRIB" value="tools/ant-contrib/ant-contrib-1.0b3.jar" description="Ant-contrib 1.0b3" />
         <property name="HASHTOOL_DIR" value="tools/hashfiles" description="hash js and css files" />
+        <property name="CSSEMBED" value="tools/cssembed/cssembed-0.4.5.jar" description="CSSEmbed - automaticly create CSS files with embedded data URIs" />
 
         <!-- SETUP - Set Ant-contrib dependency -->
         <taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
                 <pathelement location="${ANT_CONTRIB}"/>
             </classpath>
+        </taskdef>
+
+        <taskdef name="cssembed" classname="net.nczonline.web.cssembed.CSSEmbedTask" classpath="${CSSEMBED}">
         </taskdef>
 
         <!-- Define patternset for widget JS files (from ${TARGET_DIR_W}) -->
@@ -226,14 +230,41 @@
     </target>
 
     <!-- Target: Optimize with requirejs -->
-    <target name="optimize" depends="init">
-        <delete dir="${OPTIMIZED_DIR}" includeemptydirs="true" />
+    <target name="optimize" depends="optimize_node">
+        <if>
+            <not><equals arg1="${optimizeNodeResult}" arg2="0"/></not>
+            <then>
+                <echo message="Couldn't run the optimizer with Node, trying Rhino instead." />
+                <antcall target="optimize_rhino" />
+            </then>
+        </if>
+    </target>
+
+    <!-- Target: Optimize with requirejs run in node -->
+    <target name="optimize_node">
         <path id="reqjs.path">
             <pathelement location="tools/requirejs-optimizer/r.js"/>
         </path>
         <property name="requireJs.path" refid="reqjs.path"/>
         <property name="requireJs.conf" value="build.js" />
 
+        <echo message="Attempting to run the optimizer with Node."/>
+        <exec executable="node" failifexecutionfails="false" resultproperty="optimizeNodeResult">
+            <arg value="${requireJs.path}" />
+            <arg value="-o" />
+            <arg value="${requireJs.conf}" />
+        </exec>
+    </target>
+
+    <!-- Target: Optimize with requirejs run in rhino -->
+    <target name="optimize_rhino" depends="init">
+        <path id="reqjs.path">
+            <pathelement location="tools/requirejs-optimizer/r.js"/>
+        </path>
+        <property name="requireJs.path" refid="reqjs.path"/>
+        <property name="requireJs.conf" value="build.js" />
+
+        <delete dir="${OPTIMIZED_DIR}" includeemptydirs="true" />
         <!-- the rhino jar gets put here by maven -->
         <java jar="${settings.localRepository}/rhino/js/1.7R2/js-1.7R2.jar" fork="true">
           <arg value="${requireJs.path}" />
@@ -270,8 +301,19 @@
         </java>
     </target>
 
+    <!-- Target: CSSEmbed -->
+    <target name="cssembed">
+        <echo message="CSSEmbed - replace all the small icons with data URIs." />
+        <echo message="[NOTE] skipMissing is necessary for the CLE icons." />
+        <!-- Add verbose="true" if you want to see more output -->
+        <cssembed root="." skipMissing="true">
+            <fileset dir="${TARGET_DIR}" includes="**/*.css" />
+            <fileset dir="${TARGET_DIR_W}" includes="**/*.css" />
+        </cssembed>
+    </target>
+
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, hash_files">
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, cssembed, hash_files">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 

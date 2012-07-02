@@ -18,7 +18,6 @@
 /*
  * Dependencies
  *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js (autoSuggest)
@@ -418,7 +417,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         var addedUserGroup = function(){
             if (!$("#contentpermissions_members_autosuggest_text").is(":visible")) {
                 $("#contentpermissions_members_autosuggest_text").html(sakai.api.Util.TemplateRenderer(contentpermissionsShareMessageTemplate, {
-                    "filename": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                    "filename": sakai.api.Security.safeOutput(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]),
                     "path": window.location,
                     "user": sakai.api.User.getDisplayName(sakai.data.me.profile)
                 }));
@@ -515,7 +514,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             $(".contentpermissions_permissions_container .s3d-actions-delete").live("click", doDelete);
             $("#contentpermissions_apply_permissions").live("click", showWarning);
             $("#contentpermissions_members_autosuggest_sharebutton").live("click", doShare);
-            $(window).on('click', '#contentpermissions_members_autosuggest_cancelbutton', hideShare);
+            $(document).on('click', '#contentpermissions_members_autosuggest_cancelbutton', hideShare);
         };
 
         /**

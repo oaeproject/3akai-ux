@@ -195,7 +195,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var showLibraryContent = function () {
             resetView();
-            var query = $mylibrary_livefilter.val() || '*';
+            var query = $mylibrary_livefilter.val();
             // Disable the previous infinite scroll
             if (mylibrary.infinityScroll) {
                 mylibrary.infinityScroll.kill();
@@ -300,9 +300,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.each($('.mylibrary_check:checked:visible', $rootel), function(i, checked) {
                 addToIdArr.push($(checked).attr('data-entityid'));
                 addToTitleArr.push($(checked).attr('data-entityname'));
-                if ($(checked).attr('data-canshare') === 'true') {
-                    shareIdArr.push($(checked).attr('data-entityid'));
-                } else if (!$(checked).attr('data-canshare-error')) {
+                shareIdArr.push($(checked).attr('data-entityid'));
+                if (!$(checked).attr('data-canshare-error')) {
                     $(checked).attr('data-canshare-error', 'true');
                 }
             });

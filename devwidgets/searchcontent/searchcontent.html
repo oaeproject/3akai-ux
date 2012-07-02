@@ -3,12 +3,12 @@
     <div class="searchcontent_content_main">
         <div class="s3d-search-refineby search_tags_refine_container"></div>
         <div class="fl-left fl-container s3d-search-header" id="results_header">
-            <span class="s3d-search-header-type">__MSG__CONTENT__ (<strong id="searchcontent_numberFound">0</strong>)</span>
+            <h2 class="s3d-search-header-type">__MSG__CONTENT__ (<strong id="searchcontent_numberFound">0</strong><span class="s3d-aural-text"> __MSG__CONTENT_ITEMS_FOUND__</span>)</h2>
             <div class="s3d-search-selects">
                 <!-- FACETED WIDGET -->
                 <div id="widget_faceted_98384013291" class="searchcontent_facted widget_inline"></div>
                 <div class="s3d-search-sort">
-                    __MSG__SORT_BY__: <select>
+                    __MSG__SORT_BY:__ <select>
                         <option data-sort-order="desc" data-sort-on="_lastModified">__MSG__CHANGED_RECENTLY__</option>
                         <option data-sort-order="asc" data-sort-on="filename">__MSG__A_Z__</option>
                         <option data-sort-order="desc" data-sort-on="filename">__MSG__Z_A__</option>
@@ -48,7 +48,7 @@
                     <li class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
                         <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
-                        <p>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="#" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</p>
+                        <p>__MSG__NO_RESULTS_DESCRIPTION_SEARCH__ {if !sakai.data.me.user.anon} <a href="#" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</p>
                     </li>
                 --></div>
             </div>

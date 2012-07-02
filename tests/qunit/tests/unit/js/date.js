@@ -7,8 +7,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
     module("Date parse");
 
     /*
@@ -92,5 +90,5 @@ require(
         equals(dateEquals.getUTCSeconds(), date.substr(17,2), "The seconds are correct");
     });
 
-    });
-});
+    }
+);

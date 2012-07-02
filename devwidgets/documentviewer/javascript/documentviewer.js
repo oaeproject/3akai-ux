@@ -24,7 +24,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/document-viewer/assets/viewer.js", "/devwidgets/video/jwplayer/swfobject.js"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/document-viewer/assets/viewer.js', '/dev/lib/misc/jwplayer/swfobject.js'], function($, sakai) {
 
     /**
      * @name sakai.documentviewer
@@ -74,28 +74,39 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             });
         };
 
-        var renderImagePreview = function(url, lastMod){
+        /**
+         * Get the extension for the image preview according to the mimeType
+         * @param {String} mimeType The mimeType of the image preview
+         */
+        var getImagePreviewExtension = function(mimeType) {
+            if (mimeType === 'image/png' || mimeType === 'image/gif') {
+                return '.' + mimeType.split('/')[1];
+            } else {
+                return '.jpg';
+            }
+        };
+
+        /**
+         * Render the preview of an image
+         * @param {String} url The URL for the image
+         * @param {Object} data The data for the image (will be undefined for flickr / 3th party images)
+         */
+        var renderImagePreview = function(url, data){
             $documentviewerPreview.html("");
-            templateObject.contentURL = url;
+
+            if (data && data['sakai:hasPreview'] === 'true' && data['sakai:needsprocessing'] === 'false' && data.page1) {
+                templateObject.contentURL = getPath(data.page1) + '.normal' + getImagePreviewExtension(data.page1._mimeType);
+            } else {
+                templateObject.contentURL = url;
+            }
             var date = new Date();
             if (date){
                 templateObject.contentURL += "?_=" + date.getTime();
             }
-            sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#documentviewer_image_calculatesize", $rootel));
-            var $imageRendered = $("#documentviewer_image_rendered", $rootel);
-            $imageRendered.bind('load', function(ev){
-                var width = $imageRendered.width();
-                var height = $imageRendered.height();
-                // TODO we can probably avoid hardcoding the sizes here
-                // Too wide but when scaled to width won't be too tall
-                if (width > 920 && height / width * 920 <= 560){
-                    $imageRendered.addClass("documentviewer_preview_width");
-                // Too tall but when scaled to height won't be too wide
-                } else if (height > 560 && width / height * 560 <= 920){
-                    $imageRendered.addClass("documentviewer_preview_height");
-                }
-                $documentviewerPreview.append($imageRendered);
-            });
+
+            $documentviewerPreview.html(
+                sakai.api.Util.TemplateRenderer('documentviewer_image_template', templateObject)
+            );
         };
 
         var renderEmbedPreview = function(data){
@@ -231,7 +242,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
 
         var createSWFObject = function(url, params, flashvars){
             if (!url){
-                url = "/devwidgets/video/jwplayer/player.swf";
+                url = '/dev/lib/misc/jwplayer/player.swf';
             }
             var so = new SWFObject(url,'ply', '100%', params.height || '100%','9','#000000');
             so.addParam('allowfullscreen','true');
@@ -286,7 +297,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     renderExternalHTMLPreview(pUrl);
                 }
             } else  if (mimeType.substring(0, 6) === "image/") {
-                renderImagePreview(getPath(data), data["_bodyLastModified"]);
+                renderImagePreview(getPath(data), data);
             } else if (data["sakai:pagecount"]){
                 docType = 'document';
                 renderDocumentPreview(data);

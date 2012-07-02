@@ -285,7 +285,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 };
                 savejson_content = $.extend({}, json, savejson_content);
                 json = savejson_content;
-                savejson[':content'] = $.toJSON(savejson_content);
+                savejson[':content'] = JSON.stringify(savejson_content);
                 saveContentAjax(savejson);
             } else {
                 sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('PLEASE_SPECIFY_A_URL', 'basiclti'),

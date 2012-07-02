@@ -59,7 +59,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         // Form elements
         var addToContactsForm = addToContacts + "_form";
         var addToContactsFormButtonInvite = addToContactsForm + "_invite";
-        var addToContactsFormButtonCancel = addToContactsForm + "_cancel";
         var addToContactsFormPersonalNote = addToContactsForm + "_personalnote";
         var addToContactsFormPersonalNoteTemplate = addToContactsFormPersonalNote + "_template";
         var addToContactsFormType = addToContactsForm + "_type";
@@ -195,18 +194,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();
                         sakai.api.Util.notification.show("", $(addToContactsDone, $rootel).html());
-                        // record that user made contact request
-                        sakai.api.User.addUserProgress("madeContactRequest");
-                        // display tooltip
-                        var tooltipData = {
-                            "tooltipSelector":"#search_button",
-                            "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
-                            "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P5",
-                            "tooltipTop":-175,
-                            "tooltipLeft":0,
-                            "tooltipAutoClose":true
-                        };
-                        $(window).trigger("update.tooltip.sakai", tooltipData);
                     },
                     error: function(xhr, textStatus, thrownError){
                         enableDisableInviteButton(false);
@@ -270,33 +257,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
             // Invite this person.
             doInvite(contactToAdd.userid);
             return false;
-        });
-
-        // Bind the cancel button
-        $(addToContactsFormButtonCancel).click(function(){
-            $(addToContactsForm)[0].reset();
-
-            // display tooltip
-            var tooltipData = {
-                "tooltipSelector":"#search_button",
-                "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
-                "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P3",
-                "tooltipTop":-150,
-                "tooltipLeft":-200
-            };
-            $(window).trigger("update.tooltip.sakai", tooltipData);
-        });
-
-        $(".jqmClose").bind("click", function(){
-            // display tooltip
-            var tooltipData = {
-                "tooltipSelector":"#search_button",
-                "tooltipTitle":"TOOLTIP_ADD_CONTACTS",
-                "tooltipDescription":"TOOLTIP_ADD_CONTACTS_P3",
-                "tooltipTop":-150,
-                "tooltipLeft":-200
-            };
-            $(window).trigger("update.tooltip.sakai", tooltipData);
         });
 
         // Bind the jqModal

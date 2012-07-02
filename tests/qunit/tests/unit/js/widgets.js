@@ -9,12 +9,7 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
         var widgetProperties = [{
-            "name": "ca",
-            "type": "boolean"
-        }, {
             "name": "hasSettings",
             "type": "boolean"
         }, {
@@ -52,18 +47,6 @@ require(
             "name": "url",
             "required": true,
             "type": "string"
-        }, {
-            "name": "groupdashboard",
-            "type": "boolean"
-        }, {
-            "name": "grouppages",
-            "type": "boolean"
-        }, {
-            "name": "userdashboard",
-            "type": "boolean"
-        }, {
-            "name": "userpages",
-            "type": "boolean"
         }, {
             "name": "deletable",
             "type": "boolean"
@@ -178,7 +161,7 @@ require(
                                     "url":widgetObject[property][n].bundle
                                 });
                                 if (!widgetObject[property][n].bundle){
-                                    alert($.toJSON(widgetObject));
+                                    alert(JSON.stringify(widgetObject));
                                 }
                                 debug.log("Error ===> " + widgetObject[property][n].bundle);
                             }
@@ -253,5 +236,5 @@ require(
             });
         }
 
-    });
-});
+    }
+);

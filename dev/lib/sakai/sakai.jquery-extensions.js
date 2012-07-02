@@ -70,7 +70,6 @@ var msie = $.browser.msie;
 
                 $.ajax({
                     url: '/system/me',
-                    cache: false,
                     success: function(data){
                         decideLoggedIn(data, true);
                     }
@@ -188,5 +187,10 @@ $.validator.addMethod("appendhttp", function(value, element) {
     }
     return true;
 }, "No error message, this is just an appender");
+
+/**
+ * Make caching the default behavior for $.getScript
+ */
+$.ajaxSetup({ cache: true });
 
 });

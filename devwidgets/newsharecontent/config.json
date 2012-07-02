@@ -1,25 +1,25 @@
 {
+    "defaultConfiguration": {
+        "newsharecontent": {
+            "addThisAccountId": "xa-4db72a071927628b"
+        }
+    },
+    "enabled": true,
     "hasSettings": false,
-    "id": "newsharecontent",
     "i18n": {
         "default": {
             "bundle": "/devwidgets/newsharecontent/bundles/default.properties",
-            "name": "Share content",
-            "description":"Share content widget"
+            "description": "Share content widget",
+            "name": "Share content"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/newsharecontent/bundles/es_ES.properties"
         },
         "fr_FR": {
             "bundle": "/devwidgets/newsharecontent/bundles/fr_FR.properties"
         }
     },
-    "type":"core",
-    "enabled":true,
-    "url": "/devwidgets/newsharecontent/newsharecontent.html",
-    "defaultConfiguration": {
-        "newsharecontent": {
-            "addThisAccountId": "xa-4db72a071927628b"
-        }
-    }
+    "id": "newsharecontent",
+    "type": "core",
+    "url": "/devwidgets/newsharecontent/newsharecontent.html"
 }

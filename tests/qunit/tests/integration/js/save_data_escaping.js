@@ -7,7 +7,6 @@ require(
     ], 
     function($, sakai) {
     
-    require(["misc/domReady!"], function(doc) {
         var testURL = "/~admin/public/test123";
 
         asyncTest("Ensure escapedHTML is returned correctly", function(){
@@ -24,6 +23,5 @@ require(
 
         $(window).trigger("addlocalbinding.qunit.sakai");
 
-    });
-
-});
+    }
+);

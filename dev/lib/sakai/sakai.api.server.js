@@ -106,7 +106,7 @@ define(
                     hasIELongUrlBug = true;
                 //}
 
-                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + $.toJSON(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
+                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + JSON.stringify(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
                 if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
                     method = "POST";
                 } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
@@ -127,7 +127,7 @@ define(
                     async: async,
                     data: {
                         "_charset_":"utf-8",
-                        requests: $.toJSON(_requests)
+                        requests: JSON.stringify(_requests)
                     },
                     success: function(data) {
                         if ($.isFunction(_callback)) {
@@ -341,7 +341,7 @@ define(
                 });
             }
             sakaiServerAPI.removeServerCreatedObjects(i_data, ['_']);
-            postData[':content'] = $.toJSON(i_data);
+            postData[':content'] = JSON.stringify(i_data);
             // Send request
             $.ajax({
                 url: i_url,
@@ -380,19 +380,14 @@ define(
                 $.each(newobj, function(key,val) {
                     for (var ns = 0; ns < namespace.length; ns++) {
                         if (key && key.indexOf && key.indexOf(namespace[ns]) === 0) {
-                            var canRemove = true;
-                            for (var i = 0; i < notToRemove.length; i++) {
-                                if (notToRemove[i] === key) {
-                                    canRemove = false;
-                                    break;
-                                }
-                            }
-                            if (canRemove) {
+                            if (notToRemove.indexOf(key) === -1) {
                                 delete newobj[key];
+                                break;
                             }
-                        } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
-                            newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
                         }
+                    }
+                    if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                        newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
                     }
                 });
             } else if ($.isArray(obj)) {

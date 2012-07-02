@@ -7,8 +7,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
     module("Security");
 
     /*
@@ -121,7 +119,7 @@ require(
     });
 
     test("href Attacks", function() {
-        expect(33);
+        expect(34);
 
         var htmlString = "<LINK REL=\"stylesheet\" HREF=\"javascript:alert('XSS');\">";
         htmlString = sakai.api.Security.saneHTML(htmlString);
@@ -181,11 +179,15 @@ require(
 
         htmlString = "<DIV STYLE=\"width: expression(alert('XSS'));\">";
         htmlString = sakai.api.Security.saneHTML(htmlString);
-        equals(htmlString.indexOf("alert"), -1, "Strip javascript hrefs");
+        equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 1');
+
+        htmlString = '<DIV STYLE="width: express/*XSS*/ion(alert(\'XSS\'));">';
+        htmlString = sakai.api.Security.saneHTML(htmlString);
+        equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 2');
 
         htmlString = "<IMG STYLE=\"xss:expr/*XSS*/ession(alert('XSS'))\">";
         htmlString = sakai.api.Security.saneHTML(htmlString);
-        equals(htmlString.indexOf("alert"), -1, "Strip javascript hrefs");
+        equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 3');
 
         htmlString = "<STYLE>@im\\port'\\ja\\vasc\\ript:alert(\"XSS\")';</STYLE>";
         htmlString = sakai.api.Security.saneHTML(htmlString);
@@ -360,7 +362,7 @@ require(
         var html5ElementList = [
             '<A href="http://www.w3.org/" media="media">W3C Web site</A>',
             '<address>This document was written by:<br><a href="mailto:homer@example.com">Homer Simpson</a></address>',
-            '<article><h4>Environmentally Friendly City</h4><p>A <a href="http://www.natural-environment.com/blog/2008/12/14/masdar-city-the-worlds-first-zero-carbon-zero-waste-city/" target="_blank">brand new city</a> is being built in Abu Dhabi in the United Arab Emirates which, when finished, will be the world’s first zero carbon, zero waste city.</p><p>Masdar City, a completely self sustaining city, will be powered by renewable energy and all waste will be recycled or reused.</p></article>',
+            '<article><h4>Environmentally Friendly City</h4><p>A <a href="http://www.natural-environment.com/blog/2008/12/14/masdar-city-the-worlds-first-zero-carbon-zero-waste-city/" target="_blank">brand new city</a> is being built in Abu Dhabi in the United Arab Emirates which, when finished, will be the worldï¿½s first zero carbon, zero waste city.</p><p>Masdar City, a completely self sustaining city, will be powered by renewable energy and all waste will be recycled or reused.</p></article>',
             '<aside style="font-size:larger;font-style:italic;color:green;float:right;width:120px;">70% of the world\'s reefs will be destroyed over the next 40 years.</aside><p>Global warming is affecting coral reefs all over the world. At the current rate, 70% of the world\'s reefs will be destroyed over the next 40 years.</p><p>As hopeless as this may sound, there are things we can do to help. By developing greener habits, we can all do our part in reducing global warming. For example, here are <a href="http://www.natural-environment.com/blog/2008/01/29/5-easy-ways-to-reduce-greenhouse-gas/" target="_blank">5 ways to reduce greenhouse gases</a>.  And here are some simple steps you can take to <a href="http://www.natural-environment.com/sustainable_living/sustainable_habits.php" target="_blank">live sustainably</a>.</p>',
             '<audio src="/music/lostmojo.wav"><p>If you are reading this, it is because your browser does not support the audio element.</p></audio>',
             '<bdo dir="rtl">How to override text direction? I think you already know!</bdo>',
@@ -420,5 +422,4 @@ require(
 
     $(window).trigger("addlocalbinding.qunit.sakai");
 
-    });
 });

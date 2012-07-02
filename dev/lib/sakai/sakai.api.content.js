@@ -366,7 +366,7 @@ define(
                 type: "POST",
                 cache: false,
                 data: {
-                    requests: $.toJSON(data)
+                    requests: JSON.stringify(data)
                 },
                 success: function(data){
                     if (callback) {
@@ -605,7 +605,7 @@ define(
                 type: "POST",
                 cache: false,
                 data: {
-                    requests: $.toJSON(ACLs)
+                    requests: JSON.stringify(ACLs)
                 },
                 success: function(data){
                     if ($.isFunction(callback)) {
@@ -839,13 +839,13 @@ define(
 
             if (_.isString(userId)){
                 userIds.push(userId);
-            } else if (_.isArray(userId)){
+            } else if ($.isArray(userId)){
                 userIds = userId;
             }
 
             if (_.isString(contentId)){
                 contentIds.push(contentId);
-            } else if (_.isArray(contentId)){
+            } else if ($.isArray(contentId)){
                 contentIds = contentId;
             }
 
@@ -1062,7 +1062,7 @@ define(
          * @param mimetype  standard mimetype string (i.e. "image/png", "application/pdf", etc.)
          * @return if we have a match for the given mimetype, an Object with
          *     the following params will be returned:
-         *      - cssClass: css class to assign a small (~16px) sprite image as the background
+         *      - cssClass: css class to assign a small (~16px) image as the background
          *            image for an element
          *      - URL: path to an image (~128px) that represents this content type
          *      - description: internationalizable bundle key for a short description
@@ -1405,7 +1405,7 @@ define(
                         "parameters": {
                             ":name": fullId,
                             "sakai:group-title" : role ? "" : title,
-                            "sakai:roles": role ? "" : $.toJSON(roles),
+                            "sakai:roles": role ? "" : JSON.stringify(roles),
                             "sakai:group-id": fullId,
                             "sakai:category": "collection",
                             "sakai:excludeSearch": true,
@@ -1434,7 +1434,7 @@ define(
                     "sakai:showalways": true,
                     "sakai:showalways@TypeHint": "Boolean",
                     'sakai:schemaversion': sakai_conf.schemaVersion,
-                    "structure0": $.toJSON({
+                    "structure0": JSON.stringify({
                         "main": {
                             "_ref": refID,
                             "_order": 0,
@@ -1718,7 +1718,12 @@ define(
                                 ":member": authorizable,
                                 ":viewer": authorizable
                             }
-                        }); 
+                        });
+                        $.each(sakai_user.data.me.groups, function(index, group) {
+                            if (group && group.counts && group.groupid === authorizable) {
+                                group.counts.contentCount += 1;
+                            }
+                        });
                     });
                 });
                 sakai_serv.batch(permissionBatch, function(success, response){

@@ -45,8 +45,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION //
         ///////////////////
 
-        var qs = new Querystring();
-
         // Elements
         var subnavtl = ".hassubnav_tl";
         var navLinkDropdown = ".s3d-dropdown-container";
@@ -178,11 +176,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /**
+         * Checks if the URL redirect is valid
+         * @param {String} redirectURL The URL to check
+         */
+        var checkValidRedirect = function(redirectURL) {
+            var absoluteUrl = /^(?:ftp|https?):\/\//i;
+            return !absoluteUrl.test(redirectURL);
+        };
+
         var getRedirectURL = function(){
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             // Check whether we require a redirect
-            if (qs.get("url")) {
-                redirectURL = qs.get("url");
+            if ($.deparam.querystring().url) {
+                // Check if the redirect URL is valid
+                if (checkValidRedirect($.deparam.querystring().url)) {
+                    redirectURL = $.deparam.querystring().url;
+                } else {
+                    redirectURL = window.location.pathname;
+                }
             // Go to You when you're on explore page
             } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
@@ -194,15 +206,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return redirectURL;
         };
 
-       /**
+        /**
          * Check if a redirect should be performed
          */
         var checkForRedirect = function() {
             // Check for url param, path and if user is logged in
-            if (qs.get("url") && !sakai.api.User.isAnonymous(sakai.data.me) &&
+            if ($.deparam.querystring().url && checkValidRedirect($.deparam.querystring().url) &&
+                !sakai.api.User.isAnonymous(sakai.data.me) &&
                 (window.location.pathname === "/" || window.location.pathname === "/dev/explore.html" ||
                   window.location.pathname === "/index" || window.location.pathname === "/dev")) {
-                    window.location = qs.get("url");
+                    window.location = $.deparam.querystring().url;
             }
         };
 
@@ -210,7 +223,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Open the login overlay even though the user is not hovering over it and if there is a URL redirect
          */
         var forceShowLoginUrl = function(){
-            if (qs.get("url")) {
+            if ($.deparam.querystring().url) {
                 forceShowLogin();
             }
         };
@@ -769,13 +782,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // hide the menu after an option has been clicked
             $(hasSubnav + " a").live("click", function(){
-                var $parentMenu = $(this).parents(hasSubnav);
-                var $parent = $(this).parent(hasSubnav);
-                if ($parent.length) {
-                    $parentMenu.addClass("topnavigation_close_override");
+                // hide the menu if a menu item was clicked
+                if ($(this).parents('.s3d-dropdown-container').length) {
+                    var $parentMenu = $(this).parents(hasSubnav);
+                    var $parent = $(this).parent(hasSubnav);
+                    if ($parent.length) {
+                        $parentMenu.addClass("topnavigation_close_override");
+                    }
+                    $parentMenu.children(subnavtl).hide();
+                    $parentMenu.children(navLinkDropdown).hide();
                 }
-                $parentMenu.children(subnavtl).hide();
-                $parentMenu.children(navLinkDropdown).hide();
             });
 
             // Make sure that the results only disappear when you click outside
@@ -910,7 +926,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(topnavUserOptionsLoginFields).removeClass(topnavigationForceSubmenuDisplay);
                     $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
                 }
-                closeMenu();
+                // hide the login menu if it is open
+                if ($(topnavUserOptionsLoginFields).is(':visible')) {
+                    closeMenu();
+                }
             });
 
             $(topnavUserLoginButton).bind("focus",function(){

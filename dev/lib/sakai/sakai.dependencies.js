@@ -97,7 +97,7 @@ require(
         paths: {
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
-            "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
+            "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
             "underscore": "misc/underscore",
             "config": "../configuration"
         },
@@ -115,36 +115,29 @@ require(
         "underscore",
         "jquery-ui",
         "jquery-plugins/jquery.validate",
-        "jquery-plugins/jquery.autoSuggest",
+        "jquery-plugins/jquery.autoSuggest.sakai-edited",
         "misc/l10n/globalize",
-        "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
-        "misc/querystring",
         "jquery-plugins/jquery.equal-height-columns",
         "jquery-plugins/jquery.contentchange.sakai-edited",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",
-        "jquery-plugins/jquery.cookie",
         "jquery-plugins/jquery.ba-bbq",
         "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
         "jquery-plugins/jquery.fileupload",
         "jquery-plugins/jquery.MultiFile.sakai-edited",
-        "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
         "jquery-plugins/jquery.jeditable.sakai-edited",
-        "jquery-plugins/jquery.tagcloud",
         "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {
-        require(['misc/domReady!'], function(doc) {
-            sakai.api.User.loadMeData(function(success, data) {
-                sakai.api.Util.startup(data);
-                // Start i18n
-                sakai.api.i18n.init(data);
-            });
+        sakai.api.User.loadMeData(function(success, data) {
+            sakai.api.Util.startup(data);
+            // Start i18n
+            sakai.api.i18n.init(data);
         });
         return sakai;
     }

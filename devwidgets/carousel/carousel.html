@@ -8,7 +8,7 @@
 <div id="carousel_container_bl"><div id="carousel_container_br"></div></div>
 
 <div id="carousel_single_column_template" style="display:none;"><!--
-    <h1>__MSG__SUGGESTED__:</h1>
+    <h2>__MSG__SUGGESTED__:</h2>
     {macro tags(t)}
         {if t && t.length}
             <ul class="carousel_content_tags s3d-taglist">
@@ -50,11 +50,11 @@
                                             <img class="carousel_item_preview_img carousel_item_large_mimetype" src="${content0.mimeTypeURL}" alt="__MSG__CONTENT_PREVIEW__"/>
                                         {/if}
                                      </a>
-                                    <h2>
+                                    <h3>
                                         <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.link}">
                                             ${content0["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
-                                    </h2>
+                                    </h3>
                                     ${contentButtons(content0.id, content0["sakai:pool-content-created-for"],content0["sakai:pooled-content-file-name"],content0.mimeType,canShare)}
                                 </div>
                             {/if}
@@ -69,11 +69,11 @@
                                             <img class="carousel_item_preview_img carousel_item_medium_mimetype" src="${content1.mimeTypeURL}" alt="__MSG__CONTENT_PREVIEW__"/>
                                         {/if}
                                     </a>
-                                    <h2>
+                                    <h3>
                                         <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.link}">
                                             ${content1["sakai:pooled-content-file-name"]|safeOutput}
                                         </a>
-                                    </h2>
+                                    </h3>
                                     ${contentButtons(content1.id, content1["sakai:pool-content-created-for"],content1["sakai:pooled-content-file-name"],content1.mimeType,canShare)}
                                 </div>
                             {/if}
@@ -82,11 +82,11 @@
                                 {if content2}
                                     {var canShare = sakai.api.Content.canCurrentUserShareContent(content2)}
                                     <div class="carousel_two_high_top s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${content2.id}" {if sakai.api.Content.Collections.isCollection(content2)} data-collection="true" {/if}>
-                                        <h2>
+                                        <h3>
                                             <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.link}">
                                                 ${content2["sakai:pooled-content-file-name"]|safeOutput}
                                             </a>
-                                        </h2>
+                                        </h3>
                                         ${contentButtons(content2.id, content2["sakai:pool-content-created-for"],content2["sakai:pooled-content-file-name"],content2.mimeType,canShare)}
                                     {/if}
                                 </div>
@@ -94,11 +94,11 @@
                                 {if content3}
                                     {var canShare = sakai.api.Content.canCurrentUserShareContent(content3)}
                                     <div class="carousel_two_high_bottom s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${content3.id}" {if sakai.api.Content.Collections.isCollection(content3)} data-collection="true" {/if}>
-                                            <h2>
+                                            <h3>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.link}">
                                                     ${content3["sakai:pooled-content-file-name"]|safeOutput}
                                                 </a>
-                                            </h2>
+                                            </h3>
                                             ${contentButtons(content3.id, content3["sakai:pool-content-created-for"],content3["sakai:pooled-content-file-name"],content3.mimeType,canShare)}
                                     </div>
                                 {/if}
@@ -113,17 +113,17 @@
                                     {else}
                                         <img src="/dev/images/default_User_icon_50x50.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
                                     {/if}
-                                    <h2><a href="/~${user.userid|safeURL}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName|safeOutput}</a></h2>
+                                    <h3><a href="/~${user.userid|safeURL}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName|safeOutput}</a></h3>
                                     <div class="carousel_counts">
                                         <ul>
                                             <li>
                                                 <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=library"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
                                             </li>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.contactsCount} __MSG__CONTACTS__</a>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.contactsCount} __MSG__CONTACTS_LC__</a>
                                             </li>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.membershipsCount} __MSG__MEMBERSHIPS_LC__</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -148,11 +148,11 @@
                                     {else}
                                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${group.title|safeOutput}"/>
                                     {/if}
-                                    <h2>
+                                    <h3>
                                         <a href="/~${group.groupid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">
                                             ${group.title|safeOutput}
                                         </a>
-                                    </h2>
+                                    </h3>
                                     {if tall}
                                         <p class="carousel_item_desc carousel_apply_threedots threedots_allow_3">
                                             ${group.description|safeOutput}

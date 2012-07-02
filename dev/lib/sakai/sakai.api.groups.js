@@ -185,7 +185,7 @@ define(
 
             $.ajax({
                 url: sakai_conf.URL.WORLD_CREATION_SERVICE,
-                data: {data: $.toJSON(data)},
+                data: {data: JSON.stringify(data)},
                 type: "POST",
                 success: function(_data, textStatus){
                     var success = true;

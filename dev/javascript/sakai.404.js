@@ -84,12 +84,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 renderedTemplate = sakai.api.Util.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
                 $(pageNotFoundError).append(renderedTemplate);
                 // Set the link for the sign in button
-                var querystring = new Querystring();
                 var redurl = window.location.pathname + window.location.hash;
                 // Parameter that indicates which page to redirect to. This should be present when
                 // the static 403.html and 404.html page are loaded
-                if (querystring.contains("redurl")){
-                    redurl = querystring.get("redurl");
+                if ($.deparam.querystring().url){
+                    redurl = $.deparam.querystring().url;
                 }
                 $(".login-container button").bind("click", function(){
                     document.location = (gatewayURL + "?url=" + escape(redurl));

@@ -47,8 +47,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
             // CSS IDs
             var dialogBoxContainer = "#sendmessage_dialog_box";
-            var dialogFooterContainer = "#sendmessage_dialog_footer";
-            var dialogFooterInner = "dialog_footer_inner";
 
             var messageDialogContainer = '.message_dialog';
             var messageForm = "#message_form";
@@ -128,7 +126,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $(dialogHeaderClass, $sendmessage_container).show();
                 $sendmessage_container.addClass(dialogContainerClass);
                 $(dialogBoxContainer).addClass(dialogBoxClass);
-                $(".sendmessage_dialog_footer_inner").addClass(dialogFooterInner);
                 $(messageDialogContainer).addClass(dialogClass.replace(/\./,''));
                 $(messageDialogContainer).show();
                 $(sendmessage_to).show();
@@ -190,7 +187,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                             "name": toUser.username,
                             "value": toUser.uuid
                         });
-                    } else if (_.isArray(toUser)) {
+                    } else if ($.isArray(toUser)) {
                         $.each(toUser, function(i,usr) {
                             preFill.push({
                                 "name": usr.username,
@@ -242,7 +239,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 // Make sure that everything is standard.
                 resetView();
                 // The user we are sending a message to.
-                if (userObj && (($.isPlainObject(userObj) && userObj.username) || _.isArray(userObj))) {
+                if (userObj && (($.isPlainObject(userObj) && userObj.username) || $.isArray(userObj))) {
                     toUser = userObj;
                 } else {
                     toUser = false;

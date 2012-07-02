@@ -310,7 +310,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                 toCreate[refID] = docStructure[i];
             }
 
-            parameters['structure0'] = $.toJSON(structure0);
+            parameters['structure0'] = JSON.stringify(structure0);
             $.ajax({
                 url: '/system/pool/createfile',
                 type:'POST',
@@ -336,7 +336,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                             method: 'POST',
                             parameters: {
                                 'sling:resourceType': 'sakai/pagecontent',
-                                'sakai:pagecontent': $.toJSON(toCreate[obj._ref]),
+                                'sakai:pagecontent': JSON.stringify(toCreate[obj._ref]),
                                 '_charset_': 'utf-8'
                             }
                         });
@@ -496,15 +496,15 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                         "_title": docTitle,
                         "_order": _.size(pubdata.structure0),
                         "_pid": poolId,
-                        "_view": $.toJSON(newView),
-                        "_edit": $.toJSON(newEdit),
+                        "_view": JSON.stringify(newView),
+                        "_edit": JSON.stringify(newEdit),
                         "_nonEditable": nonEditable
                     };
 
                     // Store view and edit roles
                     sakai_global.group.pubdata.structure0 = pubdata.structure0;
                     sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
-                        "structure0": $.toJSON(pubdata.structure0)
+                        "structure0": JSON.stringify(pubdata.structure0)
                     }, function(){
                         callback(poolId, urlName);
                     });

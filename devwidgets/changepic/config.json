@@ -1,11 +1,12 @@
 {
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/changepic/bundles/default.properties",
-            "name":"Change profile picture",
-            "description":"Change profile picture"
+            "description": "Change profile picture",
+            "name": "Change profile picture"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/changepic/bundles/es_ES.properties"
         },
         "en_US": {
@@ -18,8 +19,7 @@
             "bundle": "/devwidgets/changepic/bundles/zh_CN.properties"
         }
     },
-    "id":"changepic",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/changepic/changepic.html"
+    "id": "changepic",
+    "type": "core",
+    "url": "/devwidgets/changepic/changepic.html"
 }
