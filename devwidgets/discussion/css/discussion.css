@@ -75,16 +75,17 @@
     white-space: pre-line;
 }
 .discussion_hide_replies_icon, .discussion_show_replies_icon {
+    background: no-repeat transparent;
     height: 9px;
     width: 9px;
-    margin: 4px 4px 0 0;
+    margin: 2px 4px 0 0;
     float: left;
 }
 .discussion_show_replies_icon {
-    background: url("/dev/images/icons_sprite.png") no-repeat scroll -24px -21px transparent;
+    background-image: url('/devwidgets/discussion/images/discussion_plus_icon.png');
 }
 .discussion_hide_replies_icon {
-    background: url("/dev/images/icons_sprite.png") no-repeat scroll -745px -21px transparent;
+    background-image: url('/devwidgets/discussion/images/discussion_minus_icon.png');
 }
 .discussion_entity_container {
     margin-bottom: 10px;
@@ -172,16 +173,6 @@
 
 
 /* Tabs */
-#discussion_tab_content_top {
-    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1567px transparent;
-    margin: 0;
-    padding: 0 5px 0 0;
-}
-#discussion_tab_content_top_inner {
-    background: url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1393px transparent;
-    height: 6px;
-    margin: 0;
-}
 #discussion_tab_content {
     padding: 0px 5px 10px;
 }
