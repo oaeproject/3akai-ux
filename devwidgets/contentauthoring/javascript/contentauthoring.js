@@ -1686,12 +1686,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         ////////////////////
         ////////////////////
 
+        // Send out an event to let other widgets know that the ca widget is ready to receive data
+        $(window).trigger('ready.contentauthoring.sakai');
+
         // Load the widgets inside of the content authoring widget (inserterbar, etc.)
         sakai.api.Widgets.widgetLoader.insertWidgets('s3d-page-main-content');
-
-        // Notify the lefthand navigation widget that this widget has been fully loaded,
-        // so it can send over its first page to load
-        $(window).trigger('ready.contentauthoring.sakai');
 
 
 
