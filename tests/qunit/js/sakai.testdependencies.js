@@ -94,7 +94,6 @@ require(
         "config/config",
         "config/config_custom",
         "jquery-ui",
-        "jquery-plugins/jquery.validate",
         "misc/l10n/globalize",
         "misc/underscore",
         "misc/google/html-sanitizer",
