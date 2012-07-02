@@ -19,7 +19,6 @@
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
 /*global Config, $ */
 
