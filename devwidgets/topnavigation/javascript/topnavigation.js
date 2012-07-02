@@ -602,7 +602,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             var validateOpts = {
-                submitHandler: function(form){
+                submitHandler: function(form) {
                     doLogin();
                 },
                 'methods': {

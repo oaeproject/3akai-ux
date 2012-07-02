@@ -435,7 +435,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 'methods': {
                     'newpw': {
-                        'method': function(value, element){
+                        'method': function(value, element) {
                             return this.optional(element) || (value !== $('#curr_pass').val());
                         },
                         'text': $(errorPassSame).html()

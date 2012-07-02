@@ -2458,7 +2458,7 @@ define(
             validate: function($form, opts, insertAfterLabel) {
 
                 // Load the plug-in when necessary
-                require(['jquery-plugins/jquery.validate'], function(){
+                require(['jquery-plugins/jquery.validate'], function() {
                     var options = {
                         onclick: false,
                         onkeyup: false,
@@ -2480,13 +2480,13 @@ define(
 
                     // We need to handle success and invalid in the framework first
                     // then we can pass it to the caller
-                    var successCallback = false,
-                        invalidCallback = false;
+                    var successCallback = false;
+                    var invalidCallback = false;
 
                     if (opts) {
                         if (opts.hasOwnProperty('success') && $.isFunction(opts.success)) {
                             successCallback = opts.success;
-                            delete opts.succss;
+                            delete opts.success;
                         }
 
                         if (opts && opts.hasOwnProperty('invalidCallback') && $.isFunction(opts.invalidCallback)) {
@@ -2498,7 +2498,7 @@ define(
                     // Don't allow spaces in the field
                     $.validator.addMethod('nospaces', function(value, element) {
                         return this.optional(element) || (value.indexOf(' ') === -1);
-                    }, '* No spaces are allowed');
+                    }, require('sakai/sakai.api.i18n').getValueForKey('NO_SPACES_ARE_ALLOWED'));
 
                     // Appends http:// or ftp:// or https:// when necessary
                     $.validator.addMethod('appendhttp', function(value, element) {
