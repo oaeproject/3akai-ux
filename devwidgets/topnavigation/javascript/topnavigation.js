@@ -786,13 +786,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // hide the menu after an option has been clicked
             $(hasSubnav + " a").live("click", function(){
-                var $parentMenu = $(this).parents(hasSubnav);
-                var $parent = $(this).parent(hasSubnav);
-                if ($parent.length) {
-                    $parentMenu.addClass("topnavigation_close_override");
+                // hide the menu if a menu item was clicked
+                if ($(this).parents('.s3d-dropdown-container').length) {
+                    var $parentMenu = $(this).parents(hasSubnav);
+                    var $parent = $(this).parent(hasSubnav);
+                    if ($parent.length) {
+                        $parentMenu.addClass("topnavigation_close_override");
+                    }
+                    $parentMenu.children(subnavtl).hide();
+                    $parentMenu.children(navLinkDropdown).hide();
                 }
-                $parentMenu.children(subnavtl).hide();
-                $parentMenu.children(navLinkDropdown).hide();
             });
 
             // Make sure that the results only disappear when you click outside
@@ -922,7 +925,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(topnavUserOptionsLoginFields).removeClass(topnavigationForceSubmenuDisplay);
                     $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
                 }
-                closeMenu();
+                // hide the login menu if it is open
+                if ($(topnavUserOptionsLoginFields).is(':visible')) {
+                    closeMenu();
+                }
             });
 
             $(topnavUserLoginButton).bind("focus",function(){

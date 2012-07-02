@@ -47,8 +47,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
             // CSS IDs
             var dialogBoxContainer = "#sendmessage_dialog_box";
-            var dialogFooterContainer = "#sendmessage_dialog_footer";
-            var dialogFooterInner = "dialog_footer_inner";
 
             var messageDialogContainer = '.message_dialog';
             var messageForm = "#message_form";
@@ -128,7 +126,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 $(dialogHeaderClass, $sendmessage_container).show();
                 $sendmessage_container.addClass(dialogContainerClass);
                 $(dialogBoxContainer).addClass(dialogBoxClass);
-                $(".sendmessage_dialog_footer_inner").addClass(dialogFooterInner);
                 $(messageDialogContainer).addClass(dialogClass.replace(/\./,''));
                 $(messageDialogContainer).show();
                 $(sendmessage_to).show();
