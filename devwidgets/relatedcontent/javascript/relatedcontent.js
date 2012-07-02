@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "relatedContent": data
                 };
                 renderTemplate(json);
-                if (!moreResults){
+                if (!moreResults) {
                     $(relatedcontentShowMore).hide();
                     $('#relatedcontent_footer').addClass('relatedcontent_footer_norelated');
                 } else {
