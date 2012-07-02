@@ -2148,6 +2148,27 @@ define(
             return entity;
         },
 
+        /**
+         * This function checks if the name is already listed in nameArray, and if so,
+         * stores the array position for processing to include the user/group ID.
+         * @param {Integer} i Array position of name to check
+         * @param {String} name Name to check for duplicate
+         * @param {Array} nameArray Array containing the possible duplicate names
+         * @param {Integer} arrayPositionOffset Array offset position
+         * @param {Array} duplicateNamePositions Array containing the positions of duplicate names
+         * @return {Array} The updated array containing the positions of duplicate names
+         */
+        getDuplicateArrayPositions : function(i, name, nameArray, arrayPositionOffset, duplicateNamePositions) {
+            var idxToUpdate = $.inArray(name.toLowerCase(), nameArray);
+            if (idxToUpdate !== -1) {
+                if ($.inArray(idxToUpdate, duplicateNamePositions) === -1) {
+                    duplicateNamePositions.push(idxToUpdate);
+                }
+                duplicateNamePositions.push(i - arrayPositionOffset);
+            }
+            return duplicateNamePositions;
+        },
+
         AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new
@@ -2166,6 +2187,13 @@ define(
                 var sakaii18nAPI = require("sakai/sakai.api.i18n");
                 var user = require("sakai/sakai.api.user");
                 var dataFn = _dataFn || function( query, add ) {
+                    var name = '';
+                    var nameArray = [];
+                    var duplicateNamePositions = [];
+                    // This value is used to increment the array position in the case when a
+                    // group or user is filtered and not added to the "suggestions" array.
+                    var arrayPositionOffset = 0;
+
                     var q = sakai_serv.createSearchString(query);
                     var searchoptions = {"page": 0, "items": 15};
                     var searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS;
@@ -2180,22 +2208,40 @@ define(
                             $.each( data.results, function( i ) {
                                 if ( data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid ) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["rep:userId"], options.filterUsersGroups ) ===-1 ) {
+                                        name = user.getDisplayName(data.results[i]);
                                         suggestions.push({
                                             "value": data.results[i]["rep:userId"],
-                                            "name": user.getDisplayName(data.results[i]),
+                                            "name": name,
                                             "picture": sakai_util.constructProfilePicture(data.results[i], "user"),
                                             "type": "user"
                                         });
+                                        duplicateNamePositions = sakai_util.getDuplicateArrayPositions(i, name, nameArray, arrayPositionOffset, duplicateNamePositions);
+                                        nameArray.push(name.toLowerCase());
+                                    } else {
+                                        arrayPositionOffset++;
                                     }
                                 } else if (data.results[i]["sakai:group-id"]) {
                                     if ( !options.filterUsersGroups || $.inArray( data.results[i]["sakai:group-id"], options.filterUsersGroups ) ===-1 ) {
+                                        name = sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]);
                                         suggestions.push({
                                             "value": data.results[i]["sakai:group-id"],
-                                            "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]),
+                                            "name": name,
                                             "picture": sakai_util.constructProfilePicture(data.results[i], "group"),
                                             "type": "group"
                                         });
+                                        duplicateNamePositions = sakai_util.getDuplicateArrayPositions(i, name, nameArray, arrayPositionOffset, duplicateNamePositions);
+                                        nameArray.push(name.toLowerCase());
+                                    } else {
+                                        arrayPositionOffset++;
                                     }
+                                } else {
+                                    arrayPositionOffset++;
+                                }
+                            });
+                            // add the id to the name for users/groups with duplicate names
+                            $.each(duplicateNamePositions, function(idx, position) {
+                                if (suggestions[position]) {
+                                    suggestions[position].name += ' (' + suggestions[position].value + ')';
                                 }
                             });
                             add( suggestions, query );
