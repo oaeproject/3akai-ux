@@ -211,7 +211,7 @@ define(
              *  true  : render the settings mode of the widget
              *  false : render the view mode of the widget
              */
-            insertWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback){
+            insertWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback) {
                 var obj = this.loadWidgets(id, showSettings, context, widgetData, widgetDataPassthrough, callback);
                 this.loaded.push(obj);
             },
@@ -224,7 +224,7 @@ define(
              *  false : render the view mode of the widget
              * @param {String} context The context of the widget (e.g. siteid)
              */
-            loadWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback){
+            loadWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback) {
                 // Configuration variables
                 var widgetNameSpace = "sakai_global";
                 var widgetSelector = ".widget_inline";
@@ -907,11 +907,15 @@ define(
          * Add the widgets that need to be present at all time on all pages
          */
         insertOnLoadWidgets: function() {
+            var onloadWidgets = '';
             $.each(sakai.widgets, function(widgetid, widget) {
                 if (widget.trigger && widget.trigger.onLoad) {
-                    $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
+                    onloadWidgets += '<div id="widget_' + widgetid + '" class="widget_inline"></div>';
                 }
             });
+            if (onloadWidgets) {
+                $('body').prepend(onloadWidgets);
+            }
         },
 
         /**
@@ -952,6 +956,9 @@ define(
 
                     // Check whether this needs to bind to an event
                     $.each(widget.trigger.events, function(index, eventid) {
+                        // a, b, c, ..., i, j is a list of possible parameters that can be passed
+                        // in when the event is called. As we have no idea how many will come through,
+                        // we generically catch them and pass them back on when we re-call the event
                         $(document).on(eventid, function(ev, a, b, c, d, e, f, g, h, i, j) {
                             lazyLoadWidget(function() {
                                 $(document).trigger(eventid, [a, b, c, d, e, f, g, h, i, j]);

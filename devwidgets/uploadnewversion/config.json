@@ -12,7 +12,6 @@
     "personalportal": false,
     "trigger": {
         "events": ["init.uploadnewversion.sakai"],
-        "selectors": [],
         "onLoad": false
     },
     "type": "sakai",

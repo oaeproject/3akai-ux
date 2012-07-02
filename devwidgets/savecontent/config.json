@@ -13,7 +13,6 @@
     },
     "id": "savecontent",
     "trigger": {
-        "events": [],
         "selectors": [".savecontent_trigger"],
         "onLoad": false
     },

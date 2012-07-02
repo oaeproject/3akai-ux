@@ -12,7 +12,6 @@
     "personalportal": false,
     "trigger": {
         "events": ["init.joinrequestbuttons.sakai"],
-        "selectors": [],
         "onLoad": false
     },
     "type": "core",

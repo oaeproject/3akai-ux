@@ -13,7 +13,6 @@
     "id": "joingroup",
     "personalportal": false,
     "trigger": {
-        "events": [],
         "selectors": [".sakai_joingroup_overlay"],
         "onLoad": false
     },

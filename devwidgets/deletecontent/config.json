@@ -13,7 +13,6 @@
     "id": "deletecontent",
     "trigger": {
         "events": ['init.deletecontent.sakai'],
-        "selectors": [],
         "onLoad": false
     },
     "type": "core",

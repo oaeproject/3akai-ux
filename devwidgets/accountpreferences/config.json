@@ -12,7 +12,6 @@
     },
     "id": "accountpreferences",
     "trigger": {
-        "events": [],
         "selectors": [".accountpreferences_trigger"],
         "onLoad": false
     },

@@ -10,7 +10,6 @@
     },
     "id": "addpeoplegroups",
     "trigger": {
-        "events": [],
         "selectors": [".addpeoplegroups_trigger"],
         "onLoad": false
     },

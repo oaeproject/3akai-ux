@@ -18,7 +18,6 @@
     },
     "id": "newsharecontent",
     "trigger": {
-        "events": [],
         "selectors": [".share_trigger_click"],
         "onLoad": false
     },

@@ -18,7 +18,6 @@
     },
     "id": "changepic",
     "trigger": {
-        "events": [],
         "selectors": ["#changepic_container_trigger"],
         "onLoad": false
     },
