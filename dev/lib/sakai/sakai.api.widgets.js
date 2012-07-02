@@ -415,7 +415,7 @@ define(
                                     for (var ii = 0, jj = requestedBundlesResults.length; ii < jj; ii++) {
                                         if (widgetName === requestedBundlesResults[ii].url.split("/")[2]) {
                                             hasBundles = true;
-                                            if (requestedBundlesResults[ii].url.split("/")[4].split(".")[0] === "default") {
+                                            if (requestedBundlesResults[ii].url === sakai.widgets[widgetName].i18n['default'].bundle) {
                                                 sakai_i18n.data.widgets[widgetName] = sakai_i18n.data.widgets[widgetName] || {};
                                                 sakai_i18n.data.widgets[widgetName]["default"] = sakai_i18n.changeToJSON(requestedBundlesResults[ii].body);
                                             } else {
@@ -514,7 +514,7 @@ define(
                                     }
                                 }
                             }
-                        }, false);
+                        });
                     }
                 };
 

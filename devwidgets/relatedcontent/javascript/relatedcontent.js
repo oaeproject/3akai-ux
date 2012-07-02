@@ -113,15 +113,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Fetches the related content
          */
-        var getRelatedContent = function(checkMoreRelated){
+        var getRelatedContent = function() {
             var managersList = "";
             var viewersList = "";
             var ajaxSuccess = function(data) {
-                var moreResults = false;
+                var itemsDisplayed = data.items * (page + 1);
+                var moreResults = itemsDisplayed < data.total;
                 $.each(data.results, function(index, item){
-                    if(checkMoreRelated){
-                        moreResults = true;
-                    }
                     data.results[index].commentcount = sakai.api.Content.getCommentCount(item);
                     var mimeType = sakai.api.Content.getMimeType(data.results[index]);
                     var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
@@ -134,22 +132,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "content": contentData,
                     "relatedContent": data
                 };
-                if(!checkMoreRelated){
-                    renderTemplate(json);
+                renderTemplate(json);
+                if (!moreResults) {
+                    $(relatedcontentShowMore).hide();
+                    $('#relatedcontent_footer').addClass('relatedcontent_footer_norelated');
                 } else {
-                    if (!moreResults){
-                        $(relatedcontentShowMore).hide();
-                        $("#relatedcontent_footer").addClass("relatedcontent_footer_norelated");
-                    } else {
-                        $(relatedcontentShowMore).removeAttr('disabled').show();
-                        $("#relatedcontent_footer").removeClass("relatedcontent_footer_norelated");
-                    }
+                    $(relatedcontentShowMore).show();
+                    $('#relatedcontent_footer').removeClass('relatedcontent_footer_norelated');
                 }
             };
             var ajaxError = function() {
-                if(!checkMoreRelated){
-                    renderTemplate({});
-                }
+                renderTemplate({});
             };
 
             for (var i = 0; i < contentData.members.managers.length; i++) {
@@ -164,19 +157,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             var searchterm = contentData.data["sakai:pooled-content-file-name"].substring(0,400) + " " + managersList + " " + viewersList;
             var searchquery = prepSearchTermForURL(searchterm);
-            if (contentData.data["sakai:tags"]){
-                searchquery = searchquery + " OR " + contentData.data["sakai:tags"].join(" OR ");
+            if (contentData.data['sakai:tags'] && contentData.data['sakai:tags'].length) {
+                searchquery = searchquery + ' OR ' + contentData.data['sakai:tags'].join(' OR ');
             }
 
             // get related content for contentData
             // return some search results for now
-            var paging = page;
-            if(checkMoreRelated){
-                paging++;
-            }
             var params = {
-                "items": numberofitems,
-                "page": paging
+                'items': numberofitems,
+                'page': page
             };
             var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.0.json');
             if (searchquery === '*' || searchquery === '**') {
@@ -197,7 +186,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(relatedcontentShowMore).attr('disabled','disabled');
             page++;
             getRelatedContent();
-            getRelatedContent(true);
         };
 
         //////////////
@@ -225,7 +213,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
            addBinding();
            contentData = data;
            getRelatedContent();
-           getRelatedContent(true);
         });
 
         $(relatedcontentContent).live("click", function(){
