@@ -17,8 +17,6 @@
  */
 #uploadnewversion_container.s3d-dialog-container {width:485px;}
 #uploadnewversion_container #uploadnewversion_form_container {
-    width: 452px;
-    height: 80px;
     background: #e3e3e2;
     background: -moz-linear-gradient(top, #eeeeee 0%, #e3e3e2 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e3e3e2));
@@ -27,10 +25,12 @@
     background: -ms-linear-gradient(top, #eeeeee 0%,#e3e3e2 100%);
     background: linear-gradient(top, #eeeeee 0%,#e3e3e2 100%);
     border: 1px solid #e2e2e2;
-    margin-top: 10px;
-    -moz-border-radius: 5px;
     border-radius: 5px;
+    -moz-border-radius: 5px;
+    height: 65px;
+    margin-top: 10px;
     padding: 20px 15px 0;
+    width: 452px;
 }
 #uploadnewversion_container #uploadnewversion_form_container input {margin-top:10px;}
 #uploadnewversion_container #uploadnewversion_actions {float:right;margin-top:15px;}
