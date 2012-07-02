@@ -22,22 +22,18 @@
                     <div id="widget_institutionalskinning" class="widget_inline"></div>
                     <div id="explore_navigation"></div>
                     <div id="explore_navigation_template"><!--
-                        <h1 class="s3d-contentpage-title">
+                        <div class="s3d-contentpage-title">
                             {for crumb in breadcrumb}
                                 {if crumb_index != 0}
                                 <span>&nbsp;/&nbsp;</span>
                                 {/if}
                                 {if crumb.link}
-                                    <a href="{if crumb.url}${crumb.url} {else} #l=${crumb.id}{/if}" class="s3d-bold s3d-regular-links">
-                                {/if}
-    
-                                ${crumb.title}
-    
-                                {if crumb.link}
-                                    </a>
+                                    <a href="{if crumb.url}${crumb.url} {else} #l=${crumb.id}{/if}" class="s3d-bold s3d-regular-links">${crumb.title}</a>
+                                {else}
+                                    <h1 class="s3d-contentpage-title">${crumb.title}</h1>
                                 {/if}
                             {/for}
-                        </h1>
+                        </div>
                 --></div>
                 </div>
             </div>
