@@ -10,7 +10,7 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/recentcontactsnew/bundles/fr_FR.properties",
-            "description": "My recent contacts French",
+            "description": "Mes contacts récents",
             "name": "Mes contacts récents"
         }
     },
