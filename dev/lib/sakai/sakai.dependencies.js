@@ -125,8 +125,6 @@ require(
         "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
-        "jquery-plugins/jquery.fileupload",
-        "jquery-plugins/jquery.MultiFile.sakai-edited",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
         "jquery-plugins/jquery.jeditable.sakai-edited",
