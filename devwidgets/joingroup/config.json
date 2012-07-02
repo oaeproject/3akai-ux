@@ -8,6 +8,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/joingroup/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/joingroup/bundles/fr_FR.properties"
         }
     },
     "id": "joingroup",

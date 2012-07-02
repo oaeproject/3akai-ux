@@ -9,6 +9,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/searchcontent/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/searchcontent/bundles/fr_FR.properties"
         }
     },
     "id": "searchcontent",

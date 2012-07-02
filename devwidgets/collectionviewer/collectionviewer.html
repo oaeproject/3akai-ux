@@ -19,13 +19,14 @@
         </div>
 
         <div id="collectionviewer_sortarea" class="s3d-margin-top-5 fl-force-right">
-            <label for="collectionviewer_sortby">__MSG__SORT_BY__:</label>
+            <label for="collectionviewer_sortby">__MSG__SORT_BY:__</label>
             <select id="collectionviewer_sortby" name="collectionviewer_sortby">
                 <option value="modified">__MSG__RECENTLY_CHANGED__</option>
                 <option value="asc"> __MSG__A_Z__</option>
                 <option value="desc">__MSG__Z_A__</option>
             </select>
         </div>
+        <div class="collectionviewer_clear"></div>
     </div>
     <div id="collectionviewer_carousel_loading" style="display:none;"><img src="/dev/images/ajax-loader-gray.gif" alt="__MSG__LOADING__"></div>
     <div id="collectionviewer_carousel_container" style="display:none;"></div>
@@ -129,7 +130,6 @@
                     </div>
                     {var commentCount = i.numComments || sakai.api.Content.getCommentCount(i)}
                     {if commentCount > 0}
-                        <br/>
                         <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
                         ${commentCount} {if commentCount === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}
                     {/if}
@@ -149,7 +149,7 @@
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
             <div class="s3d-no-results-icon s3d-no-results-content"></div>
-            <h1>__MSG__THIS_COLLECTION_IS_EMPTY__ {if isEditor} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</h1>
+            <p>__MSG__THIS_COLLECTION_IS_EMPTY__ {if isEditor} __MSG__WHY_NOT__ <button type="button" class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_SOME_ITEMS__</button> __MSG__TO_THIS_COLLECTION__{/if}</p>
         </div>
     {/if}
 --></div>
@@ -264,7 +264,13 @@
             </a>
             <div class="s3d-search-result-right">
                 <div class="collectionviewer_entity_header">
-                    <a class="s3d-bold s3d-regular-light-links collectionviewer_item_title" href="/content#p={if data['sakai:pooled-content-file-name']}${data['_path']}/${data['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['sakai:pooled-content-file-name']|safeOutput}"{else}${data['_path']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['_path']}"{/if}>{if data['sakai:pooled-content-file-name']}${data['sakai:pooled-content-file-name']|safeOutput}{elseif data['_path']}${data['_path']}{/if}</a>
+                    <a class="s3d-bold s3d-regular-light-links collectionviewer_item_title" href="/content#p={if data['sakai:pooled-content-file-name']}${data['_path']}/${data['sakai:pooled-content-file-name']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['sakai:pooled-content-file-name']|safeOutput}"{else}${data['_path']|safeURL}&collectionId=${collectionId}&collectionName=${collectionName|safeURL}" title="${data['_path']}"{/if}>
+                        {if data['sakai:pooled-content-file-name']}
+                            ${sakai.api.Util.applyThreeDots(data['sakai:pooled-content-file-name'], titleWidth)}
+                        {elseif data['_path']}
+                            ${sakai.api.Util.applyThreeDots(data['_path'], titleWidth)}
+                        {/if}
+                    </a>
                     {if mimeTypeDescription}
                         <span class="collectionviewer_result_mimetype">${mimeTypeDescription}</span>
                     {/if}

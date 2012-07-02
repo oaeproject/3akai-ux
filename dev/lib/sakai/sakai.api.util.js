@@ -1834,7 +1834,7 @@ define(
                 }
                 document.title = pageTitle;
                 // Show the actual page content
-                $('body').show();
+                $('body').removeClass('i18nable');
                 if ($.isFunction(callback)) {
                     callback();
                 }

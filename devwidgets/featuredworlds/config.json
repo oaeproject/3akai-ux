@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/featuredworlds/bundles/default.properties",
             "description": "Featured worlds widget",
             "name": "Featured worlds widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/featuredworlds/bundles/fr_FR.properties"
         }
     },
     "id": "featuredworlds",

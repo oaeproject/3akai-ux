@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="s3d-margin-top-5 s3d-page-header-sort-area">
-            <label for="participants_sort_by">__MSG__SORT_BY__:</label>
+            <label for="participants_sort_by">__MSG__SORT_BY:__</label>
             <select id="participants_sort_by" name="participants_sort_by">
                 <option value="asc">__MSG__LASTNAME__ __MSG__A_Z__</option>
                 <option value="desc">__MSG__LASTNAME__ __MSG__Z_A__</option>
@@ -95,20 +95,20 @@
                 <span class="participants_list_participant_details">${sakai.api.i18n.getValueForKey(participant.title)}</span>
                 <br/>
                 <a href="/~${participant.id|safeURL}#l=library" class="s3d-regular-light-links participants_list_participant_details">
-                    ${participant.content} {if participant.content === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+                    <span class="s3d-aural-text">${participant.name|safeOutput} __MSG__HAS__ </span>${participant.content} {if participant.content === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                 </a>
                 <span class="participants_list_participant_divider s3d-search-result-detail-separator"><span>|</span></span>
                 {if participant.type === "user"}
                     <a href="/~${participant.id|safeURL}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
-                        ${participant.contacts} {if participant.contacts === 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
+                        <span class="s3d-aural-text">${participant.name|safeOutput} __MSG__HAS__ </span>${participant.contacts} {if participant.contacts === 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                     </a>
                     <span class="participants_list_participant_divider s3d-search-result-detail-separator"><span>|</span></span>
                     <a href="/~${participant.id|safeURL}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
-                        ${participant.memberships} {if participant.memberships === 1} __MSG__MEMBERSHIP_LC__{else} __MSG__MEMBERSHIPS_LC__{/if}
+                        <span class="s3d-aural-text">${participant.name|safeOutput} __MSG__HAS__ </span>${participant.memberships} {if participant.memberships === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                     </a>
                 {else}
                     <a href="/~${participant.id|safeURL}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
-                        ${participant.membersCount} {if participant.membersCount === 1} __MSG__PARTICIPANT_LC__{else} __MSG__PARTICIPANTS_LC__{/if}
+                        <span class="s3d-aural-text">${participant.name|safeOutput} __MSG__HAS__ </span>${participant.membersCount} {if participant.membersCount === 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
                     </a>
                 {/if}
             </div>
