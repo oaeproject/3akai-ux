@@ -557,6 +557,74 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Perform the actual login
+         */
+        var doLogin = function(){
+            $(topnavUserOptionsLoginButtonSigningIn).show();
+            $(topnavUserOptionsLoginButtonCancel).hide();
+            $(topnavuserOptionsLoginButtonLogin).hide();
+            sakai.api.User.login({
+                'username': $(topnavUseroptionsLoginFieldsUsername).val(),
+                'password': $(topnavUseroptionsLoginFieldsPassword).val()
+            }, function(success) {
+                if (success) {
+                    var redirectURL = getRedirectURL();
+                    if (redirectURL === window.location.pathname + window.location.search + window.location.hash) {
+                        window.location.reload(true);
+                    } else {
+                        window.location = redirectURL;
+                    }
+                } else {
+                    $(topnavUserOptionsLoginButtonSigningIn).hide();
+                    $(topnavUserOptionsLoginButtonCancel).show();
+                    $(topnavuserOptionsLoginButtonLogin).show();
+                    $(topnavUseroptionsLoginFieldsPassword).val('');
+                    $(topnavUseroptionsLoginFieldsPassword).focus();
+                    $(topnavUseroptionsLoginFieldsUsername).addClass('failedloginusername');
+                    $(topnavUseroptionsLoginFieldsPassword).addClass('failedloginpassword');
+                    $(topnavUserOptionsLoginForm).valid();
+                    $(topnavUseroptionsLoginFieldsUsername).removeClass('failedloginusername');
+                    $(topnavUseroptionsLoginFieldsPassword).removeClass('failedloginpassword');
+                }
+            });
+        };
+
+        /**
+         * Add the binding for the user login validation
+         */
+        var addUserLoginValidation = function() {
+
+            var $topnavUserOptionsLoginForm = $(topnavUserOptionsLoginForm);
+
+            // We don't need to do this if there isn't a form
+            if ($topnavUserOptionsLoginForm.length === 0) {
+                return;
+            }
+
+            var validateOpts = {
+                submitHandler: function(form){
+                    doLogin();
+                },
+                'methods': {
+                    'failedloginusername': {
+                        'method': function(value, element) {
+                            return false;
+                        },
+                        'text': sakai.api.i18n.getValueForKey('INVALID_USERNAME_OR_PASSWORD')
+                    },
+                    'failedloginpassword': {
+                        'method': function(value, element) {
+                            return false;
+                        },
+                        'text': ''
+                    }
+                }
+            };
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($topnavUserOptionsLoginForm, validateOpts, true);
+        };
+
+        /**
          * Add binding to the elements
          */
         var addBinding = function(){
@@ -862,49 +930,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
-            var doLogin = function(){
-                $(topnavUserOptionsLoginButtonSigningIn).show();
-                $(topnavUserOptionsLoginButtonCancel).hide();
-                $(topnavuserOptionsLoginButtonLogin).hide();
-                sakai.api.User.login({
-                    "username": $(topnavUseroptionsLoginFieldsUsername).val(),
-                    "password": $(topnavUseroptionsLoginFieldsPassword).val()
-                }, function(success){
-                    if (success) {
-                        var redirectURL = getRedirectURL();
-                        if (redirectURL === window.location.pathname + window.location.search + window.location.hash) {
-                            window.location.reload(true);
-                        } else {
-                            window.location = redirectURL;
-                        }
-                    } else {
-                        $(topnavUserOptionsLoginButtonSigningIn).hide();
-                        $(topnavUserOptionsLoginButtonCancel).show();
-                        $(topnavuserOptionsLoginButtonLogin).show();
-                        $(topnavUseroptionsLoginFieldsPassword).val("");
-                        $(topnavUseroptionsLoginFieldsPassword).focus();
-                        $(topnavUseroptionsLoginFieldsUsername).addClass("failedloginusername");
-                        $(topnavUseroptionsLoginFieldsPassword).addClass("failedloginpassword");
-                        $(topnavUserOptionsLoginForm).valid();
-                        $(topnavUseroptionsLoginFieldsUsername).removeClass("failedloginusername");
-                        $(topnavUseroptionsLoginFieldsPassword).removeClass("failedloginpassword");
-                    }
-                });
-            };
-
-            $.validator.addMethod("failedloginusername", function(value, element){
-                return false;
-            }, sakai.api.i18n.getValueForKey("INVALID_USERNAME_OR_PASSWORD"));
-            $.validator.addMethod("failedloginpassword", function(value, element){
-                return false;
-            }, "");
-            var validateOpts = {
-                submitHandler: function(form){
-                    doLogin();
-                }
-            };
-            // Initialize the validate plug-in
-            sakai.api.Util.Forms.validate($(topnavUserOptionsLoginForm), validateOpts, true);
+            $(topnavUserLoginButton).on('hover focus', addUserLoginValidation);
 
             // Make sure that the sign in dropdown does not disappear after it has
             // been clicked
