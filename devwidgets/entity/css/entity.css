@@ -77,7 +77,7 @@
 #entity_container #entity_actions .s3d-button {
     margin-left: 5px;
     color: #666;
-    line-height: 17px;
+    padding-top: 0;
 }
 
 #entity_container #entity_actions.entity_group .s3d-button {
