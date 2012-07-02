@@ -22,7 +22,16 @@
 #assignlocation_jstree_selected_container{width:51%;padding:0;height:320px;}
 #assignlocation_jstree_selected_container ul{margin:0;}
 .assignlocation_secondcolumn_header{position:absolute;left:48%;}
-.assignlocation_close_image{float:right;margin-right:5px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -40px -641px transparent;cursor:pointer;display:block;height:15px;overflow:hidden;width:14px;}
+.assignlocation_close_image {
+    background: url(/devwidgets/assignlocation/images/assignlocation_remove_icon.png) no-repeat transparent;
+    cursor: pointer;
+    display: block;
+    float: right;
+    height: 14px;
+    margin-right: 5px;
+    overflow: hidden;
+    width: 14px;
+}
 .assignlocation_close_link{text-decoration:none!important;}
 .assignlocation_container_area{margin:0!important;position:relative;overflow:hidden;}
 #assignlocation_container .jstree-default .jstree-unchecked a .jstree-checkbox{margin-right:3px;}

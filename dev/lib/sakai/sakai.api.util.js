@@ -47,8 +47,7 @@ define(
             if (meData.user.userid) {
                 setInterval(function() {
                     $.ajax({
-                        url: "/system/me",
-                        cache: false,
+                        url: sakai_conf.URL.ME_SERVICE,
                         success: function(data) {
                             if (!data.user.userid) {
                                 document.location = "/";
@@ -1685,7 +1684,6 @@ define(
                 html4.ATTRIBS["a::role"] = 0;
                 html4.ATTRIBS["ul::aria-hidden"] = 0;
                 html4.ATTRIBS["ul::role"] = 0;
-                html4.ATTRIBS['iframe::src'] = 0;
 
                 /**
                  * Remove expressions from a CSS style (only an issue in IE)
@@ -1710,7 +1708,7 @@ define(
                     if (cssStyle.search(regex) !== -1) {
                         cssStyle = '';
                     }
-                    return cssStyle
+                    return cssStyle;
                 };
 
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
@@ -2164,75 +2162,79 @@ define(
             * @returns {Object} new jQuery object with autosuggest
             */
             setup: function( element, options, callback, _dataFn ) {
-                // Translate the jquery.autosuggest plugin
-                var sakaii18nAPI = require("sakai/sakai.api.i18n");
-                var user = require("sakai/sakai.api.user");
-                var dataFn = _dataFn || function( query, add ) {
-                    var q = sakai_serv.createSearchString(query);
-                    var searchoptions = {"page": 0, "items": 15};
-                    var searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS;
-                    if (q === '*' || q === '**') {
-                        searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS_ALL;
-                    } else {
-                        searchoptions['q'] = q;
-                    }
-                    sakai_serv.loadJSON(searchUrl.replace(".json", ""), function( success, data ){
-                        if ( success ) {
-                            var suggestions = [];
-                            $.each( data.results, function( i ) {
-                                if ( data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid ) {
-                                    if ( !options.filterUsersGroups || $.inArray( data.results[i]["rep:userId"], options.filterUsersGroups ) ===-1 ) {
-                                        suggestions.push({
-                                            "value": data.results[i]["rep:userId"],
-                                            "name": user.getDisplayName(data.results[i]),
-                                            "picture": sakai_util.constructProfilePicture(data.results[i], "user"),
-                                            "type": "user"
-                                        });
-                                    }
-                                } else if (data.results[i]["sakai:group-id"]) {
-                                    if ( !options.filterUsersGroups || $.inArray( data.results[i]["sakai:group-id"], options.filterUsersGroups ) ===-1 ) {
-                                        suggestions.push({
-                                            "value": data.results[i]["sakai:group-id"],
-                                            "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]),
-                                            "picture": sakai_util.constructProfilePicture(data.results[i], "group"),
-                                            "type": "group"
-                                        });
-                                    }
-                                }
-                            });
-                            add( suggestions, query );
+                require(['jquery-plugins/jquery.autoSuggest.sakai-edited', 'sakai/sakai.api.i18n', 'sakai/sakai.api.user'], function(autoSuggest, sakaii18nAPI, user) {
+                    // Translate the jquery.autosuggest plugin
+                    var dataFn = _dataFn || function( query, add ) {
+                        var q = sakai_serv.createSearchString(query);
+                        var searchoptions = {
+                            'page': 0,
+                            'items': 15
+                        };
+                        var searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS;
+                        if (q === '*' || q === '**') {
+                            searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS_ALL;
+                        } else {
+                            searchoptions['q'] = q;
                         }
-                    }, searchoptions);
-                };
+                        sakai_serv.loadJSON(searchUrl.replace('.json', ''), function(success, data) {
+                            if (success) {
+                                var suggestions = [];
+                                $.each(data.results, function(i) {
+                                    if (data.results[i]['rep:userId'] && data.results[i]['rep:userId'] !== user.data.me.user.userid) {
+                                        if (!options.filterUsersGroups || $.inArray(data.results[i]['rep:userId'], options.filterUsersGroups) === -1) {
+                                            suggestions.push({
+                                                'value': data.results[i]['rep:userId'],
+                                                'name': user.getDisplayName(data.results[i]),
+                                                'picture': sakai_util.constructProfilePicture(data.results[i], 'user'),
+                                                'type': 'user'
+                                            });
+                                        }
+                                    } else if (data.results[i]['sakai:group-id']) {
+                                        if (!options.filterUsersGroups || $.inArray(data.results[i]['sakai:group-id'], options.filterUsersGroups) === -1) {
+                                            suggestions.push({
+                                                'value': data.results[i]['sakai:group-id'],
+                                                'name': sakai_util.Security.safeOutput(data.results[i]['sakai:group-title']),
+                                                'picture': sakai_util.constructProfilePicture(data.results[i], 'group'),
+                                                'type': 'group'
+                                            });
+                                        }
+                                    }
+                                });
+                                add(suggestions, query);
+                            }
+                        }, searchoptions);
+                    };
 
-                var defaults = {
-                    selectedItemProp: "name",
-                    searchObjProps: "name",
-                    startText: sakaii18nAPI.getValueForKey("ENTER_NAME_HERE"),
-                    emptyText: sakaii18nAPI.getValueForKey("NO_RESULTS_FOUND"),
-                    limitText: sakaii18nAPI.getValueForKey("NO_MORE_SELECTIONS_ALLOWED"),
-                    scroll: true,
-                    canGenerateNewSelections: false,
-                    usePlaceholder: true,
-                    showResultListWhenNoMatch: true
-                };
+                    var defaults = {
+                        selectedItemProp: 'name',
+                        searchObjProps: 'name',
+                        startText: sakaii18nAPI.getValueForKey('ENTER_NAME_HERE'),
+                        emptyText: sakaii18nAPI.getValueForKey('NO_RESULTS_FOUND'),
+                        limitText: sakaii18nAPI.getValueForKey('NO_MORE_SELECTIONS_ALLOWED'),
+                        scroll: true,
+                        canGenerateNewSelections: false,
+                        usePlaceholder: true,
+                        showResultListWhenNoMatch: true
+                    };
 
-                var opts = $.extend( defaults, options );
-                var namespace = opts.namespace || "api_util_autosuggest";
-                element = ( element instanceof jQuery ) ? element : $( element );
+                    var opts = $.extend(defaults, options);
+                    var namespace = opts.namespace || 'api_util_autosuggest';
+                    element = (element instanceof jQuery) ? element : $(element);
 
-                if ( element.data( namespace ) ) { // already an autosuggest so for now return element, could also call destroy and setup again
+                    // already an autosuggest so for now return element, could also call destroy and setup again
+                    if (element.data(namespace)) {
+                        return element;
+                    }
+
+                    var orig_element = element.clone(true);
+                    element.autoSuggest(dataFn, opts).data(namespace, orig_element);
+
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
+
                     return element;
-                }
-
-                var orig_element = element.clone( true );
-                element.autoSuggest( dataFn, opts ).data( namespace, orig_element );
-
-                if ( $.isFunction( callback ) ) {
-                    callback();
-                }
-
-                return element;
+                });
             },
             /**
             * Resets the autosuggest without destroying/creating. Use this
@@ -2285,122 +2287,123 @@ define(
              * @param {Function} callback Function to call after setup is complete
              */
             setupTagAndCategoryAutosuggest: function( $elt, options, $list_categories_button, initialSelections, callback ) {
-                var sakaii18nAPI = require( "sakai/sakai.api.i18n" );
-                var defaults = {
-                    selectedItemProp: "value",
-                    searchObjProps: "value",
-                    canGenerateNewSelections: true,
-                    scroll: true,
-                    showResultListWhenNoMatch: false,
-                    startText: sakaii18nAPI.getValueForKey( "ENTER_TAGS_OR_CATEGORIES" ),
-                    beforeRetrieve: function( userinput ) {
-                        return $.trim(userinput);
-                    },
-                    processNewSelection: function( userinput ) {
-                        return sakai_util.Security.safeOutput(sakai_util.makeSafeTag(userinput));
-                    }
-                };
+                require(['jquery-plugins/jquery.autoSuggest.sakai-edited', 'sakai/sakai.api.i18n'], function(autoSuggest, sakaii18nAPI) {
+                    var defaults = {
+                        selectedItemProp: 'value',
+                        searchObjProps: 'value',
+                        canGenerateNewSelections: true,
+                        scroll: true,
+                        showResultListWhenNoMatch: false,
+                        startText: sakaii18nAPI.getValueForKey('ENTER_TAGS_OR_CATEGORIES'),
+                        beforeRetrieve: function(userinput) {
+                            return $.trim(userinput);
+                        },
+                        processNewSelection: function(userinput) {
+                            return sakai_util.Security.safeOutput(sakai_util.makeSafeTag(userinput));
+                        }
+                    };
 
-                // Set up the directory structure for autoSuggesting
-                var getTranslatedCategories = function() {
-                    var ret = [];
-                    var directory = sakai_util.getDirectoryStructure();
-                    $.each( directory, function( i, dir ) {
-                        ret.push({
-                            value: dir.data.title,
-                            id: dir.attr.id,
-                            path: dir.attr.id,
-                            parent: true,
-                            category: true
-                        });
-                        $.each( dir.children, function( i, child ) {
+                    // Set up the directory structure for autoSuggesting
+                    var getTranslatedCategories = function() {
+                        var ret = [];
+                        var directory = sakai_util.getDirectoryStructure();
+                        $.each( directory, function(i, dir) {
                             ret.push({
-                                value: dir.data.title + " » " + child.data.title,
-                                path: dir.attr.id + "/" + child.attr.id,
-                                id: child.attr.id,
-                                parent: false,
+                                value: dir.data.title,
+                                id: dir.attr.id,
+                                path: dir.attr.id,
+                                parent: true,
                                 category: true
                             });
+                            $.each( dir.children, function(i, child) {
+                                ret.push({
+                                    value: dir.data.title + ' » ' + child.data.title,
+                                    path: dir.attr.id + '/' + child.attr.id,
+                                    id: child.attr.id,
+                                    parent: false,
+                                    category: true
+                                });
+                            });
                         });
-                    });
-                    return ret;
-                };
+                        return ret;
+                    };
 
-                // Set up the assignlocation widget
-                var setupAssignLocation = function() {
-                    if ( $( "#assignlocation_container" ).length === 0 ) {
-                        $( "<div id='assignlocation_container'>" ).appendTo( "body" );
-                        $( "<div id='widget_assignlocation' class='widget_inline'/>" ).appendTo( "#assignlocation_container" );
-                        require("sakai/sakai.api.widgets").widgetLoader.insertWidgets( "#assignlocation_container", false );
-                    }
-                    $list_categories_button.off( "click" ).on( "click", function( e ) {
-                        var currentlySelected = sakai_util.AutoSuggest.getTagsAndCategories( $elt, false, true ).categories;
-                        $( window ).trigger( "init.assignlocation.sakai", [ currentlySelected, e, function( categories ) {
-                            // add newly selected categories to the autoSuggest
-                            currentlySelected = sakai_util.AutoSuggest.getTagsAndCategories( $elt, false, true ).categories;
-                            var currentCatIDs = [],
-                                catsFromOverlay = [];
-                            // Get the current category IDs
-                            $.each( currentlySelected, function( i, currentCat ) {
-                                currentCatIDs.push( currentCat.id );
-                            });
-                            // Add new items
-                            $.each( categories, function( i, category ) {
-                                if ( $.inArray( category.id, currentCatIDs ) === -1 ) {
-                                    $elt.autoSuggest( "add_selected_item", category );
-                                }
-                                catsFromOverlay.push( category.id );
-                            });
-                            // Remove items removed in the dialog
-                            $.each( currentlySelected, function( i, currentCat ) {
-                                if ( $.inArray( currentCat.id, catsFromOverlay ) === -1 ) {
-                                    var elt = $elt.parents( ".as-selections" ).find( "li[data-value='" + currentCat.value + "']" );
-                                    $elt.autoSuggest( "remove_item", currentCat.value, elt, $( elt ).data( "data" ) );
-                                }
-                            });
-                        }]);
-                    });
-                };
-
-                // Parse the tags and set them up to be displayed in the autosuggest
-                var setInitialSelections = function() {
-                    var directory = sakai_util.getDirectoryStructure();
-                    var preFill = [];
-                    $.each( initialSelections, function ( idx, tag ) {
-                        var tagObj = {};
-                        if ( tag.indexOf( "directory/" ) === 0 ) {
-                            var tagValue = sakai_util.getValueForDirectoryTag( tag );
-                            var directoryItems = tag.split("/");
-                            tagObj = {
-                                value: tagValue,
-                                id: directoryItems[ directoryItems.length - 1 ],
-                                parent: directoryItems.length > 2,
-                                category: true,
-                                path: tag.replace("directory/", "")
-                            };
-                        } else {
-                            tagObj = {
-                                id: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag)),
-                                value: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag))
-                            };
+                    // Set up the assignlocation widget
+                    var setupAssignLocation = function() {
+                        if (!$('#assignlocation_container').length) {
+                            $('<div id="assignlocation_container">').appendTo('body');
+                            $('<div id="widget_assignlocation" class="widget_inline"/>').appendTo('#assignlocation_container');
+                            require('sakai/sakai.api.widgets').widgetLoader.insertWidgets('#assignlocation_container', false );
                         }
-                        preFill.push( tagObj );
-                    });
-                    return preFill;
-                };
+                        $list_categories_button.off('click').on('click', function(e) {
+                            var currentlySelected = sakai_util.AutoSuggest.getTagsAndCategories($elt, false, true).categories;
+                            $(window).trigger('init.assignlocation.sakai', [currentlySelected, e, function(categories) {
+                                // add newly selected categories to the autoSuggest
+                                currentlySelected = sakai_util.AutoSuggest.getTagsAndCategories($elt, false, true).categories;
+                                var currentCatIDs = [];
+                                var catsFromOverlay = [];
+                                // Get the current category IDs
+                                $.each(currentlySelected, function(i, currentCat) {
+                                    currentCatIDs.push(currentCat.id);
+                                });
+                                // Add new items
+                                $.each(categories, function(i, category) {
+                                    if ($.inArray(category.id, currentCatIDs) === -1) {
+                                        $elt.autoSuggest('add_selected_item', category);
+                                    }
+                                    catsFromOverlay.push(category.id);
+                                });
+                                // Remove items removed in the dialog
+                                $.each(currentlySelected, function(i, currentCat) {
+                                    if ($.inArray(currentCat.id, catsFromOverlay) === -1) {
+                                        var elt = $elt.parents('.as-selections').find('li[data-value="' + currentCat.value + '"]');
+                                        $elt.autoSuggest('remove_item', currentCat.value, elt, $(elt).data('data'));
+                                    }
+                                });
+                            }]);
+                        });
+                    };
 
-                if ( initialSelections ) {
-                    defaults.preFill = setInitialSelections();
-                }
+                    // Parse the tags and set them up to be displayed in the autosuggest
+                    var setInitialSelections = function() {
+                        var directory = sakai_util.getDirectoryStructure();
+                        var preFill = [];
+                        $.each(initialSelections, function (idx, tag) {
+                            var tagObj = {};
+                            if (!tag.indexOf('directory/')) {
+                                var tagValue = sakai_util.getValueForDirectoryTag(tag);
+                                var directoryItems = tag.split('/');
+                                tagObj = {
+                                    value: tagValue,
+                                    id: directoryItems[directoryItems.length - 1],
+                                    parent: directoryItems.length > 2,
+                                    category: true,
+                                    path: tag.replace('directory/', '')
+                                };
+                            } else {
+                                tagObj = {
+                                    id: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag)),
+                                    value: sakai_util.Security.safeOutput(sakai_util.makeSafeTag(tag))
+                                };
+                            }
+                            preFill.push(tagObj);
+                        });
+                        return preFill;
+                    };
 
-                $.extend( defaults, options );
+                    if (initialSelections) {
+                        defaults.preFill = setInitialSelections();
+                    }
 
-                var data = getTranslatedCategories();
+                    $.extend(defaults, options);
 
-                sakai_util.AutoSuggest.destroy( $elt );
-                sakai_util.AutoSuggest.setup( $elt, defaults, callback, data );
+                    var data = getTranslatedCategories();
 
-                setupAssignLocation();
+                    sakai_util.AutoSuggest.destroy($elt);
+                    sakai_util.AutoSuggest.setup($elt, defaults, callback, data);
+
+                    setupAssignLocation();
+                });
             },
 
             /**

@@ -89,11 +89,11 @@ if (!(Array.indexOf || [].indexOf)) {
     };
 }
 
+// If you change the RequireJS paths, please check out
+// https://confluence.sakaiproject.org/x/sq_CB
 require(
     {
         baseUrl:"/dev/lib/",
-        //If you change these paths, please check out
-        //https://confluence.sakaiproject.org/x/sq_CB
         paths: {
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
@@ -115,7 +115,6 @@ require(
         "underscore",
         "jquery-ui",
         "jquery-plugins/jquery.validate",
-        "jquery-plugins/jquery.autoSuggest.sakai-edited",
         "misc/l10n/globalize",
         "misc/google/html-sanitizer",
         "jquery-plugins/jquery.equalheights",
@@ -125,8 +124,6 @@ require(
         "jquery-plugins/jquery.ba-bbq",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
-        "jquery-plugins/jquery.fileupload",
-        "jquery-plugins/jquery.MultiFile.sakai-edited",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
         "jquery-plugins/jquery.jeditable.sakai-edited",

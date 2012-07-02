@@ -30,9 +30,3 @@
 
 #selecttemplate_preview_dialog_container img {float:left; padding:1px; border: 1px solid #e7e6e6; margin: 0 0 20px 20px;}
 #selecttemplate_preview_dialog_desc {padding: 20px;float:left;width:192px;position:relative;right:1px;}
-
-/* Override default jqm styles */
-.dialog_content {border-right:none; border-left:none; padding: 0; -moz-border-radius: 5px; border-radius: 5px; margin-bottom: 20px;}
-.dialog_header {background: #f5f5f5; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-top-right-radius: 5px; border-top-left-radius: 5px;}
-.dialog_header_inner {background: none;}
-.dialog_header h1 {color: #aeaaa9; font-weight:normal; font-size:18px;}
