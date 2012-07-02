@@ -13,8 +13,13 @@
     background: 0; /* ie7/8 fix */
 }
 
+.gritter-top, .gritter-bottom, .gritter-item, .gritter-close {
+    background-image: url(/dev/lib/jquery/plugins/gritter/images/gritter.png);
+}
+
 .gritter-top {
-    background: url(../images/gritter.png) no-repeat left -30px;
+    background-position: left -30px;
+    background-repeat: no-repeat;
     height: 10px;
 }
 
@@ -23,18 +28,20 @@
 }
 
 .gritter-bottom {
-    background: url(../images/gritter.png) no-repeat left bottom;
+    background-position: left bottom;
+    background-repeat: no-repeat;
     height: 8px;
     margin: 0;
 }
 
 .hover .gritter-bottom {
-    background-position: bottom right;
+    background-position: right bottom;
 }
 
 .gritter-item {
     display: block;
-    background: url(../images/gritter.png) no-repeat left -40px;
+    background-position: left -40px;
+    background-repeat: no-repeat;
     color: #eee;
     padding: 2px 11px 8px 11px;
     font-size: 13px;
@@ -59,7 +66,8 @@
     position: absolute;
     top: 5px;
     right: 3px;
-    background: url(../images/gritter.png) no-repeat left top;
+    background-position: left top;
+    background-repeat: no-repeat;
     cursor: pointer;
     width: 30px;
     height: 30px;

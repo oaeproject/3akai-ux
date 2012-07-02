@@ -321,7 +321,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                         'sakai:originaltitle': originalTitle,
                         'sakai:tags': tags,
                         'sakai:fileextension': splitOnDot[splitOnDot.length - 1],
-                        'css_class': sakai.config.MimeTypes[sakai.config.Extensions[(originalTitle).slice(originalTitle.lastIndexOf('.') + 1, originalTitle.length).toLowerCase()] || 'other'].cssClass || 'icon-unknown-sprite',
+                        'css_class': sakai.config.MimeTypes[sakai.config.Extensions[(originalTitle).slice(originalTitle.lastIndexOf('.') + 1, originalTitle.length).toLowerCase()] || 'other'].cssClass || 's3d-icon-unknown',
                         'type': 'content',
                         'origin':'user' // 'origin' tells Sakai that this file was selected from the users hard drive
                     };
@@ -344,7 +344,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                         'sakai:tags': tags,
                         'sakai:permissions': sakai.config.Permissions.Links.defaultaccess,
                         'sakai:copyright': sakai.config.Permissions.Copyright.defaults['links'],
-                        'css_class': 'icon-url-sprite',
+                        'css_class': 's3d-icon-url',
                         'type':'link'
                     };
                     addContentToQueue(linkObj);
@@ -363,7 +363,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             'sakai:description': $thisForm.find(newaddcontentAddDocumentDescription).val(),
                             'sakai:tags': tags,
                             'sakai:copyright': sakai.config.Permissions.Copyright.defaults['sakaidocs'],
-                            'css_class': 'icon-sakaidoc-sprite',
+                            'css_class': 's3d-icon-sakaidoc',
                             'type': 'document'
                         };
                         addContentToQueue(documentObj);

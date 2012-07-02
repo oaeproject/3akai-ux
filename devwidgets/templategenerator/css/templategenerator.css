@@ -25,10 +25,6 @@
  * Widget Container CSS
  */
 
-/* widget icon (for widgets that may appear on a dashboard) 
-   icons are usually around 18 x 18 pixels */
-.templategenerator.s3d-widget .s3d-widget-titlebar .widget_title {background:url('/devwidgets/templategenerator/images/templategenerator_icon.png') 17px 18px no-repeat;}
-
 /* Everything below is lifted from newcreategroup.css and should be consolidated somewhere */
 
 /* Message */

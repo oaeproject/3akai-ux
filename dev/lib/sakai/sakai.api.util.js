@@ -50,8 +50,7 @@ define(
             if (meData.user.userid) {
                 setInterval(function() {
                     $.ajax({
-                        url: "/system/me",
-                        cache: false,
+                        url: sakai_conf.URL.ME_SERVICE,
                         success: function(data) {
                             if (!data.user.userid) {
                                 document.location = "/";
@@ -1703,7 +1702,6 @@ define(
                 html4.ATTRIBS["a::role"] = 0;
                 html4.ATTRIBS["ul::aria-hidden"] = 0;
                 html4.ATTRIBS["ul::role"] = 0;
-                html4.ATTRIBS['iframe::src'] = 0;
 
                 /**
                  * Remove expressions from a CSS style (only an issue in IE)
@@ -1728,7 +1726,7 @@ define(
                     if (cssStyle.search(regex) !== -1) {
                         cssStyle = '';
                     }
-                    return cssStyle
+                    return cssStyle;
                 };
 
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
