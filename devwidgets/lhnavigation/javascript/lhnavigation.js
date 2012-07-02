@@ -376,7 +376,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     }
                 }
                 finishProcessData(structure, data, callback);
-            });
+            }, false);
         };
 
         ///////////////////
