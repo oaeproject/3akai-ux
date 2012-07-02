@@ -1062,7 +1062,7 @@ define(
          * @param mimetype  standard mimetype string (i.e. "image/png", "application/pdf", etc.)
          * @return if we have a match for the given mimetype, an Object with
          *     the following params will be returned:
-         *      - cssClass: css class to assign a small (~16px) sprite image as the background
+         *      - cssClass: css class to assign a small (~16px) image as the background
          *            image for an element
          *      - URL: path to an image (~128px) that represents this content type
          *      - description: internationalizable bundle key for a short description

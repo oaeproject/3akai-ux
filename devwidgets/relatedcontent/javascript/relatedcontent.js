@@ -178,7 +178,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "items": numberofitems,
                 "page": paging
             };
-            var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+            var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.0.json');
             if (searchquery === '*' || searchquery === '**') {
                 url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
             } else {
