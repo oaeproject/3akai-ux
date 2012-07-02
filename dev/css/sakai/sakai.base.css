@@ -920,6 +920,7 @@ div .orderable-drop-marker {
 	cursor: pointer;
 	margin-left: -2px;
 }
+#navigation_anon_signup_link:focus,
 .s3d-dropdown-menu:hover {
     background: #3b8ec0;
     background: -moz-linear-gradient(top, #57c9fa 0%, #50bbec 22%, #3b8ec0 69%, #3581b3 89%, #3480b2 100%);
@@ -932,6 +933,9 @@ div .orderable-drop-marker {
 	border-radius: 2px 2px 2px 2px;
 	-webkit-border-radius: 2px 2px 2px 2px;
 	padding: 0px;
+}
+#navigation_anon_signup_link:focus {
+    padding: 7px 25px 10px;
 }
 .s3d-dropdown-menu ul, .s3d-dropdown-menu .s3d-dropdown-menu-content-container {
 	margin: 0;
