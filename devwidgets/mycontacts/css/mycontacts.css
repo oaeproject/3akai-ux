@@ -36,8 +36,6 @@
 .mycontacts_widget .mycontacts_no_contacts {margin-bottom: 10px; text-align: center;}
 .mycontacts_widget .mycontacts_no_contacts_text {display: block;}
 
-/* Widget icon */
-.mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -180px -21px transparent;}
 #mycontacts_requests{padding-left:0;}
 
 .mycontacts_items {color:#333;padding:0;}

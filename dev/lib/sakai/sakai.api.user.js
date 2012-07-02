@@ -431,12 +431,10 @@ define(
          * @return {Void}
          */
         loadMeData : function(callback) {
-            // Get the service url from the config file
-            var data_url = sakai_conf.URL.ME_SERVICE;
             // Start a request to the service
             $.ajax({
-                url: data_url,
-                cache: false,
+                // Get the service url from the config file
+                url: sakai_conf.URL.ME_SERVICE,
                 success: function(data) {
                     sakaiUserAPI.data.me = sakai_serv.convertObjectToArray(data, null, null);
 
