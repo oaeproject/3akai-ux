@@ -907,14 +907,16 @@ define(
          * Add the widgets that need to be present at all time on all pages
          */
         insertOnLoadWidgets: function() {
-            var onloadWidgets = '';
-            $.each(sakai.widgets, function(widgetid, widget) {
-                if (widget.trigger && widget.trigger.onLoad) {
-                    onloadWidgets += '<div id="widget_' + widgetid + '" class="widget_inline"></div>';
+            if (sakai.widgets) {
+                var onloadWidgets = '';
+                $.each(sakai.widgets, function(widgetid, widget) {
+                    if (widget.trigger && widget.trigger.onLoad) {
+                        onloadWidgets += '<div id="widget_' + widgetid + '" class="widget_inline"></div>';
+                    }
+                });
+                if (onloadWidgets) {
+                    $('body').prepend(onloadWidgets);
                 }
-            });
-            if (onloadWidgets) {
-                $('body').prepend(onloadWidgets);
             }
         },
 
@@ -922,61 +924,63 @@ define(
          * This function will register all widgets that require lazy loading
          */
         registerLazyLoading: function() {
-            $.each(sakai.widgets, function(widgetid, widget) {
-                if (widget.trigger && !widget.trigger.onLoad) {
-
-                    // Convert all of the properties to an array
-                    if (widget.trigger.events && widget.trigger.events.length) {
-                        if (!$.isArray(widget.trigger.events)) {
-                            widget.trigger.events = [widget.trigger.events];
+            if (sakai.widgets) {
+                $.each(sakai.widgets, function(widgetid, widget) {
+                    if (widget.trigger && !widget.trigger.onLoad) {
+    
+                        // Convert all of the properties to an array
+                        if (widget.trigger.events && widget.trigger.events.length) {
+                            if (!$.isArray(widget.trigger.events)) {
+                                widget.trigger.events = [widget.trigger.events];
+                            }
                         }
-                    }
-                    widget.trigger.events = widget.trigger.events || [];
-
-                    if (widget.trigger.selectors && widget.trigger.selectors.length) {
-                        if (!$.isArray(widget.trigger.selectors)) {
-                            widget.trigger.selectors = [widget.trigger.selectors];
+                        widget.trigger.events = widget.trigger.events || [];
+    
+                        if (widget.trigger.selectors && widget.trigger.selectors.length) {
+                            if (!$.isArray(widget.trigger.selectors)) {
+                                widget.trigger.selectors = [widget.trigger.selectors];
+                            }
                         }
-                    }
-                    widget.trigger.selectors = widget.trigger.selectors || [];
-
-                    var lazyLoadWidget = function(finishCallBack) {
-                        // Unbind the event
+                        widget.trigger.selectors = widget.trigger.selectors || [];
+    
+                        var lazyLoadWidget = function(finishCallBack) {
+                            // Unbind the event
+                            $.each(widget.trigger.events, function(index, eventid) {
+                                $(document).off(eventid);
+                            });
+                            // Also kill the click events associated to this widget
+                            $.each(widget.trigger.selectors, function(index, selector) {
+                                $(document).off('click', selector);
+                            });
+    
+                            $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
+                            sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, finishCallBack);
+                        }
+    
+                        // Check whether this needs to bind to an event
                         $.each(widget.trigger.events, function(index, eventid) {
-                            $(document).off(eventid);
+                            // a, b, c, ..., i, j is a list of possible parameters that can be passed
+                            // in when the event is called. As we have no idea how many will come through,
+                            // we generically catch them and pass them back on when we re-call the event
+                            $(document).on(eventid, function(ev, a, b, c, d, e, f, g, h, i, j) {
+                                lazyLoadWidget(function() {
+                                    $(document).trigger(eventid, [a, b, c, d, e, f, g, h, i, j]);
+                                });
+                            });
                         });
-                        // Also kill the click events associated to this widget
+    
+                        // Check whether this needs to bind to a selector
                         $.each(widget.trigger.selectors, function(index, selector) {
-                            $(document).off('click', selector);
+                            $(document).on('click', selector, function(event, ui) {
+                                lazyLoadWidget(function() {
+                                    $(event.target).trigger('click', [event, ui]);
+                                });
+                            });
                         });
-
-                        $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
-                        sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, finishCallBack);
+    
                     }
-
-                    // Check whether this needs to bind to an event
-                    $.each(widget.trigger.events, function(index, eventid) {
-                        // a, b, c, ..., i, j is a list of possible parameters that can be passed
-                        // in when the event is called. As we have no idea how many will come through,
-                        // we generically catch them and pass them back on when we re-call the event
-                        $(document).on(eventid, function(ev, a, b, c, d, e, f, g, h, i, j) {
-                            lazyLoadWidget(function() {
-                                $(document).trigger(eventid, [a, b, c, d, e, f, g, h, i, j]);
-                            });
-                        });
-                    });
-
-                    // Check whether this needs to bind to a selector
-                    $.each(widget.trigger.selectors, function(index, selector) {
-                        $(document).on('click', selector, function(event, ui) {
-                            lazyLoadWidget(function() {
-                                $(event.target).trigger('click', [event, ui]);
-                            });
-                        });
-                    });
-
-                }
-            });
+                });
+            }
         },
 
         initialLoad : function() {

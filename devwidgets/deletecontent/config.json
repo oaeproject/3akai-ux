@@ -12,7 +12,7 @@
     },
     "id": "deletecontent",
     "trigger": {
-        "events": ['init.deletecontent.sakai'],
+        "events": ["init.deletecontent.sakai"],
         "onLoad": false
     },
     "type": "core",
