@@ -89,11 +89,11 @@ if (!(Array.indexOf || [].indexOf)) {
     };
 }
 
+// If you change the RequireJS paths, please check out
+// https://confluence.sakaiproject.org/x/sq_CB
 require(
     {
         baseUrl:"/dev/lib/",
-        //If you change these paths, please check out
-        //https://confluence.sakaiproject.org/x/sq_CB
         paths: {
             "jquery-plugins": "jquery/plugins",
             "jquery": "jquery/jquery-1.7.0",
