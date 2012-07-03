@@ -171,7 +171,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
          * Empty upload field by resetting the form
          */
         var resetUploadField = function(){
-            $(picForm).reset();
+            $(picForm)[0].reset();
             hideInputError();
             $(uploadProcessing).hide();
             $(uploadNewButtons).show();

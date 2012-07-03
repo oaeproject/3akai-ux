@@ -95,7 +95,6 @@ require(
         "config/config_custom",
         "jquery-ui",
         "jquery-plugins/jquery.validate",
-        "jquery-plugins/jquery.autoSuggest.sakai-edited",
         "misc/l10n/globalize",
         "misc/underscore",
         "misc/google/html-sanitizer",
@@ -106,8 +105,6 @@ require(
         "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
-        "jquery-plugins/jquery.fileupload",
-        "jquery-plugins/jquery.MultiFile.sakai-edited",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "jquery-plugins/jquery.jcarousel.sakai-edit",
         "qunitjs/qunit"

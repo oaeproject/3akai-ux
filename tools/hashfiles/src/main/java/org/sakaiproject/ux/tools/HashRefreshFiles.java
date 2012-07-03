@@ -1,3 +1,20 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 package org.sakaiproject.ux.tools;
 
 import java.io.BufferedReader;
@@ -8,71 +25,59 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 public class HashRefreshFiles {
   public String configName = "config.properties";
-  public HashMap<String, String> props = new HashMap<String, String>();
+  public Properties props = new Properties();
   public final String BASE_DIR = "basedir";
   public final String HASH_TYPES = "hash_file_types";
   public final String PROCESSING_FILE_TYPES = "need_to_change_file_types";
   public final String IGNORE_FILE_PATHS = "ignore_file_paths";
+  public final String IGNORE_REGEX = "ignore_regex";
   public final String REQUIRE_BASE_URL = "require_base_url";
   public final String REQUIRE_PATHS = "require_paths";
   public final String REQUIRE_DEPENDENCY_FILE = "require_dependency_file";
   public final String MANAGE_FOLDERS = "folder_libs";
+  public final Integer HASH_LENGTH = 7;
   
-  public Set<String> hashFileTypes = new HashSet<String>();
-  public Set<String> ignoreFilePaths = new HashSet<String>();
-  public Set<String> processingFileTypes = new HashSet<String>();
+  public String[] hashFileTypes;
+  public String[] ignoreFilePaths;
+  public String ignoreRegEx;
+  public String[] processingFileTypes;
   public File rootDir;
   public String requireBaseUrl = ".";
   public Map<String, String> requirePaths = new HashMap<String, String>() ;
   public Map<String, String> hashedResults = new HashMap<String, String>();
   public String requireDependencyFile = "";
-  public Set<String> manageFolders = new HashSet<String>();
+  public String[] manageFolders;
   
   public final String charSet = "UTF-8";
-  
-  public void readProperties (String fileName) throws Exception{
+
+  /**
+   * Read in the properties & put them out to the console
+   * @param fileName The location of the properties file
+   */
+  public void readProperties(String fileName) throws Exception {
+    // Read in the properties file & load it into a Properties item
     FileInputStream fis = new FileInputStream(new File(fileName));
     BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-    Properties props = new Properties();
     props.load(reader);
-    Enumeration<?> names = props.propertyNames();
-    if (names != null) {
-      while (names.hasMoreElements()) {
-        String name = (String)names.nextElement();
-        this.props.put(name, props.getProperty(name));
-      }
-    }
+
+    // Print out the properties
     System.out.println("props: ");
-    if (this.props != null && this.props.size() > 0) {
-      for (String s : this.props.keySet()) {
-        System.out.println(s + " " + this.props.get(s));
-      }
-    }
+    props.list(System.out);
     System.out.println("===========================");
+
+    // Close the BufferedReader and the FileInputStream
+    reader.close();
     fis.close();
   }
   
-  private void putString (String data, String split, Set<String> set) {
-    if (data != null && data.length() > 0) {
-      String[] names = data.split(split);
-      if (names != null && names.length > 0 ) {
-        for (String name : names) {
-          set.add(name.trim());
-        }
-      }
-    }
-  }
-  
-  public String getCheckSum (File file) throws Exception {
+  public String getCheckSum(File file) throws Exception {
     InputStream is = new FileInputStream (file);
     byte[] buffer = new byte[2048];
     MessageDigest md = MessageDigest.getInstance("MD5");
@@ -83,7 +88,7 @@ public class HashRefreshFiles {
     }
     is.close();
     BigInteger bi = new BigInteger(1, md.digest());
-    return bi.toString(16);
+    return bi.toString(16).substring(0, HASH_LENGTH);
   }
   /**
    *  return the relative path of path2 file in path1 file
@@ -93,7 +98,7 @@ public class HashRefreshFiles {
    * @param path2
    * @return
    */
-  public String getRelativePath (String path1, String path2) { 
+  public String getRelativePath(String path1, String path2) {
     if (path1 == null || path2 == null)
       return null;
     if (path1.equals(path2))
@@ -120,7 +125,7 @@ public class HashRefreshFiles {
     return result;
   }
   
-  public String hashFolders (File file) throws Exception{
+  public String hashFolders(File file) throws Exception {
     if (file == null || ! file.exists())
       return null;
     if (!file.isDirectory())
@@ -137,13 +142,13 @@ public class HashRefreshFiles {
     MessageDigest md = MessageDigest.getInstance("MD5");
     md.update(sb.toString().getBytes());
     BigInteger bi = new BigInteger(1, md.digest());
-    return bi.toString(16);
+    return bi.toString(HASH_LENGTH).substring(0, HASH_LENGTH);
   }
 
-  public void hashFiles (File file) throws Exception{
+  public void hashFiles(File file) throws Exception {
     if (!file.exists())
       return;
-    if (this.ignoreFilePaths != null && ignoreFilePaths.size() > 0) {
+    if (this.ignoreFilePaths != null && ignoreFilePaths.length > 0) {
       for (String s : ignoreFilePaths) {
         if (file.getAbsolutePath().toLowerCase().endsWith(s.toLowerCase())) {
           System.out.println("ignored file: " + file.getAbsolutePath());
@@ -151,8 +156,14 @@ public class HashRefreshFiles {
         }
       }
     }
+    if (ignoreRegEx != null && !ignoreRegEx.isEmpty()) {
+      if (file.getAbsolutePath().toLowerCase().matches(ignoreRegEx)) {
+        System.out.println("ignored file (regex): " + file.getAbsolutePath());
+        return;
+      }
+    }
     if (file.isDirectory()) {
-      if (this.manageFolders != null && manageFolders.size() > 0) {
+      if (this.manageFolders != null && manageFolders.length > 0) {
         for (String s : manageFolders) {
           if (file.getAbsolutePath().toLowerCase().endsWith(s.toLowerCase())) {
             String oldPath = file.getAbsolutePath();
@@ -178,7 +189,7 @@ public class HashRefreshFiles {
     }
     
     String fileName = file.getName();
-    if (this.hashFileTypes != null && hashFileTypes.size() > 0) {
+    if (this.hashFileTypes != null && hashFileTypes.length > 0) {
       boolean isToHash = false;
       for (String suffix : hashFileTypes) {
         if (fileName.toLowerCase().endsWith(suffix.toLowerCase())){
@@ -205,7 +216,7 @@ public class HashRefreshFiles {
     System.out.println("hashed file: {" + relativePath + ", " + newPath + "}");
   }
   
-  public String readFile (File file) throws Exception{
+  public String readFile(File file) throws Exception {
     if (file == null || !file.exists() || file.isDirectory())
       return null;
     StringBuffer sb = new StringBuffer("");
@@ -220,7 +231,7 @@ public class HashRefreshFiles {
     return sb.toString();
   }
   
-  public void writeToFile (File file, String text) throws Exception {
+  public void writeToFile(File file, String text) throws Exception {
     if (file == null || !file.exists() || file.isDirectory())
       return;
     FileOutputStream fos = new FileOutputStream(file);
@@ -242,7 +253,7 @@ public class HashRefreshFiles {
       }
       return;
     }
-    if (this.processingFileTypes != null && this.processingFileTypes.size() > 0) {
+    if (this.processingFileTypes != null && this.processingFileTypes.length > 0) {
       boolean flag = false;
       for (String s : this.processingFileTypes) {
         if (file.getAbsolutePath().endsWith(s)) {
@@ -303,14 +314,14 @@ public class HashRefreshFiles {
       writeToFile (file, sb.toString());
   }
   
-  public void handleRequireJS () throws Exception{
+  public void handleRequireJS() throws Exception {
     if (this.requireDependencyFile == null || this.requireDependencyFile.trim().length() == 0)
       return;
     if (this.hashedResults.containsKey(requireDependencyFile)) {
       this.requireDependencyFile = this.hashedResults.get(requireDependencyFile);
     }
     
-    this.requireDependencyFile = props.get(BASE_DIR) + this.requireDependencyFile;
+    this.requireDependencyFile = props.getProperty(BASE_DIR) + this.requireDependencyFile;
     
     File dFile = new File (requireDependencyFile);
     if (!dFile.exists())
@@ -381,24 +392,25 @@ public class HashRefreshFiles {
     all = all.replace(oldline, newline);
     writeToFile (dFile, all);
   }
-  
-  public void processData () throws Exception{
+
+  public void processData() throws Exception {
     readProperties(configName);
-    if (props.get(BASE_DIR) == null || props.get(BASE_DIR).trim().length() == 0) {
+    if (props.getProperty(BASE_DIR) == null || props.getProperty(BASE_DIR).trim().length() == 0) {
+      System.out.println("Please provide a valid " + BASE_DIR + " property in the properties file");
       return;
     }
-    
-    putString (props.get(HASH_TYPES), ",", this.hashFileTypes);
-    putString (props.get(PROCESSING_FILE_TYPES), ",", this.processingFileTypes);
-    putString (props.get(IGNORE_FILE_PATHS), ",", this.ignoreFilePaths);
-    putString (props.get(MANAGE_FOLDERS), ",", this.manageFolders);
-    
-    this.requireBaseUrl = props.get(REQUIRE_BASE_URL);
-    this.requireDependencyFile = props.get(REQUIRE_DEPENDENCY_FILE);
+
+    this.hashFileTypes = props.getProperty(HASH_TYPES).split(",");
+    this.processingFileTypes = props.getProperty(PROCESSING_FILE_TYPES).split(",");
+    this.ignoreFilePaths = props.getProperty(IGNORE_FILE_PATHS).split(",");
+    this.ignoreRegEx = props.getProperty(IGNORE_REGEX);
+    this.manageFolders = props.getProperty(MANAGE_FOLDERS).split(",");
+
+    this.requireBaseUrl = props.getProperty(REQUIRE_BASE_URL);
+    this.requireDependencyFile = props.getProperty(REQUIRE_DEPENDENCY_FILE);
     if (this.requireBaseUrl != null && this.requireDependencyFile != null) {
-      Set<String> pathKeys = new HashSet<String>();
-      putString (props.get(REQUIRE_PATHS), ",", pathKeys);
-      if (pathKeys != null && pathKeys.size() > 0) {
+      String[] pathKeys = props.getProperty(REQUIRE_PATHS).split(",");
+      if (pathKeys != null && pathKeys.length > 0) {
         for (String s : pathKeys) {
           if (s.split(":").length == 2)
             this.requirePaths.put(s.split(":")[1].trim(),
@@ -406,16 +418,22 @@ public class HashRefreshFiles {
         }
       }
     }
-    rootDir = new File (props.get(BASE_DIR));
-    hashFiles (rootDir);
+    rootDir = new File (props.getProperty(BASE_DIR));
+    hashFiles(rootDir);
     replaceWithNewPaths(rootDir);
     handleRequireJS();
   }
-  
-  public static void main (String[] args) throws Exception{
+
+  /**
+   * Main method for hash files
+   * @param args Arguments from the commandline
+   *             The first argument should be the name of the config file
+   */
+  public static void main(String[] args) throws Exception {
     HashRefreshFiles hrf = new HashRefreshFiles();
-    if (args != null && args.length > 0)
+    if (args != null && args.length > 0) {
       hrf.configName = args[0];
+    }
     hrf.processData();
   }
 }
