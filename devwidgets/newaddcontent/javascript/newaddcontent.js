@@ -918,14 +918,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 // Tag the content
                 sakai.api.Util.tagEntity('/p/' + (obj['_path']), obj['sakai:tags'], false, function() {
                     // Set the correct file permissions
-<<<<<<< HEAD
-                    sakai.api.Content.setFilePermissions([{'hashpath': contentObj['_path'], 'permissions': contentObj['sakai:permissions']}], function() {
-                        lastUpload.push(contentObj);
-                        checkUploadCompleted(true, contentObj);
-=======
                     sakai.api.Content.setFilePermissions([{'hashpath': obj['_path'], 'permissions': obj['sakai:permissions']}], function() {
                         checkUploadCompleted();
->>>>>>> sakaiproject/master
                     });
                 });
             };
