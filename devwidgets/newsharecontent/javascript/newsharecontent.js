@@ -261,12 +261,12 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             });
 
             $(document).on('click', '.share_trigger_click', function() {
-                if($newsharecontentContainer.is(':visible')) {
+                if ($newsharecontentContainer.is(':visible')) {
                     $newsharecontentContainer.jqmHide();
                 }
                 sakai.api.Util.Forms.clearValidation($newsharecontent_form);
                 var idArr = $(this).attr("data-entityid");
-                if(idArr.length > 1 && !$.isArray(idArr)){
+                if (idArr.length > 1 && !$.isArray(idArr)) {
                     idArr = idArr.split(",");
                 }
                 var $this = $(this);
@@ -276,7 +276,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 });
                 // Fetch data for content items
                 var batchRequests = [];
-                $.each(idArr, function(i, id){
+                $.each(idArr, function(i, id) {
                     batchRequests.push({
                         "url": "/p/" + id + ".json",
                         "method": "GET"
