@@ -357,7 +357,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                         'type':'link'
                     };
                     addContentToQueue(linkObj);
-                    $thisForm.reset();
+                    $thisForm[0].reset();
                     break;
 
                 /////////////////////////////
@@ -376,7 +376,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             'type': 'document'
                         };
                         addContentToQueue(documentObj);
-                        $thisForm.reset();
+                        $thisForm[0].reset();
                     }
                     break;
 
