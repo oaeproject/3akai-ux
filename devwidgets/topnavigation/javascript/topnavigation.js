@@ -636,7 +636,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 '#topnavigation_toggle_internal_login',
                 toggleInternalLogin);
 
-            $(hasSubnav).hover(openMenu, function() {
+            $(document).on('mouseenter', '.hassubnav', openMenu);
+            $(document).on('mouseleave', '.hassubnav', function() {
                 closePopover();
                 closeMenu();
             });
