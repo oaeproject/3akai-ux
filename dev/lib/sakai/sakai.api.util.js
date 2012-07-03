@@ -2498,7 +2498,7 @@ define(
                     // Don't allow spaces in the field
                     $.validator.addMethod('nospaces', function(value, element) {
                         return this.optional(element) || (value.indexOf(' ') === -1);
-                    }, require('sakai/sakai.api.i18n').getValueForKey('NO_SPACES_ARE_ALLOWED'));
+                    }, sakai_i18n.getValueForKey('NO_SPACES_ARE_ALLOWED'));
 
                     // Appends http:// or ftp:// or https:// when necessary
                     $.validator.addMethod('appendhttp', function(value, element) {

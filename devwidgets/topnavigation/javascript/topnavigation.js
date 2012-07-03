@@ -559,7 +559,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Perform the actual login
          */
-        var doLogin = function(){
+        var doLogin = function() {
             $(topnavUserOptionsLoginButtonSigningIn).show();
             $(topnavUserOptionsLoginButtonCancel).hide();
             $(topnavuserOptionsLoginButtonLogin).hide();
