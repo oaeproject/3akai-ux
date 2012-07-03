@@ -59,9 +59,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var previewsAllowed = true;
         // pagePreviewDisabled disables page previews inside of collection viewers inside of a sakai doc
         var pagePreviewDisabled = true;
-        var carouselMoreItems = true;
-        var carouselMoreItemsId = '';
-        var carouselMoreItemsPage = 0;
 
         // containers
         var $collectionviewerCarouselLoading = $('#collectionviewer_carousel_loading', $rootel);
@@ -125,59 +122,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
-         * Callback function for the carousel plugin to load more content items
-         * @param {String} carousel Carousel object
-         * @param {String} state State of the carousel
-         */
-        var loadMoreCarouselItems = function(carousel, state) {
-            if (state !== 'next' || !carouselMoreItems) {
-                return;
-            }
-
-            carouselMoreItemsPage++;
-
-            var params = {
-                sortOn: 'filename',
-                sortOrder: collectionviewer.sortOrder,
-                userid: carouselMoreItemsId,
-                items: carouselSize * 2,
-                page: carouselMoreItemsPage
-            };
-
-            $.ajax({
-                url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
-                data: params,
-                success: function(data) {
-                    var itemsDisplayed = data.items * (params.page + 1);
-                    if (itemsDisplayed >= data.total) {
-                        carouselMoreItems = false;
-                    }
-                    if (data.results && data.results.length) {
-                        getMultipleUserData(data, function() {
-                            sakai.api.Content.prepareContentForRender(data.results, sakai.data.me, function(parsedContent) {
-                                collectionData[(carouselMoreItemsPage)] = parsedContent;
-                                var carouselIndex = $('#collectionviewer_carousel', $rootel).jcarousel('size');
-                                carousel.size(carouselIndex + data.results.length);
-                                $.each(parsedContent, function(i, content) {
-                                    carouselIndex++;
-                                    if ($.isPlainObject(content)) {
-                                        var liHtml = sakai.api.Util.TemplateRenderer('collectionviewer_carousel_item_template', {
-                                            result: content,
-                                            result_index: i,
-                                            page_index: carouselMoreItemsPage,
-                                            sakai: sakai
-                                        });
-                                        $('#collectionviewer_carousel', $rootel).jcarousel('add', carouselIndex, liHtml);
-                                    }
-                                });
-                            });
-                        });
-                    }
-                }
-            });
-        };
-
-        /**
         * Renders the carousel on the page and initializes it
         */
         var renderCarousel = function() {
@@ -217,8 +161,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     scroll: carouselSize,
                     start: 0,
                     initCallback: carouselBinding,
-                    itemFallbackDimension: 123,
-                    itemLoadCallback: loadMoreCarouselItems
+                    itemFallbackDimension: 123
                 });
 
                 if (totalItems > carouselSize && $.bbq.getState('item')) {
@@ -432,7 +375,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             } else {
                 id = 'c-' + collectionviewer.contextId;
             }
-            carouselMoreItemsId = id;
             var data = {
                 sortOn: 'filename',
                 sortOrder: collectionviewer.sortOrder,
@@ -445,7 +387,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 data.sortOn = '_lastModified';
             }
             if (collectionviewer.listStyle === 'carousel') {
-                data.items = carouselSize * 2;
+                data.items = 1000;
                 data.page = 0;
             }
             if (!refresh && !$.isFunction(callback)) {
@@ -455,9 +397,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                 data: data,
                 success: function(data) {
-                    if (data.total === data.items) {
-                        carouselMoreItems = false;
-                    }
                     if ($.isFunction(callback)) {
                         getMultipleUserData(data, function() {
                             data.results.fetchMultipleUserDataInWidget = true;

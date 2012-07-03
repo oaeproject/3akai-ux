@@ -208,23 +208,6 @@
     </div>
 --></div>
 
-<div id="collectionviewer_carousel_item_template"><!--
-    <li class="collectionviewer_carousel_item" data-arr-index="${result_index}" data-page-index="${page_index}" data-item-id="${result._path}" title="${result['sakai:pooled-content-file-name']|safeOutput}">
-        {var thumbnail = sakai.api.Content.getThumbnail(result)}
-        {var canShare = sakai.api.Content.canCurrentUserShareContent(result)}
-        <div class="collectionviewer_carousel_thumbnail_container s3d-draggable-container" data-canshare="${canShare}" data-scope="content" data-entityid="${result._path}" {if sakai.api.Content.Collections.isCollection(result)} data-collection="true" {/if}>
-            {if thumbnail}
-                <img class="collectionviewer_carousel_thumbnail" src="${thumbnail}" alt="${result._mimeType}" />
-            {elseif sakai.config.MimeTypes[result._mimeType]}
-                <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes[result._mimeType].URL}" alt="${result._mimeType}" />
-            {else}
-                <img class="collectionviewer_carousel_thumbnail" src="${sakai.config.MimeTypes.other.URL}" alt="${result._mimeType}" />
-            {/if}
-        </div>
-        <div class="arrow-down" style="display:none;"></div>
-    </li>
---></div>
-
 <div id="collectionviewer_list_item_template"><!--
     {var canShare = sakai.api.Content.canCurrentUserShareContent(data)}
     <ul>
