@@ -174,11 +174,11 @@ define(
                 };
                 // Translate the jquery.pager.js plugin
                 $.fn.pager.defaults.htmlparts = {
-                    "first" : sakaii18nAPI.getValueForKey("FIRST"),
-                    "last" : sakaii18nAPI.getValueForKey("LAST"),
-                    "prev" : '<span><div class=\"sakai_pager_prev\"></div> <a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("PREVIOUS_PAGE") + '">' + sakaii18nAPI.getValueForKey("PREV") + '</span></a>',
-                    "next" : '<span><a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("NEXT_PAGE") + '">' + sakaii18nAPI.getValueForKey("NEXT") + '</a><div class=\"sakai_pager_next\"></div></span>',
-                    "current": '<li class="page-number"><a href="javascript:;" title="' + sakaii18nAPI.getValueForKey("PAGE") + ' ${page}">${page}</a></li>'
+                    'first' : sakaii18nAPI.getValueForKey('FIRST'),
+                    'last' : sakaii18nAPI.getValueForKey('LAST'),
+                    'prev' : '<span><div class=\"sakai_pager_prev\"></div> <button class="t" title="' + sakaii18nAPI.getValueForKey('PREVIOUS_PAGE') + '">' + sakaii18nAPI.getValueForKey('PREV') + '</button></span>',
+                    'next' : '<span><button class="t" title="' + sakaii18nAPI.getValueForKey('NEXT_PAGE') + '">' + sakaii18nAPI.getValueForKey('NEXT') + '</button><div class=\"sakai_pager_next\"></div></span>',
+                    'current': '<li class="page-number"><button title="' + sakaii18nAPI.getValueForKey('PAGE') + ' ${page}">${page}</button></li>'
                 };
 
             };
