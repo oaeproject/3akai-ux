@@ -1686,13 +1686,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         ////////////////////
         ////////////////////
 
-        // Send out an event to let other widgets know that the ca widget is ready to receive data
-        $(window).trigger('ready.contentauthoring.sakai');
-
         // Load the widgets inside of the content authoring widget (inserterbar, etc.)
         sakai.api.Widgets.widgetLoader.insertWidgets('s3d-page-main-content');
 
-
+        // Set the contentauthoring ready variable to let the left hand navigation know it can render pages
+        sakai_global.contentauthoring.ready = true;
 
 
 
@@ -2015,8 +2013,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 uploadExternalLink(content, $el);
             }
         };
-
-
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run

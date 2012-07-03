@@ -1388,7 +1388,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         $(window).bind('hashchanged.lhnavigation.sakai', handleHashChange);
 
         $(window).bind('lhnav.init', function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
-            renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
+            var to = setTimeout(function() {
+                if (sakai_global.contentauthoring && sakai_global.contentauthoring.ready) {
+                    clearTimeout(to);
+                    renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
+                }
+            }, 10);
         });
 
         $(window).bind('lhnav.updateCount', function(e, pageid, value, add) {
@@ -1401,7 +1406,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         });
 
-        $(window).on('ready.contentauthoring.sakai', selectPage);
 
         ///////////////////////
         // Widget has loaded //
