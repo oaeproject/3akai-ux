@@ -534,7 +534,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 // Check whether this page exist
                 if (selected) {
                     structureFoundIn = checkPageExists(privstructure, selected) || checkPageExists(pubstructure, selected);
-                    if (!structureFoundIn) {
+                    if (!structureFoundIn || (structureFoundIn && !structureFoundIn.items[selected]._canView)) {
                         selected = false;
                     }
                 }
