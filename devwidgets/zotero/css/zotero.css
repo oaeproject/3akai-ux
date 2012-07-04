@@ -17,82 +17,134 @@
  */
 
 /* Dashboard Widget Icon */
-.zotero.s3d-widget .s3d-widget-titlebar .widget_title{background:url(/devwidgets/zotero/images/zotero_icon.png) 17px 18px no-repeat;}
+.zotero.s3d-widget .s3d-widget-titlebar .widget_title{background:url("/devwidgets/zotero/images/zotero_icon.png") 17px 18px no-repeat;}
 
 .zotero_widget #zotero_main {
 	height: 500px;
+	width: 100%;
+	max-width: inherit;
 	overflow: scroll;
-	margin: 10px;
+	padding-bottom: 2%;
 }
 
 .zotero_widget #zotero_global_collection {
-	position: relative; 
-	border-style: solid; 
-	border-color: #e2e2e2; 
-	border-radius: 8px; 
-	border-width: 1px; 
-	width: 20%; 
-	height: auto; 
-	float: left; 
-	padding: 3%;
+	position: relative;
+	float: left;
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
+	margin-bottom: 10px;
+	width: 150px;
+	padding: 10px;
 }
 
 .zotero_widget #zotero_global_collection h1 {
 	position: relative; 
-	padding:5px;
+	padding: 5px;
 	font-family: Arial;
 	font-size: 14px;
 	font-weight: bold;
 	color: #666666;
-	background-color: #e2e2e2;
+	background-color: #eff2f4;
+}
+.zotero_widget #zotero_collections {
+	margin-top: 20px;
+}
+
+.zotero_widget #zotero_collections li {
+	padding-left: 15px;
+	padding-right: 6px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border-bottom: dotted #D4D4D4 1px;
+	list-style: none;
+}
+
+.zotero_widget #zotero_collections a:focus {
+	outline: none;
+	text-decoration: none;
+}
+
+.zotero_widget #zotero_collections a:active {
+	outline: #ffffff;
+	text-decoration: none;
 }
 
 .zotero_widget #zotero_global_items{
 	position: relative;
-	left: -10px;
-	border-style: solid; 
-	border-color: #e2e2e2; 
-	border-radius: 8px; 
-	border-width: 1px; 
-	width: 65%; 
-	height: auto; 
-	float: right; 
-	padding: 3%;
+	display: inline-block;
+	border-left-style: solid; 
+	border-left-color: #e2e2e2; 
+	border-left-width: 2px; 
+	width: 523px;
+	padding: 10px;
 }
 
 .zotero_widget #zotero_global_items h1 {
 	position: relative; 
-	padding:5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	font-family: Arial;
 	font-size: 14px;
 	font-weight: bold;
 	color: #666666;
-	background-color: #e2e2e2;
+	background-color: #eff2f4;
+}
+
+.zotero_error_message {
+	color: #cc0000;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.zotero_widget #zotero_items {
+	position: relative;
+	width: 523px;
+	margin: 0px;
+	margin-top: 15px;
 }
 
 .zotero_widget #zotero_items ul{
-	overflow: hidden;
+	position: relative;
+	width: 523px;
+	margin: 0px;
 }
 
 .zotero_widget #zotero_items .zotero_content_item {
 	display: none;
-}
-
-.zotero_widget #zotero_items li:hover > .zotero_content_item {
-	display: block;
+	width: 492px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+	overflow: hidden;
 }
 
 .zotero_widget #zotero_items li {
+	position: relative;
+	display: inline-block;
 	list-style-position: inside;
-	padding: 8px;
+	list-style: none;
+	padding: 15px;
+	width: 492px;
+}
+
+.zotero_widget #zotero_items li:nth-child(2n+1) {
+	background: #eff2f4;
+}
+
+.zotero_widget #zotero_items li {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #eff2f4;
 }
 
 .zotero_widget .zotero_content_item table {
-	border-collapse: collapse;
 	position: relative;
-	margin: 20px;
-	max-width: 370px;
-	width: 370px;
+	width: 492px;
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
 	font-family: Arial;
 	font-size: 0.9em;
 	color: #333333;
@@ -101,55 +153,78 @@
 .zotero_widget .zotero_content_item th, .zotero_widget .zotero_content_item td {
 	border-bottom: 1px solid #666;
 	border-top: 1px solid #666;
-	padding: 0.6em;
+	padding: 7px;
 	vertical-align: 4px;
+	word-wrap: break-word;
 }
 
 .zotero_widget .zotero_content_item th{
-	position: relative;
-	min-width: 25%;
-	max-width: 25%;
-	width: 25%;
+	max-width: 105px;
+	min-width: 105px;
 }
 
 .zotero_widget .zotero_content_item td{
-	position: relative;
-	min-width: 75%;
-	max-width: 75%;
-	width: 75%;
+	max-width: 355px;
+	min-width: 355px;
 }
-
 
 .zotero_widget .zotero_content_item tr:hover {
-	background-color: #e0eff6;
-}
-
-.zotero_widget .zotero_content_item tr {
-	max-width: 370px;
-	width: 370px;
-}
-
-.zotero_widget #zotero_collections li {
-	padding: 6px;
-	list-style: none;
-}
-
-.zotero_widget li:hover {
-	border-style: dotted;
-	border-width: 1px;
-	border-color: #888888;
-	background-color: #e2e2e2;
-	border-radius: 8px;
-	text-decoration: none; 
-}
-
-.zotero_widget a li  {
-	font-family: Arial;
-	font-size: 12px;
+	background-color: #4DC0F1;
 	font-weight: bold;
-	color: #2683bc;
+    color: #FFFFFF;
 }
 
-.zotero_widget a:hover {
-	text-decoration: none;
+.zotero_widget .is-selected {
+	background: #6ABCF6;
+	background: -webkit-linear-gradient(top, #D9E9F1 0%,#89D9FB 1%,#83D6F9 10%,#60C2EC 39%,#4FBEF1 48%,#4DC0F1 100%);
+	background: -moz-linear-gradient(center top , #D9E9F1 0%, #89D9FB 1%, #83D6F9 10%, #60C2EC 39%, #4FBEF1 48%, #4DC0F1 100%) repeat scroll 0 0 transparent;
+	background: -o-linear-gradient(top, #D9E9F1 0%,#89D9FB 1%,#83D6F9 10%,#60C2EC 39%,#4FBEF1 48%,#4DC0F1 100%);
+	background: -ms-linear-gradient(top, #D9E9F1 0%,#89D9FB 1%,#83D6F9 10%,#60C2EC 39%,#4FBEF1 48%,#4DC0F1 100%);
+	background: linear-gradient(top, #D9E9F1 0%,#89D9FB 1%,#83D6F9 10%,#60C2EC 39%,#4FBEF1 48%,#4DC0F1 100%);
+	font-weight: bold;
+    color: #FFFFFF;
+}
+
+.zotero_content_title {
+	padding: 0px;
+	margin-left: 30px;
+}
+
+.zotero_see_more_button {
+	width: 16px;
+	height: 15px;
+	max-width: 16px;
+	max-height: 15px;
+	margin-right: 10px;
+	float:left;
+}
+
+#zotero_show_more {
+	width: 16px;
+	height: 15px;
+	max-width: 16px;
+	max-height: 15px;
+}
+
+.s3d-link-button #zotero_show_more_arrow, .s3d-link-button #zotero_show_less_arrow {
+	display: inline-block;
+	width: 16px;
+	height: 15px;
+	max-width: 16px;
+}
+
+.s3d-link-button #zotero_show_more_arrow {
+	background:url("/dev/images/arrow_down_square.png") no-repeat top left transparent;
+}
+
+.s3d-link-button:hover #zotero_show_more_arrow {
+	background:url("/dev/images/arrow_down_square_hover.png") no-repeat top left transparent;
+}
+
+.s3d-link-button #zotero_show_less_arrow {
+	background:url("/dev/images/arrow_up_square.png") no-repeat top left transparent;
+}
+
+.s3d-link-button:hover #zotero_show_less_arrow {
+	background:url("/dev/images/arrow_up_square_hover.png") no-repeat top left transparent;
 }
