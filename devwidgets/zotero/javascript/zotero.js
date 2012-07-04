@@ -25,7 +25,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @class zotero
      *
      * @description
-     * Zotero is a dashboard widget that dyplay the content of a Zotero's library
+     * Zotero is a dashboard widget that display the content of a Zotero's library gor a given account
      * 
      *
      * @version 0.0.1
@@ -67,7 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} input The input entered by the user
          */
         var checkInput = function (input) {
-            // check if color exists and is not an empty string
+            // check if is not an empty string
             return (input && $.trim(input)) ? $.trim(input) : DEFAULT_INPUT;
         };
         
@@ -93,25 +93,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         
         /**
-         * Feeds the items' list sending a request to the Zotero's server throught a proxy.
-         * Displays the list after building an HTML for the server's response. 
+         * Feeds the items' list sending a request to the Zotero server throught a proxy.
+         * Displays the list after building an HTML part for the server's response. 
          *
-         * @param {String} itemsURL The url for getting the items for the collections chosen by a user.
-         * @param {String} userKey The user's key of the Zotero's account.
+         * @param {String} itemsURL The url for getting the items' list of the collections chosen by a user.
+         * @param {String} userKey The user's key of the Zotero account.
          */
         var showItemsList = function(itemsURL, userKey) {
-        	// reset the html of the itemsContainer's node
+        	// reset the html in the itemsContainer's node
 			$itemsContainer.html("");
 			// sending the request to the server
 			$.ajax({
 				type: "POST",
 				url: itemsURL,
 				dataType: "xml",
-				complete : function(data, status) {
+				success : function(mainData, status, data) {
 					// fetching the data contained in the server's response
 					var response = data.responseXML;
 					var entries = $(response).find('entry');
-					// tests if there are items in the selected collection
+					// testing if there are items in the selected collection
 					if($(entries).length > 0) {
 						$itemsContainer.append("<ul>");
 						// fetching the entry tags to display the information it contains
@@ -125,7 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 								// only the tag 'link' with an attribute 'rel' at 'self' is fetched
 								if($(this).attr('rel') == 'self'){
 									item_key = $(this).attr('href');
-									// builds the href to allowed user to display the item into the browser
+									// building the href to allow user to display the item into the browser
 									if(userKey == "") {
 										link = item_key + "?format=bib";
 									}
@@ -138,12 +138,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 								}
 							});
 							
-							// removes the default style of the table
+							// removing the default style of the details' table
 							$(content).find('table').find('tr').each(function(){
 								$(this).find('th').removeAttr('style');
 							});
 							
-							// adds the current item into the list
+							// adding the current item fetched into the list
 							var initLi = "<li id=zotero_" + item_key + ">";
 							var arrowButton = "<div class=\"zotero_see_more_button\">" + 
 													"<button type=\"button\" id=\"zotero_show_more\" class=\"s3d-button s3d-link-button s3d-action\">" +
@@ -157,18 +157,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 													
 							$("#zotero_items ul").append(initLi + arrowButton + itemTitle + "</li>");
 							
-							// add the item's content	
+							// adding the item's content	
 							$("#zotero_"+ item_key).append(content);
 						});
 						
-						// adds a class attribut for all items' content to apply css	
+						// adding a class attribute for all items' content to apply css	
 						$itemsContainer.find('div').each(function(){
 							if($(this).attr('class') == undefined) {
 								$(this).addClass("zotero_content_item");
 							}	
 						});
 							
-						// creates event handlers on each item's arrow	
+						// creating event handlers on each item's arrow	
 						$itemsContainer.find("#zotero_show_more").each(function(){
 							$(this).bind('click',function(event){
 								arrowsBinding(event);
@@ -176,11 +176,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 			       		});
 			       	}
 			        else {
-			        	// inform the user that there is no content into the selected collection
+			        	// informing the user that there is no content into the selected collection
 			        	$itemsContainer.append("<center><p class=\"zotero_error_message\">This collection is empty !</p></center>");
 			        }
 				},
-				statusCode: { // displays a message for each kind of error
+				statusCode: { // displaying a message for each kind of error
 					400: function() {
      					appendErrorMessage($itemsContainer, "Bad request");
      				},
@@ -207,11 +207,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         
         /**
-         * Feeds the collection' list sending a request to the Zotero's server throught a proxy.
+         * Feeds the collection's list sending a request to the Zotero's server throught a proxy.
          * Displays the list after building an HTML for the server's response. 
          *
-         * @param {String} userId The user's ID of the Zotero's account.
-         * @param {String} userKey The user's key of the Zotero's account.
+         * @param {String} userId The user's ID of the Zotero account.
+         * @param {String} userKey The user's key of the Zotero account.
          */
         var showCollectionsList = function(userId, userKey) {
         	var urlCollection;
@@ -232,44 +232,53 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 				type: "POST",
 				url: urlCollection,
 				dataType: "xml",
-				complete : function(data, status) {
+				success : function(mainData, status, data) {
 					// fetching the data contained in the server's response
 					var response = data.responseXML;
-					// fetching the entry tags to display the information it contains
-					$(response).find('entry').each(function(){
-						var title = $(this).find('title').text();
+					var entries = $(response).find('entry');
+					// testing if there are items in the selected collection
+					if($(entries).length > 0) {
+						// fetching the entry tags to display the information it contains
+						entries.each(function() {
+							var title = $(this).find('title').text();
+							
+							// fetching the id of the current collection
+							var collectionString = $(this).find('id').text().split("/");
+							var collectionKey = collectionString[collectionString.length-1];
 						
-						// fetching the id of the current collection
-						var collectionString = $(this).find('id').text().split("/");
-						var collectionKey = collectionString[collectionString.length-1];
+							// fetching the link which allows getting the content of the chosen collection
+							// testing if the library is protected by a key or not  
+							var link;
+							if(userKey=="") { 
+								link = $initURL + "/collectionContent?user="+userId+"&collection="+collectionKey;
+							}
+							else {
+								link = $initURL + "/key_collectionContent?user="+userId+"&key="+userKey+"&collection="+collectionKey;
+							}
+							
+							// adding the collection into the list
+							$collectionsContainer.append("<a class=\"lhnavigation_subnav_item_content\" href=#><li id="+link+">"+title+"</li></a>");							
+						});
+						
+						// creating event handlers on each collection of the list
+						$collectionsContainer.bind('click', function(event){
+							// ups to date the class attribute for the selected collection
+							collectionBinding(event);
+							// ups to date the itemsContainer
+							showItemsList($(event.target).attr('id'), userKey);
+							// disables the redirection to the link
+							return false;
+						});
+					}
 					
-						// fetching the link which allows getting the content of the chosen collection
-						// testing if the library is protected by a key or not  
-						var link;
-						if(userKey=="") { 
-							link = $initURL + "/collectionContent?user="+userId+"&collection="+collectionKey;
-						}
-						else {
-							link = $initURL + "/key_collectionContent?user="+userId+"&key="+userKey+"&collection="+collectionKey;
-						}
-						
-						// adds the collection into the list
-						$collectionsContainer.append("<a class=\"lhnavigation_subnav_item_content\" href=#><li id="+link+">"+title+"</li></a>");							
-					});
-						
+					else {
+						// informing the user that there is no collection in the given account
+			        	$collectionsContainer.append("<center><p class=\"zotero_error_message\">There is no collection !</p></center>");
+					}	
 					// Displaying the whole library for the specified account 
 					showItemsList(urlItems,userKey);
-							
-					// creating event handlers on each collection of the list
-					$collectionsContainer.bind('click', function(event){
-						// ups to date the class attribute for the selected collection
-						collectionBinding(event);
-						// ups to date the itemsContainer
-						showItemsList($(event.target).attr('id'), userKey);
-						// disables the redirection to the link
-						return false;
-					});
 				},
+				
 				statusCode: {
 					400: function() {
      					appendErrorMessage($collectionsContainer, "Bad request");
@@ -298,9 +307,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         
         /**
-         * Displays an message about the error which occurred.
+         * Displays a message about the error which occurred.
          *
-         * @param node The node where the message will be appended.
+         * @param {Object} node The node where the message will be appended.
          * @param {String} error The error which occured.
          */
         var appendErrorMessage = function(node, error) {
@@ -312,13 +321,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
        	/**
          * Ups do date the class of the selected collection for applying a specific css. 
          *
-         * @param ev The event handled.
+         * @param {Object} ev The event handled.
          */
        	var collectionBinding = function(ev) {
        		if($selectedCollection != undefined) {
+				// removing the class attribute of the previous selected collection
 				$selectedCollection.removeAttr('class');
 			}
-			// ups to date the itemsContainer
+			// adding a specific class attribute for the selected collection
 			$selectedCollection = $(ev.target);
 			$(ev.target).addClass('is-selected');
        	};
@@ -326,9 +336,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
        	
        	/**
          * Ups do date the css properties according to the situation after that 
-         * a click event on an item's arrow has been handled. 
+         * a click event on an item's arrow has been caught. 
          *
-         * @param ev The event handled.
+         * @param {Object} ev The event caught.
          */
         var arrowsBinding = function(ev) {
         	var liNode;
@@ -336,6 +346,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         	var displayLessArrow = "none";
         	var displayContentItem = "none";
         	
+        	// An event is not caught at the same place in the DOM according to the browser
         	if($.browser.mozilla){
         		liNode = $($(ev.target).parent()).parent();
 				if($(ev.target).find('#zotero_show_less_arrow').css('display') == 'none'){
@@ -353,6 +364,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 					displayContentItem =  "block";
 				}
 			}
+			// !! Internet Explorer has not been tested
 			
 			modifiesDisplayProperty(liNode, "#zotero_show_more_arrow",  displayMoreArrow);
 			modifiesDisplayProperty(liNode, "#zotero_show_less_arrow", displayLessArrow);
@@ -361,11 +373,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         
         /**
-         * Modifies the given display property. 
+         * Modifies the display css property. 
          *
-         * @param mainNode The main node which is a parent of the given child node.
-         * @param node A child node of the main one on which the css property will be applied.
-         * @param value The value of the given css property.
+         * @param {Object} mainNode The main node which is a parent of the given child node.
+         * @param {String} node A child node of the main one on which the css property will be applied.
+         * @param {String} value The value of the given css property.
          */
         var modifiesDisplayProperty = function(mainNode, node, value) {
         	$("#"+ $(mainNode).attr('id') + " " + node).css({display: value});
@@ -380,11 +392,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Shows the Main view that contains the collection and their content for the
          * provided account.
          *
-         * @param {String} userId The user's ID of the Zotero's account.
-         * @param {String} userKey The user's key of the Zotero's account.
+         * @param {String} userId The user's ID of the Zotero account.
+         * @param {String} userKey The user's key of the Zotero account.
          */
         var showMainView = function(userId, userKey) {
-          	// displays all the collections for the current user
+          	// displays all the collections for the current account
           	showCollectionsList(userId, userKey);
           	$mainContainer.show();
         }
