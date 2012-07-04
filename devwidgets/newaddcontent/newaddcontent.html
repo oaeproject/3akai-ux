@@ -225,46 +225,56 @@
 --></div>
 
 <div id="newaddcontent_selecteditems_template" style="display:none;"><!--
-    {if items.length}
-        <div id="newaddcontent_saveto_container">
-            <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
-            <select id="newaddcontent_saveto">
-                <option value="${me.user.userid}">__MSG__MY_LIBRARY__</option>
-                {for g in groups.entry}
-                    {if sakai.api.Content.Collections.isCollection(g)}
-                        <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}</option>
-                    {else}
-                        <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
-                    {/if}
-                {/for}
-            </select>
-        </div>
-        <ul>
-        {for item in items}
-            <li id="newaddcontent_selecteditems_${item_index}">
-                <a href="#" class="newaddcontent_selecteditems_remove" title="__MSG__REMOVE__ ${item["sakai:pooled-content-file-name"]}"></a>
-                <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
-                {if item.type !== "existing"}
-                    <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
-                    <span class="newaddcontent_selecteditems_actions">
-                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
-                        <span class="newaddcontent_selecteditems_split">|</span>
-                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
-                    </span>
+    {macro listContent(item)}
+        <li id="newaddcontent_selecteditems_${item_index}">
+            <a href="#" class="newaddcontent_selecteditems_remove" title="__MSG__REMOVE__ ${item["sakai:pooled-content-file-name"]}"></a>
+            <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
+            {if item.type !== "existing"}
+                <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
+                <span class="newaddcontent_selecteditems_actions">
+                    <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
+                    <span class="newaddcontent_selecteditems_split">|</span>
+                    <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
+                </span>
+            {else}
+                {if $.inArray(currentSelectedLibrary, item["sakai:pooled-content-viewer"]) !== -1 || $.inArray(currentSelectedLibrary, item["sakai:pooled-content-manager"]) !== -1}
+                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
+                {elseif sakai.api.Content.Collections.isCollection(item) && (sakai.api.Content.Collections.getCollectionGroupId(item) === currentSelectedLibrary || sakai.api.Content.Collections.isCollectionInMyLibrary(item))}
+                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
+                {elseif item.canshare === 'false' && currentSelectedLibrary !== me.user.userid}
+                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__SHARING_DISABLED__)</span>
                 {else}
-                    {if $.inArray(currentSelectedLibrary, item["sakai:pooled-content-viewer"]) !== -1 || $.inArray(currentSelectedLibrary, item["sakai:pooled-content-manager"]) !== -1}
-                        <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
-                    {elseif sakai.api.Content.Collections.isCollection(item) && (sakai.api.Content.Collections.getCollectionGroupId(item) === currentSelectedLibrary || sakai.api.Content.Collections.isCollectionInMyLibrary(item))}
-                        <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
-                    {elseif item.canshare === 'false' && currentSelectedLibrary !== me.user.userid}
-                        <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__SHARING_DISABLED__)</span>
-                    {else}
-                        <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
-                    {/if}
+                    <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
                 {/if}
-            </li>
-        {/for}
-        </ul>
+            {/if}
+        </li>
+    {/macro}
+
+    {if items.length || append}
+        {if append}
+            {for item in items}
+                ${listContent(item)}
+            {/for}
+        {else}
+            <div id="newaddcontent_saveto_container">
+                <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
+                <select id="newaddcontent_saveto">
+                    <option value="${me.user.userid}">__MSG__MY_LIBRARY__</option>
+                    {for g in groups.entry}
+                        {if sakai.api.Content.Collections.isCollection(g)}
+                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}</option>
+                        {else}
+                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
+                        {/if}
+                    {/for}
+                </select>
+            </div>
+            <ul>
+            {for item in items}
+                ${listContent(item)}
+            {/for}
+            </ul>
+        {/if}
     {else}
         <span class="newaddcontent_noselecteditems">__MSG__YOU_HAVENT_COLLECTED_ANY_CONTENT_YET__</span>
         <span class="newaddcontent_noselecteditems">__MSG__ADD_VARIOUS_CONTENT_HERE__</span>
