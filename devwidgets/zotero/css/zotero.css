@@ -19,6 +19,10 @@
 /* Dashboard Widget Icon */
 .zotero.s3d-widget .s3d-widget-titlebar .widget_title{background:url("/devwidgets/zotero/images/zotero_icon.png") 17px 18px no-repeat;}
 
+#zotero_settings {
+	margin:10px; 
+}
+
 .zotero_widget #zotero_main {
 	height: 500px;
 	width: 100%;
