@@ -219,15 +219,32 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
 
         /**
          * Render the queue
+         * @param {Boolean} append Append added content to the exisitng queue, rather than re-rending the entire content list to upload.
+         * @param {Array} contentToAdd Array of objects containing data about the content to be appended to the queue
          */
-        var renderQueue = function() {
-            $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
+        var renderQueue = function(append, contentToAppend) {
+            var templateData = {
+                'append': false,
                 'items': itemsToUpload,
                 'sakai': sakai,
                 'me': sakai.data.me,
                 'groups': sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
                 'currentSelectedLibrary': currentSelectedLibrary
-            }));
+            };
+
+            var $queueList = $newaddcontentContainerSelectedItemsContainer.children('ul');
+
+            if (append && $queueList.length) {
+                templateData.append = true;
+                templateData.items = contentToAppend;
+                $queueList.append(
+                    sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, templateData)
+                );
+            } else {
+                $newaddcontentContainerSelectedItemsContainer.html(
+                    sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, templateData)
+                );
+            }
         };
 
         var greyOutExistingInLibrary = function() {
@@ -249,15 +266,20 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
 
         /**
          * Add an item to the queue
-         * @param {Object} contentToAdd Object containing data about the object to be added to the queue
+         * @param {Object/Array} contentToAdd Object or array of objects containing data about the object to be added to the queue
          * @param {Boolean} disableRender Disable rendering of the queue.
          */
-        var addContentToQueue = function(contentToAdd, disableRender) {
-            itemsToUpload.push(contentToAdd);
+        var addContentToQueue = function(contentToAdd, disableRender, append) {
+            if ($.isArray(contentToAdd)) {
+                itemsToUpload = itemsToUpload.concat(contentToAdd);
+            } else {
+                itemsToUpload.push(contentToAdd);
+            }
+
             disableAddToQueue();
             enableStartUpload();
             if (!disableRender) {
-                renderQueue();
+                renderQueue(append, contentToAdd);
             }
         };
 
@@ -385,6 +407,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                 ///////////////////////////////
 
                 case 'newaddcontent_existing_content_form':
+                    var contentToAdd = [];
                     $.each($thisForm.find('.newaddcontent_existingitems_select_checkbox:checked'), function(index, item) {
                         if (!$(item).is(':disabled')) {
                             var viewers = [];
@@ -405,11 +428,12 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                                 'type': 'existing',
                                 'css_class': $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
                             };
-                            addContentToQueue(contentObj);
+                            contentToAdd.push(contentObj);
                             $(item).attr('disabled', 'disabled');
                             $(item).parent().addClass(newaddcontentExistingItemsListContainerDisabledListItem);
                         }
                     });
+                    addContentToQueue(contentToAdd, false, true);
                     break;
 
             }
