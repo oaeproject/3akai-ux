@@ -382,32 +382,32 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         callbackWhenDone(false);
                     }
                 });
-
-                ////////////////////
-                // Initialization //
-                ////////////////////
-
-                $(document).on('initialize.sendmessage.sakai', function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText) {
-                    initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText);
-                });
-                $(document).on('click', '.sakai_sendmessage_overlay', function(ev) {
-                    var el = $(this);
-                    var person = false;
-                    var people = [];
-                    if (el.attr('sakai-entityid') && el.attr('sakai-entityname')) {
-                        var userIDArr = el.attr('sakai-entityid').split(',');
-                        var userNameArr = sakai.api.Security.safeOutput(el.attr('sakai-entityname')).split(',');
-                        for (var i = 0; i < userNameArr.length; i++) {
-                            people.push({
-                                'uuid': userIDArr[i],
-                                'username': userNameArr[i],
-                                'type': el.attr('sakai-entitytype') || 'user'
-                            });
-                        }
-                    }
-                    initialize(people);
-                });
             };
+
+            ////////////////////
+            // Initialization //
+            ////////////////////
+
+            $(document).on('initialize.sendmessage.sakai', function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText) {
+                initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText);
+            });
+            $(document).on('click', '.sakai_sendmessage_overlay', function(ev) {
+                var el = $(this);
+                var person = false;
+                var people = [];
+                if (el.attr('sakai-entityid') && el.attr('sakai-entityname')) {
+                    var userIDArr = el.attr('sakai-entityid').split(',');
+                    var userNameArr = sakai.api.Security.safeOutput(el.attr('sakai-entityname')).split(',');
+                    for (var i = 0; i < userNameArr.length; i++) {
+                        people.push({
+                            'uuid': userIDArr[i],
+                            'username': userNameArr[i],
+                            'type': el.attr('sakai-entitytype') || 'user'
+                        });
+                    }
+                }
+                initialize(people);
+            });
 
             bindEvents();
 
