@@ -531,10 +531,15 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 var state = $.bbq.getState('l');
                 var selected = state || false;
                 var structureFoundIn = false;
-                // Check whether this page exist
+                // Check whether this page exist and if we have permission to view
                 if (selected) {
                     structureFoundIn = checkPageExists(privstructure, selected) || checkPageExists(pubstructure, selected);
-                    if (!structureFoundIn || (structureFoundIn && !structureFoundIn.items[selected]._canView)) {
+                    // Check if this is a subpage
+                    var pageSelected = selected;
+                    if (selected.indexOf('/') !== -1) {
+                        pageSelected = selected.split('/')[0];
+                    }
+                    if (!structureFoundIn || (structureFoundIn && !structureFoundIn.items[pageSelected]._canView)) {
                         selected = false;
                     }
                 }
