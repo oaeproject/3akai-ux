@@ -349,7 +349,7 @@ define(
                         if ($.isFunction(deleteTagsCallback)) {
                             deleteTagsCallback(success);
                         }
-                    }, false, true);
+                    }, true);
                 } else {
                     if ($.isFunction(deleteTagsCallback)) {
                         deleteTagsCallback();

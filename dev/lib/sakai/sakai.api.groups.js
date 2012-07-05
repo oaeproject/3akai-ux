@@ -932,7 +932,7 @@ define(
                                 callback(true, dataToReturn);
                             }
                         }
-                    }, false, true);
+                    }, true);
                 } else {
                     debug.error("Could not get members group info for " + groupids);
                     if ($.isFunction(callback)) {
@@ -1011,7 +1011,7 @@ define(
                                 sakaiGroupsAPI.groupRoleData[groupID] = data;
                                 parseRoles(data);
                             }
-                        }, false, true);
+                        }, true);
                     }
 
                 } else {

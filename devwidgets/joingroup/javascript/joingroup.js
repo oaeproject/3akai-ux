@@ -172,7 +172,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     debug.error("Batch request to fetch group (id: " + id + ") data failed.");
                 }
-            }, false);
+            });
             return group;
         };
 

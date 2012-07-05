@@ -397,7 +397,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 for (var c = 0; c < templates.length; c++) {
                     renderGroups($.parseJSON(data.results[2 + c].body), templates[c].id);
                 }
-            }, false);
+            });
         };
 
 

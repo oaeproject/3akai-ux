@@ -40,13 +40,11 @@ define(
          *
          * @param {Array} requests The JSON object of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
-         * @param {Boolean} cache If we should cache this request or not
          * @param {Boolean} forcePOST if we need to force a POST
          * @param {Boolean} async If we should do an async request or not
          */
-        batch : function(_requests, _callback, _cache, _forcePOST, _async) {
+        batch : function(_requests, _callback, _forcePOST, _async) {
             var method = _forcePOST === true ? "POST" : "GET";
-            var cache = _cache === false ? false : true;
             var async = _async === false ? false : true;
             var url = sakai_conf.URL.BATCH;
 
@@ -110,7 +108,6 @@ define(
                 $.ajax({
                     url: sakai_conf.URL.BATCH,
                     type: method,
-                    cache: cache,
                     async: async,
                     data: {
                         "_charset_":"utf-8",
@@ -181,7 +178,7 @@ define(
             });
 
             // Execute the batch operation
-            sakaiServerAPI.batch(batchRequests, callback, false, true);
+            sakaiServerAPI.batch(batchRequests, callback, true);
 
         },
 
