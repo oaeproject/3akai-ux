@@ -47,9 +47,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var navSelectedItemArrow = '.lhnavigation_selected_item_arrow';
         var navSelectedItem = '.lhnavigation_selected_item';
 
-        var $lhnavigation_contentauthoring_declaration = $('#lhnavigation_contentauthoring_declaration'),
-            $lhnavigation_contentauthoring_declaration_template = $('#lhnavigation_contentauthoring_declaration_template');
-
         ////////////////
         // DATA CACHE //
         ////////////////
@@ -62,8 +59,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var parametersToCarryOver = {};
         var sakaiDocsInStructure = {};
         var currentPageShown = {};
-
-        var doNotRenderSakaiDocsOnPaths = ['/content'];
 
 
         //////////////////////////////
@@ -568,7 +563,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         }
 
                         getPageContent(ref, function() {
-                            preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                            preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode === true);
                         });
                     }
                 } else {
@@ -1205,7 +1200,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 processData(pubdata, cData.puburl, function(processedPub) {
                     pubstructure = processedPub;
                     renderData();
-                    selectPage();
+                    if (sakai_global.contentauthoring && sakai_global.contentauthoring.ready) {
+                        selectPage();
+                    } else {
+                        $(window).bind('ready.contentauthoring.sakai', selectPage);
+                    }
                     enableSorting();
                     if (cData.parametersToCarryOver) {
                         parametersToCarryOver = cData.parametersToCarryOver;
@@ -1226,26 +1225,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         ///////////////////////////////////////
         // Initializing the Sakaidocs widget //
         ///////////////////////////////////////
-
-        var sakaiDocsInitialized = false;
-
-        var prepareRenderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
-            if (!sakaiDocsInitialized) {
-                sakaiDocsInitialized = true;
-                $('#s3d-page-main-content').append($('#lhnavigation_contentauthoring_declaration'));
-                $(window).bind('ready.contentauthoring.sakai', function() {
-                    renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
-                });
-                // Don't render sakaidocs on paths in the doNotRenderSakaiDocsOnPaths array
-                // so we don't double-render it on those that already include it
-                if ($.inArray(window.location.path, doNotRenderSakaiDocsOnPaths) === -1) {
-                    sakai.api.Util.TemplateRenderer($lhnavigation_contentauthoring_declaration_template, {}, $lhnavigation_contentauthoring_declaration);
-                }
-                sakai.api.Widgets.widgetLoader.insertWidgets('s3d-page-main-content', false);
-            } else {
-                renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
-            }
-        };
 
         sakai_global.lhnavigation.getCurrentPage = function() {
             return currentPageShown;
@@ -1413,7 +1392,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         $(window).bind('hashchanged.lhnavigation.sakai', handleHashChange);
 
         $(window).bind('lhnav.init', function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
-            prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
+            renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
 
         $(window).bind('lhnav.updateCount', function(e, pageid, value, add) {
@@ -1425,6 +1404,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 $.bbq.removeState('newPageMode');
             }
         });
+
 
         ///////////////////////
         // Widget has loaded //
