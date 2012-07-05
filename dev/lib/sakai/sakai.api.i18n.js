@@ -229,16 +229,26 @@ define(
              * we'll use the default bundle to translate everything.
              */
             var loadLanguageBundles = function() {
-                var langCode;
-                var i10nCode;
-                var loadDefaultBundleRequest;
-                var loadCustomBundleRequest;
-                var loadLocalBundleRequest;
+                var langCode = '';
+                var langBundle = '';
+                var i10nCode = '';
+                var loadDefaultBundleRequest = {};
+                var loadCustomBundleRequest = {};
+                var loadLocalBundleRequest = {};
 
                 if (meData && meData.user && meData.user.locale && meData.user.locale.country) {
                     langCode = meData.user.locale.language + "_" + meData.user.locale.country.replace("_", "-");
+                    // Set the path for the language file
+                    // SAKIII-5891 Hashed default bundles not loaded
+                    $.each(sakai_config.Languages, function(index, lang) {
+                        if (lang.country === meData.user.locale.country) {
+                            langBundle = lang.bundle;
+                            return false;
+                        }
+                    });
                 } else {
                     langCode = sakai_config.defaultLanguage;
+                    langBundle = sakai_config.defaultLanguageBundle;
                 }
                 i10nCode = langCode.replace("_", "-");
 
@@ -254,8 +264,8 @@ define(
                 }
 
                 loadDefaultBundleRequest = {
-                    "url": sakai_config.URL.I18N_BUNDLE_ROOT + "default.properties",
-                    "method": "GET"
+                    'url': sakai_config.URL.I18N_DEFAULT_BUNDLE,
+                    'method': 'GET'
                 };
 
                 loadCustomBundleRequest = {
@@ -264,8 +274,8 @@ define(
                 };
 
                 loadLocalBundleRequest = {
-                    "url": sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
-                    "method":"GET"
+                    'url': langBundle,
+                    'method': 'GET'
                 };
 
                 // callback function for response from batch request
