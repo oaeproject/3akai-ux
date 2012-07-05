@@ -460,6 +460,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         } else {
             $(basicltiSettings, $rootel).hide();
             $(basicltiMainContainer, $rootel).show();
+
+            $(window).on('saved.contentauthoring.sakai', function() {
+                // We need to change the iframe URL after content authoring has saved, so the resource_link_id is updated
+                if ($rootel.is(':visible') && json && json.launchDataUrl) {
+                    var iframeUrl = $('#' + json.tuidFrame, $rootel).attr('src');
+                    var widgetStore = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
+                    if (iframeUrl && iframeUrl.indexOf(widgetStore) === -1) {
+                        json.launchDataUrl = widgetStore + '.launch.html';
+                        $('#' + json.tuidFrame, $rootel).attr('src', json.launchDataUrl);
+                    }
+                }
+            });
         }
 
         getRemoteContent();

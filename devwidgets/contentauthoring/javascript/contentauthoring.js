@@ -1384,6 +1384,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     sakai.api.Server.batch(batchRequests, function() {
                         addEditButtonBinding();
                         $(window).trigger('update.versions.sakai', currentPageShown);
+                        $(window).trigger('saved.contentauthoring.sakai');
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                     });
                 }
