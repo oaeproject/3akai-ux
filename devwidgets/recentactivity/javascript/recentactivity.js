@@ -29,6 +29,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      */
     sakai_global.recentactivity = function(tuid, showSettings){
 
+        var $rootel = $('#' + tuid);
+
         // Templates
         var recentactivityActivityItemTemplate = "recentactivity_activity_item_template";
 
@@ -54,6 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var numItems = 0;
         var numDiff = 0;
         var currentData = '';
+        var enableUpdates = true;
 
         var parseActivity = function(success, data, initialLoad){
             if (success) {
@@ -119,23 +122,55 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             return eWidth;
         };
 
-        var fetchActivity = function(initialLoad){
-            sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, function(success, data){
-                var recentActivityJson = JSON.stringify(data.results);
-                if (recentActivityJson !== currentData) {
-                    currentData = recentActivityJson;
-                    parseActivity(success, data, initialLoad);
+        var setUpdateTimer = function() {
+            t = setTimeout(function() {
+                fetchActivity(false);
+            }, 8000);
+        };
+
+        var fetchActivity = function(initialLoad) {
+            if (initialLoad || enableUpdates) {
+                sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, function(success, data) {
+                    var recentActivityJson = JSON.stringify(data.results);
+                    if (recentActivityJson !== currentData) {
+                        currentData = recentActivityJson;
+                        parseActivity(success, data, initialLoad);
+                    }
+                    setUpdateTimer();
+                }, {
+                    "items": 12
+                });
+            } else {
+                setUpdateTimer();
+            }
+        };
+
+        /**
+         * Adds bindings to the widget elements
+         */
+        var addBinding = function() {
+            // start or stop the automatic updating
+            $rootel.on('click', '#recentactivity_update_control', function() {
+                var $clicked = $(this);
+                if ($clicked.attr('data-updating-state') === 'running') {
+                    // Stop automatic updates
+                    enableUpdates = false;
+                    $clicked.html(sakai.api.i18n.getValueForKey('START_AUTO_UPDATES_BUTTON', 'recentactivity'));
+                    $clicked.attr('data-updating-state', 'stopped');
+                    $clicked.attr('title', sakai.api.i18n.getValueForKey('START_AUTO_UPDATES', 'recentactivity'));
+                } else {
+                    // Start automatic updates
+                    enableUpdates = true;
+                    $clicked.html(sakai.api.i18n.getValueForKey('STOP_AUTO_UPDATES_BUTTON', 'recentactivity'));
+                    $clicked.attr('data-updating-state', 'running');
+                    $clicked.attr('title', sakai.api.i18n.getValueForKey('STOP_AUTO_UPDATES', 'recentactivity'));
                 }
-                t = setTimeout(function(){
-                        fetchActivity(false);
-                    }, 8000);
-            }, {
-                "items": 12
             });
         };
 
         var doInit = function(initialLoad){
             fetchActivity(initialLoad);
+            addBinding();
         };
 
         doInit(true);
