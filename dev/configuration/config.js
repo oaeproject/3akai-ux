@@ -1550,47 +1550,48 @@ define(function(){
         Languages: [{ 
             "country": "ES", 
             "language": "es", 
-            "path": "/dev/bundle/es_ES.properties",
+            "bundle": "/dev/bundle/es_ES.properties",
             "displayName": "Español"
         }, {
             "country": "CN",
             "language": "zh",
-            "path": "/dev/bundle/zh_CN.properties",
+            "bundle": "/dev/bundle/zh_CN.properties",
             "displayName": "中文"
         }, {
             "country": "NL",
             "language": "nl",
-            "path": "/dev/bundle/nl_NL.properties",
+            "bundle": "/dev/bundle/nl_NL.properties",
             "displayName": "Nederlands"
         }, {
             "country": "GB",
             "language": "en",
-            "path": "/dev/bundle/en_GB.properties",
+            "bundle": "/dev/bundle/en_GB.properties",
             "displayName": "English (United Kingdom)"
         }, {
             "country": "US",
             "language": "en",
-            "path": "/dev/bundle/en_US.properties",
+            "bundle": "/dev/bundle/en_US.properties",
             "displayName": "English (United States)"
         }, {
             "country": "JP",
             "language": "ja",
-            "path": "/dev/bundle/ja_JP.properties",
+            "bundle": "/dev/bundle/ja_JP.properties",
             "displayName": "日本語"
         }, {
             "country": "HU",
             "language": "hu",
-            "path": "/dev/bundle/hu_HU.properties",
+            "bundle": "/dev/bundle/hu_HU.properties",
             "displayName": "Magyar"
         }, {
             "country": "KR",
             "language": "ko",
-            "path": "/dev/bundle/ko_KR.properties",
+            "bundle": "/dev/bundle/ko_KR.properties",
             "displayName": "한국어"
         }],
 
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
+        defaultLanguageBundle: "/dev/bundle/en_US.properties",
 
         enableCategories: true,
 

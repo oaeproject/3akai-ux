@@ -230,7 +230,7 @@ define(
              */
             var loadLanguageBundles = function() {
                 var langCode = '';
-                var langPath = '';
+                var langBundle = '';
                 var i10nCode = '';
                 var loadDefaultBundleRequest = {};
                 var loadCustomBundleRequest = {};
@@ -238,19 +238,19 @@ define(
 
                 if (meData && meData.user && meData.user.locale && meData.user.locale.country) {
                     langCode = meData.user.locale.language + "_" + meData.user.locale.country.replace("_", "-");
+                    // Set the path for the language file
+                    // SAKIII-5891 Hashed default bundles not loaded
+                    $.each(sakai_config.Languages, function(index, lang) {
+                        if (lang.country === meData.user.locale.country) {
+                            langBundle = lang.bundle;
+                            return false;
+                        }
+                    });
                 } else {
                     langCode = sakai_config.defaultLanguage;
+                    langBundle = sakai_config.defaultLanguageBundle;
                 }
                 i10nCode = langCode.replace("_", "-");
-
-                // Set the path for the language file
-                // SAKIII-5891 Hashed default bundles not loaded
-                $.each(sakai_config.Languages, function(index, lang) {
-                    if (lang.country === meData.user.locale.country) {
-                        langPath = lang.path;
-                        return false;
-                    }
-                });
 
                 // set the language attribute for the html tag
                 $("html").attr("lang", langCode.substr(0, 2));
@@ -274,7 +274,7 @@ define(
                 };
 
                 loadLocalBundleRequest = {
-                    'url': langPath,
+                    'url': langBundle,
                     'method': 'GET'
                 };
 
