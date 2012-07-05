@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.pager.sakai-edited'], function($, sakai) {
 
     /**
      * @name sakai_global.collectionviewer
@@ -55,6 +55,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var fetchCollectionData = false;
         var initialload = true;
         var carouselSize = $body.hasClass('has_nav') ? 9 : 12;
+        var listSize = 15;
         // previewsAllowed makes sure recursive embedding is not allowed
         var previewsAllowed = true;
         // pagePreviewDisabled disables page previews inside of collection viewers inside of a sakai doc
@@ -246,17 +247,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId)
             }, $collectionviewerGridListContainer);
             $collectionviewerGridListContainer.show();
-            var pageCount = Math.ceil(collectionviewer.total / carouselSize);
+            var pageCount = Math.ceil(collectionviewer.total / listSize);
             if (pageCount > 1) {
                 $('#collectionviewer_paging', $rootel).show();
                 $('#collectionviewer_paging', $rootel).pager({
                     pagenumber: parseInt(collectionviewer.page, 10),
-                    pagecount: Math.ceil(collectionviewer.total / carouselSize),
+                    pagecount: Math.ceil(collectionviewer.total / listSize),
                     buttonClickCallback: function(page) {
                         fetchCollectionData = false;
                         collectionviewer.page = parseInt(page, 10);
                         $.bbq.pushState({'lp': collectionviewer.page});
-                        decideGetNextBatch();
                     }
                 });
             } else {
@@ -268,18 +268,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ///////////////////////
         // UTILITY FUNCTIONS //
         ///////////////////////
-
-        /**
-         * Decides to get the next batch of data before the carousel runs out of items to show
-         */
-        var decideGetNextBatch = function() {
-            // Fetch page if it wasn't fetched previously
-            if (!collectionData[collectionviewer.page - 1]) {
-                getCollectionData();
-            } else {
-                showData();
-            }
-        };
 
         /**
          * Hides the main containers
@@ -453,9 +441,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var switchListView = function() {
             collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
+            collectionviewer.page = $.bbq.getState('lp') || 1;
             $('.s3d-listview-options', $rootel).children('.selected').children().removeClass('selected');
             $('.s3d-listview-options', $rootel).children('.selected').removeClass('selected');
-            collectionviewer.page = 1;
             getCollectionData();
         };
 
