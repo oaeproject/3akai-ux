@@ -540,7 +540,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     renderSelectedContacts();
                     $(window).trigger("toadd.addpeople.sakai", [tuid.replace("addpeople", ""), selectedUsers]);
                 }
-            });
+            }, false);
         };
 
         ////////////

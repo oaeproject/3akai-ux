@@ -320,7 +320,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     contentObj.data = data.results;
                     selectAlreadyInGroup();
                 }
-            });
+            }, false);
         });
     };
 

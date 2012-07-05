@@ -355,7 +355,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         callback();
                     }
                 }
-            });
+            }, false);
         };
 
         /**

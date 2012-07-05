@@ -388,7 +388,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                     renderGroups($.parseJSON(data.results[2 + c].body), sakai.config.worldTemplates[c].id);
                 }
-            });
+            }, false);
         };
 
 
