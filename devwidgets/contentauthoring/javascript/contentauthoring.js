@@ -1691,6 +1691,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         // Set the contentauthoring ready variable to let the left hand navigation know it can render pages
         sakai_global.contentauthoring.ready = true;
+        $(window).trigger('ready.contentauthoring.sakai');
 
 
 
