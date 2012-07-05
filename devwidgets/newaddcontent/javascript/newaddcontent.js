@@ -1232,6 +1232,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             $(newaddcontentSelectedItemsActionsPermissions).die('click', changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).die('click', editData);
             $(newaddcontentExistingItemsListContainerActionsSort).die('change');
+            $newaddcontentContainer.off('click', '#newaddcontent_existingitems_paging .sakai_pager button');
             $(window).unbind('init.deletecontent.sakai', deleteContent);
         };
 
@@ -1254,6 +1255,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             $(newaddcontentExistingCheckAll).live('change', checkUncheckAll);
             $(newaddcontentExistingItemsListContainerActionsSort).live('change', function() {searchPaging(1);});
             $(newaddcontentSaveTo).live('change', greyOutExistingInLibrary);
+            $newaddcontentContainer.on('click', '#newaddcontent_existingitems_paging .sakai_pager button', function(){
+                return false;
+            });
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit + ', #assignlocation_container');
             sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
 
