@@ -24,6 +24,7 @@ define(function(){
             GROUP_DEFAULT_ICON_URL_LARGE: "/dev/images/group_avatar_icon_100x100_nob.png",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
+            I18N_DEFAULT_BUNDLE: '/dev/bundle/default.properties',
             INBOX_URL: "/me#l=messages/inbox",
             INVITATIONS_URL: "/me#l=messages/invitations",
             MY_DASHBOARD_URL: "/me#l=dashboard",
@@ -906,7 +907,8 @@ define(function(){
             "subnav": [{
                 "id": "subnavigation_add_content_link",
                 "label": "ADD_CONTENT",
-                "url": "#"
+                "url": "#",
+                "cssClass": "sakai_add_content_overlay"
             }, {
                 "id": "subnavigation_add_collection_link",
                 "label": "ADD_COLLECTION",
@@ -1548,39 +1550,48 @@ define(function(){
         Languages: [{ 
             "country": "ES", 
             "language": "es", 
+            "bundle": "/dev/bundle/es_ES.properties",
             "displayName": "Español"
         }, {
             "country": "CN",
             "language": "zh",
+            "bundle": "/dev/bundle/zh_CN.properties",
             "displayName": "中文"
         }, {
             "country": "NL",
             "language": "nl",
+            "bundle": "/dev/bundle/nl_NL.properties",
             "displayName": "Nederlands"
         }, {
             "country": "GB",
             "language": "en",
+            "bundle": "/dev/bundle/en_GB.properties",
             "displayName": "English (United Kingdom)"
         }, {
             "country": "US",
             "language": "en",
+            "bundle": "/dev/bundle/en_US.properties",
             "displayName": "English (United States)"
         }, {
             "country": "JP",
             "language": "ja",
+            "bundle": "/dev/bundle/ja_JP.properties",
             "displayName": "日本語"
         }, {
             "country": "HU",
             "language": "hu",
+            "bundle": "/dev/bundle/hu_HU.properties",
             "displayName": "Magyar"
         }, {
             "country": "KR",
             "language": "ko",
+            "bundle": "/dev/bundle/ko_KR.properties",
             "displayName": "한국어"
         }],
 
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
+        defaultLanguageBundle: "/dev/bundle/en_US.properties",
 
         enableCategories: true,
 

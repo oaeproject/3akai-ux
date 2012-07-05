@@ -50,7 +50,7 @@
 #addpeople_container .as-results {margin-left:60px;}
 
 /* Contacts list */
-#addpeople_container #addpeople_contacts_container, #addpeople_container #addpeople_selected_contacts_container {border-top: 1px solid #E7E7E7;margin-top:7px;overflow:auto;height:90%;}
+#addpeople_container #addpeople_contacts_list, #addpeople_container #addpeople_selected_contacts_container {border-top: 1px solid #E7E7E7;margin-top:7px;overflow:auto;height:90%;}
 #addpeople_container #addpeople_select_all_contacts, #addpeople_container #addpeople_select_all_selected_contacts {margin:7px 12px 0 10px;}
 #addpeople_container #addpeople_select_all_contacts {margin-bottom: 6px;}
 #addpeople_container .addpeople_checkbox, #addpeople_container .addpeople_selected_checkbox {float:left;margin-right:12px;margin-top:10px;}
@@ -68,4 +68,4 @@
 #addpeople_container #addpeople_actions .s3d-link-button {margin-right:30px;}
 
 /* Override sakai.base.css */
-#addpeople_container #addpeople_contacts_container a.s3d-entity-displayname{width:185px;}
+#addpeople_container #addpeople_contacts_list a.s3d-entity-displayname{width:185px;}

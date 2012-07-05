@@ -16,6 +16,11 @@
         }
     },
     "id": "addtocontacts",
+    "trigger": {
+        "events": ["initialize.addToContacts.sakai"],
+        "selectors": [".sakai_addtocontacts_overlay"],
+        "onLoad": false
+    },
     "type": "core",
     "url": "/devwidgets/addtocontacts/addtocontacts.html"
 }

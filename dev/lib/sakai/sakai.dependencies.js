@@ -114,7 +114,6 @@ require(
         "config/config_custom",
         "underscore",
         "jquery-ui",
-        "jquery-plugins/jquery.validate",
         "misc/l10n/globalize",
         "misc/google/html-sanitizer",
         "jquery-plugins/jquery.equalheights",
