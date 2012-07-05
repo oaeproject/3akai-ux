@@ -1097,12 +1097,18 @@ define(
                     }
 
                     var groupType = sakai_i18n.getValueForKey("OTHER");
-                    if (group["sakai:category"]){
-                        for (var c = 0; c < sakai_conf.worldTemplates.length; c++) {
-                            if (sakai_conf.worldTemplates[c].id === group["sakai:category"]){
-                                groupType = sakai_i18n.getValueForKey(sakai_conf.worldTemplates[c].title);
+                    if (group['sakai:category']) {
+                        sakai_util.getTemplates(function(success, templates) {
+                            if (success) {
+                                for (var c = 0; c < templates.length; c++) {
+                                    if (templates[c].id === group['sakai:category']) {
+                                        groupType = sakai_i18n.getValueForKey(templates[c].title);
+                                    }
+                                }
+                            } else {
+                                debug.error('Could not get the group templates');
                             }
-                        }
+                        });
                     }
                     // Modify the tags if there are any
                     if (group["sakai:tags"]) {
@@ -1383,24 +1389,35 @@ define(
             return newjson;
         },
 
-        getTemplate: function(cat, id){
-            var category = false;
-            for (var i = 0; i < sakai_conf.worldTemplates.length; i++){
-                if (sakai_conf.worldTemplates[i].id === cat){
-                    category = sakai_conf.worldTemplates[i];
-                    break;
-                }
-            }
-            var template = false;
-            if (category && category.templates && category.templates.length) {
-                for (var w = 0; w < category.templates.length; w++){
-                    if (category.templates[w].id === id){
-                        template = category.templates[w];
-                        break;
+        getTemplate: function(cat, id, callback) {
+            sakai_util.getTemplates(function(success, templates) {
+                if (success) {
+                    var category = false;
+                    for (var i = 0; i < templates.length; i++) {
+                        if (templates[i].id === cat) {
+                            category = templates[i];
+                            break;
+                        }
+                    }
+                    var template = false;
+                    if (category && category.templates && category.templates.length) {
+                        for (var w = 0; w < category.templates.length; w++) {
+                            if (category.templates[w].id === id) {
+                                template = category.templates[w];
+                                break;
+                            }
+                        }
+                    }
+                    if ($.isFunction(callback)) {
+                        callback(success, template, templates);
+                    }
+                } else {
+                    debug.error('Could not get the template for ' + id);
+                    if ($.isFunction(callback)) {
+                        callback(false);
                     }
                 }
-            }
-            return template;
+            });
         }
 
     };

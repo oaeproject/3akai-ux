@@ -40,6 +40,9 @@ define(
     function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_conf, _) {
 
     var sakai_util = {
+        data: {
+            worldTemplates: false
+        },
 
         startup : function(meData) {
             // Start polling to keep session alive when logged in
@@ -59,33 +62,48 @@ define(
 
         /**
          * Get the world templates from the server
+         * If the worldTemplates are already fetched they will just be returned from the variable
+         * @param {Function} callback Function executed after the templates have been fetched. 
+         *                            The templates are passed through to the function
          */
-        getTemplates: function() {
-            var templates = [];
-            $.ajax({
-                url: sakai_conf.URL.WORLD_INFO_URL,
-                async:false,
-                success: function(data) {
-                    data = sakai_serv.removeServerCreatedObjects(data, ["jcr:"]);
-                    $.each(data, function(key, value){
-                        if ($.isPlainObject(value) && value.id){
-                            templates.push(value);
+        getTemplates: function(callback) {
+            if (!sakai_util.data.worldTemplates) {
+                sakai_util.data.worldTemplates = [];
+                $.ajax({
+                    url: sakai_conf.URL.WORLD_INFO_URL,
+                    success: function(data) {
+                        data = sakai_serv.removeServerCreatedObjects(data, ['jcr:']);
+                        $.each(data, function(key, value) {
+                            if ($.isPlainObject(value) && value.id) {
+                                sakai_util.data.worldTemplates.push(value);
+                            }
+                        });
+                        $.each(sakai_util.data.worldTemplates, function(i, temp) {
+                            $.each(temp, function(k, templ) {
+                                if ($.isPlainObject(temp[k])) {
+                                    temp.templates = temp.templates || [];
+                                    temp.templates.push(temp[k]);
+                                }
+                            });
+                        });
+                        sakai_util.data.worldTemplates = _.sortBy(sakai_util.data.worldTemplates, function(templ) {
+                            return templ.order;
+                        });
+                        if ($.isFunction(callback)) {
+                            callback(true, sakai_util.data.worldTemplates);
                         }
-                    });
-                }
-            });
-            $.each(templates, function(i,temp) {
-                $.each(temp, function(k,templ) {
-                    if ($.isPlainObject(temp[k])) {
-                        temp.templates = temp.templates || [];
-                        temp.templates.push(temp[k]);
+                    }, error: function(xhr, textStatus, thrownError) {
+                        debug.error('Could not get the group templates');
+                        if ($.isFunction(callback)) {
+                            callback(false, xhr);
+                        }
                     }
                 });
-            });
-            templates = _.sortBy(templates, function(templ) {
-                return templ.order;
-            });
-            return templates;
+            } else {
+                if ($.isFunction(callback)) {
+                    callback(true, sakai_util.data.worldTemplates);
+                }
+            }
         },
 
         /**
