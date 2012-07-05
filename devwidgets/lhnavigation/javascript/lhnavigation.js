@@ -529,7 +529,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * @param {String} selected The path to the page, ie. 'syllabus/week1'
          */
         var canViewPage = function(structure, selected) {
-            var canView = true;
             if (structure) {
                 var pageSelected = selected;
                 var subPage = false;
@@ -540,13 +539,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     subPage = selected.split('/')[1];
                 }
 
-                // Check if the page has a _canView property and it's set to false
+                // Check if the page has a _canView property and it's set to false, if it is undefined the user should still be able to see the page
                 if ((structure.items[pageSelected] && structure.items[pageSelected]._canView === false) ||
                     (subPage && structure.items[pageSelected][subPage] && structure.items[pageSelected][subPage]._canView === false)) {
-                    canView = false;
+                    return false;
                 }
             }
-            return canView;
+            return true;
         };
 
         var selectPage = function(newPageMode) {
