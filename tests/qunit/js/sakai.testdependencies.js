@@ -79,6 +79,7 @@ require({
         "jquery-plugins": "jquery/plugins",
         "jquery": "jquery/jquery-1.7.0",
         "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
+        "jquery-cookie": "jquery/plugins/jquery.cookie",
         "config": "../configuration",
         "mockjax": "../../tests/qunit/js/jquery.mockjax",
         "qunitjs": "../../tests/qunit/js"
