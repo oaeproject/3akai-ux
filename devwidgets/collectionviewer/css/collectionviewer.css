@@ -34,6 +34,7 @@
 }
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result {
     border-bottom: none;
+    position: relative;
 }
 .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result:hover, .collectionviewer_widget #collectionviewer_expanded_content_container ul li.s3d-search-result.hovered {
     border: 2px solid #c4d9e1;
@@ -57,12 +58,7 @@
 .collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_download_button {
     height: 21px;
     line-height: 22px;
-}
-.collectionviewer_widget #collectionviewer_expanded_content_container .collectionviewer_item_actions {
-    display: none;
-}
-.collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result:hover .collectionviewer_item_actions, .collectionviewer_widget #collectionviewer_expanded_content_container .s3d-search-result.hovered .collectionviewer_item_actions {
-    display: inline;
+    color: #666666;
 }
 .collectionviewer_widget .s3d-button.collectionviewer_comments_button {
     float: right;
@@ -85,7 +81,10 @@
 }
 .collectionviewer_widget #collectionviewer_header_container {
     border-bottom: 5px solid #E2E2E2;
-    min-height: 40px;
+    min-height: 36px;
+}
+.collectionviewer_clear {
+    clear: both;
 }
 .collectionviewer_widget #collectionviewer_sortby {
     border: 1px solid #A9A9A9;
@@ -122,6 +121,7 @@
     padding: 7px 12px !important;
     margin-bottom: 4px;
     list-style: none;
+    position: relative;
     border-radius: 4px !important;
     -moz-border-radius: 4px !important;
     -webkit-border-radius: 4px !important;
@@ -134,7 +134,6 @@
 }
 .collectionviewer_widget .collectionviewer_entity_header {
     display: block;
-    width: 580px;
 }
 .collectionviewer_widget #collectionviewer_carousel_loading img {
     display: block;
@@ -149,9 +148,6 @@
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
-.has_nav .collectionviewer_widget .documentviewer_widget {
-    width:682px;
-}
 .collectionviewer_widget .documentviewer_widget #documentviewer_preview {
     overflow:hidden;
 }
@@ -159,14 +155,13 @@
     width: 850px;
     max-width: 850px;
 }
-.has_nav .collectionviewer_widget .contentpreview_fullsize_preview embed {
-    width:682px;
+.collectionviewer_widget #documentviewer_image_rendered {
+    max-width: 100% !important;
+    width: auto;
+    height: auto;
 }
 .collectionviewer_widget #contentpreview_fullsize_preview {
     padding: 0 0 15px;
-}
-.has_nav .collectionviewer_widget #contentpreview_fullsize_preview {
-    width:712px;
 }
 .collectionviewer_widget .s3d-search-results-grid {
     border: none !important;

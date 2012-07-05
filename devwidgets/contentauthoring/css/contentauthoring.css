@@ -76,6 +76,7 @@
     display:table-cell !important;
     width: 100%;
     vertical-align: top !important;
+    height: auto !important;
 }
 
 .contentauthoring_widget .contentauthoring_table_row.contentauthoring_cell_container_row .contentauthoring_cell:first-child {
@@ -158,7 +159,7 @@
 }
 
 #contentauthoring_row_menu.s3d-dropdown-list .s3d-dropdown-list-arrow-up {
-    right: 35px;
+    left: 37px;
     background-position: left -7px;
     height: 14px;
     margin-top: -13px;
@@ -315,7 +316,7 @@
 }
 
 .contentauthoring_edit_mode .s3d-dropdown-list .s3d-dropdown-hassubnav ul {
-    width: 120px;
+    padding-right: 30px;
 }
 
 .contentauthoring_dummy_element {

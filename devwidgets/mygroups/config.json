@@ -12,6 +12,11 @@
         },
         "zh_CN": {
             "bundle": "/devwidgets/mygroups/bundles/zh_CN.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mygroups/bundles/fr_FR.properties",
+            "name": "Mes inscriptions",
+            "description": "Mes inscriptions"
         }
     },
     "id": "mygroups",

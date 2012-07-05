@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/popularcontent/bundles/default.properties",
             "description": "Most active content",
             "name": "Most active content"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/popularcontent/bundles/fr_FR.properties",
+            "description": "Contenus les plus actifs",
+            "name": "Contenus les plus actifs"
         }
     },
     "id": "popularcontent",

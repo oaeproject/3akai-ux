@@ -100,8 +100,10 @@ define(
             sakai_serv.batch(batchRequest, function(success, response){
                 $.each(response.results, function(index, item){
                     var group = $.parseJSON(item.body);
-                    sakaiGroupsAPI.groupData[group.properties["sakai:group-id"]] = group;
-                    toReturn[group.properties["sakai:group-id"]] = group;
+                    if (group && group.properties) {
+                        sakaiGroupsAPI.groupData[group.properties["sakai:group-id"]] = group;
+                        toReturn[group.properties["sakai:group-id"]] = group;
+                    }
                 });
                 if ($.isFunction(callback)){
                     callback(true, toReturn);
@@ -186,7 +188,14 @@ define(
                 data: {data: JSON.stringify(data)},
                 type: "POST",
                 success: function(_data, textStatus){
-                    callback(true, data);
+                    var success = true;
+                    if (_data && _data.results && _data.results[0] && _data.results[0].error) {
+                        success = false;
+                        if (_data.results[0].error === "Invalid group id") {
+                            data.errorMessage = "GROUP_CREATION_ERROR_INVALID_ID";
+                        }
+                    }
+                    callback(success, data);
                 },
                 error: function(){
                     callback(false, data);

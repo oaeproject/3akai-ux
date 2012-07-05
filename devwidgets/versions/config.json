@@ -9,6 +9,9 @@
         },
         "es_ES": { 
             "bundle": "/devwidgets/versions/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/versions/bundles/fr_FR.properties"
         }
     },
     "id": "versions",

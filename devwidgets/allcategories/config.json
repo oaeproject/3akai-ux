@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/allcategories/bundles/default.properties",
             "name": "All categories widget",
             "description": "All categories widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/allcategories/bundles/fr_FR.properties"
         }
     },
     "id": "allcategories",

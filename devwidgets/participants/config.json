@@ -10,6 +10,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/participants/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/participants/bundles/fr_FR.properties"
         }
     },
     "id": "participants",

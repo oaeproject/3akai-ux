@@ -300,9 +300,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(document).on('click', '.savecontent_trigger', function(el) {
             clickedEl = $(this);
+
             idArr = clickedEl.attr('data-entityid');
             if (idArr.length > 1 && !$.isArray(idArr)) {
                 idArr = idArr.split(',');
+            }
+
+            //SAKIII-5514 Fix for disabled buttons in Chrome
+            if (!$(el.target).is(clickedEl) && clickedEl.attr('disabled')) {
+                return false;
             }
 
             contentObj.memberOfGroups = $.extend(true, {}, sakai.api.Groups.getMemberships(sakai.data.me.groups, true));

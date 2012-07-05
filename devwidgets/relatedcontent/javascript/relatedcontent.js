@@ -183,6 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var showMore = function(){
+            $(relatedcontentShowMore).attr('disabled','disabled');
             page++;
             getRelatedContent();
         };

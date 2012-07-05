@@ -111,6 +111,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     count._count = value;
                 }
                 if (listitem.length) {
+                    if (count._count > 999) {
+                        $(element, listitem).text('999+');
+                    } else {
+                        $(element, listitem).text(count._count);
+                    }
                     if (!listitem.find('.lhnavigation_levelcount').length) {
                         listitem.find('.lhnavigation_item_content').prepend(
                             sakai.api.Util.TemplateRenderer('lhnavigation_counts_template', {
@@ -118,7 +123,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             })
                         );
                     }
-                    $(element, listitem).text(count._count);
                     if (count._count <= 0) {
                         $(element, listitem).hide();
                     } else {
@@ -650,20 +654,16 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         };
 
-        var showContextMenu = function($clickedItem){
-            var contextMenu = $('#lhnavigation_submenu');
+        var showContextMenu = function($clickedItem, x, y) {
+            var contextMenu = $('#lhnavigation_submenu', $rootel);
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
-            var leftOffset = 68;
-            if ($clickedItem.parents('.lhnavigation_subnav_item').attr('data-sakai-addcontextoption') === 'user') {
-                leftOffset = 63;
-            }
-            contextMenu.css('left', $clickedItem.position().left + leftOffset + 'px');
-            contextMenu.css('top', $clickedItem.position().top + 6 + 'px');
+            contextMenu.css('left', x - 70);
+            contextMenu.css('top', y + 15);
             toggleContextMenu();
         };
 
         var toggleContextMenu = function(forceHide) {
-            var contextMenu = $('#lhnavigation_submenu');
+            var contextMenu = $('#lhnavigation_submenu', $rootel);
             if (forceHide) {
                 $('.lhnavigation_selected_submenu_image.clicked')
                     .parents('.lhnavigation_item_content, .lhnavigation_subnav_item_content')
@@ -1234,8 +1234,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Internal event binding //
         ////////////////////////////
 
-        $('.lhnavigation_selected_submenu').live('click', function(ev) {
-            showContextMenu($(this));
+        $rootel.on('click', '.lhnavigation_selected_submenu', function(ev){
+            showContextMenu($(this), ev.pageX, ev.pageY);
         });
 
         $rootel.on('mouseenter focus', '.lhnavigation_item_content, .lhnavigation_subnav_item_content', function() {

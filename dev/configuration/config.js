@@ -1573,6 +1573,10 @@ define(function(){
             "bundle": "/dev/bundle/en_US.properties",
             "displayName": "English (United States)"
         }, {
+            "country": "FR",
+            "language": "fr",
+            "displayName": "Français"
+        }, {
             "country": "JP",
             "language": "ja",
             "bundle": "/dev/bundle/ja_JP.properties",

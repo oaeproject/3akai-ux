@@ -116,7 +116,7 @@ require(
         "jquery-ui",
         "misc/l10n/globalize",
         "misc/google/html-sanitizer",
-        "jquery-plugins/jquery.equalheights",
+        "jquery-plugins/jquery.equal-height-columns",
         "jquery-plugins/jquery.contentchange.sakai-edited",
         "jquery-plugins/jquery.timeago",
         "jquery-plugins/jqmodal.sakai-edited",

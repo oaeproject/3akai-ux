@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/recentactivity/bundles/default.properties",
             "description": "Recent activity widget",
             "name": "Recent activity widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentactivity/bundles/fr_FR.properties"
         }
     },
     "id": "recentactivity",

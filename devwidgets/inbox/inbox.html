@@ -21,15 +21,15 @@
                 <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-smaller-button s3d-margin-top-5 s3d-header-button" style="display:none">
                     __MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__
                 </a>
-                <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-margin-top-3 s3d-overlay-button grey fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
-                    __MSG__CREATE_NEW_MESSAGE__
-                </a>
 
-                <div class="s3d-search-container inbox-message-list-view" style="display:none">
+                <div class="s3d-search-container inbox-message-list-view fl-force-right" style="display:none">
                     <input type="text" maxlength="255" title="__MSG__SEARCH_MESSAGES__" disabled="disabled" id="inbox_search_messages" class="s3d-search-inputfield newaddcontent_existingitems_search" placeholder="__MSG__SEARCH_MESSAGES__"/>
                     <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
                         <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_MESSAGES__"/>
                     </button>
+                    <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-margin-top-3 s3d-overlay-button grey inbox-message-list-view inbox-message-detail-view fl-force-right" id="inbox_create_new_message" style="display:none">
+                        __MSG__CREATE_NEW_MESSAGE__
+                    </a>
                 </div>
             </div>
 
@@ -79,8 +79,8 @@
                             </div>
                             <div class="inbox_right_col inbox_col">
                                 <div class="inbox_delete fl-force-right">
+                                    <a href="#message=${message.id}&reply=true" class="s3d-button s3d-header-button s3d-button-no-text inbox_reply_button inbox_action_button" title="__MSG__REPLY__"><span class="s3d-aural-text">__MSG__REPLY_TO_MESSAGE__ ${message.subject|safeOutput}</span><div class="inbox_reply_icon"></div></a>
                                     <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button inbox_action_button" title="__MSG__DELETE_MESSAGE__"><span class="s3d-aural-text">__MSG__DELETE_MESSAGE__ ${message.subject|safeOutput}</span><div class="inbox_delete_icon"></div></button>
-                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-header-button s3d-button-no-text inbox_reply_button inbox_action_button" title="__MSG__REPLY__"><span class="s3d-aural-text">__MSG__REPLY_TO_MESSAGE__ ${message.subject|safeOutput}</span><div class="inbox_reply_icon"></div></a>
                                 </div>
                             </div>
                         </div>
