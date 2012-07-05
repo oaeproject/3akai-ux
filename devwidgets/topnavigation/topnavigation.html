@@ -56,7 +56,7 @@
                         {for subnav in i.subnav}
                             {if subnav !== "hr"}
                             <li>
-                                <a role="menuitem" tabindex="-1" href="${subnav.url}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
+                                <a role="menuitem" tabindex="-1" href="${subnav.url}" id="${subnav.id}" class="s3d-bold {if subnav.cssClass} ${subnav.cssClass}{/if}">${subnav.label}</a>
                             </li>
                             {else}
                                 <hr class="s3d-split-line"/>
@@ -126,7 +126,7 @@
                 {/for}
             </ul>
         {/if}
-        {for c in sakai.config.worldTemplates}
+        {for c in templates}
             {if groups[c.id] && groups[c.id].length}
                 <a href="/search#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header">${sakai.api.i18n.getValueForKey(c.title)}</a>
                 <ul role="menu">
@@ -155,7 +155,7 @@
         {if people.length || files.length}
             ${totalresults = peopletotal + filestotal|eat} 
         {/if}
-        {for c in sakai.config.worldTemplates}
+        {for c in templates}
             {if groups[c.id] && groups[c.id].length}
                 ${totalresults += groups[c.id + "total"]|eat} 
             {/if}
@@ -226,7 +226,7 @@
                 <a role="menuitem" aria-haspopup="true" href="/me#" id="topnavigation_user_options_name" class="s3d-bold"></a>
                 <div class="topnavigation_user_dropdown s3d-dropdown-container" style="display:none;">
                     <ul role="menu" aria-hidden="true">
-                        <li><a tabindex="-1" role="menuitem" href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_ACCOUNT__</a></li>
+                        <li><a tabindex="-1" role="menuitem" href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold accountpreferences_trigger">__MSG__MY_ACCOUNT__</a></li>
                         <li><a tabindex="-1" role="menuitem" href="/logout" id="subnavigation_logout_link" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
                     </ul>
                 </div>
@@ -234,52 +234,6 @@
         </ul>
     {/if}
 --></div>
-
-<!-- OVERLAYS -->
-
-<!-- Upload Content Widget Container -->
-<div id="newaddcontentcontainer" style="display:none;">
-    <div id="widget_newaddcontent" class="widget_inline"></div>
-</div>
-
-<!-- Send Message Widget Container -->
-<div id="widget_sendmessage" class="widget_inline"></div>
-
-<!-- Add To Contacts Widget Container -->
-<div id="widget_addtocontacts" class="widget_inline"></div>
-
-<!-- Join Group Widget Container -->
-<div id="widget_joingroup" class="widget_inline"></div>
-
-<!-- Join Request Buttons Widget Container -->
-<div id="widget_joinrequestbuttons" class="widget_inline"></div>
-
-<!-- Tooltip Widget Container -->
-<div id="widget_tooltip" class="widget_inline"></div>
-
-<!-- My Preferences Widget Container -->
-<div id="widget_accountpreferences" class="widget_inline"></div>
-
-<!-- Change Picture Widget Container -->
-<div id="widget_changepic" class="widget_inline"></div>
-
-<!-- Save Content Widget Container -->
-<div id="widget_savecontent" class="widget_inline"></div>
-
-<!-- Add People and Groups Widget Container -->
-<div id="widget_addpeoplegroups" class="widget_inline"></div>
-
-<!-- Share Content Widget Container -->
-<div id="widget_newsharecontent" class="widget_inline"></div>
-
-<!-- Share Content Widget Container -->
-<div id="widget_deletecontent" class="widget_inline"></div>
-
-<!-- Personinfo Widget Container -->
-<div id="widget_personinfo" class="widget_inline"></div>
-
-<!-- Inserter Widget Container -->
-<div id="widget_inserter" class="widget_inline"></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/topnavigation/javascript/topnavigation.js"></script>

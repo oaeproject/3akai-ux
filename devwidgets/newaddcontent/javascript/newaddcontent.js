@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.fileupload'], function($, sakai, _) {
+require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.fileupload', 'jquery-plugins/jquery.pager.sakai-edited'], function($, sakai, _) {
 
     /**
      * @name sakai_global.newaddcontent
@@ -638,7 +638,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             itemsAdded.push(item);
                         }
                     });
-                    $(window).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
+                    $(document).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
                     // If adding to a group library or collection, these will also still be added to my library
                     if (libraryToUploadTo !== sakai.data.me.user.userid) {
                         brandNewContent[sakai.data.me.user.userid] = brandNewContent[sakai.data.me.user.userid] || [];
@@ -1323,6 +1323,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             $(newaddcontentSelectedItemsActionsPermissions).die('click', changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).die('click', editData);
             $(newaddcontentExistingItemsListContainerActionsSort).die('change');
+            $newaddcontentContainer.off('click', '#newaddcontent_existingitems_paging .sakai_pager button');
             $(window).unbind('init.deletecontent.sakai', deleteContent);
         };
 
@@ -1345,6 +1346,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             $(newaddcontentExistingCheckAll).live('change', checkUncheckAll);
             $(newaddcontentExistingItemsListContainerActionsSort).live('change', function() {searchPaging(1);});
             $(newaddcontentSaveTo).live('change', greyOutExistingInLibrary);
+            $newaddcontentContainer.on('click', '#newaddcontent_existingitems_paging .sakai_pager button', function(){
+                return false;
+            });
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit + ', #assignlocation_container');
             sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
 
@@ -1409,7 +1413,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 }
             });
 
-            $(window).bind('done.deletecontent.sakai', deleteContent);
+            $(document).on('done.deletecontent.sakai', deleteContent);
         };
 
         ////////////////////
@@ -1474,9 +1478,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         // EVENTS //
         ////////////
 
-        $(window).bind('init.newaddcontent.sakai', function(e, data) {
-            initialize();
-        });
+        $(document).on('init.newaddcontent.sakai', initialize);
+        $(document).on('click', '.sakai_add_content_overlay', initialize);
 
     };
     sakai.api.Widgets.widgetLoader.informOnLoad('newaddcontent');

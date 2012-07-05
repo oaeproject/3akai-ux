@@ -35,12 +35,14 @@ define(
         "underscore",
         "misc/trimpath.template",
         "jquery-plugins/jquery.ba-bbq",
-        "jquery-plugins/jquery.validate",
         "jquery-ui"
     ],
     function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_conf, _) {
 
     var sakai_util = {
+        data: {
+            worldTemplates: false
+        },
 
         startup : function(meData) {
             // Start polling to keep session alive when logged in
@@ -60,33 +62,48 @@ define(
 
         /**
          * Get the world templates from the server
+         * If the worldTemplates are already fetched they will just be returned from the variable
+         * @param {Function} callback Function executed after the templates have been fetched. 
+         *                            The templates are passed through to the function
          */
-        getTemplates: function() {
-            var templates = [];
-            $.ajax({
-                url: sakai_conf.URL.WORLD_INFO_URL,
-                async:false,
-                success: function(data) {
-                    data = sakai_serv.removeServerCreatedObjects(data, ["jcr:"]);
-                    $.each(data, function(key, value){
-                        if ($.isPlainObject(value) && value.id){
-                            templates.push(value);
+        getTemplates: function(callback) {
+            if (!sakai_util.data.worldTemplates) {
+                sakai_util.data.worldTemplates = [];
+                $.ajax({
+                    url: sakai_conf.URL.WORLD_INFO_URL,
+                    success: function(data) {
+                        data = sakai_serv.removeServerCreatedObjects(data, ['jcr:']);
+                        $.each(data, function(key, value) {
+                            if ($.isPlainObject(value) && value.id) {
+                                sakai_util.data.worldTemplates.push(value);
+                            }
+                        });
+                        $.each(sakai_util.data.worldTemplates, function(i, temp) {
+                            $.each(temp, function(k, templ) {
+                                if ($.isPlainObject(temp[k])) {
+                                    temp.templates = temp.templates || [];
+                                    temp.templates.push(temp[k]);
+                                }
+                            });
+                        });
+                        sakai_util.data.worldTemplates = _.sortBy(sakai_util.data.worldTemplates, function(templ) {
+                            return templ.order;
+                        });
+                        if ($.isFunction(callback)) {
+                            callback(true, sakai_util.data.worldTemplates);
                         }
-                    });
-                }
-            });
-            $.each(templates, function(i,temp) {
-                $.each(temp, function(k,templ) {
-                    if ($.isPlainObject(temp[k])) {
-                        temp.templates = temp.templates || [];
-                        temp.templates.push(temp[k]);
+                    }, error: function(xhr, textStatus, thrownError) {
+                        debug.error('Could not get the group templates');
+                        if ($.isFunction(callback)) {
+                            callback(false, xhr);
+                        }
                     }
                 });
-            });
-            templates = _.sortBy(templates, function(templ) {
-                return templ.order;
-            });
-            return templates;
+            } else {
+                if ($.isFunction(callback)) {
+                    callback(true, sakai_util.data.worldTemplates);
+                }
+            }
         },
 
         /**
@@ -149,19 +166,6 @@ define(
                 str = date.getTime();
             }
             return str;
-        },
-
-        /**
-         * Takes a jquery selector or object, and returns the jquery object
-         * @param {String} selector A jquery selector or jquery object
-         * @return (Object) jQuery object
-         */
-        getJqueryObject : function(selector) {
-            var $object = selector;
-            if (!(selector instanceof jQuery)) {
-                $object = $(selector);
-            }
-            return $object;
         },
 
         /**
@@ -1997,7 +2001,7 @@ define(
              * @param addClose {String} a jquery selector or jquery object used in the jqmAddClose function
              */
             setup : function(dialogContainer, options, addClose) {
-                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
+                var $dialogContainer = $(dialogContainer);
 
                 if (addClose) {
                     $dialogContainer.jqm(options).jqmAddClose(addClose);
@@ -2018,7 +2022,7 @@ define(
              *                              bindKeyboardCloseFunction {Function} optional function to be called when the user hits the escape key
              */
             open : function(dialogContainer, openOptions) {
-                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
+                var $dialogContainer = $(dialogContainer);
 
                 var positionDialog = true;
                 var positionOffset = false;
@@ -2054,7 +2058,7 @@ define(
              * @param {String} dialogContainer a jquery selector or jquery object, that is the dialog container
              */
             close : function(dialogContainer) {
-                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
+                var $dialogContainer = $(dialogContainer);
                 $dialogContainer.jqmHide();
             },
 
@@ -2065,7 +2069,7 @@ define(
              * @param {Integer} offset optional numeric value to add to the dialog position offset
              */
             positionDialogBox : function(el, offset) {
-                var $el = sakai_util.getJqueryObject(el);
+                var $el = $(el);
 
                 var dialogOffset = 50;
                 if (offset && $.isNumeric(offset)) {
@@ -2090,7 +2094,7 @@ define(
              */
             bindDialogFocus : function(dialogContainer, ignoreElements, closeFunction) {
                 var origFocus = $(':focus');
-                var $dialogContainer = sakai_util.getJqueryObject(dialogContainer);
+                var $dialogContainer = $(dialogContainer);
 
                 var bindFunction = function(e) {
                     if ($dialogContainer.is(':visible') && $dialogContainer.has(':focus').length && e.which === $.ui.keyCode.ESCAPE) {
@@ -2457,104 +2461,133 @@ define(
              * @param {Boolean} [insertAfterLabel] Insert the error span after the label, not before
              */
             validate: function($form, opts, insertAfterLabel) {
-                var options = {
-                    onclick: false,
-                    onkeyup: false,
-                    onfocusout: false
-                };
-                // when you set onclick to true, you actually just don't set it
-                // to false, because onclick is a handler function, not a boolean
-                if (opts) {
-                    $.each(options, function(key,val) {
-                        if (opts.hasOwnProperty(key) && opts[key] === true) {
-                            delete opts[key];
-                            delete options[key];
-                        }
-                    });
-                }
-                options.errorElement = "span";
-                options.errorClass = insertAfterLabel ? "s3d-error-after" : "s3d-error";
 
-                // we need to handle success and invalid in the framework first
-                // then we can pass it to the caller
-                var successCallback = false,
-                    invalidCallback = false;
+                // Load the plug-in when necessary
+                require(['jquery-plugins/jquery.validate'], function() {
+                    var options = {
+                        onclick: false,
+                        onkeyup: false,
+                        onfocusout: false
+                    };
 
-                if (opts) {
-                    if (opts.hasOwnProperty("success") && $.isFunction(opts.success)) {
-                        successCallback = opts.success;
-                        delete opts.succss;
-                    }
-
-                    if (opts && opts.hasOwnProperty("invalidCallback") && $.isFunction(opts.invalidCallback)) {
-                        invalidCallback = opts.invalidCallback;
-                        delete opts.invalidCallback;
-                    }
-                }
-
-                // include the passed in options
-                $.extend(true, options, opts);
-
-                // Success is a callback on each individual field being successfully validated
-                options.success = function($label) {
-                    // For autosuggest clearing, since we have to put the error on the ul instead of the element
-                    if (insertAfterLabel && $label.next("ul.as-selections").length) {
-                        $label.next("ul.as-selections").removeClass("s3d-error");
-                    } else if ($label.prev("ul.as-selections").length) {
-                        $label.prev("ul.as-selections").removeClass("s3d-error");
-                    }
-                    $label.remove();
-                    if ($.isFunction(successCallback)) {
-                        successCallback($label);
-                    }
-                };
-
-                options.errorPlacement = function($error, $element) {
-                    if ($element.hasClass("s3d-error-calculate")) {
-                        // special element with variable left margin
-                        // calculate left margin and width, set it directly on the error element
-                        $error.css({
-                            "margin-left": $element.position().left,
-                            "width": $element.width()
+                    // When you set onclick to true, you actually just don't set it
+                    // to false, because onclick is a handler function, not a boolean
+                    if (opts) {
+                        $.each(options, function(key,val) {
+                            if (opts.hasOwnProperty(key) && opts[key] === true) {
+                                delete opts[key];
+                                delete options[key];
+                            }
                         });
                     }
-                    // Get the closest-previous label in the DOM
-                    var $prevLabel = $form.find("label[for='" + $element.attr("id") + "']");
-                    $error.attr("id", $element.attr("name") + "_error");
-                    $element.attr("aria-describedby", $element.attr("name") + "_error");
-                    if (insertAfterLabel) {
-                        $error.insertAfter($prevLabel);
-                    } else {
-                        $error.insertBefore($prevLabel);
-                    }
-                };
+                    options.errorElement = 'span';
+                    options.errorClass = insertAfterLabel ? 's3d-error-after' : 's3d-error';
 
-                options.invalidHandler = function($thisForm, validator) {
-                    $form.find(".s3d-error").attr("aria-invalid", "false");
-                    if ($.isFunction(invalidCallback)){
-                        invalidCallback($thisForm, validator);
-                    }
-                };
+                    // We need to handle success and invalid in the framework first
+                    // then we can pass it to the caller
+                    var successCallback = false;
+                    var invalidCallback = false;
 
-                options.showErrors = function(errorMap, errorList) {
-                    if (errorList.length !== 0 && $.isFunction(options.error)) {
-                        options.error();
-                    }
-                    $.each(errorList, function(i,error) {
-                        $(error.element).attr("aria-invalid", "true");
-                        // Handle errors on autosuggest
-                        if ($(error.element).hasClass("s3d-error-autosuggest")) {
-                            $(error.element).parents("ul.as-selections").addClass("s3d-error");
+                    if (opts) {
+                        if (opts.hasOwnProperty('success') && $.isFunction(opts.success)) {
+                            successCallback = opts.success;
+                            delete opts.success;
                         }
-                    });
-                    this.defaultShowErrors();
-                    if ($.isFunction(options.errorsShown)) {
-                        options.errorsShown();
-                    }
-                };
 
-                // Set up the form with these options in jquery.validate
-                $form.validate(options);
+                        if (opts && opts.hasOwnProperty('invalidCallback') && $.isFunction(opts.invalidCallback)) {
+                            invalidCallback = opts.invalidCallback;
+                            delete opts.invalidCallback;
+                        }
+                    }
+
+                    // Don't allow spaces in the field
+                    $.validator.addMethod('nospaces', function(value, element) {
+                        return this.optional(element) || (value.indexOf(' ') === -1);
+                    }, sakai_i18n.getValueForKey('NO_SPACES_ARE_ALLOWED'));
+
+                    // Appends http:// or ftp:// or https:// when necessary
+                    $.validator.addMethod('appendhttp', function(value, element) {
+                        if (value.substring(0,7) !== 'http://' &&
+                            value.substring(0,6) !== 'ftp://' &&
+                            value.substring(0,8) !== 'https://' &&
+                            $.trim(value) !== '') {
+                                $(element).val('http://' + value);
+                        }
+                        return true;
+                    });
+
+                    // Add the methods that were being passed in
+                    if (opts && opts.hasOwnProperty('methods')) {
+                        $.each(opts.methods, function(key, value) {
+                            $.validator.addMethod(key, value.method, value.text);
+                        });
+                        delete opts.methods;
+                    }
+
+                    // Include the passed in options
+                    $.extend(true, options, opts);
+
+                    // Success is a callback on each individual field being successfully validated
+                    options.success = function($label) {
+                        // For autosuggest clearing, since we have to put the error on the ul instead of the element
+                        if (insertAfterLabel && $label.next('ul.as-selections').length) {
+                            $label.next('ul.as-selections').removeClass('s3d-error');
+                        } else if ($label.prev('ul.as-selections').length) {
+                            $label.prev('ul.as-selections').removeClass('s3d-error');
+                        }
+                        $label.remove();
+                        if ($.isFunction(successCallback)) {
+                            successCallback($label);
+                        }
+                    };
+
+                    options.errorPlacement = function($error, $element) {
+                        if ($element.hasClass('s3d-error-calculate')) {
+                            // special element with variable left margin
+                            // calculate left margin and width, set it directly on the error element
+                            $error.css({
+                                'margin-left': $element.position().left,
+                                'width': $element.width()
+                            });
+                        }
+                        // Get the closest-previous label in the DOM
+                        var $prevLabel = $form.find('label[for="' + $element.attr('id') + '"]');
+                        $error.attr('id', $element.attr('name') + '_error');
+                        $element.attr('aria-describedby', $element.attr('name') + '_error');
+                        if (insertAfterLabel) {
+                            $error.insertAfter($prevLabel);
+                        } else {
+                            $error.insertBefore($prevLabel);
+                        }
+                    };
+
+                    options.invalidHandler = function($thisForm, validator) {
+                        $form.find('.s3d-error').attr('aria-invalid', 'false');
+                        if ($.isFunction(invalidCallback)) {
+                            invalidCallback($thisForm, validator);
+                        }
+                    };
+
+                    options.showErrors = function(errorMap, errorList) {
+                        if (errorList.length !== 0 && $.isFunction(options.error)) {
+                            options.error();
+                        }
+                        $.each(errorList, function(i,error) {
+                            $(error.element).attr('aria-invalid', 'true');
+                            // Handle errors on autosuggest
+                            if ($(error.element).hasClass('s3d-error-autosuggest')) {
+                                $(error.element).parents('ul.as-selections').addClass('s3d-error');
+                            }
+                        });
+                        this.defaultShowErrors();
+                        if ($.isFunction(options.errorsShown)) {
+                            options.errorsShown();
+                        }
+                    };
+
+                    // Set up the form with these options in jquery.validate
+                    $form.validate(options);
+                });
             },
 
             clearValidation: function($form) {
@@ -2610,7 +2643,7 @@ define(
                     stop: function(event, ui) {
                         sakai_util.Draggable.removeIFrameFix();
                         $('.s3d-draggable-draggingitems').remove();
-                        $(window).trigger('stop.drag.sakai');
+                        $(document).trigger('stop.drag.sakai');
                         if ($(this).data('stopdragevent')) {
                             $(window).trigger($(this).data('stopdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }
@@ -2618,7 +2651,7 @@ define(
                     start: function(event, ui) {
                         sakai_util.Draggable.setIFrameFix();
                         $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
-                        $(window).trigger('start.drag.sakai');
+                        $(document).trigger('start.drag.sakai');
                         if ($(this).data('startdragevent')) {
                             $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
                         }

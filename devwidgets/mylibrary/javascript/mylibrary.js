@@ -62,7 +62,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $mylibrary_sortarea = $('#mylibrary_sortarea', $rootel);
         var $mylibrary_empty = $('#mylibrary_empty', $rootel);
         var $mylibrary_admin_actions = $('#mylibrary_admin_actions', $rootel);
-        var $mylibrary_addcontent = $('#mylibrary_addcontent', $rootel);
         var $mylibrary_remove_icon = $('.mylibrary_remove_icon', $rootel);
         var $mylibrary_search_button = $('#mylibrary_search_button', $rootel);
         var $mylibrary_result_count = $('.s3d-search-result-count', $rootel);
@@ -368,7 +367,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             collectionPaths.push($(this).data('entityid'));
                         }
                     });
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: mylibrary.contextId
                     }, function (success) {
@@ -377,7 +376,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             $(window).trigger('lhnav.updateCount', ['library', -(paths.length)]);
                             mylibrary.infinityScroll.removeItems(paths);
                             if(collectionPaths.length) {
-                                $(window).trigger('sakai.mylibrary.deletedCollections', {
+                                $(document).trigger('sakai.mylibrary.deletedCollections', {
                                     items: collectionPaths
                                 });
                             }
@@ -398,7 +397,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         collection = true;
                     }
                     paths.push($(this).attr('data-entityid'));
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: mylibrary.contextId
                     }, function (success) {
@@ -406,7 +405,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             resetView();
                             $(window).trigger('lhnav.updateCount', ['library', -(paths.length)]);
                             if(collection) {
-                                $(window).trigger('sakai.mylibrary.deletedCollections', {
+                                $(document).trigger('sakai.mylibrary.deletedCollections', {
                                     items: paths
                                 });
                             }
@@ -453,14 +452,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $mylibrary_search_button.click(doSearch);
 
             /**
-             * Initiate the add content widget
-             */
-            $mylibrary_addcontent.click(function (ev) {
-                $(window).trigger('init.newaddcontent.sakai');
-                return false;
-            });
-
-            /**
              * An event to listen from the worldsettings dialog so that we can refresh the title if it's been changed.
              * @param {String} title     New group name
              */
@@ -473,7 +464,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * @param {Object} data        Object that contains the new library items
              * @param {Object} library     Context id of the library the content has been added to
              */
-            $(window).bind('done.newaddcontent.sakai', function(e, data, library) {
+            $(document).on('done.newaddcontent.sakai', function(e, data, library) {
                 if (library === mylibrary.contextId || mylibrary.contextId === sakai.data.me.user.userid) {
                     mylibrary.infinityScroll.prependItems(data);
                 }

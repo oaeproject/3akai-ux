@@ -1082,6 +1082,36 @@ a.s3d-widget-links, span.s3d-widget-links, .s3d-widget-links a, button.s3d-widge
 	border-width: 1px;
 }
 
+/* Skip navigation link focus treatment */
+.s3d-jump-link:focus {
+    color: #fff;
+    display: block;
+    padding: 10px 25px 10px;
+    text-decoration: none;
+    position: absolute;
+    top: 39px;
+    border: none;
+    font-size: 12px;
+    left: 0;
+    background: #373737;
+    background: -moz-linear-gradient(top, #242424 0%, #1e1e1e 23%, #090a09 71%, #010001 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#242424), color-stop(23%,#1e1e1e), color-stop(71%,#090a09), color-stop(100%,#010001));
+    background: -webkit-linear-gradient(top, #242424 0%,#1e1e1e 23%,#090a09 71%,#010001 100%);
+    background: -o-linear-gradient(top, #242424 0%,#1e1e1e 23%,#090a09 71%,#010001 100%);
+    background: -ms-linear-gradient(top, #242424 0%,#1e1e1e 23%,#090a09 71%,#010001 100%);
+    background: linear-gradient(top, #242424 0%,#1e1e1e 23%,#090a09 71%,#010001 100%);
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-box-shadow: 0 8px 15px -2px #555555;
+    box-shadow: 0 8px 15px -2px #555555;
+    outline: none;
+    clip: auto;
+    overflow: visible;
+    width: auto;
+    height: auto;
+}
+
 /* new path used when creating pages */
 .content_container .new_page_path {
 	line-height: 3em;

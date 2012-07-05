@@ -44,6 +44,9 @@ require(
             "name": "scrolling",
             "type": "boolean"
         }, {
+            "name": "trigger",
+            "type": "object"
+        }, {
             "name": "url",
             "required": true,
             "type": "string"

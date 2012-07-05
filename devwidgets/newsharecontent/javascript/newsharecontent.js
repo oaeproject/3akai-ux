@@ -95,7 +95,27 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             });
         };
 
+        /**
+         * Add validation
+         */
+        var addShareValidation = function() {
+            var validateOpts = {
+                'methods': {
+                    'requiredsuggest': {
+                        'method': function(value, element) {
+                            return $.trim($(element).next('input.as-values').val()).replace(/,/g, '') !== '';
+                        },
+                        'text': sakai.api.i18n.getValueForKey('AUTOSUGGEST_REQUIRED_ERROR')
+                    }
+                },
+                submitHandler: doShare
+            };
+            sakai.api.Util.Forms.validate($newsharecontent_form, validateOpts, true);
+        };
+
         var fillShareData = function(hash){
+            addShareValidation();
+
             $newsharecontentLinkURL.val(contentObj.shareUrl);
 
             var cantShareFiles = _.filter(contentObj.data, function(file) {
@@ -260,27 +280,23 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 onHide: resetWidget
             });
 
-            $('.share_trigger_click').live('click',function(){
-                if($newsharecontentContainer.is(":visible")){
+            $(document).on('click', '.share_trigger_click', function() {
+                if ($newsharecontentContainer.is(':visible')) {
                     $newsharecontentContainer.jqmHide();
                 }
                 sakai.api.Util.Forms.clearValidation($newsharecontent_form);
                 var idArr = $(this).attr("data-entityid");
-                if(idArr.length > 1 && !$.isArray(idArr)){
+                if (idArr.length > 1 && !$.isArray(idArr)) {
                     idArr = idArr.split(",");
                 }
                 var $this = $(this);
-                var adjustHeight = 0;
-                if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
-                    adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
-                }
                 $newsharecontentContainer.css({
-                    'top':$this.offset().top + $this.height() + adjustHeight,
+                    'top':$this.offset().top + $this.height(),
                     'left':$this.offset().left + $this.width() / 2 - 119
                 });
                 // Fetch data for content items
                 var batchRequests = [];
-                $.each(idArr, function(i, id){
+                $.each(idArr, function(i, id) {
                     batchRequests.push({
                         "url": "/p/" + id + ".json",
                         "method": "GET"
@@ -306,17 +322,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                             $newsharecontentContainer.jqmShow();
                         }
                     }
-                });
+                }, false);
             });
-
-            $.validator.addMethod("requiredsuggest", function(value, element){
-                return $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
-            }, sakai.api.i18n.getValueForKey("AUTOSUGGEST_SHARE_ERROR", "newsharecontent"));
-
-            var validateOpts = {
-                submitHandler: doShare
-            };
-            sakai.api.Util.Forms.validate($newsharecontent_form, validateOpts, true);
         };
 
         $newsharecontentMessageToggle.add($newsharecontentMessageArrow).bind('click',function(){

@@ -523,14 +523,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             onShow: showArea
         });
 
-        $(containerTrigger).live("click", function(){
-            // This will make the widget popup as a layover.
-            sakai.api.Util.Modal.open(container);
-        });
-
         $(window).bind("setData.changepic.sakai", function(e, _mode, _id) {
             mode = _mode;
             id = _id;
+        });
+
+        $(document).on('click', containerTrigger, function() {
+            // This will make the widget popup as a layover.
+            sakai.api.Util.Modal.open(container);
         });
 
         $(window).trigger("ready.changepic.sakai");
