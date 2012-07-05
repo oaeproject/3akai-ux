@@ -322,7 +322,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                             $newsharecontentContainer.jqmShow();
                         }
                     }
-                });
+                }, false);
             });
         };
 

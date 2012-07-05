@@ -288,7 +288,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         removeFromSystem();
                     }
-                });
+                }, false);
             } else {
                 if (userGroupIds.length > 0) {
                     setUpUsedByOverlay(userGroupIds);
@@ -365,7 +365,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "profiles": profileInfo,
                     "sakai": sakai
                 }));
-            });
+            }, false);
         };
 
         ////////////////////////////
@@ -505,7 +505,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     findContentIManage(data);
                 }
-            });
+            }, false);
         };
 
         ////////////////////
