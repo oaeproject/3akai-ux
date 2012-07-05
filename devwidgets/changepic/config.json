@@ -17,6 +17,10 @@
         }
     },
     "id": "changepic",
+    "trigger": {
+        "selectors": ["#changepic_container_trigger"],
+        "onLoad": false
+    },
     "type": "core",
     "url": "/devwidgets/changepic/changepic.html"
 }

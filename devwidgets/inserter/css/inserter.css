@@ -28,6 +28,7 @@
     position: fixed !important;
     top: 50px;
     width: 230px;
+    z-index: 3000;
 }
 .inserter_widget .s3d-search-button:hover, .inserter_widget .s3d-search-button:focus {
     border: none !important;

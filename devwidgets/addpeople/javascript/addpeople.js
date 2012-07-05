@@ -66,12 +66,15 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var $addpeopleMembersAutoSuggestField = $("#addpeople_members_autosuggest_field", $rootel);
         var $addpeopleExistingGroup = $(".addpeople_existinggroup", $rootel);
         var $addpeopleNewGroup = $(".addpeople_newgroup", $rootel);
+        var $addpeopleNoContactsNoMemberships = $('.addpeople_nocontacts_nomemberships', $rootel);
 
         var selectedUsers = {};
         var currentTemplate = false;
         var hasbeenInit = false;
         var existingGroup = false;
         var permissionsToChange = [];
+        var contactsInfinityScroll = false;
+        var renderGroups = true;
 
         ///////////////
         // RENDERING //
@@ -86,11 +89,35 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         return group["sakai:group-id"] === sakai_global.group.groupData["sakai:group-id"];
                     });
                 }
-                $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {
-                    "contacts": sakai.data.me.mycontacts,
-                    "groups": groups,
-                    "sakai": sakai
-                }));
+
+                var url = sakai.config.URL.CONTACTS_FIND_STATE;
+                var data = {
+                    'state': 'ACCEPTED',
+                    'items': '10'
+                };
+
+                // Disable the previous infinite scroll
+                if (contactsInfinityScroll) {
+                    contactsInfinityScroll.kill();
+                }
+
+                // Set up the infinite scroll for the list of contacts
+                contactsInfinityScroll = $addpeopleContactsContainer.infinitescroll(url, data, function(items, total) {
+                    $.each(items, function(index, contact) {
+                        contact.profile.basic.elements.picture = sakai.api.Util.constructProfilePicture(contact.profile);
+                    });
+                    if ((!groups || (groups && !groups.length)) && !total) {
+                        $addpeopleNoContactsNoMemberships.show();
+                    }
+                    return sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {
+                        'contacts': items,
+                        'groups': groups,
+                        'renderGroups': renderGroups,
+                        'sakai': sakai
+                    });
+                }, false, sakai.config.URL.INFINITE_LOADING_ICON, false, function() {
+                    renderGroups = false;
+                }, false, false, $addpeopleContactsContainer.parents('#addpeople_contacts_list'), 400);
             }
         };
 
@@ -540,7 +567,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     renderSelectedContacts();
                     $(window).trigger("toadd.addpeople.sakai", [tuid.replace("addpeople", ""), selectedUsers]);
                 }
-            });
+            }, false);
         };
 
         ////////////
@@ -580,7 +607,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     $addpeopleExistingGroup.show();
                 }
                 showDialog();
-                sakai.api.User.getContacts(renderContacts);
+                renderContacts();
             }
         });
 

@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.fileupload'], function($, sakai) {
 
     /**
      * @name sakai_global.inserter
@@ -284,7 +284,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Content.Collections.createCollection(title, '', permissions, [], contentToAdd, [], function(success, path) {
                 sakai.api.Server.loadJSON('/p/' + path + '.json', function(success, collection) {
                     if (success) {
-                        $(window).trigger('done.newaddcontent.sakai', [[collection], 'user']);
+                        $(document).trigger('done.newaddcontent.sakai', [[collection], 'user']);
                     }
                 });
                 contentToAdd = [];
@@ -488,7 +488,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             if (inCollection) {
                                 showCollection(contentListDisplayed);
                             }
-                            $(window).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
+                            $(document).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
                             sakai.api.Util.progressIndicator.hideProgressIndicator();
                         });
                     } else {
@@ -496,7 +496,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         if (inCollection) {
                             showCollection(contentListDisplayed);
                         }
-                        $(window).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
+                        $(document).trigger('done.newaddcontent.sakai', [itemsDropped, 'user']);
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                     }
                 });
@@ -723,17 +723,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var addBinding = function() {
             $('#subnavigation_add_collection_link').on('click', openAddNewCollection);
-            $(window).on('create.collections.sakai', openAddNewCollection);
-            $(window).on('done.deletecontent.sakai', removeFromLibraryCount);
-            $(window).on('done.newaddcontent.sakai', function() {
+            $(document).on('create.collections.sakai', openAddNewCollection);
+            $(document).on('done.deletecontent.sakai', removeFromLibraryCount);
+            $(document).on('done.newaddcontent.sakai', function() {
                 addToCollectionCount('library', 0, false);
             });
-            $(window).on('sakai.mylibrary.deletedCollections', function(ev, data) {
+            $(document).on('sakai.mylibrary.deletedCollections', function(ev, data) {
                 if (infinityCollectionScroll) {
                     infinityCollectionScroll.removeItems(data.items);
                 }
             });
-            $(window).on('start.drag.sakai', function() {
+            $(document).on('start.drag.sakai', function() {
                 if (!$inserterWidget.is(':visible')) {
                     toggleInserter();
                 }

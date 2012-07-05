@@ -12,6 +12,10 @@
     },
     "id": "joingroup",
     "personalportal": false,
+    "trigger": {
+        "selectors": [".sakai_joingroup_overlay"],
+        "onLoad": false
+    },
     "type": "sakai",
     "url": "/devwidgets/joingroup/joingroup.html"
 }

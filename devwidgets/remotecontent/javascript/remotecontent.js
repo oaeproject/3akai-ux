@@ -19,7 +19,6 @@
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
 /*global $, get_cookie, Config */
 
@@ -243,20 +242,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to all the elements
          */
         var addBinding = function(){
-            // this method append http:// or ftp:// or https://
-            $.validator.addMethod("appendhttp", function(value, element) {
-                if(value.substring(0,7) !== "http://" &&
-                value.substring(0,6) !== "ftp://" &&
-                value.substring(0,8) !== "https://" &&
-                $.trim(value) !== "") {
-                    $(element).val("http://" + value);
-                    json.url = "http://" + value;
-                } else {
-                  json.url = value;
-                }
-                return true;
-            }, "No error message, this is just an appender");
-
             // FORM VALIDATION
 
             var validateOpts = {

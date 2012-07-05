@@ -479,7 +479,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if ($.isFunction(callback)) {
                         callback(ret);
                     }
-                });
+                }, false);
             } else if ($.isFunction(callback)) {
                 callback(ret);
             }
@@ -617,9 +617,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
 
-        $(window).unbind("done.newaddcontent.sakai");
-        $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if ($("#embedcontent_settings", $rootel).is(":visible") && (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
+        $(document).off('done.newaddcontent.sakai').on('done.newaddcontent.sakai', function(e, data, library) {
+            if ($('#embedcontent_settings', $rootel).is(':visible') && 
+                (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
                 var obj = {};
                 for (var i = 0; i < data.length; i++){
                     obj[data[i]._path] = data[i];
