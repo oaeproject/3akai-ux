@@ -160,9 +160,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $contentmetadataTagsContainer.toggleClass("contentmetadata_editable", mode !== "edit");
             if (mode === "edit") {
                 $contentmetadataAutosuggestElt = $( "#contentmetadata_tags_tags" );
-                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( ".list_categories", $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.data["sakai:tags"] );
-                $( ".as-selections", $contentmetadataTagsContainer ).addClass( "contentmetadata_edit_input" );
-                $contentmetadataAutosuggestElt.focus();
+                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( '.list_categories', $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.data['sakai:tags'], function(){
+                    $('.as-selections', $contentmetadataTagsContainer ).addClass('contentmetadata_edit_input');
+                    $contentmetadataAutosuggestElt.focus();
+                });
             }
             addEditBinding( mode, true );
         };
