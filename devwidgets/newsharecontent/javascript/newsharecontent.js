@@ -95,7 +95,27 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             });
         };
 
+        /**
+         * Add validation
+         */
+        var addShareValidation = function() {
+            var validateOpts = {
+                'methods': {
+                    'requiredsuggest': {
+                        'method': function(value, element) {
+                            return $.trim($(element).next('input.as-values').val()).replace(/,/g, '') !== '';
+                        },
+                        'text': sakai.api.i18n.getValueForKey('AUTOSUGGEST_REQUIRED_ERROR')
+                    }
+                },
+                submitHandler: doShare
+            };
+            sakai.api.Util.Forms.validate($newsharecontent_form, validateOpts, true);
+        };
+
         var fillShareData = function(hash){
+            addShareValidation();
+
             $newsharecontentLinkURL.val(contentObj.shareUrl);
 
             var cantShareFiles = _.filter(contentObj.data, function(file) {
@@ -304,15 +324,6 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     }
                 });
             });
-
-            $.validator.addMethod("requiredsuggest", function(value, element){
-                return $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
-            }, sakai.api.i18n.getValueForKey("AUTOSUGGEST_SHARE_ERROR", "newsharecontent"));
-
-            var validateOpts = {
-                submitHandler: doShare
-            };
-            sakai.api.Util.Forms.validate($newsharecontent_form, validateOpts, true);
         };
 
         $newsharecontentMessageToggle.add($newsharecontentMessageArrow).bind('click',function(){

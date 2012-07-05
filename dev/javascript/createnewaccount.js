@@ -288,18 +288,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
 
             $('#password').on('keyup', checkPasswordStrength);
 
-            /*
-             * Once the user is trying to submit the form, we check whether all the fields have valid
-             * input and try to create the new account
-             */
-            $.validator.addMethod("nospaces", function(value, element){
-                return this.optional(element) || (value.indexOf(" ") === -1);
-            }, "* No spaces are allowed");
-
-            $.validator.addMethod("validusername", function(value, element){
-                return this.optional(element) || (checkUserName());
-            }, "* This username is already taken.");
-
             var validateOpts = {
                 rules: {
                     password: {
@@ -333,6 +321,14 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                     password_repeat: {
                         required: $(passwordRepeatEmpty).text(),
                         passwordmatch: $(passwordRepeatNoMatch).text()
+                    }
+                },
+                'methods': {
+                    'validusername': {
+                        'method': function(value, element) {
+                            return this.optional(element) || checkUserName();
+                        },
+                        'text': sakai.api.i18n.getValueForKey('THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN')
                     }
                 },
                 submitHandler: function(form, validator){

@@ -222,6 +222,23 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             // INITIALISE FUNCTION   //
             ///////////////////////////
 
+            var addSendMessageValidation = function() {
+                var validateOpts = {
+                    submitHandler: sendMessage,
+                    'methods': {
+                        'requiredsuggest': {
+                            'method': function(value, element) {
+                                return value.indexOf(
+                                    sakai.api.i18n.getValueForKey('ENTER_CONTACT_OR_GROUP_NAMES', 'sendmessage')) === -1 &&
+                                        $.trim($(element).next('input.as-values').val()).replace(/,/g, '') !== '';
+                            },
+                            'text': sakai.api.i18n.getValueForKey('AUTOSUGGEST_REQUIRED_ERROR')
+                        }
+                    }
+                };
+                sakai.api.Util.Forms.validate($sendmessage_form, validateOpts, true);
+            };
+
             /**
              * Initializes the sendmessage widget, optionally preloading the message
              * with a recipient, subject and body. By default, the widget appears as
@@ -298,6 +315,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 }
 
                 initAutoSuggest();
+                addSendMessageValidation();
                 // Store the callback
                 if (callback) {
                     callbackWhenDone = callback;
@@ -360,14 +378,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             };
 
             var bindEvents = function() {
-                $.validator.addMethod("requiredsuggest", function(value, element){
-                    return value.indexOf(sakai.api.i18n.getValueForKey("ENTER_CONTACT_OR_GROUP_NAMES", "sendmessage")) === -1 && $.trim($(element).next("input.as-values").val()).replace(/,/g, "") !== "";
-                }, sakai.api.i18n.getValueForKey("AUTOSUGGEST_REQUIRED_ERROR", "sendmessage"));
-
-                var validateOpts = {
-                    submitHandler: sendMessage
-                };
-                sakai.api.Util.Forms.validate($sendmessage_form, validateOpts, true);
 
                 ////////////////////////
                 // jqModal functions  //
