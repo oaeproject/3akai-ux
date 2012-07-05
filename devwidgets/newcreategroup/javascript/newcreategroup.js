@@ -165,11 +165,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Add binding to the elements and validate the forms on submit
      */
     var addBinding = function(){
-        $.validator.addMethod("uniquegroupname", function(value, element){
-            return !sakai.api.Groups.checkIfGroupExists(value);
-        }, sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
-
         var validateOpts = {
+            'methods': {
+                'uniquegroupname': {
+                    'method': function(value, element) {
+                        return !sakai.api.Groups.checkIfGroupExists(value);
+                    },
+                    'text': sakai.api.i18n.getValueForKey('THIS_GROUP_HAS_BEEN_TAKEN', 'newcreategroup')
+                }
+            },
             rules: {
                 newcreategroup_title: {
                     maxlength: 255

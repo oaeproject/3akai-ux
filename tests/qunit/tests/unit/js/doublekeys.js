@@ -167,7 +167,7 @@ require(
                 if (success && data && data.results) {
                     processBatchRequest(data.results);
                 }
-            });
+            }, false);
 
         };
 

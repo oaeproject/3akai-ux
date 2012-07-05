@@ -101,7 +101,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).unbind("update.tooltip.sakai");
             $(window).bind("update.tooltip.sakai", function(e, tooltipData) {
                 hideTooltip();
-                $(window).trigger("init.tooltip.sakai", tooltipData);
+                $(document).trigger('init.tooltip.sakai', tooltipData);
             });
             // bind tooltip close
             $(window).unbind("done.tooltip.sakai");
@@ -128,8 +128,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * {Integer} tooltipTop   absolute position of where the tooltip should spawn: Y value (jQuery.Event.pageY)
          * {Function} onShow      callback called when the tooltip is shown
          */
-        $(window).unbind("init.tooltip.sakai");
-        $(window).bind("init.tooltip.sakai", function(e, tooltipConfig) {
+        $(document).on('init.tooltip.sakai', function(e, tooltipConfig) {
             if (tooltipConfig) {
                 tooltipHTML = tooltipConfig.tooltipHTML || false;
                 tooltipAutoClose = tooltipConfig.tooltipAutoClose || false;
@@ -143,8 +142,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        sakai_global.tooltip.isReady = true;
-        $(window).trigger("ready.tooltip.sakai");
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("tooltip");

@@ -211,8 +211,8 @@ define(
              *  true  : render the settings mode of the widget
              *  false : render the view mode of the widget
              */
-            insertWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough){
-                var obj = this.loadWidgets(id, showSettings, context, widgetData, widgetDataPassthrough);
+            insertWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback) {
+                var obj = this.loadWidgets(id, showSettings, context, widgetData, widgetDataPassthrough, callback);
                 this.loaded.push(obj);
             },
 
@@ -224,7 +224,7 @@ define(
              *  false : render the view mode of the widget
              * @param {String} context The context of the widget (e.g. siteid)
              */
-            loadWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough){
+            loadWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback) {
                 // Configuration variables
                 var widgetNameSpace = "sakai_global";
                 var widgetSelector = ".widget_inline";
@@ -258,6 +258,9 @@ define(
                                 var initfunction = window[widgetNameSpace][widgetname];
                                 var historyState = sakaiWidgetsAPI.handleHashChange(widgetname);
                                 initfunction(widgetsInternal[widgetname][i].uid, settings, widgetsInternal[widgetname][i].widgetData ? $.extend(true, {}, widgetsInternal[widgetname][i].widgetData) : false, historyState);
+                                if ($.isFunction(widgetsInternal[widgetname][i].callback)) {
+                                    widgetsInternal[widgetname][i].callback();
+                                }
 
                                 // Send out a "loaded" event for this widget
                                 $(window).trigger(widgetname + "_loaded", [widgetsInternal[widgetname][i].uid]);
@@ -525,7 +528,7 @@ define(
                  * @param {Object} widgetData Widget data associated to the loaded widgets
                  * @param {String} context The context of the widget (e.g. siteid)
                  */
-                var locateWidgets = function(containerId, showSettings, widgetData, context){
+                var locateWidgets = function(containerId, showSettings, widgetData, context, callback) {
 
                     // Use document.getElementById() to avoid jQuery selector escaping issues with '/'
                     var el = containerId ? document.getElementById(containerId) : $(document.body);
@@ -554,32 +557,7 @@ define(
                         }
 
                         // Check if the widget is an iframe widget
-                        if (sakai.widgets[widgetname] && sakai.widgets[widgetname].iframe){
-
-                            // Get the information about the widget in the widgets.js file
-                            var portlet = sakai.widgets[widgetname];
-
-                            // Check if the scrolling property has been set to true
-                            var scrolling = portlet.scrolling ? "auto" : "no";
-
-                            var src = portlet.url;
-
-                            // Construct the HTML for the iframe
-                            var html = '<div id="widget_content_'+ widgetname + '">' +
-                                           '<iframe src="'+ src +'" ' +
-                                           'frameborder="0" ' +
-                                           'height="'+ portlet.height +'px" ' +
-                                           'width="100%" ' +
-                                           'scrolling="' + scrolling + '"' +
-                                           '></iframe></div>';
-
-                            // Add the HTML for to the iframe widget container
-                            $("#" + widgetid + "_container").html(html).addClass("fl-widget-content").parent().append('<div class="fl-widget-no-options fl-fix"><div class="widget-no-options-inner"><!-- --></div></div>');
-
-                        }
-
-                        // The widget isn't an iframe widget
-                        else if (sakai.widgets[widgetname]){
+                        if (sakai.widgets[widgetname]) {
 
                             // Set the placement for the widget
                             var placement = "";
@@ -601,7 +579,8 @@ define(
                                 uid : widgetid,
                                 placement : placement,
                                 id : id,
-                                widgetData: widgetData[widgetid] || false
+                                widgetData: widgetData[widgetid] || false,
+                                callback: callback
                             };
 
                             var floating = "inline_class_widget_nofloat";
@@ -635,7 +614,7 @@ define(
 
                 };
 
-                locateWidgets(id, showSettings, widgetData, context);
+                locateWidgets(id, showSettings, widgetData, context, callback);
 
                 return {
                     "informOnLoad" : informOnLoad
@@ -924,10 +903,94 @@ define(
             }
         },
 
+        /**
+         * Add the widgets that need to be present at all time on all pages
+         */
+        insertOnLoadWidgets: function() {
+            if (sakai.widgets) {
+                var onloadWidgets = '';
+                $.each(sakai.widgets, function(widgetid, widget) {
+                    if (widget.trigger && widget.trigger.onLoad) {
+                        onloadWidgets += '<div id="widget_' + widgetid + '" class="widget_inline"></div>';
+                    }
+                });
+                if (onloadWidgets) {
+                    $('body').prepend(onloadWidgets);
+                }
+            }
+        },
+
+        /**
+         * This function will register all widgets that require lazy loading
+         */
+        registerLazyLoading: function() {
+            if (sakai.widgets) {
+                $.each(sakai.widgets, function(widgetid, widget) {
+                    if (widget.trigger && !widget.trigger.onLoad) {
+    
+                        // Convert all of the properties to an array
+                        if (widget.trigger.events && widget.trigger.events.length) {
+                            if (!$.isArray(widget.trigger.events)) {
+                                widget.trigger.events = [widget.trigger.events];
+                            }
+                        }
+                        widget.trigger.events = widget.trigger.events || [];
+    
+                        if (widget.trigger.selectors && widget.trigger.selectors.length) {
+                            if (!$.isArray(widget.trigger.selectors)) {
+                                widget.trigger.selectors = [widget.trigger.selectors];
+                            }
+                        }
+                        widget.trigger.selectors = widget.trigger.selectors || [];
+    
+                        var lazyLoadWidget = function(finishCallBack) {
+                            // Unbind the event
+                            $.each(widget.trigger.events, function(index, eventid) {
+                                $(document).off(eventid);
+                            });
+                            // Also kill the click events associated to this widget
+                            $.each(widget.trigger.selectors, function(index, selector) {
+                                $(document).off('click', selector);
+                            });
+    
+                            $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
+                            sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, finishCallBack);
+                        }
+    
+                        // Check whether this needs to bind to an event
+                        $.each(widget.trigger.events, function(index, eventid) {
+                            // a, b, c, ..., i, j is a list of possible parameters that can be passed
+                            // in when the event is called. As we have no idea how many will come through,
+                            // we generically catch them and pass them back on when we re-call the event
+                            $(document).on(eventid, function(ev, a, b, c, d, e, f, g, h, i, j) {
+                                lazyLoadWidget(function() {
+                                    $(document).trigger(eventid, [a, b, c, d, e, f, g, h, i, j]);
+                                });
+                            });
+                        });
+    
+                        // Check whether this needs to bind to a selector
+                        $.each(widget.trigger.selectors, function(index, selector) {
+                            $(document).on('click', selector, function(event, ui) {
+                                lazyLoadWidget(function() {
+                                    $(event.target).trigger('click', [event, ui]);
+                                });
+                            });
+                        });
+    
+                    }
+                });
+            }
+        },
+
         initialLoad : function() {
             sakaiWidgetsAPI.bindToHash();
             sakaiWidgetsAPI.Container.setReadyToLoad(true);
+
+            sakaiWidgetsAPI.insertOnLoadWidgets();
             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
+
+            sakaiWidgetsAPI.registerLazyLoading();
 
             // Set up draggable/droppable containers for the main page if there are any
             if($(".s3d-droppable-container", $("body")).length){

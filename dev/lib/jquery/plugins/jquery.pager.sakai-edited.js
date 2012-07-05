@@ -150,9 +150,9 @@ require(['jquery'], function (jQuery) {
         htmlparts : {
             "first" : "first",
             "last" : "last",
-            "prev" : '<span><div class=\"sakai_pager_prev\"></div> <a href="javascript:;" class=\"t\" title="Previous page">Prev</span></a>',
-            "next" : '<span><a href="javascript:;" class=\"t\" title="Next page">Next</a><div class=\"sakai_pager_next\"></div></span>',
-            "current": '<li class="page-number"><a href="javascript:;" title="Page ${page}">${page}</a></li>'
+            "prev" : '<span><div class=\"sakai_pager_prev\"></div> <button class=\"t\" title="Previous page">Prev</button></span>',
+            "next" : '<span><button class=\"t\" title="Next page">Next</button><div class=\"sakai_pager_next\"></div></span>',
+            "current": '<li class="page-number"><button title="Page ${page}">${page}</button></li>'
         }
     };
 

@@ -157,7 +157,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.fileupload'], 
             addBinding();
         };
 
-        $(window).bind('init.uploadnewversion.sakai', doInit);
+        $(document).on('init.uploadnewversion.sakai', doInit);
 
     };
 

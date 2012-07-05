@@ -244,8 +244,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
 
         };
 
-        $(window).bind("initialize.addToContacts.sakai", function(e, userObj) {
+        $(document).on('initialize.addToContacts.sakai', function(e, userObj) {
             initialize(userObj);
+        });
+        $(document).on('click', '.sakai_addtocontacts_overlay', function(ev, ui) {
+            var $el = $(this);
+            if ($el.attr('sakai-entityid') && $el.attr('sakai-entityname')) {
+                initialize({
+                    'uuid': $el.attr('sakai-entityid'),
+                    'displayName': $el.attr('sakai-entityname'),
+                    'pictureLink': $el.attr('sakai-entitypicture') || false
+                });
+            }
         });
 
         /////////////////////
