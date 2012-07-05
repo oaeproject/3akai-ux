@@ -237,6 +237,11 @@ define(
 
         },
 
+        /**
+         * Gets the profile data for a user
+         * @param {String} userid The userId to fetch the profile for
+         * @param {Function} callback Callback function to call when the request is complete
+         */
         getUser: function(userid, callback){
             var authprofileURL = "/~" + sakai_util.safeURL(userid) + "/public/authprofile.profile.json";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
@@ -249,7 +254,8 @@ define(
         },
 
         /**
-         * @param {Array} userArray Array of userIds to fetch
+         * Gets the profile data for multiple users
+         * @param {Array} userArray Array of userIds to fetch the profiles for
          * @param {Function} callback Callback function to call when the request is complete
          */
         getMultipleUsers: function(userArray, callback){

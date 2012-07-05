@@ -456,9 +456,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         });
 
-        $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
+        $(document).on('done.newaddcontent.sakai', function(e, data, library) {
             if (isMe && data && data.length && library === sakai.data.me.user.userid) {
-                $(window).trigger("lhnav.updateCount", ["library", data.length]);
+                $(window).trigger('lhnav.updateCount', ['library', data.length]);
             }
         });
 

@@ -88,7 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
                 }
 
-                $(window).trigger("done.deletecontent.sakai", [pathsToDelete]);
+                $(document).trigger('done.deletecontent.sakai', [pathsToDelete]);
                 if ($.isFunction(callback)) {
                     callback(success);
                 }
@@ -288,7 +288,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         removeFromSystem();
                     }
-                });
+                }, false);
             } else {
                 if (userGroupIds.length > 0) {
                     setUpUsedByOverlay(userGroupIds);
@@ -365,7 +365,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "profiles": profileInfo,
                     "sakai": sakai
                 }));
-            });
+            }, false);
         };
 
         ////////////////////////////
@@ -505,7 +505,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     findContentIManage(data);
                 }
-            });
+            }, false);
         };
 
         ////////////////////
@@ -578,7 +578,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // External event binding //
         ////////////////////////////
 
-        $(window).unbind("init.deletecontent.sakai").bind("init.deletecontent.sakai", load);
+        $(document).on('init.deletecontent.sakai', load);
 
         init();
     };
