@@ -487,12 +487,22 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var leftMenulinks = [];
             var rightMenuLinks = [];
 
-            $('#topnavigation_container .s3d-jump-link').each(function() {
+            //Where to absolutely-position skip links relative to body:
+            var skipLinkPosition = (sakai.config.enableBranding) ?
+                $('.branding_widget').height() + $('.s3d-navigation-container:first').height() + 'px' :
+                $('.s3d-navigation-container:first').height() + 'px';
+
+            //Prepend skip links to body to ensure that they're the first tabable elements on the page
+            var skipLinks = $('.s3d-jump-link');
+            skipLinks.remove().css('top', skipLinkPosition).prependTo('body');
+
+            skipLinks.each(function() {
                 if ($($(this).attr('href') + ':visible').length) {
                     $(this).show();
                 }
             });
-            $('#topnavigation_container .s3d-jump-link').on('click', function() {
+
+            skipLinks.on('click', function() {
                 $($(this).attr('href')).focus();
                 return false;
             });
