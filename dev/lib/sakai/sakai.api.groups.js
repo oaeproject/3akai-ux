@@ -75,6 +75,33 @@ define(
         groupData : {},
 
         /**
+         * Gets information for specified group
+         *
+         * @param {Object} options Contains function parameters
+         * @param {Function} callback Callback function, passes ( {Boolean} success, {Object} data )
+         *
+        */
+        getGroupInformation: function(options, callback) {
+            if (!options || !options.groupId) {
+                throw 'getGroupInformation: The options object is empty or no groupId was provided.';
+            }
+            var groupId = options.groupId;
+            var groupData = {};
+            sakai_serv.loadJSON('/system/userManager/group/' + groupId + '.json', function(success, data) {
+                if (success){
+                    groupData.authprofile = data.properties;
+                    groupData.authprofile.picture = sakaiGroupsAPI.getProfilePicture(groupData.authprofile);
+
+                    // Cache the response
+                    sakaiGroupsAPI.groupData[groupId] = data;
+                }
+                if ($.isFunction(callback)) {
+                    callback(success, groupData);
+                }
+            });
+        },
+
+        /**
          * Get the data for the specified group
          *
          * @param {Object} groupids The ID of the group or an array of group IDs
