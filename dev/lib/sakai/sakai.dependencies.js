@@ -99,6 +99,10 @@ require(
             "jquery": "jquery/jquery-1.7.0",
             "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
             "jquery-cookie": "jquery/plugins/jquery.cookie",
+            "jquery-jstree": "jquery/plugins/jsTree/jquery.jstree.sakai-edit",
+            "jquery-fileupload": "jquery/plugins/jquery.fileupload",
+            "jquery-pager": "jquery/plugins/jquery.pager.sakai-edited",
+            "jquery-tagcloud": "jquery/plugins/jquery.tagcloud",
             "underscore": "misc/underscore",
             "config": "../configuration"
         },

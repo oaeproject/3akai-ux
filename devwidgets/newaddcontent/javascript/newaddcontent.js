@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.fileupload', 'jquery-plugins/jquery.pager.sakai-edited'], function($, sakai, _) {
+require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'jquery-pager'], function($, sakai, _) {
 
     /**
      * @name sakai_global.newaddcontent
