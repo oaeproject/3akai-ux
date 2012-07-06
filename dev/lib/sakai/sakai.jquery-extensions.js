@@ -175,4 +175,9 @@ jQuery.ajaxSetup({
     'cache': true
 });
 
+/**
+ * Make sure that arrays passed in as arguments are properly encoded
+ */
+jQuery.ajaxSettings.traditional = true;
+
 });
