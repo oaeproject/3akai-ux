@@ -48,7 +48,6 @@ define(
             var method = _forcePOST === true ? "POST" : "GET";
             var cache = _cache === false ? false : true;
             var async = _async === false ? false : true;
-            var url = sakai_conf.URL.BATCH;
 
             // Append a charset to each request
             $.each(_requests, function(i,req) {
@@ -115,6 +114,71 @@ define(
                     data: {
                         "_charset_":"utf-8",
                         requests: JSON.stringify(_requests)
+                    },
+                    success: function(data) {
+                        if ($.isFunction(_callback)) {
+                            _callback(true, data);
+                        }
+                    },
+                    error: function(xhr) {
+                        if ($.isFunction(_callback)) {
+                            _callback(false);
+                        }
+                    }
+                });
+            }
+        },
+
+        /**
+         * Perform a batch request for a list of static files
+         *
+         * @param {Array} requests The static files that need to be requested
+         * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
+         */
+        staticBatch : function(_requests, _callback) {
+
+            // Don't submit a request when the batch is empty
+            if (_requests.length === 0) {
+                if ($.isFunction(_callback)) {
+                    _callback(true, {'results': []});
+                }
+            }
+            // Don't issue a batch request for a single, cacheable request
+            else if (_requests.length === 1) {
+                $.ajax({
+                    url: _requests[0],
+                    success: function(data) {
+                        var retObj = {
+                            'results': [
+                                {
+                                    'url': _requests[0],
+                                    'success': true,
+                                    'body': data
+                                }
+                            ]
+                        };
+                        if ($.isFunction(_callback)) {
+                            _callback(true, retObj);
+                        }
+                    },
+                    error: function(status){
+                        if ($.isFunction(_callback)) {
+                            _callback(false, {'results': [{
+                                'url': _requests[0],
+                                'success': false,
+                                'body': "{}"
+                            }]});
+                        }
+                    }
+                });
+
+            } else {
+
+                $.ajax({
+                    url: sakai_conf.URL.STATIC_BATCH,
+                    data: {
+                        '_charset_': 'utf-8',
+                        f: _requests
                     },
                     success: function(data) {
                         if ($.isFunction(_callback)) {
