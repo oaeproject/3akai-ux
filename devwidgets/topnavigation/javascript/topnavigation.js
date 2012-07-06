@@ -57,6 +57,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
         var topnavigationExternalLogin= ".topnavigation_external_login";
         var topnavUserLoginButton = "#topnavigation_user_options_login";
+        var $topnavigationScrollToTopContainer = $('#topnavigation_scroll_to_top_container');
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -1043,9 +1044,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(window).scroll(function(ev) {
             if($(window).scrollTop() > 800) {
-                $('#topnavigation_scroll_to_top').show('slow');
+                $topnavigationScrollToTopContainer.show('slow');
             } else {
-                $('#topnavigation_scroll_to_top').hide('slow');
+                $topnavigationScrollToTopContainer.hide('slow');
             }
         });
 
