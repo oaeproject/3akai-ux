@@ -202,6 +202,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         var doShare = function(event, userlist, message, contentobj, role) {
             var userList = userlist || getSelectedList();
             var messageText = message || $.trim($newsharecontentMessage.val());
+            var shareMessage = $('#newsharecontent_users_added_text').text() + ' ';
+            
             contentObj = contentobj || contentObj;
             var canShareFiles = getCanShareFiles(contentObj.data);
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
@@ -227,10 +229,20 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                             });
                         }
                     });
-                    sakai.api.Util.notification.show(false, $("#newsharecontent_users_added_text").text() + " " + userList.toAddNames.join(", "), "");
+
+                    // Formulate content shared message with list of users
+                    if (userList.toAddNames.length > 1) {
+                        shareMessage += _.initial(userList.toAddNames).join(', ') + ' and ' + _.last(userList.toAddNames);
+                    }
+                    else {
+                        shareMessage += userList.toAddNames[0];
+                    }
+
+                    sakai.api.Util.notification.show(false, shareMessage, '');
                     $newsharecontentContainer.jqmHide();
                 }
-            } else {
+            }
+            else {
                 if (!messageText) {
                     $newsharecontentMessage.addClass(newsharecontentRequiredClass);
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("NO_MESSAGE_PROVIDED", "newsharecontent"), sakai.api.i18n.getValueForKey("A_MESSAGE_SHOULD_BE_PROVIDED_TO_SHARE", "newsharecontent"));
