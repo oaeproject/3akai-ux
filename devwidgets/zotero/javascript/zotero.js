@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.i18n"], function($, sakai) {
 
     /**
      * @name sakai_global.zotero
@@ -50,9 +50,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $cancelSettings = $("#zotero_cancel_settings", $rootel);
         var $userID = $("#zotero_user_id", $rootel);
         var $userKey = $("#zotero_user_key", $rootel);
+        var $userIdText = $("#zotero_id_text", $rootel);
+        var $userKeyText = $("#zotero_key_text", $rootel);
         var $showMoreButton = $("#zotero_show_more", $rootel);
         var $showMoreArrow = $("#zotero_show_more_arrow", $rootel);
         var $showLessArrow = $("#zotero_show_less_arrow", $rootel);
+        var $msgEmptyCollection = $("#zotero_msg_empty_collection", $rootel);
+        var $msgNoCollection = $("#zotero_msg_no_collection", $rootel);
+        var $msgErrorCollections = $("#zotero_msg_error_collections", $rootel);
+        var $msgErrorItems = $("#zotero_msg_error_items", $rootel);
 		var $selectedCollection;
 		var $initURL = "http://localhost:8080/var/proxy/zotero";
 
@@ -100,19 +106,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} userKey The user's key of the Zotero account.
          */
         var showItemsList = function(itemsURL, userKey) {
-        	// reset the html in the itemsContainer's node
-			$itemsContainer.html("");
+        	
 			// sending the request to the server
 			$.ajax({
 				type: "POST",
 				url: itemsURL,
 				dataType: "xml",
 				success : function(mainData, status, data) {
+					// reset the html in the itemsContainer's node
+					$itemsContainer.html("");
 					// fetching the data contained in the server's response
 					var response = data.responseXML;
 					var entries = $(response).find('entry');
 					// testing if there are items in the selected collection
 					if($(entries).length > 0) {
+						$msgErrorItems.css({"display":"none"});
+						$msgEmptyCollection.css({"display":"none"});
 						$itemsContainer.append("<ul>");
 						// fetching the entry tags to display the information it contains
 						entries.each(function(){
@@ -177,30 +186,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 			       	}
 			        else {
 			        	// informing the user that there is no content into the selected collection
-			        	$itemsContainer.append("<center><p class=\"zotero_error_message\">This collection is empty !</p></center>");
+						$msgEmptyCollection.css({"display":"block"});
 			        }
 				},
 				statusCode: { // displaying a message for each kind of error
 					400: function() {
-     					appendErrorMessage($itemsContainer, "Bad request");
+     					appendErrorMessage($itemsContainer, $msgErrorItems, sakai.api.i18n.getValueForKey("ERROR_REQUEST", "zotero"));
      				},
      				403: function() {
-     					appendErrorMessage($itemsContainer, "Forbidden");
+     					appendErrorMessage($itemsContainer, $msgErrorItems, sakai.api.i18n.getValueForKey("ERROR_FORBIDDEN", "zotero"));
      				},
     				404: function() {
-    					appendErrorMessage($itemsContainer, "Not found");
+    					appendErrorMessage($itemsContainer, $msgErrorItems, sakai.api.i18n.getValueForKey("ERROR_NOT_FOUND", "zotero"));
      				},
      				405: function() {
-     					appendErrorMessage($itemsContainer, "Method not allowed");
+     					appendErrorMessage($itemsContainer, $msgErrorItems, sakai.api.i18n.getValueForKey("ERROR_METHOD_NOT_ALLOWED", "zotero"));
      				},
      				417: function() {
-     					appendErrorMessage($itemsContainer, "Expectation Failed");
+     					appendErrorMessage($itemsContainer, $msgErrorItems, sakai.api.i18n.getValueForKey("ERROR_EXPECTATION_FAILED", "zotero"));
      				},
      				500: function() {
-     					appendErrorMessage($itemsContainer, "Internal Server Error");
+     					appendErrorMessage($itemsContainer, $msgErrorItems, sakai.api.i18n.getValueForKey("ERROR_INTERNAL_ERROR", "zotero"));
      				},
      				503: function() {
-     					appendErrorMessage($itemsContainer, "Service Unavailable");
+     					appendErrorMessage($itemsContainer, $msgErrorItems, sakai.api.i18n.getValueForKey("ERROR_SERVICE_UNAVAILABLE", "zotero"));
      				}
      			}});
         };
@@ -216,7 +225,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showCollectionsList = function(userId, userKey) {
         	var urlCollection;
         	var urlItems;
-        	 
+        	
         	// testing if the user want to display a Zotero library protected by a key or not  
         	if(userKey==""){
         		urlCollection = $initURL + "/collections.json?user="+userId;
@@ -233,11 +242,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 				url: urlCollection,
 				dataType: "xml",
 				success : function(mainData, status, data) {
+					$collectionsContainer.html(""); 
 					// fetching the data contained in the server's response
 					var response = data.responseXML;
 					var entries = $(response).find('entry');
+					
+					// creating an item in the list for displaying all the content of the library
+					var label = sakai.api.i18n.getValueForKey("ALL_CONTENT_ITEM", "zotero");
+					$collectionsContainer.append("<a class=\"lhnavigation_subnav_item_content\" href=#><li class=\"is-selected\" id="+urlItems+">"+label+"</li></a>");
+        			$selectedCollection = $(".is-selected");
+					
 					// testing if there are items in the selected collection
-					if($(entries).length > 0) {
+					if($(entries).length > 0) {	
+						$msgErrorCollections.css({"display":"none"});
+						$msgNoCollection.css({"display":"none"});
+						
 						// fetching the entry tags to display the information it contains
 						entries.each(function() {
 							var title = $(this).find('title').text();
@@ -271,35 +290,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 						});
 					}
 					
-					else {
-						// informing the user that there is no collection in the given account
-			        	$collectionsContainer.append("<center><p class=\"zotero_error_message\">There is no collection !</p></center>");
-					}	
 					// Displaying the whole library for the specified account 
 					showItemsList(urlItems,userKey);
 				},
 				
 				statusCode: {
-					400: function() {
-     					appendErrorMessage($collectionsContainer, "Bad request");
+					400: function() { 
+     					appendErrorMessage($collectionsContainer, $msgErrorCollections, sakai.api.i18n.getValueForKey("ERROR_REQUEST", "zotero"));
      				},
      				403: function() {
-     					appendErrorMessage($collectionsContainer, "Forbidden");
+     					appendErrorMessage($collectionsContainer, $msgErrorCollections, sakai.api.i18n.getValueForKey("ERROR_FORBIDDEN", "zotero"));
      				},
     				404: function() {
-    					appendErrorMessage($collectionsContainer, "Not found");
+    					appendErrorMessage($collectionsContainer, $msgErrorCollections, sakai.api.i18n.getValueForKey("ERROR_NOT_FOUND", "zotero"));
      				},
      				405: function() {
-     					appendErrorMessage($collectionsContainer, "Method not allowed");
+     					appendErrorMessage($collectionsContainer, $msgErrorCollections, sakai.api.i18n.getValueForKey("ERROR_METHOD_NOT_ALLOWED", "zotero"));
      				},
      				417: function() {
-     					appendErrorMessage($collectionsContainer, "Expectation Failed");
+     					appendErrorMessage($collectionsContainer, $msgErrorCollections, sakai.api.i18n.getValueForKey("ERROR_EXPECTATION_FAILED", "zotero"));
      				},
      				500: function() {
-     					appendErrorMessage($collectionsContainer, "Internal Server Error");
+     					appendErrorMessage($collectionsContainer, $msgErrorCollections, sakai.api.i18n.getValueForKey("ERROR_INTERNAL_ERROR", "zotero"));
      				},
      				503: function() {
-     					appendErrorMessage($collectionsContainer, "Service Unavailable");
+     					appendErrorMessage($collectionsContainer, $msgErrorCollections, sakai.api.i18n.getValueForKey("ERROR_SERVICE_UNAVAILABLE", "zotero"));
      				}
   				}
   			});
@@ -309,12 +324,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Displays a message about the error which occurred.
          *
+         * @param {Object} brotherNode The brother node where html will be reset.
          * @param {Object} node The node where the message will be appended.
          * @param {String} error The error which occured.
          */
-        var appendErrorMessage = function(node, error) {
-        	node.html("");
-        	node.append("<center><p class=\"zotero_error_message\">An error occurred : "+ error +" </p></center>");
+        var appendErrorMessage = function(brotherNode, node, error) {
+        	brotherNode.html("");
+        	node.css({"display":"block"});
+        	node.append("<center><p>"+ error +" </p></center>");
         };
         
         	
@@ -448,7 +465,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Widgets.Container.informFinish(tuid, 'zotero');
         });
 
-
+		$userIdText.on("click", function(ev) {
+			$userID.val("");
+			$userID.focus();
+		});
+		
+        $userKeyText.on("click", function(ev) {
+        	$userKey.val("");
+        	$userKey.focus();
+        });
+        
         /////////////////////////////
         // Initialization function //
         /////////////////////////////
