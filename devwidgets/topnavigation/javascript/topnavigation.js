@@ -1032,62 +1032,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(window).bind('displayName.profile.updated.sakai', setUserName);
         };
 
-
-        //////////////
-        // OVERLAYS //
-        //////////////
-
-        var renderOverlays = function() {
-            sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
-        };
-
-        // Add content
-        $('.sakai_add_content_overlay, #subnavigation_add_content_link').live('click', function(ev) {
-            $(window).trigger('init.newaddcontent.sakai');
-            return false;
-        });
-
-        // Send a message
-        $('.sakai_sendmessage_overlay').live('click', function(ev) {
-            var el = $(this);
-            var person = false;
-            var people = [];
-            if (el.attr('sakai-entityid') && el.attr('sakai-entityname')) {
-                var userIDArr = el.attr('sakai-entityid').split(',');
-                var userNameArr = sakai.api.Security.safeOutput(el.attr('sakai-entityname')).split(',');
-                for (var i = 0; i < userNameArr.length; i++) {
-                    people.push({
-                        'uuid': userIDArr[i],
-                        'username': userNameArr[i],
-                        'type': el.attr('sakai-entitytype') || 'user'
-                    });
-                }
-            }
-            $(window).trigger('initialize.sendmessage.sakai', [people]);
-        });
-
-        // Add to contacts
-        $('.sakai_addtocontacts_overlay').live('click', function(ev) {
-            var el = $(this);
-            if (el.attr('sakai-entityid') && el.attr('sakai-entityname')) {
-                var person = {
-                    'uuid': el.attr('sakai-entityid'),
-                    'displayName': el.attr('sakai-entityname'),
-                    'pictureLink': el.attr('sakai-entitypicture') || false
-                };
-                $(window).trigger('initialize.addToContacts.sakai', [person]);
-            }
-        });
-
-        // Join group
-        $('.sakai_joingroup_overlay').live('click', function(ev) {
-            var el = $(this);
-            if (el.attr('data-groupid')) {
-                $(window).trigger('initialize.joingroup.sakai', [el.attr('data-groupid'), el]);
-            }
-        });
-
-
         //////////////////////////
         // SCROLL FUNCTIONALITY //
         //////////////////////////
@@ -1154,7 +1098,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var doInit = function() {
             checkForRedirect();
-            renderOverlays();
             renderUser();
             setUserName();
             sakai.api.Util.getTemplates(function(success, templates) {
