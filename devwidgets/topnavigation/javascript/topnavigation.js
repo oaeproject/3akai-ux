@@ -528,6 +528,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             obj.links = rightMenuLinks;
             $(topnavExploreRight).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
+            setCountUnreadMessages();
             addBinding();
         };
 
@@ -1148,6 +1149,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var doInit = function() {
             checkForRedirect();
             renderOverlays();
+            renderUser();
+            setUserName();
             sakai.api.Util.getTemplates(function(success, templates) {
                 if (success) {
                     renderMenu(templates);
@@ -1155,9 +1158,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     debug.error('Could not get the group templates');
                 }
             });
-            renderUser();
-            setCountUnreadMessages();
-            setUserName();
             forceShowLoginUrl();
         };
 

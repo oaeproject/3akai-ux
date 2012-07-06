@@ -25,7 +25,7 @@
 
 /*global $, Config, DOMParser */
 
-require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.pager.sakai-edited'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
 
     /**
      * @name sakai_global.rss
