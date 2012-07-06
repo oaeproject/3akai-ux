@@ -358,7 +358,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
                     }
                     sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_LOAD_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                 }
-            }, false);
+            });
         };
 
         /**
