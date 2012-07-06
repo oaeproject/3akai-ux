@@ -352,12 +352,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
             }
 
             disableAddToQueue();
-
-            var decideIfEnableUpload = function() {
-                if (!contentToAdd.currentSelectedLibraryHasItem) {
-                    enableStartUpload();
-                }
-            };
+            enableStartUpload();
 
             if (!disableRender) {
                 renderQueue(append, contentToAdd);
