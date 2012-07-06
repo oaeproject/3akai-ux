@@ -232,7 +232,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                             permissionData.oldPermission,
                             permissionData.newPermission);
                     });
-                }, false);
+                });
             } else {
                 if (!globalPermissionsChanged) {
                     closeOverlay();

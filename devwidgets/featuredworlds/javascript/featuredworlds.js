@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
                 });
             });
-            sakai.api.Server.batch(requests, renderWidget, false);
+            sakai.api.Server.batch(requests, renderWidget);
         };
 
         var constructWorlds = function(success, templates) {

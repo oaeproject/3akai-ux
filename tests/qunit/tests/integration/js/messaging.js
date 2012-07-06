@@ -187,7 +187,7 @@ require(
             });
             sakai.api.Server.batch(requests, function(success, data) {
                 ok(success, "Deleted two users");
-            }, null, null, false);
+            }, null, false);
 
             // remove messages
             sakai.api.Communication.deleteMessages(pathToMessages, true, function(success, data){
