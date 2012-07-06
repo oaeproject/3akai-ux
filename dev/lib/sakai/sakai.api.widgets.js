@@ -353,53 +353,40 @@ define(
                     var requestedURLsResults = [];
                     var requestedBundlesResults = [];
 
-                    for(var k in batchWidgets){
-                        if(batchWidgets.hasOwnProperty(k)){
-                            var urlItem = {
-                                "url" : k,
-                                "method" : "GET"
-                            };
-                            urls[urls.length] = urlItem;
-                        }
-                    }
+                    $.each(batchWidgets, function(url, widget) {
+                        urls.push(url);
+                    });
 
-                    if(urls.length > 0){
+                    if (urls.length > 0) {
                         var current_locale_string = sakai_i18n.getUserLocale();
                         var bundles = [];
-                        for (var i = 0, j = urls.length; i<j; i++) {
-                            var jsonpath = urls[i].url;
-                            var widgetname = batchWidgets[jsonpath];
+                        $.each(urls, function(index, url){ 
+                            var widgetname = batchWidgets[url];
                             if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
-                                if (sakai.widgets[widgetname].i18n["default"]){
-                                    var bundleItem = {
-                                        "url" : sakai.widgets[widgetname].i18n["default"].bundle,
-                                        "method" : "GET"
-                                    };
-                                    bundles.push(bundleItem);
+                                // Add the default language bundle for the widget
+                                if (sakai.widgets[widgetname].i18n['default']){
+                                    bundles.push(sakai.widgets[widgetname].i18n['default'].bundle);
                                 }
+                                // Add the bundle for the current user's language for the widget
                                 if (sakai.widgets[widgetname].i18n[current_locale_string]) {
-                                    var item1 = {
-                                        "url" : sakai.widgets[widgetname].i18n[current_locale_string].bundle,
-                                        "method" : "GET"
-                                    };
-                                    bundles.push(item1);
+                                    bundles.push(sakai.widgets[widgetname].i18n[current_locale_string].bundle);
                                 }
                             }
-                        }
+                        });
 
                         var urlsAndBundles = urls.concat(bundles);
-                        sakai_serv.batch(urlsAndBundles, function(success, data) {
+                        sakai_serv.staticBatch(urlsAndBundles, function(success, data) {
                             if (success) {
                                 // sort widget html and bundles into separate arrays
                                 for (var h in data.results) {
                                     if (data.results.hasOwnProperty(h)) {
-                                        for (var hh in urls) {
-                                            if (data.results[h].url && urls[hh].url && data.results[h].url === urls[hh].url) {
+                                        for (var hh = 0; hh < urls.length; hh++) {
+                                            if (data.results[h].url && urls[hh] && data.results[h].url === urls[hh]) {
                                                 requestedURLsResults.push(data.results[h]);
                                             }
                                         }
-                                        for (var hhh in bundles) {
-                                            if (data.results[h].url && bundles[hhh].url && data.results[h].url === bundles[hhh].url) {
+                                        for (var hhh = 0; hhh < bundles.length; hhh++) {
+                                            if (data.results[h].url && bundles[hhh] && data.results[h].url === bundles[hhh]) {
                                                 requestedBundlesResults.push(data.results[h]);
                                             }
                                         }
@@ -539,8 +526,8 @@ define(
                     // Check if the showSettings variable is set, if not set the settings variable to false
                     settings = showSettings || false;
 
-                    // Array that will contain all the URLs + names of the widgets that need to be fetched with batch get
-                    var batchWidgets = [];
+                    // Object that will contain all the URLs + names of the widgets that need to be fetched with batch get
+                    var batchWidgets = {};
 
                     // Run over all the elements and load them
                     for (var i = 0, j = divarray.length; i < j; i++){

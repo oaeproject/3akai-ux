@@ -253,20 +253,9 @@ define(
                     });
                 }
 
-                loadDefaultBundleRequest = {
-                    'url': sakai_config.URL.I18N_DEFAULT_BUNDLE,
-                    'method': 'GET'
-                };
-
-                loadCustomBundleRequest = {
-                    'url': sakai_config.URL.I18N_CUSTOM_BUNDLE,
-                    'method': 'GET'
-                };
-
-                loadLocalBundleRequest = {
-                    'url': langBundle,
-                    'method': 'GET'
-                };
+                loadDefaultBundleRequest = sakai_config.URL.I18N_DEFAULT_BUNDLE;
+                loadCustomBundleRequest = sakai_config.URL.I18N_CUSTOM_BUNDLE;
+                loadLocalBundleRequest = langBundle;
 
                 // callback function for response from batch request
                 var bundleReqFunction = function(success, reqData){
@@ -311,7 +300,7 @@ define(
                 };
 
                 var batchRequest = [loadDefaultBundleRequest, loadCustomBundleRequest, loadLocalBundleRequest];
-                sakai_serv.batch(batchRequest, bundleReqFunction);
+                sakai_serv.staticBatch(batchRequest, bundleReqFunction);
             };
 
 
