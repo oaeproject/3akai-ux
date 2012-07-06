@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.fileupload'], function($, sakai, _) {
+require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'jquery-pager'], function($, sakai, _) {
 
     /**
      * @name sakai_global.newaddcontent
@@ -283,18 +283,32 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
 
         /**
          * Render the queue
+         * @param {Boolean} append Append added content to the exisitng queue, rather than re-rending the entire content list to upload.
+         * @param {Array} contentToAdd Array of objects containing data about the content to be appended to the queue
          */
-        var renderQueue = function(callback) {
+        var renderQueue = function(append, contentToAppend) {
             markLibraryHasContentItems(function() {
-                $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
+                var templateData = {
+                    'append': false,
                     'items': itemsToUpload,
                     'sakai': sakai,
                     'me': sakai.data.me,
                     'groups': sakai.api.Groups.getMemberships(sakai.data.me.groups, true),
                     'currentSelectedLibrary': currentSelectedLibrary
-                }));
-                if ($.isFunction(callback)) {
-                    callback();
+                };
+
+                var $queueList = $newaddcontentContainerSelectedItemsContainer.children('ul');
+
+                if (append && $queueList.length) {
+                    templateData.append = true;
+                    templateData.items = contentToAppend;
+                    $queueList.append(
+                        sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, templateData)
+                    );
+                } else {
+                    $newaddcontentContainerSelectedItemsContainer.html(
+                        sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, templateData)
+                    );
                 }
             });
         };
@@ -327,11 +341,16 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
 
         /**
          * Add an item to the queue
-         * @param {Object} contentToAdd Object containing data about the object to be added to the queue
+         * @param {Object/Array} contentToAdd Object or array of objects containing data about the object to be added to the queue
          * @param {Boolean} disableRender Disable rendering of the queue.
          */
-        var addContentToQueue = function(contentToAdd, disableRender) {
-            itemsToUpload.push(contentToAdd);
+        var addContentToQueue = function(contentToAdd, disableRender, append) {
+            if ($.isArray(contentToAdd)) {
+                itemsToUpload = itemsToUpload.concat(contentToAdd);
+            } else {
+                itemsToUpload.push(contentToAdd);
+            }
+
             disableAddToQueue();
 
             var decideIfEnableUpload = function() {
@@ -341,9 +360,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             };
 
             if (!disableRender) {
-                renderQueue(decideIfEnableUpload);
-            } else {
-                decideIfEnableUpload();
+                renderQueue(append, contentToAdd);
             }
         };
 
@@ -476,6 +493,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 ///////////////////////////////
 
                 case 'newaddcontent_existing_content_form':
+                    var contentToAdd = [];
                     $.each($thisForm.find('.newaddcontent_existingitems_select_checkbox:checked'), function(index, item) {
                         if (!$(item).is(':disabled')) {
                             var viewers = [];
@@ -496,11 +514,12 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                                 'type': 'existing',
                                 'css_class': $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
                             };
-                            addContentToQueue(contentObj);
+                            contentToAdd.push(contentObj);
                             $(item).attr('disabled', 'disabled');
                             $(item).parent().addClass(newaddcontentExistingItemsListContainerDisabledListItem);
                         }
                     });
+                    addContentToQueue(contentToAdd, false, true);
                     break;
 
             }
@@ -638,7 +657,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                             itemsAdded.push(item);
                         }
                     });
-                    $(window).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
+                    $(document).trigger('done.newaddcontent.sakai', [itemsAdded, libraryToUploadTo]);
                     // If adding to a group library or collection, these will also still be added to my library
                     if (libraryToUploadTo !== sakai.data.me.user.userid) {
                         brandNewContent[sakai.data.me.user.userid] = brandNewContent[sakai.data.me.user.userid] || [];
@@ -1323,6 +1342,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             $(newaddcontentSelectedItemsActionsPermissions).die('click', changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).die('click', editData);
             $(newaddcontentExistingItemsListContainerActionsSort).die('change');
+            $newaddcontentContainer.off('click', '#newaddcontent_existingitems_paging .sakai_pager button');
             $(window).unbind('init.deletecontent.sakai', deleteContent);
         };
 
@@ -1345,6 +1365,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
             $(newaddcontentExistingCheckAll).live('change', checkUncheckAll);
             $(newaddcontentExistingItemsListContainerActionsSort).live('change', function() {searchPaging(1);});
             $(newaddcontentSaveTo).live('change', greyOutExistingInLibrary);
+            $newaddcontentContainer.on('click', '#newaddcontent_existingitems_paging .sakai_pager button', function(){
+                return false;
+            });
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit + ', #assignlocation_container');
             sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
 
@@ -1409,7 +1432,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
                 }
             });
 
-            $(window).bind('done.deletecontent.sakai', deleteContent);
+            $(document).on('done.deletecontent.sakai', deleteContent);
         };
 
         ////////////////////
@@ -1474,9 +1497,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-plugins/jquery.
         // EVENTS //
         ////////////
 
-        $(window).bind('init.newaddcontent.sakai', function(e, data) {
-            initialize();
-        });
+        $(document).on('init.newaddcontent.sakai', initialize);
+        $(document).on('click', '.sakai_add_content_overlay', initialize);
 
     };
     sakai.api.Widgets.widgetLoader.informOnLoad('newaddcontent');

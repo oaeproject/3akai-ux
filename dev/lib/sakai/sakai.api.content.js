@@ -815,7 +815,7 @@ define(
                         userId);
                         debug.error("xhr data returned: " + data);
                     }
-                }, null, true);
+                }, true);
             } else {
                 if (callBack) {
                     callBack(contentId, userId);

@@ -232,7 +232,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
                             permissionData.oldPermission,
                             permissionData.newPermission);
                     });
-                }, false);
+                });
             } else {
                 if (!globalPermissionsChanged) {
                     closeOverlay();
@@ -561,7 +561,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
 
         $("#contentpermissions_proceedandapply").click(doSave);
 
-        $(window).bind("init.contentpermissions.sakai", function(ev, data){
+        $(document).on('init.contentpermissions.sakai', function(ev, data) {
             defaultPermissionPassed = data.newPermission;
             doInit();
         });

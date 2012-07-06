@@ -40,15 +40,12 @@ define(
          *
          * @param {Array} requests The JSON object of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
-         * @param {Boolean} cache If we should cache this request or not
          * @param {Boolean} forcePOST if we need to force a POST
          * @param {Boolean} async If we should do an async request or not
          */
-        batch : function(_requests, _callback, _cache, _forcePOST, _async) {
+        batch : function(_requests, _callback, _forcePOST, _async) {
             var method = _forcePOST === true ? "POST" : "GET";
-            var cache = _cache === false ? false : true;
             var async = _async === false ? false : true;
-            var url = sakai_conf.URL.BATCH;
 
             // Append a charset to each request
             $.each(_requests, function(i,req) {
@@ -96,22 +93,9 @@ define(
                         }
                     }
                 });
-            } else {
-                // ie7 and lower don't support GETs over 2032 chars,
-                // so lets check for that and POST if we need to
-                var hasIELongUrlBug = false;
-                // Long requests are overflowing the Jetty header cache
-                // so lets use POST for long requests on all browsers until that's fixed
-                //if($.browser.msie && $.browser.version.substr(0,1)<="7"){
-                    hasIELongUrlBug = true;
-                //}
 
-                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + JSON.stringify(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
-                if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
-                    method = "POST";
-                } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
-                    cache = false;
-                }
+            } else {
+
                 // if any request contains a POST, we should be POSTing so the request isn't cached
                 // maybe just GET with no cache? not sure
                 for (var i=0; i<_requests.length; i++) {
@@ -123,11 +107,75 @@ define(
                 $.ajax({
                     url: sakai_conf.URL.BATCH,
                     type: method,
-                    cache: cache,
                     async: async,
                     data: {
                         "_charset_":"utf-8",
                         requests: JSON.stringify(_requests)
+                    },
+                    success: function(data) {
+                        if ($.isFunction(_callback)) {
+                            _callback(true, data);
+                        }
+                    },
+                    error: function(xhr) {
+                        if ($.isFunction(_callback)) {
+                            _callback(false);
+                        }
+                    }
+                });
+            }
+        },
+
+        /**
+         * Perform a batch request for a list of static files
+         *
+         * @param {Array} requests The static files that need to be requested
+         * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
+         */
+        staticBatch : function(_requests, _callback) {
+
+            // Don't submit a request when the batch is empty
+            if (_requests.length === 0) {
+                if ($.isFunction(_callback)) {
+                    _callback(true, {'results': []});
+                }
+            }
+            // Don't issue a batch request for a single, cacheable request
+            else if (_requests.length === 1) {
+                $.ajax({
+                    url: _requests[0],
+                    success: function(data) {
+                        var retObj = {
+                            'results': [
+                                {
+                                    'url': _requests[0],
+                                    'success': true,
+                                    'body': data
+                                }
+                            ]
+                        };
+                        if ($.isFunction(_callback)) {
+                            _callback(true, retObj);
+                        }
+                    },
+                    error: function(status){
+                        if ($.isFunction(_callback)) {
+                            _callback(false, {'results': [{
+                                'url': _requests[0],
+                                'success': false,
+                                'body': "{}"
+                            }]});
+                        }
+                    }
+                });
+
+            } else {
+
+                $.ajax({
+                    url: sakai_conf.URL.STATIC_BATCH,
+                    data: {
+                        '_charset_': 'utf-8',
+                        f: _requests
                     },
                     success: function(data) {
                         if ($.isFunction(_callback)) {
@@ -194,7 +242,7 @@ define(
             });
 
             // Execute the batch operation
-            sakaiServerAPI.batch(batchRequests, callback, false, true);
+            sakaiServerAPI.batch(batchRequests, callback, true);
 
         },
 

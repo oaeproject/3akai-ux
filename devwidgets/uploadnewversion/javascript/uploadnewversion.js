@@ -26,7 +26,7 @@
 
 /*global, window, $ */
 
-require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.fileupload'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sakai) {
 
     /**
      * @name sakai_global.uploadnewversion
@@ -157,7 +157,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jquery.fileupload'], 
             addBinding();
         };
 
-        $(window).bind('init.uploadnewversion.sakai', doInit);
+        $(document).on('init.uploadnewversion.sakai', doInit);
 
     };
 

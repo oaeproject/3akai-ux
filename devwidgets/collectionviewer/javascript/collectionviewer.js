@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
 
     /**
      * @name sakai_global.collectionviewer
@@ -62,6 +62,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             carouselSize = $body.hasClass('has_nav') ? 3 : 5;
         }
 
+        var listSize = 15;
         // previewsAllowed makes sure recursive embedding is not allowed
         var previewsAllowed = true;
         // pagePreviewDisabled disables page previews inside of collection viewers inside of a sakai doc
@@ -255,17 +256,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId)
             }, $collectionviewerGridListContainer);
             $collectionviewerGridListContainer.show();
-            var pageCount = Math.ceil(collectionviewer.total / carouselSize);
+            var pageCount = Math.ceil(collectionviewer.total / listSize);
             if (pageCount > 1) {
                 $('#collectionviewer_paging', $rootel).show();
                 $('#collectionviewer_paging', $rootel).pager({
                     pagenumber: parseInt(collectionviewer.page, 10),
-                    pagecount: Math.ceil(collectionviewer.total / carouselSize),
+                    pagecount: Math.ceil(collectionviewer.total / listSize),
                     buttonClickCallback: function(page) {
                         fetchCollectionData = false;
                         collectionviewer.page = parseInt(page, 10);
                         $.bbq.pushState({'lp': collectionviewer.page});
-                        decideGetNextBatch();
                     }
                 });
             } else {
@@ -277,18 +277,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ///////////////////////
         // UTILITY FUNCTIONS //
         ///////////////////////
-
-        /**
-         * Decides to get the next batch of data before the carousel runs out of items to show
-         */
-        var decideGetNextBatch = function() {
-            // Fetch page if it wasn't fetched previously
-            if (!collectionData[collectionviewer.page - 1]) {
-                getCollectionData();
-            } else {
-                showData();
-            }
-        };
 
         /**
          * Hides the main containers
@@ -334,21 +322,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Function} callback Function to be executed on retrieval of the user profiles
          */
         var getMultipleUserData = function(data, callback) {
-            var batchRequests = [];
+            var usersToFetch = [];
             $.each(data.results, function(i, user) {
                 if (user['sakai:pool-content-created-for']) {
-                    batchRequests.push({
-                        'url': '/~' + user['sakai:pool-content-created-for'] + '/public/authprofile.profile.json',
-                        'method':'GET'
-                    });
+                    usersToFetch.push(user['sakai:pool-content-created-for']);
                 }
             });
-            sakai.api.Server.batch(batchRequests, function(success, results) {
-                if (success) {
-                    $.each(results.results, function(index, item) {
-                        item = $.parseJSON(item.body);
-                        var userid = item['rep:userId'];
-                        var displayName = sakai.api.User.getDisplayName(item);
+
+            sakai.api.User.getMultipleUsers(usersToFetch, function(fetchedUsers) {
+                $.each(data.results, function(index, item) {
+                    var userid = item['sakai:pool-content-created-for'];
+                    if (userid && fetchedUsers[userid]) {
+                        var displayName = sakai.api.User.getDisplayName(fetchedUsers[userid]);
                         data.results[index].ownerId = userid;
                         data.results[index].ownerDisplayName = displayName;
                         data.results[index].ownerDisplayNameShort = sakai.api.Util.applyThreeDots(displayName, 580, {
@@ -359,12 +344,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             max_rows: 1,
                             whole_word: false
                         }, 's3d-bold', true);
-                    });
-                    if ($.isFunction(callback)) {
-                        callback();
                     }
+                });
+                if ($.isFunction(callback)) {
+                    callback();
                 }
-            });
+            }, false);
         };
 
         /**
@@ -471,9 +456,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var switchListView = function() {
             collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
+            collectionviewer.page = $.bbq.getState('lp') || 1;
             $('.s3d-listview-options', $rootel).children('.selected').children().removeClass('selected');
             $('.s3d-listview-options', $rootel).children('.selected').removeClass('selected');
-            collectionviewer.page = 1;
             getCollectionData();
         };
 
@@ -663,7 +648,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $checked.each(function () {
                         paths.push($(this).attr('id').split('collectionviewer_check_')[1]);
                     });
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: collectionviewer.contextId
                     }, function (success) {
@@ -677,7 +662,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $rootel.on('click', '.collectionviewer_remove_icon', function() {
                 var $itemToRemove = $(this);
                 var toRemoveId = $itemToRemove.attr('data-entityid');
-                $(window).trigger('init.deletecontent.sakai', [{
+                $(document).trigger('init.deletecontent.sakai', [{
                     paths: [toRemoveId],
                     context: collectionviewer.contextId
                 }, function (success) {
@@ -696,7 +681,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 doStart('pageviewer');
             });
 
-            $(window).on('done.newaddcontent.sakai', function(ev, data) {
+            $(document).on('done.newaddcontent.sakai', function(ev, data) {
                 switchListView();
             });
 
