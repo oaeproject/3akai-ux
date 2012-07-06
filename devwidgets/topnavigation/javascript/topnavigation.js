@@ -528,6 +528,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             obj.links = rightMenuLinks;
             $(topnavExploreRight).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
+            setCountUnreadMessages();
             addBinding();
         };
 
@@ -1156,7 +1157,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
             renderUser();
-            setCountUnreadMessages();
             setUserName();
             forceShowLoginUrl();
         };
