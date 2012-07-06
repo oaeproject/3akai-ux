@@ -60,6 +60,7 @@ define(function(){
             POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/auth-all.json",
             PRESENCE_SERVICE: "/var/presence.json",
             SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
+            STATIC_BATCH: "/system/staticfiles",
             WORLD_CREATION_SERVICE: "/system/world/create",
             WORLD_INFO_URL: "/var/templates/worlds.2.json",
 
