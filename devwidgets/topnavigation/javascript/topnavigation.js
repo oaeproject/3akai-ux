@@ -225,19 +225,25 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var forceShowLoginUrl = function() {
             if ($.deparam.querystring().url) {
-                forceShowLogin();
+                forceShowLogin(function() {
+                    addUserLoginValidation();
+                });
             }
         };
 
         /**
          * Open the login overlay even though the user is not hovering over it
+         * @param {Function} callback Optional callback function
          */
-        var forceShowLogin = function() {
+        var forceShowLogin = function(callback) {
             if (sakai.api.User.isAnonymous(sakai.data.me)) {
                 $('#topnavigation_user_options_login_fields').addClass('topnavigation_force_submenu_display');
                 $('#topnavigation_user_options_login_wrapper').addClass('topnavigation_force_submenu_display_title');
                 $('#topnavigation_user_options_login_fields_username').focus();
             }
+            if ($.isFunction(callback)) {
+                callback();
+            };
         };
 
         ////////////////////////
