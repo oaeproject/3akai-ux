@@ -118,51 +118,66 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        sakai.api.Util.getTemplates(function(success, templates) {
-            if (success) {
-                for (var c = 0; c < templates.length; c++) {
-                    var category = templates[c];
-                    var refId = sakai.api.Util.generateWidgetId();
-                    var title = sakai.api.i18n.getValueForKey(category.titlePlural);
-                    pubdata.structure0[category.id] = {
-                        '_title': title,
-                        '_ref': refId,
-                        '_order': (c + worldsOrderIncrement),
-                        '_url': searchUrl,
-                        'main': {
-                            '_ref': refId,
-                            '_order': 0,
+        var generateNav = function() {
+            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
+        };
+
+        /*
+         * Fetch templates and render navigation
+         */
+        var fetchTemplates = function() {
+            sakai.api.Util.getTemplates(function(success, templates) {
+                if (success) {
+                    for (var c = 0; c < templates.length; c++) {
+                        var category = templates[c];
+                        var refId = sakai.api.Util.generateWidgetId();
+                        var title = sakai.api.i18n.getValueForKey(category.titlePlural);
+                        pubdata.structure0[category.id] = {
                             '_title': title,
-                            '_url': searchUrl
-                        }
-                    };
-                    var searchWidgetId = sakai.api.Util.generateWidgetId();
-                    pubdata[refId] = {
-                        'rows': [
-                            {
-                                'id': sakai.api.Util.generateWidgetId(),
-                                'columns': [
-                                    {
-                                        'width': 1,
-                                        'elements': [
-                                            {
-                                                'id': searchWidgetId,
-                                                'type': 'searchgroups'
-                                            }
-                                        ]
-                                    }
-                                ]
+                            '_ref': refId,
+                            '_order': (c + worldsOrderIncrement),
+                            '_url': searchUrl,
+                            'main': {
+                                '_ref': refId,
+                                '_order': 0,
+                                '_title': title,
+                                '_url': searchUrl
                             }
-                        ]
-                    };
-                    pubdata[refId][searchWidgetId] = {
-                        'category': category.id
-                    };
+                        };
+                        var searchWidgetId = sakai.api.Util.generateWidgetId();
+                        pubdata[refId] = {
+                            'rows': [
+                                {
+                                    'id': sakai.api.Util.generateWidgetId(),
+                                    'columns': [
+                                        {
+                                            'width': 1,
+                                            'elements': [
+                                                {
+                                                    'id': searchWidgetId,
+                                                    'type': 'searchgroups'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        };
+                        pubdata[refId][searchWidgetId] = {
+                            'category': category.id
+                        };
+                    }
+                } else {
+                    debug.error('Could not get the group templates');
                 }
-            } else {
-                debug.error('Could not get the group templates');
-            }
-        });
+
+                $(window).bind('lhnav.ready', function() {
+                    generateNav();
+                });
+
+                generateNav();
+            });
+        };
 
         var fireSearch = function() {
             $.bbq.pushState({
@@ -187,10 +202,6 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var generateNav = function() {
-            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
-        };
-
         var renderEntity = function() {
             $(window).trigger('sakai.entity.init', ['search']);
         };
@@ -199,12 +210,8 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             renderEntity();
         });
 
-        $(window).bind('lhnav.ready', function() {
-            generateNav();
-        });
-
         renderEntity();
-        generateNav();
+        fetchTemplates();
         eventBinding();
 
     };
