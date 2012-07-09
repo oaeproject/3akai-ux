@@ -179,8 +179,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 query: query
             }));
 
-            $('.s3d-page-header-bottom-row', $rootel).hide();
-
             $mylibrary_empty.show();
         };
 
@@ -219,13 +217,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $mylibrary_result_count.children('.s3d-search-result-count-label').text(resultLabel);
                     $mylibrary_result_count.children('.s3d-search-result-count-count').text(total);
                 }
-                if(!sakai.data.me.user.anon) {
-                    if(items.length !== 0) {
+                if (!sakai.data.me.user.anon) {
+                    if (total !== 0) {
                         $('.s3d-page-header-top-row', $rootel).show();
                         $('.s3d-page-header-bottom-row', $rootel).show();
+                    } else {
+                        $('.s3d-page-header-bottom-row', $rootel).hide();
                     }
                 } else {
-                    if(items.length !== 0) {
+                    if (total !== 0) {
                         $('.s3d-page-header-top-row', $rootel).show();
                     }
                 }
