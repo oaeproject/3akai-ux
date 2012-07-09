@@ -156,10 +156,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             var searchterm = contentData.data["sakai:pooled-content-file-name"].substring(0,400) + " " + managersList + " " + viewersList;
-            var searchquery = prepSearchTermForURL(searchterm);
             if (contentData.data['sakai:tags'] && contentData.data['sakai:tags'].length) {
-                searchquery = searchquery + ' OR ' + contentData.data['sakai:tags'].join(' OR ');
+                searchterm = searchterm + ' ' + contentData.data['sakai:tags'].join(' ');
             }
+            var searchquery = sakai.api.Server.createSearchString(searchterm, false, 'OR');
 
             // get related content for contentData
             // return some search results for now

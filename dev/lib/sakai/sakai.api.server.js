@@ -707,9 +707,13 @@ define(
          * @param {String} searchString The user's search
          * @param {Boolean} handlePhrases If we should split on ,\s instead of \s to
          *                      better handle phrases
+         * @param {String} joinOn String to join keywords on, defaults to AND
          * @return {String} The string to send to the server
          */
-        createSearchString : function(searchString, handlePhrases) {
+        createSearchString : function(searchString, handlePhrases, joinOn) {
+            if (!joinOn) {
+                joinOn = 'AND';
+            }
             var ret = "";
             var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
             var removeArray = [" AND", " OR"];
@@ -721,9 +725,9 @@ define(
             // we are sure there it isn't an advanced search query
             if (!advancedSearchRegex.test(searchString)) {
                 if (handlePhrases) {
-                    ret = '"' + ret.split(', ').join('" AND "') + '"';
+                    ret = '"' + ret.split(', ').join('" ' + joinOn + ' "') + '"';
                 } else {
-                    ret = ret.split(' ').join(' AND ');
+                    ret = ret.split(' ').join(' ' + joinOn + ' ');
                 }
             }
 
