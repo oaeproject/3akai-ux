@@ -25,7 +25,7 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.i18n"], function($, 
      * @class zotero
      *
      * @description
-     * Zotero is a dashboard widget that display the content of a Zotero's library gor a given account
+     * Zotero is a dashboard widget that display the content of a Zotero's library for a given account
      * 
      *
      * @version 0.0.1
