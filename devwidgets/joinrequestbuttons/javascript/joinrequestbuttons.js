@@ -320,7 +320,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          *  {Object} joinrequests  optional joinrequest data from the server. If not provided, this
          *      widget will issue a server request to get the data if needed.
          */
-        $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupData, groupid, joinability, managerCount, buttonStyle, onShow, requestCallback, joinCallback, leaveCallback, joinrequests) {
+        $(document).on('init.joinrequestbuttons.sakai', function (ev, groupData, groupid, joinability, managerCount, buttonStyle, onShow, requestCallback, joinCallback, leaveCallback, joinrequests) {
             if (!groupid || !joinability) {
                 return;
             }
@@ -336,7 +336,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             joinrequestbuttons.leaveCallback = leaveCallback || false;
             render();
         });
-        $(window).trigger("ready.joinrequestbuttons.sakai");
+        $(document).trigger('ready.joinrequestbuttons.sakai');
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("joinrequestbuttons");

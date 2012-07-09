@@ -143,10 +143,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Event Handlers //
         ////////////////////
 
-        $(window).bind("done.newaddcontent.sakai", function(e, data) {
-            init();
-        });
-
+        $(document).on('done.newaddcontent.sakai', init);
 
         /////////////////////////////
         // Initialization function //

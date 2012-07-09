@@ -104,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Gets a contact and displays info
          * @param {Object} data - contact data
          */
-        var handlerecentcontactsnewData = function(data) {
+        var handleRecentContactsData = function(data) {
             if(data && data.length > 0) {
                 $("#recentcontactsnew_no_results_container").hide();
                 var contactArray = [];
@@ -248,8 +248,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return None
          */
         var init = function() {
-            sakai.api.User.getContacts(function(){
-                handlerecentcontactsnewData(sakai.data.me.mycontacts);
+            var params = {
+                'state': 'ACCEPTED',
+                'items': '1'
+            };
+            $.ajax({
+                url: sakai.config.URL.CONTACTS_FIND_STATE,
+                data: params,
+                success: function(data) {
+                    handleRecentContactsData(data.results);
+                },
+                error: function() {
+                    handleRecentContactsData(false);
+                }
             });
         };
 

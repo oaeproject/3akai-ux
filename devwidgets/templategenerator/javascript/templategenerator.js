@@ -345,7 +345,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
                                 callback( false );
                             }
                         }
-                    });
+                    }, false);
                     // 2. Roles
                     var roleData = $.parseJSON(data.results[1].body);
                     templategeneratorData.roles.roleData = $.parseJSON(roleData.properties['sakai:roles']);

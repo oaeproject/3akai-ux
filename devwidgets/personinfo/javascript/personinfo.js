@@ -78,17 +78,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var personinfoTop = $clickedEl.offset().top + $clickedEl.height();
             var personinfoLeft = $clickedEl.offset().left + $clickedEl.width() / 2 - 125;
 
-            var adjustHeight = 0;
-            if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
-                adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
-            }
-
             if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
                 personinfoTop += parseInt($('html').scrollTop(), 10);
             }
 
             $personinfo_widget.css({
-                top: personinfoTop + adjustHeight,
+                top: personinfoTop,
                 left: personinfoLeft
             });
 
@@ -219,12 +214,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sendMessageUserObj.username = sakai.api.User.getDisplayName(dataCache[userId]);
             sendMessageUserObj.type = "user";
             // initialize the sendmessage-widget
-            $(window).trigger("initialize.sendmessage.sakai", [sendMessageUserObj, false, false, null, null, null]);
+            $(document).trigger('initialize.sendmessage.sakai', [sendMessageUserObj, false, false, null, null, null]);
         });
 
         // bind personinfo request connection button
         $personinfo_invite.live("click", function(){
-            $(window).trigger("initialize.addToContacts.sakai", [dataCache[userId]]);
+            $(document).trigger('initialize.addToContacts.sakai', [dataCache[userId]]);
         });
 
         // bind personinfo request connection button

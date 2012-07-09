@@ -18,7 +18,6 @@
 #personinfo_widget {
     color: #333333;
     position: absolute;
-    display: none;
     width: 250px;
 }
 .personinfo_outer {
@@ -46,10 +45,10 @@
     margin: 5px 8px 5px 6px;
 }
 #personinfo_close_button {
-    margin: 15px 10px 10px 10px;
+    margin: 16px 5px 10px;
 }
 #personinfo_widget .personinfo_close {
-    padding-top: 3px;
+    padding: 3px;
 }
 #personinfo_widget .personinfo_header_arrow {
     margin-left: 110px;
@@ -69,7 +68,7 @@
     float: right
 }
 #personinfo_close {
-    background: url(/dev/images/tour_sprite.png) no-repeat scroll -389px -79px transparent;
+    background: url(/dev/images/close_icon_small.png) no-repeat transparent;
     height: 16px;
     width: 16px;
 }

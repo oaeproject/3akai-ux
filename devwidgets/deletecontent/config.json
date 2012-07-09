@@ -11,6 +11,10 @@
         }
     },
     "id": "deletecontent",
+    "trigger": {
+        "events": ["init.deletecontent.sakai"],
+        "onLoad": false
+    },
     "type": "core",
     "url": "/devwidgets/deletecontent/deletecontent.html"
 }

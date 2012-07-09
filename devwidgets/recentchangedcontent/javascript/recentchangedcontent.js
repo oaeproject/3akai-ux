@@ -199,11 +199,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Bind Events
          */
         var addBinding = function () {
-            $('.add_recentchangedcontent_button', rootel).click(function (ev) {
-                $(window).trigger('init.newaddcontent.sakai');
-                return false;
-            });
-            $(window).bind('done.newaddcontent.sakai', function(e, newContent) {
+            $(document).on('done.newaddcontent.sakai', function(e, newContent) {
                 if (newContent && newContent.length) {
                     handleRecentChangedContentData(true, {results:newContent});
                 }
@@ -251,7 +247,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var params = {
                 'items' : '2'
             };
-            var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.infinity.json');
+            var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.0.json');
             if (searchquery === '*' || searchquery === '**') {
                 url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
             } else {

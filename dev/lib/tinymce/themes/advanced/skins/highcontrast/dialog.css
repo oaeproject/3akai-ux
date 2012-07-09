@@ -40,12 +40,28 @@ float:left;
 
 /* Browse */
 a.pickcolor, a.browse {text-decoration:none}
-a.browse span {display:block; width:20px; height:18px; background:url(../../img/icons.gif) -860px 0; border:1px solid #FFF; margin-left:1px;}
+a.browse span, a.pickcolor span {
+    background: url(/dev/lib/tinymce/themes/advanced/img/icons.gif);
+}
+a.browse span {
+    background-position: -860px 0;
+    border: 1px solid #FFF;
+    display: block;
+    height: 18px;
+    margin-left: 1px;
+    width: 20px;
+}
 .mceOldBoxModel a.browse span {width:22px; height:20px;}
 a.browse:hover span {border:1px solid #0A246A; background-color:#B2BBD0;}
 a.browse span.disabled {border:1px solid white; opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 a.browse:hover span.disabled {border:1px solid white; background-color:transparent;}
-a.pickcolor span {display:block; width:20px; height:16px; background:url(../../img/icons.gif) -840px 0; margin-left:2px;}
+a.pickcolor span {
+	display: block;
+	background-position: -840px 0;
+	height: 16px;
+	margin-left: 2px;
+	width: 20px;
+}
 .mceOldBoxModel a.pickcolor span {width:21px; height:17px;}
 a.pickcolor:hover span {background-color:#B2BBD0;}
 a.pickcolor:hover span.disabled {}
