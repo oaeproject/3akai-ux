@@ -514,6 +514,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     setInitialState();
                     getMessages();
                 }
+            } else {
+                setInitialState();
             }
         };
 
