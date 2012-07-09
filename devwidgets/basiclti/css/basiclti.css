@@ -16,8 +16,10 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Settings */
-#basiclti_settings input[type="text"]{background-color:#f1f1f1;border:1px solid #d6d6d6;margin-top:3px;padding:3px;width:99%;}
-.basiclti_settings_error{color:red;}
+#basiclti_settings .s3d-form-field-wrapper span.s3d-error {
+    margin-left: 0;
+    width: 96%;
+}
 .basiclti_settings_label_head{font-weight:bold;}
 #basiclti_settings_reset_size{margin-left:15px;}
 .basiclti_settings_subcontainer{border-bottom:1px solid #ddd;margin-bottom:15px;padding-bottom:10px;}
@@ -39,12 +41,24 @@
 #basiclti_settings_color_0000ff{background-color:#00f;}
 
 /* Advanced */
-#basiclti_settings_advanced_toggle_settings{margin-top:-30px;float:right;}
-#basiclti_settings_advanced input[type="text"]{width:65px;}
+#basiclti_settings_advanced_toggle_settings {
+    margin-top: -20px;
+}
+#basiclti_settings_advanced input[type="text"] {
+    margin-top: 7px;
+    width: 65px;
+}
 
 /* Block */
 .basiclti_settings_block{margin-left:15px;}
-.basiclti_settings_block label{float:left;margin-right:5px;margin-top:3px;padding-top:5px;width:75px;}
+.basiclti_settings_block label {
+    clear: left;
+    float: left;
+    margin-right: 5px;
+    margin-top: 3px;
+    padding-top: 5px;
+    width: 75px;
+}
 .basiclti_settings_block .basiclti_settings_checkbox{float:left;margin:10px 20px 0 0;width:auto;}
 .basiclti_settings_block .basiclti_settings_checkbox label{float:none;width:auto;}
 .basiclti_settings_block .basiclti_settings_checkbox input[type="checkbox"]{margin:0 auto;}
