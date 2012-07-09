@@ -61,8 +61,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                     debug.error('Could not get the group templates');
                 }
 
-                $(window).bind('lhnav.ready', generateNav);
-                generateNav();
+                if (sakai_global.lhnavigation && sakai_global.lhnavigation.ready) {
+                    generateNav();
+                } else {
+                    $(window).bind('lhnav.ready', generateNav);
+                }
             });
         };
 
