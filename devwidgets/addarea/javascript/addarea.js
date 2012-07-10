@@ -816,19 +816,19 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Renders the widget page
          */
-        var renderWidgets = function(){
+        var renderWidgets = function() {
             var widgets = [];
             var nameSet = false;
-            for (var widget in sakai.widgets){
-                if(!nameSet){
-                    $("#addarea_widgets_name").val(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widget].id));
-                    nameSet = true;
-                }
-                if(sakai.widgets[widget].sakaidocs){
+            for (var widget in sakai.widgets) {
+                if (sakai.widgets[widget].sakaidocs) {
+                    if (!nameSet) {
+                        $('#addarea_widgets_name').val(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widget].id));
+                        nameSet = true;
+                    }
                     widgets.push(sakai.widgets[widget]);
                 }
             }
-            $("#addarea_widgets_widget").html(sakai.api.Util.TemplateRenderer("addarea_widgets_widget_container", {data: widgets, sakai: sakai}));
+            $('#addarea_widgets_widget').html(sakai.api.Util.TemplateRenderer('addarea_widgets_widget_container', {data: widgets, sakai: sakai}));
         };
 
         /*
