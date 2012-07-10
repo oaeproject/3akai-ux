@@ -1437,6 +1437,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Widget has loaded //
         ///////////////////////
 
+        sakai_global.lhnavigation.ready = true;
         $(window).trigger('lhnav.ready');
 
     };
