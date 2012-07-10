@@ -225,6 +225,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         var uid = _.keys( sectionData )[ 0 ];
                         var sectionHTML = sakai.api.Util.TemplateRenderer( template, {
                             section: section,
+                            sakai: sakai,
                             unique: uid,
                             data: _.values( sectionData )[ 0 ],
                             order: _.values( sectionData )[ 0 ].order
