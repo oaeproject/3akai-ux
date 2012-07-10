@@ -73,7 +73,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 'contextData': contextData,
                 'parametersToCarryOver': parametersToCarryOver
             });
-            $('#lhnavigation_container').html(lhnavHTML);
+            $('#lhnavigation_container').attr('role', 'navigation')
+                .attr('aria-label', sakai.api.i18n.getValueForKey('LH_NAV_ARIA_LABEL', 'lhnavigation'))
+                .html(lhnavHTML);
         };
 
         ////////////////////////
