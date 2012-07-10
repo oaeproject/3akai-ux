@@ -30,9 +30,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
         // Links and labels
         var checkUserNameLink = "#checkUserName";
         var buttonsContainer = ".create_account_button_bar";
-        var successMessage = "#success_message";
-        var successMessageTitle = "#success_message_title";
-        var successMessageValue = "#success_message_value";
 
         // Input fields
         var usernameField = "#username";
@@ -59,7 +56,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
         var errorFields = ".create_account_error_msg";
         var usernameLabel = "#username_label";
         var inputFields = ".create_account_input";
-        var usernameAvailable = "#username_available";
 
         //CSS Classes
         var invalidFieldClass = "invalid";
@@ -116,8 +112,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
 
                     // Destroy the captcha
                     sakai_global.captcha.destroy();
-
-                    sakai.api.Util.notification.show($(successMessageTitle).html(), $(successMessageValue).html());
 
                     // Wait for 2 seconds
                     setTimeout(function(){
@@ -360,11 +354,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
             $(inputFields).bind("mouseenter mouseleave", function(ev){
                 $(this).toggleClass(inputFieldHoverClass);
             });
-
-            // Hide success message
-            $(successMessage).hide();
-            // Hide username available message
-            $(usernameAvailable).hide();
 
             // Initialize the captcha widget.
             initCaptcha();
