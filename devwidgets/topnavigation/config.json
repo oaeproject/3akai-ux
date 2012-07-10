@@ -17,6 +17,9 @@
         },
         "zh_CN": {
             "bundle": "/devwidgets/topnavigation/bundles/zh_CN.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/topnavigation/bundles/fr_FR.properties"
         }
     },
     "id": "topnavigation",

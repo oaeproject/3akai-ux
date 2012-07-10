@@ -9,6 +9,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/mymemberships/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mymemberships/bundles/fr_FR.properties"
         }
     },
     "id": "mymemberships",

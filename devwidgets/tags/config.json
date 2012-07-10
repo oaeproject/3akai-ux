@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/tags/bundles/default.properties",
             "description": "Most popular tags",
             "name": "Most popular tags"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/tags/bundles/fr_FR.properties",
+            "description": "Mots-clés les plus populaires",
+            "name": "Mots-clés les plus populaires"
         }
     },
     "id": "tags",
