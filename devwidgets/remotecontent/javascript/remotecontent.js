@@ -254,12 +254,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 methods: {
                     'appendhttp': {
                         'method': function(value, element) {
-                            if (value.substring(0,7) !== "http://" &&
-                                value.substring(0,6) !== "ftp://" &&
-                                value.substring(0,8) !== "https://" &&
-                                $.trim(value) !== "") {
-                                $(element).val("http://" + value);
-                                json.url = "http://" + value;
+                            if (value.substring(0,7) !== 'http://' &&
+                                value.substring(0,6) !== 'ftp://' &&
+                                value.substring(0,8) !== 'https://' &&
+                                $.trim(value) !== '') {
+                                $(element).val('http://' + value);
+                                json.url = 'http://' + value;
                             } else {
                                 json.url = value;
                             }
