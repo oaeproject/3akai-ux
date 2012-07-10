@@ -340,7 +340,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             }
         };
 
-        $rootel.on('change cut paste', function() {
+        $rootel.on('input change cut paste', function() {
             enableUpdate();
         });
 
