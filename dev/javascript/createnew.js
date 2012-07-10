@@ -49,24 +49,23 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                         }]
                     };
                 }
+
+                var generateNav = function() {
+                    $(window).trigger('lhnav.init', [pubdata, {}, {}]);
+                };
+
+                var renderCreateGroup = function() {
+                    $(window).trigger('sakai.newcreategroup.init');
+                };
+
+                $(window).bind('lhnav.ready', generateNav);
+                $(window).bind('newcreategroup.ready', renderCreateGroup);
+
+                generateNav();
             } else {
                 debug.error('Could not get the group templates');
             }
         });
-
-        var generateNav = function() {
-            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
-        };
-
-        var renderCreateGroup = function() {
-            $(window).trigger('sakai.newcreategroup.init');
-        };
-
-        $(window).bind('lhnav.ready', generateNav);
-        $(window).bind('newcreategroup.ready', renderCreateGroup);
-
-        generateNav();
-        
     };
 
     sakai.api.Widgets.Container.registerForLoad('createnew');
