@@ -455,12 +455,24 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         /**
+         * Set the message hash
+         * @param {String} messageId The ID of the message
+         */
+        var setMessageHash = function(messageId) {
+            $.bbq.pushState({'message': messageId});
+        };
+
+        /**
          * Event handler function for hiding/showing this widget
          * Cleans up or sets the polling interval for new messages
          */
         var handleShown = function(e, showing) {
             if (showing && !$.bbq.getState("message")) {
-                getMessages();
+                if ($('#inbox_show_message').is(':visible')) {
+                    setMessageHash($('.inbox_items_container:visible').attr('id'));
+                } else {
+                    getMessages();
+                }
             }
         };
 
@@ -514,8 +526,6 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     setInitialState();
                     getMessages();
                 }
-            } else {
-                setInitialState();
             }
         };
 

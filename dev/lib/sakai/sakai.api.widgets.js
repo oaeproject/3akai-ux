@@ -728,8 +728,8 @@ define(
             $("a[href^='#']").live("click", function(e) {
                 var $target = $(e.currentTarget),
                     args = $target.attr("href"),
-                    replace = $target.data("reset-hash"),
-                    remove = $target.data("remove-params"),
+                    replace = $target.attr('data-reset-hash'),
+                    remove = $target.attr('data-remove-params'),
                     stateToAdd = {}, currentState = {}, newState = {};
                 // new state to push
                 stateToAdd = $.deparam.fragment(args, true);
@@ -747,7 +747,7 @@ define(
                     });
                 }
                 // replace means we should replace the state entirely with the new state from the link
-                if (replace) {
+                if (replace === 'true') {
                     newState = stateToAdd;
                 } else {
                     // otherwise we merge the currentState with the stateToAdd
