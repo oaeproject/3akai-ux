@@ -29,6 +29,7 @@
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
    -webkit-border-radius: 5px; /* Safari */}
 .recentmemberships_item_div {min-height:35px; margin-left:40px;}
+.recentmemberships_item_link {word-wrap:break-word;}
 .recentmemberships_content_mimetype{white-space:pre;text-transform:uppercase;}
 
 .recentmemberships_seeall_button {margin-top: 10px; padding: 10px; text-align:right; font-size: 12px; background-color:#efefef;}
