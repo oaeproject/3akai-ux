@@ -41,9 +41,7 @@ define(
 
     var sakai_util = {
         data: {
-            worldTemplates: false,
-            // An array of callbacks that need to be fired when the templates are loaded
-            worldTemplatesCallbacks: []
+            worldTemplates: false
         },
 
         startup : function(meData) {
