@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var passwordChanges = false;
         var emailChanges = false;
         var pageReload = false;
+        var errorCorrected = true;
 
 
         /////////////////////////////
@@ -380,20 +381,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(saveButton).bind("click", function(){
-            if (preferencesChanges){
-                $(accountPreferencesPreferencesForm).submit();
+            if(errorCorrected) {
+	            if (preferencesChanges){
+	                $(accountPreferencesPreferencesForm).submit();
+	            }
+	            if (privacyChanges){
+	                $("#accountpreferences_privacy_change").submit();
+	            }
+	            if (passwordChanges){
+	                $(accountPasswordTab).click();
+	                if ($(accountPreferencesPasswordChange).valid()) {
+	                    $(accountPreferencesPasswordChange).submit();
+	                }
+	                else {
+	                	errorCorrected = false;
+	                	passwordChanges = false;
+	                	disableElements($(saveButton));
+	                }
+	            }
+	            if (emailChanges) {
+	                $("#accountpreferences_email_change").submit();
+	            }
             }
-            if (privacyChanges){
-                $("#accountpreferences_privacy_change").submit();
-            }
-            if (passwordChanges){
-                $(accountPasswordTab).click();
-                if ($(accountPreferencesPasswordChange).valid()) {
-                    $(accountPreferencesPasswordChange).submit();
-                }
-            }
-            if (emailChanges) {
-                $("#accountpreferences_email_change").submit();
+            else {
+            	$(accountPasswordTab).click();
             }
         });
 
@@ -512,6 +523,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // enable the save button
                 enableElements($(saveButton));
                 passwordChanges = true;
+                errorCorrected = true;
             }
         });
 
