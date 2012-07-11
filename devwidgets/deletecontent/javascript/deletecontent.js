@@ -62,6 +62,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////////
 
         /**
+         * Removes deleted collections from the Add Content Dialog
+         * @param {Object} batchRequests Array that contains all batch requests to be submitted
+         */
+        var updateAddContent = function(batchRequests) {
+            $.each(batchRequests, function(i, req) {
+                if (req.url.indexOf('/p/') !== 0) {
+                    return true;
+                }
+                var url = req.url.substr(3,10);
+                $.each(sakai.data.me.groups, function(j, group) {
+                    if (!group) {
+                        return true;
+                    }
+                    var groupId = group.groupid || group['sakai:group-id'];
+                    if (groupId.indexOf(url) !== -1) {
+                        sakai.data.me.groups.splice(j, 1);
+                    }
+                });
+            });
+        };
+
+        /**
          * Once all requests have been collected into a batchRequest array, we can submit them as
          * a batch request
          * @param {Object} batchRequests    Array that contains all batch requests to be submitted
@@ -94,6 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 sakai.api.Util.Modal.close($deletecontent_dialog);
+                updateAddContent(batchRequests);
             });
         };
 
