@@ -156,6 +156,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
         var tmpBrowsedFile = {};
         var filesList = [];
         var contentDataBatch = [];
+        var libraryDataBatch = [];
 
         ////////////////////////////////
         // Get newly uploaded content //
@@ -262,6 +263,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
             tmpBrowsedFile = {};
             filesList = [];
             contentDataBatch = [];
+            libraryDataBatch = [];
         };
 
         /**
@@ -790,7 +792,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
             $.each(itemsToUpload, function(index, contentObj) {
                 // Add this content to the selected library
                 if(libraryToUploadTo !== sakai.data.me.user.userid) {
-                    contentDataBatch.push({
+                    libraryDataBatch.push({
                         url: '/p/' + contentObj['_path'] + '.members.json',
                         parameters: {
                             ':viewer': libraryToUploadTo
@@ -808,7 +810,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                             var roles = sakai.api.Groups.getRoles(sakai_global.group.groupData);
                             for (var role in roles) {
                                 if (roles.hasOwnProperty(role) && roles[role].isManagerRole) {
-                                    contentDataBatch.push({
+                                    libraryDataBatch.push({
                                         url: '/p/' + contentObj['_path'] + '.members.json',
                                         parameters: {
                                             ':manager': libraryToUploadTo + '-' + roles[role].id
@@ -874,12 +876,23 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
          */
         var setDataOnContent = function(callback) {
             prepareLibraryDataForContent();
-            sakai.api.Server.batch(contentDataBatch, function(success, response) {
-                if ($.isFunction(callback)) {
+            // SAKIII-5965 sometimes content doesn't get saved to the group if there are too many items with the single batch request
+            var batchReq = contentDataBatch;
+            if (libraryDataBatch.length < 100) {
+                batchReq = contentDataBatch.concat(libraryDataBatch);
+                libraryDataBatch = [];
+            }
+            sakai.api.Server.batch(batchReq, function(success, response) {
+                if (libraryDataBatch.length) {
+                    sakai.api.Server.batch(libraryDataBatch, function(success, response) {
+                        if ($.isFunction(callback)) {
+                            callback();
+                        }
+                    });
+                } else if ($.isFunction(callback)) {
                     callback();
                 }
             });
-                            
         };
 
         /**
