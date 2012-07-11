@@ -435,6 +435,7 @@ define(
             $.ajax({
                 // Get the service url from the config file
                 url: sakai_conf.URL.ME_SERVICE,
+                cache: false,
                 success: function(data) {
                     sakaiUserAPI.data.me = sakai_serv.convertObjectToArray(data, null, null);
 
