@@ -63,15 +63,15 @@ define(
         /**
          * Get the world templates from the server
          * If the worldTemplates are already fetched they will just be returned from the variable
-         * @param {Function} callback Function executed after the templates have been fetched. 
+         * @param {Function} callback Function executed after the templates have been fetched.
          *                            The templates are passed through to the function
          */
         getTemplates: function(callback) {
             if (!sakai_util.data.worldTemplates) {
-                sakai_util.data.worldTemplates = [];
                 $.ajax({
                     url: sakai_conf.URL.WORLD_INFO_URL,
                     success: function(data) {
+                        sakai_util.data.worldTemplates = [];
                         data = sakai_serv.removeServerCreatedObjects(data, ['jcr:']);
                         $.each(data, function(key, value) {
                             if ($.isPlainObject(value) && value.id) {
