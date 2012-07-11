@@ -44,7 +44,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                         });
                         defaultPageTitle = document.title;
-                        document.title = document.title + ' ' + groupData.authprofile['sakai:group-title'];
+                        sakai.api.Util.setPageTitle(defaultPageTitle + ' ' + groupData.authprofile['sakai:group-title'], false, true);
                         loadGroupEntityWidget();
                         loadDocStructure();
                     } else {
@@ -159,7 +159,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).on('updatedTitle.worldsettings.sakai', function(e, title) {
-            document.title = defaultPageTitle + ' ' + title;
+            sakai.api.Util.setPageTitle(defaultPageTitle + ' ' + title, false, true);
         });
 
         /////////////////////

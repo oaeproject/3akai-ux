@@ -596,6 +596,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         getPageContent(ref, function() {
                             preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode === true);
                         });
+
+                        // set the page title
+                        var pageTitle = '';
+                        if (menuitem.hasClass('lhnavigation_subnav_item')) {
+                            pageTitle += ' - ' + $.trim(menuitem.parents('.lhnavigation_menuitem').children('div').find('.lhnavigation_page_title_value').text());
+                        }
+                        pageTitle += ' - ' + $.trim(menuitem.find('.lhnavigation_page_title_value').text());
+                        sakai.api.Util.setPageTitle(pageTitle);
                     }
                 } else {
                     renderPageUnavailable();

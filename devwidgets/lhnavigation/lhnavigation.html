@@ -24,7 +24,7 @@
                     <div class="lhnavigation_item_content">
                         <div class="lhnavigation_has_subnav"></div>
                         ${countDisplay(level._count, '')}
-                        <a role="menuitem" href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel lhnavigation_toplevel_has_subnav lhnavigation_toplevel_link">{if contextData.altTitle}${level._altTitle|safeOutput}{else}${level._title|safeOutput}{/if}</a>
+                        <a role="menuitem" href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel lhnavigation_toplevel_has_subnav lhnavigation_toplevel_link lhnavigation_page_title_value">{if contextData.altTitle}${level._altTitle|safeOutput}{else}${level._title|safeOutput}{/if}</a>
                         <div class="lhnavigation_data_container">
                             <div class="lhnavigation_private"></div>
                             {if level._count}<div class="lhnavigation_levelcount">${level._count}</div>{/if}
@@ -37,7 +37,7 @@
                                 <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_subnav_item" data-sakai-ref="${sublevel._ref}" data-sakai-addcontextoption="${contextData.addArea}" data-sakai-pagesavepath="${sublevel._poolpath}" data-sakai-savepath="${contextData.privurl}" data-sakai-reorder-only="${sublevel._reorderOnly}" data-sakai-manage="${level._canSubedit}" data-sakai-noneditable="${sublevel._nonEditable}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}/${sublevel._id}">
                                     <div class="lhnavigation_subnav_item_content">
                                         ${countDisplay(sublevel._count, 'sub')}
-                                        <a role="menuitem" href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" class="s3d-regular-links">
+                                        <a role="menuitem" href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" class="s3d-regular-links lhnavigation_page_title_value">
                                             {if contextData.altTitle}${sublevel._altTitle|safeOutput}{else}${sublevel._title|safeOutput}{/if}
                                         </a>
                                         <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
@@ -52,7 +52,7 @@
                 <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_outer" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-noneditable="${level._nonEditable}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-reorder-only="${level._reorderOnly}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}">
                     <div class="lhnavigation_item_content">
                         ${countDisplay(level._count, '')}
-                        <a role="menuitem" href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
+                        <a role="menuitem" href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel lhnavigation_page_title_value" data-reset-hash="true">
                             {if contextData.altTitle}${level._altTitle|safeOutput}{else}${level._title|safeOutput}{/if}
                         </a>
                         <div class="lhnavigation_private"></div>

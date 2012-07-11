@@ -41,7 +41,8 @@ define(
 
     var sakai_util = {
         data: {
-            worldTemplates: false
+            worldTemplates: false,
+            pageTitle: ''
         },
 
         startup : function(meData) {
@@ -1044,6 +1045,25 @@ define(
             }
         },
 
+        /**
+         * Sets the browsers title
+         *
+         * @param {String} title The string to be added to the page title
+         * @param {Boolean} append Determines if the title should apply to future title changes for the current page
+         * @param {Boolean} overwrite Determines if the title should overwrite the current page title
+         */
+        setPageTitle : function(title, append, overwrite) {
+            var pageTitle = sakai_util.data.pageTitle + title;
+            if (overwrite) {
+                sakai_util.data.pageTitle = title;
+                pageTitle = sakai_util.data.pageTitle;
+            } else if (append) {
+                sakai_util.data.pageTitle += title;
+                pageTitle = sakai_util.data.pageTitle;
+            }
+            document.title = pageTitle;
+        },
+
         getDirectoryStructure : function(){
             /**
              * Converts directory array into a node structure
@@ -1836,7 +1856,7 @@ define(
                 if (sakai_conf.PageTitles.pages[window.location.pathname]) {
                     pageTitle += ' ' + require('sakai/sakai.api.i18n').getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
-                document.title = pageTitle;
+                sakai_util.setPageTitle(pageTitle, false, true);
                 // Show the actual page content
                 $('body').removeClass('i18nable');
                 if ($.isFunction(callback)) {
