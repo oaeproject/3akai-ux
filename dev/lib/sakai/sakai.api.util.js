@@ -43,7 +43,12 @@ define(
         data: {
             fetchingWorldTemplates: false,
             worldTemplateCallbacks: [],
-            worldTemplates: false
+            worldTemplates: false,
+            pageTitle: {
+                baseLevel: '',
+                pageLevel: '',
+                navLevel: ''
+            }
         },
 
         startup : function(meData) {
@@ -1058,6 +1063,26 @@ define(
             }
         },
 
+        /**
+         * Sets the browsers title
+         *
+         * @param {String} title The string to be added to the page title
+         * @param {String} targetLevel Change the specified component of the page title only
+         */
+        setPageTitle : function(title, targetLevel) {
+            if (!title) {
+                title = '';
+            }
+            var pageTitle = '';
+            if (targetLevel) {
+                sakai_util.data.pageTitle[targetLevel] = title;
+                pageTitle = sakai_util.data.pageTitle.baseLevel + sakai_util.data.pageTitle.pageLevel + sakai_util.data.pageTitle.navLevel;
+            } else {
+                pageTitle = sakai_util.data.pageTitle.baseLevel + sakai_util.data.pageTitle.pageLevel + sakai_util.data.pageTitle.navLevel + title;
+            }
+            document.title = pageTitle;
+        },
+
         getDirectoryStructure : function(){
             /**
              * Converts directory array into a node structure
@@ -1850,7 +1875,7 @@ define(
                 if (sakai_conf.PageTitles.pages[window.location.pathname]) {
                     pageTitle += ' ' + require('sakai/sakai.api.i18n').getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
-                document.title = pageTitle;
+                sakai_util.setPageTitle(pageTitle, 'baseLevel');
                 // Show the actual page content
                 $('body').removeClass('i18nable');
                 if ($.isFunction(callback)) {

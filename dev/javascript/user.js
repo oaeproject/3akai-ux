@@ -341,7 +341,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "picture": sakai.api.User.getProfilePicture(sakai.data.me.profile),
                     "addArea": "user"
                 };
-                document.title = document.title + " " + sakai.api.Util.Security.unescapeHTML(contextData.displayName);
+                sakai.api.Util.setPageTitle(' ' + sakai.api.Util.Security.unescapeHTML(contextData.displayName), 'pageLevel');
                 renderEntity();
                 loadSpaceData();
             } else {
@@ -363,7 +363,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "altTitle": true,
                     "picture": sakai.api.User.getProfilePicture(profile)
                 };
-                document.title = document.title + " " + sakai.api.Util.Security.unescapeHTML(contextData.displayName);
+                sakai.api.Util.setPageTitle(' ' + sakai.api.Util.Security.unescapeHTML(contextData.displayName), 'pageLevel');
                 if (sakai.data.me.user.anon) {
                     contextType = "user_anon";
                     renderEntity();
@@ -421,6 +421,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.User.getFirstName(sakai.data.me.profile), sakai.api.i18n.getValueForKey('YOU_HAVE_CREATED_AN_ACCOUNT'));
             }
         };
+
+        $(window).on('displayName.profile.updated.sakai', function() {
+            sakai.api.Util.setPageTitle(' ' + sakai.api.User.getDisplayName(sakai.data.me.profile), 'pageLevel');
+        });
 
         $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd) {
             $('.sakai_addtocontacts_overlay').each(function(index) {
