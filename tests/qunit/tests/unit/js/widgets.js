@@ -10,9 +10,6 @@ require(
     function($, sakai) {
 
         var widgetProperties = [{
-            "name": "ca",
-            "type": "boolean"
-        }, {
             "name": "hasSettings",
             "type": "boolean"
         }, {
@@ -47,21 +44,12 @@ require(
             "name": "scrolling",
             "type": "boolean"
         }, {
+            "name": "trigger",
+            "type": "object"
+        }, {
             "name": "url",
             "required": true,
             "type": "string"
-        }, {
-            "name": "groupdashboard",
-            "type": "boolean"
-        }, {
-            "name": "grouppages",
-            "type": "boolean"
-        }, {
-            "name": "userdashboard",
-            "type": "boolean"
-        }, {
-            "name": "userpages",
-            "type": "boolean"
         }, {
             "name": "deletable",
             "type": "boolean"

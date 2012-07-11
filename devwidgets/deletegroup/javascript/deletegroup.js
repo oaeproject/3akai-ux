@@ -114,10 +114,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var load = function(data, callback){
             deletedata = $.extend(true, {}, data);
             addBinding(callback);
-            currentTemplate = sakai.api.Groups.getTemplate(deletedata["sakai:category"], deletedata["sakai:templateid"]);
-            $deletegroup_category.html(sakai.api.i18n.getValueForKey(currentTemplate.title));
-            $deletegroup_title.html(sakai.api.Util.Security.safeOutput(data["sakai:group-title"]));
-            sakai.api.Util.Modal.open($deletegroup_dialog);
+            sakai.api.Groups.getTemplate(deletedata['sakai:category'], deletedata['sakai:templateid'], function(success, template) {
+                if (success) {
+                    currentTemplate = template;
+                    $deletegroup_category.html(sakai.api.i18n.getValueForKey(currentTemplate.title));
+                    $deletegroup_title.html(sakai.api.Util.Security.safeOutput(data['sakai:group-title']));
+                    sakai.api.Util.Modal.open($deletegroup_dialog);
+                } else {
+                    debug.error('Could not get the group template');
+                }
+            });
         };
         $(window).bind("init.deletegroup.sakai", function (e, data, callback) {
             load(data, callback);

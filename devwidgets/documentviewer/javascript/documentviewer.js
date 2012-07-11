@@ -175,7 +175,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
                 sakai_global.documentviewer.googlemaps[tuid]();
             } else {
                 debug.info("Getting google maps api");
-                require(["http://maps.google.com/maps/api/js?sensor=false&callback="+callback]);
+                require(["//maps.google.com/maps/api/js?sensor=false&callback="+callback]);
             }
         };
 

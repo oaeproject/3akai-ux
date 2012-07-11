@@ -15,8 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/* Widget title icon */
-.recentmessages .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -420px -19px transparent;}
 
 /* Error messages */
 .recentmessages_error{padding:0 0 0 15px;}

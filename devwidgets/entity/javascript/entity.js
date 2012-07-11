@@ -354,12 +354,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Widgets.widgetLoader.insertWidgets("entity_groupsettings_dropdown", false, $rootel);
                     break;
                 case "group":
-                    $(window).bind("ready.joinrequestbuttons.sakai", function() {
+                    $(document).on('ready.joinrequestbuttons.sakai', function() {
                         sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], function(success, members) {
                             members = members[context.data.authprofile["sakai:group-id"]];
                             var managerCount = sakai.api.Groups.getManagerCount(context.data.authprofile, members);
                             var leaveAllowed = managerCount > 1 || !sakai.api.Groups.isCurrentUserAManager(context.data.authprofile["sakai:group-id"], sakai.data.me);
-                            $(window).trigger("init.joinrequestbuttons.sakai", [
+                            $(document).trigger('init.joinrequestbuttons.sakai', [
                                 {
                                     "groupProfile": context.data.authprofile,
                                     "groupMembers": members,
@@ -492,8 +492,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('.ew_permissions').unbind("click").bind("click", function(e){
                 e.preventDefault();
-                if($(this).parents(".s3d-dropdown-list").length || $(e.target).hasClass("s3d-dropdown-list-arrow-up")){
-                    $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).data("permissionvalue") || false});
+                if ($(this).parents('.s3d-dropdown-list').length || $(e.target).hasClass('s3d-dropdown-list-arrow-up')) {
+                    $(document).trigger('init.contentpermissions.sakai', {'newPermission': $(this).data('permissionvalue') || false});
                     $('#entity_contentsettings_dropdown').jqmHide();
                 }
             });
@@ -569,7 +569,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('#ew_upload').click(function(e){
                 e.preventDefault();
-                $(window).trigger("init.uploadnewversion.sakai");
+                $(document).trigger('init.uploadnewversion.sakai');
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
@@ -586,7 +586,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#ew_content_preview_delete").bind("click", function(e){
                 e.preventDefault();
                 window.scrollTo(0,0);
-                $(window).trigger('init.deletecontent.sakai', [{
+                $(document).trigger('init.deletecontent.sakai', [{
                         "paths": [sakai_global.content_profile.content_data.data._path]
                     },
                     function (success) {

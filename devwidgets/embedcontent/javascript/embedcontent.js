@@ -43,7 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $embedcontent_dont_add = $(".embedcontent_dont_add", $rootel);
 
         // Choose Content tab selectors
-        var $embedcontent_tabs = $("#embedcontent_tabs", $rootel);
+        var $embedcontent_tabs = $('#embedcontent_settings_container .s3d-tabs', $rootel);
         var $embedcontent_search_for_content = $("#embedcontent_search_for_content", $rootel);
         var $embedcontent_just_add = $("#embedcontent_just_add", $rootel);
         var $embedcontent_button_goto_display_settings = $("#embedcontent_button_goto_display_settings", $rootel);
@@ -81,7 +81,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var isPreviewExist = true;
         var active_content_class = "tab_content_active";
         var tab_id_prefix = "embedcontent_tab_";
-        var active_tab_class = "fl-tabs-active";
+        var active_tab_class = 's3d-tabs-active';
         var defaultsSet = false;
 
         var embedConfig = {
@@ -534,20 +534,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#embedcontent_name_checkbox").selected(true);
             }
             $("." + active_tab_class).removeClass(active_tab_class);
-            $(target).parent("li").addClass(active_tab_class);
+            $(target).addClass(active_tab_class);
             $("." + active_content_class).hide();
             $("#" + $(target).attr("id") + "_content").addClass(active_content_class).show();
         };
 
-        $embedcontent_tabs.find("li a").bind("click", function(e) {
+        $embedcontent_tabs.find('button').bind('click', function(e) {
             var tab = $(e.target).attr("id").split(tab_id_prefix)[1];
             if ($(e.target).parent("li").hasClass(active_tab_class)) {
                 return false;
             } else {
                 toggleTabs(e.target);
             }
-            if (tab === 'display' && !defaultsSet && !wData && sakai.widgets.embedcontent.defaultOptions) {
-                setDefaultOptions(sakai.widgets.embedcontent.defaultOptions);
+            if (tab === 'display' && !defaultsSet && !wData && sakai.widgets.embedcontent.defaultConfiguration) {
+                setDefaultOptions(sakai.widgets.embedcontent.defaultConfiguration);
                 defaultsSet = true;
             }
             return false;
@@ -617,9 +617,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
 
-        $(window).unbind("done.newaddcontent.sakai");
-        $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if ($("#embedcontent_settings", $rootel).is(":visible") && (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
+        $(document).off('done.newaddcontent.sakai').on('done.newaddcontent.sakai', function(e, data, library) {
+            if ($('#embedcontent_settings', $rootel).is(':visible') && 
+                (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
                 var obj = {};
                 for (var i = 0; i < data.length; i++){
                     obj[data[i]._path] = data[i];

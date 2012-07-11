@@ -85,43 +85,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         /**
-         * This function will replace all
-         * @param {String} term The search term that needs to be converted.
-         */
-        var prepSearchTermForURL = function(term) {
-            // Filter out http:// as it causes the search feed to break
-            term = term.replace(/http:\/\//ig, "");
-            // taken this from search_main until a backend service can get related content
-            var urlterm = "";
-            var split = $.trim(term).split(/\s/);
-            if (split.length > 1) {
-                for (var i = 0; i < split.length; i++) {
-                    if (split[i]) {
-                        urlterm += split[i] + " ";
-                        if (i < split.length - 1) {
-                            urlterm += "OR ";
-                        }
-                    }
-                }
-            }
-            else {
-                urlterm = "*" + term + "*";
-            }
-            return urlterm;
-        };
-
-        /**
          * Fetches the related content
          */
-        var getRelatedContent = function(checkMoreRelated){
+        var getRelatedContent = function() {
             var managersList = "";
             var viewersList = "";
             var ajaxSuccess = function(data) {
-                var moreResults = false;
+                var itemsDisplayed = data.items * (page + 1);
+                var moreResults = itemsDisplayed < data.total;
                 $.each(data.results, function(index, item){
-                    if(checkMoreRelated){
-                        moreResults = true;
-                    }
                     data.results[index].commentcount = sakai.api.Content.getCommentCount(item);
                     var mimeType = sakai.api.Content.getMimeType(data.results[index]);
                     var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
@@ -134,22 +106,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "content": contentData,
                     "relatedContent": data
                 };
-                if(!checkMoreRelated){
-                    renderTemplate(json);
+                renderTemplate(json);
+                if (!moreResults) {
+                    $(relatedcontentShowMore).hide();
+                    $('#relatedcontent_footer').addClass('relatedcontent_footer_norelated');
                 } else {
-                    if (!moreResults){
-                        $(relatedcontentShowMore).hide();
-                        $("#relatedcontent_footer").addClass("relatedcontent_footer_norelated");
-                    } else {
-                        $(relatedcontentShowMore).show();
-                        $("#relatedcontent_footer").removeClass("relatedcontent_footer_norelated");
-                    }
+                    $(relatedcontentShowMore).show();
+                    $('#relatedcontent_footer').removeClass('relatedcontent_footer_norelated');
                 }
             };
             var ajaxError = function() {
-                if(!checkMoreRelated){
-                    renderTemplate({});
-                }
+                renderTemplate({});
             };
 
             for (var i = 0; i < contentData.members.managers.length; i++) {
@@ -163,22 +130,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             var searchterm = contentData.data["sakai:pooled-content-file-name"].substring(0,400) + " " + managersList + " " + viewersList;
-            var searchquery = prepSearchTermForURL(searchterm);
-            if (contentData.data["sakai:tags"]){
-                searchquery = searchquery + " OR " + contentData.data["sakai:tags"].join(" OR ");
+            if (contentData.data['sakai:tags'] && contentData.data['sakai:tags'].length) {
+                searchterm = searchterm + ' ' + contentData.data['sakai:tags'].join(' ');
             }
+            var searchquery = sakai.api.Server.createSearchString(searchterm, false, 'OR');
 
             // get related content for contentData
             // return some search results for now
-            var paging = page;
-            if(checkMoreRelated){
-                paging++;
-            }
             var params = {
-                "items": numberofitems,
-                "page": paging
+                'items': numberofitems,
+                'page': page
             };
-            var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+            var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.0.json');
             if (searchquery === '*' || searchquery === '**') {
                 url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
             } else {
@@ -196,7 +159,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showMore = function(){
             page++;
             getRelatedContent();
-            getRelatedContent(true);
         };
 
         //////////////
@@ -224,7 +186,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
            addBinding();
            contentData = data;
            getRelatedContent();
-           getRelatedContent(true);
         });
 
         $(relatedcontentContent).live("click", function(){

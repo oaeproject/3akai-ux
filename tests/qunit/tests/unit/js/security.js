@@ -119,7 +119,7 @@ require(
     });
 
     test("href Attacks", function() {
-        expect(33);
+        expect(34);
 
         var htmlString = "<LINK REL=\"stylesheet\" HREF=\"javascript:alert('XSS');\">";
         htmlString = sakai.api.Security.saneHTML(htmlString);
@@ -179,11 +179,15 @@ require(
 
         htmlString = "<DIV STYLE=\"width: expression(alert('XSS'));\">";
         htmlString = sakai.api.Security.saneHTML(htmlString);
-        equals(htmlString.indexOf("alert"), -1, "Strip javascript hrefs");
+        equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 1');
+
+        htmlString = '<DIV STYLE="width: express/*XSS*/ion(alert(\'XSS\'));">';
+        htmlString = sakai.api.Security.saneHTML(htmlString);
+        equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 2');
 
         htmlString = "<IMG STYLE=\"xss:expr/*XSS*/ession(alert('XSS'))\">";
         htmlString = sakai.api.Security.saneHTML(htmlString);
-        equals(htmlString.indexOf("alert"), -1, "Strip javascript hrefs");
+        equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 3');
 
         htmlString = "<STYLE>@im\\port'\\ja\\vasc\\ript:alert(\"XSS\")';</STYLE>";
         htmlString = sakai.api.Security.saneHTML(htmlString);

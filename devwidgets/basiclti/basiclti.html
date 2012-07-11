@@ -10,15 +10,15 @@
 
 <!-- The main  settings template -->
 <div id="basiclti_settings_template"><!--
-    <form>
-        <div class="basiclti_settings_subcontainer">
+    <form id="basiclti_settings_form">
+        <div class="basiclti_settings_subcontainer s3d-form-field-wrapper">
             <p>
                 <label for="basiclti_settings_ltiurl">__MSG__URL__: </label>
-                <input type="text" id="basiclti_settings_ltiurl" value="${ltiurl}" /><br />
+                <input type="text" id="basiclti_settings_ltiurl" name="basiclti_settings_ltiurl" value="${ltiurl}" class="required url s3d-input-full-width" /><br />
                 <label for="basiclti_settings_ltikey">__MSG__KEY__: </label>
-                <input type="text" id="basiclti_settings_ltikey" value="${ltikey}" /><br />
+                <input type="text" id="basiclti_settings_ltikey" name="basiclti_settings_ltikey" value="${ltikey}" class="required s3d-input-full-width" /><br />
                 <label for="basiclti_settings_ltisecret">__MSG__SECRET__: </label>
-                <input type="text" id="basiclti_settings_ltisecret" value="${ltisecret}" /><br />
+                <input type="text" id="basiclti_settings_ltisecret" name="basiclti_settings_ltisecret" value="${ltisecret}" class="required s3d-input-full-width" /><br />
             </p>
             <p>
                 <label class="basiclti_settings_label_head"></label> <span><br class="fl-push" />
@@ -26,7 +26,7 @@
             <div id="basiclti_settings_preview">
 
             </div>
-            <button type="button" class="s3d-button s3d-header-button" id="basiclti_settings_advanced_toggle_settings">__MSG__ADVANCED_SETTINGS__ <span id="basiclti_settings_advanced_down">&#8595;</span><span id="basiclti_settings_advanced_up">&#8593;</span></button>
+            <button type="button" class="s3d-button s3d-header-button fl-force-right" id="basiclti_settings_advanced_toggle_settings">__MSG__ADVANCED_SETTINGS__ <span id="basiclti_settings_advanced_down">&#8595;</span><span id="basiclti_settings_advanced_up">&#8593;</span></button>
         </div>
         <div id="basiclti_settings_advanced" style="display:none;">
             <div class="basiclti_settings_subcontainer">
@@ -86,15 +86,15 @@
         </div>
 
         <div class="dialog_buttons">
-            <button type="button" class="s3d-link-button s3d-bold jqmClose" id="basiclti_settings_cancel">__MSG__CANCEL__</button>
-            <button type="button" class="s3d-button s3d-overlay-action-button" id="basiclti_settings_insert">__MSG__SAVE__</button>
+            <button type="button" class="s3d-link-button s3d-bold" id="basiclti_settings_cancel">__MSG__CANCEL__</button>
+            <button type="submit" class="s3d-button s3d-overlay-action-button" id="basiclti_settings_insert">__MSG__SAVE__</button>
         </div>
     </form>
 --></div>
 
 <!-- Template to show the preview of the iframe -->
 <div id="basiclti_settings_preview_template"><!--
-    <iframe id="${tuidFrame}" style="border: ${border_size}px #${border_color} solid" width="${width}${width_unit}" height="${frame_height}px"></iframe>
+    <iframe id="${tuidFrame}" class="portletMainIframe" style="border: ${border_size}px #${border_color} solid" width="${width}${width_unit}" height="${frame_height}px"></iframe>
 --></div>
 
 <!-- Template for choosing the color -->

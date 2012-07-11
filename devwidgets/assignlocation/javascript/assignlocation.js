@@ -23,7 +23,7 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  */
 
-require(['jquery', 'sakai/sakai.api.core', 'jquery-plugins/jsTree/jquery.jstree.sakai-edit'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) {
 
     /**
      * @name sakai_global.assignlocation

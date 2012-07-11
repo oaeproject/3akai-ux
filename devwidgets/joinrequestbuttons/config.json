@@ -10,6 +10,10 @@
     },
     "id": "joinrequestbuttons",
     "personalportal": false,
+    "trigger": {
+        "events": ["init.joinrequestbuttons.sakai"],
+        "onLoad": false
+    },
     "type": "core",
     "url": "/devwidgets/joinrequestbuttons/joinrequestbuttons.html"
 }
