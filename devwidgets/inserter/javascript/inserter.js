@@ -691,7 +691,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
          */
         var openAddNewCollection = function(ev, data) {
             focusCreateNew = true;
-            contentToAdd = data;
+            if (data && data.type !== 'click') {
+                contentToAdd = data;
+            }
             if (!$inserterWidget.is(':visible')) {
                 toggleInserter();
             } else {
