@@ -102,7 +102,7 @@ define(
 
                 },
                 error: function(xhr, textStatus, thrownError){
-debug.log(textStatus);
+
                     // Call callback function if set
                     if ($.isFunction(callback)) {
                         callback(false, xhr);
