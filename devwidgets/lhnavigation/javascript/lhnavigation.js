@@ -603,6 +603,24 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         };
 
+        // Changes the page title to the text of the menu item, and provides additional context.
+        var changePageTitle = function(pageTitle) {
+            var titlePrefix = '';
+            switch(location.pathname) {
+                case '/create':
+                    titlePrefix = 'Create ';
+                    break;
+                case '/search':
+                    titlePrefix = 'Search ';
+                    break;
+                // Should have a case for category as well
+                default:
+                    titlePrefix = ' ';
+                    break;
+            }
+            document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + titlePrefix + pageTitle;
+        };
+
         var preparePageRender = function(ref, path, savePath, pageSavePath, nonEditable, canEdit, newPageMode) {
             var content = returnStructure(ref);
             var pageContent = content ? content : sakai.config.defaultSakaiDocContent;
@@ -640,6 +658,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             } else {
                 $(window).trigger('showpage.contentauthoring.sakai', [currentPageShown]);
             }
+            changePageTitle(pageTitle);
         };
 
         /////////////////////////
