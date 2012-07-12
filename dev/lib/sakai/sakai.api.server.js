@@ -104,13 +104,17 @@ define(
                         break;
                     }
                 }
+                var requestString = JSON.stringify(_requests);
+                if (requestString.length > 2000) {
+                    method = "POST";
+                }
                 $.ajax({
                     url: sakai_conf.URL.BATCH,
                     type: method,
                     async: async,
                     data: {
                         "_charset_":"utf-8",
-                        requests: JSON.stringify(_requests)
+                        requests: requestString
                     },
                     success: function(data) {
                         if ($.isFunction(_callback)) {
