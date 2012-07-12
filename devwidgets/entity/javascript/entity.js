@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']);
                 $('#contentpreview_download_button').attr('href', link);
             }
-            document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + title;
+            sakai.api.Util.setPageTitle(' ' + title, 'pageLevel');
         };
 
         /**
