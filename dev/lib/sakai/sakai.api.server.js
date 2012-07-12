@@ -44,6 +44,7 @@ define(
          * @param {Boolean} async If we should do an async request or not
          */
         batch : function(_requests, _callback, _forcePOST, _async) {
+            var cache = true;
             var method = _forcePOST === true ? "POST" : "GET";
             var async = _async === false ? false : true;
 
@@ -54,6 +55,9 @@ define(
                 }
                 if (req["parameters"] && !req["parameters"].hasOwnProperty("_charset_")) {
                     req["parameters"]["_charset_"] = "utf-8";
+                }
+                if (req.hasOwnProperty("cache") && req["cache"] === false) {
+                    cache = false;
                 }
             });
             // Don't submit a request when the batch is empty
@@ -66,6 +70,7 @@ define(
             else if (_requests.length === 1) {
                 $.ajax({
                     url: _requests[0].url,
+                    cache: cache,
                     type: _requests[0].method || "GET",
                     dataType: "text",
                     data: _requests[0].parameters || "",
@@ -107,6 +112,7 @@ define(
                 $.ajax({
                     url: sakai_conf.URL.BATCH,
                     type: method,
+                    cache: cache,
                     async: async,
                     data: {
                         "_charset_":"utf-8",
