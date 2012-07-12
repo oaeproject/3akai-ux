@@ -464,6 +464,7 @@ define(function(){
                                 "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
                                 "required": false,
                                 "display": true,
+                                "type": "url",
                                 "validation": "appendhttp url"
                             }
                         }

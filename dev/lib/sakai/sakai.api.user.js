@@ -431,10 +431,17 @@ define(
          * @return {Void}
          */
         loadMeData : function(callback) {
+            var cache = true;
+            // don't use cache for IE8
+            if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                cache = false;
+            }
+
             // Start a request to the service
             $.ajax({
                 // Get the service url from the config file
                 url: sakai_conf.URL.ME_SERVICE,
+                cache: cache,
                 success: function(data) {
                     sakaiUserAPI.data.me = sakai_serv.convertObjectToArray(data, null, null);
 

@@ -44,6 +44,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var isDragging = false;
         var editInterval = false;
         var uniqueModifierId = sakai.api.Util.generateWidgetId();
+        var pageTitle = '';
 
         ///////////////////////
         // Utility functions //
@@ -1087,6 +1088,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                         addEditButtonBinding();
                     } else {
+                        // Update page title
+                        pageTitle = document.title;
+                        document.title = pageTitle.replace(sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix),
+                            sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + ' Editing ');
+
                         setEditInterval();
                         $(window).trigger('edit.contentauthoring.sakai');
                         $('.contentauthoring_empty_content', $rootel).remove();
@@ -1263,6 +1269,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Put the page into view mode
          */
         var exitEditMode = function() {
+            // Revert the page title
+            document.title = pageTitle;
+
             clearInterval(editInterval);
             // Alert the inserter bar that it should go back into view mode
             $(window).trigger('render.contentauthoring.sakai');
