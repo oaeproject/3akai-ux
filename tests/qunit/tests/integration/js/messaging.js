@@ -26,7 +26,7 @@ require(
         };
 
         var createUsers = function() {
-            asyncTest('Create a couple of users to send messages', 2, function() {
+            asyncTest('Create a couple of users to send messages', 3, function() {
                 sakai.api.User.createUser(dummyUser, 'Dummy', 'User', 'user.0@sakatest.edu', 'test', 'test', null, function(success, data) {
                     ok(success, 'The first user has been successfully created');
                     sakai.api.User.createUser(userlist[0], 'User', '0', 'user.0@sakatest.edu', 'test', 'test', null, function(success, data) {
