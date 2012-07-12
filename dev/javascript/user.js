@@ -341,7 +341,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "picture": sakai.api.User.getProfilePicture(sakai.data.me.profile),
                     "addArea": "user"
                 };
-                sakai.api.Util.setPageTitle(" " + sakai.api.Util.Security.unescapeHTML(contextData.displayName), true);
+                sakai.api.Util.setPageTitle(' ' + sakai.api.Util.Security.unescapeHTML(contextData.displayName), 'pageLevel');
                 renderEntity();
                 loadSpaceData();
             } else {
@@ -363,7 +363,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "altTitle": true,
                     "picture": sakai.api.User.getProfilePicture(profile)
                 };
-                sakai.api.Util.setPageTitle(" " + sakai.api.Util.Security.unescapeHTML(contextData.displayName), true);
+                sakai.api.Util.setPageTitle(' ' + sakai.api.Util.Security.unescapeHTML(contextData.displayName), 'pageLevel');
                 if (sakai.data.me.user.anon) {
                     contextType = "user_anon";
                     renderEntity();

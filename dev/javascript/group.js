@@ -23,7 +23,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var groupData = false;
         var groupId = false;
         var pubdata = false;
-        var defaultPageTitle = '';
 
         /**
          * Get the group id from the querystring
@@ -43,8 +42,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 sakai.api.Util.include.css(groupData.authprofile['sakai:customStyle']);
                             }
                         });
-                        defaultPageTitle = document.title;
-                        sakai.api.Util.setPageTitle(defaultPageTitle + ' ' + groupData.authprofile['sakai:group-title'], false, true);
+                        sakai.api.Util.setPageTitle(' ' + groupData.authprofile['sakai:group-title'], 'pageLevel');
                         loadGroupEntityWidget();
                         loadDocStructure();
                     } else {
@@ -159,7 +157,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).on('updatedTitle.worldsettings.sakai', function(e, title) {
-            sakai.api.Util.setPageTitle(defaultPageTitle + ' ' + title, false, true);
+            sakai.api.Util.setPageTitle(' ' + title, 'pageLevel');
         });
 
         /////////////////////

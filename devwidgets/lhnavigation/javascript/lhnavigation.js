@@ -603,7 +603,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             pageTitle += ' - ' + $.trim(menuitem.parents('.lhnavigation_menuitem').children('div').find('.lhnavigation_page_title_value').text());
                         }
                         pageTitle += ' - ' + $.trim(menuitem.find('.lhnavigation_page_title_value').text());
-                        sakai.api.Util.setPageTitle(pageTitle);
+                        sakai.api.Util.setPageTitle(pageTitle, 'navLevel');
                     }
                 } else {
                     renderPageUnavailable();

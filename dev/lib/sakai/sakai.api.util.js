@@ -42,7 +42,11 @@ define(
     var sakai_util = {
         data: {
             worldTemplates: false,
-            pageTitle: ''
+            pageTitle: {
+                baseLevel: '',
+                pageLevel: '',
+                navLevel: ''
+            }
         },
 
         startup : function(meData) {
@@ -1049,17 +1053,18 @@ define(
          * Sets the browsers title
          *
          * @param {String} title The string to be added to the page title
-         * @param {Boolean} append Determines if the title should apply to future title changes for the current page
-         * @param {Boolean} overwrite Determines if the title should overwrite the current page title
+         * @param {String} targetLevel Change the specified component of the page title only
          */
-        setPageTitle : function(title, append, overwrite) {
-            var pageTitle = sakai_util.data.pageTitle + title;
-            if (overwrite) {
-                sakai_util.data.pageTitle = title;
-                pageTitle = sakai_util.data.pageTitle;
-            } else if (append) {
-                sakai_util.data.pageTitle += title;
-                pageTitle = sakai_util.data.pageTitle;
+        setPageTitle : function(title, targetLevel) {
+            if (!title) {
+                title = '';
+            }
+            var pageTitle = '';
+            if (targetLevel) {
+                sakai_util.data.pageTitle[targetLevel] = title;
+                pageTitle = sakai_util.data.pageTitle.baseLevel + sakai_util.data.pageTitle.pageLevel + sakai_util.data.pageTitle.navLevel;
+            } else {
+                pageTitle = sakai_util.data.pageTitle.baseLevel + sakai_util.data.pageTitle.pageLevel + sakai_util.data.pageTitle.navLevel + title;
             }
             document.title = pageTitle;
         },
@@ -1856,7 +1861,7 @@ define(
                 if (sakai_conf.PageTitles.pages[window.location.pathname]) {
                     pageTitle += ' ' + require('sakai/sakai.api.i18n').getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
-                sakai_util.setPageTitle(pageTitle, false, true);
+                sakai_util.setPageTitle(pageTitle, 'baseLevel');
                 // Show the actual page content
                 $('body').removeClass('i18nable');
                 if ($.isFunction(callback)) {
