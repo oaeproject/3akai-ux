@@ -195,7 +195,7 @@ define(
         },
 
         /**
-         * Remove the user credentials in the Sakai3 system.
+         * Remove the user credentials in the Sakai OAE system.
          * Note that this doesn't actually remove the user, only its permissions.
          *
          * @example
@@ -292,7 +292,7 @@ define(
         },
 
         /**
-         * Log-in to Sakai3
+         * Log-in to Sakai OAE
          *
          * @example
          * sakai.api.User.login({
@@ -351,7 +351,7 @@ define(
 
 
         /**
-         * Log-out from Sakai3
+         * Log-out from Sakai OAE
          *
          * @example sakai.api.user.logout();
          * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.

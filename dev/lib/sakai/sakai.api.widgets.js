@@ -942,7 +942,7 @@ define(
     
                             $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
                             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, finishCallBack);
-                        }
+                        };
     
                         // Check whether this needs to bind to an event
                         $.each(widget.trigger.events, function(index, eventid) {
