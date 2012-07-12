@@ -22,7 +22,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.category = function() {
 
-        var originalTitle = document.title;
         var pubdata = {};
         var privdata = {};
 
@@ -74,7 +73,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
 
             $exploreNavigation.html(sakai.api.Util.TemplateRenderer(exploreNavigationTemplate,{"breadcrumb": breadcrumb}));
-            document.title = originalTitle + " " + dirData.title;
+
+            // set the page title
+            var pageTitle = ' ';
+            var filler = '';
+            $.each(breadcrumb, function(i, crumb) {
+                if (crumb.link) {
+                    pageTitle += filler + crumb.title;
+                }
+                filler = ' - ';
+            });
+            sakai.api.Util.setPageTitle(pageTitle, 'pageLevel');
         };
 
         /**

@@ -1091,7 +1091,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         // Update page title
                         pageTitle = document.title;
                         document.title = pageTitle.replace(sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix),
-                            sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + ' Editing ');
+                            sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + ' ' + sakai.api.i18n.getValueForKey('EDITING') + ' ');
 
                         setEditInterval();
                         $(window).trigger('edit.contentauthoring.sakai');
@@ -1267,10 +1267,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         /**
          * Put the page into view mode
+         * @param {Boolean} wasEditing True if we're actually exiting edit mode
          */
-        var exitEditMode = function() {
+        var exitEditMode = function(wasEditing) {
             // Revert the page title
-            document.title = pageTitle;
+            if (pageTitle && wasEditing) {
+                document.title = pageTitle;
+            }
 
             clearInterval(editInterval);
             // Alert the inserter bar that it should go back into view mode
@@ -1312,7 +1315,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // Generate the new row / column structure
             var pageLayout = getCurrentPageLayout();
 
-            exitEditMode();
+            exitEditMode(true);
             // Determine whether or not to show the empty page placeholder
             determineEmptyAfterSave();
 
@@ -1418,7 +1421,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          *                                      This is used when navigating away from a page in edit mode.
          */
         var cancelEditPage = function(e, retainAutoSave) {
-            exitEditMode();
+            exitEditMode(true);
             if (!retainAutoSave) {
                 // Delete the autosaved current page
                 $.ajax({

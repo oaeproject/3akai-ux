@@ -426,6 +426,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        $(window).on('displayName.profile.updated.sakai', function() {
+            sakai.api.Util.setPageTitle(' ' + sakai.api.User.getDisplayName(sakai.data.me.profile), 'pageLevel');
+        });
+
         $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd) {
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if (entityID && entityID !== sakai.data.me.user.userid) {
