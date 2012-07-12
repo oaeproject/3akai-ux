@@ -34,7 +34,7 @@ require(
          * This is verbose, but its here for now in case we
          * need to use this event on an individual test page in the future
          */
-        $(window).bind('done.qunit.sakai', function(e, obj) {
+        $(window).off('done.qunit.sakai').on('done.qunit.sakai', function(e, obj) {
             // trigger this event in the parent document
             if (parent && $(parent.document).length) {
                 parent.$(parent.document).trigger("done.qunit.sakai", obj);

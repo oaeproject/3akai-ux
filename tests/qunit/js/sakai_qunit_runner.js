@@ -128,7 +128,7 @@ require(
      * The event sakai-qunit-done is called from sakai_qunit_lib.js which is
      * included in each qunit html file
      */
-    $(document).bind('done.qunit.sakai', function(e, obj) {
+    $(document).on('done.qunit.sakai', function(e, obj) {
         finishCurrentTest(obj);
         if (tests.length) {
             runTest(tests.pop());
