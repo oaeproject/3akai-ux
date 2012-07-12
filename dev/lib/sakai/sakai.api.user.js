@@ -376,7 +376,8 @@ define(
                         // hit the logout service to destroy the session
                         $.ajax({
                             url: sakai_conf.URL.LOGOUT_SERVICE,
-                            type: "GET",
+                            // SAKIII-5968 - We shouldn't cache the logout
+                            cache: false,
                             complete: function(xhrInner, textStatusInner) {
                                 callback(textStatusInner === "success");
                             }
