@@ -319,9 +319,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                                     shareUrl:  sakai.api.Content.createContentURL(data)
                                 };
                             }
-                            if (window['addthis']) {
+                            require(['//s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1'], function() {
                                 $newsharecontentContainer.jqmShow();
-                            }
+                            });
                         }
                     });
                 }
@@ -351,10 +351,6 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 $newsharecontentContainer.addClass('anon');
             }
             addBinding();
-            var ajaxcache = $.ajaxSettings.cache;
-            $.ajaxSettings.cache = true;
-            $.getScript('//s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
-            $.ajaxSettings.cache = ajaxcache;
             sakai.api.Util.AutoSuggest.setup( $newsharecontentSharelist, {
                 asHtmlID: tuid,
                 scrollHeight: 120
