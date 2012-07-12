@@ -17,7 +17,7 @@
  */
 /* Widget Container CSS */
 .branding_widget {
-    background:     url("/devwidgets/branding/images/default_branding.png") no-repeat center center #11557c;
+    background:     url("/devwidgets/branding/images/default_branding.jpg") no-repeat center center #11557c;
     height:         42px;
     position:       relative;
     z-index:        1000;
