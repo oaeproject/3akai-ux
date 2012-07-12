@@ -586,7 +586,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         // EVENTS //
         ////////////
 
-        $(window).bind("init.addpeople.sakai", function(e, initTuid, editingGroup){
+        $(document).on('init.addpeople.sakai', function(e, initTuid, editingGroup) {
             if (initTuid + "addpeople" === tuid || sakai_global.group) {
                 existingGroup = editingGroup;
                 if (!hasbeenInit) {
