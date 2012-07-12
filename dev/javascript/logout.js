@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
     /*
      * Log the user out. Redirect to the login page on completion.
      */
-    sakai.api.User.logout(function(){
-        if (! sakai.config.followLogoutRedirects) {
+    sakai.api.User.logout(function() {
+        if (!sakai.config.followLogoutRedirects) {
             window.location = sakai.config.URL.GATEWAY_URL;
         }
     });
