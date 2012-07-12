@@ -42,7 +42,7 @@ require(
         };
 
         var sendMessage = function() {
-            asyncTest('Send message to one person', 3, function(){
+            asyncTest('Send message to one person', 3, function() {
                 sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, dummyMessage, '', '', function(success, data) {
                     ok(data, 'The message was sent succesfully');
     
@@ -53,7 +53,7 @@ require(
                     same(data.message['sakai:subject'], dummySubject, 'The subject was returned correctly');
     
                     //save the path to the message
-                    pathToMessages.push(data.message['jcr:path']);
+                    pathToMessages.push(data.message);
                     responseID = data.id;
                     start();
                     unreadMessage();
@@ -69,7 +69,7 @@ require(
                         sakai.api.User.login({
                             'username': userlist[0],
                             'password': 'test'
-                        }, function(success, data){
+                        }, function(success, data) {
                             // logging in doesn't set this!
                             sakai.api.User.data.me.user.userid = userlist[0];
                             sakai.api.User.loadMeData();
@@ -90,7 +90,7 @@ require(
 
         var getInbox = function() {
             asyncTest('Get the messages in a user\'s inbox', 1, function() {
-                sakai.api.Communication.getAllMessages('inbox', 'message', 13, 0, '_created', 'asc', function(success, data) {
+                sakai.api.Communication.getAllMessages('inbox', 'message', null, 10, 0, '_created', 'asc', function(success, data) {
                     if (data.results && data.results.length) {
                         equals(data.results.length, 1, 'Got one message from inbox');
                     } else {
@@ -104,12 +104,12 @@ require(
 
         var markRead = function() {
             asyncTest('Mark Message Read', 1, function() {
-                sakai.api.Communication.getAllMessages('inbox', 'message', 13, 0, '_created', 'asc', function(success, data) {
+                sakai.api.Communication.getAllMessages('inbox', 'message', null, 10, 0, '_created', 'asc', function(success, data) {
                     if (data.results && data.results[0]) {
-                        var messagePath = data.results[0]['jcr:path'];
-                        sakai.api.Communication.markMessagesAsRead([messagePath], function(success, data) {
+                        sakai.api.Communication.markMessagesAsRead(data.results[0], function(success, data) {
                             ok(data.results[0].success, 'Message marked as read');
                             start();
+                            moveTrash();
                         });
                     } else {
                         ok(false, 'No messages found in inbox');
@@ -122,10 +122,9 @@ require(
 
         var moveTrash = function() {
             asyncTest('Move Message to Trash', 1, function() {
-                sakai.api.Communication.getAllMessages('inbox', 'message', 13, 0, '_created', 'asc', function(success, data) {
+                sakai.api.Communication.getAllMessages('inbox', 'message', null, 13, 0, '_created', 'asc', function(success, data) {
                     if (data.results && data.results[0]) {
-                        var messagePath = data.results[0]['jcr:path'];
-                        sakai.api.Communication.deleteMessages([messagePath], false, function(success, data) {
+                        sakai.api.Communication.deleteMessages(data.results[0], false, function(success, data) {
                             ok(data.results[0].success, 'Message moved to trash');
                             start();
                             sakai_global.qunit.loginWithAdmin();
@@ -153,7 +152,7 @@ require(
                     //test that the id of the previous message is in the response of the reply
                     same(data.message['sakai:previousmessage'], responseID, 'The previousmessage id equals the id of the first message');
     
-                    pathToMessages.push(data.message['jcr:path']);
+                    pathToMessages.push(data.message);
                     start();
                     sendCategory();
                 });
@@ -161,7 +160,7 @@ require(
         };
 
         var sendCategory = function() {
-            asyncTest('Send message to one person with a different category', 4, function(){
+            asyncTest('Send message to one person with a different category', 4, function() {
                 //send a message with a custom category
                 sakai.api.Communication.sendMessage(dummyUser, sakai.data.me, dummySubject, dummyMessage, dummyCategory, '', function(success, data) {
                     ok(success && data && data.message, 'The message was sent succesfully');
@@ -176,7 +175,7 @@ require(
                     same(data.message['sakai:category'], dummyCategory, 'The category was saved correctly');
     
                     //save the path to the message
-                    pathToMessages.push(data.message['jcr:path']);
+                    pathToMessages.push(data.message);
                     start();
                     sendToMultiple();
                 });
@@ -184,7 +183,7 @@ require(
         };
 
         var sendToMultiple = function() {
-            asyncTest('Send message to multiple users', 4, function(){
+            asyncTest('Send message to multiple users', 4, function() {
                 //change the dummyUser to an array of users
                 dummyUser = ['user1','user2'];
     
@@ -202,7 +201,7 @@ require(
                     same(data.message['sakai:to'], 'internal:user1,internal:user2', 'The users to whom the message was sent were correct');
     
                     //save the path to the message
-                    pathToMessages.push(data.message['jcr:path']);
+                    pathToMessages.push(data.message);
                     start();
                     cleanUp();
                 });
@@ -225,10 +224,10 @@ require(
                 }, null, false);
     
                 // remove messages
-                sakai.api.Communication.deleteMessages(pathToMessages, true, function(success, data){
+                sakai.api.Communication.deleteMessages(pathToMessages, true, function(success, data) {
                     ok(success);
                     var stat = true;
-                    $.each(data.results, function(i, result){
+                    $.each(data.results, function(i, result) {
                         stat = stat && result.success;
                     });
                     ok(stat, 'Deleted ' + data.results.length + ' messages');
