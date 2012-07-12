@@ -177,9 +177,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     sakai.api.Security.showPage();
                     sakai.api.Util.setPageTitle(
-                        sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
-                        false,
-                        true
+                        ' ' + sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'],
+                        'pageLevel'
                     );
 
                     // rerender comments widget
