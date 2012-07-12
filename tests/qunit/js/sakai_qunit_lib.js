@@ -92,7 +92,7 @@ require(
     }
 
     sakai_global.qunit.loginWithAdmin = function() {
-        asyncTest("Log-in with a Sakai3 admin user", function(){
+        asyncTest("Log-in with a Sakai OAE admin user", function(){
             sakai.api.User.loadMeData(function(success, data){
                 // if there is a user already logged in, lets log out and log back in
                 if (data.user.anon !== true && data.user.userid !== "admin") {

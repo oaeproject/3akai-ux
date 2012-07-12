@@ -24,6 +24,12 @@ require(
         "qunitjs/qunit"
     ],
     function($, sakai) {
+
+    /**
+     * Make sure that arrays passed in as arguments are properly encoded
+     */
+    $.ajaxSettings.traditional = true;
+
     // Tracking variables
     var tests = [],
         startTime = 0,

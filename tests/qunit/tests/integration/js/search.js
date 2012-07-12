@@ -21,7 +21,7 @@ require(
         /////// CREATE USERS /////////
         //////////////////////////////
 
-        asyncTest("Create 5 Sakai 3 users", 5 , function(){
+        asyncTest("Create 5 Sakai OAE users", 5 , function(){
             var count = 0;
             function createUser(){
                 if (count <= 4) {

@@ -140,13 +140,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     widgetHTML = false;
                 $.ajax({
                     url: "/devwidgets/" + widgetName + "/config.json",
-                    type: "json",
                     success: function(data) {
-                        try {
-                            data = $.parseJSON(data);
-                        } catch (e) {
-                            console.error(widgetName + " has an error in its json");
-                        }
                         sakai.widgets[widgetName] = data;
                         widgetHTML = sakai.widgets[widgetName].url;
                         sakai_global.qunit.widgets.push({name:widgetName, html: widgetHTML, js: widgetJS});

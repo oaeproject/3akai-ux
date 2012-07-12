@@ -16,7 +16,7 @@ require(
         var user_random = "userrandom_" + (new Date()).getTime() + Math.floor(Math.random() * 1000);
         var tag_random = "tag_" + (new Date()).getTime() + Math.floor(Math.random() * 1000);
 
-        asyncTest("Create a Sakai3 user to test with", 1, function(){
+        asyncTest("Create a Sakai OAE user to test with", 1, function(){
             sakai.api.User.createUser(user_random, "User", "0", "user.0@sakatest.edu", "test", "test", null, function(success, data) {
                 ok(success, "The user has been successfully created");
                 start();
@@ -25,7 +25,7 @@ require(
 
         sakai_global.qunit.logout();
 
-        asyncTest("Log-in with a Sakai3 user", 1, function(){
+        asyncTest("Log-in with a Sakai OAE user", 1, function(){
             sakai.api.User.login({
                 "username": user_random,
                 "password": "test"
