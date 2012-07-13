@@ -95,8 +95,8 @@
             var toFadeOut = 0;
             $.each(items, function(i, item) {
                 // Check whether the item is a string
-                // If so, we use will create the jQuery selector
-                // If not, we assume a jQuery element was passed & set the context to the container
+                // If so, we will create the jQuery selector
+                // If not, we assume a jQuery element was passed & will set the context to the container
                 var $item;
                 if (typeof item === 'string') {
                     $item = $('*[id="' + item + '"]', $container);
