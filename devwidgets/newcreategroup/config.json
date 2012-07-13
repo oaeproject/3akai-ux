@@ -11,6 +11,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/newcreategroup/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/newcreategroup/bundles/fr_FR.properties"
         }
     },
     "id": "newcreategroup",

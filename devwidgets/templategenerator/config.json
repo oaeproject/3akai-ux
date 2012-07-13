@@ -17,6 +17,9 @@
             "description": "Export sites to templates",
             "name": "Template generator widget"
         },
+        "fr_FR": {
+            "bundle": "/devwidgets/templategenerator/bundles/fr_FR.properties"
+        },
         "es_ES": {
             "bundle": "/devwidgets/templategenerator/bundles/es_ES.properties"
         }

@@ -157,6 +157,7 @@
     padding-bottom: 0;
     margin-bottom: 0;
     color: #000000;
+    word-wrap: break-word;
 }
 #comments_mainContainer textarea, #comments_settings textarea {
     height: 140px;

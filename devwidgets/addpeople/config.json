@@ -8,6 +8,12 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/addpeople/bundles/es_ES.properties"
+        },
+        "nl_NL": {
+            "bundle": "/devwidgets/addpeople/bundles/nl_NL.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/addpeople/bundles/fr_FR.properties"
         }
     },
     "trigger": {

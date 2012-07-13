@@ -6,8 +6,8 @@
             "description": "Select template",
             "name": "Select template"
         },
-        "en_US": {
-            "bundle": "/devwidgets/selecttemplate/bundles/en_US.properties"
+        "fr_FR": {
+            "bundle": "/devwidgets/selecttemplate/bundles/fr_FR.properties"
         }
     },
     "id": "selecttemplate",

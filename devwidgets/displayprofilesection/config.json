@@ -8,6 +8,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/displayprofilesection/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/displayprofilesection/bundles/fr_FR.properties"
         }
     },
     "id": "displayprofilesection",
