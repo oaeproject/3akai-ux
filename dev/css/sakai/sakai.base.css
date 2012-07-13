@@ -2461,6 +2461,9 @@ ul li.s3d-list-item:hover {
 	height: 25px;
 	width: 17px;
 }
+.sakai_addtocontacts_overlay.hidden {
+    visibility: hidden;
+}
 .s3d-search-result-content .searchcontent_result_plus, .s3d-search-result-person .searchpeople_result_plus, .s3d-search-result-group .searchgroups_result_plus {
 	color: #e4e4e4;
 	font-size: x-large;
