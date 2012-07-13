@@ -2050,6 +2050,8 @@ define(
                 }
 
                 $dialogContainer.jqmShow();
+
+                $dialogContainer.find(':header:visible:first').attr('tabindex', '0').focus();
             },
 
             /**
