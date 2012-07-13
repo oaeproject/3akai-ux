@@ -431,10 +431,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var setInitialState = function(callback) {
             sakai.api.Util.setPageTitle();
-            var inboxTitle = sakai.api.i18n.General.process(widgetData.title, "inbox");
             $(detailViewClass).hide();
             $(newMessageViewClass).hide();
-            $inbox_box_title.text(inboxTitle);
+            $inbox_box_title.text(sakai.api.i18n.General.process(widgetData.title, "inbox"));
             $(listViewClass).show();
             if ($.isFunction(callback)) {
                 callback();
