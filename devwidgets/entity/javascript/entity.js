@@ -326,11 +326,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
-                    $('#ew_group_join_requests_link').live("click", function(ev) {
-                        $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
-                        $('#entity_groupsettings_dropdown').jqmHide();
-                    });
-
                     $(".sakai_add_content_overlay").live("click", function(ev){
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
@@ -470,10 +465,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var checkHash = function(context){
             if ($.bbq.getState("e") === "joinrequests" && context.context === "group" && context.data.authprofile["sakai:group-joinable"] === "withauth"){
-                $(window).bind("ready.joinrequests.sakai", function(){
-                    $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
-                });
-                $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
+                $(document).trigger('init.joinrequests.sakai');
             }
         };
 

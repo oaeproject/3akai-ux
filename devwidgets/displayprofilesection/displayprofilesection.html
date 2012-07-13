@@ -112,15 +112,21 @@
     {macro renderField(config, field_id, field_data)}
         {var value = config.type === "select" ? sakai.api.i18n.General.process(config.select_elements[field_data.value]) : field_data.value}
         <span class="field_value">
-        {if config.limitDisplayWidth}
-            ${sakai.api.Util.applyThreeDots(value, config.limitDisplayWidth)}
-        {elseif config.type === "tags"}
-            {var tags = sakai.api.Util.formatTags(value)}
-            {for tag in tags}{if tag_index > 0},{/if} <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>{/for}
-        {else}
-            ${value|safeOutput}
+            {var displayValue = value}
+            {if config.limitDisplayWidth}
+                {var displayValue = sakai.api.Util.applyThreeDots(value, config.limitDisplayWidth, null, null, false)}
+            {/if}
+            {if config.type === "tags"}
+                {var tags = sakai.api.Util.formatTags(value)}
+                {for tag in tags}{if tag_index > 0},{/if} <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>{/for}
+            {elseif config.type === "url"}
+                <a href="${value|safeOutput}" target="_blank"{if displayValue !== value} title="${value|safeOutput}"{/if}>
+                    ${displayValue|safeOutput}
+                </a>
+            {else}
+                ${displayValue|safeOutput}
+            {/if}
         </span>
-        {/if}
     {/macro}
 
     {for field in section.elements}
