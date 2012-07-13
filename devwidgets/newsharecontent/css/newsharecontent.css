@@ -101,6 +101,11 @@
 #newsharecontent_widget #newsharecontent_cantshare_container ul {
     margin: 5px 0 0 17px;
 }
+#newsharecontent_widget .newsharecontent_anon_function,
+#newsharecontent_widget .newsharecontent_user_function > label {
+    display: block;
+    margin-bottom: 12px;
+}
 #toolbox {
     margin-bottom: 12px;
 }

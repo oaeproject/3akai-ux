@@ -34,7 +34,7 @@ require(
          * This is verbose, but its here for now in case we
          * need to use this event on an individual test page in the future
          */
-        $(window).bind('done.qunit.sakai', function(e, obj) {
+        $(window).off('done.qunit.sakai').on('done.qunit.sakai', function(e, obj) {
             // trigger this event in the parent document
             if (parent && $(parent.document).length) {
                 parent.$(parent.document).trigger("done.qunit.sakai", obj);
@@ -92,7 +92,7 @@ require(
     }
 
     sakai_global.qunit.loginWithAdmin = function() {
-        asyncTest("Log-in with a Sakai3 admin user", function(){
+        asyncTest("Log-in with a Sakai OAE admin user", function(){
             sakai.api.User.loadMeData(function(success, data){
                 // if there is a user already logged in, lets log out and log back in
                 if (data.user.anon !== true && data.user.userid !== "admin") {
@@ -145,7 +145,7 @@ require(
         });
     };
 
-    sakai_global.qunit.logout = function() {
+    sakai_global.qunit.logout = function(callback) {
         asyncTest("Logging out current user", function() {
             sakai.api.User.logout(function(success) {
                 // Test whether the current URL of the iFrame is the login page
@@ -155,6 +155,9 @@ require(
                 sakai.api.User.loadMeData(function(success, data){
                     ok(data.user.anon === true, "The current active user is anonymous");
                     start();
+                    if ($.isFunction(callback)){
+                        callback();
+                    }
                 });
             });
         });

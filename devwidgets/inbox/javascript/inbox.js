@@ -514,7 +514,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     setInitialState();
                     getMessages();
                 }
-            } else {
+            } else if (!$.bbq.getState('message') && !$.bbq.getState('newmessage')){
                 setInitialState();
             }
         };

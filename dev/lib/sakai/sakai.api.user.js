@@ -195,7 +195,7 @@ define(
         },
 
         /**
-         * Remove the user credentials in the Sakai3 system.
+         * Remove the user credentials in the Sakai OAE system.
          * Note that this doesn't actually remove the user, only its permissions.
          *
          * @example
@@ -292,7 +292,7 @@ define(
         },
 
         /**
-         * Log-in to Sakai3
+         * Log-in to Sakai OAE
          *
          * @example
          * sakai.api.User.login({
@@ -351,7 +351,7 @@ define(
 
 
         /**
-         * Log-out from Sakai3
+         * Log-out from Sakai OAE
          *
          * @example sakai.api.user.logout();
          * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
@@ -362,28 +362,18 @@ define(
              * POST request to the logout service,
              * which will destroy the session.
              */
-            $.ajax({
-                url: sakai_conf.URL.PRESENCE_SERVICE,
-                type: "POST",
-                data: {
-                    "sakai:status": "offline",
-                    "_charset_": "utf-8"
-                },
-                complete: function(xhr, textStatus) {
-                    if (sakai_conf.followLogoutRedirects) {
-                        window.location = sakai_conf.URL.LOGOUT_SERVICE;
-                    } else {
-                        // hit the logout service to destroy the session
-                        $.ajax({
-                            url: sakai_conf.URL.LOGOUT_SERVICE,
-                            type: "GET",
-                            complete: function(xhrInner, textStatusInner) {
-                                callback(textStatusInner === "success");
-                            }
-                        });
+            if (sakai_conf.followLogoutRedirects) {
+                window.location = sakai_conf.URL.LOGOUT_SERVICE;
+            } else {
+                // hit the logout service to destroy the session
+                $.ajax({
+                    url: sakai_conf.URL.LOGOUT_SERVICE,
+                    type: 'POST',
+                    complete: function(xhrInner, textStatusInner) {
+                        callback(textStatusInner === 'success');
                     }
-                }
-            });
+                });
+            }
         },
 
         /**
