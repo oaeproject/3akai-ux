@@ -165,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             sakai_global.data.search.getMyContacts();
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if ($(this).attr("sakai-entityid") === userToAdd.uuid){
-                    $(this).addClass('hidden');
+                    $(this).addClass('fl-hidden');
                 }
             });
         });
