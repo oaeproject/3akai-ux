@@ -11,6 +11,10 @@
             "bundle": "/devwidgets/worldsettings/bundles/es_ES.properties"
         }
     },
+    "trigger": {
+        "events": ["init.worldsettings.sakai"],
+        "onLoad": false
+    },
     "id": "worldsettings",
     "personalportal": false,
     "sakaidocs": false,

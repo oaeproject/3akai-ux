@@ -349,7 +349,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          // External events //
          /////////////////////
 
-         $(window).bind("permissions.area.trigger", function(ev, _contextData){
+         $(document).on('init.areapermissions.sakai', function(ev, _contextData) {
              contextData = _contextData;
              initializeOverlay();
              determineContentManager();

@@ -11,6 +11,10 @@
             "bundle": "/devwidgets/userpermissions/bundles/es_ES.properties"
         }
     },
+    "trigger": {
+        "events": ["init.userpermissions.sakai"],
+        "onLoad": false
+    },
     "id": "userpermissions",
     "personalportal": false,
     "type": "core",
