@@ -15,7 +15,7 @@
 /*jslint browser: true, onevar: true, undef: true, bitwise: true, strict: true */
 /*global window : false, clearInterval: false, clearTimeout: false, document: false, setInterval: false, setTimeout: false, jQuery: false, navigator: false, XSLTProcessor: false, DOMParser: false, XMLSerializer: false*/
 
-require(['jquery'], function (jQuery) {
+require(['jquery', 'sakai/sakai.api.core'], function (jQuery, sakai) {
 "use strict";
 // Common functions not related to jsTree 
 // decided to move them to a `vakata` "namespace"
@@ -264,7 +264,6 @@ require(['jquery'], function (jQuery) {
 				'.jstree-rtl > ul > li { margin-right:0px; } ' + 
 				'.jstree ins {cursor:pointer; display:inline-block; text-decoration:none; width:20px; height:18px; margin:0 0 0 0; padding:0; } ' + 
 				'.jstree a { display:inline-block; line-height:18px; height:20px; color:black; white-space:nowrap; text-decoration:none; padding:1px 2px; margin:0; } ' + 
-				'.jstree a:focus { outline: none; } ' + 
 				'.jstree a > ins { height:16px; width:16px; } ' + 
 				'.jstree a > .jstree-icon { margin-right:3px; } ' + 
 				'.jstree-rtl a > .jstree-icon { margin-left:3px; margin-right:0; } ' + 
@@ -315,6 +314,15 @@ require(['jquery'], function (jQuery) {
 				this.data.core.li_height = this.get_container().find("ul li.jstree-closed, ul li.jstree-leaf").eq(0).height() || 18;
 
 				this.get_container()
+
+					.delegate('.jstree-closed a[data-parent=true]', 'keyup', $.proxy(function (event) {
+							var trgt = $(event.target);
+							if(event.keyCode === 39) {this.toggle_node(trgt); }
+						}, this))
+					.delegate('.jstree-open a[data-parent=true]', 'keyup', $.proxy(function (event) {
+							var trgt = $(event.target);
+							if(event.keyCode === 37) {this.toggle_node(trgt); }
+						}, this))
 					.delegate("li > ins", "click.jstree", $.proxy(function (event) {
 							var trgt = $(event.target);
 							if(trgt.is("ins")) {this.toggle_node(trgt); }
@@ -2242,7 +2250,7 @@ require(['jquery'], function (jQuery) {
 						this._prepare_checkboxes();
 					}, this))
 				.delegate("a", "click.jstree", $.proxy(function (e) {
-						if(this._get_node(e.target).hasClass("jstree-checked")) { this.uncheck_node(e.target); }
+						if(this._get_node(e.target).hasClass("jstree-checked")) { this.uncheck_node(e.target, true); }
 						else { this.check_node(e.target); }
 						if(this.data.ui) { this.save_selected(); }
 						if(this.data.cookies) { this.save_cookie("select_node"); }
@@ -2267,16 +2275,26 @@ require(['jquery'], function (jQuery) {
 				if(obj.is("li")) { this._repair_state(obj); }
 				else { obj.find("> ul > li").each(function () { _this._repair_state(this); }); }
 			},
-			change_state : function (obj, state, s) {
+			change_state : function (obj, state, s, uncheckedClicked) {
                 obj = this._get_node(obj);
                 state = (state === false || state === true) ? state : obj.hasClass("jstree-checked");
+                var selectedLink = obj.children('a');
+                var currentTitle = selectedLink.attr('title');
                 if (state) {
                         if(s) obj.find("li").andSelf().removeClass("jstree-checked jstree-undetermined").addClass("jstree-unchecked");
-                        else obj.removeClass("jstree-checked jstree-undetermined").addClass("jstree-unchecked");
+                        else {
+                            obj.removeClass("jstree-checked jstree-undetermined").addClass("jstree-unchecked");
+                            if (uncheckedClicked && uncheckedClicked === true) {
+	                            selectedLink.attr('title', currentTitle.replace(sakai.api.i18n.getValueForKey('SELECTED') + ' ',''));
+                            }
+                        }
                 }
                 else {
                         if(s) obj.find("li").andSelf().removeClass("jstree-unchecked jstree-undetermined").addClass("jstree-checked");
-                        else obj.removeClass("jstree-unchecked jstree-undetermined").addClass("jstree-checked");
+                        else {
+                            obj.removeClass("jstree-unchecked jstree-undetermined").addClass("jstree-checked");
+                            selectedLink.attr('title', sakai.api.i18n.getValueForKey('SELECTED') + ' ' + currentTitle);
+                        }
                     if (this.data.ui) {
                         this.data.ui.last_selected = obj;
                     }
@@ -2318,14 +2336,14 @@ require(['jquery'], function (jQuery) {
                 }
                 this.change_state(obj, false , s);
 			},
-			uncheck_node : function (obj) {
+			uncheck_node : function (obj, uncheckedClicked) {
                 var s = this._get_settings().checkbox;
                 if(s.multi_select){
                     s = true;
                 } else {
                     s = false;
                 }
-                this.change_state(obj, true , s);
+                this.change_state(obj, true , s, uncheckedClicked);
 			},
 			check_all : function () {
 				var _this = this;
