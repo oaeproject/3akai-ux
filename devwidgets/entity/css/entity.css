@@ -71,11 +71,13 @@
     margin-top: 5px;
 }
 
+#entity_container #entity_actions {
+    text-align: right;
+}
 #entity_container #entity_actions .s3d-button {
-    float: right;
     margin-left: 5px;
     color: #666;
-    line-height: 17px;
+    padding-top: 0;
 }
 
 #entity_container #entity_actions.entity_group .s3d-button {
@@ -282,7 +284,8 @@
 }
 
 #contentpreview_download_button {
-    line-height: 23px !important;
+    line-height: 22px !important;
+    display: inline-block;
 }
 
 #entity_container .entity_content_usedby {
@@ -542,8 +545,6 @@
 
 #entity_container .entity_download_content {
     background: url("/dev/images/download_button_image.png") no-repeat;
-    display: block;
-    float: right;
     height: 12px;
     margin-left: 10px;
     padding-left: 12px;
