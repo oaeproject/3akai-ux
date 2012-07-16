@@ -40,19 +40,11 @@
 }
 #savecontent_widget #savecontent_select option {
     padding: 3px 0;
-    padding-right: 0px;
     width: 350px;
-}
-#savecontent_widget #savecontent_select option:hover {
-	 width: 350px;
 }
 #savecontent_widget #mylibrary_option, #savecontent_widget #mylibrary_group_first {
     border-top: 1px solid #ddd;
 }
 #savecontent_widget #savecontent_cant_share_list {
     margin: 5px 0 0 17px;
-}
-#savecontent_template {
-	word-wrap:break-word;
-	overflow-x:scroll;
 }
