@@ -601,8 +601,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         // EVENTS //
         ////////////
 
-        var continueInit = function(initTuid, editingGroup) {
-                existingGroup = editingGroup;
+        /**
+         * Continue the initialization
+         * @param {Object} options The different options we want to pass through.
+         * e.g.{
+         *         editingGroup: false, // if you're editing a group
+         *         openDialog: true // open the dialog or not
+         *     }
+         */
+        var continueInit = function(options) {
+                existingGroup = options.editingGroup;
                 loadRoles();
                 addBinding();
                 var autoSuggestOpts = {
@@ -622,11 +630,17 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     $addpeopleNewGroup.hide();
                     $addpeopleExistingGroup.show();
                 }
-                showDialog();
-                renderContacts();
+                if(options.openDialog) {
+                    showDialog();
+                    renderContacts();
+                }
         };
 
-        $(document).on('init.addpeople.sakai', function(e, initTuid, editingGroup) {
+        $(document).on('init.addpeople.sakai', function(e, options) {
+            options = $.extend({
+                editingGroup: false,
+                openDialog: true
+            }, options);
             if (sakai_global.newcreategroup &&
                 sakai_global.newcreategroup.currentTemplate.id !== currentTemplate.id) {
                 selectedUsers = {};
@@ -638,14 +652,14 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         defaultMembers = defaultMembers.split(",");
                         defaultMembers = _.without(defaultMembers, sakai.data.me.user.userid);
                         fetchGroupsAndUsersData(defaultMembers, function() {
-                            continueInit(initTuid, editingGroup);
+                            continueInit(options);
                         });
                     } else {
-                        continueInit(initTuid, editingGroup);
+                        continueInit(options);
                     }
                 });
             } else {
-                continueInit(initTuid, editingGroup);
+                continueInit(options);
             }
         });
     };

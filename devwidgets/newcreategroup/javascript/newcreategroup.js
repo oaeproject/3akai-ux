@@ -162,6 +162,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     /**
+     * Intialize the add people widget
+     * @param {Boolean} openDialog Whether you want to open the dialog
+     */
+    var initializeAddPeople = function(openDialog) {
+        $(document).trigger('init.addpeople.sakai', {
+            editingGroup: true,
+            openDialog: openDialog
+        });
+    };
+
+    /**
      * Add binding to the elements and validate the forms on submit
      */
     var addBinding = function(){
@@ -203,9 +214,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderShareMessage();
         });
 
-        $(document).on('click', '.newcreategroup_add_people', function() {
-            $(document).trigger('init.addpeople.sakai', [tuid, false]);
-        });
+        $(document).on('click', '.newcreategroup_add_people', initializeAddPeople);
+
+        if ($.bbq.getState('members')) {
+            initializeAddPeople(false);
+        }
+
     };
 
     /**
