@@ -216,6 +216,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(document).on('click', '.newcreategroup_add_people', initializeAddPeople);
 
+        // We also need to intialize the add people widget but not show the dialog
+        // when there is a query parameter called 'members'
         if ($.bbq.getState('members')) {
             initializeAddPeople(false);
         }
