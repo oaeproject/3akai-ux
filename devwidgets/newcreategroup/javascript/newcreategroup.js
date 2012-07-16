@@ -193,7 +193,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
         // Initialize the validate plug-in
         sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOpts, true);
-        sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($newcreategroupGroupTags, null, $(".list_categories", $rootel));
+        sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($newcreategroupGroupTags, null, $('.list_categories', $rootel), null, function(){
+            // Bind 'tags and categories' label to textarea:
+            var $groupTagsLabel = $('#newcreategroup_tags_label');
+            var forAttr = $('textarea[id^=as-input]').attr('id');
+            $groupTagsLabel.attr('for', forAttr);
+        });
         $newcreategroupGroupTitle.bind("keyup", function(){
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val().toLowerCase(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);
