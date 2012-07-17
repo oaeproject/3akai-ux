@@ -595,7 +595,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $('.addpeople_init').on('click', function() {
-                $(document).trigger('init.addpeople.sakai', [tuid, true]);
+                $(document).trigger('init.addpeople.sakai', {
+                    editingGroup: true
+                });
                 $('#entity_groupsettings_dropdown').jqmHide();
             });
 
