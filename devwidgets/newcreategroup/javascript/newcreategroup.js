@@ -167,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     var initializeAddPeople = function(openDialog) {
         $(document).trigger('init.addpeople.sakai', {
-            editingGroup: true,
+            editingGroup: false,
             openDialog: openDialog
         });
     };
