@@ -675,7 +675,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             $(document).on('done.newaddcontent.sakai', function(ev, data) {
-                switchListView();
+                setTimeout(switchListView, 500);
             });
 
             $(window).on('hiding.newsharecontent.sakai hiding.savecontent.sakai', function() {
