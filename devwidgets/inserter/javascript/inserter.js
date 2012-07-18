@@ -804,15 +804,22 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
                 }
             });
             renderHeader('init');
-            sakai.api.Util.TemplateRenderer('inserter_init_prescroll_template', {
-                sakai: sakai
-            }, $inserterCollectionInfiniteScrollContainer);
-            $inserterCollectionInfiniteScrollContainerList = $($inserterCollectionInfiniteScrollContainerList, $rootel);
-            validateNewCollectionForm();
-            fetchLibrary();
-            if (focusCreateNew) {
-                $(inserterCreateCollectionInput).focus();
-            }
+            // SAKIII-6013 Update the me feed before opening up Collection Viewer.
+            sakai.api.User.loadMeData(function(success, data) {
+                if (success) {
+                    sakai.api.Util.TemplateRenderer('inserter_init_prescroll_template', {
+                        sakai: sakai
+                    }, $inserterCollectionInfiniteScrollContainer);
+                    $inserterCollectionInfiniteScrollContainerList = $($inserterCollectionInfiniteScrollContainerList, $rootel);
+                    validateNewCollectionForm();
+                    fetchLibrary();
+                    if (focusCreateNew) {
+                        $(inserterCreateCollectionInput).focus();
+                    }
+                } else {
+                    debug.error('Error in updating me data before opening Collection Viewer.');
+                }
+            });
         };
 
         addBinding();
