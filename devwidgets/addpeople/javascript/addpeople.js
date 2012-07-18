@@ -611,7 +611,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var continueInit = function(options) {
                 existingGroup = options.editingGroup;
-                if (!widgetData) {
+                if (!widgetData && options.editingGroup) {
                     widgetData = {
                         'category': sakai_global.group.groupData['sakai:category'],
                         'id': sakai_global.group.groupData['sakai:templateid']
