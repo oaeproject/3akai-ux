@@ -810,17 +810,16 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
                     sakai.api.Util.TemplateRenderer('inserter_init_prescroll_template', {
                         sakai: sakai
                     }, $inserterCollectionInfiniteScrollContainer);
+                    $inserterCollectionInfiniteScrollContainerList = $($inserterCollectionInfiniteScrollContainerList, $rootel);
+                    validateNewCollectionForm();
+                    fetchLibrary();
+                    if (focusCreateNew) {
+                        $(inserterCreateCollectionInput).focus();
+                    }
                 } else {
                     debug.error('Error in updating me data before opening Collection Viewer.');
                 }
             });
-
-            $inserterCollectionInfiniteScrollContainerList = $($inserterCollectionInfiniteScrollContainerList, $rootel);
-            validateNewCollectionForm();
-            fetchLibrary();
-            if (focusCreateNew) {
-                $(inserterCreateCollectionInput).focus();
-            }
         };
 
         addBinding();
