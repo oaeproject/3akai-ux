@@ -311,21 +311,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
-                    $('#ew_group_delete_link').live("click", function(ev) {
-                        $(document).trigger('init.deletegroup.sakai', [context.data.authprofile,
-                            function (success) {
-                                if (success) {
-                                    // Wait for 2 seconds
-                                    setTimeout(function () {
-                                        // Relocate to the my sakai page
-                                        document.location = "/me";
-                                    }, 2000);
-                                }
-                            }]
-                        );
-                        $('#entity_groupsettings_dropdown').jqmHide();
-                    });
-
                     $(".sakai_add_content_overlay").live("click", function(ev){
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
