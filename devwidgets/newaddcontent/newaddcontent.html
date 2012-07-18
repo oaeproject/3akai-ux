@@ -42,7 +42,7 @@
                 <label for="newaddcontent_file_upload" class="fl-force-left" id="newaddcontent_upload_a_file_label">__MSG__UPLOAD_A_FILE__</label>
                 <form id="newaddcontent_upload_content_form" class="newaddcontent_form" method="POST" enctype="multipart/form-data">
                     <span class="newaddcontent_fileinput_button s3d-overlay-button s3d-button fl-force-left">
-                        <span>Browse</span>
+                        <span>__MSG__BROWSE__</span>
                         <input type="file" id="newaddcontent_file_upload" name="files[]"/>
                     </span>
                 </form>
@@ -289,7 +289,7 @@
                         {var canShare = sakai.api.Content.canCurrentUserShareContent(item)}
                         <input type="checkbox" class="newaddcontent_existingitems_select_checkbox" id="${item["_path"]}" {if $.inArray(item["_path"], queue) >= 0} checked="checked"{/if} {if $.inArray(item["_path"], queue) >= 0} disabled{/if} {if item["sakai:pooled-content-manager"]}data-sakai-pooled-content-manager="${item["sakai:pooled-content-manager"].join(",")}"{/if} {if item["sakai:pooled-content-viewer"]}data-sakai-pooled-content-viewer="${item["sakai:pooled-content-viewer"].join(",")}"{/if} data-mimeType="${item["_mimeType"]}" data-canshare="${canShare}"/>
                         <label for="${item["_path"]}">
-                            <span id="{if sakai.config.MimeTypes[item["_mimeType"]]}${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{/if}" class="{if sakai.config.MimeTypes[item["_mimeType"]]} ${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{else} icon-unknown-sprite{/if} newaddcontent_existingitems_list_container_list_item_icon"></span>
+                            <span id="{if sakai.config.MimeTypes[item["_mimeType"]]}${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{else}${sakai.config.MimeTypes["other"].cssClass}{/if}" class="{if sakai.config.MimeTypes[item["_mimeType"]]} ${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{else} ${sakai.config.MimeTypes["other"].cssClass}{/if} newaddcontent_existingitems_list_container_list_item_icon"></span>
                             ${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300) || item["_path"]}
                         </label>
                     </li>

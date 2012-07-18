@@ -16,6 +16,10 @@
             "bundle": "/devwidgets/addpeople/bundles/fr_FR.properties"
         }
     },
+    "trigger": {
+        "events": ["init.addpeople.sakai"],
+        "onLoad": false
+    },
     "id": "addpeople",
     "type": "core",
     "url": "/devwidgets/addpeople/addpeople.html"

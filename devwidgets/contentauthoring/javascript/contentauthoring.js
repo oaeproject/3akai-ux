@@ -987,7 +987,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     $pageRootEl.remove();
                 }
                 // Create the new element
-                $pageRootEl = $('<div />').attr('id', currentPageShown.ref);
+                $pageRootEl = $('<div />').attr('id', currentPageShown.ref).attr('data-sakai-container-id', currentPageShown.path);
                 // Add element to the DOM
                 $('#contentauthoring_widget', $rootel).append($pageRootEl);
                 convertRows(currentPageShown.content.rows);

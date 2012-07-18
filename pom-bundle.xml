@@ -22,8 +22,8 @@
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
   <version>1.5.0-SNAPSHOT</version>
-  <name>Sakai 3 UX Loader</name>
-  <description>Loads the Sakai 3 UI into the JCR</description>
+  <name>Sakai 3 OAE Loader</name>
+  <description>Loads the Sakai OAE UI into the JCR</description>
   <url>http://github.com/sakaiproject/3akai-ux</url>
   <issueManagement>
     <system>jira</system>

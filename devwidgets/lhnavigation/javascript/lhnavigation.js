@@ -717,7 +717,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var showAreaPermissions = function() {
             toggleContextMenu(true);
-            $(window).trigger('permissions.area.trigger', [contextMenuHover]);
+            $(document).trigger('init.areapermissions.sakai', [contextMenuHover]);
         };
 
         //////////////////////
@@ -726,7 +726,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var showUserPermissions = function() {
             toggleContextMenu(true);
-            $(window).trigger('permissions.area.trigger', [contextMenuHover]);
+            $(document).trigger('init.userpermissions.sakai', [contextMenuHover]);
         };
 
         //////////////////////////////////
@@ -1284,11 +1284,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             ev.stopPropagation();
         });
 
-        $('#lhnavigation_submenu_permissions').live('click', function(ev) {
+        $('#lhnavigation_submenu_permissions').on('click', function(ev) {
             showAreaPermissions();
         });
 
-        $('#lhnavigation_submenu_user_permissions').live('click', function(ev) {
+        $('#lhnavigation_submenu_user_permissions').on('click', function(ev) {
             showUserPermissions();
         });
 

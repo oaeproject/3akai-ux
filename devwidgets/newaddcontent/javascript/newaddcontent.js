@@ -764,9 +764,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
 
         /**
          * Creates a Sakai document
-         * @param {Object} documentObj Object containing data needed to create a sakai document
+         * @param {Number} index    Index of the current Sakai Doc in the itemsToUpload array
          */
-        var createDocument = function(documentObj) {
+        var createDocument = function(index) {
+            var documentObj = itemsToUpload[index];
             var refID = sakai.api.Util.generateWidgetId();
             var title = documentObj['sakai:pooled-content-file-name'];
             var doc = {
@@ -793,6 +794,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                 dataType: 'json',
                 success: function(data) {
                     documentObj = $.extend({}, data['_contentItem'].item, documentObj);
+                    itemsToUpload[index] = documentObj;
                     var content = {};
                     content[refID] = sakai.config.defaultSakaiDocContent;
                     finishSakaiDoc(documentObj, content);
@@ -836,9 +838,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
 
         /**
          * Upload a link
-         * @param {Object} linkObj object containing all information necessary to upload a link
+         * @param {Number} index   Index of the current link in the itemsToUpload array
          */
-        var uploadLink = function(linkObj) {
+        var uploadLink = function(index) {
+            var linkObj = itemsToUpload[index];
             var preview = sakai.api.Content.getPreviewUrl(linkObj['sakai:pooled-content-url']);
             var link = {
                 'sakai:pooled-content-url': linkObj['sakai:pooled-content-url'],
@@ -855,6 +858,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                 dataType: 'JSON',
                 success: function(data) {
                     linkObj = $.extend({}, data['_contentItem'].item, linkObj);
+                    itemsToUpload[index] = linkObj;
                     prepareSetDataOnContent(linkObj);
                 },
                 error: function() {
@@ -1012,7 +1016,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
             $.each(itemsToUpload, function(index,item) {
                 switch(item.type) {
                     case 'link':
-                        uploadLink(item);
+                        uploadLink(index);
                         break;
                     case 'content':
                         if (!contentUploaded) {
@@ -1021,7 +1025,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                         }
                         break;
                     case 'document':
-                        createDocument(item);
+                        createDocument(index);
                         break;
                     case 'existing':
                         addToLibrary(item);

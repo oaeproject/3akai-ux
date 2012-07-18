@@ -17,6 +17,10 @@
             "bundle": "/devwidgets/addarea/bundles/fr_FR.properties"
         }
     },
+    "trigger": {
+        "events": ["init.addarea.sakai"],
+        "onLoad": false
+    },
     "id": "addarea",
     "personalportal": false,
     "type": "sakai",

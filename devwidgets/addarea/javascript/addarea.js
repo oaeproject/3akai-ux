@@ -518,7 +518,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         var selectPageAndShowPermissions = function(poolId, path, docPermission){
             sakai.api.Util.Modal.close($addAreaContainer);
             if (docPermission === "advanced"){
-                $(window).trigger("permissions.area.trigger", [{
+                $(document).trigger("init.areapermissions.sakai", [{
                     isManager: true,
 	                pageSavePath: "/p/" + poolId,
 	                path: path,
@@ -816,19 +816,19 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Renders the widget page
          */
-        var renderWidgets = function(){
+        var renderWidgets = function() {
             var widgets = [];
             var nameSet = false;
-            for (var widget in sakai.widgets){
-                if(!nameSet){
-                    $("#addarea_widgets_name").val(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widget].id));
-                    nameSet = true;
-                }
-                if(sakai.widgets[widget].sakaidocs){
+            for (var widget in sakai.widgets) {
+                if (sakai.widgets[widget].sakaidocs) {
+                    if (!nameSet) {
+                        $('#addarea_widgets_name').val(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widget].id));
+                        nameSet = true;
+                    }
                     widgets.push(sakai.widgets[widget]);
                 }
             }
-            $("#addarea_widgets_widget").html(sakai.api.Util.TemplateRenderer("addarea_widgets_widget_container", {data: widgets, sakai: sakai}));
+            $('#addarea_widgets_widget').html(sakai.api.Util.TemplateRenderer('addarea_widgets_widget_container', {data: widgets, sakai: sakai}));
         };
 
         /*
@@ -864,7 +864,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Binding to enable the Widget to be initialised from outside of the Widget
          */
-        $(window).bind("addarea.initiate.sakai", function(){
+        $(document).on('init.addarea.sakai', function() {
             resetWidget();
             initializeJQM();
             renderWidgets();
