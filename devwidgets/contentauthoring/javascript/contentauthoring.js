@@ -818,18 +818,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var currentlyEditing = false;
 
         /**
-         * Initialize the widget settings overlay, which will be used
-         * for the settings view of the widgets that have a settings
-         * view
-         */
-        $('#contentauthoring_widget_settings', $rootel).jqm({
-            modal: true,
-            overlay: 20,
-            toTop: true,
-            onHide: sakai_global.contentauthoring.widgetCancel
-        });
-
-        /**
          * Show the modal dialog edit mode for a widget
          * @param {String} id       Unique id of the widget
          * @param {String} type     Name of the widget
@@ -847,7 +835,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     'width': widgetSettingsWidth + 'px',
                     'margin-left': -(widgetSettingsWidth / 2) + 'px',
                     'top': ($(window).scrollTop() + 50) + 'px'
-                }).jqmShow();
+                });
+                sakai.api.Util.Modal.open($('#contentauthoring_widget_settings', $rootel));
             }
         };
 
@@ -873,7 +862,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 checkColumnsEmpty();
             }
             isEditingNewElement = false;
-            $('#contentauthoring_widget_settings').jqmHide();
+            sakai.api.Util.Modal.close($('#contentauthoring_widget_settings'));
             // Remove the widget from the settings overlay
             $('#contentauthoring_widget_content').html('');
         };
@@ -892,13 +881,29 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // Construct the widget
             $parent.append('<div id="widget_' + $parent.attr('data-element-type') + '_' + currentlyEditing + '" class="widget_inline"></div>');
             sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath + '/');
-            $('#contentauthoring_widget_settings').jqmHide();
+            sakai.api.Util.Modal.close($('#contentauthoring_widget_settings'));
             updateColumnHandles();
         };
 
         // Register the global functions
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
         sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
+
+        /**
+         * Initialize the widget settings overlay, which will be used
+         * for the settings view of the widgets that have a settings
+         * view
+         */
+        sakai.api.Util.Modal.setup($('#contentauthoring_widget_settings', $rootel), {
+            modal: true,
+            overlay: 20,
+            toTop: true,
+            onHide: function(hash) {
+                sakai_global.contentauthoring.widgetCancel();
+                hash.w.hide();
+                hash.o.remove();
+            }
+        });
 
         //////////////////
         //////////////////
