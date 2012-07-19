@@ -159,6 +159,7 @@
                             </div>{/if}
                         {if item.tags && item.tags.length > 0}
                             <div class="mylibrary_item_tags s3d-taglist">
+                                <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${item["sakai:pooled-content-file-name"]|safeOutput}</span>
                                 <ul class="mylibrary_item_tags_list">
                                     {for t in item.tags}
                                         <li><a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">${t.value}</a></li>
@@ -168,6 +169,7 @@
                         {/if}
                         {if !$.isEmptyObject(item.tagsProcessed)}
                             <div class="mylibrary_item_tags s3d-taglist-container">
+                                <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${item["sakai:pooled-content-file-name"]|safeOutput}</span>
                                 <ul class="mylibrary_item_tags_list s3d-taglist">
                                     {for t in item.tagsProcessed}
                                         <li>
