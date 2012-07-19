@@ -2064,6 +2064,9 @@ define(
                 }
 
                 $dialogContainer.jqmShow();
+
+                // focus on the dialogs first heading
+                $dialogContainer.find(':header:visible:first').attr('tabindex', '0').focus();
             },
 
             /**
@@ -2120,19 +2123,19 @@ define(
                         origFocus.focus();
                     } else if ($dialogContainer.is(':visible') && e.which === $.ui.keyCode.TAB) {
                         // determine which elements are keyboard navigable
-                        var $focusable = $('a:visible, input:visible, button:visible:not(:disabled), textarea:visible', $dialogContainer);
+                        var $tabbable = $(':tabbable', $dialogContainer);
                         if (ignoreElements) {
-                            $focusable = $focusable.not(ignoreElements);
+                            $tabbable = $tabbable.not(ignoreElements);
                         }
                         var $focused = $(':focus');
-                        var index = $focusable.index($focused);
-                        if (e.shiftKey && $focusable.length && (index === 0)) {
+                        var index = $tabbable.index($focused);
+                        if (e.shiftKey && $tabbable.length && (index === 0)) {
                             // if shift tabbing from the start of the dialog box, shift focus to the last element
-                            $focusable.last().focus();
+                            $tabbable.last().focus();
                             return false;
-                        } else if (!e.shiftKey && $focusable.length && (index === $focusable.length - 1)) {
+                        } else if (!e.shiftKey && $tabbable.length && (index === $tabbable.length - 1)) {
                             // if tabbing from the end of the dialog box, shift focus to the first element
-                            $focusable.first().focus();
+                            $tabbable.first().focus();
                             return false;
                         }
                     }

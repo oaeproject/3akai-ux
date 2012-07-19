@@ -820,7 +820,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * for the settings view of the widgets that have a settings
          * view
          */
-        $('#contentauthoring_widget_settings', $rootel).jqm({
+        sakai.api.Util.Modal.setup($('#contentauthoring_widget_settings', $rootel), {
             modal: true,
             overlay: 20,
             toTop: true,
@@ -845,7 +845,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     'width': widgetSettingsWidth + 'px',
                     'margin-left': -(widgetSettingsWidth / 2) + 'px',
                     'top': ($(window).scrollTop() + 50) + 'px'
-                }).jqmShow();
+                });
+                sakai.api.Util.Modal.open($('#contentauthoring_widget_settings', $rootel));
             }
         };
 
@@ -871,7 +872,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 checkColumnsEmpty();
             }
             isEditingNewElement = false;
-            $('#contentauthoring_widget_settings').jqmHide();
+            sakai.api.Util.Modal.close($('#contentauthoring_widget_settings'));
             // Remove the widget from the settings overlay
             $('#contentauthoring_widget_content').html('');
         };
@@ -890,7 +891,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // Construct the widget
             $parent.append('<div id="widget_' + $parent.attr('data-element-type') + '_' + currentlyEditing + '" class="widget_inline"></div>');
             sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath + '/');
-            $('#contentauthoring_widget_settings').jqmHide();
+            sakai.api.Util.Modal.close($('#contentauthoring_widget_settings'));
             updateColumnHandles();
         };
 
