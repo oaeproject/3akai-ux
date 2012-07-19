@@ -124,12 +124,12 @@
                     </span>
                     <span class="s3d-search-result-anonuser"></span>
                     {if ! i.picture}
-                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__"></a>
                     {else}
-                        <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
-                            <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}"/>
+                        <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__">
+                            <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.picture}"/>
                             {if i.pictureLarge}
-                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
+                                <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
                             {/if}
                         </a>
                     {/if}
