@@ -168,7 +168,7 @@
                             {/if}
                         </div>
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            ${macro("search.tags", i.tagsProcessed)}
+                            ${macro("search.tags", i.tagsProcessed, i.name)}
                         {/if}
                     </div>
                 </li>
@@ -217,7 +217,7 @@
                             <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                         {/if}
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            ${macro("search.tags", i.tagsProcessed)}
+                            ${macro("search.tags", i.tagsProcessed, sakai.api.Util.Security.safeOutput(i["sakai:group-title"]))}
                         {/if}
                     </div>
                 </li>

@@ -199,6 +199,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                             collectionName: getCollectionName(),
                             collectionId: getCollectionId(collectionviewer.contextId),
                             isEditor: sakai.api.Content.Collections.canCurrentUserEditCollection(collectionviewer.contextId),
+                            titleWidth: width,
                             pagePreviewDisabled: pagePreviewDisabled
                         }, $('#collectionviewer_expanded_content_container', $rootel));
                         if (previewsAllowed) {

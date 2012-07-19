@@ -37,6 +37,7 @@
     {/macro}
     {macro displayTags(item, sakai)}
         {if item["sakai:tags"]}
+            <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${item["sakai:pooled-content-file-name"]|safeOutput}</span>
             <ul class="featuredcontent_content_tags s3d-taglist fl-push">
                 {for tag in item["sakai:tags"]}
                     {if tag_index < 2}

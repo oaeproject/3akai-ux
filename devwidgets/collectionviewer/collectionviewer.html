@@ -110,6 +110,7 @@
                         <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]|safeOutput}</span>
                     {/if}
                     {if i.tagsProcessed && i.tagsProcessed.length}
+                        <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${i["sakai:pooled-content-file-name"]|safeOutput}</span>
                         <ul class="s3d-taglist">
                             {for t in i.tagsProcessed}
                                 <li>
