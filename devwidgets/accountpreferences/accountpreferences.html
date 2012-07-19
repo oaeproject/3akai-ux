@@ -6,11 +6,11 @@
     <div class="s3d-dialog-close jqmClose"></div>
     <div class="accountpreferences_header">
         <h1 id="accountpreferences_title" class="s3d-dialog-header">__MSG__WIDGET_TITLE__</h1>
-        <ul id="accountpreferences_tabs">
-            <li><button class="selected" id="accountpreferences_preferences_tab">__MSG__PREFERENCES__</button></li>
-            <li><button id="accountpreferences_privacy_tab">__MSG__PRIVACY_SETTINGS__</button></li>
-            <li><button id="accountpreferences_password_tab">__MSG__PASSWORD__</button></li>
-            <li><button id="accountpreferences_email_tab">__MSG__EMAIL__</button></li>
+        <ul id="accountpreferences_tabs" role="tablist">
+            <li><button class="selected" id="accountpreferences_preferences_tab" aria-controls="accountpreferences_preferContainer" role="tab">__MSG__PREFERENCES__</button></li>
+            <li><button id="accountpreferences_privacy_tab" aria-controls="accountpreferences_changePrivacyContainer" role="tab">__MSG__PRIVACY_SETTINGS__</button></li>
+            <li><button id="accountpreferences_password_tab" aria-controls="accountpreferences_changePassContainer" role="tab">__MSG__PASSWORD__</button></li>
+            <li><button id="accountpreferences_email_tab" aria-controls="accountpreferences_changeEmailContainer" role="tab">__MSG__EMAIL__</button></li>
         </ul>
     </div>
 
@@ -35,7 +35,7 @@
     <div class="fl-container-flex">
         <div class="fl-fix fl-centered accountpreferences">
             <!-- CONTENT -->
-            <div class="email" id="accountpreferences_changeEmailContainer" style="display:none;">
+            <div class="email" id="accountpreferences_changeEmailContainer" style="display:none;" role="tabpanel">
                 <form id="accountpreferences_email_change" class="preferences-form">
                     <h2>__MSG__EMAIL:__</h2>
                     <div class="accountpreferences_section_wrap_email accountpreferences_section_border">
@@ -48,7 +48,7 @@
                     </div>
                 </form>
             </div>
-            <div class="password" id="accountpreferences_changePassContainer" style="display:none;">
+            <div class="password" id="accountpreferences_changePassContainer" style="display:none;" role="tabpanel">
                 <form id="accountpreferences_password_change" class="preferences-form">
                     <h2>__MSG__PASSWORD:__</h2>
                     <div class="accountpreferences_section_wrap_password accountpreferences_section_border">
@@ -69,7 +69,7 @@
                     </div>
                 </form>
             </div>
-            <div class="privacysettings" id="accountpreferences_changePrivacyContainer" style="display:none;">
+            <div class="privacysettings" id="accountpreferences_changePrivacyContainer" style="display:none;" role="tabpanel">
                 <form id="accountpreferences_privacy_change" class="preferences-form">
                     <h2>__MSG__PRIVACY_SETTINGS:__</h2>
                     <div class="accountpreferences_section_privacy accountpreferences_section_border">
@@ -87,7 +87,7 @@
                     </div>
                 </form>
             </div>
-            <div class="regional" id="accountpreferences_preferContainer">
+            <div class="regional" id="accountpreferences_preferContainer" role="tabpanel">
                 <form id="accountpreferences_preferences_form" class="preferences-form" method="POST" action="#">
                     <div class="accountpreferences_section_wrap" id="accountpreferences_langloc_settings" style="display:none">
                         <h2>__MSG__ACCOUNT_PREFERENCES:__</h2>
