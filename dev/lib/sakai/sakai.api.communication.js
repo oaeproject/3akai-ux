@@ -268,7 +268,7 @@ define(
                     unreads.push(val);
                 }
                 var req = {
-                    "url": val.path,
+                    "url": val.path || val._path,
                     "method": "POST",
                     "parameters": params
                 };

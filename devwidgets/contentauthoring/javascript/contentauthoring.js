@@ -938,6 +938,22 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         /**
+         * SAKIII-5647 When you're using world templates, sometimes the
+         * items within rows are strings when they should be objects.
+         * This makes versions work again
+         * @param {Object} rows The rows object that you want to convert
+         */
+        var convertRows = function(rows) {
+            if (rows && $.isArray(rows)) {
+                for (var i = 0; i < rows.length; i++) {
+                    if (typeof rows[i] === 'string') {
+                        rows[i] = $.parseJSON(rows[i]);
+                    }
+                }
+            }
+        };
+
+        /**
          * Render a page, including its full layout and all of the widgets that live inside of it
          * @param {Object} currentPageShown     Object representing the current page
          * @param {Boolean} requiresRefresh     Whether or not the page should be fully reloaded (if it
@@ -970,9 +986,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     $pageRootEl.remove();
                 }
                 // Create the new element
-                $pageRootEl = $('<div />').attr('id', currentPageShown.ref);
+                $pageRootEl = $('<div />').attr('id', currentPageShown.ref).attr('data-sakai-container-id', currentPageShown.path);
                 // Add element to the DOM
                 $('#contentauthoring_widget', $rootel).append($pageRootEl);
+                convertRows(currentPageShown.content.rows);
                 var pageStructure = $.extend(true, {}, currentPageShown.content);
                 pageStructure.template = 'all';
                 pageStructure.sakai = sakai;
@@ -988,7 +1005,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             determineEmptyPage(currentPageShown);
 
             // Shwow the edit page bar if I have edit permissions on this page
+            if (canEditCurrentPage() && !currentPageShown.isVersionHistory) {
+                $('#contentauthoring_inserterbar_container', $rootel).html(sakai.api.Util.TemplateRenderer('contentauthoring_inserterbar_template', {}));
+                sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_inserterbar_container', false);
+            }
             $('#contentauthoring_inserterbar_container', $rootel).toggle(canEditCurrentPage());
+
             //SAKIII-5248
             $(window).trigger('position.inserter.sakai');
             updateColumnHeights();
@@ -1335,7 +1357,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         'url': oldStorePath,
                         'method': 'POST',
                         'parameters': {
-                            'version': $.toJSON(data)
+                            'version': JSON.stringify(data)
                         }
                     });
                     batchRequests.push({
@@ -1552,7 +1574,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         });
 
         // Revision history
-        $(window).on('click', '#inserterbar_action_revision_history', function() {
+        $(document).on('click', '#inserterbar_action_revision_history', function() {
             $(window).trigger('init.versions.sakai', currentPageShown);
         });
 
@@ -1667,11 +1689,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Load the widgets inside of the content authoring widget (inserterbar, etc.)
         sakai.api.Widgets.widgetLoader.insertWidgets('s3d-page-main-content');
 
-        // Notify the lefthand navigation widget that this widget has been fully loaded,
-        // so it can send over its first page to load
+        // Set the contentauthoring ready variable to let the left hand navigation know it can render pages
+        sakai_global.contentauthoring.ready = true;
         $(window).trigger('ready.contentauthoring.sakai');
-
-
 
 
 
@@ -1982,20 +2002,18 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 }
                 sakai.api.Util.progressIndicator.showProgressIndicator(
                     sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
-                    sakai.api.i18n.getValueForKey('PROCESSING'));
+                    sakai.api.i18n.getValueForKey('PROCESSING_UPLOAD'));
                 contentType = 'file';
                 content = dt.files;
                 uploadExternalFiles(content, $el);
             } else if (validURL) {
                 sakai.api.Util.progressIndicator.showProgressIndicator(
                     sakai.api.i18n.getValueForKey('INSERTING_YOUR_EXTERNAL_CONTENT', 'contentauthoring'),
-                    sakai.api.i18n.getValueForKey('PROCESSING'));
+                    sakai.api.i18n.getValueForKey('PROCESSING_UPLOAD'));
                 content = text;
                 uploadExternalLink(content, $el);
             }
         };
-
-
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run

@@ -59,8 +59,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $toolbar.show();
         };
 
+        /**
+         * Make sure we remove all the insecure content
+         * @param {Object} editor The editor
+         * @param {Object} object Object containing all the information for the editor
+         */
+        var removeInsecureContent = function(editor, object) {
+           // Run all the content through the HTML sanitizer
+           object.content = sakai.api.Security.saneHTML(object.content);
+           // Update the height - we need a setTimeout for this to work
+           setTimeout(updateHeight, 100);
+        };
+
         var editorSetup = function(ed) {
             ed.onClick.add(editorFocus);
+            ed.onBeforeSetContent.add(removeInsecureContent);
         };
 
         /**
@@ -69,6 +82,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var loadTinyMCE = function() {
             if (window['tinyMCE']) {
                 tinyMCE.init({
+                    language: sakai.api.i18n.getEditorLanguage(),
                     mode: 'textareas',
                     theme: 'advanced',
                     skin: 'sakai',
@@ -79,7 +93,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                           }
                     },
                     // CSS Files to load in the editor
-                    content_css: '/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css',
+                    content_css: '/dev/css/sakai/main.css',
                     // Plugins and toolbar buttons to show
                     plugins: 'table,advlink,contextmenu,paste,directionality',
                     theme_advanced_blockformats: 'h1,h2,h3,h4,h5,h6,p,blockquote,caption',
@@ -278,7 +292,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 processedContent = sakai.api.Security.saneHTML(processedContent);
                 $('#htmlblock_view_container', $rootel).html(processedContent);
                 sakai.api.Util.renderMath($rootel);
-                $textarea.val(widgetData.htmlblock.content);
+                $textarea.val(processedContent);
             }
             // Set the height of the textarea to be the same as the height of the view mode,
             // so tinyMCE picks up on this initial height

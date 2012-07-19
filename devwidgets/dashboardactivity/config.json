@@ -1,19 +1,15 @@
 {
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": true,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/dashboardactivity/bundles/default.properties",
-            "name":       "Dashboard Activity",
-            "description":"Shows activity on the users dashboard"
+            "bundle": "/devwidgets/dashboardactivity/bundles/default.properties",
+            "description": "Shows activity on the users dashboard",
+            "name": "Dashboard Activity"
         }
     },
-    "id":                 "dashboardactivity",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/dashboardactivity/dashboardactivity.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "dashboardactivity",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/dashboardactivity/dashboardactivity.html"
 }

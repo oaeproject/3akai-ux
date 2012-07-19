@@ -26,7 +26,7 @@
     <div class="contentpermissions_permissions_container first">
         <h2>__MSG__VISIBLE_TO__</h2>
         <div class="s3d-inset-shadow-container" id="contentpermissions_see_container">
-            <p>__MSG__WHO_CAN_SEE_THIS__</p>
+            <p>__MSG__WHO_CAN_FIND_OR_SEE_THIS__</p>
             <div class="{if defaultPermission === "public"} s3d-outer-shadow-container{elseif contentData.data["sakai:permissions"] === "public" && !defaultPermission} s3d-outer-shadow-container{else} contentpermissions_unselected_rbt{/if} contentpermissions_selectable">
                 <input type="radio" name="contentpermissions_see" id="contentpermissions_see_public" {if defaultPermission === "public"}checked="checked" {elseif contentData.data["sakai:permissions"] === "public" && !defaultPermission} checked="checked" {/if} value="public">
                 <label for="contentpermissions_see_public" class="s3d-bold"><span class="label_icon globe"></span>__MSG__ANYONE_PUBLIC__</label>
@@ -54,10 +54,10 @@
             </select>
             <input id="contentpermissions_members_autosuggest"/>
             <div id="contentpermissions_members_autosuggest_container" style="display:none;">
-                <textarea id="contentpermissions_members_autosuggest_text" placeholder="__MSG__ENTER_A_MESSAGE__" title="__MSG__ENTER_A_MESSAGE__"></textarea>
+                <textarea id="contentpermissions_members_autosuggest_text" placeholder="__MSG__ENTER_A_MESSAGE_TO_SHARE__" title="__MSG__ENTER_A_MESSAGE_TO_SHARE__"></textarea>
                  <div class="fl-force-right">
                     <button type="button" class="s3d-link-button s3d-bold" id="contentpermissions_members_autosuggest_cancelbutton">__MSG__CANCEL__</button>
-                    <button type="button" class="s3d-button s3d-header-button s3d-header-small-button" id="contentpermissions_members_autosuggest_sharebutton">__MSG__SHARE__</button>
+                    <button type="button" class="s3d-button s3d-header-button s3d-header-small-button share_trigger_click" id="contentpermissions_members_autosuggest_sharebutton">__MSG__SHARE__</button>
                 </div>
                 <div class="fl-push"></div>
             </div>
@@ -65,29 +65,31 @@
                 {for memberArr in contentData.members}
                     {if memberArr_index === "managers" || memberArr_index === "editors" || memberArr_index === "viewers"}
                         {for member in memberArr}
-                        {var id = member.userid || member.groupid}
-                        {var name = sakai.api.i18n.General.process(member["sakai:group-title"] || sakai.api.User.getDisplayName(member), "contentpermissions")}
-                        {var nameshort = sakai.api.Util.applyThreeDots(name, 100, null, "s3d-bold")}
-                            <li id="member_${id|safeOutput}" data-originalpermission="${memberArr_index}" class="contentpermissions_edit s3d-outer-shadow-container" {if member["sakai:group-id"] && member["sakai:category"] === "collection"} style="display:none" {/if}>
-                                <button data-sakai-entityid="${id|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-delete" type="button" title="Remove ${name|safeOutput}"></button>
-                                <select class="contentpermissions_member_permissions">
-                                    <option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_MANAGE__</option>
-                                    <option value="editor" {if memberArr_index === "editors"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
-                                    <option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
-                                </select>
-                                <label for="select_${id|safeOutput}">
-                                    {if member["sakai:group-id"]}
-                                        <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__GROUP_PICTURE__"/>
-                                    {else}
-                                        <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
-                                    {/if}
-                                    {if member["sakai:pseudoGroup"]}
-                                        <a class="s3d-bold" href="/~${member["sakai:parent-group-id"]|safeURL}" title="__MSG__VIEW__ ${member["sakai:parent-group-title"]|safeOutput}'s (${sakai.api.i18n.getValueForKey(member["sakai:role-title-plural"])}) __MSG__PARENT_PROFILE__">${nameshort|safeOutput}</span>
-                                    {else}
-                                        <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
-                                    {/if}
-                                </label>
-                            </li>
+                            {var id = member.userid || member.groupid}
+                            {var name = sakai.api.i18n.General.process(member["sakai:group-title"] || sakai.api.User.getDisplayName(member), "contentpermissions")}
+                            {if name}
+                                {var nameshort = sakai.api.Util.applyThreeDots(name, 100, null, "s3d-bold")}
+                                <li id="member_${id|safeOutput}" data-originalpermission="${memberArr_index}" class="contentpermissions_edit s3d-outer-shadow-container" {if member["sakai:group-id"] && member["sakai:category"] === "collection"} style="display:none" {/if}>
+                                    <button data-sakai-entityid="${id|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-delete" type="button" title="Remove ${name|safeOutput}"></button>
+                                    <select class="contentpermissions_member_permissions">
+                                        <option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_MANAGE__</option>
+                                        <option value="editor" {if memberArr_index === "editors"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
+                                        <option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
+                                    </select>
+                                    <label for="select_${id|safeOutput}">
+                                        {if member["sakai:group-id"]}
+                                            <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__GROUP_PICTURE__"/>
+                                        {else}
+                                            <img src="${member.picture}" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
+                                        {/if}
+                                        {if member["sakai:pseudoGroup"]}
+                                            <a class="s3d-bold" href="/~${member["sakai:parent-group-id"]|safeURL}" title="__MSG__VIEW__ ${member["sakai:parent-group-title"]|safeOutput}'s (${sakai.api.i18n.getValueForKey(member["sakai:role-title-plural"])}) __MSG__PARENT_PROFILE__">${nameshort|safeOutput}</span>
+                                        {else}
+                                            <a class="s3d-bold" href="/~${id|safeURL}" title="__MSG__VIEW__ ${name|safeOutput}'s __MSG__PROFILE__">${nameshort|safeOutput}</a>
+                                        {/if}
+                                    </label>
+                                </li>
+                            {/if}
                         {/for}
                     {/if}
                 {/for}
@@ -100,7 +102,7 @@
  __MSG__HI__
 
  __MSG__I_WOULD_LIKE_TO_SHARE_FILENAME_WITH_YOU__
- __MSG__YOU_CAN_FIND_IT_ON__
+ __MSG__YOU_CAN_FIND_IT_ON_PATH__
 
  __MSG__REGARDS__,
  __MSG__USER__

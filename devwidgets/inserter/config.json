@@ -1,19 +1,20 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/inserter/bundles/default.properties",
-            "name":       "Inserter",
-            "description":"Insert content from collections"
+            "bundle": "/devwidgets/inserter/bundles/default.properties",
+            "description": "Insert content from collections",
+            "name": "Inserter"
         }
     },
-    "id":                 "inserter",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/inserter/inserter.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "inserter",
+    "personalportal": false,
+    "trigger": {
+        "events": ["create.collections.sakai", "start.drag.sakai"],
+        "selectors": ["#subnavigation_add_collection_link", ".inserter_toggle"],
+        "onLoad": false
+    },
+    "type": "sakai",
+    "url": "/devwidgets/inserter/inserter.html"
 }

@@ -403,16 +403,16 @@
     color: #888;
 }
 .sakaiSkin .mceMenuItemSelected .mceIcon {
-    background: url(/dev/lib/tinymce/themes/advanced/skins/default/img/menu_check.gif);
+    background: url(/dev/lib/tinymce/themes/advanced/skins/sakai/img/menu_check.gif);
 }
 .sakaiSkin .mceNoIcons .mceMenuItemSelected a {
-    background: url(/dev/lib/tinymce/themes/advanced/skins/default/img/menu_arrow.gif) no-repeat -6px center;
+    background: url(/dev/lib/tinymce/themes/advanced/skins/sakai/img/menu_arrow.gif) no-repeat -6px center;
 }
 .sakaiSkin .mceMenu span.mceMenuLine {
     display: none;
 }
 .sakaiSkin .mceMenuItemSub a {
-    background: url(/dev/lib/tinymce/themes/advanced/skins/default/img/menu_arrow.gif) no-repeat top right;
+    background: url(/dev/lib/tinymce/themes/advanced/skins/sakai/img/menu_arrow.gif) no-repeat top right;
 }
 
 /* Progress,Resize */
@@ -431,7 +431,7 @@
     left: 0;
     top: 0;
     z-index: 1001;
-    background: url(/dev/lib/tinymce/themes/advanced/skins/default/img/progress.gif) no-repeat;
+    background: url(/dev/lib/tinymce/themes/advanced/skins/sakai/img/progress.gif) no-repeat;
     width: 32px;
     height: 32px;
     margin: -16px 0 0 -16px;

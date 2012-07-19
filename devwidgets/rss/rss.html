@@ -8,9 +8,9 @@
     </p>
     <form id="rss_settings_form">
         <div class="s3d-form-field-wrapper">
-            <label for="rss_settings_txtTitle" class="s3d-input-label s3d-input-label-above">__MSG__TITLE__:</label>
+            <label for="rss_settings_txtTitle" class="s3d-input-label s3d-input-label-above">__MSG__TITLE__</label>
             <input type="text" id="rss_settings_txtTitle" name="rss_settings_txtTitle" class="required s3d-input-full-width" />
-            <label for="rss_settings_txtUrl" class="s3d-input-label s3d-input-label-above">__MSG__RSS_FEED_URL__:</label>
+            <label for="rss_settings_txtUrl" class="s3d-input-label s3d-input-label-above">__MSG__RSS_FEED_URL__</label>
             <input type="text" id="rss_settings_txtUrl" name="rss_settings_txtUrl" class="required appendhttp url s3d-input-full-width" />
             <button type="submit" class="s3d-button s3d-header-button rss_settings_btnAddUrl">__MSG__ADD_RSS_FEED__</button>
         </div>
@@ -61,9 +61,6 @@
     </div>
 </div>
 
-<!-- WIDGET FOOTER-->
-<div class="s3d-widget-no-options"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
-
 <div id="rss_output_template" style="display:none"><!--
         <div class="rss_output_header">
             <h1>${title|safeOutput}</h1>
@@ -88,7 +85,7 @@
                     {/if}
                 {/if}
                 {if displaySource}
-                    <span class="fl-force-left"><span class="rss_title">__MSG__SOURCE__: </span><a href="${i.feed.id|saneHTML}">${i.feed.title|saneHTML}</a></span>
+                    <span class="fl-force-left"><span class="rss_title">__MSG__SOURCE__ </span><a href="${i.feed.id|saneHTML}">${i.feed.title|saneHTML}</a></span>
                 {/if}
                 <button type="button" class="rss_sendToFriend fl-force-right s3d-bold s3d-link-button" id="rss_sendToFriend${i_index}">__MSG__SEND_ARTICLE_TO_A_FRIEND__</button>
             </div>

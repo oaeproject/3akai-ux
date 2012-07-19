@@ -24,7 +24,22 @@
 #addpeople_container #addpeople_my_contacts #addpeople_my_contacts_raquo_container {background:none repeat scroll 0 0 #FFFFFF;height:50px;width:30px;position:absolute;right:437px;border:1px solid #E7E7E7;border-left:none;top:46%;background:url("/devwidgets/addpeople/images/addpeople_raquo.png") no-repeat scroll center center #fff;}
 
 /* Top tabs */
-#addpeople_container .addpeople_tab {background: url("/devwidgets/addpeople/images/addpeople_tab_bg.png") repeat-x scroll left top transparent;border: 1px solid #E7E7E7;border-bottom:none;display: inline;margin-left: -1px;margin-top:-29px;padding: 6px 17px 7px;position: absolute;}
+#addpeople_container .addpeople_tab {
+    background: #f5f5f6;
+    background: -moz-linear-gradient(top, #ffffff 0%, #f5f5f6 4%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(4%,#f5f5f6), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(top, #ffffff 0%,#f5f5f6 4%,#ffffff 100%);
+    background: -o-linear-gradient(top, #ffffff 0%,#f5f5f6 4%,#ffffff 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%,#f5f5f6 4%,#ffffff 100%);
+    background: linear-gradient(top, #ffffff 0%,#f5f5f6 4%,#ffffff 100%);
+    border: 1px solid #E7E7E7;
+    border-bottom: none;
+    display: inline;
+    margin-left: -1px;
+    margin-top: -29px;
+    padding: 6px 17px 7px;
+    position: absolute;
+}
 #addpeople_container #addpeople_members_container .addpeople_tab {width:376px;border-bottom:1px solid #E7E7E7;}
 
 /* Autosuggest */
@@ -35,7 +50,7 @@
 #addpeople_container .as-results {margin-left:60px;}
 
 /* Contacts list */
-#addpeople_container #addpeople_contacts_container, #addpeople_container #addpeople_selected_contacts_container {border-top: 1px solid #E7E7E7;margin-top:7px;overflow:auto;height:90%;}
+#addpeople_container #addpeople_contacts_list, #addpeople_container #addpeople_selected_contacts_container {border-top: 1px solid #E7E7E7;margin-top:7px;overflow:auto;height:90%;}
 #addpeople_container #addpeople_select_all_contacts, #addpeople_container #addpeople_select_all_selected_contacts {margin:7px 12px 0 10px;}
 #addpeople_container #addpeople_select_all_contacts {margin-bottom: 6px;}
 #addpeople_container .addpeople_checkbox, #addpeople_container .addpeople_selected_checkbox {float:left;margin-right:12px;margin-top:10px;}
@@ -53,4 +68,4 @@
 #addpeople_container #addpeople_actions .s3d-link-button {margin-right:30px;}
 
 /* Override sakai.base.css */
-#addpeople_container #addpeople_contacts_container a.s3d-entity-displayname{width:185px;}
+#addpeople_container #addpeople_contacts_list a.s3d-entity-displayname{width:185px;}

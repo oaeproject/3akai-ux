@@ -319,7 +319,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     dataArr.groups = $.parseJSON(data.results[2].body);
                 }
                 parseData(dataArr);
-            }, false);
+            });
 
         };
 

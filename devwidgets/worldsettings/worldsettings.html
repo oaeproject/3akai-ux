@@ -29,19 +29,19 @@
 
 <div id="worldsettings_form_template"><!--
     <div class="s3d-form-field-wrapper">
-        <label id="worldsettings_title_label" for="worldsettings_title" class="s3d-input-label s3d-input-label-above">__MSG__TITLE__:</label>
+        <label id="worldsettings_title_label" for="worldsettings_title" class="s3d-input-label s3d-input-label-above">__MSG__TITLE__</label>
         <input type="text" name="worldsettings_title" id="worldsettings_title" class="required s3d-input-full-width" value="${title|safeOutput}"/>
 
-        <label for="worldsettings_description" class="s3d-input-label s3d-input-label-above">__MSG__DESCRIPTION__:</label>
+        <label for="worldsettings_description" class="s3d-input-label s3d-input-label-above">__MSG__DESCRIPTION__</label>
         <textarea id="worldsettings_description">${description|safeOutput}</textarea>
         <div class="autosuggest_wrapper">
-            <label for="worldsettings_tags" class="s3d-input-label s3d-input-label-above">__MSG__TAGS_AND_CATEGORIES__:</label>
+            <label for="worldsettings_tags" class="s3d-input-label s3d-input-label-above">__MSG__TAGS_AND_CATEGORIES__</label>
             <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
             <textarea id="worldsettings_tags"></textarea>
         </div>
 
         <div class="worldsettings_section">
-            <label for="worldsettings_can_be_found_in" class="s3d-input-label">__MSG__CAN_BE_FOUND_BY__:</label>
+            <label for="worldsettings_can_be_found_in" class="s3d-input-label">__MSG__CAN_BE_FOUND_BY__</label>
             <select id="worldsettings_can_be_found_in">
                 <option {if foundin === "public"} selected="selected"{/if} value="public">__MSG__PUBLIC__</option>
                 <option {if foundin === "logged-in-only"} selected="selected"{/if} value="logged-in-only">__MSG__LOGGED_IN_USERS__</option>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="worldsettings_section">
-            <label for="worldsettings_membership" class="s3d-input-label">__MSG__MEMBERSHIP__:</label>
+            <label for="worldsettings_membership" class="s3d-input-label">__MSG__MEMBERSHIP__</label>
             <select id="worldsettings_membership">
                 <option {if membership === "yes"} selected="selected"{/if} value="yes">__MSG__JOIN_USER_DIRECT__</option>
                 <option {if membership === "withauth"} selected="selected"{/if} value="withauth">__MSG__JOIN_USER_REQUEST__</option>

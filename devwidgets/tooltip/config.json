@@ -1,17 +1,18 @@
 {
-    "id":"tooltip",
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/tooltip/bundles/default.properties",
-            "name":"Tooltip",
-            "description":"Displays tooltip help dialog boxes"
-        },
-        "fr_FRd": {
-            "bundle": "/devwidgets/tooltip/bundles/fr_FR.properties"
+            "description": "Displays tooltip help dialog boxes",
+            "name": "Tooltip"
         }
     },
-    "url":"/devwidgets/tooltip/tooltip.html"
+    "id": "tooltip",
+    "trigger": {
+        "events": ["init.tooltip.sakai"],
+        "onLoad": false
+    },
+    "type": "sakai",
+    "url": "/devwidgets/tooltip/tooltip.html"
 }

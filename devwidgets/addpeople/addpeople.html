@@ -34,7 +34,12 @@
         <div class="addpeople_top_actions">
             <input type="checkbox" id="addpeople_select_all_contacts">
         </div>
-        <div id="addpeople_contacts_container"><!----></div>
+        <div id="addpeople_contacts_list">
+            <ul>
+                <div id="addpeople_contacts_container"><!----></div>
+            </ul>
+        </div>
+        <span class="addpeople_nocontacts_nomemberships" style="display:none;">__MSG__NO_CONTACTS_MEMBERSHIPS__</span>
     </div>
 
     <div id="addpeople_actions">
@@ -86,11 +91,8 @@
 --></div>
 
 <div id="addpeople_contacts_template"><!--
-    <ul>
-        {var total = 0}
         {for contact in contacts}
             {if contact.details["sakai:state"] === "ACCEPTED"}
-                ${total++|eat}
                 <li class="s3d-list-item">
                     <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid|safeOutput}_chk" data-userid="${contact.profile.userid|safeOutput}" data-user-firstname="${sakai.api.User.getFirstName(contact.profile)|safeOutput}"/>
                     <label for="${contact.profile.userid|safeOutput}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.User.getProfilePicture(contact.profile)}" alt="__MSG__PROFILE_PICTURE__"/></label>
@@ -100,7 +102,6 @@
             {/if}
         {/for}
         {for group in groups}
-            ${total++|eat}
             <li class="s3d-list-item">
                 <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]|safeOutput}_chk" data-userid="${group["sakai:group-id"]|safeOutput}"/>
                 <label for="${group["sakai:group-id"]|safeOutput}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.Groups.getProfilePicture(group)}" alt="__MSG__PROFILE_PICTURE__"/></label>
@@ -108,18 +109,14 @@
             </li>
             <hr/>
         {/for}
-        {if total == 0}
-            <span class="addpeople_nocontacts_nomemberships">__MSG__NO_CONTACTS_MEMBERSHIPS__</span>
-        {/if}
-    </ul>
 --></div>
 
     <div id="addpeople_message_template" style="display:none;">
- __MSG__HI__
+ __MSG__HI_FIRSTNAME__
 
- __MSG__USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME__
+ __MSG__USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_EXISTING_GROUP_GROUPNAME__
 
- __MSG__YOU_CAN_FIND_IT_HERE_URL__
+ __MSG__YOU_CAN_FIND_IT_HERE_GROUPURL__
     </div>
 
 <!-- JAVASCRIPT -->

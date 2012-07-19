@@ -52,7 +52,7 @@
                     {/if}
                     <span class="contentcomments_dateComment">${i.timeAgo}</span>
                 </div>
-                {if i.canDelete && i.canDelete === true || i.userid === sakai.data.me.user.userid}
+                {if (i.canDelete && i.canDelete === true) || (i.userid === sakai.data.me.user.userid && !sakai.data.me.user.anon)}
                     {if i["sakai:deleted"] && i["sakai:deleted"] === true}
                         <button type="button" class="s3d-button contentcomments_undelete s3d-regular-links s3d-link-button" id="contentcomments_undelete_${i['sakai:id']}">__MSG__UNDELETE__</button>
                     {else}
@@ -100,7 +100,7 @@
                 <div class="s3d-no-results-container contentcomments_no_results">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-search-content"></div>
-                    <p>__MSG__NO_RESULTS_DESCRIPTION__</p>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION_CONTENTCOMMENTS__</h1>
                 </div>
             {/if}
         {/for}
@@ -113,9 +113,6 @@
         <div class="jq_pager contentcomments_jqpager" style="display:none;"><!-- In this container the pager will be shown (bottom) --></div>
     </div>
 </div>
-
-<!-- WIDGET FOOTER-->
-<div class="s3d-widget-no-options"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentcomments/javascript/contentcomments.js"></script>

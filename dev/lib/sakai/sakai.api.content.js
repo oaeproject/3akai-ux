@@ -366,7 +366,7 @@ define(
                 type: "POST",
                 cache: false,
                 data: {
-                    requests: $.toJSON(data)
+                    requests: JSON.stringify(data)
                 },
                 success: function(data){
                     if (callback) {
@@ -605,7 +605,7 @@ define(
                 type: "POST",
                 cache: false,
                 data: {
-                    requests: $.toJSON(ACLs)
+                    requests: JSON.stringify(ACLs)
                 },
                 success: function(data){
                     if ($.isFunction(callback)) {
@@ -815,7 +815,7 @@ define(
                         userId);
                         debug.error("xhr data returned: " + data);
                     }
-                }, null, true);
+                }, true);
             } else {
                 if (callBack) {
                     callBack(contentId, userId);
@@ -839,13 +839,13 @@ define(
 
             if (_.isString(userId)){
                 userIds.push(userId);
-            } else if (_.isArray(userId)){
+            } else if ($.isArray(userId)){
                 userIds = userId;
             }
 
             if (_.isString(contentId)){
                 contentIds.push(contentId);
-            } else if (_.isArray(contentId)){
+            } else if ($.isArray(contentId)){
                 contentIds = contentId;
             }
 
@@ -1062,7 +1062,7 @@ define(
          * @param mimetype  standard mimetype string (i.e. "image/png", "application/pdf", etc.)
          * @return if we have a match for the given mimetype, an Object with
          *     the following params will be returned:
-         *      - cssClass: css class to assign a small (~16px) sprite image as the background
+         *      - cssClass: css class to assign a small (~16px) image as the background
          *            image for an element
          *      - URL: path to an image (~128px) that represents this content type
          *      - description: internationalizable bundle key for a short description
@@ -1227,10 +1227,14 @@ define(
          *
          * @param {Object} results Search results to process
          * @param {Object} meData User object for the user
-         * @param callback {Function} Callback function executed at the end of the operation
+         * @param {Function} callback Callback function executed at the end of the operation
+         * @param {Object} threeDotsWidths Optional object to specify widths for applyThreeDots in the list view:
+         *                              titleWidth {Integer} limit the title to this width in list view
+         *                              descriptionWidth {Integer} limit the description to this width in list view
+         *                              displayNameWidth {Integer} limit the owner display name to this width in list view
          * @returns void
          */
-        prepareContentForRender : function(results, meData, callback) {
+        prepareContentForRender : function(results, meData, callback, threeDotsWidths) {
             var userArray = [];
             $.each(results, function(i, contentItem){
                 if (contentItem['sakai:pooled-content-file-name']) {
@@ -1241,6 +1245,10 @@ define(
                     contentItem.numComments = sakai_content.getCommentCount(contentItem);
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
+                        var descWidth = 750;
+                        if (threeDotsWidths && threeDotsWidths.descriptionWidth) {
+                            descWidth = threeDotsWidths.descriptionWidth;
+                        }
                         contentItem["sakai:description-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 150, {
                             max_rows: 2,
                             whole_word: false
@@ -1249,13 +1257,17 @@ define(
                             max_rows: 2,
                             whole_word: false
                         }, "");
-                        contentItem["sakai:description"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 580, {
+                        contentItem["sakai:description"] = sakai_util.applyThreeDots(contentItem["sakai:description"], descWidth, {
                             max_rows: 2,
                             whole_word: false
                         }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
-                        contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 560, {
+                        var fileNameWidth = 560;
+                        if (threeDotsWidths && threeDotsWidths.titleWidth) {
+                            fileNameWidth = threeDotsWidths.titleWidth;
+                        }
+                        contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], fileNameWidth, {
                             max_rows: 1,
                             whole_word: false
                         }, "s3d-bold");
@@ -1289,13 +1301,17 @@ define(
             // Get displaynames for the users that created content
             if (userArray.length) {
                 sakai_user.getMultipleUsers(userArray, function(users){
+                    var displayNameWidth = 580;
+                    if (threeDotsWidths && threeDotsWidths.displayNameWidth) {
+                        displayNameWidth = threeDotsWidths.displayNameWidth;
+                    }
                     $.each(results, function(index, item){
                         if (item && item['sakai:pooled-content-file-name']) {
                             var userid = item["sakai:pool-content-created-for"];
                             var displayName = sakai_user.getDisplayName(users[userid]);
                             item.ownerId = userid;
                             item.ownerDisplayName = displayName;
-                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, displayNameWidth, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                             item.ownerDisplayNameShorter = sakai_util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                         }
                     });
@@ -1389,7 +1405,7 @@ define(
                         "parameters": {
                             ":name": fullId,
                             "sakai:group-title" : role ? "" : title,
-                            "sakai:roles": role ? "" : $.toJSON(roles),
+                            "sakai:roles": role ? "" : JSON.stringify(roles),
                             "sakai:group-id": fullId,
                             "sakai:category": "collection",
                             "sakai:excludeSearch": true,
@@ -1418,7 +1434,7 @@ define(
                     "sakai:showalways": true,
                     "sakai:showalways@TypeHint": "Boolean",
                     'sakai:schemaversion': sakai_conf.schemaVersion,
-                    "structure0": $.toJSON({
+                    "structure0": JSON.stringify({
                         "main": {
                             "_ref": refID,
                             "_order": 0,
@@ -1702,7 +1718,12 @@ define(
                                 ":member": authorizable,
                                 ":viewer": authorizable
                             }
-                        }); 
+                        });
+                        $.each(sakai_user.data.me.groups, function(index, group) {
+                            if (group && group.counts && group.groupid === authorizable) {
+                                group.counts.contentCount += 1;
+                            }
+                        });
                     });
                 });
                 sakai_serv.batch(permissionBatch, function(success, response){

@@ -67,7 +67,7 @@ define(
                 "lastName": lastName,
                 "email": email,
                 ":name": username,
-                ":sakai:profile-import": $.toJSON(profileData)
+                ":sakai:profile-import": JSON.stringify(profileData)
             };
             for (var i in extraOptions) {
                 if (extraOptions.hasOwnProperty(i)) {
@@ -195,7 +195,7 @@ define(
         },
 
         /**
-         * Remove the user credentials in the Sakai3 system.
+         * Remove the user credentials in the Sakai OAE system.
          * Note that this doesn't actually remove the user, only its permissions.
          *
          * @example
@@ -237,6 +237,11 @@ define(
 
         },
 
+        /**
+         * Gets the profile data for a user
+         * @param {String} userid The userId to fetch the profile for
+         * @param {Function} callback Callback function to call when the request is complete
+         */
         getUser: function(userid, callback){
             var authprofileURL = "/~" + sakai_util.safeURL(userid) + "/public/authprofile.profile.json";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
@@ -249,7 +254,8 @@ define(
         },
 
         /**
-         * @param {Array} userArray Array of userIds to fetch
+         * Gets the profile data for multiple users
+         * @param {Array} userArray Array of userIds to fetch the profiles for
          * @param {Function} callback Callback function to call when the request is complete
          */
         getMultipleUsers: function(userArray, callback){
@@ -286,7 +292,7 @@ define(
         },
 
         /**
-         * Log-in to Sakai3
+         * Log-in to Sakai OAE
          *
          * @example
          * sakai.api.User.login({
@@ -345,42 +351,29 @@ define(
 
 
         /**
-         * Log-out from Sakai3
+         * Log-out from Sakai OAE
          *
          * @example sakai.api.user.logout();
          * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
          */
         logout : function(callback) {
 
-            // clear the systemtour widget cookie
-            $.cookie("sakai.systemtour.hide", null);
-
             /*
              * POST request to the logout service,
              * which will destroy the session.
              */
-            $.ajax({
-                url: sakai_conf.URL.PRESENCE_SERVICE,
-                type: "POST",
-                data: {
-                    "sakai:status": "offline",
-                    "_charset_": "utf-8"
-                },
-                complete: function(xhr, textStatus) {
-                    if (sakai_conf.followLogoutRedirects) {
-                        window.location = sakai_conf.URL.LOGOUT_SERVICE;
-                    } else {
-                        // hit the logout service to destroy the session
-                        $.ajax({
-                            url: sakai_conf.URL.LOGOUT_SERVICE,
-                            type: "GET",
-                            complete: function(xhrInner, textStatusInner) {
-                                callback(textStatusInner === "success");
-                            }
-                        });
+            if (sakai_conf.followLogoutRedirects) {
+                window.location = sakai_conf.URL.LOGOUT_SERVICE;
+            } else {
+                // hit the logout service to destroy the session
+                $.ajax({
+                    url: sakai_conf.URL.LOGOUT_SERVICE,
+                    type: 'POST',
+                    complete: function(xhrInner, textStatusInner) {
+                        callback(textStatusInner === 'success');
                     }
-                }
-            });
+                });
+            }
         },
 
         /**
@@ -428,12 +421,17 @@ define(
          * @return {Void}
          */
         loadMeData : function(callback) {
-            // Get the service url from the config file
-            var data_url = sakai_conf.URL.ME_SERVICE;
+            var cache = true;
+            // don't use cache for IE8
+            if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                cache = false;
+            }
+
             // Start a request to the service
             $.ajax({
-                url: data_url,
-                cache: false,
+                // Get the service url from the config file
+                url: sakai_conf.URL.ME_SERVICE,
+                cache: cache,
                 success: function(data) {
                     sakaiUserAPI.data.me = sakai_serv.convertObjectToArray(data, null, null);
 
@@ -764,66 +762,6 @@ define(
                     }
                 }
             });
-        },
-
-        /**
-         * Adds system tour progress for the user to be tracked by the systemtour widget
-         *
-         * @param {String} type The type of progress the user as achieved
-         */
-        addUserProgress : function(type) {
-            if (!this.data.me.profile.userprogress){
-                this.data.me.profile.userprogress = {};
-            }
-            var me = this.data.me;
-            var progressData = "";
-            var refresh = true;
-
-            switch(type) {
-                case "uploadedProfilePhoto":
-                    if (!me.profile.userprogress.uploadedProfilePhoto) {
-                        progressData = {"uploadedProfilePhoto": true};
-                        this.data.me.profile.userprogress.uploadedProfilePhoto = true;
-                    }
-                    break;
-                case "uploadedContent":
-                    if (!me.profile.userprogress.uploadedContent) {
-                        progressData = {"uploadedContent": true};
-                        this.data.me.profile.userprogress.uploadedContent = true;
-                    }
-                    break;
-                case "sharedContent":
-                    if (!me.profile.userprogress.sharedContent) {
-                        progressData = {"sharedContent": true};
-                        this.data.me.profile.userprogress.sharedContent = true;
-                    }
-                    break;
-                case "madeContactRequest":
-                    if (!me.profile.userprogress.madeContactRequest) {
-                        progressData = {"madeContactRequest": true};
-                        this.data.me.profile.userprogress.madeContactRequest = true;
-                    }
-                    break;
-                case "halfCompletedProfile":
-                    if (!me.profile.userprogress.halfCompletedProfile) {
-                        progressData = {"halfCompletedProfile": true};
-                        this.data.me.profile.userprogress.halfCompletedProfile = true;
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            if (progressData !== ""){
-                var authprofileURL = "/~" + sakai_util.safeURL(me.user.userid) + "/public/authprofile/userprogress";
-                sakai_serv.saveJSON(authprofileURL, progressData, function(success, data){
-                    // Check whether save was successful
-                    if (success && refresh) {
-                        // Refresh the widget
-                        $(window).trigger("update.systemtour.sakai");
-                    }
-                });
-            }
         },
 
         getUpdatedCounts : function(medata, callback) {

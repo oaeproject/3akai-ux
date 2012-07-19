@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, sakai){
 
     sakai_global.createnewaccount = function(){
 
@@ -180,7 +180,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                     error: function(xhr, textStatus, thrownError){
                         // SAKIII-1736 - IE will interpret the 204 returned by the server as a
                         // status code 1223, which will cause the error clause to activate
-                        if (xhr.status === 1223) {
+                        if (xhr.status === 1223 || xhr.status === 409) {
                             ret = false;
                         } else {
                             ret = true;
@@ -288,18 +288,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
 
             $('#password').on('keyup', checkPasswordStrength);
 
-            /*
-             * Once the user is trying to submit the form, we check whether all the fields have valid
-             * input and try to create the new account
-             */
-            $.validator.addMethod("nospaces", function(value, element){
-                return this.optional(element) || (value.indexOf(" ") === -1);
-            }, "* No spaces are allowed");
-
-            $.validator.addMethod("validusername", function(value, element){
-                return this.optional(element) || (checkUserName());
-            }, "* This username is already taken.");
-
             var validateOpts = {
                 rules: {
                     password: {
@@ -333,6 +321,14 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai){
                     password_repeat: {
                         required: $(passwordRepeatEmpty).text(),
                         passwordmatch: $(passwordRepeatNoMatch).text()
+                    }
+                },
+                'methods': {
+                    'validusername': {
+                        'method': function(value, element) {
+                            return this.optional(element) || checkUserName();
+                        },
+                        'text': sakai.api.i18n.getValueForKey('THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN')
                     }
                 },
                 submitHandler: function(form, validator){

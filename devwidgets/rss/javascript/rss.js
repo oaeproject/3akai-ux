@@ -20,13 +20,12 @@
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/misc/querystring.js (Querystring)
  * /dev/lib/jquery/plugins/jquery.pager.js (pager)
  */
 
-/*global $, Config, Querystring, DOMParser */
+/*global $, Config, DOMParser */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
 
     /**
      * @name sakai_global.rss
@@ -142,7 +141,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var body = resultJSON.entries[((pageClicked - 1) * 3) + index].description + "\n";
                 body += "read more: " + resultJSON.entries[((pageClicked - 1) * 3) + index].link;
                 // initialize the sendmessage-widget
-                $(window).trigger("initialize.sendmessage.sakai", [null, null, null, subject, body]);
+                $(document).trigger('initialize.sendmessage.sakai', [null, null, null, subject, body]);
             });
 
             $(rssOrderBySource, rootel).bind("click", function(e, ui) {

@@ -192,7 +192,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var showNewMessage = function() {
             $(listViewClass).hide();
             $(detailViewClass).hide();
-            $(window).trigger("initialize.sendmessage.sakai", [null, $inbox_new_message_sendmessage, sendMessageFinished]);
+            $(document).trigger('initialize.sendmessage.sakai', [null, $inbox_new_message_sendmessage, sendMessageFinished]);
             $inbox_box_title.text(sakai.api.i18n.getValueForKey("NEW_MESSAGE", "inbox"));
             $(newMessageViewClass).show();
         };
@@ -342,7 +342,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             if(currentMessage.subject.substring(0, replyText.length) !== replyText){
                 messageSubject = replyText + " " + currentMessage.subject;
             }
-            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, messageSubject, null, true, currentMessage.id, replyButtonText]);
+            $(document).trigger('initialize.sendmessage.sakai', [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, messageSubject, null, true, currentMessage.id, replyButtonText]);
             $inbox_show_message_reply_fields.show();
         };
 
@@ -514,6 +514,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     setInitialState();
                     getMessages();
                 }
+            } else if (!$.bbq.getState('message') && !$.bbq.getState('newmessage')){
+                setInitialState();
             }
         };
 

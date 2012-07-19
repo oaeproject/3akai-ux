@@ -76,6 +76,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         // Containers
         var basicltiMainContainer = basiclti + '_main_container';
+        var $basicltiSettingsForm = $('#basiclti_settings_form', $rootel);
 
         // Classes
         var basicltiSettingsWidthUnitClass = '.basiclti_settings_width_unit';
@@ -254,43 +255,36 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Save the basiclti to the jcr
          */
         var saveRemoteContent = function(){
- 
-            if (json.ltiurl !== '') {
+            var savejson = {
+                ':operation': 'basiclti',
+                ':contentType': 'json',
+                ':replace': true,
+                ':replaceProperties': true,
+                '_charset_': 'utf-8'
+            };
 
-                var savejson = {
-                    ':operation': 'basiclti',
-                    ':contentType': 'json',
-                    ':replace': true,
-                    ':replaceProperties': true,
-                    '_charset_': 'utf-8'
-                };
-
-                var dbg = $(basicltiSettingsDebug + ':checked', $rootel).val();
-                var savejson_content = {
-                    'sling:resourceType': 'sakai/basiclti',
-                    'ltiurl': $(basicltiSettingsLtiUrl, $rootel).val() || '',
-                    'ltikey': $(basicltiSettingsLtiKey, $rootel).val() || '',
-                    'ltisecret': $(basicltiSettingsLtiSecret, $rootel).val() || '',
-                    'debug@TypeHint': 'Boolean',
-                    'debug': dbg !== undefined  && dbg !== null,
-                    'release_names@TypeHint': 'Boolean',
-                    'release_names': $('#basiclti_settings_release_names:checked', $rootel).val() !== null,
-                    'release_principal_name@TypeHint': 'Boolean',
-                    'release_principal_name': $('#basiclti_settings_release_principal_name:checked', $rootel).val() !== null,
-                    'release_email@TypeHint': 'Boolean',
-                    'release_email': $('#basiclti_settings_release_email:checked', $rootel).val() !== null,
-                    'launchDataUrl': '', // does not need to be persisted
-                    'tuidFrame': '', // does not need to be persisted
-                    'defined': '' // what the heck is this? Where does it come from?
-                };
-                savejson_content = $.extend({}, json, savejson_content);
-                json = savejson_content;
-                savejson[':content'] = $.toJSON(savejson_content);
-                saveContentAjax(savejson);
-            } else {
-                sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('PLEASE_SPECIFY_A_URL', 'basiclti'),
-                                                 sakai.api.Util.notification.type.ERROR);
-            }
+            var dbg = $(basicltiSettingsDebug + ':checked', $rootel).val();
+            var savejson_content = {
+                'sling:resourceType': 'sakai/basiclti',
+                'ltiurl': $(basicltiSettingsLtiUrl, $rootel).val() || '',
+                'ltikey': $(basicltiSettingsLtiKey, $rootel).val() || '',
+                'ltisecret': $(basicltiSettingsLtiSecret, $rootel).val() || '',
+                'debug@TypeHint': 'Boolean',
+                'debug': dbg !== undefined  && dbg !== null,
+                'release_names@TypeHint': 'Boolean',
+                'release_names': $('#basiclti_settings_release_names:checked', $rootel).val() !== null,
+                'release_principal_name@TypeHint': 'Boolean',
+                'release_principal_name': $('#basiclti_settings_release_principal_name:checked', $rootel).val() !== null,
+                'release_email@TypeHint': 'Boolean',
+                'release_email': $('#basiclti_settings_release_email:checked', $rootel).val() !== null,
+                'launchDataUrl': '', // does not need to be persisted
+                'tuidFrame': '', // does not need to be persisted
+                'defined': '' // what the heck is this? Where does it come from?
+            };
+            savejson_content = $.extend({}, json, savejson_content);
+            json = savejson_content;
+            savejson[':content'] = JSON.stringify(savejson_content);
+            saveContentAjax(savejson);
         };
 
         /**
@@ -306,6 +300,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
+        /**
+         * Add the validate form handling
+         */
+        var validateForm = function() {
+            var validateOpts = {
+                submitHandler: function(form, validator){
+                    saveRemoteContent();
+                    return false;
+                }
+            };
+            sakai.api.Util.Forms.validate($basicltiSettingsForm, validateOpts, true);
+        };
 
         //////////////
         // Bindings //
@@ -315,6 +321,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Add binding to all the elements
          */
         var addBinding = function() {
+            $basicltiSettingsForm = $($basicltiSettingsForm.selector);
             // Change the url for the iFrame
             $(basicltiSettingsLtiUrl, $rootel).on('change', function(){
                 var urlValue = $(this).val();
@@ -376,10 +383,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 renderIframeSettings(false);
             });
 
-            // Save the settings
-            $(basicltiSettingsInsert, $rootel).on('click', function() {
-                saveRemoteContent();
-            });
+            // Add the validate handler
+            validateForm();
 
             // Cancel the settings
             $(basicltiSettingsCancel, $rootel).on('click', function() {
