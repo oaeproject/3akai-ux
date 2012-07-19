@@ -23,7 +23,7 @@
  */
 /*global Config, $, pagerClickHandler */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
 
     /**
      * @name sakai_global.comments

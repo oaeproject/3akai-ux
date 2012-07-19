@@ -31,8 +31,21 @@
 }
 #lhnavigation_container ul li .lhnavigation_selected_subsubmenu {margin-left: 124px;}
 #lhnavigation_container ul li .lhnavigation_private {background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;height:16px;margin-left:136px;margin-top:-22px;position:absolute;width:11px;}
-#lhnavigation_container ul li .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -863px -21px transparent;height: 10px;margin-left: -15px;margin-top:7px;position: absolute;width: 12px;}
-#lhnavigation_container ul li .lhnavigation_has_subnav_opened{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;}
+#lhnavigation_container ul li .lhnavigation_has_subnav {
+    border-color: transparent transparent transparent #707e8c;
+    border-style: solid;
+    border-width: 6px;
+    height: 0;
+    margin-left: -13px;
+    margin-top: 7px;
+    position: absolute;
+    width: 0;
+}
+#lhnavigation_container ul li .lhnavigation_has_subnav_opened {
+    border-color: #37383e transparent transparent !important;
+    margin-left: -16px;
+    margin-top: 10px;
+}
 #lhnavigation_container ul li .lhnavigation_levelcount, #lhnavigation_container ul li .lhnavigation_sublevelcount {
     background: #C9C9C9;
     background: -moz-linear-gradient(top, #c5c5c5 0%, #c9c7c8 31%, #c7c7c7 38%, #cccacb 46%, #cecdcb 92%, #cacaca 100%);
@@ -114,7 +127,9 @@
 #lhnavigation_container ul li.lhnavigation_hassubnav{cursor:pointer;}
 
 #lhnavigation_container ul .lhnavigation_hoverable_item:hover{color:#1e5b85;cursor:pointer;}
-#lhnavigation_container ul .lhnavigation_hoverable_item:hover .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -843px -21px transparent;}
+#lhnavigation_container ul .lhnavigation_hoverable_item:hover .lhnavigation_has_subnav {
+    border-color: transparent transparent transparent #206e95;
+}
 #lhnavigation_container ul li ul {margin:0;}
 #lhnavigation_container .lhnavigation_subnav{margin:5px 0px;}
 #lhnavigation_container .lhnavigation_subnav li div.lhnavigation_subnav_item_content{padding-left:40px;}

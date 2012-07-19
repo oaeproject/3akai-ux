@@ -19,7 +19,6 @@
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
 /*global $, get_cookie, Config */
 
@@ -144,12 +143,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Render the iframe for the widget in settings mode
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
-        var renderIframeSettings = function(complete){
+        var renderIframeSettings = function(complete) {
             if (complete) {
                 $(remotecontentSettingsPreview, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
-            }
-            else {
-                $(remotecontentSettingsPreviewFrame, rootel).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
+            } else {
+                $(remotecontentSettingsPreviewFrame, rootel).attr('style', 'border: ' + json.border_size + 'px #' + json.border_color + ' solid');
             }
         };
 
@@ -243,20 +241,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to all the elements
          */
         var addBinding = function(){
-            // this method append http:// or ftp:// or https://
-            $.validator.addMethod("appendhttp", function(value, element) {
-                if(value.substring(0,7) !== "http://" &&
-                value.substring(0,6) !== "ftp://" &&
-                value.substring(0,8) !== "https://" &&
-                $.trim(value) !== "") {
-                    $(element).val("http://" + value);
-                    json.url = "http://" + value;
-                } else {
-                  json.url = value;
-                }
-                return true;
-            }, "No error message, this is just an appender");
-
             // FORM VALIDATION
 
             var validateOpts = {
@@ -266,6 +250,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 messages: {
                     required: $(remotecontentSettingsUrlBlank).html(),
                     url: $(remotecontentSettingsUrlError).html()
+                },
+                methods: {
+                    'appendhttp': {
+                        'method': function(value, element) {
+                            if (value.substring(0,7) !== 'http://' &&
+                                value.substring(0,6) !== 'ftp://' &&
+                                value.substring(0,8) !== 'https://' &&
+                                $.trim(value) !== '') {
+                                $(element).val('http://' + value);
+                                json.url = 'http://' + value;
+                            } else {
+                                json.url = value;
+                            }
+                            return true;
+                        },
+                        'text': 'No error message, this is just an appender'
+                    }
                 },
                 success: function() {
                     renderIframeSettings(true);

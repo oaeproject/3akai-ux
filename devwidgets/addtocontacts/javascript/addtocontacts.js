@@ -53,8 +53,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         var addToContactsClass = ".addtocontacts";
 
         var addToContactsDialog = addToContacts + "_dialog";
-        var addToContactsDone = addToContacts + "_done";
-        var addToContactsDoneContainer = addToContacts + "_done_container";
 
         // Form elements
         var addToContactsForm = addToContacts + "_form";
@@ -193,7 +191,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                         $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();
-                        sakai.api.Util.notification.show("", $(addToContactsDone, $rootel).html());
+                        var notificationMessage = contactToAdd.displayName + ' ' + sakai.api.i18n.getValueForKey('HAS_BEEN_ADDED_TO_YOUR_CONTACTS_LIST', 'addtocontacts');
+                        sakai.api.Util.notification.show('', notificationMessage);
                     },
                     error: function(xhr, textStatus, thrownError){
                         enableDisableInviteButton(false);
@@ -244,8 +243,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
 
         };
 
-        $(window).bind("initialize.addToContacts.sakai", function(e, userObj) {
+        $(document).on('initialize.addToContacts.sakai', function(e, userObj) {
             initialize(userObj);
+        });
+        $(document).on('click', '.sakai_addtocontacts_overlay', function(ev, ui) {
+            var $el = $(this);
+            if ($el.attr('sakai-entityid') && $el.attr('sakai-entityname')) {
+                initialize({
+                    'uuid': $el.attr('sakai-entityid'),
+                    'displayName': $el.attr('sakai-entityname'),
+                    'pictureLink': $el.attr('sakai-entitypicture') || false
+                });
+            }
         });
 
         /////////////////////

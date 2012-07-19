@@ -40,15 +40,13 @@ define(
          *
          * @param {Array} requests The JSON object of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
-         * @param {Boolean} cache If we should cache this request or not
          * @param {Boolean} forcePOST if we need to force a POST
          * @param {Boolean} async If we should do an async request or not
          */
-        batch : function(_requests, _callback, _cache, _forcePOST, _async) {
+        batch : function(_requests, _callback, _forcePOST, _async) {
+            var cache = true;
             var method = _forcePOST === true ? "POST" : "GET";
-            var cache = _cache === false ? false : true;
             var async = _async === false ? false : true;
-            var url = sakai_conf.URL.BATCH;
 
             // Append a charset to each request
             $.each(_requests, function(i,req) {
@@ -57,6 +55,9 @@ define(
                 }
                 if (req["parameters"] && !req["parameters"].hasOwnProperty("_charset_")) {
                     req["parameters"]["_charset_"] = "utf-8";
+                }
+                if (req.hasOwnProperty("cache") && req["cache"] === false) {
+                    cache = false;
                 }
             });
             // Don't submit a request when the batch is empty
@@ -69,6 +70,7 @@ define(
             else if (_requests.length === 1) {
                 $.ajax({
                     url: _requests[0].url,
+                    cache: cache,
                     type: _requests[0].method || "GET",
                     dataType: "text",
                     data: _requests[0].parameters || "",
@@ -96,22 +98,9 @@ define(
                         }
                     }
                 });
-            } else {
-                // ie7 and lower don't support GETs over 2032 chars,
-                // so lets check for that and POST if we need to
-                var hasIELongUrlBug = false;
-                // Long requests are overflowing the Jetty header cache
-                // so lets use POST for long requests on all browsers until that's fixed
-                //if($.browser.msie && $.browser.version.substr(0,1)<="7"){
-                    hasIELongUrlBug = true;
-                //}
 
-                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + JSON.stringify(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
-                if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
-                    method = "POST";
-                } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
-                    cache = false;
-                }
+            } else {
+
                 // if any request contains a POST, we should be POSTing so the request isn't cached
                 // maybe just GET with no cache? not sure
                 for (var i=0; i<_requests.length; i++) {
@@ -120,6 +109,10 @@ define(
                         break;
                     }
                 }
+                var requestString = JSON.stringify(_requests);
+                if (requestString.length > 2000) {
+                    method = "POST";
+                }
                 $.ajax({
                     url: sakai_conf.URL.BATCH,
                     type: method,
@@ -127,7 +120,72 @@ define(
                     async: async,
                     data: {
                         "_charset_":"utf-8",
-                        requests: JSON.stringify(_requests)
+                        requests: requestString
+                    },
+                    success: function(data) {
+                        if ($.isFunction(_callback)) {
+                            _callback(true, data);
+                        }
+                    },
+                    error: function(xhr) {
+                        if ($.isFunction(_callback)) {
+                            _callback(false);
+                        }
+                    }
+                });
+            }
+        },
+
+        /**
+         * Perform a batch request for a list of static files
+         *
+         * @param {Array} requests The static files that need to be requested
+         * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
+         */
+        staticBatch : function(_requests, _callback) {
+
+            // Don't submit a request when the batch is empty
+            if (_requests.length === 0) {
+                if ($.isFunction(_callback)) {
+                    _callback(true, {'results': []});
+                }
+            }
+            // Don't issue a batch request for a single, cacheable request
+            else if (_requests.length === 1) {
+                $.ajax({
+                    url: _requests[0],
+                    success: function(data) {
+                        var retObj = {
+                            'results': [
+                                {
+                                    'url': _requests[0],
+                                    'success': true,
+                                    'body': data
+                                }
+                            ]
+                        };
+                        if ($.isFunction(_callback)) {
+                            _callback(true, retObj);
+                        }
+                    },
+                    error: function(status){
+                        if ($.isFunction(_callback)) {
+                            _callback(false, {'results': [{
+                                'url': _requests[0],
+                                'success': false,
+                                'body': "{}"
+                            }]});
+                        }
+                    }
+                });
+
+            } else {
+
+                $.ajax({
+                    url: sakai_conf.URL.STATIC_BATCH,
+                    data: {
+                        '_charset_': 'utf-8',
+                        f: _requests
                     },
                     success: function(data) {
                         if ($.isFunction(_callback)) {
@@ -194,7 +252,7 @@ define(
             });
 
             // Execute the batch operation
-            sakaiServerAPI.batch(batchRequests, callback, false, true);
+            sakaiServerAPI.batch(batchRequests, callback, true);
 
         },
 
@@ -659,23 +717,33 @@ define(
          * @param {String} searchString The user's search
          * @param {Boolean} handlePhrases If we should split on ,\s instead of \s to
          *                      better handle phrases
+         * @param {String} joinOn String to join keywords on, defaults to AND
          * @return {String} The string to send to the server
          */
-        createSearchString : function(searchString, handlePhrases) {
+        createSearchString : function(searchString, handlePhrases, joinOn) {
+            if (!joinOn) {
+                joinOn = 'AND';
+            }
             var ret = "";
             var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
-            var removeArray = [" AND", " OR"];
+            var removeArray = ['AND', 'OR'];
             var truncateLength = 1500;
 
             ret = $.trim(searchString);
+
+            // Remove the forward slashes
+            ret = ret.replace(/\//g, '');
+
+            // Replace multiple spaces with 1 space
+            ret = ret.replace(/(\s)+/g, ' ');
 
             // We only join every single word with "AND" when
             // we are sure there it isn't an advanced search query
             if (!advancedSearchRegex.test(searchString)) {
                 if (handlePhrases) {
-                    ret = '"' + ret.split(', ').join('" AND "') + '"';
+                    ret = '"' + ret.split(', ').join('" ' + joinOn + ' "') + '"';
                 } else {
-                    ret = ret.split(' ').join(' AND ');
+                    ret = ret.split(' ').join(' ' + joinOn + ' ');
                 }
             }
 
@@ -687,15 +755,25 @@ define(
                 ret = ret.replace(/\w+$/, '');
             }
 
-            // We need to remove AND & OR if they are the last words
+            // We need to remove AND & OR if they are the first or last words
             // of the querystring. Otherwise we get a 500 exception
             ret = $.trim(ret);
             for (var i = 0, j = removeArray.length; i < j; i++) {
-                var item = removeArray[i];
-                if (ret.substr(-item.length) === item) {
-                    ret = ret.substring(0, ret.length - item.length);
+                var startItem = removeArray[i];
+                if (ret.substr(0, startItem.length) === startItem) {
+                    ret = ret.substring(startItem.length, ret.length);
+                }
+                var endItem = removeArray[i];
+                if (ret.substr(-endItem.length) === endItem) {
+                    ret = ret.substring(0, ret.length - endItem.length);
                 }
             }
+
+            ret = $.trim(ret);
+            if (ret.length === 0) {
+                ret = '*';
+            }
+
             return ret;
         }
     };

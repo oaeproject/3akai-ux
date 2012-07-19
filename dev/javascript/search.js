@@ -118,45 +118,74 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
-            var category = sakai.config.worldTemplates[c];
-            var refId = sakai.api.Util.generateWidgetId();
-            var title = sakai.api.i18n.getValueForKey(category.titlePlural);
-            pubdata.structure0[category.id] = {
-                '_title': title,
-                '_ref': refId,
-                '_order': (c + worldsOrderIncrement),
-                '_url': searchUrl,
-                'main': {
-                    '_ref': refId,
-                    '_order': 0,
-                    '_title': title,
-                    '_url': searchUrl
-                }
-            };
-            var searchWidgetId = sakai.api.Util.generateWidgetId();
-            pubdata[refId] = {
-                'rows': [
-                    {
-                        'id': sakai.api.Util.generateWidgetId(),
-                        'columns': [
-                            {
-                                'width': 1,
-                                'elements': [
-                                    {
-                                        'id': searchWidgetId,
-                                        'type': 'searchgroups'
-                                    }
-                                ]
+        /**
+         * Generate the left hand navigation
+         * @param {Boolean} success Whether the ajax call was successful
+         * @param {Object} pubdata The public data, necessary to construct the left hand navigation
+         */
+        var generateNav = function(success, pubdata) {
+            if (success) {
+                $(window).trigger('lhnav.init', [pubdata, {}, {}]);
+            } else {
+                debug.error('search.js - Can\'t generate the left hand navigation');
+            }
+        };
+
+        /**
+         * Fetch the templates
+         * @param {Function} callback Callback function
+         */
+        var fetchTemplates = function(callback) {
+            sakai.api.Util.getTemplates(function(success, templates) {
+                if (success) {
+                    for (var c = 0; c < templates.length; c++) {
+                        var category = templates[c];
+                        var refId = sakai.api.Util.generateWidgetId();
+                        var title = sakai.api.i18n.getValueForKey(category.titlePlural);
+                        pubdata.structure0[category.id] = {
+                            '_title': title,
+                            '_ref': refId,
+                            '_order': (c + worldsOrderIncrement),
+                            '_url': searchUrl,
+                            'main': {
+                                '_ref': refId,
+                                '_order': 0,
+                                '_title': title,
+                                '_url': searchUrl
                             }
-                        ]
+                        };
+                        var searchWidgetId = sakai.api.Util.generateWidgetId();
+                        pubdata[refId] = {
+                            'rows': [
+                                {
+                                    'id': sakai.api.Util.generateWidgetId(),
+                                    'columns': [
+                                        {
+                                            'width': 1,
+                                            'elements': [
+                                                {
+                                                    'id': searchWidgetId,
+                                                    'type': 'searchgroups'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        };
+                        pubdata[refId][searchWidgetId] = {
+                            'category': category.id
+                        };
+
                     }
-                ]
-            };
-            pubdata[refId][searchWidgetId] = {
-                'category': category.id
-            };
-        }
+                } else {
+                    debug.error('Could not get the group templates');
+                }
+                if ($.isFunction(callback)) {
+                    callback(success, pubdata);
+                }
+            });
+        };
 
         var fireSearch = function() {
             $.bbq.pushState({
@@ -181,10 +210,6 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var generateNav = function() {
-            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
-        };
-
         var renderEntity = function() {
             $(window).trigger('sakai.entity.init', ['search']);
         };
@@ -194,11 +219,10 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         });
 
         $(window).bind('lhnav.ready', function() {
-            generateNav();
+            fetchTemplates(generateNav);
         });
 
         renderEntity();
-        generateNav();
         eventBinding();
 
     };
