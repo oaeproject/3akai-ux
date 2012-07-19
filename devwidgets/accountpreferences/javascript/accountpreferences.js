@@ -563,6 +563,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.Modal.close(accountPreferencesContainer);
         });
 
+        // Bind arrow keys for changing tabs
         $tabList.on('keydown', 'button', (function(e) {
             var $clickedLi = $(this).parent();
             if (e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.DOWN) {
@@ -585,8 +586,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             }
         }));
-
-
 
         /////////////////////////////
         // INITIALISATION FUNCTION //
