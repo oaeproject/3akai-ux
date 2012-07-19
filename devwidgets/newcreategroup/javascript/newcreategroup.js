@@ -258,7 +258,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#newcreategroup_can_be_found_in option[value="' + defaultaccess + '"]', $rootel).attr('selected', 'selected');
                 $('#newcreategroup_membership option[value="' + defaultjoin + '"]', $rootel).attr('selected', 'selected');
 
-                sakai_global.newcreategroup.currentTemplate = currentTemplate;
+                sakai_global.selecttemplate.currentTemplate = currentTemplate;
 
                 $newcreategroupContainer.show();
                 addBinding();
