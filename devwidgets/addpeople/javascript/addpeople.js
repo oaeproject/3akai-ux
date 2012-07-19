@@ -501,8 +501,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         var loadRoles = function(callback) {
-            if (sakai_global.newcreategroup && sakai_global.newcreategroup.currentTemplate) {
-                currentTemplate = sakai_global.newcreategroup.currentTemplate;
+            if (sakai_global.selecttemplate && sakai_global.selecttemplate.currentTemplate) {
+                currentTemplate = sakai_global.selecttemplate.currentTemplate;
                 $('#addpeople_selected_all_permissions', $rootel).html(
                     sakai.api.Util.TemplateRenderer('addpeople_selected_permissions_template', {
                         'roles': currentTemplate.roles,
@@ -647,8 +647,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 editingGroup: false,
                 openDialog: true
             }, options);
-            if (sakai_global.newcreategroup &&
-                sakai_global.newcreategroup.currentTemplate.id !== currentTemplate.id) {
+            if (sakai_global.selecttemplate &&
+                sakai_global.selecttemplate.currentTemplate &&
+                sakai_global.selecttemplate.currentTemplate.id !== currentTemplate.id) {
                 selectedUsers = {};
             }
             if(!sakai_global.group){
