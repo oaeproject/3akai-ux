@@ -44,6 +44,7 @@ define(
          * @param {Boolean} async If we should do an async request or not
          */
         batch : function(_requests, _callback, _forcePOST, _async) {
+            var cache = true;
             var method = _forcePOST === true ? "POST" : "GET";
             var async = _async === false ? false : true;
 
@@ -54,6 +55,9 @@ define(
                 }
                 if (req["parameters"] && !req["parameters"].hasOwnProperty("_charset_")) {
                     req["parameters"]["_charset_"] = "utf-8";
+                }
+                if (req.hasOwnProperty("cache") && req["cache"] === false) {
+                    cache = false;
                 }
             });
             // Don't submit a request when the batch is empty
@@ -66,6 +70,7 @@ define(
             else if (_requests.length === 1) {
                 $.ajax({
                     url: _requests[0].url,
+                    cache: cache,
                     type: _requests[0].method || "GET",
                     dataType: "text",
                     data: _requests[0].parameters || "",
@@ -104,13 +109,18 @@ define(
                         break;
                     }
                 }
+                var requestString = JSON.stringify(_requests);
+                if (requestString.length > 2000) {
+                    method = "POST";
+                }
                 $.ajax({
                     url: sakai_conf.URL.BATCH,
                     type: method,
+                    cache: cache,
                     async: async,
                     data: {
                         "_charset_":"utf-8",
-                        requests: JSON.stringify(_requests)
+                        requests: requestString
                     },
                     success: function(data) {
                         if ($.isFunction(_callback)) {
@@ -707,23 +717,33 @@ define(
          * @param {String} searchString The user's search
          * @param {Boolean} handlePhrases If we should split on ,\s instead of \s to
          *                      better handle phrases
+         * @param {String} joinOn String to join keywords on, defaults to AND
          * @return {String} The string to send to the server
          */
-        createSearchString : function(searchString, handlePhrases) {
+        createSearchString : function(searchString, handlePhrases, joinOn) {
+            if (!joinOn) {
+                joinOn = 'AND';
+            }
             var ret = "";
             var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
-            var removeArray = [" AND", " OR"];
+            var removeArray = ['AND', 'OR'];
             var truncateLength = 1500;
 
             ret = $.trim(searchString);
+
+            // Remove the forward slashes
+            ret = ret.replace(/\//g, '');
+
+            // Replace multiple spaces with 1 space
+            ret = ret.replace(/(\s)+/g, ' ');
 
             // We only join every single word with "AND" when
             // we are sure there it isn't an advanced search query
             if (!advancedSearchRegex.test(searchString)) {
                 if (handlePhrases) {
-                    ret = '"' + ret.split(', ').join('" AND "') + '"';
+                    ret = '"' + ret.split(', ').join('" ' + joinOn + ' "') + '"';
                 } else {
-                    ret = ret.split(' ').join(' AND ');
+                    ret = ret.split(' ').join(' ' + joinOn + ' ');
                 }
             }
 
@@ -735,15 +755,25 @@ define(
                 ret = ret.replace(/\w+$/, '');
             }
 
-            // We need to remove AND & OR if they are the last words
+            // We need to remove AND & OR if they are the first or last words
             // of the querystring. Otherwise we get a 500 exception
             ret = $.trim(ret);
             for (var i = 0, j = removeArray.length; i < j; i++) {
-                var item = removeArray[i];
-                if (ret.substr(-item.length) === item) {
-                    ret = ret.substring(0, ret.length - item.length);
+                var startItem = removeArray[i];
+                if (ret.substr(0, startItem.length) === startItem) {
+                    ret = ret.substring(startItem.length, ret.length);
+                }
+                var endItem = removeArray[i];
+                if (ret.substr(-endItem.length) === endItem) {
+                    ret = ret.substring(0, ret.length - endItem.length);
                 }
             }
+
+            ret = $.trim(ret);
+            if (ret.length === 0) {
+                ret = '*';
+            }
+
             return ret;
         }
     };

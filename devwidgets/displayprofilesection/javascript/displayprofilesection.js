@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
         var saveValues = function() {
             // Serialize the data from the form for saving
-            var values = $form.serializeObject( false );
+            var values = $form.serializeObject();
             if ( multiple ) {
                 values = getMultipleValues( values );
             }
@@ -225,6 +225,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         var uid = _.keys( sectionData )[ 0 ];
                         var sectionHTML = sakai.api.Util.TemplateRenderer( template, {
                             section: section,
+                            sakai: sakai,
                             unique: uid,
                             data: _.values( sectionData )[ 0 ],
                             order: _.values( sectionData )[ 0 ].order
@@ -340,7 +341,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             }
         };
 
-        $rootel.on('change cut paste', function() {
+        $rootel.on('input change cut paste', function() {
             enableUpdate();
         });
 

@@ -243,7 +243,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
             if ($.isFunction(callback)) {
                 callback();
-            };
+            }
         };
 
         ////////////////////////

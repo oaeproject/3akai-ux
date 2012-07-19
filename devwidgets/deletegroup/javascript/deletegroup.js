@@ -125,23 +125,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
         };
-        $(window).bind("init.deletegroup.sakai", function (e, data, callback) {
-            load(data, callback);
-        });
-
-        /**
-         * Initialize the delete content widget
-         * All the functionality in here is loaded before the widget is actually rendered
-         */
-        var init = function(){
-            // This will make the widget popup as a layover.
+        $(document).on('init.deletegroup.sakai', function(e, data, callback) {
             sakai.api.Util.Modal.setup($deletegroup_dialog, {
                 modal: true,
                 toTop: true
             });
-        };
 
-        init();
+            load(data, callback);
+        });
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("deletegroup");

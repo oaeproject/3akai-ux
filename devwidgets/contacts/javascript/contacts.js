@@ -229,8 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if ($(this).attr("sakai-entityid") === userToAdd.uuid){
-                    $(this).hide();
-                    $("#contacts_left_filler_"+userToAdd.uuid).show();
+                    $(this).addClass('fl-hidden');
                 }
             });
         });
