@@ -1457,6 +1457,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                 zIndex: 4001,
                 toTop: true,
                 onHide: function(hash) {
+                    $newaddcontentSelectedItemsEditPermissionsContainer.hide();
+                    $newaddcontentSelecteditemsEditDataContainer.hide();
                     uncheckCheckboxes();
                     hash.o.remove();
                     hash.w.hide();
