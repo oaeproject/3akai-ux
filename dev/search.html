@@ -55,23 +55,17 @@
 
         <!-- TEMPLATE FOR REFINE BY TAGS LIST -->
         <div id="search_tags_refine_template"><!--
-            {var tagsListed = false}
-            {for t in tags}
-                {if t_index === "0"}
-                    <h2 class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</h2>
-                    <div class="s3d-search-refineby-list">
-                    {var tagsListed = true}
-                {/if}
-                <span class="s3d-search-tag">
-                    <button class="search_tag_refine_item" data-sakai-entityid="${t.original}" title="__MSG__REFINE_SEARCH_TO__ ${t.value}">
-                        <img src=/dev/images/search_tag_add.png" />
-                        ${sakai.api.Util.applyThreeDots(t.value, 345, null, null, true)}
-                    </button>
-                </span>
-            {/for}
-            {if tagsListed === true}
-                </div>
-            {/if}
+            <h2 class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</h2>
+            <ul class="s3d-search-refineby-list">
+                {for t in tags}
+                    <li class="s3d-search-tag">
+                        <button class="search_tag_refine_item" data-sakai-entityid="${t.original}" title="__MSG__REFINE_SEARCH_TO__ ${t.value}">
+                            <img src=/dev/images/search_tag_add.png" />
+                            ${sakai.api.Util.applyThreeDots(t.value, 345, null, null, true)}
+                        </button>
+                    </li>
+                {/for}
+            </ul>
         --></div>
 
         <!-- HEADER -->
