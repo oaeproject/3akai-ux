@@ -1,0 +1,10 @@
+#!/bin/sh
+BRANCHNAME=$(basename $(git rev-parse --symbolic-full-name HEAD))
+
+if grep -Eqi '^(SAKIII|KERN)' << EOF
+$BRANCHNAME
+EOF
+then
+  sed -i "1i\
+$BRANCHNAME" $1
+fi
