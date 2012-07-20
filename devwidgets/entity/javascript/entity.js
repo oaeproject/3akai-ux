@@ -639,6 +639,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 prepareRenderContext(renderObj);
                                 $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
                                 setupCountAreaBindings();
+                                addBinding(renderObj);
                             }
                         });
                     }
