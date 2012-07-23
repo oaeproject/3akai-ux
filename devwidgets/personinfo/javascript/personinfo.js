@@ -78,6 +78,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var personinfoTop = $clickedEl.offset().top + $clickedEl.height();
             var personinfoLeft = $clickedEl.offset().left + $clickedEl.width() / 2 - 125;
 
+            if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                personinfoTop += parseInt($('html').scrollTop(), 10);
+            }
+
             $personinfo_widget.css({
                 top: personinfoTop,
                 left: personinfoLeft

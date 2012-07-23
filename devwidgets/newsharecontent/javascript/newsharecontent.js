@@ -291,10 +291,16 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                         idArr = idArr.split(',');
                     }
                     var $this = $(this);
+
+                    var top = $this.offset().top + $this.height();
+                    if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                        top += parseInt($('html').scrollTop(), 10);
+                    }
                     $newsharecontentContainer.css({
-                        'top':$this.offset().top + $this.height(),
-                        'left':$this.offset().left + $this.width() / 2 - 119
+                        'top': top,
+                        'left': $this.offset().left + $this.width() / 2 - 119
                     });
+
                     // Fetch data for content items
                     var batchRequests = [];
                     $.each(idArr, function(i, id) {
