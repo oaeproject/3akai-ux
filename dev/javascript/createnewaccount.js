@@ -273,15 +273,15 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                         checkUserName(true, function(success){
                             $("#create_account_username_error").hide();
                             if (success) {
-                                $(usernameField).removeClass("signup_form_error");
-                                $(usernameField).addClass("username_available_icon");
+                                $(usernameField).removeClass("username_unavailable_icon signup_form_error")
+                                                .addClass("username_available_icon");
                                 $("." + $(usernameField)[0].id).removeClass("signup_form_error_label");
                             } else {
-                                $(usernameField).removeClass("username_available_icon");
+                                $(usernameField).removeClass("username_available_icon").addClass("username_unavailable_icon");
                             }
                         });
                     } else {
-                        $(usernameField).removeClass("username_available_icon");
+                        $(usernameField).removeClass("username_available_icon").addClass("username_unavailable_icon");
                     }
                 }
             });
