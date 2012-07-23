@@ -23,6 +23,7 @@ If you want to contribute to Sakai OAE UI, have a look at our [Github process](h
 
 On the [Sakai project website](http://sakaiproject.org) you can find more general information about Sakai.  
 We also have a [Sakai OAE section](http://sakaiproject.org/welcome-sakai-oae) which gives a broad overview.
+The [Sakai OAE Widget Library](http://oae-widgets.sakaiproject.org) contains contributions for you to download and use in your environment.
 
 ## Quickstart
 
