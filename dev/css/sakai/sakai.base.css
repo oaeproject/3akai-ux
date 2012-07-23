@@ -1112,7 +1112,7 @@ a.s3d-widget-links, span.s3d-widget-links, .s3d-widget-links a, button.s3d-widge
 	line-height: 30px;
 	margin-bottom: 15px;
 }
-.s3d-page-header-bottom-row button, .s3d-page-header-bottom-row .s3d-page-header-selectall {
+.s3d-page-header-bottom-row .s3d-header-smaller-button, .s3d-page-header-bottom-row .s3d-page-header-selectall {
 	margin-top: 6px;
 }
 .s3d-page-header-bottom-row .s3d-page-header-selectall {
@@ -1412,6 +1412,9 @@ a.s3d-button.s3d-regular-button {
 	box-shadow: 0 1px 1px 0 #999;
 	text-shadow: 0 2px 3px #fff;
 	font-size: 13px;
+}
+button.s3d-button.s3d-large-button {
+    height: 33px;
 }
 .s3d-button.s3d-large-button:hover {
     background: #ffffff;
@@ -2717,10 +2720,11 @@ ul li.s3d-list-item:hover {
 	background: #fff !important;
 	box-shadow: 0 0 4px -2px #A8A8A8 inset !important;
 }
-.s3d-search-listview-options > div {
-	float: left;
-	height: 15px;
-	padding: 3px 4px 2px;
+.s3d-search-listview-options button {
+    border: 0;
+    float: left;
+    height: 15px;
+    padding: 3px 4px 2px;
 }
 .s3d-search-listview-options > div.selected, .s3d-search-listview-options > div:hover {
     background: #e9edf0;
