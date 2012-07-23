@@ -15,6 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+.recentactivity_widget #recentactivity_update_control {
+    float: right;
+    margin-top: 10px;
+}
+
 /* Activity Items */
 .recentactivity_widget .recentactivity_activity_item_container{width:175px;height:100px; opacity: 0;}
 .recentactivity_widget .recentactivity_activity_item_content {clear:both;display:block;margin: 5px 0 5px 5px;}
