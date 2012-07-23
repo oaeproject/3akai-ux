@@ -15,13 +15,13 @@
     <parent>
       <groupId>org.sakaiproject.nakamura</groupId>
       <artifactId>org.sakaiproject.nakamura.uxloader-wrap</artifactId>
-      <version>1.4.0-SNAPSHOT</version>
+      <version>1.4.0</version>
       <relativePath>../../pom.xml</relativePath>
     </parent>
     <groupId>org.sakaiproject.nakamura</groupId>
     <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0</version>
     <name>Sakai OAE UX File Hasher</name>
     <description>Hashes files and appends the hash to the name to trigger proper caching</description>
     <build>
