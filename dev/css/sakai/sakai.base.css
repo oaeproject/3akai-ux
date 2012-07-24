@@ -783,7 +783,8 @@ input.fl-icon {
 	background: url("/dev/images/arrow_right.png") no-repeat right 7px transparent;
 	padding-right: 12px;
 }
-.s3d-dropdown-list .s3d-dropdown-hassubnav:hover ul {
+.s3d-dropdown-list .s3d-dropdown-hassubnav:hover ul,
+.s3d-dropdown-list .s3d-dropdown-hassubnav button:focus + ul {
 	display: block;!important;
 }
 .s3d-dropdown-list .s3d-dropdown-hassubnav ul {

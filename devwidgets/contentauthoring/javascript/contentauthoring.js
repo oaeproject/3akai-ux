@@ -27,7 +27,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.contentauthoring = function (tuid, showSettings, widgetData) {
-
         // Element cache
         var $rootel = $('#' + tuid);
         var $pageRootEl = false;
@@ -194,6 +193,16 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // ROW HOVER //
         ///////////////
 
+        var setRowHoverIn = function($el) {
+            // Only show the hover state when we are in edit mode and we are not dragging an element
+            if (isInEditMode() && !isDragging) {
+                $('.contentauthoring_row_handle_container', $el).css('visibility', 'visible');
+            }
+        };
+        var setRowHoverOut = function($el) {
+            $('.contentauthoring_row_handle_container', $el).css('visibility', 'hidden');
+        };
+
         /**
          * Set the onhover and onhoverout functions for each row. When hovering over a
          * row, the edit row menu will be shown. When hovering out of it, it will be
@@ -202,12 +211,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var setRowHover = function() {
             $('.contentauthoring_row_container', $rootel).off('hover');
             $('.contentauthoring_row_container', $rootel).hover(function() {
-                // Only show the hover state when we are in edit mode and we are not dragging an element
-                if (isInEditMode() && !isDragging) {
-                    $('.contentauthoring_row_handle_container', $(this)).css('visibility', 'visible');
-                }
+                setRowHoverIn($(this));
             }, function() {
-                $('.contentauthoring_row_handle_container', $(this)).css('visibility', 'hidden');
+                setRowHoverOut($(this));
             });
         };
 
@@ -274,10 +280,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 var show = ($('.contentauthoring_row', $('#' + currentPageShown.ref)).length > 1);
                 $('#contentauthoring_row_menu_remove', $rootel).parent('li').toggle(show);
                 $(this).parents('.contentauthoring_row_handle_container').addClass('selected');
-                $('#contentauthoring_row_menu', $rootel).css({
+                var $rowMenu = $('#contentauthoring_row_menu', $rootel);
+                $rowMenu.css({
                     'left': $(this).parent().position().left + 'px',
                     'top': ($(this).parent().position().top + 7) + 'px'
                 }).show();
+                $rowMenu.find('button:visible:first').focus();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents('.contentauthoring_row_container'));
             }
@@ -719,22 +727,30 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // WIDGET HOVER //
         //////////////////
 
+        var showEditCellMenuHoverIn = function($el) {
+            // Only show the hover state when we are in edit mode and we are not dragging an element
+            if (isInEditMode() && !isDragging) {
+                $('.contentauthoring_cell_element_actions', $el).css('left', $el.position().left + 'px');
+                $('.contentauthoring_cell_element_actions', $el).css('top', ($el.position().top + 1) + 'px');
+                $('.contentauthoring_cell_element_actions', $el).show();
+                $('.contentauthoring_cell_element_hover', $rootel).removeClass('contentauthoring_cell_element_hover');
+                $el.addClass('contentauthoring_cell_element_hover');
+            }
+        };
+        var showEditCellMenuHoverOut = function($el) {
+            $('.contentauthoring_cell_element_actions', $rootel).hide();
+            $el.removeClass('contentauthoring_cell_element_hover');
+        };
+
         /**
          * Show the widget context menu when hovering over the widget and hide it when
          * hovering out of the widget
          */
         var showEditCellMenu = function() {
             $('.contentauthoring_cell_element', $rootel).off('hover').hover(function() {
-                // Only show the hover state when we are in edit mode and we are not dragging an element
-                if (isInEditMode() && !isDragging) {
-                    $('.contentauthoring_cell_element_actions', $(this)).css('left', $(this).position().left + 'px');
-                    $('.contentauthoring_cell_element_actions', $(this)).css('top', ($(this).position().top + 1) + 'px');
-                    $('.contentauthoring_cell_element_actions', $(this)).show();
-                    $(this).addClass('contentauthoring_cell_element_hover');
-                }
-            }, function(ev, ui) {
-                $('.contentauthoring_cell_element_actions', $rootel).hide();
-                $(this).removeClass('contentauthoring_cell_element_hover');
+                showEditCellMenuHoverIn($(this));
+            }, function() {
+                showEditCellMenuHoverOut($(this));
             });
         };
 
@@ -1591,8 +1607,21 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Remove row button
         $rootel.on('click', '#contentauthoring_row_menu_remove', removeRow);
 
+        // Add row sub menu open
+        $rootel.on('focus', '#contentauthoring_row_menu_add', function() {
+            $(this).parent().addClass('contentauthoring_addrow_menu_open');
+        });
+
+        // Add row sub menu close
+        $rootel.on('keyup', '#contentauthoring_row_menu', function(e) {
+            // Don't close menu if focus is on the add row button, or inside the menu
+            if (!$('.s3d-dropdown-hassubnav ul button:focus, #contentauthoring_row_menu_add:focus', $(this)).length) {
+                $(this).find('.contentauthoring_addrow_menu_open').removeClass('contentauthoring_addrow_menu_open');
+            }
+        });
+
         // Add row above button
-        $rootel.on('click', '#contentauthoring_row_menu_add_above', function() {
+        $rootel.on('click', '#contentauthoring_row_menu_add, #contentauthoring_row_menu_add_above', function() {
             addRow(true);
         });
 
@@ -1614,6 +1643,39 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Change the number of columns to 3
         $rootel.on('click', '#contentauthoring_row_menu_three', function() {
             changeNumberOfColumns(3);
+        });
+
+        //////////////////
+        // KEYBOARD NAV //
+        //////////////////
+
+        // cell options
+        $rootel.on('keyup', '.contentauthoring_row', function(e) {
+            var $container = $(this).parent();
+            if (isInEditMode() && (!$container.find('.contentauthoring_row_handle_container').is(':visible') || $container.find('.contentauthoring_row_handle_container').css('visibility') === 'hidden')
+                && $(this).is(':focus') && e.which === $.ui.keyCode.TAB){
+                $('.contentauthoring_row_handle_container', $rootel).css('visibility', 'hidden');
+                setRowHoverIn($container);
+                $container.find('.contentauthoring_row_handle_container').find('button:visible:first').focus();
+            }
+        });
+        $rootel.on('focus', '.contentauthoring_row_handle_container button', function() {
+            hideEditRowMenu();
+        });
+
+        // row options
+        $rootel.on('keyup', '.contentauthoring_cell_element', function(e) {
+            if (e.which === $.ui.keyCode.TAB){//} && !e.shiftKey) {
+                showEditCellMenuHoverIn($(this));
+            }
+        });
+        $rootel.on('keydown', '.contentauthoring_cell_element', function(e) {
+            if ($('.contentauthoring_cell_element_actions button:last:focus', $(this)).length
+                && e.which === $.ui.keyCode.TAB && !e.shiftKey) {
+                $('.contentauthoring_cell_element_actions', $rootel).hide();
+            } else if ($(this).is(':focus') && e.which === $.ui.keyCode.TAB && e.shiftKey) {
+                showEditCellMenuHoverOut($(this));
+            }
         });
 
         /////////////////
