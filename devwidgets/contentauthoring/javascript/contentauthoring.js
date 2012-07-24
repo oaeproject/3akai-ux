@@ -27,6 +27,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.contentauthoring = function (tuid, showSettings, widgetData) {
+
         // Element cache
         var $rootel = $('#' + tuid);
         var $pageRootEl = false;
