@@ -227,12 +227,16 @@
     display: inline-block;
     margin: 2px 0 0 3px;
 }
+.contentauthoring_row_handle_container button.contentauthoring_row_edit {
+    height: 36px;
+}
 
 .contentauthoring_cell_element_actions .contentauthoring_row_handle {
     margin: 1px 0 0 3px;
 }
 
-.contentauthoring_cell_element_actions span {
+.contentauthoring_cell_element_actions span,
+.contentauthoring_cell_element_actions button {
     cursor: pointer;
     display: block;
     height: 10px;
@@ -251,7 +255,8 @@
 .contentauthoring_cell_element_actions .contentauthoring_cell_element_action_e {
     background: url("/devwidgets/contentauthoring/images/cell_edit_handle_cog.png") no-repeat center center transparent;
 }
-.contentauthoring_cell_element_actions .contentauthoring_cell_element_action_e:hover {
+.contentauthoring_cell_element_actions .contentauthoring_cell_element_action_e:hover,
+.contentauthoring_cell_element_actions .contentauthoring_cell_element_action_e:focus {
     background: url("/devwidgets/contentauthoring/images/cell_edit_handle_cog_hover.png") no-repeat center center transparent;
 }
 
@@ -259,7 +264,8 @@
     background: url("/devwidgets/contentauthoring/images/cell_edit_handle_delete.png") no-repeat center center transparent;
     margin-right: 7px;
 }
-.contentauthoring_cell_element_actions .contentauthoring_cell_element_action_x:hover {
+.contentauthoring_cell_element_actions .contentauthoring_cell_element_action_x:hover,
+.contentauthoring_cell_element_actions .contentauthoring_cell_element_action_x:focus {
     background: url("/devwidgets/contentauthoring/images/cell_edit_handle_delete_hover.png") no-repeat center center transparent;
 }
 
@@ -267,11 +273,13 @@
     background: url("/devwidgets/contentauthoring/images/cell_edit_handle_pencil.png") no-repeat top left transparent;
 }
 
-.contentauthoring_cell_element_actions .contentauthoring_cell_edit:hover {
+.contentauthoring_cell_element_actions .contentauthoring_cell_edit:hover,
+.contentauthoring_cell_element_actions .contentauthoring_cell_edit:focus {
     background: url("/devwidgets/contentauthoring/images/cell_edit_handle_pencil_hover.png") no-repeat top left transparent;
 }
 
-.contentauthoring_row_handle_container .contentauthoring_row_edit:hover {
+.contentauthoring_row_handle_container .contentauthoring_row_edit:hover,
+.contentauthoring_row_handle_container .contentauthoring_row_edit:focus {
     background: url("/devwidgets/contentauthoring/images/row_edit_handle_pencil_hover.png") no-repeat top left transparent;
 }
 
@@ -317,6 +325,10 @@
 
 .contentauthoring_edit_mode .s3d-dropdown-list .s3d-dropdown-hassubnav ul {
     padding-right: 30px;
+}
+
+.contentauthoring_edit_mode .s3d-dropdown-list .s3d-dropdown-hassubnav.contentauthoring_addrow_menu_open ul {
+    display: block;
 }
 
 .contentauthoring_dummy_element {
