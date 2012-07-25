@@ -86,7 +86,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Add new topic
         var discussionAddNewTopic = "#discussion_add_new_topic";
         var discussionDontAddTopic = "#discussion_dont_add_topic";
-        var discussionAddTopic = "#discussion_add_topic";
         var discussionCreateNewTopicTitle = "#discussion_create_new_topic_title";
         var discussionCreateNewTopicMessageText = "#discussion_create_new_topic_message_text";
         var discussionCreateNewTopicForm = "#discussion_create_new_topic form";
@@ -528,7 +527,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     topicData.results.unshift({"post": data.message, "replies": []});
                     showPosts(topicData, true);
 
-                    getWidgetSettings();
                     disableEnableButtons(true);
                 },
                 error: function(){

@@ -166,8 +166,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Create new area //
         /////////////////////
         
-        $("#group_create_new_area").live("click", function(){
-            $(window).trigger("addarea.initiate.sakai");
+        $('#group_create_new_area').on('click', function() {
+            $(document).trigger('init.addarea.sakai');
         });
 
         $(window).bind("toadd.addpeople.sakai", function(e, widgetid, data){

@@ -518,7 +518,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         var selectPageAndShowPermissions = function(poolId, path, docPermission){
             sakai.api.Util.Modal.close($addAreaContainer);
             if (docPermission === "advanced"){
-                $(window).trigger("permissions.area.trigger", [{
+                $(document).trigger("init.areapermissions.sakai", [{
                     isManager: true,
 	                pageSavePath: "/p/" + poolId,
 	                path: path,
@@ -864,7 +864,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Binding to enable the Widget to be initialised from outside of the Widget
          */
-        $(window).bind("addarea.initiate.sakai", function(){
+        $(document).on('init.addarea.sakai', function() {
             resetWidget();
             initializeJQM();
             renderWidgets();

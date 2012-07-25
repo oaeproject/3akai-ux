@@ -127,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         // External events //
         /////////////////////
 
-        $(window).bind("permissions.area.trigger", function(ev, _contextData){
+        $(document).on('init.userpermissions.sakai', function(ev, _contextData) {
             contextData = _contextData
             getCurrentPermission();
             initializeOverlay();

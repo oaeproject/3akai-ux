@@ -517,7 +517,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'list';
                 $('#collectionviewer_add_content_button > div', $rootel).text(data.total);
                 collectionviewer.total = data.total;
-                collectionData[pageNumber] = data.results;
+                if (data.results.length) {
+                    collectionData[pageNumber] = data.results;
+                } else {
+                    delete collectionData[pageNumber];
+                }
                 renderGridOrList(false, true);
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
             });
@@ -539,10 +543,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     arrIndex2 = parseInt($('.collectionviewer_carousel_item.selected', $rootel).attr('data-arr-index'), 10);
                 }
                 if (which === 'collectioncontentpreview' && collectionviewer.listStyle === 'carousel') {
-                    $('.collectionviewer_widget', $rootel).trigger('start.collectioncontentpreview.sakai', collectionData[arrIndex1][arrIndex2]);
-                    $('.collectionviewer_collection_item_preview', $rootel).show();
+                    if (collectionData.length && collectionData[arrIndex1] && collectionData[arrIndex1][arrIndex2]) {
+                        $('.collectionviewer_widget', $rootel).trigger('start.collectioncontentpreview.sakai', collectionData[arrIndex1][arrIndex2]);
+                        $('.collectionviewer_collection_item_preview', $rootel).show();
+                    }
                 } else if (which === 'pageviewer') {
-                    $(window).trigger('start.pageviewer.sakai', collectionData[arrIndex1][arrIndex2]);
+                    if (collectionData.length && collectionData[arrIndex1] && collectionData[arrIndex1][arrIndex2]) {
+                        $(window).trigger('start.pageviewer.sakai', collectionData[arrIndex1][arrIndex2]);
+                    }
                 }
             }
         };
@@ -611,12 +619,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             $rootel.on('click', '#collectionviewer_finish_editing_collection_button', function() {
+                $('#collectionviewer_expanded_content_container').empty();
                 $(this).hide();
                 $('#collectionviewer_edit_collection_button', $rootel).show();
                 var state = {};
                 state[collectionviewer.tuidls] = 'carousel';
                 $.bbq.pushState(state);
-                handleHashChange();
             });
 
             $rootel.on('click', '#collectionviewer_select_all', function() {
@@ -643,7 +651,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     }, function (success) {
                         sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('REMOVING_CONTENT_FROM_COLLECTION', 'collectionviewer'), sakai.api.i18n.getValueForKey('PROCESSING_COLLECTION', 'collectionviewer'));
                         $('.collectionviewer_check:checked:visible', $rootel).parents('li:not(.contentauthoring_row_container)').hide('slow');
-                        setTimeout(refreshCollection, 1500);
+                        setTimeout(refreshCollection, 500);
                     }]);
                 }
             });
@@ -656,7 +664,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     context: collectionviewer.contextId
                 }, function (success) {
                     $itemToRemove.parents('li:not(.contentauthoring_row_container)').hide('slow');
-                    setTimeout(refreshCollection, 1500);
+                    setTimeout(refreshCollection, 500);
                 }]);
             });
 
@@ -671,7 +679,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             $(document).on('done.newaddcontent.sakai', function(ev, data) {
-                switchListView(false);
+                setTimeout(function() {
+                    switchListView(false);
+                }, 1000);
             });
 
             $(window).on('hiding.newsharecontent.sakai hiding.savecontent.sakai', function() {

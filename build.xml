@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<project name="Sakai 3 UX" default="finish" basedir=".">
+<project name="Sakai OAE UX" default="finish" basedir=".">
 
-    <description>Sakai 3 UX Build Script</description>
+    <description>Sakai OAE UX Build Script</description>
 
     <!-- Target: Init -->
     <target name="init">
 
-        <echo message="Sakai 3 UX Build: Initialising..." />
+        <echo message="Sakai OAE UX Build: Initialising..." />
 
         <!-- SETUP - Source and target paths -->
         <property name="SRC_DIR" value="dev" description="Core source folder" />
@@ -75,7 +75,7 @@
     <!-- Target: Create target folders, set up logging -->
     <target name="create_target_folders" depends="init" description="Creating target forlders">
 
-        <echo message="Sakai 3 UX Build: Creating target folders..." />
+        <echo message="Sakai OAE UX Build: Creating target folders..." />
 
         <mkdir dir="${TARGET_DIR}"/>
         <mkdir dir="${TARGET_DIR_W}"/>
@@ -314,17 +314,17 @@
 
     <!-- Target: Release Builds-->
     <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, cssembed, hash_files">
-        <echo message="Sakai 3 UX Build: Build complete." />
+        <echo message="Sakai OAE UX Build: Build complete." />
     </target>
 
     <!-- Target: Development Builds -->
     <target name="development" depends="copy_instrumented, documentation, unpackMathFonts, instrument">
-        <echo message="Sakai 3 UX Development Build: Build complete." />
+        <echo message="Sakai OAE UX Development Build: Build complete." />
     </target>
 
     <!-- Target: Development Builds -->
     <target name="dev_light" depends="copy_prod, copy_test, create_target_folders">
-        <echo message="Sakai 3 UX Development Build: Build complete." />
+        <echo message="Sakai OAE UX Development Build: Build complete." />
     </target>
 
 
