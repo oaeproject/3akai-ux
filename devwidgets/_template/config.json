@@ -39,6 +39,9 @@
             "bundle": "/devwidgets/WIDGET_ID/bundles/default.properties",
             "description": "WIDGET_ID_DESCRIPTION",
             "name": "WIDGET_ID_NAME"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/WIDGET_ID/bundles/fr_FR.properties"
         }
     },
     "id": "WIDGET_ID",

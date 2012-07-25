@@ -6,7 +6,10 @@
             "bundle": "/devwidgets/basiclti/bundles/default.properties",
             "description": "Basic LTI widget",
             "name": "Basic LTI"
-        }
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/basiclti/bundles/fr_FR.properties"
+        }    
     },
     "id": "basiclti",
     "img": "/devwidgets/basiclti/images/basiclti.png",
