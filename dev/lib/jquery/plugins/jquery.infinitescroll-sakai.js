@@ -95,12 +95,15 @@
             var toFadeOut = 0;
             $.each(items, function(i, item) {
                 // Check whether the item is a string
-                // If so, we use the string as the selector
-                // If not, we assume a jQuery element was passed in
+                // If so, we will create the jQuery selector
+                // If not, we assume a jQuery element was passed & will set the context to the container
+                var $item;
                 if (typeof item === 'string') {
-                    item = '#' + item;
+                    $item = $('*[id="' + item + '"]', $container);
+                } else {
+                    $item = $(item, $container);
                 }
-                $(item, $container).fadeOut(false, function() {
+                $item.fadeOut(false, function() {
                     $(this).remove();
                     isDoingExtraSearch = false;
                     toFadeOut++;
@@ -149,11 +152,11 @@
                 if (result.id) {
                     // Determine whether this item is already in the list
                     // by looking for an element with the same id
-                    if (!$('#' + result.id, $container).length) {
+                    if (!$('*[id="' + result.id + '"]', $container).length) {
                         filteredresults.push(result);
                     }
                 } else if (result.target) {
-                    if (!$('#' + result.target, $container).length) {
+                    if (!$('*[id="' + result.target + '"]', $container).length) {
                         filteredresults.push(result);
                     }
                 }

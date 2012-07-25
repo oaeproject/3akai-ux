@@ -186,7 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     tooltipTop: $item.offset().top + $item.height(),
                     tooltipLeft: $item.offset().left + $item.width() + 3,
                     onShow: function () {
-                        $(window).trigger("init.joinrequestbuttons.sakai", [
+                        $(document).trigger('init.joinrequestbuttons.sakai', [
                             {
                                 "groupProfile": group.groupProfile,
                                 "groupMembers": group.groupMembers,
