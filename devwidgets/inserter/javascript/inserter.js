@@ -540,7 +540,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
                     itemsDropped.push(result[data.files[0].name]);
                     if (itemsDropped.length && itemsDropped.length === numberOfItemsDropped) {
                         var collectionId = $dropTarget.attr('data-collection-id');
-                        setDataOnDropped(collectionId, 'public', itemsDropped);
+                        setDataOnDropped(collectionId, sakai.config.Permissions.Content.defaultaccess, itemsDropped);
                         numberOfItemsDropped = 0;
                         itemsDropped = [];
                     }
