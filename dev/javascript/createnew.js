@@ -24,43 +24,67 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             'structure0': {}
         };
 
-        for (var i = 0; i < sakai.config.worldTemplates.length; i++) {
-            var category = sakai.config.worldTemplates[i];
-            var rnd = sakai.api.Util.generateWidgetId();
-            pubdata.structure0[category.id] = {
-                '_order': i,
-                '_title': sakai.api.i18n.getValueForKey(category.title),
-                '_ref': rnd
-            };
-            pubdata[rnd] = {
-                'rows': [{
-                    'id': sakai.api.Util.generateWidgetId(),
-                    'columns': [{
-                        'width': 1,
-                        'elements': [
-                            {
-                                'id': category.id,
-                                'type': 'selecttemplate'
-                            }
-                        ]
-                    }]
-                }]
-            };
-        }
+        /**
+         * Generate the left hand navigation
+         * @param {Boolean} success Whether the ajax call was successful
+         * @param {Object} pubdata The public data, necessary to construct the left hand navigation
+         */
+        var generateNav = function(success, pubdata) {
+            if (success) {
+                $(window).trigger('lhnav.init', [pubdata, {}, {}]);
+            } else {
+                debug.error('createnew.js - Can\'t generate the left hand navigation');
+            }
+        };
 
-        var generateNav = function() {
-            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
+        /**
+         * Fetch the templates
+         * @param {Function} callback Callback function
+         */
+        var fetchTemplates = function(callback) {
+            sakai.api.Util.getTemplates(function(success, templates) {
+                if (success) {
+                    for (var i = 0; i < templates.length; i++) {
+                        var category = templates[i];
+                        var rnd = sakai.api.Util.generateWidgetId();
+                        pubdata.structure0[category.id] = {
+                            '_order': i,
+                            '_title': sakai.api.i18n.getValueForKey(category.title),
+                            '_ref': rnd
+                        };
+                        pubdata[rnd] = {
+                            'rows': [{
+                                'id': sakai.api.Util.generateWidgetId(),
+                                'columns': [{
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': category.id,
+                                            'type': 'selecttemplate'
+                                        }
+                                    ]
+                                }]
+                            }]
+                        };
+                    }
+                } else {
+                    debug.error('Could not get the group templates');
+                }
+                if ($.isFunction(callback)) {
+                    callback(success, pubdata);
+                }
+            });
         };
 
         var renderCreateGroup = function() {
             $(window).trigger('sakai.newcreategroup.init');
         };
 
-        $(window).bind('lhnav.ready', generateNav);
+        $(window).bind('lhnav.ready', function(){
+            fetchTemplates(generateNav);
+        });
         $(window).bind('newcreategroup.ready', renderCreateGroup);
 
-        generateNav();
-        
     };
 
     sakai.api.Widgets.Container.registerForLoad('createnew');

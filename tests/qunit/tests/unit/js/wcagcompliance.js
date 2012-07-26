@@ -9,8 +9,6 @@ require(
     ], 
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
-
     module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
 
     var checkElements = function($elt, callback){
@@ -144,5 +142,4 @@ require(
         });
     }
 
-    });
 });

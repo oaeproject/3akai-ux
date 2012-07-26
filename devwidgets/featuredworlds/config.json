@@ -1,22 +1,18 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/featuredworlds/bundles/default.properties",
-            "name":       "Featured worlds widget",
-            "description":"Featured worlds widget"
+            "bundle": "/devwidgets/featuredworlds/bundles/default.properties",
+            "description": "Featured worlds widget",
+            "name": "Featured worlds widget"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/featuredworlds/bundles/fr_FR.properties"
+            "bundle": "/devwidgets/featuredworlds/bundles/fr_FR.properties"
         }
     },
-    "id":                 "featuredworlds",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/featuredworlds/featuredworlds.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "featuredworlds",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/featuredworlds/featuredworlds.html"
 }

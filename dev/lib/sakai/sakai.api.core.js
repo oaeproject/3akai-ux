@@ -27,7 +27,7 @@ define(
         "sakai/sakai.api.util",
         "sakai/sakai.api.widgets",
         "config/config_custom",
-        "../../../var/widgets.json?callback=define"
+        "/var/widgets.json?callback=define"
     ],
     function(sakai_comm,
             sakai_content,
@@ -41,7 +41,7 @@ define(
             sakai_conf,
             sakai_widget_config) {
     
-    var sakai = {
+    return {
         api : {
             Activity : sakai_util.Activity,
             Communication : sakai_comm,
@@ -60,9 +60,4 @@ define(
         data : sakai_user.data,
         widgets : sakai_widget_config
     };
-    // Load in the world templates
-    var templates = sakai_util.getTemplates();
-    sakai.config.worldTemplates = templates;
-    return sakai;
-
 });

@@ -1,18 +1,20 @@
-The following people are active contributors on Sakai 3 front-end development:
+The following people are active contributors on Sakai OAE front-end development:
 (alphabetic order)
 
-Gaurav Bhatnagar - gbhatnag@umich.edu
+Dean Angerer - deanangerer@gmail.com
 Ray Davis - r...@media.berkeley.edu
 D. Stuart Freeman - stuart.freeman@et.gatech.edu
-Khin Soe Soe Kyaw - kkyaw@csu.edu.au
 Nicolaas Matthijs - nicolaas.matthijs@caret.cam.ac.uk
-Bert Pareyn - bp323@caret.cam.ac.uk
-Chris Roby - christopher.roby@gmail.com
+Bert Pareyn - pareyn.bert@gmail.com
 James Sloane - jsloane@csu.edu.au
+Chris Tweney - chris@media.berkeley.edu
+Christian Vuerings - christian@media.berkeley.edu
+Anthony Whyte - arwhyte@umich.edu
 
 The following people are inactive / committed in the past:
 (alphabetic order)
 
+Gaurav Bhatnagar - gbhatnag@umich.edu
 Noah Botimer - botimer@umich.edu
 Eli Cochran - eli@media.berkeley.edu
 Maxim Debosschere - md538@caret.cam.ac.uk
@@ -20,6 +22,7 @@ Dr Wu Di - dr.wudi@googlemail.com
 Adrian Fish - a.fish@lancaster.ac.uk
 Simon Gaeremynck - sg555@cam.ac.uk
 Olivier Janssens - oj218@caret.cam.ac.uk
+Khin Soe Soe Kyaw - kkyaw@csu.edu.au
 Oszkar Nagy - oszkar@caret.cam.ac.uk
-Christian Vuerings - cv268@cam.ac.uk
-Anthony White - arwhyte@umich.edu
+Chris Roby - christopher.roby@gmail.com
+

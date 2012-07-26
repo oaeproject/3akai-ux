@@ -20,12 +20,12 @@
 #carousel_container {
     padding: 0px 8px 5px;
 }
-#carousel_container h1 {
+#carousel_container h2 {
     color: #424242;
     font-size: 13px;
     margin-bottom: 10px;
 }
-#carousel_container h2 {
+#carousel_container h3 {
     margin-top: 0px;
     display: inline;
 }

@@ -132,8 +132,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var automaticallyAcceptUser = function(userid) {
             if (_.isString(userid)) {
-                var request = new Querystring();
-                return request.get("accept", null) === userid;
+                return $.bbq.getState('accept') === userid;
             } else {
                 return false;
             }
@@ -286,23 +285,23 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var init = function() {
             initializeJQM();
             // _groupdata should be the group's authprofile
-            $(window).bind("init.joinrequests.sakai", function(e, _groupdata) {
-                if (_groupdata && _groupdata["sakai:group-id"]) {
-                    groupData = _groupdata;
-                    groupid = groupData["sakai:group-id"];
-                    if (groupData["sakai:joinRole"]) {
-                        joinRole = getJoinRoleTitle();
-                        joinGroupID = groupid + "-" + groupData["sakai:joinRole"];
-                    }
-                    // get join request data
-                    getJoinRequestsData(joinGroupID);
-                    sakai.api.Util.Modal.open($joinrequests_container);
-                } else {
-                    debug.warn("The group's authprofile node wasn't passed in to init.joinrequests.sakai");
+            var _groupdata = sakai_global.group.groupData;
+            if (_groupdata && _groupdata['sakai:group-id']) {
+                groupData = _groupdata;
+                groupid = groupData['sakai:group-id'];
+                if (groupData['sakai:joinRole']) {
+                    joinRole = getJoinRoleTitle();
+                    joinGroupID = groupid + '-' + groupData['sakai:joinRole'];
                 }
-            });
-            $(window).trigger("ready.joinrequests.sakai");
+                // get join request data
+                getJoinRequestsData(joinGroupID);
+                sakai.api.Util.Modal.open($joinrequests_container);
+            } else {
+                debug.warn('The group\'s authprofile node wasn\'t passed in to init.joinrequests.sakai');
+            }
         };
+
+        $('.sakai_joinrequests_overlay').on('click', init);
 
         init();
     };

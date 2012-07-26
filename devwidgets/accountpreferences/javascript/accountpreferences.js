@@ -20,7 +20,6 @@
  * Dependencies
  *
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
@@ -138,9 +137,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.Modal.open(accountPreferencesContainer);
         };
 
-        $(window).bind("init.accountpreferences.sakai", function() {
-            initialize();
-        });
+        $(document).on('click', '.accountpreferences_trigger', initialize);
 
         /////////////////
         // Change pass //
@@ -233,7 +230,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             privacyChanges = true;
         });
 
-        $("#accountpreferences_privacy_change").live("submit", function(ev){
+        $('#accountpreferences_privacy_change').on('submit', function(ev){
             var option = $(".accountpreferences_selectable input:radio[name='accountpreferences_privacy_radio']:checked").val();
             sakai.api.User.savePrivacySettings(option, function(success){
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS", "accountpreferences"), sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS_UPDATED", "accountpreferences"));
@@ -415,10 +412,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Initialise form validation
          */
         var initValidation = function(){
-            $.validator.addMethod("newpw", function(value, element){
-                return this.optional(element) || (value !== $("#curr_pass").val());
-            }, $(errorPassSame).html());
-
             var validateOpts = {
                 rules: {
                     curr_pass: {
@@ -436,6 +429,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 messages: {
                     retype_pass: {
                         "equalTo": sakai.api.i18n.getValueForKey("PLEASE_ENTER_PASSWORD_TWICE", "accountpreferences")
+                    }
+                },
+                'methods': {
+                    'newpw': {
+                        'method': function(value, element) {
+                            return this.optional(element) || (value !== $('#curr_pass').val());
+                        },
+                        'text': $(errorPassSame).html()
                     }
                 },
                 submitHandler: changePass
