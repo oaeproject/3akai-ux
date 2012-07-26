@@ -1566,6 +1566,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Render a page
         $(window).on('showpage.contentauthoring.sakai', function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, false);
+            // scroll to the top of content if it is off screen
+            if ($(window).scrollTop() > $rootel.offset().top) {
+                $(window).scrollTop($rootel.offset().top);
+            }
         });
 
         // Render a page and put it in edit mode
