@@ -439,7 +439,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         'text': $(errorPassSame).html()
                     }
                 },
-                submitHandler: changePass
+                submitHandler: changePass,
+                onfocusout: function(element) {
+                    $(element).valid();
+                }
             };
 
             // Initialize the validate plug-in
