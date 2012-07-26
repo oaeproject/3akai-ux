@@ -10,6 +10,10 @@
             "bundle": "/devwidgets/deletegroup/bundles/es_ES.properties"
         }
     },
+    "trigger": {
+        "events": ["init.deletegroup.sakai"],
+        "onLoad": false
+    },
     "id": "deletegroup",
     "type": "core",
     "url": "/devwidgets/deletegroup/deletegroup.html"

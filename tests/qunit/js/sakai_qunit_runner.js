@@ -24,6 +24,12 @@ require(
         "qunitjs/qunit"
     ],
     function($, sakai) {
+
+    /**
+     * Make sure that arrays passed in as arguments are properly encoded
+     */
+    $.ajaxSettings.traditional = true;
+
     // Tracking variables
     var tests = [],
         startTime = 0,
@@ -122,7 +128,7 @@ require(
      * The event sakai-qunit-done is called from sakai_qunit_lib.js which is
      * included in each qunit html file
      */
-    $(document).bind('done.qunit.sakai', function(e, obj) {
+    $(document).on('done.qunit.sakai', function(e, obj) {
         finishCurrentTest(obj);
         if (tests.length) {
             runTest(tests.pop());

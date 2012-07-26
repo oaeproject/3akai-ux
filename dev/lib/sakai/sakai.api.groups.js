@@ -856,6 +856,7 @@ define(
                 $.ajax({
                     url: url,
                     type: "GET",
+                    cache: 'false',
                     success: function(data){
                         var participantCount = 0;
                         if (data.results.length) {

@@ -286,43 +286,45 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 }
                 sakai.api.Util.Forms.clearValidation($newsharecontent_form);
                 var idArr = $(this).attr("data-entityid");
-                if (idArr.length > 1 && !$.isArray(idArr)) {
-                    idArr = idArr.split(",");
-                }
-                var $this = $(this);
-                $newsharecontentContainer.css({
-                    'top':$this.offset().top + $this.height(),
-                    'left':$this.offset().left + $this.width() / 2 - 119
-                });
-                // Fetch data for content items
-                var batchRequests = [];
-                $.each(idArr, function(i, id) {
-                    batchRequests.push({
-                        "url": "/p/" + id + ".json",
-                        "method": "GET"
-                    });
-                });
-                sakai.api.Server.batch(batchRequests, function(success, data) {
-                    if (success && data) {
-                        if (data.results) {
-                            $.each(data.results, function(i, result){
-                                data.results[i].body = $.parseJSON(data.results[i].body);
-                            });
-                            contentObj = {
-                                data: data.results,
-                                shareUrl: sakai.api.Content.createContentURL(data.results[0].body)
-                            };
-                        } else if (data.url) {
-                            contentObj = {
-                                data: [data],
-                                shareUrl:  sakai.api.Content.createContentURL(data)
-                            };
-                        }
-                        if (window["addthis"]) {
-                            $newsharecontentContainer.jqmShow();
-                        }
+                if (idArr && idArr.length) {
+                    if (!$.isArray(idArr)) {
+                        idArr = idArr.split(',');
                     }
-                });
+                    var $this = $(this);
+                    $newsharecontentContainer.css({
+                        'top':$this.offset().top + $this.height(),
+                        'left':$this.offset().left + $this.width() / 2 - 119
+                    });
+                    // Fetch data for content items
+                    var batchRequests = [];
+                    $.each(idArr, function(i, id) {
+                        batchRequests.push({
+                            'url': '/p/' + id + '.json',
+                            'method': 'GET'
+                        });
+                    });
+                    sakai.api.Server.batch(batchRequests, function(success, data) {
+                        if (success && data) {
+                            if (data.results) {
+                                $.each(data.results, function(i, result){
+                                    data.results[i].body = $.parseJSON(data.results[i].body);
+                                });
+                                contentObj = {
+                                    data: data.results,
+                                    shareUrl: sakai.api.Content.createContentURL(data.results[0].body)
+                                };
+                            } else if (data.url) {
+                                contentObj = {
+                                    data: [data],
+                                    shareUrl:  sakai.api.Content.createContentURL(data)
+                                };
+                            }
+                            require(['//s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1'], function() {
+                                $newsharecontentContainer.jqmShow();
+                            });
+                        }
+                    });
+                }
             });
         };
 
@@ -349,10 +351,6 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 $newsharecontentContainer.addClass('anon');
             }
             addBinding();
-            var ajaxcache = $.ajaxSettings.cache;
-            $.ajaxSettings.cache = true;
-            $.getScript('//s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
-            $.ajaxSettings.cache = ajaxcache;
             sakai.api.Util.AutoSuggest.setup( $newsharecontentSharelist, {
                 asHtmlID: tuid,
                 scrollHeight: 120

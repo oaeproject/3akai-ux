@@ -101,16 +101,14 @@
                 <hr/>
             {/if}
         {/for}
-        {if renderGroups}
-            {for group in groups}
-                <li class="s3d-list-item">
-                    <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]|safeOutput}_chk" data-userid="${group["sakai:group-id"]|safeOutput}"/>
-                    <label for="${group["sakai:group-id"]|safeOutput}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.Groups.getProfilePicture(group)}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                    <a href="/~${group["sakai:group-id"]|safeOutput}" target="_blank" title="${group["sakai:group-title"]|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 90)}</a>
-                </li>
-                <hr/>
-            {/for}
-        {/if}
+        {for group in groups}
+            <li class="s3d-list-item">
+                <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]|safeOutput}_chk" data-userid="${group["sakai:group-id"]|safeOutput}"/>
+                <label for="${group["sakai:group-id"]|safeOutput}_chk"><img class="s3d-list-entity-picture" src="${sakai.api.Groups.getProfilePicture(group)}" alt="__MSG__PROFILE_PICTURE__"/></label>
+                <a href="/~${group["sakai:group-id"]|safeOutput}" target="_blank" title="${group["sakai:group-title"]|safeOutput}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 90)}</a>
+            </li>
+            <hr/>
+        {/for}
 --></div>
 
     <div id="addpeople_message_template" style="display:none;">
