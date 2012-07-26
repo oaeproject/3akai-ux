@@ -1,24 +1,20 @@
 {
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
-    "groupdashboard": true,
-    "hasSettings":true,
-    "id":"comments",
+    "enabled": true,
+    "hasSettings": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/comments/bundles/default.properties",
-            "name":"Comment stream",
-            "description":"Comments"
+            "description": "Comments",
+            "name": "Comment stream"
         },
         "fr_FR": {
             "bundle": "/devwidgets/comments/bundles/fr_FR.properties"
         }
     },
-    "img":"/devwidgets/comments/images/comments.png",
+    "id": "comments",
+    "img": "/devwidgets/comments/images/comments.png",
     "imghover": "/devwidgets/comments/images/comments_hover.png",
-    "type":"sakai",
-    "enabled":true,
     "sakaidocs": true,
-    "url":"/devwidgets/comments/comments.html"
+    "type": "sakai",
+    "url": "/devwidgets/comments/comments.html"
 }

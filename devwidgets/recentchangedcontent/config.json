@@ -1,21 +1,21 @@
 {
-    "id":"recentchangedcontent",
+    "deletable": true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/recentchangedcontent/bundles/default.properties",
-            "name": "My recent content",
-            "description": "My recent content"
+            "description": "My recent content",
+            "name": "My recent content"
         },
         "fr_FR": {
             "bundle": "/devwidgets/recentchangedcontent/bundles/fr_FR.properties",
-            "name": "Mes contenus récents",
-            "description": "Mes contenus récents"
+            "description": "Mes contenus récents",
+            "name": "Mes contenus récents"
         }
     },
-    "personalportal":true,
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/recentchangedcontent/recentchangedcontent.html",
-    "deletable":true
+    "id": "recentchangedcontent",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/recentchangedcontent/recentchangedcontent.html"
 }

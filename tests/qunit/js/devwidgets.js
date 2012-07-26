@@ -52,7 +52,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "contentmetadata",
         "contentpermissions",
         "contentpreview",
-        "createpage",
         "dashboard",
         "dashboardactivity",
         "deletecontent",
@@ -69,7 +68,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "ggadget",
         "googlemaps",
         "helloworld",
-        "help",
         "htmlblock",
         "inbox",
         "inserter",
@@ -79,18 +77,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "joinrequestbuttons",
         "joinrequests",
         "lhnavigation",
-        "listgeneral",
-        "listpeople",
-        "listpeopleinnode",
-        "listpeoplewrappergroup",
-        "login",
         "mycontacts",
         "mycontent",
         "mygroups",
         "mylibrary",
         "mymemberships",
         "mysakai2",
-        "navigation",
         "newaddcontent",
         "newcreategroup",
         "newsharecontent",
@@ -99,8 +91,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "participants",
         "personinfo",
         "pickeradvanced",
-        "pickeruser",
-        "poll",
         "popularcontent",
         "recentactivity",
         "recentchangedcontent",
@@ -120,16 +110,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "searchsakai2",
         "selecttemplate",
         "sendmessage",
-        "siterecentactivity",
-        "systemtour",
         "tags",
         "text",
         "tooltip",
         "topnavigation",
-        "uploadcontent",
         "uploadnewversion",
         "versions",
-        "video",
         "welcome",
         "worldsettings"
     ];
@@ -150,23 +136,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var widget = widgetList[i];
 
             (function(widgetName) {
-                var widgetJS = "/devwidgets/" + widgetName + "/javascript/" + widgetName + ".js",
+                var widgetJS = '/devwidgets/' + widgetName + '/javascript/' + widgetName + '.js',
                     widgetHTML = false;
                 $.ajax({
-                    url: "/devwidgets/" + widgetName + "/config.json",
-                    type: "json",
+                    url: '/devwidgets/' + widgetName + '/config.json',
+                    dataType: 'json',
                     success: function(data) {
-                        try {
-                            data = $.parseJSON(data);
-                        } catch (e) {
-                            console.error(widgetName + " has an error in its json");
-                        }
                         sakai.widgets[widgetName] = data;
                         widgetHTML = sakai.widgets[widgetName].url;
                         sakai_global.qunit.widgets.push({name:widgetName, html: widgetHTML, js: widgetJS});
                         if (widgetList.length === sakai_global.qunit.widgets.length) {
                             sakai_global.qunit.widgetsdone = true;
-                            $(window).trigger("widgetsdone.qunit.sakai");
+                            $(window).trigger('widgetsdone.qunit.sakai');
                         }
                     }
                 });

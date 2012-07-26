@@ -202,14 +202,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
                         if (publicToStore) {
                             if ($.isPlainObject(publicToStore.structure0)) {
-                                publicToStore.structure0 = $.toJSON(publicToStore.structure0);
+                                publicToStore.structure0 = JSON.stringify(publicToStore.structure0);
                             }
                             publicToStore['sakai:schemaversion'] = sakai.config.schemaVersion;
                             sakai.api.Server.saveJSON(puburl, publicToStore);
                         }
                         if (privateToStore) {
                             if ($.isPlainObject(privateToStore.structure0)) {
-                                privateToStore.structure0 = $.toJSON(privateToStore.structure0);
+                                privateToStore.structure0 = JSON.stringify(privateToStore.structure0);
                             }
                             privateToStore['sakai:schemaversion'] = sakai.config.schemaVersion;
                             sakai.api.Server.saveJSON(privurl, privateToStore);
@@ -419,9 +419,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var showWelcomeNotification = function() {
-            var querystring = new Querystring();
-            if (querystring.contains('welcome') && querystring.get('welcome') === 'true' && !sakai.data.me.user.anon) {
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('WELCOME') + ' ' + sakai.api.User.getFirstName(sakai.data.me.profile), sakai.api.i18n.getValueForKey('YOU_HAVE_CREATED_AN_ACCOUNT'));
+            var welcome = $.deparam.querystring().welcome;
+            if (welcome && welcome === 'true' && !sakai.data.me.user.anon) {
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('WELCOME') + ' ' +
+                sakai.api.User.getFirstName(sakai.data.me.profile), sakai.api.i18n.getValueForKey('YOU_HAVE_CREATED_AN_ACCOUNT'));
             }
         };
 
@@ -455,9 +456,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         });
 
-        $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
+        $(document).on('done.newaddcontent.sakai', function(e, data, library) {
             if (isMe && data && data.length && library === sakai.data.me.user.userid) {
-                $(window).trigger("lhnav.updateCount", ["library", data.length]);
+                $(window).trigger('lhnav.updateCount', ['library', data.length]);
             }
         });
 

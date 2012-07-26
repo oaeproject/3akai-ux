@@ -24,6 +24,7 @@ define(function(){
             GROUP_DEFAULT_ICON_URL_LARGE: "/dev/images/group_avatar_icon_100x100_nob.png",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
+            I18N_DEFAULT_BUNDLE: '/dev/bundle/default.properties',
             INBOX_URL: "/me#l=messages/inbox",
             INVITATIONS_URL: "/me#l=messages/invitations",
             MY_DASHBOARD_URL: "/me#l=dashboard",
@@ -59,6 +60,7 @@ define(function(){
             POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/auth-all.json",
             PRESENCE_SERVICE: "/var/presence.json",
             SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
+            STATIC_BATCH: "/system/staticfiles",
             WORLD_CREATION_SERVICE: "/system/world/create",
             WORLD_INFO_URL: "/var/templates/worlds.2.json",
 
@@ -462,6 +464,7 @@ define(function(){
                                 "label": "__MSG__PROFILE_PUBLICATIONS_URL__",
                                 "required": false,
                                 "display": true,
+                                "type": "url",
                                 "validation": "appendhttp url"
                             }
                         }
@@ -551,11 +554,6 @@ define(function(){
             }]
         },
 
-        SystemTour: {
-            "enableReminders": true,
-            "reminderIntervalHours": "168"
-        },
-
         /*
          * Object to override default widget configuration
          * Here you can add an object with the widget ID for the object key, with the configuration you would like to override
@@ -638,198 +636,198 @@ define(function(){
         },
         MimeTypes: {
             "application/doc": {
-                cssClass: "icon-doc-sprite",
+                cssClass: "s3d-icon-doc",
                 URL: "/dev/images/mimetypes/doc.png",
                 description: "WORD_DOCUMENT"
             },
             "application/msword": {
-                cssClass: "icon-doc-sprite",
+                cssClass: "s3d-icon-doc",
                 URL: "/dev/images/mimetypes/doc.png",
                 description: "WORD_DOCUMENT"
             },
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
-                cssClass: "icon-doc-sprite",
+                cssClass: "s3d-icon-doc",
                 URL: "/dev/images/mimetypes/doc.png",
                 description: "WORD_DOCUMENT"
             },
             "application/pdf": {
-                cssClass: "icon-pdf-sprite",
+                cssClass: "s3d-icon-pdf",
                 URL: "/dev/images/mimetypes/pdf.png",
                 description: "PDF_DOCUMENT"
             },
             "application/x-download": {
-                cssClass: "icon-pdf-sprite",
+                cssClass: "s3d-icon-pdf",
                 URL: "/dev/images/mimetypes/pdf.png",
                 description: "PDF_DOCUMENT"
             },
             "application/x-pdf": {
-                cssClass: "icon-pdf-sprite",
+                cssClass: "s3d-icon-pdf",
                 URL: "/dev/images/mimetypes/pdf.png",
                 description: "PDF_DOCUMENT"
             },
             "application/vnd.ms-powerpoint": {
-                cssClass: "icon-pps-sprite",
+                cssClass: "s3d-icon-pps",
                 URL: "/dev/images/mimetypes/pps.png",
                 description: "POWERPOINT_DOCUMENT"
             },
             "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
-                cssClass: "icon-pps-sprite",
+                cssClass: "s3d-icon-pps",
                 URL: "/dev/images/mimetypes/pps.png",
                 description: "POWERPOINT_DOCUMENT"
             },
             "application/vnd.oasis.opendocument.text": {
-                cssClass: "icon-doc-sprite",
+                cssClass: "s3d-icon-doc",
                 URL: "/dev/images/mimetypes/doc.png",
                 description: "OPEN_OFFICE_DOCUMENT"
             },
             "application/vnd.oasis.opendocument.presentation": {
-                cssClass: "icon-pps-sprite",
+                cssClass: "s3d-icon-pps",
                 URL: "/dev/images/mimetypes/pps.png",
                 description: "OPEN_OFFICE_PRESENTATION"
             },
             "application/vnd.oasis.opendocument.spreadsheet": {
-                cssClass: "icon-pps-sprite",
+                cssClass: "s3d-icon-pps",
                 URL: "/dev/images/mimetypes/spreadsheet.png",
                 description: "OPEN_OFFICE_SPREADSHEET"
             },
 
             "application/x-shockwave-flash": {
-                cssClass: "icon-swf-sprite",
+                cssClass: "s3d-icon-swf",
                 URL: "/dev/images/mimetypes/swf.png",
                 description: "FLASH_PLAYER_FILE"
             },
             "application/zip": {
-                cssClass: "icon-zip-sprite",
+                cssClass: "s3d-icon-zip",
                 URL: "/dev/images/mimetypes/zip.png",
                 description: "ARCHIVE_FILE"
             },
             "application/x-zip-compressed": {
-                cssClass: "icon-zip-sprite",
+                cssClass: "s3d-icon-zip",
                 URL: "/dev/images/mimetypes/zip.png",
                 description: "ARCHIVE_FILE"
             },
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-                cssClass: "icon-spreadsheet-sprite",
+                cssClass: "s3d-icon-spreadsheet",
                 URL: "/dev/images/mimetypes/spreadsheet.png",
                 description: "SPREADSHEET_DOCUMENT"
             },
             "application/vnd.ms-excel": {
-                cssClass: "icon-spreadsheet-sprite",
+                cssClass: "s3d-icon-spreadsheet",
                 URL: "/dev/images/mimetypes/spreadsheet.png",
                 description: "SPREADSHEET_DOCUMENT"
             },
             "audio/x-wav": {
-                cssClass: "icon-audio-sprite",
+                cssClass: "s3d-icon-audio",
                 URL: "/dev/images/mimetypes/sound.png",
                 description: "SOUND_FILE"
             },
             "audio/mpeg": {
-                cssClass: "icon-audio-sprite",
+                cssClass: "s3d-icon-audio",
                 URL: "/dev/images/mimetypes/sound.png",
                 description: "SOUND_FILE"
             },
             "text/plain": {
-                cssClass: "icon-txt-sprite",
+                cssClass: "s3d-icon-txt",
                 URL: "/dev/images/mimetypes/txt.png",
                 description: "TEXT_DOCUMENT"
             },
             "text/rtf": {
-                cssClass: "icon-txt-sprite",
+                cssClass: "s3d-icon-txt",
                 URL: "/dev/images/mimetypes/txt.png",
                 description: "TEXT_DOCUMENT"
             },
             "image/png": {
-                cssClass: "icon-image-sprite",
+                cssClass: "s3d-icon-image",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "PNG_IMAGE"
             },
             "image/bmp": {
-                cssClass: "icon-image-sprite",
+                cssClass: "s3d-icon-image",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "BMP_IMAGE"
             },
             "image/gif": {
-                cssClass: "icon-image-sprite",
+                cssClass: "s3d-icon-image",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "GIF_IMAGE"
             },
             "image/jp2": {
-                cssClass: "icon-image-sprite",
+                cssClass: "s3d-icon-image",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "JPG2000_IMAGE"
             },
             "image/jpeg": {
-                cssClass: "icon-image-sprite",
+                cssClass: "s3d-icon-image",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "JPG_IMAGE"
             },
             "image/pjpeg": {
-                cssClass: "icon-image-sprite",
+                cssClass: "s3d-icon-image",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "JPG_IMAGE"
             },
             "image/tiff": {
-                cssClass: "icon-image-sprite",
+                cssClass: "s3d-icon-image",
                 URL: "/dev/images/mimetypes/images.png",
                 description: "TIFF_IMAGE"
             },
             "text/html": {
-                cssClass: "icon-html-sprite",
+                cssClass: "s3d-icon-html",
                 URL: "/dev/images/mimetypes/html.png",
                 description: "HTML_DOCUMENT"
             },
             "video/x-msvideo": {
-                cssClass: "icon-video-sprite",
+                cssClass: "s3d-icon-video",
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
             "video/mp4": {
-                cssClass: "icon-video-sprite",
+                cssClass: "s3d-icon-video",
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
             "video/quicktime": {
-                cssClass: "icon-video-sprite",
+                cssClass: "s3d-icon-video",
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
             "video/x-ms-wmv": {
-                cssClass: "icon-video-sprite",
+                cssClass: "s3d-icon-video",
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
             "folder": {
-                cssClass: "icon-kmultiple-sprite",
+                cssClass: "s3d-icon-kmultiple",
                 URL: "/dev/images/mimetypes/kmultiple.png",
                 description: "FOLDER"
             },
             "x-sakai/link": {
-                cssClass: "icon-url-sprite",
+                cssClass: "s3d-icon-url",
                 URL: "/dev/images/mimetypes/html.png",
                 description: "URL_LINK"
             },
             "x-sakai/document": {
-                cssClass: "icon-sakaidoc-sprite",
+                cssClass: "s3d-icon-sakaidoc",
                 URL: "/dev/images/mimetypes/sakaidoc.png",
                 description: "DOCUMENT"
             },
             "x-sakai/collection": {
-                cssClass: "icon-collection-sprite",
+                cssClass: "s3d-icon-collection",
                 URL: "/dev/images/mimetypes/collection.png",
                 description: "COLLECTION"
             },
             "kaltura/video": {
-                cssClass: "icon-video-sprite",
+                cssClass: "s3d-icon-video",
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
             "kaltura/audio": {
-                cssClass: "icon-sound-sprite",
+                cssClass: "s3d-icon-audio",
                 URL: "/dev/images/mimetypes/sound.png",
                 description: "SOUND_FILE"
             },
             "other": {
-                cssClass: "icon-unknown-sprite",
+                cssClass: "s3d-icon-unknown",
                 URL: "/dev/images/mimetypes/unknown.png",
                 description: "OTHER_DOCUMENT"
             }
@@ -911,7 +909,8 @@ define(function(){
             "subnav": [{
                 "id": "subnavigation_add_content_link",
                 "label": "ADD_CONTENT",
-                "url": "#"
+                "url": "#",
+                "cssClass": "sakai_add_content_overlay"
             }, {
                 "id": "subnavigation_add_collection_link",
                 "label": "ADD_COLLECTION",
@@ -999,7 +998,7 @@ define(function(){
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/me", "/dev/me.html", "/dev/search_sakai2.html", "/create", "/dev/createnew.html"],
+        requireUser: ["/me", "/dev/me.html", "/create", "/dev/createnew.html"],
 
         /*
          * List of pages that require an anonymous user
@@ -1009,7 +1008,7 @@ define(function(){
          * List of pages that will be added to requireUser if
          * anonAllowed is false
          */
-        requireUserAnonNotAllowed: ["/me", "/dev/me.html", "/dev/search_sakai2.html"],
+        requireUserAnonNotAllowed: ["/me", "/dev/me.html"],
         /*
          * List of pages that will be added to requireAnonymous if
          * anonAllowed is false
@@ -1021,7 +1020,7 @@ define(function(){
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
+        requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/content"],
 
         useLiveSakai2Feeds: false,
         /*
@@ -1039,20 +1038,6 @@ define(function(){
         displayDebugInfo: true,
         displayTimezone: true,
         displayLanguage: true,
-
-        enabledDashboardWidgets: [
-            "recentmemberships",
-            "mycontent",
-            "activegroups",
-            "popularcontent",
-            "tags",
-            "mycontacts",
-            "accountpreferences",
-            "recentmessages",
-            "recentcontactsnew",
-            "mygroups",
-            "recentchangedcontent"
-        ],
 
         /**
          * Section dividers can be added to the directory structure by adding in the following
@@ -1567,22 +1552,27 @@ define(function(){
         Languages: [{ 
             "country": "ES", 
             "language": "es", 
+            "bundle": "/dev/bundle/es_ES.properties",
             "displayName": "Español"
         }, {
             "country": "CN",
             "language": "zh",
+            "bundle": "/dev/bundle/zh_CN.properties",
             "displayName": "中文"
         }, {
             "country": "NL",
             "language": "nl",
+            "bundle": "/dev/bundle/nl_NL.properties",
             "displayName": "Nederlands"
         }, {
             "country": "GB",
             "language": "en",
+            "bundle": "/dev/bundle/en_GB.properties",
             "displayName": "English (United Kingdom)"
         }, {
             "country": "US",
             "language": "en",
+            "bundle": "/dev/bundle/en_US.properties",
             "displayName": "English (United States)"
         }, {
             "country": "FR",
@@ -1591,19 +1581,23 @@ define(function(){
         }, {
             "country": "JP",
             "language": "ja",
+            "bundle": "/dev/bundle/ja_JP.properties",
             "displayName": "日本語"
         }, {
             "country": "HU",
             "language": "hu",
+            "bundle": "/dev/bundle/hu_HU.properties",
             "displayName": "Magyar"
         }, {
             "country": "KR",
             "language": "ko",
+            "bundle": "/dev/bundle/ko_KR.properties",
             "displayName": "한국어"
         }],
 
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
+        defaultLanguageBundle: "/dev/bundle/en_US.properties",
 
         enableCategories: true,
 
@@ -1611,10 +1605,14 @@ define(function(){
         schemaVersion: '2',
 
         Editor: {
-            tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',
-                'sc','ta','ur','be','cs','es','he','it','lv','nn','se','te','vi','bg','cy','et','hi','ja','mk','no','si',
-                'th','zh-cn','bn','da','eu','hr','ka','ml','pl','sk','tn','zh-tw','br','de','fa','hu','kl','mn','ps','sl',
-                'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
+            languagePacks: ['ar', 'az', 'be', 'bg', 'bn', 'br', 'bs', 'ca', 'ch',
+                'cn', 'cs', 'cy', 'da', 'de', 'dv', 'el', 'en', 'eo', 'es', 'et',
+                'eu', 'fa', 'fi', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'hy',
+                'ia', 'id', 'is', 'it', 'ja', 'ka', 'kl', 'km', 'ko', 'lb', 'lt',
+                'lv', 'mk', 'ml', 'mn', 'ms', 'my', 'nb', 'nl', 'nn', 'no', 'pl',
+                'ps', 'pt', 'ro', 'ru', 'sc', 'se', 'si', 'sk', 'sl', 'sq', 'sr',
+                'sv', 'ta', 'te', 'th', 'tn', 'tr', 'tt', 'tw', 'uk', 'ur', 'vi',
+                'zh-cn', 'zh-tw', 'zh', 'zu']
         },
 
         /**
@@ -1704,7 +1702,7 @@ define(function(){
             '${refid}0': {
                 'id2506067': {
                     'htmlblock': {
-                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><div class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</div>'
+                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><h1 class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
                     }
                 },
                 '${refid}5': {

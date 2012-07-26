@@ -15,6 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-html {background:none !important;}
-body, img {cursor:default;}
-#tinymce{margin:0;outline:none;}
+.mceContentBody p {
+  line-height: normal;
+}

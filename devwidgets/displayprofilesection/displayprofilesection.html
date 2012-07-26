@@ -74,7 +74,7 @@
         {/for}
         </div>
     {if !section.multiple}
-        <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button">__MSG__UPDATE__</button>
+        <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button" disabled="disabled">__MSG__UPDATE__</button>
     </form>
     {else}
         <button type="button" class="displayprofilesection_remove_section s3d-bold s3d-link-button" id="displayprofilesection_remove_link_${unique}"><span>__MSG__REMOVE_THIS__ ${section.multipleLabel}</span></button>
@@ -86,7 +86,7 @@
 <div id="displayprofilesection_edit_multiple_template"><!--
     <form id="displayprofilesection_form_${sectionid}">
         <div id="displayprofilesection_sections_${sectionid}" class="displayprofilesection_multiple_sections"></div>
-        <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button" style="display:none">__MSG__UPDATE__</button>
+        <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button" style="display:none" disabled="disabled">__MSG__UPDATE__</button>
     </form>
     <button id="displayprofilesection_add_${sectionid}" class="displayprofilesection_add_section s3d-link-button s3d-bold" type="button"><span class="s3d-add_another_location"></span><span>__MSG__ADD_ANOTHER__ ${section.multipleLabel}</span></button>
 --></div>
@@ -112,15 +112,21 @@
     {macro renderField(config, field_id, field_data)}
         {var value = config.type === "select" ? sakai.api.i18n.General.process(config.select_elements[field_data.value]) : field_data.value}
         <span class="field_value">
-        {if config.limitDisplayWidth}
-            ${sakai.api.Util.applyThreeDots(value, config.limitDisplayWidth)}
-        {elseif config.type === "tags"}
-            {var tags = sakai.api.Util.formatTags(value)}
-            {for tag in tags}{if tag_index > 0},{/if} <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>{/for}
-        {else}
-            ${value|safeOutput}
+            {var displayValue = value}
+            {if config.limitDisplayWidth}
+                {var displayValue = sakai.api.Util.applyThreeDots(value, config.limitDisplayWidth, null, null, false)}
+            {/if}
+            {if config.type === "tags"}
+                {var tags = sakai.api.Util.formatTags(value)}
+                {for tag in tags}{if tag_index > 0},{/if} <a href="${tag.link}" class="s3d-action" title="${tag.linkTitle}">${tag.value}</a>{/for}
+            {elseif config.type === "url"}
+                <a href="${value|safeOutput}" target="_blank"{if displayValue !== value} title="${value|safeOutput}"{/if}>
+                    ${displayValue|safeOutput}
+                </a>
+            {else}
+                ${displayValue|safeOutput}
+            {/if}
         </span>
-        {/if}
     {/macro}
 
     {for field in section.elements}

@@ -20,11 +20,10 @@
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js (JsTree)
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) {
 
     /**
      * @name sakai_global.assignlocation

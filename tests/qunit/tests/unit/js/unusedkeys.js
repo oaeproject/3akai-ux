@@ -12,7 +12,6 @@ require(
 
     "use strict";
 
-    require(["misc/domReady!"], function(doc) {
         module("Unused Keys");
 
         var allHtml = "";
@@ -25,6 +24,7 @@ require(
         var keyListWidgets = {};
         var regex = new RegExp("__MSG__(.*?)__", "gm");
         var widgets = {};
+        var sakaiConfigStr = JSON.stringify(sakai.config);
 
         /**
          * Perform the actual check
@@ -41,7 +41,7 @@ require(
                 return;
             }
 
-            if (htmldata.indexOf(completekey) >= 0 || javascript.indexOf(key) >= 0) {
+            if (htmldata.indexOf(completekey) >= 0 || javascript.indexOf(key) >= 0 || sakaiConfigStr.indexOf(key) >= 0) {
                 ok(true, "The following key is used: " + key);
             } else {
                 ok(false, "The following key isn't used: " + key);
@@ -342,6 +342,5 @@ require(
             });
         }
 
-    });
-
-});
+    }
+);

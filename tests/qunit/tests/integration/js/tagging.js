@@ -1,62 +1,79 @@
 require(
     [
-    "jquery",
-    "sakai/sakai.api.core",
-    "qunitjs/qunit",
-    "../../../../../tests/qunit/js/sakai_qunit_lib.js"
+    'jquery',
+    'sakai/sakai.api.core',
+    'qunitjs/qunit',
+    '../../../../tests/qunit/js/sakai_qunit_lib.js',
+    '../../../../tests/qunit/js/dev.js',
+    '../../../../tests/qunit/js/devwidgets.js'
     ], 
     function($, sakai) {
-    
-    require(["misc/domReady!"], function(doc) {
 
-        module("Tagging");
-
-        sakai_global.qunit.loginWithAdmin();
+        module('Tagging');
 
         // Create a random user id
         // We do this to not conflict with other users in the system + tests
-        var user_random = "userrandom_" + (new Date()).getTime() + Math.floor(Math.random() * 1000);
-        var tag_random = "tag_" + (new Date()).getTime() + Math.floor(Math.random() * 1000);
+        var user_random = 'userrandom_' + (new Date()).getTime() + Math.floor(Math.random() * 1000);
+        var tag_random = 'tag_' + (new Date()).getTime() + Math.floor(Math.random() * 1000);
 
-        asyncTest("Create a Sakai3 user to test with", 1, function(){
-            sakai.api.User.createUser(user_random, "User", "0", "user.0@sakatest.edu", "test", "test", null, function(success, data) {
-                ok(success, "The user has been successfully created");
-                start();
-            });
-        });
+        var TaggingTest = function() {
+            $(window).trigger('addlocalbinding.qunit.sakai');
+            sakai_global.qunit.loginWithAdmin();
+            createUser();
+        };
 
-        sakai_global.qunit.logout();
-
-        asyncTest("Log-in with a Sakai3 user", 1, function(){
-            sakai.api.User.login({
-                "username": user_random,
-                "password": "test"
-            }, function(success, data){
-                ok(success, "The user has successfully logged-in");
-                start();
-            });
-        });
-
-        asyncTest("Tag an entity", 1, function() {
-            sakai.api.Util.tagEntity("/~"+user_random+"/public/authprofile", [tag_random], null, function(success) {
-                ok(success, "User tagged successfully");
-                setTimeout(function() {
+        var createUser = function() {
+            asyncTest('Create a Sakai OAE user to test with', 1, function() {
+                sakai.api.User.createUser(user_random, 'User', '0', 'user.0@sakatest.edu', 'test', 'test', null, function(success, data) {
+                    ok(success, 'The user has been successfully created');
                     start();
-                }, 6000);
-
+                    sakai_global.qunit.logout(logIn);
+                });
             });
-        });
+        };
 
-        asyncTest("Test to see if the entity was properly tagged", 1, function() {
-            sakai.api.User.getUser(user_random, function(success, profile) {
-                ok(profile.hasOwnProperty("sakai:tags") && profile["sakai:tags"].indexOf(tag_random) > -1, "User was tagged");
-                start();
+        var logIn = function() {
+            asyncTest('Log-in with a Sakai OAE user', 1, function() {
+                sakai.api.User.login({
+                    'username': user_random,
+                    'password': 'test'
+                }, function(success, data) {
+                    ok(success, 'The user has successfully logged-in');
+                    start();
+                    tagEntity();
+                });
             });
-        });
+        };
 
-        sakai_global.qunit.logout();
+        var tagEntity = function() {
+            asyncTest('Tag an entity', 1, function() {
+                sakai.api.Util.tagEntity('/~' + user_random + '/public/authprofile', [tag_random], null, function(success) {
+                    ok(success, 'User tagged successfully');
+                    setTimeout(function() {
+                        start();
+                        testTag();
+                    }, 6000);
+                });
+            });
+        };
 
-        $(window).trigger("addlocalbinding.qunit.sakai");
+        var testTag = function() {
+            asyncTest('Test to see if the entity was properly tagged', 1, function() {
+                sakai.api.User.getUser(user_random, function(success, profile) {
+                    ok(profile.hasOwnProperty('sakai:tags') && profile['sakai:tags'].indexOf(tag_random) > -1, 'User was tagged');
+                    start();
+                    sakai_global.qunit.logout();
+                });
+            });
+        };
 
-    });
-});
+        if (sakai_global.qunit && sakai_global.qunit.ready) {
+            TaggingTest();
+        } else {
+            $(window).bind('ready.qunit.sakai', function() {
+                TaggingTest();
+            });
+        }
+
+    }
+);

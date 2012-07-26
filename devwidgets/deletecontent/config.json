@@ -1,19 +1,23 @@
 {
-    "id":"deletecontent",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/deletecontent/bundles/default.properties",
-            "name": "Delete content",
-            "description":"Delete content widget"
+            "description": "Delete content widget",
+            "name": "Delete content"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/deletecontent/bundles/es_ES.properties"
 	},
         "fr_FR": {
             "bundle": "/devwidgets/deletecontent/bundles/fr_FR.properties"
         }
     },
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/deletecontent/deletecontent.html"
+    "id": "deletecontent",
+    "trigger": {
+        "events": ["init.deletecontent.sakai"],
+        "onLoad": false
+    },
+    "type": "core",
+    "url": "/devwidgets/deletecontent/deletecontent.html"
 }

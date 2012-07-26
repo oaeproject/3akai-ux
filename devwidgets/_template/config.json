@@ -23,7 +23,7 @@
  *  - personalportal {Boolean} sets whether or not this widget may be used on a
  *    user's personal portal (more commonly known as 'Home' or 'My Dashboard').
  *  - type {String} ["core" | "sakai" | "contrib"] 'core' widgets are essential
- *    for Sakai OAE to function properly (i.e. login, uploadcontent).
+ *    for Sakai OAE to function properly (i.e. login).
  *    'sakai' widgets are not essential for Sakai OAE to function properly, but
  *    are shipped with the main codebase (i.e. discussion, video).
  *    'contrib' widgets are written by individuals and institutions outside the
@@ -32,19 +32,19 @@
  *    when Sakai OAE wants to display the widget
  */
 {
-    "id":                 "WIDGET_ID",
-    "type":               "contrib",
-    "enabled":            false,
-    "hasSettings":        false,
-    "url":                "/devwidgets/WIDGET_ID/WIDGET_ID.html",
-    "img":                "/devwidgets/WIDGET_ID/images/WIDGET_ID.png",
+    "enabled": false, 
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/WIDGET_ID/bundles/default.properties",
-            "name":       "WIDGET_ID_NAME",
-            "description":"WIDGET_ID_DESCRIPTION"
+            "bundle": "/devwidgets/WIDGET_ID/bundles/default.properties",
+            "description": "WIDGET_ID_DESCRIPTION",
+            "name": "WIDGET_ID_NAME"
         }
     },
-    "personalportal":     false,
-    "sakaidocs":          false
+    "id": "WIDGET_ID",
+    "img": "/devwidgets/WIDGET_ID/images/WIDGET_ID.png",
+    "personalportal": false,
+    "sakaidocs": false,
+    "type": "contrib",
+    "url": "/devwidgets/WIDGET_ID/WIDGET_ID.html"
 }

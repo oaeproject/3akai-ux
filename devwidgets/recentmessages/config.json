@@ -1,9 +1,10 @@
 {
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/recentmessages/bundles/default.properties",
-            "name": "My recent messages",
-            "description": "My recent messages"
+            "description": "My recent messages",
+            "name": "My recent messages"
         },
         "en_US": {
             "bundle": "/devwidgets/recentmessages/bundles/en_US.properties"
@@ -14,9 +15,8 @@
             "description": "Mes messages récents"
         }
     },
-    "id":"recentmessages",
-    "personalportal":true,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/recentmessages/recentmessages.html"
+    "id": "recentmessages",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/recentmessages/recentmessages.html"
 }

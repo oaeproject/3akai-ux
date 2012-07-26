@@ -62,7 +62,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $mylibrary_sortarea = $('#mylibrary_sortarea', $rootel);
         var $mylibrary_empty = $('#mylibrary_empty', $rootel);
         var $mylibrary_admin_actions = $('#mylibrary_admin_actions', $rootel);
-        var $mylibrary_addcontent = $('#mylibrary_addcontent', $rootel);
         var $mylibrary_remove_icon = $('.mylibrary_remove_icon', $rootel);
         var $mylibrary_search_button = $('#mylibrary_search_button', $rootel);
         var $mylibrary_result_count = $('.s3d-search-result-count', $rootel);
@@ -180,8 +179,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 query: query
             }));
 
-            $('.s3d-page-header-bottom-row', $rootel).hide();
-
             $mylibrary_empty.show();
         };
 
@@ -195,7 +192,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var showLibraryContent = function () {
             resetView();
-            var query = $mylibrary_livefilter.val() || '*';
+            var query = $mylibrary_livefilter.val();
             // Disable the previous infinite scroll
             if (mylibrary.infinityScroll) {
                 mylibrary.infinityScroll.kill();
@@ -220,13 +217,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $mylibrary_result_count.children('.s3d-search-result-count-label').text(resultLabel);
                     $mylibrary_result_count.children('.s3d-search-result-count-count').text(total);
                 }
-                if(!sakai.data.me.user.anon) {
-                    if(items.length !== 0) {
+                if (!sakai.data.me.user.anon) {
+                    if (total !== 0) {
                         $('.s3d-page-header-top-row', $rootel).show();
                         $('.s3d-page-header-bottom-row', $rootel).show();
+                    } else {
+                        $('.s3d-page-header-bottom-row', $rootel).hide();
                     }
                 } else {
-                    if(items.length !== 0) {
+                    if (total !== 0) {
                         $('.s3d-page-header-top-row', $rootel).show();
                     }
                 }
@@ -297,15 +296,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var shareIdArr = [];
             var addToIdArr = [];
             var addToTitleArr = [];
-            var noShareTitleArr = [];
             $.each($('.mylibrary_check:checked:visible', $rootel), function(i, checked) {
                 addToIdArr.push($(checked).attr('data-entityid'));
                 addToTitleArr.push($(checked).attr('data-entityname'));
-                if ($(checked).attr('data-canshare') === 'true') {
-                    shareIdArr.push($(checked).attr('data-entityid'));
-                } else if (!$(checked).attr('data-canshare-error')) {
+                shareIdArr.push($(checked).attr('data-entityid'));
+                if (!$(checked).attr('data-canshare-error')) {
                     $(checked).attr('data-canshare-error', 'true');
-                    noShareTitleArr.push($(checked).attr('data-entityname'));
                 }
             });
             $mylibrary_share.attr('data-entityid', shareIdArr);
@@ -313,10 +309,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $mylibrary_addto.attr('data-entityname', addToTitleArr);
             if (!shareIdArr.length) {
                 $mylibrary_share.attr('disabled', 'disabled');
-            }
-            if (noShareTitleArr.length) {
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR'),
-                    sakai.api.i18n.getValueForKey('UNABLE_TO_SHARE_ERROR_TEXT') + ' ' + noShareTitleArr.join(', '));
             }
         };
 
@@ -375,7 +367,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             collectionPaths.push($(this).data('entityid'));
                         }
                     });
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: mylibrary.contextId
                     }, function (success) {
@@ -384,7 +376,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             $(window).trigger('lhnav.updateCount', ['library', -(paths.length)]);
                             mylibrary.infinityScroll.removeItems(paths);
                             if(collectionPaths.length) {
-                                $(window).trigger('sakai.mylibrary.deletedCollections', {
+                                $(document).trigger('sakai.mylibrary.deletedCollections', {
                                     items: collectionPaths
                                 });
                             }
@@ -405,7 +397,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         collection = true;
                     }
                     paths.push($(this).attr('data-entityid'));
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: mylibrary.contextId
                     }, function (success) {
@@ -413,7 +405,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             resetView();
                             $(window).trigger('lhnav.updateCount', ['library', -(paths.length)]);
                             if(collection) {
-                                $(window).trigger('sakai.mylibrary.deletedCollections', {
+                                $(document).trigger('sakai.mylibrary.deletedCollections', {
                                     items: paths
                                 });
                             }
@@ -460,14 +452,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $mylibrary_search_button.click(doSearch);
 
             /**
-             * Initiate the add content widget
-             */
-            $mylibrary_addcontent.click(function (ev) {
-                $(window).trigger('init.newaddcontent.sakai');
-                return false;
-            });
-
-            /**
              * An event to listen from the worldsettings dialog so that we can refresh the title if it's been changed.
              * @param {String} title     New group name
              */
@@ -480,7 +464,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * @param {Object} data        Object that contains the new library items
              * @param {Object} library     Context id of the library the content has been added to
              */
-            $(window).bind('done.newaddcontent.sakai', function(e, data, library) {
+            $(document).on('done.newaddcontent.sakai', function(e, data, library) {
                 if (library === mylibrary.contextId || mylibrary.contextId === sakai.data.me.user.userid) {
                     mylibrary.infinityScroll.prependItems(data);
                 }

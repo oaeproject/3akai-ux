@@ -18,7 +18,6 @@
 /*
  * Dependencies
  *
- * /dev/lib/jquery/plugins/jquery.json.js (toJSON)
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
@@ -572,7 +571,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             }
 
-            if ($.toJSON(tempSettings) !== $.toJSON(settings)) {
+            if (JSON.stringify(tempSettings) !== JSON.stringify(settings)) {
                 sakai.api.Widgets.saveWidgetData(tuid, settings, checkSuccess, true);
             }
 
@@ -900,30 +899,28 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             $(addGoodiesListContainer, $rootelClass).html("");
 
-            $.each(sakai.config.enabledDashboardWidgets,
-                function addWidgetToList(i) {
-
-                var widgetName = sakai.config.enabledDashboardWidgets[i];
-                var widget = sakai.widgets[widgetName];
-                var alreadyIn = false;
-                // Run through the list of widgets that are already on my dashboard and decide
-                // whether the current widget is already on the dashboard (so show the Remove row),
-                // or whether the current widget is not on the dashboard (and thus show the Add row)
-                $.each(settings.columns, function checkAlreadyIn(c) {
-                    if (c.indexOf('column') > -1) {
-                        for (var i = 0, l = settings.columns[c].length; i < l; i++) {
-                            if (settings.columns[c][i].name === widgetName) {
-                                alreadyIn = true;
+            for (var l in sakai.widgets) {
+                if (sakai.widgets.hasOwnProperty(l)) {
+                    var alreadyIn = false;
+                    // Run through the list of widgets that are already on my dashboard and decide
+                    // whether the current widget is already on the dashboard (so show the Remove row),
+                    // or whether the current widget is not on the dashboard (and thus show the Add row)
+                    for (var c in settings.columns) {
+                        if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
+                            for (var ii = 0; ii < settings.columns[c].length; ii++) {
+                                if (settings.columns[c][ii].name === l) {
+                                    alreadyIn = true;
+                                }
                             }
                         }
                     }
-                });
-                if (widget && widget[widgetPropertyName]) {
-                    var index = addingPossible.items.length;
-                    addingPossible.items[index] = widget;
-                    addingPossible.items[index].alreadyIn = alreadyIn;
+                    if (sakai.widgets[l][widgetPropertyName]) {
+                        var index = addingPossible.items.length;
+                        addingPossible.items[index] = sakai.widgets[l];
+                        addingPossible.items[index].alreadyIn = alreadyIn;
+                    }
                 }
-            });
+            }
 
             // Render the list of widgets. The template will render a remove and add row for each widget, but will
             // only show one based on whether that widget is already on my dashboard

@@ -19,8 +19,9 @@
      * @param {Object} initialContent        Initial content to be added to the list [optional]
      * @param {Function} initialCallback     Function to call with data from initial request [optional]
      * @param {Object} $scrollContainer      Container used for infinite scrolling that is not the document [optional]
+     * @param {Integer} overrideThreshold    Integer to override the default scroll threshold for when the next request is done [optional]
      */
-    $.fn.infinitescroll = function(source, parameters, render, emptyListProcessor, loadingImage, postProcessor, postRenderer, initialContent, initialCallback, $scrollContainer) {
+    $.fn.infinitescroll = function(source, parameters, render, emptyListProcessor, loadingImage, postProcessor, postRenderer, initialContent, initialCallback, $scrollContainer, overrideThreshold) {
 
         parameters = parameters || {};
         // Page number to start listing results from. As this is an infinite scroll,
@@ -64,12 +65,12 @@
          * of the end of the page. If it is, we load the next set of results
          */
         var loadNextList = function() {
-            var threshold = 500;
+            var threshold = overrideThreshold || 500;
             var scrollTop = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
             var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
             var $finalContainer = $scrollContainer || $container;
             if ($scrollContainer) {
-                threshold = 280;
+                threshold = overrideThreshold || 280;
                 scrollTop = $scrollContainer.scrollTop();
                 pixelsRemainingUntilBottom = $scrollContainer.children('ul').height() - scrollTop;
             }
@@ -94,12 +95,16 @@
             var toFadeOut = 0;
             $.each(items, function(i, item) {
                 // Check whether the item is a string
-                // If so, we use the string as the selector
-                // If not, we assume a jQuery element was passed in
+                // If so, we will create the jQuery selector
+                // If not, we assume a jQuery element was passed & will set the context to the container
+                var $item;
                 if (typeof item === 'string') {
-                    item = '#' + item;
+                    $item = $('*[id="' + item + '"]', $container);
+                } else {
+                    $item = $(item, $container);
                 }
-                $(item, $container).fadeOut(false, function() {
+                $item.fadeOut(false, function() {
+                    $(this).remove();
                     isDoingExtraSearch = false;
                     toFadeOut++;
                     if (toFadeOut === items.length) {
@@ -134,13 +139,24 @@
         var renderList = function(data, prepend) {
             // Filter out items that are already in the list
             var filteredresults = [];
+
+            // Determine if there are more items to load
             var doAnotherOne = data.results.length > 0;
+            if (data.items && data.total) {
+                var itemsDisplayed = data.items * (parameters.page + 1);
+                doAnotherOne = itemsDisplayed < data.total;
+            }
+
             showHideLoadingContainer(false);
             $.each(data.results, function(i, result) {
                 if (result.id) {
                     // Determine whether this item is already in the list
                     // by looking for an element with the same id
-                    if ($('#' + result.id, $container).length === 0) {
+                    if (!$('*[id="' + result.id + '"]', $container).length) {
+                        filteredresults.push(result);
+                    }
+                } else if (result.target) {
+                    if (!$('*[id="' + result.target + '"]', $container).length) {
                         filteredresults.push(result);
                     }
                 }

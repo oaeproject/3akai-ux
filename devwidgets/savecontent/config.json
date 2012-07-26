@@ -1,20 +1,24 @@
 {
-    "id":"savecontent",
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/savecontent/bundles/default.properties",
-            "name":"Savecontent",
-            "description":"Saves content into the users library"
+            "description": "Saves content into the users library",
+            "name": "Savecontent"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/savecontent/bundles/es_ES.properties"
         },
         "fr_FR": {
             "bundle": "/devwidgets/savecontent/bundles/fr_FR.properties"
         }
     },
-    "url":"/devwidgets/savecontent/savecontent.html"
+    "id": "savecontent",
+    "trigger": {
+        "selectors": [".savecontent_trigger"],
+        "onLoad": false
+    },
+    "type": "sakai",
+    "url": "/devwidgets/savecontent/savecontent.html"
 }

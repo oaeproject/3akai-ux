@@ -1,28 +1,4 @@
 {
-    "userpages": true,
-    "userdashboard": true,
-    "grouppages": true,
-    "groupdashboard": true,
-    "sakaidocs": false,
-    "i18n": {
-        "default": {
-            "bundle": "/devwidgets/remotecontent/bundles/default.properties",
-            "name":"Remote content",
-            "description":"Remote content"
-        },
-        "en_US": {
-            "bundle": "/devwidgets/remotecontent/bundles/en_US.properties"
-        },
-        "fr_FR": {
-            "bundle": "/devwidgets/remotecontent/bundles/fr_FR.properties"
-        }
-    },
-    "id":"remotecontent",
-    "img":"/devwidgets/remotecontent/images/remotecontent.png",
-    "hasSettings": true,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/remotecontent/remotecontent.html",
     "defaultConfiguration": {
         "remotecontent": {
             "border_color": "cccccc",
@@ -32,5 +8,23 @@
             "width": "100",
             "width_unit": "%"
         }
-    }
+    },
+    "enabled": true,
+    "hasSettings": true,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/remotecontent/bundles/default.properties",
+            "description": "Remote content",
+            "name": "Remote content"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/remotecontent/bundles/fr_FR.properties"
+        }
+    },
+    "id": "remotecontent",
+    "img": "/devwidgets/remotecontent/images/remotecontent.png",
+    "sakaidocs": false,
+    "type": "sakai",
+    "url": "/devwidgets/remotecontent/remotecontent.html"
 }
+

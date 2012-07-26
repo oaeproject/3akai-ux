@@ -35,11 +35,13 @@
                 <option value="x-sakai/collection">__MSG__COLLECTIONS__</option>
             </select>-->
             <div class="s3d-search-container">
-                <input type="text" class="s3d-search-inputfield" id="inserter_collection_content_search" title="__MSG__SEARCH_THROUGH_COLLECTION__">
-                <button title="__MSG__SUBMIT_SEARCH__" class="s3d-button s3d-overlay-button s3d-search-button" type="button">
-                    <span class="s3d-aural-text">__MSG__SUBMIT_SEARCH__</span>
-                    <span class="s3d-search-button-icon"></span>
-                </button>
+                <form id="inserter_collection_content_search_form">
+                    <input type="text" class="s3d-search-inputfield" id="inserter_collection_content_search" title="__MSG__SEARCH_THROUGH_COLLECTION__">
+                    <button title="__MSG__SUBMIT_SEARCH__" class="s3d-button s3d-overlay-button s3d-search-button" type="submit">
+                        <span class="s3d-aural-text">__MSG__SUBMIT_SEARCH__</span>
+                        <span class="s3d-search-button-icon"></span>
+                    </button>
+                </form>
             </div>
             <hr class="fl-hidden fl-push"/>
             <div class="inserter_collections_top_container" id="inserter_content_infinitescroll_container">
@@ -55,7 +57,7 @@
     <ul>
         <li data-collection-id="library" class="s3d-droppable-container" data-dropevent="sakai.inserter.dropevent" data-scope="content">
             <div class="inserter_library_icon fl-force-left"></div>
-            <div class="inserter_item_count_container fl-force-right">${sakai.data.me.user.properties.contentCount || 0}</div>
+            <div class="inserter_item_count_container fl-force-right">${sakai.data.me.profile.counts.contentCount || 0}</div>
             <span class="s3d-regular-links s3d-bold">__MSG__MY_LIBRARY__</span>
         </li>
     </ul>
@@ -73,7 +75,8 @@
 
 <div id="inserter_collection_content_template"><!--
     {for item in items}
-        <li class="s3d-draggable-container s3d-droppable-container" id="${item._path}" data-content-id="${item._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection}">
+        {var canShare = sakai.api.Content.canCurrentUserShareContent(item)}
+        <li class="s3d-draggable-container s3d-droppable-container" id="${item._path}" data-content-id="${item._path}" data-dropevent="sakai.inserter.dropevent" data-collection-id="${collection}" data-canshare="${canShare}">
             {if item.hasPreview}
                 <img alt="${sakai.api.Content.getMimeTypeData(item._mimeType).description}" src="${sakai.api.Content.getThumbnail(item) || sakai.api.Content.getMimeTypeData(item._mimeType).URL}" class="fl-force-left s3d-icon-32"/>
             {else}

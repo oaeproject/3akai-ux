@@ -75,9 +75,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             participantCount = participantCount + value;
             $("#searchgroups_result_participant_count_" + groupid).text(participantCount);
             if (participantCount === 1) {
-                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.getValueForKey("PARTICIPANT"));
+                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.getValueForKey("PARTICIPANT_LC"));
             } else {
-                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.getValueForKey("PARTICIPANTS"));
+                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.getValueForKey("PARTICIPANTS_LC"));
             }
             $("#searchgroups_result_participant_link_" + groupid).attr("title", $.trim($("#searchgroups_result_participant_link_" + groupid).text()));
         };
@@ -179,19 +179,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var openTooltip = function (groupid, $item, leaveAllowed) {
             getGroup(groupid, function(group) {
                 group.sakai = sakai;
-                var adjustHeight = 0;
-                if (sakai.config.enableBranding && $('.branding_widget').is(':visible')) {
-                    adjustHeight = parseInt($('.branding_widget').height(), 10) * -1;
-                }
-                $(window).trigger("init.tooltip.sakai", {
-                    tooltipHTML: sakai.api.Util.TemplateRenderer(
-                        $joingroup_hover_template, group),
+                $(document).trigger('init.tooltip.sakai', {
+                    tooltipHTML: sakai.api.Util.TemplateRenderer($joingroup_hover_template, group),
                     tooltipAutoClose: true,
                     tooltipArrow: "top",
-                    tooltipTop: $item.offset().top + $item.height() + adjustHeight,
+                    tooltipTop: $item.offset().top + $item.height(),
                     tooltipLeft: $item.offset().left + $item.width() + 3,
                     onShow: function () {
-                        $(window).trigger("init.joinrequestbuttons.sakai", [
+                        $(document).trigger('init.joinrequestbuttons.sakai', [
                             {
                                 "groupProfile": group.groupProfile,
                                 "groupMembers": group.groupMembers,
@@ -241,7 +236,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var resetTooltip = function (groupid, $item) {
-            $(window).trigger("done.tooltip.sakai");
+            $(document).trigger('done.tooltip.sakai');
             openTooltip(groupid, $item);
         };
 
@@ -250,10 +245,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var doInit = function () {
-            $(window).bind("initialize.joingroup.sakai", function(evObj, groupid, target){
-                sakai.api.Groups.isAllowedToLeave(groupid, sakai.data.me, function(leaveAllowed){
-                    openTooltip(groupid, $(target), leaveAllowed[groupid]);
-                });
+            $(document).on('click', '.sakai_joingroup_overlay', function(ev) {
+                var $el = $(this);
+                var groupid = $el.attr('data-groupid');
+                if (groupid) {
+                    sakai.api.Groups.isAllowedToLeave(groupid, sakai.data.me, function(leaveAllowed) {
+                        openTooltip(groupid, $el, leaveAllowed[groupid]);
+                    });
+                }
                 return false;
             });
         };
