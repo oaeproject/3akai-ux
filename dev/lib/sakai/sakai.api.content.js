@@ -991,7 +991,8 @@ define(
                     'cache': false,
                     'dataType': 'json',
                     'success': function(data) {
-                        if (data && data.query && data.query.results && data.query.results.script && data.query.results.script.content) {
+                        if (data && data.query && data.query.results &&
+                                data.query.results.script && data.query.results.script.content) {
                             var tedContent = data.query.results.script.content;
                             var tedURLArray = tedRegex.exec(tedContent);
                             var tedThumbnailArray = tedRegexThumbnail.exec(tedContent);
