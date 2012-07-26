@@ -289,8 +289,9 @@
          * image provided by the container when a new set of results is being loaded
          */
         var setUpLoadingIcon = function() {
+            var loadingText = require('sakai/sakai.api.i18n').getValueForKey('LOADING');
             if (loadingImage) {
-                $loadingContainer.append($('<img />', {'src': loadingImage}));
+                $loadingContainer.append($('<img />', {'src': loadingImage, 'alt': loadingText}));
                 $loadingContainer.css({'margin-top': '15px', 'text-align': 'center'});
                 showHideLoadingContainer(false);
                 $loadingContainer.insertAfter($container);
@@ -305,6 +306,7 @@
          * Get the initial list of items to add to the list
          */
         var loadInitialList = function() {
+            $container.attr('aria-live', 'assertive');
             var initial = true;
             setUpLoadingIcon();
             if (initialContent && initialContent.length > 0) {
