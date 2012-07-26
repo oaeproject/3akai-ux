@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<project name="Sakai 3 UX" default="finish" basedir=".">
+<project name="Sakai OAE UX" default="finish" basedir=".">
 
-    <description>Sakai 3 UX Build Script</description>
+    <description>Sakai OAE UX Build Script</description>
 
     <!-- Target: Init -->
     <target name="init">
 
-        <echo message="Sakai 3 UX Build: Initialising..." />
+        <echo message="Sakai OAE UX Build: Initialising..." />
 
         <!-- SETUP - Source and target paths -->
         <property name="SRC_DIR" value="dev" description="Core source folder" />
@@ -44,12 +44,16 @@
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
         <property name="ANT_CONTRIB" value="tools/ant-contrib/ant-contrib-1.0b3.jar" description="Ant-contrib 1.0b3" />
         <property name="HASHTOOL_DIR" value="tools/hashfiles" description="hash js and css files" />
+        <property name="CSSEMBED" value="tools/cssembed/cssembed-0.4.5.jar" description="CSSEmbed - automaticly create CSS files with embedded data URIs" />
 
         <!-- SETUP - Set Ant-contrib dependency -->
         <taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
                 <pathelement location="${ANT_CONTRIB}"/>
             </classpath>
+        </taskdef>
+
+        <taskdef name="cssembed" classname="net.nczonline.web.cssembed.CSSEmbedTask" classpath="${CSSEMBED}">
         </taskdef>
 
         <!-- Define patternset for widget JS files (from ${TARGET_DIR_W}) -->
@@ -71,7 +75,7 @@
     <!-- Target: Create target folders, set up logging -->
     <target name="create_target_folders" depends="init" description="Creating target forlders">
 
-        <echo message="Sakai 3 UX Build: Creating target folders..." />
+        <echo message="Sakai OAE UX Build: Creating target folders..." />
 
         <mkdir dir="${TARGET_DIR}"/>
         <mkdir dir="${TARGET_DIR_W}"/>
@@ -297,19 +301,30 @@
         </java>
     </target>
 
+    <!-- Target: CSSEmbed -->
+    <target name="cssembed">
+        <echo message="CSSEmbed - replace all the small icons with data URIs." />
+        <echo message="[NOTE] skipMissing is necessary for the CLE icons." />
+        <!-- Add verbose="true" if you want to see more output -->
+        <cssembed root="." skipMissing="true">
+            <fileset dir="${TARGET_DIR}" includes="**/*.css" />
+            <fileset dir="${TARGET_DIR_W}" includes="**/*.css" />
+        </cssembed>
+    </target>
+
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, hash_files">
-        <echo message="Sakai 3 UX Build: Build complete." />
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, cssembed, hash_files">
+        <echo message="Sakai OAE UX Build: Build complete." />
     </target>
 
     <!-- Target: Development Builds -->
     <target name="development" depends="copy_instrumented, documentation, unpackMathFonts, instrument">
-        <echo message="Sakai 3 UX Development Build: Build complete." />
+        <echo message="Sakai OAE UX Development Build: Build complete." />
     </target>
 
     <!-- Target: Development Builds -->
     <target name="dev_light" depends="copy_prod, copy_test, create_target_folders">
-        <echo message="Sakai 3 UX Development Build: Build complete." />
+        <echo message="Sakai OAE UX Development Build: Build complete." />
     </target>
 
 

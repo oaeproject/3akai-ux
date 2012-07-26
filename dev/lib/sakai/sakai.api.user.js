@@ -195,7 +195,7 @@ define(
         },
 
         /**
-         * Remove the user credentials in the Sakai3 system.
+         * Remove the user credentials in the Sakai OAE system.
          * Note that this doesn't actually remove the user, only its permissions.
          *
          * @example
@@ -237,6 +237,11 @@ define(
 
         },
 
+        /**
+         * Gets the profile data for a user
+         * @param {String} userid The userId to fetch the profile for
+         * @param {Function} callback Callback function to call when the request is complete
+         */
         getUser: function(userid, callback){
             var authprofileURL = "/~" + sakai_util.safeURL(userid) + "/public/authprofile.profile.json";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
@@ -249,7 +254,8 @@ define(
         },
 
         /**
-         * @param {Array} userArray Array of userIds to fetch
+         * Gets the profile data for multiple users
+         * @param {Array} userArray Array of userIds to fetch the profiles for
          * @param {Function} callback Callback function to call when the request is complete
          */
         getMultipleUsers: function(userArray, callback){
@@ -286,7 +292,7 @@ define(
         },
 
         /**
-         * Log-in to Sakai3
+         * Log-in to Sakai OAE
          *
          * @example
          * sakai.api.User.login({
@@ -345,7 +351,7 @@ define(
 
 
         /**
-         * Log-out from Sakai3
+         * Log-out from Sakai OAE
          *
          * @example sakai.api.user.logout();
          * @param {Function} [callback] Callback function that is called after sending the log-in request to the server.
@@ -353,31 +359,21 @@ define(
         logout : function(callback) {
 
             /*
-             * POST request to the logout service,
-             * which will destroy the session.
+             * Request to the logout service.
              */
-            $.ajax({
-                url: sakai_conf.URL.PRESENCE_SERVICE,
-                type: "POST",
-                data: {
-                    "sakai:status": "offline",
-                    "_charset_": "utf-8"
-                },
-                complete: function(xhr, textStatus) {
-                    if (sakai_conf.followLogoutRedirects) {
-                        window.location = sakai_conf.URL.LOGOUT_SERVICE;
-                    } else {
-                        // hit the logout service to destroy the session
-                        $.ajax({
-                            url: sakai_conf.URL.LOGOUT_SERVICE,
-                            type: "GET",
-                            complete: function(xhrInner, textStatusInner) {
-                                callback(textStatusInner === "success");
-                            }
-                        });
+            if (sakai_conf.followLogoutRedirects) {
+                window.location = sakai_conf.URL.LOGOUT_SERVICE;
+            } else {
+                // hit the logout service to destroy the session
+                $.ajax({
+                    url: sakai_conf.URL.LOGOUT_SERVICE,
+                    // SAKIII-5968 - we need to use cache:false since doing a POST doesn't always work.
+                    cache: false,
+                    complete: function(xhrInner, textStatusInner) {
+                        callback(textStatusInner === 'success');
                     }
-                }
-            });
+                });
+            }
         },
 
         /**
@@ -425,12 +421,17 @@ define(
          * @return {Void}
          */
         loadMeData : function(callback) {
-            // Get the service url from the config file
-            var data_url = sakai_conf.URL.ME_SERVICE;
+            var cache = true;
+            // don't use cache for IE8
+            if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                cache = false;
+            }
+
             // Start a request to the service
             $.ajax({
-                url: data_url,
-                cache: false,
+                // Get the service url from the config file
+                url: sakai_conf.URL.ME_SERVICE,
+                cache: cache,
                 success: function(data) {
                     sakaiUserAPI.data.me = sakai_serv.convertObjectToArray(data, null, null);
 

@@ -158,7 +158,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         // run the initialization function when the widget object loads
-        $(window).bind("init.worldsettings.sakai", function(e, _worldId) {
+        $(document).on('init.worldsettings.sakai', function(e, _worldId) {
             doInit(_worldId);
         });
     };

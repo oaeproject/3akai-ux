@@ -22,7 +22,7 @@
     <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
     <packaging>jar</packaging>
     <version>1.5.0-SNAPSHOT</version>
-    <name>Sakai 3 UX File Hasher</name>
+    <name>Sakai OAE UX File Hasher</name>
     <description>Hashes files and appends the hash to the name to trigger proper caching</description>
     <build>
       <plugins>

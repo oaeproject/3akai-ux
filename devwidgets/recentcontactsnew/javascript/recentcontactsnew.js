@@ -104,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Gets a contact and displays info
          * @param {Object} data - contact data
          */
-        var handlerecentcontactsnewData = function(data) {
+        var handleRecentContactsData = function(data) {
             if(data && data.length > 0) {
                 $("#recentcontactsnew_no_results_container").hide();
                 var contactArray = [];
@@ -125,32 +125,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#recentcontactsnew_no_results_container").show();
                 $(".recentcontactsnew_main").hide();
             }
-        };
-
-        /**
-         * This function will replace all
-         * @param {String} term The search term that needs to be converted.
-         */
-        var prepSearchTermForURL = function(term) {
-            // Filter out http:// as it causes the search feed to break
-            term = term.replace(/http:\/\//ig, "");
-            // taken this from search_main until a backend service can get related content
-            var urlterm = "";
-            var split = $.trim(term).split(/\s/);
-            if (split.length > 1) {
-                for (var i = 0; i < split.length; i++) {
-                    if (split[i]) {
-                        urlterm += split[i] + " ";
-                        if (i < split.length - 1) {
-                            urlterm += "OR ";
-                        }
-                    }
-                }
-            }
-            else {
-                urlterm = "*" + term + "*";
-            }
-            return urlterm;
         };
 
         /**
@@ -248,8 +222,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return None
          */
         var init = function() {
-            sakai.api.User.getContacts(function(){
-                handlerecentcontactsnewData(sakai.data.me.mycontacts);
+            var params = {
+                'state': 'ACCEPTED',
+                'items': '1'
+            };
+            $.ajax({
+                url: sakai.config.URL.CONTACTS_FIND_STATE,
+                data: params,
+                success: function(data) {
+                    handleRecentContactsData(data.results);
+                },
+                error: function() {
+                    handleRecentContactsData(false);
+                }
             });
         };
 

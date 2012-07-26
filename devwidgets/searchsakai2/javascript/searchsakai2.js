@@ -17,8 +17,8 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai) {
-     
+require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jquery-pager'], function($, sakai) {
+
     /**
      * @name sakai.searchsakai2
      *

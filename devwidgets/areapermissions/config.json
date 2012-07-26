@@ -14,6 +14,10 @@
             "bundle": "/devwidgets/areapermissions/bundles/fr_FR.properties"
         }
     },
+    "trigger": {
+        "events": ["init.areapermissions.sakai"],
+        "onLoad": false
+    },
     "id": "areapermissions",
     "personalportal": false,
     "type": "core",
