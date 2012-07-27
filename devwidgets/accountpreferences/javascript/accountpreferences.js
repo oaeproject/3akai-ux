@@ -381,14 +381,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(saveButton).bind("click", function(){
-            if(errorCorrected) {
-	            if (preferencesChanges){
+        	if (errorCorrected) {
+	        	if (preferencesChanges) {
 	                $(accountPreferencesPreferencesForm).submit();
 	            }
-	            if (privacyChanges){
-	                $("#accountpreferences_privacy_change").submit();
+	            if (privacyChanges) {
+	                $('#accountpreferences_privacy_change').submit();
 	            }
-	            if (passwordChanges){
+	            if (passwordChanges) {
 	                $(accountPasswordTab).click();
 	                if ($(accountPreferencesPasswordChange).valid()) {
 	                    $(accountPreferencesPasswordChange).submit();
@@ -400,11 +400,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 	                }
 	            }
 	            if (emailChanges) {
-	                $("#accountpreferences_email_change").submit();
+	                $('#accountpreferences_email_change').submit();
 	            }
             }
             else {
-            	$(accountPasswordTab).click();
+            	$(accountPreferencesTabsButtons).removeClass(tabSelected);
+            	$(accountPasswordTab).addClass(tabSelected);
+           		hideAllPanes();
+            	$(passChangeContainer).show();
             }
         });
 
@@ -415,7 +418,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!preferencesChanges && !privacyChanges && !passwordChanges){
                 sakai.api.Util.Modal.close(accountPreferencesContainer);
                 if (pageReload){
-                    window.setTimeout(function(){
+               		window.setTimeout(function(){
                         document.location.reload();
                     },2000);
                 }
