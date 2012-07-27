@@ -1396,7 +1396,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                         result = $.parseJSON(data.result);
                     }
                     postFileUpload(result);
-                }
+                };
             }
 
             $('#newaddcontent_file_upload').fileupload(fileuploadOptions);
