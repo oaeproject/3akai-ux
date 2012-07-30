@@ -222,6 +222,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         var doShare = function(event, userlist, message, contentobj, role) {
             var userList = userlist || getSelectedList();
             var messageText = message || $.trim($newsharecontentMessage.val());
+            var shareMessage = $('#newsharecontent_users_added_text').text() + ' ';
+
             contentObj = contentobj || contentObj;
             var canShareFiles = getCanShareFiles(contentObj.data);
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
@@ -247,7 +249,15 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                             });
                         }
                     });
-                    sakai.api.Util.notification.show(false, $("#newsharecontent_users_added_text").text() + " " + userList.toAddNames.join(", "), "");
+
+                    // Formulate content shared message with list of users
+                    if (userList.toAddNames.length > 1) {
+                        shareMessage += _.initial(userList.toAddNames).join(', ') + ' ' + sakai.api.i18n.getValueForKey('AND') + ' ' + _.last(userList.toAddNames);
+                    } else {
+                        shareMessage += userList.toAddNames[0];
+                    }
+
+                    sakai.api.Util.notification.show(false, shareMessage, '');
                     $newsharecontentContainer.jqmHide();
                 }
             } else {

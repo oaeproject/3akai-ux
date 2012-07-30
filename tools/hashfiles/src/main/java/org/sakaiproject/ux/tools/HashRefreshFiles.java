@@ -56,6 +56,7 @@ public class HashRefreshFiles {
   public String[] manageFolders;
   
   public final String charSet = "UTF-8";
+  public final String fileSeparator = System.getProperty("file.separator");
 
   /**
    * Read in the properties & put them out to the console
@@ -90,6 +91,20 @@ public class HashRefreshFiles {
     BigInteger bi = new BigInteger(1, md.digest());
     return bi.toString(16).substring(0, HASH_LENGTH);
   }
+
+  /**
+   *  Return the URL equivalent for a file path.
+   *  This is so we can replace back slashes with forward slashes,
+   *  so Windows systems can use the string to match a URL.
+   *  for example: path: \a\b\d\e\t.js
+   *  return: /a/b/d/e/t.js
+   * @param path
+   * @return
+   */
+  public String getPathUrl(String path) {
+    return path.replace('\\', '/');
+  }
+
   /**
    *  return the relative path of path2 file in path1 file
    *  for example: path1: /a/b/d/e/t.js, path2: /a/b/c/x.js
@@ -271,19 +286,21 @@ public class HashRefreshFiles {
     boolean modifiedFlag = false;
     String filePath = file.getAbsolutePath().substring(rootDir.getAbsolutePath().length());
     for (String s : hashedResults.keySet()) {
-      if (sb.indexOf(s) >= 0) {
-        int loc = sb.indexOf(s);
+      String sUrl = getPathUrl(s);
+      if (sb.indexOf(sUrl) >= 0) {
+        int loc = sb.indexOf(sUrl);
         while (loc >= 0) {
-          char c = sb.charAt(loc + s.length());
-          if ((!s.endsWith("/")) && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')
+          char c = sb.charAt(loc + sUrl.length());
+          if ((!sUrl.endsWith("/")) && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')
              || c == '(')) {
-            loc = sb.indexOf(s, loc + s.length());
+            loc = sb.indexOf(sUrl, loc + sUrl.length());
             continue;
           }
-          sb.replace(loc, loc + s.length(), hashedResults.get(s));
-          loc = sb.indexOf(s, loc + s.length());
+          String hashedUrl = getPathUrl(hashedResults.get(s));
+          sb.replace(loc, loc + sUrl.length(), hashedUrl);
+          loc = sb.indexOf(sUrl, loc + sUrl.length());
           System.out.println("processing file: " + filePath);
-          System.out.println("replace path: {" + s + ", " + hashedResults.get(s) + "}");
+          System.out.println("replace path: {" + sUrl + ", " + hashedUrl + "}");
           modifiedFlag = true;
         }
         continue;
@@ -292,20 +309,22 @@ public class HashRefreshFiles {
       if (relativePath != null && sb.indexOf(relativePath) >= 0) {
         String newPath = hashedResults.get(s);
         newPath = relativePath.substring(0, relativePath.lastIndexOf("/") + 1) + newPath.substring(newPath.lastIndexOf("/") + 1);
-        if (relativePath.equals(newPath))
+        String relativePathUrl = getPathUrl(relativePath);
+        String newPathUrl = getPathUrl(newPath);
+        if (relativePathUrl.equals(newPathUrl))
           continue;
-        int loc = sb.indexOf(relativePath);
+        int loc = sb.indexOf(relativePathUrl);
         while (loc >= 0) {
-          char c = sb.charAt(loc + relativePath.length());
-          if ((!relativePath.endsWith("/")) && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')
+          char c = sb.charAt(loc + relativePathUrl.length());
+          if ((!relativePathUrl.endsWith("/")) && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')
               || c == '(')) {
-            loc = sb.indexOf(relativePath, loc + relativePath.length());
+            loc = sb.indexOf(relativePathUrl, loc + relativePathUrl.length());
             continue;
           }
-          sb.replace(loc, loc + relativePath.length(), newPath);
-          loc = sb.indexOf(relativePath, loc + newPath.length());
+          sb.replace(loc, loc + relativePathUrl.length(), newPathUrl);
+          loc = sb.indexOf(relativePathUrl, loc + newPathUrl.length());
           System.out.println("processing file: " + filePath);
-          System.out.println("replace relative path: {" + relativePath + ", " + newPath + "}");
+          System.out.println("replace relative path: {" + relativePathUrl + ", " + newPathUrl + "}");
           modifiedFlag = true;
         }
       }
@@ -336,7 +355,7 @@ public class HashRefreshFiles {
     if (this.manageFolders != null && this.requireBaseUrl != null) {
       for (String s : manageFolders) {
         if (s.equals(requireBaseUrl)) {
-          String newLibPath = this.hashedResults.get(s);
+          String newLibPath = getPathUrl(this.hashedResults.get(s));
           isLibHashed = true;
           loc = all.indexOf("{baseUrl:");
           endloc = all.indexOf(",", loc) - 1;
@@ -403,8 +422,12 @@ public class HashRefreshFiles {
     this.hashFileTypes = props.getProperty(HASH_TYPES).split(",");
     this.processingFileTypes = props.getProperty(PROCESSING_FILE_TYPES).split(",");
     this.ignoreFilePaths = props.getProperty(IGNORE_FILE_PATHS).split(",");
-    this.ignoreRegEx = props.getProperty(IGNORE_REGEX);
-    this.manageFolders = props.getProperty(MANAGE_FOLDERS).split(",");
+    String regexFileSeparator = fileSeparator;
+    if (regexFileSeparator.equals("\\")) {
+      regexFileSeparator = "\\\\";
+    }
+    this.ignoreRegEx = props.getProperty(IGNORE_REGEX).replace("{fileSeparator}", regexFileSeparator);
+    this.manageFolders = props.getProperty(MANAGE_FOLDERS).replace("{fileSeparator}", fileSeparator).split(",");
 
     this.requireBaseUrl = props.getProperty(REQUIRE_BASE_URL);
     this.requireDependencyFile = props.getProperty(REQUIRE_DEPENDENCY_FILE);

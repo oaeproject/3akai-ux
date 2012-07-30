@@ -9,6 +9,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/areapermissions/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/areapermissions/bundles/fr_FR.properties"
         }
     },
     "trigger": {

@@ -27,7 +27,7 @@
                 <div class="s3d-page-header">
                     <div id="widget_entity" class="widget_inline"></div>
                     <!-- SEARCH BAR -->
-                    <div class="s3d-search-bar">
+                    <div class="s3d-search-bar" role="search" aria-label="__MSG__SEARCH_FOR__">
                         <span id="form" class="s3d-search-container">
                             <input type="text" maxlength="255" id="search_text" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
                             <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SUBMIT_SEARCH__">
@@ -81,7 +81,7 @@
                     <div id="widget_lhnavigation" class="widget_inline"></div>
                 </div>
                 <div class="s3d-page-column-right">
-                    <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;">
+                    <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;" role="main">
                         <div id="widget_contentauthoring" class="widget_inline"></div>
                     </div>
                 </div>
@@ -242,5 +242,14 @@
         <!-- GROUP JS -->
         <script>require(["/dev/javascript/search.js"]);</script>
         
+        </div>
+        <noscript>
+            <h1>Sorry!</h1>
+            <p>
+                JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
+                If you need assistance, please visit
+                <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
+            </p>
+        </noscript>
     </body>
 </html>

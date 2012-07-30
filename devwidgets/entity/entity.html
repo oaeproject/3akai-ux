@@ -88,8 +88,9 @@
     {if type && type == "user_me"}
         <button id="entity_user_image" class="entity_change_avatar">
             <span class="entity_profilepic_internal">
-                <img id="entity_profile_picture" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.displayName}" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
+                <img id="entity_profile_picture" alt="" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
             </span>
+            <span class="s3d-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${data.displayName}</span> 
             <span class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></span>
         </button>
         <div class="s3d-dropdown-list entity_user_avatar_menu" style="display:none;">
@@ -225,7 +226,7 @@
 
         {if data.isManager}
             <div class="entity_owns_actions_container">
-                <span class="entity_owns_actions_header">__MSG__VISIBILITY__</span>
+                <div class="entity_owns_actions_header">__MSG__VISIBILITY__</div>
                 <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
                     <div class="entity_owns_actions_private ew_permissions {if permissions === "private"} selected {/if}" data-permissionvalue="private">
                         <div class="s3d-dropdown-list">
@@ -263,14 +264,14 @@
                 </div>
             </div>
             <div class="entity_owns_actions_container">
-                <span class="entity_owns_actions_header">__MSG__COLLABORATION__</span>
+                <div class="entity_owns_actions_header">__MSG__COLLABORATION__</div>
                 <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right"  style="display:none;">
                     <div class="s3d-dropdown-list">
                         <div class="s3d-dropdown-list-arrow-up"></div>
                         <span>__MSG__CREATE_COLLECTION_FROM_PEOPLE_WORKING_ON_THIS__</span>
                     </div>
                 </div>
-                <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
+                <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions entity_owns_actions_collab">
                     <div class="entity_owns_actions_collaborator has_counts ew_permissions">
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
@@ -303,7 +304,6 @@
                         </div>
                         <span id="entity_participants_count">${data.members.counts.collaboratorusers}</span>
                     </div>
-                    <span>|</span>
                     <div class="entity_owns_actions_share has_counts ew_permissions">
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
@@ -353,7 +353,6 @@
                         <span>${(data.members.counts.viewergroups + data.members.counts.viewerusers + data.members.counts.viewercollections) || "0"}</span>
                     </div>
                     {if canShare}
-                        <span>|</span>
                         <button type="button" class="s3d-link-button s3d-bold share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
                     {/if}
                 </div>
@@ -437,8 +436,9 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
     {if type && type == "group_managed"}
         <button id="entity_group_image" class="entity_change_avatar">
             <span class="entity_profilepic_internal">
-                <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]|safeOutput}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" alt="" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </span>
+            <span class="s3d-aural-text">__MSG__GROUP_PICTURE_OPTIONS_FOR__ ${data.authprofile["sakai:group-title"]|safeOutput}</span> 
             <span class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></span>
         </button>
         <div class="s3d-dropdown-list entity_group_avatar_menu" style="display:none;">

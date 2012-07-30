@@ -8,6 +8,11 @@
         },
         "en_US": {
             "bundle": "/devwidgets/recentmessages/bundles/en_US.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentmessages/bundles/fr_FR.properties",
+            "name": "Mes messages récents",
+            "description": "Mes messages récents"
         }
     },
     "id": "recentmessages",

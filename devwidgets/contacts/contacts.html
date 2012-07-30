@@ -10,34 +10,44 @@
         <div class="contacts_item_end"></div>
     </div>
 
-    <h1 class="s3d-contentpage-title">__MSG__MY_CONTACTS__</h1>
+    <div id="contacts_title_container"></div>
+    <div id="contacts_title_template"><!--
+        {if isMe}
+            <h1 class="s3d-contentpage-title">__MSG__MY_CONTACTS__</h1>
+        {else}
+            <h2 class="s3d-contentpage-title">__MSG__MY_CONTACTS_OTHER__</h2>
+        {/if}
+    --></div>
 
-    <div class="s3d-page-header-top-row" style="display:none;">
-        <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
-            <div class="s3d-listview-grid">
-                <div class="s3d-action-icon s3d-search-results-gridview"></div>
+    <div class="s3d-page-header-top-row fl-fix" style="display:none;">
+        <div class="contacts-menu fl-fix">
+            <div class="s3d-search-container fl-force-left">
+                <input id="contacts_search_input" type="text" title="__MSG__SEARCH_THROUGH_MY_CONTACTS__" class="s3d-search-inputfield" role="search" aria-label="__MSG__SEARCH_THROUGH_MY_CONTACTS__"/>
+                <button type="button" id="contacts_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
+                    <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_MY_CONTACTS__"/>
+                </button>
+                <span class="s3d-search-result-count" style="display:none;"><span class="s3d-search-result-count-count s3d-bold"></span> <span class="s3d-search-result-count-label">__MSG__RESULTS__</span></span>
             </div>
-            <div class="s3d-listview-list selected">
-                <div class="s3d-action-icon s3d-search-results-listview selected"></div>
+            <div class="s3d-page-header-top-row-right fl-force-right">
+                <div id="contacts_sortarea" class="s3d-margin-top-5 s3d-page-header-sort-area">
+                    <label for="contacts_sortby">__MSG__SORT_BY:__</label>
+                    <select id="contacts_sortby" name="contacts_sortby">
+                        <option value="asc">__MSG__LASTNAME__ __MSG__A_Z__</option>
+                        <option value="desc">__MSG__LASTNAME__ __MSG__Z_A__</option>
+                    </select>
+                </div>
+                <div class="s3d-button s3d-header-button s3d-header-smaller-button s3d-listview-options">
+                    <div class="s3d-listview-grid">
+                        <div class="s3d-action-icon s3d-search-results-gridview"></div>
+                    </div>
+                    <div class="s3d-listview-list selected">
+                        <div class="s3d-action-icon s3d-search-results-listview selected"></div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="contacts_sortarea" class="s3d-margin-top-5 s3d-page-header-sort-area">
-            <label for="contacts_sortby">__MSG__SORT_BY__:</label>
-            <select id="contacts_sortby" name="contacts_sortby">
-                <option value="asc">__MSG__LASTNAME__ __MSG__A_Z__</option>
-                <option value="desc">__MSG__LASTNAME__ __MSG__Z_A__</option>
-            </select>
-        </div>
-        <div class="s3d-search-container">
-            <input id="contacts_search_input" type="text" title="__MSG__SEARCH_THROUGH_MY_CONTACTS__" class="s3d-search-inputfield"/>
-            <button type="button" id="contacts_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
-                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_MY_CONTACTS__"/>
-            </button>
-            <span class="s3d-search-result-count" style="display:none;"><span class="s3d-search-result-count-count s3d-bold"></span> <span class="s3d-search-result-count-label">__MSG__RESULTS__</span></span>
         </div>
     </div>
     <div class="s3d-page-header-bottom-row" style="display:none;">
-        <a class="s3d-button s3d-large-button fl-force-right" href="/search#l=people">__MSG__FIND_MORE_PEOPLE__</a>
         <div class="s3d-button s3d-header-button s3d-header-smaller-button" id="contacts_select_all_container">
             <input type="checkbox" id="contacts_select_checkbox"/>
         </div>
@@ -50,6 +60,7 @@
             <div class="s3d-action-icon s3d-actions-message"></div>
             __MSG__MESSAGE__
         </button>
+        <a class="s3d-button s3d-large-button fl-force-right" href="/search#l=people">__MSG__FIND_MORE_PEOPLE__</a>
     </div>
 
     <div id="contacts_container">
@@ -162,11 +173,6 @@
                                 {/if}
                             {/if}
                         </div>
-                        {if !sakai.data.me.user.anon }
-                            <span class="contacts_listview_items">
-                                <button title="__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}" sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"><span class="s3d-aural-text">__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}</span></button>
-                            </span>
-                        {/if}
                         <a href="/~${a.userid|safeURL}" title="${a.linkTitle}">
                             <img alt="__MSG__PROFILE_PICTURE_FOR__ ${a.name}" src="${a.picture}">
                             {if a.pictureLarge}
@@ -219,6 +225,11 @@
                                 </div>
                             {/if}
                         </div>
+                        {if !sakai.data.me.user.anon }
+                            <span class="contacts_listview_items">
+                                <button title="__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}" sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"><span class="s3d-aural-text">__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}</span></button>
+                            </span>
+                        {/if}
                     </li>
             {/for}
         {/if}

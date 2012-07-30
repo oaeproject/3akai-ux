@@ -99,7 +99,7 @@
     width: 275px;
 }
 #accountpreferences_section_autotagging div {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 .accountpreferences_section_wrap_password, .accountpreferences_section_wrap_email {
     margin: 0 10px 10px 0;
@@ -202,7 +202,7 @@ div.accountpreferences_error {
     margin: 0;
     display: block;
     height: 18px;
-    width: 30px;
+    width: 45px;
     font-weight: bold;
 }
 #accountpreferences_section_autotagging_buttons button.accountpreferences_autotagging_selected {

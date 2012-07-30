@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/joinrequestbuttons/bundles/default.properties",
             "description": "Display join/leave/pending buttons to match the context",
             "name": "Join request buttons"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/joinrequestbuttons/bundles/fr_FR.properties"
         }
     },
     "id": "joinrequestbuttons",

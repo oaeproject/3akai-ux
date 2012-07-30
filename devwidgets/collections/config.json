@@ -1,0 +1,19 @@
+{
+    "enabled": false,
+    "hasSettings": false,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/collections/bundles/default.properties",
+            "name": "Collections widget",
+            "description": "Collections widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/collections/bundles/fr_FR.properties"
+        }
+    },
+    "id": "collections",
+    "personalportal": false,
+    "showinsakaigoodies": false,
+    "type": "sakai",
+    "url": "/devwidgets/collections/collections.html"
+}

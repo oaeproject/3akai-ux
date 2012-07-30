@@ -113,6 +113,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var languagesTemplate = accountPreferences + "_languagesTemplate";
 
         var $accountpreferences_langloc_settings = $("#accountpreferences_langloc_settings");
+        var $tabList = $('#accountpreferences_tabs');
 
         var myClose = function(hash) {
             hash.o.remove();
@@ -565,6 +566,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.Modal.close(accountPreferencesContainer);
         });
 
+        // Bind arrow keys for changing tabs
+        $tabList.on('keydown', 'button', (function(e) {
+            var $clickedLi = $(this).parent();
+            if (e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.DOWN) {
+                if ($clickedLi.next(':visible').length) {
+                    // focus on next tab
+                    $clickedLi.next(':visible').find('button').focus().click();
+                } else {
+                    // focus on first tab
+                    $clickedLi.siblings(':visible:first').find('button').focus().click();
+                }
+                return false;
+            } else if (e.which === $.ui.keyCode.LEFT || e.which === $.ui.keyCode.UP) {
+                if ($clickedLi.prev(':visible').length) {
+                    // focus on previous tab
+                    $clickedLi.prev(':visible').find('button').focus().click();
+                } else {
+                    // focus on last tab
+                    $clickedLi.siblings(':visible:last').find('button').focus().click();
+                }
+                return false;
+            }
+        }));
+
         /////////////////////////////
         // INITIALISATION FUNCTION //
         /////////////////////////////
@@ -587,7 +612,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(passChangeContainer).hide();
                 }
                 if (sakai.config.emailLocation !== 'accountpreferences') {
-                    $(accountEmailTab).hide();
+                    $(accountEmailTab).parent().hide();
                     $(emailChangeContainer).hide();
                 } else {
                     var emailVal = sakai.api.User.getProfileBasicElementValue(

@@ -65,7 +65,7 @@
                             <div class="admin_widgets_jumpbox_box">
                                 <div class="admin_widgets_upload_section">
                                     __MSG__INSTALL_FROM_URL__
-                                    <p>__MSG__ENTER_OR_PASTE_WIDGET_WEB_ADDRESS__:</p>
+                                    <p>__MSG__ENTER_OR_PASTE_WIDGET_WEB_ADDRESS__</p>
                                     <input id="admin_widgets_install_url" type="text" name="admin_widgets_install_url"/>
                                     <p>
                                         <button class="s3d-button" id="admin_widgets_install_url_submit"><span class="s3d-button-inner">__MSG__INSTALL_WIDGET__</span></button>
@@ -173,7 +173,7 @@
         <div id="admin_widgets_disable_dialog" class="s3d-dialog s3d-dialog-container admin_widgets_dialog" style="width:400px; margin-left: -200px">
             <div class="s3d-dialog-close jqmClose"></div>
             <h1 class="s3d-dialog-header">__MSG__DISABLE_WIDGET__</h1>
-            <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DISABLE_THE_WIDGET__: <span id="admin_widgets_disable_confirm_widget_title"></span>?</p>
+            <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DISABLE_THE_WIDGET__ <span id="admin_widgets_disable_confirm_widget_title"></span>?</p>
             <div class="fl-force-right">
                 <button class="s3d-link-button s3d-bold jqmClose" type="button">__MSG__NO__</button>
                 <button id="embedcontent_just_add" class="s3d-button s3d-overlay-action-button admin_widgets_button_disable_confirm" type="button">__MSG__YES__</button>
@@ -184,7 +184,7 @@
         <div id="admin_widgets_enable_dialog" class="s3d-dialog s3d-dialog-container admin_widgets_dialog" style="width:400px; margin-left: -200px">
             <div class="s3d-dialog-close jqmClose"></div>
             <h1 class="s3d-dialog-header">__MSG__ENABLE_WIDGET__</h1>
-            <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_ENABLE_THE_WIDGET__: <span id="admin_widgets_enable_confirm_widget_title"></span>?</p>
+            <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_ENABLE_THE_WIDGET__ <span id="admin_widgets_enable_confirm_widget_title"></span>?</p>
             <div class="fl-force-right">
                 <button class="s3d-link-button s3d-bold jqmClose" type="button">__MSG__NO__</button>
                 <button id="embedcontent_just_add" class="s3d-button s3d-overlay-action-button admin_widgets_button_enable_confirm" type="button">__MSG__YES__</button>
@@ -195,7 +195,7 @@
         <div id="admin_widgets_delete_dialog" class="s3d-dialog s3d-dialog-container admin_widgets_dialog" style="width:400px; margin-left: -200px">
             <div class="s3d-dialog-close jqmClose"></div>
             <h1 class="s3d-dialog-header">__MSG__DELETE_WIDGET__</h1>
-            <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THE_WIDGET__: <span id="admin_widgets_delete_confirm_widget_title"></span>?</p>
+            <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THE_WIDGET__ <span id="admin_widgets_delete_confirm_widget_title"></span>?</p>
             <div class="fl-force-right">
                 <button class="s3d-link-button s3d-bold jqmClose" type="button">__MSG__NO__</button>
                 <button id="embedcontent_just_add" class="s3d-button s3d-overlay-action-button admin_widgets_button_delete_confirm" type="button">__MSG__YES__</button>
@@ -209,5 +209,13 @@
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
         <script>require(["/dev/admin/javascript/admin_widgets.js"]);</script>
 
+        <noscript>
+            <h1>Sorry!</h1>
+            <p>
+                JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
+                If you need assistance, please visit
+                <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
+            </p>
+        </noscript>
     </body>
 </html>

@@ -58,7 +58,12 @@
 .featuredcontent_widget .featuredcontent_content_actions_addtolibrary {float:left;}
 .featuredcontent_widget .featuredcontent_content_actions_authorinfo {margin-left:auto;margin-right:auto;}
 .featuredcontent_widget .featuredcontent_content_actions_share {float:right;}
-.featuredcontent_widget .s3d-large-button {display:block;line-height:31px;margin-left:auto;margin-right:auto;width:100px;}
+.featuredcontent_widget .s3d-large-button {
+    display: inline-block;
+    line-height: 31px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /* Contentitems on category page */
 .featuredcontent_widget #featuredcontent_category_content_container {clear:both;}

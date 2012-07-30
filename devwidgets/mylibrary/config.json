@@ -10,6 +10,9 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/mylibrary/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mylibrary/bundles/fr_FR.properties"
         }
     },
     "id": "mylibrary",
