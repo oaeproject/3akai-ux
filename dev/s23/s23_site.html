@@ -56,9 +56,9 @@
             {if site.pages.length > 0}
                 <ul>
                 {for page in site.pages}
-                    <li class="s23_site_menu_item"><a href="#page=${page.id}" class="${page.iconclass}" id="s23_site_menu_item_${page.id.replace(/([~!])/g, '_')}">${page.name}</a></li>
+                    <li class="s23_site_menu_item"><a href="#page=${page.id}" class="${page.iconclass}" id="s23_site_menu_item_${page.id.replace(/([~!])/g, '_')}">{if page.popup} <span class="s3d-aural-text">__MSG__OPENS_NEW_WINDOW__</span>{/if}${page.name}</a></li>
                 {/for}
-                <li class="s23_site_menu_item"><button class="icon-sakai-help" title="__MSG__HELP__" accesskey="6" href="#">__MSG__HELP__</button></li>
+                <li class="s23_site_menu_item"><button class="icon-sakai-help" title="__MSG__HELP__" accesskey="6" href="#">__MSG__HELP__  <span class="s3d-aural-text">__MSG__OPENS_NEW_WINDOW__</span></button></li>
                 </ul>
             {else}
                 <span id="s23_site_notools">There are no tools available</span>
@@ -96,5 +96,14 @@
 
         <!-- JAVASCRIPT -->
         <script>require(["/dev/s23/javascript/s23_site.js"]);</script>
+
+        <noscript>
+            <h1>Sorry!</h1>
+            <p>
+                JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
+                If you need assistance, please visit
+                <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
+            </p>
+        </noscript>
     </body>
 </html>

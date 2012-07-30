@@ -71,10 +71,10 @@ define(function(){
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
             SEARCH_GROUP_MEMBERS: "/var/search/groupmembers.json",
             SEARCH_GROUP_MEMBERS_ALL: "/var/search/groupmembers-all.json",
-            SEARCH_GROUPS: "/var/search/groups.infinity.json",
+            SEARCH_GROUPS: "/var/search/groups.json",
             SEARCH_GROUPS_ALL: "/var/search/groups-all.json",
-            SEARCH_USERS_ACCEPTED: "/var/contacts/findstate.infinity.json",
-            SEARCH_USERS: "/var/search/users.infinity.json",
+            SEARCH_USERS_ACCEPTED: "/var/contacts/findstate.json",
+            SEARCH_USERS: "/var/search/users.json",
             SEARCH_USERS_ALL: "/var/search/users-all.json",
             SEARCH_USERS_GROUPS: "/var/search/usersgroups.json",
             SEARCH_USERS_GROUPS_ALL: "/var/search/usersgroups-all.json",
@@ -1574,6 +1574,10 @@ define(function(){
             "language": "en",
             "bundle": "/dev/bundle/en_US.properties",
             "displayName": "English (United States)"
+        }, {
+            "country": "FR",
+            "language": "fr",
+            "displayName": "Français"
         }, {
             "country": "JP",
             "language": "ja",

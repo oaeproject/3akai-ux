@@ -174,9 +174,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': ''}]);
             } else {
                 url = facetedurl;
-                if (url.indexOf('.infinity.json') === -1) {
-                    url = url.replace('.json', '.infinity.json');
-                }
                 $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);
             }
 
@@ -206,7 +203,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     "items": items,
                     "sakai": sakai
                 });
-            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, false, false, function(data){
+            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
+                // adjust height of grid row elements to be equal
+                sakai_global.data.search.determineAdjustGridElementHeights($rootel);
+            }, false, function(data){
                 // Generate refine by tags
                 sakai_global.data.search.generateTagsRefineBy(data, params);
             });

@@ -66,14 +66,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         var addToContactsInfoTypes = addToContacts + "_types";
         var addToContactsInfoDisplayName = addToContactsClass + "_displayname";
 
-        // Error messages
-        var addToContactsError = addToContacts + "_error";
-        var addToContactsErrorMessage = addToContactsError + "_message";
-        var addToContactsErrorRequest = addToContactsError + "_request";
-        var addToContactsErrorNoTypeSelected = addToContactsError + "_noTypeSelected";
-
-        var addToContactsResponse = addToContacts + "_response";
-
         ///////////////////
         // Functionality //
         ///////////////////
@@ -150,7 +142,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
             if (!$.isArray(types)) {
                 types = [types];
             }
-            $(addToContactsResponse).text("");
             if (types.length) {
                 var fromRelationshipsToSend = [];
                 var toRelationshipsToSend = [];
@@ -196,14 +187,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                     },
                     error: function(xhr, textStatus, thrownError){
                         enableDisableInviteButton(false);
-                        $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                            sakai.api.i18n.getValueForKey('FAILED_TO_INVITE_THIS_USER', 'addtocontacts'),
+                            sakai.api.Util.notification.type.ERROR, true);
                     }
                 });
 
             }
             else {
                 enableDisableInviteButton(false);
-                $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorNoTypeSelected).text()));
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                    sakai.api.i18n.getValueForKey('PLEASE_SELECT_HOW_YOU_ARE_CONNECTED_TO_THIS_USER', 'addtocontacts'),
+                    sakai.api.Util.notification.type.ERROR, true);
             }
         };
 

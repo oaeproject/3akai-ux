@@ -369,25 +369,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     renderEntity();
                     loadSpaceData();
                 } else {
-                    sakai.api.User.getContacts(checkContact);
+                    checkContact();
                 }
             }
         };
 
         var checkContact = function() {
-            var contacts = sakai.data.me.mycontacts;
             var isContactInvited = false;
             var isContactPending = false;
-            for (var i = 0; i < contacts.length; i++) {
-                if (contacts[i].profile.userid === entityID) {
-                    if (contacts[i].details['sakai:state'] === 'ACCEPTED') {
-                        isContact = true;
-                    } else if (contacts[i].details['sakai:state'] === 'INVITED') {
-                        isContactInvited = true;
-                    } else if (contacts[i].details['sakai:state'] === 'PENDING') {
-                        isContactPending = true;
-                    }
-                }
+            var contactState = contextData.profile['sakai:state'];
+            if (contactState === 'ACCEPTED') {
+                isContact = true;
+            } else if (contactState === 'INVITED') {
+                isContactInvited = true;
+            } else if (contactState === 'PENDING') {
+                isContactPending = true;
             }
             if (isContact) {
                 contextType = 'contact';

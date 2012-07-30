@@ -27,8 +27,21 @@
 /* Message Header */
 #inbox_message_header{float:left;width:100%;padding:5px 0 18px;}
 #inbox_select span{font-size:9px;}
-#inbox_search_messages{width:290px;}
-.s3d-search-container.inbox-message-list-view {float:right;margin-top:5px;}
+#inbox_search_messages {
+    width: 290px;
+    margin-top: 2px;
+}
+.s3d-search-container.inbox-message-list-view {
+    float: right;
+    margin-top: 3px;
+    width: 65%;
+    padding: 0;
+}
+.s3d-search-container.inbox-message-list-view .inbox-message-detail-view{
+    float: right;
+    display: inline-block;
+    margin: 0;
+}
 #inbox_search_messages[disabled]{background-color:#fff;opacity:0.4;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";filter: alpha(opacity=40);}
 #inbox_select {padding: 3px;}
 /* Inbox Columns */
@@ -84,7 +97,9 @@
     width: 100%;
     word-wrap: break-word;
 }
-.inbox_delete a,.inbox_delete button{float:right;display:inline;}
+.inbox_delete a, .inbox_delete button {
+    display: inline-block;
+}
 .inbox_delete_button{margin-right:5px;height:22px;}
 .inbox_delete_button:hover{text-decoration:none;}
 #inbox_no_messages p {
@@ -95,7 +110,11 @@
 .inbox_invitation_ignore{padding-left:3px;}
 .inbox_reply_button {font-size:15px;height:20px !important;padding:0 !important;}
 .inbox_reply_icon {background:url("/dev/images/inbox_reply_icon_20x20.png") no-repeat scroll 5px top transparent;height:20px;width:30px;}
-.inbox_delete_icon {background:url("/dev/images/inbox_delete_icon_20x20.png") no-repeat scroll 2px top transparent;height:20px;width:24px;}
+.inbox_delete_icon {
+    background: url("/dev/images/inbox_trash_icon_20x20.png") no-repeat scroll 3px -1px transparent;
+    height: 20px;
+    width: 24px;
+}
 /* Message Detail */
 #inbox_show_message{background-color:#f4f4f4;padding-bottom:10px;margin-top:7px;}
 #inbox_show_message .inbox_items_container{margin-bottom:10px;border-bottom:none;}
@@ -120,4 +139,8 @@
 .inbox_message_container.reply .inbox_middle_col{width:89%;}
 .inbox_message_container.reply .inbox_right_col{width:5%;}
 /* General */
-.inbox_placeholder{width:20px;float:left;padding-left:5px;}
+.inbox_placeholder {
+    float: left;
+    padding-left: 5px;
+    width: 20px;
+}

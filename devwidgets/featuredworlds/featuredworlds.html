@@ -12,9 +12,13 @@
         {for tab in tabs}
             <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" data-sakai-worldid="${tab.id}">
                 ${tab.title}
-                <span class="s3d-counts-outer">
-                    <span class="s3d-counts-inner">${data[tab.id].total}</span>
-                    <a id="featuredworlds_showall_${tab.id}" style="display:none;" href="/search#l=${tab.id}&refine=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>
+                <span class="featuredworlds_tab_count">
+                    <span class="s3d-counts-outer">
+                        <span class="s3d-counts-inner">${data[tab.id].total}</span>
+                        <a id="featuredworlds_showall_${tab.id}" style="display:none;" href="/search#l=${tab.id}&refine=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">
+                            __MSG__SEE_ALL__<span class="s3d-aural-text"> ${tab.title}</span>
+                        </a>
+                    </span>
                 </span>
             </div>
         {/for}

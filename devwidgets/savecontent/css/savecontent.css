@@ -40,6 +40,7 @@
 }
 #savecontent_widget #savecontent_select option {
     padding: 3px 0;
+    max-width: 350px;
 }
 #savecontent_widget #mylibrary_option, #savecontent_widget #mylibrary_group_first {
     border-top: 1px solid #ddd;

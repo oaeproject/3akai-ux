@@ -75,7 +75,7 @@
 }
 
 /* USER */
-.topnavigation_user_container {float:right;}
+.topnavigation_user_container {float:left;}
 .topnavigation_user_container ul {margin:0;}
 .topnavigation_usersection_splitter {float:right; color:#454a4f; margin-top:11px;margin-right:20px;}
 
@@ -179,7 +179,7 @@
 
 .personinfo_trigger {color: #666 !important; border-bottom: 1px dotted #666}
 #topnavigation_explore_right {
-    float: right;
+    float: left;
 }
 .s3d-dropdown-menu.topnavigation_dual_login .s3d-dropdown-menu-content-container {
     border-radius: 0 0 2px 2px;

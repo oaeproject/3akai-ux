@@ -979,6 +979,33 @@ define(
                     result.type = "video";
                     result.avatar = "//img.youtube.com/vi/" + uri.queryKey.v + "/0.jpg";
                 }
+            } else if (/ted\.com$/.test(uri.host) && uri.directory === '/talks/') {
+                var tedUrl = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22" +
+                                url +
+                                "%22%20and%20compat%3D%22html5%22%20and%20xpath%3D'%2F%2F*%5B%40id%3D%22pagetype%22%5D%2Fscript%5B5%5D'&format=json&callback=";
+                var tedRegex = /download\/links\/slug\/([\s\S]+)\/type\/talks/g;
+                var tedRegexThumbnail = /playlist\:\'([\s\S]+)thumbnailURL%22%3A%22([\s\S]+)%22%2C%22title/g;
+                $.ajax({
+                    'url': tedUrl,
+                    'async': false,
+                    'cache': false,
+                    'dataType': 'json',
+                    'success': function(data) {
+                        if (data && data.query && data.query.results &&
+                                data.query.results.script && data.query.results.script.content) {
+                            var tedContent = data.query.results.script.content;
+                            var tedURLArray = tedRegex.exec(tedContent);
+                            var tedThumbnailArray = tedRegexThumbnail.exec(tedContent);
+                            if (tedURLArray[1]) {
+                                result.url = 'http://download.ted.com/talks/' + tedURLArray[1] + '.mp4';
+                                result.type = 'video';
+                            }
+                            if (tedThumbnailArray[2]){
+                                result.avatar = decodeURIComponent(tedThumbnailArray[2]).replace(/\\/g, '');
+                            }
+                        }
+                    }
+                });
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
                 if (asin && asin[asin.indexOf('dp')] !== -1){
@@ -1227,10 +1254,14 @@ define(
          *
          * @param {Object} results Search results to process
          * @param {Object} meData User object for the user
-         * @param callback {Function} Callback function executed at the end of the operation
+         * @param {Function} callback Callback function executed at the end of the operation
+         * @param {Object} threeDotsWidths Optional object to specify widths for applyThreeDots in the list view:
+         *                              titleWidth {Integer} limit the title to this width in list view
+         *                              descriptionWidth {Integer} limit the description to this width in list view
+         *                              displayNameWidth {Integer} limit the owner display name to this width in list view
          * @returns void
          */
-        prepareContentForRender : function(results, meData, callback) {
+        prepareContentForRender : function(results, meData, callback, threeDotsWidths) {
             var userArray = [];
             $.each(results, function(i, contentItem){
                 if (contentItem['sakai:pooled-content-file-name']) {
@@ -1241,6 +1272,10 @@ define(
                     contentItem.numComments = sakai_content.getCommentCount(contentItem);
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
+                        var descWidth = 750;
+                        if (threeDotsWidths && threeDotsWidths.descriptionWidth) {
+                            descWidth = threeDotsWidths.descriptionWidth;
+                        }
                         contentItem["sakai:description-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 150, {
                             max_rows: 2,
                             whole_word: false
@@ -1249,13 +1284,17 @@ define(
                             max_rows: 2,
                             whole_word: false
                         }, "");
-                        contentItem["sakai:description"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 580, {
+                        contentItem["sakai:description"] = sakai_util.applyThreeDots(contentItem["sakai:description"], descWidth, {
                             max_rows: 2,
                             whole_word: false
                         }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
-                        contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 560, {
+                        var fileNameWidth = 560;
+                        if (threeDotsWidths && threeDotsWidths.titleWidth) {
+                            fileNameWidth = threeDotsWidths.titleWidth;
+                        }
+                        contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], fileNameWidth, {
                             max_rows: 1,
                             whole_word: false
                         }, "s3d-bold");
@@ -1289,13 +1328,17 @@ define(
             // Get displaynames for the users that created content
             if (userArray.length) {
                 sakai_user.getMultipleUsers(userArray, function(users){
+                    var displayNameWidth = 580;
+                    if (threeDotsWidths && threeDotsWidths.displayNameWidth) {
+                        displayNameWidth = threeDotsWidths.displayNameWidth;
+                    }
                     $.each(results, function(index, item){
                         if (item && item['sakai:pooled-content-file-name']) {
                             var userid = item["sakai:pool-content-created-for"];
                             var displayName = sakai_user.getDisplayName(users[userid]);
                             item.ownerId = userid;
                             item.ownerDisplayName = displayName;
-                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, displayNameWidth, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                             item.ownerDisplayNameShorter = sakai_util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                         }
                     });

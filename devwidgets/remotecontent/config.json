@@ -17,8 +17,8 @@
             "description": "Remote content",
             "name": "Remote content"
         },
-        "en_US": {
-            "bundle": "/devwidgets/remotecontent/bundles/en_US.properties"
+        "fr_FR": {
+            "bundle": "/devwidgets/remotecontent/bundles/fr_FR.properties"
         }
     },
     "id": "remotecontent",
@@ -27,3 +27,4 @@
     "type": "sakai",
     "url": "/devwidgets/remotecontent/remotecontent.html"
 }
+

@@ -166,7 +166,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 url = facetedurlall;
                 $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': ''}]);
             } else {
-                url = facetedurl.replace('.json', '.infinity.json');
+                url = facetedurl;
                 $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);
             }
 
@@ -199,6 +199,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
                 // Initialize content draggable
                 sakai.api.Util.Draggable.setupDraggable({}, $(searchConfig.results.container));
+                // adjust height of grid row elements to be equal
+                sakai_global.data.search.determineAdjustGridElementHeights($rootel);
             }, false, function(data){
                 // Generate refine by tags
                 sakai_global.data.search.generateTagsRefineBy(data, params);
