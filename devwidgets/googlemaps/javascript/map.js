@@ -59,7 +59,7 @@ function updateInfoWindow(html) {
 
     json.maphtml = html;
     infoWindow = new google.maps.InfoWindow({
-        content: '<h4>' + html + '</h4>'
+        content: '<h6>' + html + '</h6>'
     });
     infoWindow.open(map, marker);
 }

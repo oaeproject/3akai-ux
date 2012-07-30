@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
         var saveValues = function() {
             // Serialize the data from the form for saving
-            var values = $form.serializeObject( false );
+            var values = $form.serializeObject();
             if ( multiple ) {
                 values = getMultipleValues( values );
             }

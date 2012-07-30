@@ -19,7 +19,11 @@
 require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.acknowledgements = function() {
-        
+
+        // Set the end year of the copyright statement
+        var year = new Date().getFullYear();
+        $('.acknowledgements_copyright_year').text(year);
+
         var pubdata = {
             'structure0': {
                 'featured': {
@@ -121,7 +125,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         var generateNav = function(){
             $(window).trigger('lhnav.init', [pubdata, {}, {}]);
         };
-        
+
         var renderEntity = function(){
             $(window).trigger('sakai.entity.init', ['acknowledgements']);
         };
@@ -129,14 +133,14 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         $(window).bind('lhnav.ready', function() {
             generateNav();
         });
-        
+
         $(window).bind('sakai.entity.ready', function() {
             renderEntity(); 
         });
-        
+
         generateNav();
         renderEntity();
-    
+
     };
 
     sakai.api.Widgets.Container.registerForLoad('acknowledgements');
