@@ -76,31 +76,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'widgets': sakai.config.exposedSakaiDocWidgets
             }, $('#inserterbar_widget_container_exposed', $rootel));
 
-            var hoverIn = function($container) {
+            var hoverIn = function() {
+                $container = $(this);
                 if ($('.inserterbar_standard_icon_hover', $container).length) {
                     $('.inserterbar_standard_icon_out', $container).hide();
                     $('.inserterbar_standard_icon_hover', $container).show();
                 }
             };
-            var hoverOut = function($container) {
+            var hoverOut = function() {
+                $container = $(this);
                 $('.inserterbar_standard_icon_out', $container).show();
                 $('.inserterbar_standard_icon_hover', $container).hide();
             };
 
             // Bind the hover, focus and blur
             var $widgetsExposed = $('#inserterbar_widget_container_exposed .inserterbar_widget_exposed', $rootel);
-            $widgetsExposed.hover(function() {
-                    hoverIn($(this));
-                }, function() {
-                    hoverOut($(this));
-                }
-            );
-            $widgetsExposed.focus(function() {
-                hoverIn($(this));
-            });
-            $widgetsExposed.blur(function() {
-                hoverOut($(this));
-            });
+            $widgetsExposed.hover(hoverIn, hoverOut);
+            $widgetsExposed.focus(hoverIn);
+            $widgetsExposed.blur(hoverOut);
 
             // Render the more widgets list
             var moreWidgets = [];
