@@ -39,6 +39,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "allcategories",
         "areapermissions",
         "assignlocation",
+        "branding",
         "basiclti",
         "captcha",
         "carousel",
