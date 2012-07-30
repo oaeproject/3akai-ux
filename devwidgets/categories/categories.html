@@ -3,25 +3,31 @@
 
 <div class="categories_widget">
     <div id="categories_items_container" class="jcarousel-skin-tango"><!----></div>
-    <div id="categories_expand_contract">
+    <button id="categories_expand_contract" class="s3d-link-button">
         <div class="categories_contract" style="display:none;"><!----></div>
         <div class="categories_expand"><!----></div>
         <span class="s3d-bold">__MSG__CHOOSE_A_CATEGORY__</span>
-    </div>
+    </button>
 </div>
 
 <div id="categories_items_template"><!--
     <div id="categories_items_scroll">
         <a href="/categories" class="s3d-button s3d-overlay-button" id="categories_view_all">__MSG__VIEW_ALL__</a>
-        <div id="categories_view_next_raquo"></div>
+        <button id="categories_view_next_raquo" class="s3d-link-button">
+            <span class="s3d-aural-text">__MSG__VIEW_NEXT_CATEGORIES__</span>
+        </button>
         <div id="categories_items_scroll_buttons">
             {var count = 1}
             {for item in directory}
                 {if item_index % 4 == 0}
                     {if count == 1}
-                        <div class="categories_items_scroll_scrollbutton categories_items_scroll_selected" id="scroll_${count}"></div>
+                        <button class="s3d-link-button categories_items_scroll_scrollbutton categories_items_scroll_selected" id="scroll_${count}">
+                            <span class="s3d-aural-text">__MSG__VIEW_CATEGORY_PAGE__ ${item_index / 4 + 1}</span>
+                        </button>
                     {else}
-                        <div class="categories_items_scroll_deselected categories_items_scroll_scrollbutton" id="scroll_${count}"></div>
+                        <button class="s3d-link-button categories_items_scroll_deselected categories_items_scroll_scrollbutton" id="scroll_${count}">
+                            <span class="s3d-aural-text">__MSG__VIEW_CATEGORY_PAGE__ ${item_index / 4 + 1}</span>
+                        </button>
                     {/if}
                 {/if}
                 {var count = count + 1}
