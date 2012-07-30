@@ -58,6 +58,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         '/dev/configuration/config_custom.js'
     ];
 
+    sakai_global.qunit.devCssFiles = [
+        '/dev/css/sakai/main.css',
+        '/dev/css/sakai/sakai.content_profile.css',
+        '/dev/css/sakai/sakai.error.css',
+        '/dev/css/sakai/sakai.acknowledgements.css',
+        '/dev/css/sakai/sakai.create_new_account.css',
+        '/dev/css/sakai/sakai.explore.css',
+        '/dev/css/sakai/sakai.base.css',
+        '/dev/css/sakai/sakai.createnew.css',
+        '/dev/css/sakai/sakai.group.css',
+        '/dev/css/sakai/sakai.components.jq_pager.css',
+        '/dev/css/sakai/sakai.editor.css',
+        '/dev/css/sakai/sakai.print.css',
+        '/dev/s23/css/s23_site.css',
+        '/dev/admin/css/sakai.admin_widgets.css',
+        '/dev/skins/default/skin.css'
+    ];
+
     sakai_global.qunit.devHtmlFiles = [
         '/dev/403.html',
         '/dev/404.html',
