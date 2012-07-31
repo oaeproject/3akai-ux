@@ -64,7 +64,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var minimizeWidget = function(id) {
            var el = $("#" + id + "_container");
-           if (el.css("display") == "none") {
+           if (el.css("display") === "none") {
                el.show();
            } else {
                el.hide();
@@ -254,7 +254,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                                     var lowestcolumn = -1;
                                     for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
                                         var number = columns[iii].length;
-                                        if (number < lowestnumber || lowestnumber == -1) {
+                                        if (number < lowestnumber || lowestnumber === -1) {
                                             lowestnumber = number;
                                             lowestcolumn = iii;
                                         }
@@ -353,7 +353,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       $("#" + id).show();
                   },
                   function(out) {
-                      if ($("#widget_settings_menu", $rootel).css("display") == "none" || this.id != currentSettingsOpen) {
+                      if ($("#widget_settings_menu", $rootel).css("display") === "none" || this.id !== currentSettingsOpen) {
                           var id = this.id + "_settings";
                           $("#" + id).hide();
                       }
@@ -366,7 +366,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                           $("#widget_settings_menu", $rootel).hide();
                       } else {
                           var splitted = this.id.split("_");
-                          if (splitted[0] + "_" + splitted[1] == currentSettingsOpen) {
+                          if (splitted[0] + "_" + splitted[1] === currentSettingsOpen) {
                               $("#widget_" + currentSettingsOpen + "_settings", $rootel).hide();
                           }
                           currentSettingsOpen = splitted[0] + "_" + splitted[1];
@@ -430,7 +430,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                   $("#settings_hide", $rootel).unbind('click').click(function(ev) {
 
                       var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
-                      if (el.css('display') == "none") {
+                      if (el.css('display') === "none") {
                           el.parent().find(".fl-widget-titlebar").removeClass("hiddenwidget");
                           el.show();
                       } else {
@@ -531,7 +531,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                             var uid = Math.round(Math.random() * 100000000000);
                             for (var y = 0, z = node.childNodes.length; y < z; y++) {
                                 if (node.childNodes[y].style && node.childNodes[y].id.indexOf("_") > -1) {
-                                    if (nowAt == 1) {
+                                    if (nowAt === 1) {
                                         if (node.childNodes[y].style.display.toLowerCase() === "none") {
                                             widgetdisplay = "none";
                                         }
@@ -618,7 +618,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                                 lowestcolumn = -1;
                                 for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
                                     number = columns[iii].length;
-                                    if (number < lowestnumber || lowestnumber == -1) {
+                                    if (number < lowestnumber || lowestnumber === -1) {
                                         lowestnumber = number;
                                         lowestcolumn = iii;
                                     }
@@ -638,7 +638,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             lowestcolumn = -1;
             for (var iiii = 0, jjjj = columns.length; iiii < jjjj; iiii++) {
                 number = columns[iiii].length;
-                if (number < lowestnumber || lowestnumber == -1) {
+                if (number < lowestnumber || lowestnumber === -1) {
                     lowestnumber = number;
                     lowestcolumn = iiii;
                 }
@@ -759,7 +759,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                                     var lowestcolumn = -1;
                                     for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
                                         var number = columns[iii].length;
-                                        if (number < lowestnumber || lowestnumber == -1) {
+                                        if (number < lowestnumber || lowestnumber === -1) {
                                             lowestnumber = number;
                                             lowestcolumn = iii;
                                         }

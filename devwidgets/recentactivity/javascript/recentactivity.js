@@ -67,7 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             item.fadeIn = true;
                         }
                         item.showdetails = true;
-                        if (item["sakai:activity-type"] && item["sakai:activity-type"] == "message" || item["sakai:activity-type"] == "group") {
+                        if (item["sakai:activity-type"] && item["sakai:activity-type"] === "message" || item["sakai:activity-type"] === "group") {
                             item.showdetails = false;
                         }
                         item.who.name = sakai.api.User.getDisplayName(item.who);

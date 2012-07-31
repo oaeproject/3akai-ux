@@ -302,7 +302,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             'name': data.results[i]['sakai:group-title'],
                             'url': data.results[i].homePath
                         };
-                        if (data.results[i]['sakai:group-visible'] == 'members-only' || data.results[i]['sakai:group-visible'] == 'logged-in-only') {
+                        if (data.results[i]['sakai:group-visible'] === 'members-only' || data.results[i]['sakai:group-visible'] === 'logged-in-only') {
                             tempGroup['css_class'] = 'topnavigation_group_private_icon';
                         } else {
                             tempGroup['css_class'] = 'topnavigation_group_public_icon';
@@ -420,7 +420,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var temp = {};
             var item = array[index];
             temp.id = item.id;
-            if (temp.id && temp.id == 'subnavigation_hr') {
+            if (temp.id && temp.id === 'subnavigation_hr') {
                 temp = 'hr';
             } else {
                 if (sakai.data.me.user.anon && item.anonUrl) {
@@ -802,12 +802,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             $('#topnavigation_user_inbox_container').keydown(function(e) {
-                if (e.which == $.ui.keyCode.LEFT) {
+                if (e.which === $.ui.keyCode.LEFT) {
                     if ($('#topnavigation_search_input').length) {
                         // focus on search input
                         $('#topnavigation_search_input').focus();
                     }
-                } else if (e.which == $.ui.keyCode.RIGHT) {
+                } else if (e.which === $.ui.keyCode.RIGHT) {
                     if ($('#topnavigation_user_options_name').length) {
                         // focus on user options menu
                         $('#topnavigation_user_options_name').focus();
@@ -933,7 +933,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             $('.topnavigation_user_dropdown a, .topnavigation_external_login a').keydown(function(e) {
                 // if user is signed in and tabs out of user menu, or the external auth menu, close the sub menu
-                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                if (!e.shiftKey && e.which === $.ui.keyCode.TAB) {
                     closeMenu();
                     closePopover();
                 }
@@ -943,7 +943,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             $('#topnavigation_user_options_login_button_login').keydown(function(e) {
                 // if user is not signed in we need to check when they tab out of the login form and close the login menu
-                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                if (!e.shiftKey && e.which === $.ui.keyCode.TAB) {
                     mouseOverSignIn = false;
                     $(topnavUserLoginButton).trigger('mouseout');
                     $('html').trigger('click');
@@ -952,7 +952,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             $('#topnavigation_user_options_name, #topnavigation_user_options_login_external').keydown(function(e) {
                 // hide signin or user options menu when tabbing out of the last menu option
-                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                if (!e.shiftKey && e.which === $.ui.keyCode.TAB) {
                     closeMenu();
                     closePopover();
                 }

@@ -679,7 +679,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         };
 
         var docMatches = function (query, docTitle){
-            if(docTitle.toLowerCase().indexOf(query.toLowerCase())  != -1){
+            if(docTitle.toLowerCase().indexOf(query.toLowerCase())  !== -1){
                 return true;
             }
             return false;

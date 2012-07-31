@@ -185,7 +185,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             geocoder.geocode({
                 'address': address
             }, function(results, status){
-                if (status == google.maps.GeocoderStatus.OK) {
+                if (status === google.maps.GeocoderStatus.OK) {
                     map.setCenter(results[0].geometry.location);
                     var marker = new google.maps.Marker({
                         map: map,

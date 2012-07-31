@@ -390,7 +390,7 @@ define(
                 if (val.indexOf("directory/") !== 0) {
                     val = currentTags[i] = sakai_util.makeSafeTag($.trim(val));
                 }
-                if (val && $.inArray(val,newTags) == -1) {
+                if (val && $.inArray(val,newTags) === -1) {
                     if (val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
                             tagsToDelete.push(val);
@@ -999,7 +999,7 @@ define(
                     xN = x.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
                     yN = y.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
                     // numeric, hex or date detection
-                    xD = parseInt(x.match(hre), 10) || (xN.length != 1 && x.match(dre) && (new Date(x)).getTime()),
+                    xD = parseInt(x.match(hre), 10) || (xN.length !== 1 && x.match(dre) && (new Date(x)).getTime()),
                     yD = parseInt(y.match(hre), 10) || xD && (new Date(y)).getTime() || null;
                 // natural sorting of hex or dates - prevent '1.2.3' valid date
                 if (yD) {
@@ -1015,7 +1015,7 @@ define(
                     if (isNaN(oFxNcL) !== isNaN(oFyNcL)) {
                         return (isNaN(oFxNcL)) ? 1 : -1;
                     }
-                    // rely on string comparison if different types - i.e. '02' < 2 != '02' < '2'
+                    // rely on string comparison if different types - i.e. '02' < 2 !== '02' < '2'
                     else if (typeof oFxNcL !== typeof oFyNcL) {
                         oFxNcL += '';
                         oFyNcL += '';
@@ -1155,7 +1155,7 @@ define(
             var searchDirectoryForKey = function(key, child){
                 var ret = false;
 
-                if (key == child.attr.id) {
+                if (key === child.attr.id) {
                     ret = child.data.title;
                 } else {
                     if (child.children) {

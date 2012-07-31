@@ -97,7 +97,7 @@ function geocodeAddress(address) {
         geocoder.geocode({
             'address': address
         }, function(results, status){
-            if (status == google.maps.GeocoderStatus.OK) {
+            if (status === google.maps.GeocoderStatus.OK) {
                 var position = results[0].geometry.location;
                 map.setCenter(position);
                 marker.setMap(map);

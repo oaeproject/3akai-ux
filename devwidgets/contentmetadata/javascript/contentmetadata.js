@@ -484,7 +484,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         // Bind Enter key to input fields to save on keyup
         $("input").bind("keyup", function(ev){
-            if (ev.keyCode == 13) {
+            if (ev.keyCode === 13) {
                 $(this).blur();
             }
         });

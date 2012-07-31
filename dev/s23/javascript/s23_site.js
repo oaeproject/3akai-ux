@@ -62,14 +62,14 @@ sakai_global.s23_site = function(){
      *     false: NOT in the same origin policy
      */
     var isSameOriginPolicy = function(url1, url2){
-        if(url1 == url2) {
+        if(url1 === url2) {
             return true;
         }
         // debug.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
         // debug.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
         // i.e. protocol, domain (and optional port numbers) must match
-        if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
-           (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])){
+        if((urlRegExp.exec(url1)[2] === urlRegExp.exec(url2)[2]) &&
+           (urlRegExp.exec(url1)[4] === urlRegExp.exec(url2)[4])){
             return true;
         } else {
             return false;

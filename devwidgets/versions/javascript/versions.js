@@ -148,7 +148,7 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
 
         var previewVersion = function(event){
             event.stopPropagation();
-            if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
+            if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType === "x-sakai/document") {
                 $(".versions_selected", $rootel).removeClass("versions_selected");
                 $("#" + currentPageShown.ref).remove();
                 $(this).addClass("versions_selected");
@@ -207,7 +207,7 @@ require(["jquery", "underscore", "sakai/sakai.api.core"], function($, _, sakai){
         /////////////
 
         var addBinding = function(){
-            if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
+            if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType === "x-sakai/document") {
                 $(versionsVersionItem, $rootel).die("click", previewVersion);
                 $(versionsVersionItem, $rootel).live("click", previewVersion);
             }

@@ -266,7 +266,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
 
             $("#username").bind("keyup blur", function(){
                 var username = $.trim($(usernameField).val());
-                if (usernameEntered != username) {
+                if (usernameEntered !== username) {
                     usernameEntered = username;
                     if (username && username.length > 2 && username.indexOf(" ") === -1) {
                         $(usernameField).removeClass("signup_form_error");

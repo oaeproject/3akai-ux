@@ -191,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         continueInit();
                     },
                     error: function(xhr, textStatus, thrownError){
-                        if (xhr.status == 404) {
+                        if (xhr.status === 404) {
                             // we need to create the initial message store
                             $.post(store, {
                                 "sling:resourceType": "sakai/messagestore"
@@ -797,7 +797,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(this).nextAll(discussionTopicRepliesContainer).show();
                     $repliesIcon.removeClass(discussionShowRepliesIcon);
                     $repliesIcon.addClass(discussionHideRepliesIcon);
-                    if ($repliesIcon.next().children(discussionNumberOfReplies).text() != "0") {
+                    if ($repliesIcon.next().children(discussionNumberOfReplies).text() !== "0") {
                         $(this).nextAll(discussionReplyTopicBottom).show();
                     }
                 }else{

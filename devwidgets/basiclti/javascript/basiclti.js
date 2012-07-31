@@ -132,12 +132,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     false: NOT in the same origin policy
          */
         var isSameOriginPolicy = function(url1, url2) {
-            if (url1 == url2) {
+            if (url1 === url2) {
                 return true;
             }
             // i.e. protocol, domain (and optional port numbers) must match
-            if ((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
-               (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])) {
+            if ((urlRegExp.exec(url1)[2] === urlRegExp.exec(url2)[2]) &&
+               (urlRegExp.exec(url1)[4] === urlRegExp.exec(url2)[4])) {
                 return true;
             } else {
                 return false;

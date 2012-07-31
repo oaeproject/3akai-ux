@@ -764,7 +764,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                         // no op
                     },
                     error: function(xhr, textStatus, thrownError) {
-                        if (xhr.status == 404) {
+                        if (xhr.status === 404) {
                             // we need to create the initial message store
                             $.post(store, {"sling:resourceType":"sakai/messagestore"} );
                         }

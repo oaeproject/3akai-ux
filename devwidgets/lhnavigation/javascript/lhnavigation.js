@@ -294,7 +294,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if (level && level.substring(0, 1) !== '_') {
                     refs = collectPoolIds(structure[level], refs);
                 } else if (level && level === '_pid' && structure['_canView'] !== false) {
-                    if ($.inArray(structure[level], refs) == -1) {
+                    if ($.inArray(structure[level], refs) === -1) {
                         refs.push(structure[level]);
                     }
                 }
@@ -1315,7 +1315,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // bind arrow keys for navigation
         $('.lhnavigation_menuitem a').live('keydown', function(ev) {
             var $el = $(this);
-            if (ev.which == $.ui.keyCode.DOWN) {
+            if (ev.which === $.ui.keyCode.DOWN) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if sub menu open
@@ -1353,7 +1353,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.UP) {
+            } else if (ev.which === $.ui.keyCode.UP) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if previous menu has an open sub menu open
@@ -1392,12 +1392,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.RIGHT &&
+            } else if (ev.which === $.ui.keyCode.RIGHT &&
                     $el.prev('div').hasClass('lhnavigation_has_subnav') &&
                     !$el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
                 // open sub menu
                 $el.click();
-            } else if (ev.which == $.ui.keyCode.LEFT &&
+            } else if (ev.which === $.ui.keyCode.LEFT &&
                     $el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
                 // close sub menu
                 $el.click();

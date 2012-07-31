@@ -13,7 +13,7 @@ require(
         var createdUsers = [];
 
         var decideSuccess = function(results, expectedResult) {
-            if (results.length == 1) {
+            if (results.length === 1) {
                 if (results[0] === expectedResult) {
                     ok(true, 'The search succeeded: ' + results[0] + ' returned as expected.');
                 } else {

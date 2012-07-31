@@ -126,7 +126,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             content_path = content_path.split("/");
             content_path = "/p/" + content_path[0];
 
-            if (content_path != previous_content_path) {
+            if (content_path !== previous_content_path) {
                 $('#contentauthoring_widget').html('');
                 previous_content_path = content_path;
                 globalPageStructure = false;

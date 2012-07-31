@@ -341,7 +341,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             $.each($addpeopleSelectedContactsContainer.find("input:not(:checked)"), function(index, user){
                 $.each(currentTemplate.roles, function(i, role){
                     if (role.isManagerRole) {
-                        if ($(user).nextAll("select").val() == role.id) {
+                        if ($(user).nextAll("select").val() === role.id) {
                             managerLeft = true;
                         }
                     }

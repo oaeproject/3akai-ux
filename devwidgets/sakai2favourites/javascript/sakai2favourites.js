@@ -213,7 +213,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // loop through all sites and check if site already exists in the sites.
             for(var i in sites) {
                 // if site id is same
-                if(sites[i].id == site.id) {
+                if(sites[i].id === site.id) {
                     checking = true;
                 }
             }

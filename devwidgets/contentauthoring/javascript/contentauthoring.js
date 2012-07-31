@@ -1881,7 +1881,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     formData.append('file', file);
                     formData.append('_charset_', 'utf-8');
                     xhReq.send(formData);
-                    if (xhReq.status == 201) {
+                    if (xhReq.status === 201) {
                         filesUploaded.push($.parseJSON(xhReq.responseText)[file.name].item);
                         checkAllExternalFilesUploaded(filesUploaded, $el);
                     } else {

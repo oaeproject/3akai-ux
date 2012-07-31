@@ -311,7 +311,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     var $found = $('*:contains(\'' + obj.originaltitle + '\')');
                     $found.last().prev('a').click();
                     // If the user removes an item that was selected through browsing the OS reduce the file count to avoid bug (https://jira.sakaiproject.org/browse/SAKIII-3269)
-                    if(obj.origin == 'user') {
+                    if(obj.origin === 'user') {
                         numberOfBrowsedFiles--;
                     }
                     break;
@@ -1008,7 +1008,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
          * Check if a field is valid and the button to add to the list should be enabled
          */
         var checkFieldValidToAdd = function() {
-            if ($(this).attr('type') == 'text') {
+            if ($(this).attr('type') === 'text') {
                 var val = $.trim($(this).val());
                 if (val) {
                     enableAddToQueue();
