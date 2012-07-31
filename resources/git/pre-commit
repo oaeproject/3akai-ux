@@ -54,7 +54,8 @@ git diff-index -p -M --cached $against -- | ruby -e '
     # Add new rules here, format is { ".ext" => { /regex/ => "message" } }
     rules = {
         ".js" => {
-            /[^=!]==[^=]/ => "Use \"===\" or \"!==\" instead of \"==\" and \"!=\"",
+            /[^=!]==[^=]/ => "Use \"===\" instead of \"==\",
+            /!=[^=]/ => "Use \"!==\" instead of \"!=\"",
             /^\s*{/ => "Put opening braces on the same line as the statement",
             /^\s*const\s/ => "Use \"var <ALLCAPS>\" instead of \"const\"",
             /\.(live|die|bind|unbind)\(/ => "Use \".on()\" and \".off()\" to attach event handlers",
