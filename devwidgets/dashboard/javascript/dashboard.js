@@ -346,33 +346,30 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 if (isEditable) {
                   $(".dashboard_options", $rootel).show();
 
-                  var hoverIn = function($el) {
+                  var hoverIn = function() {
+                      var $el = $(this);
+                      if (!$el.hasClass('widget1')) {
+                          $el = $(this).parents('.widget1');
+                      }
                       var id = $el.attr('id') + '_settings';
-                      $('#' + id).find('.dashboard_widget_arrow').show();
+                      $('#' + id).children('.dashboard_widget_arrow').show();
                   };
-                  var hoverOut = function($el) {
+                  var hoverOut = function() {
+                      var $el = $(this);
+                      if (!$el.hasClass('widget1')) {
+                          $el = $(this).parents('.widget1');
+                      }
                       if ($('#widget_settings_menu', $rootel).css('display') == 'none' || $el.attr('id') !== currentSettingsOpen) {
                           var id = $el.attr('id') + '_settings';
-                          $('#' + id).find('.dashboard_widget_arrow').hide();
+                          $('#' + id).children('.dashboard_widget_arrow').hide();
                       }
                   };
 
                   // .hover is shorthand for .bind('mouseenter mouseleave')
                   // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
-                  $(".widget1", $rootel).unbind('mouseenter mouseleave').hover(
-                      function(over) {
-                          hoverIn($(this));
-                      },
-                      function(out) {
-                          hoverOut($(this));
-                      }
-                  );
-                  $('.s3d-contentpage-title button.settings', $rootel).focus(function() {
-                      hoverIn($(this).parents('.widget1'));
-                  });
-                  $('.s3d-contentpage-title button.settings', $rootel).blur(function() {
-                      hoverOut($(this).parents('.widget1'));
-                  });
+                  $('.widget1', $rootel).unbind('mouseenter mouseleave').hover(hoverIn, hoverOut);
+                  $('.s3d-contentpage-title button.settings', $rootel).focus(hoverIn);
+                  $('.s3d-contentpage-title button.settings', $rootel).blur(hoverOut);
 
                   $(".settings", $rootel).unbind('click').click(function(ev) {
 
@@ -381,7 +378,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       } else {
                           var splitted = this.id.split("_");
                           if (splitted[0] + "_" + splitted[1] === currentSettingsOpen) {
-                              $('#widget_' + currentSettingsOpen + '_settings', $rootel).find('.dashboard_widget_arrow').hide();
+                              $('#widget_' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                           }
                           currentSettingsOpen = splitted[0] + "_" + splitted[1];
                           var widgetId = splitted[0];
@@ -426,7 +423,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                           || (!ev.shiftKey && !$clickedLi.nextAll('li:visible').length))) {
                           // close the options menu
                           $('#widget_settings_menu', $rootel).hide();
-                          $('#' + currentSettingsOpen + '_settings', $rootel).focus().find('.dashboard_widget_arrow').hide();
+                          $('#' + currentSettingsOpen + '_settings', $rootel).focus().children('.dashboard_widget_arrow').hide();
                           currentSettingsOpen = false;
                       }
                   });
@@ -450,7 +447,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       parent.removeChild(el);
                       saveState();
                       $("#widget_settings_menu", $rootel).hide();
-                      $('#' + currentSettingsOpen + '_settings', $rootel).find('.dashboard_widget_arrow').hide();
+                      $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                       currentSettingsOpen = false;
                       return false;
                   });
@@ -468,7 +465,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       saveState();
 
                       $("#widget_settings_menu", $rootel).hide();
-                      $('#' + currentSettingsOpen + '_settings', $rootel).find('.dashboard_widget_arrow').hide();
+                      $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                       currentSettingsOpen = false;
                       return false;
                   });
@@ -498,7 +495,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       // Check if the clicked target is not the settings menu
                       if (!$clicked.is(".settings", $rootel)) {
                           $("#widget_settings_menu", $rootel).hide();
-                          $('#' + currentSettingsOpen + '_settings', $rootel).find('.dashboard_widget_arrow').hide();
+                          $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                           currentSettingsOpen = false;
                       }
 
