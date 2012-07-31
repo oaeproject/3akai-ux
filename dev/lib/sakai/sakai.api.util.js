@@ -2555,7 +2555,7 @@ define(
                         }
                     };
 
-                    options.errorPlacement = function($error, $element) {
+                    options.errorPlacement = options.errorPlacement || function($error, $element) {
                         if ($element.hasClass('s3d-error-calculate')) {
                             // special element with variable left margin
                             // calculate left margin and width, set it directly on the error element
