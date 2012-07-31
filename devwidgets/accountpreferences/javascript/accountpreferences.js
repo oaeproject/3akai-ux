@@ -384,30 +384,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (errorCorrected) {
                 if (preferencesChanges) {
                     $(accountPreferencesPreferencesForm).submit();
-	            }
+                }
 	            if (privacyChanges) {
-	            	$('#accountpreferences_privacy_change').submit();
-	            }
+	                $('#accountpreferences_privacy_change').submit();
+                }
 	            if (passwordChanges) {
 	                $(accountPasswordTab).click();
 	                if ($(accountPreferencesPasswordChange).valid()) {
-	                	$(accountPreferencesPasswordChange).submit();
-	                }
-	                else {
-	               		errorCorrected = false;
-	                	passwordChanges = false;
-	                	disableElements($(saveButton));
-	                }
-	            }
-	            if (emailChanges) {
-	            	$('#accountpreferences_email_change').submit();
-	            }
+	                    $(accountPreferencesPasswordChange).submit();
+                    }
+                    else {
+                        errorCorrected = false;
+                        passwordChanges = false;
+                        disableElements($(saveButton));
+                    }
+                }
+                if (emailChanges) {
+                    $('#accountpreferences_email_change').submit();
+                }
             }
             else {
-            	$(accountPreferencesTabsButtons).removeClass(tabSelected);
-            	$(accountPasswordTab).addClass(tabSelected);
-            	hideAllPanes();
-            	$(passChangeContainer).show();
+                $(accountPreferencesTabsButtons).removeClass(tabSelected);
+                $(accountPasswordTab).addClass(tabSelected);
+                hideAllPanes();
+                $(passChangeContainer).show();
             }
         });
 
