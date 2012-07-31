@@ -6,7 +6,7 @@ require(
     "../../../../tests/qunit/js/sakai_qunit_lib.js",
     "../../../../tests/qunit/js/dev.js",
     "../../../../tests/qunit/js/devwidgets.js"
-    ], 
+    ],
     function($, sakai) {
 
         var widgetProperties = [{
@@ -145,7 +145,7 @@ require(
                 if (sakai.widgets.hasOwnProperty(i)) {
                     var widgetObject = sakai.widgets[i];
                     makeWidgetPropertiesTest(widgetObject);
-                }  
+                }
             }
         };
 
@@ -217,7 +217,7 @@ require(
                     var theWidget = sakai.widgets[i];
                     var subproperties = getWidgetProperties(theWidget);
                     if (subproperties.length > 0) {
-                        makeWidgetURLTest(theWidget.id, subproperties);  
+                        makeWidgetURLTest(theWidget.id, subproperties);
                     }
                 }
             }

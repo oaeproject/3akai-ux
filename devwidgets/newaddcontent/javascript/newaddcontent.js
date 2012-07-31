@@ -904,7 +904,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     callback();
                 }
             });
-                            
+
         };
 
         /**

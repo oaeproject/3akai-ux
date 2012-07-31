@@ -360,7 +360,7 @@ define(
                     if (urls.length > 0) {
                         var current_locale_string = sakai_i18n.getUserLocale();
                         var bundles = [];
-                        $.each(urls, function(index, url){ 
+                        $.each(urls, function(index, url){
                             var widgetname = batchWidgets[url];
                             if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
                                 // Add the default language bundle for the widget
@@ -578,7 +578,7 @@ define(
                             }
 
                             widgetsInternal[widgetname][index].floating = floating;
-                            
+
                         }
                     }
 
@@ -616,7 +616,7 @@ define(
             }
 
         },
-        
+
 
         /**
          * Save the preference settings or data for a widget
@@ -786,7 +786,7 @@ define(
             // get the changed params
             var currentState = $.bbq.getState();
 
-            /** 
+            /**
              * construct the changedParams object which contains a map like this:
              * widgetHashes = { "widgetid" : { "changed": {"property": "value"}, "deleted": {}}};
              */
@@ -914,7 +914,7 @@ define(
             if (sakai.widgets) {
                 $.each(sakai.widgets, function(widgetid, widget) {
                     if (widget.trigger && !widget.trigger.onLoad) {
-    
+
                         // Convert all of the properties to an array
                         if (widget.trigger.events && widget.trigger.events.length) {
                             if (!$.isArray(widget.trigger.events)) {
@@ -922,14 +922,14 @@ define(
                             }
                         }
                         widget.trigger.events = widget.trigger.events || [];
-    
+
                         if (widget.trigger.selectors && widget.trigger.selectors.length) {
                             if (!$.isArray(widget.trigger.selectors)) {
                                 widget.trigger.selectors = [widget.trigger.selectors];
                             }
                         }
                         widget.trigger.selectors = widget.trigger.selectors || [];
-    
+
                         var lazyLoadWidget = function(finishCallBack) {
                             // Unbind the event
                             $.each(widget.trigger.events, function(index, eventid) {
@@ -939,11 +939,11 @@ define(
                             $.each(widget.trigger.selectors, function(index, selector) {
                                 $(document).off('click', selector);
                             });
-    
+
                             $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
                             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, finishCallBack);
                         };
-    
+
                         // Check whether this needs to bind to an event
                         $.each(widget.trigger.events, function(index, eventid) {
                             // a, b, c, ..., i, j is a list of possible parameters that can be passed
@@ -955,7 +955,7 @@ define(
                                 });
                             });
                         });
-    
+
                         // Check whether this needs to bind to a selector
                         $.each(widget.trigger.selectors, function(index, selector) {
                             $(document).on('click', selector, function(event, ui) {
@@ -964,7 +964,7 @@ define(
                                 });
                             });
                         });
-    
+
                     }
                 });
             }

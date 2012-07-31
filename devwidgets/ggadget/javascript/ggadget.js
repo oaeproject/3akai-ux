@@ -394,7 +394,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Widgets.loadWidgetData(tuid, processRemoteContent);
             }
         };
-  
+
         var processRemoteContent = function(success, data){
             if (success) {
                 // Get a JSON string that contains the necessary information.

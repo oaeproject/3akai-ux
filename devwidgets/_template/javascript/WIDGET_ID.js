@@ -18,7 +18,7 @@
 
 // load the master sakai object to access all Sakai OAE API methods
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
-     
+
     /**
      * @name sakai.WIDGET_ID
      *
@@ -32,7 +32,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.WIDGET_ID = function (tuid, showSettings) {
-         
+
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
@@ -66,14 +66,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
         // Initialization function //
         /////////////////////////////
-        
+
         /**
          * Initialization function DOCUMENTATION
          */
         var doInit = function () {
             // your widget initialization code here
         };
-        
+
         // run the initialization function when the widget object loads
         doInit();
     };

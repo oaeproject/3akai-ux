@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
               addBinding();
             }
         };
-        
+
         var initialSelection = function(){
             $(".faceted_category",rootel).removeClass("faceted_category_selected");
             var currentfacet = $.bbq.getState('facet');
@@ -78,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //////////////
         // Bindings //
         //////////////
-        
+
         $(window).bind("hashchange", function(ev){
             initialSelection();
         });

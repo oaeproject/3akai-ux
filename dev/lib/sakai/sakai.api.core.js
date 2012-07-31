@@ -40,7 +40,7 @@ define(
             sakai_widgets,
             sakai_conf,
             sakai_widget_config) {
-    
+
     return {
         api : {
             Activity : sakai_util.Activity,

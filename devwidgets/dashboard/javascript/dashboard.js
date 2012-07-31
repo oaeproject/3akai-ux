@@ -830,12 +830,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             showChangeLayoutDialog(title, iTuid);
             e.stopPropagation();
         });
-        
+
         $(".dashboard_change_layout").live("click", function(){
             var iTuid = "" + $(this).data("tuid");
             showChangeLayoutDialog(false, iTuid);
         });
-        
+
         var showChangeLayoutDialog = function(title, iTuid){
             if (iTuid === tuid) {
                 changeLayout(title);
@@ -950,12 +950,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             showAddWidgetDialog(iTuid);
             e.stopPropagation();
         });
-        
+
         $(".dashboard_global_add_widget").live("click", function(){
             var iTuid = "" + $(this).data("tuid");
             showAddWidgetDialog(iTuid);
         });
-        
+
         var showAddWidgetDialog = function(iTuid){
             if (iTuid === tuid) {
                 sakai.api.Util.Modal.open($(addGoodiesDialog, $rootel));

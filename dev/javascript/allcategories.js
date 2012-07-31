@@ -17,7 +17,7 @@
  */
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
-    
+
     sakai_global.allcategories = function() {};
 
     sakai.api.Widgets.Container.registerForLoad("allcategories");

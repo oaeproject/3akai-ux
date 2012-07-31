@@ -187,7 +187,7 @@ define(function(){
                 },
                 "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
                 "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
-                "addcontentmanagers": true // true, false. If set to yes, group managers will be added as manager for a file 
+                "addcontentmanagers": true // true, false. If set to yes, group managers will be added as manager for a file
                                            // added to a group library in context of that group
             },
             Content: {
@@ -1549,9 +1549,9 @@ define(function(){
         // Array of css files to load in each page
         skinCSS: [],
 
-        Languages: [{ 
-            "country": "ES", 
-            "language": "es", 
+        Languages: [{
+            "country": "ES",
+            "language": "es",
             "bundle": "/dev/bundle/es_ES.properties",
             "displayName": "Español"
         }, {

@@ -24,7 +24,7 @@
 /*global $ */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
-    
+
     /**
      * @name sakai_global.mygroups
      *
@@ -88,7 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(".mygroups_create_new_group", rootel).die("click");
         $(".mygroups_create_new_group", rootel).live("click", function(ev){
-            $(window).trigger("sakai.overlays.createGroup"); 
+            $(window).trigger("sakai.overlays.createGroup");
         });
 
         // Start the request

@@ -124,7 +124,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (value.description){
                     value.description = sakai.api.Util.applyThreeDots(value.description, 680, {max_rows: 3});
                 }
-                
+
                 if (value.fullresult) {
                     var placement = 'ecDocViewer' + tuid + value['_path'] + sakai.api.Util.generateWidgetId();
                     wData.items[index].placement = placement;
@@ -494,7 +494,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
         };
-        
+
         var processWidgetData = function(success, data, callback){
             if (success) {
                 wData = data;
@@ -618,7 +618,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(document).off('done.newaddcontent.sakai').on('done.newaddcontent.sakai', function(e, data, library) {
-            if ($('#embedcontent_settings', $rootel).is(':visible') && 
+            if ($('#embedcontent_settings', $rootel).is(':visible') &&
                 (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
                 var obj = {};
                 for (var i = 0; i < data.length; i++){
@@ -641,7 +641,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             });
         });
-        
+
         var renderDefaultContent = function(){
             sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
                 "showDefaultContent": true

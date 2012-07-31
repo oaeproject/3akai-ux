@@ -6,7 +6,7 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
+    ],
     function($, sakai) {
 
     module('Forms');
@@ -16,7 +16,7 @@ require(
         asyncTest('Convert the values of a form to a json object', function(){
             //get the data of a form, converted into a json object
             var data = $('#dummyForm').serializeObject();
-    
+
             //check if it is the same as expected
             var counter = 0;
             for(var d in data){
@@ -32,11 +32,11 @@ require(
             same(data.name,'john doe','The object contains a name property');
             start();
         });
-    
+
         asyncTest('Resetting the form', function(){
             //reset the form
             var result = $('#dummyForm').clearForm();
-    
+
             //check the fields to be empty/unselected
             same($('input[name="name"]').val(),'','Reset the "name" field.');
             $('input[name="gender"]').each(function(){

@@ -391,7 +391,7 @@ define(
             // Get the user's current locale from the me object
             var locale = sakaii18nAPI.getUserLocale();
             // Check for i18n debug language
-            //   Because the debug language has to be a valid Java locale, 
+            //   Because the debug language has to be a valid Java locale,
             //   we are currently using lu_GB to identify the debug language
             if (locale === "lu_GB") {
                 return key;
@@ -422,7 +422,7 @@ define(
                 // If the key wasn't found in the general locale bundle, search in the general default bundle
                 else if (sakaii18nAPI.data.defaultBundle && _.isString(sakaii18nAPI.data.defaultBundle[key])) {
                     return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.defaultBundle[key]);
-                } 
+                }
                 // If none of the about found something, log an error message
                 else {
                     debug.warn("sakai.api.i18n.getValueForKey: Not found in any bundles. Key: " + key);

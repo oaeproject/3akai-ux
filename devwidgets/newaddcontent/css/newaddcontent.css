@@ -551,5 +551,5 @@
     top: 0;
     /* IE8 opacity fix */
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=0);
+    filter: alpha(opacity=0);
 }

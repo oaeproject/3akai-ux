@@ -7,8 +7,8 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
-    function($, _, sakai) {        
+    ],
+    function($, _, sakai) {
 
         module('JSON - load / save & remove');
 

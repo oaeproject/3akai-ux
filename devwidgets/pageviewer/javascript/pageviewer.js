@@ -25,7 +25,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @class pageviewer
      *
      * @description
-     * The page viewer widget shows a Sakai Doc in a simplified way with 
+     * The page viewer widget shows a Sakai Doc in a simplified way with
      * a custom left hand navigation and no sublevel items
      *
      * @version 0.0.1

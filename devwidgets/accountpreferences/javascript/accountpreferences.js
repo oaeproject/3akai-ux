@@ -319,11 +319,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var isAutoTagging = $("input:radio[name='autotagging']:checked").val();
             var sendTagMsg = $("#tag_msg_info").is(':checked');
             var locale = {
-                "locale" : language, 
-                "timezone" : $(timezonesContainer).val(), 
-                "_charset_":"utf-8", 
-                ":sakai:update-profile": false, 
-                "isAutoTagging": isAutoTagging, 
+                "locale" : language,
+                "timezone" : $(timezonesContainer).val(),
+                "_charset_":"utf-8",
+                ":sakai:update-profile": false,
+                "isAutoTagging": isAutoTagging,
                 "sendTagMsg": sendTagMsg
             };
 

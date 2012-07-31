@@ -153,7 +153,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("lhnav.ready", function(){
             generateNav();
         });
-        
+
         $(window).bind("rerender.group.sakai", function(ev, forceOpenPage){
             loadDocStructure(forceOpenPage);
         });
@@ -165,7 +165,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////
         // Create new area //
         /////////////////////
-        
+
         $('#group_create_new_area').on('click', function() {
             $(document).trigger('init.addarea.sakai');
         });

@@ -85,7 +85,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         doInit();
-        
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("allcategories");

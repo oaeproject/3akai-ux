@@ -299,7 +299,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $textarea.css('height', $('#htmlblock_view_container', $rootel).height());
             loadTinyMCE();
         };
-        
+
         // run the initialization function when the widget object loads
         doInit();
     };

@@ -565,7 +565,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // EDIT PARTS //
         ////////////////
 
-        
+
         /////////////////////////////
         // Initialisation function //
         /////////////////////////////

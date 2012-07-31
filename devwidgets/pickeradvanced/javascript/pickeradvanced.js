@@ -67,7 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var pickeradvanced_page = ".pickeradvanced_page";
         var pickeradvanced_content_search = "#pickeradvanced_content_search";
-        
+
         var pickerlist = false;
         var firstTime = true;
 

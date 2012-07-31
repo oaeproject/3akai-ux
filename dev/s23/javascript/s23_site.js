@@ -118,24 +118,24 @@ sakai_global.s23_site = function(){
 
             // Remove the active class from the previous selected item
             $(s23SiteMenuItems).closest('li').removeClass(s23SiteMenuActive);
-            
+
             // Set the active class to the item you just clicked on
             $('#' + s23SiteMenuItemTag + pageid.replace(/([~!])/g, '_')).closest('li').addClass(s23SiteMenuActive);
             // Get the page info for a certain page and store it in a variable
             var page = getPageInfo(pageid);
-            
+
             // Check if the page actually exists
             if (page) {
-            
+
                 // Hide the content & tools from the other pages
                 $(s23SitePageContainerClass, s23SiteIframeContainer).hide();
-                
+
                 // Get the complete id for a page container
                 var completexid = s23SitePageContainerTag + page.xid.replace(/([~!])/g, '_');
-                
+
                 // Check if the page was already loaded before
                 if ($("#" + completexid).length > 0) {
-                
+
                     // Show the page container
                     $("#" + completexid).show();
                 }
@@ -155,7 +155,7 @@ sakai_global.s23_site = function(){
                             if (colstr === "0") {
                                 renderData.columnTools[0].push(page.tools[i]);
                             }
-                            else 
+                            else
                                 if (colstr === "1") {
                                     if (renderData.columnTools.length < 2) {
                                         renderData.columnTools.push([]);
@@ -167,14 +167,14 @@ sakai_global.s23_site = function(){
                             renderData.columnTools[0].push(page.tools[i]);
                         }
                     }
-                    
+
                     // Render the tools of the site and add them to the page container
                     s23SiteIframeContainer.append(sakai.api.Util.TemplateRenderer(s23SiteIframeContainerTemplate, renderData));
                     var loadIframe = function(){
                         $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
                     };
-                    
-                    // Some notes about the bit of code below. What we have here, 
+
+                    // Some notes about the bit of code below. What we have here,
                     // is the process by which we'll fill in all the Sakai2 tools
                     // on a page. Realistically there are only 1 of these for most
                     // pages, but on some pages there are several, and they are
@@ -187,7 +187,7 @@ sakai_global.s23_site = function(){
                     // This presents us which a situation where if we have 2 or more
                     // portlets on a page, they are all logging in simultaneously to
                     // Sakai. Now, they all log in Ok, but the problems is that Sakai
-                    // 2 uses a session variable to cache the original Url for the 
+                    // 2 uses a session variable to cache the original Url for the
                     // portlet that it should get redirected to. What was happening was
                     // that every portlet was logging in at the same time and overriding
                     // this session variable, so only 1 portlet got redirected to a
@@ -217,8 +217,8 @@ sakai_global.s23_site = function(){
                         else {
                             otherframes.push([iframe, srcUrl]);
                         }
-                        // The 'reset' tool <a> link, is overridden with the below event to reload the 
-                        // sites iframe with the fresh tool state URL generated in the template. 
+                        // The 'reset' tool <a> link, is overridden with the below event to reload the
+                        // sites iframe with the fresh tool state URL generated in the template.
                         $("#reset-Main" + page.tools[tool].xid).on('click', handleResetClick);
                     }
                     firstFrame.load(function(){
@@ -373,7 +373,7 @@ sakai_global.s23_site = function(){
         // show sticky notification
         sakai.api.Server.loadJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid)+"/private/sakai2notification", function(success, data){
             // If we haven't saved the prefs yet, or if we did and the noti isn't turned off show the notifcation area.
-            if (success === false || (success === true && data.sakai2notification !== false)) { 
+            if (success === false || (success === true && data.sakai2notification !== false)) {
                 sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, false);
                 $(".s23_gritter_notification_cancel").on('click', hideNotification);
             }

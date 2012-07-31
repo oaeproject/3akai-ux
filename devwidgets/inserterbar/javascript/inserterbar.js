@@ -46,7 +46,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $inserterbarWidget = $('#inserterbar_widget', $rootel);
         var $inserterbarMoreWidgets = $('#inserterbar_more_widgets', $rootel);
         var $inserterbarWidgetContainer = $('#inserterbar_widget_container', $rootel);
-        
+
         // Elements
         var $inserterbarCarouselLeft = $('#inserterbar_carousel_left', $rootel);
         var $inserterbarCarouselRight = $('#inserterbar_carousel_right', $rootel);
@@ -72,7 +72,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var renderWidgets = function() {
             // Render the list of exposed widgets
             sakai.api.Util.TemplateRenderer('inserterbar_widget_container_exposed_template', {
-                'sakai': sakai, 
+                'sakai': sakai,
                 'widgets': sakai.config.exposedSakaiDocWidgets
             }, $('#inserterbar_widget_container_exposed', $rootel));
             // Bind the hover

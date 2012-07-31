@@ -153,11 +153,11 @@
     <span id="topnavigation_search_results_bottom_content">
         {var totalresults = 0}
         {if people.length || files.length}
-            ${totalresults = peopletotal + filestotal|eat} 
+            ${totalresults = peopletotal + filestotal|eat}
         {/if}
         {for c in templates}
             {if groups[c.id] && groups[c.id].length}
-                ${totalresults += groups[c.id + "total"]|eat} 
+                ${totalresults += groups[c.id + "total"]|eat}
             {/if}
         {/for}
         {if totalresults > 0}

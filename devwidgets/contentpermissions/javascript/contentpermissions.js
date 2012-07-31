@@ -429,7 +429,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         };
 
         /**
-         * Removes a user or group from the autosuggest input field and 
+         * Removes a user or group from the autosuggest input field and
          * hides the message box if no other users or groups are present
          */
         var removedUserGroup = function(elem) {
@@ -441,7 +441,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
 
         /**
          * Hide the share message box and show the list of people the content
-         * has been shared with again 
+         * has been shared with again
          */
         var hideShare = function() {
             sakai.api.Util.AutoSuggest.reset($contentpermissionsMembersAutosuggest);
@@ -472,7 +472,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
             $(window).bind("ready.contentprofile.sakai", doInit);
             var userList = getSelectedList();
             $(window).trigger("finished.sharecontent.sakai", [
-                userList, $.trim($("#contentpermissions_members_autosuggest_text").val()), { 
+                userList, $.trim($("#contentpermissions_members_autosuggest_text").val()), {
                     data: [{
                         body: sakai_global.content_profile.content_data.data
                     }]
@@ -484,7 +484,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
         /**
          * Gets the list of member users and groups from sakai_global and returns an array of userIds/groupIds to pass to autosuggest for filtering out
          * @return {Array} Array of users and groups to populate the autosuggest field with
-         */     
+         */
         var autosuggestFilterUsersGroups = function(){
             var filterlist = [];
             var filterUsersGroups = sakai_global.content_profile.content_data.members.managers

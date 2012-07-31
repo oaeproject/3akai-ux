@@ -165,8 +165,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
         var renderIframeSettings = function(complete){
-            if (complete) { 
-                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';               
+            if (complete) {
+                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
                 $(basicltiSettingsPreview, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
             }
             else {
@@ -185,7 +185,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.group) {
                     json.launchDataUrl += "?groupid=" + sakai_global.group.groupData["sakai:group-id"];
                 }
-                $("#" + json.tuidFrame, rootel).attr("src", json.launchDataUrl); 
+                $("#" + json.tuidFrame, rootel).attr("src", json.launchDataUrl);
 
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
                 if(isSameOriginPolicy(window.location.href, json.ltiurl)) {
@@ -209,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 json.toolList = toolList;
                 $(basicltiSettings, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsTemplate, json));
                 delete json.toolList;
-                // Necessary until we parameterize the tool list on the server and client side.            
+                // Necessary until we parameterize the tool list on the server and client side.
                 if (isSakai2Tool && json.lti_virtual_tool_id) {
                     $('#basiclti_settings_lti_virtual_tool_id',rootel).val(json.lti_virtual_tool_id);
                 }
@@ -278,19 +278,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     type: "POST",
                     url: url,
                     data: json,
-                    success: function(data) { 
-                        savedDataToJCR(true, data); 
+                    success: function(data) {
+                        savedDataToJCR(true, data);
                     }
-                }); 
+                });
                 // Because we need to use a particular servlet (LiteBasicLTI), and it
                 // requires some different options, we make our own ajax call above
                 // instead of using saveWidgetData for now.
-                // 
-                //sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);                
+                //
+                //sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
             };
 
             if (isSakai2Tool()) {
-                json["lti_virtual_tool_id"] = $('#basiclti_settings_lti_virtual_tool_id',rootel).val();    
+                json["lti_virtual_tool_id"] = $('#basiclti_settings_lti_virtual_tool_id',rootel).val();
 
                 json[":operation"] = "basiclti";
                 json["sling:resourceType"] = "sakai/basiclti";
@@ -312,7 +312,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 saveContentAjax(json);
             }
             else if (json.ltiurl !== "") {
-                json.ltiurl = $(basicltiSettingsLtiUrl,rootel).val() || "";    
+                json.ltiurl = $(basicltiSettingsLtiUrl,rootel).val() || "";
                 json[":operation"] = "basiclti";
                 json["sling:resourceType"] = "sakai/basiclti";
                 json.ltikey = $(basicltiSettingsLtiKey,rootel).val() || "";
@@ -507,7 +507,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getRemoteContent = function() {
             // The list of available Sakai 2 Tools is configurable at runtime on nakamura
             sakai.api.Server.loadJSON('/var/basiclti/cletools.json' , function(success,data) {
-                toolList = []; 
+                toolList = [];
                 for (var i = 0; i < data.toolList.length; i++) {
                     // Our i18n keys for the tools are formatted as: sakai.announcements -> CLE_SAKAI_ANNOUNCEMENTS
                     var key = "CLE_" + data.toolList[i].replace(/\./g,"_").toUpperCase();
@@ -534,7 +534,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     else {
                         displayRemoteContent(data);
-                    } 
+                    }
                 }
                 else {
                     if (showSettings) {

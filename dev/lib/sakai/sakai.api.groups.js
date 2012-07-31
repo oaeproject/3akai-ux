@@ -831,7 +831,7 @@ define(
          * @param {String} sort The parameter to sort on (firstName or lastName)
          * @param {String} sortOrder The direction of the sort (desc or asc)
          * @param {Function} callback Function executed on success or error
-         * @param {Boolean} roleCache Flag to get group role data from cache if available 
+         * @param {Boolean} roleCache Flag to get group role data from cache if available
          */
         searchMembers: function(groupId, query, num, page, sort, sortOrder, callback, roleCache) {
             if (groupId) {

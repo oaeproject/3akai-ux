@@ -126,7 +126,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Parse the directory structure and extract some information from the featured content
          * @param {Object} success true or false depending on the success of loading the featured content
          * @param {Object} data contains featured content data
-         */   
+         */
         var parseDirectory = function(success, data){
             $.each(directory, function(i, toplevel){
                 if (toplevel.divider){

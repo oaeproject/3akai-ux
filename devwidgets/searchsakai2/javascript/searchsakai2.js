@@ -32,7 +32,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.searchsakai2 = function (tuid, showSettings) {
-         
+
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
@@ -80,8 +80,8 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         var filterSearch = function(searchterm, category , resultJson) {
             resultJson.sites = resultJson.sites || [];
             searchtermlower = searchterm.toLowerCase();
-            for(var j=0;j<category.sites.length;j++){ 
-                var site = category.sites[j];  
+            for(var j=0;j<category.sites.length;j++){
+                var site = category.sites[j];
                 if(searchterm === "*" ) {
                     resultJson.sites.push(site);
                 } else if(site.title.toLowerCase().search(searchtermlower) > -1 ) {
@@ -91,10 +91,10 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
                 }
              }
 
-             return resultJson;        
+             return resultJson;
         };
 
-        /** 
+        /**
          * Update the metadata for the Search Page Facets based on the Sakai 2
          * Site categories that come back.
          */
@@ -145,8 +145,8 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
             }, 0);
         };
 
-        /* 
-         * Renders the results using the json as structured in 
+        /*
+         * Renders the results using the json as structured in
          * /var/proxy/s23/sitesCategorized.json?categorized=true
          */
         var renderResults = function(jsondata) {
@@ -167,8 +167,8 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
                     if (categoryName === jsondata.categories[i].category) {
                         categorydata = jsondata.categories[i];
                     }
-                }    
-    
+                }
+
                 filterSearch(qparams.q,categorydata,finaljson);
                 finaljson.query = qparams.q;
                 finaljson.sites.sort(siteTitleSort);
@@ -176,10 +176,10 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
                     var url = finaljson.sites[s].url;
                     finaljson.sites[s].url = url.split("/")[url.split("/").length - 1];
                 }
-    
+
                 resultstotal = finaljson.sites.length;
                 $(searchConfig.global.numberFound, rootel).text("" + resultstotal);
-                
+
                 if (resultstotal > resultsToDisplay && qparams.page) {
                     var end = qparams.page * resultsToDisplay;
                     finaljson.sites = finaljson.sites.slice(end-resultsToDisplay,end);
@@ -222,7 +222,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         ////////////////////
 
 
-        $(searchConfig.global.text, rootel).live("keydown", function(ev){ 
+        $(searchConfig.global.text, rootel).live("keydown", function(ev){
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
                     "q": $(searchConfig.global.text, rootel).val(),
@@ -242,7 +242,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         /////////////////////////////
         // Initialization function //
         /////////////////////////////
-        
+
         $(window).bind("hashchange", function(ev){
             if ($.bbq.getState("l") === "sakai2sites") {
                 doSearch();
@@ -260,7 +260,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
             });
             doSearch();
         });
-        
+
         // run the initialization function when the widget object loads
         // we're wrapping this up because we need to do an ajax call to Sakai2
         // to determine the categories for the search facet
@@ -268,7 +268,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
             updateFacets(data);
             $(window).trigger("sakai.search.util.init", {"tuid": tuid});
         });
-        
+
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run

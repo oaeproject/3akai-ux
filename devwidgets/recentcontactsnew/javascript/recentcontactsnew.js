@@ -31,7 +31,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @class recentcontactsnew
      *
      * @description
-     * The 'recentcontactsnew' widget shows the most recent contact, 
+     * The 'recentcontactsnew' widget shows the most recent contact,
      * including its latest content and connection.
      *
      * @version 0.0.1
@@ -55,7 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Parses an individual JSON search result to be displayed in recentcontactsnew.html
-         * 
+         *
          * @param {Object} result - individual result object from JSON data feed
          * @return {Object} object containing item.name, item.path, item.type (mimetype)
          *   and item.type_img_url (URL for mimetype icon) for the given result

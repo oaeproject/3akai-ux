@@ -174,7 +174,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             $(window).trigger("render.contentmetadata.sakai");
                             ready_event_fired++;
                         });
-                    }                   
+                    }
                     sakai.api.Security.showPage();
                     document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
 

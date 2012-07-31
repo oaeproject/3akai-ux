@@ -255,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         ///////////////////
 
         /**
-         * Show the list of messages in the currently selected message box, using 
+         * Show the list of messages in the currently selected message box, using
          * the infinite scrolling plug-in
          */
         var getMessages = function() {

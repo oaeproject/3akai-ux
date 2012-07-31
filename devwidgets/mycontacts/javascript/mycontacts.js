@@ -125,7 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         // Parse the picture of the friend
                         friend.photo = parsePicture(friend.profile);
-                        
+
                         // Contact type
                         friend.type = friend.details["sakai:types"];
 
@@ -195,5 +195,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("mycontacts");
- 
+
 });

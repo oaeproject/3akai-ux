@@ -595,9 +595,9 @@ define(
                         });
                         break;
                 }
-                
+
             }
-            
+
 
             $.ajax({
                 url: sakai_conf.URL.BATCH,
@@ -1339,14 +1339,14 @@ define(
              * @param {Object} usersToAdd       Array of {"id": authorizableId, "role": "member/manager"} objects that determines who
              *                                  can see and who can edit the collections
              * @param {Object} callback         Function to be called after the collections has been created. This will pass in a
-             *                                  success parameter and 
+             *                                  success parameter and
              */
             createCollection: function(title, description, permissions, tags, contentToAdd, usersToAdd, callback){
 
                 // 0. Help functions
                 // 0a. Prepare arguments
                 usersToAdd = usersToAdd || [];
-                contentToAdd = contentToAdd || []; 
+                contentToAdd = contentToAdd || [];
                 // 0b. Creating a group
                 var createGroup = function(id, title, role) {
                     var fullId = role ? id + '-' + role : id;
@@ -1902,6 +1902,6 @@ define(
 
         }
     };
-    
+
     return sakai_content;
 });

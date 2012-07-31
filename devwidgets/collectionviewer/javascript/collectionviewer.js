@@ -217,7 +217,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Renders the edit mode for the collection
          */
         var renderEditMode = function() {
-            hideContainers();            
+            hideContainers();
             renderGridOrList(false, true);
         };
 

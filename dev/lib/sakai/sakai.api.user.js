@@ -855,9 +855,9 @@ define(
 
         /**
          * Load the privacy settings for the current user's account
-         * @param {Function} callback    Function to call once the privacy setting has been retrieved. Returns 
+         * @param {Function} callback    Function to call once the privacy setting has been retrieved. Returns
          *                               "public" for public user accounts or "everyone" for user
-         *                               accounts that are only visible to logged in users     
+         *                               accounts that are only visible to logged in users
          */
         loadPrivacySettings: function(callback){
             $.ajax({

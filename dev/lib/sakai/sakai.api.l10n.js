@@ -96,7 +96,7 @@ define(
             }
             return d;
         },
-        
+
         parseDateLong : function(dateLong, meData){
             var d = new Date(dateLong);
             return d;

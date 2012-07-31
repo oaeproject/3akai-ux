@@ -114,7 +114,7 @@ define(
                     }
                 } else {
                     callback(true, sakai_util.data.worldTemplates);
-                } 
+                }
             } else {
                 debug.error('Did not pass in a callback function to retrieve the templates');
             }
@@ -725,7 +725,7 @@ define(
              */
             hideProgressIndicator: function(){
                 sakai_util.Modal.close('#sakai_progressindicator');
-            }            
+            }
 
         },
 
@@ -1364,7 +1364,7 @@ define(
         templateCache : [],
 
         macroCache : { macros: {}},
-        
+
         trimpathModifiers : {
             safeURL: function(str) {
                 return sakai_util.safeURL(str);
@@ -1384,7 +1384,7 @@ define(
         },
 
         /**
-          * Process trimpath macros in html file at url, which will then be available 
+          * Process trimpath macros in html file at url, which will then be available
           * with the macro function inside regular rendering. The optional asyncreq option allows
           * the request to be syncronous, which would mostly be for on-demand loading (because
           * that is happening during rendering and it needs the template to continue. )
@@ -1400,10 +1400,10 @@ define(
             }
             var mc = this.macroCache;
             $.ajax({
-                url: url, 
+                url: url,
                 async: asyncsetting, // Sometimes we need to immediately return this value for on-demand loading.
-                success: function(data) { 
-                  mc._MODIFIERS = sakai_util.trimpathModifiers; 
+                success: function(data) {
+                  mc._MODIFIERS = sakai_util.trimpathModifiers;
                   sakai_i18n.General.process(data).process(mc);
                 }
             });
@@ -1416,9 +1416,9 @@ define(
           * macros for their specific widget. In this case they can put all their
           * macros in a template element ( similar to regular template elements),
           * and then get a macro set back that can be used in between the rest of
-          * the templates they have defined in their page. 
+          * the templates they have defined in their page.
           *
-          * @param {String|jQuery} Raw String or jQuery element containing the 
+          * @param {String|jQuery} Raw String or jQuery element containing the
           * text of the macro definitions.
           * @return An object containing the macro functions. This can be added to the
           * context of subsequent TemplateRenderers and called like regular trimpath
@@ -1519,13 +1519,13 @@ define(
             }
             templateData.macro = function() {
                 var macroname = arguments[0];
-                var args = []; 
+                var args = [];
                 for (var i = 1; i < arguments.length; i++) {
                     args.push(arguments[i]);
                 }
                 if (!sakai_util.macroCache.macros[macroname]) {
                     var dot = macroname.lastIndexOf('.');
-                    if (dot > -1) { 
+                    if (dot > -1) {
                         sakai_util.processMacros('/dev/macros/'+macroname.slice(0,dot)+'.html',false);
                         if (sakai_util.macroCache.macros[macroname]) {
                             return sakai_util.macroCache.macros[macroname].apply(this, args);

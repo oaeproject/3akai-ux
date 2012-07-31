@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @class recentchangedcontent
      *
      * @description
-     * The 'recentchangedcontent' widget shows the most recent recentchangedcontent item, 
+     * The 'recentchangedcontent' widget shows the most recent recentchangedcontent item,
      * including its latest comment and one related recentchangedcontent item
      *
      * @version 0.0.1
@@ -246,7 +246,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     sakai.api.Util.TemplateRenderer(recentchangedcontentItemTemplate, recentchangedcontentjson, $(recentchangedcontentItem, rootel));
                 }
             });
-            
+
         };
 
         /////////////////////////////

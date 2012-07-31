@@ -58,7 +58,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
                 newtags = _.first( newtags, 20 );
             }
             sakai.api.Util.TemplateRenderer( $tags_main_template, { tags: newtags }, $tags_main );
-            
+
             $tags_main.show().find('a').tagcloud({
               size: {start: 10, end: 16, unit: 'px'}
             });

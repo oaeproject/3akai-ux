@@ -6,7 +6,7 @@ require(
     "../../../../tests/qunit/js/sakai_qunit_lib.js",
     "../../../../tests/qunit/js/dev.js",
     "../../../../tests/qunit/js/devwidgets.js"
-    ], 
+    ],
     function($, sakai) {
 
     module("WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives");
@@ -18,7 +18,7 @@ require(
             }
             if ($(elt).attr("title") && ($(elt).text() || $(elt).find("*").text())){
                 if ($.trim($(elt).attr("title")) === $.trim($(elt).text()) || $.trim($(elt).attr("title")) === $.trim($(elt).find("*").text())){
-                    ok(false, "A tag has duplicate text and title attribute: " + $("<div/>").html(elt).html());        
+                    ok(false, "A tag has duplicate text and title attribute: " + $("<div/>").html(elt).html());
                 }
             }
         });

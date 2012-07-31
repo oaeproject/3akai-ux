@@ -194,7 +194,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var widgetUrl = $(adminWidgetsInstallUrl).val();
             $(adminWidgetsInstallUrl).attr("disabled", "disabled");
             $(adminWidgetsInstallUrlSubmit).attr("disabled", "disabled");
-        
+
             // ajax call to service
 
             // on success

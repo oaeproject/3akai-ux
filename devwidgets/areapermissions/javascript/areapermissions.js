@@ -140,7 +140,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              // Collect everyone and anonymous value
              var generalVisibility = $("#areapermissions_see_container input[type=radio]:checked").val();
              if (generalVisibility === "everyone"){
-                 newView.push("everyone"); 
+                 newView.push("everyone");
                  newView.push("anonymous");
              } else if (generalVisibility === "loggedin"){
                  newView.push("everyone");
@@ -262,7 +262,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                      var manager = false;
                      var managers = data["sakai:pooled-content-manager"];
                      for (var i = 0; i < managers.length; i++) {
-                        if (managers[i] === sakai.data.me.user.userid || 
+                        if (managers[i] === sakai.data.me.user.userid ||
                             sakai.api.Groups.isCurrentUserAMember(managers[i], sakai.data.me)) {
                             manager = true;
                         }

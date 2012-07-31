@@ -88,7 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         /**
          * For the landing page, we show 1 large - 1 middle - 2 small - 1 large - 2 small - 1 large - 2 small
-         * Therefore, we slightly re-arrange the ordered array to reflect this priority list, so 
+         * Therefore, we slightly re-arrange the ordered array to reflect this priority list, so
          * [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] is transformed into [1, 2, 5, 6, 3, 7, 8, 4, 9, 10]
          * @param {Object} results    List of content items to reshuffle
          */
@@ -109,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         /**
-         * Sort the array of content items based on whether or not they have a thumbnail image and how 
+         * Sort the array of content items based on whether or not they have a thumbnail image and how
          * much metata they have (comments, description, tags)
          * @param {Object} a    First content item
          * @param {Object} b    Second content item

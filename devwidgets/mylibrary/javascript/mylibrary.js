@@ -158,7 +158,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             resetView();
             $mylibrary_items.hide();
             var query = $mylibrary_livefilter.val();
-            // We only show the controls when there is a search query. 
+            // We only show the controls when there is a search query.
             // All other scenarios with no items don't show the top controls
             if (!query) {
                 showHideTopControls(false);

@@ -181,5 +181,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("mycontent");
-    
+
 });

@@ -8,7 +8,7 @@ require(
     '../../../../tests/qunit/js/devwidgets.js'
     ],
     function($, sakai) {
-    
+
         var testURL = '/~admin/public/test123';
 
         var SaveDataEscapingTest = function() {

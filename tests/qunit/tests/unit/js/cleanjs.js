@@ -1,6 +1,6 @@
 require(
     [
-    "jquery", 
+    "jquery",
     "sakai/sakai.api.core",
     "qunitjs/qunit",
     "../../../../tests/qunit/js/sakai_qunit_lib.js",

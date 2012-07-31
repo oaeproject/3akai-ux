@@ -395,7 +395,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     }
                 });
             }
-            
+
 
             sakai.api.Server.batch(requests, function(success, data) {
                 renderContent($.parseJSON(data.results[0].body));
@@ -967,9 +967,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var mouseOverSignIn = false;
             var mouseClickedSignIn = false;
             $(topnavUserOptionsLoginFields).live('mouseenter', function() {
-                mouseOverSignIn = true; 
+                mouseOverSignIn = true;
             }).live('mouseleave', function() {
-                mouseOverSignIn = false; 
+                mouseOverSignIn = false;
             });
             $(topnavUserOptionsLoginFields).click(function() {
                 mouseClickedSignIn = true;

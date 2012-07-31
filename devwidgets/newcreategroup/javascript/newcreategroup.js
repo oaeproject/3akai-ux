@@ -35,7 +35,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
-    
+
     var $rootel = $("#" + tuid);
 
     // Containers
@@ -190,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     maxlength: 255
                 },
                 newcreategroup_suggested_url: {
-                    maxlength: 255            
+                    maxlength: 255
                 }
             },
             submitHandler: function(form){

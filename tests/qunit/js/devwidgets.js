@@ -124,7 +124,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
     /**
      * Grab all the widget config files
      *
-     * This does the same thing as /var/widgets.json does, but 
+     * This does the same thing as /var/widgets.json does, but
      * since we have to be able to do this without a sever, we recreate
      * the effect here
      */

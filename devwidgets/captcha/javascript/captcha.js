@@ -76,14 +76,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Invalidates the current captcha
          */
         sakai_global.captcha.destroy = function() {
-          Recaptcha.destroy();  
+          Recaptcha.destroy();
         };
 
         /**
          * Reload the current captcha
          */
         sakai_global.captcha.reload = function() {
-            Recaptcha.reload();  
+            Recaptcha.reload();
         };
 
         /**

@@ -85,7 +85,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $(successMessage).html());
                 } else {
-                    sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
+                    sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html());
                 }
 
                 $(document).trigger('done.deletecontent.sakai', [pathsToDelete]);
@@ -474,7 +474,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *                                metadata for all content that need to be deleted
          */
         var findContentIManage = function(contentList){
-            contentIManage = []; 
+            contentIManage = [];
             contentIView = [];
             $.each(contentList.results, function (i, contentItem) {
                 var content = $.parseJSON(contentItem.body);

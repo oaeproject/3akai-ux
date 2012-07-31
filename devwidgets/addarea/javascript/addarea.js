@@ -247,7 +247,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * @param {String} title Title of the Sakai Document
          * @param {String} permission ID of the permissions to be set
          * @param {String} docStructure Default content to be set on the Sakai Doc
-         * @param {String|Boolean} preferredTitle Used to make a unique URL, can also be set to false 
+         * @param {String|Boolean} preferredTitle Used to make a unique URL, can also be set to false
          * @param {Object} widgetContents Contains data about any widgets on the page
          * @param {Boolean} nonEditable Defines if the Sakai doc will be editable or not
          * @param {Function} callback Function to be executed after setting (or failing to set) the permissions
@@ -520,9 +520,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
             if (docPermission === "advanced"){
                 $(document).trigger("init.areapermissions.sakai", [{
                     isManager: true,
-	                pageSavePath: "/p/" + poolId,
-	                path: path,
-	                savePath: "/~" + sakai_global.group.groupId + "/docstructure"
+                    pageSavePath: "/p/" + poolId,
+                    path: path,
+                    savePath: "/~" + sakai_global.group.groupId + "/docstructure"
                 }]);
             }
             $(window).trigger("rerender.group.sakai", [path]);

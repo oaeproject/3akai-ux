@@ -31,7 +31,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @class recentmemberships
      *
      * @description
-     * The 'recentmemberships' widget shows the most recent recentmemberships item, 
+     * The 'recentmemberships' widget shows the most recent recentmemberships item,
      * including its latest comment and one related recentmemberships item
      *
      * @version 0.0.1
@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Parses an individual JSON search result to be displayed in recentmemberships.html
-         * 
+         *
          * @param {Object} result - individual result object from JSON data feed
          * @return {Object} object containing item.name, item.path, item.type (mimetype)
          *   and item.type_img_url (URL for mimetype icon) for the given result
@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addBinding = function (){
             $(".recentmemberships_button", rootel).die("click");
             $(".recentmemberships_button", rootel).live("click", function(ev){
-                $(window).trigger("sakai.overlays.createGroup"); 
+                $(window).trigger("sakai.overlays.createGroup");
             });
         };
 

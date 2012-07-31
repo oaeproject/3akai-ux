@@ -66,7 +66,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // Content object
         var contentObj = {};
 
-        
+
         ///////////////
         // RENDERING //
         ///////////////

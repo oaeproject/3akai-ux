@@ -97,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         /**
-         * Enables the 'Update Profile' button when the user has changed their profile information. 
+         * Enables the 'Update Profile' button when the user has changed their profile information.
          */
         var enableUpdate = function() {
             if (allowUpdate) {

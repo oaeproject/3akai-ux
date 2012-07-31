@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var relatedcontentContent = ".relatedcontent_content";
         var relatedcontentFooter = "#relatedcontent_footer";
         var relatedcontentShowMore = "#relatedcontent_show_more";
-        
+
         var contentData = {};
         var page = 0;
         var numberofitems = 5;
@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: ajaxSuccess,
                 error: ajaxError
             });
-            
+
         };
 
         var showMore = function(){
