@@ -385,8 +385,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (preferencesChanges) {
                     $(accountPreferencesPreferencesForm).submit();
                 }
-	            if (privacyChanges) {
-	                $('#accountpreferences_privacy_change').submit();
+                if (privacyChanges) {
+                    $('#accountpreferences_privacy_change').submit();
                 }
 	            if (passwordChanges) {
 	                $(accountPasswordTab).click();
