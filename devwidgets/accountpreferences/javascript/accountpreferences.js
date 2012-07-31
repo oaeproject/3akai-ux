@@ -381,9 +381,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(saveButton).bind("click", function(){
-        	if (errorCorrected) {
-	            if (preferencesChanges) {
-	                $(accountPreferencesPreferencesForm).submit();
+            if (errorCorrected) {
+                if (preferencesChanges) {
+                    $(accountPreferencesPreferencesForm).submit();
 	            }
 	            if (privacyChanges) {
 	            	$('#accountpreferences_privacy_change').submit();
