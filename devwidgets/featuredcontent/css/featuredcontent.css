@@ -39,6 +39,7 @@
     border-radius: 4px;
     padding: 12px;
     overflow: hidden;
+    position: relative;
 }
 .featuredcontent_widget .featuredcontent_content_large {height:206px;width:315px;}
 .featuredcontent_widget .featuredcontent_content_medium {height:206px;width:140px;}
@@ -56,16 +57,25 @@
 .featuredcontent_widget #featuredcontent_show_more_container button {margin-left:auto;margin-right:auto;display:block;}
 
 /* Content box actions */
-.featuredcontent_widget .featuredcontent_content .featuredcontent_content_actions {clear:both;position:absolute;width:134px;}
-.featuredcontent_widget .featuredcontent_content_large .featuredcontent_content_actions {margin-top:195px;width:314px;}
-.featuredcontent_widget .featuredcontent_content_medium .featuredcontent_content_actions {margin-top:195px;}
+.featuredcontent_widget .featuredcontent_content .featuredcontent_content_actions {
+    clear: both;
+    width: 134px;
+    position: absolute;
+    bottom: 0;
+}
+.featuredcontent_widget .featuredcontent_content_large .featuredcontent_content_actions {width:314px;}
 .featuredcontent_widget .featuredcontent_content_tworow_title {width: 100px; display:inline-block;}
-.featuredcontent_widget .featuredcontent_content_small .featuredcontent_content_actions {margin-top:75px;background-color:#EDEDEB;}
+.featuredcontent_widget .featuredcontent_content_small .featuredcontent_content_actions {background-color:#EDEDEB;}
+.featuredcontent_widget .featuredcontent_content_actions {
+    text-align: center;
+}
 .featuredcontent_widget .featuredcontent_content_actions button {
-    display: block;
+    display: inline;
 }
 .featuredcontent_widget .featuredcontent_content_actions_addtolibrary {float:left;}
-.featuredcontent_widget .featuredcontent_content_actions_authorinfo {margin-left:auto;margin-right:auto;}
+.featuredcontent_widget .featuredcontent_content_actions_authorinfo {
+    vertical-align: top;
+}
 .featuredcontent_widget .featuredcontent_content_actions_share {float:right;}
 .featuredcontent_widget .s3d-large-button {display:block;line-height:31px;margin-left:auto;margin-right:auto;width:100px;}
 
