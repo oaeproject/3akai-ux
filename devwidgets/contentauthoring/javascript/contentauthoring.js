@@ -1703,8 +1703,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // cell options
         $rootel.on('keyup', '.contentauthoring_row', function(e) {
             var $container = $(this).parent();
-            if (isInEditMode() && (!$container.find('.contentauthoring_row_handle_container').is(':visible') || $container.find('.contentauthoring_row_handle_container').css('visibility') === 'hidden')
-                && $(this).is(':focus') && e.which === $.ui.keyCode.TAB){
+            if (isInEditMode() && (!$container.find('.contentauthoring_row_handle_container').is(':visible') || $container.find('.contentauthoring_row_handle_container').css('visibility') === 'hidden') &&
+                $(this).is(':focus') && e.which === $.ui.keyCode.TAB) {
                 $('.contentauthoring_row_handle_container', $rootel).css('visibility', 'hidden');
                 setRowHoverIn(false, $container);
                 $container.find('.contentauthoring_row_handle_container').find('button:visible:first').focus();
@@ -1721,8 +1721,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         });
         $rootel.on('keydown', '.contentauthoring_cell_element', function(e) {
-            if ($('.contentauthoring_cell_element_actions button:last:focus', $(this)).length
-                && e.which === $.ui.keyCode.TAB && !e.shiftKey) {
+            if ($('.contentauthoring_cell_element_actions button:last:focus', $(this)).length &&
+                e.which === $.ui.keyCode.TAB && !e.shiftKey) {
                 $('.contentauthoring_cell_element_actions', $rootel).hide();
             } else if ($(this).is(':focus') && e.which === $.ui.keyCode.TAB && e.shiftKey) {
                 showEditCellMenuHoverOut(false, $(this));
