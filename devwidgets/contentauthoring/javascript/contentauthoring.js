@@ -194,13 +194,22 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // ROW HOVER //
         ///////////////
 
-        var setRowHoverIn = function($el) {
+        var setRowHoverIn = function(e, $container) {
+            var $el = $(this);
+            if ($container) {
+                $el = $container;
+            }
             // Only show the hover state when we are in edit mode and we are not dragging an element
             if (isInEditMode() && !isDragging) {
                 $('.contentauthoring_row_handle_container', $el).css('visibility', 'visible');
             }
         };
-        var setRowHoverOut = function($el) {
+
+        var setRowHoverOut = function(e, $container) {
+            var $el = $(this);
+            if ($container) {
+                $el = $container;
+            }
             $('.contentauthoring_row_handle_container', $el).css('visibility', 'hidden');
         };
 
@@ -211,11 +220,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          */
         var setRowHover = function() {
             $('.contentauthoring_row_container', $rootel).off('hover');
-            $('.contentauthoring_row_container', $rootel).hover(function() {
-                setRowHoverIn($(this));
-            }, function() {
-                setRowHoverOut($(this));
-            });
+            $('.contentauthoring_row_container', $rootel).hover(setRowHoverIn, setRowHoverOut);
         };
 
         //////////////////////
@@ -728,7 +733,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // WIDGET HOVER //
         //////////////////
 
-        var showEditCellMenuHoverIn = function($el) {
+        var showEditCellMenuHoverIn = function(e, $container) {
+            var $el = $(this);
+            if ($container) {
+                $el = $container;
+            }
             // Only show the hover state when we are in edit mode and we are not dragging an element
             if (isInEditMode() && !isDragging) {
                 $('.contentauthoring_cell_element_actions', $el).css('left', $el.position().left + 'px');
@@ -738,7 +747,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 $el.addClass('contentauthoring_cell_element_hover');
             }
         };
-        var showEditCellMenuHoverOut = function($el) {
+
+        var showEditCellMenuHoverOut = function(e, $container) {
+            var $el = $(this);
+            if ($container) {
+                $el = $container;
+            }
             $('.contentauthoring_cell_element_actions', $rootel).hide();
             $el.removeClass('contentauthoring_cell_element_hover');
         };
@@ -748,11 +762,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * hovering out of the widget
          */
         var showEditCellMenu = function() {
-            $('.contentauthoring_cell_element', $rootel).off('hover').hover(function() {
-                showEditCellMenuHoverIn($(this));
-            }, function() {
-                showEditCellMenuHoverOut($(this));
-            });
+            $('.contentauthoring_cell_element', $rootel).off('hover').hover(showEditCellMenuHoverIn, showEditCellMenuHoverOut);
         };
 
         ///////////////////
@@ -1614,7 +1624,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         });
 
         // Add row sub menu close
-        $rootel.on('keyup', '#contentauthoring_row_menu', function(e) {
+        $rootel.on('keyup', '#contentauthoring_row_menu', function() {
             // Don't close menu if focus is on the add row button, or inside the menu
             if (!$('.s3d-dropdown-hassubnav ul button:focus, #contentauthoring_row_menu_add:focus', $(this)).length) {
                 $(this).find('.contentauthoring_addrow_menu_open').removeClass('contentauthoring_addrow_menu_open');
@@ -1656,7 +1666,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             if (isInEditMode() && (!$container.find('.contentauthoring_row_handle_container').is(':visible') || $container.find('.contentauthoring_row_handle_container').css('visibility') === 'hidden')
                 && $(this).is(':focus') && e.which === $.ui.keyCode.TAB){
                 $('.contentauthoring_row_handle_container', $rootel).css('visibility', 'hidden');
-                setRowHoverIn($container);
+                setRowHoverIn(false, $container);
                 $container.find('.contentauthoring_row_handle_container').find('button:visible:first').focus();
             }
         });
@@ -1666,8 +1676,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         // row options
         $rootel.on('keyup', '.contentauthoring_cell_element', function(e) {
-            if (e.which === $.ui.keyCode.TAB){//} && !e.shiftKey) {
-                showEditCellMenuHoverIn($(this));
+            if (e.which === $.ui.keyCode.TAB) {
+                showEditCellMenuHoverIn(false, $(this));
             }
         });
         $rootel.on('keydown', '.contentauthoring_cell_element', function(e) {
@@ -1675,7 +1685,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 && e.which === $.ui.keyCode.TAB && !e.shiftKey) {
                 $('.contentauthoring_cell_element_actions', $rootel).hide();
             } else if ($(this).is(':focus') && e.which === $.ui.keyCode.TAB && e.shiftKey) {
-                showEditCellMenuHoverOut($(this));
+                showEditCellMenuHoverOut(false, $(this));
             }
         });
 
