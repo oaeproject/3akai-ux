@@ -29,7 +29,13 @@
     paths: {
         "jquery-plugins": "jquery/plugins",
         "jquery": "jquery/jquery-1.7.0",
-        "jquery-ui": "jquery/jquery-ui-1.8.16.custom",
+        "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
+        "jquery-cookie": "jquery/plugins/jquery.cookie",
+        "jquery-jstree": "jquery/plugins/jsTree/jquery.jstree.sakai-edit",
+        "jquery-fileupload": "jquery/plugins/jquery.fileupload",
+        "jquery-iframe-transport": "jquery/plugins/jquery.iframe-transport",
+        "jquery-pager": "jquery/plugins/jquery.pager.sakai-edited",
+        "jquery-tagcloud": "jquery/plugins/jquery.tagcloud",
         "underscore": "misc/underscore",
         "config": "../configuration"
     },

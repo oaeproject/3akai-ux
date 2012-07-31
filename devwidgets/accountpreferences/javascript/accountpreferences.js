@@ -20,7 +20,6 @@
  * Dependencies
  *
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
  */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
@@ -114,6 +113,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var languagesTemplate = accountPreferences + "_languagesTemplate";
 
         var $accountpreferences_langloc_settings = $("#accountpreferences_langloc_settings");
+        var $tabList = $('#accountpreferences_tabs');
 
         var myClose = function(hash) {
             hash.o.remove();
@@ -138,9 +138,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.Modal.open(accountPreferencesContainer);
         };
 
-        $(window).bind("init.accountpreferences.sakai", function() {
-            initialize();
-        });
+        $(document).on('click', '.accountpreferences_trigger', initialize);
 
         /////////////////
         // Change pass //
@@ -233,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             privacyChanges = true;
         });
 
-        $("#accountpreferences_privacy_change").live("submit", function(ev){
+        $('#accountpreferences_privacy_change').on('submit', function(ev){
             var option = $(".accountpreferences_selectable input:radio[name='accountpreferences_privacy_radio']:checked").val();
             sakai.api.User.savePrivacySettings(option, function(success){
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS", "accountpreferences"), sakai.api.i18n.getValueForKey("PRIVACY_SETTINGS_UPDATED", "accountpreferences"));
@@ -415,10 +413,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Initialise form validation
          */
         var initValidation = function(){
-            $.validator.addMethod("newpw", function(value, element){
-                return this.optional(element) || (value !== $("#curr_pass").val());
-            }, $(errorPassSame).html());
-
             var validateOpts = {
                 rules: {
                     curr_pass: {
@@ -438,7 +432,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "equalTo": sakai.api.i18n.getValueForKey("PLEASE_ENTER_PASSWORD_TWICE", "accountpreferences")
                     }
                 },
-                submitHandler: changePass
+                'methods': {
+                    'newpw': {
+                        'method': function(value, element) {
+                            return this.optional(element) || (value !== $('#curr_pass').val());
+                        },
+                        'text': $(errorPassSame).html()
+                    }
+                },
+                submitHandler: changePass,
+                onfocusout: function(element) {
+                    $(element).valid();
+                }
             };
 
             // Initialize the validate plug-in
@@ -561,6 +566,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.Modal.close(accountPreferencesContainer);
         });
 
+        // Bind arrow keys for changing tabs
+        $tabList.on('keydown', 'button', (function(e) {
+            var $clickedLi = $(this).parent();
+            if (e.which === $.ui.keyCode.RIGHT || e.which === $.ui.keyCode.DOWN) {
+                if ($clickedLi.next(':visible').length) {
+                    // focus on next tab
+                    $clickedLi.next(':visible').find('button').focus().click();
+                } else {
+                    // focus on first tab
+                    $clickedLi.siblings(':visible:first').find('button').focus().click();
+                }
+                return false;
+            } else if (e.which === $.ui.keyCode.LEFT || e.which === $.ui.keyCode.UP) {
+                if ($clickedLi.prev(':visible').length) {
+                    // focus on previous tab
+                    $clickedLi.prev(':visible').find('button').focus().click();
+                } else {
+                    // focus on last tab
+                    $clickedLi.siblings(':visible:last').find('button').focus().click();
+                }
+                return false;
+            }
+        }));
+
         /////////////////////////////
         // INITIALISATION FUNCTION //
         /////////////////////////////
@@ -583,7 +612,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(passChangeContainer).hide();
                 }
                 if (sakai.config.emailLocation !== 'accountpreferences') {
-                    $(accountEmailTab).hide();
+                    $(accountEmailTab).parent().hide();
                     $(emailChangeContainer).hide();
                 } else {
                     var emailVal = sakai.api.User.getProfileBasicElementValue(

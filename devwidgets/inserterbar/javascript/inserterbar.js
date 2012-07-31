@@ -250,17 +250,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Adds bindings to the widget elements
          */
         var addBinding = function() {
-            $inserterbarMoreWidgets.click(showHideMoreWidgets);
+            $inserterbarMoreWidgets.on('click', showHideMoreWidgets);
             // Hide the tinyMCE toolbar when we click outside of a tinyMCE area
             sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'), ".mceMenu, .mce_forecolor");
 
-            $('#inserterbar_action_close_revision_history').live('click', function() {
+            $('#inserterbar_action_close_revision_history').on('click', function(e) {
                 $(window).trigger("close.versions.sakai");
+                setInserterForViewMode();
+                e.preventDefault();
             });
 
-
-            $('#inserterbar_action_revision_history').live('click', setInserterForRevisionHistoryMode);
-            $('#inserterbar_action_close_revision_history').live('click', setInserterForViewMode);
+            $('#inserterbar_action_revision_history').on('click', setInserterForRevisionHistoryMode);
             $(window).bind('edit.contentauthoring.sakai', setInserterForEditMode);
             $(window).bind('render.contentauthoring.sakai', setInserterForViewMode);
 
@@ -283,6 +283,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
             addBinding();
             renderWidgets();
+
+            if ($rootel.parents('.contentauthoring_edit_mode').length) {
+                setInserterForEditMode();
+            }
         };
 
         doInit();

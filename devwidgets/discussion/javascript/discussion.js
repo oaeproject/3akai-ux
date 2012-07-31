@@ -19,12 +19,10 @@
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
- * /dev/lib/jquery/plugins/jquery.validate.sakai-edited.js (validate)
- * /dev/lib/jquery/plugins/jquery.cookie.js (cookie)
  */
 /*global Config, $ */
 
-require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
      * @name sakai_global.discussion
@@ -88,7 +86,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         // Add new topic
         var discussionAddNewTopic = "#discussion_add_new_topic";
         var discussionDontAddTopic = "#discussion_dont_add_topic";
-        var discussionAddTopic = "#discussion_add_topic";
         var discussionCreateNewTopicTitle = "#discussion_create_new_topic_title";
         var discussionCreateNewTopicMessageText = "#discussion_create_new_topic_message_text";
         var discussionCreateNewTopicForm = "#discussion_create_new_topic form";
@@ -334,18 +331,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 try {
                     renderPosts(response.results);
                     $discussionListTopics.show();
-
-                    var cookieData = $.parseJSON($.cookie(tuid));
-                    // loop through the posts
-                    for (var i in response.results) {
-                        if (response.results.hasOwnProperty(i) && response.results[i].post && response.results[i].replies && response.results[i].replies.length) {
-                            var postId = "discussion_post_" + response.results[i].post["sakai:id"];
-                            if (!(cookieData && cookieData[postId] && cookieData[postId].option === "hide")){
-                                // expand the thread
-                                $("#" + postId + " a" + discussionShowTopicReplies, $rootel).click();
-                            }
-                        }
-                    }
                 } catch (err) {
                 }
             } else {
@@ -542,7 +527,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     topicData.results.unshift({"post": data.message, "replies": []});
                     showPosts(topicData, true);
 
-                    getWidgetSettings();
                     disableEnableButtons(true);
                 },
                 error: function(){
@@ -747,30 +731,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             });
         };
 
-        /**
-         * Set thread view for the user by cookie
-         * @param {String} postId The post ID
-         * @param {String} option Option to show or hide replies
-         */
-        var setPostView = function(postId, option){
-            if (postId) {
-                var cookieData = $.parseJSON($.cookie(tuid));
-                if (!cookieData) {
-                    cookieData = {};
-                }
-
-                // if the option is show then we remove the data for the post from the cookie, since it will show by default
-                if (option === "show") {
-                    delete cookieData[postId];
-                } else {
-                    cookieData[postId] = {
-                        "option": option
-                    };
-                }
-                $.cookie(tuid, $.toJSON(cookieData));
-            }
-        };
-
         ////////////////////
         // Event Handlers //
         ////////////////////
@@ -840,13 +800,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     if ($repliesIcon.next().children(discussionNumberOfReplies).text() != "0") {
                         $(this).nextAll(discussionReplyTopicBottom).show();
                     }
-                    setPostView(postId, "show");
                 }else{
                     $(this).nextAll(discussionTopicRepliesContainer).hide();
                     $repliesIcon.addClass(discussionShowRepliesIcon);
                     $repliesIcon.removeClass(discussionHideRepliesIcon);
                     $(this).nextAll(discussionReplyTopicBottom).hide();
-                    setPostView(postId, "hide");
                 }
             });
 

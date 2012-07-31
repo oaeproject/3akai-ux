@@ -1,17 +1,17 @@
 {
-    "id":                 "pagetitle",
-    "type":               "contrib",
-    "enabled":            false,
-    "hasSettings":        false,
-    "url":                "/devwidgets/pagetitle/pagetitle.html",
+    "enabled": false,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/pagetitle/bundles/default.properties",
-            "name":       "Page Title",
-            "description":"Title element"
+            "bundle": "/devwidgets/pagetitle/bundles/default.properties",
+            "description": "Title element",
+            "name": "Page Title"
         }
     },
-    "personalportal":     false,
-    "sakaidocs":          false,
-    "indexFields": ["content"]
+    "id": "pagetitle",
+    "indexFields": ["content"],
+    "personalportal": false,
+    "sakaidocs": false,
+    "url": "/devwidgets/pagetitle/pagetitle.html",
+    "type": "sakai"
 }

@@ -1,14 +1,14 @@
 {
-    "id":"documentviewer",
-    "hasSettings":false,
-    "type":"core",
-    "enabled":true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/documentviewer/bundles/default.properties",
-            "name":"Document viewer",
-            "description":"Document viewer"
+            "description": "Document viewer",
+            "name": "Document viewer"
         }
     },
-    "url":"/devwidgets/documentviewer/documentviewer.html"
+    "id": "documentviewer",
+    "type": "core",
+    "url": "/devwidgets/documentviewer/documentviewer.html"
 }

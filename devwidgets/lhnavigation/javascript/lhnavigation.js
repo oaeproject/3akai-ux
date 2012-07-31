@@ -47,9 +47,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var navSelectedItemArrow = '.lhnavigation_selected_item_arrow';
         var navSelectedItem = '.lhnavigation_selected_item';
 
-        var $lhnavigation_contentauthoring_declaration = $('#lhnavigation_contentauthoring_declaration'),
-            $lhnavigation_contentauthoring_declaration_template = $('#lhnavigation_contentauthoring_declaration_template');
-
         ////////////////
         // DATA CACHE //
         ////////////////
@@ -62,8 +59,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var parametersToCarryOver = {};
         var sakaiDocsInStructure = {};
         var currentPageShown = {};
-
-        var doNotRenderSakaiDocsOnPaths = ['/content'];
 
 
         //////////////////////////////
@@ -150,7 +145,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var storeStructure = function(structure, savepath) {
             sakai.api.Server.saveJSON(savepath, {
-                'structure0': $.toJSON(structure)
+                'structure0': JSON.stringify(structure)
             });
         };
 
@@ -525,6 +520,33 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             return structureFoundIn;
         };
 
+        /**
+         * Check if a user can view the specific page.
+         * If the page has no _canView property than the user can view the page.
+         *
+         * @param {Object} structure The structure containing the page
+         * @param {String} selected The path to the page, ie. 'syllabus/week1'
+         */
+        var canViewPage = function(structure, selected) {
+            if (structure) {
+                var pageSelected = selected;
+                var subPage = false;
+
+                // Check if this is a subpage
+                if (selected.indexOf('/') !== -1) {
+                    pageSelected = selected.split('/')[0];
+                    subPage = selected.split('/')[1];
+                }
+
+                // Check if the page has a _canView property and it's set to false, if it is undefined the user should still be able to see the page
+                if ((structure.items[pageSelected] && structure.items[pageSelected]._canView === false) ||
+                    (subPage && structure.items[pageSelected][subPage] && structure.items[pageSelected][subPage]._canView === false)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
         var selectPage = function(newPageMode) {
             if (contextData.forceOpenPage) {
                 $.bbq.pushState({
@@ -535,10 +557,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 var state = $.bbq.getState('l');
                 var selected = state || false;
                 var structureFoundIn = false;
-                // Check whether this page exist
+                // Check whether this page exist and if we have permission to view
                 if (selected) {
                     structureFoundIn = checkPageExists(privstructure, selected) || checkPageExists(pubstructure, selected);
-                    if (!structureFoundIn) {
+                    if (!structureFoundIn || !canViewPage(structureFoundIn, selected)) {
                         selected = false;
                     }
                 }
@@ -572,7 +594,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         }
 
                         getPageContent(ref, function() {
-                            preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                            preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode === true);
                         });
                     }
                 } else {
@@ -614,7 +636,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     content: currentPageShown.content
                 };
                 editPageTitle();
-                $(window).on('click', '#inserterbar_action_add_page', addNewPage);
+                $(document).on('click', '#inserterbar_action_add_page', addNewPage);
             } else {
                 $(window).trigger('showpage.contentauthoring.sakai', [currentPageShown]);
             }
@@ -627,7 +649,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var contextMenuHover = false;
 
         var onContextMenuHover = function($el, $elLI) {
-            $('.lhnavigation_selected_submenu').hide();
             $('#lhnavigation_submenu').hide();
             if ($elLI.data('sakai-manage') && !$elLI.data('sakai-reorder-only')) {
                 var additionalOptions = $elLI.data('sakai-addcontextoption');
@@ -649,6 +670,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     savePath: $elLI.data('sakai-savepath')
                 };
                 $('.lhnavigation_selected_submenu', $el).show();
+            } else {
+                $('.lhnavigation_selected_submenu').hide();
             }
         };
 
@@ -687,7 +710,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var showAreaPermissions = function() {
             toggleContextMenu(true);
-            $(window).trigger('permissions.area.trigger', [contextMenuHover]);
+            $(document).trigger('init.areapermissions.sakai', [contextMenuHover]);
         };
 
         //////////////////////
@@ -696,7 +719,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         var showUserPermissions = function() {
             toggleContextMenu(true);
-            $(window).trigger('permissions.area.trigger', [contextMenuHover]);
+            $(document).trigger('init.userpermissions.sakai', [contextMenuHover]);
         };
 
         //////////////////////////////////
@@ -736,7 +759,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         var addNewPage = function() {
-            $(window).off('click', '#inserterbar_action_add_page', addNewPage);
+            $(document).off('click', '#inserterbar_action_add_page', addNewPage);
             if (contextData.addArea) {
                 addSubPage();
             } else {
@@ -1144,8 +1167,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         ////////////////////////////
 
         var handleReorder = function(e, ui) {
-            var $target = $(e.target);
-            var savePath = $target.parents('.lhnavigation_menuitem:first').data('sakai-savepath');
+            var $target = $(ui.item);
+            var savePath = $target.data('sakai-savepath');
             var structure = sakaiDocsInStructure[savePath];
             var $list = $target.parents('ul div.lhnavigation_menu_list');
             if ($target.parents('ul.lhnavigation_subnav').length) {
@@ -1205,7 +1228,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 processData(pubdata, cData.puburl, function(processedPub) {
                     pubstructure = processedPub;
                     renderData();
-                    selectPage();
+                    if (sakai_global.contentauthoring && sakai_global.contentauthoring.ready) {
+                        selectPage();
+                    } else {
+                        $(window).bind('ready.contentauthoring.sakai', selectPage);
+                    }
                     enableSorting();
                     if (cData.parametersToCarryOver) {
                         parametersToCarryOver = cData.parametersToCarryOver;
@@ -1227,26 +1254,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Initializing the Sakaidocs widget //
         ///////////////////////////////////////
 
-        var sakaiDocsInitialized = false;
-
-        var prepareRenderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
-            if (!sakaiDocsInitialized) {
-                sakaiDocsInitialized = true;
-                $('#s3d-page-main-content').append($('#lhnavigation_contentauthoring_declaration'));
-                $(window).bind('ready.contentauthoring.sakai', function() {
-                    renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
-                });
-                // Don't render sakaidocs on paths in the doNotRenderSakaiDocsOnPaths array
-                // so we don't double-render it on those that already include it
-                if ($.inArray(window.location.path, doNotRenderSakaiDocsOnPaths) === -1) {
-                    sakai.api.Util.TemplateRenderer($lhnavigation_contentauthoring_declaration_template, {}, $lhnavigation_contentauthoring_declaration);
-                }
-                sakai.api.Widgets.widgetLoader.insertWidgets('s3d-page-main-content', false);
-            } else {
-                renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
-            }
-        };
-
         sakai_global.lhnavigation.getCurrentPage = function() {
             return currentPageShown;
         };
@@ -1263,18 +1270,18 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             onContextMenuHover($(this), $(this).parent('li'));
         });
 
-        $(window).on('click', '#inserterbar_action_add_page', addNewPage);
+        $(document).on('click', '#inserterbar_action_add_page', addNewPage);
 
         $('#lhavigation_submenu_edittitle').live('click', function(ev) {
             editPageTitle();
             ev.stopPropagation();
         });
 
-        $('#lhnavigation_submenu_permissions').live('click', function(ev) {
+        $('#lhnavigation_submenu_permissions').on('click', function(ev) {
             showAreaPermissions();
         });
 
-        $('#lhnavigation_submenu_user_permissions').live('click', function(ev) {
+        $('#lhnavigation_submenu_user_permissions').on('click', function(ev) {
             showUserPermissions();
         });
 
@@ -1309,7 +1316,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // bind arrow keys for navigation
         $('.lhnavigation_menuitem a').live('keydown', function(ev) {
             var $el = $(this);
-            if (ev.which == $.ui.keyCode.DOWN) {
+            if (ev.which === $.ui.keyCode.DOWN) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if sub menu open
@@ -1347,7 +1354,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.UP) {
+            } else if (ev.which === $.ui.keyCode.UP) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if previous menu has an open sub menu open
@@ -1386,15 +1393,39 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.RIGHT &&
-                    $el.prev('div').hasClass('lhnavigation_has_subnav') &&
-                    !$el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
-                // open sub menu
-                $el.click();
-            } else if (ev.which == $.ui.keyCode.LEFT &&
-                    $el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
+            } else if (ev.which === $.ui.keyCode.RIGHT) {
+                if ($el.siblings('.lhnavigation_has_subnav').length &&
+                    !$el.siblings('.lhnavigation_has_subnav_opened').length) {
+                    // open sub menu
+                    $el.click();
+                } else if ($el.siblings('.lhnavigation_selected_submenu').length) {
+                    $el.siblings('.lhnavigation_selected_submenu').find('button').focus();
+                }
+            } else if (ev.which === $.ui.keyCode.LEFT &&
+                $el.siblings('.lhnavigation_has_subnav_opened').length) {
                 // close sub menu
                 $el.click();
+            }
+        });
+
+        // bind arrow keys for navigation to page options dropdown
+        $rootel.on('keydown', '.lhnavigation_menuitem button', function(ev) {
+            var $el = $(this);
+            if (ev.which === $.ui.keyCode.LEFT && $el.parent().siblings('a').length) {
+                $el.parent().siblings('a').focus();
+            } else if (ev.which === $.ui.keyCode.DOWN) {
+                $el.click();
+            }
+        });
+
+        // bind keyboard navigation for page options dropdown menu
+        $rootel.on('keydown', '#lhnavigation_submenu a', function(ev) {
+            var $el = $(this).parent();
+            if (ev.which === $.ui.keyCode.TAB &&
+                ((!ev.shiftKey && !$el.nextAll(':visible').length) ||
+                (ev.shiftKey && !$el.prevAll(':visible').length))) {
+                toggleContextMenu(true);
+                return false;
             }
         });
 
@@ -1413,7 +1444,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         $(window).bind('hashchanged.lhnavigation.sakai', handleHashChange);
 
         $(window).bind('lhnav.init', function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
-            prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
+            renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
 
         $(window).bind('lhnav.updateCount', function(e, pageid, value, add) {
@@ -1425,6 +1456,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 $.bbq.removeState('newPageMode');
             }
         });
+
 
         ///////////////////////
         // Widget has loaded //

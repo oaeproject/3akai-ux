@@ -166,7 +166,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 url = facetedurlall;
                 $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': ''}]);
             } else {
-                url = facetedurl.replace('.json', '.infinity.json');
+                url = facetedurl;
                 $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);
             }
 
@@ -183,6 +183,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }, function(items, total){
                 // Adjust display global total
                 $(searchConfig.global.numberFound, $rootel).text("" + total);
+                if (total === 1) {
+                    $(searchConfig.global.numberFound, $rootel).next('span.s3d-aural-text').text(
+                        '' + sakai.api.i18n.getValueForKey('CONTENT_ITEM_FOUND', 'searchcontent')
+                    );
+                } else {
+                    $(searchConfig.global.numberFound, $rootel).next('span.s3d-aural-text').text(
+                        '' + sakai.api.i18n.getValueForKey('CONTENT_ITEMS_FOUND', 'searchcontent')
+                    );
+                }
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
                     "items": items,
                     "sakai": sakai

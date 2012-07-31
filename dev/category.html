@@ -5,9 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title></title>
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.explore.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.category.css" />
     </head>
     <body class="fl-centered explore i18nable">
         <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
@@ -24,22 +22,18 @@
                     <div id="widget_institutionalskinning" class="widget_inline"></div>
                     <div id="explore_navigation"></div>
                     <div id="explore_navigation_template"><!--
-                        <h1 class="s3d-contentpage-title">
+                        <div class="s3d-contentpage-title">
                             {for crumb in breadcrumb}
                                 {if crumb_index != 0}
                                 <span>&nbsp;/&nbsp;</span>
                                 {/if}
                                 {if crumb.link}
-                                    <a href="{if crumb.url}${crumb.url} {else} #l=${crumb.id}{/if}" class="s3d-bold s3d-regular-links">
-                                {/if}
-    
-                                ${crumb.title}
-    
-                                {if crumb.link}
-                                    </a>
+                                    <a href="{if crumb.url}${crumb.url} {else} #l=${crumb.id}{/if}" class="s3d-bold s3d-regular-links">${crumb.title}</a>
+                                {else}
+                                    <h1 class="s3d-contentpage-title">${crumb.title}</h1>
                                 {/if}
                             {/for}
-                        </h1>
+                        </div>
                 --></div>
                 </div>
             </div>
@@ -49,7 +43,9 @@
                 <div id="widget_lhnavigation" class="widget_inline"></div>
             </div>
             <div  class="s3d-page-column-right">
-                <div id="s3d-page-main-content"></div>
+                <div id="s3d-page-main-content">
+                    <div id="widget_contentauthoring" class="widget_inline"></div>
+                </div>
                 <div class="s3d-bottom-spacer"></div>
             </div>
         </div>

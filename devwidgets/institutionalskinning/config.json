@@ -1,19 +1,15 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/institutionalskinning/bundles/default.properties",
-            "name":       "Institutional skinning",
-            "description":"Institutional skinning widget"
+            "bundle": "/devwidgets/institutionalskinning/bundles/default.properties",
+            "description": "Institutional skinning widget",
+            "name": "Institutional skinning"
         }
     },
-    "id":                 "institutionalskinning",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/institutionalskinning/institutionalskinning.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "institutionalskinning",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/institutionalskinning/institutionalskinning.html"
 }

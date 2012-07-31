@@ -11,7 +11,6 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.group.css" />
 
     </head>
@@ -35,7 +34,6 @@
         <div class="fl-container-flex">
             <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
                 <div class="s3d-page-column-left">
-                    <div id="widget_addarea" class="widget_inline"></div>
                     <div id="widget_lhnavigation" class="widget_inline"></div>
                     <div id="group_create_new_area_container" style="display:none;">
                         <div class="s3d-popout-button-shadow"></div>
@@ -44,22 +42,13 @@
                 </div>
                 <div class="s3d-page-column-right">
                     <div id="group_sakaidoc_container" class="s3d-page-content-lowpadding">
-                        <div id="s3d-page-main-content"></div>
+                        <div id="s3d-page-main-content">
+                            <div id="widget_contentauthoring" class="widget_inline"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Area Permissions overlay -->
-        <div id="widget_areapermissions" class="widget_inline"></div>
-
-        <div id="widget_worldsettings" class="widget_inline"></div>
-
-        <div id='widget_addpeople' class='widget_inline'></div>
-
-        <div id='widget_joinrequests' class='widget_inline'></div>
-
-        <div id="widget_deletegroup" class="widget_inline"></div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>

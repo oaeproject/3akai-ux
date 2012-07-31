@@ -8,12 +8,11 @@ response.setStatus(404);
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <!-- Sakai 3 R&amp;D - Page not found -->
+
         <title></title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
         <!-- Sakai Error CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />

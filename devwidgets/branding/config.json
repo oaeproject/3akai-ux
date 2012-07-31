@@ -1,13 +1,13 @@
 {
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/branding/bundles/default.properties",
-            "name":"branding",
-            "description":"branding"
+            "description": "branding",
+            "name": "branding"
         }
     },
-    "id":"branding",
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/branding/branding.html"
+    "id": "branding",
+    "type": "core",
+    "url": "/devwidgets/branding/branding.html"
 }

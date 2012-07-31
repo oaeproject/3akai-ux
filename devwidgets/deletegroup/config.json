@@ -1,19 +1,23 @@
 {
-    "id":"deletegroup",
+    "enabled": true,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/deletegroup/bundles/default.properties",
             "name": "Delete group",
-            "description":"Delete group widget"
+            "description": "Delete group widget"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/deletegroup/bundles/es_ES.properties"
         },
         "fr_FR": {
             "bundle": "/devwidgets/deletegroup/bundles/fr_FR.properties"
         }
     },
-    "type":"core",
-    "enabled":true,
-    "url":"/devwidgets/deletegroup/deletegroup.html"
+    "trigger": {
+        "events": ["init.deletegroup.sakai"],
+        "onLoad": false
+    },
+    "id": "deletegroup",
+    "type": "core",
+    "url": "/devwidgets/deletegroup/deletegroup.html"
 }

@@ -8,7 +8,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content-small"></div>
-                    <p>__MSG__NO_RESULTS_DESCRIPTION__ <a id="mylibrary_addcontent" class="s3d-regular-links sakai_add_content_overlay" href="#">__MSG__ADD_CONTENT__</a></p>
+                    <p>__MSG__NO_RESULTS_DESCRIPTION_RECENTCONTENT__ <a id="mylibrary_addcontent" class="s3d-regular-links sakai_add_content_overlay" href="#">__MSG__ADD_CONTENT__</a></p>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                                 <p class="recentchangedcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
                             {/if}
                             {if item.totalcomment > 0}
-                                <p class="recentchangedcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                                <p class="recentchangedcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}</p>
                             {/if}
                         </div>
                     </div>

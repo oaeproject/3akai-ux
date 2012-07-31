@@ -306,13 +306,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     $('#entity_groupsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_groupsettings_dropdown", json));
 
-                    $('#ew_group_settings_edit_link').live("click", function(ev) {
-                        $(window).trigger("init.worldsettings.sakai", context.data.authprofile['sakai:group-id']);
+                    $('#ew_group_settings_edit_link').on('click', function(ev) {
+                        $(document).trigger('init.worldsettings.sakai', context.data.authprofile['sakai:group-id']);
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
                     $('#ew_group_delete_link').live("click", function(ev) {
-                        $(window).trigger('init.deletegroup.sakai', [context.data.authprofile,
+                        $(document).trigger('init.deletegroup.sakai', [context.data.authprofile,
                             function (success) {
                                 if (success) {
                                     // Wait for 2 seconds
@@ -323,11 +323,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }]
                         );
-                        $('#entity_groupsettings_dropdown').jqmHide();
-                    });
-
-                    $('#ew_group_join_requests_link').live("click", function(ev) {
-                        $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
@@ -354,12 +349,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Widgets.widgetLoader.insertWidgets("entity_groupsettings_dropdown", false, $rootel);
                     break;
                 case "group":
-                    $(window).bind("ready.joinrequestbuttons.sakai", function() {
+                    $(document).on('ready.joinrequestbuttons.sakai', function() {
                         sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], function(success, members) {
                             members = members[context.data.authprofile["sakai:group-id"]];
                             var managerCount = sakai.api.Groups.getManagerCount(context.data.authprofile, members);
                             var leaveAllowed = managerCount > 1 || !sakai.api.Groups.isCurrentUserAManager(context.data.authprofile["sakai:group-id"], sakai.data.me);
-                            $(window).trigger("init.joinrequestbuttons.sakai", [
+                            $(document).trigger('init.joinrequestbuttons.sakai', [
                                 {
                                     "groupProfile": context.data.authprofile,
                                     "groupMembers": members,
@@ -470,10 +465,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var checkHash = function(context){
             if ($.bbq.getState("e") === "joinrequests" && context.context === "group" && context.data.authprofile["sakai:group-joinable"] === "withauth"){
-                $(window).bind("ready.joinrequests.sakai", function(){
-                    $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
-                });
-                $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
+                $(document).trigger('init.joinrequests.sakai');
             }
         };
 
@@ -492,8 +484,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('.ew_permissions').unbind("click").bind("click", function(e){
                 e.preventDefault();
-                if($(this).parents(".s3d-dropdown-list").length || $(e.target).hasClass("s3d-dropdown-list-arrow-up")){
-                    $(window).trigger("init.contentpermissions.sakai", {"newPermission": $(this).data("permissionvalue") || false});
+                if ($(this).parents('.s3d-dropdown-list').length || $(e.target).hasClass('s3d-dropdown-list-arrow-up')) {
+                    $(document).trigger('init.contentpermissions.sakai', {'newPermission': $(this).data('permissionvalue') || false});
                     $('#entity_contentsettings_dropdown').jqmHide();
                 }
             });
@@ -535,9 +527,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var newNum = num + val;
                 $("#entity_participants_count").text(newNum);
                 if (newNum === 1) {
-                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANT", "entity"));
+                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANT_LC", "entity"));
                 } else {
-                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANTS", "entity"));
+                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANTS_LC", "entity"));
                 }
             });
 
@@ -569,7 +561,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('#ew_upload').click(function(e){
                 e.preventDefault();
-                $(window).trigger("init.uploadnewversion.sakai");
+                $(document).trigger('init.uploadnewversion.sakai');
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
@@ -586,7 +578,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#ew_content_preview_delete").bind("click", function(e){
                 e.preventDefault();
                 window.scrollTo(0,0);
-                $(window).trigger('init.deletecontent.sakai', [{
+                $(document).trigger('init.deletecontent.sakai', [{
                         "paths": [sakai_global.content_profile.content_data.data._path]
                     },
                     function (success) {
@@ -602,9 +594,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
-            $(".addpeople_init").live("click", function(){
-                $(window).trigger("init.addpeople.sakai", [tuid, true]);
-                $("#entity_groupsettings_dropdown").jqmHide();
+            $('.addpeople_init').on('click', function() {
+                $(document).trigger('init.addpeople.sakai', {
+                    editingGroup: true
+                });
+                $('#entity_groupsettings_dropdown').jqmHide();
             });
 
             $(".entity_owns_actions_container .ew_permissions").live("hover", function(){
@@ -645,6 +639,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 prepareRenderContext(renderObj);
                                 $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
                                 setupCountAreaBindings();
+                                addBinding(renderObj);
                             }
                         });
                     }

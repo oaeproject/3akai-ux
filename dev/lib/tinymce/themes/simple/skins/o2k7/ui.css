@@ -8,20 +8,41 @@
 .o2k7SimpleSkin .mceToolbar {height:26px;}
 
 /* Layout */
-.o2k7SimpleSkin .mceToolbar .mceToolbarStart span {display:block; background:url(img/button_bg.png) -22px 0; width:1px; height:22px; }
-.o2k7SimpleSkin .mceToolbar .mceToolbarEnd span {display:block; background:url(img/button_bg.png) -22px 0; width:1px; height:22px}
+.o2k7SimpleSkin .mceToolbar .mceToolbarStart span {
+    background: url(/dev/lib/tinymce/themes/advanced/skins/o2k7/img/button_bg.png) -22px 0;
+    display: block;
+    height: 22px;
+    width: 1px;
+}
+.o2k7SimpleSkin .mceToolbar .mceToolbarEnd span {display:block;
+    background: url(/dev/lib/tinymce/themes/advanced/skins/o2k7/img/button_bg.png) -22px 0;
+    height: 22px;
+    width: 1px;
+}
 .o2k7SimpleSkin span.mceIcon, .o2k7SimpleSkin img.mceIcon {display:block; width:20px; height:20px}
-.o2k7SimpleSkin .mceIcon {background:url(../../img/icons.gif) no-repeat 20px 20px}
+.o2k7SimpleSkin .mceIcon {
+    background: url(/dev/lib/tinymce/themes/advanced/img/icons.gif) no-repeat 20px 20px;
+}
 
 /* Button */
-.o2k7SimpleSkin .mceButton {display:block; background:url(img/button_bg.png); width:22px; height:22px}
+.o2k7SimpleSkin .mceButton {
+    background: url(/dev/lib/tinymce/themes/advanced/skins/o2k7/img/button_bg.png);
+    display: block;
+    height: 22px;
+    width: 22px;
+}
 .o2k7SimpleSkin a.mceButton span, .o2k7SimpleSkin a.mceButton img {margin:1px 0 0 1px}
 .o2k7SimpleSkin a.mceButtonEnabled:hover {background-color:#B2BBD0; background-position:0 -22px}
 .o2k7SimpleSkin a.mceButtonActive {background-position:0 -44px}
 .o2k7SimpleSkin .mceButtonDisabled span {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 
 /* Separator */
-.o2k7SimpleSkin .mceSeparator {display:block; background:url(img/button_bg.png) -22px 0; width:5px; height:22px}
+.o2k7SimpleSkin .mceSeparator {
+    background: url(/dev/lib/tinymce/themes/advanced/skins/o2k7/img/button_bg.png) -22px 0;
+    display: block;
+    height: 22px;
+    width: 5px;
+}
 
 /* Theme */
 .o2k7SimpleSkin span.mce_bold {background-position:0 0}

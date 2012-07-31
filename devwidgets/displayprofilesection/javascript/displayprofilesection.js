@@ -40,11 +40,12 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         // Configuration variables //
         /////////////////////////////
 
-        var editing = false,
-            userid = false,
-            multiple = false,
-            multipleSectionLength = 0,
-            sectionData = false;
+        var editing = false;
+        var userid = false;
+        var multiple = false;
+        var multipleSectionLength = 0;
+        var sectionData = false;
+        var allowUpdate = true;
 
         ///////////////////
         // CSS Selectors //
@@ -95,9 +96,18 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             }
         };
 
+        /**
+         * Enables the 'Update Profile' button when the user has changed their profile information. 
+         */
+        var enableUpdate = function() {
+            if (allowUpdate) {
+                $('button.profile-section-save-button', $rootel).removeAttr('disabled');
+            }
+        };
+
         var saveValues = function() {
             // Serialize the data from the form for saving
-            var values = $form.serializeObject( false );
+            var values = $form.serializeObject();
             if ( multiple ) {
                 values = getMultipleValues( values );
             }
@@ -115,6 +125,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $tagfield, true );
             }
             sakai.api.User.updateUserProfile(userid, widgetData.sectionid, values, tags, sectionData, multiple, handleSave);
+            $('button.profile-section-save-button', $rootel).attr('disabled', 'disabled');
             return false;
         };
 
@@ -214,6 +225,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         var uid = _.keys( sectionData )[ 0 ];
                         var sectionHTML = sakai.api.Util.TemplateRenderer( template, {
                             section: section,
+                            sakai: sakai,
                             unique: uid,
                             data: _.values( sectionData )[ 0 ],
                             order: _.values( sectionData )[ 0 ].order
@@ -282,16 +294,31 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                             $displayprofilesection_body.html( sakai.api.i18n.General.process( bodyHTML ) );
                             var $tagfield = $displayprofilesection_body.find( "textarea[data-tag-field]" );
                             if ( $tagfield.length ) {
+                                allowUpdate = false;
                                 var autoSuggestOptions = {
-                                    scrollHeight: 120
+                                    scrollHeight: 120,
+                                    selectionAdded: function() {
+                                        enableUpdate();
+                                    },
+                                    selectionRemoved: function(elem) {
+                                        elem.remove();
+                                        enableUpdate();
+                                    }
                                 };
                                 var initialTagsValue = sectionData["sakai:tags"] && sectionData["sakai:tags"].value ? sectionData["sakai:tags"].value : false;
-                                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($tagfield, autoSuggestOptions, $(".list_categories", $rootel), initialTagsValue);
+                                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest(
+                                    $tagfield,
+                                    autoSuggestOptions,
+                                    $('.list_categories', $rootel),
+                                    initialTagsValue,
+                                    function() {
+                                        allowUpdate = true;
+                                    }
+                                );
                             }
                         } else {
                             renderEmptySection( data, section );
                         }
-                        
                     }
 
                     if ( editing ) {
@@ -313,6 +340,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 }
             }
         };
+
+        $rootel.on('input change cut paste', function() {
+            enableUpdate();
+        });
 
         var getData = function(callback) {
             if (editing && sakai.data.me.profile && $.isFunction(callback) && sakai.data.me.profile._fullProfileLoaded) {

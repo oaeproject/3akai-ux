@@ -1,24 +1,20 @@
 {
-    "personalportal":true,
-    "userpages": false,
-    "userdashboard": false,
-    "grouppages": false,
-    "groupdashboard": false,
-    "hasSettings": false,
-    "id": "popularcontent",
-    "type": "sakai",
     "enabled": true,
-    "url":"/devwidgets/popularcontent/popularcontent.html",
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/popularcontent/bundles/default.properties",
-            "name": "Most active content",
-            "description": "Most active content"
+            "description": "Most active content",
+            "name": "Most active content"
         },
         "fr_FR": {
             "bundle": "/devwidgets/popularcontent/bundles/fr_FR.properties",
-            "name": "Contenus les plus actifs",
-            "description": "Contenus les plus actifs"
+            "description": "Contenus les plus actifs",
+            "name": "Contenus les plus actifs"
         }
-    }
+    },
+    "id": "popularcontent",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/popularcontent/popularcontent.html"
 }

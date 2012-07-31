@@ -28,9 +28,9 @@
  * to the login page with the current URL encoded in the url. This will cause the system to
  * redirect to the page we used to be on once logged in.
  */
-require(["jquery", "jquery-plugins/jquery.validate"], function(jQuery) {
+require(['jquery'], function(jQuery) {
 
-var msie = $.browser.msie;
+var msie = jQuery.browser.msie;
 
 (function($){
 
@@ -70,7 +70,6 @@ var msie = $.browser.msie;
 
                 $.ajax({
                     url: '/system/me',
-                    cache: false,
                     success: function(data){
                         decideLoggedIn(data, true);
                     }
@@ -170,23 +169,15 @@ var msie = $.browser.msie;
 })(jQuery);
 
 /**
- * Add some jquery validate methods
+ * Make caching the default behavior for $.getScript
  */
+jQuery.ajaxSetup({
+    'cache': true
+});
 
-// Don't allow spaces in the field
-$.validator.addMethod("nospaces", function(value, element){
-    return this.optional(element) || (value.indexOf(" ") === -1);
-}, "* No spaces are allowed");
-
-// this method appends http:// or ftp:// or https://
-$.validator.addMethod("appendhttp", function(value, element) {
-    if(value.substring(0,7) !== "http://" &&
-    value.substring(0,6) !== "ftp://" &&
-    value.substring(0,8) !== "https://" &&
-    $.trim(value) !== "") {
-        $(element).val("http://" + value);
-    }
-    return true;
-}, "No error message, this is just an appender");
+/**
+ * Make sure that arrays passed in as arguments are properly encoded
+ */
+jQuery.ajaxSettings.traditional = true;
 
 });

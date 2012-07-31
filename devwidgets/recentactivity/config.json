@@ -1,22 +1,18 @@
 {
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled": false,
+    "hasSettings": true,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/recentactivity/bundles/default.properties",
-            "name":       "Recent activity widget",
-            "description":"Recent activity widget"
+            "bundle": "/devwidgets/recentactivity/bundles/default.properties",
+            "description": "Recent activity widget",
+            "name": "Recent activity widget"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/recentactivity/bundles/fr_FR.properties"
+            "bundle": "/devwidgets/recentactivity/bundles/fr_FR.properties"
         }
     },
-    "id":                 "recentactivity",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/recentactivity/recentactivity.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "recentactivity",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/recentactivity/recentactivity.html"
 }

@@ -42,7 +42,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var doc_name;
-        var $back_to_top_link = $(".footer_main .back-top");
         var $footer_debug_info = $("#footer_debug_info");
         var $footer_date_end = $("#footer_date_end");
         var $footer_root = $(".footer_main");
@@ -56,8 +55,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $footer_links_left_template = $("#footer_links_template");
         var $footer_links_right = $("#footer_links_right");
         var $footer_links_right_template = $("#footer_links_right_template");
-        var $footer_langloc_buttons = $('p.footer_langloc>button');
-
 
         //////////////////////
         // Helper functions //
@@ -129,15 +126,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        /**
-         * This event handler will make sure that the Top link
-         * that's available in every page footer will scroll back
-         * to the top of the page
-         */
-        $(".back-top").live("click", function(ev){
-            window.scrollTo(0,0);
-        });
-
 
         /////////////////////////////
         // Initialisation function //
@@ -163,15 +151,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Show the debug info
                     $footer_debug_info.show();
 
+                    // Update button title
+                    $footer_logo.attr('title', sakai.api.i18n.getValueForKey('HIDE_DEBUG_INFO', 'footer'));
+
                 },function(){
 
                     // Hide the debug info
                     $footer_debug_info.hide();
 
+                    // Update button title
+                    $footer_logo.attr('title', sakai.api.i18n.getValueForKey('SHOW_DEBUG_INFO', 'footer'));
+
                 }).addClass("footer_clickable");
 
+            } else {
+                // Disable and remove button title
+                $footer_logo.removeAttr('title');
+                $footer_logo.attr('disabled', 'disabled');
             }
-            
+
             if (!sakai.data.me.user.anon && (sakai.config.displayTimezone || sakai.config.displayLanguage)) {
                 if (sakai.config.displayTimezone) {
                     $("#footer_langdoc_loc").show();
@@ -192,11 +190,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var rightLinksHTML = sakai.api.Util.TemplateRenderer($footer_links_right_template, {links:sakai.config.Footer.rightLinks});
             rightLinksHTML = sakai.api.i18n.General.process(rightLinksHTML, "footer");
             $footer_links_right.html(rightLinksHTML);
-
-            $footer_langloc_buttons.click(function(e){
-                e.preventDefault();
-                $(window).trigger("init.accountpreferences.sakai");
-            });
 
             updateLocationLanguage();
         };

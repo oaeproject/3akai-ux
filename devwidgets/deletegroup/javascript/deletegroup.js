@@ -22,7 +22,7 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  */
 
-/*global, fluid, window, $ */
+/*global, window, $ */
 
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
@@ -114,28 +114,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var load = function(data, callback){
             deletedata = $.extend(true, {}, data);
             addBinding(callback);
-            currentTemplate = sakai.api.Groups.getTemplate(deletedata["sakai:category"], deletedata["sakai:templateid"]);
-            $deletegroup_category.html(sakai.api.i18n.getValueForKey(currentTemplate.title));
-            $deletegroup_title.html(sakai.api.Util.Security.safeOutput(data["sakai:group-title"]));
-            sakai.api.Util.Modal.open($deletegroup_dialog);
+            sakai.api.Groups.getTemplate(deletedata['sakai:category'], deletedata['sakai:templateid'], function(success, template) {
+                if (success) {
+                    currentTemplate = template;
+                    $deletegroup_category.html(sakai.api.i18n.getValueForKey(currentTemplate.title));
+                    $deletegroup_title.html(sakai.api.Util.Security.safeOutput(data['sakai:group-title']));
+                    sakai.api.Util.Modal.open($deletegroup_dialog);
+                } else {
+                    debug.error('Could not get the group template');
+                }
+            });
         };
-        $(window).bind("init.deletegroup.sakai", function (e, data, callback) {
-            load(data, callback);
-        });
-
-        /**
-         * Initialize the delete content widget
-         * All the functionality in here is loaded before the widget is actually rendered
-         */
-        var init = function(){
-            // This will make the widget popup as a layover.
+        $(document).on('init.deletegroup.sakai', function(e, data, callback) {
             sakai.api.Util.Modal.setup($deletegroup_dialog, {
                 modal: true,
                 toTop: true
             });
-        };
 
-        init();
+            load(data, callback);
+        });
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("deletegroup");

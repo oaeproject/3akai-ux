@@ -10,9 +10,6 @@
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
-        <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
-
     </head>
     <body class="fl-centered show i18nable">
 
@@ -61,7 +58,7 @@
             {var tagsListed = false}
             {for t in tags}
                 {if t_index === "0"}
-                    <span class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</span>
+                    <h2 class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</h2>
                     <div class="s3d-search-refineby-list">
                     {var tagsListed = true}
                 {/if}
@@ -85,6 +82,8 @@
                 </div>
                 <div class="s3d-page-column-right">
                     <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;">
+                        <div id="widget_contentauthoring" class="widget_inline"></div>
+                    </div>
                 </div>
                 <div class="s3d-bottom-spacer"></div>
             </div>
@@ -107,7 +106,6 @@
                         {if ! i.isMe && ! sakai.data.me.user.anon}
                             {if ! i.connected}
                                 <button title="__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="s3d-aural-text">__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
-                                <div class="searchpeople_result_left_filler" id="searchpeople_result_left_filler_${i.userid|safeOutput}" style="display:none;"></div>
                                 <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="s3d-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
                             {elseif i.invited}
                                 <button title="__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="s3d-aural-text">__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
@@ -210,7 +208,7 @@
                             {if participantCount > 0}
                                 <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                 <a class="s3d-regular-light-links" href="${i.homePath}#l=participants">
-                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
+                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT_LC__{else}__MSG__PARTICIPANTS_LC__{/if}</span>
                                 </a>
                             {/if}
                         </div>

@@ -27,7 +27,7 @@
 * Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
 *
 */
-require(['jquery'], function (jQuery) {
+require(['jquery'], function ($) {
 (function($) {
 
     $.fn.pager = function(options){
@@ -150,11 +150,23 @@ require(['jquery'], function (jQuery) {
         htmlparts : {
             "first" : "first",
             "last" : "last",
-            "prev" : '<span><div class=\"sakai_pager_prev\"></div> <a href="javascript:;" class=\"t\" title="Previous page">Prev</span></a>',
-            "next" : '<span><a href="javascript:;" class=\"t\" title="Next page">Next</a><div class=\"sakai_pager_next\"></div></span>',
-            "current": '<li class="page-number"><a href="javascript:;" title="Page ${page}">${page}</a></li>'
+            "prev" : '<span><div class=\"sakai_pager_prev\"></div> <button class=\"t\" title="Previous page">Prev</button></span>',
+            "next" : '<span><button class=\"t\" title="Next page">Next</button><div class=\"sakai_pager_next\"></div></span>',
+            "current": '<li class="page-number"><button title="Page ${page}">${page}</button></li>'
         }
     };
 
 })(jQuery);
+});
+
+require(['jquery', 'sakai/sakai.api.core', 'sakai/sakai.api.i18n'], function ($, sakai, sakaii18nAPI) {
+    // Sakai edit to remove the dependency of jquery.pager in the i18n API
+    // described at https://jira.sakaiproject.org/browse/SAKIII-5700
+    $.fn.pager.defaults.htmlparts = {
+        'first' : sakaii18nAPI.getValueForKey('FIRST'),
+        'last' : sakaii18nAPI.getValueForKey('LAST'),
+        'prev' : '<span><div class="sakai_pager_prev"></div> <button class="t" title="' + sakaii18nAPI.getValueForKey('PREVIOUS_PAGE') + '">' + sakaii18nAPI.getValueForKey('PREV') + '</button></span>',
+        'next' : '<span><button class="t" title="' + sakaii18nAPI.getValueForKey('NEXT_PAGE') + '">' + sakaii18nAPI.getValueForKey('NEXT') + '</button><div class=for (sakai_pager_nextfor (></div></span>',
+        'current': '<li class="page-number"><button title="' + sakaii18nAPI.getValueForKey('PAGE') + ' ${page}">${page}</button></li>'
+    };
 });

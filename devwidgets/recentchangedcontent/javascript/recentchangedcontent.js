@@ -199,11 +199,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Bind Events
          */
         var addBinding = function () {
-            $('.add_recentchangedcontent_button', rootel).click(function (ev) {
-                $(window).trigger('init.newaddcontent.sakai');
-                return false;
-            });
-            $(window).bind('done.newaddcontent.sakai', function(e, newContent) {
+            $(document).on('done.newaddcontent.sakai', function(e, newContent) {
                 if (newContent && newContent.length) {
                     handleRecentChangedContentData(true, {results:newContent});
                 }
@@ -211,62 +207,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
-         * This function will replace all
-         * @param {String} term The search term that needs to be converted.
-         */
-        var prepSearchTermForURL = function(term) {
-            // Filter out http:// as it causes the search feed to break
-            term = term.replace(/http:\/\//ig, '');
-            // taken this from search_main until a backend service can get related content
-            var urlterm = '';
-            var split = $.trim(term).split(/\s/);
-            if (split.length > 1) {
-                for (var i = 0; i < split.length; i++) {
-                    if (split[i]) {
-                        urlterm += split[i] + ' ';
-                        if (i < split.length - 1) {
-                            urlterm += 'OR ';
-                        }
-                    }
-                }
-            }
-            else {
-                urlterm = '*' + term + '*';
-            }
-            return urlterm;
-        };
-
-        /**
          * Fetches the related content
          */
-        var getRelatedContent = function(contentData) {
-
-            var managersList = '';
-            var viewersList = '';
-            if (contentData['sakai:pooled-content-manager']) {
-                for (var i = 0; i < contentData['sakai:pooled-content-manager'].length; i++) {
-                    if (contentData['sakai:pooled-content-manager'][i]) {
-                        managersList += ' ' + (contentData['sakai:pooled-content-manager'][i]);
-                    }
-                }
-            }
-            if (contentData['sakai:pooled-content-viewer']) {
-                for (var z = 0; z < contentData['sakai:pooled-content-viewer'].length; z++) {
-                    if (contentData['sakai:pooled-content-viewer'][z]) {
-                        viewersList += ' ' + (contentData['sakai:pooled-content-viewer'][z]);
-                    }
-                }
-            }
-
-            var searchterm = contentData['sakai:pooled-content-file-name'].substring(0,400) + ' ' + managersList + ' ' + viewersList;
-            var searchquery = prepSearchTermForURL(searchterm);
+        var getRelatedContent = function(contentData){
+            var searchterm = contentData["sakai:pooled-content-file-name"].substring(0,400);
+            searchquery = sakai.api.Server.createSearchString(searchterm, false, 'OR');
 
             // get related content for contentData
             // return some search results for now
             var params = {
                 'items' : '2'
             };
-            var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.infinity.json');
+            var url = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.0.json');
             if (searchquery === '*' || searchquery === '**') {
                 url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
             } else {
