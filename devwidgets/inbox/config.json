@@ -7,7 +7,7 @@
             "description": "Inbox",
             "name": "inbox"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/inbox/bundles/es_ES.properties"
         },
         "fr_FR": {

@@ -979,6 +979,33 @@ define(
                     result.type = "video";
                     result.avatar = "//img.youtube.com/vi/" + uri.queryKey.v + "/0.jpg";
                 }
+            } else if (/ted\.com$/.test(uri.host) && uri.directory === '/talks/') {
+                var tedUrl = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22" +
+                                url +
+                                "%22%20and%20compat%3D%22html5%22%20and%20xpath%3D'%2F%2F*%5B%40id%3D%22pagetype%22%5D%2Fscript%5B5%5D'&format=json&callback=";
+                var tedRegex = /download\/links\/slug\/([\s\S]+)\/type\/talks/g;
+                var tedRegexThumbnail = /playlist\:\'([\s\S]+)thumbnailURL%22%3A%22([\s\S]+)%22%2C%22title/g;
+                $.ajax({
+                    'url': tedUrl,
+                    'async': false,
+                    'cache': false,
+                    'dataType': 'json',
+                    'success': function(data) {
+                        if (data && data.query && data.query.results &&
+                                data.query.results.script && data.query.results.script.content) {
+                            var tedContent = data.query.results.script.content;
+                            var tedURLArray = tedRegex.exec(tedContent);
+                            var tedThumbnailArray = tedRegexThumbnail.exec(tedContent);
+                            if (tedURLArray[1]) {
+                                result.url = 'http://download.ted.com/talks/' + tedURLArray[1] + '.mp4';
+                                result.type = 'video';
+                            }
+                            if (tedThumbnailArray[2]){
+                                result.avatar = decodeURIComponent(tedThumbnailArray[2]).replace(/\\/g, '');
+                            }
+                        }
+                    }
+                });
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
                 if (asin && asin[asin.indexOf('dp')] !== -1){

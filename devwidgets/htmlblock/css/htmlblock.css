@@ -45,7 +45,15 @@
     display: block !important;
 }
 #htmlblock_view_container p {
-    line-height: 140%;
+    line-height: normal;
+}
+#htmlblock_view_container h2,
+#htmlblock_view_container h4,
+#htmlblock_view_container h6,
+#tinymce.mceContentBody h2,
+#tinymce.mceContentBody h4,
+#tinymce.mceContentBody h6 {
+    font-weight: normal;
 }
 
 /* Fix for wikipedia pastes */

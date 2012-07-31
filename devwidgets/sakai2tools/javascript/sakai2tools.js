@@ -74,6 +74,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var basicltiSettingsLtiSecret = basicltiSettings + "_ltisecret";
         var basicltiSettingsWidth = basicltiSettings + "_width";
         var basicltiSettingsReleaseName = basicltiSettings + "_release_names";
+        var $sakai2toolsNotificationTemplate = $('.sakai2tools_notification_template', rootel);
 
         // Containers
         var basicltiMainContainer = basiclti + "_main_container";
@@ -224,6 +225,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        /**
+         * Render the notification message to let people know they have to edit the settings of the widgets
+         */
+        var renderNotifictionMessage = function() {
+            $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($sakai2toolsNotificationTemplate, {}));
+        };
+
 
         //////////////////////
         // Global functions //
@@ -234,6 +242,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} parameters JSON object that contains the necessary information for the iframe
          */
         var displayRemoteContent = function(parameters){
+
+            // When we show the widget and no parameters are supplied, render a notification message
+            if (!parameters) {
+                renderNotifictionMessage();
+            }
+
             // default to some reasonable vaules if the settings node does not have them (maybe a legacy node)
             if (parameters.border_size === null) {
                 parameters.border_size = 0;
@@ -523,7 +537,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } 
                 }
                 else {
-                    displaySettings(null, false);
+                    if (showSettings) {
+                        displaySettings(null, false);
+                    }
+                    else {
+                        displayRemoteContent(false);
+                    }
                 }
             }, false);
         };

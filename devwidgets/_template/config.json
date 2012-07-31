@@ -10,7 +10,7 @@
  *  - description {String} a short description of this widget that may be
  *    displayed to users
  *  - enabled {Boolean} sets whether or not this widget may be used by Sakai OAE
- *  - sakaidocs {Boolean} sets whether or not this widget can be placed in 
+ *  - sakaidocs {Boolean} sets whether or not this widget can be placed in
  *    a pages created as content
  *  - hasSettings {Boolean} sets whether or not this widget has a settings menu
  *    option to allow users to configure or change the widget's settings.
@@ -32,13 +32,16 @@
  *    when Sakai OAE wants to display the widget
  */
 {
-    "enabled": false, 
+    "enabled": false,
     "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/WIDGET_ID/bundles/default.properties",
             "description": "WIDGET_ID_DESCRIPTION",
             "name": "WIDGET_ID_NAME"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/WIDGET_ID/bundles/fr_FR.properties"
         }
     },
     "id": "WIDGET_ID",

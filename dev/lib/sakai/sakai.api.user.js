@@ -359,8 +359,7 @@ define(
         logout : function(callback) {
 
             /*
-             * POST request to the logout service,
-             * which will destroy the session.
+             * Request to the logout service.
              */
             if (sakai_conf.followLogoutRedirects) {
                 window.location = sakai_conf.URL.LOGOUT_SERVICE;
@@ -368,7 +367,8 @@ define(
                 // hit the logout service to destroy the session
                 $.ajax({
                     url: sakai_conf.URL.LOGOUT_SERVICE,
-                    type: 'POST',
+                    // SAKIII-5968 - we need to use cache:false since doing a POST doesn't always work.
+                    cache: false,
                     complete: function(xhrInner, textStatusInner) {
                         callback(textStatusInner === 'success');
                     }
@@ -625,6 +625,7 @@ define(
                 $.ajax({
                     url: sakai_conf.URL.CONTACTS_FIND_ALL + "?page=0&items=100",
                     async: false,
+                    cache: false,
                     success: function(data) {
                         $.each(data.results, function(index, contact){
                             contact.profile.basic.elements.picture = sakai_util.constructProfilePicture(contact.profile);

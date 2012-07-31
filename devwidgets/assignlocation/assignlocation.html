@@ -29,7 +29,7 @@
         {for location in selections}
             <li {if location_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if} id="${location.id}">
                 ${location.value}
-                <button type="button" class="assignlocation_close_image s3d-link-button" title="__MSG__REMOVE__"></button>
+                <button type="button" class="assignlocation_close_image s3d-link-button" title="__MSG__REMOVE__ ${location.value}"></button>
             </li>
         {/for}
     </ul>
