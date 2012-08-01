@@ -22,7 +22,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.mycontacts
@@ -42,25 +42,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Configuration variables //
         /////////////////////////////
 
-        var rootel = $("#" + tuid);
+        var rootel = $('#' + tuid);
         var numberFriends = 8; // The number of contacts that will be shown
 
         // - ID
-        var mycontacts = "#mycontacts";
+        var mycontacts = '#mycontacts';
 
         // Contact request
-        var mycontactsRequests = mycontacts + "_requests";
+        var mycontactsRequests = mycontacts + '_requests';
 
         // Error
-        var mycontactsError = mycontacts + "_error";
-        var mycontactsErrorContactserver = mycontactsError + "_contactserver";
+        var mycontactsError = mycontacts + '_error';
+        var mycontactsErrorContactserver = mycontactsError + '_contactserver';
 
         // List
-        var mycontactsList = mycontacts + "_list";
+        var mycontactsList = mycontacts + '_list';
 
         // Templates
-        var mycontactsListTemplate = "mycontacts_list_template";
-        var mycontactsRequestsTemplate = "mycontacts_requests_template";
+        var mycontactsListTemplate = 'mycontacts_list_template';
+        var mycontactsRequestsTemplate = 'mycontacts_requests_template';
 
 
         ///////////////////////
@@ -127,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         friend.photo = parsePicture(friend.profile);
 
                         // Contact type
-                        friend.type = friend.details["sakai:types"];
+                        friend.type = friend.details['sakai:types'];
 
                         // Add the friend to the array
                         jsonFriends.items.push(friend);
@@ -148,7 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getFriends = function(){
             $.ajax({
-                url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=ACCEPTED&page=0&items=" + numberFriends,
+                url: sakai.config.URL.CONTACTS_FIND_STATE + '?state=ACCEPTED&page=0&items=' + numberFriends,
                 cache: false,
                 success: function(data){
 
@@ -194,6 +194,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("mycontacts");
-
+    sakai.api.Widgets.widgetLoader.informOnLoad('mycontacts');
 });

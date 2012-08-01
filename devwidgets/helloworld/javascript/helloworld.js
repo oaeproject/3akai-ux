@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.helloworld
@@ -38,16 +38,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Configuration variables //
         /////////////////////////////
 
-        var DEFAULT_COLOR = "#000000";  // default text color is black
+        var DEFAULT_COLOR = '#000000';  // default text color is black
 
         // DOM jQuery Objects
-        var $rootel = $("#" + tuid);  // unique container for each widget instance
-        var $mainContainer = $("#helloworld_main", $rootel);
-        var $settingsContainer = $("#helloworld_settings", $rootel);
-        var $settingsForm = $("#helloworld_settings_form", $rootel);
-        var $cancelSettings = $("#helloworld_cancel_settings", $rootel);
-        var $colorPicker = $("#helloworld_color", $rootel);
-        var $usernameContainer = $("#helloworld_username", $rootel);
+        var $rootel = $('#' + tuid);  // unique container for each widget instance
+        var $mainContainer = $('#helloworld_main', $rootel);
+        var $settingsContainer = $('#helloworld_settings', $rootel);
+        var $settingsForm = $('#helloworld_settings_form', $rootel);
+        var $cancelSettings = $('#helloworld_cancel_settings', $rootel);
+        var $colorPicker = $('#helloworld_color', $rootel);
+        var $usernameContainer = $('#helloworld_username', $rootel);
 
 
         ///////////////////////
@@ -94,11 +94,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * provided color argument
          *
          * @param {String} color The hex value of the color to set the text
-         * (i.e. "#00FF00")
+         * (i.e. '#00FF00')
          */
         var showMainView = function (color) {
             // set the color of the text
-            $("p", $mainContainer).css("color", checkColorArgument(color));
+            $('p', $mainContainer).css('color', checkColorArgument(color));
 
             // show the Main container
             $mainContainer.show();
@@ -125,7 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         /** Binds Settings form */
-        $settingsForm.bind("submit", function (ev) {
+        $settingsForm.bind('submit', function (ev) {
             // get the selected color
             var selectedColor = $colorPicker.val();
 
@@ -134,15 +134,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 function (success, data) {
                     if (success) {
                         // Settings finished, switch to Main view
-                        sakai.api.Widgets.Container.informFinish(tuid, "helloworld");
+                        sakai.api.Widgets.Container.informFinish(tuid, 'helloworld');
                     }
                 }
             );
             return false;
         });
 
-        $cancelSettings.bind("click", function(){
-            sakai.api.Widgets.Container.informFinish(tuid, "helloworld");
+        $cancelSettings.bind('click', function(){
+            sakai.api.Widgets.Container.informFinish(tuid, 'helloworld');
         });
 
 
@@ -184,5 +184,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("helloworld");
+    sakai.api.Widgets.widgetLoader.informOnLoad('helloworld');
 });

@@ -62,8 +62,8 @@ var msie = jQuery.browser.msie;
                 var decideLoggedIn = function(response, exists){
                     var originalURL = document.location;
                     originalURL = encodeURI(originalURL.pathname + originalURL.search + originalURL.hash);
-                    var redirecturl = "/?url=" + originalURL;
-                    if (exists && response.preferences && (response.preferences.uuid === "anonymous" || !response.preferences.uuid)) {
+                    var redirecturl = '/?url=' + originalURL;
+                    if (exists && response.preferences && (response.preferences.uuid === 'anonymous' || !response.preferences.uuid)) {
                         document.location = redirecturl;
                     }
                 };
@@ -95,7 +95,7 @@ var msie = jQuery.browser.msie;
         }
 
         if (s.global) {
-          $.event.trigger("ajaxError", [xhr, status, e]);
+          $.event.trigger('ajaxError', [xhr, status, e]);
         }
           }
 
@@ -111,20 +111,20 @@ var msie = jQuery.browser.msie;
     $.extend({
         ajax: function(o) {
             if (o.data) {
-                if (!o.data["_charset_"]) {
-                    o.data["_charset_"] = "utf-8";
+                if (!o.data['_charset_']) {
+                    o.data['_charset_'] = 'utf-8';
                 }
-            } else if (o.url.indexOf("_charset_") === -1) {
-                if (o.url.indexOf("?") === -1) {
-                    o.url += "?";
-                } else if (o.url.lastIndexOf("&") !== o.url.length-1){
-                    o.url += "&";
+            } else if (o.url.indexOf('_charset_') === -1) {
+                if (o.url.indexOf('?') === -1) {
+                    o.url += '?';
+                } else if (o.url.lastIndexOf('&') !== o.url.length-1){
+                    o.url += '&';
                 }
-                o.url += "_charset_=utf-8";
+                o.url += '_charset_=utf-8';
             }
             if (msie) {
-                var str = "" + o.url;
-                o.url = "";
+                var str = '' + o.url;
+                o.url = '';
                 for (var i = 0; i < str.length; i++) {
                     if (str.charCodeAt(i) > 127) {
                         o.url += encodeURIComponent(str[i]);
@@ -155,11 +155,11 @@ var msie = jQuery.browser.msie;
                 if (!o[this.name].push) {
                     o[this.name] = [o[this.name]];
                 }
-                if (includeEmpty || $.trim(this.value) !== "") {
-                    o[this.name].push(this.value || "");
+                if (includeEmpty || $.trim(this.value) !== '') {
+                    o[this.name].push(this.value || '');
                 }
             } else {
-                if (includeEmpty || $.trim(this.value) !== "") {
+                if (includeEmpty || $.trim(this.value) !== '') {
                     o[this.name] = this.value || '';
                 }
             }

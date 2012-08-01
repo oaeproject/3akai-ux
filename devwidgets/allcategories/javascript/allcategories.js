@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
 
     /**
      * @name sakai_global.allcategories
@@ -30,10 +30,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
     sakai_global.allcategories = function(tuid, showSettings){
 
         // Containers
-        var $allcategoriesItemsContainer = $("#allcategories_items_container");
+        var $allcategoriesItemsContainer = $('#allcategories_items_container');
 
         // Templates
-        var allcategoriesItemsTemplate = "allcategories_items_template";
+        var allcategoriesItemsTemplate = 'allcategories_items_template';
 
         var directory = sakai.config.Directory;
         var allcategoriesToRender = [];
@@ -44,8 +44,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderallcategories = function(){
             sakai.api.Util.TemplateRenderer(allcategoriesItemsTemplate, {
-                "directory": allcategoriesToRender,
-                "sakai": sakai
+                'directory': allcategoriesToRender,
+                'sakai': sakai
             }, $allcategoriesItemsContainer);
         };
 
@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     toplevel.content = data[i].content;
                     toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
                     toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
-                    toplevel.count = data[i]["sakai:tag-count"];
+                    toplevel.count = data[i]['sakai:tag-count'];
                 }
                 toplevel.id = i;
                 allcategoriesToRender.push(toplevel);
@@ -73,7 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Get a feed of content to display in the carousel
          */
         var getCategoryContent = function(){
-            sakai.api.Server.loadJSON("/tags/directory.tagged.json", parseDirectory, {});
+            sakai.api.Server.loadJSON('/tags/directory.tagged.json', parseDirectory, {});
         };
 
         ////////////////
@@ -88,5 +88,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("allcategories");
+    sakai.api.Widgets.widgetLoader.informOnLoad('allcategories');
 });

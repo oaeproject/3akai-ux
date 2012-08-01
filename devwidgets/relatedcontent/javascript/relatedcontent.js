@@ -25,7 +25,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
 
     /**
@@ -46,12 +46,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CSS Selectors //
         ///////////////////
 
-        var relatedcontent = "#relatedcontent";
-        var relatedcontentContainer = relatedcontent + "_container";
-        var relatedcontentDefaultTemplate = relatedcontent + "_default_template";
-        var relatedcontentContent = ".relatedcontent_content";
-        var relatedcontentFooter = "#relatedcontent_footer";
-        var relatedcontentShowMore = "#relatedcontent_show_more";
+        var relatedcontent = '#relatedcontent';
+        var relatedcontentContainer = relatedcontent + '_container';
+        var relatedcontentDefaultTemplate = relatedcontent + '_default_template';
+        var relatedcontentContent = '.relatedcontent_content';
+        var relatedcontentFooter = '#relatedcontent_footer';
+        var relatedcontentShowMore = '#relatedcontent_show_more';
 
         var contentData = {};
         var page = 0;
@@ -68,10 +68,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderTemplate = function(relatedcontentData){
             // Render the relatedcontent
             relatedcontentData.sakai = sakai;
-            if (relatedcontentData.hasOwnProperty("relatedContent") && relatedcontentData.relatedContent.hasOwnProperty("results")) {
+            if (relatedcontentData.hasOwnProperty('relatedContent') && relatedcontentData.relatedContent.hasOwnProperty('results')) {
                 for (var item in relatedcontentData.relatedContent.results) {
                     if(relatedcontentData.relatedContent.results.hasOwnProperty(item)){
-                        relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name-dotted"] = sakai.api.Util.applyThreeDots(relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"], $(".relatedcontent").width() - 30, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        relatedcontentData.relatedContent.results[item]['sakai:pooled-content-file-name-dotted'] = sakai.api.Util.applyThreeDots(relatedcontentData.relatedContent.results[item]['sakai:pooled-content-file-name'], $('.relatedcontent').width() - 30, {max_rows: 1,whole_word: false}, 's3d-bold');
                     }
                 }
                 sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData, $(relatedcontentContainer));
@@ -88,23 +88,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Fetches the related content
          */
         var getRelatedContent = function() {
-            var managersList = "";
-            var viewersList = "";
+            var managersList = '';
+            var viewersList = '';
             var ajaxSuccess = function(data) {
                 var itemsDisplayed = data.items * (page + 1);
                 var moreResults = itemsDisplayed < data.total;
                 $.each(data.results, function(index, item){
                     data.results[index].commentcount = sakai.api.Content.getCommentCount(item);
                     var mimeType = sakai.api.Content.getMimeType(data.results[index]);
-                    var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
+                    var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes['other'].description);
                     if (sakai.config.MimeTypes[mimeType]){
                         mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
                     data.results[index].mimeTypeDescription = mimeTypeDescription;
                 });
                 var json = {
-                    "content": contentData,
-                    "relatedContent": data
+                    'content': contentData,
+                    'relatedContent': data
                 };
                 renderTemplate(json);
                 if (!moreResults) {
@@ -121,15 +121,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             for (var i = 0; i < contentData.members.managers.length; i++) {
                 if (contentData.members.managers[i]) {
-                    managersList += " " + (contentData.members.managers[i]["rep:userId"] || contentData.members.managers[i]["sakai:group-id"]);
+                    managersList += ' ' + (contentData.members.managers[i]['rep:userId'] || contentData.members.managers[i]['sakai:group-id']);
                 }
             }
             for (var j = 0; j < contentData.members.viewers.length; j++) {
                 if (contentData.members.viewers[j]) {
-                    viewersList += " " + (contentData.members.viewers[j]["rep:userId"] || contentData.members.viewers[j]["sakai:group-id"]);
+                    viewersList += ' ' + (contentData.members.viewers[j]['rep:userId'] || contentData.members.viewers[j]['sakai:group-id']);
                 }
             }
-            var searchterm = contentData.data["sakai:pooled-content-file-name"].substring(0,400) + " " + managersList + " " + viewersList;
+            var searchterm = contentData.data['sakai:pooled-content-file-name'].substring(0,400) + ' ' + managersList + ' ' + viewersList;
             if (contentData.data['sakai:tags'] && contentData.data['sakai:tags'].length) {
                 searchterm = searchterm + ' ' + contentData.data['sakai:tags'].join(' ');
             }
@@ -145,7 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (searchquery === '*' || searchquery === '**') {
                 url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
             } else {
-                params["q"] = searchquery;
+                params['q'] = searchquery;
             }
             $.ajax({
                 url: url,
@@ -170,8 +170,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
             // bind the more link
-            $(relatedcontentShowMore).die("click", showMore);
-            $(relatedcontentShowMore).live("click", showMore);
+            $(relatedcontentShowMore).die('click', showMore);
+            $(relatedcontentShowMore).live('click', showMore);
         };
 
         ////////////////////
@@ -181,21 +181,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Render function
          */
-       $(window).bind("render.relatedcontent.sakai", function(e, data){
+       $(window).bind('render.relatedcontent.sakai', function(e, data){
            page = 0;
            addBinding();
            contentData = data;
            getRelatedContent();
         });
 
-        $(relatedcontentContent).live("click", function(){
-            $.bbq.pushState($(this).attr("data-href"));
+        $(relatedcontentContent).live('click', function(){
+            $.bbq.pushState($(this).attr('data-href'));
         });
 
         // Indicate that the widget has finished loading
-        $(window).trigger("ready.relatedcontent.sakai", {});
+        $(window).trigger('ready.relatedcontent.sakai', {});
         sakai_global.relatedcontent.isReady = true;
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("relatedcontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad('relatedcontent');
 });

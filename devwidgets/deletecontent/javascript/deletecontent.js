@@ -24,7 +24,7 @@
 
 /*global, window, $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.deletecontent
@@ -55,7 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CSS Selectors //
         ///////////////////
 
-        var $deletecontent_dialog = $("#deletecontent_dialog");
+        var $deletecontent_dialog = $('#deletecontent_dialog');
 
         ////////////////////////////
         // Batch request handling //
@@ -83,9 +83,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 if (success) {
-                    sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $(successMessage).html());
+                    sakai.api.Util.notification.show($('#deletecontent_message_title').html(), $(successMessage).html());
                 } else {
-                    sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html());
+                    sakai.api.Util.error.show($('#deletecontent_message_title').html(), $('#deletecontent_message_error').html());
                 }
 
                 $(document).trigger('done.deletecontent.sakai', [pathsToDelete]);
@@ -113,11 +113,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
                     var groupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
                     batchRequests.push({
-                        "url": "/system/userManager/group/" + groupId + "-members.update.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":viewer@Delete": context,
-                            ":member@Delete": context
+                        'url': '/system/userManager/group/' + groupId + '-members.update.json',
+                        'method': 'POST',
+                        'parameters': {
+                            ':viewer@Delete': context,
+                            ':member@Delete': context
                         }
                     });
                     batchRequests.push({
@@ -129,11 +129,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     });
                     batchRequests.push({
-                        "url": "/system/userManager/group/" + groupId + "-managers.update.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":viewer@Delete": context,
-                            ":member@Delete": context
+                        'url': '/system/userManager/group/' + groupId + '-managers.update.json',
+                        'method': 'POST',
+                        'parameters': {
+                            ':viewer@Delete': context,
+                            ':member@Delete': context
                         }
                     });
                 } else {
@@ -141,9 +141,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     parameters[':editor@Delete'] = context;
                     parameters[':viewer@Delete'] = context;
                     batchRequests.push({
-                        "url": "/p/" + items[i]["_path"] + ".members.json",
-                        "method": "POST",
-                        "parameters": parameters
+                        'url': '/p/' + items[i]['_path'] + '.members.json',
+                        'method': 'POST',
+                        'parameters': parameters
                     });
                 }
             }
@@ -157,7 +157,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var batchRequests = [];
             processRemoveFromLibrary(batchRequests, contentIView);
             processRemoveFromLibrary(batchRequests, contentIManage);
-            sendDeletes(batchRequests, (contextType === "collection" ? "#deletecontent_message_from_collection" : "#deletecontent_message_from_library"));
+            sendDeletes(batchRequests, (contextType === 'collection' ? '#deletecontent_message_from_collection' : '#deletecontent_message_from_library'));
         };
 
         ////////////////////////////
@@ -173,20 +173,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             batchRequests = batchRequests || [];
             for (var i = 0; i < items.length; i++){
                 batchRequests.push({
-                    "url": "/p/" + items[i]["_path"],
-                    "method": "POST",
-                    "parameters": {
-                        ":operation": "delete"
+                    'url': '/p/' + items[i]['_path'],
+                    'method': 'POST',
+                    'parameters': {
+                        ':operation': 'delete'
                     }
                 });
                 // Remove the pseudoGroups associated to the collection
                 var collectionGroupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
                     batchRequests.push({
-                        "url": "/system/userManager.delete.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":applyTo": [collectionGroupId, collectionGroupId + "-members", collectionGroupId + "-managers"]
+                        'url': '/system/userManager.delete.json',
+                        'method': 'POST',
+                        'parameters': {
+                            ':applyTo': [collectionGroupId, collectionGroupId + '-members', collectionGroupId + '-managers']
                         }
                     });
                 }
@@ -202,7 +202,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var batchRequests = [];
             processRemoveFromLibrary(batchRequests, contentIView);
             processRemoveFromSystem(batchRequests, contentIManage);
-            sendDeletes(batchRequests, "#deletecontent_message_from_system");
+            sendDeletes(batchRequests, '#deletecontent_message_from_system');
         };
 
         var collectionsToUpdate = {};
@@ -245,7 +245,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (viewers){
                         for (var j = 0; j < viewers.length; j++){
                             if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
-                                viewers[j] !== context && viewers[j] !== "everyone" && viewers[j] !== "anonymous"){
+                                viewers[j] !== context && viewers[j] !== 'everyone' && viewers[j] !== 'anonymous'){
                                 userGroupIds.push(viewers[j]);
                                 if (sakai.api.Content.Collections.isCollection(viewers[j])) {
                                      collectionsToUpdate[viewers[j]] = collectionsToUpdate[viewers[j]] || 0;
@@ -260,9 +260,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var batchRequest = [];
                 $.each(collectionsToCheck, function(index, collectiongroup){
                     batchRequest.push({
-                        "url": "/system/userManager/group/" + collectiongroup + ".members.json",
-                        "method": "GET",
-                        "parameters": {
+                        'url': '/system/userManager/group/' + collectiongroup + '.members.json',
+                        'method': 'GET',
+                        'parameters': {
                             items: 10000
                         }
                     });
@@ -307,26 +307,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var setUpUsedByOverlay = function(userGroupIds){
             // Show the overview screen of who else is using this
-            $("#deletecontent_used_by_others_container").html("");
-            $("#deletecontent_container").hide();
-            $("#deletecontent_used_by_others").show();
+            $('#deletecontent_used_by_others_container').html('');
+            $('#deletecontent_container').hide();
+            $('#deletecontent_used_by_others').show();
             // Set up the buttons correctly
             hideButtons();
-            $("#deletecontent_action_removefromsystem_confirm").show();
-            if (context && contextType === "collection"){
-                $("#deletecontent_action_removefromcollection_only").show();
+            $('#deletecontent_action_removefromsystem_confirm').show();
+            if (context && contextType === 'collection'){
+                $('#deletecontent_action_removefromcollection_only').show();
             } else if (context){
-                $("#deletecontent_action_removefromlibrary_only").show();
+                $('#deletecontent_action_removefromlibrary_only').show();
             }
             // Show the correct overlay title
-            $("#deletecontent_main_content").hide();
-            $("#deletecontent_main_confirm").show();
+            $('#deletecontent_main_content').hide();
+            $('#deletecontent_main_confirm').show();
             // Get the profile information of who else is using it
             var batchRequests = [];
             for (var i = 0; i < userGroupIds.length; i++){
                 batchRequests.push({
-                    "url": "/~" + userGroupIds[i] + "/public/authprofile.profile.json",
-                    "method": "GET"
+                    'url': '/~' + userGroupIds[i] + '/public/authprofile.profile.json',
+                    'method': 'GET'
                 });
             }
             // Get profile information for each of the users and groups using
@@ -340,10 +340,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         profile.showLink = true;
                         if (sakai.api.Content.Collections.isCollection(profile)){
                             profile.collectionid = sakai.api.Content.Collections.getCollectionPoolId(profile);
-                        } else if (profile["sakai:excludeSearch"] === "true"){
-                            var splitOnDash = profile.groupid.split("-");
-                            profile["sakai:group-title"] = profile["sakai:parent-group-title"] + " (" + sakai.api.i18n.getValueForKey(profile["sakai:role-title-plural"]) + ")";
-                            profile.groupid = splitOnDash.splice(0, splitOnDash.length - 1).join("-");
+                        } else if (profile['sakai:excludeSearch'] === 'true'){
+                            var splitOnDash = profile.groupid.split('-');
+                            profile['sakai:group-title'] = profile['sakai:parent-group-title'] + ' (' + sakai.api.i18n.getValueForKey(profile['sakai:role-title-plural']) + ')';
+                            profile.groupid = splitOnDash.splice(0, splitOnDash.length - 1).join('-');
                         }
                         profileInfo.push(profile);
                     } else {
@@ -361,9 +361,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         profileInfo.push(privateProfile);
                     }
                 }
-                $("#deletecontent_used_by_others_container").html(sakai.api.Util.TemplateRenderer("deletecontent_used_by_others_template", {
-                    "profiles": profileInfo,
-                    "sakai": sakai
+                $('#deletecontent_used_by_others_container').html(sakai.api.Util.TemplateRenderer('deletecontent_used_by_others_template', {
+                    'profiles': profileInfo,
+                    'sakai': sakai
                 }));
             });
         };
@@ -379,10 +379,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * first whether the content is being used by anyone else
          */
         var selectHybrid = function(){
-            var manageOption = $("input[name='deletecontent_hybrid_options']:checked").val();
-            if (manageOption === "libraryonly") {
+            var manageOption = $('input[name='deletecontent_hybrid_options']:checked').val();
+            if (manageOption === 'libraryonly') {
                 removeFromLibrary();
-            } else if (manageOption === "system") {
+            } else if (manageOption === 'system') {
                 checkUsedByOthers();
             }
         };
@@ -395,14 +395,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Hide all of the action buttons in the overlay
          */
         var hideButtons = function(){
-            $("#deletecontent_action_removefromsystem").hide();
-            $("#deletecontent_action_removefromsystem_nocontext").hide();
-            $("#deletecontent_action_removefromlibrary").hide();
-            $("#deletecontent_action_removefromcollection").hide();
-            $("#deletecontent_action_apply").hide();
-            $("#deletecontent_action_removefromsystem_confirm").hide();
-            $("#deletecontent_action_removefromlibrary_only").hide();
-            $("#deletecontent_action_removefromcollection_only").hide();
+            $('#deletecontent_action_removefromsystem').hide();
+            $('#deletecontent_action_removefromsystem_nocontext').hide();
+            $('#deletecontent_action_removefromlibrary').hide();
+            $('#deletecontent_action_removefromcollection').hide();
+            $('#deletecontent_action_apply').hide();
+            $('#deletecontent_action_removefromsystem_confirm').hide();
+            $('#deletecontent_action_removefromlibrary_only').hide();
+            $('#deletecontent_action_removefromcollection_only').hide();
         };
 
         /**
@@ -419,51 +419,51 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var setupOverlay = function(contentIManage, contentIView){
             hideButtons();
-            var template = "";
+            var template = '';
             if (contentIManage.length > 0 && contentIView.length > 0){
                 // Set up overlay for mixed permissions
-                template = "deletecontent_template_hybrid";
-                $("#deletecontent_action_apply").show();
+                template = 'deletecontent_template_hybrid';
+                $('#deletecontent_action_apply').show();
             } else if (contentIManage.length > 0){
                 // Set up overlay for full management permissions
-                template = "deletecontent_template_list";
+                template = 'deletecontent_template_list';
                 if (context){
-                    $("#deletecontent_action_removefromsystem").show();
-                    if (contextType === "collection"){
+                    $('#deletecontent_action_removefromsystem').show();
+                    if (contextType === 'collection'){
                         if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
                             var managerCid = 'c-' + sakai_global.content_profile.content_data.data._path;
                             collectionsToUpdate[managerCid] = collectionsToUpdate[managerCid] || 0;
                             collectionsToUpdate[managerCid] += contentIManage.length;
                         }
-                        $("#deletecontent_action_removefromcollection").show();
+                        $('#deletecontent_action_removefromcollection').show();
                     } else {
-                        $("#deletecontent_action_removefromlibrary").show();
+                        $('#deletecontent_action_removefromlibrary').show();
                     }
                 // When no context/library is specified, we assume that the content is being deleted outside
                 // of a library (e.g. content profile). We thus don't offer the remove from library option
                 } else {
-                    $("#deletecontent_action_removefromsystem_nocontext").show();
+                    $('#deletecontent_action_removefromsystem_nocontext').show();
                 }
             } else if (contentIView.length > 0){
                 // Set up overlay for full viewer permissions
-                template = "deletecontent_template_list";
-                if (contextType === "collection") {
+                template = 'deletecontent_template_list';
+                if (contextType === 'collection') {
                     if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
                         var viewerCid = 'c-' + sakai_global.content_profile.content_data.data._path;
                         collectionsToUpdate[viewerCid] =
                             collectionsToUpdate[viewerCid] || 0;
                         collectionsToUpdate[viewerCid] += contentIView.length;
                     }
-                    $("#deletecontent_action_removefromcollection").show();
+                    $('#deletecontent_action_removefromcollection').show();
                 } else {
-                    $("#deletecontent_action_removefromlibrary").show();
+                    $('#deletecontent_action_removefromlibrary').show();
                 }
             }
-            $("#deletecontent_container").html(sakai.api.Util.TemplateRenderer(template, {
-                "contentIManage": contentIManage,
-                "contentIView": contentIView,
-                "contextType": contextType,
-                "sakai": sakai
+            $('#deletecontent_container').html(sakai.api.Util.TemplateRenderer(template, {
+                'contentIManage': contentIManage,
+                'contentIView': contentIView,
+                'contextType': contextType,
+                'sakai': sakai
             }));
         };
 
@@ -497,8 +497,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var batchRequest = [];
             $.each(paths, function (i, url) {
                 batchRequest.push({
-                    url: "/p/" + url + ".json",
-                    method: "GET"
+                    url: '/p/' + url + '.json',
+                    method: 'GET'
                 });
             });
             sakai.api.Server.batch(batchRequest, function (success, data) {
@@ -521,31 +521,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *
          * @example To delete one item:
          *     $(window).trigger('init.deletecontent.sakai', [{
-         *         "path": [ "/test.jpg" ]
+         *         'path': [ '/test.jpg' ]
          *     }, callbackFn]);  // callbackFn is sent one param: success (true if delete succeeded, false otherwise)
          *
          * @example To delete multiple items:
          *     $(window).trigger('init.deletecontent.sakai', [{
-         *         "path": [ "/file1.ext", "/file2.ext", "/file3.ext", "/file4.ext" ]
+         *         'path': [ '/file1.ext', '/file2.ext', '/file3.ext', '/file4.ext' ]
          *     }, callbackFn]);  // callbackFn is sent one param: success (true if delete succeeded, false otherwise)
          */
         var load = function(ev, data, _callback){
             context = data.context;
-            contextType = "default";
+            contextType = 'default';
             if (context && sakai.api.Content.Collections.isCollection(context)){
-                contextType = "collection";
+                contextType = 'collection';
             }
             callback = _callback;
             pathsToDelete = data.paths;
             getContentInfo(data.paths);
             hideButtons();
             // Show the appropriate overlay title
-            $("#deletecontent_main_confirm").hide();
-            $("#deletecontent_main_content").show();
+            $('#deletecontent_main_confirm').hide();
+            $('#deletecontent_main_content').show();
             // Show and clear the main container
-            $("#deletecontent_container").html("");
-            $("#deletecontent_container").show();
-            $("#deletecontent_used_by_others").hide();
+            $('#deletecontent_container').html('');
+            $('#deletecontent_container').show();
+            $('#deletecontent_used_by_others').hide();
             sakai.api.Util.Modal.open($deletecontent_dialog);
         };
 
@@ -565,14 +565,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Internal event binding //
         ////////////////////////////
 
-        $("#deletecontent_action_removefromlibrary").bind("click", removeFromLibrary);
-        $("#deletecontent_action_removefromcollection").bind("click", removeFromLibrary);
-        $("#deletecontent_action_removefromsystem").bind("click", checkUsedByOthers);
-        $("#deletecontent_action_apply").bind("click", selectHybrid);
-        $("#deletecontent_action_removefromlibrary_only").bind("click", removeFromLibrary);
-        $("#deletecontent_action_removefromcollection_only").bind("click", removeFromLibrary);
-        $("#deletecontent_action_removefromsystem_confirm").bind("click", removeFromSystem);
-        $("#deletecontent_action_removefromsystem_nocontext").bind("click", checkUsedByOthers);
+        $('#deletecontent_action_removefromlibrary').bind('click', removeFromLibrary);
+        $('#deletecontent_action_removefromcollection').bind('click', removeFromLibrary);
+        $('#deletecontent_action_removefromsystem').bind('click', checkUsedByOthers);
+        $('#deletecontent_action_apply').bind('click', selectHybrid);
+        $('#deletecontent_action_removefromlibrary_only').bind('click', removeFromLibrary);
+        $('#deletecontent_action_removefromcollection_only').bind('click', removeFromLibrary);
+        $('#deletecontent_action_removefromsystem_confirm').bind('click', removeFromSystem);
+        $('#deletecontent_action_removefromsystem_nocontext').bind('click', checkUsedByOthers);
 
         ////////////////////////////
         // External event binding //
@@ -583,5 +583,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         init();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("deletecontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad('deletecontent');
 });

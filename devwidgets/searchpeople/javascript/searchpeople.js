@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], function($, sakai){
 
     /**
      * @name sakai.WIDGET_ID
@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
 
         // Search URL mapping
         var searchURLmap = {
@@ -53,15 +53,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var infinityScroll = false;
 
         // CSS IDs
-        var search = "#searchpeople";
+        var search = '#searchpeople';
 
         var searchConfig = {
-            search: "#searchpeople",
+            search: '#searchpeople',
             global: {
-                resultTemp: search + "_result_temp",
+                resultTemp: search + '_result_temp',
                 numberFound: search + '_numberFound',
-                text: "#form .s3d-search-inputfield",
-                searchButton: "#form .s3d-search-button"
+                text: '#form .s3d-search-inputfield',
+                searchButton: '#form .s3d-search-button'
             },
             results: {
                 container: search + '_results_container',
@@ -71,13 +71,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 noResultsTemplate: 'searchpeople_noresults_template'
             },
             facetedConfig : {
-                title : $("#search_result_title").html(),
-                value : "People",
+                title : $('#search_result_title').html(),
+                value : 'People',
                 facets: {
-                    "all" : {
-                        "category": $("#search_result_all_people").html(),
-                        "searchurl": searchURLmap.allusers,
-                        "searchurlall": searchURLmap.allusersall
+                    'all' : {
+                        'category': $('#search_result_all_people').html(),
+                        'searchurl': searchURLmap.allusers,
+                        'searchurlall': searchURLmap.allusersall
                     }
                 }
             }
@@ -85,19 +85,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         if (!sakai.data.me.user.anon) {
             searchConfig.facetedConfig.facets.contacts = {
-                "category": $("#search_result_my_contacts").html(),
-                "searchurl": searchURLmap.mycontacts,
-                "searchurlall": searchURLmap.mycontactsall
+                'category': $('#search_result_my_contacts').html(),
+                'searchurl': searchURLmap.mycontacts,
+                'searchurlall': searchURLmap.mycontactsall
             };
             searchConfig.facetedConfig.facets.invited = {
-                "category": $("#search_result_my_contacts_invitation").html(),
-                "searchurl": searchURLmap.invitedcontacts,
-                "searchurlall": searchURLmap.invitedcontactsall
+                'category': $('#search_result_my_contacts_invitation').html(),
+                'searchurl': searchURLmap.invitedcontacts,
+                'searchurlall': searchURLmap.invitedcontactsall
             };
             searchConfig.facetedConfig.facets.requested = {
-                "category": $("#search_result_pending_invitations").html(),
-                "searchurl": searchURLmap.pendingcontacts,
-                "searchurlall": searchURLmap.pendingcontactsall
+                'category': $('#search_result_pending_invitations').html(),
+                'searchurl': searchURLmap.pendingcontacts,
+                'searchurlall': searchURLmap.pendingcontactsall
             };
         }
 
@@ -125,8 +125,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         var showSearchPeople = function(params){
             // Set search box values
-            if (!params.q || (params.q === "*" || params.q === "**")) {
-                $(searchConfig.global.text).val("");
+            if (!params.q || (params.q === '*' || params.q === '**')) {
+                $(searchConfig.global.text).val('');
             } else {
                 $(searchConfig.global.text).val(params.q);
             }
@@ -138,7 +138,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * be called by the infinite scroll plugin
          */
         var handleEmptyResultList = function(){
-            $(searchConfig.global.numberFound).text("0");
+            $(searchConfig.global.numberFound).text('0');
             $(searchConfig.results.container, $rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
         };
 
@@ -151,11 +151,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var urlsearchterm = sakai_global.data.search.processSearchString(params);
             var tags = sakai_global.data.search.processRefineString(params);
 
-            var facetedurl = "";
-            var facetedurlall = "";
-            if (params["facet"] && searchConfig.facetedConfig.facets[params["facet"]]) {
-                facetedurl = searchConfig.facetedConfig.facets[params["facet"]].searchurl;
-                facetedurlall = searchConfig.facetedConfig.facets[params["facet"]].searchurlall;
+            var facetedurl = '';
+            var facetedurlall = '';
+            if (params['facet'] && searchConfig.facetedConfig.facets[params['facet']]) {
+                facetedurl = searchConfig.facetedConfig.facets[params['facet']].searchurl;
+                facetedurlall = searchConfig.facetedConfig.facets[params['facet']].searchurlall;
             } else {
                 for (var f in searchConfig.facetedConfig.facets) {
                     facetedurl = searchConfig.facetedConfig.facets[f].searchurl;
@@ -192,7 +192,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 'sortOrder': params['sortby']
             }, function(items, total){
                 // Adjust display global total
-                $(searchConfig.global.numberFound, $rootel).text("" + total);
+                $(searchConfig.global.numberFound, $rootel).text('' + total);
                 if (total === 1) {
                     $(searchConfig.global.numberFound, $rootel).next('span.s3d-aural-text').text(
                         '' + sakai.api.i18n.getValueForKey('PERSON_FOUND', 'searchpeople')
@@ -203,8 +203,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     );
                 }
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
-                    "items": items,
-                    "sakai": sakai
+                    'items': items,
+                    'sakai': sakai
                 });
             }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, false, false, function(data){
                 // Generate refine by tags
@@ -220,37 +220,37 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.results.resultsContainer).addClass(searchConfig.results.resultsContainerAnonClass);
         }
 
-        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+        $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd){
             sakai_global.data.search.getMyContacts();
             $('.sakai_addtocontacts_overlay').each(function(index) {
-                if ($(this).attr("sakai-entityid") === userToAdd.uuid){
+                if ($(this).attr('sakai-entityid') === userToAdd.uuid){
                     $(this).addClass('fl-hidden');
                 }
             });
         });
 
-        $(window).bind("hashchange", function(ev){
-            if ($.bbq.getState("l") === "people") {
+        $(window).bind('hashchange', function(ev){
+            if ($.bbq.getState('l') === 'people') {
                 doSearch();
             }
         });
 
-        $(window).bind("sakai.search.util.finish", function(ev, data){
+        $(window).bind('sakai.search.util.finish', function(ev, data){
             if (data && data.tuid === tuid) {
                 sakai.api.Widgets.widgetLoader.insertWidgets('searchpeople_widget', false, false, {
-                    "449529953": {
-                        "facetedConfig": searchConfig.facetedConfig
+                    '449529953': {
+                        'facetedConfig': searchConfig.facetedConfig
                     }
                 });
                 doSearch();
             }
         });
 
-        $(window).trigger("sakai.search.util.init", [{"tuid": tuid}]);
+        $(window).trigger('sakai.search.util.init', [{'tuid': tuid}]);
 
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("searchpeople");
+    sakai.api.Widgets.widgetLoader.informOnLoad('searchpeople');
 
 });

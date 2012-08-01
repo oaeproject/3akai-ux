@@ -17,16 +17,16 @@
  */
 define(
     [
-        "jquery",
-        "config/config_custom",
-        "sakai/sakai.api.server",
-        "sakai/sakai.api.groups",
-        "sakai/sakai.api.util",
-        "sakai/sakai.api.i18n",
-        "sakai/sakai.api.l10n",
-        "sakai/sakai.api.user",
-        "underscore",
-        "misc/parseuri"
+        'jquery',
+        'config/config_custom',
+        'sakai/sakai.api.server',
+        'sakai/sakai.api.groups',
+        'sakai/sakai.api.util',
+        'sakai/sakai.api.i18n',
+        'sakai/sakai.api.l10n',
+        'sakai/sakai.api.user',
+        'underscore',
+        'misc/parseuri'
     ],
     function($, sakai_conf, sakai_serv, sakai_groups, sakai_util, sakai_i18n, sakai_l10n, sakai_user, _) {
 
@@ -49,13 +49,13 @@ define(
                 // Parse the viewers and add them to the .viewers object.
                 $.each(contentMembers.viewers, function(index, resultObject) {
                     contentMembers.viewers[index].picture = sakai_util.constructProfilePicture(contentMembers.viewers[index]);
-                    if (contentMembers.viewers[index]["sakai:pseudoGroup"]){
+                    if (contentMembers.viewers[index]['sakai:pseudoGroup']){
                         contentMembers.viewers[index].pseudoGroup = true;
-                        contentMembers.viewers[index]["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.viewers[index]["sakai:role-title-plural"]) + ")";
+                        contentMembers.viewers[index]['sakai:group-title'] = contentMembers.viewers[index]['sakai:parent-group-title'] + ' (' + sakai_i18n.getValueForKey(contentMembers.viewers[index]['sakai:role-title-plural']) + ')';
                         contentMembers.viewers[index].parent = {};
-                        contentMembers.viewers[index].parent["sakai:group-id"] = contentMembers.viewers[index]["sakai:parent-group-id"];
-                        contentMembers.viewers[index].parent["sakai:group-title"] = contentMembers.viewers[index]["sakai:parent-group-title"];
-                        contentMembers.viewers[index].parent["sakai:role-title"] = contentMembers.viewers[index]["sakai:group-title"];
+                        contentMembers.viewers[index].parent['sakai:group-id'] = contentMembers.viewers[index]['sakai:parent-group-id'];
+                        contentMembers.viewers[index].parent['sakai:group-title'] = contentMembers.viewers[index]['sakai:parent-group-title'];
+                        contentMembers.viewers[index].parent['sakai:role-title'] = contentMembers.viewers[index]['sakai:group-title'];
                     }
                 });
 
@@ -77,13 +77,13 @@ define(
                 // Parse the managers and add them to the .managers object.
                 $.each(contentMembers.managers, function(index, resultObject) {
                     contentMembers.managers[index].picture = sakai_util.constructProfilePicture(contentMembers.managers[index]);
-                    if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
+                    if (contentMembers.managers[index]['sakai:excludeSearch'] === 'true'){
                         contentMembers.managers[index].pseudoGroup = true;
-                        contentMembers.managers[index]["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"] + " (" + sakai_i18n.getValueForKey(contentMembers.managers[index]["sakai:role-title-plural"]) + ")";
+                        contentMembers.managers[index]['sakai:group-title'] = contentMembers.managers[index]['sakai:parent-group-title'] + ' (' + sakai_i18n.getValueForKey(contentMembers.managers[index]['sakai:role-title-plural']) + ')';
                         contentMembers.managers[index].parent = {};
-                        contentMembers.managers[index].parent["sakai:group-id"] = contentMembers.managers[index]["sakai:parent-group-id"];
-                        contentMembers.managers[index].parent["sakai:group-title"] = contentMembers.managers[index]["sakai:parent-group-title"];
-                        contentMembers.managers[index].parent["sakai:role-title"] = contentMembers.managers[index]["sakai:group-title"];
+                        contentMembers.managers[index].parent['sakai:group-id'] = contentMembers.managers[index]['sakai:parent-group-id'];
+                        contentMembers.managers[index].parent['sakai:group-title'] = contentMembers.managers[index]['sakai:parent-group-title'];
+                        contentMembers.managers[index].parent['sakai:role-title'] = contentMembers.managers[index]['sakai:group-title'];
                     }
                 });
 
@@ -99,7 +99,7 @@ define(
                 // Add counts for managers, editors and viewers
                 contentMembers.counts = { people: 0, groups: 0, collections: 0};
                 $.each(contentMembers.viewers.concat(contentMembers.managers, contentMembers.editors), function(i, member) {
-                    if (member.hasOwnProperty("userid")) {
+                    if (member.hasOwnProperty('userid')) {
                         contentMembers.counts.people++;
                     } else if (sakai_content.Collections.isCollection(member)) {
                         contentMembers.counts.collections++;
@@ -119,7 +119,7 @@ define(
             //    - activityfeed.json -> Fetches all activity for a content item
             $.each(data, function(i, dataItem) {
                 // results for poolid.infinity.json
-                if(dataItem.url.indexOf(".infinity.json") > -1) {
+                if(dataItem.url.indexOf('.infinity.json') > -1) {
 
                     // Stores all general data on tempItem.data
                     contentItem = {};
@@ -128,7 +128,7 @@ define(
                         collectionGroup = true;
                     }
 
-                } else if(dataItem.url.indexOf(".members.json") > -1) {
+                } else if(dataItem.url.indexOf('.members.json') > -1) {
 
                     // If this content item is a collection, retrieve the list of members
                     // behind the pseudoGroup
@@ -151,14 +151,14 @@ define(
             if (sakai_conf.MimeTypes[mimeType]) {
                 contentItem.data.iconURL = sakai_conf.MimeTypes[mimeType].URL;
             } else {
-                contentItem.data.iconURL = sakai_conf.MimeTypes["other"].URL;
+                contentItem.data.iconURL = sakai_conf.MimeTypes['other'].URL;
             }
 
             // Add paths to the content item
-            contentItem.content_path = "/p/" + contentItem.data._path;
-            contentItem.smallPath = "/p/" + contentItem.data._path;
-            contentItem.url = sakai_conf.SakaiDomain + "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
-            contentItem.path = "/p/" + contentItem.data._path + "/" + sakai_util.safeURL(contentItem.data["sakai:pooled-content-file-name"]);
+            contentItem.content_path = '/p/' + contentItem.data._path;
+            contentItem.smallPath = '/p/' + contentItem.data._path;
+            contentItem.url = sakai_conf.SakaiDomain + '/p/' + contentItem.data._path + '/' + sakai_util.safeURL(contentItem.data['sakai:pooled-content-file-name']);
+            contentItem.path = '/p/' + contentItem.data._path + '/' + sakai_util.safeURL(contentItem.data['sakai:pooled-content-file-name']);
 
             if (collectionGroup) {
                 sakai_groups.getMembers(sakai_content.Collections.getCollectionGroupId(contentItem.data), function(success, members) {
@@ -199,16 +199,16 @@ define(
         loadFullProfile: function(poolid, callback){
             var batchRequests = [
                 {
-                    "url": poolid + ".infinity.json",
-                    "method":"GET",
-                    "cache":false,
-                    "dataType":"json"
+                    'url': poolid + '.infinity.json',
+                    'method':'GET',
+                    'cache':false,
+                    'dataType':'json'
                 },
                 {
-                    "url": poolid + ".members.json",
-                    "method":"GET",
-                    "cache":false,
-                    "dataType":"json"
+                    'url': poolid + '.members.json',
+                    'method':'GET',
+                    'cache':false,
+                    'dataType':'json'
                 }
             ];
 
@@ -238,121 +238,121 @@ define(
             var file;
             for (file in filesArray) {
                 if (filesArray.hasOwnProperty(file)) {
-                    var contentPath = "/p/" + filesArray[file].hashpath;
+                    var contentPath = '/p/' + filesArray[file].hashpath;
                     var item;
                     switch (filesArray[file].permissions) {
                     // Logged in only
-                    case "everyone":
+                    case 'everyone':
                         item = {
-                            "url": contentPath + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": "everyone",
-                                ":viewer@Delete": "anonymous"
+                            'url': contentPath + '.members.html',
+                            'method': 'POST',
+                            'parameters': {
+                                ':viewer': 'everyone',
+                                ':viewer@Delete': 'anonymous'
                             }
                         };
                         data[data.length] = item;
                         item = {
-                            "url": contentPath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "everyone",
-                                "privilege@jcr:read": "granted"
+                            'url': contentPath + '.modifyAce.html',
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'everyone',
+                                'privilege@jcr:read': 'granted'
                             }
                         };
                         data[data.length] = item;
                         item = {
-                            "url": contentPath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "anonymous",
-                                "privilege@jcr:read": "denied"
+                            'url': contentPath + '.modifyAce.html',
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'anonymous',
+                                'privilege@jcr:read': 'denied'
                             }
                         };
                         data[data.length] = item;
                         break;
                     // Public
-                    case "public":
+                    case 'public':
                         item = {
-                            "url": contentPath + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": ["everyone", "anonymous"]
+                            'url': contentPath + '.members.html',
+                            'method': 'POST',
+                            'parameters': {
+                                ':viewer': ['everyone', 'anonymous']
                             }
                         };
                         data[data.length] = item;
                         item = {
-                            "url": contentPath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": ["everyone"],
-                                "privilege@jcr:read": "granted"
+                            'url': contentPath + '.modifyAce.html',
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': ['everyone'],
+                                'privilege@jcr:read': 'granted'
                             }
                         };
                         data[data.length] = item;
                         item = {
-                            "url": contentPath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": ["anonymous"],
-                                "privilege@jcr:read": "granted"
+                            'url': contentPath + '.modifyAce.html',
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': ['anonymous'],
+                                'privilege@jcr:read': 'granted'
                             }
                         };
                         data[data.length] = item;
                         break;
                     // Managers, editors and viewers only
-                    case "private":
+                    case 'private':
                         item = {
-                            "url": contentPath + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer@Delete": ["anonymous", "everyone"]
+                            'url': contentPath + '.members.html',
+                            'method': 'POST',
+                            'parameters': {
+                                ':viewer@Delete': ['anonymous', 'everyone']
                             }
                         };
                         data[data.length] = item;
                         item = {
-                            "url": contentPath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": ["everyone"],
-                                "privilege@jcr:read": "denied"
+                            'url': contentPath + '.modifyAce.html',
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': ['everyone'],
+                                'privilege@jcr:read': 'denied'
                             }
                         };
                         data[data.length] = item;
                         item = {
-                            "url": contentPath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": ["anonymous"],
-                                "privilege@jcr:read": "denied"
+                            'url': contentPath + '.modifyAce.html',
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': ['anonymous'],
+                                'privilege@jcr:read': 'denied'
                             }
                         };
                         data[data.length] = item;
                         break;
-                    case "group":
+                    case 'group':
                         item = {
-                            "url": contentPath + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": groupID
+                            'url': contentPath + '.members.html',
+                            'method': 'POST',
+                            'parameters': {
+                                ':viewer': groupID
                             }
                         };
                         data[data.length] = item;
                         item = {
-                            "url": contentPath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": ["everyone"],
-                                "privilege@jcr:read": "denied"
+                            'url': contentPath + '.modifyAce.html',
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': ['everyone'],
+                                'privilege@jcr:read': 'denied'
                             }
                         };
                         data[data.length] = item;
                         item = {
-                            "url": contentPath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": ["anonymous"],
-                                "privilege@jcr:read": "denied"
+                            'url': contentPath + '.modifyAce.html',
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': ['anonymous'],
+                                'privilege@jcr:read': 'denied'
                             }
                         };
                         data[data.length] = item;
@@ -363,7 +363,7 @@ define(
             $.ajax({
                 url: sakai_conf.URL.BATCH,
                 traditional: true,
-                type: "POST",
+                type: 'POST',
                 cache: false,
                 data: {
                     requests: JSON.stringify(data)
@@ -461,7 +461,7 @@ define(
          */
         setACLsOnPath: function(_path, _permission, me, callback){
             var paths = []; var permissions = []; var ACLs = [];
-            if (typeof _path === "string"){
+            if (typeof _path === 'string'){
                 paths.push(_path);
                 permissions.push(_permission);
             } else {
@@ -469,128 +469,128 @@ define(
                 permissions = _permission;
             }
             for (var i = 0; i < paths.length; i++){
-                var path = paths[i] + ".modifyAce.html";
+                var path = paths[i] + '.modifyAce.html';
                 var permission = permissions[i];
                 switch (permission) {
-                    case "anonymous":
+                    case 'anonymous':
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "everyone",
-                                "privilege@jcr:read": "granted"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'everyone',
+                                'privilege@jcr:read': 'granted'
                             }
                         });
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "anonymous",
-                                "privilege@jcr:read": "granted"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'anonymous',
+                                'privilege@jcr:read': 'granted'
                             }
                         });
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "g-contacts-" + me,
-                                "privilege@jcr:read": "granted"
-                            }
-                        });
-                        break;
-                    case "everyone":
-                        ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "g-contacts-" + me,
-                                "privilege@jcr:read": "granted"
-                            }
-                        });
-                        ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "everyone",
-                                "privilege@jcr:read": "granted"
-                            }
-                        });
-                        ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "anonymous",
-                                "privilege@jcr:read": "denied"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'g-contacts-' + me,
+                                'privilege@jcr:read': 'granted'
                             }
                         });
                         break;
-                    case "contacts":
+                    case 'everyone':
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": me,
-                                "privilege@jcr:write": "granted",
-                                "privilege@jcr:read": "granted"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'g-contacts-' + me,
+                                'privilege@jcr:read': 'granted'
                             }
                         });
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "g-contacts-" + me,
-                                "privilege@jcr:read": "granted"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'everyone',
+                                'privilege@jcr:read': 'granted'
                             }
                         });
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "everyone",
-                                "privilege@jcr:read": "denied"
-                            }
-                        });
-                        ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "anonymous",
-                                "privilege@jcr:read": "denied"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'anonymous',
+                                'privilege@jcr:read': 'denied'
                             }
                         });
                         break;
-                    case "private":
+                    case 'contacts':
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": me,
-                                "privilege@jcr:write": "granted",
-                                "privilege@jcr:read": "granted"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': me,
+                                'privilege@jcr:write': 'granted',
+                                'privilege@jcr:read': 'granted'
                             }
                         });
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "g-contacts-" + me,
-                                "privilege@jcr:read": "denied"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'g-contacts-' + me,
+                                'privilege@jcr:read': 'granted'
                             }
                         });
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "everyone",
-                                "privilege@jcr:read": "denied"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'everyone',
+                                'privilege@jcr:read': 'denied'
                             }
                         });
                         ACLs.push({
-                            "url": path,
-                            "method": "POST",
-                            "parameters": {
-                                "principalId": "anonymous",
-                                "privilege@jcr:read": "denied"
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'anonymous',
+                                'privilege@jcr:read': 'denied'
+                            }
+                        });
+                        break;
+                    case 'private':
+                        ACLs.push({
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': me,
+                                'privilege@jcr:write': 'granted',
+                                'privilege@jcr:read': 'granted'
+                            }
+                        });
+                        ACLs.push({
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'g-contacts-' + me,
+                                'privilege@jcr:read': 'denied'
+                            }
+                        });
+                        ACLs.push({
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'everyone',
+                                'privilege@jcr:read': 'denied'
+                            }
+                        });
+                        ACLs.push({
+                            'url': path,
+                            'method': 'POST',
+                            'parameters': {
+                                'principalId': 'anonymous',
+                                'privilege@jcr:read': 'denied'
                             }
                         });
                         break;
@@ -602,7 +602,7 @@ define(
             $.ajax({
                 url: sakai_conf.URL.BATCH,
                 traditional: true,
-                type: "POST",
+                type: 'POST',
                 cache: false,
                 data: {
                     requests: JSON.stringify(ACLs)
@@ -643,7 +643,7 @@ define(
                     }
                 }
             }
-            if (content && content.members && content.members[permission + "s"]) {
+            if (content && content.members && content.members[permission + 's']) {
                 for (var j = 0; j < content.members[permission + 's'].length; j++) {
                     authorizable = content.members[permission + 's'][j];
                     // Check if this user/group library is a manager/editor/viewer
@@ -790,9 +790,9 @@ define(
                 }
                 for (var j = 0; j < toAdd.length; j++){
                     batchRequests.push({
-                        url: "/p/" + toAdd[j] + ".members.json",
+                        url: '/p/' + toAdd[j] + '.members.json',
                         parameters: params,
-                        method: "POST"
+                        method: 'POST'
                     });
                 }
             }
@@ -810,10 +810,10 @@ define(
                         }
                     }
                     else {
-                        debug.error("sharecontent failed to change content " +
-                        "permission to 'viewer' for member: " +
+                        debug.error('sharecontent failed to change content ' +
+                        'permission to 'viewer' for member: ' +
                         userId);
-                        debug.error("xhr data returned: " + data);
+                        debug.error('xhr data returned: ' + data);
                     }
                 }, true);
             } else {
@@ -858,9 +858,9 @@ define(
                         parameter = {':manager@Delete': userIds[i]};
                     }
                     batchRequests.push({
-                        url: "/p/" + contentIds[c] + ".members.json",
+                        url: '/p/' + contentIds[c] + '.members.json',
                         parameters: parameter,
-                        method: "POST"
+                        method: 'POST'
                     });
                 }
             }
@@ -911,10 +911,10 @@ define(
              if (newPage){
                  // a new page won't have an autosave yet
                  if($.isFunction(callback)){
-                     callback(true, {"safeToEdit": true});
+                     callback(true, {'safeToEdit': true});
                  }
              } else {
-                 sakai_serv.loadJSON(pagePath + ".infinity.json", function(success, data) {
+                 sakai_serv.loadJSON(pagePath + '.infinity.json', function(success, data) {
                      if($.isFunction(callback)){
                          // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
                          // someone else is editing the page right now.
@@ -922,7 +922,7 @@ define(
                          if(data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 && data.editing._lastModifiedBy !== sakai_user.data.me.user.userid){
                              data.safeToEdit = false;
                          }
-                         if (data.autosave && data.hasOwnProperty("page") && data.autosave._lastModified > data._lastModified) {
+                         if (data.autosave && data.hasOwnProperty('page') && data.autosave._lastModified > data._lastModified) {
                              data.hasAutosave = true;
                          }
                          callback(success, data);
@@ -940,66 +940,66 @@ define(
         getPreviewUrl : function(url) {
             var uri = parseUri(url);
             var result = {};
-            result.type = "iframe";
+            result.type = 'iframe';
             result.url = url;
             if (/vimeo\.com$/.test(uri.host)) {
-                if (uri.path !== "") {
-                  result.url = "http://player.vimeo.com/video" + uri.path;
+                if (uri.path !== '') {
+                  result.url = 'http://player.vimeo.com/video' + uri.path;
                 }
             } else if (/picasaweb\.google\.com$/.test(uri.host)) {
                 var splitPath = uri.path.split('/');
-                if (splitPath.length >= 3 && uri.anchor !== "") {
+                if (splitPath.length >= 3 && uri.anchor !== '') {
                     var userId = splitPath[1];
                     var albumName = splitPath[2];
                     var photoId = uri.anchor;
 
                     $.ajax({
-                        url: "/var/proxy/google/picasaGetPhoto.json",
-                        type: "GET",
+                        url: '/var/proxy/google/picasaGetPhoto.json',
+                        type: 'GET',
                         async: false,
                         cache: false,
                         data: {
-                            "userId" : userId,
-                            "albumName" : albumName,
-                            "photoId" : photoId
+                            'userId' : userId,
+                            'albumName' : albumName,
+                            'photoId' : photoId
                         },
                         success: function(data){
-                            var splitPath = data.feed.icon["$t"].split('/');
+                            var splitPath = data.feed.icon['$t'].split('/');
                             // insert the size we want as the second to last
                             // entry in the array
-                            splitPath.splice(-2, 1, "s920");
+                            splitPath.splice(-2, 1, 's920');
                             result.url = splitPath.join('/');
-                            result.type = "image";
+                            result.type = 'image';
                         }
                     });
                 }
             } else if (/youtube\.com$/.test(uri.host)) {
                 if (uri.queryKey.v){
                     result.url = url;
-                    result.type = "video";
-                    result.avatar = "//img.youtube.com/vi/" + uri.queryKey.v + "/0.jpg";
+                    result.type = 'video';
+                    result.avatar = '//img.youtube.com/vi/' + uri.queryKey.v + '/0.jpg';
                 }
             } else if (/amazon\.com$/.test(uri.host)) {
-                var asin = uri.path.split("/");
+                var asin = uri.path.split('/');
                 if (asin && asin[asin.indexOf('dp')] !== -1){
                     asin = asin[asin.indexOf('dp')+1];
-                    result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
-                    result.type = "iframe";
+                    result.url = 'http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=' + asin + '&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0';
+                    result.type = 'iframe';
                 }
             } else if (/videolectures\.net$/.test(uri.host)) {
                 var lectureId = uri.path.split('/')[1];
                 if (lectureId) {
                     $.ajax({
-                        url: "/var/proxy/videolectures/videoLecturesGetSnippet.json",
-                        type: "GET",
+                        url: '/var/proxy/videolectures/videoLecturesGetSnippet.json',
+                        type: 'GET',
                         async: false,
                         cache: false,
                         data: {
-                            "lectureId" : lectureId
+                            'lectureId' : lectureId
                         },
                         success: function(data){
-                            result.url = $($(data).find("textarea").val()).find("img").attr("src");
-                            result.type = "image";
+                            result.url = $($(data).find('textarea').val()).find('img').attr('src');
+                            result.type = 'image';
                         }
                     });
                 }
@@ -1007,50 +1007,50 @@ define(
                 var fPhotoId = uri.path.split('/')[3];
                 if (fPhotoId) {
                     $.ajax({
-                        url: "/var/proxy/flickr/flickrGetPhotoInfo.json",
-                        type: "GET",
+                        url: '/var/proxy/flickr/flickrGetPhotoInfo.json',
+                        type: 'GET',
                         async: false,
                         cache: false,
-                        dataType: "json",
+                        dataType: 'json',
                         data: {
-                            "photoId": fPhotoId
+                            'photoId': fPhotoId
                         },
                         success: function(data){
-                            result.url = "http://farm" + data.photo.farm + ".static.flickr.com/" + data.photo.server + "/" + data.photo.id + "_" + data.photo.secret + "_b.jpg";
-                            result.type = "image";
+                            result.url = 'http://farm' + data.photo.farm + '.static.flickr.com/' + data.photo.server + '/' + data.photo.id + '_' + data.photo.secret + '_b.jpg';
+                            result.type = 'image';
                         }
                     });
                 }
             } else if (/slideshare\.net$/.test(uri.host)) {
-                if (uri.path !== "") {
+                if (uri.path !== '') {
                     $.ajax({
-                        url: "/var/proxy/slideshare/slideshareGetSlideshow.json",
-                        type: "GET",
-                        dataType: "xml",
+                        url: '/var/proxy/slideshare/slideshareGetSlideshow.json',
+                        type: 'GET',
+                        dataType: 'xml',
                         async: false,
                         cache: false,
                         data: {
-                            "slideshow_url": uri.source
+                            'slideshow_url': uri.source
                         },
                         success: function(data){
-                            if (!$(data).find("SlideShareServiceError").text()){
-                                var embed = $($(data).find("Embed").text());
+                            if (!$(data).find('SlideShareServiceError').text()){
+                                var embed = $($(data).find('Embed').text());
                                 // resize to fit contentpreview
-                                embed.find('*[style*="width"]').css("width", "100%");
-                                embed.find('*[style*="height"]').css("height", "500px");
-                                embed.find('*[width="425"]').attr("width", "100%");
-                                embed.find('*[height="355"]').attr("height", "500");
+                                embed.find('*[style*='width']').css('width', '100%');
+                                embed.find('*[style*='height']').css('height', '500px');
+                                embed.find('*[width='425']').attr('width', '100%');
+                                embed.find('*[height='355']').attr('height', '500');
 
                                 result.url = embed.html();
-                                result.type = "embed";
+                                result.type = 'embed';
                             }
                         }
                     });
                 }
             } else if (/maps\.google\.com$/.test(uri.host)) {
-                if (uri.path !== "") {
+                if (uri.path !== '') {
                     result.url = uri.source;
-                    result.type = "googlemap";
+                    result.type = 'googlemap';
                 }
             }
             return result;
@@ -1059,18 +1059,18 @@ define(
         /**
          * Returns an object with data for the provided mimetype
          *
-         * @param mimetype  standard mimetype string (i.e. "image/png", "application/pdf", etc.)
+         * @param mimetype  standard mimetype string (i.e. 'image/png', 'application/pdf', etc.)
          * @return if we have a match for the given mimetype, an Object with
          *     the following params will be returned:
          *      - cssClass: css class to assign a small (~16px) image as the background
          *            image for an element
          *      - URL: path to an image (~128px) that represents this content type
          *      - description: internationalizable bundle key for a short description
-         *            for this content type (i.e. "PDF document")
-         *     If there is no match, a general "Other document" object is returned
+         *            for this content type (i.e. 'PDF document')
+         *     If there is no match, a general 'Other document' object is returned
          */
         getMimeTypeData: function (mimetype) {
-            if (mimetype && typeof(mimetype) === "string") {
+            if (mimetype && typeof(mimetype) === 'string') {
                 var mimetypeObj = sakai_conf.MimeTypes[mimetype];
                 if (mimetypeObj) {
                     return mimetypeObj;
@@ -1080,7 +1080,7 @@ define(
         },
 
         getMimeType : function(content){
-            var mimeType = "other";
+            var mimeType = 'other';
             if (content['_mimeType']){
                 mimeType = content['_mimeType'];
             } else if (content['mimeType']){
@@ -1090,15 +1090,15 @@ define(
         },
 
         getThumbnail : function(content){
-            var thumbnail = "";
+            var thumbnail = '';
             var mimeType = sakai_content.getMimeType(content);
-            if (content['sakai:pagecount'] && content['sakai:pagecount'] !== "0") {
-                thumbnail = "/p/" + content['_path'] + "/page1.small.jpg";
-            } else if (mimeType.indexOf("image") !== -1 && mimeType !== "image/tiff" && mimeType !== "image/jp2") {
-                thumbnail = "/p/" + content['_path'];
-            } else if (content["sakai:preview-url"]) {
-                if (content["sakai:preview-avatar"]) {
-                    thumbnail = content["sakai:preview-avatar"];
+            if (content['sakai:pagecount'] && content['sakai:pagecount'] !== '0') {
+                thumbnail = '/p/' + content['_path'] + '/page1.small.jpg';
+            } else if (mimeType.indexOf('image') !== -1 && mimeType !== 'image/tiff' && mimeType !== 'image/jp2') {
+                thumbnail = '/p/' + content['_path'];
+            } else if (content['sakai:preview-url']) {
+                if (content['sakai:preview-avatar']) {
+                    thumbnail = content['sakai:preview-avatar'];
                 }
             }
             return thumbnail;
@@ -1106,9 +1106,9 @@ define(
 
         isJwPlayerSupportedVideo : function(mimeType) {
             var supported = false;
-            if (mimeType && mimeType.substring(0, 6) === "video/"){
+            if (mimeType && mimeType.substring(0, 6) === 'video/'){
                 var mimeSuffix = mimeType.substring(6);
-                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
+                if (mimeSuffix === 'x-flv' || mimeSuffix === 'mp4' || mimeSuffix === '3gpp' || mimeSuffix === 'quicktime') {
                     supported = true;
                 }
             }
@@ -1117,19 +1117,19 @@ define(
 
         isJwPlayerSupportedAudio : function(mimeType) {
             var supported = false;
-            if (mimeType && mimeType.substring(0, 6) === "audio/"){
+            if (mimeType && mimeType.substring(0, 6) === 'audio/'){
                 supported = true;
             }
             return supported;
         },
 
         isKalturaPlayerSupported : function(mimeType) {
-            return sakai_conf.kaltura && sakai_conf.kaltura.enabled && (mimeType === "kaltura/video" || mimeType === "kaltura/audio");
+            return sakai_conf.kaltura && sakai_conf.kaltura.enabled && (mimeType === 'kaltura/video' || mimeType === 'kaltura/audio');
         },
 
         getCreatorProfile : function(content, callback) {
             $.ajax({
-                url: "/~" + content["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
+                url: '/~' + content['sakai:pool-content-created-for'] + '/public/authprofile.infinity.json',
                 success: function(profile){
                     if ($.isFunction(callback)) {
                        callback(true, profile);
@@ -1147,11 +1147,11 @@ define(
         hasPreview : function(content){
             var result = false;
             var mimeType = sakai_content.getMimeType(content);
-            if (content["sakai:preview-url"] ||
+            if (content['sakai:preview-url'] ||
                     sakai_content.getThumbnail(content) ||
-                    (mimeType.substring(0,6) === "image/" && mimeType !== "image/tiff" && mimeType !== "image/jp2") ||
-                    mimeType.substring(0,5) === "text/" ||
-                    mimeType === "application/x-shockwave-flash" ||
+                    (mimeType.substring(0,6) === 'image/' && mimeType !== 'image/tiff' && mimeType !== 'image/jp2') ||
+                    mimeType.substring(0,5) === 'text/' ||
+                    mimeType === 'application/x-shockwave-flash' ||
                     sakai_content.isKalturaPlayerSupported(mimeType) ||
                     sakai_content.isJwPlayerSupportedVideo(mimeType)  ||
                     sakai_content.isJwPlayerSupportedAudio(mimeType)) {
@@ -1162,9 +1162,9 @@ define(
 
         getCommentCount : function(content){
             var count = 0;
-            if (content.hasOwnProperty("commentCount")) {
+            if (content.hasOwnProperty('commentCount')) {
                 count = content.commentCount;
-            } else if (content.hasOwnProperty("comments")) {
+            } else if (content.hasOwnProperty('comments')) {
                 $.each(content.comments, function(key, val){
                     if ($.isPlainObject(val)) {
                         count++;
@@ -1234,42 +1234,42 @@ define(
             var userArray = [];
             $.each(results, function(i, contentItem){
                 if (contentItem['sakai:pooled-content-file-name']) {
-                    contentItem.id = contentItem["_path"];
-                    contentItem.link = "/content#p=" + sakai_util.safeURL(contentItem["_path"]);
+                    contentItem.id = contentItem['_path'];
+                    contentItem.link = '/content#p=' + sakai_util.safeURL(contentItem['_path']);
                     contentItem.canDelete = sakai_content.isContentInLibrary(contentItem, meData.user.userid) || (sakai_content.Collections.isCollection(contentItem) && sakai_content.Collections.isCollectionInMyLibrary(contentItem));
                     contentItem.numPlaces = sakai_content.getPlaceCount(contentItem);
                     contentItem.numComments = sakai_content.getCommentCount(contentItem);
                     // Only modify the description if there is one
-                    if (contentItem["sakai:description"]) {
-                        contentItem["sakai:description-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 150, {
+                    if (contentItem['sakai:description']) {
+                        contentItem['sakai:description-shorter'] = sakai_util.applyThreeDots(contentItem['sakai:description'], 150, {
                             max_rows: 2,
                             whole_word: false
-                        }, "");
-                        contentItem["sakai:description-long"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 1200, {
+                        }, '');
+                        contentItem['sakai:description-long'] = sakai_util.applyThreeDots(contentItem['sakai:description'], 1200, {
                             max_rows: 2,
                             whole_word: false
-                        }, "");
-                        contentItem["sakai:description"] = sakai_util.applyThreeDots(contentItem["sakai:description"], 580, {
+                        }, '');
+                        contentItem['sakai:description'] = sakai_util.applyThreeDots(contentItem['sakai:description'], 580, {
                             max_rows: 2,
                             whole_word: false
-                        }, "");
+                        }, '');
                     }
-                    if (contentItem["sakai:pooled-content-file-name"]) {
-                        contentItem["sakai:pooled-content-file-name-short"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 560, {
+                    if (contentItem['sakai:pooled-content-file-name']) {
+                        contentItem['sakai:pooled-content-file-name-short'] = sakai_util.applyThreeDots(contentItem['sakai:pooled-content-file-name'], 560, {
                             max_rows: 1,
                             whole_word: false
-                        }, "s3d-bold");
-                        contentItem["sakai:pooled-content-file-name-shorter"] = sakai_util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 150, {
+                        }, 's3d-bold');
+                        contentItem['sakai:pooled-content-file-name-shorter'] = sakai_util.applyThreeDots(contentItem['sakai:pooled-content-file-name'], 150, {
                             max_rows: 1,
                             whole_word: false
-                        }, "s3d-bold");
+                        }, 's3d-bold');
                     }
                     // Modify the tags if there are any
-                    if (contentItem["sakai:tags"]) {
-                        if ( _.isString(contentItem["sakai:tags"]) ) {
-                            contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
+                    if (contentItem['sakai:tags']) {
+                        if ( _.isString(contentItem['sakai:tags']) ) {
+                            contentItem['sakai:tags'] = contentItem['sakai:tags'].split(',');
                         }
-                        contentItem.tagsProcessed = sakai_util.formatTags(contentItem["sakai:tags"]);
+                        contentItem.tagsProcessed = sakai_util.formatTags(contentItem['sakai:tags']);
                     }
                     // set mimetype
                     var mimeType = sakai_content.getMimeType(contentItem);
@@ -1281,7 +1281,7 @@ define(
                     // if the content has an owner we need to add their ID to an array,
                     // so we can lookup the users display name in a batch req
                     if (contentItem['sakai:pool-content-created-for'] && !results.fetchMultipleUserDataInWidget) {
-                        userArray.push(contentItem["sakai:pool-content-created-for"]);
+                        userArray.push(contentItem['sakai:pool-content-created-for']);
                     }
                     contentItem.hasPreview = sakai_content.hasPreview(contentItem);
                 }
@@ -1291,12 +1291,12 @@ define(
                 sakai_user.getMultipleUsers(userArray, function(users){
                     $.each(results, function(index, item){
                         if (item && item['sakai:pooled-content-file-name']) {
-                            var userid = item["sakai:pool-content-created-for"];
+                            var userid = item['sakai:pool-content-created-for'];
                             var displayName = sakai_user.getDisplayName(users[userid]);
                             item.ownerId = userid;
                             item.ownerDisplayName = displayName;
-                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, "s3d-bold", true);
-                            item.ownerDisplayNameShorter = sakai_util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
+                            item.ownerDisplayNameShort = sakai_util.applyThreeDots(displayName, 580, {max_rows: 1,whole_word: false}, 's3d-bold', true);
+                            item.ownerDisplayNameShorter = sakai_util.applyThreeDots(displayName, 180, {max_rows: 1,whole_word: false}, 's3d-bold', true);
                         }
                     });
                     if ($.isFunction(callback)) {
@@ -1309,9 +1309,9 @@ define(
         },
 
         createContentURL: function(contentData) {
-            var ret = "";
-            if (contentData && contentData._path && contentData["sakai:pooled-content-file-name"]) {
-                ret = sakai_conf.SakaiDomain + "/p/" + contentData._path + "/" + sakai_util.safeURL(contentData["sakai:pooled-content-file-name"]);
+            var ret = '';
+            if (contentData && contentData._path && contentData['sakai:pooled-content-file-name']) {
+                ret = sakai_conf.SakaiDomain + '/p/' + contentData._path + '/' + sakai_util.safeURL(contentData['sakai:pooled-content-file-name']);
             }
             return ret;
         },
@@ -1325,18 +1325,18 @@ define(
              * Prefix that will be prepended to all pseudoGroups created
              * for collections
              */
-            COLLECTION_GROUP_PREFIX: "c-",
+            COLLECTION_GROUP_PREFIX: 'c-',
 
             /**
              * Create a new content collection. This includes the creation of a pooled content item and a pseudoGroup used to share
              * content with. The auth-all feed for that pseudoGroup is then used to retrieve the content of the collection
              * @param {Object} title            Title of the collection
              * @param {Object} description      Description of the collection
-             * @param {Object} permissions      Permission to be set on the collection. Possible values are "public", "everyone"
-             *                                  and "private"
+             * @param {Object} permissions      Permission to be set on the collection. Possible values are 'public', 'everyone'
+             *                                  and 'private'
              * @param {Object} tags             Tags to be set on the collection
              * @param {Object} contentToAdd     Array of pooled content items that need to be added to the collection
-             * @param {Object} usersToAdd       Array of {"id": authorizableId, "role": "member/manager"} objects that determines who
+             * @param {Object} usersToAdd       Array of {'id': authorizableId, 'role': 'member/manager'} objects that determines who
              *                                  can see and who can edit the collections
              * @param {Object} callback         Function to be called after the collections has been created. This will pass in a
              *                                  success parameter and
@@ -1384,21 +1384,21 @@ define(
                         }
                     ];
                     return {
-                        "url": sakai_conf.URL.GROUP_CREATE_SERVICE,
-                        "method": "POST",
-                        "parameters": {
-                            ":name": fullId,
-                            "sakai:group-title" : role ? "" : title,
-                            "sakai:roles": role ? "" : JSON.stringify(roles),
-                            "sakai:group-id": fullId,
-                            "sakai:category": "collection",
-                            "sakai:excludeSearch": true,
-                            "sakai:pseudoGroup": role ? true : false,
-                            "sakai:pseudoGroup@TypeHint": "Boolean",
-                            "sakai:parent-group-title": role ? title : "",
-                            "sakai:parent-group-id": role ? id : "",
-                            "sakai:role-title": roleTitle,
-                            "sakai:role-title-plural": roleTitlePlural
+                        'url': sakai_conf.URL.GROUP_CREATE_SERVICE,
+                        'method': 'POST',
+                        'parameters': {
+                            ':name': fullId,
+                            'sakai:group-title' : role ? '' : title,
+                            'sakai:roles': role ? '' : JSON.stringify(roles),
+                            'sakai:group-id': fullId,
+                            'sakai:category': 'collection',
+                            'sakai:excludeSearch': true,
+                            'sakai:pseudoGroup': role ? true : false,
+                            'sakai:pseudoGroup@TypeHint': 'Boolean',
+                            'sakai:parent-group-title': role ? title : '',
+                            'sakai:parent-group-id': role ? id : '',
+                            'sakai:role-title': roleTitle,
+                            'sakai:role-title-plural': roleTitlePlural
                         }
                     };
                 };
@@ -1407,37 +1407,37 @@ define(
                 // 1a. Create the base node
                 var refID = sakai_util.generateWidgetId();
                 var collectionObject = {
-                    "sakai:pooled-content-file-name": title,
-                    "sakai:permissions": permissions,
-                    "sakai:description": description,
-                    "sakai:tags": tags,
-                    "sakai:copyright": sakai_conf.Permissions.Copyright.defaults["collections"],
-                    "mimeType": "x-sakai/collection",
-                    "sakai:allowcomments": "true",
-                    "sakai:showcomments": "true",
-                    "sakai:showalways": true,
-                    "sakai:showalways@TypeHint": "Boolean",
+                    'sakai:pooled-content-file-name': title,
+                    'sakai:permissions': permissions,
+                    'sakai:description': description,
+                    'sakai:tags': tags,
+                    'sakai:copyright': sakai_conf.Permissions.Copyright.defaults['collections'],
+                    'mimeType': 'x-sakai/collection',
+                    'sakai:allowcomments': 'true',
+                    'sakai:showcomments': 'true',
+                    'sakai:showalways': true,
+                    'sakai:showalways@TypeHint': 'Boolean',
                     'sakai:schemaversion': sakai_conf.schemaVersion,
-                    "structure0": JSON.stringify({
-                        "main": {
-                            "_ref": refID,
-                            "_order": 0,
-                            "_title": title,
-                            "_nonEditable": true,
-                            "main": {
-                                "_ref": refID,
-                                "_order": 0,
-                                "_title": title,
-                                "_nonEditable": true
+                    'structure0': JSON.stringify({
+                        'main': {
+                            '_ref': refID,
+                            '_order': 0,
+                            '_title': title,
+                            '_nonEditable': true,
+                            'main': {
+                                '_ref': refID,
+                                '_order': 0,
+                                '_title': title,
+                                '_nonEditable': true
                             }
                         }
                     })
                 };
                 $.ajax({
-                    url: "/system/pool/createfile",
+                    url: '/system/pool/createfile',
                     data: collectionObject,
-                    type: "POST",
-                    dataType: "json",
+                    type: 'POST',
+                    dataType: 'json',
                     success: function(data) {
 
                         // 2. Tag the collection
@@ -1544,7 +1544,7 @@ define(
                                                     visible = 'members-only';
                                                 }
                                                 var roles = [{'id': 'managers'}, {'id': 'editors'}, {'id': 'members'}];
-                                                sakai_groups.setPermissions(groupId, "yes", visible, roles, function() {
+                                                sakai_groups.setPermissions(groupId, 'yes', visible, roles, function() {
 
                                                     // 6. Share the collection with the pseudoGroups and remove creator as manager
                                                     sakai_content.addToLibrary(collectionId, groupId + '-managers', 'manager', function() {
@@ -1646,29 +1646,29 @@ define(
                 if (_.isString(poolIds)){
                     poolIds = [poolIds];
                 }
-                sakai_content.removeUser("viewer", poolIds, sakai_content.Collections.getCollectionGroupId(collectionId), callback);
+                sakai_content.removeUser('viewer', poolIds, sakai_content.Collections.getCollectionGroupId(collectionId), callback);
             },
 
             /**
              * Make a collection either public, private or only visible to the people it's shared with
              * @param {Object} collectionId    Pooled content id that represents the collection
-             * @param {Object} permission      Permission to be set on the collection. Possible values are "public", "everyone"
-             *                                 and "private"
+             * @param {Object} permission      Permission to be set on the collection. Possible values are 'public', 'everyone'
+             *                                 and 'private'
              * @param {Object} callback        Function to be called when the new permissions have been set on the collection
              */
             setCollectionPermissions: function(collectionId, permission, callback){
                 // Change the permissions of the Sakai Doc
-                sakai_content.setFilePermissions([{"hashpath": collectionId, "permissions": permission}], function(){
+                sakai_content.setFilePermissions([{'hashpath': collectionId, 'permissions': permission}], function(){
                     // Change the permissions of the Sakai Doc
                     var groupId = sakai_content.Collections.getCollectionGroupId(collectionId);
-                    var visible = "public";
-                    if (permission === "everyone"){
-                        visible = "logged-in-only";
-                    } else if (permission === "private"){
-                        visible = "members-only";
+                    var visible = 'public';
+                    if (permission === 'everyone'){
+                        visible = 'logged-in-only';
+                    } else if (permission === 'private'){
+                        visible = 'members-only';
                     }
                     var roles = [{'id': 'managers'}, {'id': 'editors'}, {'id': 'members'}];
-                    sakai_groups.setPermissions(groupId, "yes", visible, roles, function(){
+                    sakai_groups.setPermissions(groupId, 'yes', visible, roles, function(){
                          if ($.isFunction(callback)){
                              callback();
                          }
@@ -1697,10 +1697,10 @@ define(
                     $.each(authorizables, function(index, authorizable) {
                         permissionBatch.push({
                             'url': '/system/userManager/group/' + groupID + '-' + userRole + '.update.json',
-                            "method": "POST",
-                            "parameters": {
-                                ":member": authorizable,
-                                ":viewer": authorizable
+                            'method': 'POST',
+                            'parameters': {
+                                ':member': authorizable,
+                                ':viewer': authorizable
                             }
                         });
                         $.each(sakai_user.data.me.groups, function(index, group) {
@@ -1794,18 +1794,18 @@ define(
             getMyCollections: function(page, items, callback, cache){
                 var cacheRequest = cache === false ? false : true;
                 var data = {
-                    "sortOn": "_lastModified",
-                    "sortOrder": "desc",
-                    "userid": sakai_user.data.me.user.userid,
-                    "items": items,
-                    "page": page,
-                    "mimetype": "x-sakai/collection"
+                    'sortOn': '_lastModified',
+                    'sortOrder': 'desc',
+                    'userid': sakai_user.data.me.user.userid,
+                    'items': items,
+                    'page': page,
+                    'mimetype': 'x-sakai/collection'
                 };
                 $.ajax({
-                    "url": sakai_conf.URL.POOLED_CONTENT_SPECIFIC_USER,
-                    "data": data,
-                    "cache": cacheRequest,
-                    "success": function(data){
+                    'url': sakai_conf.URL.POOLED_CONTENT_SPECIFIC_USER,
+                    'data': data,
+                    'cache': cacheRequest,
+                    'success': function(data){
                         var batchRequest = [];
                         $.each(data.results, function(index, collection){
                             collection.counts = collection.counts || {};
@@ -1815,8 +1815,8 @@ define(
                             callback(data);
                         }
                     },
-                    "error": function(status){
-                        debug.error("Loading the current user's collections did not succeed");
+                    'error': function(status){
+                        debug.error('Loading the current user's collections did not succeed');
                         if ($.isFunction(callback)) {
                             callback(false);
                         }
@@ -1831,13 +1831,13 @@ define(
              */
             getCollectionContentCount: function(collection){
                 if ($.isPlainObject(collection)){
-                    collection = collection["_path"];
+                    collection = collection['_path'];
                 }
                 var groupId = sakai_content.Collections.getCollectionGroupId(collection);
                 var count = 0;
                 var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
                 $.each(memberships.entry, function(index, membership){
-                    if (sakai_content.Collections.isCollection(membership) && membership["sakai:group-id"] === groupId){
+                    if (sakai_content.Collections.isCollection(membership) && membership['sakai:group-id'] === groupId){
                         count = membership.counts.contentCount || 0;
                     }
                 });
@@ -1853,11 +1853,11 @@ define(
                 if (_.isString(identifier)){
                     return identifier.substring(0, 2) === sakai_content.Collections.COLLECTION_GROUP_PREFIX;
                 // The identifier is a collection pseudoGroup
-                } else if (identifier["sakai:category"] === "collection"){
+                } else if (identifier['sakai:category'] === 'collection'){
                     return true;
                 // The identifier is a content object
-                } else if (identifier["_path"]){
-                    return sakai_content.getMimeType(identifier) === "x-sakai/collection";
+                } else if (identifier['_path']){
+                    return sakai_content.getMimeType(identifier) === 'x-sakai/collection';
                 }
                 return false;
             },
@@ -1869,7 +1869,7 @@ define(
              */
             isCollectionInMyLibrary: function(collection){
                 if ($.isPlainObject(collection)){
-                    collection = collection["_path"];
+                    collection = collection['_path'];
                 }
                 var groupToCheck = sakai_content.Collections.getCollectionGroupId(collection);
                 return sakai_groups.isCurrentUserAMember(groupToCheck, sakai_user.data.me);
@@ -1884,7 +1884,7 @@ define(
                 if (_.isString(collection)) {
                     return sakai_content.Collections.COLLECTION_GROUP_PREFIX + collection;
                 } else {
-                    return sakai_content.Collections.COLLECTION_GROUP_PREFIX + collection["_path"];
+                    return sakai_content.Collections.COLLECTION_GROUP_PREFIX + collection['_path'];
                 }
             },
 
@@ -1895,7 +1895,7 @@ define(
              */
             getCollectionPoolId: function(collectionGroup){
                 if ($.isPlainObject(collectionGroup)){
-                    collectionGroup = collectionGroup["sakai:group-id"];
+                    collectionGroup = collectionGroup['sakai:group-id'];
                 }
                 return collectionGroup.substring(2);
             }

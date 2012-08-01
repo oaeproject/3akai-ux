@@ -40,9 +40,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
      */
     sakai_global.tags = function(tuid, showSettings) {
 
-        var $rootel = $("#"+tuid),
-            $tags_main = $("#tags_main", $rootel),
-            $tags_main_template = $("#tags_main_template", $rootel);
+        var $rootel = $('#'+tuid),
+            $tags_main = $('#tags_main', $rootel),
+            $tags_main_template = $('#tags_main_template', $rootel);
 
         var tagData = {};
 
@@ -67,7 +67,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
         var loadData = function(directory, callback){
             if (!directory) {
                 $.ajax({
-                    url: "/var/search/public/tagcloud.json",
+                    url: '/var/search/public/tagcloud.json',
                     cache: false,
                     success: function(data){
                         tagData = data;
@@ -79,8 +79,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
 
         var doInit = function(){
             if (!sakai.api.Widgets.isOnDashboard(tuid)){
-                $(".tags-widget-border").show();
-                $("#tags_widget").addClass("fl-widget s3d-widget");
+                $('.tags-widget-border').show();
+                $('#tags_widget').addClass('fl-widget s3d-widget');
             }
 
             // If the widget is initialized on the directory page then listen to the event to catch specified tag results
@@ -95,5 +95,5 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
         doInit();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("tags");
+    sakai.api.Widgets.widgetLoader.informOnLoad('tags');
 });

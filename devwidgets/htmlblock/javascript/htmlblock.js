@@ -130,7 +130,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var initTinyMCE = function(ui) {
             editorId = ui.id;
-            // Set focus if there is no "An unsaved version has been found" overlay
+            // Set focus if there is no 'An unsaved version has been found' overlay
             // showing
             var ed = tinyMCE.get(editorId);
             if (!$('.s3d-dialog:visible').length) {
@@ -193,7 +193,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     // Only update the editor height if it has changed
                     if ($editor.height() !== docHt) {
                         $editor.css('height', docHt + 'px');
-                        $(window).trigger("updateheight.contentauthoring.sakai");
+                        $(window).trigger('updateheight.contentauthoring.sakai');
                     }
                 } catch (err) {
                     return false;

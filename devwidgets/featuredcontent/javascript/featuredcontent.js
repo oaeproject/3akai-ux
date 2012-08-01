@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
 
     /**
      * @name sakai_global.featuredcontent
@@ -29,17 +29,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      */
     sakai_global.featuredcontent = function(tuid, showSettings, pageData){
 
-        var $rootel = $("#"+tuid);
+        var $rootel = $('#'+tuid);
 
         // Containers
-        var $featuredcontentContentContainer = $("#featuredcontent_content_container", $rootel);
-        var featuredcontentCategoryContentContainer = "#featuredcontent_category_content_container";
+        var $featuredcontentContentContainer = $('#featuredcontent_content_container', $rootel);
+        var featuredcontentCategoryContentContainer = '#featuredcontent_category_content_container';
 
         // Templates
-        var featuredcontentMainTemplate = $("#featuredcontent_main_template");
-        var featuredcontentCategoryOtherTemplate = $("#featuredcontent_category_other_template");
+        var featuredcontentMainTemplate = $('#featuredcontent_main_template');
+        var featuredcontentCategoryOtherTemplate = $('#featuredcontent_category_other_template');
 
-        var $featuredcontentWidget = $(".featuredcontent_widget", $rootel);
+        var $featuredcontentWidget = $('.featuredcontent_widget', $rootel);
 
         /**
          * Render the list of featured content items. Different templates are used based on whether or
@@ -56,10 +56,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 // Only render the main featured item when it has a thumbnail image
                 if (results.length && results[0].thumbnail){
                     sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
-                        "item": results[0],
-                        "sakai": sakai,
-                        "results": false,
-                        "params": {"max_rows": 2}
+                        'item': results[0],
+                        'sakai': sakai,
+                        'results': false,
+                        'params': {'max_rows': 2}
                     }, $featuredcontentContentContainer);
                     // Remove the first item to avoid double rendering
                     results.splice(0, 1);
@@ -67,21 +67,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
                 if (results.length || !renderedLargeFeatured){
                     sakai.api.Util.TemplateRenderer(featuredcontentCategoryOtherTemplate, {
-                        "results": results,
-                        "sakai": sakai,
-                        "total": total,
-                        "category": pageData.category,
-                        "title": pageData.title,
-                        "showSeeAll": showSeeAll
+                        'results': results,
+                        'sakai': sakai,
+                        'total': total,
+                        'category': pageData.category,
+                        'title': pageData.title,
+                        'showSeeAll': showSeeAll
                     }, $(featuredcontentCategoryContentContainer, $rootel));
                 }
             // Landing/explore page
             } else {
                 // Render the template
                 sakai.api.Util.TemplateRenderer(featuredcontentMainTemplate, {
-                    "results": reshuffleOrderedList(results),
-                    "sakai": sakai,
-                    "params": {"max_rows": 2}
+                    'results': reshuffleOrderedList(results),
+                    'sakai': sakai,
+                    'params': {'max_rows': 2}
                 }, $featuredcontentContentContainer);
             }
         };
@@ -116,8 +116,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var sortBasedOnThumbnailAndMetadata = function(a, b){
             if (a.thumbnail && b.thumbnail){
-                var scoreA = (a["sakai:description"] ? 1 : 0) + ((a["sakai:tags"] && a["sakai:tags"].length) ? 1 : 0) + (a.commentcount ? 1 : 0);
-                var scoreB = (b["sakai:description"] ? 1 : 0) + ((b["sakai:tags"] && b["sakai:tags"].length) ? 1 : 0) + (b.commentcount ? 1 : 0);
+                var scoreA = (a['sakai:description'] ? 1 : 0) + ((a['sakai:tags'] && a['sakai:tags'].length) ? 1 : 0) + (a.commentcount ? 1 : 0);
+                var scoreB = (b['sakai:description'] ? 1 : 0) + ((b['sakai:tags'] && b['sakai:tags'].length) ? 1 : 0) + (b.commentcount ? 1 : 0);
                 return scoreA < scoreB;
             } else if (a.thumbnail) {
                 return -1;
@@ -140,8 +140,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     item.usedin = sakai.api.Content.getPlaceCount(item);
                     item.commentcount = sakai.api.Content.getCommentCount(item);
                     item.canShare = sakai.api.Content.canCurrentUserShareContent(item);
-                    if (item["sakai:tags"]) {
-                        item["sakai:tags"] = sakai.api.Util.formatTags(item["sakai:tags"].toString());
+                    if (item['sakai:tags']) {
+                        item['sakai:tags'] = sakai.api.Util.formatTags(item['sakai:tags'].toString());
                     }
                 });
                 data.results.sort(sortBasedOnThumbnailAndMetadata);
@@ -153,18 +153,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var getFeaturedContent = function(){
             var items = 10;
-            var q = "";
-            var url = "/var/search/public/random-content.json";
+            var q = '';
+            var url = '/var/search/public/random-content.json';
             if(sakai_global.category){
                 items = 7;
-                q = "directory/" + pageData.category.replace("-", "/");
-                url = "/var/search/bytag.json";
+                q = 'directory/' + pageData.category.replace('-', '/');
+                url = '/var/search/bytag.json';
             }
             sakai.api.Server.loadJSON(url, parseFeaturedContent, {
                 page: 0,
                 items: items,
                 tag: q,
-                type: "c"
+                type: 'c'
             });
         };
 
@@ -183,5 +183,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("featuredcontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad('featuredcontent');
 });

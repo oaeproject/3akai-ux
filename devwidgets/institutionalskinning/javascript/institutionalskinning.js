@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.institutionalskinning
@@ -32,5 +32,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("institutionalskinning");
+    sakai.api.Widgets.widgetLoader.informOnLoad('institutionalskinning');
 });

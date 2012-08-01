@@ -93,7 +93,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
 
             var adjustCount = function(pageStructure, pageid, subpage, value) {
-                var listitem = 'li[data-sakai-addcontextoption="user"][data-sakai-path=\'';
+                var listitem = 'li[data-sakai-addcontextoption='user'][data-sakai-path=\'';
                 var count;
                 var element;
                 if (subpage) {

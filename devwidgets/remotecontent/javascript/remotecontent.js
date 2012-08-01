@@ -22,7 +22,7 @@
  */
 /*global $, get_cookie, Config */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.remotecontent
@@ -43,50 +43,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Configuration variables //
         /////////////////////////////
 
-        var rootel = $("#" + tuid);
+        var rootel = $('#' + tuid);
         var json = false;
         var isAdvancedSettingsVisible = false;
 
         // Default values
         var defaultWidth = 100;
-        var defaultWidthUnit = "%";
+        var defaultWidthUnit = '%';
         var defaultHeight = 200;
         var clickSubmit = false;
 
         // Links and labels
-        var remotecontent = "#remotecontent";
-        var remotecontentTitle = remotecontent + "_title";
-        var remotecontentSettings = remotecontent + "_settings";
-        var remotecontentSettingsAdvanced = remotecontentSettings + "_advanced";
-        var remotecontentSettingsAdvancedDown = remotecontentSettingsAdvanced + "_down";
-        var remotecontentSettingsAdvancedToggleSettings = remotecontentSettingsAdvanced + "_toggle_settings";
-        var remotecontentSettingsAdvancedUp = remotecontentSettingsAdvanced + "_up";
-        var remotecontentSettingsBorders = remotecontentSettings + "_borders";
-        var remotecontentSettingsCancel = remotecontentSettings + "_cancel";
-        var remotecontentSettingsColorContainer = remotecontentSettings + "_color_container";
-        var remotecontentSettingsHeight = remotecontentSettings + "_height";
-        var remotecontentSettingsInsert = remotecontentSettings + "_insert";
-        var remotecontentSettingsPreview = remotecontentSettings + "_preview";
-        var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + "_frame";
-        var remotecontentSettingsUrl = remotecontentSettings + "_url";
-        var remotecontentSettingsUrlError = remotecontentSettingsUrl + "_error";
-        var remotecontentSettingsUrlBlank = remotecontentSettingsUrl + "_blank";
-        var remotecontentSettingsWidth = remotecontentSettings + "_width";
-        var remotecontentSettingsResetSize = remotecontentSettings + "_reset_size";
-        var remotecontentSettingsWidthUnitPercent = remotecontentSettings + "_width_unit_percent";
+        var remotecontent = '#remotecontent';
+        var remotecontentTitle = remotecontent + '_title';
+        var remotecontentSettings = remotecontent + '_settings';
+        var remotecontentSettingsAdvanced = remotecontentSettings + '_advanced';
+        var remotecontentSettingsAdvancedDown = remotecontentSettingsAdvanced + '_down';
+        var remotecontentSettingsAdvancedToggleSettings = remotecontentSettingsAdvanced + '_toggle_settings';
+        var remotecontentSettingsAdvancedUp = remotecontentSettingsAdvanced + '_up';
+        var remotecontentSettingsBorders = remotecontentSettings + '_borders';
+        var remotecontentSettingsCancel = remotecontentSettings + '_cancel';
+        var remotecontentSettingsColorContainer = remotecontentSettings + '_color_container';
+        var remotecontentSettingsHeight = remotecontentSettings + '_height';
+        var remotecontentSettingsInsert = remotecontentSettings + '_insert';
+        var remotecontentSettingsPreview = remotecontentSettings + '_preview';
+        var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + '_frame';
+        var remotecontentSettingsUrl = remotecontentSettings + '_url';
+        var remotecontentSettingsUrlError = remotecontentSettingsUrl + '_error';
+        var remotecontentSettingsUrlBlank = remotecontentSettingsUrl + '_blank';
+        var remotecontentSettingsWidth = remotecontentSettings + '_width';
+        var remotecontentSettingsResetSize = remotecontentSettings + '_reset_size';
+        var remotecontentSettingsWidthUnitPercent = remotecontentSettings + '_width_unit_percent';
 
         // Containers
-        var remotecontentMainContainer = remotecontent + "_main_container";
+        var remotecontentMainContainer = remotecontent + '_main_container';
 
         // Classes
-        var remotecontentSettingsWidthUnitClass = ".remotecontent_settings_width_unit";
-        var remotecontentSettingsWidthUnitSelectedClass = "remotecontent_settings_width_unit_selected";
+        var remotecontentSettingsWidthUnitClass = '.remotecontent_settings_width_unit';
+        var remotecontentSettingsWidthUnitSelectedClass = 'remotecontent_settings_width_unit_selected';
 
         // Templates
-        var $remotecontentSettingsColorContainerTemplate = $("#remotecontent_settings_color_container_template", rootel);
-        var $remotecontentSettingsTemplate = $("#remotecontent_settings_template", rootel);
-        var $remotecontentSettingsPreviewTemplate = $("#remotecontent_settings_preview_template", rootel);
-        var $noRemoteContentSet = $("#remotecontent_no_content_set", rootel);
+        var $remotecontentSettingsColorContainerTemplate = $('#remotecontent_settings_color_container_template', rootel);
+        var $remotecontentSettingsTemplate = $('#remotecontent_settings_template', rootel);
+        var $remotecontentSettingsPreviewTemplate = $('#remotecontent_settings_preview_template', rootel);
+        var $noRemoteContentSet = $('#remotecontent_no_content_set', rootel);
 
 
         ///////////////////////
@@ -131,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Called when the data has been saved to the JCR.
          */
         var savedDataToJCR = function(){
-            sakai.api.Widgets.Container.informFinish(tuid, "remotecontent");
+            sakai.api.Widgets.Container.informFinish(tuid, 'remotecontent');
         };
 
 
@@ -200,8 +200,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var saveRemoteContent = function(){
             clickSubmit = true;
-            if ($("#remotecontent_form", rootel).valid()) {
-                $(remotecontentSettingsPreview, rootel).html("");
+            if ($('#remotecontent_form', rootel).valid()) {
+                $(remotecontentSettingsPreview, rootel).html('');
                 sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
             }
         };
@@ -229,8 +229,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to the color boxes
          */
         var addColorBinding = function(){
-            $(".remotecontent_settings_color", rootel).click(function(){
-                json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+            $('.remotecontent_settings_color', rootel).click(function(){
+                json.border_color = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
                 renderIframeSettings(false);
                 renderColorContainer();
                 addColorBinding();
@@ -277,7 +277,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             // Initialize the validate plug-in
-            sakai.api.Util.Forms.validate($("#remotecontent_form", rootel), validateOpts, true);
+            sakai.api.Util.Forms.validate($('#remotecontent_form', rootel), validateOpts, true);
 
             // Change the iframe width
             $(remotecontentSettingsWidth, rootel).change(function(){
@@ -311,7 +311,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Toggle the advanced view
             $(remotecontentSettingsAdvancedToggleSettings, rootel).click(function(){
-                $("#remotecontent_settings_advanced", rootel).toggle();
+                $('#remotecontent_settings_advanced', rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
             });
@@ -328,11 +328,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // When you click on one of the width units (px or percentage)
             $(remotecontentSettingsWidthUnitClass, rootel).on('change', function() {
                 var widthUnitValue = $(this).val();
-                if (widthUnitValue === "px") {
+                if (widthUnitValue === 'px') {
                     json.width_unit = widthUnitValue;
                 }
                 else {
-                    json.width_unit = "%";
+                    json.width_unit = '%';
                 }
                 renderIframeSettings(false);
             });
@@ -344,7 +344,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Cancel it
             $(remotecontentSettingsCancel, rootel).click(function(){
-                sakai.api.Widgets.Container.informCancel(tuid, "remotecontent");
+                sakai.api.Widgets.Container.informCancel(tuid, 'remotecontent');
             });
 
             addColorBinding();
@@ -371,9 +371,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             else {
                 json = {
                     border_size: 0,
-                    border_color: "cccccc",
+                    border_color: 'cccccc',
                     height: defaultHeight,
-                    url: "",
+                    url: '',
                     width: defaultWidth,
                     width_unit: defaultWidthUnit
                 };
@@ -436,5 +436,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("remotecontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad('remotecontent');
 });

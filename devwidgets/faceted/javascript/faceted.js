@@ -22,7 +22,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.faceted
@@ -42,11 +42,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CSS Selectors //
         ///////////////////
 
-        var rootel = $("#" + tuid);
-        var faceted = "#faceted";
-        var facetedContainer = faceted + "_container";
-        var facetedListall = faceted + "_listall";
-        var facetedDefaultTemplate = faceted + "_default_template";
+        var rootel = $('#' + tuid);
+        var faceted = '#faceted';
+        var facetedContainer = faceted + '_container';
+        var facetedListall = faceted + '_listall';
+        var facetedDefaultTemplate = faceted + '_default_template';
 
 
         //////////////////////
@@ -68,10 +68,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var initialSelection = function(){
-            $(".faceted_category",rootel).removeClass("faceted_category_selected");
+            $('.faceted_category',rootel).removeClass('faceted_category_selected');
             var currentfacet = $.bbq.getState('facet');
             if (currentfacet) {
-                $("#facted_select #" + currentfacet,rootel).attr("selected","selected");
+                $('#facted_select #' + currentfacet,rootel).attr('selected','selected');
             }
         };
 
@@ -79,7 +79,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Bindings //
         //////////////
 
-        $(window).bind("hashchange", function(ev){
+        $(window).bind('hashchange', function(ev){
             initialSelection();
         });
 
@@ -88,11 +88,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
             // bind category select box
-            $("#facted_select",rootel).change(function() {
-                var facet = $(this).find(":selected").val();
+            $('#facted_select',rootel).change(function() {
+                var facet = $(this).find(':selected').val();
                 $.bbq.pushState({
-                    "page": 1,
-                    "facet": facet
+                    'page': 1,
+                    'facet': facet
                 }, 0);
             });
         };
@@ -107,5 +107,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("faceted");
+    sakai.api.Widgets.widgetLoader.informOnLoad('faceted');
 });

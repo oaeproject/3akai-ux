@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], function($, sakai){
 
     /**
      * @name sakai.WIDGET_ID
@@ -49,16 +49,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var infinityScroll = false;
 
         // CSS IDs
-        var search = "#searchcontent";
-        var $rootel = $("#" + tuid);
+        var search = '#searchcontent';
+        var $rootel = $('#' + tuid);
 
         var searchConfig = {
-            search: "#searchcontent",
+            search: '#searchcontent',
             global: {
-                resultTemp: search + "_result_temp",
+                resultTemp: search + '_result_temp',
                 numberFound: search + '_numberFound',
-                text: "#form .s3d-search-inputfield",
-                searchButton: "#form .s3d-search-button"
+                text: '#form .s3d-search-inputfield',
+                searchButton: '#form .s3d-search-button'
             },
             results: {
                 container: search + '_results_container',
@@ -68,13 +68,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 noResultsTemplate: 'searchcontent_noresults_template'
             },
             facetedConfig: {
-                title: $("#searchcontent_result_title").html(),
-                value: "Content",
+                title: $('#searchcontent_result_title').html(),
+                value: 'Content',
                 facets: {
-                    "all": {
-                        "category": $("#searchcontent_result_all_content").html(),
-                        "searchurl": searchURLmap.allfiles,
-                        "searchurlall": searchURLmap.allfilesall
+                    'all': {
+                        'category': $('#searchcontent_result_all_content').html(),
+                        'searchurl': searchURLmap.allfiles,
+                        'searchurlall': searchURLmap.allfilesall
                     }
                 }
             }
@@ -82,14 +82,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         if (!sakai.data.me.user.anon) {
             searchConfig.facetedConfig.facets.manage = {
-                "category": $("#searchcontent_result_content_I_manage").html(),
-                "searchurl": searchURLmap.pooledcontentmanager,
-                "searchurlall": searchURLmap.pooledcontentmanagerall
+                'category': $('#searchcontent_result_content_I_manage').html(),
+                'searchurl': searchURLmap.pooledcontentmanager,
+                'searchurlall': searchURLmap.pooledcontentmanagerall
             };
             searchConfig.facetedConfig.facets.member = {
-                "category": $("#searchcontent_result_content_I_m_a_viewer_of").html(),
-                "searchurl": searchURLmap.pooledcontentviewer,
-                "searchurlall": searchURLmap.pooledcontentviewerall
+                'category': $('#searchcontent_result_content_I_m_a_viewer_of').html(),
+                'searchurl': searchURLmap.pooledcontentviewer,
+                'searchurlall': searchURLmap.pooledcontentviewerall
             };
         }
 
@@ -119,8 +119,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         var showSearchContent = function(params){
             // Set search box values
-            if (!params.q || (params.q === "*" || params.q === "**")) {
-                $(searchConfig.global.text).val("");
+            if (!params.q || (params.q === '*' || params.q === '**')) {
+                $(searchConfig.global.text).val('');
             } else {
                 $(searchConfig.global.text).val(params.q);
             }
@@ -132,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * be called by the infinite scroll plugin
          */
         var handleEmptyResultList = function(){
-            $(searchConfig.global.numberFound).text("0");
+            $(searchConfig.global.numberFound).text('0');
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
         };
 
@@ -145,11 +145,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var urlsearchterm = sakai_global.data.search.processSearchString(params);
             var tags = sakai_global.data.search.processRefineString(params);
 
-            var facetedurl = "";
-            var facetedurlall = "";
-            if (params["facet"] && searchConfig.facetedConfig.facets[params["facet"]]) {
-                facetedurl = searchConfig.facetedConfig.facets[params["facet"]].searchurl;
-                facetedurlall = searchConfig.facetedConfig.facets[params["facet"]].searchurlall;
+            var facetedurl = '';
+            var facetedurlall = '';
+            if (params['facet'] && searchConfig.facetedConfig.facets[params['facet']]) {
+                facetedurl = searchConfig.facetedConfig.facets[params['facet']].searchurl;
+                facetedurlall = searchConfig.facetedConfig.facets[params['facet']].searchurlall;
             } else {
                 for (var f in searchConfig.facetedConfig.facets) {
                     facetedurl = searchConfig.facetedConfig.facets[f].searchurl;
@@ -182,7 +182,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 'sortOrder': params['sortby']
             }, function(items, total){
                 // Adjust display global total
-                $(searchConfig.global.numberFound, $rootel).text("" + total);
+                $(searchConfig.global.numberFound, $rootel).text('' + total);
                 if (total === 1) {
                     $(searchConfig.global.numberFound, $rootel).next('span.s3d-aural-text').text(
                         '' + sakai.api.i18n.getValueForKey('CONTENT_ITEM_FOUND', 'searchcontent')
@@ -193,8 +193,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     );
                 }
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
-                    "items": items,
-                    "sakai": sakai
+                    'items': items,
+                    'sakai': sakai
                 });
             }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
                 // Initialize content draggable
@@ -213,28 +213,28 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.results.resultsContainer).addClass(searchConfig.results.resultsContainerAnonClass);
         }
 
-        $(window).bind("hashchange", function(ev){
-            if ($.bbq.getState("l") === "content") {
+        $(window).bind('hashchange', function(ev){
+            if ($.bbq.getState('l') === 'content') {
                 doSearch();
             }
         });
 
-        $(window).bind("sakai.search.util.finish", function(ev, data){
+        $(window).bind('sakai.search.util.finish', function(ev, data){
             if (data && data.tuid === tuid) {
                 sakai.api.Widgets.widgetLoader.insertWidgets('searchcontent_widget', false, false, {
-                    "98384013291": {
-                        "facetedConfig": searchConfig.facetedConfig
+                    '98384013291': {
+                        'facetedConfig': searchConfig.facetedConfig
                     }
                 });
                 doSearch();
             }
         });
 
-        $(window).trigger("sakai.search.util.init", [{"tuid": tuid}]);
+        $(window).trigger('sakai.search.util.init', [{'tuid': tuid}]);
 
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("searchcontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad('searchcontent');
 
 });

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], function($, sakai){
 
     /**
      * @name sakai.WIDGET_ID
@@ -36,18 +36,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
 
         // CSS IDs
-        var search = "#searchall";
+        var search = '#searchall';
 
         var searchConfig = {
-            search: "#searchall",
+            search: '#searchall',
             global: {
-                resultTemp: search + "_result_temp",
+                resultTemp: search + '_result_temp',
                 numberFound: search + '_numberFound',
-                text: "#form .s3d-search-inputfield",
-                searchButton: "#form .s3d-search-button"
+                text: '#form .s3d-search-inputfield',
+                searchButton: '#form .s3d-search-button'
             },
             results: {
                 container: search + '_results_container',
@@ -89,8 +89,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         var showSearchAll = function(params){
             // Set search box values
-            if (!params.q || (params.q === "*" || params.q === "**")) {
-                $(searchConfig.global.text).val("");
+            if (!params.q || (params.q === '*' || params.q === '**')) {
+                $(searchConfig.global.text).val('');
             } else {
                 $(searchConfig.global.text).val(params.q);
             }
@@ -102,7 +102,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * be called by the infinite scroll plugin
          */
         var handleEmptyResultList = function(){
-            $(searchConfig.global.numberFound).text("0");
+            $(searchConfig.global.numberFound).text('0');
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
         };
 
@@ -138,7 +138,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 'sortOrder': params['sortby']
             }, function(items, total){
                 // Adjust display global total
-                $(searchConfig.global.numberFound, $rootel).text("" + (total || 0));
+                $(searchConfig.global.numberFound, $rootel).text('' + (total || 0));
                 if (total === 1) {
                     $(searchConfig.global.numberFound, $rootel).next('span.s3d-aural-text').text(
                         '' + sakai.api.i18n.getValueForKey('ITEM_FOUND', 'searchall')
@@ -149,8 +149,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     );
                 }
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
-                    "items": items,
-                    "sakai": sakai
+                    'items': items,
+                    'sakai': sakai
                 });
             }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
                 // Initialize content draggable
@@ -161,10 +161,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             });
         };
 
-        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+        $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd){
             sakai_global.data.search.getMyContacts();
             $('.sakai_addtocontacts_overlay').each(function(index) {
-                if ($(this).attr("sakai-entityid") === userToAdd.uuid){
+                if ($(this).attr('sakai-entityid') === userToAdd.uuid){
                     $(this).addClass('fl-hidden');
                 }
             });
@@ -178,23 +178,23 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.results.resultsContainer).addClass(searchConfig.results.resultsContainerAnonClass);
         }
 
-        $(window).bind("hashchange", function(ev){
-            if (!$.bbq.getState("l") || $.bbq.getState("l") === "all") {
+        $(window).bind('hashchange', function(ev){
+            if (!$.bbq.getState('l') || $.bbq.getState('l') === 'all') {
                 doSearch();
             }
         });
 
-        $(window).bind("sakai.search.util.finish", function(ev, data){
+        $(window).bind('sakai.search.util.finish', function(ev, data){
             if (data && data.tuid === tuid){
                 doSearch();
             }
         });
 
-        $(window).trigger("sakai.search.util.init", [{"tuid": tuid}]);
+        $(window).trigger('sakai.search.util.init', [{'tuid': tuid}]);
 
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("searchall");
+    sakai.api.Widgets.widgetLoader.informOnLoad('searchall');
 
 });

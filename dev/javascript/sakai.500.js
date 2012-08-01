@@ -16,29 +16,29 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.nopermissions = function(tuid, showSettings) {
 
         sakai_global.nopermissions.error500 = true;
 
-        var permissionsErrorLoggedOutTemplate = "permission_error_logged_out_template";
-        var permissionsErrorLoggedInTemplate = "permission_error_logged_in_template";
-        var permissionsError = ".permissions_error";
+        var permissionsErrorLoggedOutTemplate = 'permission_error_logged_out_template';
+        var permissionsErrorLoggedInTemplate = 'permission_error_logged_in_template';
+        var permissionsError = '.permissions_error';
         var gatewayURL = sakai.config.URL.GATEWAY_URL;
         var $signinbuttonwrapper = $('#error_sign_in_button');
-        var $signinbutton = $("button",$signinbuttonwrapper);
-        var $browsecatcount = $("#error_browse_category_number");
-        var $browsecats = $(".browse_cats");
-        var $secondcoltemplate = $("#error_second_column_links_template");
-        var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
-        var $errorPageLinksTemplate = $("#error_page_links_template");
-        var $errorPageLinksContainer = $("#error_page_links_container");
-        var $searchinput = $("#errorsearch_text");
-        var $searchButton = $("#error_content .s3d-search-button");
+        var $signinbutton = $('button',$signinbuttonwrapper);
+        var $browsecatcount = $('#error_browse_category_number');
+        var $browsecats = $('.browse_cats');
+        var $secondcoltemplate = $('#error_second_column_links_template');
+        var $errorsecondcolcontainer = $('#error_content_second_column_box_container');
+        var $errorPageLinksTemplate = $('#error_page_links_template');
+        var $errorPageLinksContainer = $('#error_page_links_container');
+        var $searchinput = $('#errorsearch_text');
+        var $searchButton = $('#error_content .s3d-search-button');
 
         var doSearch = function(){
-            document.location = "/search#q=" + $.trim($searchinput.val());
+            document.location = '/search#q=' + $.trim($searchinput.val());
         };
 
         var doInit = function(){
@@ -84,7 +84,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (sakai.data.me.user.anon){
                 $signinbuttonwrapper.show();
 
-                $('html').addClass("requireAnon");
+                $('html').addClass('requireAnon');
                 // the user is anonymous and should be able to log in
                 renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
                 $(permissionsError).append(renderedTemplate);
@@ -95,21 +95,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     redurl = $.deparam.querystring().url;
                 }
                 // Set the link for the sign in button
-                $(".login-container a").attr("href", gatewayURL + "?url=" + escape(redurl));
+                $('.login-container a').attr('href', gatewayURL + '?url=' + escape(redurl));
                 if (sakai.config.Authentication.allowInternalAccountCreation){
-                    $("#error_sign_up").show();
+                    $('#error_sign_up').show();
                 }
             } else {
                 // Remove the sakai.index stylesheet as it would mess up the design
-                $("LINK[href*='/dev/css/sakai/sakai.index.css']").remove();
+                $('LINK[href*='/dev/css/sakai/sakai.index.css']').remove();
                 // the user is logged in and should get a page in Sakai itself
                 renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
                 $(permissionsError).append(renderedTemplate);
-                $("#permission_error").addClass("error_page_bringdown");
+                $('#permission_error').addClass('error_page_bringdown');
             }
-            document.title = document.title + " " + sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED");
+            document.title = document.title + ' ' + sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED');
 
-            $searchinput.live("keydown", function(ev){
+            $searchinput.live('keydown', function(ev){
                 if (ev.keyCode === 13) {
                     doSearch();
                 }
@@ -120,5 +120,5 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         doInit();
 
     };
-    sakai.api.Widgets.Container.registerForLoad("nopermissions");
+    sakai.api.Widgets.Container.registerForLoad('nopermissions');
 });

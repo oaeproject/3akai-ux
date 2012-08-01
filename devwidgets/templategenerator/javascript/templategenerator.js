@@ -215,7 +215,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
 
         var createTemplateFile = function() {
             var body = '--AAAAA\r\n';
-            body = body + 'Content-Disposition: form-data; name=\'*\'; filename="' + templategeneratorData.exportData.id + '.txt" \r\n';
+            body = body + 'Content-Disposition: form-data; name=\'*\'; filename='' + templategeneratorData.exportData.id + '.txt' \r\n';
             body = body + 'Content-Type: text/plain \r\n';
             body = body + 'Content-Transfer-Encoding: binary\r\n\r\n';
             body = body + templategeneratorData.output + '\r\n';
@@ -270,20 +270,20 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
                                         sakai.api.Communication.sendMessage(sakai.data.me.user.userid, sakai.data.me, sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_USER_MESSAGE_SUBJECT', 'templategenerator'), sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_USER_MESSAGE', 'templategenerator'), 'message', false, null, true, 'new_message');
                                     },
                                     error : function() {
-                                        sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_DELETE_FILE_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                                        sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_DELETE_FILE_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                                         sakai.api.Util.Modal.close($templategeneratorDialog);
                                     }
                                 });
                             },
                             error : function() {
-                                sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_PERMISSION_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                                sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_PERMISSION_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                                 sakai.api.Util.Modal.close($templategeneratorDialog);
                             }
                         });
                     });
                 },
                 error : function(error) {
-                    sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_FILE_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
+                    sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('TEMPLATEGENERATOR_FILE_ERROR', 'templategenerator'), sakai.api.Util.notification.type.INFORMATION);
                     sakai.api.Util.Modal.close($templategeneratorDialog);
                 }
             });

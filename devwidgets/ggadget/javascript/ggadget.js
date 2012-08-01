@@ -22,7 +22,7 @@
  */
 /*global $, get_cookie, Config */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.ggadget
@@ -43,45 +43,45 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Configuration variables //
         /////////////////////////////
 
-        var rootel = $("#" + tuid);
+        var rootel = $('#' + tuid);
         var json = false;
         var isAdvancedSettingsVisible = false;
 
         // Default values
         var defaultWidth = 600;
-        var defaultWidthUnit = "px";
+        var defaultWidthUnit = 'px';
         var defaultHeight = 400;
 
         // Links and labels
-        var remotecontent = "#ggadget_remotecontent";
-        var remotecontentSettings = remotecontent + "_settings";
-        var remotecontentSettingsAdvanced = remotecontentSettings + "_advanced";
-        var remotecontentSettingsAdvancedDown = remotecontentSettingsAdvanced + "_down";
-        var remotecontentSettingsAdvancedToggleSettings = remotecontentSettingsAdvanced + "_toggle_settings";
-        var remotecontentSettingsAdvancedUp = remotecontentSettingsAdvanced + "_up";
-        var remotecontentSettingsBorders = remotecontentSettings + "_borders";
-        var remotecontentSettingsCancel = remotecontentSettings + "_cancel";
-        var remotecontentSettingsColorContainer = remotecontentSettings + "_color_container";
-        var remotecontentSettingsHeight = remotecontentSettings + "_height";
-        var remotecontentSettingsInsert = remotecontentSettings + "_insert";
-        var remotecontentSettingsPreview = remotecontentSettings + "_preview";
-        var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + "_frame";
-        var remotecontentSettingsUrl = remotecontentSettings + "_url";
-        var remotecontentSettingsUrlError = remotecontentSettingsUrl + "_error";
-        var remotecontentSettingsUrlErrorTitle = remotecontentSettingsUrlError + "_title";
-        var remotecontentSettingsWidth = remotecontentSettings + "_width";
+        var remotecontent = '#ggadget_remotecontent';
+        var remotecontentSettings = remotecontent + '_settings';
+        var remotecontentSettingsAdvanced = remotecontentSettings + '_advanced';
+        var remotecontentSettingsAdvancedDown = remotecontentSettingsAdvanced + '_down';
+        var remotecontentSettingsAdvancedToggleSettings = remotecontentSettingsAdvanced + '_toggle_settings';
+        var remotecontentSettingsAdvancedUp = remotecontentSettingsAdvanced + '_up';
+        var remotecontentSettingsBorders = remotecontentSettings + '_borders';
+        var remotecontentSettingsCancel = remotecontentSettings + '_cancel';
+        var remotecontentSettingsColorContainer = remotecontentSettings + '_color_container';
+        var remotecontentSettingsHeight = remotecontentSettings + '_height';
+        var remotecontentSettingsInsert = remotecontentSettings + '_insert';
+        var remotecontentSettingsPreview = remotecontentSettings + '_preview';
+        var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + '_frame';
+        var remotecontentSettingsUrl = remotecontentSettings + '_url';
+        var remotecontentSettingsUrlError = remotecontentSettingsUrl + '_error';
+        var remotecontentSettingsUrlErrorTitle = remotecontentSettingsUrlError + '_title';
+        var remotecontentSettingsWidth = remotecontentSettings + '_width';
 
         // Containers
-        var remotecontentMainContainer = remotecontent + "_main_container";
+        var remotecontentMainContainer = remotecontent + '_main_container';
 
         // Classes
-        var remotecontentSettingsWidthUnitClass = ".ggadget_remotecontent_settings_width_unit";
-        var remotecontentSettingsWidthUnitSelectedClass = "ggadget_remotecontent_settings_width_unit_selected";
+        var remotecontentSettingsWidthUnitClass = '.ggadget_remotecontent_settings_width_unit';
+        var remotecontentSettingsWidthUnitSelectedClass = 'ggadget_remotecontent_settings_width_unit_selected';
 
         // Templates
-        var $remotecontentSettingsColorContainerTemplate = $("#ggadget_remotecontent_settings_color_container_template", rootel);
-        var $remotecontentSettingsTemplate = $("#ggadget_remotecontent_settings_template", rootel);
-        var $remotecontentSettingsPreviewTemplate = $("#ggadget_remotecontent_settings_preview_template", rootel);
+        var $remotecontentSettingsColorContainerTemplate = $('#ggadget_remotecontent_settings_color_container_template', rootel);
+        var $remotecontentSettingsTemplate = $('#ggadget_remotecontent_settings_template', rootel);
+        var $remotecontentSettingsPreviewTemplate = $('#ggadget_remotecontent_settings_preview_template', rootel);
 
         ///////////////////////
         // Utility functions //
@@ -113,7 +113,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Called when the data has been saved to the JCR.
          */
         var savedDataToJCR = function(){
-            sakai.api.Widgets.Container.informFinish(tuid, "ggadget");
+            sakai.api.Widgets.Container.informFinish(tuid, 'ggadget');
         };
 
 
@@ -130,7 +130,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // We create this object to render the iframe with the default height, width and widthunit
                 $(remotecontentSettingsPreview, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
             } else {
-                $(remotecontentSettingsPreviewFrame, rootel).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
+                $(remotecontentSettingsPreviewFrame, rootel).attr('style', 'border: ' + json.border_size + 'px #' + json.border_color + ' solid');
             }
         };
 
@@ -176,8 +176,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var displayRemoteContent = function(parameters){
             json = parameters;
             renderIframe();
-            $("iframe").ready(function() {
-                $("iframe iframe").attr("style", "overflow:auto");
+            $('iframe').ready(function() {
+                $('iframe iframe').attr('style', 'overflow:auto');
             });
         };
 
@@ -185,7 +185,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Save the remotecontent to the jcr
          */
         var saveRemoteContent = function(){
-            if (json.url !== "") {
+            if (json.url !== '') {
                 sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
             } else {
                 sakai.api.Util.notification.show($(remotecontentSettingsUrlErrorTitle).html(), $(remotecontentSettingsUrlError).html());
@@ -214,8 +214,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to the color boxes
          */
         var addColorBinding = function(){
-            $(".ggadget_remotecontent_settings_color", rootel).click(function(){
-                json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+            $('.ggadget_remotecontent_settings_color', rootel).click(function(){
+                json.border_color = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
                 renderIframeSettings(false);
                 renderColorContainer();
                 addColorBinding();
@@ -229,19 +229,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var previewGadget = function() {
             // get the src attribute of the embed script tag, and define a html render rather than JS
             var urlValue = false;
-            if ($($(remotecontentSettingsUrl).val()).length && $($(remotecontentSettingsUrl).val()).attr("src")) {
-                urlValue = $($(remotecontentSettingsUrl).val()).attr("src").replace("output=js", "output=html");
+            if ($($(remotecontentSettingsUrl).val()).length && $($(remotecontentSettingsUrl).val()).attr('src')) {
+                urlValue = $($(remotecontentSettingsUrl).val()).attr('src').replace('output=js', 'output=html');
             }
 
             if (urlValue && urlValue !== '') {
                 // Get size of the gadget from the embed code
-                var rawParams = urlValue.split("&");
+                var rawParams = urlValue.split('&');
                 for (var i = 0, il = rawParams.length; i < il; i++) {
-                    var kvpair = rawParams[i].split("=");
-                    if (kvpair[0] === "w") {
+                    var kvpair = rawParams[i].split('=');
+                    if (kvpair[0] === 'w') {
                         json.width = kvpair[1];
                     }
-                    if (kvpair[0] === "h") {
+                    if (kvpair[0] === 'h') {
                         json.height = kvpair[1];
                     }
                 }
@@ -276,7 +276,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var previewValidateOpts = {
                 submitHandler: previewGadget
             };
-            sakai.api.Util.Forms.validate($("#ggadget_form", rootel), previewValidateOpts, true);
+            sakai.api.Util.Forms.validate($('#ggadget_form', rootel), previewValidateOpts, true);
 
             // Change the iframe width
             $(remotecontentSettingsWidth, rootel).change(function(){
@@ -314,11 +314,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // When you click on one of the width units (px or percentage)
             $(remotecontentSettingsWidthUnitClass, rootel).click(function(){
-                var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
-                if (widthUnitValue === "px") {
+                var widthUnitValue = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
+                if (widthUnitValue === 'px') {
                     json.width_unit = widthUnitValue;
                 } else {
-                    json.width_unit = "%";
+                    json.width_unit = '%';
                 }
                 $(remotecontentSettingsWidthUnitClass).removeClass(remotecontentSettingsWidthUnitSelectedClass);
                 $(this).addClass(remotecontentSettingsWidthUnitSelectedClass);
@@ -329,11 +329,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var saveValidateOpts = {
                 submitHandler: saveRemoteContent
             };
-            sakai.api.Util.Forms.validate($("#ggadget_settings_form", rootel), saveValidateOpts, true);
+            sakai.api.Util.Forms.validate($('#ggadget_settings_form', rootel), saveValidateOpts, true);
 
             // Cancel it
             $(remotecontentSettingsCancel, rootel).click(function(){
-                sakai.api.Widgets.Container.informCancel(tuid, "ggadget");
+                sakai.api.Widgets.Container.informCancel(tuid, 'ggadget');
             });
 
             addColorBinding();
@@ -355,9 +355,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 json = {
                     border_size: 0,
-                    border_color: "cccccc",
+                    border_color: 'cccccc',
                     height: defaultHeight,
-                    url: "",
+                    url: '',
                     width: defaultWidth,
                     width_unit: defaultWidthUnit
                 };
@@ -416,5 +416,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         getRemoteContent();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("ggadget");
+    sakai.api.Widgets.widgetLoader.informOnLoad('ggadget');
 });

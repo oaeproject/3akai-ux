@@ -174,22 +174,22 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Position the inserterBar correctly
          */
         var positionInserterBar = function() {
-            if ($inserterbarWidgetContainer.is(":visible")) {
+            if ($inserterbarWidgetContainer.is(':visible')) {
                 var top = $inserterbarWidgetContainer.position().top;
                 var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
                 if (scroll > top) {
                     if (scroll >= ($contentauthoringWidget.height() + top - ($inserterbarWidget.height() / 2))) {
-                        $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
+                        $('.sakaiSkin[role='listbox']').css('position', 'absolute');
                         $inserterbarWidget.css('position', 'absolute');
                     } else {
-                        $('.sakaiSkin[role="listbox"]').css('position', 'fixed');
+                        $('.sakaiSkin[role='listbox']').css('position', 'fixed');
                         $inserterbarWidget.css({
                             'position': 'fixed',
                             'top': '0px'
                         });
                     }
                 } else {
-                    $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
+                    $('.sakaiSkin[role='listbox']').css('position', 'absolute');
                     $inserterbarWidget.css({
                         'position': 'absolute',
                         'top': top + 'px'
@@ -252,10 +252,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var addBinding = function() {
             $inserterbarMoreWidgets.on('click', showHideMoreWidgets);
             // Hide the tinyMCE toolbar when we click outside of a tinyMCE area
-            sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'), ".mceMenu, .mce_forecolor");
+            sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'), '.mceMenu, .mce_forecolor');
 
             $('#inserterbar_action_close_revision_history').on('click', function(e) {
-                $(window).trigger("close.versions.sakai");
+                $(window).trigger('close.versions.sakai');
                 setInserterForViewMode();
                 e.preventDefault();
             });

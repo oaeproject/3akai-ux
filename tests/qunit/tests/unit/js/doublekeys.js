@@ -10,7 +10,7 @@ require(
     ],
     function($, sakai) {
 
-    "use strict";
+    'use strict';
 
         QUnit.module('Double Translation Keys');
 
@@ -38,9 +38,9 @@ require(
             });
 
             if (widgetslistwithkey.length === 0 && typeof widgetdefaultbundlekey === 'undefined') {
-                QUnit.ok(true, 'The key "' + key + '" isn\'t used in any other widgets or in the defaultbundle');
+                QUnit.ok(true, 'The key '' + key + '' isn\'t used in any other widgets or in the defaultbundle');
             } else {
-                var outputtext = 'The key "' + key + '" is used in';
+                var outputtext = 'The key '' + key + '' is used in';
                 if (widgetslistwithkey.length !== 0) {
                     outputtext += ' the following widgets: ' + widgetslistwithkey.join(', ');
                 }
@@ -154,7 +154,7 @@ require(
             }
 
             checkWidgets();
-            $(window).trigger("addlocalbinding.qunit.sakai");
+            $(window).trigger('addlocalbinding.qunit.sakai');
 
         };
 

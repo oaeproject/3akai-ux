@@ -873,13 +873,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // hide the menu after an option has been clicked
-            $(hasSubnav + " a").live("click", function() {
+            $(hasSubnav + ' a').live('click', function() {
                 // hide the menu if a menu item was clicked
                 if ($(this).parents('.s3d-dropdown-container').length) {
                     var $parentMenu = $(this).parents(hasSubnav);
                     var $parent = $(this).parent(hasSubnav);
                     if ($parent.length) {
-                        $parentMenu.addClass("topnavigation_close_override");
+                        $parentMenu.addClass('topnavigation_close_override');
                     }
                     $parentMenu.children(subnavtl).hide();
                     $parentMenu.children(navLinkDropdown).hide();

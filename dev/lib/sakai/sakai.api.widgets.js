@@ -27,13 +27,13 @@
  */
 define(
     [
-        "jquery",
-        "sakai/sakai.api.server",
-        "sakai/sakai.api.util",
-        "sakai/sakai.api.i18n",
-        "sakai/sakai.api.user",
-        "config/config_custom",
-        "/var/widgets.json?callback=define"
+        'jquery',
+        'sakai/sakai.api.server',
+        'sakai/sakai.api.util',
+        'sakai/sakai.api.i18n',
+        'sakai/sakai.api.user',
+        'config/config_custom',
+        '/var/widgets.json?callback=define'
     ],
     function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
 
@@ -130,7 +130,7 @@ define(
             toLoad : [],
 
             registerForLoad : function(id) {
-                this.toLoad[this.toLoad.length] = id.replace("sakai.", "");
+                this.toLoad[this.toLoad.length] = id.replace('sakai.', '');
                 if (this.readyToLoad) {
                     this.performLoad();
                 }
@@ -143,7 +143,7 @@ define(
                     if ($.isFunction(fct)) {
                         fct();
                     } else {
-                        debug.error("sakai magic - sakai.api.Widgets.Container.performLoad - The function couldn't execute correctly: '" + fct + "'");
+                        debug.error('sakai magic - sakai.api.Widgets.Container.performLoad - The function couldn't execute correctly: '' + fct + ''');
                     }
                 }
                 this.toLoad = [];
@@ -168,7 +168,7 @@ define(
             // Get the URL from the widgetloader
             var url = sakaiWidgetsAPI.widgetLoader.widgets[id] ? sakaiWidgetsAPI.widgetLoader.widgets[id].placement : false;
             if (infinity === false) {
-                url += ".json";
+                url += '.json';
             }
             // Send a GET request to get the data for the widget
             sakai_serv.loadJSON(url, callback);
@@ -183,7 +183,7 @@ define(
             if (id && sakaiWidgetsAPI.widgetLoader.widgets[id] && sakaiWidgetsAPI.widgetLoader.widgets[id].placement) {
                 return sakaiWidgetsAPI.widgetLoader.widgets[id].placement;
             } else {
-                debug.error("The widget with unique id " + id + " could not be found");
+                debug.error('The widget with unique id ' + id + ' could not be found');
                 return false;
             }
         },
@@ -226,8 +226,8 @@ define(
              */
             loadWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough, callback) {
                 // Configuration variables
-                var widgetNameSpace = "sakai_global";
-                var widgetSelector = ".widget_inline";
+                var widgetNameSpace = 'sakai_global';
+                var widgetSelector = '.widget_inline';
 
                 // Help variables
                 var widgetsInternal = {}, settings = false;
@@ -235,7 +235,7 @@ define(
 
                 /**
                  * Inform the widget that is is loaded and execute the main JavaScript function
-                 * If the widget name is "createsite", then the function sakai.createsite will be executed.
+                 * If the widget name is 'createsite', then the function sakai.createsite will be executed.
                  * @param {String} widgetname The name of the widget
                  */
                 var informOnLoad = function(widgetname){
@@ -250,9 +250,9 @@ define(
                             if (widgetsInternal[widgetname][i].done === widgetsInternal[widgetname][i].todo){
                                 // Save the placement in the widgets variable
                                 sakaiWidgetsAPI.widgetLoader.widgets[widgetsInternal[widgetname][i].uid] = {
-                                    "placement": widgetsInternal[widgetname][i].placement + widgetsInternal[widgetname][i].uid + "/" + widgetname,
-                                    "name" : widgetname,
-                                    "widgetData": widgetsInternal[widgetname][i].widgetData
+                                    'placement': widgetsInternal[widgetname][i].placement + widgetsInternal[widgetname][i].uid + '/' + widgetname,
+                                    'name' : widgetname,
+                                    'widgetData': widgetsInternal[widgetname][i].widgetData
                                 };
                                 // Run the widget's main JS function
                                 var initfunction = window[widgetNameSpace][widgetname];
@@ -262,8 +262,8 @@ define(
                                     widgetsInternal[widgetname][i].callback();
                                 }
 
-                                // Send out a "loaded" event for this widget
-                                $(window).trigger(widgetname + "_loaded", [widgetsInternal[widgetname][i].uid]);
+                                // Send out a 'loaded' event for this widget
+                                $(window).trigger(widgetname + '_loaded', [widgetsInternal[widgetname][i].uid]);
 
                                 doDelete = true;
                             }
@@ -287,11 +287,11 @@ define(
                         URL : [],
                         content : content
                     };
-                    var regexp = new RegExp('<'+tagName+'.*?'+URLIdentifier+'\\s?=\\s?["|'+'\''+']([^"]*)["|'+'\''+'].*/.*?>', "gi");
+                    var regexp = new RegExp('<'+tagName+'.*?'+URLIdentifier+'\\s?=\\s?['|'+'\''+']([^']*)['|'+'\''+'].*/.*?>', 'gi');
                     var regexp_match_result = regexp.exec(content);
                     while (regexp_match_result !== null) {
                         returnObject.URL[returnObject.URL.length] = regexp_match_result[1]; // value of URLIdentifier attrib
-                        returnObject.content = returnObject.content.replace(regexp_match_result[0],""); // whole tag
+                        returnObject.content = returnObject.content.replace(regexp_match_result[0],''); // whole tag
                         regexp_match_result = regexp.exec(content);
                     }
                     return returnObject;
@@ -299,7 +299,7 @@ define(
 
                 var sethtmlover = function(content,widgets,widgetname){
 
-                    var CSSTags = locateTagAndRemove(content, "link", "href");
+                    var CSSTags = locateTagAndRemove(content, 'link', 'href');
                     content = CSSTags.content;
                     var stylesheets = [];
 
@@ -315,19 +315,19 @@ define(
                         }
                     }
 
-                    var JSTags = locateTagAndRemove(content, "script", "src");
+                    var JSTags = locateTagAndRemove(content, 'script', 'src');
                     content = JSTags.content;
 
                     for (var widget = 0, k = widgetsInternal[widgetname].length; widget < k; widget++){
-                        var container = $("<div>");
+                        var container = $('<div>');
                         container.html(content);
-                        $("#" + widgetsInternal[widgetname][widget].uid).append(container);
+                        $('#' + widgetsInternal[widgetname][widget].uid).append(container);
 
                         // Set up draggable/droppable containers in the widget HTML if there are any
-                        if($(".s3d-droppable-container", container).length){
+                        if($('.s3d-droppable-container', container).length){
                             sakai_util.Droppable.setupDroppable({}, container);
                         }
-                        if($(".s3d-draggable-container", container).length){
+                        if($('.s3d-draggable-container', container).length){
                             sakai_util.Draggable.setupDraggable({}, container);
                         }
 
@@ -396,18 +396,18 @@ define(
                                 var stylesheets = [];
                                 for (var i = 0, j = requestedURLsResults.length; i < j; i++) {
                                     // Current widget name
-                                    var widgetName = requestedURLsResults[i].url.split("/")[2];
+                                    var widgetName = requestedURLsResults[i].url.split('/')[2];
                                     // Check if widget has bundles
                                     var hasBundles = false;
                                     // Array containing language bundles
                                     var bundleArr = [];
                                     // Local and default bundle
                                     for (var ii = 0, jj = requestedBundlesResults.length; ii < jj; ii++) {
-                                        if (widgetName === requestedBundlesResults[ii].url.split("/")[2]) {
+                                        if (widgetName === requestedBundlesResults[ii].url.split('/')[2]) {
                                             hasBundles = true;
                                             if (requestedBundlesResults[ii].url === sakai.widgets[widgetName].i18n['default'].bundle) {
                                                 sakai_i18n.data.widgets[widgetName] = sakai_i18n.data.widgets[widgetName] || {};
-                                                sakai_i18n.data.widgets[widgetName]["default"] = sakai_i18n.changeToJSON(requestedBundlesResults[ii].body);
+                                                sakai_i18n.data.widgets[widgetName]['default'] = sakai_i18n.changeToJSON(requestedBundlesResults[ii].body);
                                             } else {
                                                 sakai_i18n.data.widgets[widgetName] = sakai_i18n.data.widgets[widgetName] || {};
                                                 sakai_i18n.data.widgets[widgetName][current_locale_string] = sakai_i18n.changeToJSON(requestedBundlesResults[ii].body);
@@ -416,24 +416,24 @@ define(
                                     }
 
                                     // Change messages
-                                    var translated_content = "", lastend = 0;
+                                    var translated_content = '', lastend = 0;
                                     if (hasBundles) {
-                                        var expression = new RegExp(".{1}__MSG__(.*?)__", "gm");
+                                        var expression = new RegExp('.{1}__MSG__(.*?)__', 'gm');
                                         while (expression.test(requestedURLsResults[i].body)) {
                                             var replace = RegExp.lastMatch;
                                             var lastParen = RegExp.lastParen;
-                                            var quotes = "";
+                                            var quotes = '';
 
                                             // need to add quotations marks if key is adjacent to an equals sign which means its probably missing quotes - IE
-                                            if (replace.substr(0, 2) !== "__") {
-                                                if (replace.substr(0, 1) === "=") {
-                                                    quotes = '"';
+                                            if (replace.substr(0, 2) !== '__') {
+                                                if (replace.substr(0, 1) === '=') {
+                                                    quotes = ''';
                                                 }
                                                 replace = replace.substr(1, replace.length);
                                             }
                                             var toreplace;
                                             // check for i18n debug
-                                            if (sakai_config.displayDebugInfo === true && sakai_user.data.me.user.locale && sakai_user.data.me.user.locale.language === "lu" && sakai_user.data.me.user.locale.country === "GB") {
+                                            if (sakai_config.displayDebugInfo === true && sakai_user.data.me.user.locale && sakai_user.data.me.user.locale.language === 'lu' && sakai_user.data.me.user.locale.country === 'GB') {
                                                 toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
@@ -457,19 +457,19 @@ define(
                                 // we adjust the widgetloader to load all CSS files of 1 WidgetLoader pass in 1 style
                                 // tag filled with import statements
                                 if ($.browser.msie && stylesheets.length > 0) {
-                                    var numberCSS = $("head style, head link").length;
+                                    var numberCSS = $('head style, head link').length;
                                     // If we have more than 30 stylesheets, we will merge all of the previous style
                                     // tags we have created into the lowest possible number
                                     if (numberCSS >= 30) {
-                                        $("head style").each(function(index){
-                                            if ($(this).attr("title") && $(this).attr("title") === "sakai_widgetloader") {
+                                        $('head style').each(function(index){
+                                            if ($(this).attr('title') && $(this).attr('title') === 'sakai_widgetloader') {
                                                 $(this).remove();
                                             }
                                         });
                                     }
                                     var allSS = [];
                                     var newSS = document.createStyleSheet();
-                                    newSS.title = "sakai_widgetloader";
+                                    newSS.title = 'sakai_widgetloader';
                                     var totalImportsInCurrentSS = 0;
                                     // Merge in the previously created style tags
                                     if (numberCSS >= 30) {
@@ -478,7 +478,7 @@ define(
                                                 if (totalImportsInCurrentSS >= 30) {
                                                     allSS.push(newSS);
                                                     newSS = document.createStyleSheet();
-                                                    newSS.title = "sakai_widgetloader";
+                                                    newSS.title = 'sakai_widgetloader';
                                                     totalImportsInCurrentSS = 0;
                                                 }
                                                 newSS.addImport(k);
@@ -492,7 +492,7 @@ define(
                                         if (totalImportsInCurrentSS >= 30) {
                                             allSS.push(newSS);
                                             newSS = document.createStyleSheet();
-                                            newSS.title = "sakai_widgetloader";
+                                            newSS.title = 'sakai_widgetloader';
                                             totalImportsInCurrentSS = 0;
                                         }
                                         newSS.addImport(stylesheets[m]);
@@ -500,7 +500,7 @@ define(
                                     allSS.push(newSS);
                                     // Add the style tags to the document
                                     for (var z = 0; z < allSS.length; z++) {
-                                        $("head").append(allSS[z]);
+                                        $('head').append(allSS[z]);
                                     }
                                 }
                             }
@@ -532,7 +532,7 @@ define(
                     // Run over all the elements and load them
                     for (var i = 0, j = divarray.length; i < j; i++){
                         var id = divarray[i].id;
-                        var split = id.split("_");
+                        var split = id.split('_');
                         var widgetname = split[1];
 
                         // Set the id for the container of the widget
@@ -540,14 +540,14 @@ define(
                         if (split[2]){
                             widgetid = split[2];
                         } else if(widgetname) {
-                            widgetid = widgetname + "container" + Math.round(Math.random() * 10000000);
+                            widgetid = widgetname + 'container' + Math.round(Math.random() * 10000000);
                         }
 
                         // Check if the widget is an iframe widget
                         if (sakai.widgets[widgetname]) {
 
                             // Set the placement for the widget
-                            var placement = "";
+                            var placement = '';
                             if (split[3] !== undefined){
                                 var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1;
                                 placement = id.substring(length);
@@ -570,11 +570,11 @@ define(
                                 callback: callback
                             };
 
-                            var floating = "inline_class_widget_nofloat";
-                            if ($(divarray[i]).hasClass("block_image_left")){
-                                floating = "inline_class_widget_leftfloat";
-                            } else if ($(divarray[i]).hasClass("block_image_right")){
-                                floating = "inline_class_widget_rightfloat";
+                            var floating = 'inline_class_widget_nofloat';
+                            if ($(divarray[i]).hasClass('block_image_left')){
+                                floating = 'inline_class_widget_leftfloat';
+                            } else if ($(divarray[i]).hasClass('block_image_right')){
+                                floating = 'inline_class_widget_rightfloat';
                             }
 
                             widgetsInternal[widgetname][index].floating = floating;
@@ -586,9 +586,9 @@ define(
                         if (widgetsInternal.hasOwnProperty(i)) {
                             for (var ii = 0, jj = widgetsInternal[i].length; ii<jj; ii++) {
 
-                                // Replace all the widgets with id "widget_" to widgets with new id's
+                                // Replace all the widgets with id 'widget_' to widgets with new id's
                                 // and add set the appropriate float class
-                                $(document.getElementById(widgetsInternal[i][ii].id)).replaceWith($('<div id="'+widgetsInternal[i][ii].uid+'" class="' + widgetsInternal[i][ii].floating + '"></div>'));
+                                $(document.getElementById(widgetsInternal[i][ii].id)).replaceWith($('<div id=''+widgetsInternal[i][ii].uid+'' class='' + widgetsInternal[i][ii].floating + ''></div>'));
                             }
 
                             var url = sakai.widgets[i].url;
@@ -604,7 +604,7 @@ define(
                 locateWidgets(id, showSettings, widgetData, context, callback);
 
                 return {
-                    "informOnLoad" : informOnLoad
+                    'informOnLoad' : informOnLoad
                 };
             },
 
@@ -672,8 +672,8 @@ define(
          * @param {String} title The title to change to
          */
         changeWidgetTitle : function(tuid, title) {
-            title = sakai_util.applyThreeDots(title, $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").width() - 70, {max_rows:4}, "s3d-bold");
-            $("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").text(title);
+            title = sakai_util.applyThreeDots(title, $('#'+tuid).parent('div').siblings('div.fl-widget-titlebar').width() - 70, {max_rows:4}, 's3d-bold');
+            $('#'+tuid).parent('div').siblings('div.fl-widget-titlebar').find('h2.widget_title').text(title);
         },
 
         /**
@@ -683,7 +683,7 @@ define(
          * @return {Boolean} true if on a dashboard, false if not (for example, on a page)
          */
         isOnDashboard : function(tuid) {
-            if ($("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").length > 0) {
+            if ($('#'+tuid).parent('div').siblings('div.fl-widget-titlebar').find('h2.widget_title').length > 0) {
                 return true;
             } else {
                 return false;
@@ -698,8 +698,8 @@ define(
                 !widgetData.data.currentPageShown.nonEditable) {
                 return true;
             } else if (!widgetData && tuid) {
-                var ref = $("#" + tuid).parents("#s3d-page-container").children("div").attr("id");
-                var canEdit = $("li[data-sakai-ref='"+ ref +"']").data("sakai-manage");
+                var ref = $('#' + tuid).parents('#s3d-page-container').children('div').attr('id');
+                var canEdit = $('li[data-sakai-ref=''+ ref +'']').data('sakai-manage');
                 return canEdit;
             } else {
                 return false;
@@ -709,14 +709,14 @@ define(
         /**
          * Notify widgets when they have been shown or hidden, given a root element
          *
-         * @param {String} selector the root selector ("#theid") for the page which could house the widgets to nofity
+         * @param {String} selector the root selector ('#theid') for the page which could house the widgets to nofity
          * @param {Boolean} showing true if we are showing the widget, false if it is about to be hidden
          */
         nofityWidgetShown : function(selector, showing) {
-            var elts = $(selector).find("div[class^='inline_class_widget']");
+            var elts = $(selector).find('div[class^='inline_class_widget']');
             $.each(elts, function(i,elt) {
-                var tuid = $(elt).attr("id");
-                $(window).trigger(tuid + ".shown.sakai", [showing]);
+                var tuid = $(elt).attr('id');
+                $(window).trigger(tuid + '.shown.sakai', [showing]);
             });
         },
 
@@ -725,11 +725,11 @@ define(
          * pushState for them
          */
         bindToHash : function() {
-            $("a[href^='#']").live("click", function(e) {
+            $('a[href^='#']').live('click', function(e) {
                 var $target = $(e.currentTarget),
-                    args = $target.attr("href"),
-                    replace = $target.data("reset-hash"),
-                    remove = $target.data("remove-params"),
+                    args = $target.attr('href'),
+                    replace = $target.data('reset-hash'),
+                    remove = $target.data('remove-params'),
                     stateToAdd = {}, currentState = {}, newState = {};
                 // new state to push
                 stateToAdd = $.deparam.fragment(args, true);
@@ -759,8 +759,8 @@ define(
                 e.preventDefault();
             });
             oldState = $.bbq.getState();
-            $(window).bind("hashchange", sakaiWidgetsAPI.handleHashChange);
-            $(window).trigger("hashchange");
+            $(window).bind('hashchange', sakaiWidgetsAPI.handleHashChange);
+            $(window).trigger('hashchange');
         },
 
         /**
@@ -788,7 +788,7 @@ define(
 
             /**
              * construct the changedParams object which contains a map like this:
-             * widgetHashes = { "widgetid" : { "changed": {"property": "value"}, "deleted": {}}};
+             * widgetHashes = { 'widgetid' : { 'changed': {'property': 'value'}, 'deleted': {}}};
              */
             if (!$.isEmptyObject(sakai_widgets_config)) {
                 $.each(sakai_widgets_config, function(id, obj) {
@@ -819,7 +819,7 @@ define(
                 if (e.currentTarget) {
                     // Fire an event to each widget that has the hash params in it
                     $.each(widgetHashes, function(widgetID, hashObj) {
-                        $(window).trigger("hashchanged." + widgetID + ".sakai", [hashObj.changed || {}, hashObj.deleted || {}, hashObj.all || {}, currentState || {}]);
+                        $(window).trigger('hashchanged.' + widgetID + '.sakai', [hashObj.changed || {}, hashObj.deleted || {}, hashObj.all || {}, currentState || {}]);
                     });
 
                     // Reset the oldState to the currentState
@@ -853,17 +853,17 @@ define(
         getWidgetTitle: function(widgetid){
             // Get the user's current locale from the me object
             var locale = sakai_i18n.getUserLocale();
-            if (locale === "lu_GB") {
+            if (locale === 'lu_GB') {
                 return widgetid.toUpperCase();
             } else {
                 if (sakai.widgets[widgetid]){
                     if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].name){
                         return sakai.widgets[widgetid].i18n[locale].name;
                     } else {
-                        return sakai.widgets[widgetid].i18n["default"].name;
+                        return sakai.widgets[widgetid].i18n['default'].name;
                     }
                 } else {
-                    debug.error("A config file was not found for the following widget: " + widgetid);
+                    debug.error('A config file was not found for the following widget: ' + widgetid);
                 }
             }
         },
@@ -875,17 +875,17 @@ define(
         getWidgetDescription: function(widgetid){
             // Get the user's current locale from the me object
             var locale = sakai_i18n.getUserLocale();
-            if (locale === "lu_GB") {
+            if (locale === 'lu_GB') {
                 return widgetid.toUpperCase();
             } else {
                 if (sakai.widgets[widgetid]){
                     if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].description){
                         return sakai.widgets[widgetid].i18n[locale].description;
                     } else {
-                        return sakai.widgets[widgetid].i18n["default"].description;
+                        return sakai.widgets[widgetid].i18n['default'].description;
                     }
                 } else {
-                    debug.error("A config file was not found for the following widget: " + widgetid);
+                    debug.error('A config file was not found for the following widget: ' + widgetid);
                 }
             }
         },
@@ -898,7 +898,7 @@ define(
                 var onloadWidgets = '';
                 $.each(sakai.widgets, function(widgetid, widget) {
                     if (widget.trigger && widget.trigger.onLoad) {
-                        onloadWidgets += '<div id="widget_' + widgetid + '" class="widget_inline"></div>';
+                        onloadWidgets += '<div id='widget_' + widgetid + '' class='widget_inline'></div>';
                     }
                 });
                 if (onloadWidgets) {
@@ -940,7 +940,7 @@ define(
                                 $(document).off('click', selector);
                             });
 
-                            $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
+                            $('body').prepend('<div id='widget_' + widgetid + '' class='widget_inline'></div>');
                             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, finishCallBack);
                         };
 
@@ -980,11 +980,11 @@ define(
             sakaiWidgetsAPI.registerLazyLoading();
 
             // Set up draggable/droppable containers for the main page if there are any
-            if($(".s3d-droppable-container", $("body")).length){
-                sakai_util.Droppable.setupDroppable({}, $("body"));
+            if($('.s3d-droppable-container', $('body')).length){
+                sakai_util.Droppable.setupDroppable({}, $('body'));
             }
-            if($(".s3d-draggable-container", $("body")).length){
-                sakai_util.Draggable.setupDraggable({}, $("body"));
+            if($('.s3d-draggable-container', $('body')).length){
+                sakai_util.Draggable.setupDraggable({}, $('body'));
             }
         },
 

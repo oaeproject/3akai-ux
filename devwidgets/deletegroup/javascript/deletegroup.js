@@ -24,7 +24,7 @@
 
 /*global, window, $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.deletegroup
@@ -52,18 +52,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CSS Selectors //
         ///////////////////
 
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
 
-        var $deletegroup_action_delete = $("#deletegroup_action_delete", $rootel);
-        var $deletegroup_dialog = $("#deletegroup_dialog", $rootel);
-        var $deletegroup_title = $(".deletegroup_title", $rootel);
-        var $deletegroup_category = $(".deletegroup_category", $rootel);
+        var $deletegroup_action_delete = $('#deletegroup_action_delete', $rootel);
+        var $deletegroup_dialog = $('#deletegroup_dialog', $rootel);
+        var $deletegroup_title = $('.deletegroup_title', $rootel);
+        var $deletegroup_category = $('.deletegroup_category', $rootel);
 
         // Messages
-        var $deletegroup_not_successfully_deleted = $("#deletegroup_not_successfully_deleted", $rootel);
-        var $deletegroup_successfully_deleted = $("#deletegroup_successfully_deleted", $rootel);
-        var $deletegroup_deleted = $("#deletegroup_deleted", $rootel);
-        var $deletegroup_not_deleted = $("#deletegroup_not_deleted", $rootel);
+        var $deletegroup_not_successfully_deleted = $('#deletegroup_not_successfully_deleted', $rootel);
+        var $deletegroup_successfully_deleted = $('#deletegroup_successfully_deleted', $rootel);
+        var $deletegroup_deleted = $('#deletegroup_deleted', $rootel);
+        var $deletegroup_not_deleted = $('#deletegroup_not_deleted', $rootel);
 
 
         /////////////
@@ -78,8 +78,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $deletegroup_action_delete = $($deletegroup_action_delete.selector);
 
             // Add binding to the delete button
-            $deletegroup_action_delete.unbind("click").bind("click", function () {
-                sakai.api.Groups.deleteGroup(deletedata["sakai:group-id"], sakai.data.me, function(success){
+            $deletegroup_action_delete.unbind('click').bind('click', function () {
+                sakai.api.Groups.deleteGroup(deletedata['sakai:group-id'], sakai.data.me, function(success){
                     if (success){
                         sakai.api.Util.notification.show($deletegroup_deleted.html(),
                             $deletegroup_successfully_deleted.html());
@@ -91,7 +91,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if ($.isFunction(callback)) {
                         callback(success);
                     }
-                    $(window).trigger("done.deletegroup.sakai", [deletedata]);
+                    $(window).trigger('done.deletegroup.sakai', [deletedata]);
                     sakai.api.Util.Modal.close($deletegroup_dialog);
                 });
 
@@ -135,5 +135,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("deletegroup");
+    sakai.api.Widgets.widgetLoader.informOnLoad('deletegroup');
 });

@@ -22,7 +22,7 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.addpeoplegroups
@@ -38,12 +38,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.addpeoplegroups = function(tuid, showSettings) {
 
-        var $rootel = $("#" + tuid);
-        var $addpeoplegroupsWidget = $("#addpeoplegroups_widget", $rootel);
-        var addpeoplegroupsClose = ".addpeoplegroups_close";
-        var addpeoplegroupsTrigger = ".addpeoplegroups_trigger";
-        var addpeoplegroupsSave = "#addpeoplegroups_save";
-        var targetSelectGroup = "addpeoplegroups_checkbox";
+        var $rootel = $('#' + tuid);
+        var $addpeoplegroupsWidget = $('#addpeoplegroups_widget', $rootel);
+        var addpeoplegroupsClose = '.addpeoplegroups_close';
+        var addpeoplegroupsTrigger = '.addpeoplegroups_trigger';
+        var addpeoplegroupsSave = '#addpeoplegroups_save';
+        var targetSelectGroup = 'addpeoplegroups_checkbox';
         var renderObj = {};
         var membershipFetched = 0;
         var selectedTitles = [];
@@ -52,8 +52,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getSelected = function(){
             var selected = [];
             if(selectedTitles.length > 1 && !$.isArray(selectedTitles)){
-                selectedTitles = selectedTitles.split(",");
-                selectedIDs = selectedIDs.split(",");
+                selectedTitles = selectedTitles.split(',');
+                selectedIDs = selectedIDs.split(',');
             }
             $.each(selectedTitles, function(i, title) {
                 selected.push({
@@ -75,7 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderTemplate = function(){
-            $("#addpeoplegroups_container").html(sakai.api.Util.TemplateRenderer("addpeoplegroups_template", renderObj));
+            $('#addpeoplegroups_container').html(sakai.api.Util.TemplateRenderer('addpeoplegroups_template', renderObj));
             $addpeoplegroupsWidget.toggle();
         };
 
@@ -86,7 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.each(renderObj.memberOfGroups.entry, function(j, memberOfGroup){
                 var alreadyMember = true;
                 $.each(getSelected(), function(i, selectedAuthorizable){
-                    if ($.inArray(selectedAuthorizable.id, memberOfGroup.members) === -1 && selectedAuthorizable.id !== memberOfGroup["sakai:group-id"]){
+                    if ($.inArray(selectedAuthorizable.id, memberOfGroup.members) === -1 && selectedAuthorizable.id !== memberOfGroup['sakai:group-id']){
                         alreadyMember = false;
                     }
                 });
@@ -102,19 +102,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var groupsToFetch = [];
             var membershipsManage = [];
             $.each(renderObj.memberOfGroups.entry, function(index, item){
-                groupsToFetch.push(item["sakai:group-id"]);
+                groupsToFetch.push(item['sakai:group-id']);
             });
             if(renderObj.memberOfGroups.entry.length){
                 // First fetch the group info so we can tell whether the current user can manage any of the groups
                 sakai.api.Groups.getGroupAuthorizableData(groupsToFetch, function(success, groupData){
                     $.each(groupData, function(index, group){
                         $.each(renderObj.memberOfGroups.entry, function(m, membership){
-                            if (membership["sakai:group-id"] === group.properties["sakai:group-id"]){
+                            if (membership['sakai:group-id'] === group.properties['sakai:group-id']){
                                 membership.canManage = false;
-                                var roles = sakai.api.Groups.getRoles({"roles": $.parseJSON(group.properties["sakai:roles"])}, true);
+                                var roles = sakai.api.Groups.getRoles({'roles': $.parseJSON(group.properties['sakai:roles'])}, true);
                                 $.each(roles, function(r, role){
                                     if (role.isManagerRole){
-                                        var isMember = sakai.api.Groups.isCurrentUserAMember(membership["sakai:group-id"] + "-" + role.id, sakai.data.me);
+                                        var isMember = sakai.api.Groups.isCurrentUserAMember(membership['sakai:group-id'] + '-' + role.id, sakai.data.me);
                                         if (isMember){
                                             membership.canManage = true;
                                         }
@@ -131,10 +131,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Groups.getMembers(groupsToFetch, function(success, data){
                         $.each(renderObj.memberOfGroups.entry, function(g, membership){
                             membership.members = [];
-                            var groupRoles = data[membership["sakai:group-id"]] || {};
+                            var groupRoles = data[membership['sakai:group-id']] || {};
                             $.each(groupRoles, function(r, role){
                                 $.each(role.results, function(u, user){
-                                    membership.members.push(user["rep:userId"] || user.groupid);
+                                    membership.members.push(user['rep:userId'] || user.groupid);
                                 });
                             });
                         });
@@ -169,43 +169,43 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var saveMemberships = function(){
-            $(addpeoplegroupsSave, $rootel).attr("disabled", true);
-            var $addPeopleGroupsSelect = $("#addpeoplegroups_select");
-            if(!$addPeopleGroupsSelect.children("option:selected").data("redirect") === true){
+            $(addpeoplegroupsSave, $rootel).attr('disabled', true);
+            var $addPeopleGroupsSelect = $('#addpeoplegroups_select');
+            if(!$addPeopleGroupsSelect.children('option:selected').data('redirect') === true){
                 var groupsToAdd = [];
                 $.each(getSelected(), function(i, selectedGroup){
                     sakai.api.Groups.getGroupAuthorizableData($addPeopleGroupsSelect.val(), function(success, data){
                         data = data[$addPeopleGroupsSelect.val()];
                         groupsToAdd.push({
                             user: selectedGroup.id,
-                            permission: data.properties["sakai:joinRole"]
+                            permission: data.properties['sakai:joinRole']
                         });
                     });
                 });
                 sakai.api.Groups.addUsersToGroup($addPeopleGroupsSelect.val(), groupsToAdd, sakai.data.me);
-                $(addpeoplegroupsSave, $rootel).removeAttr("disabled");
+                $(addpeoplegroupsSave, $rootel).removeAttr('disabled');
                 toggleVisibility();
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED", "addpeoplegroups"), sakai.api.Util.TemplateRenderer("addpeoplegroups_added_template", {
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('SUCCESSFULLY_ADDED', 'addpeoplegroups'), sakai.api.Util.TemplateRenderer('addpeoplegroups_added_template', {
                     groupsToAdd: getSelected(),
-                    groupToAddTo: $("#addpeoplegroups_select option[value='" + $addPeopleGroupsSelect.val() + "']").text()
+                    groupToAddTo: $('#addpeoplegroups_select option[value='' + $addPeopleGroupsSelect.val() + '']').text()
                 }));
             } else {
-                document.location = "/create#l=" + $addPeopleGroupsSelect.val() + "&members=" + getSelectedIDs().toString();
+                document.location = '/create#l=' + $addPeopleGroupsSelect.val() + '&members=' + getSelectedIDs().toString();
             }
         };
 
         var addBinding = function(){
-            sakai.api.Util.hideOnClickOut($addpeoplegroupsWidget, addpeoplegroupsTrigger + "," + addpeoplegroupsClose);
-            $(addpeoplegroupsClose, $rootel).die("click", toggleVisibility);
-            $(addpeoplegroupsClose, $rootel).live("click", toggleVisibility);
-            $(addpeoplegroupsSave, $rootel).die("click", saveMemberships);
-            $(addpeoplegroupsSave, $rootel).live("click", saveMemberships);
+            sakai.api.Util.hideOnClickOut($addpeoplegroupsWidget, addpeoplegroupsTrigger + ',' + addpeoplegroupsClose);
+            $(addpeoplegroupsClose, $rootel).die('click', toggleVisibility);
+            $(addpeoplegroupsClose, $rootel).live('click', toggleVisibility);
+            $(addpeoplegroupsSave, $rootel).die('click', saveMemberships);
+            $(addpeoplegroupsSave, $rootel).live('click', saveMemberships);
         };
 
         var doInit = function(el){
             toggleVisibility();
-            $addpeoplegroupsWidget.css("top", $(el).position().top + 24);
-            $addpeoplegroupsWidget.css("left", $(el).position().left - ($addpeoplegroupsWidget.width() / 2) + ($(el).width() / 2 + 10) );
+            $addpeoplegroupsWidget.css('top', $(el).position().top + 24);
+            $addpeoplegroupsWidget.css('left', $(el).position().left - ($addpeoplegroupsWidget.width() / 2) + ($(el).width() / 2 + 10) );
         };
 
         $(document).on('click', '.addpeoplegroups_trigger', function() {
@@ -220,5 +220,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("addpeoplegroups");
+    sakai.api.Widgets.widgetLoader.informOnLoad('addpeoplegroups');
 });

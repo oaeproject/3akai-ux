@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
 
     /**
      * @name sakai_global.carousel
@@ -35,10 +35,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /////////////////////////////
 
         // Containers
-        var carouselContainer = "#carousel_container";
+        var carouselContainer = '#carousel_container';
 
         // Templates
-        var carouselSingleColumnTemplate = "carousel_single_column_template";
+        var carouselSingleColumnTemplate = 'carousel_single_column_template';
 
 
         /////////////////////
@@ -55,13 +55,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     index = carousel.options.size + index;
                 }
             }
-            $("#carousel_container .carousel_view_toggle li").removeClass("carousel_view_toggle_selected");
-            $("#carousel_view_toggle_" + carousel.last).removeClass("carousel_view_toggle_selected");
-            $("#carousel_view_toggle_" + index).addClass("carousel_view_toggle_selected");
+            $('#carousel_container .carousel_view_toggle li').removeClass('carousel_view_toggle_selected');
+            $('#carousel_view_toggle_' + carousel.last).removeClass('carousel_view_toggle_selected');
+            $('#carousel_view_toggle_' + index).addClass('carousel_view_toggle_selected');
 
-            $(window).bind("sakai.addToContacts.requested", function(evObj, user){
-                var addbutton = $.grep($("#carousel_container .sakai_addtocontacts_overlay"), function(value, index) {
-                    return $(value).attr("sakai-entityid") === user.userid;
+            $(window).bind('sakai.addToContacts.requested', function(evObj, user){
+                var addbutton = $.grep($('#carousel_container .sakai_addtocontacts_overlay'), function(value, index) {
+                    return $(value).attr('sakai-entityid') === user.userid;
                 });
                 $(addbutton).remove();
             });
@@ -90,13 +90,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $('.carousel_view_toggle li').bind('click', function(){
                 stopAutoScrolling(carousel);
-                carousel.scroll($.jcarousel.intval($(this)[0].id.split("carousel_view_toggle_")[1]));
-                $("#carousel_container .carousel_view_toggle li").removeClass("carousel_view_toggle_selected");
-                $(this).addClass("carousel_view_toggle_selected");
+                carousel.scroll($.jcarousel.intval($(this)[0].id.split('carousel_view_toggle_')[1]));
+                $('#carousel_container .carousel_view_toggle li').removeClass('carousel_view_toggle_selected');
+                $(this).addClass('carousel_view_toggle_selected');
                 return false;
             });
 
-            $(window).bind(tuid + ".shown.sakai", {"carousel": carousel}, toggleCarousel);
+            $(window).bind(tuid + '.shown.sakai', {'carousel': carousel}, toggleCarousel);
         };
 
         var toggleCarousel = function(e, showing){
@@ -109,18 +109,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderCarousel = function(dataArr){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
-                "data": dataArr,
-                "sakai": sakai
+                'data': dataArr,
+                'sakai': sakai
             }, $(carouselContainer), false);
             applyThreeDots();
             $(carouselContainer).jcarousel({
                 auto: 8,
-                animation: "slow",
+                animation: 'slow',
                 scroll: 1,
-                easing: "swing",
+                easing: 'swing',
                 size: dataArr.length,
                 initCallback: carouselBinding,
-                wrap: "circular",
+                wrap: 'circular',
                 itemFirstInCallback: {
                     onAfterAnimation: updateViewAfterAnimation
                 }
@@ -128,18 +128,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var applyThreeDots = function(){
-            $.each($(".carousel_apply_threedots"), function(index, item){
+            $.each($('.carousel_apply_threedots'), function(index, item){
                 var maxrows = 1;
                 if (item && item.className) {
-                    var classes = item.className.split(" ");
+                    var classes = item.className.split(' ');
                     $.each(classes, function(i, cl){
-                        if (cl && cl.indexOf("threedots_allow_") === 0) {
-                            maxrows = parseInt(cl.split("threedots_allow_")[1], 10);
+                        if (cl && cl.indexOf('threedots_allow_') === 0) {
+                            maxrows = parseInt(cl.split('threedots_allow_')[1], 10);
                             return false;
                         }
                     });
                 }
-                $(item).text(sakai.api.Util.applyThreeDots($(item).text(), $(item).width(), {max_rows:maxrows}, "carousel_content_tags s3d_action", true));
+                $(item).text(sakai.api.Util.applyThreeDots($(item).text(), $(item).width(), {max_rows:maxrows}, 'carousel_content_tags s3d_action', true));
             });
         };
 
@@ -158,7 +158,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     });
                     // Prefer items with previews
                     var suggested = {
-                        contentType: "suggestedContent",
+                        contentType: 'suggestedContent',
                         suggestions: previewArr.concat(noPreviewArr)
                     };
                     dataArr.push(suggested);
@@ -178,20 +178,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(data.groups.results, function (index, group){
                 var obj = {};
 
-                if (group["sakai:group-description"] && group["sakai:group-description"].length) {
-                    obj.description = group["sakai:group-description"];
+                if (group['sakai:group-description'] && group['sakai:group-description'].length) {
+                    obj.description = group['sakai:group-description'];
                 }
-                if (group["sakai:tags"] && group["sakai:tags"].length) {
-                    obj.tags = sakai.api.Util.formatTags(group["sakai:tags"]);
+                if (group['sakai:tags'] && group['sakai:tags'].length) {
+                    obj.tags = sakai.api.Util.formatTags(group['sakai:tags']);
                 }
                 if (group.picture){
                     obj.picture = sakai.api.Groups.getProfilePicture(group);
                 }
                 obj.counts = group.counts;
 
-                obj.contentType = "group";
-                obj.groupid = group["sakai:group-id"];
-                obj.title = group["sakai:group-title"];
+                obj.contentType = 'group';
+                obj.groupid = group['sakai:group-id'];
+                obj.title = group['sakai:group-title'];
 
                 if (obj.picture && obj.description && obj.tags) {
                     picDescTags.push(obj);
@@ -210,7 +210,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             });
             var suggested = {
-                contentType: "suggestedGroups",
+                contentType: 'suggestedGroups',
                 suggestions: picDescTags.concat(picDesc, picTags, descTags, desc, tags, noPic).splice(0,6)
             };
 
@@ -229,13 +229,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     var obj = {};
 
                     obj.userid = user.profile.userid;
-                    obj.contentType = "user";
+                    obj.contentType = 'user';
                     obj.displayName = sakai.api.User.getDisplayName(user.profile);
                     obj.counts = user.profile.counts;
 
                     user = user.profile.basic.elements;
-                    if (user["sakai:tags"] && user["sakai:tags"].value && user["sakai:tags"].value.length){
-                        obj.tags = sakai.api.Util.formatTags(user["sakai:tags"].value);
+                    if (user['sakai:tags'] && user['sakai:tags'].value && user['sakai:tags'].value.length){
+                        obj.tags = sakai.api.Util.formatTags(user['sakai:tags'].value);
                     }
                     if (user.aboutme){
                         obj.aboutme = user.aboutme.elements.aboutme.value;
@@ -260,7 +260,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 });
 
                 var suggested = {
-                    contentType: "suggestedUsers",
+                    contentType: 'suggestedUsers',
                     suggestions: hasPicAndTag.concat(hasPic, hasTag, noPicAndTag).splice(0, 8)
                 };
                 dataArr.push(suggested);
@@ -280,31 +280,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var loadFeatured = function(){
             var dataArr = {
-                "content": false,
-                "groups": false,
-                "users": false
+                'content': false,
+                'groups': false,
+                'users': false
             };
 
             var reqs = [
                 {
-                    url: "/var/search/pool/me/related-content.json",
-                    method: "GET",
+                    url: '/var/search/pool/me/related-content.json',
+                    method: 'GET',
                     parameters: {
-                        "items": 11
+                        'items': 11
                     }
                 },
                 {
-                    url: "/var/contacts/related-contacts.json",
-                    method: "GET",
+                    url: '/var/contacts/related-contacts.json',
+                    method: 'GET',
                     parameters: {
-                        "items": 11
+                        'items': 11
                     }
                 },
                 {
-                    url: "/var/search/myrelatedgroups.json",
-                    method: "GET",
+                    url: '/var/search/myrelatedgroups.json',
+                    method: 'GET',
                     parameters: {
-                        "items": 11
+                        'items': 11
                     }
                 }
             ];
@@ -330,5 +330,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         doInit();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("carousel");
+    sakai.api.Widgets.widgetLoader.informOnLoad('carousel');
 });

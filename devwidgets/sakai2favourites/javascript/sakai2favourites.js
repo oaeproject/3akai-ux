@@ -25,7 +25,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.sakai2favourites
@@ -41,8 +41,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.sakai2favourites = function(tuid, showSettings){
 
-        var sakai2CategoryList = "#sakai2_category_list";
-        var sakai2CategoryListTemplate = "#sakai2_category_list_template";
+        var sakai2CategoryList = '#sakai2_category_list';
+        var sakai2CategoryListTemplate = '#sakai2_category_list_template';
         var siteListsjson = false;
         var selectedSiteJson = false;
 
@@ -55,7 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * (e.g. sites widget)
          * It initializes the creategroup widget and shows the jqmodal (ligthbox)
          */
-        $(window).bind("init.sakai2favourites.sakai", function(){
+        $(window).bind('init.sakai2favourites.sakai', function(){
             // render Category List
             loadSakai2SiteList();
             // render all sites list
@@ -63,7 +63,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // render selected site List
             renderSelectedList();
             // show dialog
-            $("#sakai2favourites_container").jqmShow();
+            $('#sakai2favourites_container').jqmShow();
             // bind events
             bindEvents();
         });
@@ -96,7 +96,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // for example categoryname = i18n_moresite_01_all_sites
                     }
                     else
-                        if (category.category.replace(/ /g, "_") === categoryname) {
+                        if (category.category.replace(/ /g, '_') === categoryname) {
                             // get the site lists in certain category
                             // for example get site list in i18n_moresite_01_all_sites
                             siteListJson.sites = siteListsjson.categories[i].sites;
@@ -105,7 +105,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             // render the sites
-            $("#sakai2_site_list").html(sakai.api.Util.TemplateRenderer("#sakai2_site_list_template".replace(/#/, ''),siteListJson));
+            $('#sakai2_site_list').html(sakai.api.Util.TemplateRenderer('#sakai2_site_list_template'.replace(/#/, ''),siteListJson));
             // select related checkboxes based on the selectedlistjson
             setSite();
         };
@@ -114,7 +114,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This method render all sites selected to display in my sakai2 favourites
          */
         var renderSelectedList = function(){
-            $("#sakai2favourites_selected_site_list").html(sakai.api.Util.TemplateRenderer("#sakai2_selected_site_list_template".replace(/#/, ''),sakai.data.me.sakai2List));
+            $('#sakai2favourites_selected_site_list').html(sakai.api.Util.TemplateRenderer('#sakai2_selected_site_list_template'.replace(/#/, ''),sakai.data.me.sakai2List));
         };
 
 
@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This makes use of the jqModal (jQuery Modal) plugin that provides support
          * for lightboxes
          */
-        $("#sakai2favourites_container").jqm({
+        $('#sakai2favourites_container').jqm({
             modal: true,
             overlay: 20,
             toTop: true,
@@ -144,40 +144,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add event handling
          */
         var bindEvents = function(){
-            $(".sakai2_category_title").unbind("click");
-            $(".sakai2_category_title").click(function(ev){
-                if($(".selected_category")){
-                    $(".selected_category").removeClass("selected_category");
-                    $(".selected").removeClass("selected");
+            $('.sakai2_category_title').unbind('click');
+            $('.sakai2_category_title').click(function(ev){
+                if($('.selected_category')){
+                    $('.selected_category').removeClass('selected_category');
+                    $('.selected').removeClass('selected');
                 }
 
-                $(ev.currentTarget).parent().addClass("selected");
-                $(ev.currentTarget).addClass("selected_category");
+                $(ev.currentTarget).parent().addClass('selected');
+                $(ev.currentTarget).addClass('selected_category');
                 var category = ev.currentTarget.id;
                 renderSiteList(category);
                 bindEvents();
             });
-            $(".sakai2_site_title input").unbind("click");
-            $(".sakai2_site_title input").click(function(ev){
+            $('.sakai2_site_title input').unbind('click');
+            $('.sakai2_site_title input').click(function(ev){
                 var siteId = ev.currentTarget.id;
-                if($(ev.currentTarget).attr("checked")){
+                if($(ev.currentTarget).attr('checked')){
                     var site = getObject(siteId);
                     sakai.data.me.sakai2List.sites.push(site);
                 }else {
                     var ind = getToRemoveIndex(siteId);
                     sakai.data.me.sakai2List.sites.splice(ind,1);
                 }
-                renderSiteList($(".selected_category").attr("id"));
+                renderSiteList($('.selected_category').attr('id'));
                 renderSelectedList();
                 // bind events
                 bindEvents();
             });
-            $(".sakai2_selected_site").unbind("click");
-            $(".sakai2_selected_site").click(function(ev){
+            $('.sakai2_selected_site').unbind('click');
+            $('.sakai2_selected_site').click(function(ev){
                 var siteId = ev.currentTarget.id;
                 var ind = getToRemoveIndex(siteId);
                 sakai.data.me.sakai2List.sites.splice(ind,1);
-                renderSiteList($(".selected_category").attr("id"));
+                renderSiteList($('.selected_category').attr('id'));
                 renderSelectedList();
                 // bind events
                 bindEvents();
@@ -228,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for(var i in sakai.data.me.sakai2List.sites){
                 if (sakai.data.me.sakai2List.sites.hasOwnProperty(i)) {
                     // checked the related checkbox
-                    $("input[id='" + sakai.data.me.sakai2List.sites[i].id + "']").attr('checked', true);
+                    $('input[id='' + sakai.data.me.sakai2List.sites[i].id + '']').attr('checked', true);
                 }
             }
         };
@@ -270,14 +270,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *  This function get the list of sites list group by category.
          */
         var getSiteList = function(){
-            var url = "/dev/s23/bundles/sites-categorized.json";
+            var url = '/dev/s23/bundles/sites-categorized.json';
             if (sakai.config.useLiveSakai2Feeds){
-                url = "/var/proxy/s23/sitesCategorized.json?categorized=true";
+                url = '/var/proxy/s23/sitesCategorized.json?categorized=true';
             }
             $.ajax({
                 url: url,
-                type : "GET",
-                dataType: "json",
+                type : 'GET',
+                dataType: 'json',
                 success: function(data){
                     siteListsjson = data;
                 },
@@ -295,20 +295,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // get lists of site selected to display in my sakai2 favourites
             //getSelectedSiteList();
 
-            $("#sakai2favourites_add_save").click(function(ev){
+            $('#sakai2favourites_add_save').click(function(ev){
                 var toSave = {};
                 toSave.id = [];
                 for (var i = 0; i < sakai.data.me.sakai2List.sites.length; i++){
                     toSave.id.push(sakai.data.me.sakai2List.sites[i].id);
                 }
-                sakai.api.Server.saveJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/private/sakai2favouriteList",toSave, function(success,data){
-                    $("#sakai2favourites_container").jqmHide();
-                    $(window).trigger("sakai2-favourites-selected");
+                sakai.api.Server.saveJSON('/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid) + '/private/sakai2favouriteList',toSave, function(success,data){
+                    $('#sakai2favourites_container').jqmHide();
+                    $(window).trigger('sakai2-favourites-selected');
                 }, true);
             });
         };
         doInit();
 
     };
-    sakai.api.Widgets.widgetLoader.informOnLoad("sakai2favourites");
+    sakai.api.Widgets.widgetLoader.informOnLoad('sakai2favourites');
 });

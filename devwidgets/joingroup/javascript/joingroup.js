@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.joingroup
@@ -38,8 +38,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         // DOM jQuery Objects
-        var $rootel = $("#" + tuid);  // unique container for each widget instance
-        var $joingroup_hover_template = $("#joingroup_hover_template", $rootel);
+        var $rootel = $('#' + tuid);  // unique container for each widget instance
+        var $joingroup_hover_template = $('#joingroup_hover_template', $rootel);
 
         ///////////////////////
         // Utility Functions //
@@ -71,15 +71,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Integer} value Value to adjust the number of participants by
          */
         var adjustParticipantCount = function (groupid, value) {
-            var participantCount = parseInt($("#searchgroups_result_participant_count_" + groupid).text(), 10);
+            var participantCount = parseInt($('#searchgroups_result_participant_count_' + groupid).text(), 10);
             participantCount = participantCount + value;
-            $("#searchgroups_result_participant_count_" + groupid).text(participantCount);
+            $('#searchgroups_result_participant_count_' + groupid).text(participantCount);
             if (participantCount === 1) {
-                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.getValueForKey("PARTICIPANT_LC"));
+                $('#searchgroups_text_participant_' + groupid).text(sakai.api.i18n.getValueForKey('PARTICIPANT_LC'));
             } else {
-                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.getValueForKey("PARTICIPANTS_LC"));
+                $('#searchgroups_text_participant_' + groupid).text(sakai.api.i18n.getValueForKey('PARTICIPANTS_LC'));
             }
-            $("#searchgroups_result_participant_link_" + groupid).attr("title", $.trim($("#searchgroups_result_participant_link_" + groupid).text()));
+            $('#searchgroups_result_participant_link_' + groupid).attr('title', $.trim($('#searchgroups_result_participant_link_' + groupid).text()));
         };
 
         /**
@@ -92,14 +92,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *     is a manager or not
          */
         var push_member_to_list = function (member, list, role) {
-            var link, picsrc, displayname = "";
-            if (member["sakai:group-id"]) {
+            var link, picsrc, displayname = '';
+            if (member['sakai:group-id']) {
                 picsrc = sakai.api.Groups.getProfilePicture(member);
-                link = "~" + member.groupid;
-                displayname = member["sakai:group-title"];
+                link = '~' + member.groupid;
+                displayname = member['sakai:group-title'];
             } else {
                 picsrc = sakai.api.User.getProfilePicture(member);
-                link = "~" + member.userid;
+                link = '~' + member.userid;
                 displayname = sakai.api.User.getDisplayName(member);
             }
             list.push({
@@ -115,12 +115,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // get batch group data for this group
             var batchRequests = [
                 {
-                    url: "/var/joinrequests/list.json?groupId=" + groupid,
-                    method: "GET"
+                    url: '/var/joinrequests/list.json?groupId=' + groupid,
+                    method: 'GET'
                 },
                 {
                     url: '/system/userManager/group/' + groupid + '.json',
-                    method: "GET"
+                    method: 'GET'
                 }
             ];
             sakai.api.Server.batch(batchRequests, function (success, data) {
@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }, true);
                 } else {
-                    debug.error("Batch request to fetch group (id: " + id + ") data failed.");
+                    debug.error('Batch request to fetch group (id: ' + id + ') data failed.');
                 }
             });
             return group;
@@ -182,15 +182,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(document).trigger('init.tooltip.sakai', {
                     tooltipHTML: sakai.api.Util.TemplateRenderer($joingroup_hover_template, group),
                     tooltipAutoClose: true,
-                    tooltipArrow: "top",
+                    tooltipArrow: 'top',
                     tooltipTop: $item.offset().top + $item.height(),
                     tooltipLeft: $item.offset().left + $item.width() + 3,
                     onShow: function () {
                         $(document).trigger('init.joinrequestbuttons.sakai', [
                             {
-                                "groupProfile": group.groupProfile,
-                                "groupMembers": group.groupMembers,
-                                "leaveAllowed": leaveAllowed
+                                'groupProfile': group.groupProfile,
+                                'groupMembers': group.groupMembers,
+                                'leaveAllowed': leaveAllowed
                             },
                             groupid,
                             group.joinability,
@@ -198,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             false,
                             function (renderedButtons) {
                                 // onShow
-                                $("#joingroup_joinrequestbuttons").html(
+                                $('#joingroup_joinrequestbuttons').html(
                                     renderedButtons.html());
                             },
                             function (success, id) {
@@ -213,8 +213,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 if (success) {
                                     // re-render tooltip
                                     resetTooltip(groupid, $item);
-                                    $("#searchgroups_memberimage_" + groupid).show();
-                                    $("#searchgroups_memberimage_" + groupid).parent().removeClass("s3d-actions-addtolibrary");
+                                    $('#searchgroups_memberimage_' + groupid).show();
+                                    $('#searchgroups_memberimage_' + groupid).parent().removeClass('s3d-actions-addtolibrary');
                                     adjustParticipantCount(groupid, 1);
                                 }
                             },
@@ -223,8 +223,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 if (success) {
                                     // re-render tooltip
                                     resetTooltip(groupid, $item);
-                                    $("#searchgroups_memberimage_" + groupid).hide();
-                                    $("#searchgroups_memberimage_" + groupid).parent().addClass("s3d-actions-addtolibrary");
+                                    $('#searchgroups_memberimage_' + groupid).hide();
+                                    $('#searchgroups_memberimage_' + groupid).parent().addClass('s3d-actions-addtolibrary');
                                     adjustParticipantCount(groupid, -1);
                                 }
                             },
@@ -263,5 +263,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("joingroup");
+    sakai.api.Widgets.widgetLoader.informOnLoad('joingroup');
 });

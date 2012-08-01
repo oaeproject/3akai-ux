@@ -24,7 +24,7 @@
  */
 
 /*global $, Config, sakai, History, opensocial, Widgets */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
     /**
      * This is a widget that can be placed in other pages and widgets.
      * It shows an Add to contacts dialog.
@@ -43,36 +43,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         // Configuration variables //
         /////////////////////////////
 
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
 
         // Help variables
         var contactToAdd = false;
 
         // CSS selectors
-        var addToContacts = "#addtocontacts";
-        var addToContactsClass = ".addtocontacts";
+        var addToContacts = '#addtocontacts';
+        var addToContactsClass = '.addtocontacts';
 
-        var addToContactsDialog = addToContacts + "_dialog";
+        var addToContactsDialog = addToContacts + '_dialog';
 
         // Form elements
-        var addToContactsForm = addToContacts + "_form";
-        var addToContactsFormButtonInvite = addToContactsForm + "_invite";
-        var addToContactsFormPersonalNote = addToContactsForm + "_personalnote";
-        var addToContactsFormPersonalNoteTemplate = addToContactsFormPersonalNote + "_template";
-        var addToContactsFormType = addToContactsForm + "_type";
-        var addToContactsFormTypeTemplate = addToContactsFormType + "_template";
+        var addToContactsForm = addToContacts + '_form';
+        var addToContactsFormButtonInvite = addToContactsForm + '_invite';
+        var addToContactsFormPersonalNote = addToContactsForm + '_personalnote';
+        var addToContactsFormPersonalNoteTemplate = addToContactsFormPersonalNote + '_template';
+        var addToContactsFormType = addToContactsForm + '_type';
+        var addToContactsFormTypeTemplate = addToContactsFormType + '_template';
         // Profile info
-        var addToContactsInfoProfilePicture = addToContacts + "_profilepicture";
-        var addToContactsInfoTypes = addToContacts + "_types";
-        var addToContactsInfoDisplayName = addToContactsClass + "_displayname";
+        var addToContactsInfoProfilePicture = addToContacts + '_profilepicture';
+        var addToContactsInfoTypes = addToContacts + '_types';
+        var addToContactsInfoDisplayName = addToContactsClass + '_displayname';
 
         // Error messages
-        var addToContactsError = addToContacts + "_error";
-        var addToContactsErrorMessage = addToContactsError + "_message";
-        var addToContactsErrorRequest = addToContactsError + "_request";
-        var addToContactsErrorNoTypeSelected = addToContactsError + "_noTypeSelected";
+        var addToContactsError = addToContacts + '_error';
+        var addToContactsErrorMessage = addToContactsError + '_message';
+        var addToContactsErrorRequest = addToContactsError + '_request';
+        var addToContactsErrorNoTypeSelected = addToContactsError + '_noTypeSelected';
 
-        var addToContactsResponse = addToContacts + "_response";
+        var addToContactsResponse = addToContacts + '_response';
 
         ///////////////////
         // Functionality //
@@ -84,9 +84,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          */
         var enableDisableInviteButton = function(disable){
             if(disable){
-                $(addToContactsFormButtonInvite).attr("disabled","disabled");
+                $(addToContactsFormButtonInvite).attr('disabled','disabled');
             }else{
-                $(addToContactsFormButtonInvite).removeAttr("disabled");
+                $(addToContactsFormButtonInvite).removeAttr('disabled');
             }
         };
 
@@ -95,15 +95,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          * It renders the contacts types and the personal note
          */
         var renderTemplates = function(){
-            sakai.api.Util.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), {
-                "relationships": sakai.config.Relationships,
-                "sakai": sakai
+            sakai.api.Util.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ''), {
+                'relationships': sakai.config.Relationships,
+                'sakai': sakai
             }, $(addToContactsInfoTypes));
             var json = {
                 sakai: sakai,
                 me: sakai.data.me
             };
-            sakai.api.Util.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ""), json, $(addToContactsFormPersonalNote));
+            sakai.api.Util.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ''), json, $(addToContactsFormPersonalNote));
         };
 
         /**
@@ -118,9 +118,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                 }
                 // Check for picture
                 if (user.pictureLink) {
-                    $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.pictureLink + '" class="s3d-icon-50" />');
+                    $(addToContactsInfoProfilePicture).html('<img alt='' + $('#addtocontacts_profilepicture_alt').html() + '' src='' + user.pictureLink + '' class='s3d-icon-50' />');
                 } else {
-                    $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" class="s3d-icon-50" />');
+                    $(addToContactsInfoProfilePicture).html('<img alt='' + $('#addtocontacts_profilepicture_alt').html() + '' src='' + sakai.config.URL.USER_DEFAULT_ICON_URL + '' class='s3d-icon-50' />');
                 }
             }
         };
@@ -146,11 +146,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         var doInvite = function(userid){
             enableDisableInviteButton(true);
             var formValues = $(addToContactsForm).serializeObject();
-            var types = formValues[addToContactsFormType.replace(/#/gi, "")];
+            var types = formValues[addToContactsFormType.replace(/#/gi, '')];
             if (!$.isArray(types)) {
                 types = [types];
             }
-            $(addToContactsResponse).text("");
+            $(addToContactsResponse).text('');
             if (types.length) {
                 var fromRelationshipsToSend = [];
                 var toRelationshipsToSend = [];
@@ -171,24 +171,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                 // send message to other person
                 var userstring = $.trim(sakai.api.User.getDisplayName(sakai.data.me.profile));
 
-                var title = $.trim($("#addtocontacts_invitation_title_key").text().replace(/\$\{user\}/g, userstring));
-                var message = $.trim($("#addtocontacts_invitation_body_key").text().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,"\n"));
+                var title = $.trim($('#addtocontacts_invitation_title_key').text().replace(/\$\{user\}/g, userstring));
+                var message = $.trim($('#addtocontacts_invitation_body_key').text().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,'\n'));
 
                 // Do the invite and send a message
                 $.ajax({
-                    url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.invite.html",
-                    type: "POST",
+                    url: '/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid) + '/contacts.invite.html',
+                    type: 'POST',
                     traditional: true,
                     data: {
-                        "fromRelationships": fromRelationshipsToSend,
-                        "toRelationships": toRelationshipsToSend,
-                        "targetUserId": userid
+                        'fromRelationships': fromRelationshipsToSend,
+                        'toRelationships': toRelationshipsToSend,
+                        'targetUserId': userid
                     },
                     success: function(data){
                         enableDisableInviteButton(false);
                         sakai.api.Util.Modal.close(addToContactsDialog);
-                        sakai.api.Communication.sendMessage(userid, sakai.data.me, title, message, "invitation", false,false,true,"contact_invitation");
-                        $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
+                        sakai.api.Communication.sendMessage(userid, sakai.data.me, title, message, 'invitation', false,false,true,'contact_invitation');
+                        $(window).trigger('sakai.addToContacts.requested', [contactToAdd]);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();
                         var notificationMessage = contactToAdd.displayName + ' ' + sakai.api.i18n.getValueForKey('HAS_BEEN_ADDED_TO_YOUR_CONTACTS_LIST', 'addtocontacts');
@@ -217,7 +217,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
-            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", sakai.api.Security.safeOutput(contactToAdd.displayName)));
+            $('#addtocontacts_dialog_title').html($('#addtocontacts_dialog_title_template').html().replace('${user}', sakai.api.Security.safeOutput(contactToAdd.displayName)));
             hash.w.show();
         };
 
@@ -262,7 +262,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         /////////////////////
 
         // Bind the invite button
-        $(addToContactsFormButtonInvite).bind("click", function(){
+        $(addToContactsFormButtonInvite).bind('click', function(){
             // Invite this person.
             doInvite(contactToAdd.userid);
             return false;
@@ -277,5 +277,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         });
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("addtocontacts");
+    sakai.api.Widgets.widgetLoader.informOnLoad('addtocontacts');
 });

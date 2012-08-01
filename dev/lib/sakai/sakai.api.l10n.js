@@ -29,9 +29,9 @@
  */
 define(
     [
-        "config/config_custom",
-        "misc/l10n/globalize",
-        "misc/l10n/detect_timezone"
+        'config/config_custom',
+        'misc/l10n/globalize',
+        'misc/l10n/detect_timezone'
     ],
     function(sakai_conf) {
     return {
@@ -50,7 +50,7 @@ define(
             // Get the browser language preference - IE uses userLanguage, all other browsers user language
             var locale = navigator.language ? navigator.language : navigator.userLanguage;
             if (locale) {
-                var split = locale.split("-");
+                var split = locale.split('-');
                 if (split.length > 1) {
                     split[1] = split[1].toUpperCase();
                     var langs = sakai_conf.Languages;
@@ -59,7 +59,7 @@ define(
                     var i;
                     for (i=0,j=langs.length; i<j; i++) {
                         if (langs[i].language === split[0] && langs[i].country === split[1]) {
-                            ret = split[0] + "_" + split[1];
+                            ret = split[0] + '_' + split[1];
                             break;
                         }
                     }
@@ -164,7 +164,7 @@ define(
          * @return {String} localized string
          */
         transformDateTimeLong : function(date) {
-            return Globalize.format(date, "D");
+            return Globalize.format(date, 'D');
         },
 
         /**
@@ -174,7 +174,7 @@ define(
          * @return {String} localized string
          */
         transformDateTimeShort : function(date) {
-            return Globalize.format(date, "d") + " " + Globalize.format(date, "t");
+            return Globalize.format(date, 'd') + ' ' + Globalize.format(date, 't');
         },
 
         /**
@@ -184,7 +184,7 @@ define(
          * @return {Number} the number formatted
          */
         transformDecimal : function(num, decimalplaces) {
-            return Globalize.format(num, "n" + decimalplaces);
+            return Globalize.format(num, 'n' + decimalplaces);
         },
 
         /**
@@ -231,24 +231,24 @@ define(
          * @param {Number} number
          * Number we want to localise (eg 10000000.442)
          * @return {String}
-         * Localised string of the number given to this function (eg "10.000.000,442")
+         * Localised string of the number given to this function (eg '10.000.000,442')
          */
         transformNumber : function(number){
-            return Globalize.format(number, "n");
+            return Globalize.format(number, 'n');
         },
 
         getDateFormatString : function() {
-            var pattern = Globalize.cultures[require("sakai/sakai.api.i18n").data.culture].calendar.patterns.d;
-            var split = pattern.split("/");
+            var pattern = Globalize.cultures[require('sakai/sakai.api.i18n').data.culture].calendar.patterns.d;
+            var split = pattern.split('/');
             var i;
             for (i=0, j=split.length; i<j; i++) {
-                if (split[i] === "m" || split[i] === "M") {
-                    split[i] = "mm";
-                } else if (split[i] === "d" || split[i] === "D") {
-                    split[i] = "dd";
+                if (split[i] === 'm' || split[i] === 'M') {
+                    split[i] = 'mm';
+                } else if (split[i] === 'd' || split[i] === 'D') {
+                    split[i] = 'dd';
                 }
             }
-            return split.join("/").toUpperCase();
+            return split.join('/').toUpperCase();
         }
     };
 });

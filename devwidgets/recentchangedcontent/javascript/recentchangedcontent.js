@@ -210,7 +210,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Fetches the related content
          */
         var getRelatedContent = function(contentData){
-            var searchterm = contentData["sakai:pooled-content-file-name"].substring(0,400);
+            var searchterm = contentData['sakai:pooled-content-file-name'].substring(0,400);
             searchquery = sakai.api.Server.createSearchString(searchterm, false, 'OR');
 
             // get related content for contentData

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
 
     /**
      * @name sakai_global.featuredpeople
@@ -29,23 +29,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      */
     sakai_global.featuredpeople = function(tuid, showSettings, pageData){
 
-        var $rootel = $("#"+tuid);
+        var $rootel = $('#'+tuid);
 
         // Containers
-        var $featuredpeopleContainer = $("#featuredpeople_container", $rootel);
+        var $featuredpeopleContainer = $('#featuredpeople_container', $rootel);
 
         // Templates
-        var featuredpeopleTemplate = "featuredpeople_template";
+        var featuredpeopleTemplate = 'featuredpeople_template';
 
         var renderPeople = function(data){
             $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {
-                "data": data,
-                "category": pageData.category,
-                "title": pageData.title,
-                "sakai": sakai
+                'data': data,
+                'category': pageData.category,
+                'title': pageData.title,
+                'sakai': sakai
             }));
             if (data.total > data.results.length){
-                $("#featuredpeople_showall", $rootel).show();
+                $('#featuredpeople_showall', $rootel).show();
             }
         };
 
@@ -53,13 +53,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (success) {
                 $.each(data.results, function(index, item){
                     if (item.picture) {
-                        item.picture = "/~" + sakai.api.Util.safeURL(item.userid) + "/public/profile/" + $.parseJSON(item.picture).name;
+                        item.picture = '/~' + sakai.api.Util.safeURL(item.userid) + '/public/profile/' + $.parseJSON(item.picture).name;
                     } else {
-                        item.picture = "/dev/images/default_User_icon_50x50.png";
+                        item.picture = '/dev/images/default_User_icon_50x50.png';
                     }
-                    item.baseHref = "/~" + sakai.api.Util.safeURL(item.userid);
+                    item.baseHref = '/~' + sakai.api.Util.safeURL(item.userid);
                     if (item.userid === sakai.data.me.user.userid) {
-                        item.baseHref = "/me";
+                        item.baseHref = '/me';
                     }
                     item.name = sakai.api.User.getDisplayName(item);
                 });
@@ -68,15 +68,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var fetchPeople = function(){
-            var q = "";
+            var q = '';
             if(pageData){
-                q = "directory/" + pageData.category.replace("-", "/");
+                q = 'directory/' + pageData.category.replace('-', '/');
             }
-            sakai.api.Server.loadJSON("/var/search/bytag.json", parsePeople, {
+            sakai.api.Server.loadJSON('/var/search/bytag.json', parsePeople, {
                 page: 0,
                 items: 3,
                 tag: q,
-                type: "u"
+                type: 'u'
             });
         };
 
@@ -88,5 +88,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("featuredpeople");
+    sakai.api.Widgets.widgetLoader.informOnLoad('featuredpeople');
 });

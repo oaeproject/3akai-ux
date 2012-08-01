@@ -113,7 +113,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 }
             });
             if (carousel.size()) {
-                var $selectedItem =  $('.collectionviewer_carousel_item[data-item-id="' + $.bbq.getState("item") + '"]', $rootel);
+                var $selectedItem =  $('.collectionviewer_carousel_item[data-item-id='' + $.bbq.getState('item') + '']', $rootel);
                 if ($.bbq.getState('item') && $selectedItem.length) {
                     $selectedItem.click();
                 } else{
@@ -166,7 +166,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 });
 
                 if (totalItems > carouselSize && $.bbq.getState('item')) {
-                    $('#collectionviewer_carousel', $rootel).data('jcarousel').scroll($('.collectionviewer_carousel_item[data-item-id="' + $.bbq.getState('item') + '"]', $rootel).attr('data-arr-index'));
+                    $('#collectionviewer_carousel', $rootel).data('jcarousel').scroll($('.collectionviewer_carousel_item[data-item-id='' + $.bbq.getState('item') + '']', $rootel).attr('data-arr-index'));
                 }
             }
         };

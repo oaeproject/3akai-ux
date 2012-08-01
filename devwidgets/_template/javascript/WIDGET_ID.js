@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai.WIDGET_ID
@@ -79,5 +79,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("WIDGET_ID");
+    sakai.api.Widgets.widgetLoader.informOnLoad('WIDGET_ID');
 });
