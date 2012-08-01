@@ -253,7 +253,7 @@
           <dependency>
             <groupId>org.sakaiproject.nakamura</groupId>
             <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
-            <version>1.4.0</version>
+            <version>1.4.0-SNAPSHOT</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -269,7 +269,7 @@
     <dependency>
       <groupId>org.sakaiproject.nakamura</groupId>
       <artifactId>org.sakaiproject.nakamura.hashfiles</artifactId>
-      <version>1.4.0</version>
+      <version>1.4.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
