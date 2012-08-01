@@ -114,7 +114,7 @@
         <span class="field_value">
             {var displayValue = value}
             {if config.limitDisplayWidth}
-                {var displayValue = sakai.api.Util.applyThreeDots(value, config.limitDisplayWidth, null, null, false)}
+                {var displayValue = sakai.api.Util.applyThreeDots(value, config.limitDisplayWidth, null, null, true)}
             {/if}
             {if config.type === "tags"}
                 {var tags = sakai.api.Util.formatTags(value)}
