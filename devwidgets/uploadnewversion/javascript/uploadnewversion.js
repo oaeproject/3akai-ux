@@ -61,7 +61,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
         var filesList = [];
 
         // IE does not support XHR file uploads so we fallback to the iframe transport for uploads
-        var useIframeTransport = !$.support.xhrFileUpload;
+        var useIframeTransport = !$.support.xhrFileUpload && !$.support.xhrFormDataFileUpload;
         var fileUploadForms = {};
 
         ////////////
