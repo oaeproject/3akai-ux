@@ -144,6 +144,7 @@
                     {if group.descShort}<div class="mymemberships_item_description s3d-search_result-description">${group.descShort}</div>{/if}
                     {if !$.isEmptyObject(group.tags)}
                         <div class="mymemberships_item_tags">
+                            <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${group.title|safeOutput}</span>
                             <ul class="mymemberships_item_tags_list s3d-taglist">
                                 {for t in group.tags}
                                     <li>
