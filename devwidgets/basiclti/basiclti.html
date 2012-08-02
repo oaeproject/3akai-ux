@@ -94,7 +94,7 @@
 
 <!-- Template to show the preview of the iframe -->
 <div id="basiclti_settings_preview_template"><!--
-    <iframe id="${tuidFrame}" class="portletMainIframe" style="border: ${border_size}px #${border_color} solid" width="${width}${width_unit}" height="${frame_height}px"></iframe>
+    <iframe id="${tuidFrame}" name="basiclti_iframe" style="border: ${border_size}px #${border_color} solid" width="${width}${width_unit}" height="${frame_height}px"></iframe>
 --></div>
 
 <!-- Template for choosing the color -->
@@ -111,6 +111,8 @@
 <!-- MAIN CONTAINER -->
 <div id="basiclti_main_container" style="display:none;">
 </div>
+
+<div id="basiclti_no_settings" style="display:none;">__MSG__NO_SETTINGS__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/basiclti/javascript/basiclti.js" />
