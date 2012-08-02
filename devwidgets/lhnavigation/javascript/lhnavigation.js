@@ -657,6 +657,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var contextMenuHover = false;
 
         var onContextMenuHover = function($el, $elLI) {
+            var toHide = $.grep($('.lhnavigation_selected_submenu:visible'), function(el, i) {
+                return !$el.find(el).length;
+            });
+            if ($(toHide).length) {
+                $(toHide).hide();
+            }
             $('#lhnavigation_submenu').hide();
             if ($elLI.data('sakai-manage') && !$elLI.data('sakai-reorder-only')) {
                 var additionalOptions = $elLI.data('sakai-addcontextoption');
@@ -678,8 +684,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     savePath: $elLI.data('sakai-savepath')
                 };
                 $('.lhnavigation_selected_submenu', $el).show();
-            } else {
-                $('.lhnavigation_selected_submenu').hide();
             }
         };
 
@@ -690,11 +694,19 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         };
 
-        var showContextMenu = function($clickedItem, x, y) {
+        var showContextMenu = function($clickedItem) {
             var contextMenu = $('#lhnavigation_submenu', $rootel);
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
-            contextMenu.css('left', x - 70);
-            contextMenu.css('top', y + 15);
+            var leftOffset = 75;
+            if ($.browser.msie && $.browser.version === '9.0') {
+                // This isn't nice but the menu is a bit off in IE9
+                leftOffset -= 5;
+            }
+            if ($clickedItem.parents('.lhnavigation_subnav_item').attr('data-sakai-addcontextoption') === 'user') {
+                leftOffset += 5;
+            }
+            contextMenu.css('left', $clickedItem.offset().left + ($clickedItem.position().left / 2) - leftOffset);
+            contextMenu.css('top', $clickedItem.offset().top + ($clickedItem.position().top / 2) + 15);
             toggleContextMenu();
         };
 
@@ -1270,8 +1282,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Internal event binding //
         ////////////////////////////
 
-        $rootel.on('click', '.lhnavigation_selected_submenu', function(ev){
-            showContextMenu($(this), ev.pageX, ev.pageY);
+        $rootel.on('click', '.lhnavigation_selected_submenu', function(ev) {
+            showContextMenu($(this));
         });
 
         $rootel.on('mouseenter focus', '.lhnavigation_item_content, .lhnavigation_subnav_item_content', function() {
