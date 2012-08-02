@@ -44,6 +44,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var isDragging = false;
         var editInterval = false;
         var uniqueModifierId = sakai.api.Util.generateWidgetId();
+        var pageTitle = '';
 
         ///////////////////////
         // Utility functions //
@@ -379,6 +380,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 handles: {
                     'e': '.contentauthoring_cell_handle,.contentauthoring_cell_handle_grab'
                 },
+                disabled: false,
                 helper: 'ui-resizable-helper',
                 start: function(event, ui) {
                     hideTinyMCEFormatBar();
@@ -1087,6 +1089,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                         addEditButtonBinding();
                     } else {
+                        // Update page title
+                        pageTitle = document.title;
+                        document.title = pageTitle.replace(sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix),
+                            sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + ' ' + sakai.api.i18n.getValueForKey('EDITING') + ' ');
+
                         setEditInterval();
                         $(window).trigger('edit.contentauthoring.sakai');
                         $('.contentauthoring_empty_content', $rootel).remove();
@@ -1261,8 +1268,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         /**
          * Put the page into view mode
+         * @param {Boolean} wasEditing True if we're actually exiting edit mode
          */
-        var exitEditMode = function() {
+        var exitEditMode = function(wasEditing) {
+            // Revert the page title
+            if (pageTitle && wasEditing) {
+                document.title = pageTitle;
+            }
+
             clearInterval(editInterval);
             // Alert the inserter bar that it should go back into view mode
             $(window).trigger('render.contentauthoring.sakai');
@@ -1270,6 +1283,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             $rootel.removeClass('contentauthoring_edit_mode');
             $('.contentauthoring_cell_content', $rootel).sortable('destroy');
             updateColumnHeights();
+            $('.contentauthoring_cell', $rootel).resizable('option', 'disabled', true);
         };
 
         /**
@@ -1303,7 +1317,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // Generate the new row / column structure
             var pageLayout = getCurrentPageLayout();
 
-            exitEditMode();
+            exitEditMode(true);
             // Determine whether or not to show the empty page placeholder
             determineEmptyAfterSave();
 
@@ -1343,11 +1357,19 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * Save the page by moving the autosaved page to the main page. We also version the page
          */
         var savePageData = function() {
+            var saveErrorNotification = function(errorText) {
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                    sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_SAVING', 'contentauthoring') + ' ' + errorText,
+                    sakai.api.Util.notification.type.ERROR, true);
+            };
+
             var oldStorePath = storePath;
             storePath = currentPageShown.pageSavePath + '/' + currentPageShown.saveRef;
             updateWidgetURLs();
 
             sakai.api.Server.loadJSON(oldStorePath, function(success, data) {
+                var errorMsg = '';
                 if (success && data) {
                     data = sakai.api.Server.removeServerCreatedObjects(data, ['_']);
                     delete data.version;
@@ -1381,11 +1403,37 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                             'sakai:forceupdate': true
                         }
                     });
-                    sakai.api.Server.batch(batchRequests, function() {
+                    sakai.api.Server.batch(batchRequests, function(success, data) {
+                        var saveSuccessful = true;
+                        if (data && data.results) {
+                            // each response status code should be 200 for a successful save
+                            if (data.results[0] && (!data.results[0].success || data.results[0].status !== 200) ||
+                                data.results[1] && (!data.results[1].success || data.results[1].status !== 200) ||
+                                data.results[2] && (!data.results[2].success || data.results[2].status !== 200)) {
+                                saveSuccessful = false;
+                                if (data.results[0].status === 403 || data.results[1].status === 403) {
+                                    errorMsg = sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_403', 'contentauthoring');
+                                }
+                            }
+                        }
                         addEditButtonBinding();
-                        $(window).trigger('update.versions.sakai', currentPageShown);
+                        if (success && saveSuccessful) {
+                            $(window).trigger('update.versions.sakai', currentPageShown);
+                        } else {
+                            saveErrorNotification(errorMsg);
+                            currentPageShown.canEdit = false;
+                            $('#contentauthoring_inserterbar_container', $rootel).hide();
+                        }
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                     });
+                } else {
+                    if (data && data.status === 404) {
+                        errorMsg = sakai.api.i18n.getValueForKey('AN_ERROR_OCCURED_404', 'contentauthoring');
+                    }
+                    saveErrorNotification(errorMsg);
+                    currentPageShown.canEdit = false;
+                    $('#contentauthoring_inserterbar_container', $rootel).hide();
+                    sakai.api.Util.progressIndicator.hideProgressIndicator();
                 }
             });
         };
@@ -1409,7 +1457,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          *                                      This is used when navigating away from a page in edit mode.
          */
         var cancelEditPage = function(e, retainAutoSave) {
-            exitEditMode();
+            exitEditMode(true);
             if (!retainAutoSave) {
                 // Delete the autosaved current page
                 $.ajax({
@@ -1566,6 +1614,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Render a page
         $(window).on('showpage.contentauthoring.sakai', function(ev, _currentPageShown) {
             processNewPage(_currentPageShown, false);
+            // scroll to the top of content if it is off screen
+            if ($(window).scrollTop() > $rootel.offset().top) {
+                $(window).scrollTop($rootel.offset().top);
+            }
         });
 
         // Render a page and put it in edit mode

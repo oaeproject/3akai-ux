@@ -244,7 +244,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     structure[level] = sakai.api.i18n.General.process(structure[level]);
                 } else if (level && level === '_altTitle') {
                     structure[level] = sakai.api.i18n.General.process(structure[level]);
-                    structure[level] = structure[level].replace('${user}', sakai.api.User.getFirstName(contextData.profile));
+                    structure[level] = structure[level].replace('${user}', sakai.api.User.getFirstName(contextData.profile, false));
                 }
             }
             structure._childCount = childCount;
@@ -596,6 +596,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         getPageContent(ref, function() {
                             preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode === true);
                         });
+
+                        // set the page title
+                        var pageTitle = '';
+                        if (menuitem.hasClass('lhnavigation_subnav_item')) {
+                            pageTitle += ' - ' + $.trim(menuitem.parents('.lhnavigation_menuitem').children('div').find('.lhnavigation_page_title_value').text());
+                        }
+                        pageTitle += ' - ' + $.trim(menuitem.find('.lhnavigation_page_title_value').text());
+                        sakai.api.Util.setPageTitle(pageTitle, 'navLevel');
                     }
                 } else {
                     renderPageUnavailable();
@@ -649,7 +657,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var contextMenuHover = false;
 
         var onContextMenuHover = function($el, $elLI) {
-            $('.lhnavigation_selected_submenu').hide();
             $('#lhnavigation_submenu').hide();
             if ($elLI.data('sakai-manage') && !$elLI.data('sakai-reorder-only')) {
                 var additionalOptions = $elLI.data('sakai-addcontextoption');
@@ -671,6 +678,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     savePath: $elLI.data('sakai-savepath')
                 };
                 $('.lhnavigation_selected_submenu', $el).show();
+            } else {
+                $('.lhnavigation_selected_submenu').hide();
             }
         };
 
@@ -1315,7 +1324,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // bind arrow keys for navigation
         $('.lhnavigation_menuitem a').live('keydown', function(ev) {
             var $el = $(this);
-            if (ev.which == $.ui.keyCode.DOWN) {
+            if (ev.which === $.ui.keyCode.DOWN) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if sub menu open
@@ -1353,7 +1362,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.UP) {
+            } else if (ev.which === $.ui.keyCode.UP) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if previous menu has an open sub menu open
@@ -1392,15 +1401,39 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.RIGHT &&
-                    $el.prev('div').hasClass('lhnavigation_has_subnav') &&
-                    !$el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
-                // open sub menu
-                $el.click();
-            } else if (ev.which == $.ui.keyCode.LEFT &&
-                    $el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
+            } else if (ev.which === $.ui.keyCode.RIGHT) {
+                if ($el.siblings('.lhnavigation_has_subnav').length &&
+                    !$el.siblings('.lhnavigation_has_subnav_opened').length) {
+                    // open sub menu
+                    $el.click();
+                } else if ($el.siblings('.lhnavigation_selected_submenu').length) {
+                    $el.siblings('.lhnavigation_selected_submenu').find('button').focus();
+                }
+            } else if (ev.which === $.ui.keyCode.LEFT &&
+                $el.siblings('.lhnavigation_has_subnav_opened').length) {
                 // close sub menu
                 $el.click();
+            }
+        });
+
+        // bind arrow keys for navigation to page options dropdown
+        $rootel.on('keydown', '.lhnavigation_menuitem button', function(ev) {
+            var $el = $(this);
+            if (ev.which === $.ui.keyCode.LEFT && $el.parent().siblings('a').length) {
+                $el.parent().siblings('a').focus();
+            } else if (ev.which === $.ui.keyCode.DOWN) {
+                $el.click();
+            }
+        });
+
+        // bind keyboard navigation for page options dropdown menu
+        $rootel.on('keydown', '#lhnavigation_submenu a', function(ev) {
+            var $el = $(this).parent();
+            if (ev.which === $.ui.keyCode.TAB &&
+                ((!ev.shiftKey && !$el.nextAll(':visible').length) ||
+                (ev.shiftKey && !$el.prevAll(':visible').length))) {
+                toggleContextMenu(true);
+                return false;
             }
         });
 

@@ -30,9 +30,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
         // Links and labels
         var checkUserNameLink = "#checkUserName";
         var buttonsContainer = ".create_account_button_bar";
-        var successMessage = "#success_message";
-        var successMessageTitle = "#success_message_title";
-        var successMessageValue = "#success_message_value";
 
         // Input fields
         var usernameField = "#username";
@@ -59,7 +56,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
         var errorFields = ".create_account_error_msg";
         var usernameLabel = "#username_label";
         var inputFields = ".create_account_input";
-        var usernameAvailable = "#username_available";
 
         //CSS Classes
         var invalidFieldClass = "invalid";
@@ -117,8 +113,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                     // Destroy the captcha
                     sakai_global.captcha.destroy();
 
-                    sakai.api.Util.notification.show($(successMessageTitle).html(), $(successMessageValue).html());
-
                     // Wait for 2 seconds
                     setTimeout(function(){
                         sakai.api.User.login({
@@ -137,10 +131,25 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                         if (data.responseText.indexOf("Untrusted request") !== -1) {
                             sakai_global.captcha.reload();
                             sakai_global.captcha.showError("create_account_input_error");
+                        } else {
+                            showCreateUserError($(data.responseText).find('#Message').text());
                         }
+                    } else {
+                        showCreateUserError($(data.responseText).find('#Message').text());
                     }
                 }
             });
+        };
+
+        /**
+         * Displays an error if the user creation failed
+         * @param {String} errorMessage The error message to display
+         */
+        var showCreateUserError = function(errorMessage){
+            sakai.api.Util.notification.show(
+                sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_FAILURE') + ' ' + sakai.api.Security.safeOutput(errorMessage),
+                sakai.api.Util.notification.type.ERROR, true);
         };
 
         //////////////////////////////
@@ -299,6 +308,9 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                     username: {
                         minlength: 3,
                         nospaces: true,
+                        validchars: true,
+                        reservedprefix: true,
+                        validfirstchar: true,
                         validusername: true
                     }
                 },
@@ -329,6 +341,24 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                             return this.optional(element) || checkUserName();
                         },
                         'text': sakai.api.i18n.getValueForKey('THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN')
+                    },
+                    'validchars': {
+                        'method': function(value, element) {
+                            return this.optional(element) || !(/[\<\>\\\/{}\[\]!@#\$%^&\*,]+/i.test(value));
+                        },
+                        'text': sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_INVALIDCHAR')
+                    },
+                    'reservedprefix': {
+                        'method': function(value, element) {
+                            return this.optional(element) || (value.substr(0, 11) !== 'g-contacts-');
+                        },
+                        'text': sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_RESERVED_PREFIX')
+                    },
+                    'validfirstchar': {
+                        'method': function(value, element) {
+                            return this.optional(element) || (value.substr(0, 1) !== '_');
+                        },
+                        'text': sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_START_WITH')
                     }
                 },
                 submitHandler: function(form, validator){
@@ -360,11 +390,6 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
             $(inputFields).bind("mouseenter mouseleave", function(ev){
                 $(this).toggleClass(inputFieldHoverClass);
             });
-
-            // Hide success message
-            $(successMessage).hide();
-            // Hide username available message
-            $(usernameAvailable).hide();
 
             // Initialize the captcha widget.
             initCaptcha();

@@ -358,8 +358,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * @param {String} userid ID of the collection to retrieve data for, if empty cache will be checked for ID
          * @param {Boolean} refresh Reloads the collection interface if set to true
          * @param {Function} callback Function executed after the data has been retrieved
+         * @param {Boolean} cache If we use cache or not
          */
-        var getCollectionData = function(userid, refresh, callback) {
+        var getCollectionData = function(userid, refresh, callback, _cache) {
+            var cache = _cache === false ? false : true;
             toggleButtons(collectionviewer.listStyle);
             if (refresh) {
                 collectionviewer.page = $.bbq.getState('lp') || 1;
@@ -394,6 +396,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             $.ajax({
                 url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                 data: data,
+                cache: cache,
                 success: function(data) {
                     var width = parseInt($rootel.width(), 10);
                     var widthOptions = {
@@ -454,13 +457,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
 
         /**
          * Switch the listview when necessary and load the items within that listview
+         * @param {Boolean} cache If we use cache or not
          */
-        var switchListView = function() {
+        var switchListView = function(cache) {
             collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'carousel';
             collectionviewer.page = $.bbq.getState('lp') || 1;
             $('.s3d-listview-options', $rootel).children('.selected').children().removeClass('selected');
             $('.s3d-listview-options', $rootel).children('.selected').removeClass('selected');
-            getCollectionData();
+            getCollectionData(false, false, false, cache);
         };
 
         /**
@@ -529,7 +533,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 collectionviewer.listStyle = $.bbq.getState(collectionviewer.tuidls) || 'list';
                 $('#collectionviewer_add_content_button > div', $rootel).text(data.total);
                 collectionviewer.total = data.total;
-                collectionData[pageNumber] = data.results;
+                if (data.results.length) {
+                    collectionData[pageNumber] = data.results;
+                } else {
+                    delete collectionData[pageNumber];
+                }
                 renderGridOrList(false, true);
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
             });
@@ -551,10 +559,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     arrIndex2 = parseInt($('.collectionviewer_carousel_item.selected', $rootel).attr('data-arr-index'), 10);
                 }
                 if (which === 'collectioncontentpreview' && collectionviewer.listStyle === 'carousel') {
-                    $('.collectionviewer_widget', $rootel).trigger('start.collectioncontentpreview.sakai', collectionData[arrIndex1][arrIndex2]);
-                    $('.collectionviewer_collection_item_preview', $rootel).show();
+                    if (collectionData.length && collectionData[arrIndex1] && collectionData[arrIndex1][arrIndex2]) {
+                        $('.collectionviewer_widget', $rootel).trigger('start.collectioncontentpreview.sakai', collectionData[arrIndex1][arrIndex2]);
+                        $('.collectionviewer_collection_item_preview', $rootel).show();
+                    }
                 } else if (which === 'pageviewer') {
-                    $(window).trigger('start.pageviewer.sakai', collectionData[arrIndex1][arrIndex2]);
+                    if (collectionData.length && collectionData[arrIndex1] && collectionData[arrIndex1][arrIndex2]) {
+                        $(window).trigger('start.pageviewer.sakai', collectionData[arrIndex1][arrIndex2]);
+                    }
                 }
             }
         };
@@ -623,12 +635,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             $rootel.on('click', '#collectionviewer_finish_editing_collection_button', function() {
+                $('#collectionviewer_expanded_content_container').empty();
                 $(this).hide();
                 $('#collectionviewer_edit_collection_button', $rootel).show();
                 var state = {};
                 state[collectionviewer.tuidls] = 'carousel';
                 $.bbq.pushState(state);
-                handleHashChange();
             });
 
             $rootel.on('click', '#collectionviewer_select_all', function() {
@@ -655,7 +667,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     }, function (success) {
                         sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('REMOVING_CONTENT_FROM_COLLECTION', 'collectionviewer'), sakai.api.i18n.getValueForKey('PROCESSING_COLLECTION', 'collectionviewer'));
                         $('.collectionviewer_check:checked:visible', $rootel).parents('li:not(.contentauthoring_row_container)').hide('slow');
-                        setTimeout(refreshCollection, 1500);
+                        setTimeout(refreshCollection, 500);
                     }]);
                 }
             });
@@ -668,7 +680,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     context: collectionviewer.contextId
                 }, function (success) {
                     $itemToRemove.parents('li:not(.contentauthoring_row_container)').hide('slow');
-                    setTimeout(refreshCollection, 1500);
+                    setTimeout(refreshCollection, 500);
                 }]);
             });
 
@@ -683,7 +695,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             $(document).on('done.newaddcontent.sakai', function(ev, data) {
-                switchListView();
+                setTimeout(function() {
+                    switchListView(false);
+                }, 1000);
             });
 
             $(window).on('hiding.newsharecontent.sakai hiding.savecontent.sakai', function() {

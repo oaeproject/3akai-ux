@@ -106,7 +106,6 @@
                         {if ! i.isMe && ! sakai.data.me.user.anon}
                             {if ! i.connected}
                                 <button title="__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="s3d-aural-text">__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
-                                <div class="searchpeople_result_left_filler" id="searchpeople_result_left_filler_${i.userid|safeOutput}" style="display:none;"></div>
                                 <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="s3d-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
                             {elseif i.invited}
                                 <button title="__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="s3d-aural-text">__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
@@ -125,12 +124,12 @@
                     </span>
                     <span class="s3d-search-result-anonuser"></span>
                     {if ! i.picture}
-                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__"></a>
                     {else}
-                        <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
-                            <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}"/>
+                        <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__">
+                            <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.picture}"/>
                             {if i.pictureLarge}
-                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
+                                <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
                             {/if}
                         </a>
                     {/if}
@@ -191,8 +190,8 @@
                     <div class="s3d-search-result-right">
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]|safeOutput}</span>
-                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]|safeOutput}</span>
+                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]}</span>
+                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]}</span>
                             </a>
                             {if i.groupType}
                                 <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>

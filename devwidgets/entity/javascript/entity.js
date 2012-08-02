@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.safeURL(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']);
                 $('#contentpreview_download_button').attr('href', link);
             }
-            document.title = sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + " " + title;
+            sakai.api.Util.setPageTitle(' ' + title, 'pageLevel');
         };
 
         /**
@@ -595,7 +595,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $('.addpeople_init').on('click', function() {
-                $(document).trigger('init.addpeople.sakai', [tuid, true]);
+                $(document).trigger('init.addpeople.sakai', {
+                    editingGroup: true
+                });
                 $('#entity_groupsettings_dropdown').jqmHide();
             });
 
@@ -637,6 +639,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 prepareRenderContext(renderObj);
                                 $("#entity_owns").html(sakai.api.Util.TemplateRenderer("entity_counts_template", renderObj));
                                 setupCountAreaBindings();
+                                addBinding(renderObj);
                             }
                         });
                     }

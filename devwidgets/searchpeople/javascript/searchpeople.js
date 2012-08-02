@@ -174,9 +174,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $(window).trigger('lhnav.addHashParam', [{'q': '', 'refine': ''}]);
             } else {
                 url = facetedurl;
-                if (url.indexOf('.infinity.json') === -1) {
-                    url = url.replace('.json', '.infinity.json');
-                }
                 $(window).trigger('lhnav.addHashParam', [{'q': params.q, 'refine': params.refine}]);
             }
 
@@ -227,8 +224,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             sakai_global.data.search.getMyContacts();
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if ($(this).attr("sakai-entityid") === userToAdd.uuid){
-                    $(this).hide();
-                    $("#searchpeople_result_left_filler_"+userToAdd.uuid).show();
+                    $(this).addClass('fl-hidden');
                 }
             });
         });

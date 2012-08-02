@@ -26,7 +26,7 @@
 
 /*global, window, $ */
 
-require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-transport'], function($, sakai) {
 
     /**
      * @name sakai_global.uploadnewversion
@@ -60,56 +60,75 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
 
         var filesList = [];
 
+        // IE does not support XHR file uploads so we fallback to the iframe transport for uploads
+        var useIframeTransport = !$.support.xhrFileUpload && !$.support.xhrFormDataFileUpload;
+        var fileUploadForms = {};
+
         ////////////
         // UPLOAD //
         ////////////
 
-        var doUploadVersion = function(){
-            sakai.api.Util.Modal.open($uploadnewversionUploading);
-            var jqXHR = $('#uploadnewversion_fileupload').fileupload('send', {
-                url: '/system/pool/createfile.' + sakai_global.content_profile.content_data.data['_path'],
-                files: filesList,
-                success: function(data) {
-                    $.ajax({
-                       url: sakai_global.content_profile.content_data['content_path'] + '.json',
-                       type: 'POST',
-                       data: {
-                           'sakai:needsprocessing': true,
-                           'sakai:pagecount': 0,
-                           'sakai:hasPreview': false
-                       },
-                       success: function(data){
-                           $.ajax({
-                               url: sakai_global.content_profile.content_data['content_path'] + '.save.json',
-                               type: 'POST',
-                               success: function(data){
-                                   sakai.api.Util.Modal.close($uploadnewversionUploading);
-                                   sakai.api.Util.Modal.close($uploadnewversionContainer);
-                                   sakai_global.content_profile.content_data.data = data;
-                                   $(window).trigger('updated.version.content.sakai');
-                                   $(window).trigger('update.versions.sakai', {
-                                       pageSavePath: sakai_global.content_profile.content_data.content_path,
-                                       saveRef: '',
-                                       showByDefault: true
-                                   });
-                               },
-                               error: function(err){
-                                   sakai.api.Util.Modal.close($uploadnewversionUploading);
-                                   debug.error(err);
-                               }
-                           });
-                       },
-                       error: function(err){
-                           sakai.api.Util.Modal.close($uploadnewversionUploading);
-                           debug.error(err);
-                       }
+        var saveVersion = function(data) {
+            $.ajax({
+                url: sakai_global.content_profile.content_data['content_path'] + '.save.json',
+                type: 'POST',
+                success: function(data){
+                    sakai.api.Util.Modal.close($uploadnewversionUploading);
+                    sakai.api.Util.Modal.close($uploadnewversionContainer);
+                    sakai_global.content_profile.content_data.data = data;
+                    $(window).trigger('updated.version.content.sakai');
+                    $(window).trigger('update.versions.sakai', {
+                        pageSavePath: sakai_global.content_profile.content_data.content_path,
+                        saveRef: '',
+                        showByDefault: true
                     });
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    debug.error(jqXHR, textStatus, errorThrown);
+                error: function(err){
                     sakai.api.Util.Modal.close($uploadnewversionUploading);
+                    debug.error(err);
                 }
             });
+        };
+
+        var doUploadVersion = function() {
+            $('#uploadnewversion_upload_content_form').attr(
+                'action', '/system/pool/createfile.' + sakai_global.content_profile.content_data.data['_path']
+            );
+            sakai.api.Util.Modal.open($uploadnewversionUploading);
+            // If iframe transport is used we have to submit the file upload forms
+            if (useIframeTransport) {
+                $.each(filesList, function(i, val) {
+                    if (fileUploadForms[val.name]) {
+                        fileUploadForms[val.name].submit();
+                    }
+                });
+            } else {
+                var jqXHR = $('#uploadnewversion_fileupload').fileupload('send', {
+                    files: filesList,
+                    success: function(data) {
+                        $.ajax({
+                           url: sakai_global.content_profile.content_data['content_path'] + '.json',
+                           type: 'POST',
+                           data: {
+                               'sakai:needsprocessing': true,
+                               'sakai:pagecount': 0,
+                               'sakai:hasPreview': false
+                           },
+                           success: function(data){
+                               saveVersion(data);
+                           },
+                           error: function(err){
+                               sakai.api.Util.Modal.close($uploadnewversionUploading);
+                               debug.error(err);
+                           }
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        debug.error(jqXHR, textStatus, errorThrown);
+                        sakai.api.Util.Modal.close($uploadnewversionUploading);
+                    }
+                });
+            }
         };
 
 
@@ -142,6 +161,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
                 replaceFileInput: false,
                 add: function(e, data) {
                     filesList = data.files;
+                    if (useIframeTransport) {
+                        fileUploadForms[data.files[0].name] = data;
+                    }
+                },
+                done: function() {
+                    saveVersion();
                 }
             });
         };

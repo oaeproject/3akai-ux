@@ -66,14 +66,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
         var addToContactsInfoTypes = addToContacts + "_types";
         var addToContactsInfoDisplayName = addToContactsClass + "_displayname";
 
-        // Error messages
-        var addToContactsError = addToContacts + "_error";
-        var addToContactsErrorMessage = addToContactsError + "_message";
-        var addToContactsErrorRequest = addToContactsError + "_request";
-        var addToContactsErrorNoTypeSelected = addToContactsError + "_noTypeSelected";
-
-        var addToContactsResponse = addToContacts + "_response";
-
         ///////////////////
         // Functionality //
         ///////////////////
@@ -112,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          */
         var fillInUserInfo = function(user){
             if (user) {
-                $(addToContactsInfoDisplayName, $rootel).text(user.displayName);
+                $(addToContactsInfoDisplayName, $rootel).html(user.displayName);
                 if (!user.pictureLink) {
                     user.pictureLink = sakai.api.Util.constructProfilePicture(user);
                 }
@@ -150,7 +142,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
             if (!$.isArray(types)) {
                 types = [types];
             }
-            $(addToContactsResponse).text("");
             if (types.length) {
                 var fromRelationshipsToSend = [];
                 var toRelationshipsToSend = [];
@@ -169,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                 var personalnote = $.trim(formValues[addToContactsFormPersonalNote.replace(/#/gi, '')]);
 
                 // send message to other person
-                var userstring = $.trim(sakai.api.User.getDisplayName(sakai.data.me.profile));
+                var userstring = $.trim(sakai.api.User.getDisplayName(sakai.data.me.profile, false));
 
                 var title = $.trim($("#addtocontacts_invitation_title_key").text().replace(/\$\{user\}/g, userstring));
                 var message = $.trim($("#addtocontacts_invitation_body_key").text().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,"\n"));
@@ -196,14 +187,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                     },
                     error: function(xhr, textStatus, thrownError){
                         enableDisableInviteButton(false);
-                        $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
+                        sakai.api.Util.notification.show(
+                            sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                            sakai.api.i18n.getValueForKey('FAILED_TO_INVITE_THIS_USER', 'addtocontacts'),
+                            sakai.api.Util.notification.type.ERROR, true);
                     }
                 });
 
             }
             else {
                 enableDisableInviteButton(false);
-                $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorNoTypeSelected).text()));
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
+                    sakai.api.i18n.getValueForKey('PLEASE_SELECT_HOW_YOU_ARE_CONNECTED_TO_THIS_USER', 'addtocontacts'),
+                    sakai.api.Util.notification.type.ERROR, true);
             }
         };
 
@@ -217,7 +214,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
-            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", sakai.api.Security.safeOutput(contactToAdd.displayName)));
+            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", contactToAdd.displayName));
             hash.w.show();
         };
 

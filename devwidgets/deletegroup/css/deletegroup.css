@@ -16,5 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#deletegroup_form h4{margin-bottom:10px;}
+#deletegroup_form h6 {
+    margin-bottom: 10px;
+}
 .deletegroup_buttons{padding-top:20px;text-align:right;}
