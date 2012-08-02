@@ -263,7 +263,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             structure.items = {};
             structure.pages = {};
             if (data['structure0']) {
-                if (typeof data['structure0'] === 'string') {
+                if (_.isString(data['structure0'])) {
                     structure.items = $.parseJSON(data['structure0']);
                 } else {
                     structure.items = data['structure0'];
@@ -306,7 +306,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             for (var level in structure0) {
                 if (structure0[level]._pid && structure0[level]._pid === pid) {
                     var docStructure = docInfo.structure0;
-                    if (typeof docStructure === 'string') {
+                    if (_.isString(docStructure)) {
                         docStructure = $.parseJSON(docStructure);
                     }
                     structure0[level] = $.extend(true, structure0[level], docStructure);
@@ -338,7 +338,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var addDocUrlIntoStructure = function(structure, url) {
             structure._poolpath = url;
             for (var i in structure) {
-                if (structure.hasOwnProperty(i) && i.substring(0,1) !== '_' && typeof structure[i] !== 'string') {
+                if (structure.hasOwnProperty(i) && i.substring(0,1) !== '_' && ! _.isString(structure[i])) {
                     structure[i] = addDocUrlIntoStructure(structure[i], url);
                 }
             }

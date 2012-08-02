@@ -3,12 +3,13 @@ require(
     [
     'jquery',
     'sakai/sakai.api.core',
+    'underscore',
     'qunitjs/qunit',
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
     ],
-    function($, sakai) {
+    function($, sakai, _) {
 
     'use strict';
 
@@ -37,14 +38,14 @@ require(
                 }
             });
 
-            if (widgetslistwithkey.length === 0 && typeof widgetdefaultbundlekey === 'undefined') {
-                QUnit.ok(true, 'The key '' + key + '' isn\'t used in any other widgets or in the defaultbundle');
+            if (widgetslistwithkey.length === 0 && _.isUndefined(widgetdefaultbundlekey)) {
+                QUnit.ok(true, 'The key ' + key + ' isn\'t used in any other widgets or in the defaultbundle');
             } else {
-                var outputtext = 'The key '' + key + '' is used in';
+                var outputtext = 'The key ' + key + ' is used in';
                 if (widgetslistwithkey.length !== 0) {
                     outputtext += ' the following widgets: ' + widgetslistwithkey.join(', ');
                 }
-                if (typeof widgetdefaultbundlekey !== 'undefined') {
+                if (! _.isUndefined(widgetdefaultbundlekey)) {
                     outputtext += (widgetslistwithkey.length !== 0 ? ' &' : '') + ' the default core bundle';
                 }
                 QUnit.ok(false, outputtext);

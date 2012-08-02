@@ -769,7 +769,7 @@ define(
                 '(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?';
 
             // Test whether the format is in milliseconds
-            if (regexpInteger.test(dateInput) && typeof dateInput !== 'string') {
+            if (regexpInteger.test(dateInput) && _.isString(dateInput)) {
                return new Date(dateInput);
             }
 
@@ -1219,11 +1219,11 @@ define(
              createActivity : function(nodeUrl, appID, templateID, extraData, callback) {
 
                 // Check required params
-                if (typeof appID !== 'string' || appID === '') {
+                if (! _.isString(appID) || appID === '') {
                     debug.error('sakai.api.Activity.createActivity(): appID is required argument!');
                     return;
                 }
-                if (typeof templateID !== 'string' || templateID === '') {
+                if (! _.isString(templateID) || templateID === '') {
                     debug.error('sakai.api.Activity.createActivity(): templateID is required argument!');
                 }
 
@@ -1472,7 +1472,7 @@ define(
             if (templateElement instanceof jQuery && templateElement[0]) {
                 templateName = templateElement[0].id;
             }
-            else if (typeof templateElement === 'string') {
+            else if (_.isString(templateElement)) {
                 templateName = templateElement.replace('#', '');
                 templateElement = $('#' + templateName);
             }
