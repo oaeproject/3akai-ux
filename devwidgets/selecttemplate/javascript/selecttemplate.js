@@ -63,7 +63,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        $('.selecttemplate_use_button', $rootel).live('click', function() {
+        $('.selecttemplate_use_button', $rootel).on('click', function() {
             var clicked = $(this);
             if (clicked.data('templateid')) {
                 renderCreateWorld(tuid, clicked.data('templateid'), false);
@@ -80,7 +80,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('#selecttemplate_type_name', $rootel).text(sakai.api.i18n.getValueForKey(templates.menuLabel || templates.title));
             $('#selecttemplate_createworld_container', $rootel).hide();
 
-            $('.selecttemplate_preview_button', $rootel).live('click', function() {
+            $('.selecttemplate_preview_button', $rootel).on('click', function() {
                 var clicked = $(this);
                 if (clicked.data('templateid')) {
                     renderPreview(tuid, clicked.data('templateid'), templates);
@@ -133,7 +133,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'sakai': sakai
             };
             sakai.api.Util.TemplateRenderer(selecttemplatePreviewDialogTemplate, json, $selecttemplatePreviewDialogContainer);
-            $('.selecttemplate_use_button', '#selecttemplate_preview_dialog').live('click', function() {
+            $('.selecttemplate_use_button', '#selecttemplate_preview_dialog').on('click', function() {
                 var clicked = $(this);
                 if (clicked.data('templateid')) {
                     renderCreateWorld(tuid, clicked.data('templateid'), false);
@@ -142,7 +142,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        $(window).bind('hashchange', function() {
+        $(window).on('hashchange', function() {
             doInit();
         });
 

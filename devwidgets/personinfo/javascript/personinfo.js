@@ -67,7 +67,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $personinfo_widget.jqmHide();
 
             // unbind the close event
-            $(document).unbind('click.personinfo_close');
+            $(document).off('click.personinfo_close');
         };
 
         /**
@@ -199,12 +199,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         // bind personinfo cancel
-        $personinfo_close.live('click', function() {
+        $personinfo_close.on('click', function() {
             hidePersonInfo();
         });
 
         // bind personinfo message button
-        $personinfo_message.live('click', function() {
+        $personinfo_message.on('click', function() {
             var sendMessageUserObj = {};
             sendMessageUserObj.uuid = userId;
             sendMessageUserObj.username = sakai.api.User.getDisplayName(dataCache[userId]);
@@ -214,12 +214,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         });
 
         // bind personinfo request connection button
-        $personinfo_invite.live('click', function() {
+        $personinfo_invite.on('click', function() {
             $(document).trigger('initialize.addToContacts.sakai', [dataCache[userId]]);
         });
 
         // bind personinfo request connection button
-        $personinfo_invited.live('click', function() {
+        $personinfo_invited.on('click', function() {
             sakai.api.User.acceptContactInvite(userId, function(success) {
                 if (success) {
                     $personinfo_invited.hide();
@@ -228,17 +228,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         });
 
         // bind hashchange to close dialog
-        $(window).bind('hashchange hashchanged.inbox.sakai', function() {
+        $(window).on('hashchange hashchanged.inbox.sakai', function() {
             hidePersonInfo();
         });
 
         // bind click trigger
-        $('.personinfo_trigger_click').live('click', function() {
+        $('.personinfo_trigger_click').on('click', function() {
             doInit($(this));
         });
 
         // bind addtocontact contact request
-        $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd) {
+        $(window).on('sakai.addToContacts.requested', function(ev, userToAdd) {
             if (dataCache[userToAdd.userid]) {
                 dataCache[userToAdd.userid].connectionState = 'PENDING';
                 $personinfo_invite.hide();
@@ -260,7 +260,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             userId = $clickedEl.data('userid');
 
             // bind outside click to close widget
-            $(document).bind('click.personinfo_close', function(e) {
+            $(document).on('click.personinfo_close', function(e) {
                 var $clicked = $(e.target);
                 // Check if one of the parents is the tooltip
                 if (!$clicked.parents().is('#personinfo') && $personinfo_widget.is(':visible')) {

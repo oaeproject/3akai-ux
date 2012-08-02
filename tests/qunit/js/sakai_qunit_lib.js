@@ -54,7 +54,7 @@ require(
 
     // Only bind when we're not swarming
     if (window.location.host.indexOf('testswarm') === -1) {
-        $(window).bind('addlocalbinding.qunit.sakai', function() {
+        $(window).on('addlocalbinding.qunit.sakai', function() {
             doLocalBinding();
         });
     }
@@ -76,7 +76,7 @@ require(
             sakai_global.qunit.ready = true;
             $(window).trigger('ready.qunit.sakai');
         } else {
-            $(window).bind('done.i18n.sakai', function() {
+            $(window).on('done.i18n.sakai', function() {
                 sakai_global.qunit.ready = true;
                 $(window).trigger('ready.qunit.sakai');
             });
@@ -86,7 +86,7 @@ require(
     if (sakai_global.qunit.widgetsdone) {
         setupWidgets();
     } else {
-        $(window).bind('widgetsdone.qunit.sakai', function() {
+        $(window).on('widgetsdone.qunit.sakai', function() {
             setupWidgets();
         });
     }

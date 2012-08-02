@@ -328,7 +328,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             });
         };
 
-        $newsharecontentMessageToggle.add($newsharecontentMessageArrow).bind('click',function() {
+        $newsharecontentMessageToggle.add($newsharecontentMessageArrow).on('click',function() {
             $newsharecontentMessageArrow.toggleClass('arrow_down');
             $newsharecontentMessageContainer.stop(true, true).slideToggle();
         });

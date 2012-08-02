@@ -81,7 +81,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
 
             if (sakai.data.me.user.anon) {
-                $(window).bind('ready.login.sakai', function(e) {
+                $(window).on('ready.login.sakai', function(e) {
                     $(window).trigger('relayout.login.sakai', false);
                 });
 
@@ -98,7 +98,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                     redurl = $.deparam.querystring().url;
                 }
                 // Set the link for the sign in button
-                $('.login-container button').bind('click', function() {
+                $('.login-container button').on('click', function() {
                     document.location = (gatewayURL + '?url=' + escape(redurl));
                 });
                 if (sakai.config.Authentication.allowInternalAccountCreation) {
@@ -112,7 +112,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 $(permissionsError).append(renderedTemplate);
                 $('#permission_error').addClass('error_page_bringdown');
             }
-            $searchinput.live('keydown', function(ev) {
+            $searchinput.on('keydown', function(ev) {
                 if (ev.keyCode === 13) {
                     doSearch();
                 }

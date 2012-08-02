@@ -226,7 +226,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }, sakai.config.URL.INFINITE_LOADING_ICON, resultsPostProcessor);
         };
 
-        $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd) {
+        $(window).on('sakai.addToContacts.requested', function(ev, userToAdd) {
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if ($(this).attr('sakai-entityid') === userToAdd.uuid) {
                     $(this).addClass('fl-hidden');
@@ -234,7 +234,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         });
 
-        $('.link_accept_invitation').live('click', function(ev) {
+        $('.link_accept_invitation').on('click', function(ev) {
             var userid = $(this).attr('sakai-entityid');
             var displayName = $(this).attr('sakai-entityname');
             sakai.api.User.acceptContactInvite(userid, function(success, data) {
@@ -346,7 +346,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var bindEvents = function() {
-            $('.contacts_add_to_contacts').live('click', function() {
+            $('.contacts_add_to_contacts').on('click', function() {
                 var $pendingList = $(this).parents('.contacts_item').parent();
                 acceptRequest($(this)[0].id.split('contacts_add_to_contacts_')[1]);
                 $(this).parents('.contacts_item').remove();
@@ -362,18 +362,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toTop: true
             });
 
-            $('.s3d-actions-delete', $rootel).live('click', function() {
+            $('.s3d-actions-delete', $rootel).on('click', function() {
                 $('#contacts_contact_to_delete').text($(this).data('sakai-entityname'));
                 $('#contacts_delete_contact_confirm').data('sakai-entityid', $(this).data('sakai-entityid'));
                 sakai.api.Util.Modal.open('#contacts_delete_contacts_dialog');
             });
 
-            $('#contacts_delete_contact_confirm').live('click', function() {
+            $('#contacts_delete_contact_confirm').on('click', function() {
                 removeRequest($(this).data('sakai-entityid'));
                 updateMessageAndAddToData();
             });
 
-            $(window).bind('contacts.accepted.sakai', function() {
+            $(window).on('contacts.accepted.sakai', function() {
                 uncheckAll();
                 var t = setTimeout(getContacts,500);
             });
@@ -391,7 +391,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 updateMessageAndAddToData();
             });
 
-            $('.contacts_select_contact_checkbox').live('change', function() {
+            $('.contacts_select_contact_checkbox').on('change', function() {
                 checkAddingEnabled();
                 updateMessageAndAddToData();
             });
@@ -405,24 +405,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $(contactsShowList, $rootel).live('click', function() {
+            $(contactsShowList, $rootel).on('click', function() {
                 $.bbq.pushState({'ls': 'list'});
             });
 
-            $(contactsShowGrid, $rootel).live('click', function() {
+            $(contactsShowGrid, $rootel).on('click', function() {
                 $.bbq.pushState({'ls': 'grid'});
             });
 
-            $(window).bind('hashchanged.contacts.sakai', handleHashChange);
+            $(window).on('hashchanged.contacts.sakai', handleHashChange);
 
-            $('#contacts_search_input').live('keyup', function(ev) {
+            $('#contacts_search_input').on('keyup', function(ev) {
                 var q = $.trim($(this).val());
                 if (q !== contacts.query && ev.keyCode === 13) {
                     $.bbq.pushState({'cq': q});
                 }
             });
 
-            $('#contacts_search_button').live('click', function(ev) {
+            $('#contacts_search_button').on('click', function(ev) {
                 var q = $.trim($('#contacts_search_input').val());
                 if (q !== contacts.query) {
                     $.bbq.pushState({'cq': q});

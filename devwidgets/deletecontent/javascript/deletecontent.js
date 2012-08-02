@@ -565,14 +565,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Internal event binding //
         ////////////////////////////
 
-        $('#deletecontent_action_removefromlibrary').bind('click', removeFromLibrary);
-        $('#deletecontent_action_removefromcollection').bind('click', removeFromLibrary);
-        $('#deletecontent_action_removefromsystem').bind('click', checkUsedByOthers);
-        $('#deletecontent_action_apply').bind('click', selectHybrid);
-        $('#deletecontent_action_removefromlibrary_only').bind('click', removeFromLibrary);
-        $('#deletecontent_action_removefromcollection_only').bind('click', removeFromLibrary);
-        $('#deletecontent_action_removefromsystem_confirm').bind('click', removeFromSystem);
-        $('#deletecontent_action_removefromsystem_nocontext').bind('click', checkUsedByOthers);
+        $('#deletecontent_action_removefromlibrary').on('click', removeFromLibrary);
+        $('#deletecontent_action_removefromcollection').on('click', removeFromLibrary);
+        $('#deletecontent_action_removefromsystem').on('click', checkUsedByOthers);
+        $('#deletecontent_action_apply').on('click', selectHybrid);
+        $('#deletecontent_action_removefromlibrary_only').on('click', removeFromLibrary);
+        $('#deletecontent_action_removefromcollection_only').on('click', removeFromLibrary);
+        $('#deletecontent_action_removefromsystem_confirm').on('click', removeFromSystem);
+        $('#deletecontent_action_removefromsystem_nocontext').on('click', checkUsedByOthers);
 
         ////////////////////////////
         // External event binding //

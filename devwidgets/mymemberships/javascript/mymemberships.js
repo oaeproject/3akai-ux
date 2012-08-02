@@ -345,7 +345,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var addBinding = function() {
-            $(window).bind('hashchanged.mymemberships.sakai', handleHashChange);
+            $(window).on('hashchanged.mymemberships.sakai', handleHashChange);
 
             $('#mymemberships_search_button').click(function() {
                 var q = $.trim($('#mymemberships_livefilter').val());
@@ -384,7 +384,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 updateMessageAndAddToData();
             });
 
-            $('.mymemberships_select_group_checkbox').live('change', function() {
+            $('.mymemberships_select_group_checkbox').on('change', function() {
                 checkAddingEnabled();
                 updateMessageAndAddToData();
             });
@@ -395,7 +395,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toTop: true
             });
 
-            $('.s3d-actions-delete', $rootel).live('click', function() {
+            $('.s3d-actions-delete', $rootel).on('click', function() {
                 if ($(this).hasClass('mymemberhips_disabled_leave')) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('GROUP_MEMBERSHIP'),
                         sakai.api.i18n.getValueForKey('UNABLE_TO_LEAVE', 'mymemberships').replace('${groupname}', $(this).attr('data-sakai-entityname')),
@@ -409,13 +409,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $('#mymemberships_delete_membership_confirm').live('click', function() {
+            $('#mymemberships_delete_membership_confirm').on('click', function() {
                 removeMembership($(this).attr('data-sakai-entityid'), $(this).attr('data-sakai-entityname'));
                 updateMessageAndAddToData();
             });
 
             if (sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
-                    $('.searchgroups_result_plus',$rootel).live('click', function(ev) {
+                    $('.searchgroups_result_plus',$rootel).on('click', function(ev) {
                     var joinable = $(this).data('group-joinable');
                     var groupid = $(this).data('groupid');
                     var itemdiv = $(this);

@@ -510,21 +510,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         // Bind Events
-        $embedcontent_button_add_selected_content.bind('click', function() {
+        $embedcontent_button_add_selected_content.on('click', function() {
             doEmbed();
             return false;
         });
 
-        $embedcontent_just_add.bind('click', function() {
+        $embedcontent_just_add.on('click', function() {
             doEmbed();
         });
 
-        $embedcontent_dont_add.bind('click', function() {
+        $embedcontent_dont_add.on('click', function() {
             sakai.api.Widgets.Container.informCancel(tuid, 'embedcontent');
             return false;
         });
 
-        $uploadContentLink.bind('click', function() {
+        $uploadContentLink.on('click', function() {
             $(window).trigger('init.newaddcontent.sakai');
             return false;
         });
@@ -539,7 +539,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('#' + $(target).attr('id') + '_content').addClass(active_content_class).show();
         };
 
-        $embedcontent_tabs.find('button').bind('click', function(e) {
+        $embedcontent_tabs.find('button').on('click', function(e) {
             var tab = $(e.target).attr('id').split(tab_id_prefix)[1];
             if ($(e.target).parent('li').hasClass(active_tab_class)) {
                 return false;
@@ -557,7 +557,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Bind to a click on the display preview blocks
          * This should place an outline on the img and check the checkbox
          */
-        $embedcontent_display_previews.bind('click', function(e) {
+        $embedcontent_display_previews.on('click', function(e) {
             if ($(this).find('input').attr('checked') === 'checked') {
                 return true;
             } else {
@@ -568,13 +568,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $embedcontent_display_previews.find('a').bind('click', function(e) {
+        $embedcontent_display_previews.find('a').on('click', function(e) {
             // trigger the above event handler
             $(e.target).parent('span').parent('div').parent('div').trigger('click');
             return false;
         });
 
-        $embedcontent_button_goto_display_settings.bind('click', function(e) {
+        $embedcontent_button_goto_display_settings.on('click', function(e) {
             toggleTabs($('#embedcontent_tab_display'));
             return false;
         });
@@ -583,7 +583,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Bind to a change in the include checkboxes
          * This toggles the preview elements
          */
-        $embedcontent_include_inputs.bind('change', function(e) {
+        $embedcontent_include_inputs.on('change', function(e) {
             var which = $(this).attr('id').split('_')[1];
             if ($(this).attr('checked')) {
                 $('.embedcontent_include_' + which).show();
@@ -592,7 +592,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $embedcontent_layout_options.bind('click', function(e) {
+        $embedcontent_layout_options.on('click', function(e) {
             if ($(this).find('input').attr('checked') === 'checked') {
                 return true;
             } else {
@@ -607,13 +607,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $embedcontent_add_title_description_fields.toggle();
         };
 
-        $embedcontent_add_title_description_button.bind('click', function(e) {
+        $embedcontent_add_title_description_button.on('click', function(e) {
             toggleAddTitleAndDescription();
             return false;
         });
 
-        $(window).unbind('finished.pickeradvanced.sakai');
-        $(window).bind('finished.pickeradvanced.sakai', function(e, data) {
+        $(window).off('finished.pickeradvanced.sakai');
+        $(window).on('finished.pickeradvanced.sakai', function(e, data) {
             addChoicesFromPickeradvanced(data.toAdd);
         });
 
@@ -628,9 +628,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $(window).unbind('ready.pickeradvanced.sakai');
-        $(window).bind('ready.pickeradvanced.sakai', function(e) {
-            $embedcontent_search_for_content.bind('click', function() {
+        $(window).off('ready.pickeradvanced.sakai');
+        $(window).on('ready.pickeradvanced.sakai', function(e) {
+            $embedcontent_search_for_content.on('click', function() {
                 var pickerConfig = {
                     'type': 'content'
                 };

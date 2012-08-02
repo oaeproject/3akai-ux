@@ -220,7 +220,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
             $(searchConfig.results.resultsContainer).addClass(searchConfig.results.resultsContainerAnonClass);
         }
 
-        $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd) {
+        $(window).on('sakai.addToContacts.requested', function(ev, userToAdd) {
             sakai_global.data.search.getMyContacts();
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if ($(this).attr('sakai-entityid') === userToAdd.uuid) {
@@ -229,13 +229,13 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
             });
         });
 
-        $(window).bind('hashchange', function(ev) {
+        $(window).on('hashchange', function(ev) {
             if ($.bbq.getState('l') === 'people') {
                 doSearch();
             }
         });
 
-        $(window).bind('sakai.search.util.finish', function(ev, data) {
+        $(window).on('sakai.search.util.finish', function(ev, data) {
             if (data && data.tuid === tuid) {
                 sakai.api.Widgets.widgetLoader.insertWidgets('searchpeople_widget', false, false, {
                     '449529953': {

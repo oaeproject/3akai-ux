@@ -170,8 +170,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var addBinding = function() {
             // bind the more link
-            $(relatedcontentShowMore).die('click', showMore);
-            $(relatedcontentShowMore).live('click', showMore);
+            $(relatedcontentShowMore).off('click', showMore);
+            $(relatedcontentShowMore).on('click', showMore);
         };
 
         ////////////////////
@@ -181,14 +181,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render function
          */
-       $(window).bind('render.relatedcontent.sakai', function(e, data) {
+       $(window).on('render.relatedcontent.sakai', function(e, data) {
            page = 0;
            addBinding();
            contentData = data;
            getRelatedContent();
         });
 
-        $(relatedcontentContent).live('click', function() {
+        $(relatedcontentContent).on('click', function() {
             $.bbq.pushState($(this).attr('data-href'));
         });
 

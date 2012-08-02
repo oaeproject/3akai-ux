@@ -324,7 +324,7 @@ require(
             if (sakai.api.i18n.done) {
                 getDevBundles();
             } else {
-                $(window).bind('done.i18n.sakai', function() {
+                $(window).on('done.i18n.sakai', function() {
                     getDevBundles();
                 });
             }
@@ -337,7 +337,7 @@ require(
             startTest();
         }
         else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 startTest();
             });
         }

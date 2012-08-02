@@ -122,7 +122,7 @@ require(
             startTests();
         }
         else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 startTests();
             });
         }

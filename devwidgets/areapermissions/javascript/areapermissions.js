@@ -297,7 +297,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          /////////////////////////////////
 
          var addBinding = function() {
-             $(areapermissionsSelectable).live('click', function() {
+             $(areapermissionsSelectable).on('click', function() {
                  $('#areapermissions_see_container .s3d-outer-shadow-container').addClass('areapermissions_unselected_rbt');
                  $(areapermissionsSelectable).parent().removeClass('s3d-outer-shadow-container');
                  $(this).parent().addClass('s3d-outer-shadow-container');
@@ -309,7 +309,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                  }
              });
 
-             $('.areapermissions_role_edit_check').live('change', function(ev) {
+             $('.areapermissions_role_edit_check').on('change', function(ev) {
                  var roleId = $(ev.currentTarget).attr('id').split('areapermissions_edit_')[1];
                  if (ev.currentTarget.checked) {
                      $('.areapermissions_see_' + roleId + '_checked').show();
@@ -321,8 +321,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                  }
              });
 
-             $('#areapermissions_apply_permissions').bind('click', showWarning);
-             $('#areapermissions_proceedandapply').live('click', applyPermissions);
+             $('#areapermissions_apply_permissions').on('click', showWarning);
+             $('#areapermissions_proceedandapply').on('click', applyPermissions);
          };
 
          var initializeOverlay = function() {

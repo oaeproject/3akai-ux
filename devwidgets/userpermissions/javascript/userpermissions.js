@@ -119,7 +119,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // Internal events //
         /////////////////////
 
-        $('#userpermissions_apply_permissions').live('click', function() {
+        $('#userpermissions_apply_permissions').on('click', function() {
             applyPermissions();
         });
 

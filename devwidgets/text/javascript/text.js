@@ -51,13 +51,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var widgetData = {title:'', text:''};
 
 
-        $text_cancel.die('click');
-        $text_cancel.live('click', function(e) {
+        $text_cancel.off('click');
+        $text_cancel.on('click', function(e) {
             sakai.api.Widgets.Container.informCancel(tuid, 'text');
         });
 
-        $text_save.die('click');
-        $text_save.live('click', function(e) {
+        $text_save.off('click');
+        $text_save.on('click', function(e) {
             widgetData.title = $('#text_title', $rootel).val();
             widgetData.text = $('#text_text', $rootel).val();
             sakai.api.Widgets.saveWidgetData(tuid, {data:widgetData}, function(success, data) {

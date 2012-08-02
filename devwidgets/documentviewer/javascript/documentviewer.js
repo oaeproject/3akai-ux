@@ -307,7 +307,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
         // Indicate that the widget has finished loading
         sakai_global.documentviewer.isReady = true;
         $(window).trigger('ready.documentviewer.sakai', {});
-        $(window).bind(tuid + '.shown.sakai', handleShown);
+        $(window).on(tuid + '.shown.sakai', handleShown);
 
     };
     sakai.api.Widgets.widgetLoader.informOnLoad('documentviewer');

@@ -103,11 +103,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var bindEvents = function(worldId) {
-            $worldsettingsApplyButton.die('click').live('click', function() {
+            $worldsettingsApplyButton.off('click').on('click', function() {
                 showWarning();
             });
-            $('#worldsettings_proceedandapply').die('click');
-            $('#worldsettings_proceedandapply').live('click', function() {
+            $('#worldsettings_proceedandapply').off('click');
+            $('#worldsettings_proceedandapply').on('click', function() {
                 $worldsettingsForm.submit();
             });
 

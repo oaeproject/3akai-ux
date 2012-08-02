@@ -117,7 +117,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         // Listen for completion of sakai2 favourites site addition
         // to refresh this widget's sites listing
-        $(window).bind('sakai2-favourites-selected', function() {
+        $(window).on('sakai2-favourites-selected', function() {
             doInit();
         });
 

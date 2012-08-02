@@ -196,10 +196,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var addBinding = function() {
             sakai.api.Util.hideOnClickOut($addpeoplegroupsWidget, addpeoplegroupsTrigger + ',' + addpeoplegroupsClose);
-            $(addpeoplegroupsClose, $rootel).die('click', toggleVisibility);
-            $(addpeoplegroupsClose, $rootel).live('click', toggleVisibility);
-            $(addpeoplegroupsSave, $rootel).die('click', saveMemberships);
-            $(addpeoplegroupsSave, $rootel).live('click', saveMemberships);
+            $(addpeoplegroupsClose, $rootel).off('click', toggleVisibility);
+            $(addpeoplegroupsClose, $rootel).on('click', toggleVisibility);
+            $(addpeoplegroupsSave, $rootel).off('click', saveMemberships);
+            $(addpeoplegroupsSave, $rootel).on('click', saveMemberships);
         };
 
         var doInit = function(el) {

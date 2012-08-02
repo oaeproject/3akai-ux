@@ -98,12 +98,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         if (!$rootel.parents('.collectionviewer_collection_item_preview').length) {
-            $(window).bind('start.contentpreview.sakai', function(ev, data) {
+            $(window).on('start.contentpreview.sakai', function(ev, data) {
                 contentData = data;
                 determineDataType();
             });
 
-            $(window).bind('updated.version.content.sakai',function() {
+            $(window).on('updated.version.content.sakai',function() {
                 determineDataType();
             });
 
@@ -111,7 +111,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai_global.contentpreview.isReady = true;
             $(window).trigger('ready.contentpreview.sakai', {});
         } else {
-            $rootel.parents('.collectionviewer_widget').bind('start.collectioncontentpreview.sakai', function(ev, data) {
+            $rootel.parents('.collectionviewer_widget').on('start.collectioncontentpreview.sakai', function(ev, data) {
                 contentData = {data: data};
                 determineDataType();
             });

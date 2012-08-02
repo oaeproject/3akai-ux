@@ -125,7 +125,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ////////////////////
 
         /** Binds Settings form */
-        $settingsForm.bind('submit', function(ev) {
+        $settingsForm.on('submit', function(ev) {
             // get the selected color
             var selectedColor = $colorPicker.val();
 
@@ -141,7 +141,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             return false;
         });
 
-        $cancelSettings.bind('click', function() {
+        $cancelSettings.on('click', function() {
             sakai.api.Widgets.Container.informFinish(tuid, 'helloworld');
         });
 

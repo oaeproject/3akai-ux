@@ -89,19 +89,19 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Adds binding for the carousel actions and buttons
          */
         var carouselBinding = function(carousel) {
-            $('#collectionviewer_newer', $rootel).live('click',function() {
+            $('#collectionviewer_newer', $rootel).on('click',function() {
                 carousel.prev();
                 $(this).focus();
             });
-            $('#collectionviewer_older', $rootel).live('click',function() {
+            $('#collectionviewer_older', $rootel).on('click',function() {
                 $(this).focus();
                 carousel.next();
             });
-            $('#collectionviewer_oldest', $rootel).live('click',function() {
+            $('#collectionviewer_oldest', $rootel).on('click',function() {
                 $(this).focus();
                 carousel.scroll(carousel.size() || 0);
             });
-            $('#collectionviewer_newest', $rootel).live('click',function() {
+            $('#collectionviewer_newest', $rootel).on('click',function() {
                 $(this).focus();
                 carousel.scroll(0);
             });
@@ -455,7 +455,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             var $element = $('.collectionviewer_carousel_item[data-item-id=' + item + ']', $rootel);
             $('.collectionviewer_carousel_item', $rootel).removeClass('selected');
             $element.addClass('selected');
-            $('.collectionviewer_widget', $rootel).unbind('start.collectioncontentpreview.sakai');
+            $('.collectionviewer_widget', $rootel).off('start.collectioncontentpreview.sakai');
             renderItemsForSelected(parseInt($element.attr('data-page-index'), 10), parseInt($element.attr('data-arr-index'), 10));
         };
 

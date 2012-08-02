@@ -267,13 +267,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
             // Listen for complete.fileupload.sakai event (from the fileupload widget)
             // to refresh widget listing
-            $(window).bind('complete.fileupload.sakai', function() {
+            $(window).on('complete.fileupload.sakai', function() {
                 // re render contrib widgets list
                 // notification of success or error
             });
 
             // Bind the disable buttons
-            $(adminWidgetsButtonDisable).live('click', function() {
+            $(adminWidgetsButtonDisable).on('click', function() {
                 var widgetId = this.id.substring(adminWidgetsDisable.length - 1);
                 $(adminWidgetsButtonDisableConfirm).attr('id', widgetId);
                 $(adminWidgetsDisableConfirmWidgetTitle).html('&quot;' + $(adminWidgetsWidgetName + widgetId).html() + '&quot;');
@@ -282,13 +282,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Bind the confirm disable button
-            $(adminWidgetsButtonDisableConfirm).live('click', function() {
+            $(adminWidgetsButtonDisableConfirm).on('click', function() {
                 var widgetId = this.id;
                 disableWidget(widgetId);
             });
 
             // Bind the enable buttons
-            $(adminWidgetsButtonEnable).live('click', function() {
+            $(adminWidgetsButtonEnable).on('click', function() {
                 var widgetId = this.id.substring(adminWidgetsEnable.length - 1);
                 $(adminWidgetsButtonEnableConfirm).attr('id', widgetId);
                 $(adminWidgetsEnableConfirmWidgetTitle).html('&quot;' + $(adminWidgetsWidgetName + widgetId).html() + '&quot;');
@@ -297,13 +297,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Bind the confirm enable button
-            $(adminWidgetsButtonEnableConfirm).live('click', function() {
+            $(adminWidgetsButtonEnableConfirm).on('click', function() {
                 var widgetId = this.id;
                 enableWidget(widgetId);
             });
 
             // Bind the delete buttons
-            $(adminWidgetsButtonDelete).live('click', function() {
+            $(adminWidgetsButtonDelete).on('click', function() {
                 var widgetId = this.id.substring(adminWidgetsDelete.length - 1);
                 $(adminWidgetsButtonDeleteConfirm).attr('id', widgetId);
                 $(adminWidgetsDeleteConfirmWidgetTitle).html('&quot;' + $(adminWidgetsWidgetName + widgetId).html() + '&quot;');
@@ -312,13 +312,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Bind the confirm delete button
-            $(adminWidgetsButtonDeleteConfirm).live('click', function() {
+            $(adminWidgetsButtonDeleteConfirm).on('click', function() {
                 var widgetId = this.id;
                 deleteWidget(widgetId);
             });
 
             // Bind the install from url button
-            $(adminWidgetsInstallUrlSubmit).live('click', function() {
+            $(adminWidgetsInstallUrlSubmit).on('click', function() {
                 installFromUrl();
             });
         };

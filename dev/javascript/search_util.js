@@ -31,7 +31,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
     var activeTags = [];
     var maxTagsDisplayed = 10;
 
-    $(window).bind('sakai.search.util.init', function(ev, config) {
+    $(window).on('sakai.search.util.init', function(ev, config) {
 
         /////////////////////
         // Get my contacts //
@@ -194,7 +194,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         // Events //
         ////////////
 
-        $('.search_tag_refine_item').die('click').live('click', function(ev) {
+        $('.search_tag_refine_item').off('click').on('click', function(ev) {
             var tag = $(this).attr('data-sakai-entityid');
             activeTags.push(sakai.api.Util.formatTags([tag])[0]);
             $.bbq.pushState({
@@ -202,7 +202,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }, 0);
         });
 
-        $('.search_tag_active_item').die('click').live('click', function(ev) {
+        $('.search_tag_active_item').off('click').on('click', function(ev) {
             var tag = $(this).attr('data-sakai-entityid');
             activeTags = $.grep(activeTags, function(value) {
                 return value.original !== tag;
@@ -212,7 +212,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }, 0);
         });
 
-        $('.link_accept_invitation').die('click').live('click', function(ev) {
+        $('.link_accept_invitation').off('click').on('click', function(ev) {
             var userid = $(this).attr('sakai-entityid');
             $.ajax({
                 url: '/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid) + '/contacts.accept.html',
@@ -245,7 +245,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         });
 
         // bind search view change
-        $('.search_view_list, .search_view_grid').die('click').live('click', function(ev) {
+        $('.search_view_list, .search_view_grid').off('click').on('click', function(ev) {
             if (!$(this).hasClass('selected')) {
                 if ($('.s3d-search-results-container').hasClass('s3d-search-results-grid')) {
                     view = 'list';
@@ -260,8 +260,8 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $('.searchgroups_result_plus').die('click');
-        $('.searchgroups_result_plus').live('click', function(ev) {
+        $('.searchgroups_result_plus').off('click');
+        $('.searchgroups_result_plus').on('click', function(ev) {
             var joinable = $(this).data('group-joinable');
             var groupid = $(this).data('groupid');
             var itemdiv = $(this);
@@ -286,7 +286,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
         });
 
-        $(window).bind('sakai.entity.updateOwnCounts', function(e, context) {
+        $(window).on('sakai.entity.updateOwnCounts', function(e, context) {
             sakai.api.Server.loadJSON('/p/'+context.contentId+'.infinity.json',function(success,data) {
                 sakai.api.Content.prepareContentForRender([data],sakai.data.me,function(results) {
                     if (results[0]) {

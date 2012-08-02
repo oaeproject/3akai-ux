@@ -96,7 +96,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 if ($.deparam.querystring().url) {
                     redurl = $.deparam.querystring().url;
                 }
-                $('.login-container button').bind('click', function() {
+                $('.login-container button').on('click', function() {
                     document.location = (gatewayURL + '?url=' + escape(redurl));
                 });
                 if (sakai.config.Authentication.allowInternalAccountCreation) {
@@ -110,7 +110,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 $(pageNotFoundError).append(renderedTemplate);
                 $('#page_not_found_error').addClass('error_page_bringdown');
             }
-            $searchinput.live('keydown', function(ev) {
+            $searchinput.on('keydown', function(ev) {
                 if (ev.keyCode === 13) {
                     doSearch();
                 }

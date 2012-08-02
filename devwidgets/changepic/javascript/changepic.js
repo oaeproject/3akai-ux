@@ -188,7 +188,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * On changepic form submit, check that a file has been selected
          * and submit the form.
          */
-        $('#profile_upload').unbind('click').bind('click', function() {
+        $('#profile_upload').off('click').on('click', function() {
             // validate args
             // file extension allow for image
             var extensionArray = ['.png', '.jpg', '.jpeg','.gif'];
@@ -295,7 +295,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 $(pictureMeasurer).html(sakai.api.Security.saneHTML('<img src='' + '/~' + sakai.api.Util.safeURL(id) + '/public/profile/' + picture._name + '?sid=' + Math.random() + '' id='' + pictureMeasurerImage.replace(/#/gi, '') + '' />'));
 
                 // Check the current picture's size
-                $(pictureMeasurerImage).bind('load', function(ev) {
+                $(pictureMeasurerImage).on('load', function(ev) {
                     resetUploadField();
 
                     // save the image size in global var.
@@ -372,14 +372,14 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 });
 
                 // if there is upload error show the error message
-                $(pictureMeasurerImage).bind('error', function() {
+                $(pictureMeasurerImage).on('error', function() {
                     showInputError();
                 });
             }
         };
 
         // Remove error notification when a new file is chosen
-        $(picInput).bind('change', function() {
+        $(picInput).on('change', function() {
             hideInputError();
             $('#profile_upload').removeAttr('disabled');
         });
@@ -523,7 +523,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
             onShow: showArea
         });
 
-        $(window).bind('setData.changepic.sakai', function(e, _mode, _id) {
+        $(window).on('setData.changepic.sakai', function(e, _mode, _id) {
             mode = _mode;
             id = _id;
         });

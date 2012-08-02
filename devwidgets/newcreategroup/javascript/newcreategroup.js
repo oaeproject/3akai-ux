@@ -201,14 +201,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Initialize the validate plug-in
         sakai.api.Util.Forms.validate($newcreategroupGroupForm, validateOpts, true);
         sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($newcreategroupGroupTags, null, $('.list_categories', $rootel));
-        $newcreategroupGroupTitle.bind('keyup', function() {
+        $newcreategroupGroupTitle.on('keyup', function() {
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val().toLowerCase(), '-');
             $newcreategroupSuggestedURL.val(suggestedURL);
             $newcreategroupSuggestedURLBase.attr('title', window.location.protocol + '//' + window.location.host + '/~' + suggestedURL);
             renderShareMessage();
         });
 
-        $newcreategroupSuggestedURL.bind('blur', function() {
+        $newcreategroupSuggestedURL.on('blur', function() {
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), '-');
             $newcreategroupSuggestedURL.val(suggestedURL);
             renderShareMessage();
@@ -268,11 +268,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         });
     };
 
-    $newcreategroupCancelCreateButton.bind('click', function() {
+    $newcreategroupCancelCreateButton.on('click', function() {
         $.bbq.pushState({'_r': Math.random()});
     });
 
-    $(window).bind('toadd.addpeople.sakai', function(ev, initTuid, users) {
+    $(window).on('toadd.addpeople.sakai', function(ev, initTuid, users) {
         selectedUsers = $.extend(true, {}, users);
         $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
             'users': selectedUsers,

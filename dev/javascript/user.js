@@ -426,7 +426,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd) {
+        $(window).on('sakai.addToContacts.requested', function(ev, userToAdd) {
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if (entityID && entityID !== sakai.data.me.user.userid) {
                     contextType = 'contact_pending';
@@ -435,21 +435,21 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
         });
 
-        $('#entity_user_accept_invitation').live('click', function() {
+        $('#entity_user_accept_invitation').on('click', function() {
             sakai.api.User.acceptContactInvite(contextData.userid);
             contextType = 'contact';
             renderEntity();
         });
 
-        $(window).bind('sakai.entity.ready', function() {
+        $(window).on('sakai.entity.ready', function() {
             renderEntity();
         });
 
-        $(window).bind('lhnav.ready', function() {
+        $(window).on('lhnav.ready', function() {
             generateNav();
         });
 
-        $(window).bind('updated.counts.lhnav.sakai', function() {
+        $(window).on('updated.counts.lhnav.sakai', function() {
             sakai.api.User.getUpdatedCounts(sakai.data.me, function(success) {
                 renderEntity();
                 generateNav();
@@ -462,7 +462,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $(window).bind('updated.messageCount.sakai', function() {
+        $(window).on('updated.messageCount.sakai', function() {
             if (isMe) {
                 sakai.api.Communication.getUnreadMessagesCountOverview('inbox', function(success, counts) {
                     messageCounts = counts;

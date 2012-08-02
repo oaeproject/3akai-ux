@@ -103,7 +103,7 @@ sakai_global.s23_site = function() {
         $('#'+this.target).attr('src', this.href);
     };
 
-    $(window).bind('hashchange', function(ev) {
+    $(window).on('hashchange', function(ev) {
         loadPageTools();
     });
 
@@ -406,7 +406,7 @@ sakai_global.s23_site = function() {
         }
     };
 
-    $(window).bind('sakai.entity.ready', function() {
+    $(window).on('sakai.entity.ready', function() {
         renderEntity();
     });
 

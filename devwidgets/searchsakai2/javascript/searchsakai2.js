@@ -222,7 +222,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         ////////////////////
 
 
-        $(searchConfig.global.text, rootel).live('keydown', function(ev) {
+        $(searchConfig.global.text, rootel).on('keydown', function(ev) {
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
                     'q': $(searchConfig.global.text, rootel).val(),
@@ -231,7 +231,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
             }
         });
 
-        $(searchConfig.global.button, rootel).live('click', function(ev) {
+        $(searchConfig.global.button, rootel).on('click', function(ev) {
             $.bbq.pushState({
                 'q': $(searchConfig.global.text, rootel).val(),
                 'page': 0
@@ -243,7 +243,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         // Initialization function //
         /////////////////////////////
 
-        $(window).bind('hashchange', function(ev) {
+        $(window).on('hashchange', function(ev) {
             if ($.bbq.getState('l') === 'sakai2sites') {
                 doSearch();
             }
@@ -252,7 +252,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         /**
          * Initialization function DOCUMENTATION
          */
-        $(window).bind('sakai.search.util.finish', function(ev) {
+        $(window).on('sakai.search.util.finish', function(ev) {
             sakai.api.Widgets.widgetLoader.insertWidgets('searchcontent_widget', false, false, {
                 'id845719741363': {
                     'facetedConfig': searchConfig.facetedConfig

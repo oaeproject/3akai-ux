@@ -262,7 +262,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
         /////////////////////
 
         // Bind the invite button
-        $(addToContactsFormButtonInvite).bind('click', function() {
+        $(addToContactsFormButtonInvite).on('click', function() {
             // Invite this person.
             doInvite(contactToAdd.userid);
             return false;

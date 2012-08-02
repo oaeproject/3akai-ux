@@ -86,8 +86,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Event Handlers //
         ////////////////////
 
-        $('.mygroups_create_new_group', rootel).die('click');
-        $('.mygroups_create_new_group', rootel).live('click', function(ev) {
+        $('.mygroups_create_new_group', rootel).off('click');
+        $('.mygroups_create_new_group', rootel).on('click', function(ev) {
             $(window).trigger('sakai.overlays.createGroup');
         });
 

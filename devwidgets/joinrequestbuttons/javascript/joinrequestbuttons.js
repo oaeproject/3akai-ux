@@ -199,8 +199,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // Event Bindings          //
         /////////////////////////////
 
-        $joinrequestbuttons_request.die('click');
-        $joinrequestbuttons_request.live('click', function(ev) {
+        $joinrequestbuttons_request.off('click');
+        $joinrequestbuttons_request.on('click', function(ev) {
             var groupid = this.id.split('joinrequestbuttons_request_')[1];
             if (!groupid || $.trim(groupid) === '') {
                 debug.error('No group id found');
@@ -231,8 +231,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             return true;
         });
 
-        $joinrequestbuttons_join.die('click');
-        $joinrequestbuttons_join.live('click', function(ev) {
+        $joinrequestbuttons_join.off('click');
+        $joinrequestbuttons_join.on('click', function(ev) {
             hideButtons();
             var groupid = this.id.split('joinrequestbuttons_join_')[1];
             if (!groupid || $.trim(groupid) === '') {
@@ -262,8 +262,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             return true;
         });
 
-        $joinrequestbuttons_leave.die('click');
-        $joinrequestbuttons_leave.live('click', function(ev) {
+        $joinrequestbuttons_leave.off('click');
+        $joinrequestbuttons_leave.on('click', function(ev) {
             var groupid = this.id.split('joinrequestbuttons_leave_')[1];
             if (!groupid || $.trim(groupid) === '') {
                 debug.error('No group id found');

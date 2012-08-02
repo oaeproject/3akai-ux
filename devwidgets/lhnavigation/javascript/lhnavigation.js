@@ -1230,7 +1230,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     if (sakai_global.contentauthoring && sakai_global.contentauthoring.ready) {
                         selectPage();
                     } else {
-                        $(window).bind('ready.contentauthoring.sakai', selectPage);
+                        $(window).on('ready.contentauthoring.sakai', selectPage);
                     }
                     enableSorting();
                     if (cData.parametersToCarryOver) {
@@ -1261,7 +1261,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Internal event binding //
         ////////////////////////////
 
-        $('.lhnavigation_selected_submenu').live('click', function(ev) {
+        $('.lhnavigation_selected_submenu').on('click', function(ev) {
             showContextMenu($(this));
         });
 
@@ -1271,7 +1271,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         $(document).on('click', '#inserterbar_action_add_page', addNewPage);
 
-        $('#lhavigation_submenu_edittitle').live('click', function(ev) {
+        $('#lhavigation_submenu_edittitle').on('click', function(ev) {
             editPageTitle();
             ev.stopPropagation();
         });
@@ -1290,30 +1290,30 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         });
 
-        $('.lhnavigation_change_title').live('blur', function(ev) {
+        $('.lhnavigation_change_title').on('blur', function(ev) {
             if (changingPageTitle) {
                 savePageTitle();
             }
         });
 
-        $('#lhavigation_submenu_deletepage').live('click', function(ev) {
+        $('#lhavigation_submenu_deletepage').on('click', function(ev) {
             confirmPageDelete();
         });
 
-        $('#lhnavigation_delete_confirm').live('click', function(ev) {
+        $('#lhnavigation_delete_confirm').on('click', function(ev) {
             deletePage();
         });
 
-        $('.lhnavigation_item_content, .lhnavigation_subnav_item_content').live('mouseleave', function() {
+        $('.lhnavigation_item_content, .lhnavigation_subnav_item_content').on('mouseleave', function() {
             onContextMenuLeave();
         });
 
-        $('.lhnavigation_item_content').live('click', function(ev) {
+        $('.lhnavigation_item_content').on('click', function(ev) {
             processNavigationClick($(this), ev);
         });
 
         // bind arrow keys for navigation
-        $('.lhnavigation_menuitem a').live('keydown', function(ev) {
+        $('.lhnavigation_menuitem a').on('keydown', function(ev) {
             var $el = $(this);
             if (ev.which === $.ui.keyCode.DOWN) {
                 // check top level
@@ -1408,7 +1408,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // External event binding //
         ////////////////////////////
 
-        $(window).bind('lhnav.addHashParam', function(ev, params) {
+        $(window).on('lhnav.addHashParam', function(ev, params) {
             storeNavigationParameters(params);
         });
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
@@ -1416,13 +1416,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 selectPage(all && all.newPageMode && all.newPageMode === 'true');
             }
         };
-        $(window).bind('hashchanged.lhnavigation.sakai', handleHashChange);
+        $(window).on('hashchanged.lhnavigation.sakai', handleHashChange);
 
-        $(window).bind('lhnav.init', function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
+        $(window).on('lhnav.init', function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
             renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
 
-        $(window).bind('lhnav.updateCount', function(e, pageid, value, add) {
+        $(window).on('lhnav.updateCount', function(e, pageid, value, add) {
             updateCounts(pageid, value, add);
         });
 

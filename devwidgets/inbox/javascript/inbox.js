@@ -96,7 +96,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Mark all selected messsages as read
          */
-        $inbox_mark_as_read.live('click', function() {
+        $inbox_mark_as_read.on('click', function() {
             var unreadMessages = $inbox_message_list.find('input[type='checkbox']:visible:checked').parents('.inbox_items_container.unread');
             var readList = [];
             $.each(unreadMessages, function(i,elt) {
@@ -108,11 +108,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             sakai.api.Communication.markMessagesAsRead(readList);
         });
 
-        $inbox_select_checkbox.live('change', function(e) {
+        $inbox_select_checkbox.on('change', function(e) {
             selectMessages($inbox_select_checkbox.is(':checked'));
         });
 
-        $('.inbox_items_container input[type='checkbox']', $rootel).live('change', function() {
+        $('.inbox_items_container input[type='checkbox']', $rootel).on('change', function() {
             if ($('.inbox_items_container input[type='checkbox']:checked', $rootel).length > 0) {
                 toggleGlobalButtons(true);
             } else {
@@ -142,7 +142,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
-        $inbox_invitation.live('click', handleContactInvitation);
+        $inbox_invitation.on('click', handleContactInvitation);
 
         var determineInviteStatus = function(message) {
             message.invitation = true;
@@ -246,8 +246,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             deleteMessages([messages[mid]]);
         };
 
-        $inbox_delete_button.live('click', deleteSingleMessage);
-        $inbox_delete_selected.live('click', deleteMultipleMessages);
+        $inbox_delete_button.on('click', deleteSingleMessage);
+        $inbox_delete_selected.on('click', deleteMultipleMessages);
 
 
         ///////////////////
@@ -380,8 +380,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
-        $inbox_search_messages.live('keydown', handleSearch);
-        $inbox_search_button.live('click', function() {
+        $inbox_search_messages.on('keydown', handleSearch);
+        $inbox_search_button.on('click', function() {
             $.bbq.pushState({
                 'iq': $inbox_search_messages.val()
             });
@@ -419,7 +419,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // HISTORY MANAGEMENT //
         ////////////////////////
 
-        $inbox_item.live('click', function(e) {
+        $inbox_item.on('click', function(e) {
             if (!($(e.target).hasClass('personinfo_trigger_click') || $(e.target).hasClass('inbox_action_button') || $(e.target).hasClass('inbox_delete_icon') || $(e.target).is('input'))) {
                 $.bbq.pushState({'message': $(this).attr('id')});
             }
@@ -522,8 +522,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         var init = function() {
             var all = state && state.all ? state.all : {};
             handleHashChange(null, {}, {}, all, {}, true);
-            $(window).bind('hashchanged.inbox.sakai', handleHashChange);
-            $(window).bind(tuid + '.shown.sakai', handleShown);
+            $(window).on('hashchanged.inbox.sakai', handleHashChange);
+            $(window).on(tuid + '.shown.sakai', handleShown);
         };
 
         init();

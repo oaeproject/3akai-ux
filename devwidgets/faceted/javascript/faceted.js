@@ -79,7 +79,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Bindings //
         //////////////
 
-        $(window).bind('hashchange', function(ev) {
+        $(window).on('hashchange', function(ev) {
             initialSelection();
         });
 

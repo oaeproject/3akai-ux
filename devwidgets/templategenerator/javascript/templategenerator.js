@@ -374,7 +374,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
         };
         bindEvents();
 
-        $(window).bind('init.templategenerator.sakai', function(e) {
+        $(window).on('init.templategenerator.sakai', function(e) {
             init();
         });
     };

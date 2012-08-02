@@ -837,15 +837,15 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         var addBinding = function() {
             $(addAreaNavigationButton).click(switchNavigation);
             $(addareaCreateDocButton).click(determineDocContext);
-            $(addAreaExistingCurrentlyViewingInput).live('keyup', handleSearch);
-            $(addAreaExistingEverywhereSearchInput).live('keyup', handleSearch);
-            $(addAreaExistingMyLibrarySearchInput).live('keyup', handleSearch);
-            $('.addarea_existing_sort').live('change', handleSearch);
+            $(addAreaExistingCurrentlyViewingInput).on('keyup', handleSearch);
+            $(addAreaExistingEverywhereSearchInput).on('keyup', handleSearch);
+            $(addAreaExistingMyLibrarySearchInput).on('keyup', handleSearch);
+            $('.addarea_existing_sort').on('change', handleSearch);
             $('.s3d-search-button', $rootel).click(handleSearch);
             $('#addarea_widgets_widget').change(function() {
                 $('#addarea_widgets_name').val(sakai.api.Widgets.getWidgetTitle($(this).val()));
             });
-            $(addareaExistingItem).live('click', function() {
+            $(addareaExistingItem).on('click', function() {
                 $(addareaExistingItem).removeClass('selected');
                 $(this).addClass('selected');
                 $('.addarea_existing_container:visible').find('.addarea_existing_permissions').html(
@@ -858,7 +858,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 $('.addarea_existing_container:visible').find('.addarea_existing_name').val($(this).data('doc-title'));
                 checkTitleProvided();
             });
-            $('.addarea_name_field').live('keyup', checkTitleProvided);
+            $('.addarea_name_field').on('keyup', checkTitleProvided);
         };
 
         /*

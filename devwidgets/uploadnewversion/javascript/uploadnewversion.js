@@ -172,8 +172,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
         };
 
         var addBinding = function() {
-            $(uploadnewversionDoUpload).unbind('click', doUploadVersion);
-            $(uploadnewversionDoUpload).bind('click', doUploadVersion);
+            $(uploadnewversionDoUpload).off('click', doUploadVersion);
+            $(uploadnewversionDoUpload).on('click', doUploadVersion);
         };
 
         var doInit = function() {

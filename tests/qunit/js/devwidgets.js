@@ -158,7 +158,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
     if (sakai_global.qunit.devfilesdone) {
         loadWidgets();
     } else {
-        $(window).bind('devfilesdone.qunit.sakai', function() {
+        $(window).on('devfilesdone.qunit.sakai', function() {
             loadWidgets();
         });
     }

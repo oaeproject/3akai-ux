@@ -64,11 +64,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $(window).trigger('sakai.entity.init', [context, type, groupData]);
         };
 
-        $(window).bind('sakai.entity.ready', function() {
+        $(window).on('sakai.entity.ready', function() {
             loadGroupEntityWidget();
         });
 
-        $(window).bind('ready.entity.sakai', function(e) {
+        $(window).on('ready.entity.sakai', function(e) {
             loadEntityWidget();
         });
 
@@ -150,11 +150,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        $(window).bind('lhnav.ready', function() {
+        $(window).on('lhnav.ready', function() {
             generateNav();
         });
 
-        $(window).bind('rerender.group.sakai', function(ev, forceOpenPage) {
+        $(window).on('rerender.group.sakai', function(ev, forceOpenPage) {
             loadDocStructure(forceOpenPage);
         });
 
@@ -170,7 +170,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $(document).trigger('init.addarea.sakai');
         });
 
-        $(window).bind('toadd.addpeople.sakai', function(e, widgetid, data) {
+        $(window).on('toadd.addpeople.sakai', function(e, widgetid, data) {
             var members = [];
             $.each(data, function(i, user) {
                 var member = {
@@ -188,7 +188,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $(window).bind('usersswitchedpermission.addpeople.sakai', function(e, widgetid, data) {
+        $(window).on('usersswitchedpermission.addpeople.sakai', function(e, widgetid, data) {
             var rolesToDelete = [],
                 rolesToAdd = [];
             $.each(data, function(i, user) {

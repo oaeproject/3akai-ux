@@ -78,7 +78,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $deletegroup_action_delete = $($deletegroup_action_delete.selector);
 
             // Add binding to the delete button
-            $deletegroup_action_delete.unbind('click').bind('click', function() {
+            $deletegroup_action_delete.off('click').on('click', function() {
                 sakai.api.Groups.deleteGroup(deletedata['sakai:group-id'], sakai.data.me, function(success) {
                     if (success) {
                         sakai.api.Util.notification.show($deletegroup_deleted.html(),

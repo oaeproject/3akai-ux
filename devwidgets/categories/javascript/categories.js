@@ -54,7 +54,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var addBinding = function() {
-            $categoriesExpandContract.bind('click', toggleWidgetvisibility);
+            $categoriesExpandContract.on('click', toggleWidgetvisibility);
         };
 
         /**
@@ -62,8 +62,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} carousel reference to the carousel instance
          */
         var carouselBinding = function(carousel) {
-            $('.categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo').live('click', function() {
-                $('.categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo').die('click');
+            $('.categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo').on('click', function() {
+                $('.categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo').off('click');
                 var clickedId = parseInt($(this)[0].id.split('scroll_')[1], 10);
                 if (clickedId) {
                     carousel.scroll(clickedId);

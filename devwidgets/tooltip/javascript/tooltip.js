@@ -56,8 +56,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var hideTooltip = function() {
             $tooltip_widget.jqmHide();
             $(window).trigger('closed.tooltip.sakai');
-            $(window).unbind('update.tooltip.sakai');
-            $(document).unbind('click.tooltip_close');
+            $(window).off('update.tooltip.sakai');
+            $(document).off('click.tooltip_close');
         };
 
         /**
@@ -66,7 +66,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var toggleTooltip = function() {
             // bind auto close of tooltip on outside mouse click
             if (tooltipAutoClose) {
-                $(document).unbind('click.tooltip_close').bind('click.tooltip_close', function(e) {
+                $(document).off('click.tooltip_close').on('click.tooltip_close', function(e) {
                     var $clicked = $(e.target);
                     // Check if one of the parents is the tooltip
                     if (!$clicked.parents().is('#tooltip') && $tooltip_widget.is(':visible')) {
@@ -98,25 +98,25 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
 
             // bind tooltip movement
-            $(window).unbind('update.tooltip.sakai');
-            $(window).bind('update.tooltip.sakai', function(e, tooltipData) {
+            $(window).off('update.tooltip.sakai');
+            $(window).on('update.tooltip.sakai', function(e, tooltipData) {
                 hideTooltip();
                 $(document).trigger('init.tooltip.sakai', tooltipData);
             });
             // bind tooltip close
-            $(window).unbind('done.tooltip.sakai');
-            $(window).bind('done.tooltip.sakai', function() {
+            $(window).off('done.tooltip.sakai');
+            $(window).on('done.tooltip.sakai', function() {
                 hideTooltip();
             });
-            $('.tooltip_close').unbind('click');
-            $('.tooltip_close').bind('click', function() {
-                $(window).unbind('.tooltip_close');
+            $('.tooltip_close').off('click');
+            $('.tooltip_close').on('click', function() {
+                $(window).off('.tooltip_close');
                 hideTooltip();
                 return false;
             });
         };
 
-        $tooltip_close.bind('click', function() {
+        $tooltip_close.on('click', function() {
             hideTooltip();
         });
 

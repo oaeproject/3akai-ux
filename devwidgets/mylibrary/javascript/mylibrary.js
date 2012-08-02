@@ -321,7 +321,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Enable/disable the remove selected button depending on whether
              * any items in the library are checked
              */
-            $mylibrary_check.live('change', function(ev) {
+            $mylibrary_check.on('change', function(ev) {
                 if ($(this).is(':checked')) {
                     $mylibrary_remove.removeAttr('disabled');
                     $mylibrary_addto.removeAttr('disabled');
@@ -389,7 +389,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Called when clicking the remove icon next to an individual content
              * item
              */
-            $mylibrary_remove_icon.live('click', function(ev) {
+            $mylibrary_remove_icon.on('click', function(ev) {
                 if ($(this).attr('data-entityid')) {
                     var paths = [];
                     var collection = false;
@@ -474,13 +474,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Keep track as to whether the current library widget is visible or not. If the
              * widget is not visible, it's not necessary to respond to hash change events.
              */
-            $(window).bind(tuid + '.shown.sakai', function(e, shown) {
+            $(window).on(tuid + '.shown.sakai', function(e, shown) {
                 mylibrary.widgetShown = shown;
             });
             /**
              * Bind to hash changes in the URL
              */
-            $(window).bind('hashchange', handleHashChange);
+            $(window).on('hashchange', handleHashChange);
 
             $mylibrary_show_list.click(function() {
                 $.bbq.pushState({'ls': 'list'});

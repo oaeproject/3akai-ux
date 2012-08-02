@@ -138,7 +138,7 @@ require(
     });
 
     // Bind to the show/hide test list link
-    $('#show_list button').bind('click', function() {
+    $('#show_list button').on('click', function() {
         if ($('#tests_list').is(':visible')) {
             $(this).text('Show Tests');
         } else {
@@ -148,23 +148,23 @@ require(
     });
 
     // Bind to the run_all link to run all tests
-    $('#run_all').bind('click', function() {
+    $('#run_all').on('click', function() {
         $('#show_list button').click();
         runAllTests();
     });
 
-    $('#run_all_unit').bind('click', function() {
+    $('#run_all_unit').on('click', function() {
         $('#show_list button').click();
         runAllTests('unit');
     });
 
-    $('#run_all_integration').bind('click', function() {
+    $('#run_all_integration').on('click', function() {
         $('#show_list button').click();
         runAllTests('integration');
     });
 
     // Handle clicks on the result rows to show the iframe with the results
-    $('tr[id] td').live('click', function() {
+    $('tr[id] td').on('click', function() {
         var $parent = $(this).parent('tr');
         // only hide the iframe if its not the one we want
         $('#run_all_iframes iframe[src!='' + $parent.attr('id') + '']:visible').hide();

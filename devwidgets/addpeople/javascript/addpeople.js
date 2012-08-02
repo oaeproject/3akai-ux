@@ -476,24 +476,24 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
 
         var addBinding = function() {
             // Unbind all
-            $addpeopleFinishAdding.unbind('click', finishAdding);
-            $addpeopleRemoveSelected.unbind('click', removeSelected);
+            $addpeopleFinishAdding.off('click', finishAdding);
+            $addpeopleRemoveSelected.off('click', removeSelected);
 
             // Bind all
-            $addpeopleSelectAllContacts.bind('click', function() {
+            $addpeopleSelectAllContacts.on('click', function() {
                 checkAll(this, addpeopleCheckbox);
             });
-            $addpeopleSelectAllSelectedContacts.bind('click', function() {
+            $addpeopleSelectAllSelectedContacts.on('click', function() {
                 checkAll(this, addpeopleSelectedCheckbox);
             });
-            $(addpeopleSelectedCheckbox).live('change', decideEnableDisableControls);
-            $addpeopleSelectedAllPermissions.bind('change', changeSelectedPermission);
-            $(addpeopleCheckbox).die('change').live('change', constructSelecteduser);
-            $(addpeopleSelectedPermissions).die('change').live('change', changePermission);
-            $addpeopleFinishAdding.bind('click', finishAdding);
-            $addpeopleRemoveSelected.bind('click', removeSelected);
+            $(addpeopleSelectedCheckbox).on('change', decideEnableDisableControls);
+            $addpeopleSelectedAllPermissions.on('change', changeSelectedPermission);
+            $(addpeopleCheckbox).off('change').on('change', constructSelecteduser);
+            $(addpeopleSelectedPermissions).off('change').on('change', changePermission);
+            $addpeopleFinishAdding.on('click', finishAdding);
+            $addpeopleRemoveSelected.on('click', removeSelected);
 
-            $(window).bind('usersselected.addpeople.sakai', function(e) {
+            $(window).on('usersselected.addpeople.sakai', function(e) {
                 if (permissionsToChange.length) {
                     $(window).trigger('usersswitchedpermission.addpeople.sakai', [tuid.replace('addpeople', ''), permissionsToChange]);
                 }

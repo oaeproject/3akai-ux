@@ -126,11 +126,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $(window).trigger('sakai.entity.init', ['acknowledgements']);
         };
 
-        $(window).bind('lhnav.ready', function() {
+        $(window).on('lhnav.ready', function() {
             generateNav();
         });
 
-        $(window).bind('sakai.entity.ready', function() {
+        $(window).on('sakai.entity.ready', function() {
             renderEntity();
         });
 

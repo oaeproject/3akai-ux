@@ -233,13 +233,13 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
             $(searchConfig.results.resultsContainer, $rootel).addClass(searchConfig.results.resultsContainerAnonClass);
         }
 
-        $(window).bind('hashchange', function(ev) {
+        $(window).on('hashchange', function(ev) {
             if ($.bbq.getState('l') === widgetData.category) {
                 doSearch();
             }
         });
 
-        $(window).bind('sakai.search.util.finish', function(ev, data) {
+        $(window).on('sakai.search.util.finish', function(ev, data) {
             if (data && data.tuid === tuid) {
                 var widgetId = sakai.api.Util.generateWidgetId();
                 $('#searchgroups_results_faceted', $rootel).html(sakai.api.Util.TemplateRenderer('searchgroups_results_faceted', {

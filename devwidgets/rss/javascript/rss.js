@@ -116,7 +116,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 submitHandler: addRssFeed
             };
             sakai.api.Util.Forms.validate($rss_settings_form, validateOpts, true);
-            $(rssCancel, rootel).bind('click',function(e,ui) {
+            $(rssCancel, rootel).on('click',function(e,ui) {
                 sakai.api.Widgets.Container.informCancel(tuid, 'rss');
             });
             var saveValidateOpts = {
@@ -134,7 +134,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             };
             sakai.api.Util.Forms.validate($rss_display_form, saveValidateOpts, true);
 
-            $(rssSendToFriend, rootel).bind('click', function(e, ui) {
+            $(rssSendToFriend, rootel).on('click', function(e, ui) {
                 var index = parseInt(e.target.id.replace(rssSendToFriendNoDot, ''), 10);
                 // retrieve the title and body of the entry
                 var subject = resultJSON.entries[((pageClicked - 1) * 3) + index].title;
@@ -144,7 +144,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 $(document).trigger('initialize.sendmessage.sakai', [null, null, null, subject, body]);
             });
 
-            $(rssOrderBySource, rootel).bind('click', function(e, ui) {
+            $(rssOrderBySource, rootel).on('click', function(e, ui) {
                 if (currentSort === 'sourceD') {
                     currentSort = 'sourceA';
                 } else {
@@ -153,7 +153,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 resultJSON.entries.sort(sortBySourcefunction);
                 pagerClickHandler(1);
             });
-            $(rssOrderByDate, rootel).bind('click', function(e, ui) {
+            $(rssOrderByDate, rootel).on('click', function(e, ui) {
                 if (currentSort === 'dateD') {
                     currentSort = 'dateA';
                 } else {
@@ -165,7 +165,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
         };
 
         var bindFeedRemove = function() {
-            $(rssRemove, rootel).bind('click', function(e,ui) {
+            $(rssRemove, rootel).on('click', function(e,ui) {
                 var index = this.id.split('-')[1];
                 resultJSON.feeds.splice(index,1);
                 $(rssRemoveFeed + '-' + index).parent().remove();

@@ -72,7 +72,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
            saveState();
         };
 
-        $(window).bind('minimizeWidget.dashboard.sakai', function(e, id) {
+        $(window).on('minimizeWidget.dashboard.sakai', function(e, id) {
             minimizeWidget(id);
         });
 
@@ -131,7 +131,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
-        $(window).bind('exitedit.sitespages.sakai', function(ev) {
+        $(window).on('exitedit.sitespages.sakai', function(ev) {
             registerWidgetFunctions();
         });
 
@@ -345,9 +345,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 // only set up the settings bindings if the dashboard's embedding page allows editing
                 if (isEditable) {
                   $('.dashboard_options', $rootel).show();
-                  // .hover is shorthand for .bind('mouseenter mouseleave')
+                  // .hover is shorthand for .on('mouseenter mouseleave')
                   // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
-                  $('.widget1', $rootel).unbind('mouseenter mouseleave').hover(
+                  $('.widget1', $rootel).off('mouseenter mouseleave').hover(
                   function(over) {
                       var id = this.id + '_settings';
                       $('#' + id).show();
@@ -360,7 +360,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                   }
                   );
 
-                  $('.settings', $rootel).unbind('click').click(function(ev) {
+                  $('.settings', $rootel).off('click').click(function(ev) {
 
                       if ($('#widget_settings_menu', $rootel).is(':visible')) {
                           $('#widget_settings_menu', $rootel).hide();
@@ -404,9 +404,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                   });
 
 
-                  // .hover is shorthand for .bind('mouseenter mouseleave')
+                  // .hover is shorthand for .on('mouseenter mouseleave')
                   // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
-                  $('.more_option', $rootel).unbind('mouseenter mouseleave').hover(
+                  $('.more_option', $rootel).off('mouseenter mouseleave').hover(
                   function(over) {
                       $(this).addClass('selected_option');
                   },
@@ -415,7 +415,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                   }
                   );
 
-                  $('#settings_remove', $rootel).unbind('click').click(function(ev) {
+                  $('#settings_remove', $rootel).off('click').click(function(ev) {
                       var id = currentSettingsOpen;
                       var el = document.getElementById(id);
                       var parent = el.parentNode;
@@ -427,7 +427,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                       return false;
                   });
 
-                  $('#settings_hide', $rootel).unbind('click').click(function(ev) {
+                  $('#settings_hide', $rootel).off('click').click(function(ev) {
 
                       var el = $('#' + currentSettingsOpen.split('_')[1] + '_container', $rootel);
                       if (el.css('display') === 'none') {
@@ -445,7 +445,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                       return false;
                   });
 
-                  $('#settings_settings', $rootel).unbind('click').click(function(ev) {
+                  $('#settings_settings', $rootel).off('click').click(function(ev) {
                       var generic = 'widget_' + currentSettingsOpen + '_' + savePath;
                       var id = currentSettingsOpen.split('_')[1];
                       var old = document.getElementById(id);
@@ -690,12 +690,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         ///////////////////
 
         var bindLayoutPickerEventHandlers = function() {
-            $('.layout-picker', $rootelClass).bind('click',
+            $('.layout-picker', $rootelClass).on('click',
             function(ev) {
                 var layoutid = this.id.split('-')[this.id.split('-').length - 1];
                 updateLayout(layoutid);
             });
-            $('table.layout_picker_item,table.layout_picker_item_unselected', $rootelClass).bind('click',
+            $('table.layout_picker_item,table.layout_picker_item_unselected', $rootelClass).on('click',
             function(ev) {
                 var layoutid = this.id.split('-')[this.id.split('-').length - 1];
                 var radio = $('#layout-picker-' + layoutid);
@@ -721,7 +721,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             sakai.api.Util.Modal.close(changeLayoutDialog + rootelClass);
         };
 
-        $('#select-layout-finished', $rootel).bind('click',
+        $('#select-layout-finished', $rootel).on('click',
         function(ev) {
             if (currentlySelectedLayout === settings.layout) {
                 sakai.api.Util.Modal.close(changeLayoutDialog + rootelClass);
@@ -826,12 +826,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
          *     This is especially useful when there are multiple dashboard
          *     widgets on one page.
          */
-        $(window).bind('changeLayout.dashboard.sakai', function(e, title, iTuid) {
+        $(window).on('changeLayout.dashboard.sakai', function(e, title, iTuid) {
             showChangeLayoutDialog(title, iTuid);
             e.stopPropagation();
         });
 
-        $('.dashboard_change_layout').live('click', function() {
+        $('.dashboard_change_layout').on('click', function() {
             var iTuid = '' + $(this).data('tuid');
             showChangeLayoutDialog(false, iTuid);
         });
@@ -852,8 +852,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
            * this function will figure out what widget we chose and will hide the Add row
            * and show the Remove row for that widget
            */
-            $(goodiesAddButton, $rootelClass).unbind('click');
-            $(goodiesAddButton, $rootelClass).bind('click', function(ev) {
+            $(goodiesAddButton, $rootelClass).off('click');
+            $(goodiesAddButton, $rootelClass).on('click', function(ev) {
                 // Disable the add goodies buttons
                 disableAddGoodies();
                 // The expected is btn_add_WIDGETNAME
@@ -868,8 +868,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
            * this function will figure out what widget we chose and will hide the Remove row
            * and show the Add row for that widget
            */
-            $(goodiesRemoveButton, $rootelClass).unbind('click');
-            $(goodiesRemoveButton, $rootelClass).bind('click', function(ev) {
+            $(goodiesRemoveButton, $rootelClass).off('click');
+            $(goodiesRemoveButton, $rootelClass).on('click', function(ev) {
                 // Disable the add goodies buttons
                 disableAddGoodies();
                 // The expected id is btn_remove_WIDGETNAME
@@ -885,8 +885,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                 saveState();
             });
 
-            $('.close_goodies_dialog', $rootelClass).unbind('click');
-            $('.close_goodies_dialog', $rootelClass).bind('click', function(e) {
+            $('.close_goodies_dialog', $rootelClass).off('click');
+            $('.close_goodies_dialog', $rootelClass).on('click', function(e) {
                 sakai.api.Util.Modal.close(addGoodiesDialog + rootelClass);
             });
 
@@ -946,12 +946,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             onShow: renderGoodies
         });
 
-        $(window).bind('showAddWidgetDialog.dashboard.sakai', function(e, iTuid) {
+        $(window).on('showAddWidgetDialog.dashboard.sakai', function(e, iTuid) {
             showAddWidgetDialog(iTuid);
             e.stopPropagation();
         });
 
-        $('.dashboard_global_add_widget').live('click', function() {
+        $('.dashboard_global_add_widget').on('click', function() {
             var iTuid = '' + $(this).data('tuid');
             showAddWidgetDialog(iTuid);
         });

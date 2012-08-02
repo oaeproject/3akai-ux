@@ -117,8 +117,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Bind Events
          */
         var addBinding = function() {
-            $('.recentmemberships_button', rootel).die('click');
-            $('.recentmemberships_button', rootel).live('click', function(ev) {
+            $('.recentmemberships_button', rootel).off('click');
+            $('.recentmemberships_button', rootel).on('click', function(ev) {
                 $(window).trigger('sakai.overlays.createGroup');
             });
         };

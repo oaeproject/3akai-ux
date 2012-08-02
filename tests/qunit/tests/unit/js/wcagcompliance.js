@@ -137,7 +137,7 @@ require(
     if (sakai_global.qunit && sakai_global.qunit.ready) {
         testWCAGCompliance();
     } else {
-        $(window).bind('ready.qunit.sakai', function() {
+        $(window).on('ready.qunit.sakai', function() {
             testWCAGCompliance();
         });
     }

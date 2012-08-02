@@ -223,7 +223,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('input', $option).attr('checked', 'checked');
         };
 
-        $('.accountpreferences_selectable').live('click', function() {
+        $('.accountpreferences_selectable').on('click', function() {
             checkPrivacySetting($(this));
             // enable the save button
             enableElements($(saveButton));
@@ -376,7 +376,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             );
         };
 
-        $(saveButton).bind('click', function() {
+        $(saveButton).on('click', function() {
             if (preferencesChanges) {
                 $(accountPreferencesPreferencesForm).submit();
             }
@@ -558,7 +558,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(emailChangeContainer).show();
         });
 
-        $(accountPreferencesCancel).die('click').live('click', function() {
+        $(accountPreferencesCancel).off('click').on('click', function() {
             sakai.api.Util.Modal.close(accountPreferencesContainer);
         });
 

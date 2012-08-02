@@ -217,11 +217,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             createBreadcrumb(sakai.config.Directory[category[0]], category);
         };
 
-        $(window).bind('lhnav.ready', function() {
+        $(window).on('lhnav.ready', function() {
             doInit();
         });
 
-        $(window).bind('hashchange', function(e, data) {
+        $(window).on('hashchange', function(e, data) {
             var category = getCategory();
             createBreadcrumb(sakai.config.Directory[category[0]], category);
         });

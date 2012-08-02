@@ -280,7 +280,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        $('#migration_convert_url').live('click', function() {
+        $('#migration_convert_url').on('click', function() {
             var url = $('#migration_input_url').val();
             sakai.api.Server.loadJSON(url, function(success, data) {
                 if (success) {
@@ -291,7 +291,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
         });
 
-        $('#migration_convert_structure').live('click', function() {
+        $('#migration_convert_structure').on('click', function() {
             var block = {};
             try {
                 block = eval('(' + $('#migration_input_block').val() + ')');

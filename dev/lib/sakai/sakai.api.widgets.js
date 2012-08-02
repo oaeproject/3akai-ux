@@ -725,7 +725,7 @@ define(
          * pushState for them
          */
         bindToHash : function() {
-            $('a[href^='#']').live('click', function(e) {
+            $('a[href^='#']').on('click', function(e) {
                 var $target = $(e.currentTarget),
                     args = $target.attr('href'),
                     replace = $target.data('reset-hash'),
@@ -759,7 +759,7 @@ define(
                 e.preventDefault();
             });
             oldState = $.bbq.getState();
-            $(window).bind('hashchange', sakaiWidgetsAPI.handleHashChange);
+            $(window).on('hashchange', sakaiWidgetsAPI.handleHashChange);
             $(window).trigger('hashchange');
         },
 

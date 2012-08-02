@@ -91,7 +91,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var reset = function() {
             $(pickeradvanced_content_search).html('');
-            $(pickeradvanced_content_search).unbind('scroll');
+            $(pickeradvanced_content_search).off('scroll');
             pickerData.selected = {};
             pickerData.currentElementCount = 0;
             pickerData.selectCount = 0;
@@ -121,8 +121,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $pickeradvanced_search_query.focus();
             $pickeradvanced_search_button.click(submitSearch);
             $pickeradvanced_content_search_form.submit(submitSearch);
-            $pickeradvanced_add_button.unbind('click');
-            $pickeradvanced_add_button.bind('click', function() {
+            $pickeradvanced_add_button.off('click');
+            $pickeradvanced_add_button.on('click', function() {
                 addPeople();
             });
             submitSearch();
@@ -190,9 +190,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     // Wire loading the next page when user scrolls to the bottom of the list
                     if ((rawData.total > parameters.items) || (rawData.total === -1)) {
 
-                        $(pickeradvanced_content_search).bind('scroll', function(e) {
+                        $(pickeradvanced_content_search).on('scroll', function(e) {
                             if ((e.target.scrollHeight - e.target.scrollTop - $(e.target).height() ) === 0) {
-                                $(pickeradvanced_content_search).unbind('scroll');
+                                $(pickeradvanced_content_search).off('scroll');
                                 parameters.page++;
                                 addPage(parameters, url);
                             }
@@ -202,7 +202,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
                     // Wire item selection
                     if (pickerData.selectable) {
-                        $pickeradvanced_select_all_button.unbind('click');
+                        $pickeradvanced_select_all_button.off('click');
                         $pickeradvanced_select_all_button.click(function() {
                             pickerData.selectCount = 0;
                             $('#pickeradvanced_content_search ul li').each(function(i) {
@@ -215,8 +215,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                 }
                             });
                         });
-                        $('#pickeradvanced_page_' + parameters.page + ' li').unbind('click');
-                        $('#pickeradvanced_page_' + parameters.page + ' li').bind('click', function(e) {
+                        $('#pickeradvanced_page_' + parameters.page + ' li').off('click');
+                        $('#pickeradvanced_page_' + parameters.page + ' li').on('click', function(e) {
                             // Check if user click on top of a link
                             if (e.target.tagName.toLowerCase() !== 'a') {
                                 // Remove from selected list
@@ -248,8 +248,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     }
 
                     // Wire sorting select dropdown
-                    $pickeradvanced_sort_on.unbind('change');
-                    $pickeradvanced_sort_on.bind('change', function(e) {
+                    $pickeradvanced_sort_on.off('change');
+                    $pickeradvanced_sort_on.on('change', function(e) {
                         // Reset everything
                         reset();
 
@@ -293,26 +293,26 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Events //
         ////////////
 
-        $(window).unbind('init.pickeradvanced.sakai');
-        $(window).bind('init.pickeradvanced.sakai', function(e, config) {
+        $(window).off('init.pickeradvanced.sakai');
+        $(window).on('init.pickeradvanced.sakai', function(e, config) {
             firstTime = true;
             render(config.config);
             sakai.api.Util.Modal.open($pickeradvanced_container);
             pickerlist = config.list;
         });
 
-        $pickeradvanced_close_dialog.unbind('click');
-        $pickeradvanced_close_dialog.bind('click', function() {
+        $pickeradvanced_close_dialog.off('click');
+        $pickeradvanced_close_dialog.on('click', function() {
             sakai.api.Util.Modal.close($pickeradvanced_container);
         });
 
-        $pickeradvanced_close_button.unbind('click');
-        $pickeradvanced_close_button.bind('click', function() {
+        $pickeradvanced_close_button.off('click');
+        $pickeradvanced_close_button.on('click', function() {
             sakai.api.Util.Modal.close($pickeradvanced_container);
         });
 
-        $pickeradvanced_search_filter.die('click');
-        $pickeradvanced_search_filter.live('click', function() {
+        $pickeradvanced_search_filter.off('click');
+        $pickeradvanced_search_filter.on('click', function() {
            $('.pickeradvanced_selected_list').removeClass('pickeradvanced_selected_list');
            $(this).parent('li').addClass('pickeradvanced_selected_list');
            if ( $( this ).attr( 'data-search' ) === 'all' ) {

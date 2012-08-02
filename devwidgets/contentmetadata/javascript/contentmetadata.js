@@ -374,11 +374,11 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
             $('.contentmetadata_editable_for_maintainers').toggleClass('contentmetadata_editable',
                 (sakai_global.content_profile.content_data.isManager || sakai_global.content_profile.content_data.isEditor));
 
-            $contentmetadataShowMore.die('click').live('click', animateData);
+            $contentmetadataShowMore.off('click').on('click', animateData);
 
-            $('.contentmetadata_editable').die('click').live('click', editData);
+            $('.contentmetadata_editable').off('click').on('click', editData);
 
-            $(contentmetadataViewRevisions).die('click').live('click', function() {
+            $(contentmetadataViewRevisions).off('click').on('click', function() {
                 $(window).trigger('initialize.filerevisions.sakai', sakai_global.content_profile.content_data);
             });
 
@@ -483,7 +483,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
         };
 
         // Bind Enter key to input fields to save on keyup
-        $('input').bind('keyup', function(ev) {
+        $('input').on('keyup', function(ev) {
             if (ev.keyCode === 13) {
                 $(this).blur();
             }
@@ -492,7 +492,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
         /**
          * Initialize the widget from outside of the widget
          */
-        $(window).bind('render.contentmetadata.sakai', function() {
+        $(window).on('render.contentmetadata.sakai', function() {
             doInit();
         });
         sakai_global.contentmetadata.isReady = true;

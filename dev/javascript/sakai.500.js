@@ -109,7 +109,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
             document.title = document.title + ' ' + sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED');
 
-            $searchinput.live('keydown', function(ev) {
+            $searchinput.on('keydown', function(ev) {
                 if (ev.keyCode === 13) {
                     doSearch();
                 }

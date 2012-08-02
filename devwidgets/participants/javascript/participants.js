@@ -260,24 +260,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var addBinding = function() {
-            $(window).bind('hashchanged.participants.sakai', handleHashChange);
+            $(window).on('hashchanged.participants.sakai', handleHashChange);
 
-            $('.participants_widget .s3d-search-button').unbind('click').bind('click', function() {
+            $('.participants_widget .s3d-search-button').off('click').on('click', function() {
                 currentPage = 1;
                 $.bbq.pushState({'pq': $.trim($participantsSearchField.val())});
             });
-            $participantsSearchField.unbind('keyup').bind('keyup', function(ev) {
+            $participantsSearchField.off('keyup').on('keyup', function(ev) {
                 if (ev.keyCode === 13) {
                     $.bbq.pushState({'pq': $.trim($participantsSearchField.val())});
                 }
             });
-            $participants_sort_by.unbind('change').bind('change', function() {
+            $participants_sort_by.off('change').on('change', function() {
                 $.bbq.pushState({'psb': $participants_sort_by.val()});
             });
-            $participantsSelectAll.unbind('click').bind('click', checkAll);
-            $(participantsListParticipantCheckbox, rootel).live('click', setSendSelectedMessageAttributes);
+            $participantsSelectAll.off('click').on('click', checkAll);
+            $(participantsListParticipantCheckbox, rootel).on('click', setSendSelectedMessageAttributes);
 
-            $('.participants_accept_invitation').live('click', function(ev) {
+            $('.participants_accept_invitation').on('click', function(ev) {
                 var userid = $(this).attr('sakai-entityid');
                 sakai.api.User.acceptContactInvite(userid, function() {
                     $('.participants_accept_invitation').each(function(index) {
@@ -288,7 +288,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 });
             });
 
-            $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd) {
+            $(window).on('sakai.addToContacts.requested', function(ev, userToAdd) {
                 $('.sakai_addtocontacts_overlay').each(function(index) {
                     if ($(this).attr('sakai-entityid') === userToAdd.uuid) {
                         $(this).hide();
@@ -322,7 +322,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             handleHashChange();
         };
 
-        $(window).bind('usersselected.addpeople.sakai', function(e, _newlyAdded) {
+        $(window).on('usersselected.addpeople.sakai', function(e, _newlyAdded) {
             newlyAdded = _newlyAdded;
             setTimeout(function() {
                 loadParticipants(false);

@@ -54,21 +54,21 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
 
 
         var carouselBinding = function(carousel) {
-            $('#versions_newer', $rootel).live('click',function() {
+            $('#versions_newer', $rootel).on('click',function() {
                 carousel.prev();
             });
 
-            $('#versions_older', $rootel).live('click',function() {
+            $('#versions_older', $rootel).on('click',function() {
                 if (carousel.last !== carousel.size()) {
                     carousel.next();
                 }
             });
 
-            $('#versions_oldest', $rootel).live('click',function() {
+            $('#versions_oldest', $rootel).on('click',function() {
                 carousel.scroll(carousel.size() || 0);
             });
 
-            $('#versions_newest', $rootel).live('click',function() {
+            $('#versions_newest', $rootel).on('click',function() {
                 carousel.scroll(0);
             });
         };
@@ -208,12 +208,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
 
         var addBinding = function() {
             if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType === 'x-sakai/document') {
-                $(versionsVersionItem, $rootel).die('click', previewVersion);
-                $(versionsVersionItem, $rootel).live('click', previewVersion);
+                $(versionsVersionItem, $rootel).off('click', previewVersion);
+                $(versionsVersionItem, $rootel).on('click', previewVersion);
             }
 
-            $(versionsRestoreVersion, $rootel).die('click', restoreVersion);
-            $(versionsRestoreVersion, $rootel).live('click', restoreVersion);
+            $(versionsRestoreVersion, $rootel).off('click', restoreVersion);
+            $(versionsRestoreVersion, $rootel).on('click', restoreVersion);
         };
 
 
@@ -228,7 +228,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
             getVersions();
         };
 
-        $(window).bind('init.versions.sakai', function(ev, cps) {
+        $(window).on('init.versions.sakai', function(ev, cps) {
             if ($('.s3d-page-column-left').is(':visible')) {
                 // There is a left hand navigation visible, versions widget will be smaller
                 $(versionsContainer, $rootel).removeClass('versions_without_left_hand_nav');
@@ -242,12 +242,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
             $('.versions_widget', $rootel).show();
             doInit();
         });
-        $(window).bind('close.versions.sakai', function(ev, cps) {
+        $(window).on('close.versions.sakai', function(ev, cps) {
             $('.versions_widget', $rootel).hide();
             $(window).trigger('showpage.contentauthoring.sakai', currentPageShown);
         });
 
-        $(window).bind('update.versions.sakai', function(ev, cps) {
+        $(window).on('update.versions.sakai', function(ev, cps) {
             if ($('.versions_widget', $rootel).is(':visible')) {
                 currentPageShown = cps;
                 doInit();

@@ -151,7 +151,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             });
             $displayprofilesection_sections_multiple.append( sakai.api.i18n.General.process( sectionHTML ) );
             $( 'button.profile-section-save-button', $rootel ).show();
-            $( 'button#displayprofilesection_remove_link_' + unique, $rootel ).bind( 'click', function() {
+            $( 'button#displayprofilesection_remove_link_' + unique, $rootel ).on( 'click', function() {
                 removeSection( unique );
             });
         };
@@ -198,7 +198,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             $displayprofilesection_sections_multiple = $( '#displayprofilesection_sections_' + widgetData.sectionid );
             if ( editing ) {
                 $displayprofilesection_add_button = $( '#displayprofilesection_add_' + widgetData.sectionid );
-                $displayprofilesection_add_button.bind('click', function() {
+                $displayprofilesection_add_button.on('click', function() {
                     addEmptySection( section, template );
                 });
             }
@@ -232,7 +232,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                         });
                         $displayprofilesection_sections_multiple.append( sakai.api.i18n.General.process( sectionHTML ) );
                         if ( editing ) {
-                            $( 'button#displayprofilesection_remove_link_' + uid, $rootel ).bind( 'click', function() {
+                            $( 'button#displayprofilesection_remove_link_' + uid, $rootel ).on( 'click', function() {
                                 removeSection( uid );
                             });
                         }

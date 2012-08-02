@@ -198,7 +198,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             loadSaveRemoveTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 loadSaveRemoveTest();
             });
         }

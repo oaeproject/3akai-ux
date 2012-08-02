@@ -73,7 +73,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
             $assignlocationJSTreeSelectedContainer.html(sakai.api.Util.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
 
             // add event binding to the items
-            $('.assignlocation_close_image').bind('click', function(ev) {
+            $('.assignlocation_close_image').on('click', function(ev) {
                 // get the id for the node (list item id)
                 var id = $(this).parent().attr('id').split('/').pop();
                 // unchecked the node
@@ -83,7 +83,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
         };
 
         var addTreeBinding = function() {
-            $assignlocationJSTreeContainer.bind('change_state.jstree', function( e ) {
+            $assignlocationJSTreeContainer.on('change_state.jstree', function( e ) {
                 if (initial > 0) {
                     initial--;
                 } else {
@@ -112,8 +112,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
         };
 
         var addWidgetBinding = function() {
-            $assignlocationSaveButton.unbind('click');
-            $assignlocationSaveButton.bind('click', function() {
+            $assignlocationSaveButton.off('click');
+            $assignlocationSaveButton.on('click', function() {
                 saveLocations();
             });
         };
@@ -183,7 +183,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
 
         var doInit = function() {
 
-            $( window ).bind( 'init.assignlocation.sakai', function( e, _initiallySelected, originalEvent, _saveCallback ) {
+            $( window ).on( 'init.assignlocation.sakai', function( e, _initiallySelected, originalEvent, _saveCallback ) {
                 if ( $.isFunction( _saveCallback ) ) {
                     saveCallback = _saveCallback;
                 }

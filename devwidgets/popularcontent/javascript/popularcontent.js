@@ -113,7 +113,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        $(window).bind('hashchange nohash.browsedirectory.sakai', handleHashChange);
+        $(window).on('hashchange nohash.browsedirectory.sakai', handleHashChange);
 
         var doInit = function() {
             if (! sakai.api.Widgets.isOnDashboard(tuid)) {

@@ -468,8 +468,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
          * Share the piece of content with a user by adding the user to the list of members (manager or viewer)
          */
         var doShare = function() {
-            $(window).unbind('ready.contentprofile.sakai', doInit);
-            $(window).bind('ready.contentprofile.sakai', doInit);
+            $(window).off('ready.contentprofile.sakai', doInit);
+            $(window).on('ready.contentprofile.sakai', doInit);
             var userList = getSelectedList();
             $(window).trigger('finished.sharecontent.sakai', [
                 userList, $.trim($('#contentpermissions_members_autosuggest_text').val()), {
@@ -504,16 +504,16 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
          * Add binding to various elements in the content permissions widget
          */
         var addBinding = function() {
-            $(contentpermissionsSelectable).live('click', function() {
+            $(contentpermissionsSelectable).on('click', function() {
                 $('#contentpermissions_see_container .s3d-outer-shadow-container').addClass('contentpermissions_unselected_rbt');
                 $(contentpermissionsSelectable).parent().removeClass('s3d-outer-shadow-container');
                 $(this).parent().addClass('s3d-outer-shadow-container');
                 $(this).parent().removeClass('contentpermissions_unselected_rbt');
             });
 
-            $('.contentpermissions_permissions_container .s3d-actions-delete').live('click', doDelete);
-            $('#contentpermissions_apply_permissions').live('click', showWarning);
-            $('#contentpermissions_members_autosuggest_sharebutton').live('click', doShare);
+            $('.contentpermissions_permissions_container .s3d-actions-delete').on('click', doDelete);
+            $('#contentpermissions_apply_permissions').on('click', showWarning);
+            $('#contentpermissions_members_autosuggest_sharebutton').on('click', doShare);
             $(document).on('click', '#contentpermissions_members_autosuggest_cancelbutton', hideShare);
         };
 
@@ -540,7 +540,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
          * Initializes the content permission widget and invokes the overlay
          */
         var doInit = function() {
-            $(window).unbind('ready.contentprofile.sakai', doInit);
+            $(window).off('ready.contentprofile.sakai', doInit);
             contentData = sakai_global.content_profile.content_data;
             visibility = contentData.data['sakai:permissions'];
             globalPermissionsChanged = false;

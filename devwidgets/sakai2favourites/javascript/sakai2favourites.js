@@ -55,7 +55,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * (e.g. sites widget)
          * It initializes the creategroup widget and shows the jqmodal (ligthbox)
          */
-        $(window).bind('init.sakai2favourites.sakai', function() {
+        $(window).on('init.sakai2favourites.sakai', function() {
             // render Category List
             loadSakai2SiteList();
             // render all sites list
@@ -144,7 +144,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Add event handling
          */
         var bindEvents = function() {
-            $('.sakai2_category_title').unbind('click');
+            $('.sakai2_category_title').off('click');
             $('.sakai2_category_title').click(function(ev) {
                 if ($('.selected_category')) {
                     $('.selected_category').removeClass('selected_category');
@@ -157,7 +157,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 renderSiteList(category);
                 bindEvents();
             });
-            $('.sakai2_site_title input').unbind('click');
+            $('.sakai2_site_title input').off('click');
             $('.sakai2_site_title input').click(function(ev) {
                 var siteId = ev.currentTarget.id;
                 if ($(ev.currentTarget).attr('checked')) {
@@ -172,7 +172,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // bind events
                 bindEvents();
             });
-            $('.sakai2_selected_site').unbind('click');
+            $('.sakai2_selected_site').off('click');
             $('.sakai2_selected_site').click(function(ev) {
                 var siteId = ev.currentTarget.id;
                 var ind = getToRemoveIndex(siteId);

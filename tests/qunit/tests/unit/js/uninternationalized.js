@@ -273,7 +273,7 @@ require(
              if (sakai.api.i18n.done) {
                  testInternationalization();
              } else {
-                 $(window).bind('done.i18n.sakai', function() {
+                 $(window).on('done.i18n.sakai', function() {
                      testInternationalization();
                  });
              }
@@ -285,7 +285,7 @@ require(
          if (sakai_global.qunit && sakai_global.qunit.ready) {
              startTest();
          } else {
-             $(window).bind('ready.qunit.sakai', function() {
+             $(window).on('ready.qunit.sakai', function() {
                  startTest();
              });
          }

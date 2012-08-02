@@ -144,10 +144,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} carousel Carousel object (jcarousel)
          */
         var carouselBinding = function(carousel) {
-            $inserterbarCarouselLeft.live('click',function() {
+            $inserterbarCarouselLeft.on('click',function() {
                 carousel.prev();
             });
-            $inserterbarCarouselRight.live('click',function() {
+            $inserterbarCarouselRight.on('click',function() {
                 carousel.next();
             });
             var carouselListWidth = parseInt(carousel.list.css('width'), 10);
@@ -261,8 +261,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             $('#inserterbar_action_revision_history').on('click', setInserterForRevisionHistoryMode);
-            $(window).bind('edit.contentauthoring.sakai', setInserterForEditMode);
-            $(window).bind('render.contentauthoring.sakai', setInserterForViewMode);
+            $(window).on('edit.contentauthoring.sakai', setInserterForEditMode);
+            $(window).on('render.contentauthoring.sakai', setInserterForViewMode);
 
             $(window).on('scroll', positionInserterBar);
             $(window).on('position.inserter.sakai', positionInserterBar);

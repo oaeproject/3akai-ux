@@ -213,13 +213,13 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
             $(searchConfig.results.resultsContainer).addClass(searchConfig.results.resultsContainerAnonClass);
         }
 
-        $(window).bind('hashchange', function(ev) {
+        $(window).on('hashchange', function(ev) {
             if ($.bbq.getState('l') === 'content') {
                 doSearch();
             }
         });
 
-        $(window).bind('sakai.search.util.finish', function(ev, data) {
+        $(window).on('sakai.search.util.finish', function(ev, data) {
             if (data && data.tuid === tuid) {
                 sakai.api.Widgets.widgetLoader.insertWidgets('searchcontent_widget', false, false, {
                     '98384013291': {

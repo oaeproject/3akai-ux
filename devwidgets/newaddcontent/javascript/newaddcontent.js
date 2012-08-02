@@ -1283,39 +1283,39 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
          * Remove binding on all elements
          */
         var removeBinding = function() {
-            $newaddcontentContainerLHChoiceItem.unbind('click', navigateMenu);
-            $newaddcontentContainerLHChoiceSubItem.unbind('click', navigateSubItem);
-            $newaddcontentContainerNewItemAddToList.unbind('click', constructItemToAdd);
-            $(newaddcontentContainerStartUploadButton).unbind('click', doUpload);
-            $(newaddcontentSelectedItemsEditDataClose).die('click', closeEditData);
-            $(newaddcontentContainerNewItemSaveChanges).die('click', saveEdit);
-            $(newaddcontentSelectedItemsRemove).die('click', removeItemToAdd);
-            $(newaddcontentSelectedItemsActionsPermissions).die('click', changePermissions);
-            $(newaddcontentSelectedItemsActionsEdit).die('click', editData);
-            $(newaddcontentExistingItemsListContainerActionsSort).die('change');
+            $newaddcontentContainerLHChoiceItem.off('click', navigateMenu);
+            $newaddcontentContainerLHChoiceSubItem.off('click', navigateSubItem);
+            $newaddcontentContainerNewItemAddToList.off('click', constructItemToAdd);
+            $(newaddcontentContainerStartUploadButton).off('click', doUpload);
+            $(newaddcontentSelectedItemsEditDataClose).off('click', closeEditData);
+            $(newaddcontentContainerNewItemSaveChanges).off('click', saveEdit);
+            $(newaddcontentSelectedItemsRemove).off('click', removeItemToAdd);
+            $(newaddcontentSelectedItemsActionsPermissions).off('click', changePermissions);
+            $(newaddcontentSelectedItemsActionsEdit).off('click', editData);
+            $(newaddcontentExistingItemsListContainerActionsSort).off('change');
             $newaddcontentContainer.off('click', '#newaddcontent_existingitems_paging .sakai_pager button');
-            $(window).unbind('init.deletecontent.sakai', deleteContent);
+            $(window).off('init.deletecontent.sakai', deleteContent);
         };
 
         /**
          * Add binding to all elements
          */
         var addBinding = function() {
-            $newaddcontentContainerLHChoiceItem.bind('click', navigateMenu);
-            $newaddcontentContainerLHChoiceSubItem.bind('click', navigateSubItem);
-            $newaddcontentContainerNewItemAddToList.bind('click', constructItemToAdd);
-            $(newaddcontentContainerStartUploadButton).bind('click', doUpload);
-            $(newaddcontentSelectedItemsEditDataClose).live('click', closeEditData);
-            $(newaddcontentContainerNewItemSaveChanges).live('click', saveEdit);
-            $(newaddcontentSelectedItemsRemove).live('click', removeItemToAdd);
-            $(newaddcontentSelectedItemsActionsPermissions).live('click', changePermissions);
-            $(newaddcontentSelectedItemsActionsEdit).live('click', editData);
+            $newaddcontentContainerLHChoiceItem.on('click', navigateMenu);
+            $newaddcontentContainerLHChoiceSubItem.on('click', navigateSubItem);
+            $newaddcontentContainerNewItemAddToList.on('click', constructItemToAdd);
+            $(newaddcontentContainerStartUploadButton).on('click', doUpload);
+            $(newaddcontentSelectedItemsEditDataClose).on('click', closeEditData);
+            $(newaddcontentContainerNewItemSaveChanges).on('click', saveEdit);
+            $(newaddcontentSelectedItemsRemove).on('click', removeItemToAdd);
+            $(newaddcontentSelectedItemsActionsPermissions).on('click', changePermissions);
+            $(newaddcontentSelectedItemsActionsEdit).on('click', editData);
             $newaddcontentExistingItemsSearch.keydown(searchExistingContent);
             $(newaddcontentAddExistingSearchButton).click(searchExistingContent);
-            $(newaddcontentExistingContentForm + ' input').live('click',checkFieldValidToAdd);
-            $(newaddcontentExistingCheckAll).live('change', checkUncheckAll);
-            $(newaddcontentExistingItemsListContainerActionsSort).live('change', function() {searchPaging(1);});
-            $(newaddcontentSaveTo).live('change', greyOutExistingInLibrary);
+            $(newaddcontentExistingContentForm + ' input').on('click',checkFieldValidToAdd);
+            $(newaddcontentExistingCheckAll).on('change', checkUncheckAll);
+            $(newaddcontentExistingItemsListContainerActionsSort).on('change', function() {searchPaging(1);});
+            $(newaddcontentSaveTo).on('change', greyOutExistingInLibrary);
             $newaddcontentContainer.on('click', '#newaddcontent_existingitems_paging .sakai_pager button', function() {
                 return false;
             });

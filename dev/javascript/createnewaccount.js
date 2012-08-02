@@ -260,11 +260,11 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
          */
         var doBinding = function() {
 
-            $('#cancel_button').bind('click', function(ev) {
+            $('#cancel_button').on('click', function(ev) {
                 document.location = sakai.config.URL.GATEWAY_URL;
             });
 
-            $('#username').bind('keyup blur', function() {
+            $('#username').on('keyup blur', function() {
                 var username = $.trim($(usernameField).val());
                 if (usernameEntered !== username) {
                     usernameEntered = username;
@@ -357,7 +357,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                 $('body').show();
             }
 
-            $(inputFields).bind('mouseenter mouseleave', function(ev) {
+            $(inputFields).on('mouseenter mouseleave', function(ev) {
                 $(this).toggleClass(inputFieldHoverClass);
             });
 
@@ -375,7 +375,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
             $(window).trigger('sakai.entity.init', ['newaccount']);
         };
 
-        $(window).bind('sakai.entity.ready', function() {
+        $(window).on('sakai.entity.ready', function() {
             renderEntity();
         });
 

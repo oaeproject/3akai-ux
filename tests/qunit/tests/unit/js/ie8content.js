@@ -79,7 +79,7 @@ require(
     if (sakai_global.qunit && sakai_global.qunit.ready) {
         testIE8Content();
     } else {
-        $(window).bind('ready.qunit.sakai', function() {
+        $(window).on('ready.qunit.sakai', function() {
             testIE8Content();
         });
     }

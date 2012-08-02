@@ -273,12 +273,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         // bind savecontent cancel
-        $savecontent_close.live('click', function() {
+        $savecontent_close.on('click', function() {
             hideSavecontent();
         });
 
         // bind savecontent save button
-        $savecontent_save.live('click', function() {
+        $savecontent_save.on('click', function() {
             var dropdownSelection = $('#savecontent_select option:selected', $rootel);
             if (dropdownSelection.val() === 'new_collection') {
                 var contentToAdd = [];
@@ -292,7 +292,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $('#savecontent_select', $rootel).live('change', function() {
+        $('#savecontent_select', $rootel).on('change', function() {
             enableDisableAddButton();
         });
 

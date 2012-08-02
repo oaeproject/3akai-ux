@@ -110,7 +110,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             startTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 startTest();
             });
         }

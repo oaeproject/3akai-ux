@@ -555,7 +555,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        $(contentcommentsDelete, rootel).live('click', function(e, ui) {
+        $(contentcommentsDelete, rootel).on('click', function(e, ui) {
             var id = e.target.id.replace(contentcommentsDelete.replace(/\./g, '') + '_', '');
             doDelete(id, true);
             return false;
@@ -635,16 +635,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         if (!rootel.parents('.collectionviewer_collection_item_comments').length) {
 
             // Listen for the event if the content profile is ready
-            $window.bind('ready.contentprofile.sakai', function(ev, data) {
+            $window.on('ready.contentprofile.sakai', function(ev, data) {
                 loadInitData(data);
             });
 
             // listen for event if new content profile is loaded
-            $window.bind('content_profile_hash_change', function(ev, data) {
+            $window.on('content_profile_hash_change', function(ev, data) {
                 loadInitData(data);
             });
         } else {
-            $window.bind('start.collectioncomments.sakai', function(ev, data) {
+            $window.on('start.collectioncomments.sakai', function(ev, data) {
                 contentData = data;
                 doInit();
             });

@@ -238,14 +238,14 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /////////////////////////////
 
         // Add the specific user when the 'Add as a member' link is clicked
-        $addLink.live('click', function() {
+        $addLink.on('click', function() {
             var userid = this.id.split('_')[2];
             showSpinner(userid);
             addUser(userid);
         });
 
         // Ignore the specific user when the 'Ignore' link is clicked
-        $ignoreLink.live('click', function() {
+        $ignoreLink.on('click', function() {
             var userid = this.id.split('_')[2];
             showSpinner(userid);
             removeJoinRequest(userid);

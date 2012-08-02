@@ -113,11 +113,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        $(window).bind('sakai.entity.ready', function() {
+        $(window).on('sakai.entity.ready', function() {
             initEntityWidget();
         });
 
-        $(window).bind('load.content_profile.sakai', function(e, callback) {
+        $(window).on('load.content_profile.sakai', function(e, callback) {
             loadContentProfile(callback);
         });
 
@@ -136,7 +136,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                         $(window).trigger('render.entity.sakai', ['content', sakai_global.content_profile.content_data]);
                     }
                     else {
-                        $(window).bind('ready.entity.sakai', function(e) {
+                        $(window).on('ready.entity.sakai', function(e) {
                             $(window).trigger('render.entity.sakai', ['content', sakai_global.content_profile.content_data]);
                             ready_event_fired++;
                         });
@@ -146,7 +146,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                         $(window).trigger('render.relatedcontent.sakai', sakai_global.content_profile.content_data);
                     }
                     else {
-                        $(window).bind('ready.relatedcontent.sakai', function(e) {
+                        $(window).on('ready.relatedcontent.sakai', function(e) {
                             $(window).trigger('render.relatedcontent.sakai', sakai_global.content_profile.content_data);
                             ready_event_fired++;
                         });
@@ -158,7 +158,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                         }
                     }
                     else {
-                        $(window).bind('ready.contentpreview.sakai', function(e) {
+                        $(window).on('ready.contentpreview.sakai', function(e) {
                             if (showPreview) {
                                 $(window).trigger('start.contentpreview.sakai', sakai_global.content_profile.content_data);
                                 ready_event_fired++;
@@ -170,7 +170,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                         $(window).trigger('render.contentmetadata.sakai');
                     }
                     else {
-                        $(window).bind('ready.contentmetadata.sakai', function(e) {
+                        $(window).on('ready.contentmetadata.sakai', function(e) {
                             $(window).trigger('render.contentmetadata.sakai');
                             ready_event_fired++;
                         });
@@ -185,12 +185,12 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             showPreview = true;
         };
 
-        $('#entity_content_share').live('click', function() {
+        $('#entity_content_share').on('click', function() {
             $(window).trigger('init.sharecontent.sakai');
             return false;
         });
 
-        $('#entity_content_add_to_library').live('click', function() {
+        $('#entity_content_add_to_library').on('click', function() {
             sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data['_path'], sakai.data.me.user.userid, false, function() {
                 $('#entity_content_add_to_library').hide();
                 sakai.api.Util.notification.show($('#content_profile_add_library_title').html(), $('#content_profile_add_library_body').html());
@@ -207,7 +207,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         var init = function() {
             // Bind an event to window.onhashchange that, when the history state changes,
             // loads all the information for the current resource
-            $(window).bind('hashchange', function() {
+            $(window).on('hashchange', function() {
                 handleHashChange();
             });
             handleHashChange();
@@ -229,7 +229,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        $(window).bind('lhnav.ready', function() {
+        $(window).on('lhnav.ready', function() {
             generateNav(globalPageStructure);
         });
 
@@ -254,11 +254,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             return pageCount;
         };
 
-        $(window).bind('sakai.contentauthoring.needsTwoColumns', function() {
+        $(window).on('sakai.contentauthoring.needsTwoColumns', function() {
             setColumnLayout(true, true);
         });
 
-        $(window).bind('sakai.contentauthoring.needsOneColumn', function() {
+        $(window).on('sakai.contentauthoring.needsOneColumn', function() {
             setColumnLayout(true, false);
         });
 

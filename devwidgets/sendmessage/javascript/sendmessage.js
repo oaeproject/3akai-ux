@@ -383,8 +383,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 // jqModal functions  //
                 ////////////////////////
 
-                $(send_message_cancel).die('click');
-                $(send_message_cancel).live('click', function() {
+                $(send_message_cancel).off('click');
+                $(send_message_cancel).on('click', function() {
                     if ($(messageDialogContainer).hasClass('s3d-dialog')) {
                         sakai.api.Util.Modal.close(messageDialogContainer);
                     }

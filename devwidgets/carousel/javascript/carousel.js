@@ -59,7 +59,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('#carousel_view_toggle_' + carousel.last).removeClass('carousel_view_toggle_selected');
             $('#carousel_view_toggle_' + index).addClass('carousel_view_toggle_selected');
 
-            $(window).bind('sakai.addToContacts.requested', function(evObj, user) {
+            $(window).on('sakai.addToContacts.requested', function(evObj, user) {
                 var addbutton = $.grep($('#carousel_container .sakai_addtocontacts_overlay'), function(value, index) {
                     return $(value).attr('sakai-entityid') === user.userid;
                 });
@@ -80,15 +80,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Disable autoscrolling if the user clicks the prev or next button.
-            carousel.buttonNext.bind('click', function() {
+            carousel.buttonNext.on('click', function() {
                 stopAutoScrolling(carousel);
             });
 
-            carousel.buttonPrev.bind('click', function() {
+            carousel.buttonPrev.on('click', function() {
                 stopAutoScrolling(carousel);
             });
 
-            $('.carousel_view_toggle li').bind('click', function() {
+            $('.carousel_view_toggle li').on('click', function() {
                 stopAutoScrolling(carousel);
                 carousel.scroll($.jcarousel.intval($(this)[0].id.split('carousel_view_toggle_')[1]));
                 $('#carousel_container .carousel_view_toggle li').removeClass('carousel_view_toggle_selected');
@@ -96,7 +96,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 return false;
             });
 
-            $(window).bind(tuid + '.shown.sakai', {'carousel': carousel}, toggleCarousel);
+            $(window).on(tuid + '.shown.sakai', {'carousel': carousel}, toggleCarousel);
         };
 
         var toggleCarousel = function(e, showing) {
